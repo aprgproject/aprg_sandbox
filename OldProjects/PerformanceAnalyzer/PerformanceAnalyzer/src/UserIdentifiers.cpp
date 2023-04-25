@@ -4,26 +4,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-UserIdentifiers::UserIdentifiers()
-{}
+UserIdentifiers::UserIdentifiers() {}
 
-UserIdentifiers::UserIdentifiers(std::string const& lineInLogs)
-{
-    saveUserIndentfiers(lineInLogs);
-}
+UserIdentifiers::UserIdentifiers(std::string const& lineInLogs) { saveUserIndentfiers(lineInLogs); }
 
-void UserIdentifiers::saveUserIndentfiers(std::string const& lineInLogs)
-{
+void UserIdentifiers::saveUserIndentfiers(std::string const& lineInLogs) {
     saveNbccId(lineInLogs);
     saveCrnccId(lineInLogs);
     saveTransactionId(lineInLogs);
 }
 
-bool UserIdentifiers::operator<(UserIdentifiers const& userIdentifiers) const
-{
+bool UserIdentifiers::operator<(UserIdentifiers const& userIdentifiers) const {
     bool result(true);
     unsigned int nbccId1(getNbccId());
     unsigned int nbccId2(userIdentifiers.getNbccId());
@@ -31,89 +24,74 @@ bool UserIdentifiers::operator<(UserIdentifiers const& userIdentifiers) const
     unsigned int crnccId2(userIdentifiers.getCrnccId());
     unsigned int transactionId1(getTransactionId());
     unsigned int transactionId2(userIdentifiers.getTransactionId());
-    if(nbccId1==nbccId2)
-    {
-        if(crnccId1==crnccId2)
-        {
-            result = transactionId1<transactionId2;
+    if (nbccId1 == nbccId2) {
+        if (crnccId1 == crnccId2) {
+            result = transactionId1 < transactionId2;
+        } else {
+            result = crnccId1 < crnccId2;
         }
-        else
-        {
-            result = crnccId1<crnccId2;
-        }
-    }
-    else
-    {
-        result = nbccId1<nbccId2;
+    } else {
+        result = nbccId1 < nbccId2;
     }
     return result;
 }
 
-void UserIdentifiers::saveNbccId(std::string const& lineInLogs)
-{
-    unsigned int nbccid = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccid: "));
-    unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccId: "));
-    if(nbccid>0)
-    {
+void UserIdentifiers::saveNbccId(std::string const& lineInLogs) {
+    unsigned int nbccid = stringHelper::convertStringToNumber<unsigned int>(
+        stringHelper::getNumberAfterThisString(lineInLogs, "nbccid: "));
+    unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(
+        stringHelper::getNumberAfterThisString(lineInLogs, "nbccId: "));
+    if (nbccid > 0) {
         m_nbccIdOptional = nbccid;
     }
-    if(nbccId>0)
-    {
+    if (nbccId > 0) {
         m_nbccIdOptional = nbccId;
     }
 }
 
-void UserIdentifiers::saveCrnccId(std::string const& lineInLogs)
-{
-    unsigned int crncId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "crncId: "));
-    unsigned int crnccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "crnccId: "));
-    if(crncId>0)
-    {
+void UserIdentifiers::saveCrnccId(std::string const& lineInLogs) {
+    unsigned int crncId = stringHelper::convertStringToNumber<unsigned int>(
+        stringHelper::getNumberAfterThisString(lineInLogs, "crncId: "));
+    unsigned int crnccId = stringHelper::convertStringToNumber<unsigned int>(
+        stringHelper::getNumberAfterThisString(lineInLogs, "crnccId: "));
+    if (crncId > 0) {
         m_crnccIdOptional = crncId;
     }
-    if(crnccId>0)
-    {
+    if (crnccId > 0) {
         m_crnccIdOptional = crnccId;
     }
 }
 
-void UserIdentifiers::saveTransactionId(std::string const& lineInLogs)
-{
-    unsigned int transactionId = stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInLogs, "transactionId: "));
-    if(transactionId>0)
-    {
+void UserIdentifiers::saveTransactionId(std::string const& lineInLogs) {
+    unsigned int transactionId =
+        stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInLogs, "transactionId: "));
+    if (transactionId > 0) {
         m_transactionIdOptional = transactionId;
     }
 }
 
-unsigned int UserIdentifiers::getNbccId() const
-{
+unsigned int UserIdentifiers::getNbccId() const {
     unsigned int result(0);
-    if(m_nbccIdOptional)
-    {
+    if (m_nbccIdOptional) {
         result = m_nbccIdOptional.value();
     }
     return result;
 }
 
-unsigned int UserIdentifiers::getCrnccId() const
-{
+unsigned int UserIdentifiers::getCrnccId() const {
     unsigned int result(0);
-    if(m_crnccIdOptional)
-    {
+    if (m_crnccIdOptional) {
         result = m_crnccIdOptional.value();
     }
     return result;
 }
 
-unsigned int UserIdentifiers::getTransactionId() const
-{
+unsigned int UserIdentifiers::getTransactionId() const {
     unsigned int result(0);
-    if(m_transactionIdOptional)
-    {
+    if (m_transactionIdOptional) {
         result = m_transactionIdOptional.value();
     }
     return result;
 }
 
-}
+}  // namespace alba

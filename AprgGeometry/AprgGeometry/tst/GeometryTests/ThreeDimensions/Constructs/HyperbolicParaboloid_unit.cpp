@@ -7,14 +7,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-TEST(HyperbolicParaboloidTest, EmptyHyperbolicParaboloid)
-{
+TEST(HyperbolicParaboloidTest, EmptyHyperbolicParaboloid) {
     HyperbolicParaboloid hyperbolicParaboloid;
 
     EXPECT_EQ(Point(0, 0, 0), hyperbolicParaboloid.getCenter());
@@ -23,8 +20,7 @@ TEST(HyperbolicParaboloidTest, EmptyHyperbolicParaboloid)
     EXPECT_DOUBLE_EQ(0, hyperbolicParaboloid.getCValue());
 }
 
-TEST(HyperbolicParaboloidTest, HyperbolicParaboloidAtOriginWithRadius)
-{
+TEST(HyperbolicParaboloidTest, HyperbolicParaboloidAtOriginWithRadius) {
     HyperbolicParaboloid hyperbolicParaboloid(Point(0, 0, 0), 10, 5, 10);
 
     EXPECT_EQ(Point(0, 0, 0), hyperbolicParaboloid.getCenter());
@@ -36,8 +32,7 @@ TEST(HyperbolicParaboloidTest, HyperbolicParaboloidAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(11.899999999999999, hyperbolicParaboloid.calculateZFromXAndY(5, 6));
 }
 
-TEST(HyperbolicParaboloidTest, HyperbolicParaboloidNotAtOriginWithRadius)
-{
+TEST(HyperbolicParaboloidTest, HyperbolicParaboloidNotAtOriginWithRadius) {
     HyperbolicParaboloid hyperbolicParaboloid(Point(1, 2, 3), 10, 5, 10);
 
     EXPECT_EQ(Point(1, 2, 3), hyperbolicParaboloid.getCenter());
@@ -49,6 +44,6 @@ TEST(HyperbolicParaboloidTest, HyperbolicParaboloidNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(7.8000000000000007, hyperbolicParaboloid.calculateZFromXAndY(5, 6));
 }
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace alba

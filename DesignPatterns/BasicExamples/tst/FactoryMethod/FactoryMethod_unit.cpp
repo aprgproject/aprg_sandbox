@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace FactoryMethod
-{
+namespace FactoryMethod {
 
-TEST(FactoryMethodTest, Test1)
-{
+TEST(FactoryMethodTest, Test1) {
     unique_ptr<Creator> creator(make_unique<ConcreteCreator>());
 
     std::unique_ptr<Product> product1 = creator->createProductA();
@@ -18,4 +16,4 @@ TEST(FactoryMethodTest, Test1)
     std::cout << "Product: " << product2->getName() << "\n";
 }
 
-}
+}  // namespace FactoryMethod

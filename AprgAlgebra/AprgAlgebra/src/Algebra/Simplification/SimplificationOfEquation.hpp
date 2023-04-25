@@ -2,17 +2,13 @@
 
 #include <Algebra/Equation/Equation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-class SimplificationOfEquation
-{
+class SimplificationOfEquation {
 public:
     SimplificationOfEquation(Equation const& equation);
 
@@ -21,21 +17,21 @@ public:
     void simplify();
 
 private:
-    void simplifyLeftHandSideAndRightHandSide(Term & leftHandSide, Term & rightHandSide);
-    void raiseLeftHandSideAndRightHandSideToPowerIfLogarithmic(Term & leftHandSide, Term & rightHandSide);
+    void simplifyLeftHandSideAndRightHandSide(Term& leftHandSide, Term& rightHandSide);
+    void raiseLeftHandSideAndRightHandSideToPowerIfLogarithmic(Term& leftHandSide, Term& rightHandSide);
     Term getNewCombinedTerm(Term const& leftHandSide, Term const& rightHandSide) const;
-    void negateTermIfNeeded(Term & leftHandSide, std::string & equationOperatorString);
-    void removeExponentIfNeeded( Term & leftHandSide);
-    void completeExpressionWithFractionalExponentsIfNeeded(Term & leftHandSide);
-    void removeCommonConstant(Term & leftHandSide);
-    void simplifyLeftHandSide(Term & term);
+    void negateTermIfNeeded(Term& leftHandSide, std::string& equationOperatorString);
+    void removeExponentIfNeeded(Term& leftHandSide);
+    void completeExpressionWithFractionalExponentsIfNeeded(Term& leftHandSide);
+    void removeCommonConstant(Term& leftHandSide);
+    void simplifyLeftHandSide(Term& term);
     bool areTheSignsOfTwoTermsDifferent(TermWithDetails const& firstTerm, TermWithDetails const& secondTerm);
 
     Equation m_equation;
 };
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

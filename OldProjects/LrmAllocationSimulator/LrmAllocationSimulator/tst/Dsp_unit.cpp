@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(DspTest, DspDetailsCanAssignedCorrectlyAtDefaultConstruction)
-{
+TEST(DspTest, DspDetailsCanAssignedCorrectlyAtDefaultConstruction) {
     Dsp dsp;
     EXPECT_EQ(0U, dsp.getAddress());
     EXPECT_EQ(0U, dsp.getFspAddress());
@@ -25,9 +23,7 @@ TEST(DspTest, DspDetailsCanAssignedCorrectlyAtDefaultConstruction)
     EXPECT_FALSE(dsp.hasEmergencyCalls());
 }
 
-
-TEST(DspTest, DspDetailsCanAssignedCorrectlyAtConstruction)
-{
+TEST(DspTest, DspDetailsCanAssignedCorrectlyAtConstruction) {
     DspDetails dspDetails;
     dspDetails.address = 0x1230;
     dspDetails.lcgId = 1;
@@ -55,4 +51,4 @@ TEST(DspTest, DspDetailsCanAssignedCorrectlyAtConstruction)
     EXPECT_TRUE(dsp.hasEmergencyCalls());
 }
 
-}
+}  // namespace alba

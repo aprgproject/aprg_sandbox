@@ -5,13 +5,10 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class OptimalBinarySearchTree
-{
+class OptimalBinarySearchTree {
 public:
-
     using Cost = unsigned int;
     using Index = unsigned int;
     using Frequency = unsigned int;
@@ -19,7 +16,7 @@ public:
     using ValueAndFrequencyPair = std::pair<unsigned int, Frequency>;
     using ValueAndFrequencyPairs = std::vector<ValueAndFrequencyPair>;
     using CostMatrix = matrix::AlbaMatrix<Cost>;
-    static constexpr Cost MAX_COUNT=std::numeric_limits<Cost>::max();
+    static constexpr Cost MAX_COUNT = std::numeric_limits<Cost>::max();
 
     OptimalBinarySearchTree(ValueAndFrequencyPairs const& valueAndFrequencyPairs);
 
@@ -35,7 +32,7 @@ private:
     ValueAndFrequencyPairs m_valueAndFrequencyPairs;
 };
 
-}
+}  // namespace alba
 
 // Given a sorted array key [0.. n-1] of search keys and an array freq[0.. n-1] of frequency counts,
 // where freq[i] is the number of searches for keys[i].
@@ -97,11 +94,8 @@ private:
 
 // Notes
 // 1) The time complexity of the iterative solution is O(n^3).
-// -> The time complexity is reduced to O(n^3) by pre-calculating sum of frequencies instead of calling sum() again and again.
-// 2) In the above solutions, we have computed optimal cost only.
+// -> The time complexity is reduced to O(n^3) by pre-calculating sum of frequencies instead of calling sum() again and
+// again. 2) In the above solutions, we have computed optimal cost only.
 // -> The solutions can be easily modified to store the structure of BSTs also.
 // -> We can create another auxiliary array of size n to store the structure of tree.
 // -> All we need to do is, store the chosen ‘r’ in the innermost loop.
-
-
-

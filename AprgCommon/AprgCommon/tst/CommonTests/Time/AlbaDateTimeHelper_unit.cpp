@@ -5,11 +5,9 @@
 using namespace std;
 using namespace alba::dateTimeHelper;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaDateTimeHelperTest, IsLeapYearWorks)
-{
+TEST(AlbaDateTimeHelperTest, IsLeapYearWorks) {
     EXPECT_TRUE(isLeapYear(0));
     EXPECT_FALSE(isLeapYear(3));
     EXPECT_TRUE(isLeapYear(4));
@@ -24,8 +22,7 @@ TEST(AlbaDateTimeHelperTest, IsLeapYearWorks)
     EXPECT_FALSE(isLeapYear(2017));
 }
 
-TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInAYearWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInAYearWorks) {
     EXPECT_EQ(365U, getNumberOfDaysInAYear(3));
     EXPECT_EQ(366U, getNumberOfDaysInAYear(4));
     EXPECT_EQ(365U, getNumberOfDaysInAYear(5));
@@ -39,8 +36,7 @@ TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInAYearWorks)
     EXPECT_EQ(365U, getNumberOfDaysInAYear(2017));
 }
 
-TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInAMonthWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInAMonthWorks) {
     // non leap year
     EXPECT_EQ(0U, getNumberOfDaysInAMonth(0, 1));
     EXPECT_EQ(31U, getNumberOfDaysInAMonth(1, 1));
@@ -72,8 +68,7 @@ TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInAMonthWorks)
     EXPECT_EQ(31U, getNumberOfDaysInAMonth(12, 4));
 }
 
-TEST(AlbaDateTimeHelperTest, GetNumberOfLeapYearsBeforeThisYearWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetNumberOfLeapYearsBeforeThisYearWorks) {
     EXPECT_EQ(1U, getNumberOfLeapYearsBeforeThisYear(3));
     EXPECT_EQ(1U, getNumberOfLeapYearsBeforeThisYear(4));
     EXPECT_EQ(2U, getNumberOfLeapYearsBeforeThisYear(5));
@@ -87,8 +82,7 @@ TEST(AlbaDateTimeHelperTest, GetNumberOfLeapYearsBeforeThisYearWorks)
     EXPECT_EQ(490U, getNumberOfLeapYearsBeforeThisYear(2017));
 }
 
-TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInTheYearBeforeThisMonthWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInTheYearBeforeThisMonthWorks) {
     EXPECT_EQ(0U, getNumberOfDaysInTheYearBeforeThisMonth(0, 1));
     EXPECT_EQ(0U, getNumberOfDaysInTheYearBeforeThisMonth(1, 1));
     EXPECT_EQ(31U, getNumberOfDaysInTheYearBeforeThisMonth(2, 1));
@@ -118,8 +112,7 @@ TEST(AlbaDateTimeHelperTest, GetNumberOfDaysInTheYearBeforeThisMonthWorks)
     EXPECT_EQ(335U, getNumberOfDaysInTheYearBeforeThisMonth(12, 4));
 }
 
-TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysInANonLeapYearWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysInANonLeapYearWorks) {
     EXPECT_EQ(1U, getMonthFromNumberOfDaysInANonLeapYear(0));
     EXPECT_EQ(1U, getMonthFromNumberOfDaysInANonLeapYear(31));
     EXPECT_EQ(2U, getMonthFromNumberOfDaysInANonLeapYear(32));
@@ -146,8 +139,7 @@ TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysInANonLeapYearWorks)
     EXPECT_EQ(12U, getMonthFromNumberOfDaysInANonLeapYear(366));
 }
 
-TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysInALeapYearWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysInALeapYearWorks) {
     EXPECT_EQ(1U, getMonthFromNumberOfDaysInALeapYear(0));
     EXPECT_EQ(1U, getMonthFromNumberOfDaysInALeapYear(31));
     EXPECT_EQ(2U, getMonthFromNumberOfDaysInALeapYear(32));
@@ -174,8 +166,7 @@ TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysInALeapYearWorks)
     EXPECT_EQ(12U, getMonthFromNumberOfDaysInALeapYear(366));
 }
 
-TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysWorks) {
     // non leap year
     EXPECT_EQ(0U, getMonthFromNumberOfDays(0, 1));
     EXPECT_EQ(1U, getMonthFromNumberOfDays(1, 1));
@@ -231,8 +222,7 @@ TEST(AlbaDateTimeHelperTest, GetMonthFromNumberOfDaysWorks)
     EXPECT_EQ(12U, getMonthFromNumberOfDays(366, 4));
 }
 
-TEST(AlbaDateTimeHelperTest, GetNumberOfDaysBeforeThisYearWorks)
-{
+TEST(AlbaDateTimeHelperTest, GetNumberOfDaysBeforeThisYearWorks) {
     EXPECT_EQ(1096U, getNumberOfDaysBeforeThisYear(3));
     EXPECT_EQ(1461U, getNumberOfDaysBeforeThisYear(4));
     EXPECT_EQ(1827U, getNumberOfDaysBeforeThisYear(5));
@@ -246,114 +236,104 @@ TEST(AlbaDateTimeHelperTest, GetNumberOfDaysBeforeThisYearWorks)
     EXPECT_EQ(736695U, getNumberOfDaysBeforeThisYear(2017));
 }
 
-TEST(AlbaDateTimeHelperTest, GetTotalDaysWorks)
-{
-    EXPECT_EQ(0U, getTotalDays(0,0,0));
-    EXPECT_EQ(367U, getTotalDays(1,1,1));
-    EXPECT_EQ(736665U, getTotalDays(2016,11,31));
+TEST(AlbaDateTimeHelperTest, GetTotalDaysWorks) {
+    EXPECT_EQ(0U, getTotalDays(0, 0, 0));
+    EXPECT_EQ(367U, getTotalDays(1, 1, 1));
+    EXPECT_EQ(736665U, getTotalDays(2016, 11, 31));
 }
 
-TEST(AlbaDateTimeHelperTest, GetTotalSecondsWorks)
-{
-    EXPECT_EQ(0U, getTotalSeconds(0,0,0));
-    EXPECT_EQ(3661U, getTotalSeconds(1,1,1));
-    EXPECT_EQ(86399U, getTotalSeconds(23,59,59));
+TEST(AlbaDateTimeHelperTest, GetTotalSecondsWorks) {
+    EXPECT_EQ(0U, getTotalSeconds(0, 0, 0));
+    EXPECT_EQ(3661U, getTotalSeconds(1, 1, 1));
+    EXPECT_EQ(86399U, getTotalSeconds(23, 59, 59));
 }
 
-TEST(AlbaDateTimeHelperTest, GetAndRemoveYearsFromNumberOfDaysWorks)
-{
-    unsigned int totalDays=0;
+TEST(AlbaDateTimeHelperTest, GetAndRemoveYearsFromNumberOfDaysWorks) {
+    unsigned int totalDays = 0;
     EXPECT_EQ(0U, getAndRemoveYearsFromNumberOfDays(totalDays));
     EXPECT_EQ(0U, totalDays);
 
-    totalDays=398;
+    totalDays = 398;
     EXPECT_EQ(1U, getAndRemoveYearsFromNumberOfDays(totalDays));
     EXPECT_EQ(32U, totalDays);
 
-    totalDays=736695;
+    totalDays = 736695;
     EXPECT_EQ(2016U, getAndRemoveYearsFromNumberOfDays(totalDays));
     EXPECT_EQ(366U, totalDays);
 }
 
-TEST(AlbaDateTimeHelperTest, GetAndRemoveMonthsFromNumberOfDaysWorks)
-{
-    unsigned int totalDays=0;
+TEST(AlbaDateTimeHelperTest, GetAndRemoveMonthsFromNumberOfDaysWorks) {
+    unsigned int totalDays = 0;
     EXPECT_EQ(0U, getAndRemoveMonthsFromNumberOfDays(totalDays, 2016));
     EXPECT_EQ(0U, totalDays);
 
-    totalDays=32;
+    totalDays = 32;
     EXPECT_EQ(2U, getAndRemoveMonthsFromNumberOfDays(totalDays, 2016));
     EXPECT_EQ(1U, totalDays);
 
-    totalDays=366;
+    totalDays = 366;
     EXPECT_EQ(12U, getAndRemoveMonthsFromNumberOfDays(totalDays, 2016));
     EXPECT_EQ(31U, totalDays);
 }
 
-TEST(AlbaDateTimeHelperTest, GetAndRemoveHoursFromNumberOfSecondsWorks)
-{
-    unsigned int totalSeconds=0;
+TEST(AlbaDateTimeHelperTest, GetAndRemoveHoursFromNumberOfSecondsWorks) {
+    unsigned int totalSeconds = 0;
     EXPECT_EQ(0U, getAndRemoveHoursFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(0U, totalSeconds);
 
-    totalSeconds=3661;
+    totalSeconds = 3661;
     EXPECT_EQ(1U, getAndRemoveHoursFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(61U, totalSeconds);
 
-    totalSeconds=86399;
+    totalSeconds = 86399;
     EXPECT_EQ(23U, getAndRemoveHoursFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(3599U, totalSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, GetAndRemoveMinutesFromNumberOfSecondsWorks)
-{
-    unsigned int totalSeconds=0;
+TEST(AlbaDateTimeHelperTest, GetAndRemoveMinutesFromNumberOfSecondsWorks) {
+    unsigned int totalSeconds = 0;
     EXPECT_EQ(0U, getAndRemoveMinutesFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(0U, totalSeconds);
 
-    totalSeconds=61;
+    totalSeconds = 61;
     EXPECT_EQ(1U, getAndRemoveMinutesFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(1U, totalSeconds);
 
-    totalSeconds=3599;
+    totalSeconds = 3599;
     EXPECT_EQ(59U, getAndRemoveMinutesFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(59U, totalSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsNoOverflow)
-{
-    unsigned int days=0,seconds=0,microSeconds=0;
+TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsNoOverflow) {
+    unsigned int days = 0, seconds = 0, microSeconds = 0;
     reorganizeOverflowValues(days, seconds, microSeconds);
     EXPECT_EQ(0U, days);
     EXPECT_EQ(0U, seconds);
     EXPECT_EQ(0U, microSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsOverflow)
-{
-    unsigned int days=99999999,seconds=99999999,microSeconds=99999999;
+TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsOverflow) {
+    unsigned int days = 99999999, seconds = 99999999, microSeconds = 99999999;
     reorganizeOverflowValues(days, seconds, microSeconds);
     EXPECT_EQ(100001156U, days);
     EXPECT_EQ(35298U, seconds);
     EXPECT_EQ(999999U, microSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ReorganizeUnderflowValuesWorks_IfThereIsNoUnderflow)
-{
-    int days=0,seconds=0,microSeconds=0;
+TEST(AlbaDateTimeHelperTest, ReorganizeUnderflowValuesWorks_IfThereIsNoUnderflow) {
+    int days = 0, seconds = 0, microSeconds = 0;
     reorganizeUnderflowValues(days, seconds, microSeconds);
     EXPECT_EQ(0, days);
     EXPECT_EQ(0, seconds);
     EXPECT_EQ(0, microSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ReorganizeUnderflowValuesWorks_IfThereIsUnderflow)
-{
-    int days=99999999,seconds=-99999999,microSeconds=-99999999;
+TEST(AlbaDateTimeHelperTest, ReorganizeUnderflowValuesWorks_IfThereIsUnderflow) {
+    int days = 99999999, seconds = -99999999, microSeconds = -99999999;
     reorganizeUnderflowValues(days, seconds, microSeconds);
     EXPECT_EQ(99998841, days);
     EXPECT_EQ(51101, seconds);
     EXPECT_EQ(1, microSeconds);
 }
 
-}
+}  // namespace alba

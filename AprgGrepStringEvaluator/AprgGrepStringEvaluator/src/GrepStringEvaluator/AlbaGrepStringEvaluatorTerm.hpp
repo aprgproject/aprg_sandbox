@@ -2,18 +2,11 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-enum class AlbaGrepStringEvaluatorTermType
-{
-    Unknown,
-    BooleanResult,
-    StringToFind
-};
+enum class AlbaGrepStringEvaluatorTermType { Unknown, BooleanResult, StringToFind };
 
-class AlbaGrepStringEvaluatorTerm
-{
+class AlbaGrepStringEvaluatorTerm {
 public:
     static void setMainString(std::string const& mainString);
 
@@ -29,4 +22,4 @@ private:
     std::string m_stringToFind;
 };
 
-}
+}  // namespace alba

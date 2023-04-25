@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2018_PracticeRound_P4_BathroomStalls
-{
+namespace CodeJam_2018_PracticeRound_P4_BathroomStalls {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

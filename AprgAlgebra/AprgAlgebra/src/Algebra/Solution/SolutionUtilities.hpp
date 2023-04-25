@@ -5,21 +5,17 @@
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term);
 
 AlbaNumbers getInitialValuesForIteratingMethods(Term const& term);
-void retrieveInitialValuesForIteratingMethods(
-        AlbaNumbersSet & allValues,
-        Term const& term);
+void retrieveInitialValuesForIteratingMethods(AlbaNumbersSet& allValues, Term const& term);
 
 AlbaNumbers getInitialValuesForIteratingMethods(Equation const& equation);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

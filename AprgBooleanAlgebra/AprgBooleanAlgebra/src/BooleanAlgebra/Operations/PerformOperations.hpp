@@ -2,23 +2,16 @@
 
 #include <BooleanAlgebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-Term performOperation(
-        Operator const& operatorTerm,
-        Term const& term);
-Term performOperation(
-        Operator const& operatorTerm,
-        Term const& term1,
-        Term const& term2);
+Term performOperation(Operator const& operatorTerm, Term const& term);
+Term performOperation(Operator const& operatorTerm, Term const& term1, Term const& term2);
 Term performNot(Term const& term);
 Term performAnd(Term const& term1, Term const& term2);
 Term performOr(Term const& term1, Term const& term2);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

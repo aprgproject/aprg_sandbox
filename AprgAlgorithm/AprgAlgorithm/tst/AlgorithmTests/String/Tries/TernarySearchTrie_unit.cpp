@@ -6,91 +6,47 @@
 using namespace alba::algorithm::CommonTestsWithTries;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using TrieForTest = TernarySearchTrie<unsigned int>;
 }
 
-TEST(TernarySearchTrieTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, DoesContainWorks)
-{
-    testDoesContainWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, DoesContainWorks) { testDoesContainWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetWorks)
-{
-    testGetWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetWorks) { testGetWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetLongestPrefixWorks)
-{
-    testGetLongestPrefixOfWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetLongestPrefixWorks) { testGetLongestPrefixOfWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, PutWorks)
-{
-    testPutWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, PutWorks) { testPutWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorks)
-{
-    testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetKeysWorks)
-{
-    testGetKeysWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetKeysWorks) { testGetKeysWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetAllKeysWithPrefixWorks)
-{
-    testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetAllKeysWithPrefixWorks) { testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetAllKeysThatMatchWorks)
-{
-    testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, GetAllKeysThatMatchWorks) { testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, Example1Works)
-{
-    testExample1WithUnsignedInt<TrieForTest>();
-}
+TEST(TernarySearchTrieTest, Example1Works) { testExample1WithUnsignedInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenEmpty)
-{
+TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenEmpty) {
     TrieForTest trie;
 
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
-TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenNotEmpty)
-{
+TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenNotEmpty) {
     TrieForTest trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -99,8 +55,7 @@ TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenNotEmpty)
     EXPECT_EQ(8U, trie.getNumberOfNodes());
 }
 
-TEST(TernarySearchTrieTest, PutWorksWithNumberOfNodes)
-{
+TEST(TernarySearchTrieTest, PutWorksWithNumberOfNodes) {
     TrieForTest trie;
 
     trie.put("she", 0U);
@@ -114,8 +69,7 @@ TEST(TernarySearchTrieTest, PutWorksWithNumberOfNodes)
     EXPECT_EQ(2U, trie.get("sea"));
 }
 
-TEST(TernarySearchTrieTest, PutWhenEmptyStringHasNoEffect)
-{
+TEST(TernarySearchTrieTest, PutWhenEmptyStringHasNoEffect) {
     TrieForTest trie;
 
     trie.put("", 17U);
@@ -125,8 +79,7 @@ TEST(TernarySearchTrieTest, PutWhenEmptyStringHasNoEffect)
     EXPECT_EQ(0U, trie.get(""));
 }
 
-TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
-{
+TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorksWithNumberOfNodes) {
     TrieForTest trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -148,8 +101,7 @@ TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
-TEST(TernarySearchTrieTest, DeleteBasedOnKeyWhenEmptyStringHasNoEffect)
-{
+TEST(TernarySearchTrieTest, DeleteBasedOnKeyWhenEmptyStringHasNoEffect) {
     TrieForTest trie;
     trie.put("", 17U);
 
@@ -162,6 +114,6 @@ TEST(TernarySearchTrieTest, DeleteBasedOnKeyWhenEmptyStringHasNoEffect)
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

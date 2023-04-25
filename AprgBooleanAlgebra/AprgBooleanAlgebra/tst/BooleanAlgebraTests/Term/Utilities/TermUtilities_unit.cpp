@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorTypeWorks)
-{
+TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorTypeWorks) {
     Term term1;
     Term term2(1);
     Term term3(VariableTerm("x"));
@@ -24,8 +21,7 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorTypeWorks)
     EXPECT_TRUE(isNonEmptyOrNonOperatorType(term5));
 }
 
-TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
-{
+TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks) {
     Term term1;
     Term term2(1);
     Term term3(VariableTerm("x"));
@@ -39,22 +35,19 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
     EXPECT_FALSE(isNonEmptyOrNonOperatorOrNonExpressionType(term5));
 }
 
-TEST(TermUtilitiesTest, GetNoEffectValueInOperationWorks)
-{
+TEST(TermUtilitiesTest, GetNoEffectValueInOperationWorks) {
     EXPECT_FALSE(getNoEffectValueInOperation(OperatorLevel::Unknown));
     EXPECT_TRUE(getNoEffectValueInOperation(OperatorLevel::And));
     EXPECT_FALSE(getNoEffectValueInOperation(OperatorLevel::Or));
 }
 
-TEST(TermUtilitiesTest, GetShortCircuitValueEffectInOperationWorks)
-{
+TEST(TermUtilitiesTest, GetShortCircuitValueEffectInOperationWorks) {
     EXPECT_FALSE(getShortCircuitValueEffectInOperation(OperatorLevel::Unknown));
     EXPECT_FALSE(getShortCircuitValueEffectInOperation(OperatorLevel::And));
     EXPECT_TRUE(getShortCircuitValueEffectInOperation(OperatorLevel::Or));
 }
 
-TEST(TermUtilitiesTest, GetVariableNamesWorks)
-{
+TEST(TermUtilitiesTest, GetVariableNamesWorks) {
     Term subTerm1(createExpressionIfPossible({"a", "&", "b"}));
     Term subTerm2(createExpressionIfPossible({"x", "&", "y"}));
     Term termToTest(createExpressionIfPossible({subTerm1, "|", subTerm2}));
@@ -65,12 +58,11 @@ TEST(TermUtilitiesTest, GetVariableNamesWorks)
     EXPECT_EQ(namesToExpect, namesToVerify);
 }
 
-TEST(TermUtilitiesTest, GetTermFromVariableAndPrimeValueWorks)
-{
+TEST(TermUtilitiesTest, GetTermFromVariableAndPrimeValueWorks) {
     EXPECT_EQ(Term("x'"), getTermFromVariableAndPrimeValue("x", '0'));
     EXPECT_EQ(Term("x"), getTermFromVariableAndPrimeValue("x", '1'));
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

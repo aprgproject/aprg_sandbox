@@ -1,56 +1,42 @@
 #include <iostream>
 #include <memory>
 
-namespace FactoryMethod
-{
+namespace FactoryMethod {
 
 // Product
 // products implement the same interface so that the classes can refer
 // to the interface not the concrete product
 
-class Product
-{
+class Product {
 public:
     virtual ~Product() = default;
     virtual std::string getName() const = 0;
     // ...
 };
 
+// Concrete Product
+// define product to be created
+
+class ConcreteProductA : public Product {
+public:
+    std::string getName() const override { return "type A"; }
+    // ...
+};
 
 // Concrete Product
 // define product to be created
 
-class ConcreteProductA : public Product
-{
+class ConcreteProductB : public Product {
 public:
-    std::string getName() const override
-    {
-        return "type A";
-    }
+    std::string getName() const override { return "type B"; }
     // ...
 };
-
-
-// Concrete Product
-// define product to be created
-
-class ConcreteProductB : public Product
-{
-public:
-    std::string getName() const override
-    {
-        return "type B";
-    }
-    // ...
-};
-
 
 // Creator
 // contains the implementation for all of the methods
 // to manipulate products except for the factory method
 
-class Creator
-{
+class Creator {
 public:
     virtual ~Creator() = default;
 
@@ -59,33 +45,26 @@ public:
     // ...
 };
 
-
 // Concrete Creator
 // implements factory method that is responsible for creating
 // one or more concrete products ie. it is class that has
 // the knowledge of how to create the products
 
-class ConcreteCreator : public Creator
-{
+class ConcreteCreator : public Creator {
 public:
-    std::unique_ptr<Product> createProductA() const override
-    {
-        return std::make_unique<ConcreteProductA>();
-    }
+    std::unique_ptr<Product> createProductA() const override { return std::make_unique<ConcreteProductA>(); }
 
-    std::unique_ptr<Product> createProductB() const override
-    {
-        return std::make_unique<ConcreteProductB>();
-    }
+    std::unique_ptr<Product> createProductB() const override { return std::make_unique<ConcreteProductB>(); }
     // ...
 };
 
-}
+}  // namespace FactoryMethod
 
 // FactoryMethod discussion:
 
 // ONE LINE NOTE:
-// -> Provide a "factory method" for creating objects and let polymorphism and subclassing support DIFFERENT VERSIONS of the "factory method".
+// -> Provide a "factory method" for creating objects and let polymorphism and subclassing support DIFFERENT VERSIONS of
+// the "factory method".
 
 // Intent:
 // Define an interface for creating an object, but let subclasses decide which class to instantiate.
@@ -110,25 +89,33 @@ public:
 
 // Implementation:
 // -> Two major varieties:
-// ---> (1) Creator class is an abstract class and does not provide an implementation for the factory method (only declaration)
+// ---> (1) Creator class is an abstract class and does not provide an implementation for the factory method (only
+// declaration)
 // -----> This requires subclasses to define an implementation (because there is no default).
 // -----> It gets around the dilemma of having to instantiate unforeseeable classes.
 // ---> (2) Creator class is an concrete class and provides a default implementation for the factory method.
 // -----> Creator uses the FactoryMethod primarily for flexibility.
-// -----> Its a following a rule that says "Create objects in a separate operation so that subclasses can override the way they're created."
-// -----> This rule ensures that designers of subclasses can change the class of objects their parent class instantiates if necessary.
+// -----> Its a following a rule that says "Create objects in a separate operation so that subclasses can override the
+// way they're created."
+// -----> This rule ensures that designers of subclasses can change the class of objects their parent class instantiates
+// if necessary.
 // -> Parameterized factory methods
 // ---> Another variation is create multiple kinds of products.
-// -----> This means it takes a parameter to identify the kind of object to create, but it still share the same Product interface.
-// -----> This has negative impact of having multiple paths in the creation method because we are creating multiple products.
+// -----> This means it takes a parameter to identify the kind of object to create, but it still share the same Product
+// interface.
+// -----> This has negative impact of having multiple paths in the creation method because we are creating multiple
+// products.
 // -> Language specific variants and issues
 // ---> Factory methods in C++ are always virtual functions and are often pure virtual.
-// ---> Just be careful not to call factory methods in the Creator's constructor (the factory method in the ConcreteCreator won't be available yet)
+// ---> Just be careful not to call factory methods in the Creator's constructor (the factory method in the
+// ConcreteCreator won't be available yet)
 // -> Using templates to avoid subclassing
-// ---> Another potential problem with factory method is that they might force you to subclass just to create the appropriate Product objects.
+// ---> Another potential problem with factory method is that they might force you to subclass just to create the
+// appropriate Product objects.
 // ---> Another approach is provide a template subclass of Creator that's parameterized by the concrete Product class.
 // -> Naming conventions
-// ---> Its good practice to use naming conventions that make it clear you're using factory methods ("create", "make" etc).
+// ---> Its good practice to use naming conventions that make it clear you're using factory methods ("create", "make"
+// etc).
 
 // Related Patterns
 // -> [AbstractFactory] is often implemented with factory methods.

@@ -4,14 +4,11 @@
 
 #include <ostream>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class Constant : public BaseTermData
-{
+class Constant : public BaseTermData {
 public:
     Constant();
     explicit Constant(bool const boolValue);
@@ -26,11 +23,11 @@ public:
     void negate();
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Constant const& constant);
+    friend std::ostream& operator<<(std::ostream& out, Constant const& constant);
 
     bool m_booleanValue;
 };
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

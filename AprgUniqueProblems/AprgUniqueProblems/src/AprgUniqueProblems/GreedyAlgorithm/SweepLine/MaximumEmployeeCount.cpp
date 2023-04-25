@@ -2,25 +2,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-bool MaximumEmployeeCount::Event::operator<(Event const& event) const
-{
+bool MaximumEmployeeCount::Event::operator<(Event const& event) const {
     bool result(false);
-    if(time != event.time)
-    {
-        result = time < event.time; // sweep through x
-    }
-    else
-    {
+    if (time != event.time) {
+        result = time < event.time;  // sweep through x
+    } else {
         result = static_cast<unsigned int>(eventType) < static_cast<unsigned int>(event.eventType);
     }
     return result;
 }
 
-unsigned int MaximumEmployeeCount::getMaximumCountOfEmployeesAtATime() const
-{
+unsigned int MaximumEmployeeCount::getMaximumCountOfEmployeesAtATime() const {
     // sweep line algorithm
 
     // We go through the events from left to right and maintain a counter.
@@ -30,25 +24,20 @@ unsigned int MaximumEmployeeCount::getMaximumCountOfEmployeesAtATime() const
 
     unsigned int count(0U);
     unsigned int maxCount(0U);
-    for(Event const& event : m_sortedEvents)
-    {
-        if(EventType::StartOfDayOfEmployee == event.eventType)
-        {
+    for (Event const& event : m_sortedEvents) {
+        if (EventType::StartOfDayOfEmployee == event.eventType) {
             count++;
             maxCount = max(maxCount, count);
-        }
-        else if(EventType::EndOfDayOfEmployee == event.eventType)
-        {
+        } else if (EventType::EndOfDayOfEmployee == event.eventType) {
             count--;
         }
     }
     return maxCount;
 }
 
-void MaximumEmployeeCount::addEmployeeSchedule(unsigned int const startTime, unsigned int const endTime)
-{
+void MaximumEmployeeCount::addEmployeeSchedule(unsigned int const startTime, unsigned int const endTime) {
     m_sortedEvents.emplace(Event{startTime, EventType::StartOfDayOfEmployee});
     m_sortedEvents.emplace(Event{endTime, EventType::EndOfDayOfEmployee});
 }
 
-}
+}  // namespace alba

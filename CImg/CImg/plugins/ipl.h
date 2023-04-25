@@ -160,27 +160,28 @@
 
 // Check if this CImg<T> instance and a given IplImage have identical pixel types.
 bool not_pixel_type_of(const IplImage *const img) const {
-  // to do : handle IPL_DEPTH_1U?
-  return (((unsigned int)img->depth == IPL_DEPTH_8U  && typeid(T) != typeid(unsigned char)) ||
-          ((unsigned int)img->depth == IPL_DEPTH_8S  && typeid(T) != typeid(char)) ||
-          ((unsigned int)img->depth == IPL_DEPTH_16U && typeid(T) != typeid(unsigned short)) ||
-          ((unsigned int)img->depth == IPL_DEPTH_16S && typeid(T) != typeid(unsigned)) ||
-          ((unsigned int)img->depth == IPL_DEPTH_32S && typeid(T) != typeid(int)) ||
-          ((unsigned int)img->depth == IPL_DEPTH_32F && typeid(T) != typeid(float)) ||
-          ((unsigned int)img->depth == IPL_DEPTH_64F && typeid(T) != typeid(double)));
+    // to do : handle IPL_DEPTH_1U?
+    return (
+        ((unsigned int)img->depth == IPL_DEPTH_8U && typeid(T) != typeid(unsigned char)) ||
+        ((unsigned int)img->depth == IPL_DEPTH_8S && typeid(T) != typeid(char)) ||
+        ((unsigned int)img->depth == IPL_DEPTH_16U && typeid(T) != typeid(unsigned short)) ||
+        ((unsigned int)img->depth == IPL_DEPTH_16S && typeid(T) != typeid(unsigned)) ||
+        ((unsigned int)img->depth == IPL_DEPTH_32S && typeid(T) != typeid(int)) ||
+        ((unsigned int)img->depth == IPL_DEPTH_32F && typeid(T) != typeid(float)) ||
+        ((unsigned int)img->depth == IPL_DEPTH_64F && typeid(T) != typeid(double)));
 }
 
 // Given this CImg<T> instance, return the corresponding bit-depth flag for use in IplImage header.
 int get_ipl_bit_depth() const {
-  // to do : handle IPL_DEPTH_1U?
-  if (typeid(T) == typeid(unsigned char))  return IPL_DEPTH_8U;
-  if (typeid(T) == typeid(char))           return IPL_DEPTH_8S;
-  if (typeid(T) == typeid(unsigned short)) return IPL_DEPTH_16U;
-  if (typeid(T) == typeid(short))          return IPL_DEPTH_16S;
-  if (typeid(T) == typeid(int))            return IPL_DEPTH_32S;
-  if (typeid(T) == typeid(float))          return IPL_DEPTH_32F;
-  if (typeid(T) == typeid(double))         return IPL_DEPTH_64F;
-  return 0;
+    // to do : handle IPL_DEPTH_1U?
+    if (typeid(T) == typeid(unsigned char)) return IPL_DEPTH_8U;
+    if (typeid(T) == typeid(char)) return IPL_DEPTH_8S;
+    if (typeid(T) == typeid(unsigned short)) return IPL_DEPTH_16U;
+    if (typeid(T) == typeid(short)) return IPL_DEPTH_16S;
+    if (typeid(T) == typeid(int)) return IPL_DEPTH_32S;
+    if (typeid(T) == typeid(float)) return IPL_DEPTH_32F;
+    if (typeid(T) == typeid(double)) return IPL_DEPTH_64F;
+    return 0;
 }
 
 //----------------------------
@@ -190,55 +191,54 @@ int get_ipl_bit_depth() const {
 // Copy constructor; the optional flag will be ignored when the number of color channels is less than 3.
 // Current flag options are 0 and CV_CVTIMG_SWAP_RB;
 // may add CV_CVTIMG_FLIP and CV_CVTIMG_FLIP|CV_CVTIMG_SWAP_RB in the future.
-CImg(const IplImage *const img, const int flag=0):
-_width(0),_height(0),_depth(0),_spectrum(0),_is_shared(false),_data(0) {
-  assign(img,flag);
+CImg(const IplImage *const img, const int flag = 0)
+    : _width(0), _height(0), _depth(0), _spectrum(0), _is_shared(false), _data(0) {
+    assign(img, flag);
 }
 
 // In-place constructor; the optional flag will be ignored when the number of color channels is less than 3.
 // Current flag options are 0 and CV_CVTIMG_SWAP_RB;
 // may add CV_CVTIMG_FLIP and CV_CVTIMG_FLIP|CV_CVTIMG_SWAP_RB in the future.
-CImg<T> & assign(const IplImage *const img, const int flag=CV_CVTIMG_SWAP_RB) {
-  if (!img) return assign();
-  if (not_pixel_type_of(img))
-    throw CImgInstanceException(_cimg_instance
-                                "assign(const IplImage*) : IplImage has no corresponding pixel type.",
-                                cimg_instance);
-  // to do: handle roi
-  const int W = img->width, H = img->height;
-  const char *const dataPtrI = img->imageData;
-  assign(W,H,1,img->nChannels);
-  char *const dataPtrC = (char *)_data;
+CImg<T> &assign(const IplImage *const img, const int flag = CV_CVTIMG_SWAP_RB) {
+    if (!img) return assign();
+    if (not_pixel_type_of(img))
+        throw CImgInstanceException(
+            _cimg_instance "assign(const IplImage*) : IplImage has no corresponding pixel type.", cimg_instance);
+    // to do: handle roi
+    const int W = img->width, H = img->height;
+    const char *const dataPtrI = img->imageData;
+    assign(W, H, 1, img->nChannels);
+    char *const dataPtrC = (char *)_data;
 
-  const int
-    byte_depth = (img->depth & 255) >> 3,  // number of bytes per color
-    widthStepI = img->widthStep,           // to do: handle the case img->origin==1 (currently: img->origin==0)
-    widthStepC = W*byte_depth,
-    channelStepC = H*widthStepC;
+    const int byte_depth = (img->depth & 255) >> 3,  // number of bytes per color
+        widthStepI = img->widthStep,  // to do: handle the case img->origin==1 (currently: img->origin==0)
+        widthStepC = W * byte_depth, channelStepC = H * widthStepC;
 
-  if (img->dataOrder==0) { // interleaved color channels
-    const int pix_size = byte_depth*img->nChannels;
-    for (int n = 0; n<img->nChannels; ++n) {
-      const char *linePtrI  = dataPtrI + n*byte_depth;
-      char *linePtrC = dataPtrC + (img->nChannels>=3 && (flag & CV_CVTIMG_SWAP_RB) && n<3?(2 - n):n)*channelStepC;
-      // color order is BGR in IplImage and RGB in CImg
+    if (img->dataOrder == 0) {  // interleaved color channels
+        const int pix_size = byte_depth * img->nChannels;
+        for (int n = 0; n < img->nChannels; ++n) {
+            const char *linePtrI = dataPtrI + n * byte_depth;
+            char *linePtrC =
+                dataPtrC + (img->nChannels >= 3 && (flag & CV_CVTIMG_SWAP_RB) && n < 3 ? (2 - n) : n) * channelStepC;
+            // color order is BGR in IplImage and RGB in CImg
 
-      for (int i = 0; i<H; ++i, linePtrI+=widthStepI, linePtrC+=widthStepC) {
-        const char *intensityPtrI = linePtrI;
-        char *intensityPtrC = linePtrC;
-        for (int j = 0; j<W; ++j, intensityPtrI+=pix_size, intensityPtrC+=byte_depth)
-          std::memcpy(intensityPtrC, intensityPtrI, byte_depth);
-      }
+            for (int i = 0; i < H; ++i, linePtrI += widthStepI, linePtrC += widthStepC) {
+                const char *intensityPtrI = linePtrI;
+                char *intensityPtrC = linePtrC;
+                for (int j = 0; j < W; ++j, intensityPtrI += pix_size, intensityPtrC += byte_depth)
+                    std::memcpy(intensityPtrC, intensityPtrI, byte_depth);
+            }
+        }
+    } else {  // non-interleaved color channels
+        for (int n = 0; n < img->nChannels; ++n) {
+            const char *linePtrI = dataPtrI + n * byte_depth;
+            char *linePtrC =
+                dataPtrC + (img->nChannels >= 3 && (flag & CV_CVTIMG_SWAP_RB) && n < 3 ? (2 - n) : n) * channelStepC;
+            for (int i = 0; i < H; ++i, linePtrI += widthStepI, linePtrC += widthStepC)
+                std::memcpy(linePtrC, linePtrI, widthStepC);
+        }
     }
-  } else {  // non-interleaved color channels
-    for (int n = 0; n<img->nChannels; ++n) {
-      const char *linePtrI  = dataPtrI + n*byte_depth;
-      char *linePtrC  = dataPtrC + (img->nChannels >= 3 && (flag & CV_CVTIMG_SWAP_RB) && n<3?(2 - n):n)*channelStepC;
-      for (int i = 0; i<H; ++i, linePtrI+=widthStepI, linePtrC+=widthStepC)
-        std::memcpy(linePtrC, linePtrI, widthStepC);
-    }
-  }
-  return *this;
+    return *this;
 }
 
 //----------------------------
@@ -248,62 +248,53 @@ CImg<T> & assign(const IplImage *const img, const int flag=CV_CVTIMG_SWAP_RB) {
 // Current flag options are 0 and CV_CVTIMG_SWAP_RB;
 // may add CV_CVTIMG_FLIP and CV_CVTIMG_FLIP|CV_CVTIMG_SWAP_RB in future.
 // z is the z-coordinate of the CImg slice that one wants to copy.
-IplImage* get_IplImage(const int flag=CV_CVTIMG_SWAP_RB, const unsigned z=0) const {
-  const int bit_depth = get_ipl_bit_depth();
-  if (!bit_depth)
-    throw CImgInstanceException(_cimg_instance
-                                "get_IplImage() : IplImage has no corresponding pixel type.",
-                                cimg_instance);
-    if (is_empty())
-    throw CImgArgumentException(_cimg_instance
-                                "get_IplImage() : Empty instance.",
-                                cimg_instance);
-  if (z>=_depth)
-    throw CImgInstanceException(_cimg_instance
-                                "get_IplImage() : Instance has not Z-dimension %u.",
-                                cimg_instance,
-                                z);
-  if (_spectrum>4)
-    cimg::warn(_cimg_instance
-               "get_IplImage() : OpenCV supports only 4 channels, so only the first four will be copied.",
-               cimg_instance);
+IplImage *get_IplImage(const int flag = CV_CVTIMG_SWAP_RB, const unsigned z = 0) const {
+    const int bit_depth = get_ipl_bit_depth();
+    if (!bit_depth)
+        throw CImgInstanceException(
+            _cimg_instance "get_IplImage() : IplImage has no corresponding pixel type.", cimg_instance);
+    if (is_empty()) throw CImgArgumentException(_cimg_instance "get_IplImage() : Empty instance.", cimg_instance);
+    if (z >= _depth)
+        throw CImgInstanceException(
+            _cimg_instance "get_IplImage() : Instance has not Z-dimension %u.", cimg_instance, z);
+    if (_spectrum > 4)
+        cimg::warn(
+            _cimg_instance "get_IplImage() : OpenCV supports only 4 channels, so only the first four will be copied.",
+            cimg_instance);
 
-  IplImage *const img = cvCreateImage(cvSize(_width,_height),bit_depth,_spectrum);
-  const int
-    W = _width,
-    H = _height,
-    byte_depth = (img->depth & 255) >> 3,  // number of bytes per color
-    widthStepI = img->widthStep,           // to do: handle the case img->origin==1 (currently: img->origin==0)
-    widthStepC = W*byte_depth,
-    channelStepC = H*_depth*widthStepC;
-  const char *const dataPtrC = (char*)_data + z*H*widthStepC;
-  char *const dataPtrI = img->imageData;
+    IplImage *const img = cvCreateImage(cvSize(_width, _height), bit_depth, _spectrum);
+    const int W = _width, H = _height,
+              byte_depth = (img->depth & 255) >> 3,  // number of bytes per color
+        widthStepI = img->widthStep,  // to do: handle the case img->origin==1 (currently: img->origin==0)
+        widthStepC = W * byte_depth, channelStepC = H * _depth * widthStepC;
+    const char *const dataPtrC = (char *)_data + z * H * widthStepC;
+    char *const dataPtrI = img->imageData;
 
-  if (!img->dataOrder) {  // interleaved color channels
-    const int pix_size = byte_depth*img->nChannels;
-    for (int n = 0; n<img->nChannels; ++n) {
-      const char
-        *linePtrC  = dataPtrC + (img->nChannels >= 3 && (flag & CV_CVTIMG_SWAP_RB) && n<3?(2 - n):n)*channelStepC;
-      char *linePtrI  = dataPtrI + n*byte_depth;
+    if (!img->dataOrder) {  // interleaved color channels
+        const int pix_size = byte_depth * img->nChannels;
+        for (int n = 0; n < img->nChannels; ++n) {
+            const char *linePtrC =
+                dataPtrC + (img->nChannels >= 3 && (flag & CV_CVTIMG_SWAP_RB) && n < 3 ? (2 - n) : n) * channelStepC;
+            char *linePtrI = dataPtrI + n * byte_depth;
 
-      // color order is BGR in IplImage and RGB in CImg
-      for (int i = 0; i<H; ++i, linePtrI+=widthStepI, linePtrC+=widthStepC) {
-        const char *intensityPtrC = linePtrC;
-        char *intensityPtrI = linePtrI;
-        for (int j = 0; j<W; ++j, intensityPtrI+=pix_size, intensityPtrC+=byte_depth)
-          std::memcpy(intensityPtrI, intensityPtrC, byte_depth);
-      }
+            // color order is BGR in IplImage and RGB in CImg
+            for (int i = 0; i < H; ++i, linePtrI += widthStepI, linePtrC += widthStepC) {
+                const char *intensityPtrC = linePtrC;
+                char *intensityPtrI = linePtrI;
+                for (int j = 0; j < W; ++j, intensityPtrI += pix_size, intensityPtrC += byte_depth)
+                    std::memcpy(intensityPtrI, intensityPtrC, byte_depth);
+            }
+        }
+    } else {  // non-interleaved color channels
+        for (int n = 0; n < img->nChannels; ++n) {
+            const char *linePtrC =
+                dataPtrC + (img->nChannels >= 3 && (flag & CV_CVTIMG_SWAP_RB) && n < 3 ? (2 - n) : n) * channelStepC;
+            char *linePtrI = dataPtrI + n * byte_depth;
+            for (int i = 0; i < H; ++i, linePtrI += widthStepI, linePtrC += widthStepC)
+                std::memcpy(linePtrI, linePtrC, widthStepC);
+        }
     }
-  } else {  // non-interleaved color channels
-    for (int n = 0; n<img->nChannels; ++n) {
-      const char
-        *linePtrC  = dataPtrC + (img->nChannels>= 3 && (flag & CV_CVTIMG_SWAP_RB) && n<3?(2 - n):n)*channelStepC;
-      char *linePtrI = dataPtrI + n*byte_depth;
-      for (int i = 0; i<H; ++i, linePtrI+=widthStepI, linePtrC+=widthStepC)
-        std::memcpy(linePtrI, linePtrC, widthStepC);
-    }
-  }
-  return img;
+    return img;
 }
 
 #endif /* cimg_plugin_ipl */

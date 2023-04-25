@@ -3,17 +3,14 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using TermToTermMap = std::map<Term, Term>;
 using TermTermPair = std::pair<Term, Term>;
 
-class SubstitutionOfTermsToTerms
-{
+class SubstitutionOfTermsToTerms {
 public:
     SubstitutionOfTermsToTerms();
     SubstitutionOfTermsToTerms(std::initializer_list<TermTermPair> const& variablesWithValues);
@@ -36,10 +33,10 @@ public:
     void putTermToTermMapping(Term const& term1, Term const& term2);
 
 private:
-    void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
+    void performSubstitutionForTermsWithAssociation(TermsWithAssociation& termsWithAssociation) const;
     TermToTermMap m_termsToTermsMap;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

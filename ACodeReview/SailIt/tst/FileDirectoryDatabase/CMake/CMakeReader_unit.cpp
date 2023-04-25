@@ -9,33 +9,34 @@
 using namespace codeReview;
 using namespace std;
 
-TEST (CMakeFileReadTest, DISABLED_ActualTest)
-{
+TEST(CMakeFileReadTest, DISABLED_ActualTest) {
     CMakeDatabase fileDirectoryDatabase;
-    CMakeReader reader("C:\\NSNWORK\\HSCH++2\\tcom_flexi3-trunk-hsch\\C_Application\\SC_TCOM\\SS_HSCH\\CMakeLists.txt", fileDirectoryDatabase);
+    CMakeReader reader(
+        "C:\\NSNWORK\\HSCH++2\\tcom_flexi3-trunk-hsch\\C_Application\\SC_TCOM\\SS_HSCH\\CMakeLists.txt",
+        fileDirectoryDatabase);
     reader.readFile();
     reader.printVariables();
     fileDirectoryDatabase.printFilesAndDirectories();
-/*
-    //string string1("TcomLogPrint.c");
-    string string1("CellStateChanger");
-    //string string1("TCellId");
-    bool isFoundResult;
-    string string2("");
-    CMakeDatabase& cMakeDatabase = fileDirectoryDatabase.find_InnerDirection("WaitFachDeletionLtcomReleaseStateHandler.cpp", isFoundResult, string2);
-    cout<<"XXXFindFile: "<<string2<<"\n";
-    string string3("");
-    cMakeDatabase.find_OuterDirection("Environment.hpp", isFoundResult, string3);
-    cout<<"XXXFindHeaderFile: "<<string3<<"\n";
-    */
+    /*
+        //string string1("TcomLogPrint.c");
+        string string1("CellStateChanger");
+        //string string1("TCellId");
+        bool isFoundResult;
+        string string2("");
+        CMakeDatabase& cMakeDatabase =
+       fileDirectoryDatabase.find_InnerDirection("WaitFachDeletionLtcomReleaseStateHandler.cpp", isFoundResult,
+       string2); cout<<"XXXFindFile: "<<string2<<"\n"; string string3("");
+        cMakeDatabase.find_OuterDirection("Environment.hpp", isFoundResult, string3);
+        cout<<"XXXFindHeaderFile: "<<string3<<"\n";
+        */
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_ProjectCommandSyntaxTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_ProjectCommandSyntaxTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "PROJECT(IdentifierMustNotHaveSpecialCharacters_!@#$%^&*)\n";
-    testFile << "   project  ((         IdentifierCanContainLettersAndNumbers_abcdefghijklmnopqrstuvwxyz1234567890      ))           \n";
+    testFile << "   project  ((         IdentifierCanContainLettersAndNumbers_abcdefghijklmnopqrstuvwxyz1234567890     "
+                " ))           \n";
     testFile << "   ProJECT \n";
     testFile << "   (   ( (     \n";
     testFile << "           IdentifierInASeparateLine    \n";
@@ -54,8 +55,7 @@ TEST(CMakeReaderTest, CMakeFileRead_ProjectCommandSyntaxTest)
     EXPECT_EQ(*(it++), "IdentifierMustNotHaveSpecialCharacters_");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithOnlyOneValueForOneVariableSyntaxTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithOnlyOneValueForOneVariableSyntaxTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "set(VAR1 VALUE_!@#$%^&*)\n";
@@ -88,8 +88,7 @@ TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithOnlyOneValueForOneVariableSynt
     EXPECT_EQ(*(variableMap.at("VAR5").begin()), "VALUE_DIR5 VALUE_DIR1\\DIR3 VALUE_DIR1\\DIR3\\DIR5");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithOnlyOneValueForOneVariableSyntaxTest_NoLineSeparators)
-{
+TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithOnlyOneValueForOneVariableSyntaxTest_NoLineSeparators) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "set(VAR1 VALUE_!@#$%^&*)";
@@ -122,8 +121,7 @@ TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithOnlyOneValueForOneVariableSynt
     EXPECT_EQ(*(variableMap.at("VAR5").begin()), "VALUE_DIR5 VALUE_DIR1\\DIR3 VALUE_DIR1\\DIR3\\DIR5");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithMultipleValuesForOneVariable)
-{
+TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithMultipleValuesForOneVariable) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "SET(VAR1 VALUE_DIRNAME)\n";
@@ -159,8 +157,7 @@ TEST(CMakeReaderTest, CMakeFileRead_SetCommandWithMultipleValuesForOneVariable)
     EXPECT_EQ(*(it++), "VALUE_DIR\\");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_SetCommandRealValuesAreUpdated)
-{
+TEST(CMakeReaderTest, CMakeFileRead_SetCommandRealValuesAreUpdated) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "SET(VAR_DIR VALUE_DIRNAME)\n";
@@ -209,8 +206,7 @@ TEST(CMakeReaderTest, CMakeFileRead_SetCommandRealValuesAreUpdated)
     EXPECT_EQ(*(it3++), "VALUE_DIRNAME\\VALUE_1c\\VALUE_2a\\VALUE_3a");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandSyntaxTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandSyntaxTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "INCLUDE_DIRECTORIES(DirectoriesCanContainSpecialCharacters_!@#$%^&*)\n";
@@ -242,8 +238,7 @@ TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandSyntaxTest)
     EXPECT_EQ(*(it++), currentDirectory + "Directory\\Slashes\\Are\\Converted\\To\\Back\\Slashes");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandRealValuesAreUpdated)
-{
+TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandRealValuesAreUpdated) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "SET(FILENAME FileTest1)\n";
@@ -280,8 +275,7 @@ TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandRealValuesAreUpdate
     EXPECT_EQ(*(it++), currentDirectory + "VALUE_DIRNAME\\VALUE_1c\\VALUE_2a\\FileTest1.txt");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandAbsolutePathGiven)
-{
+TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandAbsolutePathGiven) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "INCLUDE_DIRECTORIES(C:\\/DIR1/DIR2///DIR3\\\\/\\/DIR4/)\n";
@@ -296,8 +290,7 @@ TEST(CMakeReaderTest, CMakeFileRead_IncludeDirectoriesCommandAbsolutePathGiven)
     EXPECT_EQ(*(setOfDirectories.begin()), "C:\\DIR1\\DIR2\\DIR3\\DIR4\\");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_IncludeCommandSyntaxTest_WithSetTestForIncludeFiles)
-{
+TEST(CMakeReaderTest, CMakeFileRead_IncludeCommandSyntaxTest_WithSetTestForIncludeFiles) {
     string includeDirectoryFullPath(MT_FILE_READER_TEST_INCLUDE_DIRECTORY);
     ofstream includeFileStream1(includeDirectoryFullPath + "include1.txt");
     ofstream includeFileStream2(includeDirectoryFullPath + "include2.txt");
@@ -348,8 +341,7 @@ TEST(CMakeReaderTest, CMakeFileRead_IncludeCommandSyntaxTest_WithSetTestForInclu
     EXPECT_EQ(*(variableMap.at("VAR5").begin()), "VALUE_DIR5 VALUE_DIR1\\DIR3 VALUE_DIR1\\DIR3\\DIR5");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_IncludeCommandTest_WithIncludeDirectoriesRealValuesAreUpdatedTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_IncludeCommandTest_WithIncludeDirectoriesRealValuesAreUpdatedTest) {
     string includeDirectoryFullPath(MT_FILE_READER_TEST_INCLUDE_DIRECTORY);
     ofstream includeFileStream1(includeDirectoryFullPath + "include1.txt");
     ofstream includeFileStream2(includeDirectoryFullPath + "include2.txt");
@@ -400,8 +392,7 @@ TEST(CMakeReaderTest, CMakeFileRead_IncludeCommandTest_WithIncludeDirectoriesRea
     EXPECT_EQ(*(it++), currentDirectory + "VALUE_DIRNAME\\VALUE_1c\\VALUE_2a\\FileTest1.txt");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_AddSubDirectoryCommandSyntaxTest_WithIncludeDirectoriesRealValuesAreUpdatedTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_AddSubDirectoryCommandSyntaxTest_WithIncludeDirectoriesRealValuesAreUpdatedTest) {
     string subDirectoryFullPath(MT_FILE_READER_TEST_SUBDIRECTORY);
     string subDirectoryName(MT_FILE_READER_TEST_SUBDIRECTORY_NAME);
 
@@ -453,24 +444,20 @@ TEST(CMakeReaderTest, CMakeFileRead_AddSubDirectoryCommandSyntaxTest_WithInclude
     fileDirectoryDatabase.allowNonExistentDirectories();
     CMakeReader reader(MT_FILE_READER_TEST_FILE, fileDirectoryDatabase);
     reader.readFile();
-    SubCMakeDatabases& listOfSubFileDirectoryDatabases
-            = fileDirectoryDatabase.getSubCMakeDatabasesReference();
+    SubCMakeDatabases& listOfSubFileDirectoryDatabases = fileDirectoryDatabase.getSubCMakeDatabasesReference();
     ASSERT_EQ(listOfSubFileDirectoryDatabases.size(), 3);
-    CMakeDatabase& cMakeFileDirectoryDatabase1= *(listOfSubFileDirectoryDatabases.begin());
-    CMakeDatabase& cMakeFileDirectoryDatabase2= *(listOfSubFileDirectoryDatabases.begin()+1);
-    CMakeDatabase& cMakeFileDirectoryDatabase3= *(listOfSubFileDirectoryDatabases.begin()+2);
-    SetOfFiles& setOfFiles1
-            = cMakeFileDirectoryDatabase1.getSetOfFilesReference();
-    SetOfFiles& setOfFiles2
-            = cMakeFileDirectoryDatabase2.getSetOfFilesReference();
-    SetOfFiles& setOfFiles3
-            = cMakeFileDirectoryDatabase3.getSetOfFilesReference();
+    CMakeDatabase& cMakeFileDirectoryDatabase1 = *(listOfSubFileDirectoryDatabases.begin());
+    CMakeDatabase& cMakeFileDirectoryDatabase2 = *(listOfSubFileDirectoryDatabases.begin() + 1);
+    CMakeDatabase& cMakeFileDirectoryDatabase3 = *(listOfSubFileDirectoryDatabases.begin() + 2);
+    SetOfFiles& setOfFiles1 = cMakeFileDirectoryDatabase1.getSetOfFilesReference();
+    SetOfFiles& setOfFiles2 = cMakeFileDirectoryDatabase2.getSetOfFilesReference();
+    SetOfFiles& setOfFiles3 = cMakeFileDirectoryDatabase3.getSetOfFilesReference();
     ASSERT_EQ(setOfFiles1.size(), 12);
     ASSERT_EQ(setOfFiles2.size(), 12);
     ASSERT_EQ(setOfFiles3.size(), 12);
-    string currentDirectory1(subDirectoryFullPath+"DIR1\\");
-    string currentDirectory2(subDirectoryFullPath+"DIR2\\");
-    string currentDirectory3(subDirectoryFullPath+"DIR3\\");
+    string currentDirectory1(subDirectoryFullPath + "DIR1\\");
+    string currentDirectory2(subDirectoryFullPath + "DIR2\\");
+    string currentDirectory3(subDirectoryFullPath + "DIR3\\");
     auto it1 = setOfFiles1.begin();
     EXPECT_EQ(*(it1++), currentDirectory1 + "VALUE_DIRNAME\\VALUE_1a\\VALUE_2\\FileTest1.log");
     EXPECT_EQ(*(it1++), currentDirectory1 + "VALUE_DIRNAME\\VALUE_1a\\VALUE_2\\FileTest1.txt");
@@ -512,11 +499,10 @@ TEST(CMakeReaderTest, CMakeFileRead_AddSubDirectoryCommandSyntaxTest_WithInclude
     EXPECT_EQ(*(it3++), currentDirectory3 + "VALUE_DIRNAME\\VALUE_1c\\VALUE_2a\\FileTest1.txt");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_AddLibraryCommandSyntaxTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_AddLibraryCommandSyntaxTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
-    testFile << "SET(SUB_DIRECTORY_NAME "<<MT_FILE_READER_TEST_SUBDIRECTORY_NAME<<")\n";
+    testFile << "SET(SUB_DIRECTORY_NAME " << MT_FILE_READER_TEST_SUBDIRECTORY_NAME << ")\n";
     testFile << "SET(DIRECTORIES \\${SUB_DIRECTORY_NAME}\\DIR1\\)\n";
     testFile << "SET(DIRECTORIES ${SUB_DIRECTORY_NAME}\\DIR2\\)\n";
     testFile << "SET(DIRECTORIES ${SUB_DIRECTORY_NAME}\\DIR3)\n";
@@ -543,7 +529,8 @@ TEST(CMakeReaderTest, CMakeFileRead_AddLibraryCommandSyntaxTest)
     auto itDirectory = setOfDirectories.begin();
     EXPECT_EQ(*(itDirectory++), currentDirectory + "DIR1\\");
     EXPECT_EQ(*(itDirectory++), currentDirectory + "DIR2\\");
-    EXPECT_EQ(*(itDirectory++), currentDirectory + "DIR3\\"); //appends backslash at the end because of windowspathhelper :)
+    EXPECT_EQ(
+        *(itDirectory++), currentDirectory + "DIR3\\");  // appends backslash at the end because of windowspathhelper :)
 
     SetOfFiles& setOfFiles = fileDirectoryDatabase.getSetOfFilesReference();
     ASSERT_EQ(setOfFiles.size(), 4);
@@ -554,11 +541,10 @@ TEST(CMakeReaderTest, CMakeFileRead_AddLibraryCommandSyntaxTest)
     EXPECT_EQ(*(itFile++), currentDirectory + "File4.out");
 }
 
-TEST(CMakeReaderTest, CMakeFileRead_AddExecutableCommandSyntaxTest)
-{
+TEST(CMakeReaderTest, CMakeFileRead_AddExecutableCommandSyntaxTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
-    testFile << "SET(SUB_DIRECTORY_NAME "<<MT_FILE_READER_TEST_SUBDIRECTORY_NAME<<")\n";
+    testFile << "SET(SUB_DIRECTORY_NAME " << MT_FILE_READER_TEST_SUBDIRECTORY_NAME << ")\n";
     testFile << "SET(DIRECTORIES \\${SUB_DIRECTORY_NAME}\\DIR1\\)\n";
     testFile << "SET(DIRECTORIES ${SUB_DIRECTORY_NAME}\\DIR2\\)\n";
     testFile << "SET(DIRECTORIES ${SUB_DIRECTORY_NAME}\\DIR3)\n";
@@ -585,7 +571,8 @@ TEST(CMakeReaderTest, CMakeFileRead_AddExecutableCommandSyntaxTest)
     auto itDirectory = setOfDirectories.begin();
     EXPECT_EQ(*(itDirectory++), currentDirectory + "DIR1\\");
     EXPECT_EQ(*(itDirectory++), currentDirectory + "DIR2\\");
-    EXPECT_EQ(*(itDirectory++), currentDirectory + "DIR3\\"); //appends backslash at the end because of windowspathhelper :)
+    EXPECT_EQ(
+        *(itDirectory++), currentDirectory + "DIR3\\");  // appends backslash at the end because of windowspathhelper :)
 
     SetOfFiles& setOfFiles = fileDirectoryDatabase.getSetOfFilesReference();
     ASSERT_EQ(setOfFiles.size(), 4);

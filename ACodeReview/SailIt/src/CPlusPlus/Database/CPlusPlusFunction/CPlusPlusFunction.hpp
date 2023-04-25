@@ -4,30 +4,30 @@
 #include "CPlusPlusFunctionSignature.hpp"
 
 #include <optional>
-
 #include <string>
 #include <vector>
 
 using std::string;
 using std::vector;
 
-namespace codeReview
-{
+namespace codeReview {
 
 class CPlusPlusClassTemplateSignature;
 
 typedef vector<CPlusPlusFunctionSignature> CPlusPlusFunctionSignatures;
 
-class CPlusPlusFunction
-{
+class CPlusPlusFunction {
 public:
     CPlusPlusFunction();
     void printSignatures() const;
     bool isFunctionSignatureExist(CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature) const;
-    bool isFunctionSignatureExistBasedFromFunctionCall(CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature) const;
-    bool isFunctionSignatureExistAndNamesDoesNotMatch(CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature) const;
+    bool isFunctionSignatureExistBasedFromFunctionCall(
+        CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature) const;
+    bool isFunctionSignatureExistAndNamesDoesNotMatch(
+        CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature) const;
     void addFunctionSignature(CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature);
-    void replaceTemplateParameters(CPlusPlusClassTemplateSignature& templateSignature, CPlusPlusClassTemplateSignature& templateInstantiation);
+    void replaceTemplateParameters(
+        CPlusPlusClassTemplateSignature& templateSignature, CPlusPlusClassTemplateSignature& templateInstantiation);
     CPlusPlusFunctionSignatures& getFunctionSignaturesReference();
     CPlusPlusType getReturnTypeWithSignature(CPlusPlusFunctionSignature const& cPlusPlusFunctionSignature) const;
 
@@ -37,4 +37,4 @@ private:
 
 typedef std::optional<CPlusPlusFunction> CPlusPlusFunctionOptional;
 
-}
+}  // namespace codeReview

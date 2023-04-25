@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateEquationWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateEquationWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"x", -6}}));
@@ -26,8 +23,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateEquationWorks)
     EXPECT_EQ(expectedEquation, equation);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Term constantTerm(Constant(110));
     Term variableTerm(Variable("x"));
@@ -35,12 +31,8 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks)
     Term polynomialTerm(Polynomial{Monomial(516, {{"x", -7}}), Monomial(643, {{"x", 8}})});
     Term expressionTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", -9}})}));
     Term functionTerm(Function(
-                "functionName",
-                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", -10}})})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    }));
+        "functionName", Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", -10}})})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; }));
 
     mutator.mutateTerm(constantTerm);
     mutator.mutateTerm(variableTerm);
@@ -57,8 +49,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks)
     EXPECT_EQ(Term(4516), functionTerm);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateConstantWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateConstantWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Constant constant(110);
 
@@ -67,8 +58,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateConstantWorks)
     EXPECT_EQ(Constant(110), constant);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateVariableWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateVariableWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Variable variable("x");
 
@@ -77,8 +67,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateVariableWorks)
     EXPECT_EQ(Variable("x"), variable);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateMonomialWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateMonomialWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Monomial monomial1(34, {{"x", -5}, {"y", 6}});
     Monomial monomial2(34, {{"x", -5}});
@@ -92,8 +81,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateMonomialWorks)
     EXPECT_EQ(expectedMonomial2, monomial2);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutatePolynomialWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutatePolynomialWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Polynomial polynomial{Monomial(516, {{"x", -7}}), Monomial(75, {{"x", 14}}), Monomial(643, {{"y", 8}})};
 
@@ -103,8 +91,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutatePolynomialWorks)
     EXPECT_EQ(expectedPolynomial, polynomial);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateExpressionWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateExpressionWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Expression expression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", -9}})}));
 
@@ -114,29 +101,19 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateExpressionWorks)
     EXPECT_EQ(expectedExpression, expression);
 }
 
-TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateFunctionWorks)
-{
+TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateFunctionWorks) {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", -10}})})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", -10}})})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     mutator.mutateFunction(functionObject);
 
     Function expectedFunction(
-                "functionName",
-                Term(4516),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(4516), [](AlbaNumber const& number) -> AlbaNumber { return number; });
     EXPECT_EQ(expectedFunction, functionObject);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

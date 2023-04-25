@@ -5,19 +5,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-TEST(SimplificationOfFunctionTest, SimplifyWorksOnAbsoluteValueExpressionWithPositiveFirstCoefficient)
-{
+TEST(SimplificationOfFunctionTest, SimplifyWorksOnAbsoluteValueExpressionWithPositiveFirstCoefficient) {
     SimplificationOfFunction simplification(
-                Functions::abs(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}));
+        Functions::abs(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}));
 
     simplification.simplify();
 
@@ -26,10 +22,9 @@ TEST(SimplificationOfFunctionTest, SimplifyWorksOnAbsoluteValueExpressionWithPos
     EXPECT_EQ(expectedFunction, actualEquation);
 }
 
-TEST(SimplificationOfFunctionTest, SimplifyWorksOnAbsoluteValueExpressionWithNegativeFirstCoefficient)
-{
+TEST(SimplificationOfFunctionTest, SimplifyWorksOnAbsoluteValueExpressionWithNegativeFirstCoefficient) {
     SimplificationOfFunction simplification(
-                Functions::abs(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})}));
+        Functions::abs(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})}));
 
     simplification.simplify();
 
@@ -38,8 +33,8 @@ TEST(SimplificationOfFunctionTest, SimplifyWorksOnAbsoluteValueExpressionWithNeg
     EXPECT_EQ(expectedFunction, actualEquation);
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -6,11 +6,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 unsigned int getOperatorTypeInversePriority(OperatorType const operatorType);
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
@@ -22,6 +20,6 @@ std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(OperatorType const operatorType);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

@@ -7,4 +7,3 @@
 #include <Common/Messages/SpecificStaticMessage.hpp>
 #include <Common/Messages/WrapMessages.hpp>
 #include <FeatureSpecificFiles/WrapMessages.hpp>
-

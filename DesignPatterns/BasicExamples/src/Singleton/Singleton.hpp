@@ -1,38 +1,32 @@
-#include <memory>
 #include <iostream>
+#include <memory>
 
-namespace Singleton
-{
+namespace Singleton {
 
 // Singleton
 // has private static variable to hold one instance of the class
 // and method which gives us a way to instantiate the class
 
-class Singleton
-{
+class Singleton {
 public:
     friend std::unique_ptr<Singleton> std::make_unique<Singleton>();
 
-    static Singleton& getInstance()
-    {
+    static Singleton& getInstance() {
         // "static variable approach" can be done here
-        if(!m_instancePointer)
-        {
+        if (!m_instancePointer) {
             m_instancePointer = std::make_unique<Singleton>();
         }
         return *m_instancePointer;
     }
 
-    static void restartInstance() // "static variable approach" has no restart
+    static void restartInstance()  // "static variable approach" has no restart
     {
-        if(m_instancePointer)
-        {
+        if (m_instancePointer) {
             m_instancePointer.reset();
         }
     }
 
-    void tellSomething()
-    {
+    void tellSomething() {
         std::cout << "This is Singleton.\n";
         // ...
     }
@@ -44,9 +38,10 @@ private:
     // ...
 };
 
-std::unique_ptr<Singleton> Singleton::m_instancePointer; // this still have problem of static variables (whether they are initialized when called)
+std::unique_ptr<Singleton> Singleton::m_instancePointer;  // this still have problem of static variables (whether they
+                                                          // are initialized when called)
 
-}
+}  // namespace Singleton
 
 // Singleton discussion:
 
@@ -60,7 +55,8 @@ std::unique_ptr<Singleton> Singleton::m_instancePointer; // this still have prob
 
 // When to use (applicability):
 // -> there must be exactly one instance of a class, and it must be accessible to clients from a well-known access point
-// -> when the sole instance should be extensible by subclassing, and clients should be able to use an extended instance without modifying their code
+// -> when the sole instance should be extensible by subclassing, and clients should be able to use an extended instance
+// without modifying their code
 
 // Consequences:
 // -> Controlled access to sole instance
@@ -84,6 +80,6 @@ std::unique_ptr<Singleton> Singleton::m_instancePointer; // this still have prob
 // -> Subclassing the Singleton class
 
 // Related Patterns
-// -> [Mediator]: By encapsulating complex update semantics, the ChangeManager acts a mediator between subjects and observers.
+// -> [Mediator]: By encapsulating complex update semantics, the ChangeManager acts a mediator between subjects and
+// observers.
 // -> [Singleton]: The ChangeManager may use the Singleton pattern to make it unique and globally accessible
-

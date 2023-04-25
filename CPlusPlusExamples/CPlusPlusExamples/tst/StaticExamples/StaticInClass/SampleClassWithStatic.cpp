@@ -1,18 +1,11 @@
 #include "SampleClassWithStatic.hpp"
 
-namespace alba
-{
+namespace alba {
 
-int SampleClassWithStatic::staticData = 200; // definition (complete type)
+int SampleClassWithStatic::staticData = 200;  // definition (complete type)
 
-int SampleClassWithStatic::nonStaticFunctionWithClassDeclaration()
-{
-    return nonStaticData;
-}
+int SampleClassWithStatic::nonStaticFunctionWithClassDeclaration() { return nonStaticData; }
 
-int SampleClassWithStatic::staticFunctionWithClassDeclaration()
-{
-    return staticData;
-}
+int SampleClassWithStatic::staticFunctionWithClassDeclaration() { return staticData; }
 
-}
+}  // namespace alba

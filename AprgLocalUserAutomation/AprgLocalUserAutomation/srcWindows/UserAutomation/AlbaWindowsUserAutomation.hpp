@@ -7,14 +7,11 @@
 #include <functional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
 using MousePosition = AlbaXY<int>;
 
-
-class AlbaWindowsUserAutomation
-{
+class AlbaWindowsUserAutomation {
 public:
     typedef std::function<void(INPUT&)> InputFunction;
     bool isLetterPressed(char const letter) const;
@@ -38,7 +35,8 @@ public:
     void sleepWithRealisticDelay() const;
     void sleep(unsigned int const milliseconds) const;
 
-    void saveBitmapOnScreen(std::string const& filePath) const; // Note: the difference on partially capturing the screen is negligible
+    void saveBitmapOnScreen(
+        std::string const& filePath) const;  // Note: the difference on partially capturing the screen is negligible
 
     std::string getStringFromClipboard() const;
     void setStringToClipboard(std::string const& clipBoardText) const;
@@ -49,7 +47,7 @@ private:
     void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;
     void doOperation(InputFunction const& inputFunction) const;
     void doOperationWithRealisticDelay(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const;
-    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=1000;
+    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS = 1000;
 };
 
-}
+}  // namespace alba

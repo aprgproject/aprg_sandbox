@@ -10,28 +10,23 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-namespace
-{
+namespace {
 using MintermForTest = unsigned int;
 using ImplicantForTest = Implicant<MintermForTest>;
 using ImplicantsForTest = Implicants<MintermForTest>;
 using QuineMcCluskeyForTest = QuineMcCluskey<MintermForTest>;
-}
+}  // namespace
 
-TEST(QuineMcCluskeyTest, ImplicantEquivalentStringTest)
-{
+TEST(QuineMcCluskeyTest, ImplicantEquivalentStringTest) {
     ImplicantForTest implicant({8, 10, 12, 14});
     EXPECT_EQ("00001--0", implicant.getEquivalentString(8));
 }
 
-TEST(QuineMcCluskeyTest, ImplicantCompatibilityTest)
-{
+TEST(QuineMcCluskeyTest, ImplicantCompatibilityTest) {
     ImplicantForTest implicant1({4, 12});
     ImplicantForTest implicant2({8, 9});
     ImplicantForTest implicant3({10, 11});
@@ -44,8 +39,7 @@ TEST(QuineMcCluskeyTest, ImplicantCompatibilityTest)
     EXPECT_TRUE(implicant3.isCompatible(implicant2));
 }
 
-TEST(QuineMcCluskeyTest, ImplicantSubsetTest)
-{
+TEST(QuineMcCluskeyTest, ImplicantSubsetTest) {
     ImplicantForTest implicant1({4, 12});
     ImplicantForTest implicant2({8, 9});
     ImplicantForTest implicant3({8, 9, 10, 11});
@@ -58,8 +52,7 @@ TEST(QuineMcCluskeyTest, ImplicantSubsetTest)
     EXPECT_FALSE(implicant3.isSubset(implicant2));
 }
 
-TEST(QuineMcCluskeyTest, UnintializedOutputTest)
-{
+TEST(QuineMcCluskeyTest, UnintializedOutputTest) {
     QuineMcCluskeyForTest quineMcCluskey;
 
     EXPECT_EQ(LogicalValue::False, quineMcCluskey.getOutput(0xA));
@@ -68,8 +61,7 @@ TEST(QuineMcCluskeyTest, UnintializedOutputTest)
     EXPECT_EQ(LogicalValue::False, quineMcCluskey.getOutput(0xA));
 }
 
-TEST(QuineMcCluskeyTest, InputOutputTest)
-{
+TEST(QuineMcCluskeyTest, InputOutputTest) {
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(0x4, LogicalValue::False);
     quineMcCluskey.setInputOutput(0x5, LogicalValue::True);
@@ -80,8 +72,7 @@ TEST(QuineMcCluskeyTest, InputOutputTest)
     EXPECT_EQ(LogicalValue::DontCare, quineMcCluskey.getOutput(0x6));
 }
 
-TEST(QuineMcCluskeyTest, GetImplicantsWithZeroCommonalityCount)
-{
+TEST(QuineMcCluskeyTest, GetImplicantsWithZeroCommonalityCount) {
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(4, LogicalValue::True);
     quineMcCluskey.setInputOutput(8, LogicalValue::True);
@@ -94,11 +85,11 @@ TEST(QuineMcCluskeyTest, GetImplicantsWithZeroCommonalityCount)
 
     quineMcCluskey.fillComputationalTableWithMintermsWithZeroCommonalityCount();
 
-    ImplicantsForTest mintermsWithZero(quineMcCluskey.getImplicants(0,0));
-    ImplicantsForTest mintermsWithOne(quineMcCluskey.getImplicants(1,0));
-    ImplicantsForTest mintermsWithTwo(quineMcCluskey.getImplicants(2,0));
-    ImplicantsForTest mintermsWithThree(quineMcCluskey.getImplicants(3,0));
-    ImplicantsForTest mintermsWithFour(quineMcCluskey.getImplicants(4,0));
+    ImplicantsForTest mintermsWithZero(quineMcCluskey.getImplicants(0, 0));
+    ImplicantsForTest mintermsWithOne(quineMcCluskey.getImplicants(1, 0));
+    ImplicantsForTest mintermsWithTwo(quineMcCluskey.getImplicants(2, 0));
+    ImplicantsForTest mintermsWithThree(quineMcCluskey.getImplicants(3, 0));
+    ImplicantsForTest mintermsWithFour(quineMcCluskey.getImplicants(4, 0));
     EXPECT_EQ("Implicants : [{size: 0 | }]", convertToString(mintermsWithZero));
     EXPECT_EQ("Implicants : [{size: 2 | '100 (4)', '1000 (8)', }]", convertToString(mintermsWithOne));
     EXPECT_EQ("Implicants : [{size: 3 | '1001 (9)', '1010 (10)', '1100 (12)', }]", convertToString(mintermsWithTwo));
@@ -106,8 +97,7 @@ TEST(QuineMcCluskeyTest, GetImplicantsWithZeroCommonalityCount)
     EXPECT_EQ("Implicants : [{size: 1 | '1111 (15)', }]", convertToString(mintermsWithFour));
 }
 
-TEST(QuineMcCluskeyTest, GetImplicantsWithOneCommonalityCount)
-{
+TEST(QuineMcCluskeyTest, GetImplicantsWithOneCommonalityCount) {
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(4, LogicalValue::True);
     quineMcCluskey.setInputOutput(8, LogicalValue::True);
@@ -119,26 +109,29 @@ TEST(QuineMcCluskeyTest, GetImplicantsWithOneCommonalityCount)
     quineMcCluskey.setInputOutput(15, LogicalValue::True);
 
     quineMcCluskey.fillComputationalTableWithMintermsWithZeroCommonalityCount();
-    quineMcCluskey.findCombinationOfImplicants(0,0);
-    quineMcCluskey.findCombinationOfImplicants(1,0);
-    quineMcCluskey.findCombinationOfImplicants(2,0);
-    quineMcCluskey.findCombinationOfImplicants(3,0);
-    quineMcCluskey.findCombinationOfImplicants(4,0);
+    quineMcCluskey.findCombinationOfImplicants(0, 0);
+    quineMcCluskey.findCombinationOfImplicants(1, 0);
+    quineMcCluskey.findCombinationOfImplicants(2, 0);
+    quineMcCluskey.findCombinationOfImplicants(3, 0);
+    quineMcCluskey.findCombinationOfImplicants(4, 0);
 
-    ImplicantsForTest mintermsWithZero(quineMcCluskey.getImplicants(0,1));
-    ImplicantsForTest mintermsWithOne(quineMcCluskey.getImplicants(1,1));
-    ImplicantsForTest mintermsWithTwo(quineMcCluskey.getImplicants(2,1));
-    ImplicantsForTest mintermsWithThree(quineMcCluskey.getImplicants(3,1));
-    ImplicantsForTest mintermsWithFour(quineMcCluskey.getImplicants(4,1));
+    ImplicantsForTest mintermsWithZero(quineMcCluskey.getImplicants(0, 1));
+    ImplicantsForTest mintermsWithOne(quineMcCluskey.getImplicants(1, 1));
+    ImplicantsForTest mintermsWithTwo(quineMcCluskey.getImplicants(2, 1));
+    ImplicantsForTest mintermsWithThree(quineMcCluskey.getImplicants(3, 1));
+    ImplicantsForTest mintermsWithFour(quineMcCluskey.getImplicants(4, 1));
     EXPECT_EQ("Implicants : [{size: 0 | }]", convertToString(mintermsWithZero));
-    EXPECT_EQ("Implicants : [{size: 4 | '-100 (4, 12, )', '100- (8, 9, )', '10-0 (8, 10, )', '1-00 (8, 12, )', }]", convertToString(mintermsWithOne));
-    EXPECT_EQ("Implicants : [{size: 4 | '10-1 (9, 11, )', '101- (10, 11, )', '1-10 (10, 14, )', '11-0 (12, 14, )', }]", convertToString(mintermsWithTwo));
+    EXPECT_EQ(
+        "Implicants : [{size: 4 | '-100 (4, 12, )', '100- (8, 9, )', '10-0 (8, 10, )', '1-00 (8, 12, )', }]",
+        convertToString(mintermsWithOne));
+    EXPECT_EQ(
+        "Implicants : [{size: 4 | '10-1 (9, 11, )', '101- (10, 11, )', '1-10 (10, 14, )', '11-0 (12, 14, )', }]",
+        convertToString(mintermsWithTwo));
     EXPECT_EQ("Implicants : [{size: 2 | '1-11 (11, 15, )', '111- (14, 15, )', }]", convertToString(mintermsWithThree));
     EXPECT_EQ("Implicants : [{size: 0 | }]", convertToString(mintermsWithFour));
 }
 
-TEST(QuineMcCluskeyTest, GetImplicantsWithTwoCommonalityCounts)
-{
+TEST(QuineMcCluskeyTest, GetImplicantsWithTwoCommonalityCounts) {
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(4, LogicalValue::True);
     quineMcCluskey.setInputOutput(8, LogicalValue::True);
@@ -152,20 +145,21 @@ TEST(QuineMcCluskeyTest, GetImplicantsWithTwoCommonalityCounts)
     quineMcCluskey.fillComputationalTableWithMintermsWithZeroCommonalityCount();
     quineMcCluskey.findAllCombinations();
 
-    ImplicantsForTest mintermsWithZero(quineMcCluskey.getImplicants(0,2));
-    ImplicantsForTest mintermsWithOne(quineMcCluskey.getImplicants(1,2));
-    ImplicantsForTest mintermsWithTwo(quineMcCluskey.getImplicants(2,2));
-    ImplicantsForTest mintermsWithThree(quineMcCluskey.getImplicants(3,2));
-    ImplicantsForTest mintermsWithFour(quineMcCluskey.getImplicants(4,2));
+    ImplicantsForTest mintermsWithZero(quineMcCluskey.getImplicants(0, 2));
+    ImplicantsForTest mintermsWithOne(quineMcCluskey.getImplicants(1, 2));
+    ImplicantsForTest mintermsWithTwo(quineMcCluskey.getImplicants(2, 2));
+    ImplicantsForTest mintermsWithThree(quineMcCluskey.getImplicants(3, 2));
+    ImplicantsForTest mintermsWithFour(quineMcCluskey.getImplicants(4, 2));
     EXPECT_EQ("Implicants : [{size: 0 | }]", convertToString(mintermsWithZero));
-    EXPECT_EQ("Implicants : [{size: 2 | '10-- (8, 9, 10, 11, )', '1--0 (8, 10, 12, 14, )', }]", convertToString(mintermsWithOne));
+    EXPECT_EQ(
+        "Implicants : [{size: 2 | '10-- (8, 9, 10, 11, )', '1--0 (8, 10, 12, 14, )', }]",
+        convertToString(mintermsWithOne));
     EXPECT_EQ("Implicants : [{size: 1 | '1-1- (10, 11, 14, 15, )', }]", convertToString(mintermsWithTwo));
     EXPECT_EQ("Implicants : [{size: 0 | }]", convertToString(mintermsWithThree));
     EXPECT_EQ("Implicants : [{size: 0 | }]", convertToString(mintermsWithFour));
 }
 
-TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestFinalImplicantsWorks)
-{
+TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestFinalImplicantsWorks) {
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(4, LogicalValue::True);
     quineMcCluskey.setInputOutput(8, LogicalValue::True);
@@ -180,17 +174,20 @@ TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestFinalImplicantsWorks)
     quineMcCluskey.findAllCombinations();
 
     ImplicantsForTest finalImplicants(quineMcCluskey.getAllFinalImplicants());
-    EXPECT_EQ("Implicants : [{size: 4 | '-100 (4, 12, )', '10-- (8, 9, 10, 11, )', '1--0 (8, 10, 12, 14, )', '1-1- (10, 11, 14, 15, )', }]",
-              convertToString(finalImplicants));
-    cout<<quineMcCluskey.getOutputTable(finalImplicants);
+    EXPECT_EQ(
+        "Implicants : [{size: 4 | '-100 (4, 12, )', '10-- (8, 9, 10, 11, )', '1--0 (8, 10, 12, 14, )', '1-1- (10, 11, "
+        "14, 15, )', }]",
+        convertToString(finalImplicants));
+    cout << quineMcCluskey.getOutputTable(finalImplicants);
 
     ImplicantsForTest bestFinalImplicants(quineMcCluskey.getBestFinalImplicants(finalImplicants));
-    EXPECT_EQ("Implicants : [{size: 3 | '-100 (4, 12, )', '10-- (8, 9, 10, 11, )', '1-1- (10, 11, 14, 15, )', }]",
-              convertToString(bestFinalImplicants));
-    cout<<quineMcCluskey.getOutputTable(bestFinalImplicants);
+    EXPECT_EQ(
+        "Implicants : [{size: 3 | '-100 (4, 12, )', '10-- (8, 9, 10, 11, )', '1-1- (10, 11, 14, 15, )', }]",
+        convertToString(bestFinalImplicants));
+    cout << quineMcCluskey.getOutputTable(bestFinalImplicants);
 }
 
-TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //
+TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest)  //
 {
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(2, LogicalValue::True);
@@ -210,51 +207,46 @@ TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //
     quineMcCluskey.findAllCombinations();
 
     ImplicantsForTest finalImplicants(quineMcCluskey.getAllFinalImplicants());
-    EXPECT_EQ("Implicants : [{size: 7 | '-01- (2, 3, 10, 11, )', '--10 (2, 6, 10, 14, )', '10- (4, 5, )', '-1-0 (4, 6, 12, 14, )', "
-              "'10-- (8, 9, 10, 11, )', '1--0 (8, 10, 12, 14, )', '1-1- (10, 11, 14, 15, )', }]",
-              convertToString(finalImplicants));
-    cout<<quineMcCluskey.getOutputTable(finalImplicants);
+    EXPECT_EQ(
+        "Implicants : [{size: 7 | '-01- (2, 3, 10, 11, )', '--10 (2, 6, 10, 14, )', '10- (4, 5, )', '-1-0 (4, 6, 12, "
+        "14, )', "
+        "'10-- (8, 9, 10, 11, )', '1--0 (8, 10, 12, 14, )', '1-1- (10, 11, 14, 15, )', }]",
+        convertToString(finalImplicants));
+    cout << quineMcCluskey.getOutputTable(finalImplicants);
 
     ImplicantsForTest bestFinalImplicants(quineMcCluskey.getBestFinalImplicants(finalImplicants));
-    EXPECT_EQ("Implicants : [{size: 3 | '-01- (2, 3, 10, 11, )', '-1-0 (4, 6, 12, 14, )', '10-- (8, 9, 10, 11, )', }]",
-              convertToString(bestFinalImplicants));
-    cout<<quineMcCluskey.getOutputTable(bestFinalImplicants);
+    EXPECT_EQ(
+        "Implicants : [{size: 3 | '-01- (2, 3, 10, 11, )', '-1-0 (4, 6, 12, 14, )', '10-- (8, 9, 10, 11, )', }]",
+        convertToString(bestFinalImplicants));
+    cout << quineMcCluskey.getOutputTable(bestFinalImplicants);
 }
 
-namespace
-{
+namespace {
 
-void setInputOutput(QuineMcCluskeyForTest & quineMcCluskey, MintermForTest const input, string const& output)
-{
-    if(output == "1")
-    {
+void setInputOutput(QuineMcCluskeyForTest& quineMcCluskey, MintermForTest const input, string const& output) {
+    if (output == "1") {
         quineMcCluskey.setInputOutput(input, LogicalValue::True);
-    }
-    else if(output == "0")
-    {
+    } else if (output == "0") {
         quineMcCluskey.setInputOutput(input, LogicalValue::False);
-    }
-    else if(output == "X")
-    {
+    } else if (output == "X") {
         quineMcCluskey.setInputOutput(input, LogicalValue::DontCare);
     }
 }
 
-}
+}  // namespace
 
-TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForByte) //
+TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForByte)  //
 {
     QuineMcCluskeyForTest quineMcCluskey;
-    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\HasZeroInDigitForByte.txt)");
+    AlbaLocalPathHandler pathOfNewAlgorithm(
+        APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\HasZeroInDigitForByte.txt)");
     ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
-    while(algorithmResultsReader.isNotFinished())
-    {
+    while (algorithmResultsReader.isNotFinished()) {
         string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
         strings entries;
         splitToStrings<SplitStringType::WithoutDelimeters>(entries, lineInFile, " ");
-        if(entries.size()>=2)
-        {
+        if (entries.size() >= 2) {
             MintermForTest input = convertStringToNumber<MintermForTest>(entries.at(0));
             setInputOutput(quineMcCluskey, input, getStringWithCapitalLetters(entries.at(1)));
         }
@@ -265,40 +257,50 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForBy
     quineMcCluskey.findAllCombinations();
 
     ImplicantsForTest finalImplicants(quineMcCluskey.getAllFinalImplicants());
-    EXPECT_EQ("Implicants : [{size: 30 | ' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 (60)', '1-00110 (70, 102, )',"
-              " '-1010000 (80, 208, )', '1011010 (90)', '11001-- (100, 101, 102, 103, )', '110-10- (100, 101, 108, 109, )', '110-1-0 (100, 102, 108, 110, )',"
-              " '-1100110 (102, 230, )', '11010-- (104, 105, 106, 107, )', '1101-0- (104, 105, 108, 109, )', '1101--0 (104, 106, 108, 110, )', '11-1000 (104, 120, )',"
-              " '10000010 (130)', '1-001100 (140, 204, )', '10010110 (150)', '10100000 (160)', '10101010 (170)', '10110100 (180)', '10111110 (190)',"
-              " '11001--- (200, 201, 202, 203, 204, 205, 206, 207, )', '110-1100 (204, 220, )', '1101000- (208, 209, )', '110100-0 (208, 210, )',"
-              " '11-10000 (208, 240, )', '11111010 (250)', }]",
-              convertToString(finalImplicants));
+    EXPECT_EQ(
+        "Implicants : [{size: 30 | ' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 "
+        "(60)', '1-00110 (70, 102, )',"
+        " '-1010000 (80, 208, )', '1011010 (90)', '11001-- (100, 101, 102, 103, )', '110-10- (100, 101, 108, 109, )', "
+        "'110-1-0 (100, 102, 108, 110, )',"
+        " '-1100110 (102, 230, )', '11010-- (104, 105, 106, 107, )', '1101-0- (104, 105, 108, 109, )', '1101--0 (104, "
+        "106, 108, 110, )', '11-1000 (104, 120, )',"
+        " '10000010 (130)', '1-001100 (140, 204, )', '10010110 (150)', '10100000 (160)', '10101010 (170)', '10110100 "
+        "(180)', '10111110 (190)',"
+        " '11001--- (200, 201, 202, 203, 204, 205, 206, 207, )', '110-1100 (204, 220, )', '1101000- (208, 209, )', "
+        "'110100-0 (208, 210, )',"
+        " '11-10000 (208, 240, )', '11111010 (250)', }]",
+        convertToString(finalImplicants));
     cout << quineMcCluskey.getOutputTable(finalImplicants);
 
     ImplicantsForTest bestFinalImplicants(quineMcCluskey.getBestFinalImplicants(finalImplicants));
-    EXPECT_EQ("Implicants : [{size: 28 | ' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 (60)', '1-00110 (70, 102, )', "
-              "'-1010000 (80, 208, )', '1011010 (90)', '11001-- (100, 101, 102, 103, )', '110-10- (100, 101, 108, 109, )', '110-1-0 (100, 102, 108, 110, )', "
-              "'-1100110 (102, 230, )', '11010-- (104, 105, 106, 107, )', '11-1000 (104, 120, )', '10000010 (130)', '1-001100 (140, 204, )', '10010110 (150)', "
-              "'10100000 (160)', '10101010 (170)', '10110100 (180)', '10111110 (190)', '11001--- (200, 201, 202, 203, 204, 205, 206, 207, )', "
-              "'110-1100 (204, 220, )', '1101000- (208, 209, )', '110100-0 (208, 210, )', '11-10000 (208, 240, )', '11111010 (250)', }]",
-              convertToString(bestFinalImplicants));
-    cout<<quineMcCluskey.getOutputTable(bestFinalImplicants);
+    EXPECT_EQ(
+        "Implicants : [{size: 28 | ' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 "
+        "(60)', '1-00110 (70, 102, )', "
+        "'-1010000 (80, 208, )', '1011010 (90)', '11001-- (100, 101, 102, 103, )', '110-10- (100, 101, 108, 109, )', "
+        "'110-1-0 (100, 102, 108, 110, )', "
+        "'-1100110 (102, 230, )', '11010-- (104, 105, 106, 107, )', '11-1000 (104, 120, )', '10000010 (130)', "
+        "'1-001100 (140, 204, )', '10010110 (150)', "
+        "'10100000 (160)', '10101010 (170)', '10110100 (180)', '10111110 (190)', '11001--- (200, 201, 202, 203, 204, "
+        "205, 206, 207, )', "
+        "'110-1100 (204, 220, )', '1101000- (208, 209, )', '110100-0 (208, 210, )', '11-10000 (208, 240, )', '11111010 "
+        "(250)', }]",
+        convertToString(bestFinalImplicants));
+    cout << quineMcCluskey.getOutputTable(bestFinalImplicants);
 }
 
-TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte)
-{
+TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte) {
     QuineMcCluskeyForTest qm0;
     QuineMcCluskeyForTest qm1;
     QuineMcCluskeyForTest qm2;
-    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\LogarithmBase2ForByte.txt)");
+    AlbaLocalPathHandler pathOfNewAlgorithm(
+        APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\LogarithmBase2ForByte.txt)");
     ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
-    while(algorithmResultsReader.isNotFinished())
-    {
+    while (algorithmResultsReader.isNotFinished()) {
         string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
         strings entries;
         splitToStrings<SplitStringType::WithoutDelimeters>(entries, lineInFile, " ");
-        if(entries.size()>=4)
-        {
+        if (entries.size() >= 4) {
             MintermForTest input = convertStringToNumber<MintermForTest>(entries.at(0));
             setInputOutput(qm0, input, getStringWithCapitalLetters(entries.at(1)));
             setInputOutput(qm1, input, getStringWithCapitalLetters(entries.at(2)));
@@ -324,22 +326,20 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte)
     cout << qm2.getOutputTable(finalImplicants2);
 }
 
-TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_ZeroesStartingFromMsb)
-{
+TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_ZeroesStartingFromMsb) {
     QuineMcCluskeyForTest qm0;
     QuineMcCluskeyForTest qm1;
     QuineMcCluskeyForTest qm2;
     QuineMcCluskeyForTest qm3;
-    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\ZeroesStartingFromMsb.txt)");
+    AlbaLocalPathHandler pathOfNewAlgorithm(
+        APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\ZeroesStartingFromMsb.txt)");
     ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
-    while(algorithmResultsReader.isNotFinished())
-    {
+    while (algorithmResultsReader.isNotFinished()) {
         string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
         strings entries;
         splitToStrings<SplitStringType::WithoutDelimeters>(entries, lineInFile, " ");
-        if(entries.size()>=5)
-        {
+        if (entries.size() >= 5) {
             MintermForTest input = convertStringToNumber<MintermForTest>(entries.at(0));
             setInputOutput(qm0, input, getStringWithCapitalLetters(entries.at(1)));
             setInputOutput(qm1, input, getStringWithCapitalLetters(entries.at(2)));
@@ -371,6 +371,6 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_ZeroesStartingFromMsb)
     cout << qm3.getOutputTable(finalImplicants3);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

@@ -5,21 +5,15 @@
 #include <map>
 #include <set>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-class PenCircles
-{
+class PenCircles {
 public:
-    struct PenCircleDetails
-    {
+    struct PenCircleDetails {
         PenCircleDetails();
-        PenCircleDetails(
-                double const radiusParameter,
-                uint32_t const colorParameter);
+        PenCircleDetails(double const radiusParameter, uint32_t const colorParameter);
         double radius;
         uint32_t color;
     };
@@ -35,20 +29,13 @@ public:
     PointToPenCircleDetailsMap const& getPenCircles() const;
     CircleCenterConnections const& getCenterConnections() const;
     PointAndPenCircleDetailsPairs getNearestPenCirclesToAPoint(
-            BitmapXY const& point,
-            unsigned int const distance) const;
+        BitmapXY const& point, unsigned int const distance) const;
 
-    PointToPenCircleDetailsMap & getPenCirclesReference();
+    PointToPenCircleDetailsMap& getPenCirclesReference();
 
-    void addAsPenCircle(
-            BitmapXY const& point,
-            double const radius,
-            uint32_t const color);
-    void removePenCircleAt(
-            BitmapXY const& circleCenter);
-    void connectCircles(
-            BitmapXY const& circle1Center,
-            BitmapXY const& circle2Center);
+    void addAsPenCircle(BitmapXY const& point, double const radius, uint32_t const color);
+    void removePenCircleAt(BitmapXY const& circleCenter);
+    void connectCircles(BitmapXY const& circle1Center, BitmapXY const& circle2Center);
     void clear();
 
 private:
@@ -56,6 +43,6 @@ private:
     CircleCenterConnections m_centerConnections;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

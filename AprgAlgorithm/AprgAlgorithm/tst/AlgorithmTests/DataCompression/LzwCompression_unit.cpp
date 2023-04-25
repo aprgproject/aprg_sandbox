@@ -7,19 +7,15 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using CompressionForTest = LzwCompression<unsigned int>;
 }
 
-TEST(LzwCompressionTest, CompressWorksUsingExample1)
-{
+TEST(LzwCompressionTest, CompressWorksUsingExample1) {
     stringstream inputSs;
     inputSs << "ABRACADABRA!";
     stringstream outputSs;
@@ -30,8 +26,7 @@ TEST(LzwCompressionTest, CompressWorksUsingExample1)
     EXPECT_EQ("0410420520410430410441011030211000", getHexEquivalentOfCharacters(outputSs.str()));
 }
 
-TEST(LzwCompressionTest, ExpandWorksUsingExample1)
-{
+TEST(LzwCompressionTest, ExpandWorksUsingExample1) {
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
@@ -44,8 +39,7 @@ TEST(LzwCompressionTest, ExpandWorksUsingExample1)
     EXPECT_EQ("ABRACADABRA!", outputSs.str());
 }
 
-TEST(LzwCompressionTest, CompressWorksUsingExample2)
-{
+TEST(LzwCompressionTest, CompressWorksUsingExample2) {
     stringstream inputSs;
     inputSs << "it was the best of times it was the worst of times";
     stringstream outputSs;
@@ -53,15 +47,19 @@ TEST(LzwCompressionTest, CompressWorksUsingExample2)
 
     compression.compress(inputSs, outputSs);
 
-    EXPECT_EQ("06907402007706107302007406806502006206507310206F06610706906D10D02010110310510710910306F07210E0201101121140731000", getHexEquivalentOfCharacters(outputSs.str()));
+    EXPECT_EQ(
+        "06907402007706107302007406806502006206507310206F06610706906D10D02010110310510710910306F07210E02011011211407310"
+        "00",
+        getHexEquivalentOfCharacters(outputSs.str()));
 }
 
-TEST(LzwCompressionTest, ExpandWorksUsingExample2)
-{
+TEST(LzwCompressionTest, ExpandWorksUsingExample2) {
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
-    initialWriter.writeHexDigitData("06907402007706107302007406806502006206507310206F06610706906D10D02010110310510710910306F07210E0201101121140731000");
+    initialWriter.writeHexDigitData(
+        "06907402007706107302007406806502006206507310206F06610706906D10D02010110310510710910306F07210E02011011211407310"
+        "00");
     initialWriter.flush();
     CompressionForTest compression;
 
@@ -70,6 +68,6 @@ TEST(LzwCompressionTest, ExpandWorksUsingExample2)
     EXPECT_EQ("it was the best of times it was the worst of times", outputSs.str());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

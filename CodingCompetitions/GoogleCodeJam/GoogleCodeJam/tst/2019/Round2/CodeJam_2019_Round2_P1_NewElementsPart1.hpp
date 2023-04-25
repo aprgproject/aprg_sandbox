@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2019_Round2_P1_NewElementsPart1
-{
+namespace CodeJam_2019_Round2_P1_NewElementsPart1 {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

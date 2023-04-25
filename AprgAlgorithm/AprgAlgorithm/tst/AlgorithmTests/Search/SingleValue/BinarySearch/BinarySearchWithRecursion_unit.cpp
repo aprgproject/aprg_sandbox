@@ -6,73 +6,62 @@
 using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = BinarySearchWithRecursion<ValuesForTest>;
-}
+}  // namespace
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithRecursionTest,
+    GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithRecursionTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(BinarySearchWithRecursionTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

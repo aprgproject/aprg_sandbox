@@ -2,8 +2,7 @@
 
 #include <map>
 
-namespace codeReview
-{
+namespace codeReview {
 
 using namespace std;
 
@@ -12,18 +11,10 @@ typedef int LooperIndex;
 typedef unsigned int UniqueId;
 typedef map<UniqueId, Looper*> ActiveLoopersMap;
 
-struct ModifyDetails
-{
-    ModifyDetails()
-        : m_startIndex(0)
-        , m_lengthAdded(0)
-    {}
-    ModifyDetails(int startIndex, int lengthAdded)
-        : m_startIndex(startIndex)
-        , m_lengthAdded(lengthAdded)
-    {}
-    void setModifyDetails(int startIndex, int lengthAdded)
-    {
+struct ModifyDetails {
+    ModifyDetails() : m_startIndex(0), m_lengthAdded(0) {}
+    ModifyDetails(int startIndex, int lengthAdded) : m_startIndex(startIndex), m_lengthAdded(lengthAdded) {}
+    void setModifyDetails(int startIndex, int lengthAdded) {
         m_startIndex = startIndex;
         m_lengthAdded = lengthAdded;
     }
@@ -31,15 +22,14 @@ struct ModifyDetails
     int m_lengthAdded;
 };
 
-class Looper
-{
+class Looper {
 public:
     Looper(DequeOfTerms& terms, UniqueId const uniqueFileId);
     Looper(Looper const& copyLooper);
     Looper(Looper const& startLooper, Looper const& endLooper);
     ~Looper();
 
-    friend ostream& operator<<(ostream & out, Looper const& looper);
+    friend ostream& operator<<(ostream& out, Looper const& looper);
 
     Looper operator+(int const offset) const;
     Looper operator-(int const offset) const;
@@ -78,5 +68,4 @@ private:
     static ActiveLoopersMap s_activeLoopers;
 };
 
-
-}// namespace codeReview
+}  // namespace codeReview

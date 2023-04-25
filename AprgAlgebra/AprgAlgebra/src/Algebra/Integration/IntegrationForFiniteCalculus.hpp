@@ -2,14 +2,11 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class IntegrationForFiniteCalculus
-{
+class IntegrationForFiniteCalculus {
 public:
     IntegrationForFiniteCalculus(std::string const& nameOfVariableToIntegrate);
 
@@ -22,10 +19,7 @@ public:
     Term integrate(Function const& functionObject) const;
 
     Term integrateWithPlusC(Term const& term) const;
-    Term integrateAtDefiniteValues(
-            Term const& term,
-            AlbaNumber const& lowerEnd,
-            AlbaNumber const& higherEnd) const;
+    Term integrateAtDefiniteValues(Term const& term, AlbaNumber const& lowerEnd, AlbaNumber const& higherEnd) const;
 
     Term integrateTerm(Term const& term) const;
     Monomial integrateConstant(Constant const& constant) const;
@@ -36,58 +30,37 @@ public:
     Term integrateFunction(Function const& functionObject) const;
 
 private:
-    //For Monomial and Polynomial
-    Monomial integrateMonomialInFallingPower(
-            Monomial const& monomial) const;
-    Polynomial integratePolynomialInFallingPower(
-            Polynomial const& polynomial) const;
-    Polynomial convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(
-            Monomial const& monomial) const;
-    Polynomial convertMonomialWithPositiveExponentsFromFallingPowerToRegularPower(
-            Monomial const& monomial) const;
-    Polynomial convertPolynomialWithPositiveExponentsFromRegularPowerToFallingPower(
-            Polynomial const& polynomial) const;
-    Polynomial convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(
-            Polynomial const& polynomial) const;
+    // For Monomial and Polynomial
+    Monomial integrateMonomialInFallingPower(Monomial const& monomial) const;
+    Polynomial integratePolynomialInFallingPower(Polynomial const& polynomial) const;
+    Polynomial convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(Monomial const& monomial) const;
+    Polynomial convertMonomialWithPositiveExponentsFromFallingPowerToRegularPower(Monomial const& monomial) const;
+    Polynomial convertPolynomialWithPositiveExponentsFromRegularPowerToFallingPower(Polynomial const& polynomial) const;
+    Polynomial convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(Polynomial const& polynomial) const;
 
-    //For Expression
-    Term integrateAsTermOrExpressionIfNeeded(
-            Expression const& expression) const;
-    Term integrateSimplifiedExpressionOnly(
-            Expression const& expression) const;
-    Term integrateTermsInAdditionOrSubtraction(
-            Expression const& expression) const;
-    Term integrateTermsInMultiplicationOrDivision(
-            Expression const& expression) const;
-    Term integrateTermsInRaiseToPower(
-            Expression const& expression) const;
-    Term integrateNonChangingTermRaiseToChangingTerm(
-            Term const& base,
-            Term const& exponent) const;
-    Term integrateChangingTermRaiseToNonChangingTerm(
-            Term const& base,
-            Term const& exponent) const;
-    Term integrateChangingTermRaiseToChangingTerm(
-            Term const& firstTerm,
-            Term const& secondTerm) const;
+    // For Expression
+    Term integrateAsTermOrExpressionIfNeeded(Expression const& expression) const;
+    Term integrateSimplifiedExpressionOnly(Expression const& expression) const;
+    Term integrateTermsInAdditionOrSubtraction(Expression const& expression) const;
+    Term integrateTermsInMultiplicationOrDivision(Expression const& expression) const;
+    Term integrateTermsInRaiseToPower(Expression const& expression) const;
+    Term integrateNonChangingTermRaiseToChangingTerm(Term const& base, Term const& exponent) const;
+    Term integrateChangingTermRaiseToNonChangingTerm(Term const& base, Term const& exponent) const;
+    Term integrateChangingTermRaiseToChangingTerm(Term const& firstTerm, Term const& secondTerm) const;
 
-    //For changing and non changing
+    // For changing and non changing
     void integrateNonChangingAndChangingTermsInMultiplicationOrDivision(
-            Term& result,
-            TermsWithDetails const& termsWithDetails) const;
-    void integrateChangingTermsInMultiplicationOrDivision(
-            Term& result,
-            TermsWithDetails const& ) const;
+        Term& result, TermsWithDetails const& termsWithDetails) const;
+    void integrateChangingTermsInMultiplicationOrDivision(Term& result, TermsWithDetails const&) const;
     void segregateNonChangingAndChangingTerms(
-            TermsWithDetails const& termsToSegregate,
-            TermsWithDetails & nonChangingTerms,
-            TermsWithDetails & changingTerms) const;
+        TermsWithDetails const& termsToSegregate, TermsWithDetails& nonChangingTerms,
+        TermsWithDetails& changingTerms) const;
 
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

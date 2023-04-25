@@ -2,11 +2,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaSackReaderParameter
-{
+class AlbaSackReaderParameter {
 public:
     AlbaSackReaderParameter(std::string const& typeName, std::string const& parameterName);
     std::string getTypeName() const;
@@ -15,7 +13,6 @@ public:
 private:
     std::string m_typeName;
     std::string m_parameterName;
-
 };
 
-}
+}  // namespace alba

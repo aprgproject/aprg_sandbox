@@ -2,11 +2,9 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class GreedyAlgorithmForFewestCoins
-{
+class GreedyAlgorithmForFewestCoins {
 public:
     using Coin = unsigned int;
     using Coins = std::vector<Coin>;
@@ -21,11 +19,11 @@ private:
     Coins m_sortedAvailableCoins;
 };
 
-}
+}  // namespace alba
 
-// Given a value V, if we want to make a change for V Rs, and we have an infinite supply of each of the denominations in Indian currency, i.e.,
-// we have an infinite supply of { 1, 2, 5, 10, 20, 50, 100, 500, 1000} valued coins/notes,
-// what is the minimum number of coins and/or notes needed to make the change?
+// Given a value V, if we want to make a change for V Rs, and we have an infinite supply of each of the denominations in
+// Indian currency, i.e., we have an infinite supply of { 1, 2, 5, 10, 20, 50, 100, 500, 1000} valued coins/notes, what
+// is the minimum number of coins and/or notes needed to make the change?
 
 // Examples:
 // -> Input: V = 70
@@ -39,7 +37,8 @@ private:
 
 // Approach: A common intuition would be to take coins with greater value first.
 // -> This can reduce the total number of coins needed.
-// -> Start from the largest possible denomination and keep adding denominations while the remaining value is greater than 0.
+// -> Start from the largest possible denomination and keep adding denominations while the remaining value is greater
+// than 0.
 
 // Algorithm:
 // -> Sort the array of coins in decreasing order.
@@ -56,4 +55,3 @@ private:
 // For example, it doesn’t work for denominations {9, 6, 5, 1} and V = 11.
 // The above approach would print 9, 1 and 1.
 // But we can use 2 denominations 5 and 6.
-

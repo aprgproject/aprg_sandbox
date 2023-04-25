@@ -11,67 +11,57 @@ using namespace alba::stringHelper;
 using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-void OneDownloadPerPageCrawler::retrieveLinksForMangaHere(AlbaWebPathHandler const& webLinkPathHandler)
-{
+void OneDownloadPerPageCrawler::retrieveLinksForMangaHere(AlbaWebPathHandler const& webLinkPathHandler) {
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
-    {
+    if (!htmlFileStream.is_open()) {
         cout << "Cannot open html file.\n";
         cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
-    }
-    else
-    {
+    } else {
         bool insideImportantSection(false);
         string nextPageLink;
         string nextChapterLink;
         AlbaFileReader htmlFileReader(htmlFileStream);
-        while (htmlFileReader.isNotFinished())
-        {
+        while (htmlFileReader.isNotFinished()) {
             string lineInHtmlFile(htmlFileReader.getLine());
-            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(section class="read_img")"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(section class="read_img")")) {
                 insideImportantSection = true;
-            }
-            else if(insideImportantSection && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(onclick="return next_page();")"))
-            {
+            } else if (
+                insideImportantSection &&
+                isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(onclick="return next_page();")")) {
                 nextPageLink = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
-            }
-            else if(insideImportantSection && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(img src=")"))
-            {
+            } else if (
+                insideImportantSection &&
+                isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(img src=")")) {
                 m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(img src=")", R"(")");
-            }
-            else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, "<strong>Next Chapter:</strong>"))
-            {
+            } else if (isStringFoundInsideTheOtherStringCaseSensitive(
+                           lineInHtmlFile, "<strong>Next Chapter:</strong>")) {
                 nextChapterLink = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
-            }
-            else if(insideImportantSection && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, "</section>"))
-            {
+            } else if (
+                insideImportantSection &&
+                isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, "</section>")) {
                 insideImportantSection = false;
-            }
-            else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<div class="mangaread_error">)"))
-            {
+            } else if (isStringFoundInsideTheOtherStringCaseSensitive(
+                           lineInHtmlFile, R"(<div class="mangaread_error">)")) {
                 cout << "Final Chapter found\n";
                 return;
             }
         }
-        if("javascript:void(0);" == nextPageLink)
-        {
+        if ("javascript:void(0);" == nextPageLink) {
             cout << "New chapter. NextChapterLink :" << nextChapterLink << "\n";
             m_linkForNextHtml = nextChapterLink;
-        }
-        else
-        {
+        } else {
             m_linkForNextHtml = nextPageLink;
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
         imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
-        m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
+        m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() +
+                                              webLinkPathHandler.getImmediateDirectoryName() + R"(\)" +
+                                              imageWebPathHandler.getFile();
     }
 }
 
-}
+}  // namespace aprgWebCrawler

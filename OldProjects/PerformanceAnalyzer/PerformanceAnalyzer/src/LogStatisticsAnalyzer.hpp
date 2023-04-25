@@ -10,26 +10,21 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-struct LogDetails
-{
-     stringHelper::strings logStrings;
-     unsigned int count;
-     bool operator<(LogDetails const& logDetails) const;
-     bool operator>(LogDetails const& logDetails) const;
-     bool operator==(LogDetails const& logDetails) const;
+struct LogDetails {
+    stringHelper::strings logStrings;
+    unsigned int count;
+    bool operator<(LogDetails const& logDetails) const;
+    bool operator>(LogDetails const& logDetails) const;
+    bool operator==(LogDetails const& logDetails) const;
 };
 
-class LogStatisticsAnalyzer
-{
-
+class LogStatisticsAnalyzer {
 public:
-
     LogStatisticsAnalyzer();
     void saveDataToCsv(std::string const& csvPath);
-    void saveLogDetailsToCsv(std::ofstream & outputCsvFileStream);
+    void saveLogDetailsToCsv(std::ofstream& outputCsvFileStream);
     void processFileWithSortedPrints(std::string const& pathOfBtsLog);
 
 private:
@@ -43,4 +38,4 @@ private:
     unsigned int m_totalLines;
 };
 
-}
+}  // namespace alba

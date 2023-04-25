@@ -3,15 +3,13 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class MinimumNumberOfSquaresWithSumEqualToN
-{
+class MinimumNumberOfSquaresWithSumEqualToN {
 public:
     using Count = unsigned int;
     using Counts = std::vector<Count>;
-    static constexpr Count MAX_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count MAX_COUNT = std::numeric_limits<Count>::max();
 
     MinimumNumberOfSquaresWithSumEqualToN(Count const sumOfSquares);
 
@@ -23,12 +21,12 @@ public:
 
 private:
     Count getMinimumCountUsingNaiveRecursion(Count const sumOfSquares) const;
-    Count getMinimumCountUsingMemoizationDP(Counts & savedMinimumCounts, Count const sumOfSquares) const;
+    Count getMinimumCountUsingMemoizationDP(Counts& savedMinimumCounts, Count const sumOfSquares) const;
 
     Count const m_sumOfSquares;
 };
 
-}
+}  // namespace alba
 
 // Minimum number of squares whose sum equals to given number n
 
@@ -39,6 +37,7 @@ private:
 // -> Input:  n = 100
 // ---> Output: 1
 // ---> Explanation:
-// ---> 100 can be written as 10^2. Note that 100 can also be written as 5^2 + 5^2 + 5^2 + 5^2, but this representation requires 4 squares.
+// ---> 100 can be written as 10^2. Note that 100 can also be written as 5^2 + 5^2 + 5^2 + 5^2, but this representation
+// requires 4 squares.
 // -> Input:  n = 6
 // ---> Output: 3

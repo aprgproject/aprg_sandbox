@@ -6,36 +6,32 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-bool isPythagoreanTriple(PythagoreanTriple const& triple)
-{
+bool isPythagoreanTriple(PythagoreanTriple const& triple) {
     // A Pythagorean triple is a triple (a,b, c) that satisfies the Pythagorean theorem a^2 + b^2 = c^2,
     // which means that there is a right triangle with side lengths a, b and c.
 
-    return get<0>(triple)*get<0>(triple) + get<1>(triple)*get<1>(triple) == get<2>(triple)*get<2>(triple);
+    return get<0>(triple) * get<0>(triple) + get<1>(triple) * get<1>(triple) == get<2>(triple) * get<2>(triple);
 }
 
-bool isPrimitive(PythagoreanTriple const& triple)
-{
+bool isPrimitive(PythagoreanTriple const& triple) {
     // A Pythagorean triple is primitive if a, b and c are coprime,
     // and all Pythagorean triples can be constructed from primitive triples using a multiplier k.
 
-    UnsignedInteger gcfOfABC = getGreatestCommonFactor(getGreatestCommonFactor(get<0>(triple), get<1>(triple)), get<2>(triple));
+    UnsignedInteger gcfOfABC =
+        getGreatestCommonFactor(getGreatestCommonFactor(get<0>(triple), get<1>(triple)), get<2>(triple));
     return gcfOfABC == 1;
 }
 
-PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(PythagoreanTriple const& triple, UnsignedInteger const multiplier)
-{
+PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(
+    PythagoreanTriple const& triple, UnsignedInteger const multiplier) {
     // If (a,b,c) is a Pythagorean triple, all triples of the form (ka,kb,kc) are also Pythagorean triples where k > 1.
 
     PythagoreanTriple result;
-    if(multiplier > 1)
-    {
+    if (multiplier > 1) {
         result = triple;
         get<0>(result) *= multiplier;
         get<1>(result) *= multiplier;
@@ -44,8 +40,8 @@ PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(PythagoreanTriple const
     return result;
 }
 
-PythagoreanTriple getPrimitivePythagoreanTripleUsingEuclidFormula(UnsignedInteger const seedValueM, UnsignedInteger const seedValueN)
-{
+PythagoreanTriple getPrimitivePythagoreanTripleUsingEuclidFormula(
+    UnsignedInteger const seedValueM, UnsignedInteger const seedValueN) {
     // Euclid’s formula can be used to produce ALL primitive Pythagorean triples.
     // Each such triple is of the form (n^2 - m^2, 2*n*m, n^2 + m^2),
     // where 0<m<n, n and m are coprime and at least one of n and m is even.
@@ -53,17 +49,15 @@ PythagoreanTriple getPrimitivePythagoreanTripleUsingEuclidFormula(UnsignedIntege
     // For example, when m=1 and n=2, the formula produces the SMALLEST Pythagorean triple (4-1,2*2*1,4+1) = (3,4,5).
 
     PythagoreanTriple result;
-    if(0<seedValueM && seedValueM<seedValueN
-            && isCoPrime(seedValueM, seedValueN)
-            && (isEven(seedValueM) || isEven(seedValueN)))
-    {
-        UnsignedInteger mSquared = seedValueM*seedValueM;
-        UnsignedInteger nSquared = seedValueN*seedValueN;
-        result = PythagoreanTriple{nSquared-mSquared, 2*seedValueN*seedValueM, nSquared+mSquared};
+    if (0 < seedValueM && seedValueM < seedValueN && isCoPrime(seedValueM, seedValueN) &&
+        (isEven(seedValueM) || isEven(seedValueN))) {
+        UnsignedInteger mSquared = seedValueM * seedValueM;
+        UnsignedInteger nSquared = seedValueN * seedValueN;
+        result = PythagoreanTriple{nSquared - mSquared, 2 * seedValueN * seedValueM, nSquared + mSquared};
     }
     return result;
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

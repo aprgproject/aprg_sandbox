@@ -6,112 +6,81 @@
 using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
+namespace alba {
 
-namespace alba
-{
+namespace algorithm {
 
-namespace algorithm
-{
-
-namespace
-{
+namespace {
 using SymbolTableForTest = RedBlackBinarySearchTreeSymbolTable<unsigned int, char>;
 using NodeForTest = typename SymbolTableForTest::Node;
 using KeysForTest = typename SymbolTableForTest::Keys;
-}
+}  // namespace
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty) {
     testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty) {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, DoesContainWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DoesContainWorks) {
     testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty) {
     testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty) {
     testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetWorks)
-{
-    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetWorks) { testGetWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetRankWorks)
-{
-    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetRankWorks) { testGetRankWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetMinimumWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetMinimumWorks) {
     testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetMaximumWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetMaximumWorks) {
     testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, SelectAtWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, SelectAtWorks) {
     testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetFloorWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetFloorWorks) {
     testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetCeilingWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetCeilingWorks) {
     testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, PutWorks)
-{
-    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(RedBlackBinarySearchTreeSymbolTableTest, PutWorks) { testPutWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteBasedOnKeyWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteBasedOnKeyWorks) {
     testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMinimumWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMinimumWorks) {
     testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMaximumWorks) {
     testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeys)
-{
-    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeys) { testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeysInRangeWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeysInRangeWorks) {
     testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPreOrderWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPreOrderWorks) {
     SymbolTableForTest symbolTable;
     symbolTable.put(3U, 'C');
     symbolTable.put(4U, 'D');
@@ -121,17 +90,13 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPreOrderWorks)
     symbolTable.put(7U, 'G');
 
     KeysForTest keysToVerify;
-    symbolTable.traverseByPreOrder([&keysToVerify](NodeForTest const& node)
-    {
-        keysToVerify.emplace_back(node.key);
-    });
+    symbolTable.traverseByPreOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{8U, 4U, 3U, 7U, 5U, 9U}; // balanced search tree
+    KeysForTest expectedKeys{8U, 4U, 3U, 7U, 5U, 9U};  // balanced search tree
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByInOrderWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByInOrderWorks) {
     SymbolTableForTest symbolTable;
     symbolTable.put(3U, 'C');
     symbolTable.put(4U, 'D');
@@ -141,17 +106,13 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByInOrderWorks)
     symbolTable.put(7U, 'G');
 
     KeysForTest keysToVerify;
-    symbolTable.traverseByInOrder([&keysToVerify](NodeForTest const& node)
-    {
-        keysToVerify.emplace_back(node.key);
-    });
+    symbolTable.traverseByInOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
     KeysForTest expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPostOrderWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPostOrderWorks) {
     SymbolTableForTest symbolTable;
     symbolTable.put(3U, 'C');
     symbolTable.put(4U, 'D');
@@ -161,15 +122,12 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPostOrderWorks)
     symbolTable.put(7U, 'G');
 
     KeysForTest keysToVerify;
-    symbolTable.traverseByPostOrder([&keysToVerify](NodeForTest const& node)
-    {
-        keysToVerify.emplace_back(node.key);
-    });
+    symbolTable.traverseByPostOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3U, 5U, 7U, 4U, 9U, 8U}; // balanced
+    KeysForTest expectedKeys{3U, 5U, 7U, 4U, 9U, 8U};  // balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

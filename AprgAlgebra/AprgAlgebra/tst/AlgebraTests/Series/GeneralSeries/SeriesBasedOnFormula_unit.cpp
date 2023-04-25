@@ -7,19 +7,13 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SeriesBasedOnFormulaTest, ConstructionWorks)
-{
-    SeriesBasedOnFormula series("n", "n");
-}
+TEST(SeriesBasedOnFormulaTest, ConstructionWorks) { SeriesBasedOnFormula series("n", "n"); }
 
-TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnConvergentSeries)
-{
+TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnConvergentSeries) {
     Term numerator(Polynomial{Monomial(4, {{"n", 2}})});
     Term denominator(Polynomial{Monomial(2, {{"n", 2}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -28,16 +22,14 @@ TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnConvergentSeries)
     EXPECT_TRUE(series.isConvergent());
 }
 
-TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnDivergentSeries)
-{
+TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnDivergentSeries) {
     Term formula(createExpressionIfPossible({-1, "^", "n", "+", 1}));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_FALSE(series.isConvergent());
 }
 
-TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnIncreasingFunction)
-{
+TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnIncreasingFunction) {
     Term numerator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(3, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -48,8 +40,7 @@ TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnI
     EXPECT_TRUE(series.isMonotonic());
 }
 
-TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnNonIncreasingAndDecreasingFunction)
-{
+TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnNonIncreasingAndDecreasingFunction) {
     Term formula(sin("n"));
     SeriesBasedOnFormula series(formula, "n");
 
@@ -58,8 +49,7 @@ TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnN
     EXPECT_FALSE(series.isMonotonic());
 }
 
-TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnDecreasingFunction)
-{
+TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnDecreasingFunction) {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -70,8 +60,7 @@ TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnD
     EXPECT_TRUE(series.isMonotonic());
 }
 
-TEST(SeriesBasedOnFormulaTest, GetValueAtIndexWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetValueAtIndexWorks) {
     SeriesBasedOnFormula series("n", "n");
 
     EXPECT_EQ(Term(-5), series.getValueAtIndex(-5));
@@ -79,31 +68,27 @@ TEST(SeriesBasedOnFormulaTest, GetValueAtIndexWorks)
     EXPECT_EQ(Term(5), series.getValueAtIndex(5));
 }
 
-TEST(SeriesBasedOnFormulaTest, GetFormulaForSeriesWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetFormulaForSeriesWorks) {
     Term formula(Polynomial{Monomial(1, {{"n", 2}}), Monomial(3, {{"n", 4}}), Monomial(5, {{"n", 6}})});
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_EQ(formula, series.getFormulaForSeries());
 }
 
-TEST(SeriesBasedOnFormulaTest, GetSumWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetSumWorks) {
     SeriesBasedOnFormula series("n", "n");
 
     EXPECT_EQ(Term(55), series.getSum(0, 10));
 }
 
-TEST(SeriesBasedOnFormulaTest, GetSumStartingAtIndexAndToInfinityWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetSumStartingAtIndexAndToInfinityWorks) {
     Term formula(createExpressionIfPossible({AlbaNumber::createFraction(1, 2), "^", "n"}));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_EQ(Term(2), series.getSumStartingAtIndexAndToInfinity(0));
 }
 
-TEST(SeriesBasedOnFormulaTest, GetValueAtInfinityWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetValueAtInfinityWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -112,8 +97,7 @@ TEST(SeriesBasedOnFormulaTest, GetValueAtInfinityWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), series.getValueAtInfinity());
 }
 
-TEST(SeriesBasedOnFormulaTest, GetRemainderAtIndexWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetRemainderAtIndexWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -124,8 +108,7 @@ TEST(SeriesBasedOnFormulaTest, GetRemainderAtIndexWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 10)), series.getRemainderAtIndex(2));
 }
 
-TEST(SeriesBasedOnFormulaTest, GetGreatestLowerBoundWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetGreatestLowerBoundWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -137,8 +120,7 @@ TEST(SeriesBasedOnFormulaTest, GetGreatestLowerBoundWorks)
     EXPECT_EQ(AlbaNumber::createFraction(-4, 15), greatestLowerBoundOptional.value());
 }
 
-TEST(SeriesBasedOnFormulaTest, GetLeastUpperBoundWorks)
-{
+TEST(SeriesBasedOnFormulaTest, GetLeastUpperBoundWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -150,6 +132,6 @@ TEST(SeriesBasedOnFormulaTest, GetLeastUpperBoundWorks)
     EXPECT_EQ(AlbaNumber::createFraction(1, 2), leastUpperBoundOptional.value());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

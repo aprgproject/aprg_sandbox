@@ -7,14 +7,11 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(TermsRaiseToNumbersTest, ConstructionWorks)
-{
+TEST(TermsRaiseToNumbersTest, ConstructionWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers1;
     TermsRaiseToNumbers termsRaiseToNumbers2({{"x", 1}, {"y", -2}, {"z", 3}});
 
@@ -32,8 +29,7 @@ TEST(TermsRaiseToNumbersTest, ConstructionWorks)
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, GetBaseToExponentMapWorks)
-{
+TEST(TermsRaiseToNumbersTest, GetBaseToExponentMapWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsRaiseToNumbers::BaseToExponentMap const& mapToVerify(termsRaiseToNumbers.getBaseToExponentMap());
@@ -50,8 +46,7 @@ TEST(TermsRaiseToNumbersTest, GetBaseToExponentMapWorks)
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, GetExponentOfBaseWorks)
-{
+TEST(TermsRaiseToNumbersTest, GetExponentOfBaseWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
 
     EXPECT_EQ(AlbaNumber(1), termsRaiseToNumbers.getExponentOfBase("x"));
@@ -60,8 +55,7 @@ TEST(TermsRaiseToNumbersTest, GetExponentOfBaseWorks)
     EXPECT_EQ(AlbaNumber(0), termsRaiseToNumbers.getExponentOfBase("NotFound"));
 }
 
-TEST(TermsRaiseToNumbersTest, GetTermsInMultiplicationOperationWorks)
-{
+TEST(TermsRaiseToNumbersTest, GetTermsInMultiplicationOperationWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
 
     Terms const termsToVerify(termsRaiseToNumbers.getTermsInMultiplicationOperation());
@@ -75,8 +69,7 @@ TEST(TermsRaiseToNumbersTest, GetTermsInMultiplicationOperationWorks)
     EXPECT_EQ(expectedTerm3, termsToVerify.at(2));
 }
 
-TEST(TermsRaiseToNumbersTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks)
-{
+TEST(TermsRaiseToNumbersTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsWithDetails const termsToVerify(termsRaiseToNumbers.getTermWithDetailsInMultiplicationAndDivisionOperation());
@@ -93,8 +86,7 @@ TEST(TermsRaiseToNumbersTest, GetTermWithDetailsInMultiplicationAndDivisionOpera
     EXPECT_EQ(expectedTermWithDetails3, termsToVerify.at(2));
 }
 
-TEST(TermsRaiseToNumbersTest, AddExponentsWorks)
-{
+TEST(TermsRaiseToNumbersTest, AddExponentsWorks) {
     TermsRaiseToNumbers termsRaiseToNumbersToAdd({{"x", 1}, {"y", -2}, {"z", 3}});
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 4}, {"y", -5}, {"z", 6}});
 
@@ -113,8 +105,7 @@ TEST(TermsRaiseToNumbersTest, AddExponentsWorks)
     EXPECT_EQ(AlbaNumber(9), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, SubtractExponentsWorks)
-{
+TEST(TermsRaiseToNumbersTest, SubtractExponentsWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 4}, {"y", -5}, {"z", 6}});
     TermsRaiseToNumbers termsRaiseToNumbersToSubtract({{"x", 1}, {"y", -2}, {"z", 3}});
 
@@ -133,8 +124,7 @@ TEST(TermsRaiseToNumbersTest, SubtractExponentsWorks)
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, MultiplyNumberToExponentsWorks)
-{
+TEST(TermsRaiseToNumbersTest, MultiplyNumberToExponentsWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 4}, {"y", -5}, {"z", 6}});
 
     termsRaiseToNumbers.multiplyToExponents(5);
@@ -152,8 +142,7 @@ TEST(TermsRaiseToNumbersTest, MultiplyNumberToExponentsWorks)
     EXPECT_EQ(AlbaNumber(30), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, PutTermWorksOnMonomial)
-{
+TEST(TermsRaiseToNumbersTest, PutTermWorksOnMonomial) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
     Term termWithPositive(Monomial(5, {{"x", 6}}));
     Term termWithNegative(Monomial(7, {{"y", 8}}));
@@ -182,8 +171,7 @@ TEST(TermsRaiseToNumbersTest, PutTermWorksOnMonomial)
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, PutTermWorksOnOtherTermTypes)
-{
+TEST(TermsRaiseToNumbersTest, PutTermWorksOnOtherTermTypes) {
     TermsRaiseToNumbers termsRaiseToNumbers({{cos("x"), 1}, {sin("x"), -2}, {tan("x"), 3}});
     Term termWithPositive(createExpressionIfPossible({cos("x"), "^", 6}));
     Term termWithNegative(createExpressionIfPossible({sin("x"), "^", 8}));
@@ -204,12 +192,11 @@ TEST(TermsRaiseToNumbersTest, PutTermWorksOnOtherTermTypes)
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, PutTermsWorks)
-{
+TEST(TermsRaiseToNumbersTest, PutTermsWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
 
     termsRaiseToNumbers.putTerms(
-    {Monomial(1, {{"x", 5}}), Monomial(1, {{"y", 6}}), Monomial(1, {{"z", 7}})}, TermAssociationType::Positive);
+        {Monomial(1, {{"x", 5}}), Monomial(1, {{"y", 6}}), Monomial(1, {{"z", 7}})}, TermAssociationType::Positive);
 
     TermsRaiseToNumbers::BaseToExponentMap const mapToVerify(termsRaiseToNumbers.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
@@ -224,8 +211,7 @@ TEST(TermsRaiseToNumbersTest, PutTermsWorks)
     EXPECT_EQ(AlbaNumber(10), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, SetBaseAndExponentWorks)
-{
+TEST(TermsRaiseToNumbersTest, SetBaseAndExponentWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers;
 
     termsRaiseToNumbers.setBaseAndExponent("x", 9);
@@ -237,8 +223,7 @@ TEST(TermsRaiseToNumbersTest, SetBaseAndExponentWorks)
     EXPECT_EQ(AlbaNumber(9), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, RemoveItemWithBaseWorks)
-{
+TEST(TermsRaiseToNumbersTest, RemoveItemWithBaseWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", -2}, {"z", 3}});
 
     termsRaiseToNumbers.removeItemWithBase("x");
@@ -253,8 +238,7 @@ TEST(TermsRaiseToNumbersTest, RemoveItemWithBaseWorks)
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToNumbersTest, SimplifyWorks)
-{
+TEST(TermsRaiseToNumbersTest, SimplifyWorks) {
     TermsRaiseToNumbers termsRaiseToNumbers({{"x", 1}, {"y", 0}, {"z", 0}});
 
     termsRaiseToNumbers.simplify();
@@ -266,6 +250,6 @@ TEST(TermsRaiseToNumbersTest, SimplifyWorks)
     EXPECT_EQ(AlbaNumber(1), itToVerify->second);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

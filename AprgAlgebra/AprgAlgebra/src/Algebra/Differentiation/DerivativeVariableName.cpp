@@ -5,258 +5,151 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
-namespace algebra
-{
+namespace alba {
+namespace algebra {
 
 DerivativeVariableName::DerivativeVariableName(
-        unsigned int const differentiationLevel,
-        string const& baseVariable,
-        string const& dependentVariable)
-    : m_isValid(true)
-    , m_differentiationLevel(differentiationLevel)
-    , m_baseVariable(baseVariable)
-    , m_dependentVariable(dependentVariable)
-{}
+    unsigned int const differentiationLevel, string const& baseVariable, string const& dependentVariable)
+    : m_isValid(true),
+      m_differentiationLevel(differentiationLevel),
+      m_baseVariable(baseVariable),
+      m_dependentVariable(dependentVariable) {}
 
-DerivativeVariableName::DerivativeVariableName(
-        string const& derivativeVariableInLeibnizNotation)
-    : m_isValid(false)
-    , m_differentiationLevel(0U)
-{
+DerivativeVariableName::DerivativeVariableName(string const& derivativeVariableInLeibnizNotation)
+    : m_isValid(false), m_differentiationLevel(0U) {
     string numerator = getStringBeforeThisString(derivativeVariableInLeibnizNotation, "/");
     string denominator = getStringAfterThisString(derivativeVariableInLeibnizNotation, "/");
     processNumerator(numerator);
-    if(isValid())
-    {
+    if (isValid()) {
         processDenominator(denominator);
     }
 }
 
-bool DerivativeVariableName::isValid() const
-{
-    return m_isValid;
-}
+bool DerivativeVariableName::isValid() const { return m_isValid; }
 
-unsigned int DerivativeVariableName::getDifferentiationLevel() const
-{
-    return m_differentiationLevel;
-}
+unsigned int DerivativeVariableName::getDifferentiationLevel() const { return m_differentiationLevel; }
 
-string const& DerivativeVariableName::getBaseVariable() const
-{
-    return m_baseVariable;
-}
+string const& DerivativeVariableName::getBaseVariable() const { return m_baseVariable; }
 
-string const& DerivativeVariableName::getDependentVariable() const
-{
-    return m_dependentVariable;
-}
+string const& DerivativeVariableName::getDependentVariable() const { return m_dependentVariable; }
 
-string DerivativeVariableName::getNameInLeibnizNotation() const
-{
+string DerivativeVariableName::getNameInLeibnizNotation() const {
     stringstream ss;
-    if(m_differentiationLevel == 1)
-    {
+    if (m_differentiationLevel == 1) {
         ss << "d[" << m_dependentVariable << "]";
-        if(!m_baseVariable.empty())
-        {
-            ss <<"/d[" << m_baseVariable << "]";
+        if (!m_baseVariable.empty()) {
+            ss << "/d[" << m_baseVariable << "]";
         }
-    }
-    else
-    {
+    } else {
         ss << "d" << m_differentiationLevel << "[" << m_dependentVariable << "]";
-        if(!m_baseVariable.empty())
-        {
-            ss <<"/d[" << m_baseVariable << "]" << m_differentiationLevel;
+        if (!m_baseVariable.empty()) {
+            ss << "/d[" << m_baseVariable << "]" << m_differentiationLevel;
         }
     }
     return ss.str();
 }
 
-void DerivativeVariableName::differentiate()
-{
-    m_differentiationLevel++;
-}
+void DerivativeVariableName::differentiate() { m_differentiationLevel++; }
 
-void DerivativeVariableName::processNumerator(
-        string const& numerator)
-{
-    enum class ProcessingState
-    {
-        Initial,
-        AfterD,
-        Number,
-        VariableWithBrackets,
-        LastState,
-        Invalid
-    };
+void DerivativeVariableName::processNumerator(string const& numerator) {
+    enum class ProcessingState { Initial, AfterD, Number, VariableWithBrackets, LastState, Invalid };
     ProcessingState state = ProcessingState::Initial;
     string differentiationLevelString;
     string dependentVariable;
-    for(char const c : numerator)
-    {
-        if(ProcessingState::Initial == state)
-        {
-            if(c=='d')
-            {
+    for (char const c : numerator) {
+        if (ProcessingState::Initial == state) {
+            if (c == 'd') {
                 state = ProcessingState::AfterD;
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }
-        else if(ProcessingState::AfterD == state)
-        {
-            if(isNumber(c))
-            {
+        } else if (ProcessingState::AfterD == state) {
+            if (isNumber(c)) {
                 differentiationLevelString += c;
                 state = ProcessingState::Number;
-            }
-            else if(c=='[')
-            {
+            } else if (c == '[') {
                 differentiationLevelString = "1";
                 state = ProcessingState::VariableWithBrackets;
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }
-        else if(ProcessingState::Number == state)
-        {
-            if(isNumber(c))
-            {
+        } else if (ProcessingState::Number == state) {
+            if (isNumber(c)) {
                 differentiationLevelString += c;
-            }
-            else if(c=='[')
-            {
+            } else if (c == '[') {
                 state = ProcessingState::VariableWithBrackets;
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }
-        else if(ProcessingState::VariableWithBrackets == state)
-        {
-            if(c==']')
-            {
+        } else if (ProcessingState::VariableWithBrackets == state) {
+            if (c == ']') {
                 state = ProcessingState::LastState;
-            }
-            else
-            {
+            } else {
                 dependentVariable += c;
             }
-        }
-        else if(ProcessingState::LastState == state)
-        {
+        } else if (ProcessingState::LastState == state) {
             state = ProcessingState::Invalid;
             break;
         }
     }
-    if(ProcessingState::LastState == state)
-    {
+    if (ProcessingState::LastState == state) {
         m_isValid = true;
         m_dependentVariable = dependentVariable;
         m_differentiationLevel = convertStringToNumber<unsigned int>(differentiationLevelString);
-    }
-    else
-    {
+    } else {
         m_isValid = false;
     }
 }
 
-void DerivativeVariableName::processDenominator(
-        string const& denominator)
-{
-    enum class ProcessingState
-    {
-        Initial,
-        AfterD,
-        Number,
-        VariableWithBrackets,
-        VariableOnly,
-        LastState,
-        Invalid
-    };
+void DerivativeVariableName::processDenominator(string const& denominator) {
+    enum class ProcessingState { Initial, AfterD, Number, VariableWithBrackets, VariableOnly, LastState, Invalid };
     ProcessingState state = ProcessingState::Initial;
     string differentiationLevelString;
     string baseVariable;
-    for(char const c : denominator)
-    {
-        if(ProcessingState::Initial == state)
-        {
-            if(c=='d')
-            {
+    for (char const c : denominator) {
+        if (ProcessingState::Initial == state) {
+            if (c == 'd') {
                 state = ProcessingState::AfterD;
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }
-        else if(ProcessingState::AfterD == state)
-        {
-            if(c=='[')
-            {
+        } else if (ProcessingState::AfterD == state) {
+            if (c == '[') {
                 state = ProcessingState::VariableWithBrackets;
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }
-        else if(ProcessingState::VariableWithBrackets == state)
-        {
-            if(c==']')
-            {
+        } else if (ProcessingState::VariableWithBrackets == state) {
+            if (c == ']') {
                 state = ProcessingState::LastState;
-            }
-            else
-            {
+            } else {
                 baseVariable += c;
             }
-        }
-        else if(ProcessingState::LastState == state)
-        {
-            if(isNumber(c))
-            {
+        } else if (ProcessingState::LastState == state) {
+            if (isNumber(c)) {
                 differentiationLevelString += c;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
     }
-    if(ProcessingState::LastState == state)
-    {
-        if(differentiationLevelString.empty())
-        {
+    if (ProcessingState::LastState == state) {
+        if (differentiationLevelString.empty()) {
             differentiationLevelString = "1";
         }
-        unsigned int differentiationLevelInDenominator
-                = convertStringToNumber<unsigned int>(differentiationLevelString);
-        if(differentiationLevelInDenominator == m_differentiationLevel)
-        {
+        unsigned int differentiationLevelInDenominator =
+            convertStringToNumber<unsigned int>(differentiationLevelString);
+        if (differentiationLevelInDenominator == m_differentiationLevel) {
             m_isValid = true;
             m_baseVariable = baseVariable;
-        }
-        else
-        {
+        } else {
             m_isValid = false;
         }
-    }
-    else
-    {
+    } else {
         m_isValid = false;
     }
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

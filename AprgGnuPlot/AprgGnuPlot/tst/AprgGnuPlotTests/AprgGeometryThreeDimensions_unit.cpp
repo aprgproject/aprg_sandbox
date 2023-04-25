@@ -10,18 +10,14 @@ using namespace alba::ThreeDimensions;
 using namespace alba::ThreeDimensions::threeDimensionsUtilities;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope)
-{
-    Line line(Point(0,0,0), Point(2,3,-4));
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope) {
+    Line line(Point(0, 0, 0), Point(2, 3, -4));
     AprgGnuPlot3D::PointsInGraph points;
-    for(double x=-10; x<10; x+=0.1)
-    {
+    for (double x = -10; x < 10; x += 0.1) {
         auto yOptional = line.calculateYFromX(x), zOptional = line.calculateZFromX(x);
-        if(yOptional && zOptional)
-        {
+        if (yOptional && zOptional) {
             points.emplace_back(AprgGnuPlot3D::getPoint(x, yOptional.value(), zOptional.value()));
         }
     }
@@ -31,35 +27,27 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
-        gnuPlot3D.graph(points, "LineWithSlope", "with lines linetype 1 linewidth 4");
-    });
+    gnuPlot3D.doGraphs([&]() { gnuPlot3D.graph(points, "LineWithSlope", "with lines linetype 1 linewidth 4"); });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_MultipleLinesAndPoints)
-{
-    Line line1(Point(5,-2,6), Point(1,1,1));
-    Line line2(Point(1,1,1), Point(2,3,-4));
-    Line line3(Point(5,-2,6), Point(2,3,-4));
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_MultipleLinesAndPoints) {
+    Line line1(Point(5, -2, 6), Point(1, 1, 1));
+    Line line2(Point(1, 1, 1), Point(2, 3, -4));
+    Line line3(Point(5, -2, 6), Point(2, 3, -4));
     AprgGnuPlot3D::PointsInGraph points1;
     AprgGnuPlot3D::PointsInGraph points2;
     AprgGnuPlot3D::PointsInGraph points3;
-    for(double x=-10; x<10; x+=0.1)
-    {
-        auto y1Optional = line1.calculateYFromX(x),  z1Optional = line1.calculateZFromX(x);
-        if(y1Optional && z1Optional)
-        {
+    for (double x = -10; x < 10; x += 0.1) {
+        auto y1Optional = line1.calculateYFromX(x), z1Optional = line1.calculateZFromX(x);
+        if (y1Optional && z1Optional) {
             points1.emplace_back(AprgGnuPlot3D::getPoint(x, y1Optional.value(), z1Optional.value()));
         }
-        auto y2Optional = line2.calculateYFromX(x),  z2Optional = line2.calculateZFromX(x);
-        if(y2Optional && z2Optional)
-        {
+        auto y2Optional = line2.calculateYFromX(x), z2Optional = line2.calculateZFromX(x);
+        if (y2Optional && z2Optional) {
             points1.emplace_back(AprgGnuPlot3D::getPoint(x, y2Optional.value(), z2Optional.value()));
         }
-        auto y3Optional = line3.calculateYFromX(x),  z3Optional = line3.calculateZFromX(x);
-        if(y3Optional && z2Optional)
-        {
+        auto y3Optional = line3.calculateYFromX(x), z3Optional = line3.calculateZFromX(x);
+        if (y3Optional && z2Optional) {
             points1.emplace_back(AprgGnuPlot3D::getPoint(x, y3Optional.value(), z3Optional.value()));
         }
     }
@@ -69,31 +57,26 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_MultipleLinesAndPoints)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
+    gnuPlot3D.doGraphs([&]() {
         gnuPlot3D.graph(points1, "Line1", "with lines linetype 1 linewidth 4");
         gnuPlot3D.graph(points2, "Line2", "with lines linetype 2 linewidth 4");
         gnuPlot3D.graph(points3, "Line3", "with lines linetype 3 linewidth 4");
-        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(5,-2,6)}, "Point1", "with points pointsize 1 pointtype 1");
-        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(1,1,1)}, "Point2", "with points pointsize 1 pointtype 2");
-        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(2,3,-4)}, "Point3", "with points pointsize 1 pointtype 3");
+        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(5, -2, 6)}, "Point1", "with points pointsize 1 pointtype 1");
+        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(1, 1, 1)}, "Point2", "with points pointsize 1 pointtype 2");
+        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(2, 3, -4)}, "Point3", "with points pointsize 1 pointtype 3");
     });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints)
-{
-    Point point1(1,0,1);
-    Point point2(-2,0,2);
-    Point point3(2,0,-1);
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints) {
+    Point point1(1, 0, 1);
+    Point point2(-2, 0, 2);
+    Point point3(2, 0, -1);
     Plane plane(point1, point2, point3);
     AprgGnuPlot3D::PointsInGraph planePoints;
-    for(double x=-10; x<10; x+=0.5)
-    {
-        for(double z=-10; z<10; z+=0.5)
-        {
+    for (double x = -10; x < 10; x += 0.5) {
+        for (double z = -10; z < 10; z += 0.5) {
             auto yOptional = plane.calculateYFromXAndZ(x, z);
-            if(yOptional)
-            {
+            if (yOptional) {
                 planePoints.emplace_back(AprgGnuPlot3D::getPoint(x, yOptional.value(), z));
             }
         }
@@ -104,43 +87,35 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
-        gnuPlot3D.graph(planePoints, "Plane", "with points palette pointsize 1 pointtype 1");
-    });
+    gnuPlot3D.doGraphs([&]() { gnuPlot3D.graph(planePoints, "Plane", "with points palette pointsize 1 pointtype 1"); });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes)
-{
-    Point point1OfPlane1(1,0,0);
-    Point point2OfPlane1(0,1,0);
-    Point point3OfPlane1(0,0,1);
-    Point point1OfPlane2(0,0,0);
-    Point point2OfPlane2(1,1,1);
-    Point point3OfPlane2(0,1,1);
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes) {
+    Point point1OfPlane1(1, 0, 0);
+    Point point2OfPlane1(0, 1, 0);
+    Point point3OfPlane1(0, 0, 1);
+    Point point1OfPlane2(0, 0, 0);
+    Point point2OfPlane2(1, 1, 1);
+    Point point3OfPlane2(0, 1, 1);
     Plane plane1(point1OfPlane1, point2OfPlane1, point3OfPlane1);
     Plane plane2(point1OfPlane2, point2OfPlane2, point3OfPlane2);
     Line lineOfIntersection(getLineOfIntersectionOfTwoPlanes(plane1, plane2));
     AprgGnuPlot3D::PointsInGraph pointsOfPlane1;
     AprgGnuPlot3D::PointsInGraph pointsOfPlane2;
     AprgGnuPlot3D::PointsInGraph pointsOfLineOfIntersection;
-    for(double x=-5; x<5; x+=0.5)
-    {
-        for(double z=-5; z<5; z+=0.5)
-        {
+    for (double x = -5; x < 5; x += 0.5) {
+        for (double z = -5; z < 5; z += 0.5) {
             auto y1Optional = plane1.calculateYFromXAndZ(x, z);
-            if(y1Optional)
-            {
+            if (y1Optional) {
                 pointsOfPlane1.emplace_back(AprgGnuPlot3D::getPoint(x, y1Optional.value(), z));
             }
             auto y2Optional = plane2.calculateYFromXAndZ(x, z);
-            if(y2Optional)
-            {
+            if (y2Optional) {
                 pointsOfPlane2.emplace_back(AprgGnuPlot3D::getPoint(x, y2Optional.value(), z));
             }
         }
-        pointsOfLineOfIntersection.emplace_back(
-                    AprgGnuPlot3D::getPoint(x,lineOfIntersection.calculateYFromX(x).value(), lineOfIntersection.calculateZFromX(x).value()));
+        pointsOfLineOfIntersection.emplace_back(AprgGnuPlot3D::getPoint(
+            x, lineOfIntersection.calculateYFromX(x).value(), lineOfIntersection.calculateZFromX(x).value()));
     }
 
     AprgGnuPlot3D gnuPlot3D;
@@ -148,8 +123,7 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
+    gnuPlot3D.doGraphs([&]() {
         gnuPlot3D.graph(pointsOfPlane1, "Plane1", "with points pointsize 1 pointtype 1");
         gnuPlot3D.graph(pointsOfPlane2, "Plane2", "with points pointsize 1 pointtype 2");
         gnuPlot3D.graph(pointsOfLineOfIntersection, "LineOfIntersection", "with lines linetype 1 linewidth 1");
@@ -162,47 +136,38 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes)
     });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_BrewersProblemForSimplexTest)
-{
-    Plane profitModel(13, 23, -1, 0); // 13A+23B=P
-    Plane constraints1(1, 3, 0, -96); //A+3B<=96
-    Plane constraints2(1, 1, 0, -40); //A+B<=40
-    Plane constraints3(7, 4, 0, -238); //7A+4B<=238
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_BrewersProblemForSimplexTest) {
+    Plane profitModel(13, 23, -1, 0);   // 13A+23B=P
+    Plane constraints1(1, 3, 0, -96);   // A+3B<=96
+    Plane constraints2(1, 1, 0, -40);   // A+B<=40
+    Plane constraints3(7, 4, 0, -238);  // 7A+4B<=238
     AprgGnuPlot3D::PointsInGraph profitPoints;
     AprgGnuPlot3D::PointsInGraph c1Points;
     AprgGnuPlot3D::PointsInGraph c2Points;
     AprgGnuPlot3D::PointsInGraph c3Points;
-    for(double x=0; x<200; x+=2)
-    {
-        for(double y=0; y<200; y+=2)
-        {
-            if(x+3*y <= 96 && x+y <= 40 && 7*x+4*y <= 238) //A+3B<=96, A+B<=40, 7A+4B<=238
+    for (double x = 0; x < 200; x += 2) {
+        for (double y = 0; y < 200; y += 2) {
+            if (x + 3 * y <= 96 && x + y <= 40 && 7 * x + 4 * y <= 238)  // A+3B<=96, A+B<=40, 7A+4B<=238
             {
                 auto zOptional = profitModel.calculateYFromXAndZ(x, y);
-                if(zOptional)
-                {
+                if (zOptional) {
                     profitPoints.emplace_back(AprgGnuPlot3D::getPoint(x, y, zOptional.value()));
                 }
             }
         }
     }
-    for(double x=0; x<200; x+=5)
-    {
-        for(double z=0; z<1000; z+=20)
-        {
+    for (double x = 0; x < 200; x += 5) {
+        for (double z = 0; z < 1000; z += 20) {
             auto y1Optional = constraints1.calculateYFromXAndZ(x, z);
-            if(y1Optional && y1Optional.value() > 0)
-            {
+            if (y1Optional && y1Optional.value() > 0) {
                 c1Points.emplace_back(AprgGnuPlot3D::getPoint(x, y1Optional.value(), z));
             }
             auto y2Optional = constraints2.calculateYFromXAndZ(x, z);
-            if(y2Optional && y2Optional.value() > 0)
-            {
+            if (y2Optional && y2Optional.value() > 0) {
                 c2Points.emplace_back(AprgGnuPlot3D::getPoint(x, y2Optional.value(), z));
             }
             auto y3Optional = constraints3.calculateYFromXAndZ(x, z);
-            if(y3Optional && y3Optional.value() > 0)
-            {
+            if (y3Optional && y3Optional.value() > 0) {
                 c3Points.emplace_back(AprgGnuPlot3D::getPoint(x, y3Optional.value(), z));
             }
         }
@@ -213,8 +178,7 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_BrewersProblemForSimplexTest)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
+    gnuPlot3D.doGraphs([&]() {
         gnuPlot3D.graph(profitPoints, "Profit", "with points palette pointsize 1 pointtype 1");
         gnuPlot3D.graph(c1Points, "Constraints 1", "with points pointsize 1 pointtype 2");
         gnuPlot3D.graph(c2Points, "Constraints 2", "with points pointsize 1 pointtype 3");
@@ -222,5 +186,4 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_BrewersProblemForSimplexTest)
     });
 }
 
-
-}
+}  // namespace alba

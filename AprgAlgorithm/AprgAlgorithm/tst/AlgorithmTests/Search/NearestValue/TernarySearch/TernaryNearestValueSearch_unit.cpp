@@ -6,105 +6,87 @@
 using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = TernaryNearestValueSearch<ValuesForTest>;
-}
+}  // namespace
 
-TEST(TernaryNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(TernaryNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue)
-{
+TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue) {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues) {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues) {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower) {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(TernaryNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher) {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue) {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues) {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower) {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher) {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsOne)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsOne) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(5U, 6U, 33U));
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsTwo)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsTwo) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(3U, 5U, 33U));
 }
 
-TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWithndexesWhenDistanceFromLowerToHigherIsOdd)
-{
+TEST(TernaryNearestValueSearchTest, GetIndexOfNearestValueWorksWithndexesWhenDistanceFromLowerToHigherIsOdd) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(1U, 8U, 33U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

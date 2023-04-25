@@ -1,18 +1,15 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class BaseTermData
-{
+class BaseTermData {
 public:
     BaseTermData() = default;
-    virtual ~BaseTermData() = default; // virtual destructor because it needs to be polymorphically deleted
+    virtual ~BaseTermData() = default;  // virtual destructor because it needs to be polymorphically deleted
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

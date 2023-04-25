@@ -6,84 +6,41 @@
 using namespace alba::algorithm::CommonTestsWithTries;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using TrieForTest = RWayTrieUsingMatrix<unsigned int, 50U>;
 }
 
-TEST(RWayTrieUsingMatrixTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, DoesContainWorks)
-{
-    testDoesContainWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, DoesContainWorks) { testDoesContainWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetWorks)
-{
-    testGetWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetWorks) { testGetWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetLongestPrefixWorks)
-{
-    testGetLongestPrefixOfWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetLongestPrefixWorks) { testGetLongestPrefixOfWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, PutWorks)
-{
-    testPutWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, PutWorks) { testPutWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, DeleteBasedOnKeyWorks)
-{
-    testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetKeysWorks)
-{
-    testGetKeysWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetKeysWorks) { testGetKeysWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetAllKeysWithPrefixWorks)
-{
-    testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetAllKeysWithPrefixWorks) { testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, GetAllKeysThatMatchWorks)
-{
-    testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, GetAllKeysThatMatchWorks) { testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, Example1Works)
-{
-    testExample1WithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingMatrixTest, Example1Works) { testExample1WithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingMatrixTest, PutWhenEmptyStringHasNoEffect)
-{
+TEST(RWayTrieUsingMatrixTest, PutWhenEmptyStringHasNoEffect) {
     TrieForTest trie;
 
     trie.put("", 17U);
@@ -92,8 +49,7 @@ TEST(RWayTrieUsingMatrixTest, PutWhenEmptyStringHasNoEffect)
     EXPECT_EQ(0U, trie.get(""));
 }
 
-TEST(RWayTrieUsingMatrixTest, DeleteBasedOnKeyWhenEmptyStringWorks)
-{
+TEST(RWayTrieUsingMatrixTest, DeleteBasedOnKeyWhenEmptyStringWorks) {
     TrieForTest trie;
     trie.put("", 17U);
 
@@ -104,8 +60,7 @@ TEST(RWayTrieUsingMatrixTest, DeleteBasedOnKeyWhenEmptyStringWorks)
     EXPECT_TRUE(trie.isEmpty());
 }
 
-TEST(RWayTrieUsingMatrixTest, PutDeleteAlternatelyWorks)
-{
+TEST(RWayTrieUsingMatrixTest, PutDeleteAlternatelyWorks) {
     TrieForTest trie;
     trie.put("she", 0U);
 
@@ -122,8 +77,7 @@ TEST(RWayTrieUsingMatrixTest, PutDeleteAlternatelyWorks)
     EXPECT_EQ((TrieForTest::SetOfNodeIds{0U, 1U, 2U, 3U, 4U, 5U}), trie.getUnusedNodeIds());
 }
 
-TEST(RWayTrieUsingMatrixTest, GetUnusedNodeIdsWorks)
-{
+TEST(RWayTrieUsingMatrixTest, GetUnusedNodeIdsWorks) {
     TrieForTest trie;
 
     EXPECT_EQ(0U, trie.getSize());
@@ -189,13 +143,15 @@ TEST(RWayTrieUsingMatrixTest, GetUnusedNodeIdsWorks)
     EXPECT_EQ(6U, trie.get("sea"));
 }
 
-TEST(RWayTrieUsingMatrixTest, DISABLED_AssertionWorksWhenNodeIdsReachesMaximumSize) //disabled because it takes too long
+TEST(
+    RWayTrieUsingMatrixTest,
+    DISABLED_AssertionWorksWhenNodeIdsReachesMaximumSize)  // disabled because it takes too long
 {
     RWayTrieUsingMatrix<unsigned int, 1U> trie;
 
     EXPECT_DEATH(trie.put("se", 100U), "Assertion failed!");
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

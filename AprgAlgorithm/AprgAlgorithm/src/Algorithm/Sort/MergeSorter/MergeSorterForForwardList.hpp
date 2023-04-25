@@ -4,15 +4,12 @@
 
 #include <forward_list>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Value>
-class MergeSorterForForwardList : public BaseSorter<std::forward_list<Value>>
-{
+class MergeSorterForForwardList : public BaseSorter<std::forward_list<Value>> {
 public:
     using Values = std::forward_list<Value>;
     using Iterator = typename Values::iterator;
@@ -20,93 +17,72 @@ public:
 
     MergeSorterForForwardList() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
-        valuesToSort = getSortedValues(valuesToSort);
-    }
+    void sort(Values& valuesToSort) const override { valuesToSort = getSortedValues(valuesToSort); }
 
 private:
-
-    Values getSortedValues(
-            Values const& unsortedValues) const
-    {
+    Values getSortedValues(Values const& unsortedValues) const {
         ConstIterator middle = getMiddleIterator(unsortedValues);
-        if(middle == unsortedValues.cend())
-        {
+        if (middle == unsortedValues.cend()) {
             return unsortedValues;
-        }
-        else
-        {
+        } else {
             // Split to two parts
-            Values firstPart, secondPart; // THIS IS COSTLY, in a more controllable forward link list we can split it more easily
-            Iterator itNewFirstPart=firstPart.before_begin(), itNewSecondPart=secondPart.before_begin();
-            for(ConstIterator it=unsortedValues.cbegin(); it!=middle; it++)
-            {
+            Values firstPart,
+                secondPart;  // THIS IS COSTLY, in a more controllable forward link list we can split it more easily
+            Iterator itNewFirstPart = firstPart.before_begin(), itNewSecondPart = secondPart.before_begin();
+            for (ConstIterator it = unsortedValues.cbegin(); it != middle; it++) {
                 itNewFirstPart = firstPart.emplace_after(itNewFirstPart, *it);
             }
-            for(ConstIterator it=middle; it!=unsortedValues.cend(); it++)
-            {
+            for (ConstIterator it = middle; it != unsortedValues.cend(); it++) {
                 itNewSecondPart = secondPart.emplace_after(itNewSecondPart, *it);
             }
 
-            return mergeTwoRanges(getSortedValues(firstPart), getSortedValues(secondPart)); // this is top down merge sort
+            return mergeTwoRanges(
+                getSortedValues(firstPart), getSortedValues(secondPart));  // this is top down merge sort
         }
     }
 
-    ConstIterator getMiddleIterator(Values const& values) const
-    {
+    ConstIterator getMiddleIterator(Values const& values) const {
         ConstIterator turtoise(values.cbegin());
         ConstIterator hare(values.cbegin());
-        while(hare!=values.cend())
-        {
+        while (hare != values.cend()) {
             // std::advance with 2 for hare? no, because we need to check if we exceeded
             turtoise++;
             hare++;
-            if(hare!=values.cend())
-            {
+            if (hare != values.cend()) {
                 hare++;
             }
         }
         return turtoise;
     }
 
-    Values mergeTwoRanges(
-            Values const& firstPart,
-            Values const& secondPart) const
-    {
+    Values mergeTwoRanges(Values const& firstPart, Values const& secondPart) const {
         // this is similar with std::forward_list::merge
 
         Values result;
-        Iterator itNewValue=result.before_begin();
-        ConstIterator it1=firstPart.cbegin(), it2=secondPart.cbegin();
-        for(; it1!=firstPart.cend() && it2!=secondPart.cend(); )
-        {
-            if(*it1 <= *it2)
-            {
+        Iterator itNewValue = result.before_begin();
+        ConstIterator it1 = firstPart.cbegin(), it2 = secondPart.cbegin();
+        for (; it1 != firstPart.cend() && it2 != secondPart.cend();) {
+            if (*it1 <= *it2) {
                 itNewValue = result.emplace_after(itNewValue, *it1);
                 it1++;
-            }
-            else
-            {
+            } else {
                 itNewValue = result.emplace_after(itNewValue, *it2);
                 it2++;
             }
         }
-        for(; it1!=firstPart.cend(); it1++)
-        {
+        for (; it1 != firstPart.cend(); it1++) {
             itNewValue = result.emplace_after(itNewValue, *it1);
         }
-        for(; it2!=secondPart.cend(); it2++)
-        {
+        for (; it2 != secondPart.cend(); it2++) {
             itNewValue = result.emplace_after(itNewValue, *it2);
         }
         return result;
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Merge sort is often preferred for sorting a linked list.
 // The slow random-access performance of a linked list makes some other algorithms (such as quicksort) perform poorly,
@@ -119,8 +95,10 @@ private:
 // -> Find mid using The Tortoise and The Hare Approach
 // -> Store the next of mid in head2 i.e. the right sub-linked list.
 // -> Now Make the next midpoint null.
-// -> Recursively call mergeSort() on both left and right sub-linked list and store the new head of the left and right linked list.
-// -> Call merge() given the arguments new heads of left and right sub-linked lists and store the final head returned after merging.
+// -> Recursively call mergeSort() on both left and right sub-linked list and store the new head of the left and right
+// linked list.
+// -> Call merge() given the arguments new heads of left and right sub-linked lists and store the final head returned
+// after merging.
 // -> Return the final head of the merged linkedlist.
 
 // merge(head1, head2):
@@ -134,6 +112,3 @@ private:
 
 // Time Complexity: O(n*log n)
 // Auxiliary Space Complexity: O(log n)
-
-
-

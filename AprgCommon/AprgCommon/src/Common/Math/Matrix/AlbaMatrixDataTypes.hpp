@@ -3,10 +3,8 @@
 #include <functional>
 #include <vector>
 
-namespace alba
-{
-namespace matrix
-{
+namespace alba {
+namespace matrix {
 template <typename DataType>
 using AlbaMatrixData = std::vector<DataType>;
 template <typename DataType>

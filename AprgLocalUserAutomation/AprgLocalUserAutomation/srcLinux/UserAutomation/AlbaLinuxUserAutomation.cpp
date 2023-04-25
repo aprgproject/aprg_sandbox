@@ -2,8 +2,7 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 /*
 bool AlbaLinuxUserAutomation::isLetterPressed(char const letter) const
 {

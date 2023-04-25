@@ -51,162 +51,168 @@ using namespace cimg_library;
 // Main procedure
 //----------------
 int main(int argc, char** argv) {
+    // Usage of the program displayed at the command line
+    cimg_usage("Real time edge detection with CImg. (c) Orges Leka");
 
-  // Usage of the program displayed at the command line
-  cimg_usage("Real time edge detection with CImg. (c) Orges Leka");
+    // Read command line arguments
+    // With cimg_option we can get a new name for the image which is to be loaded from the command line.
+    const char* img_name = cimg_option("-i", cimg_imagepath "parrot.ppm", "Input image.");
+    double alpha = cimg_option("-a", 1.0, "Blurring the gradient image."),
+           thresL = cimg_option("-tl", 13.5, "Lower thresholding used in Hysteresis."),
+           thresH = cimg_option("-th", 13.6, "Higher thresholding used in Hysteresis.");
+    const unsigned int mode = cimg_option("-m", 1, "Detection mode: 1 = Hysteresis, 2 = Gradient angle."),
+                       factor = cimg_option("-s", 80, "Half-size of edge-explorer window.");
 
-  // Read command line arguments
-  // With cimg_option we can get a new name for the image which is to be loaded from the command line.
-  const char* img_name = cimg_option("-i", cimg_imagepath "parrot.ppm","Input image.");
-  double
-    alpha = cimg_option("-a",1.0,"Blurring the gradient image."),
-    thresL = cimg_option("-tl",13.5,"Lower thresholding used in Hysteresis."),
-    thresH = cimg_option("-th",13.6,"Higher thresholding used in Hysteresis.");
-  const unsigned int
-    mode = cimg_option("-m",1,"Detection mode: 1 = Hysteresis, 2 = Gradient angle."),
-    factor = cimg_option("-s",80,"Half-size of edge-explorer window.");
+    cimg_help(
+        "\nAdditional notes : user can press following keys on main display window :\n"
+        "     - Left arrow : Decrease alpha.\n"
+        "     - Right arrow : Increase alpha.\n");
 
-  cimg_help("\nAdditional notes : user can press following keys on main display window :\n"
-            "     - Left arrow : Decrease alpha.\n"
-            "     - Right arrow : Increase alpha.\n");
+    // Construct a new image called 'edge' of size (2*factor,2*factor)
+    // and of type 'unsigned char'.
+    CImg<unsigned char> edge(2 * factor, 2 * factor);
+    CImgDisplay disp_edge(512, 512, "Edge Explorer");
 
-  // Construct a new image called 'edge' of size (2*factor,2*factor)
-  // and of type 'unsigned char'.
-  CImg<unsigned char> edge(2*factor,2*factor);
-  CImgDisplay disp_edge(512,512,"Edge Explorer");
+    // Load the image with the name 'img_name' into the CImg 'img'.
+    // and create a display window 'disp' for the image 'img'.
+    const CImg<unsigned char> img = CImg<float>::get_load(img_name).norm().normalize(0, 255);
+    CImgDisplay disp(img, "Original Image");
 
-  // Load the image with the name 'img_name' into the CImg 'img'.
-  // and create a display window 'disp' for the image 'img'.
-  const CImg<unsigned char> img = CImg<float>::get_load(img_name).norm().normalize(0,255);
-  CImgDisplay disp(img,"Original Image");
+    // Begin main interaction loop.
+    int x = 0, y = 0;
+    bool redraw = false;
+    while (!disp.is_closed() && !disp.is_keyQ() && !disp.is_keyESC()) {
+        disp.wait(100);
+        if (disp.button() & 1) {
+            alpha += 0.05;
+            redraw = true;
+        }
+        if (disp.button() & 2) {
+            alpha -= 0.05;
+            redraw = true;
+        }
+        if (disp.wheel()) {
+            alpha += 0.05 * disp.wheel();
+            disp.set_wheel();
+            redraw = true;
+        }
+        if (alpha < 0) alpha = 0;
+        if (disp_edge.is_resized()) {
+            disp_edge.resize();
+            redraw = true;
+        }
+        if (disp_edge.is_closed()) disp_edge.show();
+        if (disp.is_resized()) disp.resize(disp);
+        if (disp.mouse_x() >= 0) {
+            x = disp.mouse_x();  // Getting the current position of the mouse.
+            y = disp.mouse_y();  //
+            redraw = true;       // The image should be redrawn.
+        }
+        if (redraw) {
+            disp_edge.set_title("Edge explorer (alpha=%g)", alpha);
+            const int x0 = x - factor, y0 = y - factor,  // These are the coordinates for the red rectangle
+                x1 = x + factor, y1 = y + factor;        // to be drawn on the original image.
+            const unsigned char red[3] = {255, 0, 0},    //
+                black[3] = {0, 0, 0};                    // Defining the colors we need for drawing.
 
-  // Begin main interaction loop.
-  int x = 0, y = 0;
-  bool redraw = false;
-  while (!disp.is_closed() && !disp.is_keyQ() && !disp.is_keyESC()) {
-    disp.wait(100);
-    if (disp.button()&1) { alpha+=0.05; redraw = true; }
-    if (disp.button()&2) { alpha-=0.05; redraw = true; }
-    if (disp.wheel()) { alpha+=0.05*disp.wheel(); disp.set_wheel(); redraw = true; }
-    if (alpha<0) alpha = 0;
-    if (disp_edge.is_resized()) { disp_edge.resize(); redraw = true; }
-    if (disp_edge.is_closed()) disp_edge.show();
-    if (disp.is_resized()) disp.resize(disp);
-    if (disp.mouse_x()>=0) {
-      x = disp.mouse_x(); // Getting the current position of the mouse.
-      y = disp.mouse_y(); //
-      redraw = true;    // The image should be redrawn.
-    }
-    if (redraw) {
-      disp_edge.set_title("Edge explorer (alpha=%g)",alpha);
-      const int
-        x0 = x - factor, y0 = y - factor,  // These are the coordinates for the red rectangle
-        x1 = x + factor, y1 = y + factor;  // to be drawn on the original image.
-      const unsigned char
-        red[3] = { 255,0,0 },          //
-        black[3] = { 0,0,0 };          // Defining the colors we need for drawing.
+            (+img).draw_rectangle(x0, y0, x1, y1, red, 1.0f, 0x55555555U).display(disp);
+            //^ We draw the red rectangle on the original window using 'draw_line'.
+            // Then we display the result via '.display(disp)' .
+            //  Observe, that the color 'red' has to be of type 'const unsigned char',
+            //  since the image 'img' is of type 'const CImg<unsigned char>'.
 
-        (+img).draw_rectangle(x0,y0,x1,y1,red,1.0f,0x55555555U).display(disp);
-        //^ We draw the red rectangle on the original window using 'draw_line'.
-        // Then we display the result via '.display(disp)' .
-        //  Observe, that the color 'red' has to be of type 'const unsigned char',
-        //  since the image 'img' is of type 'const CImg<unsigned char>'.
+            //'normalize' is used to get a greyscaled image.
+            CImg<> visu_bw =
+                CImg<>(img).get_crop(x0, y0, x1, y1).get_norm().normalize(0, 255).resize(-100, -100, 1, 2, 2);
+            // get_crop(x0,y0,x1,y1) gets the rectangle we are interested in.
 
-        //'normalize' is used to get a greyscaled image.
-        CImg<> visu_bw = CImg<>(img).get_crop(x0,y0,x1,y1).get_norm().normalize(0,255).resize(-100,-100,1,2,2);
-        // get_crop(x0,y0,x1,y1) gets the rectangle we are interested in.
+            edge.fill(255);  // Background color in the edge-detection window is white.
 
-        edge.fill(255); // Background color in the edge-detection window is white.
+            // grad[0] is the gradient image of 'visu_bw' in x-direction.
+            // grad[1] is the gradient image of 'visu_bw' in y-direction.
+            CImgList<> grad(visu_bw.blur((float)alpha).normalize(0, 255).get_gradient());
 
-        // grad[0] is the gradient image of 'visu_bw' in x-direction.
-        // grad[1] is the gradient image of 'visu_bw' in y-direction.
-        CImgList<> grad(visu_bw.blur((float)alpha).normalize(0,255).get_gradient());
+            // To avoid unnecessary calculations in the image loops:
+            const double pi = cimg::PI, p8 = pi / 8.0, p38 = 3.0 * p8, p58 = 5.0 * p8, p78 = 7.0 * p8;
 
-        // To avoid unnecessary calculations in the image loops:
-        const double
-          pi = cimg::PI,
-          p8 = pi/8.0, p38 = 3.0*p8,
-          p58 = 5.0*p8, p78 = 7.0*p8;
-
-        cimg_forXY(visu_bw,s,t) {
-          // We take s,t instead of x,y, since x,y are already used.
-          // s corresponds to the x-ordinate of the pixel while t corresponds to the y-ordinate.
-          if ( 1 <= s && s <= visu_bw.width() - 1 && 1 <= t && t <=visu_bw.height() - 1) { // if - good points
-            double
-              Gs = grad[0](s,t),                  //
-              Gt = grad[1](s,t),                               //  The actual pixel is (s,t)
-              Gst = cimg::abs(Gs) + cimg::abs(Gt),    //
-              // ^-- For efficient computation we observe that |Gs|+ |Gt| ~=~ sqrt( Gs^2 + Gt^2)
-              Gr, Gur, Gu, Gul, Gl, Gdl, Gd, Gdr;
-            // ^-- right, up right, up, up left, left, down left, down, down right.
-            double theta = std::atan2(Gt,Gs) + pi; // theta is from the interval [0,Pi]
-            switch(mode) {
-            case 1: // Hysterese is applied
-              if (Gst>=thresH) { edge.draw_point(s,t,black); }
-              else if (thresL <= Gst && Gst < thresH) {
-                // Neighbourhood of the actual pixel:
-                Gr = cimg::abs(grad[0](s + 1,t)) + cimg::abs(grad[1](s + 1,t)); // right
-                Gl = cimg::abs(grad[0](s - 1,t)) + cimg::abs(grad[1](s - 1,t)); // left
-                Gur = cimg::abs(grad[0](s + 1,t + 1)) + cimg::abs(grad[1](s + 1,t + 1)); // up right
-                Gdl = cimg::abs(grad[0](s - 1,t - 1)) + cimg::abs(grad[1](s - 1,t - 1)); // down left
-                Gu = cimg::abs(grad[0](s,t + 1)) + cimg::abs(grad[1](s,t + 1)); // up
-                Gd = cimg::abs(grad[0](s,t - 1)) + cimg::abs(grad[1](s,t - 1)); // down
-                Gul = cimg::abs(grad[0](s - 1,t + 1)) + cimg::abs(grad[1](s - 1,t + 1)); // up left
-                Gdr = cimg::abs(grad[0](s + 1,t - 1)) + cimg::abs(grad[1](s + 1,t - 1)); // down right
-                if (Gr>=thresH || Gur>=thresH || Gu>=thresH || Gul>=thresH
-                    || Gl>=thresH || Gdl >=thresH || Gu >=thresH || Gdr >=thresH) {
-                  edge.draw_point(s,t,black);
-                }
-              };
-              break;
-            case 2: // Angle 'theta' of the gradient (Gs,Gt) at the point (s,t).
-              if(theta >= pi)theta-=pi;
-              //rounding theta:
-              if ((p8 < theta && theta <= p38 ) || (p78 < theta && theta <= pi)) {
-                // See (*) below for explanation of the vocabulary used.
-                // Direction-pixel is (s + 1,t) with corresponding gradient value Gr.
-                Gr = cimg::abs(grad[0](s + 1,t)) + cimg::abs(grad[1](s + 1,t)); // right
-                // Contra-direction-pixel is (s - 1,t) with corresponding gradient value Gl.
-                Gl = cimg::abs(grad[0](s - 1,t)) + cimg::abs(grad[1](s - 1,t)); // left
-                if (Gr < Gst && Gl < Gst) {
-                  edge.draw_point(s,t,black);
-                }
-              }
-              else if ( p8 < theta && theta <= p38) {
-                // Direction-pixel is (s + 1,t + 1) with corresponding gradient value Gur.
-                Gur = cimg::abs(grad[0](s + 1,t + 1)) + cimg::abs(grad[1](s + 1,t + 1)); // up right
-                // Contra-direction-pixel is (s-1,t-1) with corresponding gradient value Gdl.
-                Gdl = cimg::abs(grad[0](s - 1,t - 1)) + cimg::abs(grad[1](s - 1,t - 1)); // down left
-                if (Gur < Gst && Gdl < Gst) {
-                  edge.draw_point(s,t,black);
-                      }
-              }
-              else if ( p38 < theta && theta <= p58) {
-                // Direction-pixel is (s,t + 1) with corresponding gradient value Gu.
-                Gu = cimg::abs(grad[0](s,t + 1)) + cimg::abs(grad[1](s,t + 1)); // up
-                // Contra-direction-pixel is (s,t - 1) with corresponding gradient value Gd.
-                Gd = cimg::abs(grad[0](s,t - 1)) + cimg::abs(grad[1](s,t - 1)); // down
-                if (Gu < Gst && Gd < Gst) {
-                  edge.draw_point(s,t,black);
-                }
-              }
-              else if (p58 < theta && theta <= p78) {
-                // Direction-pixel is (s - 1,t + 1) with corresponding gradient value Gul.
-                Gul = cimg::abs(grad[0](s - 1,t + 1)) + cimg::abs(grad[1](s - 1,t + 1)); // up left
-                // Contra-direction-pixel is (s + 1,t - 1) with corresponding gradient value Gdr.
-                Gdr = cimg::abs(grad[0](s + 1,t - 1)) + cimg::abs(grad[1](s + 1,t - 1)); // down right
-                if (Gul < Gst && Gdr < Gst) {
-                  edge.draw_point(s,t,black);
-                }
-              };
-              break;
-            } // switch
-          } // if good-points
-        }  // cimg_forXY */
-        edge.display(disp_edge);
-    }// if redraw
-  } // while
-  return 0;
+            cimg_forXY(visu_bw, s, t) {
+                // We take s,t instead of x,y, since x,y are already used.
+                // s corresponds to the x-ordinate of the pixel while t corresponds to the y-ordinate.
+                if (1 <= s && s <= visu_bw.width() - 1 && 1 <= t && t <= visu_bw.height() - 1) {  // if - good points
+                    double Gs = grad[0](s, t),                                                    //
+                        Gt = grad[1](s, t),                   //  The actual pixel is (s,t)
+                        Gst = cimg::abs(Gs) + cimg::abs(Gt),  //
+                        // ^-- For efficient computation we observe that |Gs|+ |Gt| ~=~ sqrt( Gs^2 + Gt^2)
+                        Gr, Gur, Gu, Gul, Gl, Gdl, Gd, Gdr;
+                    // ^-- right, up right, up, up left, left, down left, down, down right.
+                    double theta = std::atan2(Gt, Gs) + pi;  // theta is from the interval [0,Pi]
+                    switch (mode) {
+                        case 1:  // Hysterese is applied
+                            if (Gst >= thresH) {
+                                edge.draw_point(s, t, black);
+                            } else if (thresL <= Gst && Gst < thresH) {
+                                // Neighbourhood of the actual pixel:
+                                Gr = cimg::abs(grad[0](s + 1, t)) + cimg::abs(grad[1](s + 1, t));           // right
+                                Gl = cimg::abs(grad[0](s - 1, t)) + cimg::abs(grad[1](s - 1, t));           // left
+                                Gur = cimg::abs(grad[0](s + 1, t + 1)) + cimg::abs(grad[1](s + 1, t + 1));  // up right
+                                Gdl = cimg::abs(grad[0](s - 1, t - 1)) + cimg::abs(grad[1](s - 1, t - 1));  // down left
+                                Gu = cimg::abs(grad[0](s, t + 1)) + cimg::abs(grad[1](s, t + 1));           // up
+                                Gd = cimg::abs(grad[0](s, t - 1)) + cimg::abs(grad[1](s, t - 1));           // down
+                                Gul = cimg::abs(grad[0](s - 1, t + 1)) + cimg::abs(grad[1](s - 1, t + 1));  // up left
+                                Gdr =
+                                    cimg::abs(grad[0](s + 1, t - 1)) + cimg::abs(grad[1](s + 1, t - 1));  // down right
+                                if (Gr >= thresH || Gur >= thresH || Gu >= thresH || Gul >= thresH || Gl >= thresH ||
+                                    Gdl >= thresH || Gu >= thresH || Gdr >= thresH) {
+                                    edge.draw_point(s, t, black);
+                                }
+                            };
+                            break;
+                        case 2:  // Angle 'theta' of the gradient (Gs,Gt) at the point (s,t).
+                            if (theta >= pi) theta -= pi;
+                            // rounding theta:
+                            if ((p8 < theta && theta <= p38) || (p78 < theta && theta <= pi)) {
+                                // See (*) below for explanation of the vocabulary used.
+                                // Direction-pixel is (s + 1,t) with corresponding gradient value Gr.
+                                Gr = cimg::abs(grad[0](s + 1, t)) + cimg::abs(grad[1](s + 1, t));  // right
+                                // Contra-direction-pixel is (s - 1,t) with corresponding gradient value Gl.
+                                Gl = cimg::abs(grad[0](s - 1, t)) + cimg::abs(grad[1](s - 1, t));  // left
+                                if (Gr < Gst && Gl < Gst) {
+                                    edge.draw_point(s, t, black);
+                                }
+                            } else if (p8 < theta && theta <= p38) {
+                                // Direction-pixel is (s + 1,t + 1) with corresponding gradient value Gur.
+                                Gur = cimg::abs(grad[0](s + 1, t + 1)) + cimg::abs(grad[1](s + 1, t + 1));  // up right
+                                // Contra-direction-pixel is (s-1,t-1) with corresponding gradient value Gdl.
+                                Gdl = cimg::abs(grad[0](s - 1, t - 1)) + cimg::abs(grad[1](s - 1, t - 1));  // down left
+                                if (Gur < Gst && Gdl < Gst) {
+                                    edge.draw_point(s, t, black);
+                                }
+                            } else if (p38 < theta && theta <= p58) {
+                                // Direction-pixel is (s,t + 1) with corresponding gradient value Gu.
+                                Gu = cimg::abs(grad[0](s, t + 1)) + cimg::abs(grad[1](s, t + 1));  // up
+                                // Contra-direction-pixel is (s,t - 1) with corresponding gradient value Gd.
+                                Gd = cimg::abs(grad[0](s, t - 1)) + cimg::abs(grad[1](s, t - 1));  // down
+                                if (Gu < Gst && Gd < Gst) {
+                                    edge.draw_point(s, t, black);
+                                }
+                            } else if (p58 < theta && theta <= p78) {
+                                // Direction-pixel is (s - 1,t + 1) with corresponding gradient value Gul.
+                                Gul = cimg::abs(grad[0](s - 1, t + 1)) + cimg::abs(grad[1](s - 1, t + 1));  // up left
+                                // Contra-direction-pixel is (s + 1,t - 1) with corresponding gradient value Gdr.
+                                Gdr =
+                                    cimg::abs(grad[0](s + 1, t - 1)) + cimg::abs(grad[1](s + 1, t - 1));  // down right
+                                if (Gul < Gst && Gdr < Gst) {
+                                    edge.draw_point(s, t, black);
+                                }
+                            };
+                            break;
+                    }  // switch
+                }      // if good-points
+            }          // cimg_forXY */
+            edge.display(disp_edge);
+        }  // if redraw
+    }      // while
+    return 0;
 }
 
 // (*) Comments to the vocabulary used:

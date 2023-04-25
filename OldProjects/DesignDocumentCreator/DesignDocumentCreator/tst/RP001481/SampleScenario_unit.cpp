@@ -14,8 +14,7 @@ using namespace MessageFactory;
 using namespace MessageVerifier;
 using namespace StringHelpers;
 
-TEST_F(ModuleTest, SampleScenario)
-{
+TEST_F(ModuleTest, SampleScenario) {
     UmlLogger& umlLogger(getUmlLogger());
     TOAM& toam(*static_cast<TOAM*>(getComponentAndActivateAsParticipant(ComponentName::TOAM, "TOAM")));
     LRM& lrm(*static_cast<LRM*>(getComponentAndActivateAsParticipant(ComponentName::LRM, "LRM")));

@@ -2,15 +2,14 @@
 
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace mathHelper
-{
+namespace mathHelper {
 
-template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);
-void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
+template <typename NumberType>
+AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);
+void saveToComplexNumberData(AlbaNumber::ComplexNumberData& data, AlbaComplexNumber<float> const& number);
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

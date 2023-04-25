@@ -3,56 +3,50 @@
 #include <array>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Index>
-class BoyerMooreSubstringSearch
-{
+class BoyerMooreSubstringSearch {
 public:
     using RadixType = unsigned int;
-    using Position = int; // allows negative position
-    static constexpr RadixType RADIX=256U;
+    using Position = int;  // allows negative position
+    static constexpr RadixType RADIX = 256U;
     using SkipTable = std::array<Position, RADIX>;
 
     BoyerMooreSubstringSearch(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch)
-        , m_rightMostLetterPosition{}
-    {
+        : m_substringToMatch(substringToMatch), m_rightMostLetterPosition{} {
         initialize();
     }
 
-    Index search(std::string const& mainString)
-    {
+    Index search(std::string const& mainString) {
         Index result(static_cast<Index>(std::string::npos));
         Index mainLength(mainString.size());
         Index substringLength(m_substringToMatch.size());
         int skipValue(0);
-        for(Index searchIndex=0; searchIndex+substringLength<=mainLength; searchIndex+=skipValue)
-        {
-            skipValue=0;
-            for(Index matchIndex=0; matchIndex<substringLength; matchIndex++)
-            {
-                Index matchReverseIndex(substringLength-matchIndex-1);
-                if(m_substringToMatch.at(matchReverseIndex) != mainString.at(searchIndex+matchReverseIndex)) // if mismatch
+        for (Index searchIndex = 0; searchIndex + substringLength <= mainLength; searchIndex += skipValue) {
+            skipValue = 0;
+            for (Index matchIndex = 0; matchIndex < substringLength; matchIndex++) {
+                Index matchReverseIndex(substringLength - matchIndex - 1);
+                if (m_substringToMatch.at(matchReverseIndex) !=
+                    mainString.at(searchIndex + matchReverseIndex))  // if mismatch
                 {
-                    Position positionOfLetter(m_rightMostLetterPosition.at(mainString.at(searchIndex+matchReverseIndex)));
+                    Position positionOfLetter(
+                        m_rightMostLetterPosition.at(mainString.at(searchIndex + matchReverseIndex)));
                     // (Case 1) happens if positionOfLetter is -1
-                    if(static_cast<Position>(matchReverseIndex) > positionOfLetter+1) // there should be at least 1 difference to maintain forward progress
+                    if (static_cast<Position>(matchReverseIndex) >
+                        positionOfLetter + 1)  // there should be at least 1 difference to maintain forward progress
                     {
-                        skipValue = matchReverseIndex - positionOfLetter; // (Case 2a) // align letter position for skip value
-                    }
-                    else
-                    {
-                        skipValue = 1; // (Case 2b) guarantee forward progress
+                        skipValue =
+                            matchReverseIndex - positionOfLetter;  // (Case 2a) // align letter position for skip value
+                    } else {
+                        skipValue = 1;  // (Case 2b) guarantee forward progress
                     }
                     break;
                 }
             }
-            if(skipValue == 0) // all letters matched
+            if (skipValue == 0)  // all letters matched
             {
                 result = searchIndex;
                 break;
@@ -62,16 +56,12 @@ public:
     }
 
 private:
-
-    void initialize()
-    {
+    void initialize() {
         char i(0U);
-        for(RadixType i=0; i<RADIX; i++)
-        {
-            m_rightMostLetterPosition[i] = -1; // assign negative one for case 1
+        for (RadixType i = 0; i < RADIX; i++) {
+            m_rightMostLetterPosition[i] = -1;  // assign negative one for case 1
         }
-        for(char const c : m_substringToMatch)
-        {
+        for (char const c : m_substringToMatch) {
             m_rightMostLetterPosition[c] = i++;
             // if there are multiple instances of letter, it overwrites (right most position is taken)
         }
@@ -123,7 +113,6 @@ private:
 // Improvement:
 // -> Boyer-Moore variant: Can improve worst case to ~3N by adding a KMP-like rule to guard against repetitive patterns.
 
+}  // namespace algorithm
 
-}
-
-}
+}  // namespace alba

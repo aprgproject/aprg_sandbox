@@ -6,14 +6,11 @@
 using namespace alba::algorithm;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(GameWithGraphTest, Example1Works)
-{
+TEST(GameWithGraphTest, Example1Works) {
     DirectedGraphWithAdjacencyMatrix<GameWithGraph::Vertex, 10U> graph;
     graph.connect(2U, 1U);
     graph.connect(3U, 2U);
@@ -60,8 +57,7 @@ TEST(GameWithGraphTest, Example1Works)
     EXPECT_EQ(6U, gameWithGraph.getOptimalNextVertexAt(9U));
 }
 
-TEST(GameWithGraphTest, Example2Works)
-{
+TEST(GameWithGraphTest, Example2Works) {
     DirectedGraphWithAdjacencyMatrix<GameWithGraph::Vertex, 7U> graph;
     graph.connect(2U, 1U);
     graph.connect(3U, 2U);
@@ -93,6 +89,6 @@ TEST(GameWithGraphTest, Example2Works)
     EXPECT_EQ(5U, gameWithGraph.getOptimalNextVertexAt(6U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

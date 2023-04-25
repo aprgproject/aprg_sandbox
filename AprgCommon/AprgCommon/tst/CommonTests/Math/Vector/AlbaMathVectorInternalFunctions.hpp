@@ -1,7 +1,6 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 // Template declaration
 
 template <typename DataType>

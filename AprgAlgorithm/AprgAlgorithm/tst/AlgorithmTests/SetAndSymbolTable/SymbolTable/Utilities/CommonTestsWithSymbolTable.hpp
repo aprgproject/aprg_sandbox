@@ -6,26 +6,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithSymbolTable
-{
+namespace CommonTestsWithSymbolTable {
 
 template <typename SymbolTable>
-void testIsEmptyWhenEmptyWithUnsignedIntAndChar()
-{
+void testIsEmptyWhenEmptyWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
 
     EXPECT_TRUE(symbolTable.isEmpty());
 }
 
 template <typename SymbolTable>
-void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar()
-{
+void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(5U, 'E');
 
@@ -33,8 +28,7 @@ void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testDoesContainWithUnsignedIntAndChar()
-{
+void testDoesContainWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(5U, 'E');
 
@@ -43,16 +37,14 @@ void testDoesContainWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetSizeWhenEmptyWithUnsignedIntAndChar()
-{
+void testGetSizeWhenEmptyWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
 
     EXPECT_EQ(0U, symbolTable.getSize());
 }
 
 template <typename SymbolTable>
-void testGetSizeWhenNotEmptyWithUnsignedIntAndChar()
-{
+void testGetSizeWhenNotEmptyWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
@@ -62,8 +54,7 @@ void testGetSizeWhenNotEmptyWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetWithUnsignedIntAndChar()
-{
+void testGetWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
@@ -76,8 +67,7 @@ void testGetWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetRankWithUnsignedIntAndChar()
-{
+void testGetRankWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
@@ -94,8 +84,7 @@ void testGetRankWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetMinimumWithUnsignedIntAndChar()
-{
+void testGetMinimumWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
@@ -106,8 +95,7 @@ void testGetMinimumWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetMaximumWithUnsignedIntAndChar()
-{
+void testGetMaximumWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
@@ -118,8 +106,7 @@ void testGetMaximumWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testSelectAtWithUnsignedIntAndChar()
-{
+void testSelectAtWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
@@ -133,8 +120,7 @@ void testSelectAtWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetFloorWithUnsignedIntAndChar()
-{
+void testGetFloorWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
@@ -151,8 +137,7 @@ void testGetFloorWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetCeilingWithUnsignedIntAndChar()
-{
+void testGetCeilingWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
@@ -169,8 +154,7 @@ void testGetCeilingWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testPutWithUnsignedIntAndChar()
-{
+void testPutWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
@@ -183,8 +167,7 @@ void testPutWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testDeleteBasedOnKeyWithUnsignedIntAndChar()
-{
+void testDeleteBasedOnKeyWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
@@ -204,8 +187,7 @@ void testDeleteBasedOnKeyWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testDeleteMinimumWithUnsignedIntAndChar()
-{
+void testDeleteMinimumWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
@@ -218,8 +200,7 @@ void testDeleteMinimumWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testDeleteMaximumWithUnsignedIntAndChar()
-{
+void testDeleteMaximumWithUnsignedIntAndChar() {
     SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
@@ -232,8 +213,7 @@ void testDeleteMaximumWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetKeysWithUnsignedIntAndChar()
-{
+void testGetKeysWithUnsignedIntAndChar() {
     using Keys = typename SymbolTable::Keys;
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
@@ -250,8 +230,7 @@ void testGetKeysWithUnsignedIntAndChar()
 }
 
 template <typename SymbolTable>
-void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
-{
+void testGetKeysInRangeInclusiveWithUnsignedIntAndChar() {
     using Keys = typename SymbolTable::Keys;
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
@@ -267,8 +246,8 @@ void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-}
+}  // namespace CommonTestsWithSymbolTable
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

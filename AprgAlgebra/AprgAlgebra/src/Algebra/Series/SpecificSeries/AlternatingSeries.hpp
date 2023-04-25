@@ -2,14 +2,11 @@
 
 #include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class AlternatingSeries : public SeriesBasedOnSummation
-{
+class AlternatingSeries : public SeriesBasedOnSummation {
 public:
     AlternatingSeries(Term const& formulaForEachTermWithoutSign, std::string const& nameForVariableInFormula);
 
@@ -21,6 +18,6 @@ protected:
     Term m_formulaForEachTermWithoutSign;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

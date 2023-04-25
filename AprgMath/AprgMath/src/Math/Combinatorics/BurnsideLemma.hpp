@@ -2,20 +2,17 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 UnsignedInteger getNumberOfSymmetricCombinationsUsingBurnsideLemma(
-        UnsignedInteger const numberOfWaysToChangePosition,
-        UnsignedIntegerBinaryFunction const& getNumberOfCombinationsFunction);
+    UnsignedInteger const numberOfWaysToChangePosition,
+    UnsignedIntegerBinaryFunction const& getNumberOfCombinationsFunction);
 
 UnsignedInteger getNumberOfCombinationsOfAPearlNecklace(
-        UnsignedInteger const numberOfPearls,
-        UnsignedInteger const& numberOfColors);
+    UnsignedInteger const numberOfPearls, UnsignedInteger const& numberOfColors);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulator<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
@@ -19,18 +16,16 @@ RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
 RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
 RangeQueryForTest::AccumulatorFunction multipliesAccumulator = multiplies<>();
 RangeQueryForTest::AccumulatorFunction dividesAccumulator = divides<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
 
     EXPECT_EQ(0U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
 
@@ -43,15 +38,15 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksOnE
     EXPECT_EQ(27U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 6U));
     EXPECT_EQ(29U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 7U));
     EXPECT_EQ(38U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 8U));
-    EXPECT_EQ(0U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 9U));;
+    EXPECT_EQ(0U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 9U));
+    ;
     EXPECT_EQ(26U, sumRangeQuery.getAccumulatedValueOnInterval(1U, 6U));
     EXPECT_EQ(19U, sumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
     EXPECT_EQ(14U, sumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
     EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksOnExample2)
-{
+TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksOnExample2) {
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
 
@@ -71,8 +66,7 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksOnE
     EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
@@ -92,8 +86,7 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample2)
-{
+TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample2) {
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
@@ -113,6 +106,6 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

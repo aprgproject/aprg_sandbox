@@ -11,38 +11,32 @@ using namespace alba::stringHelper;
 using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-void OneDownloadPerPageCrawler::retrieveLinksForHBrowse(AlbaWebPathHandler const& webLinkPathHandler)
-{
+void OneDownloadPerPageCrawler::retrieveLinksForHBrowse(AlbaWebPathHandler const& webLinkPathHandler) {
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
-    {
+    if (!htmlFileStream.is_open()) {
         cout << "Cannot open html file.\n";
         cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
-    }
-    else
-    {
+    } else {
         AlbaFileReader htmlFileReader(htmlFileStream);
-        while (htmlFileReader.isNotFinished())
-        {
+        while (htmlFileReader.isNotFinished()) {
             string lineInHtmlFile(htmlFileReader.getLine());
-            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="mangaImage")"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="mangaImage")")) {
                 m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"( src=")", R"(")");
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a name="next")"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a name="next")")) {
                 m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"( href=")", R"(")");
             }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
         imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
-        m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + imageWebPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
+        m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() +
+                                              imageWebPathHandler.getImmediateDirectoryName() + R"(\)" +
+                                              imageWebPathHandler.getFile();
     }
 }
 
-}
+}  // namespace aprgWebCrawler

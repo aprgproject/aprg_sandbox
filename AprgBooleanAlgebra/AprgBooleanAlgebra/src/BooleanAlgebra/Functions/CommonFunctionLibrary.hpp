@@ -4,11 +4,9 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 using UnaryBooleanFunction = std::function<bool(Term const&)>;
 
@@ -24,7 +22,6 @@ Term getUniquenessQuantification(Terms const& terms, UnaryBooleanFunction const&
 UnaryBooleanFunction getTautology();
 UnaryBooleanFunction getContradiction();
 
+}  // namespace booleanAlgebra
 
-}
-
-}
+}  // namespace alba

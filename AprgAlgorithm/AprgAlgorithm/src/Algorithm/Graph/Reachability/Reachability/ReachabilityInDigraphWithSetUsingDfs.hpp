@@ -4,45 +4,32 @@
 #include <Algorithm/Graph/Reachability/Reachability/BaseReachabilityInDigraph.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class ReachabilityInDigraphWithSetUsingDfs : public BaseReachabilityInDigraph<Vertex>
-{
+class ReachabilityInDigraphWithSetUsingDfs : public BaseReachabilityInDigraph<Vertex> {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     ReachabilityInDigraphWithSetUsingDfs(BaseDirectedGraphWithVertex const& graph, Vertex const& sourceVertex)
-        : m_graph(graph)
-        , m_sourceVertex(sourceVertex)
-    {
+        : m_graph(graph), m_sourceVertex(sourceVertex) {
         initialize();
     }
 
-    bool isReachable(Vertex const& destinationVertex) const override
-    {
+    bool isReachable(Vertex const& destinationVertex) const override {
         return m_processedVertices.isFound(destinationVertex);
     }
 
 private:
+    void initialize() { traverseUsingDfs(m_sourceVertex); }
 
-    void initialize()
-    {
-        traverseUsingDfs(m_sourceVertex);
-    }
-
-    void traverseUsingDfs(Vertex const& vertex)
-    {
+    void traverseUsingDfs(Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {
-            if(m_processedVertices.isNotFound(adjacentVertex))
-            {
+        for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
+            if (m_processedVertices.isNotFound(adjacentVertex)) {
                 traverseUsingDfs(adjacentVertex);
             }
         }
@@ -53,6 +40,6 @@ private:
     CheckableVerticesWithVertex m_processedVertices;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

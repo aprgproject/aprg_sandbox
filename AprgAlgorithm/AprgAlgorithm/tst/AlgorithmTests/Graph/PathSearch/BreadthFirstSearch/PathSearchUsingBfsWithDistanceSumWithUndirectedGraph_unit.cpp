@@ -4,23 +4,20 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using ContentMapForTest = GraphTypesWithWeights<VertexForTest, WeightForTest>::VertexToWeightMap;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using PathSearchForTest = PathSearchUsingBfsWithDistanceSum<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
+using PathSearchForTest =
+    PathSearchUsingBfsWithDistanceSum<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
 
-void putConnectionsForTest(EdgeWeightedUndirectedGraphForTest & graph)
-{
+void putConnectionsForTest(EdgeWeightedUndirectedGraphForTest& graph) {
     graph.connect(0U, 1U, 0.05);
     graph.connect(0U, 2U, 0.10);
     graph.connect(0U, 5U, 0.15);
@@ -30,10 +27,9 @@ void putConnectionsForTest(EdgeWeightedUndirectedGraphForTest & graph)
     graph.connect(3U, 4U, 0.35);
     graph.connect(3U, 5U, 0.40);
 }
-}
+}  // namespace
 
-TEST(PathSearchUsingBfsWithDistanceSumTest, GetDistanceToWorksWithUndirectedGraph)
-{
+TEST(PathSearchUsingBfsWithDistanceSumTest, GetDistanceToWorksWithUndirectedGraph) {
     EdgeWeightedUndirectedGraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
@@ -47,8 +43,7 @@ TEST(PathSearchUsingBfsWithDistanceSumTest, GetDistanceToWorksWithUndirectedGrap
     EXPECT_DOUBLE_EQ(0, pathSearch.getDistanceTo(6U));
 }
 
-TEST(PathSearchUsingBfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWithUndirectedGraph)
-{
+TEST(PathSearchUsingBfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWithUndirectedGraph) {
     EdgeWeightedUndirectedGraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
@@ -57,6 +52,6 @@ TEST(PathSearchUsingBfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWit
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceSumMap());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

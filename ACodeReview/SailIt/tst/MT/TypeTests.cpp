@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, ReturnTypeTest)
-{
+TEST_F(ModuleTest, ReturnTypeTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "const char *__mingw_get_crt_info(void);\n";
@@ -18,7 +17,7 @@ TEST_F(ModuleTest, ReturnTypeTest)
     ASSERT_EQ(m_terms.size(), 1);
     EXPECT_TRUE(m_database.isFunction("__mingw_get_crt_info"));
     CPlusPlusFunction& myFunction(m_database.getFunctionReference("__mingw_get_crt_info"));
-    auto & signatures = myFunction.getFunctionSignaturesReference();
+    auto& signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
     CPlusPlusType constCharPointer("char", CPlusPlusTypeType::Primitive);
     constCharPointer.setAsConst();
@@ -30,8 +29,7 @@ TEST_F(ModuleTest, ReturnTypeTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(ModuleTest, TypeDefTest)
-{
+TEST_F(ModuleTest, TypeDefTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACROINT int\n";
@@ -55,8 +53,7 @@ TEST_F(ModuleTest, TypeDefTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, TypeDefWithParenthesisTest)
-{
+TEST_F(ModuleTest, TypeDefWithParenthesisTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "typedef int __int128 __attribute__ ((__mode__ (TI)));\n";
@@ -72,9 +69,7 @@ TEST_F(ModuleTest, TypeDefWithParenthesisTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-
-TEST_F(ModuleTest, TypeDefWithMultipleTypedefNamesTest)
-{
+TEST_F(ModuleTest, TypeDefWithMultipleTypedefNamesTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "typedef unsigned __int64 size_t;\n";
@@ -120,8 +115,7 @@ TEST_F(ModuleTest, TypeDefWithMultipleTypedefNamesTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, TypeDefWithMultipleTypesTest)
-{
+TEST_F(ModuleTest, TypeDefWithMultipleTypesTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "class size_t;\n";
@@ -153,8 +147,7 @@ TEST_F(ModuleTest, TypeDefWithMultipleTypesTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, TypeDefTypePointersAreUsed)
-{
+TEST_F(ModuleTest, TypeDefTypePointersAreUsed) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "typedef int MyIntType;\n";
@@ -172,8 +165,7 @@ TEST_F(ModuleTest, TypeDefTypePointersAreUsed)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, ClassTypePointerIsUsed)
-{
+TEST_F(ModuleTest, ClassTypePointerIsUsed) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "class myType;\n";
@@ -190,9 +182,7 @@ TEST_F(ModuleTest, ClassTypePointerIsUsed)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-
-TEST_F(ModuleTest, ConstPointerIsUsedForNewType)
-{
+TEST_F(ModuleTest, ConstPointerIsUsedForNewType) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "const int* intPointer1;\n";
@@ -210,8 +200,7 @@ TEST_F(ModuleTest, ConstPointerIsUsedForNewType)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 2);
 }
 
-TEST_F(ModuleTest, ConstReferenceIsUsedForNewType)
-{
+TEST_F(ModuleTest, ConstReferenceIsUsedForNewType) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "const int& intReference1;\n";
@@ -229,8 +218,7 @@ TEST_F(ModuleTest, ConstReferenceIsUsedForNewType)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 2);
 }
 
-TEST_F(ModuleTest, CStyleStructTypedefs)
-{
+TEST_F(ModuleTest, CStyleStructTypedefs) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "struct threadlocaleinfostruct;\n";
@@ -265,8 +253,7 @@ TEST_F(ModuleTest, CStyleStructTypedefs)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, CStyleStructWithBracesTypedefs)
-{
+TEST_F(ModuleTest, CStyleStructWithBracesTypedefs) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "typedef struct tagLC_ID\n";
@@ -291,12 +278,15 @@ TEST_F(ModuleTest, CStyleStructWithBracesTypedefs)
 
     ASSERT_EQ(m_terms.size(), 1);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::ProcessedTerm, "typedef struct tagLC_ID\n{\nunsigned short wLanguage;\nunsigned short wCountry;\nunsigned short wCodePage;\n}\nLC_ID,*LPLC_ID;\n", 1);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "typedef struct tagLC_ID\n{\nunsigned short wLanguage;\nunsigned short wCountry;\nunsigned short "
+        "wCodePage;\n}\nLC_ID,*LPLC_ID;\n",
+        1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, TypesAreRecognizedAfterMacro)
-{
+TEST_F(ModuleTest, TypesAreRecognizedAfterMacro) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "typedef unsigned int size_t;\n";
@@ -313,9 +303,11 @@ TEST_F(ModuleTest, TypesAreRecognizedAfterMacro)
     CHECK_TERM(it, TermType::ProcessedTerm, "typedef unsigned int size_t;\n", 1);
     CHECK_TERM(it, TermType::ProcessedTerm, "#endif\n", 2);
     CHECK_TERM(it, TermType::ProcessedTerm, "#endif\n", 3);
-    CHECK_TERM(it, TermType::ProcessedTerm, "size_t _fread_nolock_s(void* _DstBuf, size_t _DstSize, size_t _ElementSize, size_t _Count);\n", 4);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "size_t _fread_nolock_s(void* _DstBuf, size_t _DstSize, size_t _ElementSize, size_t _Count);\n", 4);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-//check database for type
-//edit type database how?
+// check database for type
+// edit type database how?

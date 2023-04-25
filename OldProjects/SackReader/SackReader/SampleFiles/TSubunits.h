@@ -1,6 +1,8 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1806_001_00/I_Interface/Application_Env/Definitions/TSubunits.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1806_001_00/I_Interface/Application_Env/Definitions/TSubunits.h
+*$
 * @version               $LastChangedRevision: 2732 $
 * @date                  $LastChangedDate: 2018-03-12 16:46:52 +0800 (Mon, 12 Mar 2018) $
 * @author                $Author: rancastr $
@@ -36,4 +38,3 @@ typedef r32 TSubunits;
 * Remember to put an empty line in the end of each definition file.
 * Otherwise the compiler will generate a warning.
 ******************************************************************************/
-

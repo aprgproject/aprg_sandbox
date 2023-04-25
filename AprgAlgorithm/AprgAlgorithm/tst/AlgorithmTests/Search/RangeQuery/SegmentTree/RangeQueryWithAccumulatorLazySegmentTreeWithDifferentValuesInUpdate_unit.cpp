@@ -4,42 +4,39 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 using IndexForTest = RangeQueryForTest::Index;
 RangeQueryForTest::Function plusFunction = plus<>();
-RangeQueryForTest::IncrementFunction incrementFunction = [](IndexForTest const intervalStart, IndexForTest const intervalEnd)
-{
+RangeQueryForTest::IncrementFunction incrementFunction = [](IndexForTest const intervalStart,
+                                                            IndexForTest const intervalEnd) {
     // Increase the first value in range [a,b] by 1, the second value by 2, the third value by 3, and so on.
 
-    ValueForTest incrementValue=0;
-    for(IndexForTest index=intervalStart; index<=intervalEnd; index++)
-    {
-        incrementValue += index+1;
+    ValueForTest incrementValue = 0;
+    for (IndexForTest index = intervalStart; index <= intervalEnd; index++) {
+        incrementValue += index + 1;
     }
     return incrementValue;
 };
-}
+}  // namespace
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
-{
+TEST(
+    RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest,
+    GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, GetValueOnIntervalWithSumWorksOnExample1)
-{
+TEST(
+    RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, GetValueOnIntervalWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
@@ -59,8 +56,9 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, Ge
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, IncreaseAtRangeWithSumWorksWithEmptySetOfValues)
-{
+TEST(
+    RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest,
+    IncreaseAtRangeWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
@@ -69,8 +67,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, In
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, IncreaseAtRangeWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, IncreaseAtRangeWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
@@ -92,6 +89,6 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, In
     EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2019_RoundB_P3_DiverseSubarray.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -21,8 +22,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2019_RoundB_P3_DiverseSubarray
-{
+namespace KickStart_2019_RoundB_P3_DiverseSubarray {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -30,8 +30,7 @@ namespace KickStart_2019_RoundB_P3_DiverseSubarray
 #define my_cin cin
 #endif
 
-struct TypeDetail
-{
+struct TypeDetail {
     optional<int> negativeDeltaIndexOptional;
     deque<int> zeroDeltaIndices;
 };
@@ -40,64 +39,42 @@ int numberOfTrinkets, allowableCountForAType;
 vector<int> typeToCountMap;
 constexpr int MAX_NUMBER_TYPES = 100001;
 
-
 template <typename Index>
-class SegmentTreeUtilities
-{
+class SegmentTreeUtilities {
 public:
     // rule of five or six
     SegmentTreeUtilities() = delete;
     ~SegmentTreeUtilities() = delete;
     SegmentTreeUtilities(SegmentTreeUtilities const&) = delete;
-    SegmentTreeUtilities & operator= (SegmentTreeUtilities const&) = delete;
-    SegmentTreeUtilities(SegmentTreeUtilities &&) = delete;
-    SegmentTreeUtilities & operator= (SegmentTreeUtilities &&) = delete;
+    SegmentTreeUtilities& operator=(SegmentTreeUtilities const&) = delete;
+    SegmentTreeUtilities(SegmentTreeUtilities&&) = delete;
+    SegmentTreeUtilities& operator=(SegmentTreeUtilities&&) = delete;
 
-    static constexpr Index ROOT_PARENT_INDEX=0U; // the first parent
-    static constexpr Index NUMBER_OF_CHILDREN=2U; // only 2 children
+    static constexpr Index ROOT_PARENT_INDEX = 0U;   // the first parent
+    static constexpr Index NUMBER_OF_CHILDREN = 2U;  // only 2 children
 
-    static inline bool isALeftChild(Index const treeIndex)
-    {
-        return treeIndex%2 == 1;
-    }
+    static inline bool isALeftChild(Index const treeIndex) { return treeIndex % 2 == 1; }
 
-    static inline bool isARightChild(Index const treeIndex)
-    {
-        return treeIndex%2 == 0;
-    }
+    static inline bool isARightChild(Index const treeIndex) { return treeIndex % 2 == 0; }
 
-    static inline Index getParent(Index const treeIndex)
-    {
-        return ((treeIndex+1)/NUMBER_OF_CHILDREN)-1;
-    }
+    static inline Index getParent(Index const treeIndex) { return ((treeIndex + 1) / NUMBER_OF_CHILDREN) - 1; }
 
-    static inline Index getLeftChild(Index const parent)
-    {
-        return (parent*NUMBER_OF_CHILDREN)+1;
-    }
+    static inline Index getLeftChild(Index const parent) { return (parent * NUMBER_OF_CHILDREN) + 1; }
 
-    static inline Index getRightChild(Index const parent)
-    {
-        return (parent*NUMBER_OF_CHILDREN)+2;
-    }
+    static inline Index getRightChild(Index const parent) { return (parent * NUMBER_OF_CHILDREN) + 2; }
 
-    static inline Index getMinimumNumberOfParents(Index const numberOfValues)
-    {
+    static inline Index getMinimumNumberOfParents(Index const numberOfValues) {
         Index result(0);
-        if(numberOfValues > 0)
-        {
-            result = static_cast<int>(pow(NUMBER_OF_CHILDREN, ceil(log(numberOfValues)/log(NUMBER_OF_CHILDREN))))-1;
+        if (numberOfValues > 0) {
+            result = static_cast<int>(pow(NUMBER_OF_CHILDREN, ceil(log(numberOfValues) / log(NUMBER_OF_CHILDREN)))) - 1;
         }
         return result;
     }
 };
 
-
 template <typename Values>
-class RangeQueryWithStaticSegmentTree
-{
+class RangeQueryWithStaticSegmentTree {
 public:
-
     using Index = unsigned int;
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
@@ -105,105 +82,76 @@ public:
 
     RangeQueryWithStaticSegmentTree() = default;
 
-    RangeQueryWithStaticSegmentTree(
-            Values const& valuesToCheck,
-            Function const& functionObject)
-        : m_startOfChildren(0U)
-        , m_treeValues()
-        , m_function(functionObject)
-    {
+    RangeQueryWithStaticSegmentTree(Values const& valuesToCheck, Function const& functionObject)
+        : m_startOfChildren(0U), m_treeValues(), m_function(functionObject) {
         initialize(valuesToCheck);
     }
 
-    Index getStartOfChildren() const
-    {
-        return m_startOfChildren;
-    }
+    Index getStartOfChildren() const { return m_startOfChildren; }
 
-    Values const& getTreeValues() const
-    {
-        return m_treeValues;
-    }
+    Values const& getTreeValues() const { return m_treeValues; }
 
-    Value getValueOnInterval(Index const start, Index const end) const // bottom to top approach
+    Value getValueOnInterval(Index const start, Index const end) const  // bottom to top approach
     {
         // This has log(N) running time
         return getValueOnIntervalFromBottomToTop(start, end);
     }
 
-    void changeValueAtIndex(Index const index, Value const& newValue)
-    {
+    void changeValueAtIndex(Index const index, Value const& newValue) {
         // This has log(N) running time
         changeValueAtIndexFromBottomToTop(index, newValue);
     }
 
-    Value getMaximumSum()
-    {
-        Index maxSumParent = 0; //start at the top
-        while(true)
-        {
+    Value getMaximumSum() {
+        Index maxSumParent = 0;  // start at the top
+        while (true) {
             Index nextIndex = maxSumParent;
             Index leftChildIndex = Utilities::getLeftChild(nextIndex);
-            if(leftChildIndex < m_treeValues.size())
-            {
-                if(m_treeValues.at(nextIndex) < m_treeValues.at(leftChildIndex))
-                {
+            if (leftChildIndex < m_treeValues.size()) {
+                if (m_treeValues.at(nextIndex) < m_treeValues.at(leftChildIndex)) {
                     nextIndex = leftChildIndex;
                 }
             }
             Index rightChildIndex = Utilities::getRightChild(nextIndex);
-            if(rightChildIndex < m_treeValues.size())
-            {
-                if(m_treeValues.at(nextIndex) < m_treeValues.at(rightChildIndex))
-                {
+            if (rightChildIndex < m_treeValues.size()) {
+                if (m_treeValues.at(nextIndex) < m_treeValues.at(rightChildIndex)) {
                     nextIndex = rightChildIndex;
                 }
             }
-            if(nextIndex == maxSumParent)
-            {
+            if (nextIndex == maxSumParent) {
                 break;
             }
             maxSumParent = nextIndex;
         }
 
         Index maxSumLeftMostChild = maxSumParent;
-        while(maxSumLeftMostChild < m_startOfChildren)
-        {
+        while (maxSumLeftMostChild < m_startOfChildren) {
             maxSumLeftMostChild = Utilities::getLeftChild(maxSumLeftMostChild);
         }
 
         Index maxSumRightMostChild = maxSumParent;
-        while(maxSumRightMostChild < m_startOfChildren)
-        {
+        while (maxSumRightMostChild < m_startOfChildren) {
             maxSumRightMostChild = Utilities::getRightChild(maxSumRightMostChild);
         }
 
         Value maxSum(m_treeValues.at(maxSumParent));
         maxSumLeftMostChild--;
-        while(maxSumLeftMostChild >= m_startOfChildren)
-        {
+        while (maxSumLeftMostChild >= m_startOfChildren) {
             Value additionalValue = m_treeValues.at(maxSumLeftMostChild);
-            if(additionalValue >= 0)
-            {
-                maxSum+=additionalValue;
+            if (additionalValue >= 0) {
+                maxSum += additionalValue;
                 maxSumLeftMostChild--;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
         maxSumRightMostChild++;
-        while(maxSumRightMostChild >= m_startOfChildren && maxSumRightMostChild < m_treeValues.size())
-        {
+        while (maxSumRightMostChild >= m_startOfChildren && maxSumRightMostChild < m_treeValues.size()) {
             Value additionalValue = m_treeValues.at(maxSumRightMostChild);
-            if(additionalValue >= 0)
-            {
-                maxSum+=additionalValue;
+            if (additionalValue >= 0) {
+                maxSum += additionalValue;
                 maxSumRightMostChild++;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -211,31 +159,32 @@ public:
     }
 
 protected:
-
-    void initialize(Values const& valuesToCheck)
-    {
-        if(!valuesToCheck.empty())
-        {
+    void initialize(Values const& valuesToCheck) {
+        if (!valuesToCheck.empty()) {
             m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
             Index totalSize = m_startOfChildren + valuesToCheck.size();
 
             m_treeValues.resize(totalSize);
             m_treeValues.shrink_to_fit();
-            std::copy(valuesToCheck.cbegin(), valuesToCheck.cend(), m_treeValues.begin()+m_startOfChildren); // copy children
+            std::copy(
+                valuesToCheck.cbegin(), valuesToCheck.cend(),
+                m_treeValues.begin() + m_startOfChildren);  // copy children
 
             Index treeBaseLeft(m_startOfChildren);
-            Index treeBaseRight(totalSize-1);
-            while(treeBaseLeft<treeBaseRight) // fill up parent values
+            Index treeBaseRight(totalSize - 1);
+            while (treeBaseLeft < treeBaseRight)  // fill up parent values
             {
                 Index treeBaseRightComplete = treeBaseRight;
-                if(Utilities::isALeftChild(treeBaseRight)) // incomplete pair
+                if (Utilities::isALeftChild(treeBaseRight))  // incomplete pair
                 {
                     m_treeValues[Utilities::getParent(treeBaseRight)] = m_treeValues.at(treeBaseRight);
                     treeBaseRightComplete--;
                 }
-                for(Index treeIndex=treeBaseLeft; treeIndex<treeBaseRightComplete; treeIndex+=Utilities::NUMBER_OF_CHILDREN) // complete pairs
+                for (Index treeIndex = treeBaseLeft; treeIndex < treeBaseRightComplete;
+                     treeIndex += Utilities::NUMBER_OF_CHILDREN)  // complete pairs
                 {
-                    m_treeValues[Utilities::getParent(treeIndex)] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
+                    m_treeValues[Utilities::getParent(treeIndex)] =
+                        m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex + 1));
                 }
                 treeBaseLeft = Utilities::getParent(treeBaseLeft);
                 treeBaseRight = Utilities::getParent(treeBaseRight);
@@ -243,29 +192,26 @@ protected:
         }
     }
 
-    Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const
-    {
+    Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const {
         // This has log(N) running time
         Value result{};
-        Index first(m_startOfChildren+start);
-        Index last(m_startOfChildren+end);
-        if(first<=last && first<m_treeValues.size() && last<m_treeValues.size())
-        {
+        Index first(m_startOfChildren + start);
+        Index last(m_startOfChildren + end);
+        if (first <= last && first < m_treeValues.size() && last < m_treeValues.size()) {
             result = m_treeValues.at(first++);
-            while(first < last)
-            {
-                if(Utilities::isARightChild(first))
-                {
-                    result = m_function(result, m_treeValues.at(first++)); // move to next value (right) because current value is added
+            while (first < last) {
+                if (Utilities::isARightChild(first)) {
+                    result = m_function(
+                        result, m_treeValues.at(first++));  // move to next value (right) because current value is added
                 }
-                if(Utilities::isALeftChild(last))
-                {
-                    result = m_function(result, m_treeValues.at(last--)); // move to next value (left) because current value is added
+                if (Utilities::isALeftChild(last)) {
+                    result = m_function(
+                        result, m_treeValues.at(last--));  // move to next value (left) because current value is added
                 }
                 first = Utilities::getParent(first);
                 last = Utilities::getParent(last);
             }
-            if(first == last) // add value if it ends on the same place
+            if (first == last)  // add value if it ends on the same place
             {
                 result = m_function(result, m_treeValues.at(first));
             }
@@ -273,39 +219,29 @@ protected:
         return result;
     }
 
-    void changeValueAtIndexFromBottomToTop(Index const index, Value const& newValue)
-    {
+    void changeValueAtIndexFromBottomToTop(Index const index, Value const& newValue) {
         // This has log(N) running time
-        Index treeIndex(m_startOfChildren+index);
-        if(treeIndex < m_treeValues.size())
-        {
+        Index treeIndex(m_startOfChildren + index);
+        if (treeIndex < m_treeValues.size()) {
             m_treeValues[treeIndex] = newValue;
-            if(m_treeValues.size() > 2U)
-            {
-                while(treeIndex>0)
-                {
+            if (m_treeValues.size() > 2U) {
+                while (treeIndex > 0) {
                     Index parentIndex(Utilities::getParent(treeIndex));
-                    if(Utilities::isALeftChild(treeIndex))
-                    {
-                        if(treeIndex+1 < m_treeValues.size())
-                        {
-                            m_treeValues[parentIndex] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
-                        }
-                        else
-                        {
+                    if (Utilities::isALeftChild(treeIndex)) {
+                        if (treeIndex + 1 < m_treeValues.size()) {
+                            m_treeValues[parentIndex] =
+                                m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex + 1));
+                        } else {
                             m_treeValues[parentIndex] = m_treeValues.at(treeIndex);
                         }
-                    }
-                    else
-                    {
-                        m_treeValues[parentIndex] = m_function(m_treeValues.at(treeIndex-1), m_treeValues.at(treeIndex));
+                    } else {
+                        m_treeValues[parentIndex] =
+                            m_function(m_treeValues.at(treeIndex - 1), m_treeValues.at(treeIndex));
                     }
                     treeIndex = parentIndex;
                 }
                 m_treeValues[0] = m_function(m_treeValues.at(1U), m_treeValues.at(2U));
-            }
-            else if(m_treeValues.size() > 1U)
-            {
+            } else if (m_treeValues.size() > 1U) {
                 m_treeValues[0] = m_treeValues.at(1U);
             }
         }
@@ -316,33 +252,24 @@ protected:
     Function m_function;
 };
 
-
-int getDeltaByAddingType(int const type)
-{
-    int delta=0;
-    int & count(typeToCountMap[type]);
-    if(count > allowableCountForAType)
-    {
+int getDeltaByAddingType(int const type) {
+    int delta = 0;
+    int& count(typeToCountMap[type]);
+    if (count > allowableCountForAType) {
         // do nothing
-    }
-    else if(count == allowableCountForAType)
-    {
+    } else if (count == allowableCountForAType) {
         delta = -allowableCountForAType;
-    }
-    else
-    {
+    } else {
         delta = 1;
     }
     count++;
     return delta;
 }
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     my_cin >> numberOfTrinkets >> allowableCountForAType;
     vector<int> typesOfTrinkets(numberOfTrinkets, 0);
-    for(int i=0; i<numberOfTrinkets; ++i)
-    {
+    for (int i = 0; i < numberOfTrinkets; ++i) {
         my_cin >> typesOfTrinkets[i];
     }
 
@@ -351,16 +278,13 @@ void runTestCase(unsigned int const testCaseNumber)
     vector<int> deltas;
     vector<TypeDetail> typeDetails(MAX_NUMBER_TYPES);
     deltas.reserve(numberOfTrinkets);
-    for(int i=0; i<numberOfTrinkets; ++i)
-    {
+    for (int i = 0; i < numberOfTrinkets; ++i) {
         int type = typesOfTrinkets.at(i);
         int delta = getDeltaByAddingType(type);
-        if(delta < 0)
-        {
+        if (delta < 0) {
             typeDetails[type].negativeDeltaIndexOptional = i;
         }
-        if(delta == 0)
-        {
+        if (delta == 0) {
             typeDetails[type].zeroDeltaIndices.emplace_back(i);
         }
         deltas.emplace_back(delta);
@@ -369,23 +293,18 @@ void runTestCase(unsigned int const testCaseNumber)
     RangeQueryWithStaticSegmentTree<vector<int>> segmentTreeOfDeltas(deltas, std::plus<>());
     int maxAllowableCount = segmentTreeOfDeltas.getMaximumSum();
 
-    for(int i=0; i<numberOfTrinkets; ++i)
-    {
+    for (int i = 0; i < numberOfTrinkets; ++i) {
         segmentTreeOfDeltas.changeValueAtIndex(i, 0);
         int type = typesOfTrinkets.at(i);
-        TypeDetail & typeDetail(typeDetails[type]);
-        if(typeDetail.negativeDeltaIndexOptional)
-        {
+        TypeDetail& typeDetail(typeDetails[type]);
+        if (typeDetail.negativeDeltaIndexOptional) {
             segmentTreeOfDeltas.changeValueAtIndex(typeDetail.negativeDeltaIndexOptional.value(), 1);
-            if(!typeDetail.zeroDeltaIndices.empty())
-            {
+            if (!typeDetail.zeroDeltaIndices.empty()) {
                 int firstZeroIndex = typeDetail.zeroDeltaIndices.front();
                 segmentTreeOfDeltas.changeValueAtIndex(firstZeroIndex, -allowableCountForAType);
                 typeDetail.negativeDeltaIndexOptional = firstZeroIndex;
                 typeDetail.zeroDeltaIndices.pop_front();
-            }
-            else
-            {
+            } else {
                 typeDetail.negativeDeltaIndexOptional.reset();
             }
         }
@@ -470,18 +389,15 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << maxAllowableCount << '\n';
 }*/
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -491,9 +407,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2019_RoundB_P3_DiverseSubarray
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-
-

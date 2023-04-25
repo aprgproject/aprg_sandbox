@@ -10,11 +10,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaCropFileTest, NoOutputIsWrittenWhenInputIsNonExisting)
-{
+TEST(AlbaCropFileTest, NoOutputIsWrittenWhenInputIsNonExisting) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaCropFile cropFile("[.]", 100);
 
@@ -23,37 +21,30 @@ TEST(AlbaCropFileTest, NoOutputIsWrittenWhenInputIsNonExisting)
     EXPECT_FALSE(cropFile.isOutputFileWritten());
 }
 
-TEST(AlbaCropFileTest, CropUpdatesWorks)
-{
+TEST(AlbaCropFileTest, CropUpdatesWorks) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<100; i++)
-    {
+    for (unsigned int i = 0; i < 100; i++) {
         testFile << i << "\n";
     }
     testFile.close();
 
-    double capturedPercentage=0;
-    AlbaCropFile cropFile("[50]", 50, [&](double percentage)->void
-    {
-        capturedPercentage = percentage;
-    });
+    double capturedPercentage = 0;
+    AlbaCropFile cropFile("[50]", 50, [&](double percentage) -> void { capturedPercentage = percentage; });
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(cropFile.isOutputFileWritten());
     EXPECT_DOUBLE_EQ(100, capturedPercentage);
 }
 
-TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument)
-{
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
-    {
+    for (unsigned int i = 0; i < 10; i++) {
         testFile << i << "\n";
     }
     testFile.close();
@@ -61,7 +52,7 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument)
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
 
-    AlbaCropFile cropFile("[4]", testFileReader.getFileSize()/2);
+    AlbaCropFile cropFile("[4]", testFileReader.getFileSize() / 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(cropFile.isOutputFileWritten());
@@ -74,7 +65,7 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument)
     ASSERT_FALSE(outputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
 #ifdef OS_WINDOWS
-     // windows handling is problematic, tellg on windows works on mysterious ways
+    // windows handling is problematic, tellg on windows works on mysterious ways
     EXPECT_EQ(R"(4)", fileReader.getLine());
     EXPECT_EQ(R"(5)", fileReader.getLine());
     EXPECT_EQ(R"(6)", fileReader.getLine());
@@ -91,14 +82,12 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument)
-{
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
-    {
+    for (unsigned int i = 0; i < 10; i++) {
         testFile << i << "\n";
     }
     testFile.close();
@@ -106,7 +95,7 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument)
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
 
-    AlbaCropFile cropFile("[4]", testFileReader.getFileSize()*2);
+    AlbaCropFile cropFile("[4]", testFileReader.getFileSize() * 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(cropFile.isOutputFileWritten());
@@ -132,14 +121,12 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart)
-{
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
-    {
+    for (unsigned int i = 0; i < 10; i++) {
         testFile << i << "\n";
     }
     testFile.close();
@@ -147,7 +134,7 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart)
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
 
-    AlbaCropFile cropFile("[0]", testFileReader.getFileSize()/2);
+    AlbaCropFile cropFile("[0]", testFileReader.getFileSize() / 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(cropFile.isOutputFileWritten());
@@ -160,7 +147,7 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart)
     ASSERT_FALSE(outputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
 #ifdef OS_WINDOWS
-     // windows handling is problematic, tellg on windows works on mysterious ways
+    // windows handling is problematic, tellg on windows works on mysterious ways
     EXPECT_EQ(R"(0)", fileReader.getLine());
     EXPECT_EQ(R"(1)", fileReader.getLine());
     EXPECT_EQ(R"(2)", fileReader.getLine());
@@ -176,14 +163,12 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd)
-{
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
-    {
+    for (unsigned int i = 0; i < 10; i++) {
         testFile << i << "\n";
     }
     testFile.close();
@@ -191,7 +176,7 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd)
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
 
-    AlbaCropFile cropFile("[9]", testFileReader.getFileSize()/2);
+    AlbaCropFile cropFile("[9]", testFileReader.getFileSize() / 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(cropFile.isOutputFileWritten());
@@ -212,4 +197,4 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-}
+}  // namespace alba

@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using IndexForTest = unsigned int;
 using QueryForTest = GetNextFreeIndexWithUnionFind<IndexForTest>;
-}
+}  // namespace
 
-TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorksWithZeroSize)
-{
+TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorksWithZeroSize) {
     QueryForTest query(0U);
 
     EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
@@ -25,8 +21,7 @@ TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorksWithZeroSize)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(2U));
 }
 
-TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorks)
-{
+TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorks) {
     QueryForTest query(28U);
 
     EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
@@ -40,8 +35,7 @@ TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-TEST(GetNextFreeIndexWithUnionFindTest, SetAsNotFreeWorks)
-{
+TEST(GetNextFreeIndexWithUnionFindTest, SetAsNotFreeWorks) {
     QueryForTest query(28U);
 
     query.setAsNotFree(14U);
@@ -61,8 +55,7 @@ TEST(GetNextFreeIndexWithUnionFindTest, SetAsNotFreeWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks)
-{
+TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks) {
     QueryForTest query(28U);
     query.setAsNotFree(14U);
     query.setAsNotFree(15U);
@@ -83,6 +76,6 @@ TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

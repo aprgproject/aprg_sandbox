@@ -6,11 +6,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(DataStatisticsUtilitiesTest, SumAreCorrect)
-{
+TEST(DataStatisticsUtilitiesTest, SumAreCorrect) {
     using LocalStatisticsUtilities = DataStatisticsUtilities<3>;
     using LocalSamples = LocalStatisticsUtilities::Samples;
     using LocalSample = LocalStatisticsUtilities::Sample;
@@ -24,8 +22,7 @@ TEST(DataStatisticsUtilitiesTest, SumAreCorrect)
     EXPECT_EQ(expectedSum2, LocalStatisticsUtilities::calculateSum(samples2));
 }
 
-TEST(DataStatisticsUtilitiesTest, DistancesAreCorrect)
-{
+TEST(DataStatisticsUtilitiesTest, DistancesAreCorrect) {
     using LocalStatisticsUtilities = DataStatisticsUtilities<3>;
     using LocalSample = LocalStatisticsUtilities::Sample;
 
@@ -35,4 +32,4 @@ TEST(DataStatisticsUtilitiesTest, DistancesAreCorrect)
     EXPECT_EQ(7, LocalStatisticsUtilities::calculateDistance(LocalSample{1, 10, 100}, LocalSample{3, 13, 106}));
 }
 
-}
+}  // namespace alba

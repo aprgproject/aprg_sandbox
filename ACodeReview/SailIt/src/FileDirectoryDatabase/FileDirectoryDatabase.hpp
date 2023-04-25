@@ -4,13 +4,11 @@
 
 #include <ostream>
 
-namespace codeReview
-{
+namespace codeReview {
 typedef set<string> SetOfFiles;
 typedef set<string> SetOfDirectories;
 
-class FileDirectoryDatabase
-{
+class FileDirectoryDatabase {
 public:
     void printFilesAndDirectories(std::ostream& outputStream) const;
     bool isFileIncluded(string const& baseDirectory, string const& fileName) const;
@@ -22,11 +20,10 @@ public:
     void allowNonExistentDirectories();
     void addFileOrDirectory(string const& fileOrDirectory);
 
-
 private:
     SetOfDirectories m_directories;
     SetOfFiles m_files;
     bool m_isNonExistentDirectoriesAllowed;
 };
 
-}// namespace codeReview
+}  // namespace codeReview

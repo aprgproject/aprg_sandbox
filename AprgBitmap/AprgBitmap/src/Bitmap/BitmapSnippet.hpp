@@ -5,20 +5,19 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-class BitmapSnippet
-{
+class BitmapSnippet {
 public:
     using TraverseFunction = std::function<void(BitmapXY const&, uint32_t const)>;
-    using TraverseAndUpdateFunction = std::function<void(BitmapXY const&, uint32_t &)>;
+    using TraverseAndUpdateFunction = std::function<void(BitmapXY const&, uint32_t&)>;
 
     BitmapSnippet();
-    BitmapSnippet(BitmapXY const topLeftCornerPosition, BitmapXY const bottomRightCornerPosition, BitmapConfiguration const& configuration);
+    BitmapSnippet(
+        BitmapXY const topLeftCornerPosition, BitmapXY const bottomRightCornerPosition,
+        BitmapConfiguration const& configuration);
 
     bool isPositionInsideTheSnippet(BitmapXY const position) const;
     BitmapConfiguration getConfiguration() const;
@@ -48,14 +47,15 @@ private:
     unsigned int calculateIndexInPixelData(BitmapXY const position) const;
     uint32_t getPixelAtForPixelInAByte(uint8_t const* reader, unsigned int const index, BitmapXY const position) const;
     uint32_t getPixelAtForMultipleBytePixels(uint8_t const* reader, unsigned int const index) const;
-    void setPixelAtForPixelInAByte(uint8_t * writer, unsigned int const index, BitmapXY const position, uint32_t const value);
-    void setPixelAtForMultipleBytePixels(uint8_t * writer, unsigned int const index, uint32_t const value);
+    void setPixelAtForPixelInAByte(
+        uint8_t* writer, unsigned int const index, BitmapXY const position, uint32_t const value);
+    void setPixelAtForMultipleBytePixels(uint8_t* writer, unsigned int const index, uint32_t const value);
     BitmapXY m_topLeftCorner;
     BitmapXY m_bottomRightCorner;
     BitmapConfiguration m_configuration;
     PixelData m_pixelData;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

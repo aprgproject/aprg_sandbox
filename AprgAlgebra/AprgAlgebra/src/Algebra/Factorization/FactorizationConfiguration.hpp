@@ -2,38 +2,30 @@
 
 #include <Common/Container/AlbaConfigurationHolder.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Factorization
-{
+namespace Factorization {
 
-struct ConfigurationDetails
-{
+struct ConfigurationDetails {
     bool shouldSimplifyExpressionsToFactors;
     bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
 
-class Configuration
-        : public AlbaConfigurationHolder<ConfigurationDetails>
-{};
+class Configuration : public AlbaConfigurationHolder<ConfigurationDetails> {};
 
-class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
-{};
+class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails> {};
 
 bool shouldSimplifyExpressionsToFactors();
 bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
 
+}  // namespace Factorization
 
-}
-
-}
+}  // namespace algebra
 
 template <>
 algebra::Factorization::ConfigurationDetails
 getDefaultConfigurationDetails<algebra::Factorization::ConfigurationDetails>();
 
-}
+}  // namespace alba

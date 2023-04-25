@@ -3,22 +3,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using PathsForTest = typename GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = NodeDisjointPaths<VertexForTest>;
-}
+}  // namespace
 
-TEST(NodeDisjointPathsTest, Example1Works)
-{
+TEST(NodeDisjointPathsTest, Example1Works) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 4U);
@@ -36,6 +32,6 @@ TEST(NodeDisjointPathsTest, Example1Works)
     EXPECT_EQ(expectedNodeDisjointPaths, pathSearch.getNodeDisjointPaths());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample1)
-{
+TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample1) {
     FibonacciExample fibonacciExample;
 
     EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(0U));
@@ -22,8 +20,7 @@ TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample1)
     EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(0U));
 }
 
-TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample2)
-{
+TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample2) {
     FibonacciExample fibonacciExample;
 
     EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(3U));
@@ -37,11 +34,10 @@ TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample2)
     EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(3U));
 }
 
-TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample3)
-{
+TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample3) {
     FibonacciExample fibonacciExample;
 
-    //EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(40U)); // takes too long
+    // EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(40U)); // takes too long
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingMemoizationDP(40U));
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingIterativeDP(40U));
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(40U));
@@ -52,4 +48,4 @@ TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample3)
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(40U));
 }
 
-}
+}  // namespace alba

@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(CayleysFormulaTest, GetNumberOfLabeledTreesWorks)
-{
+TEST(CayleysFormulaTest, GetNumberOfLabeledTreesWorks) {
     EXPECT_EQ(0U, getNumberOfLabeledTreesUsingCayleysFormula(0U));
     EXPECT_EQ(0U, getNumberOfLabeledTreesUsingCayleysFormula(1U));
     EXPECT_EQ(1U, getNumberOfLabeledTreesUsingCayleysFormula(2U));
@@ -22,6 +19,6 @@ TEST(CayleysFormulaTest, GetNumberOfLabeledTreesWorks)
     EXPECT_EQ(61917364224U, getNumberOfLabeledTreesUsingCayleysFormula(12U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

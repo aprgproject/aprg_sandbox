@@ -6,14 +6,11 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class Operator : public BaseTermData
-{
+class Operator : public BaseTermData {
 public:
     Operator() = default;
     Operator(std::string const& operatingString);
@@ -37,11 +34,11 @@ public:
     void setOperatorString(std::string const& operatingString);
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Operator const& operatorObject);
+    friend std::ostream& operator<<(std::ostream& out, Operator const& operatorObject);
 
     std::string m_operatingString;
 };
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

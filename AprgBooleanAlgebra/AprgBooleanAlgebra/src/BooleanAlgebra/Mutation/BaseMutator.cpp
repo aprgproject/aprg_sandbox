@@ -2,42 +2,30 @@
 
 #include <BooleanAlgebra/Term/Utilities/BaseTermHelpers.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-void BaseMutator::mutateTerm(Term & term)
-{
-    if(term.isConstant())
-    {
+void BaseMutator::mutateTerm(Term &term) {
+    if (term.isConstant()) {
         mutateConstant(term.getConstantReference());
-    }
-    else if(term.isVariableTerm())
-    {
+    } else if (term.isVariableTerm()) {
         mutateVariableTerm(term.getVariableTermReference());
-    }
-    else if(term.isExpression())
-    {
+    } else if (term.isExpression()) {
         mutateExpression(term.getExpressionReference());
     }
 }
 
-void BaseMutator::mutateConstant(Constant &)
-{}
+void BaseMutator::mutateConstant(Constant &) {}
 
-void BaseMutator::mutateVariableTerm(VariableTerm &)
-{}
+void BaseMutator::mutateVariableTerm(VariableTerm &) {}
 
-void BaseMutator::mutateExpression(Expression & expression)
-{
-    for(WrappedTerm & wrappedTerm : expression.getWrappedTermsReference())
-    {
+void BaseMutator::mutateExpression(Expression &expression) {
+    for (WrappedTerm &wrappedTerm : expression.getWrappedTermsReference()) {
         mutateTerm(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
     }
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

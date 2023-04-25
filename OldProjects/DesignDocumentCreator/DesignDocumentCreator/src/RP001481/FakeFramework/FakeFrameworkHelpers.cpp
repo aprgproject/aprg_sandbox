@@ -1,14 +1,12 @@
 #include "FakeFrameworkHelpers.hpp"
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentName)
-{
-    TAaSysComSicad result=0x00000000;
-    //if(componentName == ComponentName::Oam)
+TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentName) {
+    TAaSysComSicad result = 0x00000000;
+    // if(componentName == ComponentName::Oam)
     //{
-        //result = 0x10110001;
+    // result = 0x10110001;
     //}
     return result;
 }
@@ -22,4 +20,4 @@ TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentNam
 }
 */
 
-}
+}  // namespace DesignDocumentCreator

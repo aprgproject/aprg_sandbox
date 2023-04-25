@@ -26,24 +26,21 @@
 #ifndef __curlcpp__curl_option__
 #define __curlcpp__curl_option__
 
-#include <string>
-#include <curl/curl.h>
 #include "curl_pair.h"
+#include <curl/curl.h>
 
-namespace curl {    
-    template <class V>
-    inline curl_pair<CURLoption, V> 
-        make_option(const CURLoption opt, const V &val)
-    {
-        return curl_pair<CURLoption, V>(opt, val);
-    }
-    
-    template <class V>
-    inline curl_pair<CURLformoption, V>
-        make_formoption(const CURLformoption opt, const V &val)
-    {
-        return curl_pair<CURLformoption, V>(opt, val);
-    }
-}  // of namespace curl
+#include <string>
 
-#endif	/* defined(__curlcpp__curl_option__) */
+namespace curl {
+template <class V>
+inline curl_pair<CURLoption, V> make_option(const CURLoption opt, const V &val) {
+    return curl_pair<CURLoption, V>(opt, val);
+}
+
+template <class V>
+inline curl_pair<CURLformoption, V> make_formoption(const CURLformoption opt, const V &val) {
+    return curl_pair<CURLformoption, V>(opt, val);
+}
+}  // namespace curl
+
+#endif /* defined(__curlcpp__curl_option__) */

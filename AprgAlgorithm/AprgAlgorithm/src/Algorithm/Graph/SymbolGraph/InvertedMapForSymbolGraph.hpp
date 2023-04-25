@@ -5,37 +5,25 @@
 #include <map>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex, typename Object>
-class InvertedMapForSymbolGraph
-{
+class InvertedMapForSymbolGraph {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using ObjectToVertexMap = std::map<Object, Vertex>;
 
-    ObjectToVertexMap const& getObjectToVertexMap() const
-    {
-        return m_invertedMap;
-    }
+    ObjectToVertexMap const& getObjectToVertexMap() const { return m_invertedMap; }
 
-    Vertices const& getUnusedVertices() const
-    {
-        return m_unusedVertices;
-    }
+    Vertices const& getUnusedVertices() const { return m_unusedVertices; }
 
-    Vertex const& getVertexIdentifierAndAddObjectIfNeeded(Object const& object)
-    {
+    Vertex const& getVertexIdentifierAndAddObjectIfNeeded(Object const& object) {
         auto it = m_invertedMap.find(object);
-        if(it == m_invertedMap.cend())
-        {
+        if (it == m_invertedMap.cend()) {
             Vertex vertexToUse(m_invertedMap.size());
-            if(!m_unusedVertices.empty())
-            {
+            if (!m_unusedVertices.empty()) {
                 vertexToUse = m_unusedVertices.back();
                 m_unusedVertices.pop_back();
             }
@@ -45,18 +33,15 @@ public:
         return it->second;
     }
 
-    void removeObject(Object const& object)
-    {
+    void removeObject(Object const& object) {
         auto it = m_invertedMap.find(object);
-        if(it != m_invertedMap.cend())
-        {
+        if (it != m_invertedMap.cend()) {
             m_unusedVertices.emplace_back(it->second);
             m_invertedMap.erase(object);
         }
     }
 
-    void clear()
-    {
+    void clear() {
         m_invertedMap.clear();
         m_unusedVertices.clear();
     }
@@ -66,6 +51,6 @@ private:
     Vertices m_unusedVertices;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

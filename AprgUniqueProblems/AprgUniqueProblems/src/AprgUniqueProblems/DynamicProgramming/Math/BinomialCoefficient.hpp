@@ -4,17 +4,14 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class BinomialCoefficient
-{
+class BinomialCoefficient {
 public:
-
     using Value = unsigned int;
     using Values = std::vector<Value>;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
-    static constexpr Value UNUSED_VALUE=std::numeric_limits<Value>::max();
+    static constexpr Value UNUSED_VALUE = std::numeric_limits<Value>::max();
 
     BinomialCoefficient(Value const n, Value const k);
 
@@ -26,12 +23,12 @@ public:
 
 private:
     Value getBinomialCoefficientUsingNaiveRecursion(Value const n, Value const k) const;
-    Value getBinomialCoefficientUsingMemoizationDP(ValueMatrix & valueMatrix, Value const n, Value const k) const;
+    Value getBinomialCoefficientUsingMemoizationDP(ValueMatrix& valueMatrix, Value const n, Value const k) const;
     Value const m_n;
     Value const m_k;
 };
 
-}
+}  // namespace alba
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -79,9 +76,6 @@ private:
 // -> The last entry in the array (with index "targetSumOfDigits") contains the total count.
 // NOTE: Check comments at the code for demonstration on how it works
 
-
-
-
 // The following are the common definitions of Binomial Coefficients.
 // A binomial coefficient C(n, k) can be defined as the coefficient of x^k in the expansion of (1 + x)^n.
 // A binomial coefficient C(n, k) also gives the number of ways, disregarding order,
@@ -102,6 +96,5 @@ private:
 // Since the same subproblems are called again, this problem has Overlapping Subproblems property.
 // So the Binomial Coefficient problem has both properties (see this and this) of a dynamic programming problem.
 // Like other typical Dynamic Programming(DP) problems,
-// re-computations of the same subproblems can be avoided by constructing a temporary 2D-array C[][] in a bottom-up manner.
-
-
+// re-computations of the same subproblems can be avoided by constructing a temporary 2D-array C[][] in a bottom-up
+// manner.

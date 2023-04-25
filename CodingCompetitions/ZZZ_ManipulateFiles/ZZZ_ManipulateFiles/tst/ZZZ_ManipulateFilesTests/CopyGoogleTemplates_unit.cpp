@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(CopyGoogleTemplatesTest, Test1)
-{
+TEST(CopyGoogleTemplatesTest, Test1) {
     CopyGoogleTemplates entity;
 
     string destinationPath = APRG_DIR R"(\CodingCompetitions\GoogleKickStart\GoogleKickStart\tst\2021\RoundF)";
@@ -21,4 +19,4 @@ TEST(CopyGoogleTemplatesTest, Test1)
     entity.copyTemplatesForOneRound(destinationPath, replacePairs);
 }
 
-}
+}  // namespace alba

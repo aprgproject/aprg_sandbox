@@ -4,6 +4,7 @@
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <gtest/gtest.h>
+
 #include <windows.h>
 
 #include <sstream>
@@ -11,18 +12,17 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)//DISABLED_
+TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)  // DISABLED_
 {
     AlbaWindowsUserAutomation userAutomation;
-    //AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
+    // AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
     AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
 
-    userAutomation.doLeftClickAt(MousePosition(2368,52));
+    userAutomation.doLeftClickAt(MousePosition(2368, 52));
 
-    //string talonRoPath(R"(https://panel.talonro.com/whobuy/)");
+    // string talonRoPath(R"(https://panel.talonro.com/whobuy/)");
     string talonRoPath(R"(https://panel.talonro.com/whosell/)");
     userAutomation.sleepWithRealisticDelay();
     userAutomation.typeKey(VK_DELETE);
@@ -33,8 +33,7 @@ TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)//DISABLED_
 
     userAutomation.sleep(3000);
 
-    for(unsigned int page=1; page<=1000; page++)
-    {
+    for (unsigned int page = 1; page <= 1000; page++) {
         userAutomation.typeControlAndLetterSimultaneously('S');
         userAutomation.sleep(2000);
 
@@ -58,41 +57,35 @@ TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)//DISABLED_
         AlbaFileReader fileReader(savedWebPage);
         fileReader.setMaxBufferSize(100000);
         bool isNextDisabled(false);
-        while(fileReader.isNotFinished())
-        {
+        while (fileReader.isNotFinished()) {
             string line(fileReader.getLineAndIgnoreWhiteSpaces());
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="paginate_button page-item next disabled")"))
-            {
-                isNextDisabled=true;
+            if (isStringFoundInsideTheOtherStringCaseSensitive(
+                    line, R"(class="paginate_button page-item next disabled")")) {
+                isNextDisabled = true;
                 break;
             }
         }
-        if(isNextDisabled)
-        {
+        if (isNextDisabled) {
             break;
-        }
-        else
-        {
-            userAutomation.doLeftClickAt(MousePosition(3398,514));
-            userAutomation.doLeftClickAt(MousePosition(2368,52));
+        } else {
+            userAutomation.doLeftClickAt(MousePosition(3398, 514));
+            userAutomation.doLeftClickAt(MousePosition(2368, 52));
             userAutomation.sleep(2000);
         }
     }
 }
 
-TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms)
-{
+TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms) {
     AlbaWindowsUserAutomation userAutomation;
     AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
 
-    for(char letter='a'; letter<='z'; letter++)
-    {
-        for(unsigned int pageNumber=1; pageNumber<=100; pageNumber++)
-        {
-            userAutomation.doLeftClickAt(MousePosition(2368,52));
+    for (char letter = 'a'; letter <= 'z'; letter++) {
+        for (unsigned int pageNumber = 1; pageNumber <= 100; pageNumber++) {
+            userAutomation.doLeftClickAt(MousePosition(2368, 52));
 
             stringstream rmsPath;
-            rmsPath << R"(https://ratemyserver.net/index.php?page=mob_db&list=1&letter=)" << letter << R"(&page_num=)" << pageNumber;
+            rmsPath << R"(https://ratemyserver.net/index.php?page=mob_db&list=1&letter=)" << letter << R"(&page_num=)"
+                    << pageNumber;
             userAutomation.sleepWithRealisticDelay();
             userAutomation.typeKey(VK_DELETE);
             userAutomation.setStringToClipboard(rmsPath.str());
@@ -120,79 +113,73 @@ TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms)
             ifstream savedWebPage(filePathHandler.getFullPath());
             AlbaFileReader fileReader(savedWebPage);
             bool isNextPageTextFound(false);
-            while(fileReader.isNotFinished())
-            {
+            while (fileReader.isNotFinished()) {
                 string line(fileReader.getLineAndIgnoreWhiteSpaces());
-                if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(title="Next page")"))
-                {
-                    isNextPageTextFound=true;
+                if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(title="Next page")")) {
+                    isNextPageTextFound = true;
                     break;
                 }
             }
-            if(!isNextPageTextFound)
-            {
+            if (!isNextPageTextFound) {
                 break;
             }
         }
     }
 }
 
-TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files)
-{
+TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files) {
     AlbaWindowsUserAutomation userAutomation;
     AlbaLocalPathHandler mp3FilesPathHandler(R"(N:\MUSIC\111_DoAutomationHere)");
 
-    while(1)
-    {
-        if(userAutomation.isLetterPressed('s'))  //s for start
+    while (1) {
+        if (userAutomation.isLetterPressed('s'))  // s for start
         {
             ListOfPaths filePaths;
             ListOfPaths directoryPaths;
             mp3FilesPathHandler.findFilesAndDirectoriesOneDepth("*.*", filePaths, directoryPaths);
 
-            for(string const& filePath : filePaths)
-            {
-
+            for (string const& filePath : filePaths) {
                 AlbaLocalPathHandler filePathHandler(filePath);
-                if(filePathHandler.getExtension() == "mp3" && filePathHandler.getFileSizeEstimate() < 100000000) //100MB
+                if (filePathHandler.getExtension() == "mp3" &&
+                    filePathHandler.getFileSizeEstimate() < 100000000)  // 100MB
                 {
-                    //close previous file
+                    // close previous file
                     userAutomation.typeControlAndLetterSimultaneously('W');
                     userAutomation.sleep(1000);
                     userAutomation.typeKey(VK_RIGHT);
                     userAutomation.typeKey(VK_RETURN);
                     userAutomation.sleep(2000);
 
-                    //open file
+                    // open file
                     userAutomation.typeControlAndLetterSimultaneously('O');
                     userAutomation.sleep(1000);
 
-                    //paste file name
+                    // paste file name
                     userAutomation.setStringToClipboard(filePathHandler.getFile());
                     userAutomation.typeControlAndLetterSimultaneously('V');
 
-                    //type enter key
+                    // type enter key
                     userAutomation.typeKey(VK_RETURN);
 
-                    //wait for the file to load
+                    // wait for the file to load
                     userAutomation.sleep(10000);
 
-                    //select all track
+                    // select all track
                     userAutomation.typeControlAndLetterSimultaneously('A');
 
-                    //click effect
-                    userAutomation.doDoubleLeftClickAt(MousePosition(344,33));
+                    // click effect
+                    userAutomation.doDoubleLeftClickAt(MousePosition(344, 33));
 
-                    //click normalization
+                    // click normalization
                     userAutomation.doDoubleLeftClickAt(MousePosition(433, 443));
 
-                    //type enter key
+                    // type enter key
                     userAutomation.typeKey(VK_RETURN);
 
-                    //wait for normalization process
+                    // wait for normalization process
                     userAutomation.sleep(10000);
 
-                    //export
+                    // export
                     userAutomation.pressDownKey(VK_CONTROL);
                     userAutomation.pressDownKey(VK_SHIFT);
                     userAutomation.pressDownKey('E');
@@ -202,19 +189,19 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files)
                     userAutomation.pressUpKey(VK_CONTROL);
                     userAutomation.sleep(2000);
 
-                    //type enter key multiple times
+                    // type enter key multiple times
                     userAutomation.sleep(1000);
-                    userAutomation.typeKey(VK_RETURN); // save
+                    userAutomation.typeKey(VK_RETURN);  // save
                     userAutomation.sleep(1000);
-                    userAutomation.typeKey('Y'); //yes to replace
+                    userAutomation.typeKey('Y');  // yes to replace
                     userAutomation.sleep(1000);
-                    userAutomation.doDoubleLeftClickAt(MousePosition(1074,687)); //click ok
-                    userAutomation.typeKey(VK_RIGHT); //type right to avoid stop button
+                    userAutomation.doDoubleLeftClickAt(MousePosition(1074, 687));  // click ok
+                    userAutomation.typeKey(VK_RIGHT);                              // type right to avoid stop button
 
-                    //wait for export process
+                    // wait for export process
                     userAutomation.sleep(15000);
 
-                    //type enter key multiple times to ensure everything is closed
+                    // type enter key multiple times to ensure everything is closed
                     userAutomation.sleep(250);
                     userAutomation.typeKey(VK_RETURN);
                     userAutomation.sleep(250);
@@ -224,17 +211,15 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files)
                     userAutomation.sleep(250);
                     userAutomation.typeKey(VK_RETURN);
 
-                    //close file
+                    // close file
                     userAutomation.typeControlAndLetterSimultaneously('W');
                     userAutomation.sleep(1000);
                     userAutomation.typeKey(VK_RIGHT);
                     userAutomation.typeKey(VK_RETURN);
                     userAutomation.sleep(2000);
 
-                    //break;
-                }
-                else
-                {
+                    // break;
+                } else {
                     cout << "Ignored file: " << filePath << ": size: " << filePathHandler.getFileSizeEstimate() << "\n";
                 }
             }
@@ -244,4 +229,4 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files)
     }
 }
 
-}
+}  // namespace alba

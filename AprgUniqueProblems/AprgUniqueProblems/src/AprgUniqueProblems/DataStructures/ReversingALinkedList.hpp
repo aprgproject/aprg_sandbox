@@ -2,14 +2,11 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace ReversingALinkedList
-{
+namespace ReversingALinkedList {
 
-struct Node
-{
+struct Node {
     unsigned int value;
     std::unique_ptr<Node> nextPointer;
 
@@ -18,6 +15,6 @@ struct Node
 
 std::unique_ptr<Node> reverseALinkedList(std::unique_ptr<Node> parent);
 
-}
+}  // namespace ReversingALinkedList
 
-}
+}  // namespace alba

@@ -6,11 +6,9 @@
 
 using namespace std;
 
-namespace Mediator
-{
+namespace Mediator {
 
-TEST(MediatorTest, Test1)
-{
+TEST(MediatorTest, Test1) {
     unique_ptr<Mediator> mediatorPointer = make_unique<ConcreteMediator>();
     unique_ptr<Colleague> colleaguePointer1 = make_unique<ConcreteColleague>(*mediatorPointer, 1);
     unique_ptr<Colleague> colleaguePointer2 = make_unique<ConcreteColleague>(*mediatorPointer, 2);
@@ -24,4 +22,4 @@ TEST(MediatorTest, Test1)
     colleaguePointer3->send("Hello!");
 }
 
-}
+}  // namespace Mediator

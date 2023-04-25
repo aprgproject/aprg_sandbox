@@ -7,14 +7,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-TEST(EllipticConeTest, EmptyEllipticCone)
-{
+TEST(EllipticConeTest, EmptyEllipticCone) {
     EllipticCone ellipticCone;
 
     EXPECT_EQ(Point(0, 0, 0), ellipticCone.getCenter());
@@ -23,8 +20,7 @@ TEST(EllipticConeTest, EmptyEllipticCone)
     EXPECT_DOUBLE_EQ(0, ellipticCone.getCValue());
 }
 
-TEST(EllipticConeTest, EllipticConeAtOriginWithRadius)
-{
+TEST(EllipticConeTest, EllipticConeAtOriginWithRadius) {
     EllipticCone ellipticCone(Point(0, 0, 0), 4, 5, 12);
 
     EXPECT_EQ(Point(0, 0, 0), ellipticCone.getCenter());
@@ -36,8 +32,7 @@ TEST(EllipticConeTest, EllipticConeAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(0, ellipticCone.calculateZFromXAndY(0, 0, 1));
 }
 
-TEST(EllipticConeTest, EllipticConeNotAtOriginWithRadius)
-{
+TEST(EllipticConeTest, EllipticConeNotAtOriginWithRadius) {
     EllipticCone ellipticCone(Point(1, 2, 3), 4, 5, 12);
 
     EXPECT_EQ(Point(1, 2, 3), ellipticCone.getCenter());
@@ -49,6 +44,6 @@ TEST(EllipticConeTest, EllipticConeNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(3, ellipticCone.calculateZFromXAndY(1, 2, 1));
 }
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace alba

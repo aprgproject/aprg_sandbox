@@ -6,21 +6,17 @@
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
 using HashValue = unsigned long long;
 using SubstringSearchForTest = RabinKarpSubstringSearchWithSubstringHash<Index, HashValue>;
-}
+}  // namespace
 
-TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
-{
+TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
     // SubstringSearchUsingZArray has unique results of handling empty strings
 
     string emptyString;
@@ -34,11 +30,10 @@ TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingEmptyStrings
     EXPECT_EQ(Index(0), nonEmptyStringSearch.search(nonEmptyString));
 }
 
-TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingExample1)
-{
+TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingExample1) {
     testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

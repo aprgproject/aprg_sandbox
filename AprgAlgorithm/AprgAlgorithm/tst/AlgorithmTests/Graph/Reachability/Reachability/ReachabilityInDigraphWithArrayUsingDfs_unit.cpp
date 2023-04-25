@@ -6,28 +6,23 @@
 
 using namespace alba::algorithm::CommonTestsWithReachability;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
 using ReachabilityForTest = ReachabilityInDigraphWithArrayUsingDfs<unsigned int, 13U>;
-}
+}  // namespace
 
-TEST(ReachabilityInDigraphWithArrayUsingDfsTest, IsReachableWorksWhenEmpty)
-{
+TEST(ReachabilityInDigraphWithArrayUsingDfsTest, IsReachableWorksWhenEmpty) {
     testIsReachableWhenEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }
 
-TEST(ReachabilityInDigraphWithArrayUsingDfsTest, IsReachableWorksWhenNotEmpty)
-{
+TEST(ReachabilityInDigraphWithArrayUsingDfsTest, IsReachableWorksWhenNotEmpty) {
     testIsReachableWhenNotEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

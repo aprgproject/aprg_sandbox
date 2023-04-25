@@ -4,17 +4,14 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CountWaysToReachTheNthStair
-{
+class CountWaysToReachTheNthStair {
 public:
-
     using Count = unsigned int;
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count UNUSED_VALUE=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_VALUE = std::numeric_limits<Count>::max();
 
     CountWaysToReachTheNthStair(Count const numberOfStairs);
 
@@ -23,12 +20,10 @@ public:
     Count const m_numberOfStairs;
 };
 
-}
+}  // namespace alba
 
 // APPROACH
 // Same as getting the Fibonacci number
-
-
 
 // Count ways to reach the n’th stair
 
@@ -46,5 +41,3 @@ public:
 // -> Input: n = 4
 // ---> Output: 5
 // ---> (1, 1, 1, 1), (1, 1, 2), (2, 1, 1), (1, 2, 1), (2, 2)
-
-

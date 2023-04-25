@@ -5,14 +5,11 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class Modeling
-{
+class Modeling {
 public:
-    struct ValidationResult
-    {
+    struct ValidationResult {
         double totalSquareError;
         double resultSize;
         double meanSquareError;
@@ -26,10 +23,8 @@ public:
     void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
     void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
     void saveRetrievedDataForXAndY(
-            unsigned int numberOfIndicators,
-            unsigned int numberOfSamples,
-            VectorOfDoubles const& retrievedDataForX,
-            VectorOfDoubles const& retrievedDataForY);
+        unsigned int numberOfIndicators, unsigned int numberOfSamples, VectorOfDoubles const& retrievedDataForX,
+        VectorOfDoubles const& retrievedDataForY);
     void saveRetrievedDataToModelingDataRandomly(unsigned int numberOfSamples);
     void saveRetrievedDataToValidationDataRandomly(unsigned int numberOfSamples);
     void saveRetrievedDataToModelingData(unsigned int numberOfSamples);
@@ -41,10 +36,14 @@ public:
     ValidationResult validate();
 
 private:
-    void copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles);
-    void printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY);
-    void saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples);
-    void saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples);
+    void copyVectorToMatrix(
+        unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX,
+        MatrixOfDoubles& matrixOfDoubles);
+    void printData(MatrixOfDoubles& matrixInX, MatrixOfDoubles& matrixInY);
+    void saveRetrievedDataToMatrixRandomly(
+        MatrixOfDoubles& matrixInX, MatrixOfDoubles& matrixInY, unsigned int numberOfSamples);
+    void saveRetrievedDataToMatrix(
+        MatrixOfDoubles& matrixInX, MatrixOfDoubles& matrixInY, unsigned int numberOfSamples);
     void calculateCoefficientsUsingLeastSquares();
     unsigned int getIndex(unsigned int const i, unsigned int const j, unsigned int const numberOfColumns) const;
     MatrixOfDoubles m_coefficients;
@@ -56,4 +55,4 @@ private:
     MatrixOfDoubles m_retrievedDataForY;
 };
 
-}
+}  // namespace alba

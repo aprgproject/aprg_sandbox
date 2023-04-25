@@ -9,13 +9,11 @@
 using std::string;
 using std::vector;
 
-namespace codeReview
-{
+namespace codeReview {
 
 typedef vector<CPlusPlusFunctionParameter> CPlusPlusFunctionParameters;
 
-class CPlusPlusFunctionSignature
-{
+class CPlusPlusFunctionSignature {
 public:
     void printSignature() const;
     CPlusPlusType& getReturnTypeReference();
@@ -33,4 +31,4 @@ private:
     CPlusPlusFunctionParameters m_parameters;
 };
 
-}
+}  // namespace codeReview

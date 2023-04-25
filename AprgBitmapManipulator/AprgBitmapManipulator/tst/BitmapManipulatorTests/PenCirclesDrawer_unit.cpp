@@ -9,16 +9,13 @@ using namespace std;
 
 #define APRG_BITMAP_FILTERS_BITMAP_DIRECTORY APRG_DIR R"(\AprgBitmapFilters\FilesForTests\SampleBitmaps\)"
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-TEST(PenCirclesDrawerTest, DrawACircle)
-{
+TEST(PenCirclesDrawerTest, DrawACircle) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -30,10 +27,9 @@ TEST(PenCirclesDrawerTest, DrawACircle)
     bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawACircle.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawTwoConnectedCircles)
-{
+TEST(PenCirclesDrawerTest, DrawTwoConnectedCircles) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -47,10 +43,9 @@ TEST(PenCirclesDrawerTest, DrawTwoConnectedCircles)
     bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawTwoConnectedCircles.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawTwoConnectedCirclesWithDifferentColors)
-{
+TEST(PenCirclesDrawerTest, DrawTwoConnectedCirclesWithDifferentColors) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -61,13 +56,13 @@ TEST(PenCirclesDrawerTest, DrawTwoConnectedCirclesWithDifferentColors)
 
     PenCirclesDrawer drawer(penCircles, outputSnippet);
     drawer.draw();
-    bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawTwoConnectedCirclesWithDifferentColors.bmp");
+    bitmapFilters.saveSnippetIntoFileInTheSameDirectory(
+        outputSnippet, "DrawTwoConnectedCirclesWithDifferentColors.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawTwoCirclesThatCoincidesWithEachOther)
-{
+TEST(PenCirclesDrawerTest, DrawTwoCirclesThatCoincidesWithEachOther) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -80,10 +75,9 @@ TEST(PenCirclesDrawerTest, DrawTwoCirclesThatCoincidesWithEachOther)
     bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawTwoCirclesThatCoincidesWithEachOther.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawTwoAlmostConcentricCircles)
-{
+TEST(PenCirclesDrawerTest, DrawTwoAlmostConcentricCircles) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -96,10 +90,9 @@ TEST(PenCirclesDrawerTest, DrawTwoAlmostConcentricCircles)
     bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawTwoAlmostConcentricCircles.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawTwoCirclesWithIntersection_IntentionallyConnected)
-{
+TEST(PenCirclesDrawerTest, DrawTwoCirclesWithIntersection_IntentionallyConnected) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -110,13 +103,13 @@ TEST(PenCirclesDrawerTest, DrawTwoCirclesWithIntersection_IntentionallyConnected
 
     PenCirclesDrawer drawer(penCircles, outputSnippet);
     drawer.draw();
-    bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawTwoCirclesWithIntersection_IntentionallyConnected.bmp");
+    bitmapFilters.saveSnippetIntoFileInTheSameDirectory(
+        outputSnippet, "DrawTwoCirclesWithIntersection_IntentionallyConnected.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawTwoCirclesWithIntersection_AutomaticallyConnected)
-{
+TEST(PenCirclesDrawerTest, DrawTwoCirclesWithIntersection_AutomaticallyConnected) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -126,13 +119,13 @@ TEST(PenCirclesDrawerTest, DrawTwoCirclesWithIntersection_AutomaticallyConnected
 
     PenCirclesDrawer drawer(penCircles, outputSnippet);
     drawer.draw();
-    bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawTwoCirclesWithIntersection_AutomaticallyConnected.bmp");
+    bitmapFilters.saveSnippetIntoFileInTheSameDirectory(
+        outputSnippet, "DrawTwoCirclesWithIntersection_AutomaticallyConnected.bmp");
 }
 
-TEST(PenCirclesDrawerTest, DrawMultipleCirclesWithACommonConnection)
-{
+TEST(PenCirclesDrawerTest, DrawMultipleCirclesWithACommonConnection) {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory() + R"(PenCirclesDrawerTests\EmptyBitmap.bmp)");
     BitmapFilters bitmapFilters(sampleFile.getFullPath());
     BitmapSnippet outputSnippet(bitmapFilters.getWholeBitmapSnippet());
 
@@ -152,6 +145,6 @@ TEST(PenCirclesDrawerTest, DrawMultipleCirclesWithACommonConnection)
     bitmapFilters.saveSnippetIntoFileInTheSameDirectory(outputSnippet, "DrawMultipleCirclesWithACommonConnection.bmp");
 }
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

@@ -6,13 +6,12 @@
 #include <fstream>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaCombineAndGrepFiles
-{
+class AlbaCombineAndGrepFiles {
 public:
-    AlbaCombineAndGrepFiles(std::string const& outputFilePath, std::string const& fileCondition, std::string const& lineCondition);
+    AlbaCombineAndGrepFiles(
+        std::string const& outputFilePath, std::string const& fileCondition, std::string const& lineCondition);
     void processDirectory(std::string const& path);
     void processFile(std::string const& path);
 
@@ -23,4 +22,4 @@ private:
     AlbaGrepStringEvaluator m_lineEvaluator;
 };
 
-}
+}  // namespace alba

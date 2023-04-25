@@ -4,46 +4,37 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Index, typename HashValue>
-class RabinKarpSubstringSearchWithRunningHash
-{
+class RabinKarpSubstringSearchWithRunningHash {
 public:
     using RadixType = unsigned int;
-    static constexpr RadixType RADIX=256U;
-    static constexpr HashValue A_LARGE_PRIME=1229952067U; // hard coded for now (think of an implementation later)
+    static constexpr RadixType RADIX = 256U;
+    static constexpr HashValue A_LARGE_PRIME = 1229952067U;  // hard coded for now (think of an implementation later)
 
     RabinKarpSubstringSearchWithRunningHash(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch)
-        , m_matchLength(substringToMatch.length())
-        , m_hornerHashFunction(RADIX, A_LARGE_PRIME)
-        , m_largeRandomPrime(A_LARGE_PRIME)
-        , m_radixRaiseToMatchLengthHash(getRadixRaiseToMatchLengthHash())
-        , m_substringToMatchHash(getHash(m_substringToMatch))
-    {}
+        : m_substringToMatch(substringToMatch),
+          m_matchLength(substringToMatch.length()),
+          m_hornerHashFunction(RADIX, A_LARGE_PRIME),
+          m_largeRandomPrime(A_LARGE_PRIME),
+          m_radixRaiseToMatchLengthHash(getRadixRaiseToMatchLengthHash()),
+          m_substringToMatchHash(getHash(m_substringToMatch)) {}
 
-    Index search(std::string const& stringToSearch)
-    {
+    Index search(std::string const& stringToSearch) {
         Index result(static_cast<Index>(std::string::npos));
         Index searchLength(stringToSearch.size());
         HashValue currentHash(getHash(stringToSearch));
-        if(m_substringToMatchHash == currentHash)
-        {
+        if (m_substringToMatchHash == currentHash) {
             result = 0;
-        }
-        else
-        {
-            for(Index searchIndex=m_matchLength; searchIndex<searchLength; searchIndex++)
-            {
-                currentHash = getNextHash(currentHash, stringToSearch.at(searchIndex-m_matchLength), stringToSearch.at(searchIndex));
-                if(m_substringToMatchHash == currentHash)
-                {
-                    result = searchIndex-m_matchLength+1; // Monte carlo approach (no double check)
+        } else {
+            for (Index searchIndex = m_matchLength; searchIndex < searchLength; searchIndex++) {
+                currentHash = getNextHash(
+                    currentHash, stringToSearch.at(searchIndex - m_matchLength), stringToSearch.at(searchIndex));
+                if (m_substringToMatchHash == currentHash) {
+                    result = searchIndex - m_matchLength + 1;  // Monte carlo approach (no double check)
                     break;
                 }
             }
@@ -52,28 +43,24 @@ public:
     }
 
 private:
-
-    HashValue getHash(std::string const& key)
-    {
+    HashValue getHash(std::string const& key) {
         return m_hornerHashFunction.getHashCode(key.substr(0U, m_matchLength));
     }
 
-    HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd)
-    {
+    HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd) {
         // First, subtract value for charToRemove
-        HashValue result = (currentHash + m_largeRandomPrime - (m_radixRaiseToMatchLengthHash * charToRemove % m_largeRandomPrime))
-                % m_largeRandomPrime;
+        HashValue result =
+            (currentHash + m_largeRandomPrime - (m_radixRaiseToMatchLengthHash * charToRemove % m_largeRandomPrime)) %
+            m_largeRandomPrime;
         // Then, add value for charToAdd
-        result = (result*RADIX + charToAdd) % m_largeRandomPrime;
+        result = (result * RADIX + charToAdd) % m_largeRandomPrime;
         return result;
     }
 
-    HashValue getRadixRaiseToMatchLengthHash()
-    {
+    HashValue getRadixRaiseToMatchLengthHash() {
         HashValue result(1);
-        for(unsigned int i=1; i<m_matchLength; i++)
-        {
-            result = (result*RADIX) % m_largeRandomPrime;
+        for (unsigned int i = 1; i < m_matchLength; i++) {
+            result = (result * RADIX) % m_largeRandomPrime;
         }
         return result;
     }
@@ -109,9 +96,9 @@ private:
 // Monte carlo version: return match if has match
 // Las vegas version: double check if substring really match, continue to search if false collision
 
-// Theory: If Q is a sufficiently large random prime (about M*N^2), then the probability of a false collision is about 1/N.
-// Practice: Choose Q to be a large prime (but not so large to cause overflow).
-// Under reasonable assumptions, probability of a collision is about 1/Q
+// Theory: If Q is a sufficiently large random prime (about M*N^2), then the probability of a false collision is about
+// 1/N. Practice: Choose Q to be a large prime (but not so large to cause overflow). Under reasonable assumptions,
+// probability of a collision is about 1/Q
 
 // Monte carlo version:
 // -> always runs in linear time
@@ -136,6 +123,6 @@ private:
 
 // How would you extend Rabin-Karp to efficiently search for any one of P possible patterns in text of length N?
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

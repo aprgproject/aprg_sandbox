@@ -8,26 +8,22 @@
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-TcomCchhRlh::TcomCchhRlh(ComponentName const componentName)
-    : Component(componentName)
-{}
+TcomCchhRlh::TcomCchhRlh(ComponentName const componentName) : Component(componentName) {}
 
-void TcomCchhRlh::handleMessageEvent(GenericMessage const& genericMessage)
-{
+void TcomCchhRlh::handleMessageEvent(GenericMessage const& genericMessage) {
     MessageName messageName(genericMessage.getMessageName());
-    switch(messageName)
-    {
-    default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<"\n";
+    switch (messageName) {
+        default:
+            cout << "No handler for messageName: " << genericMessage.getMessageNameInString()
+                 << " in component: " << getComponentNameInString() << "\n";
     }
 }
 
-void TcomCchhRlh::handleTimerEvent(Timer const& timer)
-{
-    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
+void TcomCchhRlh::handleTimerEvent(Timer const& timer) {
+    cout << "Handle Timer, timerType: " << convertToString(timer.getType()) << " timerId:" << (int)timer.getId()
+         << "\n";
 }
 
-}
+}  // namespace DesignDocumentCreator

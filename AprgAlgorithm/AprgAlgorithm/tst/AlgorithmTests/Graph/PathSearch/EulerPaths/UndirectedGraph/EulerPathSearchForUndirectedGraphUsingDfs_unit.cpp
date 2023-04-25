@@ -6,85 +6,68 @@
 
 using namespace alba::algorithm::CommonTestsWithEulerPathForUndirectedGraph;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = EulerPathSearchForUndirectedGraphUsingDfs<VertexForTest>;
-}
+}  // namespace
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices) {
     testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices) {
     testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWithOneOddDegreeVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWithOneOddDegreeVertices) {
     testHasEulerPathWorksOnGraphWithOneOddDegreeVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices) {
     testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices) {
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnEmptyGraph)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnEmptyGraph) {
     testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices) {
     testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices) {
     testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnEmptyGraph)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnEmptyGraph) {
     testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices) {
     testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices) {
     testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleAndPathWorksOnExample1)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleAndPathWorksOnExample1) {
     testGetEulerCycleAndPathWorksOnExample1<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleAndPathWorksOnExample2)
-{
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleAndPathWorksOnExample2) {
     testGetEulerCycleAndPathWorksOnExample2<PathSearchForTest, GraphForTest>();
 }
 
+}  // namespace algorithm
 
-}
-
-}
+}  // namespace alba

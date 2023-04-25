@@ -6,15 +6,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithNoTerms)
-{
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithNoTerms) {
     TermsAggregator aggregator({});
 
     aggregator.buildExpressionFromTerms();
@@ -23,8 +19,7 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithNoTerms)
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithUnaryOperation)
-{
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithUnaryOperation) {
     TermsAggregator aggregator({"~", "x"});
 
     aggregator.buildExpressionFromTerms();
@@ -35,8 +30,7 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithUnaryOperation)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation)
-{
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation) {
     TermsAggregator aggregator({"x", "&", "y"});
 
     aggregator.buildExpressionFromTerms();
@@ -47,10 +41,8 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithDifferentOperationLevels_AndOperationPrioritizedBeforeOrOperation)
-{
-    TermsAggregator aggregator(
-    {"a", "|", "b", "&", "c", "&", "d", "|", "e"});
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithDifferentOperationLevels_AndOperationPrioritizedBeforeOrOperation) {
+    TermsAggregator aggregator({"a", "|", "b", "&", "c", "&", "d", "|", "e"});
 
     aggregator.buildExpressionFromTerms();
 
@@ -62,10 +54,8 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithDifferentOperationLevels_AndOp
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis)
-{
-    TermsAggregator aggregator(
-    {"(", "(", "(", "a", "|", "b", ")", "&", "c", ")", "|", "d", ")"});
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis) {
+    TermsAggregator aggregator({"(", "(", "(", "a", "|", "b", ")", "&", "c", ")", "|", "d", ")"});
 
     aggregator.buildExpressionFromTerms();
 
@@ -78,8 +68,7 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms)
-{
+TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms) {
     TermsAggregator aggregator({});
 
     aggregator.simplifyTerms();
@@ -88,8 +77,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms)
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation)
-{
+TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation) {
     TermsAggregator aggregator({"~", true});
 
     aggregator.simplifyTerms();
@@ -100,8 +88,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation)
-{
+TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation) {
     TermsAggregator aggregator({true, "&", false});
 
     aggregator.simplifyTerms();
@@ -112,10 +99,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels)
-{
-    TermsAggregator aggregator(
-    {false, "|", true, "&", false, "&", true, "|", false});
+TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels) {
+    TermsAggregator aggregator({false, "|", true, "&", false, "&", true, "|", false});
 
     aggregator.simplifyTerms();
 
@@ -125,10 +110,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis)
-{
-    TermsAggregator aggregator(
-    {"(", "(", "(", false, "|", true, ")", "&", true, ")", "|", false, ")"});
+TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis) {
+    TermsAggregator aggregator({"(", "(", "(", false, "|", true, ")", "&", true, ")", "|", false, ")"});
 
     aggregator.simplifyTerms();
 
@@ -138,8 +121,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithNegatedTermsAndVariousOperations)
-{
+TEST(TermsAggregatorTest, SimplifyWorksWithNegatedTermsAndVariousOperations) {
     TermsAggregator aggregator(tokenizeToTerms("~a&~b|~c&x|y"));
 
     aggregator.simplifyTerms();
@@ -153,6 +135,6 @@ TEST(TermsAggregatorTest, SimplifyWorksWithNegatedTermsAndVariousOperations)
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

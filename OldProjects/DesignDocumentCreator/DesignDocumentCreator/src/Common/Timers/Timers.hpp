@@ -2,13 +2,11 @@
 
 #include <Common/Timers/TimerType.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
 typedef unsigned int TimerId;
 
-class Timer
-{
+class Timer {
 public:
     Timer();
     Timer(TimerType const timerType, TimerId const timerId);
@@ -20,4 +18,4 @@ private:
     TimerId m_timerId;
 };
 
-}
+}  // namespace DesignDocumentCreator

@@ -6,49 +6,27 @@
 using namespace alba::algorithm::CommonTestsWithQueue;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using QueueForTest = DoublingSizeQueue<unsigned int>;
 }
 
-TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, EnqueueWorks)
-{
-    testEnqueueWithUnsignedInt<QueueForTest>();
-}
+TEST(DoublingSizeQueueTest, EnqueueWorks) { testEnqueueWithUnsignedInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, DequeueWorks)
-{
-    testDequeueWithUnsignedInt<QueueForTest>();
-}
+TEST(DoublingSizeQueueTest, DequeueWorks) { testDequeueWithUnsignedInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetContainerSizeWorks)
-{
+TEST(DoublingSizeQueueTest, GetContainerSizeWorks) {
     QueueForTest queue1;
     QueueForTest queue2;
     queue2.enqueue(10U);
@@ -59,8 +37,7 @@ TEST(DoublingSizeQueueTest, GetContainerSizeWorks)
     EXPECT_EQ(4U, queue2.getContainerSize());
 }
 
-TEST(DoublingSizeQueueTest, PushWorksWithDoublingContainerSize)
-{
+TEST(DoublingSizeQueueTest, PushWorksWithDoublingContainerSize) {
     QueueForTest queue;
     EXPECT_EQ(1U, queue.getContainerSize());
 
@@ -76,8 +53,7 @@ TEST(DoublingSizeQueueTest, PushWorksWithDoublingContainerSize)
     EXPECT_EQ(8U, queue.getContainerSize());
 }
 
-TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize)
-{
+TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize) {
     QueueForTest queue;
 
     queue.enqueue(1U);
@@ -99,11 +75,11 @@ TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize)
     EXPECT_EQ(1U, queue.getContainerSize());
 }
 
-TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
 {
     testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

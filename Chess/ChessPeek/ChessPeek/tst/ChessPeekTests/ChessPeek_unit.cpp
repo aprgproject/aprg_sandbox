@@ -6,49 +6,42 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-TEST(ChessPeekTest, DISABLED_SaveBitmapOnScreenWorks)
-{
+TEST(ChessPeekTest, DISABLED_SaveBitmapOnScreenWorks) {
     ChessPeek chessPeek;
 
     chessPeek.saveBitmapOnScreen();
 }
 
-TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks)
-{
+TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks) {
     ChessPeek chessPeek;
 
     chessPeek.checkScreenAndSaveDetails();
 }
 
-TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks)
-{
+TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks) {
     ChessPeek chessPeek;
 
     chessPeek.startEngineAnalysisOfNewPosition();
     Sleep(10000);
 }
 
-TEST(ChessPeekTest, DISABLED_RunOneIterationWorks)
-{
+TEST(ChessPeekTest, DISABLED_RunOneIterationWorks) {
     ChessPeek chessPeek;
 
     chessPeek.runOneIteration();
     Sleep(10000);
 }
 
-TEST(ChessPeekTest, DISABLED_RunForeverWorks)
-{
+TEST(ChessPeekTest, DISABLED_RunForeverWorks) {
     ChessPeek chessPeek;
 
     chessPeek.runForever();
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

@@ -2,25 +2,21 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key>
-struct HashTableEntry
-{
+struct HashTableEntry {
     Key key;
 };
 
 template <typename Key, typename Value>
-struct HashTableEntryWithValue
-{
+struct HashTableEntryWithValue {
     Key key;
     Value value;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

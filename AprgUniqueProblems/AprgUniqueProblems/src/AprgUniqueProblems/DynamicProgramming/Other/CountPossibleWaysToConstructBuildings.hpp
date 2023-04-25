@@ -5,16 +5,13 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CountPossibleWaysToConstructBuildings
-{
+class CountPossibleWaysToConstructBuildings {
 public:
-
     using Count = unsigned int;
     using Index = unsigned int;
-    static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     CountPossibleWaysToConstructBuildings(Count const numberOfSections);
 
@@ -26,8 +23,7 @@ private:
     Count m_numberOfSections;
 };
 
-}
-
+}  // namespace alba
 
 // Count possible ways to construct buildings
 
@@ -50,4 +46,3 @@ private:
 // -> one side can correspond to any of 5 ways on other side.
 // N = 4
 // -> Output = 64
-

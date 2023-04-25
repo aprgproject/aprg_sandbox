@@ -3,15 +3,13 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class ComputeSumOfDigitsInAllNumbersFrom1ToN
-{
+class ComputeSumOfDigitsInAllNumbersFrom1ToN {
 public:
     using Value = unsigned int;
     using Values = std::vector<Value>;
-    static constexpr Value UNUSED_COUNT=std::numeric_limits<Value>::max();
+    static constexpr Value UNUSED_COUNT = std::numeric_limits<Value>::max();
 
     ComputeSumOfDigitsInAllNumbersFrom1ToN(Value const lastNumber);
 
@@ -25,8 +23,7 @@ private:
     Value const m_lastNumber;
 };
 
-}
-
+}  // namespace alba
 
 // Compute sum of digits in all numbers from 1 to n
 

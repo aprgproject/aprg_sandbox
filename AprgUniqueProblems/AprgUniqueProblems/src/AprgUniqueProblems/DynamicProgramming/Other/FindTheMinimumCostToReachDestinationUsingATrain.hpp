@@ -5,18 +5,16 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class FindTheMinimumCostToReachDestinationUsingATrain
-{
+class FindTheMinimumCostToReachDestinationUsingATrain {
 public:
     using Index = unsigned int;
     using Value = unsigned int;
     using Values = std::vector<Value>;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
-    static constexpr Value UNUSED_VALUE=std::numeric_limits<Value>::max();
-    static constexpr Value MAX_VALUE=UNUSED_VALUE-1;
+    static constexpr Value UNUSED_VALUE = std::numeric_limits<Value>::max();
+    static constexpr Value MAX_VALUE = UNUSED_VALUE - 1;
 
     FindTheMinimumCostToReachDestinationUsingATrain(ValueMatrix const& prices);
 
@@ -26,13 +24,12 @@ public:
 
 private:
     Value getMinimumCostUsingNaiveRecursion(Index const endStation) const;
-    Value getMinimumCostUsingMemoizationDP(Values & savedCosts, Index const endStation) const;
+    Value getMinimumCostUsingMemoizationDP(Values& savedCosts, Index const endStation) const;
     void clearIfInvalid();
     ValueMatrix m_pricesAtEachStation;
 };
 
-}
-
+}  // namespace alba
 
 // Find the minimum cost to reach destination using a train
 

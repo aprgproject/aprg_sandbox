@@ -7,38 +7,24 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Functions
-{
+namespace Functions {
 
-TEST(FunctionUtilitiesTest, IsFunctionContinuousWorks)
-{
-    Function unknownFunction(
-                "functionToTest",
-                Term("x"),
-                [](AlbaNumber const& number)
-    {
-        return number;
-    });
+TEST(FunctionUtilitiesTest, IsFunctionContinuousWorks) {
+    Function unknownFunction("functionToTest", Term("x"), [](AlbaNumber const& number) { return number; });
 
     EXPECT_FALSE(isFunctionContinuous(unknownFunction));
     EXPECT_TRUE(isFunctionContinuous(abs("x")));
 }
 
-TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
-{
-    AlbaNumbers inputNumbers{-2,-1,0,1,2};
+TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks) {
+    AlbaNumbers inputNumbers{-2, -1, 0, 1, 2};
 
     AlbaNumberPairs inputAndOutputPairs(
-                evaluateAndGetInputOutputPair(
-                    inputNumbers,
-                    "x",
-                    abs(createExpressionIfPossible({"x"}))));
+        evaluateAndGetInputOutputPair(inputNumbers, "x", abs(createExpressionIfPossible({"x"}))));
 
     ASSERT_EQ(5U, inputAndOutputPairs.size());
     EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);
@@ -53,8 +39,8 @@ TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
     EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(4).second);
 }
 
-}
+}  // namespace Functions
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

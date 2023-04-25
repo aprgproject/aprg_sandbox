@@ -5,32 +5,25 @@
 
 using namespace std;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-Rake::Rake()
-    : m_componentName(ComponentName::EMPTY)
-{}
+Rake::Rake() : m_componentName(ComponentName::EMPTY) {}
 
-Rake::Rake(ComponentName const componentName)
-    : m_componentName(componentName)
-{}
+Rake::Rake(ComponentName const componentName) : m_componentName(componentName) {}
 
-void Rake::handleMessageEvent(GenericMessage const& genericMessage)
-{
+void Rake::handleMessageEvent(GenericMessage const& genericMessage) {
     MessageName messageName(genericMessage.getMessageName());
-    switch(messageName)
-    {
-    case MessageName::TC_LTX_TELECOM_MSG:
-        cout<<"Handle Message, TC_LTX_TELECOM_MSG: \n";
-    default:
-        cout<<"Handle Message, messageName: "<<StringHelpers::genericMessage.getMessageNameInString()<<"\n";
+    switch (messageName) {
+        case MessageName::TC_LTX_TELECOM_MSG:
+            cout << "Handle Message, TC_LTX_TELECOM_MSG: \n";
+        default:
+            cout << "Handle Message, messageName: " << StringHelpers::genericMessage.getMessageNameInString() << "\n";
     }
 }
 
-void Rake::handleTimerEvent(Timer const& timer)
-{
-    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
+void Rake::handleTimerEvent(Timer const& timer) {
+    cout << "Handle Timer, timerType: " << StringHelpers::convertToString(timer.getType())
+         << " timerId:" << (int)timer.getId() << "\n";
 }
 
-}
+}  // namespace DesignDocumentCreator

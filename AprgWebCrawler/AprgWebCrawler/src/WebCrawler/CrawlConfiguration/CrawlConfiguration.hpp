@@ -4,18 +4,15 @@
 
 #include <optional>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-struct DownloadLowSpeedLimitConfiguration
-{
+struct DownloadLowSpeedLimitConfiguration {
     int m_lowSpeedLimit;
     int m_lowSpeedTime;
 };
 typedef std::optional<DownloadLowSpeedLimitConfiguration> DownloadLowSpeedLimitConfigurationOptional;
 
-class CrawlConfiguration
-{
+class CrawlConfiguration {
 public:
     CrawlConfiguration(CrawlMode const mode);
     bool isFileToBeDownloadUntilSuccessful() const;
@@ -30,4 +27,4 @@ private:
     DownloadLowSpeedLimitConfigurationOptional m_lowSpeedLimitOptional;
 };
 
-}
+}  // namespace aprgWebCrawler

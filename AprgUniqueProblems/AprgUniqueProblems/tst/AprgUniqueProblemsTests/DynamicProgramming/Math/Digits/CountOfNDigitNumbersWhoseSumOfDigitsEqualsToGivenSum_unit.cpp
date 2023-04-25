@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZeroWithOneDigit)
-{
+TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZeroWithOneDigit) {
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum queryForTest(1U, 0U);
 
     EXPECT_EQ(1U, queryForTest.getCountUsingNaiveRecursion());
@@ -18,8 +16,7 @@ TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZe
     EXPECT_EQ(1U, queryForTest.getCountBySearchingValuesWith1And9Increment());
 }
 
-TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZeroWithMultipleDigits)
-{
+TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZeroWithMultipleDigits) {
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum queryForTest(2U, 0U);
 
     EXPECT_EQ(1U, queryForTest.getCountUsingNaiveRecursion());
@@ -29,8 +26,7 @@ TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZe
     EXPECT_EQ(1U, queryForTest.getCountBySearchingValuesWith1And9Increment());
 }
 
-TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample1)
-{
+TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample1) {
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum queryForTest(2U, 2U);
 
     EXPECT_EQ(2U, queryForTest.getCountUsingNaiveRecursion());
@@ -40,8 +36,7 @@ TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnEx
     EXPECT_EQ(2U, queryForTest.getCountBySearchingValuesWith1And9Increment());
 }
 
-TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample2)
-{
+TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample2) {
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum queryForTest(2U, 5U);
 
     EXPECT_EQ(5U, queryForTest.getCountUsingNaiveRecursion());
@@ -51,8 +46,7 @@ TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnEx
     EXPECT_EQ(5U, queryForTest.getCountBySearchingValuesWith1And9Increment());
 }
 
-TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample3)
-{
+TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample3) {
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum queryForTest(3U, 6U);
 
     EXPECT_EQ(21U, queryForTest.getCountUsingNaiveRecursion());
@@ -62,4 +56,4 @@ TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnEx
     EXPECT_EQ(21U, queryForTest.getCountBySearchingValuesWith1And9Increment());
 }
 
-}
+}  // namespace alba

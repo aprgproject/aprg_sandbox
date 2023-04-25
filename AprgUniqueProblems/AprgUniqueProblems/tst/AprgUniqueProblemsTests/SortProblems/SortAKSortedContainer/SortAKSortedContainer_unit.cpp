@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Integers = vector<int>;
 using IntegersSorter = SortAKSortedContainer<Integers>;
-}
+}  // namespace
 
-TEST(SortAKSortedContainerTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExample) {
     IntegersSorter sorter;
     Integers emptyContainer;
 
@@ -26,8 +22,7 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExam
     EXPECT_TRUE(emptyContainer.empty());
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingOneValueExample)
-{
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingOneValueExample) {
     IntegersSorter sorter;
     Integers valuesToTest{5};
 
@@ -37,8 +32,7 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingOneValueExample)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample1)
-{
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample1) {
     IntegersSorter sorter;
     Integers valuesToTest{6, 5, 3, 2, 8, 10, 9};
 
@@ -48,8 +42,7 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample1)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2)
-{
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2) {
     IntegersSorter sorter;
     Integers valuesToTest{10, 9, 8, 7, 4, 13, 12, 11};
 
@@ -59,6 +52,6 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

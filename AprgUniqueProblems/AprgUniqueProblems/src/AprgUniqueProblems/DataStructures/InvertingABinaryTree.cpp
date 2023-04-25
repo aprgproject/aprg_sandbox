@@ -2,16 +2,12 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace InvertingABinaryTree
-{
+namespace InvertingABinaryTree {
 
-unique_ptr<Node> invertABinaryTree(unique_ptr<Node> parent)
-{
-    if(parent)
-    {
+unique_ptr<Node> invertABinaryTree(unique_ptr<Node> parent) {
+    if (parent) {
         unique_ptr<Node> newRightChild = move(parent->leftPointer);
         unique_ptr<Node> newLeftChild = move(parent->rightPointer);
         parent->leftPointer = invertABinaryTree(move(newLeftChild));
@@ -20,6 +16,6 @@ unique_ptr<Node> invertABinaryTree(unique_ptr<Node> parent)
     return parent;
 }
 
-}
+}  // namespace InvertingABinaryTree
 
-}
+}  // namespace alba

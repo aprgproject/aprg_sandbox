@@ -2,15 +2,13 @@
 
 #include <Geometry/TwoDimensions/Constructs/Point.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-using LineSegment=std::pair<Point, Point>;
-using LineSegments=std::vector<LineSegment>;
+using LineSegment = std::pair<Point, Point>;
+using LineSegments = std::vector<LineSegment>;
 
-}
+}  // namespace TwoDimensions
 
-}
+}  // namespace alba

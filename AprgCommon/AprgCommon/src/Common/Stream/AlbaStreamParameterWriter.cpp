@@ -2,27 +2,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-AlbaStreamParameterWriter::AlbaStreamParameterWriter(ostream& stream)
-    : m_stream(stream)
-{}
+AlbaStreamParameterWriter::AlbaStreamParameterWriter(ostream& stream) : m_stream(stream) {}
 
 template <>
-void AlbaStreamParameterWriter::writeData(string const& data) const
-{
+void AlbaStreamParameterWriter::writeData(string const& data) const {
     bool isExisting(!data.empty());
     m_stream << isExisting << "\n";
-    if(isExisting)
-    {
+    if (isExisting) {
         m_stream << data << "\n";
     }
 }
 
-void AlbaStreamParameterWriter::flush()
-{
-    m_stream.flush();
-}
+void AlbaStreamParameterWriter::flush() { m_stream.flush(); }
 
-}//namespace alba
+}  // namespace alba

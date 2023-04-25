@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaOptionalTest, OptionalCanBeContructedByConstructorWithContentTypeTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeContructedByConstructorWithContentTypeTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
 
@@ -19,8 +17,7 @@ TEST(AlbaOptionalTest, OptionalCanBeContructedByConstructorWithContentTypeTest)
     EXPECT_EQ(1111, integerOptional1.get());
 }
 
-TEST(AlbaOptionalTest, OptionalSetValueTest)
-{
+TEST(AlbaOptionalTest, OptionalSetValueTest) {
     // Given
     AlbaOptional<int> integerOptional1;
     EXPECT_FALSE(static_cast<bool>(integerOptional1));
@@ -42,8 +39,7 @@ TEST(AlbaOptionalTest, OptionalSetValueTest)
     EXPECT_EQ(222222, integerOptional1.get());
 }
 
-TEST(AlbaOptionalTest, OptionalSetConstReferenceTest)
-{
+TEST(AlbaOptionalTest, OptionalSetConstReferenceTest) {
     // Given
     AlbaOptional<int> integerOptional1;
     EXPECT_FALSE(static_cast<bool>(integerOptional1));
@@ -67,8 +63,7 @@ TEST(AlbaOptionalTest, OptionalSetConstReferenceTest)
     EXPECT_EQ(222222, integerOptional1.get());
 }
 
-TEST(AlbaOptionalTest, OptionalGetReferenceTest)
-{
+TEST(AlbaOptionalTest, OptionalGetReferenceTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
 
@@ -85,8 +80,7 @@ TEST(AlbaOptionalTest, OptionalGetReferenceTest)
     EXPECT_EQ(3333, integerOptional1.get());
 }
 
-TEST(AlbaOptionalTest, OptionalReferenceCanBeContructedByContructorWithContentTypeTest)
-{
+TEST(AlbaOptionalTest, OptionalReferenceCanBeContructedByContructorWithContentTypeTest) {
     // Given
     AlbaOptional<int> integerOptional1(3333);
     AlbaOptional<int&> integerOptional2(integerOptional1.getReference());
@@ -105,8 +99,7 @@ TEST(AlbaOptionalTest, OptionalReferenceCanBeContructedByContructorWithContentTy
     EXPECT_EQ(4444, integerOptional1.get());
 }
 
-TEST(AlbaOptionalTest, OptionalReferenceSetReferenceTest)
-{
+TEST(AlbaOptionalTest, OptionalReferenceSetReferenceTest) {
     // Given
     AlbaOptional<int> integerOptional1(4444);
     AlbaOptional<int&> integerOptional2;
@@ -126,11 +119,9 @@ TEST(AlbaOptionalTest, OptionalReferenceSetReferenceTest)
     // Then
     EXPECT_EQ(5555, integerOptional2.get());
     EXPECT_EQ(5555, integerOptional1.get());
-
 }
 
-TEST(AlbaOptionalTest, OptionalCanBeConstructedByDefaultTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeConstructedByDefaultTest) {
     // Given
     AlbaOptional<int> integerOptional;
     EXPECT_FALSE(static_cast<bool>(integerOptional));
@@ -142,8 +133,7 @@ TEST(AlbaOptionalTest, OptionalCanBeConstructedByDefaultTest)
     EXPECT_TRUE(static_cast<bool>(integerOptional));
 }
 
-TEST(AlbaOptionalTest, OptionalCanBeCopiedTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeCopiedTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int> const& integerOptional2(integerOptional1);
@@ -156,8 +146,7 @@ TEST(AlbaOptionalTest, OptionalCanBeCopiedTest)
     EXPECT_EQ(1111, integerOptional2.get());
 }
 
-TEST(AlbaOptionalTest, OptionalReferenceCanBeCopiedTest)
-{
+TEST(AlbaOptionalTest, OptionalReferenceCanBeCopiedTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int&> integerOptional2(integerOptional1.getReference());
@@ -175,8 +164,7 @@ TEST(AlbaOptionalTest, OptionalReferenceCanBeCopiedTest)
     EXPECT_EQ(2222, integerOptional3.get());
 }
 
-TEST(AlbaOptionalTest, OptionalCanBeAssignedTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeAssignedTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int> integerOptional2;
@@ -191,8 +179,7 @@ TEST(AlbaOptionalTest, OptionalCanBeAssignedTest)
     EXPECT_EQ(1111, integerOptional2.get());
 }
 
-TEST(AlbaOptionalTest, OptionalReferenceCanBeAssignedTest)
-{
+TEST(AlbaOptionalTest, OptionalReferenceCanBeAssignedTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int&> integerOptional2(integerOptional1.getReference());
@@ -211,8 +198,7 @@ TEST(AlbaOptionalTest, OptionalReferenceCanBeAssignedTest)
     EXPECT_EQ(2222, integerOptional3.get());
 }
 
-TEST(AlbaOptionalTest, OptionalCanBeClearedTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeClearedTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int&> integerOptional2(integerOptional1.getReference());
@@ -228,8 +214,7 @@ TEST(AlbaOptionalTest, OptionalCanBeClearedTest)
     EXPECT_FALSE(static_cast<bool>(integerOptional2));
 }
 
-TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int> integerOptional2;
@@ -245,8 +230,7 @@ TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest)
     EXPECT_EQ(1111, integerOptional2.get());
 }
 
-TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveContructorTest)
-{
+TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveContructorTest) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
     EXPECT_TRUE(static_cast<bool>(integerOptional1));
@@ -260,15 +244,13 @@ TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveContructorTest)
     EXPECT_EQ(1111, integerOptional2.get());
 }
 
-TEST(AlbaOptionalTest, OutputStreamOperatorWorks)
-{
+TEST(AlbaOptionalTest, OutputStreamOperatorWorks) {
     stringstream ss;
     AlbaOptional<int> integerOptional(1111);
 
-    ss<<integerOptional;
+    ss << integerOptional;
 
-    EXPECT_EQ("hasContent: 1 value: 1111",
-              ss.str());
+    EXPECT_EQ("hasContent: 1 value: 1111", ss.str());
 }
 
-}
+}  // namespace alba

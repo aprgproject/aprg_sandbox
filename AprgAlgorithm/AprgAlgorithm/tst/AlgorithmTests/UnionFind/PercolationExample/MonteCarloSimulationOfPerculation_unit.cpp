@@ -6,14 +6,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByEightExample)
-{
+TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByEightExample) {
     MonteCarloSimulationOfPerculation<8U> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
@@ -23,8 +20,7 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByEightExample)
     cout << "Percolation probability: " << simulation.getPercolationProbability() << "\n";
 }
 
-TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample)
-{
+TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample) {
     MonteCarloSimulationOfPerculation<20U> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
@@ -34,8 +30,7 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample)
     cout << "Percolation probability: " << simulation.getPercolationProbability() << "\n";
 }
 
-TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample)
-{
+TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample) {
     MonteCarloSimulationOfPerculation<50U> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
@@ -45,6 +40,6 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample)
     cout << "Percolation probability: " << simulation.getPercolationProbability() << "\n";
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

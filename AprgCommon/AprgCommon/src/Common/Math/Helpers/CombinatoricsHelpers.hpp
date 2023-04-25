@@ -6,58 +6,47 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace mathHelper
-{
+namespace mathHelper {
 
-template <typename NumberType> NumberType getNumberOfPossibilities(
-        NumberType const numberOfPossibilitiesPerTime,
-        NumberType const numberOfTimes)
-{
+template <typename NumberType>
+NumberType getNumberOfPossibilities(NumberType const numberOfPossibilitiesPerTime, NumberType const numberOfTimes) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     static_assert(typeHelper::isUnsignedType<NumberType>(), "Number type must be an unsigned");
 
     return getRaiseToPowerForIntegers(numberOfPossibilitiesPerTime, numberOfTimes);
 }
 
-template <typename NumberType> NumberType getFactorial(NumberType const number)
-{
+template <typename NumberType>
+NumberType getFactorial(NumberType const number) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     static_assert(typeHelper::isUnsignedType<NumberType>(), "Number type must be an unsigned");
 
     NumberType result(1);
-    for(NumberType currentNumber=number; currentNumber>1; currentNumber--)
-    {
+    for (NumberType currentNumber = number; currentNumber > 1; currentNumber--) {
         result *= currentNumber;
     }
     return result;
 }
 
-template <typename NumberType> NumberType getNumberOfPermutations(
-        NumberType const n,
-        NumberType const r)
-{
+template <typename NumberType>
+NumberType getNumberOfPermutations(NumberType const n, NumberType const r) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     static_assert(typeHelper::isUnsignedType<NumberType>(), "Number type must be an unsigned");
 
     NumberType result(0);
-    if(n >= r)
-    {
+    if (n >= r) {
         result = 1;
-        for(NumberType currentNumber=n; currentNumber>n-r; currentNumber--)
-        {
+        for (NumberType currentNumber = n; currentNumber > n - r; currentNumber--) {
             result *= currentNumber;
         }
     }
     return result;
 }
 
-template <typename NumberType> NumberType getNumberOfCombinations(
-        NumberType const n,
-        NumberType const r)
-{
+template <typename NumberType>
+NumberType getNumberOfCombinations(NumberType const n, NumberType const r) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     static_assert(typeHelper::isUnsignedType<NumberType>(), "Number type must be an unsigned");
 
@@ -71,48 +60,43 @@ template <typename NumberType> NumberType getNumberOfCombinations(
     // Formula 2(factorial formula): (n, k) = n! / (k! * (n-k)!)
     // Idea: There are n! permutations of n elements.
     // We go through all permutations and always include the first k elements of the permutation in the subset.
-    // Since the order of the elements in the subset and outside the subset does not matter, the result is divided by k! and (n-k)!
+    // Since the order of the elements in the subset and outside the subset does not matter, the result is divided by k!
+    // and (n-k)!
 
     // Formula 2 is the one implemented below:
 
     NumberType result(0);
-    if(n >= r)
-    {
+    if (n >= r) {
         result = 1;
-        NumberType numerator=n;
-        NumberType denominator=r;
-        NumberType accumulatedNumerator=1;
-        NumberType accumulatedDenominator=1;
-        bool shouldContinue=true;
-        while(shouldContinue)
-        {
+        NumberType numerator = n;
+        NumberType denominator = r;
+        NumberType accumulatedNumerator = 1;
+        NumberType accumulatedDenominator = 1;
+        bool shouldContinue = true;
+        while (shouldContinue) {
             shouldContinue = false;
-            if(numerator > n-r)
-            {
+            if (numerator > n - r) {
                 accumulatedNumerator *= numerator--;
                 shouldContinue = true;
             }
-            if(denominator > 1)
-            {
+            if (denominator > 1) {
                 accumulatedDenominator *= denominator--;
                 shouldContinue = true;
             }
-            if(shouldContinue && accumulatedDenominator>1 && isValueBeyondLimits<NumberType>(static_cast<double>(accumulatedNumerator)*numerator))
-            {
+            if (shouldContinue && accumulatedDenominator > 1 &&
+                isValueBeyondLimits<NumberType>(static_cast<double>(accumulatedNumerator) * numerator)) {
                 NumberType gcf = getGreatestCommonFactor(accumulatedNumerator, accumulatedDenominator);
                 accumulatedNumerator /= gcf;
                 accumulatedDenominator /= gcf;
             }
         }
-        result = accumulatedNumerator/accumulatedDenominator;
+        result = accumulatedNumerator / accumulatedDenominator;
     }
     return result;
 }
 
-template <typename NumberType> NumberType getValueAtPascalTriangle(
-        NumberType const rowIndex,
-        NumberType const columnIndex)
-{
+template <typename NumberType>
+NumberType getValueAtPascalTriangle(NumberType const rowIndex, NumberType const columnIndex) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     static_assert(typeHelper::isUnsignedType<NumberType>(), "Number type must be an unsigned");
 
@@ -124,33 +108,29 @@ template <typename NumberType> NumberType getValueAtPascalTriangle(
 }
 
 template <typename NumberType>
-typename std::make_signed<NumberType>::type
-getStirlingNumberOfTheSecondKind(
-        NumberType const n,
-        NumberType const k)
-{
+typename std::make_signed<NumberType>::type getStirlingNumberOfTheSecondKind(NumberType const n, NumberType const k) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     static_assert(typeHelper::isUnsignedType<NumberType>(), "Number type must be an unsigned");
 
-    // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition number)
-    // is the number of ways to partition a set of n objects into k non-empty subsets
+    // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition
+    // number) is the number of ways to partition a set of n objects into k non-empty subsets
 
-    // Stirling numbers of the second kind occur in the field of mathematics called combinatorics and the study of partitions.
+    // Stirling numbers of the second kind occur in the field of mathematics called combinatorics and the study of
+    // partitions.
 
     using SignedType = typename std::make_signed<NumberType>::type;
 
     SignedType sum(0);
     bool isDivisibleByTwo(true);
-    for(NumberType i=0; i<=k; i++)
-    {
+    for (NumberType i = 0; i <= k; i++) {
         SignedType sign = isDivisibleByTwo ? 1 : -1;
-        sum += sign * getNumberOfCombinations(k, i) * getRaiseToPowerForIntegersUsingPow(k-i, n);
+        sum += sign * getNumberOfCombinations(k, i) * getRaiseToPowerForIntegersUsingPow(k - i, n);
         isDivisibleByTwo = !isDivisibleByTwo;
     }
     sum /= getFactorial(k);
     return sum;
 }
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

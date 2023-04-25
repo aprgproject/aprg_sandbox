@@ -6,83 +6,67 @@
 using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = BinaryNearestValueSearchWithCppFunctions<ValuesForTest>;
-}
+}  // namespace
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenThereIsOneValue)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenThereIsOneValue) {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenThereAreDuplicateValues) {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenThereAreMultipleValues) {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsLower) {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsHigher) {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereIsOneValue) {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues) {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower) {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher) {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetLowerBoundAndGetHigherBoundWorks)
-{
+TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetLowerBoundAndGetHigherBoundWorks) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
@@ -90,6 +74,6 @@ TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetLowerBoundAndGetHigherBoun
     EXPECT_EQ(43U, search.getHigherBound(34));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

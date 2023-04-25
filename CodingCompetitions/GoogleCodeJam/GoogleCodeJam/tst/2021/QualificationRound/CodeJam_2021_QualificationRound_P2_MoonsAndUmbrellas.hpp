@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2021_QualificationRound_P2_MoonsAndUmbrellas
-{
+namespace CodeJam_2021_QualificationRound_P2_MoonsAndUmbrellas {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

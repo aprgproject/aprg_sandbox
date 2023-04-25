@@ -5,15 +5,12 @@
 #include <array>
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
-class CountingSorterUsingCountPerValue : public BaseSorter<Values>
-{
+class CountingSorterUsingCountPerValue : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
     using ArrayOfCountPerValue = std::array<unsigned int, MAX_NUMBER_OF_VALUES>;
@@ -22,26 +19,24 @@ public:
 
     CountingSorterUsingCountPerValue() = delete;
     CountingSorterUsingCountPerValue(
-            ValueToIndexableValueFunction const& valueToIndexableValueFunction,
-            IndexableValueToValueFunction const& indexableValueToValueFunction)
-        : m_valueToIndexableValueFunction(valueToIndexableValueFunction)
-        , m_indexableValueToValueFunction(indexableValueToValueFunction)
-    {}
+        ValueToIndexableValueFunction const& valueToIndexableValueFunction,
+        IndexableValueToValueFunction const& indexableValueToValueFunction)
+        : m_valueToIndexableValueFunction(valueToIndexableValueFunction),
+          m_indexableValueToValueFunction(indexableValueToValueFunction) {}
 
-    void sort(Values & valuesToSort) const override
-    {
-        ArrayOfCountPerValue countPerValue{}; // important to initialize to zero
-        for(auto const& value : valuesToSort)
-        {
-            countPerValue[m_valueToIndexableValueFunction(value)]++; // count each value
+    void sort(Values& valuesToSort) const override {
+        ArrayOfCountPerValue countPerValue{};  // important to initialize to zero
+        for (auto const& value : valuesToSort) {
+            countPerValue[m_valueToIndexableValueFunction(value)]++;  // count each value
         }
 
         auto it = valuesToSort.begin();
-        for(unsigned int indexableValue=0; indexableValue<countPerValue.size(); indexableValue++) // Linear because i runs on valuesToSort.size()
+        for (unsigned int indexableValue = 0; indexableValue < countPerValue.size();
+             indexableValue++)  // Linear because i runs on valuesToSort.size()
         {
-            for(unsigned int currentCount=0; currentCount<countPerValue.at(indexableValue); currentCount++)
-            {
-                *(it++) = m_indexableValueToValueFunction(indexableValue); // put the value multiple times depending on the current count
+            for (unsigned int currentCount = 0; currentCount < countPerValue.at(indexableValue); currentCount++) {
+                *(it++) = m_indexableValueToValueFunction(
+                    indexableValue);  // put the value multiple times depending on the current count
             }
         }
     }
@@ -51,9 +46,9 @@ private:
     IndexableValueToValueFunction m_indexableValueToValueFunction;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // This is a linear algorithm
 // This algorithm depends on values as indices so the max value corresponds to the space cost
@@ -74,4 +69,5 @@ private:
 // Counting sort is a very efficient algorithm but it can only be used when the constant c is small enough,
 // so that the array elements can be used as indices in the bookkeeping array.
 
-// Improvement: Index compression (IMPLEMENTED ABOVE) is used to handle non-indexable values (such as negative integers).
+// Improvement: Index compression (IMPLEMENTED ABOVE) is used to handle non-indexable values (such as negative
+// integers).

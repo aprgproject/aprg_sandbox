@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace soosa
-{
+namespace soosa {
 
-TEST(InputConfigurationTest, GetNumberOfColumnsWorks)
-{
+TEST(InputConfigurationTest, GetNumberOfColumnsWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getNumberOfColumns());
@@ -25,8 +22,7 @@ TEST(InputConfigurationTest, GetNumberOfColumnsWorks)
     EXPECT_EQ(2U, inputConfiguration.getNumberOfColumns());
 }
 
-TEST(InputConfigurationTest, GetNumberOfQuestionsWorks)
-{
+TEST(InputConfigurationTest, GetNumberOfQuestionsWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getNumberOfQuestions());
@@ -39,8 +35,7 @@ TEST(InputConfigurationTest, GetNumberOfQuestionsWorks)
     EXPECT_EQ(5U, inputConfiguration.getNumberOfQuestions());
 }
 
-TEST(InputConfigurationTest, GetNumberOfQuestionsAtColumnWorks)
-{
+TEST(InputConfigurationTest, GetNumberOfQuestionsAtColumnWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getNumberOfQuestionsAtColumn(1U));
@@ -54,8 +49,7 @@ TEST(InputConfigurationTest, GetNumberOfQuestionsAtColumnWorks)
     EXPECT_EQ(2U, inputConfiguration.getNumberOfQuestionsAtColumn(2U));
 }
 
-TEST(InputConfigurationTest, GetQuestionIndexInColumnWorks)
-{
+TEST(InputConfigurationTest, GetQuestionIndexInColumnWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getQuestionIndexInColumn(1U, 1U));
@@ -71,8 +65,7 @@ TEST(InputConfigurationTest, GetQuestionIndexInColumnWorks)
     EXPECT_EQ(4U, inputConfiguration.getQuestionIndexInColumn(2U, 1U));
 }
 
-TEST(InputConfigurationTest, GetMinimumSatisfactoryScoreWorks)
-{
+TEST(InputConfigurationTest, GetMinimumSatisfactoryScoreWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getMinimumSatisfactoryScore());
@@ -81,8 +74,7 @@ TEST(InputConfigurationTest, GetMinimumSatisfactoryScoreWorks)
     EXPECT_EQ(7U, inputConfiguration.getMinimumSatisfactoryScore());
 }
 
-TEST(InputConfigurationTest, GetQuestionAtWorks)
-{
+TEST(InputConfigurationTest, GetQuestionAtWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_TRUE(inputConfiguration.getQuestionAt(1U).empty());
@@ -99,8 +91,7 @@ TEST(InputConfigurationTest, GetQuestionAtWorks)
     EXPECT_EQ("Question2AtColumn2", inputConfiguration.getQuestionAt(4U));
 }
 
-TEST(InputConfigurationTest, GetFormDetailsTitleWorks)
-{
+TEST(InputConfigurationTest, GetFormDetailsTitleWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_TRUE(inputConfiguration.getFormDetailsTitle().empty());
@@ -109,8 +100,7 @@ TEST(InputConfigurationTest, GetFormDetailsTitleWorks)
     EXPECT_EQ("FormDetailsTitleToTest", inputConfiguration.getFormDetailsTitle());
 }
 
-TEST(InputConfigurationTest, GetPathWorks)
-{
+TEST(InputConfigurationTest, GetPathWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_TRUE(inputConfiguration.getPath().empty());
@@ -119,8 +109,7 @@ TEST(InputConfigurationTest, GetPathWorks)
     EXPECT_EQ("PathToTest", inputConfiguration.getPath());
 }
 
-TEST(InputConfigurationTest, GetAreaWorks)
-{
+TEST(InputConfigurationTest, GetAreaWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_TRUE(inputConfiguration.getArea().empty());
@@ -129,8 +118,7 @@ TEST(InputConfigurationTest, GetAreaWorks)
     EXPECT_EQ("AreaToTest", inputConfiguration.getArea());
 }
 
-TEST(InputConfigurationTest, GetPeriodWorks)
-{
+TEST(InputConfigurationTest, GetPeriodWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_TRUE(inputConfiguration.getPeriod().empty());
@@ -139,8 +127,7 @@ TEST(InputConfigurationTest, GetPeriodWorks)
     EXPECT_EQ("PeriodToTest", inputConfiguration.getPeriod());
 }
 
-TEST(InputConfigurationTest, GetDischargeWorks)
-{
+TEST(InputConfigurationTest, GetDischargeWorks) {
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getDischarge());
@@ -149,8 +136,7 @@ TEST(InputConfigurationTest, GetDischargeWorks)
     EXPECT_DOUBLE_EQ(1.234, inputConfiguration.getDischarge());
 }
 
-TEST(InputConfigurationTest, SetPathWorks)
-{
+TEST(InputConfigurationTest, SetPathWorks) {
     InputConfiguration inputConfiguration;
 
     inputConfiguration.setPath("PathToTest");
@@ -158,8 +144,7 @@ TEST(InputConfigurationTest, SetPathWorks)
     EXPECT_EQ("PathToTest", inputConfiguration.getPath());
 }
 
-TEST(InputConfigurationTest, SetMainParametersWorks)
-{
+TEST(InputConfigurationTest, SetMainParametersWorks) {
     InputConfiguration inputConfiguration;
 
     inputConfiguration.setMainParameters("AreaToTest", "PeriodToTest", 1.234, 7U);
@@ -170,8 +155,7 @@ TEST(InputConfigurationTest, SetMainParametersWorks)
     EXPECT_EQ(7U, inputConfiguration.getMinimumSatisfactoryScore());
 }
 
-TEST(InputConfigurationTest, AddQuestionWorks)
-{
+TEST(InputConfigurationTest, AddQuestionWorks) {
     InputConfiguration inputConfiguration;
 
     inputConfiguration.addQuestion(1, "Question1AtColumn1");
@@ -185,8 +169,7 @@ TEST(InputConfigurationTest, AddQuestionWorks)
     EXPECT_EQ("Question1AtColumn1", inputConfiguration.getQuestionAt(0U));
 }
 
-TEST(InputConfigurationTest, SetFormDetailsTitleWorks)
-{
+TEST(InputConfigurationTest, SetFormDetailsTitleWorks) {
     InputConfiguration inputConfiguration;
 
     inputConfiguration.setFormDetailsTitle("FormDetailsTitleToTest");
@@ -194,6 +177,6 @@ TEST(InputConfigurationTest, SetFormDetailsTitleWorks)
     EXPECT_EQ("FormDetailsTitleToTest", inputConfiguration.getFormDetailsTitle());
 }
 
-}
+}  // namespace soosa
 
-}
+}  // namespace alba

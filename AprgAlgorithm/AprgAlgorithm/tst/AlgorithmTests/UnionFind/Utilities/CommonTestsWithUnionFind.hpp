@@ -4,18 +4,14 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithUnionFind
-{
+namespace CommonTestsWithUnionFind {
 
 template <typename UnionFind>
-void testIsConnectedWithUnsignedInt(UnionFind & unionFind)
-{
+void testIsConnectedWithUnsignedInt(UnionFind& unionFind) {
     EXPECT_FALSE(unionFind.isConnected(1, 2));
     EXPECT_FALSE(unionFind.isConnected(3, 4));
 
@@ -28,8 +24,7 @@ void testIsConnectedWithUnsignedInt(UnionFind & unionFind)
 }
 
 template <typename UnionFind>
-void testConnectWithUnsignedInt(UnionFind & unionFind)
-{
+void testConnectWithUnsignedInt(UnionFind& unionFind) {
     EXPECT_FALSE(unionFind.isConnected(3, 4));
     EXPECT_FALSE(unionFind.isConnected(4, 3));
     EXPECT_FALSE(unionFind.isConnected(3, 5));
@@ -49,28 +44,26 @@ void testConnectWithUnsignedInt(UnionFind & unionFind)
 }
 
 template <typename UnionFind>
-void testConnectUsingExample1WithUnsignedInt(UnionFind & unionFind)
-{
+void testConnectUsingExample1WithUnsignedInt(UnionFind& unionFind) {
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_TRUE(unionFind.isConnected(8,9));
-    EXPECT_FALSE(unionFind.isConnected(5,4));
-    EXPECT_TRUE(unionFind.isConnected(4,9));
-    EXPECT_TRUE(unionFind.isConnected(4,3));
-    EXPECT_FALSE(unionFind.isConnected(4,7));
-    EXPECT_FALSE(unionFind.isConnected(4,5));
-    EXPECT_FALSE(unionFind.isConnected(4,1));
-    EXPECT_FALSE(unionFind.isConnected(4,0));
-    EXPECT_TRUE(unionFind.isConnected(5,6));
+    EXPECT_TRUE(unionFind.isConnected(8, 9));
+    EXPECT_FALSE(unionFind.isConnected(5, 4));
+    EXPECT_TRUE(unionFind.isConnected(4, 9));
+    EXPECT_TRUE(unionFind.isConnected(4, 3));
+    EXPECT_FALSE(unionFind.isConnected(4, 7));
+    EXPECT_FALSE(unionFind.isConnected(4, 5));
+    EXPECT_FALSE(unionFind.isConnected(4, 1));
+    EXPECT_FALSE(unionFind.isConnected(4, 0));
+    EXPECT_TRUE(unionFind.isConnected(5, 6));
 }
 
 template <typename UnionFind>
-void testConnectUsingExample2WithUnsignedInt(UnionFind & unionFind)
-{
+void testConnectUsingExample2WithUnsignedInt(UnionFind& unionFind) {
     unionFind.connect(0, 1);
     unionFind.connect(0, 2);
     unionFind.connect(0, 5);
@@ -100,8 +93,8 @@ void testConnectUsingExample2WithUnsignedInt(UnionFind & unionFind)
     EXPECT_FALSE(unionFind.isConnected(0, 9));
 }
 
-}
+}  // namespace CommonTestsWithUnionFind
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

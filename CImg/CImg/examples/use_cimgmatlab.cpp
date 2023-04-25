@@ -36,22 +36,22 @@
 #include <CImg.h>
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
-  if (nrhs < 2) mexErrMsgTxt("No enough input arguments.");
-  if (nrhs > 4) mexErrMsgTxt("Too many input arguments.");
-  cimg_library::CImg<> u(prhs[0],true);
-  if (nrhs == 2) {
-    const float s = (float)mxGetScalar(prhs[1]);
-    plhs[0] = u.get_blur(s).toMatlab();
-  } else if (nrhs == 3) {
-    const float sx = (float)mxGetScalar(prhs[1]);
-    const float sy = (float)mxGetScalar(prhs[2]);
-    plhs[0] = u.get_blur(sx,sy,0).toMatlab();
-  } else if (nrhs == 4) {
-    const float sx = (float)mxGetScalar(prhs[1]);
-    const float sy = (float)mxGetScalar(prhs[2]);
-    const float sz = (float)mxGetScalar(prhs[3]);
-    plhs[0] = u.get_blur(sx,sy,sz).toMatlab();
-  }
+    if (nrhs < 2) mexErrMsgTxt("No enough input arguments.");
+    if (nrhs > 4) mexErrMsgTxt("Too many input arguments.");
+    cimg_library::CImg<> u(prhs[0], true);
+    if (nrhs == 2) {
+        const float s = (float)mxGetScalar(prhs[1]);
+        plhs[0] = u.get_blur(s).toMatlab();
+    } else if (nrhs == 3) {
+        const float sx = (float)mxGetScalar(prhs[1]);
+        const float sy = (float)mxGetScalar(prhs[2]);
+        plhs[0] = u.get_blur(sx, sy, 0).toMatlab();
+    } else if (nrhs == 4) {
+        const float sx = (float)mxGetScalar(prhs[1]);
+        const float sy = (float)mxGetScalar(prhs[2]);
+        const float sz = (float)mxGetScalar(prhs[3]);
+        plhs[0] = u.get_blur(sx, sy, sz).toMatlab();
+    }
 }
 
 /*------------------------------------------------------------------
@@ -62,13 +62,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
   How to read a .mat file using plugin 'cimgmatlab.h' ?
   (contribution by Vo Duc Khanh/Denso IT Lab, Tokyo, Japan).
 
-  #include <mex.h>
   #include <mat.h>
   #include <matrix.h>
+  #include <mex.h>
 
   #define cimg_plugin "cimgmatlab.h"
 
   #include "CImg.h"
+
   #include <iostream>
   #include <string>
 

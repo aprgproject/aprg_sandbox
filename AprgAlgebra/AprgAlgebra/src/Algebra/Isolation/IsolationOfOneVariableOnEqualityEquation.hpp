@@ -2,14 +2,11 @@
 
 #include <Algebra/Equation/Equation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class IsolationOfOneVariableOnEqualityEquation
-{
+class IsolationOfOneVariableOnEqualityEquation {
 public:
     IsolationOfOneVariableOnEqualityEquation(Equation const& equation);
 
@@ -20,32 +17,25 @@ public:
     Equation isolateTermWithVariableOnRightSideOfEquation(std::string const& variableName) const;
 
     void isolateTermWithVariable(
-            std::string const& variableName,
-            Term & termWithVariable,
-            Term & termWithWithoutVariable) const;
+        std::string const& variableName, Term& termWithVariable, Term& termWithWithoutVariable) const;
 
     void setEquation(Equation const& equation);
 
 private:
     void isolateTermWithVariable(
-            std::string const& variableName,
-            Polynomial const& polynomial,
-            Term & termWithVariable,
-            Term & termWithWithoutVariable) const;
+        std::string const& variableName, Polynomial const& polynomial, Term& termWithVariable,
+        Term& termWithWithoutVariable) const;
     void isolateTermWithVariable(
-            std::string const& variableName,
-            Expression const& expression,
-            Term & termWithVariable,
-            Term & termWithWithoutVariable) const;
+        std::string const& variableName, Expression const& expression, Term& termWithVariable,
+        Term& termWithWithoutVariable) const;
     bool canBeIsolatedBasedOnExponent(AlbaNumber const& identicalExponentForVariable) const;
     AlbaNumber getIdenticalExponentForVariableIfPossible(
-            std::string const& variableName,
-            Polynomial const& polynomial) const;
-    void simplifyForIsolation(Term & term) const;
-    void simplifyForIsolation(Expression & expression) const;
+        std::string const& variableName, Polynomial const& polynomial) const;
+    void simplifyForIsolation(Term& term) const;
+    void simplifyForIsolation(Expression& expression) const;
     Term m_simplifiedLeftSideTerm;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

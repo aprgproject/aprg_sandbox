@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-TEST(ChessEngineHandlerTest, DISABLED_ChessEngineIsRunningAfterConstruction)
-{
+TEST(ChessEngineHandlerTest, DISABLED_ChessEngineIsRunningAfterConstruction) {
     ChessEngineHandler chessEngineHandler(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaTest.exe)");
     chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaLog.log)");
 
@@ -19,8 +16,7 @@ TEST(ChessEngineHandlerTest, DISABLED_ChessEngineIsRunningAfterConstruction)
     Sleep(1000);
 }
 
-TEST(ChessEngineHandlerTest, DISABLED_ChessEngineIsAbleToSendBestMove)
-{
+TEST(ChessEngineHandlerTest, DISABLED_ChessEngineIsAbleToSendBestMove) {
     ChessEngineHandler chessEngineHandler(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaTest.exe)");
     chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaLog.log)");
 
@@ -33,8 +29,7 @@ TEST(ChessEngineHandlerTest, DISABLED_ChessEngineIsAbleToSendBestMove)
     Sleep(1000);
 }
 
-TEST(ChessEngineHandlerTest, DISABLED_ResetWorks)
-{
+TEST(ChessEngineHandlerTest, DISABLED_ResetWorks) {
     ChessEngineHandler chessEngineHandler(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaTest.exe)");
     chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaLog.log)");
 
@@ -57,6 +52,6 @@ TEST(ChessEngineHandlerTest, DISABLED_ResetWorks)
     Sleep(1000);
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

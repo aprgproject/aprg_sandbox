@@ -7,64 +7,45 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-template <typename KeyTemplateType, typename EntryTemplateType, typename HashFunction, unsigned int HASH_TABLE_SIZE,
-          typename OrderedArray, typename UnorderedLinkedList, typename BaseDataStructure>
-class BaseSeparateChainingHash : public BaseDataStructure
-{
+template <
+    typename KeyTemplateType, typename EntryTemplateType, typename HashFunction, unsigned int HASH_TABLE_SIZE,
+    typename OrderedArray, typename UnorderedLinkedList, typename BaseDataStructure>
+class BaseSeparateChainingHash : public BaseDataStructure {
 public:
     using Key = KeyTemplateType;
     using Entry = EntryTemplateType;
     using Keys = std::vector<Key>;
     using HashTable = std::array<UnorderedLinkedList, HASH_TABLE_SIZE>;
 
-    BaseSeparateChainingHash()
-        : m_size(0U)
-    {}
+    BaseSeparateChainingHash() : m_size(0U) {}
 
-    ~BaseSeparateChainingHash() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseSeparateChainingHash() override = default;  // no need for virtual destructor because base destructor is
+                                                     // virtual (similar to other virtual functions)
 
-    bool isEmpty() const override
-    {
-        return m_size == 0U;
-    }
+    bool isEmpty() const override { return m_size == 0U; }
 
-    bool doesContain(Key const& key) const override
-    {
-        return m_smallerSymbolTables.at(getHash(key)).doesContain(key);
-    }
+    bool doesContain(Key const& key) const override { return m_smallerSymbolTables.at(getHash(key)).doesContain(key); }
 
-    unsigned int getSize() const override
-    {
-        return m_size;
-    }
+    unsigned int getSize() const override { return m_size; }
 
-    unsigned int getRank(Key const& key) const override
-    {
+    unsigned int getRank(Key const& key) const override {
         Keys keys(getKeys());
         return OrderedArray::getRank(key, keys);
     }
 
-    Key getMinimum() const override
-    {
+    Key getMinimum() const override {
         Key result{};
         bool isFirst(true);
-        for(auto const& smallerSymbolTables : m_smallerSymbolTables)
-        {
-            if(!smallerSymbolTables.isEmpty())
-            {
-                if(isFirst)
-                {
+        for (auto const& smallerSymbolTables : m_smallerSymbolTables) {
+            if (!smallerSymbolTables.isEmpty()) {
+                if (isFirst) {
                     result = smallerSymbolTables.getMinimum();
-                    isFirst=false;
-                }
-                else
-                {
+                    isFirst = false;
+                } else {
                     result = std::min(result, smallerSymbolTables.getMinimum());
                 }
             }
@@ -72,21 +53,15 @@ public:
         return result;
     }
 
-    Key getMaximum() const override
-    {
+    Key getMaximum() const override {
         Key result;
         bool isFirst(true);
-        for(auto const& smallerSymbolTables : m_smallerSymbolTables)
-        {
-            if(!smallerSymbolTables.isEmpty())
-            {
-                if(isFirst)
-                {
+        for (auto const& smallerSymbolTables : m_smallerSymbolTables) {
+            if (!smallerSymbolTables.isEmpty()) {
+                if (isFirst) {
                     result = smallerSymbolTables.getMaximum();
-                    isFirst=false;
-                }
-                else
-                {
+                    isFirst = false;
+                } else {
                     result = std::max(result, smallerSymbolTables.getMaximum());
                 }
             }
@@ -94,60 +69,44 @@ public:
         return result;
     }
 
-    Key selectAt(unsigned int const index) const override
-    {
+    Key selectAt(unsigned int const index) const override {
         Keys keys(getKeys());
         return OrderedArray::selectAt(index, keys);
     }
 
-    Key getFloor(Key const& key) const override
-    {
+    Key getFloor(Key const& key) const override {
         Keys keys(getKeys());
         return OrderedArray::getFloor(key, keys);
     }
 
-    Key getCeiling(Key const& key) const override
-    {
+    Key getCeiling(Key const& key) const override {
         Keys keys(getKeys());
         return OrderedArray::getCeiling(key, keys);
     }
 
-    void deleteBasedOnKey(Key const& key) override
-    {
+    void deleteBasedOnKey(Key const& key) override {
         m_smallerSymbolTables[getHash(key)].deleteBasedOnKey(key);
         m_size--;
     }
 
-    void deleteMinimum() override
-    {
-        deleteBasedOnKey(getMinimum());
-    }
+    void deleteMinimum() override { deleteBasedOnKey(getMinimum()); }
 
-    void deleteMaximum() override
-    {
-        deleteBasedOnKey(getMaximum());
-    }
+    void deleteMaximum() override { deleteBasedOnKey(getMaximum()); }
 
-    Keys getKeys() const override
-    {
+    Keys getKeys() const override {
         Keys result;
-        for(auto const& smallerSymbolTables : m_smallerSymbolTables)
-        {
-            if(!smallerSymbolTables.isEmpty())
-            {
+        for (auto const& smallerSymbolTables : m_smallerSymbolTables) {
+            if (!smallerSymbolTables.isEmpty()) {
                 result = mergeTwoSortedSequences(result, smallerSymbolTables.getKeys());
             }
         }
         return result;
     }
 
-    Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override
-    {
+    Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override {
         Keys result;
-        for(auto const& smallerSymbolTables : m_smallerSymbolTables)
-        {
-            if(!smallerSymbolTables.isEmpty())
-            {
+        for (auto const& smallerSymbolTables : m_smallerSymbolTables) {
+            if (!smallerSymbolTables.isEmpty()) {
                 result = mergeTwoSortedSequences(result, smallerSymbolTables.getKeysInRangeInclusive(low, high));
             }
         }
@@ -155,10 +114,7 @@ public:
     }
 
 protected:
-    unsigned int getHash(Key const& key) const
-    {
-        return HashFunction::getHash(key, HASH_TABLE_SIZE);
-    }
+    unsigned int getHash(Key const& key) const { return HashFunction::getHash(key, HASH_TABLE_SIZE); }
 
     unsigned int m_size;
     HashTable m_smallerSymbolTables;
@@ -166,9 +122,9 @@ protected:
 
 // Approach: use an array of M<N linked lists. H. P. Luhn IBM 1953.
 
-// Proposition. Under uniform hashing assumption, probability that the number of keys in a list is within a constant factor of N/M is extremely close to 1
-// Note: N is the number of items, M is the hash table size
-// Proof sketch: Distribution of list size obeys a binomial distribution.
+// Proposition. Under uniform hashing assumption, probability that the number of keys in a list is within a constant
+// factor of N/M is extremely close to 1 Note: N is the number of items, M is the hash table size Proof sketch:
+// Distribution of list size obeys a binomial distribution.
 
 // Consequence. Number of probes (getting hash and check if equal) for search/insert is proportional to N/M
 // -> M is too large -> too many empty chains.
@@ -179,7 +135,6 @@ protected:
 // -> Hash to two positions, insert key in shorter of the two chains
 // -> Reduces expected length of the longest chain to log log N
 
+}  // namespace algorithm
 
-}
-
-}
+}  // namespace alba

@@ -1,46 +1,41 @@
-#include <AprgUniqueProblems/SortProblems/SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime/SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
+#include <AprgUniqueProblems/SortProblems/SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime/SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Characters = vector<char>;
 using Integers = vector<int>;
 using CharactersSorter = SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime<Characters>;
 using SmallIntegerSorter = SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime<Integers>;
-}
+}  // namespace
 
-TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(
+    SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest,
+    SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersUsingOneValueExample)
-{
+TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersUsingOneValueExample) {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersUsingExample1)
-{
+TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersUsingExample1) {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCharactersUsingExample2) {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
@@ -51,6 +46,6 @@ TEST(SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTimeTest, SortWorksOnCha
 // CANNOT SORT STRINGS
 // CANNOT SORT STABILITY OBJECTS
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

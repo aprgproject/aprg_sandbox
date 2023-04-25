@@ -68,10 +68,11 @@
                 colorbar
 */
 
+#include "tinymatwriter.h"
+
+#include <cmath>
 #include <iostream>
 #include <stdio.h>
-#include "tinymatwriter.h"
-#include <cmath>
 
 #define cimg_plugin "plugins/tinymatwriter.h"
 #include "../CImg.h"
@@ -80,56 +81,41 @@ using namespace std;
 using namespace cimg_library;
 
 int main(int argc, const char** argv) {
+    double mat432[4 * 3 * 2] = {
+        1,    2,    3,    4,    5,    6,
 
-  double mat432[4*3*2]= {
-    1,2,3,
-    4,5,6,
+        10,   20,   30,   40,   50,   60,
 
-    10,20,30,
-    40,50,60,
+        100,  200,  300,  400,  500,  600,
 
-    100,200,300,
-    400,500,600,
+        1000, 2000, 3000, 4000, 5000, 6000,
+    };
 
-    1000,2000,3000,
-    4000,5000,6000,
-  };
+    int16_t mat432i16[4 * 3 * 2] = {
+        1,    2,     3,    4,     5,    6,
 
-  int16_t mat432i16[4*3*2]= {
-    1,2,3,
-    4,5,6,
+        10,   20,    30,   40,    50,   60,
 
-    10,20,30,
-    40,50,60,
+        100,  200,   300,  400,   500,  600,
 
-    100,200,300,
-    400,500,600,
+        1000, -2000, 3000, -4000, 5000, -6000,
+    };
 
-    1000,-2000,3000,
-    -4000,5000,-6000,
-  };
+    // a boolean matrix
+    bool matb[4 * 3 * 2] = {true, false, true,  false, true,  false,
 
-  // a boolean matrix
-  bool matb[4*3*2] = {
-    true,false,true,
-    false,true,false,
+                            true, true,  true,  false, false, false,
 
-    true,true,true,
-    false,false,false,
+                            true, false, true,  true,  false, true,
 
-    true,false,true,
-    true,false,true,
+                            true, true,  false, false, true,  true};
 
-    true,true,false,
-    false,true,true
-  };
+    cimg_library::CImg<double> ciD(mat432, 3, 2, 4);
+    cimg_library::CImg<int16_t> ciI16(mat432i16, 3, 2, 4);
+    cimg_library::CImg<bool> ciB(matb, 3, 2, 4);
 
-  cimg_library::CImg<double> ciD(mat432, 3,2,4);
-  cimg_library::CImg<int16_t> ciI16(mat432i16, 3,2,4);
-  cimg_library::CImg<bool> ciB(matb, 3,2,4);
-
-  ciD.save_tinymat("mat432.mat");
-  ciI16.save_tinymat("mat432i16.mat");
-  ciB.save_tinymat("matb.mat");
-  return 0;
+    ciD.save_tinymat("mat432.mat");
+    ciI16.save_tinymat("mat432i16.mat");
+    ciB.save_tinymat("matb.mat");
+    return 0;
 }

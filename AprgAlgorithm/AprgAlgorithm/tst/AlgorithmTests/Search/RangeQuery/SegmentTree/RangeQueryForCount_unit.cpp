@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryForCount<ValuesForTest>;
-}
+}  // namespace
 
-TEST(RangeQueryForCountTest, GetCountOfThisValueOnIntervalWorksOnExample1)
-{
+TEST(RangeQueryForCountTest, GetCountOfThisValueOnIntervalWorksOnExample1) {
     ValuesForTest values{4U, 2U, 4U, 4U, 2U, 4U, 3U, 3U, 4U};
     RangeQueryForTest countRangeQuery(values);
 
@@ -86,8 +82,7 @@ TEST(RangeQueryForCountTest, GetCountOfThisValueOnIntervalWorksOnExample1)
     EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 4U));
 }
 
-TEST(RangeQueryForCountTest, ChangeValueAtIndexWorksOnExample1)
-{
+TEST(RangeQueryForCountTest, ChangeValueAtIndexWorksOnExample1) {
     ValuesForTest values{4U, 2U, 4U, 4U, 2U, 4U, 3U, 3U, 4U};
     RangeQueryForTest countRangeQuery(values);
 
@@ -158,6 +153,6 @@ TEST(RangeQueryForCountTest, ChangeValueAtIndexWorksOnExample1)
     EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

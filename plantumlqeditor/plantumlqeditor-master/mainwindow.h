@@ -21,15 +21,14 @@ class QSignalMapper;
 class QScrollArea;
 class TextEdit;
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void openDocument(const QString& path);
+    void openDocument(const QString &path);
 
 public slots:
     void newDocument();
@@ -52,11 +51,11 @@ private slots:
     void onSaveAsActionTriggered();
     void onExportImageActionTriggered();
     void onExportAsImageActionTriggered();
-    void onRecentDocumentsActionTriggered(const QString& path);
-    void onAssistanItemDoubleClicked(QListWidgetItem* item);
-    void onSingleApplicationReceivedMessage(const QString& message);
+    void onRecentDocumentsActionTriggered(const QString &path);
+    void onAssistanItemDoubleClicked(QListWidgetItem *item);
+    void onSingleApplicationReceivedMessage(const QString &message);
     void onAssistantFocus();
-    void onAssistantItemInsert(QWidget* widget);
+    void onAssistantItemInsert(QWidget *widget);
     void onNextAssistant();
     void onPrevAssistant();
     void onAssistantItemSelectionChanged();
@@ -70,8 +69,8 @@ private:
     bool maybeSave();
     void readSettings(bool reload = false);
     void writeSettings();
-    bool saveDocument(const QString& name);
-    void exportImage(const QString& name);
+    bool saveDocument(const QString &name);
+    void exportImage(const QString &name);
     QString makeKeyForDocument(QByteArray current_document);
 
     void createActions();
@@ -80,11 +79,11 @@ private:
     void createStatusBar();
     void createDockWindows();
     void enableUndoRedoActions();
-    void addZoomActions(QWidget* widget);
+    void addZoomActions(QWidget *widget);
 
     void checkPaths();
-    void reloadAssistantXml(const QString& path);
-    void insertAssistantCode(const QString& code);
+    void reloadAssistantXml(const QString &path);
+    void insertAssistantCode(const QString &code);
 
     bool refreshFromCache();
     void updateCacheSizeInfo();
@@ -101,7 +100,7 @@ private:
     QByteArray m_cachedImage;
 
     QString m_assistantXmlPath;
-    QList<QListWidget*> m_assistantWidgets;
+    QList<QListWidget *> m_assistantWidgets;
 
     bool m_useCustomJava;
     bool m_useCustomPlantUml;
@@ -133,7 +132,7 @@ private:
     // the main image widget, which renders to svg or png
     // and the scroll area container used to add scroll bars
     PreviewWidget *m_imageWidget;
-    QScrollArea* m_imageWidgetScrollArea;
+    QScrollArea *m_imageWidgetScrollArea;
     QToolBox *m_assistantToolBox;
     QLabel *m_assistantPreviewNotes;
     QTextEdit *m_assistantCodePreview;
@@ -177,12 +176,12 @@ private:
     QAction *m_aboutAction;
     QAction *m_aboutQtAction;
 
-    QSignalMapper* m_assistantInsertSignalMapper;
+    QSignalMapper *m_assistantInsertSignalMapper;
 
-    FileCache* m_cache;
-    RecentDocuments* m_recentDocuments;
+    FileCache *m_cache;
+    RecentDocuments *m_recentDocuments;
 
     QString m_lastDir;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

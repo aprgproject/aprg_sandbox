@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(NimGameTest, GetGameStateWorks)
-{
+TEST(NimGameTest, GetGameStateWorks) {
     EXPECT_EQ(GameState::Winning, NimGame::getGameState({10U, 12U, 5U}));
     EXPECT_EQ(GameState::Losing, NimGame::getGameState({9U, 12U, 5U}));
     EXPECT_EQ(GameState::Winning, NimGame::getGameState({8U, 12U, 5U}));
@@ -34,8 +31,7 @@ TEST(NimGameTest, GetGameStateWorks)
     EXPECT_EQ(GameState::Losing, NimGame::getGameState({0U, 0U, 0U}));
 }
 
-TEST(NimGameTest, GetOptimalNextStateWorks)
-{
+TEST(NimGameTest, GetOptimalNextStateWorks) {
     EXPECT_EQ((NimState{9U, 12U, 5U}), NimGame::getOptimalNextState({10U, 12U, 5U}));
     EXPECT_EQ((NimState{8U, 12U, 5U}), NimGame::getOptimalNextState({9U, 12U, 5U}));
     EXPECT_EQ((NimState{8U, 12U, 4U}), NimGame::getOptimalNextState({8U, 12U, 5U}));
@@ -58,6 +54,6 @@ TEST(NimGameTest, GetOptimalNextStateWorks)
     EXPECT_EQ((NimState{0U, 0U, 0U}), NimGame::getOptimalNextState({0U, 0U, 0U}));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

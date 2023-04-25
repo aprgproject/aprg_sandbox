@@ -8,8 +8,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, ExternTest)
-{
+TEST_F(ModuleTest, ExternTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "extern int x = 5;\n";
@@ -26,8 +25,7 @@ TEST_F(ModuleTest, ExternTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 1);
 }
 
-TEST_F(ModuleTest, CommentAreIgnored)
-{
+TEST_F(ModuleTest, CommentAreIgnored) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define /*My comment1*/MACRO/*My comment2*/ int//My comment3\n";
@@ -45,12 +43,15 @@ TEST_F(ModuleTest, CommentAreIgnored)
     CHECK_TERM(it, TermType::ProcessedTerm, "#define /*My comment1*/MACRO/*My comment2*/ int//My comment3\n", 1);
     CHECK_TERM(it, TermType::ProcessedTerm, "#include /*My comment1*/<iostream>//My comment2\n", 2);
     CHECK_TERM(it, TermType::ProcessedTerm, "int /*My comment1*/variable /*My comment2*/= 5;//My comment3\n", 3);
-    CHECK_TERM(it, TermType::MultiLine_IfElseIfStartChain_Ignorable, "if/*My comment1*/(/*My comment2*/1/*My comment3*/ == /*My comment4*/1/*My comment5*/)//My comment5\n/*My comment1*/{//My comment2\nint x = 5;\n/*My comment1*/}//My comment2\n", 4);
+    CHECK_TERM(
+        it, TermType::MultiLine_IfElseIfStartChain_Ignorable,
+        "if/*My comment1*/(/*My comment2*/1/*My comment3*/ == /*My comment4*/1/*My comment5*/)//My comment5\n/*My "
+        "comment1*/{//My comment2\nint x = 5;\n/*My comment1*/}//My comment2\n",
+        4);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 1);
 }
 
-TEST_F(ModuleTest, SingleLineCommentWithExtraNewLineTest)
-{
+TEST_F(ModuleTest, SingleLineCommentWithExtraNewLineTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "//Single line comment\n";
@@ -60,13 +61,12 @@ TEST_F(ModuleTest, SingleLineCommentWithExtraNewLineTest)
     processFile();
     ASSERT_EQ(m_terms.size(), 2);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::Comment, "//Single line comment\n", 1);\
+    CHECK_TERM(it, TermType::Comment, "//Single line comment\n", 1);
     CHECK_TERM(it, TermType::Comment, "//Single line comment with spaces in the end\n", 2);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MultiLineCommentWithExtraNewLineTest)
-{
+TEST_F(ModuleTest, MultiLineCommentWithExtraNewLineTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "/*\n";
@@ -89,8 +89,7 @@ TEST_F(ModuleTest, MultiLineCommentWithExtraNewLineTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 4);
 }
 
-TEST_F(ModuleTest, CheckUnnecessaryLinesIndentionAreNotChecked)
-{
+TEST_F(ModuleTest, CheckUnnecessaryLinesIndentionAreNotChecked) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "    \n";
@@ -106,8 +105,7 @@ TEST_F(ModuleTest, CheckUnnecessaryLinesIndentionAreNotChecked)
     CHECK_TERM_IF_NEWLINE(it, 3);
 }
 
-TEST_F(ModuleTest, ExtraParenthesisTest)
-{
+TEST_F(ModuleTest, ExtraParenthesisTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int x = (100 + 200) + 5;\n";
@@ -120,8 +118,7 @@ TEST_F(ModuleTest, ExtraParenthesisTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, ContinuousSimplificationTest)
-{
+TEST_F(ModuleTest, ContinuousSimplificationTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int a = (100 + 200) + 5;\n\n";
@@ -150,8 +147,7 @@ TEST_F(ModuleTest, ContinuousSimplificationTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 6);
 }
 
-TEST_F(ModuleTest, MultipleVariableDeclarationTest)
-{
+TEST_F(ModuleTest, MultipleVariableDeclarationTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int a, b = 1, c, d = 5;\n";
@@ -169,8 +165,7 @@ TEST_F(ModuleTest, MultipleVariableDeclarationTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, CStyleArrayTest)
-{
+TEST_F(ModuleTest, CStyleArrayTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int integerArray[5];\n";
@@ -186,8 +181,7 @@ TEST_F(ModuleTest, CStyleArrayTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, CStyleStructTest)
-{
+TEST_F(ModuleTest, CStyleStructTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "struct\n";
@@ -204,12 +198,13 @@ TEST_F(ModuleTest, CStyleStructTest)
 
     ASSERT_EQ(m_terms.size(), 1);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::ProcessedTerm, "struct\n{\nchar* locale;\nwchar_t* wlocale;\nint* refcount;\nint* wrefcount;\n}\nlc_category;\n", 1);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "struct\n{\nchar* locale;\nwchar_t* wlocale;\nint* refcount;\nint* wrefcount;\n}\nlc_category;\n", 1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, CStyleStructArrayTest)
-{
+TEST_F(ModuleTest, CStyleStructArrayTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "struct\n";
@@ -226,12 +221,13 @@ TEST_F(ModuleTest, CStyleStructArrayTest)
 
     ASSERT_EQ(m_terms.size(), 1);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::ProcessedTerm, "struct\n{\nchar* locale;\nwchar_t* wlocale;\nint* refcount;\nint* wrefcount;\n}\nlc_category[6];\n", 1);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "struct\n{\nchar* locale;\nwchar_t* wlocale;\nint* refcount;\nint* wrefcount;\n}\nlc_category[6];\n", 1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, CStyleStructPointerTest)
-{
+TEST_F(ModuleTest, CStyleStructPointerTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "struct lconv* lconv;\n";

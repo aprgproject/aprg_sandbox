@@ -2,13 +2,11 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-struct AlbaLinuxPathHandlerTest : public testing::Test
-{
+struct AlbaLinuxPathHandlerTest : public testing::Test {
     AlbaLinuxPathHandlerTest() = default;
     std::string convertToSimplestPath(std::string const& path);
 };
 
-}
+}  // namespace alba

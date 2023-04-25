@@ -3,8 +3,8 @@
 
 #include <QString>
 
-const double CACHE_SCALE = 1024*1024;
+const double CACHE_SCALE = 1024 * 1024;
 
 QString cacheSizeToString(int size);
 
-#endif // UTILS_H
+#endif  // UTILS_H

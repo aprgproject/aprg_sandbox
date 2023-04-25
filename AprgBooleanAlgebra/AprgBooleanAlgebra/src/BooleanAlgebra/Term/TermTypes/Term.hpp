@@ -11,19 +11,16 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class Term : public BaseTerm
-{
+class Term : public BaseTerm {
 public:
     using BaseTermDataPointer = std::unique_ptr<BaseTermData>;
 
     Term();
-    Term(TermType const type, bool const isSimplified, BaseTermDataPointer && m_baseTermDataPointer); // for move
+    Term(TermType const type, bool const isSimplified, BaseTermDataPointer&& m_baseTermDataPointer);  // for move
     Term(bool const boolValue);
     Term(char const* const characterString);
     Term(std::string const& stringAsParameter);
@@ -35,9 +32,9 @@ public:
     // rule of five or six
     ~Term() = default;
     Term(Term const& term);
-    Term & operator=(Term const& term);
-    Term(Term && term) = default;
-    Term & operator=(Term && term) = default;
+    Term& operator=(Term const& term);
+    Term(Term&& term) = default;
+    Term& operator=(Term&& term) = default;
 
     bool operator==(Term const& second) const;
     bool operator!=(Term const& second) const;
@@ -60,10 +57,10 @@ public:
     bool getBooleanValue() const;
     std::string getDebugString() const;
 
-    Constant & getConstantReference();
-    VariableTerm & getVariableTermReference();
-    Operator & getOperatorReference();
-    Expression & getExpressionReference();
+    Constant& getConstantReference();
+    VariableTerm& getVariableTermReference();
+    Operator& getOperatorReference();
+    Expression& getExpressionReference();
 
     BaseTermUniquePointer createBasePointerByMove();
 
@@ -80,7 +77,7 @@ private:
     BaseTermDataPointer createANewPointerFrom(Term const& term);
     void initializeBasedOnString(std::string const& stringAsParameter);
 
-    friend std::ostream & operator<<(std::ostream & out, Term const& term);
+    friend std::ostream& operator<<(std::ostream& out, Term const& term);
 
     TermType m_type;
     bool m_isSimplified;
@@ -89,6 +86,6 @@ private:
 
 using Terms = std::vector<Term>;
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

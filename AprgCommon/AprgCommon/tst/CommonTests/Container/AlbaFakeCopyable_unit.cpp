@@ -2,20 +2,12 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-struct FakeCopyableExample
-{
-    FakeCopyableExample()
-        : value(0U)
-    {
-        ++numberOfConstructorExecutions;
-    }
+struct FakeCopyableExample {
+    FakeCopyableExample() : value(0U) { ++numberOfConstructorExecutions; }
 
-    FakeCopyableExample(unsigned int const valueAsParameter)
-        : value(valueAsParameter)
-    {
+    FakeCopyableExample(unsigned int const valueAsParameter) : value(valueAsParameter) {
         ++numberOfConstructorExecutions;
     }
 
@@ -25,10 +17,9 @@ struct FakeCopyableExample
 
 size_t FakeCopyableExample::numberOfConstructorExecutions = 0;
 
-using AlbaFakeCopyableForTest=AlbaFakeCopyable<FakeCopyableExample>;
+using AlbaFakeCopyableForTest = AlbaFakeCopyable<FakeCopyableExample>;
 
-TEST(AlbaFakeCopyableTest, FakeCopyingWorks)
-{
+TEST(AlbaFakeCopyableTest, FakeCopyingWorks) {
     EXPECT_EQ(0U, FakeCopyableExample::numberOfConstructorExecutions);
 
     AlbaFakeCopyableForTest example1(FakeCopyableExample(176U));
@@ -37,7 +28,7 @@ TEST(AlbaFakeCopyableTest, FakeCopyingWorks)
 
     AlbaFakeCopyableForTest example2(example1);
     EXPECT_EQ(2U, FakeCopyableExample::numberOfConstructorExecutions);
-    EXPECT_EQ(0U, example2.getObject().value); // value is from default constructor
+    EXPECT_EQ(0U, example2.getObject().value);  // value is from default constructor
 }
 
-}
+}  // namespace alba

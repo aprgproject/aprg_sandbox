@@ -1,10 +1,7 @@
 #pragma once
 
-namespace KickStart_2019_PracticeRound_P2_Mural
-{
+namespace KickStart_2019_PracticeRound_P2_Mural {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-

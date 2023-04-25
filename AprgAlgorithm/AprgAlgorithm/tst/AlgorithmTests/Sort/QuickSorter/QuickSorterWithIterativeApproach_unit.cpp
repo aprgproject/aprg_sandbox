@@ -7,14 +7,11 @@
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Characters = vector<char>;
 using Integers = vector<int>;
 using Doubles = vector<double>;
@@ -25,82 +22,72 @@ using IntegersSorter = QuickSorterWithIterativeApproach<Integers>;
 using DoublesSorter = QuickSorterWithIterativeApproach<Doubles>;
 using StringsSorter = QuickSorterWithIterativeApproach<Strings>;
 using StabilityCheckObjectsSorter = QuickSorterWithIterativeApproach<StabilityCheckObjects>;
-}
+}  // namespace
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
     CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingOneValueExample)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingOneValueExample) {
     CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1) {
     CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample2) {
     CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 // CANNOT SORT STD::LIST, actually it might be possible if we change indexes to iterators
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
     IntegersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnDoublesUsingExample1)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnDoublesUsingExample1) {
     DoublesSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnStringsUsingExample1)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnStringsUsingExample1) {
     StringsSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(QuickSorterWithIterativeApproachTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE
 {
     StabilityCheckObjectsSorter sorter(PivotType::ValueAtLowestIndex);
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
+        sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtLowestIndex)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtLowestIndex) {
     CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtHighestIndex)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtHighestIndex) {
     CharactersSorter sorter(PivotType::ValueAtHighestIndex);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtRandomIndex)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtRandomIndex) {
     CharactersSorter sorter(PivotType::ValueAtRandomIndex);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians)
-{
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians) {
     CharactersSorter sorter(PivotType::ValueAtMedianOfMedians);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

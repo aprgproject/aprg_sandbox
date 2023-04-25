@@ -8,43 +8,36 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 AlternatingSeries::AlternatingSeries(Term const& formulaForEachTermWithoutSign, string const& nameForVariableInFormula)
-    : SeriesBasedOnSummation(getFormula(formulaForEachTermWithoutSign, nameForVariableInFormula), nameForVariableInFormula)
-    , m_formulaForEachTermWithoutSign(formulaForEachTermWithoutSign)
-{}
+    : SeriesBasedOnSummation(
+          getFormula(formulaForEachTermWithoutSign, nameForVariableInFormula), nameForVariableInFormula),
+      m_formulaForEachTermWithoutSign(formulaForEachTermWithoutSign) {}
 
-bool AlternatingSeries::isConvergent() const
-{
+bool AlternatingSeries::isConvergent() const {
     Term limit(getLimit(m_formulaForEachTermWithoutSign, getNameForVariableInFormula(), ALBA_NUMBER_POSITIVE_INFINITY));
     return isTheValue(limit, 0);
 }
 
-Term AlternatingSeries::getRemainderAtIndex(int const index) const
-{
+Term AlternatingSeries::getRemainderAtIndex(int const index) const {
     Term result;
-    if(isConvergent())
-    {
+    if (isConvergent()) {
         result = getValueAtIndex(index);
-    }
-    else
-    {
+    } else {
         result = SeriesBasedOnFormula::getRemainderAtIndex(index);
     }
     return result;
 }
 
-Term AlternatingSeries::getFormula(Term const& formulaForEachTermWithoutSign, string const& nameForVariableInFormula) const
-{
+Term AlternatingSeries::getFormula(
+    Term const& formulaForEachTermWithoutSign, string const& nameForVariableInFormula) const {
     Term sign(createExpressionIfPossible({-1, "^", nameForVariableInFormula}));
     return createExpressionIfPossible({sign, "*", formulaForEachTermWithoutSign});
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

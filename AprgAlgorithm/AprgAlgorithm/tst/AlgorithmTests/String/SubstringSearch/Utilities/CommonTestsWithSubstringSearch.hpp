@@ -6,18 +6,14 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithSubstringSearch
-{
+namespace CommonTestsWithSubstringSearch {
 
 template <typename SubstringSearch, typename Index>
-void testSearchUsingEmptyStringsAndDoesNotCrash()
-{
+void testSearchUsingEmptyStringsAndDoesNotCrash() {
     string emptyString;
     string nonEmptyString("NonEmptyString");
     SubstringSearch emptyStringSearch(emptyString);
@@ -30,8 +26,7 @@ void testSearchUsingEmptyStringsAndDoesNotCrash()
 }
 
 template <typename SubstringSearch, typename Index>
-void testSearchUsingExample1()
-{
+void testSearchUsingExample1() {
     SubstringSearch substringSearchWithHit("AACAA");
     SubstringSearch substringSearchWithoutHit("BBB");
     string mainString("AABRAACADABRAACAADABRA");
@@ -40,8 +35,8 @@ void testSearchUsingExample1()
     EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(mainString));
 }
 
-}
+}  // namespace CommonTestsWithSubstringSearch
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

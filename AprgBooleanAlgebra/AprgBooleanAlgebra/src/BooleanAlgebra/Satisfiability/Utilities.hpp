@@ -2,11 +2,9 @@
 
 #include <BooleanAlgebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 using SatisfiabilityTerm = VariableTerms;
 using SatisfiabilityTerms = std::vector<VariableTerms>;
@@ -15,6 +13,6 @@ unsigned int getSatisfiabilityLevel(SatisfiabilityTerms const& satTerms);
 SatisfiabilityTerms getSatisfiabilityTerms(Term const& term);
 SatisfiabilityTerms getSatisfiabilityTerms(Expression const& expression);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

@@ -13,11 +13,11 @@ using std::string;
 curl_easy::curl_easy() : curl_interface() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
-        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted", __FUNCTION__);
     }
     curl_ios<ostream> writer;
     this->add<CURLOPT_WRITEFUNCTION>(writer.get_function());
-    this->add<CURLOPT_WRITEDATA>(static_cast<void*>(writer.get_stream()));
+    this->add<CURLOPT_WRITEDATA>(static_cast<void *>(writer.get_stream()));
     this->add<CURLOPT_HEADERFUNCTION>(writer.get_function());
     this->add<CURLOPT_HEADERDATA>(static_cast<void *>(writer.get_stream()));
 }
@@ -26,11 +26,11 @@ curl_easy::curl_easy() : curl_interface() {
 curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
-        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted", __FUNCTION__);
     }
     curl_ios<ostream> writer;
     this->add<CURLOPT_WRITEFUNCTION>(writer.get_function());
-    this->add<CURLOPT_WRITEDATA>(static_cast<void*>(writer.get_stream()));
+    this->add<CURLOPT_WRITEDATA>(static_cast<void *>(writer.get_stream()));
 }
 
 // Implementation of copy constructor to respect the rule of three.
@@ -60,9 +60,7 @@ curl_easy &curl_easy::operator=(const curl_easy &easy) {
 }
 
 // Implementation of equality operator overload.
-bool curl_easy::operator==(const curl_easy &easy) const {
-    return this->curl == easy.curl;
-}
+bool curl_easy::operator==(const curl_easy &easy) const { return this->curl == easy.curl; }
 
 // Implementation of destructor.
 curl_easy::~curl_easy() NOEXCEPT {
@@ -76,14 +74,14 @@ curl_easy::~curl_easy() NOEXCEPT {
 void curl_easy::perform() {
     const CURLcode code = curl_easy_perform(this->curl);
     if (code != CURLE_OK) {
-        throw curl_easy_exception(code,__FUNCTION__);
+        throw curl_easy_exception(code, __FUNCTION__);
     }
 }
 
 // Implementation of escape method.
 void curl_easy::escape(string &url) {
-    std::unique_ptr<char, void(*)(char*)> url_encoded(curl_easy_escape(this->curl, url.c_str(), (int)url.length()),
-    		[](char *ptr) { curl_free(ptr); });
+    std::unique_ptr<char, void (*)(char *)> url_encoded(
+        curl_easy_escape(this->curl, url.c_str(), (int)url.length()), [](char *ptr) { curl_free(ptr); });
 
     if (!url_encoded) {
         throw curl_easy_exception("Null pointer intercepted", __FUNCTION__);
@@ -93,24 +91,22 @@ void curl_easy::escape(string &url) {
 
 // Implementation of unescape method.
 void curl_easy::unescape(string &url) {
-    std::unique_ptr<char,void(*)(char*)> url_decoded(curl_easy_unescape(this->curl,url.c_str(),(int)url.length(),
-    		nullptr),[](char *ptr) { curl_free(ptr); });
+    std::unique_ptr<char, void (*)(char *)> url_decoded(
+        curl_easy_unescape(this->curl, url.c_str(), (int)url.length(), nullptr), [](char *ptr) { curl_free(ptr); });
 
     if (url_decoded == nullptr) {
-        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted", __FUNCTION__);
     }
     url = string(url_decoded.get());
 }
 
 // Implementation of reset method.
-void curl_easy::reset() NOEXCEPT {
-    curl_easy_reset(this->curl);
-}
+void curl_easy::reset() NOEXCEPT { curl_easy_reset(this->curl); }
 
 // Implementation of pause method.
 void curl_easy::pause(const int bitmask) {
-    const CURLcode code = curl_easy_pause(this->curl,bitmask);
+    const CURLcode code = curl_easy_pause(this->curl, bitmask);
     if (code != CURLE_OK) {
-        throw curl_easy_exception(code,__FUNCTION__);
+        throw curl_easy_exception(code, __FUNCTION__);
     }
 }

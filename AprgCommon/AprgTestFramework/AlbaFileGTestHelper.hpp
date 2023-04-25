@@ -26,6 +26,7 @@ protected:  // You should make the members protected s.t. they can be
     void closeAllFileHandlers();
     void writeLineToFile(std::string const& string1);
     void writeLineToFile(std::string const& string1, std::ofstream& fileWriter);
+
 private:
     std::vector<std::ifstream> listOfFileReaders;
     std::vector<std::ofstream> listOfFileWriters;

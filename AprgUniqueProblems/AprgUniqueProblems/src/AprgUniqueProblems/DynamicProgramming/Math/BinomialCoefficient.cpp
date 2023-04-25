@@ -1,77 +1,59 @@
 #include "BinomialCoefficient.hpp"
 
-#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-BinomialCoefficient::BinomialCoefficient(
-        Value const n,
-        Value const k)
-    : m_n(n)
-    , m_k(k)
-{}
+BinomialCoefficient::BinomialCoefficient(Value const n, Value const k) : m_n(n), m_k(k) {}
 
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingNaiveRecursion() const
-{
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingNaiveRecursion() const {
     // Time Complexity: Exponential -> Since there are two calls per iteration:  O(2^n)
     // Auxiliary Space: Constant
 
     return getBinomialCoefficientUsingNaiveRecursion(m_n, m_k);
 }
 
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoizationDP() const
-{
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoizationDP() const {
     // Time Complexity: O(n*k) (should be same as Iterative DP)
     // Auxiliary Space: O(n*k)
 
     Value result(0);
-    if(m_n>=m_k)
-    {
-        ValueMatrix valueMatrix(m_n+1, m_k+1, static_cast<Value>(UNUSED_VALUE));
+    if (m_n >= m_k) {
+        ValueMatrix valueMatrix(m_n + 1, m_k + 1, static_cast<Value>(UNUSED_VALUE));
         result = getBinomialCoefficientUsingMemoizationDP(valueMatrix, m_n, m_k);
     }
     return result;
 }
 
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingIterativeDP() const
-{
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingIterativeDP() const {
     // Time Complexity: O(n*k)
     // Auxiliary Space: O(n*k)
 
     Value result(0);
-    if(m_n>=m_k)
-    {
-        ValueMatrix valueMatrix(m_n+1, m_k+1, 0);
-        for(Value n=0; n<=m_n; n++)
-        {
+    if (m_n >= m_k) {
+        ValueMatrix valueMatrix(m_n + 1, m_k + 1, 0);
+        for (Value n = 0; n <= m_n; n++) {
             valueMatrix.setEntry(n, 0, 1);
         }
-        for(Value n=1; n<=m_n; n++)
-        {
+        for (Value n = 1; n <= m_n; n++) {
             Value lastK = min(n, m_k);
-            for(Value k=1; k<=lastK; k++)
-            {
-                if(n==k)
-                {
+            for (Value k = 1; k <= lastK; k++) {
+                if (n == k) {
                     valueMatrix.setEntry(n, k, 1);
-                }
-                else
-                {
-                    valueMatrix.setEntry(n, k, valueMatrix.getEntry(n-1, k) + valueMatrix.getEntry(n-1, k-1));
+                } else {
+                    valueMatrix.setEntry(n, k, valueMatrix.getEntry(n - 1, k) + valueMatrix.getEntry(n - 1, k - 1));
                 }
             }
         }
-        result = valueMatrix.getEntry(valueMatrix.getNumberOfColumns()-1, valueMatrix.getNumberOfRows()-1);
+        result = valueMatrix.getEntry(valueMatrix.getNumberOfColumns() - 1, valueMatrix.getNumberOfRows() - 1);
     }
     return result;
 }
 
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingIterativeDPAndSpaceEfficient() const
-{
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingIterativeDPAndSpaceEfficient() const {
     // Time Complexity: O(n*k)
     // Auxiliary Space: O(k)
 
@@ -97,110 +79,87 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingItera
     // value for those elements comes from previous iteration.
     // In statement:
     // -> C[j] = C[j] + C[j-1]
-    // The right-hand side represents the value coming from the previous iteration (a row of Pascal’s triangle depends on the previous row).
-    // The left-Hand side represents the value of the current iteration which will be obtained by this statement.
+    // The right-hand side represents the value coming from the previous iteration (a row of Pascal’s triangle depends
+    // on the previous row). The left-Hand side represents the value of the current iteration which will be obtained by
+    // this statement.
 
     Value result(0);
-    if(m_n>=m_k)
-    {
-        Values partialValues(m_k+1, 0);
+    if (m_n >= m_k) {
+        Values partialValues(m_k + 1, 0);
         partialValues[0] = 1;
-        for(Value n=1; n<=m_n; n++)
-        {
+        for (Value n = 1; n <= m_n; n++) {
             Value lastK = min(n, m_k);
-            for(Value k=lastK; k>0; k--) // reverse traversal to avoid accessing already computed values
+            for (Value k = lastK; k > 0; k--)  // reverse traversal to avoid accessing already computed values
             {
-                partialValues[k] += partialValues.at(k-1);
+                partialValues[k] += partialValues.at(k - 1);
             }
         }
         result = partialValues.back();
     }
     return result;
 }
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf() const
-{
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf() const {
     // Time Complexity: O(n*log(n))
     // Auxiliary Space: O(1)
 
     // Same as with mathHelper
 
     Value result(0);
-    if(m_n >= m_k)
-    {
-        Value numerator=m_n;
-        Value denominator=m_k;
-        Value accumulatedNumerator=1;
-        Value accumulatedDenominator=1;
-        bool shouldContinue=true;
-        while(shouldContinue)
-        {
+    if (m_n >= m_k) {
+        Value numerator = m_n;
+        Value denominator = m_k;
+        Value accumulatedNumerator = 1;
+        Value accumulatedDenominator = 1;
+        bool shouldContinue = true;
+        while (shouldContinue) {
             shouldContinue = false;
-            if(numerator > m_n-m_k)
-            {
+            if (numerator > m_n - m_k) {
                 accumulatedNumerator *= numerator--;
                 shouldContinue = true;
             }
-            if(denominator > 1)
-            {
+            if (denominator > 1) {
                 accumulatedDenominator *= denominator--;
                 shouldContinue = true;
             }
-            if(shouldContinue && accumulatedDenominator>1 && mathHelper::isValueBeyondLimits<Value>(static_cast<double>(accumulatedNumerator)*numerator))
-            {
+            if (shouldContinue && accumulatedDenominator > 1 &&
+                mathHelper::isValueBeyondLimits<Value>(static_cast<double>(accumulatedNumerator) * numerator)) {
                 Value gcf = mathHelper::getGreatestCommonFactor(accumulatedNumerator, accumulatedDenominator);
                 accumulatedNumerator /= gcf;
                 accumulatedDenominator /= gcf;
             }
         }
-        result = accumulatedNumerator/accumulatedDenominator;
+        result = accumulatedNumerator / accumulatedDenominator;
     }
     return result;
 }
 
 BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingNaiveRecursion(
-        Value const n,
-        Value const k) const
-{
-    if(n<k)
-    {
+    Value const n, Value const k) const {
+    if (n < k) {
         return 0;
-    }
-    else if(k==0 || n==k)
-    {
+    } else if (k == 0 || n == k) {
         return 1;
-    }
-    else
-    {
-        return getBinomialCoefficientUsingNaiveRecursion(n-1, k)
-                + getBinomialCoefficientUsingNaiveRecursion(n-1, k-1);
+    } else {
+        return getBinomialCoefficientUsingNaiveRecursion(n - 1, k) +
+               getBinomialCoefficientUsingNaiveRecursion(n - 1, k - 1);
     }
 }
 
 BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoizationDP(
-        ValueMatrix & valueMatrix,
-        Value const n,
-        Value const k) const
-{
+    ValueMatrix& valueMatrix, Value const n, Value const k) const {
     Value result = valueMatrix.getEntry(n, k);
-    if(UNUSED_VALUE == result)
-    {
-        if(n<k)
-        {
+    if (UNUSED_VALUE == result) {
+        if (n < k) {
             result = 0;
-        }
-        else if(k==0 || n==k)
-        {
+        } else if (k == 0 || n == k) {
             result = 1;
-        }
-        else
-        {
-            result = getBinomialCoefficientUsingMemoizationDP(valueMatrix, n-1, k)
-                    + getBinomialCoefficientUsingMemoizationDP(valueMatrix, n-1, k-1);
+        } else {
+            result = getBinomialCoefficientUsingMemoizationDP(valueMatrix, n - 1, k) +
+                     getBinomialCoefficientUsingMemoizationDP(valueMatrix, n - 1, k - 1);
         }
         valueMatrix.setEntry(n, k, result);
     }
     return result;
 }
 
-
-}
+}  // namespace alba

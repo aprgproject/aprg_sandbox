@@ -6,20 +6,19 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key, typename Value, typename Node>
 class BaseRedBlackBinarySearchTreeSymbolTable
-        : public BaseSymbolTableWithBaseTree<Value, BaseRedBlackBinarySearchTree<Key, Node, BaseSymbolTable<Key, Value>>>
-{
+    : public BaseSymbolTableWithBaseTree<Value, BaseRedBlackBinarySearchTree<Key, Node, BaseSymbolTable<Key, Value>>> {
 public:
-    ~BaseRedBlackBinarySearchTreeSymbolTable() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseRedBlackBinarySearchTreeSymbolTable() override =
+        default;  // no need for virtual destructor because base destructor is virtual (similar to other virtual
+                  // functions)
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

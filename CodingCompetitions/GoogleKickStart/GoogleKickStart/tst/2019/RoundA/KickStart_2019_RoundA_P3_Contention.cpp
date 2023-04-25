@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2019_RoundA_P3_Contention.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -20,8 +21,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2019_RoundA_P3_Contention
-{
+namespace KickStart_2019_RoundA_P3_Contention {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -32,30 +32,23 @@ namespace KickStart_2019_RoundA_P3_Contention
 using Interval = pair<int, int>;
 using Intervals = vector<Interval>;
 
-int getMinimumSeats(Intervals const& bookings)
-{
-    int minimumNewSeats=0;
+int getMinimumSeats(Intervals const& bookings) {
+    int minimumNewSeats = 0;
     Interval accumulatedInterval;
     bool isFirst(true);
-    for(Interval const& booking : bookings)
-    {
-        if(isFirst)
-        {
+    for (Interval const& booking : bookings) {
+        if (isFirst) {
             accumulatedInterval = booking;
-            minimumNewSeats = booking.second-booking.first+1;
-            isFirst=false;
-        }
-        else
-        {
-            int newSeats=0;
-            if(booking.first < accumulatedInterval.first)
-            {
-                newSeats += min(booking.second+1, accumulatedInterval.first) - booking.first;
+            minimumNewSeats = booking.second - booking.first + 1;
+            isFirst = false;
+        } else {
+            int newSeats = 0;
+            if (booking.first < accumulatedInterval.first) {
+                newSeats += min(booking.second + 1, accumulatedInterval.first) - booking.first;
                 accumulatedInterval.first = booking.first;
             }
-            if(accumulatedInterval.second < booking.second)
-            {
-                newSeats += booking.second - max(booking.first-1, accumulatedInterval.second);
+            if (accumulatedInterval.second < booking.second) {
+                newSeats += booking.second - max(booking.first - 1, accumulatedInterval.second);
                 accumulatedInterval.second = booking.second;
             }
             minimumNewSeats = min(minimumNewSeats, newSeats);
@@ -64,45 +57,33 @@ int getMinimumSeats(Intervals const& bookings)
     return minimumNewSeats;
 }
 
-int getMinimumSeatsFromLeftToRight(Intervals & bookings)
-{
-    sort(bookings.begin(), bookings.end(), [](Interval const& interval1, Interval const& interval2)
-    {
-        if(interval1.first == interval2.first)
-        {
+int getMinimumSeatsFromLeftToRight(Intervals& bookings) {
+    sort(bookings.begin(), bookings.end(), [](Interval const& interval1, Interval const& interval2) {
+        if (interval1.first == interval2.first) {
             return interval1.second < interval2.second;
-        }
-        else
-        {
+        } else {
             return interval1.first > interval2.first;
         }
     });
     return getMinimumSeats(bookings);
 }
 
-int getMinimumSeatsFromRightToLeft(Intervals & bookings)
-{
-    sort(bookings.begin(), bookings.end(), [](Interval const& interval1, Interval const& interval2)
-    {
-        if(interval1.second == interval2.second)
-        {
+int getMinimumSeatsFromRightToLeft(Intervals& bookings) {
+    sort(bookings.begin(), bookings.end(), [](Interval const& interval1, Interval const& interval2) {
+        if (interval1.second == interval2.second) {
             return interval1.first > interval2.first;
-        }
-        else
-        {
+        } else {
             return interval1.second < interval2.second;
         }
     });
     return getMinimumSeats(bookings);
 }
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     int numberOfSeats, numberOfBookings;
     my_cin >> numberOfSeats >> numberOfBookings;
     Intervals bookings;
-    for(int y=0; y<numberOfBookings; ++y)
-    {
+    for (int y = 0; y < numberOfBookings; ++y) {
         int leftIndex, rightIndex;
         my_cin >> leftIndex >> rightIndex;
         bookings.emplace_back(leftIndex, rightIndex);
@@ -115,7 +96,6 @@ void runTestCase(unsigned int const testCaseNumber)
 
     my_cout << "Case #" << testCaseNumber << ": " << maximumOfMinimumSeats << '\n';
 }
-
 
 /*
 
@@ -233,18 +213,15 @@ void runTestCase(unsigned int const testCaseNumber)
 }
 */
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -254,9 +231,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2019_RoundA_P3_Contention
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-
-

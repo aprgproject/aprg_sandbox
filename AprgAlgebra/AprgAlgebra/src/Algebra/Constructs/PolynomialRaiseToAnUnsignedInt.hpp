@@ -4,14 +4,11 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class PolynomialRaiseToAnUnsignedInt
-{
+class PolynomialRaiseToAnUnsignedInt {
 public:
     using PolynomialToNumberMap = std::map<Polynomial, unsigned int>;
 
@@ -25,20 +22,15 @@ public:
 private:
     bool canBeSimplified(unsigned int const gcfOfExponents, Monomial const& commonMonomialInBase);
     void factorizeAndUpdateCommonMonomialAndFactorsToExponent(
-            Polynomial const& polynomial,
-            PolynomialToNumberMap & factorsToExponent,
-            Monomial & commonMonomialInBase);
-    unsigned int getGcfOfExponents(
-            PolynomialToNumberMap const& factorsToExponent);
+        Polynomial const& polynomial, PolynomialToNumberMap& factorsToExponent, Monomial& commonMonomialInBase);
+    unsigned int getGcfOfExponents(PolynomialToNumberMap const& factorsToExponent);
     Polynomial getRemainingBase(
-            PolynomialToNumberMap const& factorsToExponent,
-            Monomial const& commonMonomialInBase,
-            unsigned int const gcfOfExponents);
+        PolynomialToNumberMap const& factorsToExponent, Monomial const& commonMonomialInBase,
+        unsigned int const gcfOfExponents);
     Polynomial m_base;
     unsigned int m_exponent;
 };
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

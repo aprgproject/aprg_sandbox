@@ -4,22 +4,18 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SumSearch = TwoSum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
 using ValuePairForTest = SumSearch::ValuePair;
-}
+}  // namespace
 
-TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWorksOnExample1)
-{
+TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWorksOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -29,8 +25,7 @@ TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWorksOnExample1)
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
 
-TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesWorksOnExample1)
-{
+TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesWorksOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -40,19 +35,18 @@ TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesWorksOnExample1)
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
 
-TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesDoesNotWorkOnExample1)
-{
+TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesDoesNotWorkOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
     SumSearch search(sortedValues);
 
-    ValuePairForTest pairToVerify(search.getNonDuplicateTwoValuesWithSum(12U, 3U, 4U)); // index must be within 2U and 4U
+    ValuePairForTest pairToVerify(
+        search.getNonDuplicateTwoValuesWithSum(12U, 3U, 4U));  // index must be within 2U and 4U
 
     ValuePairForTest pairToExpect{0U, 0U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
 
-TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWorksOnExample1)
-{
+TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWorksOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -62,8 +56,7 @@ TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWorksOnExample1)
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
 
-TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesWorksOnExample1)
-{
+TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesWorksOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -73,17 +66,17 @@ TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesWorksOnExample1
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
 
-TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesDoesNotWorkOnExample1)
-{
+TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesDoesNotWorkOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     SumSearch search(sortedValues);
 
-    ValuePairForTest pairToVerify(search.getPossibleDuplicatedTwoValuesWithSum(18U, 6U, 6U)); // index must be within 2U and 4U
+    ValuePairForTest pairToVerify(
+        search.getPossibleDuplicatedTwoValuesWithSum(18U, 6U, 6U));  // index must be within 2U and 4U
 
     ValuePairForTest pairToExpect{0U, 0U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

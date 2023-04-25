@@ -6,12 +6,9 @@
 #include <set>
 #include <vector>
 
+namespace alba {
 
-namespace alba
-{
-
-namespace math
-{
+namespace math {
 
 using UnsignedInteger = unsigned long long;
 using UnsignedIntegerPair = std::pair<UnsignedInteger, UnsignedInteger>;
@@ -25,6 +22,6 @@ using UnsignedIntegerMatrix = alba::matrix::AlbaMatrix<UnsignedInteger>;
 using SignedInteger = long long;
 using SignedIntegers = std::vector<SignedInteger>;
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

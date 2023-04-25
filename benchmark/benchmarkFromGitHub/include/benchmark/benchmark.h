@@ -423,7 +423,7 @@ class Counter {
   Counter(double v = 0., Flags f = kDefaults, OneK k = kIs1000)
       : value(v), flags(f), oneK(k) {}
 
-  BENCHMARK_ALWAYS_INLINE operator double const&() const { return value; }
+  BENCHMARK_ALWAYS_INLINE operator double const &() const { return value; }
   BENCHMARK_ALWAYS_INLINE operator double&() { return value; }
 };
 
@@ -1161,7 +1161,7 @@ class Fixture : public internal::Benchmark {
 #define BENCHMARK_PRIVATE_CONCAT2(a, b, c) a##b##c
 // Helper for concatenation with macro name expansion
 #define BENCHMARK_PRIVATE_CONCAT_NAME(BaseClass, Method) \
-    BaseClass##_##Method##_Benchmark
+  BaseClass##_##Method##_Benchmark
 
 #define BENCHMARK_PRIVATE_DECLARE(n)                                 \
   static ::benchmark::internal::Benchmark* BENCHMARK_PRIVATE_NAME(n) \
@@ -1358,11 +1358,7 @@ struct CPUInfo {
     int num_sharing;
   };
 
-  enum Scaling {
-    UNKNOWN,
-    ENABLED,
-    DISABLED
-  };
+  enum Scaling { UNKNOWN, ENABLED, DISABLED };
 
   int num_cpus;
   Scaling scaling;
@@ -1687,8 +1683,7 @@ inline double GetTimeUnitMultiplier(TimeUnit unit) {
 std::vector<int64_t> CreateRange(int64_t lo, int64_t hi, int multi);
 
 // Creates a list of integer values for the given range and step.
-std::vector<int64_t> CreateDenseRange(int64_t start, int64_t limit,
-                                      int step);
+std::vector<int64_t> CreateDenseRange(int64_t start, int64_t limit, int step);
 
 }  // namespace benchmark
 

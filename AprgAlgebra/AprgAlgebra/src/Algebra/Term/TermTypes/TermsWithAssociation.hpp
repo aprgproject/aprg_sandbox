@@ -2,14 +2,11 @@
 
 #include <Algebra/Term/TermTypes/TermWithDetails.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class TermsWithAssociation
-{
+class TermsWithAssociation {
 public:
     friend class Expression;
 
@@ -28,7 +25,7 @@ public:
     BaseTerm const& getFirstTermConstReference() const;
     TermAssociationType getFirstAssociationType() const;
     TermsWithDetails const& getTermsWithDetails() const;
-    TermsWithDetails & getTermsWithDetailsReference();
+    TermsWithDetails& getTermsWithDetailsReference();
 
     void clear();
     void sort(bool const dontSortFirstItem);
@@ -44,6 +41,6 @@ private:
     TermsWithDetails m_termsWithDetails;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

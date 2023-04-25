@@ -3,14 +3,11 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class AxisRotation
-{
+class AxisRotation {
 public:
     AxisRotation(std::string const& xName, std::string const& yName, double const angle, bool const doRotationBack);
 
@@ -23,10 +20,11 @@ public:
     Term rotateFunctionByAngle(Function const& functionObject);
 
 private:
-    void initializeSubstitution(std::string const& xName, std::string const& yName, double const angle, bool const doRotationBack);
+    void initializeSubstitution(
+        std::string const& xName, std::string const& yName, double const angle, bool const doRotationBack);
     SubstitutionOfVariablesToTerms m_substitution;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

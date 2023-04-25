@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2020_QualificationRound_P5_Indicium
-{
+namespace CodeJam_2020_QualificationRound_P5_Indicium {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

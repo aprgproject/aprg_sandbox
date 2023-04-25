@@ -8,13 +8,11 @@
 
 #include <string>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-class OneDownloadPerPageCrawler
-{
+class OneDownloadPerPageCrawler {
 public:
-    OneDownloadPerPageCrawler(WebCrawler & webCrawler);
+    OneDownloadPerPageCrawler(WebCrawler& webCrawler);
     void crawl();
 
 private:
@@ -35,7 +33,7 @@ private:
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;
-    WebCrawler & m_webCrawler;
+    WebCrawler& m_webCrawler;
     CrawlConfiguration m_configuration;
     CrawlMode m_mode;
     std::string m_linkForNextHtml;
@@ -43,4 +41,4 @@ private:
     std::string m_localPathForCurrentFileToDownload;
 };
 
-}
+}  // namespace aprgWebCrawler

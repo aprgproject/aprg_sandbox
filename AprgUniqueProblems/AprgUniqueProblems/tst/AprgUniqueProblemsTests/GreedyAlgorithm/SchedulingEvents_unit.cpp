@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample1)
-{
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample1) {
     SchedulingEvents schedulingEvents;
     schedulingEvents.addEvent("A", 1U, 3U);
     schedulingEvents.addEvent("B", 2U, 5U);
@@ -21,8 +19,7 @@ TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample1)
     EXPECT_EQ(expectedNames, actualNames);
 }
 
-TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndShortEventsAreNotImmediatelySelected)
-{
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndShortEventsAreNotImmediatelySelected) {
     SchedulingEvents schedulingEvents;
     schedulingEvents.addEvent("A", 1U, 5U);
     schedulingEvents.addEvent("B", 4U, 6U);
@@ -34,8 +31,7 @@ TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndShortEventsAreNotImm
     EXPECT_EQ(expectedNames, actualNames);
 }
 
-TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndEarlyEventsAreNotImmediatelySelected)
-{
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndEarlyEventsAreNotImmediatelySelected) {
     SchedulingEvents schedulingEvents;
     schedulingEvents.addEvent("A", 1U, 10U);
     schedulingEvents.addEvent("B", 3U, 4U);
@@ -47,8 +43,7 @@ TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndEarlyEventsAreNotImm
     EXPECT_EQ(expectedNames, actualNames);
 }
 
-TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample2)
-{
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample2) {
     SchedulingEvents schedulingEvents;
     schedulingEvents.addEvent("A", 10U, 20U);
     schedulingEvents.addEvent("B", 12U, 25U);
@@ -60,8 +55,7 @@ TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample2)
     EXPECT_EQ(expectedNames, actualNames);
 }
 
-TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample3)
-{
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample3) {
     SchedulingEvents schedulingEvents;
     schedulingEvents.addEvent("A", 1U, 2U);
     schedulingEvents.addEvent("B", 3U, 4U);
@@ -76,4 +70,4 @@ TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample3)
     EXPECT_EQ(expectedNames, actualNames);
 }
 
-}
+}  // namespace alba

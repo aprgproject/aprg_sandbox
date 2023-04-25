@@ -2,143 +2,117 @@
 
 #include <type_traits>
 
-namespace alba
-{
+namespace alba {
 
-namespace typeHelper
-{
+namespace typeHelper {
 
 // Source: https://en.cppreference.com/w/cpp/header/type_traits
 // NOTE: Value returning meta functions or "TemplateName_v" are not used in this file to make it more readable.
 // NOTE: Type returning meta functions or "TemplateName_t" are not used in this file to make it more readable.
 
-
 // Type relationships:
 
 template <typename Type1, typename Type2>
-constexpr bool areSameTypes()
-{
+constexpr bool areSameTypes() {
     return std::is_same<Type1, Type2>::value;
 }
 
 template <typename FromType, typename ToType>
-constexpr bool isConvertible()
-{
+constexpr bool isConvertible() {
     return std::is_convertible<FromType, ToType>::value;
 }
 
 template <typename BaseType, typename DerivedType>
-constexpr bool isBaseOf()
-{
+constexpr bool isBaseOf() {
     return std::is_base_of<BaseType, DerivedType>::value;
 }
-
 
 // Type operations:
 
 template <typename Type>
-constexpr bool negateValueInType()
-{
+constexpr bool negateValueInType() {
     return std::negation<Type>::value;
 }
 
 template <typename... Types>
-constexpr bool andOperateValuesInTypes()
-{
+constexpr bool andOperateValuesInTypes() {
     return std::conjunction<Types...>::value;
 }
 
 template <typename... Types>
-constexpr bool orOperateValuesInTypes()
-{
+constexpr bool orOperateValuesInTypes() {
     return std::disjunction<Types...>::value;
 }
-
-
 
 // Type checks:
 
 template <typename Type>
-constexpr bool isVoidType()
-{
+constexpr bool isVoidType() {
     return std::is_void<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isIntegralType()
-{
+constexpr bool isIntegralType() {
     return std::is_integral<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isFloatingPointType()
-{
+constexpr bool isFloatingPointType() {
     return std::is_floating_point<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isArithmeticType()
-{
+constexpr bool isArithmeticType() {
     return std::is_arithmetic<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isSignedType()
-{
+constexpr bool isSignedType() {
     return std::is_signed<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isUnsignedType()
-{
+constexpr bool isUnsignedType() {
     return std::is_unsigned<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isFundamentalType()
-{
+constexpr bool isFundamentalType() {
     return std::is_fundamental<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAScalarType()
-{
+constexpr bool isAScalarType() {
     return std::is_scalar<Type>::value;
 }
 
 template <typename Type>
-constexpr bool canBeAnObject()
-{
+constexpr bool canBeAnObject() {
     return std::is_object<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAPointerType()
-{
+constexpr bool isAPointerType() {
     return std::is_pointer<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAnLValueReference()
-{
+constexpr bool isAnLValueReference() {
     return std::is_lvalue_reference<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAnRValueReference()
-{
+constexpr bool isAnRValueReference() {
     return std::is_rvalue_reference<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAConstantType()
-{
+constexpr bool isAConstantType() {
     return std::is_const<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAVolatileType()
-{
+constexpr bool isAVolatileType() {
     return std::is_volatile<Type>::value;
 }
 
@@ -158,22 +132,22 @@ constexpr bool isAVolatileType()
 // -> but for many code patterns, a narrower restriction to just “trivial” or just “standard layout” is appropriate;
 // -> to encourage such precision, the notion of “POD” was therefore deprecated.
 // -> The library trait is_pod has also been deprecated correspondingly.
-// For simple data types use the is_standard_layout function, for trivial data types (such as simple structs) use the is_trivial function.
+// For simple data types use the is_standard_layout function, for trivial data types (such as simple structs) use the
+// is_trivial function.
 
 template <typename Type>
-constexpr bool isATrivialType()
-{
+constexpr bool isATrivialType() {
     // If T is TrivialType (that is, a scalar type, a trivially copyable class with a trivial default constructor,
     // -> or array of such type/class, possibly cv-qualified), provides the member constant value equal to true.
     // -> For any other type, value is false.
-    // The behavior is undefined if std::remove_all_extents_t<T> is an incomplete type and not (possibly cv-qualified) void.
-    // The behavior of a program that adds specializations for is_trivial or is_trivial_v (since C++17) is undefined.
+    // The behavior is undefined if std::remove_all_extents_t<T> is an incomplete type and not (possibly cv-qualified)
+    // void. The behavior of a program that adds specializations for is_trivial or is_trivial_v (since C++17) is
+    // undefined.
     return std::is_trivial<Type>::value;
 }
 
 template <typename Type>
-constexpr bool hasStandardLayout()
-{
+constexpr bool hasStandardLayout() {
     // Specifies that a type is standard layout type.
     // Standard layout types are useful for communicating with code written in other programming languages.
     // Note: the standard doesn't define a named requirement with this name.
@@ -204,68 +178,58 @@ constexpr bool hasStandardLayout()
 }
 
 template <typename Type>
-constexpr bool hasPaddingBits()
-{
+constexpr bool hasPaddingBits() {
     return !(std::has_unique_object_representations<Type>::value);
 }
 
 template <typename Type>
-constexpr bool isEmpty()
-{
+constexpr bool isEmpty() {
     return std::is_empty<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAPolymorphicType()
-{
+constexpr bool isAPolymorphicType() {
     return std::is_polymorphic<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAnAbstractType() // isAnInterface
+constexpr bool isAnAbstractType()  // isAnInterface
 {
     return std::is_abstract<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAFinalType()
-{
+constexpr bool isAFinalType() {
     return std::is_final<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAClass()
-{
+constexpr bool isAClass() {
     return std::is_class<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAFunction()
-{
+constexpr bool isAFunction() {
     return std::is_function<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAEnum()
-{
+constexpr bool isAEnum() {
     return std::is_enum<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAUnion()
-{
+constexpr bool isAUnion() {
     return std::is_union<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isACStyleArray()
-{
+constexpr bool isACStyleArray() {
     return std::is_array<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAnAggregate()
-{
+constexpr bool isAnAggregate() {
     // From: https://en.cppreference.com/w/cpp/language/aggregate_initialization
     // An aggregate is one of the following types:
     // 1) array type
@@ -276,206 +240,173 @@ constexpr bool isAnAggregate()
     return std::is_aggregate<Type>::value;
 }
 
-
-
 // Fundamental operations
 // NOTE: This list does not include all because we are lazy.
 
 // default construction
 template <typename Type>
-constexpr bool isDefaultConstructible()
-{
+constexpr bool isDefaultConstructible() {
     return std::is_default_constructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isTriviallyDefaultConstructible()
-{
+constexpr bool isTriviallyDefaultConstructible() {
     return std::is_trivially_default_constructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isNoThrowDefaultConstructible()
-{
+constexpr bool isNoThrowDefaultConstructible() {
     return std::is_nothrow_default_constructible<Type>::value;
 }
 
 // destructor
 template <typename Type>
-constexpr bool isDestructible()
-{
+constexpr bool isDestructible() {
     return std::is_destructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isTriviallyDestructible()
-{
+constexpr bool isTriviallyDestructible() {
     return std::is_trivially_destructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isNoThrowDestructible()
-{
+constexpr bool isNoThrowDestructible() {
     return std::is_nothrow_destructible<Type>::value;
 }
 
 // copy constructor
 template <typename Type>
-constexpr bool isCopyConstructible()
-{
+constexpr bool isCopyConstructible() {
     return std::is_copy_constructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isTriviallyCopyConstructible()
-{
+constexpr bool isTriviallyCopyConstructible() {
     return std::is_trivially_copy_constructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isNoThrowCopyConstructible()
-{
+constexpr bool isNoThrowCopyConstructible() {
     return std::is_nothrow_copy_constructible<Type>::value;
 }
 
 // copy assignment
 template <typename Type>
-constexpr bool isCopyAssignable()
-{
+constexpr bool isCopyAssignable() {
     return std::is_copy_assignable<Type>::value;
 }
 template <typename Type>
-constexpr bool isTriviallyCopyAssignable()
-{
+constexpr bool isTriviallyCopyAssignable() {
     return std::is_trivially_copy_assignable<Type>::value;
 }
 template <typename Type>
-constexpr bool isNoThrowCopyAssignable()
-{
+constexpr bool isNoThrowCopyAssignable() {
     return std::is_nothrow_copy_assignable<Type>::value;
 }
 
 // move constructor
 template <typename Type>
-constexpr bool isMoveConstructible()
-{
+constexpr bool isMoveConstructible() {
     return std::is_move_constructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isTriviallyMoveConstructible()
-{
+constexpr bool isTriviallyMoveConstructible() {
     return std::is_trivially_move_constructible<Type>::value;
 }
 template <typename Type>
-constexpr bool isNoThrowMoveConstructible()
-{
+constexpr bool isNoThrowMoveConstructible() {
     return std::is_nothrow_move_constructible<Type>::value;
 }
 
 // move assignment
 template <typename Type>
-constexpr bool isMoveAssignable()
-{
+constexpr bool isMoveAssignable() {
     return std::is_move_assignable<Type>::value;
 }
 template <typename Type>
-constexpr bool isTriviallyMoveAssignable()
-{
+constexpr bool isTriviallyMoveAssignable() {
     return std::is_trivially_move_assignable<Type>::value;
 }
 template <typename Type>
-constexpr bool isNoThrowMoveAssignable()
-{
+constexpr bool isNoThrowMoveAssignable() {
     return std::is_nothrow_move_assignable<Type>::value;
 }
 
-
-
 // Get Types
 
-template<typename Type>
+template <typename Type>
 using GetPlainType = typename std::decay<Type>::type;
 
-template<typename... Types>
+template <typename... Types>
 using GetCommonType = typename std::common_type<Types...>::type;
 
-template<typename FunctorType, typename... ArgumentTypes>
+template <typename FunctorType, typename... ArgumentTypes>
 using GetFunctorResultType = typename std::invoke_result<FunctorType, ArgumentTypes...>::type;
 
-
-template<typename Type>
+template <typename Type>
 using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithRValueReference = typename std::add_rvalue_reference<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithPointer = typename std::add_pointer<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithConstVolatile = typename std::add_cv<Type>::type;
 
-template<typename Type>
-using GetTypeWithConst = typename std::add_const<Type>::type; // you can also use as_const
+template <typename Type>
+using GetTypeWithConst = typename std::add_const<Type>::type;  // you can also use as_const
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithVolatile = typename std::add_volatile<Type>::type;
 
-
-template<typename Type>
+template <typename Type>
 using GetTypeWithoutReference = typename std::remove_reference<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithoutPointer = typename std::remove_pointer<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithoutConstVolatile = typename std::remove_cv<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithoutConst = typename std::remove_const<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetTypeWithoutVolatile = typename std::remove_volatile<Type>::type;
 
-
-template<typename Type>
+template <typename Type>
 using GetSignedType = typename std::make_signed<Type>::type;
 
-template<typename Type>
+template <typename Type>
 using GetUnsignedType = typename std::make_unsigned<Type>::type;
-
-
 
 // Arrays
 
 template <typename Array>
-constexpr std::size_t getDimensions()
-{
+constexpr std::size_t getDimensions() {
     return std::rank<Array>::value;
 }
 
-template<typename Array>
+template <typename Array>
 using RemoveOneDimension = typename std::remove_extent<Array>::type;
 
-template<typename Array>
+template <typename Array>
 using RemoveAllDimensions = typename std::remove_all_extents<Array>::type;
-
-
-
 
 // Conditional types
 
-template<bool condition, typename TypeIfTrue, typename TypeIfFalse>
+template <bool condition, typename TypeIfTrue, typename TypeIfFalse>
 using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
-
-
 
 // Walter E Brown technique
 
 // IsPointer
-template<typename, typename = void>
+template <typename, typename = void>
 struct hasElementType : std::false_type {};
-template<typename T>
+template <typename T>
 struct hasElementType<T, std::void_t<typename T::element_type>> : std::true_type {};
 
 // IsContainer
-template<typename, typename = void>
+template <typename, typename = void>
 struct hasValueType : std::false_type {};
-template<typename T>
+template <typename T>
 struct hasValueType<T, std::void_t<typename T::value_type>> : std::true_type {};
 
 // HasContainerType
@@ -484,53 +415,48 @@ struct hasValueType<T, std::void_t<typename T::value_type>> : std::true_type {};
 // -> struct HasContainerType : std::false_type {};
 // -> template<typename T>
 // -> struct HasContainerType<T, std::void_t<decltype((void)T::c, void())>> : std::true_type {};
-template<typename, typename = void>
+template <typename, typename = void>
 struct HasContainerType : std::false_type {};
-template<typename T>
+template <typename T>
 struct HasContainerType<T, std::void_t<typename T::container_type>> : std::true_type {};
 
 // HasDeferenceOperator
-template<typename, typename = void>
+template <typename, typename = void>
 struct HasDeferenceOperator : std::false_type {};
-template<typename T>
+template <typename T>
 struct HasDeferenceOperator<T, std::void_t<decltype(*std::declval<T>())>> : std::true_type {};
 
 // HasBegin
-template<typename, typename = void>
+template <typename, typename = void>
 struct HasBegin : std::false_type {};
-template<typename T>
+template <typename T>
 struct HasBegin<T, std::void_t<decltype(std::declval<T>().begin())>> : std::true_type {};
 
 // HasEnd
-template<typename, typename = void>
+template <typename, typename = void>
 struct HasEnd : std::false_type {};
-template<typename T>
+template <typename T>
 struct HasEnd<T, std::void_t<decltype(std::declval<T>().end())>> : std::true_type {};
 
 template <typename Type>
-constexpr bool isRaiiPointerWithDeference()
-{
+constexpr bool isRaiiPointerWithDeference() {
     return hasElementType<Type>::value && HasDeferenceOperator<Type>::value;
 }
 template <typename Type>
-constexpr bool isRaiiPointerWithoutDeference()
-{
+constexpr bool isRaiiPointerWithoutDeference() {
     return hasElementType<Type>::value && !HasDeferenceOperator<Type>::value;
 }
 
 template <typename Type>
-constexpr bool hasBeginAndEnd()
-{
+constexpr bool hasBeginAndEnd() {
     return HasBegin<Type>::value && HasEnd<Type>::value;
 }
 
 template <typename Type>
-constexpr bool hasContainerType()
-{
+constexpr bool hasContainerType() {
     return HasContainerType<Type>::value;
 }
 
+}  // namespace typeHelper
 
-}
-
-} // namespace alba
+}  // namespace alba

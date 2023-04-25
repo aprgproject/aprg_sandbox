@@ -1,13 +1,7 @@
 #pragma once
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-enum class UmlPositionType
-{
-    right,
-    left,
-    over
-};
+enum class UmlPositionType { right, left, over };
 
 }

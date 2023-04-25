@@ -33,7 +33,8 @@ void AlbaWindowsTimer::sleep(unsigned int const milliSeconds)
 unsigned int AlbaWindowsTimer::getElapsedTimeInMicroseconds() const
 {
     AlbaDateTime difference(getDifferenceBetweenTimes());
-    return difference.getSeconds()*AlbaDateTimeConstants::NUMBER_OF_MICROSECONDS_IN_A_SECOND + difference.getMicroSeconds();
+    return difference.getSeconds()*AlbaDateTimeConstants::NUMBER_OF_MICROSECONDS_IN_A_SECOND +
+difference.getMicroSeconds();
 }
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInMilliseconds() const

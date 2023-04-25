@@ -10,11 +10,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaGrepFileTest, NoOutputIsWrittenWhenInputIsNonExisting)
-{
+TEST(AlbaGrepFileTest, NoOutputIsWrittenWhenInputIsNonExisting) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaGrepFile grepFile("[.]");
     EXPECT_FALSE(grepFile.isOutputFileWritten());
@@ -22,39 +20,37 @@ TEST(AlbaGrepFileTest, NoOutputIsWrittenWhenInputIsNonExisting)
     EXPECT_FALSE(grepFile.isOutputFileWritten());
 }
 
-TEST(AlbaGrepFileTest, GrepUpdatesWorks)
-{
+TEST(AlbaGrepFileTest, GrepUpdatesWorks) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<100; i++)
-    {
+    for (unsigned int i = 0; i < 100; i++) {
         testFile << i << "\n";
     }
     testFile.close();
 
-    double capturedPercentage=0;
-    AlbaGrepFile grepFile("[0]", [&](double percentage)->void
-    {
-        capturedPercentage = percentage;
-    });
+    double capturedPercentage = 0;
+    AlbaGrepFile grepFile("[0]", [&](double percentage) -> void { capturedPercentage = percentage; });
     EXPECT_FALSE(grepFile.isOutputFileWritten());
     grepFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(grepFile.isOutputFileWritten());
     EXPECT_DOUBLE_EQ(100, capturedPercentage);
 }
 
-TEST(AlbaGrepFileTest, GrepWorks)
-{
+TEST(AlbaGrepFileTest, GrepWorks) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaLocalPathHandler file2ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE2_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(As a person, I think that Mark is so cool)" << "\n";
-    testFile << R"(As a designer, I know that Mark Earvin is so cool)" << "\n";
-    testFile << R"(As a programmer, I know that Earvin is so cool)" << "\n";
-    testFile << R"(As a coder, I know that MARKalba is so cool)" << "\n";
+    testFile << R"(As a person, I think that Mark is so cool)"
+             << "\n";
+    testFile << R"(As a designer, I know that Mark Earvin is so cool)"
+             << "\n";
+    testFile << R"(As a programmer, I know that Earvin is so cool)"
+             << "\n";
+    testFile << R"(As a coder, I know that MARKalba is so cool)"
+             << "\n";
     testFile.close();
 
     AlbaGrepFile grepFile("[mark]");
@@ -76,4 +72,4 @@ TEST(AlbaGrepFileTest, GrepWorks)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-}
+}  // namespace alba

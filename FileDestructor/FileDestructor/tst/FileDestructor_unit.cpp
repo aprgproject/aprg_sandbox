@@ -7,23 +7,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
+namespace {
 
-void createAFileInDirectory(string const& directory)
-{
+void createAFileInDirectory(string const& directory) {
     ofstream outputStream(directory + "SomeFile.txt");
     outputStream << "some string\n";
 }
 
 void retrieveNumberOfFilesAndDirectoriesFromPath(
-        AlbaLocalPathHandler & pathHandler,
-        unsigned int & numberOfFiles,
-        unsigned int & numberOfDirectories)
-{
+    AlbaLocalPathHandler& pathHandler, unsigned int& numberOfFiles, unsigned int& numberOfDirectories) {
     pathHandler.reInput();
     ListOfPaths files;
     ListOfPaths directories;
@@ -32,10 +26,9 @@ void retrieveNumberOfFilesAndDirectoriesFromPath(
     numberOfDirectories = directories.size();
 }
 
-}
+}  // namespace
 
-TEST(SampleTest, DestroyOneFileTest)
-{
+TEST(SampleTest, DestroyOneFileTest) {
     FileDestructor fileDestructor;
     AlbaLocalPathHandler pathHandler(APRG_DIR R"(\FileDestructor\FilesForTests\TestFolderForDestruction)");
     unsigned int numberOfFiles;
@@ -52,4 +45,4 @@ TEST(SampleTest, DestroyOneFileTest)
     EXPECT_EQ(0U, numberOfDirectories);
 }
 
-}
+}  // namespace alba

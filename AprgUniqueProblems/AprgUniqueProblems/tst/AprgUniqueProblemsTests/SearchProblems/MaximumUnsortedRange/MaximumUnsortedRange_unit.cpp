@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = unsigned int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = MaximumUnsortedRange<ValuesForTest>;
-}
+}  // namespace
 
-TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnEmpty)
-{
+TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query;
 
@@ -26,8 +22,7 @@ TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnEmpty)
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
-TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnOneValue)
-{
+TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnOneValue) {
     ValuesForTest valuesForTest{10U};
     QueryForTest query;
 
@@ -35,8 +30,7 @@ TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnOneValue)
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
-TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample1)
-{
+TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample1) {
     ValuesForTest valuesForTest{10U, 12U, 20U, 30U, 25U, 40U, 32U, 31U, 35U, 50U, 60U};
     QueryForTest query;
 
@@ -44,8 +38,7 @@ TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample1)
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
-TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample2)
-{
+TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample2) {
     ValuesForTest valuesForTest{0U, 1U, 15U, 25U, 6U, 7U, 30U, 40U, 50U};
     QueryForTest query;
 
@@ -53,6 +46,6 @@ TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample2)
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

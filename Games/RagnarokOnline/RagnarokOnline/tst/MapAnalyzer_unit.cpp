@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(MapAnalyzerTest, AnalyzeWorks)
-{
+TEST(MapAnalyzerTest, AnalyzeWorks) {
     MapAnalyzer mapAnalyzer;
 
     mapAnalyzer.initialize();
@@ -18,4 +16,4 @@ TEST(MapAnalyzerTest, AnalyzeWorks)
     mapAnalyzer.printResult();
 }
 
-}
+}  // namespace alba

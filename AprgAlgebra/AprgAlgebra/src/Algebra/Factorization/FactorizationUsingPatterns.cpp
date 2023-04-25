@@ -5,71 +5,54 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Factorization
-{
+namespace Factorization {
 
-Polynomials factorizeUsingPatterns(Polynomial const& polynomial)
-{
+Polynomials factorizeUsingPatterns(Polynomial const& polynomial) {
     Polynomials result;
     factorizeUsingPatternsIfPossible(result, polynomial);
     simplifyAndEmplaceBackPolynomialIfListIsEmpty(result, polynomial);
     return result;
 }
 
-void factorizeUsingPatternsIfPossible(Polynomials & result, Polynomial const& polynomial)
-{
+void factorizeUsingPatternsIfPossible(Polynomials& result, Polynomial const& polynomial) {
     factorizeDifferenceOfSquaresIfPossible(result, polynomial);
-    if(result.empty())
-    {
+    if (result.empty()) {
         factorizeDifferenceOfCubesIfPossible(result, polynomial);
-        if(result.empty())
-        {
+        if (result.empty()) {
             factorizeSumOfCubesIfPossible(result, polynomial);
         }
     }
 }
 
-void factorizeDifferenceOfSquaresIfPossible(Polynomials & result, Polynomial const& polynomial)
-{
-    if(isDifferenceOfSquares(polynomial))
-    {
+void factorizeDifferenceOfSquaresIfPossible(Polynomials& result, Polynomial const& polynomial) {
+    if (isDifferenceOfSquares(polynomial)) {
         addFactorsOfDifferenceOfSquares(result, polynomial);
     }
 }
 
-void factorizeDifferenceOfCubesIfPossible(Polynomials & result, Polynomial const& polynomial)
-{
-    if(isDifferenceOfCubes(polynomial))
-    {
+void factorizeDifferenceOfCubesIfPossible(Polynomials& result, Polynomial const& polynomial) {
+    if (isDifferenceOfCubes(polynomial)) {
         addFactorsOfDifferenceOfCubes(result, polynomial);
     }
 }
 
-void factorizeSumOfCubesIfPossible(Polynomials & result, Polynomial const& polynomial)
-{
-    if(isSumOfCubes(polynomial))
-    {
+void factorizeSumOfCubesIfPossible(Polynomials& result, Polynomial const& polynomial) {
+    if (isSumOfCubes(polynomial)) {
         addFactorsOfSumOfCubes(result, polynomial);
     }
 }
 
-void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial)
-{
+void addFactorsOfDifferenceOfSquares(Polynomials& result, Polynomial const& polynomial) {
     Monomials monomials(polynomial.getMonomialsConstReference());
     Monomial firstMonomial(monomials.at(0));
     Monomial secondMonomial(monomials.at(1));
-    if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
-    {
+    if (firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0) {
         secondMonomial.multiplyNumber(-1);
-    }
-    else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
-    {
+    } else if (firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0) {
         firstMonomial.multiplyNumber(-1);
         simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));
     }
@@ -80,17 +63,13 @@ void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& pol
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
 }
 
-void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial)
-{
+void addFactorsOfDifferenceOfCubes(Polynomials& result, Polynomial const& polynomial) {
     Monomials monomials(polynomial.getMonomialsConstReference());
     Monomial firstMonomial(monomials.at(0));
     Monomial secondMonomial(monomials.at(1));
-    if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
-    {
+    if (firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0) {
         secondMonomial.multiplyNumber(-1);
-    }
-    else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
-    {
+    } else if (firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0) {
         firstMonomial.multiplyNumber(-1);
         simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));
     }
@@ -104,16 +83,15 @@ void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polyn
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
     secondMonomial.multiplyNumber(-1);
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
-    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(
+        result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
-void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
-{
+void addFactorsOfSumOfCubes(Polynomials& result, Polynomial const& polynomial) {
     Monomials monomials(polynomial.getMonomialsConstReference());
     Monomial firstMonomial(monomials.at(0));
     Monomial secondMonomial(monomials.at(1));
-    if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() < 0)
-    {
+    if (firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() < 0) {
         firstMonomial.multiplyNumber(-1);
         secondMonomial.multiplyNumber(-1);
         simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));
@@ -128,77 +106,63 @@ void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
     productOfFirstAndSecond.multiplyNumber(-1);
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
-    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(
+        result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
-bool isDifferenceOfSquares(Polynomial const& polynomial)
-{
+bool isDifferenceOfSquares(Polynomial const& polynomial) {
     bool result(false);
     Monomials monomials(polynomial.getMonomialsConstReference());
-    if(monomials.size() == 2)
-    {
+    if (monomials.size() == 2) {
         Monomial firstMonomial(monomials.at(0));
         Monomial secondMonomial(monomials.at(1));
-        if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
-        {
+        if (firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0) {
             secondMonomial.multiplyNumber(-1);
-            result =  isPerfectSquare(firstMonomial) && isPerfectSquare(secondMonomial);
-        }
-        else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
-        {
+            result = isPerfectSquare(firstMonomial) && isPerfectSquare(secondMonomial);
+        } else if (firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0) {
             firstMonomial.multiplyNumber(-1);
-            result =  isPerfectSquare(firstMonomial) && isPerfectSquare(secondMonomial);
+            result = isPerfectSquare(firstMonomial) && isPerfectSquare(secondMonomial);
         }
     }
     return result;
 }
 
-bool isDifferenceOfCubes(Polynomial const& polynomial)
-{
+bool isDifferenceOfCubes(Polynomial const& polynomial) {
     bool result(false);
     Monomials monomials(polynomial.getMonomialsConstReference());
-    if(monomials.size() == 2)
-    {
+    if (monomials.size() == 2) {
         Monomial firstMonomial(monomials.at(0));
         Monomial secondMonomial(monomials.at(1));
-        if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
-        {
+        if (firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0) {
             secondMonomial.multiplyNumber(-1);
-            result =  isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
-        }
-        else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
-        {
+            result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
+        } else if (firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0) {
             firstMonomial.multiplyNumber(-1);
-            result =  isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
+            result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
         }
     }
     return result;
 }
 
-bool isSumOfCubes(Polynomial const& polynomial)
-{
+bool isSumOfCubes(Polynomial const& polynomial) {
     bool result(false);
     Monomials monomials(polynomial.getMonomialsConstReference());
-    if(monomials.size() == 2)
-    {
+    if (monomials.size() == 2) {
         Monomial firstMonomial(monomials.at(0));
         Monomial secondMonomial(monomials.at(1));
-        if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() > 0)
-        {
-            result =  isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
-        }
-        else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() < 0)
-        {
+        if (firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() > 0) {
+            result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
+        } else if (firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() < 0) {
             firstMonomial.multiplyNumber(-1);
             secondMonomial.multiplyNumber(-1);
-            result =  isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
+            result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
         }
     }
     return result;
 }
 
-}
+}  // namespace Factorization
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

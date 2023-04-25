@@ -3,15 +3,12 @@
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class BipartiteCheckerUsingDfs
-{
+class BipartiteCheckerUsingDfs {
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
@@ -19,73 +16,51 @@ public:
     using VertexToColorMap = std::map<Vertex, bool>;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    BipartiteCheckerUsingDfs(BaseUndirectedGraphWithVertex const& graph)
-        : m_graph(graph)
-        , m_isBipartite(true)
-    {
+    BipartiteCheckerUsingDfs(BaseUndirectedGraphWithVertex const& graph) : m_graph(graph), m_isBipartite(true) {
         initialize();
     }
 
-    bool isBipartite() const
-    {
-        return m_isBipartite;
-    }
+    bool isBipartite() const { return m_isBipartite; }
 
-    bool hasFirstColor(Vertex const& vertex) const
-    {
+    bool hasFirstColor(Vertex const& vertex) const {
         bool result(false);
         auto it = m_vertexToColorMap.find(vertex);
-        if(it != m_vertexToColorMap.cend())
-        {
+        if (it != m_vertexToColorMap.cend()) {
             result = !it->second;
         }
         return result;
     }
 
-    void retrieveVerticesWithColor(
-            Vertices & verticesWithFirstColor,
-            Vertices & verticesWithSecondColor) const
-    {
-        for(auto const& vertexColorPair : m_vertexToColorMap)
-        {
-            if(!vertexColorPair.second)
-            {
+    void retrieveVerticesWithColor(Vertices& verticesWithFirstColor, Vertices& verticesWithSecondColor) const {
+        for (auto const& vertexColorPair : m_vertexToColorMap) {
+            if (!vertexColorPair.second) {
                 verticesWithFirstColor.emplace_back(vertexColorPair.first);
-            }
-            else
-            {
+            } else {
                 verticesWithSecondColor.emplace_back(vertexColorPair.first);
             }
         }
     }
 
 private:
-
-    bool areColorsEqualOnVertices(Vertex const& vertex1, Vertex const& vertex2) const
-    {
+    bool areColorsEqualOnVertices(Vertex const& vertex1, Vertex const& vertex2) const {
         bool result(false);
         auto it1 = m_vertexToColorMap.find(vertex1);
         auto it2 = m_vertexToColorMap.find(vertex2);
-        if(it1 != m_vertexToColorMap.cend() && it2 != m_vertexToColorMap.cend())
-        {
+        if (it1 != m_vertexToColorMap.cend() && it2 != m_vertexToColorMap.cend()) {
             result = it1->second == it2->second;
         }
         return result;
     }
 
-    void initialize()
-    {
+    void initialize() {
         Vertices vertices(m_graph.getVertices());
-        for(Vertex const& vertex : vertices)
-        {
-            m_vertexToColorMap[vertex] = false; // set all colors to one color (note that "false" is the first color)
+        for (Vertex const& vertex : vertices) {
+            m_vertexToColorMap[vertex] = false;  // set all colors to one color (note that "false" is the first color)
         }
-        for(Vertex const& vertex : vertices)
-        {
-            if(m_processedVertices.isNotFound(vertex))
-            {
+        for (Vertex const& vertex : vertices) {
+            if (m_processedVertices.isNotFound(vertex)) {
                 checkUsingDfs(vertex);
-                if(!m_isBipartite) // if not bipartite, stop (no use continuing on it)
+                if (!m_isBipartite)  // if not bipartite, stop (no use continuing on it)
                 {
                     break;
                 }
@@ -93,29 +68,23 @@ private:
         }
     }
 
-    void checkUsingDfs(Vertex const& vertex)
-    {
+    void checkUsingDfs(Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
         bool vertexColor(m_vertexToColorMap.at(vertex));
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {
-            if(m_processedVertices.isNotFound(adjacentVertex))
-            {
-                m_vertexToColorMap[adjacentVertex] = getTheOtherColor(vertexColor); // assign the other color for unprocessed adjacent vertices
+        for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
+            if (m_processedVertices.isNotFound(adjacentVertex)) {
+                m_vertexToColorMap[adjacentVertex] =
+                    getTheOtherColor(vertexColor);  // assign the other color for unprocessed adjacent vertices
                 checkUsingDfs(adjacentVertex);
-            }
-            else if(vertexColor == m_vertexToColorMap.at(adjacentVertex))
-            {
-                m_isBipartite = false; // two adjacent vertices can't be in the same color to be bipartite (colors needs to be alternating)
+            } else if (vertexColor == m_vertexToColorMap.at(adjacentVertex)) {
+                m_isBipartite = false;  // two adjacent vertices can't be in the same color to be bipartite (colors
+                                        // needs to be alternating)
                 break;
             }
         }
     }
 
-    bool getTheOtherColor(bool const color)
-    {
-        return !color;
-    }
+    bool getTheOtherColor(bool const color) { return !color; }
 
     BaseUndirectedGraphWithVertex const& m_graph;
     bool m_isBipartite;
@@ -124,9 +93,10 @@ private:
 };
 
 // Other definition:
-// A graph is bipartite if its nodes can be colored using two colors so that there are no adjacent nodes with the same color.
-// The idea is to color the starting node blue, all its neighbors red, all their neighbors blue, and so on.
-// If at some point of the search we notice that two adjacent nodes have the same color, this means that the graph is not bipartite.
+// A graph is bipartite if its nodes can be colored using two colors so that there are no adjacent nodes with the same
+// color. The idea is to color the starting node blue, all its neighbors red, all their neighbors blue, and so on. If at
+// some point of the search we notice that two adjacent nodes have the same color, this means that the graph is not
+// bipartite.
 
 // This algorithm always works, because when there are only two colors available,
 // the color of the starting node in a component determines the colors of all other nodes in the component.
@@ -137,6 +107,6 @@ private:
 // can be colored using k colors so that no adjacent nodes have the same color.
 // Even when k=3, no efficient algorithm is known but the problem is NP-hard.
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

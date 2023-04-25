@@ -6,43 +6,35 @@
 using namespace alba::algorithm::CommonTestsWithUnionFind;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using UnionFindForTest = WeightedQuickUnionWithArray<unsigned int, 13>;
 }
 
-TEST(WeightedQuickUnionWithArrayTest, IsConnectedWorks)
-{
+TEST(WeightedQuickUnionWithArrayTest, IsConnectedWorks) {
     UnionFindForTest unionFind;
     testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionWithArrayTest, ConnectWorks)
-{
+TEST(WeightedQuickUnionWithArrayTest, ConnectWorks) {
     UnionFindForTest unionFind;
     testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionWithArrayTest, ConnectWorksWithExample1)
-{
+TEST(WeightedQuickUnionWithArrayTest, ConnectWorksWithExample1) {
     UnionFindForTest unionFind;
     testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionWithArrayTest, ConnectWorksWithExample2)
-{
+TEST(WeightedQuickUnionWithArrayTest, ConnectWorksWithExample2) {
     UnionFindForTest unionFind;
     testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionWithArrayTest, GetRootWorks)
-{
+TEST(WeightedQuickUnionWithArrayTest, GetRootWorks) {
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
@@ -62,8 +54,7 @@ TEST(WeightedQuickUnionWithArrayTest, GetRootWorks)
     EXPECT_EQ(4U, unionFind.getRoot(9));
 }
 
-TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionOnePassWorks)
-{
+TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionOnePassWorks) {
     // Change test does not really check implementation
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
@@ -84,8 +75,7 @@ TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionOnePassWorks)
     EXPECT_EQ(4U, unionFind.getRootWithPathCompressionOnePass(9));
 }
 
-TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionTwoPassWorks)
-{
+TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionTwoPassWorks) {
     // Change test does not really check implementation
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
@@ -106,8 +96,7 @@ TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionTwoPassWorks)
     EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(9));
 }
 
-TEST(WeightedQuickUnionWithArrayTest, GetRelativeRootArrayWorks)
-{
+TEST(WeightedQuickUnionWithArrayTest, GetRelativeRootArrayWorks) {
     UnionFindForTest unionFind;
 
     UnionFindForTest::RootArray expectedInitialRelativeRootArray{0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
@@ -123,6 +112,6 @@ TEST(WeightedQuickUnionWithArrayTest, GetRelativeRootArrayWorks)
     EXPECT_EQ(expectedRelativeRootArray, unionFind.getRelativeRootArray());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

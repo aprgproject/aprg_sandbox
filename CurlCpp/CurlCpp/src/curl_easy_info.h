@@ -26,69 +26,73 @@
 #ifndef curl_easy_info_h
 #define curl_easy_info_h
 
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace curl {
-    /**
-     * This object contains a pair which contains curl easy get_info result.
-     */
-    template<typename T> class curl_easy_info {
-    public:
-        explicit curl_easy_info(T pointer) : _pointer(pointer) {}
+/**
+ * This object contains a pair which contains curl easy get_info result.
+ */
+template <typename T>
+class curl_easy_info {
+public:
+    explicit curl_easy_info(T pointer) : _pointer(pointer) {}
 
-        T get() const {
-            return _pointer;
-        }
-    private:
-        T _pointer;
-    };
-    
-    /**
-     * Template specialization for char *
-     */
-    template<> class curl_easy_info<char *> {
-    public:
-        explicit curl_easy_info(char *pointer) : _pointer(pointer) {}
+    T get() const { return _pointer; }
 
-        std::string get() const {
-            if (_pointer == nullptr) {
-                return std::string("");
-            }
-            return std::string(_pointer);
-        }
-    private:
-        char *_pointer;
-    };
-    
-    /**
-     * Template specialization for struct curl_slist *.
-     */
-    template<> class curl_easy_info<struct curl_slist *> {
-    public:
-        explicit curl_easy_info(struct curl_slist *pointer) : _pointer(pointer) {}
+private:
+    T _pointer;
+};
 
-        ~curl_easy_info() {
-            if (_pointer != nullptr) {
-                curl_slist_free_all(_pointer);
-            }
+/**
+ * Template specialization for char *
+ */
+template <>
+class curl_easy_info<char *> {
+public:
+    explicit curl_easy_info(char *pointer) : _pointer(pointer) {}
+
+    std::string get() const {
+        if (_pointer == nullptr) {
+            return std::string("");
         }
-        std::vector<std::string> get() {
-            struct curl_slist *backup = _pointer;
-            std::vector<std::string> infos;
-            while (backup != nullptr) {
-                if (backup->data != nullptr) {
-                    std::string str(backup->data);
-                    infos.push_back(str);
-                }
-                backup = backup->next;
-            }
-            return infos;
+        return std::string(_pointer);
+    }
+
+private:
+    char *_pointer;
+};
+
+/**
+ * Template specialization for struct curl_slist *.
+ */
+template <>
+class curl_easy_info<struct curl_slist *> {
+public:
+    explicit curl_easy_info(struct curl_slist *pointer) : _pointer(pointer) {}
+
+    ~curl_easy_info() {
+        if (_pointer != nullptr) {
+            curl_slist_free_all(_pointer);
         }
-    private:
-        struct curl_slist *_pointer;
-    };
-}
+    }
+    std::vector<std::string> get() {
+        struct curl_slist *backup = _pointer;
+        std::vector<std::string> infos;
+        while (backup != nullptr) {
+            if (backup->data != nullptr) {
+                std::string str(backup->data);
+                infos.push_back(str);
+            }
+            backup = backup->next;
+        }
+        return infos;
+    }
+
+private:
+    struct curl_slist *_pointer;
+};
+}  // namespace curl
 
 #endif /* curl_easy_info_h */

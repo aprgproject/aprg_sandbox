@@ -5,14 +5,11 @@
 #include <Algebra/Solution/Solver/BaseSolver.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class LinearDiophantineEquationSolver : public BaseSolver
-{
+class LinearDiophantineEquationSolver : public BaseSolver {
 public:
     // A Linear Diophantine Equation is an equation of the form ax+by = c
 
@@ -21,14 +18,14 @@ public:
     MultipleVariableSolutionSet calculateSolutionAndReturnSolutionSet(Equation const& equation);
 
 protected:
-    void calculateSolution(MultipleVariableSolutionSet & solutionSet, Equation const& equation);
-    void calculateForEquation(MultipleVariableSolutionSet & solutionSet, Equation const& equation);
+    void calculateSolution(MultipleVariableSolutionSet& solutionSet, Equation const& equation);
+    void calculateForEquation(MultipleVariableSolutionSet& solutionSet, Equation const& equation);
     void retrieveDetailsFromPolynomial(
-            bool & isPatternRecognized, AlbaNumber & a, AlbaNumber & b, AlbaNumber & c, std::string & xName, std::string & yName, Polynomial const& polynomial);
+        bool& isPatternRecognized, AlbaNumber& a, AlbaNumber& b, AlbaNumber& c, std::string& xName, std::string& yName,
+        Polynomial const& polynomial);
     AlbaNumbers m_calculatedValues;
 };
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

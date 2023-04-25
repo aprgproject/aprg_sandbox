@@ -16,6 +16,4 @@ curl_global::curl_global(const long flag) {
     }
 }
 
-curl_global::~curl_global() {
-    curl_global_cleanup();
-}
+curl_global::~curl_global() { curl_global_cleanup(); }

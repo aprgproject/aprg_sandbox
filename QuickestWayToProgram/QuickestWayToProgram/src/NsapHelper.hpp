@@ -9,15 +9,13 @@
 #define NsapHelper
 
 #include <TTransportLayerAddress.h>
-#include <string>
 #include <glo_def.h>
 
-namespace CommonClassLib
-{
-class CNsapHelper
-{
-private:
+#include <string>
 
+namespace CommonClassLib {
+class CNsapHelper {
+private:
     static const u32 AUTHORITY_FORMAT_IDENTIFIER = 0x35;
     static const u32 ICP_IPV4 = 1;
     static const u32 ICP_IPV6 = 0;
@@ -32,16 +30,15 @@ private:
 public:
     static const u32 IPV4_SIZE = 4;
     static const u32 IPV6_SIZE = 16;
-    static const u8  IP_ADDRESS_LENGTH = 39;
+    static const u8 IP_ADDRESS_LENGTH = 39;
 
-    static void convertNsapToIPv4(TTransportLayerAddress const& nsap, u8 *const destination);
-    static void convertNsapToIPv6(TTransportLayerAddress const& nsap, u8 *const destination);
-    static void convertIPv4toNsap(u8 const *const ipv4, TTransportLayerAddress& nsap);
-    static void convertIPv6toNsap(u8 const *const ipv6, TTransportLayerAddress& nsap);
+    static void convertNsapToIPv4(TTransportLayerAddress const& nsap, u8* const destination);
+    static void convertNsapToIPv6(TTransportLayerAddress const& nsap, u8* const destination);
+    static void convertIPv4toNsap(u8 const* const ipv4, TTransportLayerAddress& nsap);
+    static void convertIPv6toNsap(u8 const* const ipv6, TTransportLayerAddress& nsap);
     static bool isIpv6(TTransportLayerAddress const& nsap);
     static std::string convertNsapToIp(TTransportLayerAddress const& nsap);
-
 };
 
-}
+}  // namespace CommonClassLib
 #endif

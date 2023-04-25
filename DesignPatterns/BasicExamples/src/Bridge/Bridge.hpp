@@ -1,14 +1,12 @@
 #include <iostream>
 #include <memory>
 
-namespace Bridge
-{
+namespace Bridge {
 
 // Implementor
 // defines the interface for implementation classes
 
-class Implementor
-{
+class Implementor {
 public:
     virtual ~Implementor() = default;
 
@@ -16,36 +14,25 @@ public:
     // ...
 };
 
-
 // Concrete Implementors
 // implement the Implementor interface and define concrete implementations
 
-class ConcreteImplementorA : public Implementor
-{
+class ConcreteImplementorA : public Implementor {
 public:
-    void action() override
-    {
-        std::cout << "Concrete Implementor A\n";
-    }
+    void action() override { std::cout << "Concrete Implementor A\n"; }
     // ...
 };
 
-class ConcreteImplementorB : public Implementor
-{
+class ConcreteImplementorB : public Implementor {
 public:
-    void action() override
-    {
-        std::cout << "Concrete Implementor B\n";
-    }
+    void action() override { std::cout << "Concrete Implementor B\n"; }
     // ...
 };
-
 
 // Abstraction
 // defines the abstraction's interface
 
-class Abstraction
-{
+class Abstraction {
 public:
     virtual ~Abstraction() = default;
 
@@ -53,28 +40,21 @@ public:
     // ...
 };
 
-
 // RefinedAbstraction
 // extends the interface defined by Abstraction
 
-class RefinedAbstraction : public Abstraction
-{
+class RefinedAbstraction : public Abstraction {
 public:
-    RefinedAbstraction(std::unique_ptr<Implementor> implementor)
-        : m_implementor(std::move(implementor))
-    {}
+    RefinedAbstraction(std::unique_ptr<Implementor> implementor) : m_implementor(std::move(implementor)) {}
 
-    void operation() override
-    {
-        m_implementor->action();
-    }
+    void operation() override { m_implementor->action(); }
     // ...
 
 private:
     std::unique_ptr<Implementor> m_implementor;
 };
 
-}
+}  // namespace Bridge
 
 // Bridge discussion:
 
@@ -98,13 +78,16 @@ private:
 // -> Decoupling interface and implementation.
 // ---> An implementation is not bound permanently to an interface.
 // -----> The implementation for an abstraction can be configured or changed at runtime.
-// ---> This also elimintate compile time dependencies on the implementation (minimize recompiling when implementation is changed).
-// -----> This protery is essential when you must ensure binary compatibility between different version of a class library.
+// ---> This also elimintate compile time dependencies on the implementation (minimize recompiling when implementation
+// is changed).
+// -----> This protery is essential when you must ensure binary compatibility between different version of a class
+// library.
 // ---> This encourages layering that can lead to a better structured system.
 // -> Improved extensibility
 // ---> You can extend the Abstraction and Implementor hierarchies independently
 // -> Hiding implementation details from clients
-// ---> You can shield clients from implementation details, like the sharing of implementor objects and accompanying reference count mechanism.
+// ---> You can shield clients from implementation details, like the sharing of implementor objects and accompanying
+// reference count mechanism.
 
 // Implementation:
 // -> Only one implementor
@@ -118,7 +101,8 @@ private:
 // -> Using multiple inhertiance.
 // ---> You can use multiple inheritance in C++ to combine an interface with its implementation.
 // -----> For example, a class can inherit publicly from Abstraction and privately from a ConcreteImplementor.
-// -----> But because this approach relies on static inhertiance, it binds an implementation permanently to its interface.
+// -----> But because this approach relies on static inhertiance, it binds an implementation permanently to its
+// interface.
 // -----> Hence, you can't implement a true Bridge with multiple inheritance (at least not in C++).
 
 // Related Patterns

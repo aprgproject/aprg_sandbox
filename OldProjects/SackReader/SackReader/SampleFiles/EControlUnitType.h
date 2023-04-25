@@ -1,30 +1,31 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1803_001_00/I_Interface/Application_Env/Definitions/EControlUnitType.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1803_001_00/I_Interface/Application_Env/Definitions/EControlUnitType.h
+*$
 * @version               $LastChangedRevision: 2581 $
 * @date                  $LastChangedDate: 2016-05-11 18:45:31 +0800 (Wed, 11 May 2016) $
 * @author                $Author: joseplop $
-* 
+*
 * Original author        <nn>
-* 
+*
 * Copyright 2010 Nokia. All rights reserved.
 ******************************************************************************/
 
 #ifndef _ECONTROLUNITTYPE_H
 #define _ECONTROLUNITTYPE_H
 
-typedef enum EControlUnitType
-{
-    EControlUnitType_Wam             = 0,
-    EControlUnitType_Fcm             = 1,
-    EControlUnitType_Fcm2            = 2,
-    EControlUnitType_Fspc            = 3,
-    EControlUnitType_Wsmf            = 4,
-    EControlUnitType_Wspf            = 5,
-    EControlUnitType_Fct             = 6,
-    EControlUnitType_FspRel3         = 7,
-    EControlUnitType_Fzp             = 8,
-    EControlUnitType_Kepler2ArmCore  = 9
+typedef enum EControlUnitType {
+    EControlUnitType_Wam = 0,
+    EControlUnitType_Fcm = 1,
+    EControlUnitType_Fcm2 = 2,
+    EControlUnitType_Fspc = 3,
+    EControlUnitType_Wsmf = 4,
+    EControlUnitType_Wspf = 5,
+    EControlUnitType_Fct = 6,
+    EControlUnitType_FspRel3 = 7,
+    EControlUnitType_Fzp = 8,
+    EControlUnitType_Kepler2ArmCore = 9
 } EControlUnitType;
 
 #endif /* _ECONTROLUNITTYPE_H */
@@ -57,4 +58,3 @@ typedef enum EControlUnitType
 * Remember to put an empty line in the end of each definition file.
 * Otherwise the compiler will generate a warning.
 ******************************************************************************/
-

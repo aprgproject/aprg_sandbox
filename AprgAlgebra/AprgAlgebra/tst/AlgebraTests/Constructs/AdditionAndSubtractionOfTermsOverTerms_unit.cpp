@@ -7,22 +7,18 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, ConstructionWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, ConstructionWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
 
     EXPECT_TRUE(additionAndSubtraction.getItems().empty());
     EXPECT_TRUE(additionAndSubtraction.getAssociations().empty());
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithNoTermsWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithNoTermsWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {});
     TermsOverTerms fraction2({1}, {});
@@ -38,8 +34,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithNoT
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithTermsThatAreEmptyWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithTermsThatAreEmptyWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {Term()});
     TermsOverTerms fraction2({1}, {Term()});
@@ -54,8 +49,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithTer
     ASSERT_EQ(1U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
 }
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithAllOneWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithAllOneWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {1});
     TermsOverTerms fraction2({1}, {1});
@@ -71,8 +65,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithAll
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithLcmMonomialWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithLcmMonomialWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {Polynomial{Monomial(3, {{"x", 3}})}});
     TermsOverTerms fraction2({1}, {Monomial(5, {{"x", 5}})});
@@ -88,8 +81,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithLcm
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithNoCommonFactorsWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithNoCommonFactorsWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}});
     TermsOverTerms fraction2({1}, {Polynomial{Monomial(1, {{"y", 1}}), Monomial(5, {})}});
@@ -109,8 +101,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithNoC
     EXPECT_EQ(termToExpect3, termsToVerify.at(2));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithCommonFactorsWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithCommonFactorsWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})};
     TermsOverTerms fraction1({1}, {polynomial});
@@ -127,11 +118,9 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithCom
     ASSERT_EQ(2U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
-
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithFactorsOfDifferenceOfSquaresWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithFactorsOfDifferenceOfSquaresWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}});
     TermsOverTerms fraction2({1}, {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
@@ -149,8 +138,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithFac
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexUsingOutOfRangeIndexReturnsEmpty)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexUsingOutOfRangeIndexReturnsEmpty) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
 
     Terms termsToVerify1(additionAndSubtraction.getRevisedNumeratorTermsBasedOnLcmOnIndex(0, {}));
@@ -162,8 +150,8 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIn
     ASSERT_TRUE(termsToVerify3.empty());
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsNumeratorTermsWhenLcmIsEmpty)
-{
+TEST(
+    AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsNumeratorTermsWhenLcmIsEmpty) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({Polynomial{Monomial(1, {{"x", 1}}), Monomial(17, {})}}, {1});
     additionAndSubtraction.putAsAddition(fraction);
@@ -175,8 +163,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIn
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsNumeratorTermsWhenLcmIsOne)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsNumeratorTermsWhenLcmIsOne) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({Polynomial{Monomial(1, {{"x", 1}}), Monomial(17, {})}}, {1});
     additionAndSubtraction.putAsAddition(fraction);
@@ -188,27 +175,29 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIn
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsGcfOfDenominatorAndLcm)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsGcfOfDenominatorAndLcm) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({1}, {Monomial(4, {{"x", 5}, {"y", 3}})});
     additionAndSubtraction.putAsAddition(fraction);
 
-    Terms termsToVerify(additionAndSubtraction.getRevisedNumeratorTermsBasedOnLcmOnIndex(0, {Monomial(52, {{"x", 7}, {"y", 8}})}));
+    Terms termsToVerify(
+        additionAndSubtraction.getRevisedNumeratorTermsBasedOnLcmOnIndex(0, {Monomial(52, {{"x", 7}, {"y", 8}})}));
 
     Term termToExpect(Monomial(13, {{"x", 2}, {"y", 5}}));
     ASSERT_EQ(1U, termsToVerify.size());
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexReturnsWithCommonFactorsFromDenominatorAndLcmRemoved)
-{
+TEST(
+    AdditionAndSubtractionOfTermsOverTermsTest,
+    GetNumeratorTermsBasedOnLcmOnIndexReturnsWithCommonFactorsFromDenominatorAndLcmRemoved) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})};
     TermsOverTerms fraction({1}, {polynomial});
     additionAndSubtraction.putAsAddition(fraction);
 
-    Terms termsToVerify(additionAndSubtraction.getRevisedNumeratorTermsBasedOnLcmOnIndex(0, {polynomial, polynomial, polynomial}));
+    Terms termsToVerify(
+        additionAndSubtraction.getRevisedNumeratorTermsBasedOnLcmOnIndex(0, {polynomial, polynomial, polynomial}));
 
     Term termToExpect(polynomial);
     ASSERT_EQ(2U, termsToVerify.size());
@@ -216,12 +205,15 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIn
     EXPECT_EQ(termToExpect, termsToVerify.at(1));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexUsingAComplicatedExampleWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIndexUsingAComplicatedExampleWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({4}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}});
-    TermsOverTerms fraction2({Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}}, {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
-    TermsOverTerms fraction3({Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}});
+    TermsOverTerms fraction2(
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}},
+        {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
+    TermsOverTerms fraction3(
+        {Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}},
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}});
     additionAndSubtraction.putAsAddition(fraction1);
     additionAndSubtraction.putAsAddition(fraction2);
     additionAndSubtraction.putAsAddition(fraction3);
@@ -246,8 +238,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetNumeratorTermsBasedOnLcmOnIn
     EXPECT_EQ(termToExpect5, termsToVerify3.at(1));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForNumeratorTermsWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForNumeratorTermsWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({7}, {1});
     TermsOverTerms fraction2({11}, {1});
@@ -266,8 +257,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForNumerat
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDenominatorWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDenominatorWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({1}, {2});
     TermsOverTerms fraction2({1}, {3});
@@ -286,8 +276,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDeno
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevisedNumeratorTermsWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevisedNumeratorTermsWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({7}, {2});
     TermsOverTerms fraction2({11}, {3});
@@ -306,12 +295,15 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevised
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExample1Works)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExample1Works) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({4}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}});
-    TermsOverTerms fraction2({Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}}, {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
-    TermsOverTerms fraction3({Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}});
+    TermsOverTerms fraction2(
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}},
+        {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
+    TermsOverTerms fraction3(
+        {Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}},
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}});
     additionAndSubtraction.putAsAddition(fraction1);
     additionAndSubtraction.putAsAddition(fraction2);
     additionAndSubtraction.putAsAddition(fraction3);
@@ -330,8 +322,9 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExamp
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyWorksOnExponentPlusPolynomialDenominator)
-{
+TEST(
+    AdditionAndSubtractionOfTermsOverTermsTest,
+    GetCombinedExpressionAndSimplifyWorksOnExponentPlusPolynomialDenominator) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Expression exponentExpression(createExpressionIfPossible({2, "^", "x"}));
@@ -347,12 +340,15 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     EXPECT_EQ(stringToExpect, convertToString(expressionToVerify));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample1Works)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample1Works) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({4}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}});
-    TermsOverTerms fraction2({Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}}, {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
-    TermsOverTerms fraction3({Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}}, {Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}});
+    TermsOverTerms fraction2(
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}},
+        {Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}});
+    TermsOverTerms fraction3(
+        {Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}},
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}});
     additionAndSubtraction.putAsAddition(fraction1);
     additionAndSubtraction.putAsAddition(fraction2);
     additionAndSubtraction.putAsAddition(fraction3);
@@ -366,8 +362,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample2Works)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample2Works) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(-1, {})};
     Polynomial polynomial2{Monomial(2, {{"x", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-6, {})};
@@ -386,13 +381,13 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     expressionToVerify.simplify();
 
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(-10, {{"x", 1}}), Monomial(7, {})};
-    Polynomial polynomialToExpect2{Monomial(6, {{"x", 3}}), Monomial(-11, {{"x", 2}}), Monomial(-14, {{"x", 1}}), Monomial(24, {})};
+    Polynomial polynomialToExpect2{
+        Monomial(6, {{"x", 3}}), Monomial(-11, {{"x", 2}}), Monomial(-14, {{"x", 1}}), Monomial(24, {})};
     Expression expressionToExpect(createExpressionIfPossible({polynomialToExpect1, "/", polynomialToExpect2}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({487}, {756});
 
@@ -411,8 +406,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks)
     EXPECT_EQ(TermAssociationType::Positive, associationToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsSubtractionWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsSubtractionWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({487}, {756});
 
@@ -431,8 +425,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsSubtractionWorks)
     EXPECT_EQ(TermAssociationType::Negative, associationToVerify.at(0));
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAddOrSubtractionWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAddOrSubtractionWorks) {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({487}, {756});
 
@@ -451,6 +444,6 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAddOrSubtractionWorks)
     EXPECT_EQ(TermAssociationType::Negative, associationToVerify.at(0));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

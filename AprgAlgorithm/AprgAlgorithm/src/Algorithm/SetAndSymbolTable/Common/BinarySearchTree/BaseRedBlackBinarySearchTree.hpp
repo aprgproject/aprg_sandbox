@@ -5,59 +5,47 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename KeyTemplateType, typename NodeTemplateType, typename BaseDataStructure>
-class BaseRedBlackBinarySearchTree
-        : public BaseBinarySearchTree<KeyTemplateType, NodeTemplateType, BaseDataStructure>
-{
+class BaseRedBlackBinarySearchTree : public BaseBinarySearchTree<KeyTemplateType, NodeTemplateType, BaseDataStructure> {
 public:
     using BaseClass = BaseBinarySearchTree<KeyTemplateType, NodeTemplateType, BaseDataStructure>;
     using Key = KeyTemplateType;
     using Node = NodeTemplateType;
     using NodeUniquePointer = typename BaseClass::NodeUniquePointer;
 
-    ~BaseRedBlackBinarySearchTree() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseRedBlackBinarySearchTree() override = default;  // no need for virtual destructor because base destructor is
+                                                         // virtual (similar to other virtual functions)
 
 protected:
-
-    inline bool isRed(NodeUniquePointer const& nodePointer) const
-    {
+    inline bool isRed(NodeUniquePointer const& nodePointer) const {
         bool result(false);
-        if(nodePointer)
-        {
+        if (nodePointer) {
             result = nodePointer->parentLinkColor == RedBlackColor::Red;
         }
         return result;
     }
 
-    inline bool hasARightLeaningRedLinkOnOneChild(NodeUniquePointer const& nodePointer) const
-    {
+    inline bool hasARightLeaningRedLinkOnOneChild(NodeUniquePointer const& nodePointer) const {
         return isRed(nodePointer->right) && !isRed(nodePointer->left);
     }
 
-    inline bool hasTwoLeftLeaningRedLinksInARow(NodeUniquePointer const& nodePointer) const
-    {
+    inline bool hasTwoLeftLeaningRedLinksInARow(NodeUniquePointer const& nodePointer) const {
         return nodePointer->left && isRed(nodePointer->left) && isRed(nodePointer->left->left);
     }
 
-    inline bool hasTwoRedLinksOnItsChildren(NodeUniquePointer const& nodePointer) const
-    {
+    inline bool hasTwoRedLinksOnItsChildren(NodeUniquePointer const& nodePointer) const {
         return isRed(nodePointer->left) && isRed(nodePointer->right);
     }
 
-    void rotateLeft(NodeUniquePointer & nodePointer)
-    {
+    void rotateLeft(NodeUniquePointer& nodePointer) {
         // This switches right child as the parent, switching the old parent as the left child (thus rotate left)
         // It also switches the right leaning link to left leaning link (useful to maintain red links lean left)
-        if(nodePointer)
-        {
-            if(nodePointer->right)
-            {
+        if (nodePointer) {
+            if (nodePointer->right) {
                 NodeUniquePointer nodeToMove(std::move(nodePointer));
 
                 // rotation happens here:
@@ -66,7 +54,7 @@ protected:
                 nodePointer->left = std::move(nodeToMove);
 
                 // update other things:
-                NodeUniquePointer & previousNodePointer(nodePointer->left);
+                NodeUniquePointer& previousNodePointer(nodePointer->left);
                 nodePointer->parentLinkColor = previousNodePointer->parentLinkColor;
                 nodePointer->numberOfNodesOnThisSubTree = previousNodePointer->numberOfNodesOnThisSubTree;
                 previousNodePointer->parentLinkColor = RedBlackColor::Red;
@@ -75,14 +63,11 @@ protected:
         }
     }
 
-    void rotateRight(NodeUniquePointer & nodePointer)
-    {
+    void rotateRight(NodeUniquePointer& nodePointer) {
         // This switches left child as the parent, switching the old parent as the right child (thus rotate right)
         // It also switches the left leaning link to right leaning link (useful to change red links lean right)
-        if(nodePointer)
-        {
-            if(nodePointer->left)
-            {
+        if (nodePointer) {
+            if (nodePointer->left) {
                 NodeUniquePointer nodeToMove(std::move(nodePointer));
 
                 // rotation happens here:
@@ -91,7 +76,7 @@ protected:
                 nodePointer->right = std::move(nodeToMove);
 
                 // update other things:
-                NodeUniquePointer & previousNodePointer(nodePointer->right);
+                NodeUniquePointer& previousNodePointer(nodePointer->right);
                 nodePointer->parentLinkColor = previousNodePointer->parentLinkColor;
                 nodePointer->numberOfNodesOnThisSubTree = previousNodePointer->numberOfNodesOnThisSubTree;
                 previousNodePointer->parentLinkColor = RedBlackColor::Red;
@@ -100,18 +85,14 @@ protected:
         }
     }
 
-    void setParentAsRedAndChildrenAsBlack(NodeUniquePointer & nodePointer)
-    {
+    void setParentAsRedAndChildrenAsBlack(NodeUniquePointer& nodePointer) {
         // used to flip colors (split a 4 node in 2-3 trees)
-        if(nodePointer)
-        {
+        if (nodePointer) {
             nodePointer->parentLinkColor = RedBlackColor::Red;
-            if(nodePointer->left)
-            {
+            if (nodePointer->left) {
                 nodePointer->left->parentLinkColor = RedBlackColor::Black;
             }
-            if(nodePointer->right)
-            {
+            if (nodePointer->right) {
                 nodePointer->right->parentLinkColor = RedBlackColor::Black;
             }
         }
@@ -119,7 +100,8 @@ protected:
 };
 
 // Motivation: Represent a 2-3 tree as a BST.
-// Use internal left leaning link as glue for the 3-nodes (color this link red -> so that we can know which link belonging to 3 nodes) which one don't
+// Use internal left leaning link as glue for the 3-nodes (color this link red -> so that we can know which link
+// belonging to 3 nodes) which one don't
 
 // An equivalent definition, a BST such that
 // -> No node has two red links connected to it.
@@ -137,7 +119,8 @@ protected:
 // Right rotation: take a left leaning red link -> temporarily reorient it to lean to the right
 
 // Basic strategy. Maintain one to one correspondence with 2-3 trees by applying elementary red black BST operations
-// Insertion: Every time we add a node, create a red link to its parents -> this corresponds in 2-3 trees a change on node number (1 becomes 2, 2 become 3, 3 becomes 4)
+// Insertion: Every time we add a node, create a red link to its parents -> this corresponds in 2-3 trees a change on
+// node number (1 becomes 2, 2 become 3, 3 becomes 4)
 
 // Longest path is alternating red and black can be no more as twice as long as the shortest path which is all black
 
@@ -149,6 +132,6 @@ protected:
 
 // Why red black? On Xerox PARC, laser printing -> red color looks best
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -7,14 +7,11 @@
 #include <utility>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgAudio
-{
+namespace AprgAudio {
 
-struct SearchResultDetails
-{
+struct SearchResultDetails {
     bool isSampleFound;
     unsigned int replicationIndex;
     unsigned int searchIndex;
@@ -22,16 +19,16 @@ struct SearchResultDetails
     double multiplierForSearch;
     double minDifference;
 };
-using SearchResultsDetails=std::vector<SearchResultDetails>;
+using SearchResultsDetails = std::vector<SearchResultDetails>;
 
-using Indexes=std::vector<unsigned int>;
+using Indexes = std::vector<unsigned int>;
 
-using DoubleOptional=std::optional<double>;
-using Samples=std::vector<double>;
-using AudioInDouble=Audio<double>;
+using DoubleOptional = std::optional<double>;
+using Samples = std::vector<double>;
+using AudioInDouble = Audio<double>;
 
-using ValuesToIndexes=std::multimap<double, unsigned int>;
+using ValuesToIndexes = std::multimap<double, unsigned int>;
 
-}
+}  // namespace AprgAudio
 
-}
+}  // namespace alba

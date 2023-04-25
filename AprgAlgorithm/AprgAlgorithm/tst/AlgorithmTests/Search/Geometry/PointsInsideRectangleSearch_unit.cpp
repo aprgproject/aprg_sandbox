@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using SearchForTest = PointsInsideRectangleSearch<double>;
 }
 
-TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectangleIsAtTheLeft)
-{
+TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectangleIsAtTheLeft) {
     SearchForTest search({-7, -2}, {-3, 2});
     search.addPoint({0, 0});
     search.addPoint({-5, 0});
@@ -28,8 +24,7 @@ TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectan
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectangleIsAtTheRight)
-{
+TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectangleIsAtTheRight) {
     SearchForTest search({3, -2}, {7, 2});
     search.addPoint({0, 0});
     search.addPoint({-5, 0});
@@ -41,8 +36,7 @@ TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectan
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectangleIsAtTheLeftAndRight)
-{
+TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectangleIsAtTheLeftAndRight) {
     SearchForTest search({-7, -2}, {7, 2});
     search.addPoint({0, 0});
     search.addPoint({-5, 0});
@@ -54,8 +48,7 @@ TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksWhenRectan
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksOnComplicatedExample)
-{
+TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksOnComplicatedExample) {
     SearchForTest search({-4.5, -0.5}, {-1.5, 2.5});
     search.addPoint({0, 0});
     search.addPoint({3, -2});
@@ -74,6 +67,6 @@ TEST(PointsInsideRectangleSearchTest, GetPointsInsideTheRectangleWorksOnComplica
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

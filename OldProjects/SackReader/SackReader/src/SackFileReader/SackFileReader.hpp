@@ -2,16 +2,15 @@
 
 #include <Database.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class SackFileReader
-{
+class SackFileReader {
 public:
-    SackFileReader(Database & database);
+    SackFileReader(Database& database);
     void readFile(std::string const& fileName);
+
 private:
-    Database & m_database;
+    Database& m_database;
 };
 
-}
+}  // namespace alba

@@ -10,17 +10,13 @@ using namespace alba::algebra::Functions;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace VectorUtilities
-{
+namespace VectorUtilities {
 
-TEST(PlaneMotionUtilitiesTest, GetInstantaneousVelocityWorks)
-{
+TEST(PlaneMotionUtilitiesTest, GetInstantaneousVelocityWorks) {
     Term x(createExpressionIfPossible({getEAsATerm(), "^", "(", -2, "*", "t", ")"}));
     Term y(createExpressionIfPossible({3, "*", getEAsATerm(), "^", "t"}));
     MathVectorOfTwoTerms termVector{x, y};
@@ -31,8 +27,7 @@ TEST(PlaneMotionUtilitiesTest, GetInstantaneousVelocityWorks)
     EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
-TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromVelocityWorks)
-{
+TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromVelocityWorks) {
     Term x(createExpressionIfPossible({getEAsATerm(), "^", "(", -2, "*", "t", ")"}));
     Term y(createExpressionIfPossible({3, "*", getEAsATerm(), "^", "t"}));
     MathVectorOfTwoTerms termVector{x, y};
@@ -43,8 +38,7 @@ TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromVelocityWorks)
     EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
-TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromPathWorks)
-{
+TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromPathWorks) {
     Term x(Monomial(2, {{"t", 3}}));
     Term y(Monomial(4, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
@@ -55,32 +49,34 @@ TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromPathWorks)
     EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
-TEST(PlaneMotionUtilitiesTest, GetTangentPartOfAccelerationWorks)
-{
+TEST(PlaneMotionUtilitiesTest, GetTangentPartOfAccelerationWorks) {
     Term x(Monomial(2, {{"t", 3}}));
     Term y(Monomial(4, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getTangentPartOfAcceleration(termVector, "t"));
 
-    string stringToExpect("{((36[t^5] + 216[t^3] + 192[t])/((1[t^2] + 4)^(3/2))/((9[t^2] + 16)^(1/2))), ((48[t^4] + 288[t^2] + 256)/((1[t^2] + 4)^(3/2))/((9[t^2] + 16)^(1/2)))}");
+    string stringToExpect(
+        "{((36[t^5] + 216[t^3] + 192[t])/((1[t^2] + 4)^(3/2))/((9[t^2] + 16)^(1/2))), ((48[t^4] + 288[t^2] + "
+        "256)/((1[t^2] + 4)^(3/2))/((9[t^2] + 16)^(1/2)))}");
     EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
-TEST(PlaneMotionUtilitiesTest, GetNormalPartOfAccelerationWorks)
-{
+TEST(PlaneMotionUtilitiesTest, GetNormalPartOfAccelerationWorks) {
     Term x(Monomial(2, {{"t", 3}}));
     Term y(Monomial(4, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getNormalPartOfAcceleration(termVector, "t"));
 
-    string stringToExpect("{((864[t^5] + 4608[t^3] + 6144[t])/(81[t^6] + 612[t^4] + 1408[t^2] + 1024)), ((-648[t^6] + -3456[t^4] + -4608[t^2])/(81[t^6] + 612[t^4] + 1408[t^2] + 1024))}");
+    string stringToExpect(
+        "{((864[t^5] + 4608[t^3] + 6144[t])/(81[t^6] + 612[t^4] + 1408[t^2] + 1024)), ((-648[t^6] + -3456[t^4] + "
+        "-4608[t^2])/(81[t^6] + 612[t^4] + 1408[t^2] + 1024))}");
     EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
-}
+}  // namespace VectorUtilities
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

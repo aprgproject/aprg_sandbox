@@ -3,11 +3,9 @@
 #include <Statistics/DataSample.hpp>
 #include <Statistics/DataStatistics.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace OneDimensionsStatistics
-{
+namespace OneDimensionsStatistics {
 
 using Sample = DataSample<1>;
 using Statistics = DataStatistics<1>;
@@ -16,6 +14,6 @@ using Samples = std::vector<Sample>;
 
 PairOfDoubles getMinMaxFromSamples(Samples const& samples);
 
-}
+}  // namespace OneDimensionsStatistics
 
-}
+}  // namespace alba

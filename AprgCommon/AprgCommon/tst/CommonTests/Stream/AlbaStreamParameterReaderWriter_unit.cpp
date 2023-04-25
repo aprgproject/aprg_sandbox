@@ -10,11 +10,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(ReaderWriterParameterTest, EmptyFileTest)
-{
+TEST(ReaderWriterParameterTest, EmptyFileTest) {
     ifstream readTestFile(AlbaLocalPathHandler(APRG_COMMON_EMPTY_TEST_FILE).getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
 
@@ -27,8 +25,7 @@ TEST(ReaderWriterParameterTest, EmptyFileTest)
     EXPECT_TRUE(reader.readData<string>().empty());
 }
 
-TEST(ReaderWriterParameterTest, SingleParameterTest)
-{
+TEST(ReaderWriterParameterTest, SingleParameterTest) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
@@ -52,13 +49,12 @@ TEST(ReaderWriterParameterTest, SingleParameterTest)
     EXPECT_EQ("12345", reader.readData<string>());
 }
 
-TEST(ReaderWriterParameterTest, VectorTest)
-{
+TEST(ReaderWriterParameterTest, VectorTest) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
 
-    vector<unsigned int> sampleVector{1,2,3,4,5};
+    vector<unsigned int> sampleVector{1, 2, 3, 4, 5};
     AlbaStreamParameterWriter writer(writeTestFile);
     writer.writeVectorData(sampleVector);
     writer.flush();
@@ -74,8 +70,7 @@ TEST(ReaderWriterParameterTest, VectorTest)
     EXPECT_EQ(sampleVector, retrievedVector);
 }
 
-TEST(ReaderWriterParameterTest, MapTest)
-{
+TEST(ReaderWriterParameterTest, MapTest) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
@@ -96,4 +91,4 @@ TEST(ReaderWriterParameterTest, MapTest)
     EXPECT_EQ(sampleMap, retrievedmap);
 }
 
-}
+}  // namespace alba

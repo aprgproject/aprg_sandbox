@@ -5,20 +5,16 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
-using TransformForTest = BurrowsWheelerTransform<Index, '_'>; // '_' is the end character
-}
+using TransformForTest = BurrowsWheelerTransform<Index, '_'>;  // '_' is the end character
+}  // namespace
 
-TEST(BurrowsWheelerTransformTest, EncodeWorksUsingExample1)
-{
+TEST(BurrowsWheelerTransformTest, EncodeWorksUsingExample1) {
     stringstream inputSs;
     inputSs << "^BANANA|";
     stringstream outputSs;
@@ -29,8 +25,7 @@ TEST(BurrowsWheelerTransformTest, EncodeWorksUsingExample1)
     EXPECT_EQ("BNN^AA_|A", outputSs.str());
 }
 
-TEST(BurrowsWheelerTransformTest, DecodeWorksUsingExample1)
-{
+TEST(BurrowsWheelerTransformTest, DecodeWorksUsingExample1) {
     stringstream inputSs;
     inputSs << "BNN^AA_|A";
     stringstream outputSs;
@@ -41,8 +36,7 @@ TEST(BurrowsWheelerTransformTest, DecodeWorksUsingExample1)
     EXPECT_EQ("^BANANA|", outputSs.str());
 }
 
-TEST(BurrowsWheelerTransformTest, EncodeWorksUsingExample2)
-{
+TEST(BurrowsWheelerTransformTest, EncodeWorksUsingExample2) {
     stringstream inputSs;
     inputSs << "ABRACADABRA!";
     stringstream outputSs;
@@ -53,8 +47,7 @@ TEST(BurrowsWheelerTransformTest, EncodeWorksUsingExample2)
     EXPECT_EQ("ARD_RCAAAABB!", outputSs.str());
 }
 
-TEST(BurrowsWheelerTransformTest, DecodeWorksUsingExample2)
-{
+TEST(BurrowsWheelerTransformTest, DecodeWorksUsingExample2) {
     stringstream inputSs;
     inputSs << "ARD_RCAAAABB!";
     stringstream outputSs;
@@ -65,6 +58,6 @@ TEST(BurrowsWheelerTransformTest, DecodeWorksUsingExample2)
     EXPECT_EQ("ABRACADABRA!", outputSs.str());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

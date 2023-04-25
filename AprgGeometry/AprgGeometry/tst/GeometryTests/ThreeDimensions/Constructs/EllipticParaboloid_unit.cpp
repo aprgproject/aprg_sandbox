@@ -7,14 +7,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-TEST(EllipticParaboloidTest, EmptyEllipticParaboloid)
-{
+TEST(EllipticParaboloidTest, EmptyEllipticParaboloid) {
     EllipticParaboloid ellipticParaboloid;
 
     EXPECT_EQ(Point(0, 0, 0), ellipticParaboloid.getCenter());
@@ -23,8 +20,7 @@ TEST(EllipticParaboloidTest, EmptyEllipticParaboloid)
     EXPECT_DOUBLE_EQ(0, ellipticParaboloid.getCValue());
 }
 
-TEST(EllipticParaboloidTest, EllipticParaboloidAtOriginWithRadius)
-{
+TEST(EllipticParaboloidTest, EllipticParaboloidAtOriginWithRadius) {
     EllipticParaboloid ellipticParaboloid(Point(0, 0, 0), 10, 11, 12);
 
     EXPECT_EQ(Point(0, 0, 0), ellipticParaboloid.getCenter());
@@ -36,8 +32,7 @@ TEST(EllipticParaboloidTest, EllipticParaboloidAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(6.5702479338842972, ellipticParaboloid.calculateZFromXAndY(5, 6));
 }
 
-TEST(EllipticParaboloidTest, EllipticParaboloidNotAtOriginWithRadius)
-{
+TEST(EllipticParaboloidTest, EllipticParaboloidNotAtOriginWithRadius) {
     EllipticParaboloid ellipticParaboloid(Point(1, 2, 3), 10, 11, 12);
 
     EXPECT_EQ(Point(1, 2, 3), ellipticParaboloid.getCenter());
@@ -49,6 +44,6 @@ TEST(EllipticParaboloidTest, EllipticParaboloidNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(3, ellipticParaboloid.calculateZFromXAndY(1, 2));
 }
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace alba

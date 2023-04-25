@@ -15,22 +15,17 @@
 #include <functional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AprgGraph
-{
+class AprgGraph {
 public:
-    enum class LabelType
-    {
-        VerticalLabel,
-        HorizontalLabel,
-        OriginLabel
-    };
-    using RangeWithDoubles=AlbaValueRange<double>;
+    enum class LabelType { VerticalLabel, HorizontalLabel, OriginLabel };
+    using RangeWithDoubles = AlbaValueRange<double>;
     using FunctionWithDoubles = std::function<double(double)>;
 
-    AprgGraph(std::string const& bitmapPath, AprgBitmap::BitmapXY const& originInBitmap, AprgBitmap::BitmapDoubleXY const& magnification);
+    AprgGraph(
+        std::string const& bitmapPath, AprgBitmap::BitmapXY const& originInBitmap,
+        AprgBitmap::BitmapDoubleXY const& magnification);
 
     void drawPoint(TwoDimensions::Point const& point, unsigned int const color);
     void drawDiscontinuousPoints(TwoDimensions::Points const& points, unsigned int const color);
@@ -46,7 +41,8 @@ public:
     void drawGrid(AprgBitmap::BitmapDoubleXY const& gridInterval);
     void drawFunctionUsingX(unsigned int const color, FunctionWithDoubles const& functionFromXToY);
     void drawFunctionUsingY(unsigned int const color, FunctionWithDoubles const& functionFromYToX);
-    void drawNumberLabel(LabelType const labelType, TwoDimensions::Point const& bitmapPointNumberPosition, double const number);
+    void drawNumberLabel(
+        LabelType const labelType, TwoDimensions::Point const& bitmapPointNumberPosition, double const number);
     void drawCharacter(AprgBitmap::BitmapXY const& upLeftPoint, char const character, unsigned int const colorToWrite);
     void saveChangesToBitmapFile();
 
@@ -76,4 +72,4 @@ private:
     alba::stringHelper::StringConverterWithFormatting m_numberToStringConverter;
 };
 
-}
+}  // namespace alba

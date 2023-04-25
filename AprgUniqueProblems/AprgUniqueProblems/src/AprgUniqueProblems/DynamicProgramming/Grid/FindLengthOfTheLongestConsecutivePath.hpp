@@ -2,11 +2,9 @@
 
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class FindLengthOfTheLongestConsecutivePath
-{
+class FindLengthOfTheLongestConsecutivePath {
 public:
     using Index = unsigned int;
     using Value = char;
@@ -23,12 +21,11 @@ public:
     Count getLongestLengthStartingAtUsingMemoizationDP(Index const x, Index const y) const;
 
 private:
-    Count getLongestLengthStartingAtUsingMemoizationDP(CountGrid & countGrid, Index const x, Index const y) const;
+    Count getLongestLengthStartingAtUsingMemoizationDP(CountGrid& countGrid, Index const x, Index const y) const;
     ValueGrid m_inputGrid;
 };
 
-}
-
+}  // namespace alba
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -36,8 +33,6 @@ private:
 // ---> Search for the neighbors with the next value
 // ---> Recursively call the count of these neighbors
 // ---> Return the maximum of the neighbors counts and add one for this cell
-
-
 
 // Find length of the longest consecutive path from a given starting character.
 
@@ -66,4 +61,3 @@ private:
 // Do Depth First Search (DFS) from all occurrences to find all consecutive paths.
 // While doing DFS, we may encounter many subproblems again and again.
 // So we use dynamic programming to store results of subproblems.
-

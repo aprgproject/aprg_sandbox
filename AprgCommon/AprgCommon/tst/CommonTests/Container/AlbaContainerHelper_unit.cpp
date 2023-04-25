@@ -14,21 +14,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace containerHelper
-{
+namespace containerHelper {
 
-TEST(ContainerTest, GetDelimeterBasedOnFormatWorks)
-{
+TEST(ContainerTest, GetDelimeterBasedOnFormatWorks) {
     EXPECT_EQ(", ", getDelimeterBasedOnFormat(StreamFormat::String));
     EXPECT_EQ("\n", getDelimeterBasedOnFormat(StreamFormat::File));
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsForNonSetWorks)
-{
-    vector<int> sortedVector{-10,-5,1,2,4,5,23,50};
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsForNonSetWorks) {
+    vector<int> sortedVector{-10, -5, 1, 2, 4, 5, 23, 50};
 
     auto iteratorPairToVerify(getLowerAndUpperConstIteratorsForNonSet(sortedVector, 7));
 
@@ -36,20 +32,18 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsForNonSetWorks)
     EXPECT_EQ(23, *(iteratorPairToVerify.second));
 }
 
-TEST(ContainerTest, GetLowerAndUpperValuesForNonSetWorks)
-{
-    vector<int> sortedVector{-10,-5,1,2,4,5,23,50};
+TEST(ContainerTest, GetLowerAndUpperValuesForNonSetWorks) {
+    vector<int> sortedVector{-10, -5, 1, 2, 4, 5, 23, 50};
 
-    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sortedVector, -100));
-    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sortedVector, -10));
-    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sortedVector, 50));
-    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sortedVector, 10000));
-    EXPECT_EQ((pair<int,int>(23, 23)), getLowerAndUpperValuesForNonSet(sortedVector, 23));
-    EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesForNonSet(sortedVector, 7));
+    EXPECT_EQ((pair<int, int>(-10, -10)), getLowerAndUpperValuesForNonSet(sortedVector, -100));
+    EXPECT_EQ((pair<int, int>(-10, -10)), getLowerAndUpperValuesForNonSet(sortedVector, -10));
+    EXPECT_EQ((pair<int, int>(50, 50)), getLowerAndUpperValuesForNonSet(sortedVector, 50));
+    EXPECT_EQ((pair<int, int>(50, 50)), getLowerAndUpperValuesForNonSet(sortedVector, 10000));
+    EXPECT_EQ((pair<int, int>(23, 23)), getLowerAndUpperValuesForNonSet(sortedVector, 23));
+    EXPECT_EQ((pair<int, int>(5, 23)), getLowerAndUpperValuesForNonSet(sortedVector, 7));
 }
 
-TEST(ContainerTest, CountItemsInBetweenForNonSetWorks)
-{
+TEST(ContainerTest, CountItemsInBetweenForNonSetWorks) {
     vector<char> sortedVector{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
 
     EXPECT_EQ(5U, countItemsInBetweenForNonSet(sortedVector, 'E', 'S'));
@@ -57,8 +51,7 @@ TEST(ContainerTest, CountItemsInBetweenForNonSetWorks)
     EXPECT_EQ(4U, countItemsInBetweenForNonSet(sortedVector, 'F', 'T'));
 }
 
-TEST(ContainerTest, GetItemsInBetweenForNonSetWorks)
-{
+TEST(ContainerTest, GetItemsInBetweenForNonSetWorks) {
     vector<char> sortedVector{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
 
     vector<char> expectedVector1{'E', 'H', 'M', 'R', 'S'};
@@ -69,9 +62,8 @@ TEST(ContainerTest, GetItemsInBetweenForNonSetWorks)
     EXPECT_EQ(expectedVector3, getItemsInBetweenForNonSet(sortedVector, 'F', 'T'));
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsForSetWorks)
-{
-    set<int> sampleSet{-10,-5,1,2,4,5,23,50};
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsForSetWorks) {
+    set<int> sampleSet{-10, -5, 1, 2, 4, 5, 23, 50};
 
     auto iteratorPairToVerify(getLowerAndUpperConstIteratorsForNonSet(sampleSet, 7));
 
@@ -79,20 +71,18 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsForSetWorks)
     EXPECT_EQ(23, *(iteratorPairToVerify.second));
 }
 
-TEST(ContainerTest, GetLowerAndUpperValuesForSetWorks)
-{
-    set<int> sampleSet{-10,-5,1,2,4,5,23,50};
+TEST(ContainerTest, GetLowerAndUpperValuesForSetWorks) {
+    set<int> sampleSet{-10, -5, 1, 2, 4, 5, 23, 50};
 
-    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sampleSet, -100));
-    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sampleSet, -10));
-    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sampleSet, 50));
-    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sampleSet, 10000));
-    EXPECT_EQ((pair<int,int>(23, 23)), getLowerAndUpperValuesForNonSet(sampleSet, 23));
-    EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesForNonSet(sampleSet, 7));
+    EXPECT_EQ((pair<int, int>(-10, -10)), getLowerAndUpperValuesForNonSet(sampleSet, -100));
+    EXPECT_EQ((pair<int, int>(-10, -10)), getLowerAndUpperValuesForNonSet(sampleSet, -10));
+    EXPECT_EQ((pair<int, int>(50, 50)), getLowerAndUpperValuesForNonSet(sampleSet, 50));
+    EXPECT_EQ((pair<int, int>(50, 50)), getLowerAndUpperValuesForNonSet(sampleSet, 10000));
+    EXPECT_EQ((pair<int, int>(23, 23)), getLowerAndUpperValuesForNonSet(sampleSet, 23));
+    EXPECT_EQ((pair<int, int>(5, 23)), getLowerAndUpperValuesForNonSet(sampleSet, 7));
 }
 
-TEST(ContainerTest, CountItemsInBetweenForSetWorks)
-{
+TEST(ContainerTest, CountItemsInBetweenForSetWorks) {
     set<char> sampleSet{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
 
     EXPECT_EQ(5U, countItemsInBetweenForNonSet(sampleSet, 'E', 'S'));
@@ -100,8 +90,7 @@ TEST(ContainerTest, CountItemsInBetweenForSetWorks)
     EXPECT_EQ(4U, countItemsInBetweenForNonSet(sampleSet, 'F', 'T'));
 }
 
-TEST(ContainerTest, GetItemsInBetweenForSetWorks)
-{
+TEST(ContainerTest, GetItemsInBetweenForSetWorks) {
     set<char> sampleSet{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
 
     set<char> expectedSet1{'E', 'H', 'M', 'R', 'S'};
@@ -112,15 +101,14 @@ TEST(ContainerTest, GetItemsInBetweenForSetWorks)
     EXPECT_EQ(expectedSet3, getItemsInBetweenForNonSet(sampleSet, 'F', 'T'));
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorks)
-{
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorks) {
     map<unsigned int, unsigned int> sampleMap{{1, 10}, {3, 30}, {5, 50}};
-    using MapIterator=map<unsigned int, unsigned int>::const_iterator;
-    using PairOfIterators=pair<MapIterator, MapIterator>;
+    using MapIterator = map<unsigned int, unsigned int>::const_iterator;
+    using PairOfIterators = pair<MapIterator, MapIterator>;
 
-    MapIterator firstIterator=sampleMap.find(1);
-    MapIterator secondIterator=sampleMap.find(3);
-    MapIterator thirdIterator=sampleMap.find(5);
+    MapIterator firstIterator = sampleMap.find(1);
+    MapIterator secondIterator = sampleMap.find(3);
+    MapIterator thirdIterator = sampleMap.find(5);
     PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
@@ -141,15 +129,14 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorks)
     EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
 }
 
-TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorks)
-{
+TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorks) {
     map<unsigned int, unsigned int> sampleMap{{1, 10}, {3, 30}, {5, 50}};
-    using MapIterator=map<unsigned int, unsigned int>::iterator;
-    using PairOfIterators=pair<MapIterator, MapIterator>;
+    using MapIterator = map<unsigned int, unsigned int>::iterator;
+    using PairOfIterators = pair<MapIterator, MapIterator>;
 
-    MapIterator firstIterator=sampleMap.find(1);
-    MapIterator secondIterator=sampleMap.find(3);
-    MapIterator thirdIterator=sampleMap.find(5);
+    MapIterator firstIterator = sampleMap.find(1);
+    MapIterator secondIterator = sampleMap.find(3);
+    MapIterator thirdIterator = sampleMap.find(5);
     PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
@@ -170,22 +157,21 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorks)
     EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorksOnMultiMap)
-{
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorksOnMultiMap) {
     multimap<unsigned int, unsigned int> sampleMap{{1, 11}, {1, 12}, {3, 31}, {3, 32}, {5, 51}, {5, 52}};
-    using MultimapIterator=multimap<unsigned int, unsigned int>::const_iterator;
-    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
+    using MultimapIterator = multimap<unsigned int, unsigned int>::const_iterator;
+    using PairOfIterators = pair<MultimapIterator, MultimapIterator>;
 
-    MultimapIterator firstIterator=sampleMap.begin();
-    MultimapIterator secondIterator=firstIterator;
+    MultimapIterator firstIterator = sampleMap.begin();
+    MultimapIterator secondIterator = firstIterator;
     secondIterator++;
-    MultimapIterator thirdIterator=secondIterator;
+    MultimapIterator thirdIterator = secondIterator;
     thirdIterator++;
-    MultimapIterator fourthIterator=thirdIterator;
+    MultimapIterator fourthIterator = thirdIterator;
     fourthIterator++;
-    MultimapIterator fifthIterator=fourthIterator;
+    MultimapIterator fifthIterator = fourthIterator;
     fifthIterator++;
-    MultimapIterator sixthIterator=fifthIterator;
+    MultimapIterator sixthIterator = fifthIterator;
     sixthIterator++;
     PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
@@ -207,22 +193,21 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorksOnMultiMap)
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
 
-TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap)
-{
+TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap) {
     multimap<unsigned int, unsigned int> sampleMap{{1, 11}, {1, 12}, {3, 31}, {3, 32}, {5, 51}, {5, 52}};
-    using MultimapIterator=multimap<unsigned int, unsigned int>::iterator;
-    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
+    using MultimapIterator = multimap<unsigned int, unsigned int>::iterator;
+    using PairOfIterators = pair<MultimapIterator, MultimapIterator>;
 
-    MultimapIterator firstIterator=sampleMap.begin();
-    MultimapIterator secondIterator=firstIterator;
+    MultimapIterator firstIterator = sampleMap.begin();
+    MultimapIterator secondIterator = firstIterator;
     secondIterator++;
-    MultimapIterator thirdIterator=secondIterator;
+    MultimapIterator thirdIterator = secondIterator;
     thirdIterator++;
-    MultimapIterator fourthIterator=thirdIterator;
+    MultimapIterator fourthIterator = thirdIterator;
     fourthIterator++;
-    MultimapIterator fifthIterator=fourthIterator;
+    MultimapIterator fifthIterator = fourthIterator;
     fifthIterator++;
-    MultimapIterator sixthIterator=fifthIterator;
+    MultimapIterator sixthIterator = fifthIterator;
     sixthIterator++;
     PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
@@ -244,9 +229,8 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap)
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
 
-TEST(ContainerTest, GetUnderlyingContainerWorksOnStack)
-{
-    using Adapter=std::stack<unsigned int>;
+TEST(ContainerTest, GetUnderlyingContainerWorksOnStack) {
+    using Adapter = std::stack<unsigned int>;
     Adapter adapter({1U, 2U, 3U});
 
     Adapter::container_type const& containerToVerify(getUnderlyingContainer(adapter));
@@ -255,9 +239,8 @@ TEST(ContainerTest, GetUnderlyingContainerWorksOnStack)
     EXPECT_EQ(containerToExpect, containerToVerify);
 }
 
-TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack)
-{
-    using Adapter=std::stack<unsigned int>;
+TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack) {
+    using Adapter = std::stack<unsigned int>;
     Adapter adapter({1U, 2U, 3U});
 
     Adapter::container_type& containerToVerify(getUnderlyingContainerReference(adapter));
@@ -275,10 +258,9 @@ TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack)
     EXPECT_TRUE(adapter.empty());
 }
 
-TEST(ContainerTest, SaveContentsToStreamWorksForAVectorOfIntegersToFile)
-{
+TEST(ContainerTest, SaveContentsToStreamWorksForAVectorOfIntegersToFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
+    array<int, 6> temporaryArray{0, -23, 4, 379, -482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);
@@ -300,10 +282,9 @@ TEST(ContainerTest, SaveContentsToStreamWorksForAVectorOfIntegersToFile)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, SaveContentsToStreamWorksForAnArrayOfIntegersToFile)
-{
+TEST(ContainerTest, SaveContentsToStreamWorksForAnArrayOfIntegersToFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    vector<int> temporaryVector{0, -23, 4, 379,- 482, 37};
+    vector<int> temporaryVector{0, -23, 4, 379, -482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryVector, StreamFormat::File);
@@ -325,10 +306,9 @@ TEST(ContainerTest, SaveContentsToStreamWorksForAnArrayOfIntegersToFile)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, SaveContentsToStreamWorksForASetOfIntegersToFile)
-{
+TEST(ContainerTest, SaveContentsToStreamWorksForASetOfIntegersToFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    set<int> temporarySet{0, -23, 4, 379,- 482, 37};
+    set<int> temporarySet{0, -23, 4, 379, -482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporarySet, StreamFormat::File);
@@ -350,10 +330,9 @@ TEST(ContainerTest, SaveContentsToStreamWorksForASetOfIntegersToFile)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, SaveContentsToStreamWorksForAMapOfIntegersToFile)
-{
+TEST(ContainerTest, SaveContentsToStreamWorksForAMapOfIntegersToFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    map<int,int> temporaryMap;
+    map<int, int> temporaryMap;
     temporaryMap[83] = 95;
     temporaryMap[2348] = 17;
     temporaryMap[-76] = 74;
@@ -378,15 +357,14 @@ TEST(ContainerTest, SaveContentsToStreamWorksForAMapOfIntegersToFile)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForAVectorOfIntegersFromFile)
-{
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAVectorOfIntegersFromFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     array<int, 4> temporaryArray{};
     ofstream outputTestFile(testFilePath.getFullPath());
-    outputTestFile<<"18723\n";
-    outputTestFile<<"-608\n";
-    outputTestFile<<"-43735\n";
-    outputTestFile<<"23234\n";
+    outputTestFile << "18723\n";
+    outputTestFile << "-608\n";
+    outputTestFile << "-43735\n";
+    outputTestFile << "23234\n";
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -401,15 +379,14 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAVectorOfIntegersFromFile)
     EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile)
-{
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     vector<int> temporaryVector;
     ofstream outputTestFile(testFilePath.getFullPath());
-    outputTestFile<<"18723\n";
-    outputTestFile<<"-608\n";
-    outputTestFile<<"-43735\n";
-    outputTestFile<<"23234\n";
+    outputTestFile << "18723\n";
+    outputTestFile << "-608\n";
+    outputTestFile << "-43735\n";
+    outputTestFile << "23234\n";
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -424,15 +401,14 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile)
     EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile)
-{
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     set<int> temporarySet;
     ofstream outputTestFile(testFilePath.getFullPath());
-    outputTestFile<<"18723\n";
-    outputTestFile<<"-608\n";
-    outputTestFile<<"-43735\n";
-    outputTestFile<<"23234\n";
+    outputTestFile << "18723\n";
+    outputTestFile << "-608\n";
+    outputTestFile << "-43735\n";
+    outputTestFile << "23234\n";
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -447,15 +423,14 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile)
     EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile)
-{
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    map<int,int> temporaryMap;
+    map<int, int> temporaryMap;
     ofstream outputTestFile(testFilePath.getFullPath());
-    outputTestFile<<"1\n";
-    outputTestFile<<"2\n";
-    outputTestFile<<"3\n";
-    outputTestFile<<"4\n";
+    outputTestFile << "1\n";
+    outputTestFile << "2\n";
+    outputTestFile << "3\n";
+    outputTestFile << "4\n";
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -471,40 +446,36 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile)
     EXPECT_EQ(4, it->second);
 }
 
-TEST(ContainerTest, GetStringFromContentsOfArrayWorks)
-{
+TEST(ContainerTest, GetStringFromContentsOfArrayWorks) {
     array<int, 4> temporaryArray{23, -345, 5324, 1};
     EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContents(temporaryArray));
 }
 
-TEST(ContainerTest, GetStringFromContentsOfVectorWorks)
-{
+TEST(ContainerTest, GetStringFromContentsOfVectorWorks) {
     vector<int> temporaryVector{23, -345, 5324, 1};
     EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContents(temporaryVector));
 }
 
-TEST(ContainerTest, GetStringFromContentsOfSetWorks)
-{
+TEST(ContainerTest, GetStringFromContentsOfSetWorks) {
     set<int> temporarySet{23, -345, 5324, 1};
     EXPECT_EQ("-345, 1, 23, 5324, ", getStringFromContents(temporarySet));
 }
 
-TEST(ContainerTest, GetStringFromContentsOfMapWorks)
-{
-    map<int,int> temporaryMap;
+TEST(ContainerTest, GetStringFromContentsOfMapWorks) {
+    map<int, int> temporaryMap;
     temporaryMap[83] = 95;
     temporaryMap[2348] = 17;
     temporaryMap[-76] = 74;
     EXPECT_EQ("{-76:74}, {83:95}, {2348:17}, ", getStringFromContents(temporaryMap));
 }
 
-TEST(ContainerTest, GetStringFromContentsWithNumberFormatWorks)
-{
+TEST(ContainerTest, GetStringFromContentsWithNumberFormatWorks) {
     vector<int> temporaryVector{23, -345, 5324, 1};
-    EXPECT_EQ("Decimal values: {23, 4294966951, 5324, 1, }\nHexadecimal values: {17, fffffea7, 14cc, 1, }\n",
-              getStringInDecimalAndHexadecimalFormat(temporaryVector));
+    EXPECT_EQ(
+        "Decimal values: {23, 4294966951, 5324, 1, }\nHexadecimal values: {17, fffffea7, 14cc, 1, }\n",
+        getStringInDecimalAndHexadecimalFormat(temporaryVector));
 }
 
-}
+}  // namespace containerHelper
 
-}
+}  // namespace alba

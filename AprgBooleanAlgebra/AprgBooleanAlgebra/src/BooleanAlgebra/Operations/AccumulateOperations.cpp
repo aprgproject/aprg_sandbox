@@ -6,105 +6,66 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-void accumulateTerms(
-        Term & combinedTerm,
-        Terms const& termsToCombine,
-        OperatorLevel const operatorLevel)
-{
-    if(OperatorLevel::And == operatorLevel)
-    {
+void accumulateTerms(Term& combinedTerm, Terms const& termsToCombine, OperatorLevel const operatorLevel) {
+    if (OperatorLevel::And == operatorLevel) {
         accumulateTermsWithAndOperation(combinedTerm, termsToCombine);
-    }
-    else if(OperatorLevel::Or == operatorLevel)
-    {
+    } else if (OperatorLevel::Or == operatorLevel) {
         accumulateTermsWithOrOperation(combinedTerm, termsToCombine);
     }
 }
 
-void accumulateTermsWithAndOperation(
-        Term & combinedTerm,
-        Terms const& termsToCombine)
-{
+void accumulateTermsWithAndOperation(Term& combinedTerm, Terms const& termsToCombine) {
     bool isFirst(willHaveNoEffectOnAndOperation(combinedTerm));
-    if(isTheValue(combinedTerm, false))
-    {
+    if (isTheValue(combinedTerm, false)) {
         combinedTerm = false;
-    }
-    else
-    {
-        for(Term const& term : termsToCombine)
-        {
-            if(isTheValue(term, false))
-            {
+    } else {
+        for (Term const& term : termsToCombine) {
+            if (isTheValue(term, false)) {
                 combinedTerm = false;
                 break;
-            }
-            else if(willHaveNoEffectOnAndOperation(term))
-            {
+            } else if (willHaveNoEffectOnAndOperation(term)) {
                 continue;
-            }
-            else if(isFirst)
-            {
+            } else if (isFirst) {
                 combinedTerm = term;
-                isFirst=false;
-            }
-            else
-            {
+                isFirst = false;
+            } else {
                 combinedTerm = performAnd(combinedTerm, term);
             }
         }
-        if(combinedTerm.isEmpty())
-        {
+        if (combinedTerm.isEmpty()) {
             combinedTerm = true;
         }
     }
 }
 
-void accumulateTermsWithOrOperation(
-        Term & combinedTerm,
-        Terms const& termsToCombine)
-{
+void accumulateTermsWithOrOperation(Term& combinedTerm, Terms const& termsToCombine) {
     bool isFirst(willHaveNoEffectOnOrOperation(combinedTerm));
-    if(isTheValue(combinedTerm, true))
-    {
+    if (isTheValue(combinedTerm, true)) {
         combinedTerm = true;
-    }
-    else
-    {
-        for(Term const& term : termsToCombine)
-        {
-            if(isTheValue(term, true))
-            {
+    } else {
+        for (Term const& term : termsToCombine) {
+            if (isTheValue(term, true)) {
                 combinedTerm = true;
                 break;
-            }
-            else if(willHaveNoEffectOnOrOperation(term))
-            {
+            } else if (willHaveNoEffectOnOrOperation(term)) {
                 continue;
-            }
-            else if(isFirst)
-            {
+            } else if (isFirst) {
                 combinedTerm = term;
-                isFirst=false;
-            }
-            else
-            {
+                isFirst = false;
+            } else {
                 combinedTerm = performOr(combinedTerm, term);
             }
         }
-        if(combinedTerm.isEmpty())
-        {
+        if (combinedTerm.isEmpty()) {
             combinedTerm = false;
         }
     }
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

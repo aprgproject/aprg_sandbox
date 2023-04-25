@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SumSearch = SubArraySum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
-}
+}  // namespace
 
-TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1)
-{
+TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1) {
     ValuesForTest valuesToTest{1U, 3U, 2U, 5U, 1U, 1U, 2U, 3U};
     SumSearch search(valuesToTest);
 
@@ -28,6 +24,6 @@ TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1)
     EXPECT_EQ(valuesToExpect, valuesToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

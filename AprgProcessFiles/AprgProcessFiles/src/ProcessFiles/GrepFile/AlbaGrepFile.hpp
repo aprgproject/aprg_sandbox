@@ -6,11 +6,9 @@
 #include <optional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaGrepFile
-{
+class AlbaGrepFile {
 public:
     using UpdateFunctionWithPercentage = std::function<void(double)>;
 
@@ -19,6 +17,7 @@ public:
     bool isOutputFileWritten() const;
     void processFile(std::string const& inputFilePath, std::string const& outputFilePath);
     AlbaGrepStringEvaluator& getGrepEvaluator();
+
 private:
     void updateAfterOneIteration(double const percentage);
     bool m_isOutputFileWritten;
@@ -26,4 +25,4 @@ private:
     std::optional<UpdateFunctionWithPercentage> m_updateFunctionAfterOneIterationOptional;
 };
 
-}
+}  // namespace alba

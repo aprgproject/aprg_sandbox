@@ -5,14 +5,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 constexpr VertexForTest MAX_VERTEX_VALUE = 7U;
 
@@ -21,14 +18,13 @@ using UndirectedGraphForTest = UndirectedGraphWithAdjacencyMatrix<VertexForTest,
 using DirectedGraphForTest = DirectedGraphWithAdjacencyMatrix<VertexForTest, MAX_VERTEX_VALUE>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
-using ShortestPathsForUndirectedGraphForTest
-= ShortestDistanceByTraverseCountUsingAdjacencyMatrix<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
-using ShortestPathsForDirectedGraphForTest
-= ShortestDistanceByTraverseCountUsingAdjacencyMatrix<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest>;
-}
+using ShortestPathsForUndirectedGraphForTest = ShortestDistanceByTraverseCountUsingAdjacencyMatrix<
+    VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
+using ShortestPathsForDirectedGraphForTest =
+    ShortestDistanceByTraverseCountUsingAdjacencyMatrix<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest>;
+}  // namespace
 
-TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanceWorksWithUndirectedGraphOnExample1)
-{
+TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanceWorksWithUndirectedGraphOnExample1) {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(1U, 4U, 1.0);
     graph.connect(1U, 2U, 1.5);
@@ -47,8 +43,7 @@ TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanc
     EXPECT_DOUBLE_EQ(4.5, shortestPaths.getShortestDistance(1U, 6U));
 }
 
-TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanceWorksWithDirectedGraphOnExample1)
-{
+TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanceWorksWithDirectedGraphOnExample1) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(1U, 4U, 1.0);
     graph.connect(1U, 2U, 1.5);
@@ -67,8 +62,7 @@ TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanc
     EXPECT_DOUBLE_EQ(4.5, shortestPaths.getShortestDistance(1U, 6U));
 }
 
-TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanceWorksWithDirectedGraphOnExample2)
-{
+TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanceWorksWithDirectedGraphOnExample2) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(1U, 4U, 4.0);
     graph.connect(2U, 1U, 2.0);
@@ -89,6 +83,6 @@ TEST(ShortestDistanceByTraverseCountUsingAdjacencyMatrixTest, GetShortestDistanc
     EXPECT_DOUBLE_EQ(8, shortestPaths.getShortestDistance(2U, 5U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

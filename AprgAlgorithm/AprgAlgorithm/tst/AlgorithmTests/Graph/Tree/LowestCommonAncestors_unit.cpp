@@ -3,23 +3,19 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using LowestCommonAncestorsForTest = LowestCommonAncestors<VertexForTest>;
 using VerticesForTest = LowestCommonAncestorsForTest::Vertices;
 using DepthsForTest = LowestCommonAncestorsForTest::Depths;
-}
+}  // namespace
 
-TEST(LowestCommonAncestorsTest, Example1Works)
-{
+TEST(LowestCommonAncestorsTest, Example1Works) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
@@ -41,8 +37,7 @@ TEST(LowestCommonAncestorsTest, Example1Works)
     EXPECT_EQ(2U, lowestCommonAncestors.getDistanceBetweenVertices(8U, 9U));
 }
 
-TEST(LowestCommonAncestorsTest, Example2Works)
-{
+TEST(LowestCommonAncestorsTest, Example2Works) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
@@ -63,6 +58,6 @@ TEST(LowestCommonAncestorsTest, Example2Works)
     EXPECT_EQ(3U, lowestCommonAncestors.getDistanceBetweenVertices(5U, 8U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

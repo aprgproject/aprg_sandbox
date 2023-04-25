@@ -13,23 +13,21 @@ using namespace alba::mathHelper;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(IntegrationGeometryUtilitiesTest, GetAreaInBetweenTwoTermsInAnIntervalWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetAreaInBetweenTwoTermsInAnIntervalWorks) {
     Term lowerTerm(Monomial(1, {{"x", 2}}));
     Term higherTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {{"x", 1}})});
 
-    EXPECT_EQ(Term(AlbaNumber::createFraction(8, 3)), getAreaInBetweenTwoTermsInAnInterval(lowerTerm, higherTerm, {"x", 0, 2}));
+    EXPECT_EQ(
+        Term(AlbaNumber::createFraction(8, 3)),
+        getAreaInBetweenTwoTermsInAnInterval(lowerTerm, higherTerm, {"x", 0, 2}));
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnCrossSectionalAreaWorksOnPyramidWithSquareBase)
-{
-    Term ratio = Term("side")/Term("height");
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnCrossSectionalAreaWorksOnPyramidWithSquareBase) {
+    Term ratio = Term("side") / Term("height");
     Term crossSectionalArea(createExpressionIfPossible({"(", ratio, "*", "z", ")", "^", 2}));
 
     Term termToVerify(getVolumeUsingOnCrossSectionalArea(crossSectionalArea, {"z", 0, "height"}));
@@ -38,8 +36,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnCrossSectionalAreaWorksOn
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownCone)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownCone) {
     Term edgeOfTheConeInY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
 
     Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfTheConeInY, {"y", 0, "height"}));
@@ -48,8 +45,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaBasedOnSolidOfRevolutionWorksOnUpsideDownCone)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaBasedOnSolidOfRevolutionWorksOnUpsideDownCone) {
     Term edgeOfTheConeInY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
 
     Term termToVerify(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfTheConeInY, {"y", 0, "height"}));
@@ -58,29 +54,28 @@ TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaBasedOnSolidOfRevolutionWor
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeAndSurfaceAreaBasedOnSolidOfRevolutionWorksOnGabrielsHorn)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeAndSurfaceAreaBasedOnSolidOfRevolutionWorksOnGabrielsHorn) {
     // The painters paradox (volume is definite, but surface are is infinite).
     // Computation of the volume:
     // The horn follows the form y=1/x and starts at x=1 and ends at infinity
     Term edgeOfHornInX(Monomial(1, {{"x", -1}}));
 
     Term actualVolume(getVolumeUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
-    //Term actualSurfaceArea(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
+    // Term actualSurfaceArea(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1,
+    // getPositiveInfinityAsATerm()}));
     // The surface area is hard to integrate: (((1[x^4] + 1)^(1/2))/1[x^3])
     // This can be solved via integration by parts u = (1+x4)^(1/2), v' = 1/(x^3), check symbolab.com
 
     Term expectedVolume(getPiAsATerm());
-    //Term expectedSurfaceArea(getPositiveInfinityAsATerm());
+    // Term expectedSurfaceArea(getPositiveInfinityAsATerm());
     EXPECT_EQ(expectedVolume, actualVolume);
-    //EXPECT_EQ(expectedSurfaceArea, actualSurfaceArea);
+    // EXPECT_EQ(expectedSurfaceArea, actualSurfaceArea);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole) {
     Term edgeOfTheCone1InY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
-    Term edgeOfTheCone2InY(Polynomial
-    {Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
+    Term edgeOfTheCone2InY(
+        Polynomial{Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
 
     Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfTheCone1InY, edgeOfTheCone2InY, {"y", 0, "height"}));
 
@@ -88,8 +83,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnParabolaCupHole)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnParabolaCupHole) {
     Term edgeOfTheParabolaInX(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getVolumeUsingCylindricalShells(edgeOfTheParabolaInX, {"x", 0, "radius"}));
@@ -98,8 +92,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnPar
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcWorks) {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(2, 3)}}));
 
     Term termToVerify(getLengthOfArc(termToTest, {"x", 1, 8}));
@@ -108,8 +101,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcInPolarCoordinatesWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcInPolarCoordinatesWorks) {
     Term radiusOfLimacon(Monomial(2, {{"theta", 1}}));
 
     Term termToVerify(getLengthOfArcInPolarCoordinates(radiusOfLimacon, {"theta", 0, getPiAsATerm()}));
@@ -118,8 +110,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcInPolarCoordinatesWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getTotalMassOfARod(termToTest, {"x", 0, "l"}));
@@ -128,8 +119,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getMomentOfMassOfARod(termToTest, {"x", 0, "l"}));
@@ -138,8 +128,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getCenterOfMassOfARod(termToTest, {"x", 0, "l"}));
@@ -148,8 +137,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getTotalMassOfALamina(termToTest, {"x", 0, "x"}));
@@ -158,8 +146,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     TermPair termPairToVerify(getMomentOfMassOfALamina(termToTest, {"x", 0, "x"}));
@@ -170,20 +157,18 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks)
     EXPECT_EQ(termToExpectInY, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     TermPair termPairToVerify(getCenterOfMassOfALamina(termToTest, {"x", 0, "x"}));
 
     Term termToExpectInX(Monomial(AlbaNumber::createFraction(3, 10), {{"x", 2}}));
-    Term termToExpectInY(Monomial(AlbaNumber::createFraction(3, 4), {{"x",1}}));
+    Term termToExpectInY(Monomial(AlbaNumber::createFraction(3, 4), {{"x", 1}}));
     EXPECT_EQ(termToExpectInX, termPairToVerify.first);
     EXPECT_EQ(termToExpectInY, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks) {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
     TermPair termPairToVerify(getCentroid(termToTest, {"x", 0, "x"}));
@@ -194,8 +179,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks)
     EXPECT_EQ(termToExpectInY, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks) {
     Term force(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getWork(force, {"x", 0, "x"}));
@@ -204,8 +188,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks) {
     Term length(Monomial(1, {{"depth", 2}}));
 
     Term termToVerify(getLiquidPressure("raw", "g", length, {"depth", 0, 2}));
@@ -214,8 +197,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, IntegrateInPolarCoordinatesWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, IntegrateInPolarCoordinatesWorks) {
     Term radiusOfLimacon(createExpressionIfPossible({2, "+", 2, "*", cos("theta")}));
 
     Term termToVerify(integrateInPolarCoordinates(radiusOfLimacon, {"theta", 0, getPiAsATerm()}));
@@ -224,8 +206,7 @@ TEST(IntegrationGeometryUtilitiesTest, IntegrateInPolarCoordinatesWorks)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWorksOnExample1)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWorksOnExample1) {
     // Evaluate the double integral Integral[3y-2*x^2]dA
     // if R is the region consisting of all points (x, y) for which -1<x<2 and 1<y<3
 
@@ -239,12 +220,13 @@ TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWo
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWorksOnExample2)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWorksOnExample2) {
     // Find the volume z = 4 - 1/9*x^2 - 1/16*y^2
     // bounded by the surface x=3, y=2 and the three coordinate planes
 
-    Term termToTest(Polynomial{Monomial(4, {}), Monomial(AlbaNumber::createFraction(-1, 9), {{"x", 2}}), Monomial(AlbaNumber::createFraction(-1, 16), {{"y", 2}})});
+    Term termToTest(Polynomial{
+        Monomial(4, {}), Monomial(AlbaNumber::createFraction(-1, 9), {{"x", 2}}),
+        Monomial(AlbaNumber::createFraction(-1, 16), {{"y", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", 0, 3};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 0, 2};
 
@@ -254,8 +236,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWo
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -266,8 +247,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorksWithXDetailsAnd
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWithRespectToXAxisWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWithRespectToXAxisWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -278,8 +258,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWithRespectToXAxi
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWithRespectToYAxisWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWithRespectToYAxisWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -290,8 +269,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWithRespectToYAxi
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -304,8 +282,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorksWithXDetails
     EXPECT_EQ(termToExpect2, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheXAxisWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheXAxisWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -316,8 +293,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheXAxisWorksWithX
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheYAxisWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheYAxisWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -328,8 +304,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheYAxisWorksWithX
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheOriginWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheOriginWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -340,8 +315,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfInertiaAboutTheOriginWorksWith
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetRadiusOfGyrationWorksWithXDetailsAndYDetails)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetRadiusOfGyrationWorksWithXDetailsAndYDetails) {
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 2};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 1, 3};
@@ -354,12 +328,11 @@ TEST(IntegrationGeometryUtilitiesTest, GetRadiusOfGyrationWorksWithXDetailsAndYD
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksOnExample1)
-{
-    //Find the volume of the soild in the first octant bounded by the code z = r and the cylinder r = 3 sin(theta)
+TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksOnExample1) {
+    // Find the volume of the soild in the first octant bounded by the code z = r and the cylinder r = 3 sin(theta)
     Term termToTest("r");
-    DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, 3*sin("theta")};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()/2};
+    DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, 3 * sin("theta")};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm() / 2};
 
     Term termToVerify(getDoubleIntegralInPolarCoordinates(termToTest, radiusDetails, thetaDetails));
 
@@ -367,12 +340,11 @@ TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksO
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksOnExample2)
-{
-    //Find the area of the region enclosed by one leaf of the rose r =  sin(3 * theta)
+TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksOnExample2) {
+    // Find the area of the region enclosed by one leaf of the rose r =  sin(3 * theta)
     Term termToTest(1);
     DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, sin(Monomial(3, {{"theta", 1}}))};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()/3};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm() / 3};
 
     Term termToVerify(getDoubleIntegralInPolarCoordinates(termToTest, radiusDetails, thetaDetails));
 
@@ -380,8 +352,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksO
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, DISABLED_GetSurfaceAreaWithZInCartesianCoordinatesWorksOnExample1)
-{
+TEST(IntegrationGeometryUtilitiesTest, DISABLED_GetSurfaceAreaWithZInCartesianCoordinatesWorksOnExample1) {
     // Disabled because integration does not work here (possible trig sub problem)
 
     // Find the area of the surface that is cut from the cylinder x^2 + z^2 = 16 by the planes x=0, x=2, y=0, y=3
@@ -396,8 +367,7 @@ TEST(IntegrationGeometryUtilitiesTest, DISABLED_GetSurfaceAreaWithZInCartesianCo
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaWithZInCartesianCoordinatesWorksOnExample2)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaWithZInCartesianCoordinatesWorksOnExample2) {
     DetailsForDefiniteIntegralWithTerms xDetails{"x", 0, 3};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 0, 4};
 
@@ -407,14 +377,16 @@ TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaWithZInCartesianCoordinates
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCartesianCoordinatesWorks)
-{
-    // Find by triple integration the volume of the solid bounded by elliptic paraboloid z = x^2 + 4*y^2 and cylinder x^2 + 4*y^2 = 4
+TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCartesianCoordinatesWorks) {
+    // Find by triple integration the volume of the solid bounded by elliptic paraboloid z = x^2 + 4*y^2 and cylinder
+    // x^2 + 4*y^2 = 4
 
-    Term termToTest(4); // because this is done for each quadrant
+    Term termToTest(4);  // because this is done for each quadrant
     DetailsForDefiniteIntegralWithTerms xDetails{"x", 0, 2};
-    DetailsForDefiniteIntegralWithTerms yDetails{"y", 0, createExpressionIfPossible(
-        {Polynomial{Monomial(4, {}), Monomial(-1, {{"x", 2}})}, "^", AlbaNumber::createFraction(1, 2), "/", 2})};
+    DetailsForDefiniteIntegralWithTerms yDetails{
+        "y", 0,
+        createExpressionIfPossible(
+            {Polynomial{Monomial(4, {}), Monomial(-1, {{"x", 2}})}, "^", AlbaNumber::createFraction(1, 2), "/", 2})};
     DetailsForDefiniteIntegralWithTerms zDetails{"z", 0, Polynomial{Monomial(1, {{"x", 2}}), Monomial(4, {{"y", 2}})}};
 
     Term termToVerify(getTripleIntegralInCartesianCoordinates(termToTest, xDetails, yDetails, zDetails));
@@ -423,13 +395,12 @@ TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCartesianCoordinatesWo
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCylindricalCoordinatesWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCylindricalCoordinatesWorks) {
     // Get volume of cylinder with radius=2 and height=3
 
     Term termToTest(1);
     DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, 2};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()*2};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm() * 2};
     DetailsForDefiniteIntegralWithTerms zDetails{"z", 0, 3};
 
     Term termToVerify(getTripleIntegralInCylindricalCoordinates(termToTest, radiusDetails, thetaDetails, zDetails));
@@ -438,14 +409,13 @@ TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCylindricalCoordinates
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInSphericalCoordinatesWorks)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInSphericalCoordinatesWorks) {
     // Get volume of sphere with raw=2
 
-    Term termToTest(8); // integrate a sphere on each quadrant
+    Term termToTest(8);  // integrate a sphere on each quadrant
     DetailsForDefiniteIntegralWithTerms rawDetails{"raw", 0, 2};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()/2};
-    DetailsForDefiniteIntegralWithTerms phiDetails{"phi", 0, getPiAsATerm()/2};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm() / 2};
+    DetailsForDefiniteIntegralWithTerms phiDetails{"phi", 0, getPiAsATerm() / 2};
 
     Term termToVerify(getTripleIntegralInSphericalCoordinates(termToTest, rawDetails, thetaDetails, phiDetails));
 
@@ -453,6 +423,6 @@ TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInSphericalCoordinatesWo
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

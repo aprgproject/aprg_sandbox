@@ -5,17 +5,14 @@
 #include <map>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 using VariablesToTermsMap = std::map<std::string, Term>;
 using VariableTermPair = std::pair<std::string, Term>;
 
-class SubstitutionOfVariablesToTerms
-{
+class SubstitutionOfVariablesToTerms {
 public:
     SubstitutionOfVariablesToTerms() = default;
     SubstitutionOfVariablesToTerms(std::initializer_list<VariableTermPair> const& variablesWithTerms);
@@ -38,12 +35,12 @@ public:
     void putVariableWithTerm(std::string const& variable, Term const& term);
 
 private:
-    void performSubstitutionForWrappedTerms(WrappedTerms & wrappedTerms) const;
+    void performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const;
     VariablesToTermsMap m_variableToTermsMap;
 };
 
-using SubstitutionsOfVariablesToTerms=std::vector<SubstitutionOfVariablesToTerms>;
+using SubstitutionsOfVariablesToTerms = std::vector<SubstitutionOfVariablesToTerms>;
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

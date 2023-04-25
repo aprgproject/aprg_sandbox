@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(WrappedTermTest, ConstructionWorks)
-{
+TEST(WrappedTermTest, ConstructionWorks) {
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm wrappedTerm2(wrappedTerm1);
 
@@ -20,34 +17,31 @@ TEST(WrappedTermTest, ConstructionWorks)
     EXPECT_EQ(Term(10), getTermConstReferenceFromUniquePointer(wrappedTerm2.baseTermPointer));
 }
 
-TEST(WrappedTermTest, EqualityOperatorWorks)
-{
+TEST(WrappedTermTest, EqualityOperatorWorks) {
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm const& wrappedTerm2(wrappedTerm1);
     WrappedTerm wrappedTerm3(Term(false));
     WrappedTerm wrappedTerm4(Term(true));
 
-    EXPECT_TRUE(wrappedTerm1==wrappedTerm1);
-    EXPECT_TRUE(wrappedTerm1==wrappedTerm2);
-    EXPECT_FALSE(wrappedTerm1==wrappedTerm3);
-    EXPECT_TRUE(wrappedTerm1==wrappedTerm4);
+    EXPECT_TRUE(wrappedTerm1 == wrappedTerm1);
+    EXPECT_TRUE(wrappedTerm1 == wrappedTerm2);
+    EXPECT_FALSE(wrappedTerm1 == wrappedTerm3);
+    EXPECT_TRUE(wrappedTerm1 == wrappedTerm4);
 }
 
-TEST(WrappedTermTest, InequalityOperatorWorks)
-{
+TEST(WrappedTermTest, InequalityOperatorWorks) {
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm const& wrappedTerm2(wrappedTerm1);
     WrappedTerm wrappedTerm3(Term(false));
     WrappedTerm wrappedTerm4(Term(true));
 
-    EXPECT_FALSE(wrappedTerm1!=wrappedTerm1);
-    EXPECT_FALSE(wrappedTerm1!=wrappedTerm2);
-    EXPECT_TRUE(wrappedTerm1!=wrappedTerm3);
-    EXPECT_FALSE(wrappedTerm1!=wrappedTerm4);
+    EXPECT_FALSE(wrappedTerm1 != wrappedTerm1);
+    EXPECT_FALSE(wrappedTerm1 != wrappedTerm2);
+    EXPECT_TRUE(wrappedTerm1 != wrappedTerm3);
+    EXPECT_FALSE(wrappedTerm1 != wrappedTerm4);
 }
 
-TEST(WrappedTermTest, LessThanOperatorWorks)
-{
+TEST(WrappedTermTest, LessThanOperatorWorks) {
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm wrappedTerm2(Term(true));
     WrappedTerm wrappedTerm3(Term(false));
@@ -59,8 +53,7 @@ TEST(WrappedTermTest, LessThanOperatorWorks)
     EXPECT_TRUE(wrappedTerm3 < wrappedTerm1);
 }
 
-TEST(WrappedTermTest, ClearWorks)
-{
+TEST(WrappedTermTest, ClearWorks) {
     WrappedTerm wrappedTerm(Term(10));
 
     wrappedTerm.clear();
@@ -68,8 +61,7 @@ TEST(WrappedTermTest, ClearWorks)
     EXPECT_EQ(nullptr, wrappedTerm.baseTermPointer.get());
 }
 
-TEST(WrappedTermTest, OutputStreamOperatorWorks)
-{
+TEST(WrappedTermTest, OutputStreamOperatorWorks) {
     stringstream ss;
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm wrappedTerm2(Term(false));
@@ -79,6 +71,6 @@ TEST(WrappedTermTest, OutputStreamOperatorWorks)
     EXPECT_EQ("[true],[false]", ss.str());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

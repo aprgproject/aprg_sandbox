@@ -2,11 +2,9 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaSingleBitFieldTest, BitFieldWithOneBitWorks)
-{
+TEST(AlbaSingleBitFieldTest, BitFieldWithOneBitWorks) {
     AlbaSingleBitField<unsigned char, 1> bitField0{0};
     AlbaSingleBitField<unsigned char, 1> bitField1{1};
 
@@ -15,8 +13,7 @@ TEST(AlbaSingleBitFieldTest, BitFieldWithOneBitWorks)
     EXPECT_EQ(1U, bitField1.value);
 }
 
-TEST(AlbaSingleBitFieldTest, BitFieldWithTwoBitsWorks)
-{
+TEST(AlbaSingleBitFieldTest, BitFieldWithTwoBitsWorks) {
     AlbaSingleBitField<unsigned char, 2> bitField0{0};
     AlbaSingleBitField<unsigned char, 2> bitField1{3};
 
@@ -25,8 +22,7 @@ TEST(AlbaSingleBitFieldTest, BitFieldWithTwoBitsWorks)
     EXPECT_EQ(3U, bitField1.value);
 }
 
-TEST(AlbaSingleBitFieldTest, BitFieldWithThreeBitsWorks)
-{
+TEST(AlbaSingleBitFieldTest, BitFieldWithThreeBitsWorks) {
     AlbaSingleBitField<unsigned char, 3> bitField0{0};
     AlbaSingleBitField<unsigned char, 3> bitField1{7};
 
@@ -35,8 +31,7 @@ TEST(AlbaSingleBitFieldTest, BitFieldWithThreeBitsWorks)
     EXPECT_EQ(7U, bitField1.value);
 }
 
-TEST(AlbaSingleBitFieldTest, BitFieldWith28BitsWorks)
-{
+TEST(AlbaSingleBitFieldTest, BitFieldWith28BitsWorks) {
     AlbaSingleBitField<unsigned int, 28> bitField0{0};
     AlbaSingleBitField<unsigned int, 28> bitField1{268435455};
 
@@ -45,4 +40,4 @@ TEST(AlbaSingleBitFieldTest, BitFieldWith28BitsWorks)
     EXPECT_EQ(268435455U, bitField1.value);
 }
 
-}
+}  // namespace alba

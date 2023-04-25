@@ -1,18 +1,11 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-enum class LimitAtAValueApproachType
-{
-    BothSides,
-    PositiveSide,
-    NegativeSide
-};
+enum class LimitAtAValueApproachType { BothSides, PositiveSide, NegativeSide };
 
 }
 
-}
+}  // namespace alba

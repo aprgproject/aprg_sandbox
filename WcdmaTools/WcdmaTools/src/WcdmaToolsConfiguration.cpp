@@ -10,84 +10,80 @@
 using namespace alba;
 using namespace std;
 
-char const*const orOperator = " || ";
+char const* const orOperator = " || ";
 
-namespace wcdmaToolsGui
-{
+namespace wcdmaToolsGui {
 
 WcdmaToolsConfiguration::WcdmaToolsConfiguration()
-    : isExtractStepOn(false)
-    , isCombineAndSortStepOn(false)
-    , isGrepStepOn(false)
-    , isCropStepOn(false)
-    , isFilterSubStepOn(false)
-    , isGrepTcomEnabled(false)
-    , isGrepErrEnabled(false)
-    , isGrepErrWrnNoSpamEnabled(false)
-    , isGrepBtsStatusEnabled(false)
-    , isGrepRecoveryEnabled(false)
-    , isGrepAllocationEnabled(false)
-    , isGrepFaultEnabled(false)
-    , isGrepLrmEnabled(false)
-    , isGrepGrmEnabled(false)
-    , isGrepToamEnabled(false)
-    , isGrepTupcEnabled(false)
-    , isGrepRlhEnabled(false)
-    , isGrepCchhEnabled(false)
-    , isGrepBchsenderEnabled(false)
-    , isGrepHschEnabled(false)
-    , isGrepDmgrEnabled(false)
-    , isGrepCodecEnabled(false)
-    , isGrepLtcomEnabled(false)
-    , isGrepLomEnabled(false)
-    , isGrepRakeEnabled(false)
-    , isGrepPicEnabled(false)
-    , isGrepHsdpaEnabled(false)
-    , isGrepHsTupEnabled(false)
-    , isGrepHsupaL2Enabled(false)
-    , grepConditionForTcom()
-    , grepConditionForErr()
-    , grepConditionForErrWrn()
-    , grepConditionForBtsStatus()
-    , grepConditionForRecovery()
-    , grepConditionForAllocation()
-    , grepConditionForFault()
-    , grepConditionForLrm()
-    , grepConditionForGrm()
-    , grepConditionForToam()
-    , grepConditionForTupc()
-    , grepConditionForRlh()
-    , grepConditionForCchh()
-    , grepConditionForBchsender()
-    , grepConditionForHsch()
-    , grepConditionForDmgr()
-    , grepConditionForCodec()
-    , grepConditionForLtcom()
-    , grepConditionForLom()
-    , grepConditionForRake()
-    , grepConditionForPic()
-    , grepConditionForHsdpa()
-    , grepConditionForHsTup()
-    , grepConditionForHsupaL2()
-    , inputFileOrDirectory()
-    , extractGrepCondition()
-    , acceptedFilesGrepCondition()
-    , filterGrepCondition()
-    , otherGrepCondition()
-    , prioritizedLogCondition()
-    , cropSize(0)
-{
+    : isExtractStepOn(false),
+      isCombineAndSortStepOn(false),
+      isGrepStepOn(false),
+      isCropStepOn(false),
+      isFilterSubStepOn(false),
+      isGrepTcomEnabled(false),
+      isGrepErrEnabled(false),
+      isGrepErrWrnNoSpamEnabled(false),
+      isGrepBtsStatusEnabled(false),
+      isGrepRecoveryEnabled(false),
+      isGrepAllocationEnabled(false),
+      isGrepFaultEnabled(false),
+      isGrepLrmEnabled(false),
+      isGrepGrmEnabled(false),
+      isGrepToamEnabled(false),
+      isGrepTupcEnabled(false),
+      isGrepRlhEnabled(false),
+      isGrepCchhEnabled(false),
+      isGrepBchsenderEnabled(false),
+      isGrepHschEnabled(false),
+      isGrepDmgrEnabled(false),
+      isGrepCodecEnabled(false),
+      isGrepLtcomEnabled(false),
+      isGrepLomEnabled(false),
+      isGrepRakeEnabled(false),
+      isGrepPicEnabled(false),
+      isGrepHsdpaEnabled(false),
+      isGrepHsTupEnabled(false),
+      isGrepHsupaL2Enabled(false),
+      grepConditionForTcom(),
+      grepConditionForErr(),
+      grepConditionForErrWrn(),
+      grepConditionForBtsStatus(),
+      grepConditionForRecovery(),
+      grepConditionForAllocation(),
+      grepConditionForFault(),
+      grepConditionForLrm(),
+      grepConditionForGrm(),
+      grepConditionForToam(),
+      grepConditionForTupc(),
+      grepConditionForRlh(),
+      grepConditionForCchh(),
+      grepConditionForBchsender(),
+      grepConditionForHsch(),
+      grepConditionForDmgr(),
+      grepConditionForCodec(),
+      grepConditionForLtcom(),
+      grepConditionForLom(),
+      grepConditionForRake(),
+      grepConditionForPic(),
+      grepConditionForHsdpa(),
+      grepConditionForHsTup(),
+      grepConditionForHsupaL2(),
+      inputFileOrDirectory(),
+      extractGrepCondition(),
+      acceptedFilesGrepCondition(),
+      filterGrepCondition(),
+      otherGrepCondition(),
+      prioritizedLogCondition(),
+      cropSize(0) {
     determineVariousLocationsBasedOnCurrentLocation();
     loadConfigurationFromFile(configurationFileLocation);
 }
 
-void WcdmaToolsConfiguration::loadDefaultConfigurationFile()
-{
+void WcdmaToolsConfiguration::loadDefaultConfigurationFile() {
     loadConfigurationFromFile(defaultConfigurationFileLocation);
 }
 
-void WcdmaToolsConfiguration::saveToConfigurationFile() const
-{
+void WcdmaToolsConfiguration::saveToConfigurationFile() const {
     ofstream outputFileStream(configurationFileLocation);
     outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << "\n";
     outputFileStream << "isCombineAndSortStepOn:" << static_cast<int>(isCombineAndSortStepOn) << "\n";
@@ -142,25 +138,32 @@ void WcdmaToolsConfiguration::saveToConfigurationFile() const
     outputFileStream << "grepConditionForHsdpa:" << grepConditionForHsdpa << "\n";
     outputFileStream << "grepConditionForHsTup:" << grepConditionForHsTup << "\n";
     outputFileStream << "grepConditionForHsupaL2:" << grepConditionForHsupaL2 << "\n";
-    outputFileStream << "inputFileOrDirectory:" << inputFileOrDirectory<< "\n";
-    outputFileStream << "extractGrepCondition:" << extractGrepCondition<< "\n";
-    outputFileStream << "acceptedFilesGrepCondition:" << acceptedFilesGrepCondition<< "\n";
-    outputFileStream << "filterGrepCondition:" << filterGrepCondition<< "\n";
+    outputFileStream << "inputFileOrDirectory:" << inputFileOrDirectory << "\n";
+    outputFileStream << "extractGrepCondition:" << extractGrepCondition << "\n";
+    outputFileStream << "acceptedFilesGrepCondition:" << acceptedFilesGrepCondition << "\n";
+    outputFileStream << "filterGrepCondition:" << filterGrepCondition << "\n";
     outputFileStream << "otherGrepCondition:" << otherGrepCondition << "\n";
-    outputFileStream << "prioritizedLogCondition:" << prioritizedLogCondition<< "\n";
+    outputFileStream << "prioritizedLogCondition:" << prioritizedLogCondition << "\n";
     outputFileStream << "cropSize:" << cropSize << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << "\n";
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:"
+                     << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:"
+                     << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:"
+                     << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:"
+                     << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:"
+                     << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:"
+                     << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:"
+                     << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:"
+                     << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << "\n";
 }
 
-string WcdmaToolsConfiguration::getGrepCondition() const
-{
+string WcdmaToolsConfiguration::getGrepCondition() const {
     string condition;
     addConditionIntoGrepCondition(condition, isGrepTcomEnabled, grepConditionForTcom);
     addConditionIntoGrepCondition(condition, isGrepErrEnabled, grepConditionForErr);
@@ -186,19 +189,16 @@ string WcdmaToolsConfiguration::getGrepCondition() const
     addConditionIntoGrepCondition(condition, isGrepHsdpaEnabled, grepConditionForHsdpa);
     addConditionIntoGrepCondition(condition, isGrepHsTupEnabled, grepConditionForHsTup);
     addConditionIntoGrepCondition(condition, isGrepHsupaL2Enabled, grepConditionForHsupaL2);
-    if(!stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(otherGrepCondition).empty())
-    {
+    if (!stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(otherGrepCondition).empty()) {
         condition += otherGrepCondition + orOperator;
     }
-    if(!condition.empty())
-    {
-        condition = condition.substr(0, condition.length()-string(orOperator).length());
+    if (!condition.empty()) {
+        condition = condition.substr(0, condition.length() - string(orOperator).length());
     }
     return condition;
 }
 
-string WcdmaToolsConfiguration::getGrepFileName() const
-{
+string WcdmaToolsConfiguration::getGrepFileName() const {
     string fileName("grepped");
     addGrepIntoFileName(fileName, isGrepTcomEnabled, "Tcom");
     addGrepIntoFileName(fileName, isGrepErrEnabled, "Err");
@@ -224,71 +224,69 @@ string WcdmaToolsConfiguration::getGrepFileName() const
     addGrepIntoFileName(fileName, isGrepHsdpaEnabled, "Hsdpa");
     addGrepIntoFileName(fileName, isGrepHsTupEnabled, "HsTup");
     addGrepIntoFileName(fileName, isGrepHsupaL2Enabled, "HsupaL2");
-    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(otherGrepCondition), '_');
-    fileName = fileName.substr(0, 50); //think of a better way to limit filename size
+    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(
+        stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(otherGrepCondition), '_');
+    fileName = fileName.substr(0, 50);  // think of a better way to limit filename size
     fileName += ".log";
     return fileName;
 }
 
-string WcdmaToolsConfiguration::getSortedFileName() const
-{
+string WcdmaToolsConfiguration::getSortedFileName() const {
     string fileName("sorted");
-    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(filterGrepCondition), '_');
-    fileName = fileName.substr(0, 50); //think of a better way to limit filename size
+    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(
+        stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(filterGrepCondition), '_');
+    fileName = fileName.substr(0, 50);  // think of a better way to limit filename size
     fileName += ".log";
     return fileName;
 }
 
-string WcdmaToolsConfiguration::getCropFileName() const
-{
+string WcdmaToolsConfiguration::getCropFileName() const {
     string fileName("cropped");
-    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(prioritizedLogCondition), '_');
-    fileName = fileName.substr(0, 50); //think of a better way to limit filename size
+    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(
+        stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(prioritizedLogCondition), '_');
+    fileName = fileName.substr(0, 50);  // think of a better way to limit filename size
     fileName += ".log";
     return fileName;
 }
 
-void WcdmaToolsConfiguration::determineVariousLocationsBasedOnCurrentLocation()
-{
+void WcdmaToolsConfiguration::determineVariousLocationsBasedOnCurrentLocation() {
     AlbaLocalPathHandler currentLocalPathHandler(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
     currentLocalPathHandler.goUp();
 
-    AlbaLocalPathHandler sevenZipPathHandler(currentLocalPathHandler.getDirectory()+R"(\7z32\7z.exe)");
+    AlbaLocalPathHandler sevenZipPathHandler(currentLocalPathHandler.getDirectory() + R"(\7z32\7z.exe)");
     locationOf7zExecutable = sevenZipPathHandler.getFullPath();
 
-    AlbaLocalPathHandler configurationFilePathHandler(currentLocalPathHandler.getDirectory()+R"(\configuration\configuration.txt)");
+    AlbaLocalPathHandler configurationFilePathHandler(
+        currentLocalPathHandler.getDirectory() + R"(\configuration\configuration.txt)");
     configurationFilePathHandler.createDirectoriesForNonExisitingDirectories();
     configurationFileLocation = configurationFilePathHandler.getFullPath();
 
-    AlbaLocalPathHandler defaultConfigurationFilePathHandler(currentLocalPathHandler.getDirectory()+R"(\configuration\defaultConfiguration.txt)");
+    AlbaLocalPathHandler defaultConfigurationFilePathHandler(
+        currentLocalPathHandler.getDirectory() + R"(\configuration\defaultConfiguration.txt)");
     defaultConfigurationFilePathHandler.createDirectoriesForNonExisitingDirectories();
     defaultConfigurationFileLocation = defaultConfigurationFilePathHandler.getFullPath();
 
-    AlbaLocalPathHandler temporaryFilePathHandler(currentLocalPathHandler.getDirectory()+R"(\temporaryFiles\)");
-    temporaryFilePathHandler.input(temporaryFilePathHandler.getDriveOrRoot()+R"(:\Temp\)");
+    AlbaLocalPathHandler temporaryFilePathHandler(currentLocalPathHandler.getDirectory() + R"(\temporaryFiles\)");
+    temporaryFilePathHandler.input(temporaryFilePathHandler.getDriveOrRoot() + R"(:\Temp\)");
     btsLogSorterConfiguration.m_pathOfTempFiles = temporaryFilePathHandler.getFullPath();
     temporaryFilePathHandler.createDirectoriesForNonExisitingDirectories();
 
-    cout<<"locationOf7zExecutable: ["<<locationOf7zExecutable<<"]\n";
-    cout<<"configurationFileLocation: ["<<configurationFileLocation<<"]\n";
-    cout<<"btsLogSorterConfiguration.m_pathOfTempFiles: ["<<btsLogSorterConfiguration.m_pathOfTempFiles<<"]\n";
+    cout << "locationOf7zExecutable: [" << locationOf7zExecutable << "]\n";
+    cout << "configurationFileLocation: [" << configurationFileLocation << "]\n";
+    cout << "btsLogSorterConfiguration.m_pathOfTempFiles: [" << btsLogSorterConfiguration.m_pathOfTempFiles << "]\n";
 }
 
-void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath)
-{
+void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath) {
     NameToValueMap nameToValueMap;
     copyNamesAndValuesFromFile(nameToValueMap, filePath);
     loadNamesAndValues(nameToValueMap);
 }
 
-void WcdmaToolsConfiguration::copyNamesAndValuesFromFile(NameToValueMap & nameToValueMap, string const& filePath)
-{
+void WcdmaToolsConfiguration::copyNamesAndValuesFromFile(NameToValueMap& nameToValueMap, string const& filePath) {
     ifstream inputFileStream(filePath);
-    if(inputFileStream.is_open())
-    {
+    if (inputFileStream.is_open()) {
         AlbaFileReader fileReader(inputFileStream);
-        while(fileReader.isNotFinished())
-        {
+        while (fileReader.isNotFinished()) {
             string lineInConfiguration(fileReader.getLineAndIgnoreWhiteSpaces());
             string beforeColon;
             string afterColon;
@@ -298,8 +296,7 @@ void WcdmaToolsConfiguration::copyNamesAndValuesFromFile(NameToValueMap & nameTo
     }
 }
 
-void WcdmaToolsConfiguration::loadNamesAndValues(NameToValueMap & nameToValueMap)
-{
+void WcdmaToolsConfiguration::loadNamesAndValues(NameToValueMap& nameToValueMap) {
     isExtractStepOn = stringHelper::convertStringToBool(nameToValueMap["isExtractStepOn"]);
     isCombineAndSortStepOn = stringHelper::convertStringToBool(nameToValueMap["isCombineAndSortStepOn"]);
     isGrepStepOn = stringHelper::convertStringToBool(nameToValueMap["isGrepStepOn"]);
@@ -360,32 +357,48 @@ void WcdmaToolsConfiguration::loadNamesAndValues(NameToValueMap & nameToValueMap
     otherGrepCondition = nameToValueMap["otherGrepCondition"];
     prioritizedLogCondition = nameToValueMap["prioritizedLogCondition"];
     cropSize = stringHelper::convertStringToNumber<double>(nameToValueMap["cropSize"]);
-    btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock"]);
-    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock"]);
-    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory"]);
-    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams"]);
-    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams"]);
-    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock"]);
-    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock"]);
-    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory"]);
-    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams"]);
-    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams"]);
+    btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock"]);
+    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock"]);
+    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory"]);
+    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(
+        nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams"]);
+    btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(
+        nameToValueMap["btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams"]);
+    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock"]);
+    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock"]);
+    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory"]);
+    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams"]);
+    btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams =
+        stringHelper::convertStringToNumber<int>(
+            nameToValueMap["btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams"]);
 }
 
-void WcdmaToolsConfiguration::addConditionIntoGrepCondition(string & condition, bool const isGrepEnabled, string const& grepCondition) const
-{
-    if(isGrepEnabled)
-    {
+void WcdmaToolsConfiguration::addConditionIntoGrepCondition(
+    string& condition, bool const isGrepEnabled, string const& grepCondition) const {
+    if (isGrepEnabled) {
         condition += grepCondition + orOperator;
     }
 }
 
-void WcdmaToolsConfiguration::addGrepIntoFileName(string & wholeFileName, bool const isGrepEnabled, string const& grepName) const
-{
-    if(isGrepEnabled)
-    {
+void WcdmaToolsConfiguration::addGrepIntoFileName(
+    string& wholeFileName, bool const isGrepEnabled, string const& grepName) const {
+    if (isGrepEnabled) {
         wholeFileName += grepName;
     }
 }
 
-}
+}  // namespace wcdmaToolsGui

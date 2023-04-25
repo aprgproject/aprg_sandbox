@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(DualOperationMutatorTest, MutateTermWorks)
-{
+TEST(DualOperationMutatorTest, MutateTermWorks) {
     DualOperationMutator mutator;
     Term term1(true);
     Term term2("a");
@@ -30,8 +27,7 @@ TEST(DualOperationMutatorTest, MutateTermWorks)
     EXPECT_EQ(termToExpect3, term3);
 }
 
-TEST(DualOperationMutatorTest, MutateConstantWorks)
-{
+TEST(DualOperationMutatorTest, MutateConstantWorks) {
     DualOperationMutator mutator;
     Constant constant(true);
 
@@ -41,8 +37,7 @@ TEST(DualOperationMutatorTest, MutateConstantWorks)
     EXPECT_EQ(constantToExpect, constant);
 }
 
-TEST(DualOperationMutatorTest, MutateVariableTermWorks)
-{
+TEST(DualOperationMutatorTest, MutateVariableTermWorks) {
     DualOperationMutator mutator;
     VariableTerm variable("a");
 
@@ -52,8 +47,7 @@ TEST(DualOperationMutatorTest, MutateVariableTermWorks)
     EXPECT_EQ(variableToExpect, variable);
 }
 
-TEST(DualOperationMutatorTest, MutateExpressionWorks)
-{
+TEST(DualOperationMutatorTest, MutateExpressionWorks) {
     DualOperationMutator mutator;
     Expression expression(createExpressionIfPossible({"a", "&", "b", "|", "c"}));
 
@@ -64,6 +58,6 @@ TEST(DualOperationMutatorTest, MutateExpressionWorks)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

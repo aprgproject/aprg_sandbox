@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using IndexForTest = unsigned int;
 using IndexesForTest = vector<IndexForTest>;
 using QueryForTest = GetAccumulatedNextFreeIndexWithSegmentTree<IndexesForTest>;
-}
+}  // namespace
 
-TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorksWithZeroSize)
-{
+TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorksWithZeroSize) {
     QueryForTest query(0U);
 
     EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
@@ -26,8 +22,7 @@ TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorksWith
     EXPECT_EQ(0U, query.getNextFreeIndexAt(2U));
 }
 
-TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorks)
-{
+TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorks) {
     QueryForTest query(28U);
 
     EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
@@ -41,8 +36,7 @@ TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, SetAsNotFreeWorks)
-{
+TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, SetAsNotFreeWorks) {
     QueryForTest query(28U);
 
     query.setAsNotFree(15U);
@@ -58,8 +52,7 @@ TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, SetAsNotFreeWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, SetAsFreeWorks)
-{
+TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, SetAsFreeWorks) {
     QueryForTest query(28U);
     query.setAsNotFree(15U);
 
@@ -76,6 +69,6 @@ TEST(GetAccumulatedNextFreeIndexWithSegmentTreeTest, SetAsFreeWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

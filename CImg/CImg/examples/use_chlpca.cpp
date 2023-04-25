@@ -51,20 +51,20 @@ using namespace cimg_library;
 
 // Main procedure
 //----------------
-int main(int argc,char **argv) {
-  cimg_usage("Patch based denoising ");
-  const char *file_i  = cimg_option("-i",cimg_imagepath "milla.bmp","Input image");
-  const int p = cimg_option("-p",3,"patch radius");
-  const int w = cimg_option("-w",10,"window radius");
-  const float lambda_min = cimg_option("-l",(float)2.f,"component selection threshold");
-  const int nstep = cimg_option("-nstep",5,"sub-sampling");
-  const float nsim = cimg_option("-nsim",(float)5.f,"dictionnary size a multiple of the patch size");
-  const float noise_std = cimg_option("-sigma",(float)-1.f,"noise std (-1:estimated)");
-  const bool use_svd = cimg_option("-svd",(float)-1.f,"use svd for computing PCA");
-  const char *file_o  = cimg_option("-o",(char*)NULL,"Output file");
-  CImg<> img(file_i);
-  img = img.get_chlpca(p, w, nstep, nsim, lambda_min, noise_std, use_svd);
-  img.display();
-  if (file_o) img.save(file_o);
-  return 0;
+int main(int argc, char **argv) {
+    cimg_usage("Patch based denoising ");
+    const char *file_i = cimg_option("-i", cimg_imagepath "milla.bmp", "Input image");
+    const int p = cimg_option("-p", 3, "patch radius");
+    const int w = cimg_option("-w", 10, "window radius");
+    const float lambda_min = cimg_option("-l", (float)2.f, "component selection threshold");
+    const int nstep = cimg_option("-nstep", 5, "sub-sampling");
+    const float nsim = cimg_option("-nsim", (float)5.f, "dictionnary size a multiple of the patch size");
+    const float noise_std = cimg_option("-sigma", (float)-1.f, "noise std (-1:estimated)");
+    const bool use_svd = cimg_option("-svd", (float)-1.f, "use svd for computing PCA");
+    const char *file_o = cimg_option("-o", (char *)NULL, "Output file");
+    CImg<> img(file_i);
+    img = img.get_chlpca(p, w, nstep, nsim, lambda_min, noise_std, use_svd);
+    img.display();
+    if (file_o) img.save(file_o);
+    return 0;
 }

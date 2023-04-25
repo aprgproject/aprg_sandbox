@@ -1,18 +1,14 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename EdgeWeightedDirectedGraph, typename PathSearchUsingDijkstra>
-EdgeWeightedDirectedGraph getOptimalDirectedGraph(PathSearchUsingDijkstra const& pathSearch)
-{
+EdgeWeightedDirectedGraph getOptimalDirectedGraph(PathSearchUsingDijkstra const& pathSearch) {
     EdgeWeightedDirectedGraph result;
-    for(auto const& vertexToEdgePair: pathSearch.getVertexToEdgeWithBestWeightMap())
-    {
-        if(pathSearch.getStartVertex() != vertexToEdgePair.first) // remove start vertex because its started there
+    for (auto const& vertexToEdgePair : pathSearch.getVertexToEdgeWithBestWeightMap()) {
+        if (pathSearch.getStartVertex() != vertexToEdgePair.first)  // remove start vertex because its started there
         {
             auto const& edgeOrderedByWeight(vertexToEdgePair.second);
             result.connect(edgeOrderedByWeight.first, edgeOrderedByWeight.second, edgeOrderedByWeight.weight);
@@ -21,6 +17,6 @@ EdgeWeightedDirectedGraph getOptimalDirectedGraph(PathSearchUsingDijkstra const&
     return result;
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

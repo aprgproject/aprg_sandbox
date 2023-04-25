@@ -5,63 +5,56 @@
 #include <iterator>
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class InsertionSorter : public BaseSorter<Values>
-{
+class InsertionSorter : public BaseSorter<Values> {
 public:
     using Iterator = typename Values::iterator;
     InsertionSorter() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
-        if(!valuesToSort.empty())
-        {
-            auto insertIt=valuesToSort.begin();
+    void sort(Values& valuesToSort) const override {
+        if (!valuesToSort.empty()) {
+            auto insertIt = valuesToSort.begin();
             insertIt++;
-            for(; insertIt!=valuesToSort.end(); insertIt++)
-            {
+            for (; insertIt != valuesToSort.end(); insertIt++) {
                 continuouslySwapDownIfStillOutOfOrder(valuesToSort, insertIt);
             }
         }
     }
 
 private:
-    void continuouslySwapDownIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const
-    {
-        auto itHigh = std::make_reverse_iterator(insertIt); //make_reverse_iterator advances it by one (so there is decrement after)
+    void continuouslySwapDownIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const {
+        auto itHigh = std::make_reverse_iterator(
+            insertIt);  // make_reverse_iterator advances it by one (so there is decrement after)
         auto itLow = itHigh;
         itHigh--;
-        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)
-        {
+        for (; itLow != valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++) {
             std::swap(*itLow, *itHigh);
         }
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
-// Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.
-// Proof: Expect each entry to move halfway back. Only half of the elements along the diagonal is involved in the sort.
+// Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and
+// ~(1/4)N^2 exchanges on average. Proof: Expect each entry to move halfway back. Only half of the elements along the
+// diagonal is involved in the sort.
 
 // Insertion sort depends on the initial order of the data
 // Best case: If the array is in ascending order, insertion sort makes N-1 compares and 0 exchanges.
-// Worst case: If the array is in descending order (and no duplicates), insertion sort makes ~(1/2)N^2 compares and ~(1/2)N^2 exchanges.
+// Worst case: If the array is in descending order (and no duplicates), insertion sort makes ~(1/2)N^2 compares and
+// ~(1/2)N^2 exchanges.
 
 // Proposition: For partially-sorted arrays, insertion sort runs in linear time.
 // Proof: Number of exchanges equals the number of inversions.
 // Number of compares = number of exchanges + N-1
 
 // Stable -> Proof: Equal items never move past each other
-
-
 
 // Other discussions:
 // Insertion sort is a simple sorting algorithm that works similar to the way you sort playing cards in your hands.
@@ -90,7 +83,8 @@ private:
 // Binary Insertion Sort uses binary search to find the proper location to insert the selected item at each iteration.
 // In normal insertion, sorting takes O(i) (at ith iteration) in worst case.
 // We can reduce it to O(log(i)) by using binary search.
-// The algorithm, as a whole, still has a running worst case running time of O(n^2) because of the series of swaps required for each insertion.
+// The algorithm, as a whole, still has a running worst case running time of O(n^2) because of the series of swaps
+// required for each insertion.
 
 // How to implement Insertion Sort for Linked List?
 // Below is simple insertion sort algorithm for linked list.

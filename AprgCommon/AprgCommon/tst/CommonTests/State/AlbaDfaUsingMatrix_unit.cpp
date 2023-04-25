@@ -4,32 +4,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
-enum class State
-{
-    Unknown,
-    First,
-    Second,
-    Third,
-    Fourth,
-    Fifth,
-    MAX
-};
+namespace {
+enum class State { Unknown, First, Second, Third, Fourth, Fifth, MAX };
 using DfaForTest = AlbaDfaUsingMatrix<State, unsigned int>;
 
-std::ostream & operator<<(std::ostream & out, State const state)
-{
+std::ostream& operator<<(std::ostream& out, State const state) {
     out << "State" << static_cast<unsigned int>(state);
     return out;
 }
-}
+}  // namespace
 
-TEST(AlbaDfaUsingMatrixTest, GetNextStateTest)
-{
+TEST(AlbaDfaUsingMatrixTest, GetNextStateTest) {
     DfaForTest dfa(static_cast<unsigned int>(State::MAX), 6U);
     dfa.setStateTransition(State::First, State::First, 1U);
     dfa.setStateTransition(State::First, State::Second, 2U);
@@ -49,8 +36,7 @@ TEST(AlbaDfaUsingMatrixTest, GetNextStateTest)
     EXPECT_EQ(State::Unknown, dfa.getNextState(State::Second, 5U));
 }
 
-TEST(AlbaDfaUsingMatrixTest, SetStateTransitionTest)
-{
+TEST(AlbaDfaUsingMatrixTest, SetStateTransitionTest) {
     DfaForTest dfa(static_cast<unsigned int>(State::MAX), 6U);
 
     dfa.setStateTransition(State::First, State::First, 1U);
@@ -59,4 +45,4 @@ TEST(AlbaDfaUsingMatrixTest, SetStateTransitionTest)
     EXPECT_EQ(State::Unknown, dfa.getNextState(State::First, 2U));
 }
 
-}
+}  // namespace alba

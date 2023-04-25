@@ -5,136 +5,97 @@
 #include <algorithm>
 #include <ostream>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class UndirectedGraphWithListOfEdges : public BaseUndirectedGraph<Vertex>
-{
+class UndirectedGraphWithListOfEdges : public BaseUndirectedGraph<Vertex> {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    UndirectedGraphWithListOfEdges()
-        : m_numberOfEdges(0U)
-        , m_edges{}
-    {}
+    UndirectedGraphWithListOfEdges() : m_numberOfEdges(0U), m_edges{} {}
 
-    bool isEmpty() const
-    {
-        return m_edges.empty();
-    }
+    bool isEmpty() const { return m_edges.empty(); }
 
-    bool hasAnyConnection(Vertex const& vertex) const override
-    {
+    bool hasAnyConnection(Vertex const& vertex) const override {
         bool result(false);
         auto itLower = m_edges.lower_bound({vertex, Vertex{}});
-        if(itLower != m_edges.cend())
-        {
+        if (itLower != m_edges.cend()) {
             result = itLower->first == vertex;
         }
         return result;
     }
 
-    bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override
-    {
+    bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override {
         return m_edges.find({vertex1, vertex2}) != m_edges.cend();
     }
 
-    unsigned int getNumberOfVertices() const override
-    {
-        return getVertices().size();
-    }
+    unsigned int getNumberOfVertices() const override { return getVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override
-    {
-        return m_numberOfEdges;
-    }
+    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
 
-    Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
-    {
+    Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         Vertices result;
-        for(auto it = m_edges.lower_bound({vertex, Vertex{}}); it!=m_edges.cend() && it->first==vertex; it++)
-        {
+        for (auto it = m_edges.lower_bound({vertex, Vertex{}}); it != m_edges.cend() && it->first == vertex; it++) {
             result.emplace_back(it->second);
         };
         return result;
     }
 
-    Vertices getVertices() const override
-    {
+    Vertices getVertices() const override {
         Vertices result;
-        for(auto const& edge : m_edges)
-        {
+        for (auto const& edge : m_edges) {
             Vertex const& vertex(edge.first);
-            if(result.empty())
-            {
+            if (result.empty()) {
                 result.emplace_back(vertex);
-            }
-            else if(result.back() != vertex)
-            {
+            } else if (result.back() != vertex) {
                 result.emplace_back(vertex);
             }
         }
         return result;
     }
 
-    Edges getEdges() const override
-    {
+    Edges getEdges() const override {
         Edges result;
-        for(auto const& edge : m_edges)
-        {
-            if(edge.first <= edge.second)
-            {
+        for (auto const& edge : m_edges) {
+            if (edge.first <= edge.second) {
                 result.emplace_back(edge);
             }
         }
         return result;
     }
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2) override
-    {
-        if(!isDirectlyConnected(vertex1, vertex2))
-        {
+    void connect(Vertex const& vertex1, Vertex const& vertex2) override {
+        if (!isDirectlyConnected(vertex1, vertex2)) {
             m_numberOfEdges++;
             m_edges.emplace(vertex1, vertex2);
             m_edges.emplace(vertex2, vertex1);
         }
     }
 
-    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
-    {
-        if(isDirectlyConnected(vertex1, vertex2))
-        {
+    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override {
+        if (isDirectlyConnected(vertex1, vertex2)) {
             m_numberOfEdges--;
             m_edges.erase({vertex1, vertex2});
             m_edges.erase({vertex2, vertex1});
         }
     }
 
-    void clear()
-    {
+    void clear() {
         m_numberOfEdges = 0;
         m_edges.clear();
     }
 
-    SetOfEdges& getSetOfEdgesReference()
-    {
-        return m_edges;
-    }
+    SetOfEdges& getSetOfEdgesReference() { return m_edges; }
 
 protected:
-
-    friend std::ostream & operator<<(std::ostream & out, UndirectedGraphWithListOfEdges const& graph)
-    {
+    friend std::ostream& operator<<(std::ostream& out, UndirectedGraphWithListOfEdges const& graph) {
         out << "Edges: {";
-        for(auto const& edge : graph.m_edges)
-        {
+        for (auto const& edge : graph.m_edges) {
             out << edge.first << "<->" << edge.second << ", ";
         }
         out << "}";
@@ -145,6 +106,6 @@ protected:
     SetOfEdges m_edges;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

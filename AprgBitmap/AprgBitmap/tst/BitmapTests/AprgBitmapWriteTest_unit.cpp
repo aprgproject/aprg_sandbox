@@ -8,14 +8,11 @@ using namespace std;
 
 #define APRG_BITMAP_WRITE_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\WriteTestFile.bmp)"
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-TEST(BitmapWriteTest, TestForWritingBitmap)
-{
+TEST(BitmapWriteTest, TestForWritingBitmap) {
     Bitmap bitmap(APRG_BITMAP_WRITE_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -23,27 +20,23 @@ TEST(BitmapWriteTest, TestForWritingBitmap)
 
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(50, 50), BitmapXY(150, 150)));
 
-    for(unsigned i=50; i<=150; i++)
-    {
-        snippet.setPixelAt(BitmapXY(i, round((double)100+40*(sin((double)i/10)))), 0x00FF0000);
+    for (unsigned i = 50; i <= 150; i++) {
+        snippet.setPixelAt(BitmapXY(i, round((double)100 + 40 * (sin((double)i / 10)))), 0x00FF0000);
     }
     bitmap.setSnippetWriteToFile(snippet);
 }
 
-
-TEST(BitmapWriteTest, TestForWritingMissingBitmapFile)
-{
+TEST(BitmapWriteTest, TestForWritingMissingBitmapFile) {
     Bitmap bitmap("FileThatDoesNotExist");
     ASSERT_FALSE(bitmap.getConfiguration().isValid());
 
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(50, 50), BitmapXY(150, 150)));
-    for(unsigned i=50; i<=150; i++)
-    {
-        snippet.setPixelAt(BitmapXY(i, round((double)100+40*(sin((double)i/10)))), 0x00FF0000);
+    for (unsigned i = 50; i <= 150; i++) {
+        snippet.setPixelAt(BitmapXY(i, round((double)100 + 40 * (sin((double)i / 10)))), 0x00FF0000);
     }
     bitmap.setSnippetWriteToFile(snippet);
 }
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

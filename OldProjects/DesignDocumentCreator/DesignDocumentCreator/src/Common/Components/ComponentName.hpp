@@ -2,18 +2,16 @@
 
 #include <vector>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-enum class ComponentName
-{
+enum class ComponentName {
     Empty,
     SampleComponent
-#define COMPONENT_NAME_MACRO(COMPONENT_NAME) ,COMPONENT_NAME
-    #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
+#define COMPONENT_NAME_MACRO(COMPONENT_NAME) , COMPONENT_NAME
+#include <FeatureSpecificFiles/ComponentNameMacro.hpp>
 #undef COMPONENT_NAME_MACRO
 
 };
 using ComponentNames = std::vector<ComponentName>;
 
-}
+}  // namespace DesignDocumentCreator

@@ -1,5 +1,4 @@
 #include "KickStart_2020_Round_P4_Bundling.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,69 +6,89 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_Round_P4_Bundling
-{
+namespace KickStart_2020_Round_P4_Bundling {
 
-TEST(KickStart_2020_Round_P4_BundlingTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_Round_P4_BundlingTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "2    " "\n"
-            << "2 2  " "\n"
-            << "KICK " "\n"
-            << "START" "\n"
-            << "8 2  " "\n"
-            << "G    " "\n"
-            << "G    " "\n"
-            << "GO   " "\n"
-            << "GO   " "\n"
-            << "GOO  " "\n"
-            << "GOO  " "\n"
-            << "GOOO " "\n"
-            << "GOOO " "\n"
-            << endl;
+    inputStringStream << "2    "
+                         "\n"
+                      << "2 2  "
+                         "\n"
+                      << "KICK "
+                         "\n"
+                      << "START"
+                         "\n"
+                      << "8 2  "
+                         "\n"
+                      << "G    "
+                         "\n"
+                      << "G    "
+                         "\n"
+                      << "GO   "
+                         "\n"
+                      << "GO   "
+                         "\n"
+                      << "GOO  "
+                         "\n"
+                      << "GOO  "
+                         "\n"
+                      << "GOOO "
+                         "\n"
+                      << "GOOO "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 0" "\n"
-                "Case #2: 10" "\n"
-                , outputStringStream.str());
+        "Case #1: 0"
+        "\n"
+        "Case #2: 10"
+        "\n",
+        outputStringStream.str());
 }
 
-TEST(KickStart_2020_Round_P4_BundlingTest, Test2)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_Round_P4_BundlingTest, Test2) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "1          " "\n"
-            << "6 3        " "\n"
-            << "RAINBOW    " "\n"
-            << "FIREBALL   " "\n"
-            << "RANK       " "\n"
-            << "RANDOM     " "\n"
-            << "FIREWALL   " "\n"
-            << "FIREFIGHTER" "\n"
-            << endl;
+    inputStringStream << "1          "
+                         "\n"
+                      << "6 3        "
+                         "\n"
+                      << "RAINBOW    "
+                         "\n"
+                      << "FIREBALL   "
+                         "\n"
+                      << "RANK       "
+                         "\n"
+                      << "RANDOM     "
+                         "\n"
+                      << "FIREWALL   "
+                         "\n"
+                      << "FIREFIGHTER"
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 6" "\n"
-                , outputStringStream.str());
+        "Case #1: 6"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_Round_P4_Bundling
 
 /*
 Problem
 
-Pip has N strings. Each string consists only of letters from A to Z. Pip would like to bundle their strings into groups of size K. Each string must belong to exactly one group.
+Pip has N strings. Each string consists only of letters from A to Z. Pip would like to bundle their strings into groups
+of size K. Each string must belong to exactly one group.
 
 The score of a group is equal to the length of the longest prefix shared by all the strings in that group. For example:
 
@@ -80,11 +99,11 @@ The score of a group is equal to the length of the longest prefix shared by all 
 Please help Pip bundle their strings into groups of size K, such that the sum of scores of the groups is maximized.
 Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line containing the two integers N and K. Then, N lines follow, each containing one of Pip's strings.
-Output
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line
+containing the two integers N and K. Then, N lines follow, each containing one of Pip's strings. Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the maximum sum of scores possible.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the maximum sum of scores possible. Limits
 
 Time limit: 20 seconds per test set.
 Memory limit: 1GB.
@@ -169,7 +188,8 @@ In Case #1, Pip can achieve a total score of 6 by make the groups:
     {RAINBOW, RANK, RANDOM}, with a score of 2.
     {FIREBALL, FIREWALL, FIREFIGHTER}, with a score of 4.
 
-    Note #1: Only Sample #1 is a valid input for Test set 1. Consequently, Sample #1 will be used as a sample test set for your submissions.
-    Note #2: Unlike previous editions, in Kick Start 2020, all test sets are visible verdict test sets, meaning you receive instant feedback upon submission.
+    Note #1: Only Sample #1 is a valid input for Test set 1. Consequently, Sample #1 will be used as a sample test set
+for your submissions. Note #2: Unlike previous editions, in Kick Start 2020, all test sets are visible verdict test
+sets, meaning you receive instant feedback upon submission.
 
 */

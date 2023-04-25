@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using SearchForTest = OrthogonalRectangleIntersectionSearch<double>;
 }
 
-TEST(OrthogonalRectangleIntersectionSearchTest, GetIntersectingPointsWorksWhen2RectanglesAreInACross)
-{
+TEST(OrthogonalRectangleIntersectionSearchTest, GetIntersectingPointsWorksWhen2RectanglesAreInACross) {
     SearchForTest search;
     search.addRectangle({{-2, -1}, {2, 1}});
     search.addRectangle({{-1, -2}, {1, 2}});
@@ -27,8 +23,7 @@ TEST(OrthogonalRectangleIntersectionSearchTest, GetIntersectingPointsWorksWhen2R
     EXPECT_EQ(rectanglesToExpect, rectanglesToVerify);
 }
 
-TEST(OrthogonalRectangleIntersectionSearchTest, GetIntersectingPointsWorksOnComplicatedExample)
-{
+TEST(OrthogonalRectangleIntersectionSearchTest, GetIntersectingPointsWorksOnComplicatedExample) {
     SearchForTest search;
     search.addRectangle({{0, -1}, {7, 1}});
     search.addRectangle({{1, -3}, {5, -2}});
@@ -41,6 +36,6 @@ TEST(OrthogonalRectangleIntersectionSearchTest, GetIntersectingPointsWorksOnComp
     EXPECT_EQ(rectanglesToExpect, rectanglesToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

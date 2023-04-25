@@ -7,26 +7,25 @@
 
 #include <string>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-class ChiaAnimeCrawler
-{
+class ChiaAnimeCrawler {
 public:
-    ChiaAnimeCrawler(WebCrawler & webCrawler);
+    ChiaAnimeCrawler(WebCrawler& webCrawler);
     void crawl();
 
 private:
     void crawl(unsigned int const webLinkIndex);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
-    std::string getVideoLink(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
+    std::string getVideoLink(
+        alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
     bool checkLinks();
     void downloadVideo(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, unsigned int const webLinkIndex);
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;
-    WebCrawler & m_webCrawler;
+    WebCrawler& m_webCrawler;
     CrawlConfiguration m_configuration;
     std::string m_linkForNextHtml;
     std::string m_linkForDownloadPage;
@@ -34,4 +33,4 @@ private:
     std::string m_localPathForCurrentVideo;
 };
 
-}
+}  // namespace aprgWebCrawler

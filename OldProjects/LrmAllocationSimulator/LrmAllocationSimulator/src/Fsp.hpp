@@ -5,18 +5,11 @@
 #include <set>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-enum class SmType
-{
-    MSM,
-    ESM,
-    BOTH_SM
-};
+enum class SmType { MSM, ESM, BOTH_SM };
 
-struct FspDetails
-{
+struct FspDetails {
     FspDetails();
     SmType smType;
     bool isMasterTcom;
@@ -24,8 +17,7 @@ struct FspDetails
     DspAddresses dspAddresses;
 };
 
-class Fsp
-{
+class Fsp {
 public:
     Fsp();
     Fsp(FspDetails const& fspDetails);
@@ -33,6 +25,7 @@ public:
     bool isMasterTcom() const;
     unsigned int getAddress() const;
     DspAddresses const& getDspAddresses() const;
+
 private:
     FspDetails m_fspDetails;
 };
@@ -40,4 +33,4 @@ private:
 using FspAddresses = std::vector<unsigned int>;
 using UniqueFspAddresses = std::set<unsigned int>;
 
-}
+}  // namespace alba

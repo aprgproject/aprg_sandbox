@@ -1,9 +1,7 @@
 #pragma once
 
-namespace alba
-{
-namespace matrix
-{
+namespace alba {
+namespace matrix {
 // Template declaration
 
 template <typename DataType>

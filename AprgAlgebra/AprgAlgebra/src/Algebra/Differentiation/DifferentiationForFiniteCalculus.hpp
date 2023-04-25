@@ -3,14 +3,11 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class DifferentiationForFiniteCalculus
-{
+class DifferentiationForFiniteCalculus {
 public:
     DifferentiationForFiniteCalculus(std::string const& nameOfVariableToDifferentiate);
 
@@ -40,6 +37,6 @@ private:
     std::string m_nameOfVariableToDifferentiate;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

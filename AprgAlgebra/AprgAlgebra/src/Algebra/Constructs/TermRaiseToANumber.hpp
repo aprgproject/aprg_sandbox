@@ -2,14 +2,11 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class TermRaiseToANumber
-{
+class TermRaiseToANumber {
 public:
     TermRaiseToANumber();
     TermRaiseToANumber(Term const& base, AlbaNumber const& exponent);
@@ -21,7 +18,7 @@ public:
     Term const& getBase() const;
     AlbaNumber const& getExponent() const;
 
-    Term & getBaseReference();
+    Term& getBaseReference();
 
     void setBase(Term const& base);
     void setExponent(AlbaNumber const& exponent);
@@ -33,6 +30,6 @@ private:
 
 using ListOfTermRaiseToANumber = std::vector<TermRaiseToANumber>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -6,42 +6,30 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class TransitiveClosureWithMap : public BaseTransitiveClosure<Vertex>
-{
+class TransitiveClosureWithMap : public BaseTransitiveClosure<Vertex> {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using VertexToReachabilityMap = typename std::map<Vertex, ReachabilityInDigraphWithSetUsingDfs<Vertex>>;
 
-    TransitiveClosureWithMap(BaseDirectedGraphWithVertex const& graph)
-        : m_graph(graph)
-    {
-        initialize();
-    }
+    TransitiveClosureWithMap(BaseDirectedGraphWithVertex const& graph) : m_graph(graph) { initialize(); }
 
-    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
-    {
+    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         bool result(false);
         auto it = m_vertexToReachabilityMap.find(sourceVertex);
-        if(it != m_vertexToReachabilityMap.cend())
-        {
+        if (it != m_vertexToReachabilityMap.cend()) {
             result = it->second.isReachable(destinationVertex);
         }
         return result;
     }
 
 private:
-
-    void initialize()
-    {
-        for(Vertex const& vertex : m_graph.getVertices())
-        {
+    void initialize() {
+        for (Vertex const& vertex : m_graph.getVertices()) {
             m_vertexToReachabilityMap.emplace(vertex, ReachabilityInDigraphWithSetUsingDfs<Vertex>(m_graph, vertex));
         }
     }
@@ -50,6 +38,6 @@ private:
     VertexToReachabilityMap m_vertexToReachabilityMap;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -7,21 +7,17 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class Expression : public BaseTermData
-{
+class Expression : public BaseTermData {
 public:
-
     Expression();
     Expression(BaseTerm const& baseTerm);
-    Expression(BaseTerm && baseTerm);
+    Expression(BaseTerm&& baseTerm);
     Expression(OperatorLevel const operatorLevel, WrappedTerms const& wrappedTerms);
-    Expression(OperatorLevel const operatorLevel, WrappedTerms && wrappedTerms);
+    Expression(OperatorLevel const operatorLevel, WrappedTerms&& wrappedTerms);
 
     // rule of zero
 
@@ -40,7 +36,7 @@ public:
     WrappedTerms const& getWrappedTerms() const;
     std::string getDebugString() const;
 
-    WrappedTerms & getWrappedTermsReference();
+    WrappedTerms& getWrappedTermsReference();
 
     void clear();
     void clearAndPutTermInWrappedTerms(BaseTerm const& baseTerm);
@@ -66,22 +62,20 @@ public:
     void clearAllInnerSimplifiedFlags();
 
 private:
-
-    //put functions
+    // put functions
     void putTermWithAndOperation(BaseTerm const& baseTerm);
     void putTermWithOrOperation(BaseTerm const& baseTerm);
-    void putTermForExpressionAndNonExpressions(
-            BaseTerm const& baseTerm);
+    void putTermForExpressionAndNonExpressions(BaseTerm const& baseTerm);
 
-    friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
+    friend std::ostream& operator<<(std::ostream& out, Expression const& expression);
 
     OperatorLevel m_commonOperatorLevel;
     WrappedTerms m_wrappedTerms;
     bool m_isSimplified;
 };
 
-using Expressions=std::vector<Expression>;
+using Expressions = std::vector<Expression>;
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

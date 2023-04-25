@@ -5,14 +5,11 @@
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class SimplexSolver
-{
+class SimplexSolver {
 public:
     using SimplexMatrix = matrix::AlbaMatrix<AlbaNumber>;
     using SimplexMatrixData = matrix::AlbaMatrixData<AlbaNumber>;
@@ -27,21 +24,16 @@ private:
     void intialize(Equations const& constraints, Polynomial const& objectiveFunction);
     void solve();
     void processConstraints(
-            Equations const& constraints,
-            Polynomials & constraintsInStandardForm,
-            VariableNamesRetriever & inputVariablesRetriever,
-            std::set<unsigned int> & indicesWithSlackVariables);
+        Equations const& constraints, Polynomials& constraintsInStandardForm,
+        VariableNamesRetriever& inputVariablesRetriever, std::set<unsigned int>& indicesWithSlackVariables);
     void saveInputVariables(VariableNamesSet const& inputVariableNames);
     void initializeSimplexTable(
-            Polynomial const& objectiveFunction,
-            Polynomials const& constraintsInStandardForm,
-            VariableNamesSet const& inputVariableNames,
-            std::set<unsigned int> const& indicesWithSlackVariables);
+        Polynomial const& objectiveFunction, Polynomials const& constraintsInStandardForm,
+        VariableNamesSet const& inputVariableNames, std::set<unsigned int> const& indicesWithSlackVariables);
     SimplexMatrix m_simplexTable;
     VariableNames m_inputVariables;
 };
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

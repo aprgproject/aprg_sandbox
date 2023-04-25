@@ -1,13 +1,11 @@
 #include <iostream>
 
-namespace ClassAdapter
-{
+namespace ClassAdapter {
 
 // Target
 // defines specific interface that Client uses
 
-class Target
-{
+class Target {
 public:
     virtual ~Target() = default;
 
@@ -15,38 +13,30 @@ public:
     // ...
 };
 
-
 // Adaptee
 // all requests get delegated to the Adaptee which defines
 // an existing interface that needs adapting
 
-class Adaptee
-{
+class Adaptee {
 public:
-    void specificRequest()
-    {
-        std::cout << "specific request\n";
-    }
+    void specificRequest() { std::cout << "specific request\n"; }
     // ...
 };
-
 
 // Adapter
 // implements the Target interface and lets the Adaptee respond
 // to request on a Target by extending both classes
 // ie adapts the interface of Adaptee to the Target interface
 
-class Adapter : public Target, private Adaptee // note the access control
+class Adapter : public Target,
+                private Adaptee  // note the access control
 {
 public:
-    virtual void request() override
-    {
-        specificRequest();
-    }
+    virtual void request() override { specificRequest(); }
     // ...
 };
 
-}
+}  // namespace ClassAdapter
 
 // Adapter discussion:
 
@@ -64,7 +54,8 @@ public:
 // When to use (applicability):
 // -> you want to use an existing class, and its interface does not match the one you need
 // -> you want to create a reusable class that cooperates with classes that don't necessarily have compatible interfaces
-// -> (object adapter only) you need to use several existing subclasses, but its impractical to adapt their interface by subclassing every one.
+// -> (object adapter only) you need to use several existing subclasses, but its impractical to adapt their interface by
+// subclassing every one.
 
 // Consequences:
 // -> A class adapter
@@ -73,7 +64,8 @@ public:
 // ---> introduces only one object and no additional pointer indirection is need to get to the adaptee.
 // -> A object adapter
 // ---> lets a single Adapter work with many Adaptees (and all its subclasses).
-// ---> makes it harder to override Adaptee behavior (requires subclassing the Adaptee and making the adapter refer to the subclass).
+// ---> makes it harder to override Adaptee behavior (requires subclassing the Adaptee and making the adapter refer to
+// the subclass).
 // -> Issues:
 // ---> How much adapting does Adapter do?
 // -----> Adapters vary in the amount of work they do to adapt Adaptee to the Target interface.
@@ -84,12 +76,15 @@ public:
 // -----> The amount of work Adapter does depends on how similar the Target interface is to Adaptee's.
 // ---> Pluggable adapter
 // -----> A class is more reusable when you minimize the assumptions other classes mucst make to use it.
-// -----> By building interface adaptation into a class, you eliminate the assumption that other classes see the same interface.
-// -----> Put another way, interface adaption lets us incorporate our class into existing system that might expect different interface to the class.
+// -----> By building interface adaptation into a class, you eliminate the assumption that other classes see the same
+// interface.
+// -----> Put another way, interface adaption lets us incorporate our class into existing system that might expect
+// different interface to the class.
 // -----> The term "pluggable adapter" to describe classes with built-in interface adaptation.
 // ---> Using two-way adapters to provide transparent.
 // -----> A potential problem with adapters is that they aren't transparent to all clients.
-// -----> An adapted object no longer conforms to the Adaptee interface, to it can't be used as is wherever an Adaptee object can.
+// -----> An adapted object no longer conforms to the Adaptee interface, to it can't be used as is wherever an Adaptee
+// object can.
 // -----> Two-way adapters are useful when two different clients need to view an object differently.
 
 // Implementation:
@@ -108,7 +103,8 @@ public:
 
 // Related Patterns
 // -> [Bridge] has a structure similar to an object adapter, but Bridge has different intent.
-// ---> [Bridge] is meant to separate an interface from its implementation so that they can be varied easily and independently.
+// ---> [Bridge] is meant to separate an interface from its implementation so that they can be varied easily and
+// independently.
 // ---> [Adapter] is meant to change the interface of an existing object.
 // -> [Decorator] enchances another object without changing its interface.
 // ---> A decoractor is thus more transparent to the application than an adapter is.

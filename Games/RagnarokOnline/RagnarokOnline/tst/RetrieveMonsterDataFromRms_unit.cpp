@@ -4,20 +4,18 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(RagnarokOnlineMonsterUpdateTest, DISABLED_RetrieveMonsterDataFromRmsWebPagesAndThenSaveTheData)
-{
+TEST(RagnarokOnlineMonsterUpdateTest, DISABLED_RetrieveMonsterDataFromRmsWebPagesAndThenSaveTheData) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveMonsterDataFromRmsWebpages(R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
+    ragnarokOnline.retrieveMonsterDataFromRmsWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
 
     ragnarokOnline.saveMonsterIdToMonsterMapToFile(R"(C:\Users\detectivemark7\Desktop\RO\MonsterIdToMonsterMap.txt)");
 }
 
-TEST(RagnarokOnlineMonsterTest, ReadMonsterIdToMonsterMapFromFileWorks)
-{
+TEST(RagnarokOnlineMonsterTest, ReadMonsterIdToMonsterMapFromFileWorks) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.readMonsterIdToMonsterMapFromFile(R"(C:\Users\detectivemark7\Desktop\RO\MonsterIdToMonsterMap.txt)");
@@ -25,20 +23,20 @@ TEST(RagnarokOnlineMonsterTest, ReadMonsterIdToMonsterMapFromFileWorks)
     EXPECT_EQ(1238U, ragnarokOnline.getMonsterIdToMonsterMap().size());
 }
 
-TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPagesWorks)
-{
+TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPagesWorks) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveMonsterDataFromRmsWebpages(R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
+    ragnarokOnline.retrieveMonsterDataFromRmsWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
 
     EXPECT_EQ(1238U, ragnarokOnline.getMonsterIdToMonsterMap().size());
 }
 
-TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPageWorksWithExample1)
-{
+TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPageWorksWithExample1) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveMonsterDataFromRmsWebPage(R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\monsterWithLetter_a_pageNumber_1.html)");
+    ragnarokOnline.retrieveMonsterDataFromRmsWebPage(
+        R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\monsterWithLetter_a_pageNumber_1.html)");
 
     MonsterIdToMonsterMap const& monsterIdToMonsterMap(ragnarokOnline.getMonsterIdToMonsterMap());
     ASSERT_EQ(10U, monsterIdToMonsterMap.size());
@@ -119,4 +117,4 @@ TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPageWorksWithExampl
     EXPECT_DOUBLE_EQ(8, monster1.dropsWithRates.at(7).rate);
 }
 
-}
+}  // namespace alba

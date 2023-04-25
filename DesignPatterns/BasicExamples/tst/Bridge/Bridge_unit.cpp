@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Bridge
-{
+namespace Bridge {
 
-TEST(BridgeTest, Test1)
-{
+TEST(BridgeTest, Test1) {
     auto implementatorA = std::make_unique<ConcreteImplementorA>();
     auto implementatorB = std::make_unique<ConcreteImplementorB>();
 
@@ -19,4 +17,4 @@ TEST(BridgeTest, Test1)
     abstraction2->operation();
 }
 
-}
+}  // namespace Bridge

@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2020_RoundD_P1_RecordBreaker.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -17,8 +18,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2020_RoundD_P1_RecordBreaker
-{
+namespace KickStart_2020_RoundD_P1_RecordBreaker {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -26,8 +26,7 @@ namespace KickStart_2020_RoundD_P1_RecordBreaker
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     int N;
     my_cin >> N;
     vector<int> V(N);
@@ -37,25 +36,22 @@ void runTestCase(unsigned int const testCaseNumber)
     int cur_max = -1;
     int answer = 0;
     for (int i = 0; i < N; i++) {
-        answer += V[i] > cur_max && (i+1==N || V[i] > V[i+1]);
+        answer += V[i] > cur_max && (i + 1 == N || V[i] > V[i + 1]);
         cur_max = max(cur_max, V[i]);
     }
 
     my_cout << "Case #" << testCaseNumber << ": " << answer << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -65,8 +61,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_RoundD_P1_RecordBreaker
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

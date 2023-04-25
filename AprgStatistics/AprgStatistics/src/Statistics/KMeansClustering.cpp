@@ -1,6 +1,3 @@
 #include <Statistics/KMeansClustering.hpp>
 
-namespace alba
-{
-
-}
+namespace alba {}

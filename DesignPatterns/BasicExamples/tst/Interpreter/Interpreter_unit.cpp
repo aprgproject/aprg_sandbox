@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Interpreter
-{
+namespace Interpreter {
 
-TEST(InterpreterTest, Test1)
-{
+TEST(InterpreterTest, Test1) {
     // An example of very simple expression tree
     // that corresponds to expression (A AND B)
 
@@ -24,4 +22,4 @@ TEST(InterpreterTest, Test1)
     std::cout << " = " << aPlusB->interpret(context) << "\n";
 }
 
-}
+}  // namespace Interpreter

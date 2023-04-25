@@ -1,27 +1,20 @@
 #include "FunctionsRetriever.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-FunctionsRetriever::FunctionsRetriever(
-        FunctionCondition const& isFunctionIncluded)
-    : m_isFunctionIncluded(isFunctionIncluded)
-{}
+FunctionsRetriever::FunctionsRetriever(FunctionCondition const& isFunctionIncluded)
+    : m_isFunctionIncluded(isFunctionIncluded) {}
 
-void FunctionsRetriever::retrieveFromPolynomial(Polynomial const&)
-{}
+void FunctionsRetriever::retrieveFromPolynomial(Polynomial const&) {}
 
-void FunctionsRetriever::retrieveFromFunction(Function const& functionObject)
-{
-    if(m_isFunctionIncluded(functionObject))
-    {
+void FunctionsRetriever::retrieveFromFunction(Function const& functionObject) {
+    if (m_isFunctionIncluded(functionObject)) {
         m_savedData.emplace(functionObject);
     }
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

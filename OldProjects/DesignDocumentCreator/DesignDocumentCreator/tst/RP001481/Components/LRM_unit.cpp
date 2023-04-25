@@ -7,23 +7,20 @@
 using namespace std;
 using namespace DesignDocumentCreator;
 
-TEST(LrmTest, MasterTcomNidIsInvalidByDefault)
-{
+TEST(LrmTest, MasterTcomNidIsInvalidByDefault) {
     LRM lrm(ComponentName::LRM);
 
     EXPECT_EQ(FakeFrameworkHelpers::INVALID_DSP_ADDRESS, lrm.getMasterTcomNid());
 }
 
-TEST(LrmTest, MasterTcomCanBeSet)
-{
+TEST(LrmTest, MasterTcomCanBeSet) {
     LRM lrm(ComponentName::LRM);
     lrm.setMasterTcomNid(0xA1BA);
 
     EXPECT_EQ(0xA1BAu, lrm.getMasterTcomNid());
 }
 
-TEST(LrmTest, GetFspAddressWorks)
-{
+TEST(LrmTest, GetFspAddressWorks) {
     LRM lrm(ComponentName::LRM);
 
     EXPECT_EQ(0xA1U, lrm.getFspAddressFromDspAddress(0xA1BA));
@@ -32,8 +29,7 @@ TEST(LrmTest, GetFspAddressWorks)
     EXPECT_EQ(0U, lrm.getFspAddressFromDspAddress(0));
 }
 
-TEST(LrmTest, GetKeplerAddressWithoutCorWorks)
-{
+TEST(LrmTest, GetKeplerAddressWithoutCorWorks) {
     LRM lrm(ComponentName::LRM);
 
     EXPECT_EQ(0xA1B0U, lrm.getKeplerAddressWithoutCore(0xA1BA));
@@ -42,8 +38,7 @@ TEST(LrmTest, GetKeplerAddressWithoutCorWorks)
     EXPECT_EQ(0U, lrm.getKeplerAddressWithoutCore(0));
 }
 
-TEST(LrmTest, IsTcomInThisK2Works)
-{
+TEST(LrmTest, IsTcomInThisK2Works) {
     LRM lrm(ComponentName::LRM);
     lrm.setMasterTcomNid(0xA1BA);
 
@@ -55,8 +50,7 @@ TEST(LrmTest, IsTcomInThisK2Works)
     EXPECT_FALSE(lrm.isTcomInThisK2(0x0000));
 }
 
-TEST(LrmTest, GetPowerGroupIdWorks)
-{
+TEST(LrmTest, GetPowerGroupIdWorks) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -70,8 +64,7 @@ TEST(LrmTest, GetPowerGroupIdWorks)
     EXPECT_EQ(2U, lrm.getPowerGroupId(0x1260));
 }
 
-TEST(LrmTest, GetDspModeIdWorks)
-{
+TEST(LrmTest, GetDspModeIdWorks) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -85,8 +78,7 @@ TEST(LrmTest, GetDspModeIdWorks)
     EXPECT_EQ(EDspMode_Kepler_DCD_DCD, lrm.getDspMode(0x1260));
 }
 
-TEST(LrmTest, GetNumberOfK2sInPowerGroupWorks)
-{
+TEST(LrmTest, GetNumberOfK2sInPowerGroupWorks) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -98,8 +90,7 @@ TEST(LrmTest, GetNumberOfK2sInPowerGroupWorks)
     EXPECT_EQ(2U, lrm.getNumberOfK2sInPowerGroup(2));
 }
 
-TEST(LrmTest, GetDspAddressesForLcgIdWorks)
-{
+TEST(LrmTest, GetDspAddressesForLcgIdWorks) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -118,8 +109,7 @@ TEST(LrmTest, GetDspAddressesForLcgIdWorks)
     ASSERT_EQ(0U, dspAddressForLcg2.size());
 }
 
-TEST(LrmTest, FindMcdCcdDFor1LcgWithMoreThan2K2WithNbic)
-{
+TEST(LrmTest, FindMcdCcdDFor1LcgWithMoreThan2K2WithNbic) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -131,8 +121,7 @@ TEST(LrmTest, FindMcdCcdDFor1LcgWithMoreThan2K2WithNbic)
     EXPECT_EQ(0x1230U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, FindMcdCcdDRemoveMasterTcomAddress)
-{
+TEST(LrmTest, FindMcdCcdDRemoveMasterTcomAddress) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -145,8 +134,7 @@ TEST(LrmTest, FindMcdCcdDRemoveMasterTcomAddress)
     EXPECT_EQ(0x1240U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, FindMcdCcdDRemoveDspWithInvalidNumberOfPowerGroup)
-{
+TEST(LrmTest, FindMcdCcdDRemoveDspWithInvalidNumberOfPowerGroup) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithWrongPowerGroup(payload);
     LRM lrm(ComponentName::LRM);
@@ -158,8 +146,7 @@ TEST(LrmTest, FindMcdCcdDRemoveDspWithInvalidNumberOfPowerGroup)
     EXPECT_EQ(0x1240U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode)
-{
+TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(payload);
     LRM lrm(ComponentName::LRM);
@@ -172,8 +159,7 @@ TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode)
     EXPECT_EQ(0x1240U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
-{
+TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCcdDInFspForMcdCcdD(payload);
     LRM lrm(ComponentName::LRM);
@@ -186,8 +172,7 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
     EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
-{
+TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberK2sForMcdCcdD(payload);
     LRM lrm(ComponentName::LRM);
@@ -199,8 +184,7 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
     EXPECT_EQ(0x1250U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, SetNumberOfIndicesCanBeDone)
-{
+TEST(LrmTest, SetNumberOfIndicesCanBeDone) {
     DelayedLinkIndices dli;
 
     dli.setIndices(10);
@@ -232,8 +216,7 @@ TEST(LrmTest, SetNumberOfIndicesCanBeDone)
     EXPECT_EQ(0U, dli.getNumberOfIndices(4));
 }
 
-TEST(LrmTest, SetAsAllocatedOrNotCanBeDone)
-{
+TEST(LrmTest, SetAsAllocatedOrNotCanBeDone) {
     DelayedLinkIndices dli;
 
     EXPECT_FALSE(dli.isAllocated(0));
@@ -274,8 +257,7 @@ TEST(LrmTest, SetAsAllocatedOrNotCanBeDone)
     EXPECT_FALSE(dli.isAllocated(4));
 }
 
-TEST(LrmTest, AllocatedDliAreNotIncludedInSelection)
-{
+TEST(LrmTest, AllocatedDliAreNotIncludedInSelection) {
     DelayedLinkIndices dli;
 
     dli.setIndices(20);
@@ -284,8 +266,7 @@ TEST(LrmTest, AllocatedDliAreNotIncludedInSelection)
     EXPECT_EQ(2U, dli.getAvailablePoolIdForRel4(1));
 }
 
-TEST(LrmTest, IndicesDoesNotFitAreNotIncludedInSelection)
-{
+TEST(LrmTest, IndicesDoesNotFitAreNotIncludedInSelection) {
     DelayedLinkIndices dli;
 
     dli.setIndices(20);
@@ -294,8 +275,7 @@ TEST(LrmTest, IndicesDoesNotFitAreNotIncludedInSelection)
     EXPECT_EQ(0U, dli.getAvailablePoolIdForRel4(12));
 }
 
-TEST(LrmTest, LowestNumberOfDlisIsPrioritized)
-{
+TEST(LrmTest, LowestNumberOfDlisIsPrioritized) {
     DelayedLinkIndices dli;
 
     dli.setIndices(20);
@@ -303,8 +283,7 @@ TEST(LrmTest, LowestNumberOfDlisIsPrioritized)
     EXPECT_EQ(2U, dli.getAvailablePoolIdForRel4(8));
 }
 
-TEST(LrmTest, LowestDliPoolIsPrioritized)
-{
+TEST(LrmTest, LowestDliPoolIsPrioritized) {
     DelayedLinkIndices dli;
 
     dli.setIndices(48);
@@ -312,8 +291,7 @@ TEST(LrmTest, LowestDliPoolIsPrioritized)
     EXPECT_EQ(1U, dli.getAvailablePoolIdForRel4(12));
 }
 
-TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXGreaterThan8)
-{
+TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXGreaterThan8) {
     DelayedLinkIndices dli;
     DelayedLinkIndices::PoolIdVector poolIds1;
     DelayedLinkIndices::PoolIdVector poolIds2;
@@ -331,8 +309,7 @@ TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXGreaterThan8)
     EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds4, 9));
 }
 
-TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXEqualTo8)
-{
+TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXEqualTo8) {
     DelayedLinkIndices dli;
     DelayedLinkIndices::PoolIdVector poolIds1;
     DelayedLinkIndices::PoolIdVector poolIds2;
@@ -350,8 +327,7 @@ TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXEqualTo8)
     EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds4, 8));
 }
 
-TEST(LrmTest, hasConflictWithNextAvailablePoolFor1And4)
-{
+TEST(LrmTest, hasConflictWithNextAvailablePoolFor1And4) {
     DelayedLinkIndices dli;
     DelayedLinkIndices::PoolIdVector poolIds1;
     DelayedLinkIndices::PoolIdVector poolIds2;
@@ -369,9 +345,7 @@ TEST(LrmTest, hasConflictWithNextAvailablePoolFor1And4)
     EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds4, 12));
 }
 
-
-TEST(LrmTest, FindNbicMcdCcd)
-{
+TEST(LrmTest, FindNbicMcdCcd) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
     LRM lrm(ComponentName::LRM);
@@ -383,9 +357,7 @@ TEST(LrmTest, FindNbicMcdCcd)
     EXPECT_EQ(0x1230U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
-
-TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithPic)
-{
+TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithPic) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
     LRM lrm(ComponentName::LRM);
@@ -399,8 +371,7 @@ TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithPic)
     EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
-TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithNbic)
-{
+TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithNbic) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
     LRM lrm(ComponentName::LRM);
@@ -414,8 +385,7 @@ TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithNbic)
     EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
-TEST(LrmTest, FindNbicMcdCcdDRemoveConflictDlis)
-{
+TEST(LrmTest, FindNbicMcdCcdDRemoveConflictDlis) {
     SLrmConfigurationDataInd payload;
     MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
     LRM lrm(ComponentName::LRM);

@@ -3,11 +3,9 @@
 #include "../Term/Term.hpp"
 #include "../Utilities.hpp"
 
-namespace codeReview
-{
+namespace codeReview {
 
-class TermBuilder
-{
+class TermBuilder {
 public:
     TermBuilder(DequeOfTerms& dequeOfTerms);
     DequeOfTerms& getTermsReference();
@@ -38,4 +36,4 @@ private:
     unsigned int m_lineNumber;
 };
 
-}
+}  // namespace codeReview

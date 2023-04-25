@@ -55,20 +55,18 @@ using namespace cimg_library;
 // Main procedure
 //----------------
 int main() {
+    // Load images.
+    CImg<short> img1(cimg_imagepath "milla.bmp");
+    const CImg<float> img2 = CImg<float>(cimg_imagepath "parrot.ppm").resize(img1, 3);
+    const float default_color[] = {30, 30, 80};
 
-  // Load images.
-  CImg<short> img1(cimg_imagepath "milla.bmp");
-  const CImg<float> img2 = CImg<float>(cimg_imagepath "parrot.ppm").resize(img1,3);
-  const float default_color[] = { 30,30,80 };
+    // Modify 'img1' using the RGB pixel accessor.
+    cimg_forXY(img1, x, y) if (!((x * y) % 31)) img1.RGB_at(x, y) = default_color;
+    else if ((x + y) % 2) img1.RGB_at(x, y) = img2.RGB_at(x, y);
+    img1.display();
 
-  // Modify 'img1' using the RGB pixel accessor.
-  cimg_forXY(img1,x,y)
-    if (!((x*y)%31)) img1.RGB_at(x,y) = default_color;
-    else if ((x+y)%2) img1.RGB_at(x,y) = img2.RGB_at(x,y);
-  img1.display();
-
-  // Quit.
-  return 0;
+    // Quit.
+    return 0;
 }
 
 #else
@@ -81,55 +79,55 @@ int main() {
 //-----------------------------------------------------------
 // (Feel free to add your own operators in there !)
 struct st_RGB {
-  T _R,_G,_B,&R,&G,&B;
+    T _R, _G, _B, &R, &G, &B;
 
-  // Construct from R,G,B references of values.
-  st_RGB(const T& nR, const T& nG, const T& nB):_R(nR),_G(nG),_B(nB),R(_R),G(_G),B(_B) {}
-  st_RGB(T& nR, T& nG, T& nB):R(nR),G(nG),B(nB) {}
+    // Construct from R,G,B references of values.
+    st_RGB(const T& nR, const T& nG, const T& nB) : _R(nR), _G(nG), _B(nB), R(_R), G(_G), B(_B) {}
+    st_RGB(T& nR, T& nG, T& nB) : R(nR), G(nG), B(nB) {}
 
-  // Copy constructors.
-  st_RGB(const st_RGB& rgb):_R(rgb.R),_G(rgb.G),_B(rgb.B),R(_R),G(_G),B(_B) {}
-  template<typename t>
-  st_RGB(const t& rgb):_R(rgb[0]),_G(rgb[1]),_B(rgb[2]) {}
+    // Copy constructors.
+    st_RGB(const st_RGB& rgb) : _R(rgb.R), _G(rgb.G), _B(rgb.B), R(_R), G(_G), B(_B) {}
+    template <typename t>
+    st_RGB(const t& rgb) : _R(rgb[0]), _G(rgb[1]), _B(rgb[2]) {}
 
-  // Assignement operator.
-  st_RGB& operator=(const st_RGB& rgb) {
-    R = (T)(rgb[0]); G = (T)(rgb[1]); B = (T)(rgb[2]);
-    return *this;
-  }
-  template<typename t>
-  st_RGB& operator=(const t& rgb) {
-    R = (T)(rgb[0]); G = (T)(rgb[1]); B = (T)(rgb[2]);
-    return *this;
-  }
+    // Assignement operator.
+    st_RGB& operator=(const st_RGB& rgb) {
+        R = (T)(rgb[0]);
+        G = (T)(rgb[1]);
+        B = (T)(rgb[2]);
+        return *this;
+    }
+    template <typename t>
+    st_RGB& operator=(const t& rgb) {
+        R = (T)(rgb[0]);
+        G = (T)(rgb[1]);
+        B = (T)(rgb[2]);
+        return *this;
+    }
 
-  // Data (R,G or B) access operator.
-  const T& operator[](const unsigned int i) const {
-    return i==2?B:(i==1?G:R);
-  }
-  T& operator[](const unsigned int i) {
-    return i==2?B:(i==1?G:R);
-  }
+    // Data (R,G or B) access operator.
+    const T& operator[](const unsigned int i) const { return i == 2 ? B : (i == 1 ? G : R); }
+    T& operator[](const unsigned int i) { return i == 2 ? B : (i == 1 ? G : R); }
 
-  // Print instance on the standard error.
-  const st_RGB& print() const {
-    std::fprintf(stderr,"{ %d %d %d }\n",(int)R,(int)G,(int)B);
-    return *this;
-  }
+    // Print instance on the standard error.
+    const st_RGB& print() const {
+        std::fprintf(stderr, "{ %d %d %d }\n", (int)R, (int)G, (int)B);
+        return *this;
+    }
 };
 
 // Define CImg<T> member functions which return pixel values as st_RGB instances.
 //--------------------------------------------------------------------------------
-const st_RGB RGB_at(const int x, const int y=0, const int z=0) const {
-  const int whz = width()*height()*depth();
-  const T *const pR = data() + x + y*width() + z*width()*height(), *const pG = pR + whz, *const pB = pG + whz;
-  return st_RGB(*pR,*pG,*pB);
+const st_RGB RGB_at(const int x, const int y = 0, const int z = 0) const {
+    const int whz = width() * height() * depth();
+    const T *const pR = data() + x + y * width() + z * width() * height(), *const pG = pR + whz, *const pB = pG + whz;
+    return st_RGB(*pR, *pG, *pB);
 }
 
-st_RGB RGB_at(const int x, const int y=0, const int z=0) {
-  const int whz = width()*height()*depth();
-  T *const pR = data() + x + y*width() + z*width()*height(), *const pG = pR + whz, *const pB = pG + whz;
-  return st_RGB(*pR,*pG,*pB);
+st_RGB RGB_at(const int x, const int y = 0, const int z = 0) {
+    const int whz = width() * height() * depth();
+    T *const pR = data() + x + y * width() + z * width() * height(), *const pG = pR + whz, *const pB = pG + whz;
+    return st_RGB(*pR, *pG, *pB);
 }
 
 //------------------------

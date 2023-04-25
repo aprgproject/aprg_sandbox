@@ -2,21 +2,14 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-enum class RedBlackColor
-{
-    Red,
-    Black
-};
+enum class RedBlackColor { Red, Black };
 
 template <typename Key>
-struct BasicTreeNode
-{
+struct BasicTreeNode {
     Key key;
     std::unique_ptr<BasicTreeNode> left;
     std::unique_ptr<BasicTreeNode> right;
@@ -24,8 +17,7 @@ struct BasicTreeNode
 };
 
 template <typename Key>
-struct RedBlackTreeNode
-{
+struct RedBlackTreeNode {
     Key key;
     std::unique_ptr<RedBlackTreeNode> left;
     std::unique_ptr<RedBlackTreeNode> right;
@@ -34,8 +26,7 @@ struct RedBlackTreeNode
 };
 
 template <typename Key, typename KeyDataTypeValue>
-struct IntervalSearchTreeNode
-{
+struct IntervalSearchTreeNode {
     Key key;
     std::unique_ptr<IntervalSearchTreeNode> left;
     std::unique_ptr<IntervalSearchTreeNode> right;
@@ -45,8 +36,7 @@ struct IntervalSearchTreeNode
 };
 
 template <typename Key, typename Value>
-struct BasicTreeNodeWithValue
-{
+struct BasicTreeNodeWithValue {
     Key key;
     Value value;
     std::unique_ptr<BasicTreeNodeWithValue> left;
@@ -55,8 +45,7 @@ struct BasicTreeNodeWithValue
 };
 
 template <typename Key, typename Value>
-struct RedBlackTreeNodeWithValue
-{
+struct RedBlackTreeNodeWithValue {
     Key key;
     Value value;
     std::unique_ptr<RedBlackTreeNodeWithValue> left;
@@ -66,8 +55,7 @@ struct RedBlackTreeNodeWithValue
 };
 
 template <typename Key, typename Value, typename KeyDataTypeValue>
-struct IntervalSearchTreeNodeWithValue
-{
+struct IntervalSearchTreeNodeWithValue {
     Key key;
     Value value;
     std::unique_ptr<IntervalSearchTreeNodeWithValue> left;
@@ -77,6 +65,6 @@ struct IntervalSearchTreeNodeWithValue
     KeyDataTypeValue maxIntervalValueInSubtree;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

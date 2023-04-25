@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(AlternatingSeriesTest, IsSummationModelValidWorks)
-{
+TEST(AlternatingSeriesTest, IsSummationModelValidWorks) {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -21,8 +18,7 @@ TEST(AlternatingSeriesTest, IsSummationModelValidWorks)
     EXPECT_FALSE(series.isSummationModelValid());
 }
 
-TEST(AlternatingSeriesTest, GetValueAtIndexWorks)
-{
+TEST(AlternatingSeriesTest, GetValueAtIndexWorks) {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -34,8 +30,7 @@ TEST(AlternatingSeriesTest, GetValueAtIndexWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(7, 12)), series.getValueAtIndex(3));
 }
 
-TEST(AlternatingSeriesTest, IsConvergentWorks)
-{
+TEST(AlternatingSeriesTest, IsConvergentWorks) {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -44,8 +39,7 @@ TEST(AlternatingSeriesTest, IsConvergentWorks)
     EXPECT_TRUE(series.isConvergent());
 }
 
-TEST(AlternatingSeriesTest, GetRemainderAtIndexWorks)
-{
+TEST(AlternatingSeriesTest, GetRemainderAtIndexWorks) {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -57,6 +51,6 @@ TEST(AlternatingSeriesTest, GetRemainderAtIndexWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(7, 12)), series.getRemainderAtIndex(3));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -22,27 +22,17 @@ using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-SimplificationOfEquation::SimplificationOfEquation(
-        Equation const& equation)
-    : m_equation(equation)
-{}
+SimplificationOfEquation::SimplificationOfEquation(Equation const& equation) : m_equation(equation) {}
 
-Equation SimplificationOfEquation::getEquation() const
-{
-    return m_equation;
-}
+Equation SimplificationOfEquation::getEquation() const { return m_equation; }
 
-void SimplificationOfEquation::simplify()
-{
+void SimplificationOfEquation::simplify() {
     Term leftHandSide(m_equation.getLeftHandTerm());
     Term rightHandSide(m_equation.getRightHandTerm());
     simplifyLeftHandSideAndRightHandSide(leftHandSide, rightHandSide);
@@ -59,97 +49,67 @@ void SimplificationOfEquation::simplify()
     m_equation = Equation(newLeftHandSide, equationOperatorString, 0);
 }
 
-void SimplificationOfEquation::simplifyLeftHandSideAndRightHandSide(
-        Term & leftHandSide,
-        Term & rightHandSide)
-{
+void SimplificationOfEquation::simplifyLeftHandSideAndRightHandSide(Term& leftHandSide, Term& rightHandSide) {
     raiseLeftHandSideAndRightHandSideToPowerIfLogarithmic(leftHandSide, rightHandSide);
 }
 
 void SimplificationOfEquation::raiseLeftHandSideAndRightHandSideToPowerIfLogarithmic(
-        Term & leftHandSide,
-        Term & rightHandSide)
-{
-    if(rightHandSide.isFunction() && isLogarithmicFunction(rightHandSide.getFunctionConstReference()))
-    {
+    Term& leftHandSide, Term& rightHandSide) {
+    if (rightHandSide.isFunction() && isLogarithmicFunction(rightHandSide.getFunctionConstReference())) {
         Function const& functionObject(rightHandSide.getFunctionConstReference());
-        if("log" == functionObject.getFunctionName())
-        {
+        if ("log" == functionObject.getFunctionName()) {
             leftHandSide = Term(createExpressionIfPossible({10, "^", leftHandSide}));
-        }
-        else if("ln" == functionObject.getFunctionName())
-        {
+        } else if ("ln" == functionObject.getFunctionName()) {
             leftHandSide = Term(createExpressionIfPossible({getEAsATerm(), "^", leftHandSide}));
         }
         rightHandSide = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
     }
 }
 
-Term SimplificationOfEquation::getNewCombinedTerm(
-        Term const& leftHandSide,
-        Term const& rightHandSide) const
-{
+Term SimplificationOfEquation::getNewCombinedTerm(Term const& leftHandSide, Term const& rightHandSide) const {
     Term combinedTerm;
-    if(isTheValue(leftHandSide, AlbaNumber(0)))
-    {
+    if (isTheValue(leftHandSide, AlbaNumber(0))) {
         combinedTerm = rightHandSide;
-    }
-    else if(isTheValue(rightHandSide, AlbaNumber(0)))
-    {
+    } else if (isTheValue(rightHandSide, AlbaNumber(0))) {
         combinedTerm = leftHandSide;
-    }
-    else
-    {
+    } else {
         combinedTerm = Term(createExpressionIfPossible(Terms{leftHandSide, "-", rightHandSide}));
     }
     return combinedTerm;
 }
 
-void SimplificationOfEquation::negateTermIfNeeded(
-        Term & leftHandSide,
-        string & equationOperatorString)
-{
-    if(isANegativeTerm(leftHandSide))
-    {
+void SimplificationOfEquation::negateTermIfNeeded(Term& leftHandSide, string& equationOperatorString) {
+    if (isANegativeTerm(leftHandSide)) {
         leftHandSide = convertPositiveTermIfNegative(leftHandSide);
         equationOperatorString = getReverseEquationOperatorString(equationOperatorString);
     }
 }
 
-void SimplificationOfEquation::removeExponentIfNeeded(
-        Term & leftHandSide)
-{
-    if(leftHandSide.isExpression())
-    {
+void SimplificationOfEquation::removeExponentIfNeeded(Term& leftHandSide) {
+    if (leftHandSide.isExpression()) {
         Expression const& expression(leftHandSide.getExpressionConstReference());
-        if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
-        {
+        if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()) {
             TermRaiseToTerms termRaiseToTerms(expression.getTermsWithAssociation().getTermsWithDetails());
             leftHandSide = termRaiseToTerms.getBase();
         }
     }
 }
 
-void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded(
-        Term & leftHandSide)
-{
+void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded(Term& leftHandSide) {
     leftHandSide.simplify();
-    if(leftHandSide.isExpression())
-    {
+    if (leftHandSide.isExpression()) {
         Expression const& expression(leftHandSide.getExpressionConstReference());
-        if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
-        {
+        if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
             TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-            if(termsWithDetails.size() == 2
-                    && areTheSignsOfTwoTermsDifferent(termsWithDetails.at(0), termsWithDetails.at(1)))
-            {
+            if (termsWithDetails.size() == 2 &&
+                areTheSignsOfTwoTermsDifferent(termsWithDetails.at(0), termsWithDetails.at(1))) {
                 Term const& firstTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
                 Term const& secondTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
                 TermRaiseToANumber termRaiseToANumber1(createTermRaiseToANumberFromTerm(firstTerm));
                 TermRaiseToANumber termRaiseToANumber2(createTermRaiseToANumberFromTerm(secondTerm));
-                AlbaNumber gcfOfExponents = getGreatestCommonFactor(termRaiseToANumber1.getExponent(), termRaiseToANumber2.getExponent());
-                if(gcfOfExponents.isFractionType())
-                {
+                AlbaNumber gcfOfExponents =
+                    getGreatestCommonFactor(termRaiseToANumber1.getExponent(), termRaiseToANumber2.getExponent());
+                if (gcfOfExponents.isFractionType()) {
                     AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
                     termRaiseToANumber1.setExponent(termRaiseToANumber1.getExponent() * exponentFraction.denominator);
                     termRaiseToANumber2.setExponent(termRaiseToANumber2.getExponent() * exponentFraction.denominator);
@@ -161,60 +121,44 @@ void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded
     }
 }
 
-void SimplificationOfEquation::removeCommonConstant(
-        Term & leftHandSide)
-{
-    if(!isTheValue(leftHandSide, 0) && !isPositiveOrNegativeInfinity(leftHandSide))
-    {
-        if(canBeConvertedToMonomial(leftHandSide))
-        {
+void SimplificationOfEquation::removeCommonConstant(Term& leftHandSide) {
+    if (!isTheValue(leftHandSide, 0) && !isPositiveOrNegativeInfinity(leftHandSide)) {
+        if (canBeConvertedToMonomial(leftHandSide)) {
             Monomial monomial(createMonomialIfPossible(leftHandSide));
             monomial.setConstant(getSign(monomial.getConstantConstReference()));
             leftHandSide = simplifyAndConvertMonomialToSimplestTerm(monomial);
-        }
-        else if(leftHandSide.isPolynomial())
-        {
+        } else if (leftHandSide.isPolynomial()) {
             bool isLeftHandSideChanged(false);
             Polynomials factors(factorizeCommonMonomial(leftHandSide.getPolynomialConstReference()));
-            for(Polynomial & factor : factors)
-            {
-                Monomials & monomials(factor.getMonomialsReference());
-                if(monomials.size() == 1)
-                {
-                    Monomial & onlyMonomial(monomials.at(0));
+            for (Polynomial& factor : factors) {
+                Monomials& monomials(factor.getMonomialsReference());
+                if (monomials.size() == 1) {
+                    Monomial& onlyMonomial(monomials.at(0));
                     onlyMonomial.setConstant(getSign(onlyMonomial.getConstantConstReference()));
-                    isLeftHandSideChanged=true;
+                    isLeftHandSideChanged = true;
                 }
             }
-            if(isLeftHandSideChanged)
-            {
+            if (isLeftHandSideChanged) {
                 Polynomial combinedPolynomial(createPolynomialFromNumber(1));
-                for(Polynomial const& factor : factors)
-                {
+                for (Polynomial const& factor : factors) {
                     combinedPolynomial.multiplyPolynomial(factor);
                 }
                 leftHandSide = Term(combinedPolynomial);
             }
-        }
-        else if(leftHandSide.isExpression())
-        {
+        } else if (leftHandSide.isExpression()) {
             bool isLeftHandSideChanged(false);
             Terms factors(factorizeAnExpressionWithConfigurationChanged(leftHandSide.getExpressionConstReference()));
-            for(Term & factor : factors)
-            {
-                if(canBeConvertedToMonomial(factor))
-                {
+            for (Term& factor : factors) {
+                if (canBeConvertedToMonomial(factor)) {
                     Monomial monomialFactor(createMonomialIfPossible(factor));
                     monomialFactor.setConstant(getSign(monomialFactor.getConstantConstReference()));
                     factor = simplifyAndConvertMonomialToSimplestTerm(monomialFactor);
-                    isLeftHandSideChanged=true;
+                    isLeftHandSideChanged = true;
                 }
             }
-            if(isLeftHandSideChanged)
-            {
+            if (isLeftHandSideChanged) {
                 Term combinedTerm(1);
-                for(Term & factor : factors)
-                {
+                for (Term& factor : factors) {
                     combinedTerm *= factor;
                 }
                 leftHandSide = combinedTerm;
@@ -223,21 +167,15 @@ void SimplificationOfEquation::removeCommonConstant(
     }
 }
 
-void SimplificationOfEquation::simplifyLeftHandSide(
-        Term & term)
-{
-    simplifyTermToACommonDenominator(term);
-}
+void SimplificationOfEquation::simplifyLeftHandSide(Term& term) { simplifyTermToACommonDenominator(term); }
 
 bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(
-        TermWithDetails const& firstTerm,
-        TermWithDetails const& secondTerm)
-{
+    TermWithDetails const& firstTerm, TermWithDetails const& secondTerm) {
     return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

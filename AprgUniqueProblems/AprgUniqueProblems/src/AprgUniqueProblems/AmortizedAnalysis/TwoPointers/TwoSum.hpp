@@ -2,11 +2,9 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class TwoSum
-{
+class TwoSum {
 public:
     // Another problem that can be solved using the two pointers method is the following problem,
     // also known as the 2SUM problem: given an array of n numbers and a target sum x,
@@ -20,8 +18,9 @@ public:
     TwoSum(Values const& valuesToCheck);
 
     ValuesPair getTwoValuesWithSum(Value const targetSum) const;
+
 private:
     Values m_sortedValues;
 };
 
-}
+}  // namespace alba

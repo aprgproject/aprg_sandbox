@@ -1,13 +1,10 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class BaseSolver
-{
+class BaseSolver {
 public:
     BaseSolver();
 
@@ -28,7 +25,6 @@ private:
     bool m_isACompleteSolution;
 };
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

@@ -6,22 +6,18 @@
 
 using namespace alba::algebra::Functions;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(ConvertHelpersTest, CanBeConvertedToConstantWorks)
-{
+TEST(ConvertHelpersTest, CanBeConvertedToConstantWorks) {
     EXPECT_TRUE(canBeConvertedToConstant(Polynomial()));
     EXPECT_TRUE(canBeConvertedToConstant(Polynomial{Monomial(96, {})}));
     EXPECT_FALSE(canBeConvertedToConstant(Polynomial{Monomial(96, {{"x", 1}})}));
     EXPECT_FALSE(canBeConvertedToConstant(Polynomial{Monomial(96, {}), Monomial(96, {{"x", 1}})}));
 }
 
-TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks)
-{
+TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks) {
     EXPECT_FALSE(canBeConvertedToMonomial(Term()));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(0)));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(15)));
@@ -33,8 +29,7 @@ TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks)
     EXPECT_FALSE(canBeConvertedToMonomial(Term(Expression())));
 }
 
-TEST(ConvertHelpersTest, CanBeConvertedToPolynomialWorks)
-{
+TEST(ConvertHelpersTest, CanBeConvertedToPolynomialWorks) {
     EXPECT_FALSE(canBeConvertedToPolynomial(Term()));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(0)));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(15)));
@@ -45,8 +40,7 @@ TEST(ConvertHelpersTest, CanBeConvertedToPolynomialWorks)
     EXPECT_FALSE(canBeConvertedToPolynomial(Term(Expression())));
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertMonomialToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, SimplifyAndConvertMonomialToSimplestTermWorks) {
     Term termToVerify1(simplifyAndConvertMonomialToSimplestTerm(Monomial()));
     Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));
     Term termToVerify3(simplifyAndConvertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
@@ -62,11 +56,11 @@ TEST(ConvertHelpersTest, SimplifyAndConvertMonomialToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(10, termToVerify4.getConstantValueConstReference().getDouble());
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertPolynomialToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, SimplifyAndConvertPolynomialToSimplestTermWorks) {
     Term termToVerify1(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{}));
     Term termToVerify2(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {})}));
-    Term termToVerify3(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
+    Term termToVerify3(
+        simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
 
     ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
     EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantValueConstReference().getDouble());
@@ -76,8 +70,7 @@ TEST(ConvertHelpersTest, SimplifyAndConvertPolynomialToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(0, termToVerify3.getConstantValueConstReference().getDouble());
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks) {
     Expression expression1(createExpressionIfPossible({88}));
     Expression expression2(createExpressionInAnExpression(expression1));
     Expression expression3(createExpressionInAnExpression(expression2));
@@ -100,17 +93,12 @@ TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(88, termToVerify5.getConstantValueConstReference().getDouble());
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks) {
     Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
-    Function function3("functionName", Term(createExpressionIfPossible({5, "+", 5})), [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });
+    Function function3(
+        "functionName", Term(createExpressionIfPossible({5, "+", 5})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     Term termToVerify1(simplifyAndConvertFunctionToSimplestTerm(function1));
     Term termToVerify2(simplifyAndConvertFunctionToSimplestTerm(function2));
@@ -122,8 +110,7 @@ TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
     EXPECT_EQ(Term(10), termToVerify3);
 }
 
-TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks) {
     Term termToVerify1(convertMonomialToSimplestTerm(Monomial()));
     Term termToVerify2(convertMonomialToSimplestTerm(Monomial(6, {})));
     Term termToVerify3(convertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
@@ -140,8 +127,7 @@ TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks)
     EXPECT_EQ(monomialToExpect, termToVerify4.getMonomialConstReference());
 }
 
-TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks) {
     Term termToVerify1(convertPolynomialToSimplestTerm(Polynomial{}));
     Term termToVerify2(convertPolynomialToSimplestTerm(Polynomial{Monomial(6, {})}));
     Term termToVerify3(convertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
@@ -155,8 +141,7 @@ TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks)
     EXPECT_EQ(polynomialToExpect, termToVerify3.getPolynomialConstReference());
 }
 
-TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks) {
     Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible({})));
     Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible({156})));
     Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible({Monomial(444, {})})));
@@ -169,17 +154,10 @@ TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
     EXPECT_EQ(termToExpect4, termToVerify4);
 }
 
-TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks) {
     Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
-    Function function3("functionName", Term("x"), [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });
+    Function function3("functionName", Term("x"), [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term multiplicationAndDivisionExpression(createExpressionIfPossible({"x", "*", "y", "/", "z"}));
 
     Term termToVerify1(convertFunctionToSimplestTerm(function1));
@@ -196,6 +174,6 @@ TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
     EXPECT_EQ(termToExpect, termToVerify4);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

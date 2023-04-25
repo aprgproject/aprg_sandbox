@@ -1,25 +1,21 @@
 #include "RagnarokOnline.hpp"
 
-#include <Common/Stream/AlbaStreamParameterReader.hpp>
-#include <Common/Stream/AlbaStreamParameterWriter.hpp>
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/Stream/AlbaStreamParameterReader.hpp>
+#include <Common/Stream/AlbaStreamParameterWriter.hpp>
 
 #include <sstream>
 
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-bool Monster::isAggressive() const
-{
+bool Monster::isAggressive() const {
     bool result(false);
-    for(string const& mode : modes)
-    {
-        if("Aggressive" == mode)
-        {
+    for (string const& mode : modes) {
+        if ("Aggressive" == mode) {
             result = true;
             break;
         }
@@ -27,13 +23,10 @@ bool Monster::isAggressive() const
     return result;
 }
 
-bool Monster::isMvp() const
-{
+bool Monster::isMvp() const {
     bool result(false);
-    for(string const& mode : modes)
-    {
-        if("MVP Boss" == mode)
-        {
+    for (string const& mode : modes) {
+        if ("MVP Boss" == mode) {
             result = true;
             break;
         }
@@ -41,13 +34,10 @@ bool Monster::isMvp() const
     return result;
 }
 
-bool Monster::hasStoneCurseSkill() const
-{
+bool Monster::hasStoneCurseSkill() const {
     bool result(false);
-    for(string const& monsterSkill : monsterSkills)
-    {
-        if(isStringFoundInsideTheOtherStringCaseSensitive(monsterSkill, "Stone Curse"))
-        {
+    for (string const& monsterSkill : monsterSkills) {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(monsterSkill, "Stone Curse")) {
             result = true;
             break;
         }
@@ -55,25 +45,19 @@ bool Monster::hasStoneCurseSkill() const
     return result;
 }
 
-RagnarokOnline::RagnarokOnline()
-{}
+RagnarokOnline::RagnarokOnline() {}
 
-void RagnarokOnline::retrieveItemDataFromRmsWebpages(
-        string const& directoryPathOfWebPages)
-{
+void RagnarokOnline::retrieveItemDataFromRmsWebpages(string const& directoryPathOfWebPages) {
     AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
+    for (string const& filePath : listOfFiles) {
         retrieveItemDataFromRmsWebPage(filePath);
     }
 }
 
-void RagnarokOnline::retrieveItemDataFromRmsWebPage(
-        string const& filePathOfWebPage)
-{
+void RagnarokOnline::retrieveItemDataFromRmsWebPage(string const& filePathOfWebPage) {
     AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
     ifstream fileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(fileStream);
@@ -85,182 +69,130 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
     bool isDescriptionNotComplete(false);
     string itemScript;
     bool isItemScriptNotComplete(false);
-    while(fileReader.isNotFinished())
-    {
+    while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
         bool shouldItemBeCleared(false);
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_item")"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_item")")) {
             isContextBoxEncountered = true;
             shouldItemBeCleared = true;
         }
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")")) {
             isContextBoxEncountered = false;
             shouldItemBeCleared = true;
         }
-        if(shouldItemBeCleared)
-        {
-            if(item.itemId != 0)
-            {
+        if (shouldItemBeCleared) {
+            if (item.itemId != 0) {
                 m_itemIdToItemMap.emplace(item.itemId, item);
             }
             item = Item{};
             parameterName.clear();
         }
 
-        if(isContextBoxEncountered)
-        {
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td valign="bottom"><b>)"))
-            {
+        if (isContextBoxEncountered) {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td valign="bottom"><b>)")) {
                 item.name = fixText(getStringInBetweenTwoStrings(line, R"(<td valign="bottom"><b>)", R"(</b>)"));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Item ID#)"))
-            {
-                item.itemId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Item ID#)", R"( ()")));
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Item ID#)")) {
+                item.itemId = convertStringToNumber<unsigned int>(
+                    fixText(getStringInBetweenTwoStrings(line, R"(Item ID#)", R"( ()")));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" align="right">)"))
-            {
-                string value = fixText(getStringInBetweenTwoStrings(line, R"(<td class="bb" align="right">)", R"(</td>)"));
-                if("Type" == parameterName)
-                {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" align="right">)")) {
+                string value =
+                    fixText(getStringInBetweenTwoStrings(line, R"(<td class="bb" align="right">)", R"(</td>)"));
+                if ("Type" == parameterName) {
                     item.type = value;
-                }
-                else if("Class" == parameterName)
-                {
+                } else if ("Class" == parameterName) {
                     item.itemClass = value;
-                }
-                else if("Buy" == parameterName)
-                {
+                } else if ("Buy" == parameterName) {
                     item.buyingPrice = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Sell" == parameterName)
-                {
+                } else if ("Sell" == parameterName) {
                     item.sellingPrice = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Weight" == parameterName)
-                {
+                } else if ("Weight" == parameterName) {
                     item.weight = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Attack" == parameterName)
-                {
+                } else if ("Attack" == parameterName) {
                     item.attack = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Defense" == parameterName)
-                {
+                } else if ("Defense" == parameterName) {
                     item.defense = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Required Lvl" == parameterName)
-                {
+                } else if ("Required Lvl" == parameterName) {
                     item.requiredLevel = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Weapon Lvl" == parameterName)
-                {
+                } else if ("Weapon Lvl" == parameterName) {
                     item.weaponLevel = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Slot" == parameterName)
-                {
+                } else if ("Slot" == parameterName) {
                     item.slot = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Range" == parameterName)
-                {
+                } else if ("Range" == parameterName) {
                     item.range = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Pre/Suffix" == parameterName)
-                {
+                } else if ("Pre/Suffix" == parameterName) {
                     item.prefixOrSuffix = value;
                 }
             }
-            if("Property" == parameterName)
-            {
-                if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="bb" align="right">)"))
-                {
-                    item.property = fixText(getStringInBetweenTwoStrings(line, R"(<th class="bb" align="right">)", R"(</th>)"));
+            if ("Property" == parameterName) {
+                if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="bb" align="right">)")) {
+                    item.property =
+                        fixText(getStringInBetweenTwoStrings(line, R"(<th class="bb" align="right">)", R"(</th>)"));
                 }
-            }
-            else if("Description" == parameterName)
-            {
-                if(isDescriptionNotComplete)
-                {
+            } else if ("Description" == parameterName) {
+                if (isDescriptionNotComplete) {
                     description += " ";
-                    if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
-                    {
+                    if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)")) {
                         description += getStringBeforeThisString(line, R"(</td>)");
                         isDescriptionNotComplete = false;
                         item.description = fixText(description);
-                    }
-                    else
-                    {
+                    } else {
                         description += line;
                     }
-                }
-                else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td colspan="9" class="bb" valign="top">)"))
-                {
-                    if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
-                    {
-                        description = getStringInBetweenTwoStrings(line, R"(<td colspan="9" class="bb" valign="top">)", R"(</td>)");
+                } else if (isStringFoundInsideTheOtherStringCaseSensitive(
+                               line, R"(<td colspan="9" class="bb" valign="top">)")) {
+                    if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)")) {
+                        description = getStringInBetweenTwoStrings(
+                            line, R"(<td colspan="9" class="bb" valign="top">)", R"(</td>)");
                         isDescriptionNotComplete = false;
                         item.description = fixText(description);
-                    }
-                    else
-                    {
+                    } else {
                         description = getStringAfterThisString(line, R"(<td colspan="9" class="bb" valign="top">)");
                         isDescriptionNotComplete = true;
                     }
                 }
-            }
-            else if("Item Script" == parameterName)
-            {
-                if(isItemScriptNotComplete)
-                {
+            } else if ("Item Script" == parameterName) {
+                if (isItemScriptNotComplete) {
                     itemScript += " ";
-                    if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
-                    {
+                    if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)")) {
                         itemScript += getStringBeforeThisString(line, R"(</div>)");
                         isItemScriptNotComplete = false;
                         item.itemScript = fixText(itemScript);
-                    }
-                    else
-                    {
+                    } else {
                         itemScript += line;
                     }
-                }
-                else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div class="db_script_txt">)"))
-                {
-                    if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
-                    {
+                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div class="db_script_txt">)")) {
+                    if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)")) {
                         itemScript = getStringInBetweenTwoStrings(line, R"(<div class="db_script_txt">)", R"(</div>)");
                         isItemScriptNotComplete = false;
                         item.itemScript = fixText(itemScript);
-                    }
-                    else
-                    {
+                    } else {
                         itemScript = getStringAfterThisString(line, R"(<div class="db_script_txt">)");
                         isItemScriptNotComplete = true;
                     }
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")")) {
                 parameterName = fixText(getStringInBetweenTwoStrings(line, R"(align="left">)", R"(</th>)"));
-                if("Applicable Jobs" == parameterName)
-                {
+                if ("Applicable Jobs" == parameterName) {
                     string lineWithJobs(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithJobs, R"(<td width="100">)"))
-                    {
-                        string value = fixText(getStringInBetweenTwoStrings(lineWithJobs, R"(<td width="100">)", R"(</td>)"));
+                    while (isStringFoundInsideTheOtherStringCaseSensitive(lineWithJobs, R"(<td width="100">)")) {
+                        string value =
+                            fixText(getStringInBetweenTwoStrings(lineWithJobs, R"(<td width="100">)", R"(</td>)"));
                         item.applicableJobs.emplace_back(value);
                         lineWithJobs = getStringAfterThisString(lineWithJobs, R"(<td width="100">)");
                     }
-                }
-                else if("Dropped By" == parameterName)
-                {
+                } else if ("Dropped By" == parameterName) {
                     string lineWithDroppedBy(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithDroppedBy, R"(<div class="tipstext">)"))
-                    {
-                        string monsterName = fixText(getStringInBetweenTwoStrings(lineWithDroppedBy, ")\">", R"(<div class="tipstext">)"));
-                        string monsterRate = fixText(getStringInBetweenTwoStrings(lineWithDroppedBy, R"(<div class="tipstext">)", R"(</div>)"));
-                        item.droppedByMonstersWithRates.emplace_back(NameAndRate{monsterName, convertStringToNumber<double>(monsterRate)});
+                    while (isStringFoundInsideTheOtherStringCaseSensitive(
+                        lineWithDroppedBy, R"(<div class="tipstext">)")) {
+                        string monsterName = fixText(
+                            getStringInBetweenTwoStrings(lineWithDroppedBy, ")\">", R"(<div class="tipstext">)"));
+                        string monsterRate = fixText(
+                            getStringInBetweenTwoStrings(lineWithDroppedBy, R"(<div class="tipstext">)", R"(</div>)"));
+                        item.droppedByMonstersWithRates.emplace_back(
+                            NameAndRate{monsterName, convertStringToNumber<double>(monsterRate)});
                         lineWithDroppedBy = getStringAfterThisString(lineWithDroppedBy, R"(<div class="tipstext">)");
                     }
                 }
@@ -269,22 +201,17 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
     }
 }
 
-void RagnarokOnline::retrieveMonsterDataFromRmsWebpages(
-        string const& directoryPathOfWebPages)
-{
+void RagnarokOnline::retrieveMonsterDataFromRmsWebpages(string const& directoryPathOfWebPages) {
     AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
+    for (string const& filePath : listOfFiles) {
         retrieveMonsterDataFromRmsWebPage(filePath);
     }
 }
 
-void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
-        string const& filePathOfWebPage)
-{
+void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(string const& filePathOfWebPage) {
     AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
     ifstream fileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(fileStream);
@@ -292,198 +219,118 @@ void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
     bool isContextBoxEncountered(false);
     Monster monster{};
     string parameterName;
-    while(fileReader.isNotFinished())
-    {
+    while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
         bool shouldItemBeCleared(false);
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_mob")"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_mob")")) {
             isContextBoxEncountered = true;
             shouldItemBeCleared = true;
         }
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")")) {
             isContextBoxEncountered = false;
             shouldItemBeCleared = true;
         }
-        if(shouldItemBeCleared)
-        {
-            if(monster.monsterId != 0)
-            {
+        if (shouldItemBeCleared) {
+            if (monster.monsterId != 0) {
                 m_monsterIdToMonsterMap.emplace(monster.monsterId, monster);
             }
             monster = Monster{};
             parameterName.clear();
         }
 
-        if(isContextBoxEncountered)
-        {
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div style="width: 400px; margin: 0px 5px;">)"))
-            {
-                monster.name = fixText(getStringInBetweenTwoStrings(line, R"(<div style="width: 400px; margin: 0px 5px;">)", R"(&nbsp;)"));
+        if (isContextBoxEncountered) {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(
+                    line, R"(<div style="width: 400px; margin: 0px 5px;">)")) {
+                monster.name = fixText(
+                    getStringInBetweenTwoStrings(line, R"(<div style="width: 400px; margin: 0px 5px;">)", R"(&nbsp;)"));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Mob-ID#)"))
-            {
-                monster.monsterId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Mob-ID#)", R"(</div>)")));
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Mob-ID#)")) {
+                monster.monsterId = convertStringToNumber<unsigned int>(
+                    fixText(getStringInBetweenTwoStrings(line, R"(Mob-ID#)", R"(</div>)")));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb")")
-                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="right">)"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb")") &&
+                isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="right">)")) {
                 string value = fixText(getStringInBetweenTwoStrings(line, R"(align="right">)", R"(</td>)"));
-                if("HP" == parameterName)
-                {
+                if ("HP" == parameterName) {
                     monster.hp = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Level" == parameterName)
-                {
+                } else if ("Level" == parameterName) {
                     monster.level = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Race" == parameterName)
-                {
+                } else if ("Race" == parameterName) {
                     monster.race = value;
-                }
-                else if("Property" == parameterName)
-                {
+                } else if ("Property" == parameterName) {
                     monster.property = value;
-                }
-                else if("Size" == parameterName)
-                {
+                } else if ("Size" == parameterName) {
                     monster.size = value;
-                }
-                else if("Hit(100%)" == parameterName)
-                {
+                } else if ("Hit(100%)" == parameterName) {
                     monster.hitRequiredFor100Percent = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Flee(95%)" == parameterName)
-                {
+                } else if ("Flee(95%)" == parameterName) {
                     monster.fleeRequiredFor95Percent = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Base Experience" == parameterName)
-                {
+                } else if ("Base Experience" == parameterName) {
                     monster.baseExperience = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Job Experience" == parameterName)
-                {
+                } else if ("Job Experience" == parameterName) {
                     monster.jobExperience = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Base Exp Per HP" == parameterName)
-                {
+                } else if ("Base Exp Per HP" == parameterName) {
                     monster.baseExperiencePerHp = value;
-                }
-                else if("Job Exp Per HP" == parameterName)
-                {
+                } else if ("Job Exp Per HP" == parameterName) {
                     monster.jobExperiencePerHp = value;
-                }
-                else if("Walk Speed" == parameterName)
-                {
+                } else if ("Walk Speed" == parameterName) {
                     monster.walkSpeed = value;
-                }
-                else if("Atk Delay" == parameterName)
-                {
+                } else if ("Atk Delay" == parameterName) {
                     monster.attackDelay = value;
-                }
-                else if("Delay After Hit" == parameterName)
-                {
+                } else if ("Delay After Hit" == parameterName) {
                     monster.delayAfterHit = value;
-                }
-                else if("Attack" == parameterName)
-                {
+                } else if ("Attack" == parameterName) {
                     monster.lowestAttack = convertStringToNumber<unsigned int>(getStringBeforeThisString(value, "-"));
                     monster.highestAttack = convertStringToNumber<unsigned int>(getStringAfterThisString(value, "-"));
-                }
-                else if("Def" == parameterName)
-                {
+                } else if ("Def" == parameterName) {
                     monster.defense = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Magic Def" == parameterName)
-                {
+                } else if ("Magic Def" == parameterName) {
                     monster.magicDefense = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Str" == parameterName)
-                {
+                } else if ("Str" == parameterName) {
                     monster.strength = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Int" == parameterName)
-                {
+                } else if ("Int" == parameterName) {
                     monster.intelligence = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Agi" == parameterName)
-                {
+                } else if ("Agi" == parameterName) {
                     monster.agility = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Dex" == parameterName)
-                {
+                } else if ("Dex" == parameterName) {
                     monster.dexterity = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Vit" == parameterName)
-                {
+                } else if ("Vit" == parameterName) {
                     monster.vitality = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Luk" == parameterName)
-                {
+                } else if ("Luk" == parameterName) {
                     monster.luck = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Atk Range" == parameterName)
-                {
+                } else if ("Atk Range" == parameterName) {
                     monster.attackRange = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Spell Range" == parameterName)
-                {
+                } else if ("Spell Range" == parameterName) {
                     monster.spellRange = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Sight Range" == parameterName)
-                {
+                } else if ("Sight Range" == parameterName) {
                     monster.sightRange = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Neutral" == parameterName)
-                {
+                } else if ("Neutral" == parameterName) {
                     monster.neutralPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Water" == parameterName)
-                {
+                } else if ("Water" == parameterName) {
                     monster.waterPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Earth" == parameterName)
-                {
+                } else if ("Earth" == parameterName) {
                     monster.earthPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Fire" == parameterName)
-                {
+                } else if ("Fire" == parameterName) {
                     monster.firePercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Wind" == parameterName)
-                {
+                } else if ("Wind" == parameterName) {
                     monster.windPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Poison" == parameterName)
-                {
+                } else if ("Poison" == parameterName) {
                     monster.poisonPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Holy" == parameterName)
-                {
+                } else if ("Holy" == parameterName) {
                     monster.holyPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Shadow" == parameterName)
-                {
+                } else if ("Shadow" == parameterName) {
                     monster.shadowPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Ghost" == parameterName)
-                {
+                } else if ("Ghost" == parameterName) {
                     monster.ghostPercentage = convertStringToNumber<unsigned int>(value);
-                }
-                else if("Undead" == parameterName)
-                {
+                } else if ("Undead" == parameterName) {
                     monster.undeadPercentage = convertStringToNumber<unsigned int>(value);
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(onclick="return popItem)"))
-            {
-                if("Drops" == parameterName)
-                {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(onclick="return popItem)")) {
+                if ("Drops" == parameterName) {
                     string dropName = fixText(getStringInBetweenTwoStrings(line, R"(">)", R"(<b>)"));
                     string slot = fixText(getStringInBetweenTwoStrings(line, R"([</b>)", R"(<b>])"));
-                    if(!slot.empty())
-                    {
+                    if (!slot.empty()) {
                         dropName += " [";
                         dropName += slot;
                         dropName += "]";
@@ -492,14 +339,11 @@ void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
                     monster.dropsWithRates.emplace_back(NameAndRate{dropName, convertStringToNumber<double>(dropRate)});
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div class="tipstext">)")
-                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
-            {
-                if("Mode" == parameterName)
-                {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div class="tipstext">)") &&
+                isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)")) {
+                if ("Mode" == parameterName) {
                     string modes = getStringInBetweenTwoStrings(line, R"(<div class="tipstext">)", R"(</div>)");
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(modes, R"(<br>)"))
-                    {
+                    while (isStringFoundInsideTheOtherStringCaseSensitive(modes, R"(<br>)")) {
                         string mode(fixText(getStringBeforeThisString(modes, R"(<br>)")));
                         transformReplaceStringIfFound(mode, "- ", "");
                         monster.modes.emplace_back(mode);
@@ -507,181 +351,148 @@ void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
                     }
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" width="180" valign="top">)"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" width="180" valign="top">)")) {
                 string lineWithMaps(line);
-                while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithMaps, "map_dim)\">"))
-                {
+                while (isStringFoundInsideTheOtherStringCaseSensitive(lineWithMaps, "map_dim)\">")) {
                     string value = fixText(getStringInBetweenTwoStrings(lineWithMaps, "map_dim)\">", R"(</a>)"));
                     monster.maps.emplace_back(value);
                     lineWithMaps = getStringAfterThisString(lineWithMaps, "map_dim)\">");
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<table width="100%" border="0">)"))
-            {
-                if("Monster Skills" == parameterName)
-                {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<table width="100%" border="0">)")) {
+                if ("Monster Skills" == parameterName) {
                     string lineWithMonsterSkills(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithMonsterSkills, R"(circle.gif">)"))
-                    {
-                        string value = fixText(getStringInBetweenTwoStrings(lineWithMonsterSkills, R"(circle.gif">)", R"(</td>)"));
+                    while (isStringFoundInsideTheOtherStringCaseSensitive(lineWithMonsterSkills, R"(circle.gif">)")) {
+                        string value =
+                            fixText(getStringInBetweenTwoStrings(lineWithMonsterSkills, R"(circle.gif">)", R"(</td>)"));
                         monster.monsterSkills.emplace_back(value);
                         lineWithMonsterSkills = getStringAfterThisString(lineWithMonsterSkills, R"(circle.gif">)");
                     }
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")")) {
                 parameterName = fixText(getStringInBetweenTwoStrings(line, R"(align="left">)", R"(</th>)"));
-            }
-            else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Drops</th>)"))
-            {
+            } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Drops</th>)")) {
                 parameterName = "Drops";
-            }
-            else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Mode</th>)"))
-            {
+            } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Mode</th>)")) {
                 parameterName = "Mode";
-            }
-            else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Monster Skills</th>)"))
-            {
+            } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Monster Skills</th>)")) {
                 parameterName = "Monster Skills";
             }
         }
     }
 }
 
-void RagnarokOnline::retrieveMapDataFromRmsWebpages(
-        string const& directoryPathOfWebPages)
-{
+void RagnarokOnline::retrieveMapDataFromRmsWebpages(string const& directoryPathOfWebPages) {
     AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
+    for (string const& filePath : listOfFiles) {
         retrieveMapDataFromRmsWebPage(filePath);
     }
 }
 
-void RagnarokOnline::retrieveMapDataFromRmsWebPage(
-        string const& filePathOfWebPage)
-{
+void RagnarokOnline::retrieveMapDataFromRmsWebPage(string const& filePathOfWebPage) {
     AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
     ifstream fileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(fileStream);
     fileReader.setMaxBufferSize(100000);
     bool isContextBoxEncountered(false);
     RoMap map{};
-    while(fileReader.isNotFinished())
-    {
+    while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
         bool shouldItemBeCleared(false);
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_db")"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_db")")) {
             isContextBoxEncountered = true;
             shouldItemBeCleared = true;
         }
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")")) {
             isContextBoxEncountered = false;
             shouldItemBeCleared = true;
         }
-        if(shouldItemBeCleared)
-        {
-            if(!map.name.empty())
-            {
+        if (shouldItemBeCleared) {
+            if (!map.name.empty()) {
                 m_mapNameToRoMap.emplace(map.name, map);
             }
             map = RoMap{};
         }
 
-        if(isContextBoxEncountered)
-        {
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(- Map: )")
-                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"( -)"))
-            {
+        if (isContextBoxEncountered) {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(- Map: )") &&
+                isStringFoundInsideTheOtherStringCaseSensitive(line, R"( -)")) {
                 map.name = fixText(getStringInBetweenTwoStrings(line, R"(- Map: )", R"( -)"));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<b>Map: )")
-                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</b>)"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<b>Map: )") &&
+                isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</b>)")) {
                 map.name = fixText(getStringInBetweenTwoStrings(line, R"(<b>Map: )", R"(</b>)"));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bborder" align="right">)")
-                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
-            {
-                map.fullName = fixText(getStringInBetweenTwoStrings(line, R"(<td class="bborder" align="right">)", R"(</td>)"));
+            if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bborder" align="right">)") &&
+                isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)")) {
+                map.fullName =
+                    fixText(getStringInBetweenTwoStrings(line, R"(<td class="bborder" align="right">)", R"(</td>)"));
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Click on a monster below to view its detail:)"))
-            {
+            if (isStringFoundInsideTheOtherStringCaseSensitive(
+                    line, R"(Click on a monster below to view its detail:)")) {
                 string lineWithMonsters(line);
-                while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">"))
-                {
+                while (isStringFoundInsideTheOtherStringCaseSensitive(
+                    lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">")) {
                     MonsterDetailsOnRoMap monsterDetailsOnMap{};
-                    string wholeMonsterString = getStringInBetweenTwoStrings(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">", R"(</a>)");
-                    string wholeSpawnString = getStringInBetweenTwoStrings(wholeMonsterString, R"(<b>(</b>)", R"(<b>)</b>)");
-                    monsterDetailsOnMap.monsterName = fixText(getStringBeforeThisString(wholeMonsterString, R"(<b>(</b>)"));
+                    string wholeMonsterString = getStringInBetweenTwoStrings(
+                        lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">", R"(</a>)");
+                    string wholeSpawnString =
+                        getStringInBetweenTwoStrings(wholeMonsterString, R"(<b>(</b>)", R"(<b>)</b>)");
+                    monsterDetailsOnMap.monsterName =
+                        fixText(getStringBeforeThisString(wholeMonsterString, R"(<b>(</b>)"));
                     transformReplaceStringIfFound(monsterDetailsOnMap.monsterName, "[MVP]", "");
-                    if(isStringFoundInsideTheOtherStringCaseSensitive(wholeSpawnString, "/"))
-                    {
-                        monsterDetailsOnMap.spawnCount = convertStringToNumber<unsigned int>(fixText(getStringBeforeThisString(wholeSpawnString, R"(/)")));
+                    if (isStringFoundInsideTheOtherStringCaseSensitive(wholeSpawnString, "/")) {
+                        monsterDetailsOnMap.spawnCount = convertStringToNumber<unsigned int>(
+                            fixText(getStringBeforeThisString(wholeSpawnString, R"(/)")));
                         monsterDetailsOnMap.spawnRate = fixText(getStringAfterThisString(wholeSpawnString, R"(/)"));
-                    }
-                    else
-                    {
+                    } else {
                         monsterDetailsOnMap.spawnCount = convertStringToNumber<unsigned int>(fixText(wholeSpawnString));
                     }
                     map.monstersDetailsOnMap.emplace_back(monsterDetailsOnMap);
-                    lineWithMonsters = getStringAfterThisString(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">");
+                    lineWithMonsters =
+                        getStringAfterThisString(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">");
                 }
             }
         }
     }
 }
 
-void RagnarokOnline::retrieveBuyingShopDataFromTalonRoWebpages(
-        string const& directoryPathOfWebPages)
-{
+void RagnarokOnline::retrieveBuyingShopDataFromTalonRoWebpages(string const& directoryPathOfWebPages) {
     AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
+    for (string const& filePath : listOfFiles) {
         retrieveShopDataFromTalonRoWebPage(filePath, ShopType::BuyingShop);
     }
 }
 
-void RagnarokOnline::retrieveSellingShopDataFromTalonRoWebpages(
-        string const& directoryPathOfWebPages)
-{
+void RagnarokOnline::retrieveSellingShopDataFromTalonRoWebpages(string const& directoryPathOfWebPages) {
     AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
+    for (string const& filePath : listOfFiles) {
         retrieveShopDataFromTalonRoWebPage(filePath, ShopType::SellingShop);
     }
 }
 
-void RagnarokOnline::retrieveShopDataFromTalonRoWebPage(
-        string const& filePathOfWebPage,
-        ShopType const shopType)
-{
+void RagnarokOnline::retrieveShopDataFromTalonRoWebPage(string const& filePathOfWebPage, ShopType const shopType) {
     AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
     ifstream fileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(fileStream);
     fileReader.setMaxBufferSize(100000);
-    while(fileReader.isNotFinished())
-    {
+    while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="sorting_1">)"))
-        {
+        if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="sorting_1">)")) {
             string lineWithItems(line);
-            while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithItems, R"(<td class="sorting_1">)"))
-            {
-                string itemString = getStringInBetweenTwoStrings(lineWithItems, R"(<td class="sorting_1">)", R"(<span class="d-none">)");
+            while (isStringFoundInsideTheOtherStringCaseSensitive(lineWithItems, R"(<td class="sorting_1">)")) {
+                string itemString = getStringInBetweenTwoStrings(
+                    lineWithItems, R"(<td class="sorting_1">)", R"(<span class="d-none">)");
                 lineWithItems = getStringAfterThisString(lineWithItems, R"(<td class="sorting_1">)");
                 string priceString = getStringInBetweenTwoStrings(lineWithItems, R"(</span></td><td>)", R"(</td><td>)");
                 lineWithItems = getStringAfterThisString(lineWithItems, R"(</span></td><td>)");
@@ -692,33 +503,28 @@ void RagnarokOnline::retrieveShopDataFromTalonRoWebPage(
                 newDetail.averagePrice = convertStringToNumber<double>(fixText(priceString));
                 newDetail.totalNumber = convertStringToNumber<unsigned int>(fixText(numberString));
 
-                if(ShopType::BuyingShop == shopType)
-                {
+                if (ShopType::BuyingShop == shopType) {
                     ItemNameToShopItemDetailMap::iterator it = m_buyingShopItems.find(newDetail.itemName);
-                    if(it != m_buyingShopItems.cend())
-                    {
+                    if (it != m_buyingShopItems.cend()) {
                         unsigned newTotalNumber = it->second.totalNumber + newDetail.totalNumber;
-                        double newAveragePrice = ((it->second.averagePrice * it->second.totalNumber) + (newDetail.averagePrice * newDetail.totalNumber)) / newTotalNumber;
+                        double newAveragePrice = ((it->second.averagePrice * it->second.totalNumber) +
+                                                  (newDetail.averagePrice * newDetail.totalNumber)) /
+                                                 newTotalNumber;
                         it->second.totalNumber = newTotalNumber;
                         it->second.averagePrice = newAveragePrice;
-                    }
-                    else
-                    {
+                    } else {
                         m_buyingShopItems[newDetail.itemName] = newDetail;
                     }
-                }
-                else if(ShopType::SellingShop == shopType)
-                {
+                } else if (ShopType::SellingShop == shopType) {
                     ItemNameToShopItemDetailMap::iterator it = m_sellingShopItems.find(newDetail.itemName);
-                    if(it != m_sellingShopItems.cend())
-                    {
+                    if (it != m_sellingShopItems.cend()) {
                         unsigned newTotalNumber = it->second.totalNumber + newDetail.totalNumber;
-                        double newAveragePrice = ((it->second.averagePrice * it->second.totalNumber) + (newDetail.averagePrice * newDetail.totalNumber)) / newTotalNumber;
+                        double newAveragePrice = ((it->second.averagePrice * it->second.totalNumber) +
+                                                  (newDetail.averagePrice * newDetail.totalNumber)) /
+                                                 newTotalNumber;
                         it->second.totalNumber = newTotalNumber;
                         it->second.averagePrice = newAveragePrice;
-                    }
-                    else
-                    {
+                    } else {
                         m_sellingShopItems[newDetail.itemName] = newDetail;
                     }
                 }
@@ -727,145 +533,96 @@ void RagnarokOnline::retrieveShopDataFromTalonRoWebPage(
     }
 }
 
-void RagnarokOnline::readItemIdToItemMapFromFile(
-        string const& inputFilePath)
-{
+void RagnarokOnline::readItemIdToItemMapFromFile(string const& inputFilePath) {
     ifstream inputStream(inputFilePath);
     AlbaStreamParameterReader reader(inputStream);
     reader.readMapData<unsigned int, Item>(m_itemIdToItemMap);
 }
 
-void RagnarokOnline::readMonsterIdToMonsterMapFromFile(
-        string const& inputFilePath)
-{
+void RagnarokOnline::readMonsterIdToMonsterMapFromFile(string const& inputFilePath) {
     ifstream inputStream(inputFilePath);
     AlbaStreamParameterReader reader(inputStream);
     reader.readMapData<unsigned int, Monster>(m_monsterIdToMonsterMap);
 }
 
-void RagnarokOnline::readMapNameToRoMapFromFile(
-        string const& inputFilePath)
-{
+void RagnarokOnline::readMapNameToRoMapFromFile(string const& inputFilePath) {
     ifstream inputStream(inputFilePath);
     AlbaStreamParameterReader reader(inputStream);
     reader.readMapData<string, RoMap>(m_mapNameToRoMap);
 }
 
-void RagnarokOnline::readBuyingShopItems(
-        string const& inputFilePath)
-{
+void RagnarokOnline::readBuyingShopItems(string const& inputFilePath) {
     ifstream inputStream(inputFilePath);
     AlbaStreamParameterReader reader(inputStream);
     reader.readMapData<string, ShopItemDetail>(m_buyingShopItems);
 }
 
-void RagnarokOnline::readSellingShopItems(
-        string const& inputFilePath)
-{
+void RagnarokOnline::readSellingShopItems(string const& inputFilePath) {
     ifstream inputStream(inputFilePath);
     AlbaStreamParameterReader reader(inputStream);
     reader.readMapData<string, ShopItemDetail>(m_sellingShopItems);
 }
 
-
-void RagnarokOnline::buildItemNameToItemId()
-{
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)
-    {
+void RagnarokOnline::buildItemNameToItemId() {
+    for (auto const& itemIdItemPair : m_itemIdToItemMap) {
         Item const& item(itemIdItemPair.second);
         string fixedItemName(getFixedItemName(item));
         m_itemNameToItemIdMap.emplace(fixedItemName, itemIdItemPair.first);
     }
 }
 
-void RagnarokOnline::buildMonsterNameToMonsterId()
-{
-    for(auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap)
-    {
+void RagnarokOnline::buildMonsterNameToMonsterId() {
+    for (auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap) {
         Monster const& monster(monsterIdMonsterPair.second);
         m_monsterNameToMonsterIdMap.emplace(monster.name, monsterIdMonsterPair.first);
     }
 }
 
-ItemIdToItemMap const& RagnarokOnline::getItemIdToItemMap() const
-{
-    return m_itemIdToItemMap;
-}
+ItemIdToItemMap const& RagnarokOnline::getItemIdToItemMap() const { return m_itemIdToItemMap; }
 
-MonsterIdToMonsterMap const& RagnarokOnline::getMonsterIdToMonsterMap() const
-{
-    return m_monsterIdToMonsterMap;
-}
+MonsterIdToMonsterMap const& RagnarokOnline::getMonsterIdToMonsterMap() const { return m_monsterIdToMonsterMap; }
 
-MapNameToRoMap const& RagnarokOnline::getMapNameToRoMap() const
-{
-    return m_mapNameToRoMap;
-}
+MapNameToRoMap const& RagnarokOnline::getMapNameToRoMap() const { return m_mapNameToRoMap; }
 
-ItemNameToShopItemDetailMap const& RagnarokOnline::getBuyingItemShops() const
-{
-    return m_buyingShopItems;
-}
+ItemNameToShopItemDetailMap const& RagnarokOnline::getBuyingItemShops() const { return m_buyingShopItems; }
 
-ItemNameToShopItemDetailMap const& RagnarokOnline::getSellingItemShops() const
-{
-    return m_sellingShopItems;
-}
+ItemNameToShopItemDetailMap const& RagnarokOnline::getSellingItemShops() const { return m_sellingShopItems; }
 
-Item RagnarokOnline::getItem(
-        string const& fixedItemName) const
-{
+Item RagnarokOnline::getItem(string const& fixedItemName) const {
     Item result{};
     auto it1 = m_itemNameToItemIdMap.find(fixedItemName);
-    if(it1 != m_itemNameToItemIdMap.cend())
-    {
+    if (it1 != m_itemNameToItemIdMap.cend()) {
         auto it2 = m_itemIdToItemMap.find(it1->second);
-        if(it2 != m_itemIdToItemMap.cend())
-        {
+        if (it2 != m_itemIdToItemMap.cend()) {
             result = it2->second;
-        }
-        else
-        {
+        } else {
             cout << "ITEM ID NOT FOUND! [" << it1->second << "]\n";
         }
-    }
-    else
-    {
+    } else {
         cout << "ITEM NAME NOT FOUND! [" << fixedItemName << "]\n";
     }
     return result;
 }
 
-Monster RagnarokOnline::getMonster(
-        string const& monsterName) const
-{
+Monster RagnarokOnline::getMonster(string const& monsterName) const {
     Monster result{};
     auto it1 = m_monsterNameToMonsterIdMap.find(monsterName);
-    if(it1 != m_monsterNameToMonsterIdMap.cend())
-    {
+    if (it1 != m_monsterNameToMonsterIdMap.cend()) {
         auto it2 = m_monsterIdToMonsterMap.find(it1->second);
-        if(it2 != m_monsterIdToMonsterMap.cend())
-        {
+        if (it2 != m_monsterIdToMonsterMap.cend()) {
             result = it2->second;
-        }
-        else
-        {
+        } else {
             cout << "MONSTER ID NOT FOUND! [" << it1->second << "]\n";
         }
-    }
-    else
-    {
+    } else {
         cout << "MONSTER NAME NOT FOUND! [" << monsterName << "]\n";
     }
     return result;
 }
 
-string RagnarokOnline::getFixedItemName(
-        Item const& item) const
-{
+string RagnarokOnline::getFixedItemName(Item const& item) const {
     string result(item.name);
-    if(item.slot != 0)
-    {
+    if (item.slot != 0) {
         stringstream slotStream;
         slotStream << " [" << item.slot << "]";
         result += slotStream.str();
@@ -873,79 +630,61 @@ string RagnarokOnline::getFixedItemName(
     return result;
 }
 
-double RagnarokOnline::getTalonRoBuyingPrice(
-        string const& fixedItemName) const
-{
+double RagnarokOnline::getTalonRoBuyingPrice(string const& fixedItemName) const {
     double result(0);
     auto it = m_buyingShopItems.find(fixedItemName);
-    if(it != m_buyingShopItems.cend())
-    {
+    if (it != m_buyingShopItems.cend()) {
         result = it->second.averagePrice;
     }
     return result;
 }
 
-double RagnarokOnline::getTalonRoSellingPrice(
-        string const& fixedItemName) const
-{
+double RagnarokOnline::getTalonRoSellingPrice(string const& fixedItemName) const {
     double result(0);
     auto it = m_sellingShopItems.find(fixedItemName);
-    if(it != m_sellingShopItems.cend())
-    {
+    if (it != m_sellingShopItems.cend()) {
         result = it->second.averagePrice;
     }
     return result;
 }
 
-void RagnarokOnline::saveItemIdToItemMapToFile(
-        string const& outputFilePath) const
-{
+void RagnarokOnline::saveItemIdToItemMapToFile(string const& outputFilePath) const {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
     writer.writeMapData<unsigned int, Item>(m_itemIdToItemMap);
     writer.flush();
 }
 
-void RagnarokOnline::saveMonsterIdToMonsterMapToFile(
-        string const& outputFilePath) const
-{
+void RagnarokOnline::saveMonsterIdToMonsterMapToFile(string const& outputFilePath) const {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
     writer.writeMapData<unsigned int, Monster>(m_monsterIdToMonsterMap);
     writer.flush();
 }
 
-void RagnarokOnline::saveMapNameToRoMapToFile(
-        string const& outputFilePath) const
-{
+void RagnarokOnline::saveMapNameToRoMapToFile(string const& outputFilePath) const {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
     writer.writeMapData<string, RoMap>(m_mapNameToRoMap);
     writer.flush();
 }
 
-void RagnarokOnline::saveBuyingShopItems(
-        string const& outputFilePath) const
-{
+void RagnarokOnline::saveBuyingShopItems(string const& outputFilePath) const {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
     writer.writeMapData<string, ShopItemDetail>(m_buyingShopItems);
     writer.flush();
 }
 
-void RagnarokOnline::saveSellingShopItems(
-        string const& outputFilePath) const
-{
+void RagnarokOnline::saveSellingShopItems(string const& outputFilePath) const {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
     writer.writeMapData<string, ShopItemDetail>(m_sellingShopItems);
     writer.flush();
 }
 
-void RagnarokOnline::printItemIdToItemMap() const
-{
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)
-    {
+void RagnarokOnline::printItemIdToItemMap() const {
+    for (auto const& itemIdItemPair : m_itemIdToItemMap) {
         cout << "Item ID: " << itemIdItemPair.first << "\n";
         Item const& item(itemIdItemPair.second);
         cout << "Item name: " << item.name << "\n";
@@ -963,26 +702,22 @@ void RagnarokOnline::printItemIdToItemMap() const
         cout << "Property: " << item.property << "\n";
         cout << "Prefix or Suffix: " << item.prefixOrSuffix << "\n";
         cout << "Applicable jobs: {";
-        for(string const& applicableJob : item.applicableJobs)
-        {
+        for (string const& applicableJob : item.applicableJobs) {
             cout << "[" << applicableJob << "], ";
         }
         cout << "}\n";
         cout << "Description: " << item.description << "\n";
         cout << "Item script: " << item.itemScript << "\n";
         cout << "Dropped by monsters with rates: {";
-        for(NameAndRate const& droppedByMonsterWithRate : item.droppedByMonstersWithRates)
-        {
+        for (NameAndRate const& droppedByMonsterWithRate : item.droppedByMonstersWithRates) {
             cout << "[" << droppedByMonsterWithRate.name << "," << droppedByMonsterWithRate.rate << "], ";
         }
         cout << "}\n";
     }
 }
 
-void RagnarokOnline::printMonsterIdToMonsterMap() const
-{
-    for(auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap)
-    {
+void RagnarokOnline::printMonsterIdToMonsterMap() const {
+    for (auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap) {
         cout << "Monster ID: " << monsterIdMonsterPair.first << "\n";
         Monster const& monster(monsterIdMonsterPair.second);
         cout << "Monster name: " << monster.name << "\n";
@@ -1024,56 +759,45 @@ void RagnarokOnline::printMonsterIdToMonsterMap() const
         cout << "Ghost %: " << monster.ghostPercentage << "\n";
         cout << "Undead %: " << monster.undeadPercentage << "\n";
         cout << "Maps: {";
-        for(string const& map : monster.maps)
-        {
+        for (string const& map : monster.maps) {
             cout << "[" << map << "], ";
         }
         cout << "}\n";
         cout << "Modes: {";
-        for(string const& mode : monster.modes)
-        {
+        for (string const& mode : monster.modes) {
             cout << "[" << mode << "], ";
         }
         cout << "}\n";
         cout << "Monster skills: {";
-        for(string const& monsterSkills : monster.monsterSkills)
-        {
+        for (string const& monsterSkills : monster.monsterSkills) {
             cout << "[" << monsterSkills << "], ";
         }
         cout << "}\n";
         cout << "Drops with rates: {";
-        for(NameAndRate const& dropWithRate : monster.dropsWithRates)
-        {
+        for (NameAndRate const& dropWithRate : monster.dropsWithRates) {
             cout << "[" << dropWithRate.name << "," << dropWithRate.rate << "], ";
         }
         cout << "}\n";
     }
 }
 
-void RagnarokOnline::printMapNameToRoMap() const
-{
-    for(auto const& mapNameToRoMap : m_mapNameToRoMap)
-    {
+void RagnarokOnline::printMapNameToRoMap() const {
+    for (auto const& mapNameToRoMap : m_mapNameToRoMap) {
         cout << "Map name: " << mapNameToRoMap.first << "\n";
         RoMap const& roMap(mapNameToRoMap.second);
         cout << "Map full name: " << roMap.fullName << "\n";
         cout << "Monsters: {";
-        for(MonsterDetailsOnRoMap const& monsterDetailsOnMap : roMap.monstersDetailsOnMap)
-        {
-            cout << "[" << monsterDetailsOnMap.monsterName
-                 << "," << monsterDetailsOnMap.spawnCount
-                 << "," << monsterDetailsOnMap.spawnRate
-                 << "], ";
+        for (MonsterDetailsOnRoMap const& monsterDetailsOnMap : roMap.monstersDetailsOnMap) {
+            cout << "[" << monsterDetailsOnMap.monsterName << "," << monsterDetailsOnMap.spawnCount << ","
+                 << monsterDetailsOnMap.spawnRate << "], ";
         }
         cout << "}\n";
     }
 }
 
-void RagnarokOnline::printBuyingShopItems() const
-{
+void RagnarokOnline::printBuyingShopItems() const {
     cout.precision(20);
-    for(auto const& shopItem : m_buyingShopItems)
-    {
+    for (auto const& shopItem : m_buyingShopItems) {
         cout << "Shop item name: " << shopItem.first << "\n";
         ShopItemDetail const& detail(shopItem.second);
         cout << "Average price: " << detail.averagePrice << "\n";
@@ -1081,11 +805,9 @@ void RagnarokOnline::printBuyingShopItems() const
     }
 }
 
-void RagnarokOnline::printSellingShopItems() const
-{
+void RagnarokOnline::printSellingShopItems() const {
     cout.precision(20);
-    for(auto const& shopItem : m_sellingShopItems)
-    {
+    for (auto const& shopItem : m_sellingShopItems) {
         cout << "Shop item name: " << shopItem.first << "\n";
         ShopItemDetail const& detail(shopItem.second);
         cout << "Average price: " << detail.averagePrice << "\n";
@@ -1093,16 +815,13 @@ void RagnarokOnline::printSellingShopItems() const
     }
 }
 
-string RagnarokOnline::fixText(
-        string const& text)
-{
+string RagnarokOnline::fixText(string const& text) {
     string fixedText(text);
     transformReplaceStringIfFound(fixedText, "<br>", " ");
     transformReplaceStringIfFound(fixedText, "&amp;", "&");
     transformReplaceStringIfFound(fixedText, "&nbsp;", " ");
-    while(isStringFoundInsideTheOtherStringCaseSensitive(fixedText, "<")
-          && isStringFoundInsideTheOtherStringCaseSensitive(fixedText, ">"))
-    {
+    while (isStringFoundInsideTheOtherStringCaseSensitive(fixedText, "<") &&
+           isStringFoundInsideTheOtherStringCaseSensitive(fixedText, ">")) {
         string htmlTag("<");
         htmlTag += getStringInBetweenTwoStrings(fixedText, "<", ">");
         htmlTag += ">";
@@ -1111,8 +830,7 @@ string RagnarokOnline::fixText(
     return getStringWithoutStartingAndTrailingWhiteSpace(getStringWithoutRedundantWhiteSpace(fixedText));
 }
 
-ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
-{
+ostream& operator<<(ostream& out, NameAndRate const& nameAndRate) {
     out.precision(20);
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(nameAndRate.name);
@@ -1121,8 +839,7 @@ ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
     return out;
 }
 
-ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap)
-{
+ostream& operator<<(ostream& out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(monsterDetailsOnRoMap.monsterName);
     writer.writeData<unsigned int>(monsterDetailsOnRoMap.spawnCount);
@@ -1131,8 +848,7 @@ ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsO
     return out;
 }
 
-ostream & operator<<(ostream & out, Item const& item)
-{
+ostream& operator<<(ostream& out, Item const& item) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<unsigned int>(item.itemId);
     writer.writeData<string>(item.name);
@@ -1157,8 +873,7 @@ ostream & operator<<(ostream & out, Item const& item)
     return out;
 }
 
-ostream & operator<<(ostream & out, Monster const& monster)
-{
+ostream& operator<<(ostream& out, Monster const& monster) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<unsigned int>(monster.monsterId);
     writer.writeData<string>(monster.name);
@@ -1207,8 +922,7 @@ ostream & operator<<(ostream & out, Monster const& monster)
     return out;
 }
 
-ostream & operator<<(ostream & out, ShopItemDetail const& shopItemDetail)
-{
+ostream& operator<<(ostream& out, ShopItemDetail const& shopItemDetail) {
     out.precision(20);
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(shopItemDetail.itemName);
@@ -1218,8 +932,7 @@ ostream & operator<<(ostream & out, ShopItemDetail const& shopItemDetail)
     return out;
 }
 
-ostream & operator<<(ostream & out, RoMap const& roMap)
-{
+ostream& operator<<(ostream& out, RoMap const& roMap) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(roMap.name);
     writer.writeData<string>(roMap.fullName);
@@ -1228,40 +941,35 @@ ostream & operator<<(ostream & out, RoMap const& roMap)
     return out;
 }
 
-ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
-{
+ostream& operator<<(ostream& out, ItemIdToItemMap const& itemIdToItemMap) {
     AlbaStreamParameterWriter writer(out);
     writer.writeMapData<unsigned int, Item>(itemIdToItemMap);
     writer.flush();
     return out;
 }
 
-ostream & operator<<(ostream & out, MonsterIdToMonsterMap const& monsterIdToMonsterMap)
-{
+ostream& operator<<(ostream& out, MonsterIdToMonsterMap const& monsterIdToMonsterMap) {
     AlbaStreamParameterWriter writer(out);
     writer.writeMapData<unsigned int, Monster>(monsterIdToMonsterMap);
     writer.flush();
     return out;
 }
 
-ostream & operator<<(ostream & out, MapNameToRoMap const& mapNameToRoMap)
-{
+ostream& operator<<(ostream& out, MapNameToRoMap const& mapNameToRoMap) {
     AlbaStreamParameterWriter writer(out);
     writer.writeMapData<string, RoMap>(mapNameToRoMap);
     writer.flush();
     return out;
 }
 
-ostream & operator<<(ostream & out, ItemNameToShopItemDetailMap const& itemNameToShopItemDetailMap)
-{
+ostream& operator<<(ostream& out, ItemNameToShopItemDetailMap const& itemNameToShopItemDetailMap) {
     AlbaStreamParameterWriter writer(out);
     writer.writeMapData<string, ShopItemDetail>(itemNameToShopItemDetailMap);
     writer.flush();
     return out;
 }
 
-istream & operator>>(istream & in, NameAndRate & nameAndRate)
-{
+istream& operator>>(istream& in, NameAndRate& nameAndRate) {
     in.precision(20);
     AlbaStreamParameterReader reader(in);
     nameAndRate.name = reader.readData<string>();
@@ -1269,8 +977,7 @@ istream & operator>>(istream & in, NameAndRate & nameAndRate)
     return in;
 }
 
-istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap)
-{
+istream& operator>>(istream& in, MonsterDetailsOnRoMap& monsterDetailsOnRoMap) {
     AlbaStreamParameterReader reader(in);
     monsterDetailsOnRoMap.monsterName = reader.readData<string>();
     monsterDetailsOnRoMap.spawnCount = reader.readData<unsigned int>();
@@ -1278,8 +985,7 @@ istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap
     return in;
 }
 
-istream & operator>>(istream & in, Item & item)
-{
+istream& operator>>(istream& in, Item& item) {
     AlbaStreamParameterReader reader(in);
     item.itemId = reader.readData<unsigned int>();
     item.name = reader.readData<string>();
@@ -1303,8 +1009,7 @@ istream & operator>>(istream & in, Item & item)
     return in;
 }
 
-istream & operator>>(istream & in, Monster & monster)
-{
+istream& operator>>(istream& in, Monster& monster) {
     AlbaStreamParameterReader reader(in);
     monster.monsterId = reader.readData<unsigned int>();
     monster.name = reader.readData<string>();
@@ -1352,8 +1057,7 @@ istream & operator>>(istream & in, Monster & monster)
     return in;
 }
 
-istream & operator>>(istream & in, ShopItemDetail & shopItemDetail)
-{
+istream& operator>>(istream& in, ShopItemDetail& shopItemDetail) {
     in.precision(20);
     AlbaStreamParameterReader reader(in);
     shopItemDetail.itemName = reader.readData<string>();
@@ -1362,8 +1066,7 @@ istream & operator>>(istream & in, ShopItemDetail & shopItemDetail)
     return in;
 }
 
-istream & operator>>(istream & in, RoMap & roMap)
-{
+istream& operator>>(istream& in, RoMap& roMap) {
     AlbaStreamParameterReader reader(in);
     roMap.name = reader.readData<string>();
     roMap.fullName = reader.readData<string>();
@@ -1371,32 +1074,28 @@ istream & operator>>(istream & in, RoMap & roMap)
     return in;
 }
 
-istream & operator>>(istream & in, ItemIdToItemMap & itemIdToItemMap)
-{
+istream& operator>>(istream& in, ItemIdToItemMap& itemIdToItemMap) {
     AlbaStreamParameterReader reader(in);
     reader.readMapData<unsigned int, Item>(itemIdToItemMap);
     return in;
 }
 
-istream & operator>>(istream & in, MonsterIdToMonsterMap & monsterIdToMonsterMap)
-{
+istream& operator>>(istream& in, MonsterIdToMonsterMap& monsterIdToMonsterMap) {
     AlbaStreamParameterReader reader(in);
     reader.readMapData<unsigned int, Monster>(monsterIdToMonsterMap);
     return in;
 }
 
-istream & operator>>(istream & in, MapNameToRoMap & mapNameToRoMap)
-{
+istream& operator>>(istream& in, MapNameToRoMap& mapNameToRoMap) {
     AlbaStreamParameterReader reader(in);
     reader.readMapData<string, RoMap>(mapNameToRoMap);
     return in;
 }
 
-istream & operator>>(istream & in, ItemNameToShopItemDetailMap & itemNameToShopItemDetailMap)
-{
+istream& operator>>(istream& in, ItemNameToShopItemDetailMap& itemNameToShopItemDetailMap) {
     AlbaStreamParameterReader reader(in);
     reader.readMapData<string, ShopItemDetail>(itemNameToShopItemDetailMap);
     return in;
 }
 
-}
+}  // namespace alba

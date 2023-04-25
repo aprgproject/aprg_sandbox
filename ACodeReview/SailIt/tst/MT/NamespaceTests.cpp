@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, MultiLineNamespaceTest)
-{
+TEST_F(ModuleTest, MultiLineNamespaceTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "namespace myNamespace\n";
@@ -34,12 +33,13 @@ TEST_F(ModuleTest, MultiLineNamespaceTest)
 
     ASSERT_EQ(m_terms.size(), 1);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::ProcessedTerm, "namespace myNamespace\n{\nint namespaceFunction();\nint namespaceVariable;\n}\n", 1);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm, "namespace myNamespace\n{\nint namespaceFunction();\nint namespaceVariable;\n}\n",
+        1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, UsingNamespaceKeywordTest)
-{
+TEST_F(ModuleTest, UsingNamespaceKeywordTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "namespace myNamespace\n";
@@ -61,8 +61,7 @@ TEST_F(ModuleTest, UsingNamespaceKeywordTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, ExternBlockTest)
-{
+TEST_F(ModuleTest, ExternBlockTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "extern \"C\"\n";
@@ -81,8 +80,7 @@ TEST_F(ModuleTest, ExternBlockTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, ExternBlockInvalidSpacesTest)
-{
+TEST_F(ModuleTest, ExternBlockInvalidSpacesTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "extern \"C\" {\n";

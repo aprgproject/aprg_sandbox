@@ -5,16 +5,13 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using BaseFunctionsRetriever = BaseRetriever<FunctionsSet>;
 
-class FunctionsRetriever final : public BaseFunctionsRetriever
-{
+class FunctionsRetriever final : public BaseFunctionsRetriever {
 public:
     using FunctionCondition = std::function<bool(Function const&)>;
 
@@ -26,6 +23,6 @@ private:
     FunctionCondition m_isFunctionIncluded;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

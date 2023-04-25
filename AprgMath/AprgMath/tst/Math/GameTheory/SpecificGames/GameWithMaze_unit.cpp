@@ -4,26 +4,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-namespace
-{
+namespace {
 using BooleanMatrix = GameWithMaze::BooleanMatrix;
 using Coordinate = GameWithMaze::Coordinate;
-}
+}  // namespace
 
-TEST(GameWithMazeTest, Example1Works)
-{
-    BooleanMatrix isBlockedMatrix(5U, 5U,
-    {false, false, true, false, false,
-     true, false, false, false, true,
-     false, false, true, false, false,
-     true, false, false, false, false,
-     false, false, false, false, false});
+TEST(GameWithMazeTest, Example1Works) {
+    BooleanMatrix isBlockedMatrix(
+        5U, 5U, {false, false, true, false, false, true,  false, false, false, true,  false, false, true,
+                 false, false, true, false, false, false, false, false, false, false, false, false});
     GameWithMaze gameWithMaze(isBlockedMatrix);
 
     EXPECT_TRUE(gameWithMaze.hasNoMoves({0U, 0U}));
@@ -128,6 +121,6 @@ TEST(GameWithMazeTest, Example1Works)
     EXPECT_EQ(Coordinate(0U, 4U), gameWithMaze.getOptimalNextCoordinateAt({4U, 4U}));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

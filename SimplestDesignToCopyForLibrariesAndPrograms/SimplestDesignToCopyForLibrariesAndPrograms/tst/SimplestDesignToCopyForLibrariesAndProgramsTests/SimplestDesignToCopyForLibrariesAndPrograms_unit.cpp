@@ -4,12 +4,8 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(SampleTest, DISABLED_SampleTest1)
-{
-    SimplestDesignToCopyForLibrariesAndPrograms entity;
-}
+TEST(SampleTest, DISABLED_SampleTest1) { SimplestDesignToCopyForLibrariesAndPrograms entity; }
 
-}
+}  // namespace alba

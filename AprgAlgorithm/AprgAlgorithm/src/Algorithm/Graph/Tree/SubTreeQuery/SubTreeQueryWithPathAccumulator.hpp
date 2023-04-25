@@ -5,15 +5,12 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class SubTreeQueryWithPathAccumulator
-{
+class SubTreeQueryWithPathAccumulator {
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
@@ -23,55 +20,36 @@ public:
     using AccumulatorFunction = std::function<Vertex(Vertex const&, Vertex const&)>;
 
     SubTreeQueryWithPathAccumulator(
-            BaseUndirectedGraphWithVertex const& graph,
-            Vertex const& rootOfTree,
-            AccumulatorFunction const& accumulator)
-        : m_graph(graph)
-        , m_rootOfTree(rootOfTree)
-        , m_accumulator(accumulator)
-    {
+        BaseUndirectedGraphWithVertex const& graph, Vertex const& rootOfTree, AccumulatorFunction const& accumulator)
+        : m_graph(graph), m_rootOfTree(rootOfTree), m_accumulator(accumulator) {
         initializeIfNeeded();
     }
 
-    Vertices const& getVerticesInDfsPreOrder() const
-    {
-        return m_verticesInDfsPreOrder;
-    }
+    Vertices const& getVerticesInDfsPreOrder() const { return m_verticesInDfsPreOrder; }
 
-    Vertices const& getAccumulatedValuesOfPaths() const
-    {
-        return m_accumulatedValuesOfPaths;
-    }
+    Vertices const& getAccumulatedValuesOfPaths() const { return m_accumulatedValuesOfPaths; }
 
-    Vertex getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(Vertex const& vertex)
-    {
+    Vertex getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(Vertex const& vertex) {
         Vertex result;
         auto it = m_vertexToIndexMap.find(vertex);
-        if(it!=m_vertexToIndexMap.cend())
-        {
+        if (it != m_vertexToIndexMap.cend()) {
             result = m_accumulatedValuesOfPaths.at(it->second);
         }
         return result;
     }
 
 protected:
-
-    void initializeIfNeeded()
-    {
-        if(GraphUtilities::isATree(m_graph))
-        {
+    void initializeIfNeeded() {
+        if (GraphUtilities::isATree(m_graph)) {
             initialize();
         }
     }
 
-    void initialize()
-    {
-        traverseStartingFromAVertex(m_rootOfTree);
-    }
+    void initialize() { traverseStartingFromAVertex(m_rootOfTree); }
 
-    void traverseStartingFromAVertex(Vertex const& startVertex)
-    {
-        if(m_processedVertices.isNotFound(startVertex) && !m_graph.getAdjacentVerticesAt(startVertex).empty()) // dont include invalid vertex
+    void traverseStartingFromAVertex(Vertex const& startVertex) {
+        if (m_processedVertices.isNotFound(startVertex) &&
+            !m_graph.getAdjacentVerticesAt(startVertex).empty())  // dont include invalid vertex
         {
             unsigned int treeSize(0);
             Vertex startValue(startVertex);
@@ -82,16 +60,13 @@ protected:
         }
     }
 
-    void traverseUsingDfs(unsigned int & treeSize, Vertex const& pathAccumulatedValue, Vertex const& vertex)
-    {
+    void traverseUsingDfs(unsigned int& treeSize, Vertex const& pathAccumulatedValue, Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
         m_verticesInDfsPreOrder.emplace_back(vertex);
         m_accumulatedValuesOfPaths.emplace_back(pathAccumulatedValue);
         unsigned int index = treeSize++;
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {
-            if(m_processedVertices.isNotFound(adjacentVertex))
-            {
+        for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
+            if (m_processedVertices.isNotFound(adjacentVertex)) {
                 traverseUsingDfs(treeSize, m_accumulator(pathAccumulatedValue, adjacentVertex), adjacentVertex);
             }
         }
@@ -107,6 +82,6 @@ protected:
     VertexToIndexMap m_vertexToIndexMap;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

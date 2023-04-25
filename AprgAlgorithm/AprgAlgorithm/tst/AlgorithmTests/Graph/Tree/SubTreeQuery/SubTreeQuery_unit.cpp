@@ -3,23 +3,19 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using SubTreeQueryForTest = SubTreeQuery<VertexForTest>;
 using VerticesForTest = SubTreeQueryForTest::Vertices;
 using CountsForTest = SubTreeQueryForTest::Counts;
-}
+}  // namespace
 
-TEST(SubTreeQueryTest, Example1Works)
-{
+TEST(SubTreeQueryTest, Example1Works) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
@@ -39,6 +35,6 @@ TEST(SubTreeQueryTest, Example1Works)
     EXPECT_EQ(expectedVerticesOfSubTreeAt4, subTreeQuery.getVerticesOfSubTreeAt(4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

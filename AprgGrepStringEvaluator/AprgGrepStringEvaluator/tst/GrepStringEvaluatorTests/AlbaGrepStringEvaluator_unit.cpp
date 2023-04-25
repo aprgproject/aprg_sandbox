@@ -4,64 +4,54 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenconditionIsEmpty)
-{
+TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenconditionIsEmpty) {
     AlbaGrepStringEvaluator evaluator("");
     EXPECT_TRUE(evaluator.isInvalid());
     EXPECT_FALSE(evaluator.evaluate("TestString"));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenThereAreNoConvertedTerms)
-{
+TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenThereAreNoConvertedTerms) {
     AlbaGrepStringEvaluator evaluator("TestString");
     EXPECT_TRUE(evaluator.isInvalid());
     EXPECT_FALSE(evaluator.evaluate("TestString"));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenOperandIsMissingForPrefixOperator)
-{
+TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenOperandIsMissingForPrefixOperator) {
     AlbaGrepStringEvaluator evaluator(" ! ");
     EXPECT_TRUE(evaluator.isInvalid());
 }
 
-TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhen1OperandIsMissingForBiDirectionalOperator)
-{
+TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhen1OperandIsMissingForBiDirectionalOperator) {
     AlbaGrepStringEvaluator evaluator("[TestString] || ");
     EXPECT_TRUE(evaluator.isInvalid());
 }
 
-TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenOperandsAreMissingForBiDirectionalOperator)
-{
+TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenOperandsAreMissingForBiDirectionalOperator) {
     AlbaGrepStringEvaluator evaluator(" || ");
     EXPECT_TRUE(evaluator.isInvalid());
 }
 
-TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenEvaluateStringIsEmpty)
-{
+TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenEvaluateStringIsEmpty) {
     AlbaGrepStringEvaluator evaluator("[TestString123]");
     EXPECT_FALSE(evaluator.isInvalid());
     EXPECT_FALSE(evaluator.evaluate(""));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, TrueIsReturnedWhenStringIsFound)
-{
+TEST(AlbaGrepStringEvaluatorTest, TrueIsReturnedWhenStringIsFound) {
     AlbaGrepStringEvaluator evaluator("[TestString123]");
     EXPECT_FALSE(evaluator.isInvalid());
     EXPECT_TRUE(evaluator.evaluate("TestString123"));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, TrueIsReturnedWhenStringIsFoundWithDifferentCase)
-{
+TEST(AlbaGrepStringEvaluatorTest, TrueIsReturnedWhenStringIsFoundWithDifferentCase) {
     AlbaGrepStringEvaluator evaluator("[tESTsTRING123]");
     EXPECT_FALSE(evaluator.isInvalid());
     EXPECT_TRUE(evaluator.evaluate("TestString123"));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, NotOperatorWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, NotOperatorWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("![StringDoesNotExist1]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_TRUE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -71,8 +61,7 @@ TEST(AlbaGrepStringEvaluatorTest, NotOperatorWorksAsIntended)
     EXPECT_FALSE(evaluator2.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, NotOperatorCombinationWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, NotOperatorCombinationWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("!!!![StringDoesNotExist1]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_FALSE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -82,8 +71,7 @@ TEST(AlbaGrepStringEvaluatorTest, NotOperatorCombinationWorksAsIntended)
     EXPECT_FALSE(evaluator2.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, AndOperatorWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, AndOperatorWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] & [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_FALSE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -101,8 +89,7 @@ TEST(AlbaGrepStringEvaluatorTest, AndOperatorWorksAsIntended)
     EXPECT_TRUE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, AndOperatorCombinationWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, AndOperatorCombinationWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] && [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_FALSE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -120,8 +107,7 @@ TEST(AlbaGrepStringEvaluatorTest, AndOperatorCombinationWorksAsIntended)
     EXPECT_TRUE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, OrOperatorWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, OrOperatorWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] | [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_FALSE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -139,8 +125,7 @@ TEST(AlbaGrepStringEvaluatorTest, OrOperatorWorksAsIntended)
     EXPECT_TRUE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, OrOperatorCombinationWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, OrOperatorCombinationWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] || [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_FALSE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -158,8 +143,7 @@ TEST(AlbaGrepStringEvaluatorTest, OrOperatorCombinationWorksAsIntended)
     EXPECT_TRUE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, XorOperatorWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, XorOperatorWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] ^ [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_FALSE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -177,8 +161,7 @@ TEST(AlbaGrepStringEvaluatorTest, XorOperatorWorksAsIntended)
     EXPECT_FALSE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, XnorOperatorWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, XnorOperatorWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] !^ [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_TRUE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -196,8 +179,7 @@ TEST(AlbaGrepStringEvaluatorTest, XnorOperatorWorksAsIntended)
     EXPECT_TRUE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, XnorOperatorCombinationWorksAsIntended)
-{
+TEST(AlbaGrepStringEvaluatorTest, XnorOperatorCombinationWorksAsIntended) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] !^ [StringDoesNotExist2]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_TRUE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -215,8 +197,7 @@ TEST(AlbaGrepStringEvaluatorTest, XnorOperatorCombinationWorksAsIntended)
     EXPECT_TRUE(evaluator4.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, InvalidCombinationsAreDetected)
-{
+TEST(AlbaGrepStringEvaluatorTest, InvalidCombinationsAreDetected) {
     AlbaGrepStringEvaluator evaluator1("[StringDoesNotExist1] ^^ [StringDoesNotExist2]");
     EXPECT_TRUE(evaluator1.isInvalid());
 
@@ -239,15 +220,13 @@ TEST(AlbaGrepStringEvaluatorTest, InvalidCombinationsAreDetected)
     EXPECT_TRUE(evaluator7.isInvalid());
 }
 
-TEST(AlbaGrepStringEvaluatorTest, NotOperationIsPrioritized)
-{
+TEST(AlbaGrepStringEvaluatorTest, NotOperationIsPrioritized) {
     AlbaGrepStringEvaluator evaluator1("![I'm]&![hungry]|![at]^!![this moment]");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_TRUE(evaluator1.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, ParenthesesArePrioritized)
-{
+TEST(AlbaGrepStringEvaluatorTest, ParenthesesArePrioritized) {
     AlbaGrepStringEvaluator evaluator1("[I'm]&(![hungry]|[at])&(![this]^!![moment])");
     EXPECT_FALSE(evaluator1.isInvalid());
     EXPECT_TRUE(evaluator1.evaluate("I'm hungry at this moment."));
@@ -257,8 +236,7 @@ TEST(AlbaGrepStringEvaluatorTest, ParenthesesArePrioritized)
     EXPECT_TRUE(evaluator2.evaluate("I'm hungry at this moment."));
 }
 
-TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenNumberOfOpeningAndClosingParenthesisDoesNotMatch)
-{
+TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenNumberOfOpeningAndClosingParenthesisDoesNotMatch) {
     AlbaGrepStringEvaluator evaluator1("([I'm]&(![hungry]|([at]&(![this]^!![moment])))");
     EXPECT_TRUE(evaluator1.isInvalid());
 
@@ -266,4 +244,4 @@ TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenNumberOfOpeningAndClosin
     EXPECT_TRUE(evaluator2.isInvalid());
 }
 
-}
+}  // namespace alba

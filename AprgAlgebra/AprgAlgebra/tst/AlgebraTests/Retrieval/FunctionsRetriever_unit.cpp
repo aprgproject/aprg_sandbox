@@ -3,18 +3,12 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(FunctionsRetrieverTest, RetrieveFromEquationsWorks)
-{
-    FunctionsRetriever retriever([](Function const&)
-    {
-        return false;
-    });
+TEST(FunctionsRetrieverTest, RetrieveFromEquationsWorks) {
+    FunctionsRetriever retriever([](Function const&) { return false; });
     Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
     Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
 
@@ -24,25 +18,18 @@ TEST(FunctionsRetrieverTest, RetrieveFromEquationsWorks)
     EXPECT_TRUE(functionsSet.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromEquationWorks)
-{
-    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
-    {
+TEST(FunctionsRetrieverTest, RetrieveFromEquationWorks) {
+    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "functionName";
     };
-    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject)
-    {
+    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "WillNotMatch";
     };
     FunctionsRetriever retriever1(conditionThatWillMatch);
     FunctionsRetriever retriever2(conditionThatWillNotMatch);
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({"x", "^", "y"})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({"x", "^", "y"})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term leftHandTerm(functionObject);
     Term rightHandTerm(1);
     Equation equation(leftHandTerm, "=", rightHandTerm);
@@ -57,14 +44,11 @@ TEST(FunctionsRetrieverTest, RetrieveFromEquationWorks)
     EXPECT_TRUE(functionsSets2.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromTermWorks)
-{
-    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
-    {
+TEST(FunctionsRetrieverTest, RetrieveFromTermWorks) {
+    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "functionName";
     };
-    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject)
-    {
+    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "WillNotMatch";
     };
     FunctionsRetriever retriever1(conditionThatWillMatch);
@@ -74,12 +58,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromTermWorks)
     FunctionsRetriever retriever5(conditionThatWillMatch);
     FunctionsRetriever retriever6(conditionThatWillNotMatch);
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({"x", "^", "y"})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({"x", "^", "y"})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Expression expression(createExpressionIfPossible({1, "+", functionObject}));
     Term constantTerm(4756);
     Term expressionTerm(expression);
@@ -108,12 +88,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromTermWorks)
     EXPECT_TRUE(functionsSets6.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromConstantWorks)
-{
-    FunctionsRetriever retriever([](Function const&)
-    {
-        return false;
-    });
+TEST(FunctionsRetrieverTest, RetrieveFromConstantWorks) {
+    FunctionsRetriever retriever([](Function const&) { return false; });
 
     retriever.retrieveFromConstant(Constant(1.234));
 
@@ -121,12 +97,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromConstantWorks)
     EXPECT_TRUE(functionsSet.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromVariableWorks)
-{
-    FunctionsRetriever retriever([](Function const&)
-    {
-        return false;
-    });
+TEST(FunctionsRetrieverTest, RetrieveFromVariableWorks) {
+    FunctionsRetriever retriever([](Function const&) { return false; });
 
     retriever.retrieveFromVariable(Variable("x"));
 
@@ -134,12 +106,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromVariableWorks)
     EXPECT_TRUE(functionsSet.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromMonomialWorks)
-{
-    FunctionsRetriever retriever([](Function const&)
-    {
-        return false;
-    });
+TEST(FunctionsRetrieverTest, RetrieveFromMonomialWorks) {
+    FunctionsRetriever retriever([](Function const&) { return false; });
 
     retriever.retrieveFromMonomial(Monomial(34, {{"x", 5}, {"y", 6}}));
 
@@ -147,12 +115,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromMonomialWorks)
     EXPECT_TRUE(functionsSet.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromPolynomialWorks)
-{
-    FunctionsRetriever retriever([](Function const&)
-    {
-        return false;
-    });
+TEST(FunctionsRetrieverTest, RetrieveFromPolynomialWorks) {
+    FunctionsRetriever retriever([](Function const&) { return false; });
 
     retriever.retrieveFromPolynomial(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
 
@@ -160,25 +124,18 @@ TEST(FunctionsRetrieverTest, RetrieveFromPolynomialWorks)
     EXPECT_TRUE(functionsSet.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromExpressionWorks)
-{
-    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
-    {
+TEST(FunctionsRetrieverTest, RetrieveFromExpressionWorks) {
+    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "functionName";
     };
-    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject)
-    {
+    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "WillNotMatch";
     };
     FunctionsRetriever retriever1(conditionThatWillMatch);
     FunctionsRetriever retriever2(conditionThatWillNotMatch);
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({"x", "^", "y"})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({"x", "^", "y"})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Expression expression(createExpressionIfPossible({1, "+", functionObject}));
 
     retriever1.retrieveFromExpression(expression);
@@ -191,25 +148,18 @@ TEST(FunctionsRetrieverTest, RetrieveFromExpressionWorks)
     EXPECT_TRUE(functionsSets2.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromFunctionWorks)
-{
-    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
-    {
+TEST(FunctionsRetrieverTest, RetrieveFromFunctionWorks) {
+    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "functionName";
     };
-    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject)
-    {
+    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject) {
         return functionObject.getFunctionName() == "WillNotMatch";
     };
     FunctionsRetriever retriever1(conditionThatWillMatch);
     FunctionsRetriever retriever2(conditionThatWillNotMatch);
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({"x", "^", "y"})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({"x", "^", "y"})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     retriever1.retrieveFromFunction(functionObject);
     retriever2.retrieveFromFunction(functionObject);
@@ -221,12 +171,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromFunctionWorks)
     EXPECT_TRUE(functionsSets2.empty());
 }
 
-TEST(FunctionsRetrieverTest, RetrieveFromPolynomialsWorks)
-{
-    FunctionsRetriever retriever([](Function const&)
-    {
-        return false;
-    });
+TEST(FunctionsRetrieverTest, RetrieveFromPolynomialsWorks) {
+    FunctionsRetriever retriever([](Function const&) { return false; });
     Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})});
     polynomials.emplace_back(Polynomial{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})});
@@ -237,6 +183,6 @@ TEST(FunctionsRetrieverTest, RetrieveFromPolynomialsWorks)
     EXPECT_TRUE(functionsSet.empty());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

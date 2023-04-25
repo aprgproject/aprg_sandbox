@@ -2,23 +2,21 @@
 
 #include <Algorithm/SetAndSymbolTable/Common/BinarySearchTree/BaseBinarySearchTree.hpp>
 #include <Algorithm/SetAndSymbolTable/Common/BinarySearchTree/BinarySearchTreeNode.hpp>
-#include <Algorithm/SetAndSymbolTable/Set/BinarySearchTree/Common/BaseSetWithBaseTree.hpp>
 #include <Algorithm/SetAndSymbolTable/Set/BaseSet.hpp>
+#include <Algorithm/SetAndSymbolTable/Set/BinarySearchTree/Common/BaseSetWithBaseTree.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key>
 class BaseBinarySearchTreeSet
-        : public BaseSetWithBaseTree<BaseBinarySearchTree<Key, BasicTreeNode<Key>, BaseSet<Key>>>
-{
+    : public BaseSetWithBaseTree<BaseBinarySearchTree<Key, BasicTreeNode<Key>, BaseSet<Key>>> {
 public:
-    ~BaseBinarySearchTreeSet() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseBinarySearchTreeSet() override = default;  // no need for virtual destructor because base destructor is virtual
+                                                    // (similar to other virtual functions)
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

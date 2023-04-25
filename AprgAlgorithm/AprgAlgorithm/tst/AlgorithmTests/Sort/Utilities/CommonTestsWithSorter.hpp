@@ -8,18 +8,14 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithSorter
-{
+namespace CommonTestsWithSorter {
 
 template <typename Sorter, typename Values>
-void testSortUsingEmptyExampleWithCharacters(Sorter const& sorter)
-{
+void testSortUsingEmptyExampleWithCharacters(Sorter const& sorter) {
     Values emptyContainer;
 
     sorter.sort(emptyContainer);
@@ -28,8 +24,7 @@ void testSortUsingEmptyExampleWithCharacters(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
-void testSortUsingOneValueExampleWithCharacters(Sorter const& sorter)
-{
+void testSortUsingOneValueExampleWithCharacters(Sorter const& sorter) {
     Values valuesToTest{'E'};
 
     sorter.sort(valuesToTest);
@@ -39,8 +34,7 @@ void testSortUsingOneValueExampleWithCharacters(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
-void testSortUsingExample1WithCharacters(Sorter const& sorter)
-{
+void testSortUsingExample1WithCharacters(Sorter const& sorter) {
     Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     sorter.sort(valuesToTest);
@@ -50,8 +44,7 @@ void testSortUsingExample1WithCharacters(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
-void testSortUsingExample2WithCharacters(Sorter const& sorter)
-{
+void testSortUsingExample2WithCharacters(Sorter const& sorter) {
     Values valuesToTest{'C', 'O', 'M', 'P', 'L', 'I', 'C', 'A', 'T', 'E', 'D', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     sorter.sort(valuesToTest);
@@ -61,8 +54,7 @@ void testSortUsingExample2WithCharacters(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
-void testSortUsingExample1WithPositiveAndNegativeIntegers(Sorter const& sorter)
-{
+void testSortUsingExample1WithPositiveAndNegativeIntegers(Sorter const& sorter) {
     Values valuesToTest{-5, -10, 0, -3, 8, 5, -1, 10};
 
     sorter.sort(valuesToTest);
@@ -72,8 +64,7 @@ void testSortUsingExample1WithPositiveAndNegativeIntegers(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
-void testSortUsingExample1WithDoubleValues(Sorter const& sorter)
-{
+void testSortUsingExample1WithDoubleValues(Sorter const& sorter) {
     Values valuesToTest{0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434};
 
     sorter.sort(valuesToTest);
@@ -83,44 +74,49 @@ void testSortUsingExample1WithDoubleValues(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
-void testSortUsingExample1WithStrings(Sorter const& sorter)
-{
-    Values valuesToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
+void testSortUsingExample1WithStrings(Sorter const& sorter) {
+    Values valuesToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
+                        "ms. puff",  "pearl",   "larry",     "plankton"};
 
     sorter.sort(valuesToTest);
 
-    Values valuesToExpect{"larry", "mr. crabs", "ms. puff", "patrick", "pearl", "plankton", "sandy", "spongebob", "squidward"};
+    Values valuesToExpect{"larry",    "mr. crabs", "ms. puff",  "patrick",  "pearl",
+                          "plankton", "sandy",     "spongebob", "squidward"};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
 template <typename Sorter, typename Values>
-void testSortAsStableUsingExample1WithStabilityCheckObjects(Sorter const& sorter)
-{
-    Values valuesToTest{{'A',1}, {'C',1}, {'D',1}, {'A',2}, {'B',1}, {'A',3}, {'F',1}, {'E',1}, {'B',2}, {'D',2}, {'D',3}, {'B',3}, {'A',4}};
+void testSortAsStableUsingExample1WithStabilityCheckObjects(Sorter const& sorter) {
+    Values valuesToTest{{'A', 1}, {'C', 1}, {'D', 1}, {'A', 2}, {'B', 1}, {'A', 3}, {'F', 1},
+                        {'E', 1}, {'B', 2}, {'D', 2}, {'D', 3}, {'B', 3}, {'A', 4}};
 
     sorter.sort(valuesToTest);
 
-    Values valuesToExpect{{'A',1}, {'A',2}, {'A',3}, {'A',4}, {'B',1}, {'B',2}, {'B',3}, {'C',1}, {'D',1}, {'D',2}, {'D',3}, {'E',1}, {'F',1}};
+    Values valuesToExpect{{'A', 1}, {'A', 2}, {'A', 3}, {'A', 4}, {'B', 1}, {'B', 2}, {'B', 3},
+                          {'C', 1}, {'D', 1}, {'D', 2}, {'D', 3}, {'E', 1}, {'F', 1}};
     bool areEqual = std::equal(
-                valuesToTest.cbegin(), valuesToTest.cend(), valuesToExpect.cbegin(), valuesToExpect.cend(), areObjectsEqualOnVisibleAndNotVisiblePart);
+        valuesToTest.cbegin(), valuesToTest.cend(), valuesToExpect.cbegin(), valuesToExpect.cend(),
+        areObjectsEqualOnVisibleAndNotVisiblePart);
     EXPECT_TRUE(areEqual);
 }
 
 template <typename Sorter, typename Values>
-void testSortAsNotStableUsingExample1WithStabilityCheckObjects(Sorter const& sorter)
-{
-    Values valuesToTest{{'A',1}, {'C',1}, {'D',1}, {'A',2}, {'B',1}, {'A',3}, {'F',1}, {'E',1}, {'B',2}, {'D',2}, {'D',3}, {'B',3}, {'A',4}};
+void testSortAsNotStableUsingExample1WithStabilityCheckObjects(Sorter const& sorter) {
+    Values valuesToTest{{'A', 1}, {'C', 1}, {'D', 1}, {'A', 2}, {'B', 1}, {'A', 3}, {'F', 1},
+                        {'E', 1}, {'B', 2}, {'D', 2}, {'D', 3}, {'B', 3}, {'A', 4}};
 
     sorter.sort(valuesToTest);
 
-    Values valuesToExpect{{'A',1}, {'A',2}, {'A',3}, {'A',4}, {'B',1}, {'B',2}, {'B',3}, {'C',1}, {'D',1}, {'D',2}, {'D',3}, {'E',1}, {'F',1}};
+    Values valuesToExpect{{'A', 1}, {'A', 2}, {'A', 3}, {'A', 4}, {'B', 1}, {'B', 2}, {'B', 3},
+                          {'C', 1}, {'D', 1}, {'D', 2}, {'D', 3}, {'E', 1}, {'F', 1}};
     bool areEqual = std::equal(
-                valuesToTest.cbegin(), valuesToTest.cend(), valuesToExpect.cbegin(), valuesToExpect.cend(), areObjectsEqualOnVisibleAndNotVisiblePart);
+        valuesToTest.cbegin(), valuesToTest.cend(), valuesToExpect.cbegin(), valuesToExpect.cend(),
+        areObjectsEqualOnVisibleAndNotVisiblePart);
     EXPECT_FALSE(areEqual);
 }
 
-}
+}  // namespace CommonTestsWithSorter
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

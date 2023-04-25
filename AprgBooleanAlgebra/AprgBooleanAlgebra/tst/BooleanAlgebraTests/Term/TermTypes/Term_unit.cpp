@@ -8,14 +8,11 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(TermTest, TermsAsConstantsWorks)
-{
+TEST(TermTest, TermsAsConstantsWorks) {
     Term constantTerm1(false);
     Term constantTerm2(true);
     Term constantTerm3("tRue");
@@ -38,8 +35,7 @@ TEST(TermTest, TermsAsConstantsWorks)
     EXPECT_TRUE(constantTerm5.getConstantConstReference().getBooleanValue());
 }
 
-TEST(TermTest, TermsAsVariableTermsWorks)
-{
+TEST(TermTest, TermsAsVariableTermsWorks) {
     Term variableTerm1("x");
     Term variableTerm2("power");
 
@@ -50,8 +46,7 @@ TEST(TermTest, TermsAsVariableTermsWorks)
     EXPECT_EQ("power", variableTerm2.getVariableTermConstReference().getVariableTermName());
 }
 
-TEST(TermTest, TermsAsOperatorsWorks)
-{
+TEST(TermTest, TermsAsOperatorsWorks) {
     Term operatorTerm1("~");
     Term operatorTerm2("&");
     Term operatorTerm3("|");
@@ -66,19 +61,18 @@ TEST(TermTest, TermsAsOperatorsWorks)
     EXPECT_EQ("|", operatorTerm3.getOperatorConstReference().getOperatorString());
 }
 
-TEST(TermTest, TermsAsExpressionsWorks)
-{
+TEST(TermTest, TermsAsExpressionsWorks) {
     Term expressionTerm1(Expression{});
     Term expressionTerm2(createExpressionIfPossible({true, "&", "x"}));
 
-    //For expression1
+    // For expression1
     ASSERT_EQ(TermType::Expression, expressionTerm1.getTermType());
     Expression const& expression1(expressionTerm1.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
     WrappedTerms const& termsToVerify1(expression1.getWrappedTerms());
     ASSERT_TRUE(termsToVerify1.empty());
 
-    //For expression2
+    // For expression2
     ASSERT_EQ(TermType::Expression, expressionTerm2.getTermType());
     Expression const& expression2(expressionTerm2.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expression2.getCommonOperatorLevel());
@@ -87,8 +81,7 @@ TEST(TermTest, TermsAsExpressionsWorks)
     EXPECT_EQ(Term("x"), getTermConstReferenceFromUniquePointer(termsToVerify2.at(0).baseTermPointer));
 }
 
-TEST(TermTest, TermsAsConstructedAsStringWorks)
-{
+TEST(TermTest, TermsAsConstructedAsStringWorks) {
     Term term1("");
     Term term2("true");
     Term term3("&");
@@ -110,15 +103,13 @@ TEST(TermTest, TermsAsConstructedAsStringWorks)
     EXPECT_EQ("x1", term5.getVariableTermConstReference().getVariableTermName());
 }
 
-TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
-{
+TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet) {
     Term term;
 
     EXPECT_FALSE(term.isSimplified());
 }
 
-TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
-{
+TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied) {
     Term termWithSimplifiedNotSet;
     Term termWithSimplifiedSet;
     termWithSimplifiedSet.setAsSimplified();
@@ -130,8 +121,7 @@ TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
     EXPECT_TRUE(term2.isSimplified());
 }
 
-TEST(TermTest, TermThatIsConstructedWithTermTypeHasIsSimplifiedFlagNotSet)
-{
+TEST(TermTest, TermThatIsConstructedWithTermTypeHasIsSimplifiedFlagNotSet) {
     Term constantTerm(true);
     Term variableTerm("");
     Term operatorTerm("&");
@@ -143,8 +133,7 @@ TEST(TermTest, TermThatIsConstructedWithTermTypeHasIsSimplifiedFlagNotSet)
     EXPECT_FALSE(expressionTerm.isSimplified());
 }
 
-TEST(TermTest, GetBooleanValueWorks)
-{
+TEST(TermTest, GetBooleanValueWorks) {
     Term constantTerm1(false);
     Term constantTerm2(true);
 
@@ -155,8 +144,7 @@ TEST(TermTest, GetBooleanValueWorks)
     EXPECT_TRUE(constantTerm2.getBooleanValue());
 }
 
-TEST(TermTest, TermsAsConstantsCanBeChanged)
-{
+TEST(TermTest, TermsAsConstantsCanBeChanged) {
     Term term(Constant{});
 
     term.getConstantReference().setValue(true);
@@ -165,8 +153,7 @@ TEST(TermTest, TermsAsConstantsCanBeChanged)
     EXPECT_TRUE(term.getBooleanValue());
 }
 
-TEST(TermTest, TermsAsVariableTermsCanBeChanged)
-{
+TEST(TermTest, TermsAsVariableTermsCanBeChanged) {
     Term term(VariableTerm{});
 
     term.getVariableTermReference().setVariableTermName("time");
@@ -175,8 +162,7 @@ TEST(TermTest, TermsAsVariableTermsCanBeChanged)
     EXPECT_EQ("time", term.getVariableTermConstReference().getVariableTermName());
 }
 
-TEST(TermTest, TermsAsOperatorsCanBeChanged)
-{
+TEST(TermTest, TermsAsOperatorsCanBeChanged) {
     Term term(Operator{});
 
     term.getOperatorReference().setOperatorString("&");
@@ -185,8 +171,7 @@ TEST(TermTest, TermsAsOperatorsCanBeChanged)
     EXPECT_EQ("&", term.getOperatorConstReference().getOperatorString());
 }
 
-TEST(TermTest, TermsAsExpressionsCanBeChanged)
-{
+TEST(TermTest, TermsAsExpressionsCanBeChanged) {
     Term term(Expression{});
 
     term.getExpressionReference().setCommonOperatorLevel(OperatorLevel::And);
@@ -195,8 +180,7 @@ TEST(TermTest, TermsAsExpressionsCanBeChanged)
     EXPECT_EQ(OperatorLevel::And, term.getExpressionConstReference().getCommonOperatorLevel());
 }
 
-TEST(TermTest, AssignmentOperatorWorks)
-{
+TEST(TermTest, AssignmentOperatorWorks) {
     Term term1 = false;
     Term term2(true);
     term2 = false;
@@ -211,8 +195,7 @@ TEST(TermTest, AssignmentOperatorWorks)
     EXPECT_FALSE(term1.getBooleanValue());
 }
 
-TEST(TermTest, TermThatIsAssignedHasIsSimplifiedFlagCopied)
-{
+TEST(TermTest, TermThatIsAssignedHasIsSimplifiedFlagCopied) {
     Term termWithSimplifiedNotSet;
     Term termWithSimplifiedSet;
     termWithSimplifiedSet.setAsSimplified();
@@ -226,40 +209,37 @@ TEST(TermTest, TermThatIsAssignedHasIsSimplifiedFlagCopied)
     EXPECT_TRUE(term2.isSimplified());
 }
 
-TEST(TermTest, EqualityOperatorWorks)
-{
+TEST(TermTest, EqualityOperatorWorks) {
     Term term1;
     Term term2(Constant(false));
     Term term3(Constant(true));
     Term term4(VariableTerm("x"));
     Term term5(Constant(false));
 
-    EXPECT_TRUE(term1==term1);
-    EXPECT_FALSE(term1==term2);
-    EXPECT_TRUE(term2==term2);
-    EXPECT_FALSE(term2==term3);
-    EXPECT_FALSE(term2==term4);
-    EXPECT_TRUE(term2==term5);
+    EXPECT_TRUE(term1 == term1);
+    EXPECT_FALSE(term1 == term2);
+    EXPECT_TRUE(term2 == term2);
+    EXPECT_FALSE(term2 == term3);
+    EXPECT_FALSE(term2 == term4);
+    EXPECT_TRUE(term2 == term5);
 }
 
-TEST(TermTest, InequalityOperatorWorks)
-{
+TEST(TermTest, InequalityOperatorWorks) {
     Term term1;
     Term term2(Constant(false));
     Term term3(Constant(true));
     Term term4(VariableTerm("x"));
     Term term5(Constant(false));
 
-    EXPECT_FALSE(term1!=term1);
-    EXPECT_TRUE(term1!=term2);
-    EXPECT_FALSE(term2!=term2);
-    EXPECT_TRUE(term2!=term3);
-    EXPECT_TRUE(term2!=term4);
-    EXPECT_FALSE(term2!=term5);
+    EXPECT_FALSE(term1 != term1);
+    EXPECT_TRUE(term1 != term2);
+    EXPECT_FALSE(term2 != term2);
+    EXPECT_TRUE(term2 != term3);
+    EXPECT_TRUE(term2 != term4);
+    EXPECT_FALSE(term2 != term5);
 }
 
-TEST(TermTest, LessThanOperatorWorks)
-{
+TEST(TermTest, LessThanOperatorWorks) {
     Term term1;
     Term term2(Constant(false));
     Term term3(Constant(false));
@@ -267,16 +247,15 @@ TEST(TermTest, LessThanOperatorWorks)
     Term term5(Operator("&"));
     Term term6(VariableTerm("x"));
 
-    EXPECT_FALSE(term1<term1);
-    EXPECT_FALSE(term2<term2);
-    EXPECT_FALSE(term2<term3);
-    EXPECT_TRUE(term2<term4);
-    EXPECT_FALSE(term2<term5);
-    EXPECT_TRUE(term2<term6);
+    EXPECT_FALSE(term1 < term1);
+    EXPECT_FALSE(term2 < term2);
+    EXPECT_FALSE(term2 < term3);
+    EXPECT_TRUE(term2 < term4);
+    EXPECT_FALSE(term2 < term5);
+    EXPECT_TRUE(term2 < term6);
 }
 
-TEST(TermTest, IsEmptyWorks)
-{
+TEST(TermTest, IsEmptyWorks) {
     Term term1;
     Term term2(false);
     Term term3(true);
@@ -292,8 +271,7 @@ TEST(TermTest, IsEmptyWorks)
     EXPECT_TRUE(term6.isEmpty());
 }
 
-TEST(TermTest, IsConstantWorks)
-{
+TEST(TermTest, IsConstantWorks) {
     Term term1;
     Term term2(1);
     Term term3(VariableTerm("x"));
@@ -307,8 +285,7 @@ TEST(TermTest, IsConstantWorks)
     EXPECT_FALSE(term5.isConstant());
 }
 
-TEST(TermTest, IsVariableTermWorks)
-{
+TEST(TermTest, IsVariableTermWorks) {
     Term term1;
     Term term2(1);
     Term term3(VariableTerm("x"));
@@ -322,8 +299,7 @@ TEST(TermTest, IsVariableTermWorks)
     EXPECT_FALSE(term5.isVariableTerm());
 }
 
-TEST(TermTest, IsOperatorWorks)
-{
+TEST(TermTest, IsOperatorWorks) {
     Term term1;
     Term term2(1);
     Term term3(VariableTerm("x"));
@@ -337,8 +313,7 @@ TEST(TermTest, IsOperatorWorks)
     EXPECT_FALSE(term5.isOperator());
 }
 
-TEST(TermTest, IsExpressionWorks)
-{
+TEST(TermTest, IsExpressionWorks) {
     Term term1;
     Term term2(1);
     Term term3(VariableTerm("x"));
@@ -352,8 +327,7 @@ TEST(TermTest, IsExpressionWorks)
     EXPECT_TRUE(term5.isExpression());
 }
 
-TEST(TermTest, IsSimplifiedWorks)
-{
+TEST(TermTest, IsSimplifiedWorks) {
     Term term1;
     Term term2;
     term2.setAsSimplified();
@@ -362,8 +336,7 @@ TEST(TermTest, IsSimplifiedWorks)
     EXPECT_TRUE(term2.isSimplified());
 }
 
-TEST(TermTest, GetTermTypeWorks)
-{
+TEST(TermTest, GetTermTypeWorks) {
     Term term1;
     Term term2(false);
     Term term3(VariableTerm("x"));
@@ -377,8 +350,7 @@ TEST(TermTest, GetTermTypeWorks)
     EXPECT_EQ(TermType::Expression, term5.getTermType());
 }
 
-TEST(TermTest, GetDebugStringWorks)
-{
+TEST(TermTest, GetDebugStringWorks) {
     Term term1;
     Term term2(false);
     Term term3(VariableTerm("x"));
@@ -392,8 +364,7 @@ TEST(TermTest, GetDebugStringWorks)
     EXPECT_EQ("( {?}||x{VariableTerm} ){Expression}", term5.getDebugString());
 }
 
-TEST(TermTest, ClearWorks)
-{
+TEST(TermTest, ClearWorks) {
     Term constantTerm(true);
     Term variableTerm("x");
     Term expressionTerm(Expression{createExpressionIfPossible({true})});
@@ -407,8 +378,7 @@ TEST(TermTest, ClearWorks)
     EXPECT_EQ(Term(), expressionTerm);
 }
 
-TEST(TermTest, SimplifyWorks)
-{
+TEST(TermTest, SimplifyWorks) {
     Term constantTerm(true);
     Term variableTerm("x");
     Term expressionTerm(createExpressionIfPossible({true, "&", false}));
@@ -422,8 +392,7 @@ TEST(TermTest, SimplifyWorks)
     EXPECT_EQ(Term(false), expressionTerm);
 }
 
-TEST(TermTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
-{
+TEST(TermTest, SimplifyWorksWhenIsSimplifiedIsNotSet) {
     Term term(createExpressionIfPossible({true, "&", false}));
 
     term.simplify();
@@ -431,8 +400,7 @@ TEST(TermTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
     EXPECT_EQ(Term(false), term);
 }
 
-TEST(TermTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
-{
+TEST(TermTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet) {
     Term term(createExpressionIfPossible({true, "&", false}));
     term.setAsSimplified();
 
@@ -442,8 +410,7 @@ TEST(TermTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
     EXPECT_EQ(expectedTerm, term);
 }
 
-TEST(TermTest, SortWorks)
-{
+TEST(TermTest, SortWorks) {
     Term term1;
     Term term2(Expression{});
     Term term3(createExpressionIfPossible({"d", "&", "c", "&", "b", "&", "a"}));
@@ -460,12 +427,10 @@ TEST(TermTest, SortWorks)
     EXPECT_EQ(expectTerm3, term3);
 }
 
-TEST(TermTest, NegateWorks)
-{
+TEST(TermTest, NegateWorks) {
     Term term1;
     Term term2(Expression{});
-    Term term3(createExpressionIfPossible(
-    {"x", "&", "x'", "&", "y", "&", "z"}));
+    Term term3(createExpressionIfPossible({"x", "&", "x'", "&", "y", "&", "z"}));
 
     term1.negate();
     term2.negate();
@@ -473,15 +438,13 @@ TEST(TermTest, NegateWorks)
 
     Term expectTerm1;
     Term expectTerm2(Expression{});
-    Term expectTerm3(createExpressionIfPossible(
-    {"x'", "|", "x", "|", "y'", "|", "z'"}));
+    Term expectTerm3(createExpressionIfPossible({"x'", "|", "x", "|", "y'", "|", "z'"}));
     EXPECT_EQ(expectTerm1, term1);
     EXPECT_EQ(expectTerm2, term2);
     EXPECT_EQ(expectTerm3, term3);
 }
 
-TEST(TermTest, SetAsSimplifiedWorks)
-{
+TEST(TermTest, SetAsSimplifiedWorks) {
     Term term;
 
     term.setAsSimplified();
@@ -489,8 +452,7 @@ TEST(TermTest, SetAsSimplifiedWorks)
     EXPECT_TRUE(term.isSimplified());
 }
 
-TEST(TermTest, ClearSimplifiedFlagWorks)
-{
+TEST(TermTest, ClearSimplifiedFlagWorks) {
     Term term;
     term.setAsSimplified();
 
@@ -499,8 +461,7 @@ TEST(TermTest, ClearSimplifiedFlagWorks)
     EXPECT_FALSE(term.isSimplified());
 }
 
-TEST(TermTest, ClearAllInnerSimplifiedFlagsWorks)
-{
+TEST(TermTest, ClearAllInnerSimplifiedFlagsWorks) {
     Expression innerExpression(createExpressionIfPossible({"x", "&", "y", "|", "z"}));
     Term term(innerExpression);
     term.setAsSimplified();
@@ -513,8 +474,7 @@ TEST(TermTest, ClearAllInnerSimplifiedFlagsWorks)
     EXPECT_FALSE(term.getExpressionConstReference().isSimplified());
 }
 
-TEST(TermTest, OutputStreamOperatorWorks)
-{
+TEST(TermTest, OutputStreamOperatorWorks) {
     stringstream ss;
     Term term1;
     Term term2(false);
@@ -527,6 +487,6 @@ TEST(TermTest, OutputStreamOperatorWorks)
     EXPECT_EQ("{EmptyTerm},[false],x,&,(x)", ss.str());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

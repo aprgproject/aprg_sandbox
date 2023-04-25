@@ -7,110 +7,56 @@
 using namespace alba::algorithm::CommonTestsWithSet;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using HashFunctionForTest = UnsignedIntegerBasedHashFunction<unsigned int, unsigned int>;
 using SetForTest = LinearProbingHashSet<unsigned int, HashFunctionForTest>;
-}
+}  // namespace
 
-TEST(LinearProbingHashSetTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, IsEmptyWorksWhenNotEmpty)
-{
+TEST(LinearProbingHashSetTest, IsEmptyWorksWhenNotEmpty) {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SetForTest>();
 }
 
-TEST(LinearProbingHashSetTest, DoesContainWorks)
-{
-    testDoesContainWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, DoesContainWorks) { testDoesContainWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetSizeWorksWhenNotEmpty)
-{
+TEST(LinearProbingHashSetTest, GetSizeWorksWhenNotEmpty) {
     testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SetForTest>();
 }
 
-TEST(LinearProbingHashSetTest, GetWorks)
-{
-    testGetWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetWorks) { testGetWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetRankWorks)
-{
-    testGetRankWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetRankWorks) { testGetRankWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetMinimumWorks)
-{
-    testGetMinimumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetMinimumWorks) { testGetMinimumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetMaximumWorks)
-{
-    testGetMaximumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetMaximumWorks) { testGetMaximumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, SelectAtWorks)
-{
-    testSelectAtWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, SelectAtWorks) { testSelectAtWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetFloorWorks)
-{
-    testGetFloorWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetFloorWorks) { testGetFloorWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetCeilingWorks)
-{
-    testGetCeilingWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetCeilingWorks) { testGetCeilingWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, PutWorks)
-{
-    testPutWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, PutWorks) { testPutWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, DeleteBasedOnKeyWorks)
-{
-    testDeleteBasedOnKeyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, DeleteMinimumWorks)
-{
-    testDeleteMinimumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, DeleteMinimumWorks) { testDeleteMinimumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, DeleteMaximumWorks)
-{
-    testDeleteMaximumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, DeleteMaximumWorks) { testDeleteMaximumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetKeys)
-{
-    testGetKeysWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetKeys) { testGetKeysWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, GetKeysInRangeWorks)
-{
-    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(LinearProbingHashSetTest, GetKeysInRangeWorks) { testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(LinearProbingHashSetTest, PutWorksWithDoublingHashTableSize)
-{
+TEST(LinearProbingHashSetTest, PutWorksWithDoublingHashTableSize) {
     SetForTest setObject;
 
     EXPECT_EQ(1U, setObject.getHashTableSize());
@@ -130,8 +76,7 @@ TEST(LinearProbingHashSetTest, PutWorksWithDoublingHashTableSize)
     EXPECT_EQ(16U, setObject.getHashTableSize());
 }
 
-TEST(LinearProbingHashSetTest, DeleteBasedOnKeyWorksWithHalvingHashTableSize)
-{
+TEST(LinearProbingHashSetTest, DeleteBasedOnKeyWorksWithHalvingHashTableSize) {
     SetForTest setObject;
     setObject.put(8U);
     setObject.put(9U);
@@ -155,6 +100,6 @@ TEST(LinearProbingHashSetTest, DeleteBasedOnKeyWorksWithHalvingHashTableSize)
     EXPECT_EQ(4U, setObject.getHashTableSize());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

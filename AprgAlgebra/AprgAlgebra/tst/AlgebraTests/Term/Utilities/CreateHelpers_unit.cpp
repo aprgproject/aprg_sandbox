@@ -4,50 +4,43 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(CreateHelpersTest, CreateMonomialFromNumberWorks)
-{
+TEST(CreateHelpersTest, CreateMonomialFromNumberWorks) {
     EXPECT_EQ(Monomial(5648, {}), createMonomialFromNumber(5648));
 }
 
-TEST(CreateHelpersTest, CreateMonomialFromVariableWorks)
-{
+TEST(CreateHelpersTest, CreateMonomialFromVariableWorks) {
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialFromVariable(Variable("weight")));
 }
 
-TEST(CreateHelpersTest, CreateMonomialIfPossibleWorks)
-{
+TEST(CreateHelpersTest, CreateMonomialIfPossibleWorks) {
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term{}));
     EXPECT_EQ(Monomial(42, {}), createMonomialIfPossible(42));
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialIfPossible("weight"));
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible("+"));
     EXPECT_EQ(Monomial(-1.5, {{"r", -3.75}}), createMonomialIfPossible(Monomial(-1.5, {{"r", -3.75}})));
-    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
+    EXPECT_EQ(
+        Monomial(0, {}),
+        createMonomialIfPossible(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(createExpressionIfPossible({5, "+", "interest"})));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromNumberWorks)
-{
+TEST(CreateHelpersTest, CreatePolynomialFromNumberWorks) {
     EXPECT_EQ(Polynomial{Monomial(5648, {})}, createPolynomialFromNumber(5648));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks)
-{
+TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks) {
     EXPECT_EQ(Polynomial{Monomial(1, {{"weight", 1}})}, createPolynomialFromVariable(Variable("weight")));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromMonomialWorks)
-{
+TEST(CreateHelpersTest, CreatePolynomialFromMonomialWorks) {
     EXPECT_EQ(Polynomial{Monomial(2, {{"weight", 3}})}, createPolynomialFromMonomial(Monomial(2, {{"weight", 3}})));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialIfPossibleWorks)
-{
+TEST(CreateHelpersTest, CreatePolynomialIfPossibleWorks) {
     EXPECT_EQ((Polynomial{}), createPolynomialIfPossible(Term{}));
     EXPECT_EQ((Polynomial{Monomial(97, {})}), createPolynomialIfPossible(97));
     EXPECT_EQ((Polynomial{Monomial(1, {{"weight", 1}})}), createPolynomialIfPossible("weight"));
@@ -56,8 +49,7 @@ TEST(CreateHelpersTest, CreatePolynomialIfPossibleWorks)
     EXPECT_EQ((Polynomial{}), createPolynomialIfPossible(createExpressionIfPossible({5, "+", "interest"})));
 }
 
-TEST(CreateHelpersTest, CreateExpressionInExpressionWorks)
-{
+TEST(CreateHelpersTest, CreateExpressionInExpressionWorks) {
     Expression expression1(createExpressionIfPossible({254}));
     Expression expression2(createExpressionIfPossible({4752}));
 
@@ -70,8 +62,7 @@ TEST(CreateHelpersTest, CreateExpressionInExpressionWorks)
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks)
-{
+TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks) {
     Expression expression1(createExpressionIfPossible({254}));
     Expression expression2(createExpressionIfPossible({4752}));
 
@@ -83,8 +74,7 @@ TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks)
     EXPECT_EQ(expression2, expressionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks)
-{
+TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks) {
     Expression expression1(createExpressionIfPossible({254}));
     Expression expression2(createExpressionIfPossible({4752}));
 
@@ -95,9 +85,9 @@ TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks)
     EXPECT_EQ(expression2, expressionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks)
-{
-    Expression expressionToTest(createExpressionIfPossible({10, "/", Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}}));
+TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks) {
+    Expression expressionToTest(
+        createExpressionIfPossible({10, "/", Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}}));
 
     EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
@@ -110,8 +100,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks)
     EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression) {
     Expression expression1(createExpressionIfPossible({88}));
     Expression expression2(createExpressionInAnExpression(expression1));
     Expression expression3(createExpressionInAnExpression(expression2));
@@ -141,8 +130,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAEx
     EXPECT_EQ(Constant(88), termToVerify3.getConstantConstReference());
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify) {
     Expression expressionToTest(createExpressionIfPossible({7.625, "+", 2.375}));
 
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
@@ -156,8 +144,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify)
     EXPECT_EQ(Term(2.375), termToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong) {
     Expression expressionToTest(createExpressionIfPossible({7.625, "+", "/", 2.375}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -165,8 +152,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWr
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks)
-{
+TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks) {
     Expression expressionToTest(createSimplifiedExpressionIfPossible({7.625, "+", 2.375}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -177,8 +163,7 @@ TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks)
     EXPECT_EQ(Term(10), termToVerify1);
 }
 
-TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
-{
+TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong) {
     Expression expressionToTest(createSimplifiedExpressionIfPossible({"+", "+", "+"}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -186,16 +171,14 @@ TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOf
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks)
-{
+TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks) {
     Function absoluteValueFunction(createFunctionWithEmptyInputExpression("abs"));
 
     EXPECT_EQ("abs", absoluteValueFunction.getFunctionName());
     EXPECT_TRUE(getTermConstReferenceFromBaseTerm(absoluteValueFunction.getInputTermConstReference()).isEmpty());
 }
 
-TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks)
-{
+TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks) {
     Function absFunction(Functions::abs(-5));
     Function absInAbsFunction(Functions::abs(absFunction));
     Function absInAbsInAbsFunction(Functions::abs(absInAbsFunction));
@@ -207,8 +190,7 @@ TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks)
     EXPECT_EQ(absInAbsInAbsFunction, functionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithASingleTerm)
-{
+TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithASingleTerm) {
     TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};
 
     Term termToExpect(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetails));
@@ -217,12 +199,11 @@ TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWork
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithMultipleTerms)
-{
-    TermsWithDetails termsWithDetails
-    {{Term("x"), TermAssociationType::Positive},
-    {Term("y"), TermAssociationType::Negative},
-    {Term("z"), TermAssociationType::Positive}};
+TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithMultipleTerms) {
+    TermsWithDetails termsWithDetails{
+        {Term("x"), TermAssociationType::Positive},
+        {Term("y"), TermAssociationType::Negative},
+        {Term("z"), TermAssociationType::Positive}};
 
     Term termToExpect(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetails));
 
@@ -230,8 +211,7 @@ TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWork
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsWorksWithASingleTerm)
-{
+TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsWorksWithASingleTerm) {
     TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};
 
     Term termToExpect(createTermWithMultiplicationAndDivisionTermsWithDetails(termsWithDetails));
@@ -240,12 +220,11 @@ TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsW
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsWorksWithMultipleTerms)
-{
-    TermsWithDetails termsWithDetails
-    {{Term("x"), TermAssociationType::Positive},
-    {Term("y"), TermAssociationType::Negative},
-    {Term("z"), TermAssociationType::Positive}};
+TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsWorksWithMultipleTerms) {
+    TermsWithDetails termsWithDetails{
+        {Term("x"), TermAssociationType::Positive},
+        {Term("y"), TermAssociationType::Negative},
+        {Term("z"), TermAssociationType::Positive}};
 
     Term termToExpect(createTermWithMultiplicationAndDivisionTermsWithDetails(termsWithDetails));
 
@@ -253,8 +232,7 @@ TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsW
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithASingleTerm)
-{
+TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithASingleTerm) {
     TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};
 
     Term termToExpect(createTermWithRaiseToPowerTermsWithDetails(termsWithDetails));
@@ -263,12 +241,11 @@ TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithASing
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithMultipleTerms)
-{
-    TermsWithDetails termsWithDetails
-    {{Term("x"), TermAssociationType::Positive},
-    {Term("y"), TermAssociationType::Positive},
-    {Term("z"), TermAssociationType::Positive}};
+TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithMultipleTerms) {
+    TermsWithDetails termsWithDetails{
+        {Term("x"), TermAssociationType::Positive},
+        {Term("y"), TermAssociationType::Positive},
+        {Term("z"), TermAssociationType::Positive}};
 
     Term termToExpect(createTermWithRaiseToPowerTermsWithDetails(termsWithDetails));
 
@@ -276,6 +253,6 @@ TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithMulti
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

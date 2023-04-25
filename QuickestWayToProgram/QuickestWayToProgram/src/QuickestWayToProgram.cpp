@@ -1,11 +1,7 @@
 #include "QuickestWayToProgram.hpp"
 
-namespace alba
-{
+namespace alba {
 
-QuickestWayToProgram::QuickestWayToProgram()
-{
-    m_sample = 0;
-}
+QuickestWayToProgram::QuickestWayToProgram() { m_sample = 0; }
 
-}
+}  // namespace alba

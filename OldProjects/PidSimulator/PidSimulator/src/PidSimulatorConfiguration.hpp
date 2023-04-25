@@ -4,16 +4,15 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-struct PidSimulatorConfiguration
-{
+struct PidSimulatorConfiguration {
     using StringToStringMap = std::map<std::string, std::string>;
     PidSimulatorConfiguration(stringHelper::strings const& argumentsInMain);
-    void saveArgumentValues(StringToStringMap & argumentsToValuesMap);
-    void processArgumentsWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, stringHelper::strings const& argumentsInMain);
-    void processOneArgumentWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, std::string const& argument);
+    void saveArgumentValues(StringToStringMap& argumentsToValuesMap);
+    void processArgumentsWithEqualDelimeter(
+        StringToStringMap& argumentsToValuesMap, stringHelper::strings const& argumentsInMain);
+    void processOneArgumentWithEqualDelimeter(StringToStringMap& argumentsToValuesMap, std::string const& argument);
     void print() const;
     unsigned int numberOfLoopsOfPeriodicInputDemand;
     unsigned int amplitudeOfInputDemand;
@@ -28,4 +27,4 @@ struct PidSimulatorConfiguration
     std::string machsModelType;
 };
 
-}
+}  // namespace alba

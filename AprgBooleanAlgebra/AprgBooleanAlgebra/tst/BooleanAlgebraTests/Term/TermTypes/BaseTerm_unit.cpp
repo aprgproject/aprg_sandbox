@@ -4,17 +4,12 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(BaseTermTest, ConstructionWorks)
-{
-    BaseTerm();
-}
+TEST(BaseTermTest, ConstructionWorks) { BaseTerm(); }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

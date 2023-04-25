@@ -6,21 +6,17 @@
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
 using SubstringSearchForTest = SubstringSearchUsingZArray<Index, '#'>;
 using Indexes = SubstringSearchForTest::Indexes;
-}
+}  // namespace
 
-TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
-{
+TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
     // SubstringSearchUsingZArray has unique results of handling empty strings
 
     string emptyString;
@@ -34,27 +30,24 @@ TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingEmptyStringsAndDoesNotCrash
     EXPECT_EQ(Index(0), nonEmptyStringSearch.search(nonEmptyString));
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingExample1)
-{
+TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingExample1) {
     testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchForFirstSubstringWorksUsingExample1)
-{
+TEST(SubstringSearchUsingZArrayTest, SearchForFirstSubstringWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");
 
     EXPECT_EQ(Index(1), substringSearch.searchForFirstSubstring(mainString));
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchForAllSubstringsWorksUsingExample1)
-{
+TEST(SubstringSearchUsingZArrayTest, SearchForAllSubstringsWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");
 
     EXPECT_EQ((Indexes{1U, 6U}), substringSearch.searchForAllSubstrings(mainString));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

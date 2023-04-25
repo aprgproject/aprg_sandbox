@@ -4,22 +4,18 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-TEST(PieceTest, ExtractColorWorks)
-{
+TEST(PieceTest, ExtractColorWorks) {
     EXPECT_EQ(PieceColor::White, Piece::extractColor(0U));
     EXPECT_EQ(PieceColor::White, Piece::extractColor(1U));
     EXPECT_EQ(PieceColor::Black, Piece::extractColor(8U));
     EXPECT_EQ(PieceColor::Black, Piece::extractColor(9U));
 }
 
-TEST(PieceTest, ExtractTypeWorks)
-{
+TEST(PieceTest, ExtractTypeWorks) {
     EXPECT_EQ(PieceType::Empty, Piece::extractType(0U));
     EXPECT_EQ(PieceType::Pawn, Piece::extractType(1U));
     EXPECT_EQ(PieceType::Knight, Piece::extractType(2U));
@@ -36,8 +32,7 @@ TEST(PieceTest, ExtractTypeWorks)
     EXPECT_EQ(PieceType::King, Piece::extractType(14U));
 }
 
-TEST(PieceTest, ExtractColorAndTypeWorks)
-{
+TEST(PieceTest, ExtractColorAndTypeWorks) {
     EXPECT_EQ(PieceColorAndType::Empty, Piece::extractColorAndType(0U));
     EXPECT_EQ(PieceColorAndType::WhitePawn, Piece::extractColorAndType(1U));
     EXPECT_EQ(PieceColorAndType::WhiteKnight, Piece::extractColorAndType(2U));
@@ -53,8 +48,7 @@ TEST(PieceTest, ExtractColorAndTypeWorks)
     EXPECT_EQ(PieceColorAndType::BlackKing, Piece::extractColorAndType(14U));
 }
 
-TEST(PieceTest, GetColorWorks)
-{
+TEST(PieceTest, GetColorWorks) {
     Piece piece1(0U);
     Piece piece2(13U);
 
@@ -62,8 +56,7 @@ TEST(PieceTest, GetColorWorks)
     EXPECT_EQ(PieceColor::Black, piece2.getColor());
 }
 
-TEST(PieceTest, GetTypeWorks)
-{
+TEST(PieceTest, GetTypeWorks) {
     Piece piece1(0U);
     Piece piece2(13U);
 
@@ -71,8 +64,7 @@ TEST(PieceTest, GetTypeWorks)
     EXPECT_EQ(PieceType::Queen, piece2.getType());
 }
 
-TEST(PieceTest, GetColorAndTypeWorks)
-{
+TEST(PieceTest, GetColorAndTypeWorks) {
     Piece piece1(0U);
     Piece piece2(13U);
 
@@ -80,6 +72,6 @@ TEST(PieceTest, GetColorAndTypeWorks)
     EXPECT_EQ(PieceColorAndType::BlackQueen, piece2.getColorAndType());
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

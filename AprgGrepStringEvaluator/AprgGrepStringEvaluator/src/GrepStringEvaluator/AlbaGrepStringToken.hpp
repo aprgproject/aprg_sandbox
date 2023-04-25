@@ -4,14 +4,11 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaGrepStringToken
-{
+class AlbaGrepStringToken {
 public:
-    enum class TokenType
-    {
+    enum class TokenType {
         Dummy,
         Operator,
         StringToFind,
@@ -35,10 +32,11 @@ public:
     int getOperatorPriority() const;
     void appendToString(char const character);
     void setOperatorType(AlbaGrepStringOperatorType const type);
+
 private:
     TokenType m_type;
     AlbaGrepStringOperatorType m_operatorType;
     std::string m_string;
 };
 
-}
+}  // namespace alba

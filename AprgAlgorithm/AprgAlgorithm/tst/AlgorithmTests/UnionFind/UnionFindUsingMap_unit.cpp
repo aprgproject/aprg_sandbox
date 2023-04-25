@@ -6,43 +6,35 @@
 using namespace alba::algorithm::CommonTestsWithUnionFind;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using UnionFindForTest = UnionFindUsingMap<unsigned int>;
 }
 
-TEST(UnionFindUsingMapTest, IsConnectedWorks)
-{
+TEST(UnionFindUsingMapTest, IsConnectedWorks) {
     UnionFindForTest unionFind;
     testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, ConnectWorks)
-{
+TEST(UnionFindUsingMapTest, ConnectWorks) {
     UnionFindForTest unionFind;
     testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, ConnectWorksWithExample1)
-{
+TEST(UnionFindUsingMapTest, ConnectWorksWithExample1) {
     UnionFindForTest unionFind;
     testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, ConnectWorksWithExample2)
-{
+TEST(UnionFindUsingMapTest, ConnectWorksWithExample2) {
     UnionFindForTest unionFind;
     testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, GetRootWorks)
-{
+TEST(UnionFindUsingMapTest, GetRootWorks) {
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
@@ -62,8 +54,7 @@ TEST(UnionFindUsingMapTest, GetRootWorks)
     EXPECT_EQ(3U, unionFind.getRoot(9));
 }
 
-TEST(UnionFindUsingMapTest, GetConnectionMapWorks)
-{
+TEST(UnionFindUsingMapTest, GetConnectionMapWorks) {
     UnionFindForTest unionFind;
 
     UnionFindForTest::ConnectionMap expectedInitialConnectionMap;
@@ -75,10 +66,11 @@ TEST(UnionFindUsingMapTest, GetConnectionMapWorks)
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    UnionFindForTest::ConnectionMap expectedConnectionMap{{1U, 1U}, {2U, 1U}, {3U, 3U}, {4U, 3U}, {5U, 5U}, {6U, 5U}, {8U, 3U}, {9U, 3U}};
+    UnionFindForTest::ConnectionMap expectedConnectionMap{{1U, 1U}, {2U, 1U}, {3U, 3U}, {4U, 3U},
+                                                          {5U, 5U}, {6U, 5U}, {8U, 3U}, {9U, 3U}};
     EXPECT_EQ(expectedConnectionMap, unionFind.getConnectionMap());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

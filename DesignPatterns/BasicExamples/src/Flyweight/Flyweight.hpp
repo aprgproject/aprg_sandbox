@@ -1,60 +1,44 @@
 #include <iostream>
-#include <memory>
 #include <map>
+#include <memory>
 
-namespace Flyweight
-{
+namespace Flyweight {
 
 // Flyweight
 // declares an interface through which flyweights can receive
 // and act on extrinsic state
 
-class Flyweight
-{
+class Flyweight {
 public:
     virtual ~Flyweight() = default;
     virtual void operation() = 0;
     // ...
 };
 
-
 // UnsharedConcreteFlyweight
 // not all subclasses need to be shared
 
-class UnsharedConcreteFlyweight : public Flyweight
-{
+class UnsharedConcreteFlyweight : public Flyweight {
 public:
-    UnsharedConcreteFlyweight(int const intrinsicState)
-        : m_state(intrinsicState)
-    {}
+    UnsharedConcreteFlyweight(int const intrinsicState) : m_state(intrinsicState) {}
 
-    void operation() override
-    {
-        std::cout << "Unshared Flyweight with state " << m_state << "\n";
-    }
+    void operation() override { std::cout << "Unshared Flyweight with state " << m_state << "\n"; }
     // ...
 
 private:
     int m_state;
     // ...
 };
-
 
 // ConcreteFlyweight
 // implements the Flyweight interface and adds storage
 // for intrinsic state
 
-class ConcreteFlyweight : public Flyweight
-{
+class ConcreteFlyweight : public Flyweight {
 public:
-    ConcreteFlyweight(int const commonState)
-        : m_state(commonState)
-    {}
+    ConcreteFlyweight(int const commonState) : m_state(commonState) {}
 
-    void operation() override
-    {
-        std::cout << "Concrete Flyweight with state " << m_state << "\n";
-    }
+    void operation() override { std::cout << "Concrete Flyweight with state " << m_state << "\n"; }
     // ...
 
 private:
@@ -62,23 +46,17 @@ private:
     // ...
 };
 
-
 // FlyweightFactory
 // creates and manages flyweight objects and ensures
 // that flyweights are shared properly
 
-class FlyweightFactory
-{
+class FlyweightFactory {
 public:
-    Flyweight& getFlyweight(int const key)
-    {
+    Flyweight& getFlyweight(int const key) {
         auto it = m_keyToFlyMap.find(key);
-        if(it != m_keyToFlyMap.end())
-        {
+        if (it != m_keyToFlyMap.end()) {
             return *(it->second);
-        }
-        else
-        {
+        } else {
             auto iteratorAndFlagPair = m_keyToFlyMap.emplace(key, std::make_unique<ConcreteFlyweight>(key));
             return *(iteratorAndFlagPair.first->second.get());
         }
@@ -90,7 +68,7 @@ private:
     // ...
 };
 
-}
+}  // namespace Flyweight
 
 // Flyweight discussion:
 
@@ -98,8 +76,9 @@ private:
 // -> Provide a "flyweight object" that can have SHARED data (extrinsic state) or SEPARATED data (intrinsic state)
 
 // Intent:
-// Flyweight pattern has has structural purpose, applies to objects and uses sharing to support large numbers of fine-grained objects efficiently.
-// The pattern can be used to reduce memory usage when you need to create a large number of similar objects.
+// Flyweight pattern has has structural purpose, applies to objects and uses sharing to support large numbers of
+// fine-grained objects efficiently. The pattern can be used to reduce memory usage when you need to create a large
+// number of similar objects.
 
 // When to use (applicability):
 // -> when one instance of a class can be used to provide many "virtual instances"
@@ -125,26 +104,31 @@ private:
 // -----> Then you save on storage in two ways:
 // -------> (1) Sharing reduces the cost of intrinsic state
 // -------> (2) and you trade extrinsic state for computation state.
-// -> The Flyweight pattern is often combined with the [Composite] pattern to represent a hierarchical structure as a graph with shared leaf nodes.
+// -> The Flyweight pattern is often combined with the [Composite] pattern to represent a hierarchical structure as a
+// graph with shared leaf nodes.
 // ---> A consequence of sharing is that flyweight leaf nodes cannot store a pointer to their parent.
 // ---> Rather, the parent pointer is passed ot the flyweight as part of its extrinsic state.
 // ---> This has a major impact on how the objects in the hierarchy communicate with each other.
 
 // Implementation:
 // -> Removing extrinsic state.
-// ---> The pattern's applicability is determined largely by how easy it is to identify extrinsic state and remove it from shared objects.
-// -----> Removing extrinsic state won't help reduce storage cost if there are as many different kinds of extrinsic state as there are objects before sharing.
-// -----> Ideally, extrinsic state can be computed from a separate object structure, one with far smaller storage requirements.
+// ---> The pattern's applicability is determined largely by how easy it is to identify extrinsic state and remove it
+// from shared objects.
+// -----> Removing extrinsic state won't help reduce storage cost if there are as many different kinds of extrinsic
+// state as there are objects before sharing.
+// -----> Ideally, extrinsic state can be computed from a separate object structure, one with far smaller storage
+// requirements.
 // -> Managing shared objects
 // ---> Because objects are shared, clients shouldn't instantiate them directly.
 // -----> FlyweightFactory lets clients locate a particular flyweight.
 // -----> FlyweightFactory objects often use an associative store to let clients look up flyweight of interest.
-// ---> Sharability also implies some form of reference counting or garbage collection to reclaim a flyweights storage when its no longer needed.
+// ---> Sharability also implies some form of reference counting or garbage collection to reclaim a flyweights storage
+// when its no longer needed.
 // -----> However, neither is necessary if the number of flyweights is fixed and small.
 // -------> In this case, the flyweights are worth keeping around permanently.
 
 // Related Patterns
-// -> The [Flyweight] pattern is often combined with the [Composite] pattern to implement a logically hierarchical structure
+// -> The [Flyweight] pattern is often combined with the [Composite] pattern to implement a logically hierarchical
+// structure
 // ---> in terms of a directed-acyclic-graph with shared leaf nodes.
 // -> It's often best to implement [State] and [Strategy] objects as flyweights.
-

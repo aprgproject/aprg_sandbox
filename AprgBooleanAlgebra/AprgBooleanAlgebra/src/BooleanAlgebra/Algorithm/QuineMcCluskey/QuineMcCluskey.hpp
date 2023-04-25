@@ -13,15 +13,12 @@
 #include <sstream>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 template <typename Minterm>
-class QuineMcCluskey
-{
+class QuineMcCluskey {
 public:
     using Minterms = std::vector<Minterm>;
     using SetOfMinterms = std::set<Minterm>;
@@ -31,39 +28,30 @@ public:
     using InputToOutputMap = std::map<Minterm, LogicalValue>;
     using ComputationalTable = std::map<Minterm, ImplicantsMap>;
 
-    QuineMcCluskey()
-        : m_maxCommonalityCount(0)
-    {}
+    QuineMcCluskey() : m_maxCommonalityCount(0) {}
 
-    LogicalValue getOutput(Minterm const input) const
-    {
+    LogicalValue getOutput(Minterm const input) const {
         LogicalValue result(LogicalValue::False);
         auto it = m_inputToOutputMap.find(input);
-        if (it != m_inputToOutputMap.end())
-        {
+        if (it != m_inputToOutputMap.end()) {
             result = it->second;
         }
         return result;
     }
 
-    unsigned int getNumberOfOnes(Minterm const value) const
-    {
+    unsigned int getNumberOfOnes(Minterm const value) const {
         return AlbaBitValueUtilities<Minterm>::getNumberOfOnes(value);
     }
 
-    ImplicantsWithMinterm getImplicants(unsigned int numberOfOnes, unsigned int commonalityCount) const
-    {
+    ImplicantsWithMinterm getImplicants(unsigned int numberOfOnes, unsigned int commonalityCount) const {
         ImplicantsWithMinterm result;
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
-        if (numberOfOnesIt != m_computationalTable.end())
-        {
+        if (numberOfOnesIt != m_computationalTable.end()) {
             ImplicantsMap const& implicantsMap(numberOfOnesIt->second);
             auto commonalityCountIt = implicantsMap.find(commonalityCount);
-            if (commonalityCountIt != implicantsMap.end())
-            {
+            if (commonalityCountIt != implicantsMap.end()) {
                 ImplicantsWithMinterm const& implicants(commonalityCountIt->second);
-                for(ImplicantWithMinterm const& implicant : implicants.getImplicantsData())
-                {
+                for (ImplicantWithMinterm const& implicant : implicants.getImplicantsData()) {
                     result.addImplicant(implicant);
                 }
             }
@@ -71,17 +59,13 @@ public:
         return result;
     }
 
-    ImplicantsWithMinterm getAllFinalImplicants() const
-    {
+    ImplicantsWithMinterm getAllFinalImplicants() const {
         ImplicantsWithMinterm result;
-        for(auto it=m_computationalTable.begin(); it!=m_computationalTable.end(); it++)
-        {
+        for (auto it = m_computationalTable.begin(); it != m_computationalTable.end(); it++) {
             ImplicantsMap const& implicantsMap(it->second);
-            for(auto reverseIt=implicantsMap.rbegin(); reverseIt!=implicantsMap.rend(); reverseIt++)
-            {
+            for (auto reverseIt = implicantsMap.rbegin(); reverseIt != implicantsMap.rend(); reverseIt++) {
                 ImplicantsWithMinterm const& currentImplicants(reverseIt->second);
-                for(ImplicantWithMinterm const& implicant : currentImplicants.getImplicantsData())
-                {
+                for (ImplicantWithMinterm const& implicant : currentImplicants.getImplicantsData()) {
                     result.addFinalImplicant(implicant);
                 }
             }
@@ -89,103 +73,82 @@ public:
         return result;
     }
 
-    bool doImplicantsExistAt(unsigned int numberOfOnes, unsigned int commonalityCount) const
-    {
+    bool doImplicantsExistAt(unsigned int numberOfOnes, unsigned int commonalityCount) const {
         bool result(false);
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
-        if(numberOfOnesIt != m_computationalTable.end())
-        {
+        if (numberOfOnesIt != m_computationalTable.end()) {
             ImplicantsMap const& implicantsMap(numberOfOnesIt->second);
             result = implicantsMap.find(commonalityCount) != implicantsMap.end();
         }
         return result;
     }
 
-    void setInputOutput(Minterm const input, LogicalValue const output)
-    {
-        if(output == LogicalValue::True || output == LogicalValue::DontCare)
-        {
+    void setInputOutput(Minterm const input, LogicalValue const output) {
+        if (output == LogicalValue::True || output == LogicalValue::DontCare) {
             m_inputToOutputMap.emplace(input, output);
         }
     }
 
-    void findAllCombinations()
-    {
-        unsigned int commonalityCount=0;
+    void findAllCombinations() {
+        unsigned int commonalityCount = 0;
         bool areAllCombinationsFound(false);
-        while(!areAllCombinationsFound)
-        {
+        while (!areAllCombinationsFound) {
             bool isCombinationFound(false);
-            for(unsigned int numberOfOnes=0; numberOfOnes+1 < m_computationalTable.size(); numberOfOnes++)
-            {
+            for (unsigned int numberOfOnes = 0; numberOfOnes + 1 < m_computationalTable.size(); numberOfOnes++) {
                 findCombinationOfImplicants(numberOfOnes, commonalityCount);
-                isCombinationFound = isCombinationFound | doImplicantsExistAt(numberOfOnes, commonalityCount+1);
+                isCombinationFound = isCombinationFound | doImplicantsExistAt(numberOfOnes, commonalityCount + 1);
             }
             areAllCombinationsFound = !isCombinationFound;
             commonalityCount++;
         }
-        m_maxCommonalityCount = (commonalityCount>0) ? commonalityCount-1 : 0;
+        m_maxCommonalityCount = (commonalityCount > 0) ? commonalityCount - 1 : 0;
     }
 
-    void fillComputationalTableWithMintermsWithZeroCommonalityCount()
-    {
-        for(auto const & inputAndOutputPair : m_inputToOutputMap)
-        {
+    void fillComputationalTableWithMintermsWithZeroCommonalityCount() {
+        for (auto const& inputAndOutputPair : m_inputToOutputMap) {
             addMintermForZeroCommonalityCount(inputAndOutputPair.first);
         }
     }
 
-    void findCombinationOfImplicants(unsigned int numberOfOnes, unsigned int commonalityCount)
-    {
-        if(numberOfOnes+1 < m_computationalTable.size())
-        {
+    void findCombinationOfImplicants(unsigned int numberOfOnes, unsigned int commonalityCount) {
+        if (numberOfOnes + 1 < m_computationalTable.size()) {
             ImplicantsWithMinterm const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);
-            ImplicantsWithMinterm const& implicants2(m_computationalTable[numberOfOnes+1][commonalityCount]);
-            for(ImplicantWithMinterm const& implicant1 : implicants1.getImplicantsData())
-            {
-                for(ImplicantWithMinterm const& implicant2 : implicants2.getImplicantsData())
-                {
-                    if(implicant1.isCompatible(implicant2))
-                    {
-                        m_computationalTable[numberOfOnes][commonalityCount+1].addImplicant(implicant1+implicant2);
+            ImplicantsWithMinterm const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
+            for (ImplicantWithMinterm const& implicant1 : implicants1.getImplicantsData()) {
+                for (ImplicantWithMinterm const& implicant2 : implicants2.getImplicantsData()) {
+                    if (implicant1.isCompatible(implicant2)) {
+                        m_computationalTable[numberOfOnes][commonalityCount + 1].addImplicant(implicant1 + implicant2);
                     }
                 }
             }
         }
     }
 
-    std::string getComputationTableString() const
-    {
+    std::string getComputationTableString() const {
         std::stringstream ss;
-        for(auto const& numberOfOnesAndCommonalityCountImplicantsPair : m_computationalTable)
-        {
+        for (auto const& numberOfOnesAndCommonalityCountImplicantsPair : m_computationalTable) {
             ss << "Number of ones = " << numberOfOnesAndCommonalityCountImplicantsPair.first << "\n";
-            for(auto const& commonalityCountAndImplicantsPair : numberOfOnesAndCommonalityCountImplicantsPair.second)
-            {
-                ss << "Commonality count = " << commonalityCountAndImplicantsPair.first << " with " << commonalityCountAndImplicantsPair.second << "\n";
+            for (auto const& commonalityCountAndImplicantsPair : numberOfOnesAndCommonalityCountImplicantsPair.second) {
+                ss << "Commonality count = " << commonalityCountAndImplicantsPair.first << " with "
+                   << commonalityCountAndImplicantsPair.second << "\n";
             }
         }
         return ss.str();
     }
 
-    ImplicantsWithMinterm getBestFinalImplicants(ImplicantsWithMinterm const& finalImplicants) const
-    {
+    ImplicantsWithMinterm getBestFinalImplicants(ImplicantsWithMinterm const& finalImplicants) const {
         // Specialized selection
         ImplicantsWithMinterm result;
         SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
 
-        while(!inputMintermsWithTrue.empty())
-        {
+        while (!inputMintermsWithTrue.empty()) {
             std::map<Minterm, unsigned int> inputMintermToCountMap;
             std::map<Minterm, ImplicantWithMinterm> inputMintermToImplicantMap;
             std::map<unsigned int, ImplicantWithMinterm> countToImplicantMap;
-            for(ImplicantWithMinterm const& implicant : finalImplicants.getImplicantsData())
-            {
+            for (ImplicantWithMinterm const& implicant : finalImplicants.getImplicantsData()) {
                 unsigned int implicantCount(0U);
-                for(auto const& inputMinterm : inputMintermsWithTrue)
-                {
-                    if(implicant.isSuperset(inputMinterm))
-                    {
+                for (auto const& inputMinterm : inputMintermsWithTrue) {
+                    if (implicant.isSuperset(inputMinterm)) {
                         inputMintermToCountMap[inputMinterm]++;
                         inputMintermToImplicantMap.emplace(inputMinterm, implicant);
                         implicantCount++;
@@ -195,30 +158,23 @@ public:
             }
             unsigned int minCount = std::numeric_limits<unsigned int>::max();
             Minterm mintermWithMinCount;
-            for(auto const& inputMintermAndCountPair : inputMintermToCountMap)
-            {
-                if(minCount > inputMintermAndCountPair.second)
-                {
+            for (auto const& inputMintermAndCountPair : inputMintermToCountMap) {
+                if (minCount > inputMintermAndCountPair.second) {
                     mintermWithMinCount = inputMintermAndCountPair.first;
                     minCount = inputMintermAndCountPair.second;
                 }
             }
             ImplicantWithMinterm bestFinalImplicant;
-            if(minCount == 1U)
-            {
+            if (minCount == 1U) {
                 bestFinalImplicant = inputMintermToImplicantMap.at(mintermWithMinCount);
-            }
-            else
-            {
+            } else {
                 auto it = countToImplicantMap.cend();
                 it--;
                 bestFinalImplicant = it->second;
             }
             SetOfMinterms bestFinalImplicantMinterms(bestFinalImplicant.getMinterms());
-            if(!bestFinalImplicantMinterms.empty())
-            {
-                for(Minterm const& bestFinalImplicantMinterm : bestFinalImplicantMinterms)
-                {
+            if (!bestFinalImplicantMinterms.empty()) {
+                for (Minterm const& bestFinalImplicantMinterm : bestFinalImplicantMinterms) {
                     inputMintermsWithTrue.erase(bestFinalImplicantMinterm);
                 }
                 result.addImplicant(bestFinalImplicant);
@@ -227,25 +183,21 @@ public:
         return result;
     }
 
-    std::string getOutputTable(ImplicantsWithMinterm const& finalImplicants) const
-    {
+    std::string getOutputTable(ImplicantsWithMinterm const& finalImplicants) const {
         Minterms inputsWithTrue(getInputMintermsWithTrue());
         DisplayTable displayTable;
         displayTable.setBorders("", "|");
         displayTable.addRow();
         displayTable.getLastRow().addCell(" ");
-        for(auto const& input : inputsWithTrue)
-        {
+        for (auto const& input : inputsWithTrue) {
             std::stringstream ss;
             ss << input;
             displayTable.getLastRow().addCell(ss.str());
         }
-        for(ImplicantWithMinterm const& implicant : finalImplicants.getImplicantsData())
-        {
+        for (ImplicantWithMinterm const& implicant : finalImplicants.getImplicantsData()) {
             displayTable.addRow();
             displayTable.getLastRow().addCell(implicant.getEquivalentString(8));
-            for(auto const& input : inputsWithTrue)
-            {
+            for (auto const& input : inputsWithTrue) {
                 std::string cell = implicant.isSuperset(input) ? "X" : " ";
                 displayTable.getLastRow().addCell(cell);
             }
@@ -254,35 +206,27 @@ public:
     }
 
 private:
-
-    Minterms getInputMintermsWithTrue() const
-    {
+    Minterms getInputMintermsWithTrue() const {
         Minterms result;
-        for(auto inputOutputPair : m_inputToOutputMap)
-        {
-            if(inputOutputPair.second == LogicalValue::True)
-            {
+        for (auto inputOutputPair : m_inputToOutputMap) {
+            if (inputOutputPair.second == LogicalValue::True) {
                 result.emplace_back(inputOutputPair.first);
             }
         }
         return result;
     }
 
-    SetOfMinterms getSetOfInputMintermsWithTrue() const
-    {
+    SetOfMinterms getSetOfInputMintermsWithTrue() const {
         SetOfMinterms result;
-        for(auto inputOutputPair : m_inputToOutputMap)
-        {
-            if(inputOutputPair.second == LogicalValue::True)
-            {
+        for (auto inputOutputPair : m_inputToOutputMap) {
+            if (inputOutputPair.second == LogicalValue::True) {
                 result.emplace(inputOutputPair.first);
             }
         }
         return result;
     }
 
-    void addMintermForZeroCommonalityCount(Minterm const& minterm)
-    {
+    void addMintermForZeroCommonalityCount(Minterm const& minterm) {
         unsigned int numberOfOnes(getNumberOfOnes(minterm));
         ImplicantWithMinterm implicant;
         implicant.addMinterm(minterm);
@@ -291,9 +235,9 @@ private:
 
     unsigned int m_maxCommonalityCount;
     InputToOutputMap m_inputToOutputMap;
-    ComputationalTable m_computationalTable; // https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm
+    ComputationalTable m_computationalTable;  // https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm
 };
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

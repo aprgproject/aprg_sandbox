@@ -6,13 +6,10 @@
 #include <chrono>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaLocalTimer
-{
+class AlbaLocalTimer {
 public:
-
     AlbaLocalTimer();
     void resetTimer();
     void stopTimer();
@@ -28,7 +25,6 @@ public:
 private:
     LibrarySteadyTime m_time1;
     LibrarySteadyTime m_time2;
-
 };
 
-}//namespace alba
+}  // namespace alba

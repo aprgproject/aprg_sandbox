@@ -2,18 +2,13 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Summation
-{
+class Summation {
 public:
-    Summation(
-            Term const& termToSum,
-            std::string const& variableToSubstitute);
+    Summation(Term const& termToSum, std::string const& variableToSubstitute);
 
     Term getSummationModelWithKnownConstant(AlbaNumber const& startNumber) const;
     Term getSummationModelWithUnknownConstant() const;
@@ -22,21 +17,10 @@ public:
 
 private:
     void calculateSumFromANumberToANumber(
-            Term & result,
-            AlbaNumber const& startNumber,
-            AlbaNumber const& endNumber) const;
-    void calculateSumStartingFromANumber(
-            Term & result,
-            AlbaNumber const& startNumber,
-            Term const& end) const;
-    void calculateSumUsingEachTerm(
-            Term & result,
-            AlbaNumber const& startNumber,
-            AlbaNumber const& endNumber) const;
-    void calculateSumUsingModel(
-            Term & result,
-            AlbaNumber const& startNumber,
-            AlbaNumber const& endNumber) const;
+        Term& result, AlbaNumber const& startNumber, AlbaNumber const& endNumber) const;
+    void calculateSumStartingFromANumber(Term& result, AlbaNumber const& startNumber, Term const& end) const;
+    void calculateSumUsingEachTerm(Term& result, AlbaNumber const& startNumber, AlbaNumber const& endNumber) const;
+    void calculateSumUsingModel(Term& result, AlbaNumber const& startNumber, AlbaNumber const& endNumber) const;
     Term getSummationModel() const;
 
     Term m_termToSum;
@@ -44,6 +28,6 @@ private:
     Term m_summationModel;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

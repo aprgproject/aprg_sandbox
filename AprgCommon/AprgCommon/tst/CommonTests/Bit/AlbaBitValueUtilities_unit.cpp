@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaBitValueUtilitiesTest, IsPowerOfTwoWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, IsPowerOfTwoWorks) {
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(0U));
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(1U));
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(2U));
@@ -17,8 +15,7 @@ TEST(AlbaBitValueUtilitiesTest, IsPowerOfTwoWorks)
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(6U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, IsEvenParityWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, IsEvenParityWorks) {
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isEvenParity(0U));
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(1U));
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(2U));
@@ -26,8 +23,7 @@ TEST(AlbaBitValueUtilitiesTest, IsEvenParityWorks)
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(4U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetNumberOfBitsWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetNumberOfBitsWorks) {
     EXPECT_EQ(8U, AlbaBitValueUtilities<uint8_t>::getNumberOfBits());
     EXPECT_EQ(16U, AlbaBitValueUtilities<uint16_t>::getNumberOfBits());
     EXPECT_EQ(32U, AlbaBitValueUtilities<uint32_t>::getNumberOfBits());
@@ -38,16 +34,14 @@ TEST(AlbaBitValueUtilitiesTest, GetNumberOfBitsWorks)
     EXPECT_EQ(64U, AlbaBitValueUtilities<int64_t>::getNumberOfBits());
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetNumberOfOnesWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetNumberOfOnesWorks) {
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getNumberOfOnes(0xA1U));
     EXPECT_EQ(8U, AlbaBitValueUtilities<uint16_t>::getNumberOfOnes(0xA1BAU));
     EXPECT_EQ(16U, AlbaBitValueUtilities<uint32_t>::getNumberOfOnes(0xA1BA'A1BAU));
     EXPECT_EQ(32U, AlbaBitValueUtilities<uint64_t>::getNumberOfOnes(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromMsbWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromMsbWorks) {
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x80U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x10U));
     EXPECT_EQ(7U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x01U));
@@ -62,8 +56,7 @@ TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromMsbWorks)
     EXPECT_EQ(63U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x0000'0000'0000'0001U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromLsbWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromLsbWorks) {
     EXPECT_EQ(7U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromLsb(0x80U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromLsb(0x08U));
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromLsb(0x01U));
@@ -78,8 +71,7 @@ TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromLsbWorks)
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x0000'0000'0000'0001U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetHammingDistanceWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetHammingDistanceWorks) {
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getHammingDistance(0xA1U, 0xA1U));
     EXPECT_EQ(4U, AlbaBitValueUtilities<uint8_t>::getHammingDistance(0xA1U, 0xBAU));
     EXPECT_EQ(4U, AlbaBitValueUtilities<uint8_t>::getHammingDistance(0xBAU, 0xA1U));
@@ -90,30 +82,26 @@ TEST(AlbaBitValueUtilitiesTest, GetHammingDistanceWorks)
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getHammingDistance(0xA1U, 0xAFU));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GenerationOfOnesWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GenerationOfOnesWorks) {
     const unsigned int input = 2;
 
     EXPECT_EQ(0x00000003U, AlbaBitValueUtilities<uint32_t>::generateOnesWithNumberOfBits(input));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetAllOnesWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetAllOnesWorks) {
     EXPECT_EQ(0xFFU, AlbaBitValueUtilities<uint8_t>::getAllOnes());
     EXPECT_EQ(0xFFFFU, AlbaBitValueUtilities<uint16_t>::getAllOnes());
     EXPECT_EQ(0xFFFFFFFFU, AlbaBitValueUtilities<uint32_t>::getAllOnes());
     EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitValueUtilities<uint64_t>::getAllOnes());
 }
 
-TEST(AlbaBitValueUtilitiesTest, Get2ToThePowerOfWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, Get2ToThePowerOfWorks) {
     EXPECT_EQ(16U, AlbaBitValueUtilities<uint8_t>::get2ToThePowerOf(4U));
     EXPECT_EQ(1024U, AlbaBitValueUtilities<uint16_t>::get2ToThePowerOf(10U));
     EXPECT_EQ(4194304U, AlbaBitValueUtilities<uint32_t>::get2ToThePowerOf(22U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetLogarithmWithBase2OfWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetLogarithmWithBase2OfWorks) {
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getLogarithmWithBase2Of(4U));
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getLogarithmWithBase2Of(7U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getLogarithmWithBase2Of(8U));
@@ -123,8 +111,7 @@ TEST(AlbaBitValueUtilitiesTest, GetLogarithmWithBase2OfWorks)
     EXPECT_EQ(16U, AlbaBitValueUtilities<uint32_t>::getLogarithmWithBase2Of(123456U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetCeilOfLogarithmWithBase2OfWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetCeilOfLogarithmWithBase2OfWorks) {
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getCeilOfLogarithmWithBase2Of(4U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getCeilOfLogarithmWithBase2Of(7U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getCeilOfLogarithmWithBase2Of(8U));
@@ -134,28 +121,25 @@ TEST(AlbaBitValueUtilitiesTest, GetCeilOfLogarithmWithBase2OfWorks)
     EXPECT_EQ(17U, AlbaBitValueUtilities<uint32_t>::getCeilOfLogarithmWithBase2Of(123456U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetOnesComplementWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetOnesComplementWorks) {
     EXPECT_EQ(0x5EU, AlbaBitValueUtilities<uint8_t>::getOnesComplement(0xA1U));
     EXPECT_EQ(0x5E45U, AlbaBitValueUtilities<uint16_t>::getOnesComplement(0xA1BAU));
     EXPECT_EQ(0x5E455E45U, AlbaBitValueUtilities<uint32_t>::getOnesComplement(0xA1BA'A1BAU));
     EXPECT_EQ(0x5E455E455E455E45U, AlbaBitValueUtilities<uint64_t>::getOnesComplement(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks) {
     EXPECT_EQ(0x5FU, AlbaBitValueUtilities<uint8_t>::getTwosComplement(0xA1U));
     EXPECT_EQ(0x5E46U, AlbaBitValueUtilities<uint16_t>::getTwosComplement(0xA1BAU));
     EXPECT_EQ(0x5E455E46U, AlbaBitValueUtilities<uint32_t>::getTwosComplement(0xA1BA'A1BAU));
     EXPECT_EQ(0x5E455E455E455E46U, AlbaBitValueUtilities<uint64_t>::getTwosComplement(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetGreatestPowerOf2FactorWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetGreatestPowerOf2FactorWorks) {
     EXPECT_EQ(4U, AlbaBitValueUtilities<uint8_t>::getGreatestPowerOf2Factor(12U));
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint16_t>::getGreatestPowerOf2Factor(1234U));
     EXPECT_EQ(64U, AlbaBitValueUtilities<uint32_t>::getGreatestPowerOf2Factor(123456U));
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint64_t>::getGreatestPowerOf2Factor(12345678901234U));
 }
 
-}
+}  // namespace alba

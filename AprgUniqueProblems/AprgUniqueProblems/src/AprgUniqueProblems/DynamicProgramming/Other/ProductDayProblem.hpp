@@ -5,13 +5,10 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class ProductDayProblem
-{
+class ProductDayProblem {
 public:
-
     using Price = unsigned int;
     using Product = unsigned int;
     using Day = unsigned int;
@@ -20,7 +17,7 @@ public:
     using ProductAndDayPair = std::pair<Product, Day>;
     using ProductAndDayPairs = std::vector<ProductAndDayPair>;
     static constexpr Price INVALID_PRICE = std::numeric_limits<Price>::max();
-    static constexpr Price UNUSED_PRICE = INVALID_PRICE-1;
+    static constexpr Price UNUSED_PRICE = INVALID_PRICE - 1;
 
     ProductDayProblem(PriceMatrix const& pricesInDayByProduct);
 
@@ -28,7 +25,8 @@ public:
     Price getMinimumPriceUsingIterativeDP() const;
 
 private:
-    Price getMinimumPriceUsingMemoizationDP(PriceMatrix & minimumPrices, Day const day, ProductBits const productBits) const;
+    Price getMinimumPriceUsingMemoizationDP(
+        PriceMatrix& minimumPrices, Day const day, ProductBits const productBits) const;
 
     bool isProductIncluded(ProductBits const productBits, Product const product) const;
     Product getNumberOfProducts() const;
@@ -41,7 +39,7 @@ private:
     PriceMatrix m_pricesInDayByProduct;
 };
 
-}
+}  // namespace alba
 
 // We are given the prices of k products over n days, and we want to buy each product exactly once.
 // However, we are allowed to buy at most one product in a day. What is the minimum total price?

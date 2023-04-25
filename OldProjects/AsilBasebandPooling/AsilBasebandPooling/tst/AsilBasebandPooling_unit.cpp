@@ -7,11 +7,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(KeplerTest, KeplerWorksCorrectly)
-{
+TEST(KeplerTest, KeplerWorksCorrectly) {
     Kepler kepler1(0x1450);
     Kepler kepler2(0x1460);
 
@@ -20,8 +18,7 @@ TEST(KeplerTest, KeplerWorksCorrectly)
     EXPECT_EQ(0x1450U, kepler1.getNid());
 }
 
-TEST(BasebandCardTest, BasebandCardWorksCorrectly)
-{
+TEST(BasebandCardTest, BasebandCardWorksCorrectly) {
     BasebandCard basebandCard1(0x12, {0x1230, 0x1240});
     BasebandCard basebandCard2(0x14, {0x1430, 0x1440, 0x1450, 0x1460});
 
@@ -37,8 +34,7 @@ TEST(BasebandCardTest, BasebandCardWorksCorrectly)
     EXPECT_EQ(0x1240U, iteratorToTraverse++->getNid());
 }
 
-TEST(BasebandCardTest, LcgWorksCorrectly)
-{
+TEST(BasebandCardTest, LcgWorksCorrectly) {
     Lcg lcg1(1, 40);
     Lcg lcg2(2, 60);
 
@@ -49,26 +45,20 @@ TEST(BasebandCardTest, LcgWorksCorrectly)
     EXPECT_EQ(40U, lcg1.getPercentageShare());
 }
 
-TEST(AsilBasebandPoolingTest, AreLcgAndBasebandCardsValidIsCorrect)
-{
-    EXPECT_FALSE(AsilBasebandPooling(
-    {Lcg(1, 40), Lcg(2, 60)},
-    {BasebandCard(0x12, {0x1230, 0x1240})})
-                 .areLcgAndBasebandCardsValid());
+TEST(AsilBasebandPoolingTest, AreLcgAndBasebandCardsValidIsCorrect) {
+    EXPECT_FALSE(AsilBasebandPooling({Lcg(1, 40), Lcg(2, 60)}, {BasebandCard(0x12, {0x1230, 0x1240})})
+                     .areLcgAndBasebandCardsValid());
 
-    EXPECT_TRUE(AsilBasebandPooling(
-    {Lcg(1, 40), Lcg(2, 60)},
-    {BasebandCard(0x12, {0x1230, 0x1240, 0x1250, 0x1260})})
-                .areLcgAndBasebandCardsValid());
+    EXPECT_TRUE(AsilBasebandPooling({Lcg(1, 40), Lcg(2, 60)}, {BasebandCard(0x12, {0x1230, 0x1240, 0x1250, 0x1260})})
+                    .areLcgAndBasebandCardsValid());
 
-    EXPECT_TRUE(AsilBasebandPooling(
-    {Lcg(1, 40), Lcg(2, 60)},
-    {BasebandCard(0x12, {0x1230, 0x1240}), BasebandCard(0x13, {0x1330, 0x1340})})
-                .areLcgAndBasebandCardsValid());
+    EXPECT_TRUE(
+        AsilBasebandPooling(
+            {Lcg(1, 40), Lcg(2, 60)}, {BasebandCard(0x12, {0x1230, 0x1240}), BasebandCard(0x13, {0x1330, 0x1340})})
+            .areLcgAndBasebandCardsValid());
 }
 
-TEST(AsilBasebandPoolingTest, CanMultipleLcgsBePutOnBasebandCardIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, CanMultipleLcgsBePutOnBasebandCardIsCorrect) {
     AsilBasebandPooling pooling;
     BasebandCard basebandCardWith1Kepler(0x12, {0x1230});
     BasebandCard basebandCardWith2Keplers(0x12, {0x1230, 0x1240});
@@ -81,21 +71,18 @@ TEST(AsilBasebandPoolingTest, CanMultipleLcgsBePutOnBasebandCardIsCorrect)
     EXPECT_TRUE(pooling.canMultipleLcgsBePutOnBasebandCard(basebandCardWith4Keplers));
 }
 
-TEST(AsilBasebandPoolingTest, GetNumberBasebandCardsWithMultipleLcgsIsCorrect)
-{
-    EXPECT_EQ(1U, AsilBasebandPooling(
-    {Lcg(1, 50), Lcg(2, 50)},
-    {BasebandCard(0x12, {0x1230, 0x1240})})
-              .getNumberBasebandCardsWithMultipleLcgs());
+TEST(AsilBasebandPoolingTest, GetNumberBasebandCardsWithMultipleLcgsIsCorrect) {
+    EXPECT_EQ(
+        1U, AsilBasebandPooling({Lcg(1, 50), Lcg(2, 50)}, {BasebandCard(0x12, {0x1230, 0x1240})})
+                .getNumberBasebandCardsWithMultipleLcgs());
 
-    EXPECT_EQ(0U, AsilBasebandPooling(
-    {Lcg(1, 50), Lcg(2, 50)},
-    {BasebandCard(0x12, {0x1230, 0x1240}), BasebandCard(0x13, {0x1330, 0x1340})})
-              .getNumberBasebandCardsWithMultipleLcgs());
+    EXPECT_EQ(
+        0U, AsilBasebandPooling(
+                {Lcg(1, 50), Lcg(2, 50)}, {BasebandCard(0x12, {0x1230, 0x1240}), BasebandCard(0x13, {0x1330, 0x1340})})
+                .getNumberBasebandCardsWithMultipleLcgs());
 }
 
-TEST(AsilBasebandPoolingTest, GetMaxNumberOfLcgsInBasebandCardIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, GetMaxNumberOfLcgsInBasebandCardIsCorrect) {
     AsilBasebandPooling pooling;
     BasebandCard basebandCardWith1Kepler(0x12, {0x1230});
     BasebandCard basebandCardWith2Keplers(0x12, {0x1230, 0x1240});
@@ -108,24 +95,20 @@ TEST(AsilBasebandPoolingTest, GetMaxNumberOfLcgsInBasebandCardIsCorrect)
     EXPECT_EQ(2U, pooling.getMaxNumberOfLcgsInBasebandCard(basebandCardWith4Keplers));
 }
 
-TEST(AsilBasebandPoolingTest, GetMaxNumberOfLcgsInAllBasebandCardsIsCorrect)
-{
-    EXPECT_EQ(1U, AsilBasebandPooling(
-    {Lcg(1, 100)},
-    {BasebandCard(0x12, {0x1230, 0x1240})})
-              .getMaxNumberOfLcgsInAllBasebandCards());
+TEST(AsilBasebandPoolingTest, GetMaxNumberOfLcgsInAllBasebandCardsIsCorrect) {
+    EXPECT_EQ(
+        1U, AsilBasebandPooling({Lcg(1, 100)}, {BasebandCard(0x12, {0x1230, 0x1240})})
+                .getMaxNumberOfLcgsInAllBasebandCards());
 
-    EXPECT_EQ(2U, AsilBasebandPooling(
-    {Lcg(1, 100)},
-    {BasebandCard(0x12, {0x1230, 0x1240}), BasebandCard(0x13, {0x1330, 0x1340})})
-              .getMaxNumberOfLcgsInAllBasebandCards());
+    EXPECT_EQ(
+        2U,
+        AsilBasebandPooling({Lcg(1, 100)}, {BasebandCard(0x12, {0x1230, 0x1240}), BasebandCard(0x13, {0x1330, 0x1340})})
+            .getMaxNumberOfLcgsInAllBasebandCards());
 }
 
-TEST(AsilBasebandPoolingTest, GetLcgsInPriorityOrderIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, GetLcgsInPriorityOrderIsCorrect) {
     AsilBasebandPooling pooling(
-    {Lcg(1, 10), Lcg(2, 25), Lcg(3, 40), Lcg(4, 25)},
-    {BasebandCard(0x12, {0x1230, 0x1240})});
+        {Lcg(1, 10), Lcg(2, 25), Lcg(3, 40), Lcg(4, 25)}, {BasebandCard(0x12, {0x1230, 0x1240})});
 
     VectorOfLcgs lcgs(pooling.getLcgsInPriorityOrder());
     ASSERT_EQ(4U, lcgs.size());
@@ -135,21 +118,19 @@ TEST(AsilBasebandPoolingTest, GetLcgsInPriorityOrderIsCorrect)
     EXPECT_EQ(1U, lcgs[3].getLcgId());
 }
 
-TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect) {
     AsilBasebandPooling pooling(
-    {Lcg(1, 100)},
-    {BasebandCard(0x11, {0x1130, 0x1140}),
-     BasebandCard(0x12, {0x1230, 0x1240, 0x1250}),
-     BasebandCard(0x13, {0x1330, 0x1340, 0x1350, 0x1360}),
-     BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460, 0x1470}),
-     BasebandCard(0x15, {0x1530, 0x1540, 0x1550, 0x1560}),
-     BasebandCard(0x16, {0x1630, 0x1640}),
-     BasebandCard(0x17, {0x1730})});
+        {Lcg(1, 100)}, {BasebandCard(0x11, {0x1130, 0x1140}), BasebandCard(0x12, {0x1230, 0x1240, 0x1250}),
+                        BasebandCard(0x13, {0x1330, 0x1340, 0x1350, 0x1360}),
+                        BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460, 0x1470}),
+                        BasebandCard(0x15, {0x1530, 0x1540, 0x1550, 0x1560}), BasebandCard(0x16, {0x1630, 0x1640}),
+                        BasebandCard(0x17, {0x1730})});
 
-    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith0MultipleLcgs(pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(0));
+    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith0MultipleLcgs(
+        pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(0));
     ASSERT_EQ(7U, basebandCardsWith0MultipleLcgs.basebandCardsWithOneLcg.size());
-    SetOfBasebandCards::const_iterator iteratorToTraverse = basebandCardsWith0MultipleLcgs.basebandCardsWithOneLcg.cbegin();
+    SetOfBasebandCards::const_iterator iteratorToTraverse =
+        basebandCardsWith0MultipleLcgs.basebandCardsWithOneLcg.cbegin();
     EXPECT_EQ(0x11, iteratorToTraverse++->getBoardId());
     EXPECT_EQ(0x12, iteratorToTraverse++->getBoardId());
     EXPECT_EQ(0x13, iteratorToTraverse++->getBoardId());
@@ -159,7 +140,8 @@ TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect)
     EXPECT_EQ(0x17, iteratorToTraverse++->getBoardId());
     ASSERT_EQ(0U, basebandCardsWith0MultipleLcgs.basebandCardsWithMultipleLcgs.size());
 
-    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith1MultipleLcgs(pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(1));
+    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith1MultipleLcgs(
+        pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(1));
     ASSERT_EQ(6U, basebandCardsWith1MultipleLcgs.basebandCardsWithOneLcg.size());
     iteratorToTraverse = basebandCardsWith1MultipleLcgs.basebandCardsWithOneLcg.cbegin();
     EXPECT_EQ(0x11, iteratorToTraverse++->getBoardId());
@@ -172,7 +154,8 @@ TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect)
     iteratorToTraverse = basebandCardsWith1MultipleLcgs.basebandCardsWithMultipleLcgs.cbegin();
     EXPECT_EQ(0x15, iteratorToTraverse++->getBoardId());
 
-    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith2MultipleLcgs(pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(2));
+    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith2MultipleLcgs(
+        pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(2));
     ASSERT_EQ(5U, basebandCardsWith2MultipleLcgs.basebandCardsWithOneLcg.size());
     iteratorToTraverse = basebandCardsWith2MultipleLcgs.basebandCardsWithOneLcg.cbegin();
     EXPECT_EQ(0x11, iteratorToTraverse++->getBoardId());
@@ -185,7 +168,8 @@ TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect)
     EXPECT_EQ(0x14, iteratorToTraverse++->getBoardId());
     EXPECT_EQ(0x15, iteratorToTraverse++->getBoardId());
 
-    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith3MultipleLcgs(pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(3));
+    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith3MultipleLcgs(
+        pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(3));
     ASSERT_EQ(4U, basebandCardsWith3MultipleLcgs.basebandCardsWithOneLcg.size());
     iteratorToTraverse = basebandCardsWith3MultipleLcgs.basebandCardsWithOneLcg.cbegin();
     EXPECT_EQ(0x11, iteratorToTraverse++->getBoardId());
@@ -198,7 +182,8 @@ TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect)
     EXPECT_EQ(0x14, iteratorToTraverse++->getBoardId());
     EXPECT_EQ(0x15, iteratorToTraverse++->getBoardId());
 
-    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith4MultipleLcgs(pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(4));
+    BasebandCardsSplitBasedOnNumberOfLcgs basebandCardsWith4MultipleLcgs(
+        pooling.getBasebandCardsSplitBetweenOneLcgAndMultipleLcgs(4));
     ASSERT_EQ(4U, basebandCardsWith4MultipleLcgs.basebandCardsWithOneLcg.size());
     iteratorToTraverse = basebandCardsWith4MultipleLcgs.basebandCardsWithOneLcg.cbegin();
     EXPECT_EQ(0x11, iteratorToTraverse++->getBoardId());
@@ -212,17 +197,16 @@ TEST(AsilBasebandPoolingTest, GetBasebandCardsBasedOnNumberOfLcgsIsCorrect)
     EXPECT_EQ(0x15, iteratorToTraverse++->getBoardId());
 }
 
-TEST(AsilBasebandPoolingTest, SortAndPrioritizeBasebandCardsIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, SortAndPrioritizeBasebandCardsIsCorrect) {
     AsilBasebandPooling pooling;
-    VectorOfBasebandCards basebandCards
-    {BasebandCard(0x11, {0x1130, 0x1140}),
-                BasebandCard(0x12, {0x1230, 0x1240, 0x1250}),
-                BasebandCard(0x13, {0x1330, 0x1340, 0x1350, 0x1360}),
-                BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460, 0x1470}),
-                BasebandCard(0x15, {0x1530, 0x1540, 0x1550, 0x1560}),
-                BasebandCard(0x16, {0x1630, 0x1640}),
-                BasebandCard(0x17, {0x1730})};
+    VectorOfBasebandCards basebandCards{
+        BasebandCard(0x11, {0x1130, 0x1140}),
+        BasebandCard(0x12, {0x1230, 0x1240, 0x1250}),
+        BasebandCard(0x13, {0x1330, 0x1340, 0x1350, 0x1360}),
+        BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460, 0x1470}),
+        BasebandCard(0x15, {0x1530, 0x1540, 0x1550, 0x1560}),
+        BasebandCard(0x16, {0x1630, 0x1640}),
+        BasebandCard(0x17, {0x1730})};
 
     pooling.sortAndPrioritizeBasebandCards(basebandCards);
 
@@ -236,8 +220,7 @@ TEST(AsilBasebandPoolingTest, SortAndPrioritizeBasebandCardsIsCorrect)
     EXPECT_EQ(0x17U, basebandCards[6].getBoardId());
 }
 
-TEST(AsilBasebandPoolingTest, SortAndPrioritizeLcgsIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, SortAndPrioritizeLcgsIsCorrect) {
     AsilBasebandPooling pooling;
     VectorOfLcgs lcgs{Lcg(1, 10), Lcg(2, 25), Lcg(3, 40), Lcg(4, 25)};
 
@@ -250,16 +233,14 @@ TEST(AsilBasebandPoolingTest, SortAndPrioritizeLcgsIsCorrect)
     EXPECT_EQ(1U, lcgs[3].getLcgId());
 }
 
-TEST(AsilBasebandPoolingTest, AssignBasebandCardsWithOneLcgIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, AssignBasebandCardsWithOneLcgIsCorrect) {
     AsilBasebandPooling pooling;
     KeplerNidToLcgMap poolingMap;
     VectorOfLcgs lcgs{Lcg(1, 40), Lcg(2, 30), Lcg(3, 20), Lcg(4, 10)};
     SetOfBasebandCards basebandCards{
-        BasebandCard(0x12, {0x1230, 0x1240, 0x1250}),
-                BasebandCard(0x13, {0x1330, 0x1340, 0x1350, 0x1360}),
-                BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460, 0x1470}),
-                BasebandCard(0x15, {0x1530, 0x1540, 0x1550, 0x1560})};
+        BasebandCard(0x12, {0x1230, 0x1240, 0x1250}), BasebandCard(0x13, {0x1330, 0x1340, 0x1350, 0x1360}),
+        BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460, 0x1470}),
+        BasebandCard(0x15, {0x1530, 0x1540, 0x1550, 0x1560})};
     pooling.assignBasebandCardsWithOneLcg(poolingMap, lcgs, basebandCards);
 
     ASSERT_EQ(16U, poolingMap.size());
@@ -281,14 +262,12 @@ TEST(AsilBasebandPoolingTest, AssignBasebandCardsWithOneLcgIsCorrect)
     EXPECT_EQ(3U, poolingMap.at(0x1560));
 }
 
-TEST(AsilBasebandPoolingTest, AssignBasebandCardsWithMultipleLcgsIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, AssignBasebandCardsWithMultipleLcgsIsCorrect) {
     AsilBasebandPooling pooling;
     KeplerNidToLcgMap poolingMap;
     VectorOfLcgs lcgs{Lcg(1, 40), Lcg(2, 30), Lcg(3, 20), Lcg(4, 10)};
     SetOfBasebandCards basebandCards{
-        BasebandCard(0x12, {0x1230, 0x1240, 0x1250}),
-                BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460})};
+        BasebandCard(0x12, {0x1230, 0x1240, 0x1250}), BasebandCard(0x14, {0x1430, 0x1440, 0x1450, 0x1460})};
     pooling.assignBasebandCardsWithMultipleLcgs(poolingMap, lcgs, basebandCards);
 
     ASSERT_EQ(7U, poolingMap.size());
@@ -301,25 +280,19 @@ TEST(AsilBasebandPoolingTest, AssignBasebandCardsWithMultipleLcgsIsCorrect)
     EXPECT_EQ(2U, poolingMap.at(0x1460));
 }
 
-//print function
-void printPoolingResult(BasebandPoolingResult const& poolingResult)
-{
-    if(poolingResult.isSuccessful)
-    {
+// print function
+void printPoolingResult(BasebandPoolingResult const& poolingResult) {
+    if (poolingResult.isSuccessful) {
         cout << "Baseband pooling successful\n";
-    }
-    else
-    {
+    } else {
         cout << "Baseband pooling NOT successful\n";
     }
 
     DisplayTable table;
-    table.setBorders("-","|");
+    table.setBorders("-", "|");
     unsigned int previousNid(0);
-    for(KeplerNidToLcgPair const nidToLcgPair : poolingResult.keplerNidToLcgMap)
-    {
-        if((previousNid & 0xFF00) != (nidToLcgPair.first & 0xFF00))
-        {
+    for (KeplerNidToLcgPair const nidToLcgPair : poolingResult.keplerNidToLcgMap) {
+        if ((previousNid & 0xFF00) != (nidToLcgPair.first & 0xFF00)) {
             table.addRow();
         }
         stringstream ss;
@@ -327,20 +300,18 @@ void printPoolingResult(BasebandPoolingResult const& poolingResult)
         table.getLastRow().addCell(ss.str());
         previousNid = nidToLcgPair.first;
     }
-    cout<<table;
+    cout << table;
 }
 
-TEST(AsilBasebandPoolingTest, PerformBasebandPoolingForAsilIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, PerformBasebandPoolingForAsilIsCorrect) {
     AsilBasebandPooling pooling(
-    {Lcg(1, 10), Lcg(2, 20), Lcg(3, 30), Lcg(4, 40)},
-    {BasebandCard(0x13, {0x1230, 0x1240, 0x1250, 0x1260}),
-     BasebandCard(0x14, {0x1330, 0x1340, 0x1350, 0x1360}),
-     BasebandCard(0x15, {0x1430, 0x1440, 0x1450})});
+        {Lcg(1, 10), Lcg(2, 20), Lcg(3, 30), Lcg(4, 40)},
+        {BasebandCard(0x13, {0x1230, 0x1240, 0x1250, 0x1260}), BasebandCard(0x14, {0x1330, 0x1340, 0x1350, 0x1360}),
+         BasebandCard(0x15, {0x1430, 0x1440, 0x1450})});
 
     BasebandPoolingResult poolingResult(pooling.performBasebandPoolingForAsil());
 
-    KeplerNidToLcgMap & poolingMap(poolingResult.keplerNidToLcgMap);
+    KeplerNidToLcgMap& poolingMap(poolingResult.keplerNidToLcgMap);
     ASSERT_EQ(11U, poolingMap.size());
     EXPECT_EQ(4U, poolingMap.at(0x1230));
     EXPECT_EQ(4U, poolingMap.at(0x1240));
@@ -357,4 +328,4 @@ TEST(AsilBasebandPoolingTest, PerformBasebandPoolingForAsilIsCorrect)
     printPoolingResult(poolingResult);
 }
 
-}
+}  // namespace alba

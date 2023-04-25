@@ -4,14 +4,12 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(FspTest, FspDetailsCanAssignedCorrectlyAtConstruction)
-{
+TEST(FspTest, FspDetailsCanAssignedCorrectlyAtConstruction) {
     FspDetails fspDetails;
-    fspDetails.smType=SmType::ESM;
-    fspDetails.isMasterTcom=true;
+    fspDetails.smType = SmType::ESM;
+    fspDetails.isMasterTcom = true;
     fspDetails.address = 0x1200;
     fspDetails.dspAddresses.emplace_back(0x1230);
     Fsp fsp(fspDetails);
@@ -23,4 +21,4 @@ TEST(FspTest, FspDetailsCanAssignedCorrectlyAtConstruction)
     EXPECT_EQ(0x1230U, fsp.getDspAddresses().back());
 }
 
-}
+}  // namespace alba

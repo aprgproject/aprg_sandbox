@@ -4,49 +4,36 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key, typename Value>
-class BinarySearchTreeSymbolTable
-        : public BaseBinarySearchTreeSymbolTable<Key, Value>
-{
+class BinarySearchTreeSymbolTable : public BaseBinarySearchTreeSymbolTable<Key, Value> {
 public:
     using BaseClass = BaseBinarySearchTreeSymbolTable<Key, Value>;
     using Node = typename BaseClass::Node;
     using NodeUniquePointer = typename BaseClass::NodeUniquePointer;
 
 protected:
-    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) override
-    {
-        if(nodePointer)
-        {
+    void putStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key, Value const& value) override {
+        if (nodePointer) {
             Key const& currentKey(nodePointer->key);
-            if(key < currentKey)
-            {
+            if (key < currentKey) {
                 putStartingOnThisNode(nodePointer->left, key, value);
                 this->updateTreeNodeDetails(*nodePointer);
-            }
-            else if(key > currentKey)
-            {
+            } else if (key > currentKey) {
                 putStartingOnThisNode(nodePointer->right, key, value);
                 this->updateTreeNodeDetails(*nodePointer);
-            }
-            else
-            {
+            } else {
                 nodePointer->value = value;
             }
-        }
-        else
-        {
+        } else {
             nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
         }
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

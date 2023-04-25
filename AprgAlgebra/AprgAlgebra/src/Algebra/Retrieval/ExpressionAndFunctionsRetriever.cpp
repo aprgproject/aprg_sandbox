@@ -1,31 +1,23 @@
 #include "ExpressionAndFunctionsRetriever.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-ExpressionAndFunctionsRetriever::ExpressionAndFunctionsRetriever()
-{}
+ExpressionAndFunctionsRetriever::ExpressionAndFunctionsRetriever() {}
 
-void ExpressionAndFunctionsRetriever::retrieveFromPolynomial(Polynomial const&)
-{}
+void ExpressionAndFunctionsRetriever::retrieveFromPolynomial(Polynomial const&) {}
 
-void ExpressionAndFunctionsRetriever::retrieveFromExpression(
-        Expression const& expression)
-{
+void ExpressionAndFunctionsRetriever::retrieveFromExpression(Expression const& expression) {
     m_savedData.emplace(Term(expression));
     BaseExpressionAndFunctionsRetriever::retrieveFromExpression(expression);
 }
 
-void ExpressionAndFunctionsRetriever::retrieveFromFunction(
-        Function const& functionObject)
-{
+void ExpressionAndFunctionsRetriever::retrieveFromFunction(Function const& functionObject) {
     m_savedData.emplace(Term(functionObject));
     BaseExpressionAndFunctionsRetriever::retrieveFromFunction(functionObject);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -5,11 +5,9 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class MaximumSumIncreasingSubsequence
-{
+class MaximumSumIncreasingSubsequence {
 public:
     using Index = unsigned int;
     using Count = unsigned int;
@@ -26,7 +24,7 @@ private:
     Values m_sequence;
 };
 
-}
+}  // namespace alba
 
 // Given an array of n positive integers.
 // Write a program to find the sum of maximum sum subsequence of the given array
@@ -38,4 +36,3 @@ private:
 // This problem is a variation of standard Longest Increasing Subsequence (LIS) problem.
 // We need a slight change in the Dynamic Programming solution of LIS problem.
 // All we need to change is to use sum as a criteria instead of length of increasing subsequence.
-

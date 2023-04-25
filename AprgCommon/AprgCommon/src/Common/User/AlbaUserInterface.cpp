@@ -9,35 +9,27 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-string AlbaUserInterface::getUserInput()
-{
+string AlbaUserInterface::getUserInput() {
     cin.getline(buffer, c_bufferSize);
     return string(buffer);
 }
 
-string AlbaUserInterface::getFilePathInput()
-{
-    while(true)
-    {
+string AlbaUserInterface::getFilePathInput() {
+    while (true) {
         string pathString(getUserInput());
         AlbaLocalPathHandler filePath(pathString);
-        if(filePath.isFoundInLocalSystem() && filePath.isFile())
-        {
+        if (filePath.isFoundInLocalSystem() && filePath.isFile()) {
             return filePath.getFullPath();
-        }
-        else
-        {
-            cout<<"File not found\n";
+        } else {
+            cout << "File not found\n";
         }
     }
 }
 
 template <typename NumberType>
-NumberType AlbaUserInterface::getNumberFromInput()
-{
+NumberType AlbaUserInterface::getNumberFromInput() {
     return convertStringToNumber<NumberType>(getUserInput());
 }
 template int AlbaUserInterface::getNumberFromInput<int>();
@@ -45,11 +37,10 @@ template unsigned int AlbaUserInterface::getNumberFromInput<unsigned int>();
 template float AlbaUserInterface::getNumberFromInput<float>();
 template double AlbaUserInterface::getNumberFromInput<double>();
 
-
 template <typename NumberType>
-NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<NumberType> const& choices)
-{
-    cout<<question<<"\n";
+NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(
+    string const& question, Choices<NumberType> const& choices) {
+    cout << question << "\n";
 
     StringConverterWithFormatting converter(5, ' ');
 
@@ -58,42 +49,43 @@ NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string
     table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left);
-    for(auto const& [choiceString, descriptionString]: choices)
-    {
+    for (auto const& [choiceString, descriptionString] : choices) {
         table.addRow();
-        table.getLastRow().addCell(string("["+converter.convertToString<NumberType>(choiceString)+"]"), DisplayTableCellMode::right);
+        table.getLastRow().addCell(
+            string("[" + converter.convertToString<NumberType>(choiceString) + "]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
         table.getLastRow().addCell(descriptionString, DisplayTableCellMode::left);
     }
-    cout<<table<<"\n";
+    cout << table << "\n";
 
     cout << "Input your answer: ";
     return convertStringToNumber<NumberType>(getUserInput());
 }
-template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
-template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<unsigned int> const& choices);
+template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(
+    string const& question, Choices<int> const& choices);
+template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(
+    string const& question, Choices<unsigned int> const& choices);
 
-
-string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(string const& question, Choices<string> const& choices)
-{
-    cout<<question<<"\n";
+string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
+    string const& question, Choices<string> const& choices) {
+    cout << question << "\n";
 
     DisplayTable table;
     table.addRow();
     table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left);
-    for(auto const& [choiceString, descriptionString]: choices)
-    {
+    for (auto const& [choiceString, descriptionString] : choices) {
         table.addRow();
-        table.getLastRow().addCell(string("["+getStringWithCapitalLetters(choiceString)+"]"), DisplayTableCellMode::right);
+        table.getLastRow().addCell(
+            string("[" + getStringWithCapitalLetters(choiceString) + "]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
         table.getLastRow().addCell(descriptionString, DisplayTableCellMode::left);
     }
-    cout<<table<<"\n";
+    cout << table << "\n";
 
     cout << "Input your answer: ";
     return getStringWithCapitalLetters(getUserInput());
 }
 
-}//namespace alba
+}  // namespace alba

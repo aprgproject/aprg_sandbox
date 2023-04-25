@@ -2,27 +2,23 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaBitManipulationTest, ShiftBytesToTheLeftWorks)
-{
+TEST(AlbaBitManipulationTest, ShiftBytesToTheLeftWorks) {
     EXPECT_EQ(0x0000'00A1U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<0>(0xA1));
     EXPECT_EQ(0x0000'A100U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<1>(0xA1));
     EXPECT_EQ(0x00A1'0000U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<2>(0xA1));
     EXPECT_EQ(0xA100'0000U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<3>(0xA1));
 }
 
-TEST(AlbaBitManipulationTest, ShiftBytesToTheRightWorks)
-{
+TEST(AlbaBitManipulationTest, ShiftBytesToTheRightWorks) {
     EXPECT_EQ(0xA100'0000U, AlbaBitManipulation<unsigned int>::shiftBytesToTheRight<0>(0xA100'0000));
     EXPECT_EQ(0x00A1'0000U, AlbaBitManipulation<unsigned int>::shiftBytesToTheRight<1>(0xA100'0000));
     EXPECT_EQ(0x0000'A100U, AlbaBitManipulation<unsigned int>::shiftBytesToTheRight<2>(0xA100'0000));
     EXPECT_EQ(0x0000'00A1U, AlbaBitManipulation<unsigned int>::shiftBytesToTheRight<3>(0xA100'0000));
 }
 
-TEST(AlbaBitManipulationTest, ShiftNibblesToTheLeftWorks)
-{
+TEST(AlbaBitManipulationTest, ShiftNibblesToTheLeftWorks) {
     EXPECT_EQ(0x0000'00A1U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheLeft<0>(0xA1));
     EXPECT_EQ(0x0000'0A10U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheLeft<1>(0xA1));
     EXPECT_EQ(0x0000'A100U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheLeft<2>(0xA1));
@@ -33,8 +29,7 @@ TEST(AlbaBitManipulationTest, ShiftNibblesToTheLeftWorks)
     EXPECT_EQ(0x1000'0000U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheLeft<7>(0xA1));
 }
 
-TEST(AlbaBitManipulationTest, ShiftNibblesToTheRightWorks)
-{
+TEST(AlbaBitManipulationTest, ShiftNibblesToTheRightWorks) {
     EXPECT_EQ(0xA100'0000U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheRight<0>(0xA100'0000));
     EXPECT_EQ(0x0A10'0000U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheRight<1>(0xA100'0000));
     EXPECT_EQ(0x00A1'0000U, AlbaBitManipulation<unsigned int>::shiftNibblesToTheRight<2>(0xA100'0000));
@@ -45,8 +40,7 @@ TEST(AlbaBitManipulationTest, ShiftNibblesToTheRightWorks)
     EXPECT_EQ(0x0000'000AU, AlbaBitManipulation<unsigned int>::shiftNibblesToTheRight<7>(0xA100'0000));
 }
 
-TEST(AlbaBitManipulationTest, ShiftBitsToTheLeftWorks)
-{
+TEST(AlbaBitManipulationTest, ShiftBitsToTheLeftWorks) {
     EXPECT_EQ(0x0000'00A1U, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<0>(0xA1));
     EXPECT_EQ(0x0000'0508U, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<3>(0xA1));
     EXPECT_EQ(0x1420'0000U, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<21>(0xA1));
@@ -54,8 +48,7 @@ TEST(AlbaBitManipulationTest, ShiftBitsToTheLeftWorks)
     EXPECT_EQ(0x8000'0000U, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<31>(0xA1));
 }
 
-TEST(AlbaBitManipulationTest, ShiftBitsToTheRightWorks)
-{
+TEST(AlbaBitManipulationTest, ShiftBitsToTheRightWorks) {
     EXPECT_EQ(0xA100'0000U, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<0>(0xA100'0000));
     EXPECT_EQ(0x1420'0000U, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<3>(0xA100'0000));
     EXPECT_EQ(0x0000'0508U, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<21>(0xA100'0000));
@@ -63,40 +56,35 @@ TEST(AlbaBitManipulationTest, ShiftBitsToTheRightWorks)
     EXPECT_EQ(0x0000'0001U, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<31>(0xA100'0000));
 }
 
-TEST(AlbaBitManipulationTest, RotateBitToTheLeftWorks)
-{
+TEST(AlbaBitManipulationTest, RotateBitToTheLeftWorks) {
     EXPECT_EQ(0x0000'0142U, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<1>(0xA1));
     EXPECT_EQ(0x0000'0A10U, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<4>(0xA1));
     EXPECT_EQ(0x0000'A100U, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<8>(0xA1));
     EXPECT_EQ(0x1000'000AU, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<28>(0xA1));
 }
 
-TEST(AlbaBitManipulationTest, RotateBitToTheRightWorks)
-{
+TEST(AlbaBitManipulationTest, RotateBitToTheRightWorks) {
     EXPECT_EQ(0x5080'0000U, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<1>(0xA100'0000));
     EXPECT_EQ(0x0A10'0000U, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<4>(0xA100'0000));
     EXPECT_EQ(0x00A1'0000U, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<8>(0xA100'0000));
     EXPECT_EQ(0x1000'000AU, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<28>(0xA100'0000));
 }
 
-TEST(AlbaBitManipulationTest, RotateBitToTheLeftWithShiftValueWorks)
-{
+TEST(AlbaBitManipulationTest, RotateBitToTheLeftWithShiftValueWorks) {
     EXPECT_EQ(0x0000'0142U, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 1U));
     EXPECT_EQ(0x0000'0A10U, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 4U));
     EXPECT_EQ(0x0000'A100U, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 8U));
     EXPECT_EQ(0x1000'000AU, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 28U));
 }
 
-TEST(AlbaBitManipulationTest, RotateBitToTheRightWithShiftValueWorks)
-{
+TEST(AlbaBitManipulationTest, RotateBitToTheRightWithShiftValueWorks) {
     EXPECT_EQ(0x5080'0000U, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA100'0000, 1U));
     EXPECT_EQ(0x0A10'0000U, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA100'0000, 4U));
     EXPECT_EQ(0x00A1'0000U, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA100'0000, 8U));
     EXPECT_EQ(0x1000'000AU, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA100'0000, 28U));
 }
 
-TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanResult)
-{
+TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanResult) {
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
@@ -108,8 +96,7 @@ TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanRe
     EXPECT_EQ(0xA1BAU, result);
 }
 
-TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSameSizeAsResult)
-{
+TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSameSizeAsResult) {
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
@@ -121,8 +108,7 @@ TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSameSizeAsResu
     EXPECT_EQ(0xA1BAA1BAU, result);
 }
 
-TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSizeLessThanResult)
-{
+TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSizeLessThanResult) {
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
@@ -134,21 +120,20 @@ TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSizeLessThan
     EXPECT_EQ(0x1AU, result);
 }
 
-TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSameSizeAsResult)
-{
+TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSameSizeAsResult) {
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
 
     // When
-    unsigned int result = AlbaBitManipulation<unsigned int>::concatenateNibbles(byte1, byte2, byte1, byte2, byte1, byte2, byte1, byte2);
+    unsigned int result =
+        AlbaBitManipulation<unsigned int>::concatenateNibbles(byte1, byte2, byte1, byte2, byte1, byte2, byte1, byte2);
 
     // Then
     EXPECT_EQ(0x1A1A1A1AU, result);
 }
 
-TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
-{
+TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed) {
     // Given
     const unsigned int input = 0x12345678;
 
@@ -161,8 +146,7 @@ TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
     EXPECT_EQ(0x12U, AlbaBitManipulation<unsigned int>::getByteAt<3>(input));
 }
 
-TEST(AlbaBitManipulationTest, NibblesAreSuccessfullyObtainedWhenU32IsUsed)
-{
+TEST(AlbaBitManipulationTest, NibblesAreSuccessfullyObtainedWhenU32IsUsed) {
     // Given
     const unsigned int input = 0x12345678;
 
@@ -179,8 +163,7 @@ TEST(AlbaBitManipulationTest, NibblesAreSuccessfullyObtainedWhenU32IsUsed)
     EXPECT_EQ(0x1U, AlbaBitManipulation<unsigned int>::getNibbleAt<7>(input));
 }
 
-TEST(AlbaBitManipulationTest, BitsAreSuccessfullyObtainedWhenU32IsUsed)
-{
+TEST(AlbaBitManipulationTest, BitsAreSuccessfullyObtainedWhenU32IsUsed) {
     // Given
     const unsigned int input = 0x12345678;
 
@@ -194,8 +177,7 @@ TEST(AlbaBitManipulationTest, BitsAreSuccessfullyObtainedWhenU32IsUsed)
     EXPECT_EQ(0x0U, AlbaBitManipulation<unsigned int>::getBitAt<31>(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed) {
     // Given
     const uint16_t input = 0x1234;
 
@@ -205,8 +187,7 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
     EXPECT_EQ(0x3412U, AlbaBitManipulation<uint16_t>::swap(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed) {
     // Given
     const uint32_t input = 0x12345678;
 
@@ -216,8 +197,7 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed)
     EXPECT_EQ(0x78563412U, AlbaBitManipulation<uint32_t>::swap(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed) {
     // Given
     const uint64_t input = 0x1234'5678'9ABC'DEF0;
 
@@ -227,9 +207,7 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed)
     EXPECT_EQ(0xF0DE'BC9A'7856'3412U, AlbaBitManipulation<uint64_t>::swap(input));
 }
 
-
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes) {
     // Given
     const uint16_t input = 0x1234;
 
@@ -239,8 +217,7 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes)
     EXPECT_EQ(0x3412U, AlbaBitManipulation<uint16_t>::swapForTwoBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes) {
     // Given
     const uint32_t input = 0x1234'5678;
 
@@ -250,8 +227,7 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes)
     EXPECT_EQ(0x7856'3412U, AlbaBitManipulation<uint32_t>::swapForFourBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes) {
     // Given
     const uint64_t input = 0x1234'5678'9ABC'DEF0;
 
@@ -261,4 +237,4 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes)
     EXPECT_EQ(0xF0DE'BC9A'7856'3412U, AlbaBitManipulation<uint64_t>::swapForEightBytes(input));
 }
 
-}
+}  // namespace alba

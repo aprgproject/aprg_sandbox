@@ -3,26 +3,13 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-enum class DisplayTableCellMode
-{
-    justify,
-    center,
-    right,
-    left
-};
+enum class DisplayTableCellMode { justify, center, right, left };
 
-enum class DisplayTableRowMode
-{
-    align,
-    justify
-};
+enum class DisplayTableRowMode { align, justify };
 
-
-class DisplayTableCell
-{
+class DisplayTableCell {
 public:
     DisplayTableCell();
     DisplayTableCell(std::string const& displayText);
@@ -36,6 +23,7 @@ public:
     std::string& getTextReference();
     void setText(std::string const& text);
     void setHorizontalMode(DisplayTableCellMode const mode);
+
 private:
     std::string m_displayText;
     DisplayTableCellMode m_horizontalMode;
@@ -43,8 +31,7 @@ private:
 
 using Cells = std::vector<DisplayTableCell>;
 
-class DisplayTableRow
-{
+class DisplayTableRow {
 public:
     DisplayTableRow() = default;
     DisplayTableRow(unsigned int const numberOfCells);
@@ -59,14 +46,13 @@ public:
     Cells& getCellsReference();
     DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex);
     void addCell(std::string const& text);
-    void addCell(std::string const & text, DisplayTableCellMode const horizontalMode);
+    void addCell(std::string const& text, DisplayTableCellMode const horizontalMode);
 
 private:
     Cells m_cells;
 };
 
-class DisplayTable
-{
+class DisplayTable {
 public:
     DisplayTable() = default;
     DisplayTable(unsigned int const numberOfColumns, unsigned int const numberOfRows);
@@ -85,20 +71,17 @@ public:
     void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
 
 private:
-
     std::string getCellTextWithDesiredLength(DisplayTableCell const& cell, unsigned int const desiredLength) const;
     std::string getHorizontalBorderLine(unsigned int const length) const;
     std::string getVerticalBorderPoint() const;
     unsigned int getVerticalBorderLength() const;
     unsigned int getHorizontalBorderLength(unsigned int const totalColumnLength) const;
 
-    friend std::ostream & operator<<(std::ostream & out, DisplayTable const& displayTable);
+    friend std::ostream& operator<<(std::ostream& out, DisplayTable const& displayTable);
 
     std::string m_horizontalBorder;
     std::string m_verticalBorder;
     std::vector<DisplayTableRow> m_rows;
 };
 
-
-
-}//namespace alba
+}  // namespace alba

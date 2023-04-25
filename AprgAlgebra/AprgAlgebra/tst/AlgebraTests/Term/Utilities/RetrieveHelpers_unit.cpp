@@ -7,14 +7,11 @@
 
 using namespace alba::algebra::Functions;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(RetrieveHelpersTest, HasAnyFunctionsWorks)
-{
+TEST(RetrieveHelpersTest, HasAnyFunctionsWorks) {
     Term term1(5);
     Term term2(Functions::abs(5));
 
@@ -22,8 +19,7 @@ TEST(RetrieveHelpersTest, HasAnyFunctionsWorks)
     EXPECT_TRUE(hasAnyFunctions(term2));
 }
 
-TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks)
-{
+TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks) {
     Term term1("a");
     Term term2("x");
 
@@ -31,8 +27,7 @@ TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks)
     EXPECT_TRUE(isVariableFoundInTerm(term2, "x"));
 }
 
-TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
-{
+TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
     Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {})};
@@ -42,8 +37,7 @@ TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
     EXPECT_EQ(AlbaNumber(975), getCoefficientOfMonomialWithNoVariables(polynomial3));
 }
 
-TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithVariableOnlyWorks)
-{
+TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithVariableOnlyWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
     Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})};
@@ -53,9 +47,9 @@ TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithVariableOnlyWorks)
     EXPECT_EQ(AlbaNumber(975), getCoefficientOfMonomialWithVariableOnly(polynomial3, "y"));
 }
 
-TEST(RetrieveHelpersTest, GetCoefficientsForVariablesOnlyWorks)
-{
-    Polynomial polynomial{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}}), Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})};
+TEST(RetrieveHelpersTest, GetCoefficientsForVariablesOnlyWorks) {
+    Polynomial polynomial{
+        Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}}), Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})};
 
     VariableToValueMap variableToValueMap(getCoefficientsForVariablesOnly(polynomial));
 
@@ -75,12 +69,11 @@ TEST(RetrieveHelpersTest, GetCoefficientsForVariablesOnlyWorks)
     it++;
 }
 
-TEST(RetrieveHelpersTest, RetrieveTermsFromTermsWithDetailsWorks)
-{
+TEST(RetrieveHelpersTest, RetrieveTermsFromTermsWithDetailsWorks) {
     TermsWithDetails termsWithDetails{
         TermWithDetails(Term(10), TermAssociationType::Positive),
-                TermWithDetails(Term(9), TermAssociationType::Negative),
-                TermWithDetails(Term(11), TermAssociationType::Positive)};
+        TermWithDetails(Term(9), TermAssociationType::Negative),
+        TermWithDetails(Term(11), TermAssociationType::Positive)};
 
     Terms terms;
     retrieveTermsFromTermsWithDetails(terms, termsWithDetails);
@@ -91,16 +84,10 @@ TEST(RetrieveHelpersTest, RetrieveTermsFromTermsWithDetailsWorks)
     EXPECT_EQ(Term(11), terms.at(2));
 }
 
-TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks)
-{
+TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks) {
     Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
     Function functionObject(
-                "functionName",
-                expesssionTerm,
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", expesssionTerm, [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term functionTerm(functionObject);
 
     Terms terms(retrieveSubExpressionsAndSubFunctions(functionTerm));
@@ -109,16 +96,10 @@ TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks)
     EXPECT_EQ(expesssionTerm, terms.at(0));
 }
 
-TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
-{
+TEST(RetrieveHelpersTest, RetrieveSubTermsWorks) {
     Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
     Function functionObject(
-                "functionName",
-                expesssionTerm,
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", expesssionTerm, [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term functionTerm(functionObject);
 
     Terms terms(retrieveSubTerms(functionTerm));
@@ -129,24 +110,21 @@ TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
     EXPECT_EQ(expesssionTerm, terms.at(2));
 }
 
-TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition)
-{
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(Term("x"), TermAssociationType::Positive),
-                TermWithDetails(Term("y"), TermAssociationType::Positive),
-                TermWithDetails(Term("z"), TermAssociationType::Negative)};
+TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition) {
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(Term("x"), TermAssociationType::Positive),
+        TermWithDetails(Term("y"), TermAssociationType::Positive),
+        TermWithDetails(Term("z"), TermAssociationType::Negative)};
 
-    TermsWithDetails termsWithDetailsToVerify
-            = retrieveTermsWithDetailsThatSatisfiesCondition(
-                termsWithDetails,
-                [](TermWithDetails const& termWithDetails)
-    {return termWithDetails.hasNegativeAssociation();});
+    TermsWithDetails termsWithDetailsToVerify = retrieveTermsWithDetailsThatSatisfiesCondition(
+        termsWithDetails,
+        [](TermWithDetails const& termWithDetails) { return termWithDetails.hasNegativeAssociation(); });
 
     ASSERT_EQ(1U, termsWithDetailsToVerify.size());
     EXPECT_EQ(Term("z"), getTermConstReferenceFromUniquePointer(termsWithDetailsToVerify.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(0).association);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

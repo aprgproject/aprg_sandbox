@@ -4,23 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
-using BooleanMatrix=MaximumSizeSquareSubMatrixWithAllOnes::BooleanMatrix;
+namespace {
+using BooleanMatrix = MaximumSizeSquareSubMatrixWithAllOnes::BooleanMatrix;
 }
 
-TEST(MaximumSizeSquareSubMatrixWithAllOnesTest, GetMinimumPriceWorksOnExample1)
-{
-    BooleanMatrix booleanMatrix(5U, 6U,
-    {false, true , true , false, true ,
-     true , true , false, true , false,
-     false, true , true , true , false,
-     true , true , true , true , false,
-     true , true , true , true , true ,
-     false, false, false, false, false});
+TEST(MaximumSizeSquareSubMatrixWithAllOnesTest, GetMinimumPriceWorksOnExample1) {
+    BooleanMatrix booleanMatrix(
+        5U, 6U, {false, true, true, false, true,  true, true, false, true, false, false, true,  true,  true,  false,
+                 true,  true, true, true,  false, true, true, true,  true, true,  false, false, false, false, false});
     MaximumSizeSquareSubMatrixWithAllOnes queryForTest(booleanMatrix);
 
     EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingMemoizationDP());
@@ -28,4 +21,4 @@ TEST(MaximumSizeSquareSubMatrixWithAllOnesTest, GetMinimumPriceWorksOnExample1)
     EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingIterativeDPAndTimeEfficient());
 }
 
-}
+}  // namespace alba

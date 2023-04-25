@@ -6,14 +6,11 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Operator : public BaseTermData
-{
+class Operator : public BaseTermData {
 public:
     Operator() = default;
     Operator(std::string const& operatingString);
@@ -41,11 +38,11 @@ public:
     void reverseOperation();
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Operator const& operatorObject);
+    friend std::ostream& operator<<(std::ostream& out, Operator const& operatorObject);
 
     std::string m_operatingString;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

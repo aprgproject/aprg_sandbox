@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace
-{
+namespace {
 using SolutionStatus = LinearDiophantineEquationCoefficientSolver::SolutionStatus;
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAAndBAreZero)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAAndBAreZero) {
     LinearDiophantineEquationCoefficientSolver solver(0, 0, 12);
 
     EXPECT_FALSE(solver.isSolved());
@@ -25,8 +21,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAAndBAreZero)
     EXPECT_EQ(0, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenCIsZero)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenCIsZero) {
     LinearDiophantineEquationCoefficientSolver solver(39, 15, 0);
 
     EXPECT_FALSE(solver.isSolved());
@@ -35,8 +30,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenCIsZero)
     EXPECT_EQ(0, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAAndBAndCAreZero)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAAndBAndCAreZero) {
     LinearDiophantineEquationCoefficientSolver solver(0, 0, 0);
 
     EXPECT_FALSE(solver.isSolved());
@@ -45,8 +39,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAAndBAndCAreZero)
     EXPECT_EQ(0, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAreNonIntegers)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAreNonIntegers) {
     LinearDiophantineEquationCoefficientSolver solver(1.2, 3.4, 5.6);
 
     EXPECT_FALSE(solver.isSolved());
@@ -55,8 +48,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenAreNonIntegers)
     EXPECT_EQ(0, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenCIsNotDivisibleWithGcfOfAAndB)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenCIsNotDivisibleWithGcfOfAAndB) {
     LinearDiophantineEquationCoefficientSolver solver(39, 15, 13);
 
     EXPECT_FALSE(solver.isSolved());
@@ -65,8 +57,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksWhenCIsNotDivisibleWit
     EXPECT_EQ(0, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample1)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample1) {
     LinearDiophantineEquationCoefficientSolver solver(39, 15, 12);
 
     EXPECT_TRUE(solver.isSolved());
@@ -75,8 +66,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample1)
     EXPECT_EQ(-20, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample2)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample2) {
     LinearDiophantineEquationCoefficientSolver solver(47, 30, 1);
 
     EXPECT_TRUE(solver.isSolved());
@@ -85,8 +75,7 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample2)
     EXPECT_EQ(11, solver.getY());
 }
 
-TEST(LinearDiophantineEquationCoefficientSolverTest, GetAnotherXValueAndGetAnotherYValueWorksOnExample1)
-{
+TEST(LinearDiophantineEquationCoefficientSolverTest, GetAnotherXValueAndGetAnotherYValueWorksOnExample1) {
     LinearDiophantineEquationCoefficientSolver solver(39, 15, 12);
 
     EXPECT_EQ(8, solver.getAnotherXValue(0));
@@ -97,6 +86,6 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, GetAnotherXValueAndGetAnoth
     EXPECT_EQ(-46, solver.getAnotherYValue(2));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

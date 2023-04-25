@@ -1,19 +1,11 @@
 #include "CPlusPlusVariable.hpp"
 
-namespace codeReview
-{
+namespace codeReview {
 
-CPlusPlusVariable::CPlusPlusVariable()
-    : m_type()
-{}
+CPlusPlusVariable::CPlusPlusVariable() : m_type() {}
 
-CPlusPlusVariable::CPlusPlusVariable(CPlusPlusType const& cPlusPlusType)
-    : m_type(cPlusPlusType)
-{}
+CPlusPlusVariable::CPlusPlusVariable(CPlusPlusType const& cPlusPlusType) : m_type(cPlusPlusType) {}
 
-CPlusPlusType CPlusPlusVariable::getType() const
-{
-    return m_type;
-}
+CPlusPlusType CPlusPlusVariable::getType() const { return m_type; }
 
-}
+}  // namespace codeReview

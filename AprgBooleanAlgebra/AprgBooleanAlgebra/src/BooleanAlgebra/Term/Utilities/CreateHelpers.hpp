@@ -4,11 +4,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 Expression createExpressionInAnExpression(Expression const& expression);
 Expression createAndWrapExpressionFromATerm(Term const& term);
@@ -18,6 +16,6 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms);
 Term createTermWithAndOperationWrappedTerms(WrappedTerms const& wrappedTerms);
 Term createTermWithOrOperationWrappedTerms(WrappedTerms const& wrappedTerms);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

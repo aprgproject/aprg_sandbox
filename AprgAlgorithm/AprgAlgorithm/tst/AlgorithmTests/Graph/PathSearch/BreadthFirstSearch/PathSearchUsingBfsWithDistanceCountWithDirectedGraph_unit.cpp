@@ -3,21 +3,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using ContentMapForTest = GraphTypes<VertexForTest>::VertexToUnsignedIntMap;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = PathSearchUsingBfsWithDistanceCount<VertexForTest>;
 
-void putConnectionsForTest(GraphForTest & graph)
-{
+void putConnectionsForTest(GraphForTest& graph) {
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 5U);
@@ -27,10 +23,9 @@ void putConnectionsForTest(GraphForTest & graph)
     graph.connect(3U, 4U);
     graph.connect(3U, 5U);
 }
-}
+}  // namespace
 
-TEST(PathSearchUsingBfsWithDistanceCountTest, GetDistanceToWorksWithDirectedGraph)
-{
+TEST(PathSearchUsingBfsWithDistanceCountTest, GetDistanceToWorksWithDirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
@@ -44,8 +39,7 @@ TEST(PathSearchUsingBfsWithDistanceCountTest, GetDistanceToWorksWithDirectedGrap
     EXPECT_EQ(0U, pathSearch.getDistanceTo(6U));
 }
 
-TEST(PathSearchUsingBfsWithDistanceCountTest, GetEndVertexToDistanceCountMapWorksWithDirectedGraph)
-{
+TEST(PathSearchUsingBfsWithDistanceCountTest, GetEndVertexToDistanceCountMapWorksWithDirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
@@ -54,6 +48,6 @@ TEST(PathSearchUsingBfsWithDistanceCountTest, GetEndVertexToDistanceCountMapWork
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceCountMap());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -1,31 +1,22 @@
 #include "NumbersRetriever.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-void NumbersRetriever::retrieveFromConstant(Constant const& constant)
-{
+void NumbersRetriever::retrieveFromConstant(Constant const& constant) {
     m_savedData.emplace(constant.getNumberConstReference());
 }
 
-void NumbersRetriever::retrieveFromVariable(Variable const&)
-{
-    m_savedData.emplace(1);
-}
+void NumbersRetriever::retrieveFromVariable(Variable const&) { m_savedData.emplace(1); }
 
-void NumbersRetriever::retrieveFromMonomial(Monomial const& monomial)
-{
+void NumbersRetriever::retrieveFromMonomial(Monomial const& monomial) {
     m_savedData.emplace(monomial.getConstantConstReference());
-    for(auto const& variableExponentsPair
-        : monomial.getVariablesToExponentsMapConstReference())
-    {
+    for (auto const& variableExponentsPair : monomial.getVariablesToExponentsMapConstReference()) {
         m_savedData.emplace(variableExponentsPair.second);
     }
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

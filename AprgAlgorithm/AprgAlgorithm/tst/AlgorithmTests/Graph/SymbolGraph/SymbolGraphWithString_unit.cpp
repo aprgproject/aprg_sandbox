@@ -8,37 +8,30 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 InvertedMapForSymbolGraph<unsigned int, string> invertedMap;
 }
 
 template <>
-unsigned int getUniqueVertexIdentifier<unsigned int, string>(string const& object)
-{
+unsigned int getUniqueVertexIdentifier<unsigned int, string>(string const& object) {
     return invertedMap.getVertexIdentifierAndAddObjectIfNeeded(object);
 }
 
 template <>
-void removeUniqueVertexIdentifierIfNeeded<unsigned int, string>(string const& object)
-{
+void removeUniqueVertexIdentifierIfNeeded<unsigned int, string>(string const& object) {
     return invertedMap.removeObject(object);
 }
 
-namespace
-{
+namespace {
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 using SymbolGraphForTest = SymbolGraph<unsigned int, string, GraphForTest>;
-}
+}  // namespace
 
-TEST(SymbolGraphWithStringTest, ContainsWorksWhenEmpty)
-{
+TEST(SymbolGraphWithStringTest, ContainsWorksWhenEmpty) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
 
@@ -48,8 +41,7 @@ TEST(SymbolGraphWithStringTest, ContainsWorksWhenEmpty)
     EXPECT_FALSE(symbolGraph.contains("three"));
 }
 
-TEST(SymbolGraphWithStringTest, ContainsWorksWhenNotEmpty)
-{
+TEST(SymbolGraphWithStringTest, ContainsWorksWhenNotEmpty) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
 
@@ -63,8 +55,7 @@ TEST(SymbolGraphWithStringTest, ContainsWorksWhenNotEmpty)
     EXPECT_FALSE(symbolGraph.contains("three"));
 }
 
-TEST(SymbolGraphWithStringTest, GetVertexWorks)
-{
+TEST(SymbolGraphWithStringTest, GetVertexWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
 
@@ -74,8 +65,7 @@ TEST(SymbolGraphWithStringTest, GetVertexWorks)
     EXPECT_EQ(3U, symbolGraph.getVertex("three"));
 }
 
-TEST(SymbolGraphWithStringTest, GetObjectWorks)
-{
+TEST(SymbolGraphWithStringTest, GetObjectWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
     symbolGraph.connect("zero", "one");
@@ -88,8 +78,7 @@ TEST(SymbolGraphWithStringTest, GetObjectWorks)
     EXPECT_TRUE(symbolGraph.getObject(3U).empty());
 }
 
-TEST(SymbolGraphWithStringTest, GetGraphWorks)
-{
+TEST(SymbolGraphWithStringTest, GetGraphWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
     symbolGraph.connect("zero", "one");
@@ -100,8 +89,7 @@ TEST(SymbolGraphWithStringTest, GetGraphWorks)
     EXPECT_EQ(expectedEdges, symbolGraph.getGraph().getEdges());
 }
 
-TEST(SymbolGraphWithStringTest, GetSymbolTableWorks)
-{
+TEST(SymbolGraphWithStringTest, GetSymbolTableWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
     symbolGraph.connect("zero", "one");
@@ -112,8 +100,7 @@ TEST(SymbolGraphWithStringTest, GetSymbolTableWorks)
     EXPECT_EQ(expectedSymbolTable, symbolGraph.getSymbolTable());
 }
 
-TEST(SymbolGraphWithStringTest, ConnectWorks)
-{
+TEST(SymbolGraphWithStringTest, ConnectWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
     symbolGraph.connect("zero", "one");
@@ -126,8 +113,7 @@ TEST(SymbolGraphWithStringTest, ConnectWorks)
     EXPECT_EQ(expectedSymbolTable, symbolGraph.getSymbolTable());
 }
 
-TEST(SymbolGraphWithStringTest, DisconnectWorks)
-{
+TEST(SymbolGraphWithStringTest, DisconnectWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
     symbolGraph.connect("zero", "one");
@@ -143,6 +129,6 @@ TEST(SymbolGraphWithStringTest, DisconnectWorks)
     EXPECT_EQ(expectedSymbolTable, symbolGraph.getSymbolTable());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

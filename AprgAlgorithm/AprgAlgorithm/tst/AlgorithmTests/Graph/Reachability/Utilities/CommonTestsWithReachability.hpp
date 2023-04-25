@@ -2,22 +2,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithReachability
-{
+namespace CommonTestsWithReachability {
 
 template <typename Reachability, typename Graph>
-void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
-{
+void testIsReachableWhenEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     Reachability reachabilityIn0(graph, 0U);
 
-    //Reachability in 0
+    // Reachability in 0
     EXPECT_FALSE(reachabilityIn0.isReachable(1U));
     EXPECT_FALSE(reachabilityIn0.isReachable(2U));
     EXPECT_FALSE(reachabilityIn0.isReachable(3U));
@@ -33,8 +29,7 @@ void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Reachability, typename Graph>
-void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 5U);
@@ -62,7 +57,7 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     Reachability reachabilityIn6(graph, 6U);
     Reachability reachabilityIn9(graph, 9U);
 
-    //Reachability in 0
+    // Reachability in 0
     EXPECT_TRUE(reachabilityIn0.isReachable(1U));
     EXPECT_TRUE(reachabilityIn0.isReachable(2U));
     EXPECT_TRUE(reachabilityIn0.isReachable(3U));
@@ -76,7 +71,7 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_FALSE(reachabilityIn0.isReachable(11U));
     EXPECT_FALSE(reachabilityIn0.isReachable(12U));
 
-    //Reachability in 6
+    // Reachability in 6
     EXPECT_TRUE(reachabilityIn6.isReachable(1U));
     EXPECT_TRUE(reachabilityIn6.isReachable(2U));
     EXPECT_TRUE(reachabilityIn6.isReachable(3U));
@@ -90,7 +85,7 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_TRUE(reachabilityIn6.isReachable(11U));
     EXPECT_TRUE(reachabilityIn6.isReachable(12U));
 
-    //Reachability in 9
+    // Reachability in 9
     EXPECT_TRUE(reachabilityIn9.isReachable(1U));
     EXPECT_TRUE(reachabilityIn9.isReachable(2U));
     EXPECT_TRUE(reachabilityIn9.isReachable(3U));
@@ -103,11 +98,10 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_TRUE(reachabilityIn9.isReachable(10U));
     EXPECT_TRUE(reachabilityIn9.isReachable(11U));
     EXPECT_TRUE(reachabilityIn9.isReachable(12U));
-
 }
 
-}
+}  // namespace CommonTestsWithReachability
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

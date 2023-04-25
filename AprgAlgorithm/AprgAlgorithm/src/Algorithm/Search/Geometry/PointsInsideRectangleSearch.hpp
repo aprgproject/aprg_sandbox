@@ -3,52 +3,39 @@
 #include <Algorithm/Search/Geometry/KdTree.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 
+namespace alba {
 
-namespace alba
-{
+namespace algorithm {
 
-namespace algorithm
-{
-
-template <typename Key> bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
-{
-    if(mathHelper::isOdd(depth))
-    {
+template <typename Key>
+bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+    if (mathHelper::isOdd(depth)) {
         return key1.first == key2.first;
-    }
-    else
-    {
+    } else {
         return key1.second == key2.second;
     }
 }
 
-template <typename Key> bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
-{
-    if(mathHelper::isOdd(depth))
-    {
+template <typename Key>
+bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+    if (mathHelper::isOdd(depth)) {
         return key1.first < key2.first;
-    }
-    else
-    {
+    } else {
         return key1.second < key2.second;
     }
 }
 
-template <typename Key> bool isGreaterThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
-{
-    if(mathHelper::isOdd(depth))
-    {
+template <typename Key>
+bool isGreaterThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+    if (mathHelper::isOdd(depth)) {
         return key1.first > key2.first;
-    }
-    else
-    {
+    } else {
         return key1.second > key2.second;
     }
 }
 
 template <typename Unit>
-class PointsInsideRectangleSearch
-{
+class PointsInsideRectangleSearch {
 public:
     using Point = std::pair<Unit, Unit>;
     using Points = std::vector<Point>;
@@ -56,80 +43,57 @@ public:
     using NodeUniquePointer = typename TwoDTree::NodeUniquePointer;
 
     PointsInsideRectangleSearch(Point const& bottomLeft, Point const& topRight)
-        : m_twoDTree()
-        , m_rectangleBottomLeft(bottomLeft)
-        , m_rectangleTopRight(topRight)
-    {}
+        : m_twoDTree(), m_rectangleBottomLeft(bottomLeft), m_rectangleTopRight(topRight) {}
 
-    Points getPointsInsideTheRectangle() const
-    {
+    Points getPointsInsideTheRectangle() const {
         Points result{};
         NodeUniquePointer const& root(m_twoDTree.getRoot());
-        if(root)
-        {
+        if (root) {
             searchForPoints(root, result);
         }
         return result;
     }
 
-    void addPoint(Point const& point)
-    {
-        m_twoDTree.put(point);
-    }
+    void addPoint(Point const& point) { m_twoDTree.put(point); }
 
 private:
-
-    void searchForPoints(NodeUniquePointer const& nodePointer, Points & pointsInsideRectangle) const
-    {
-        static unsigned int depth=0;
+    void searchForPoints(NodeUniquePointer const& nodePointer, Points& pointsInsideRectangle) const {
+        static unsigned int depth = 0;
         depth++;
-        if(nodePointer)
-        {
+        if (nodePointer) {
             Point const& currentPoint(nodePointer->key);
-            if(isInsideRectangle(currentPoint))
-            {
+            if (isInsideRectangle(currentPoint)) {
                 pointsInsideRectangle.emplace_back(currentPoint);
             }
-            if(shouldGoToLeftChild(currentPoint, depth))
-            {
+            if (shouldGoToLeftChild(currentPoint, depth)) {
                 searchForPoints(nodePointer->left, pointsInsideRectangle);
             }
-            if(shouldGoToRightChild(currentPoint, depth))
-            {
+            if (shouldGoToRightChild(currentPoint, depth)) {
                 searchForPoints(nodePointer->right, pointsInsideRectangle);
             }
         }
         depth--;
     }
 
-    inline bool shouldGoToLeftChild(Point const& point, unsigned int const depth) const
-    {
-        if(mathHelper::isOdd(depth))
-        {
+    inline bool shouldGoToLeftChild(Point const& point, unsigned int const depth) const {
+        if (mathHelper::isOdd(depth)) {
             return m_rectangleBottomLeft.first < point.first;
-        }
-        else
-        {
+        } else {
             return m_rectangleBottomLeft.second < point.second;
         }
     }
 
-    inline bool shouldGoToRightChild(Point const& point, unsigned int const depth) const
-    {
-        if(mathHelper::isOdd(depth))
-        {
+    inline bool shouldGoToRightChild(Point const& point, unsigned int const depth) const {
+        if (mathHelper::isOdd(depth)) {
             return m_rectangleTopRight.first > point.first;
-        }
-        else
-        {
+        } else {
             return m_rectangleTopRight.second > point.second;
         }
     }
 
-    inline bool isInsideRectangle(Point const& point) const
-    {
-        return m_rectangleBottomLeft.first <= point.first && point.first <= m_rectangleTopRight.first
-                && m_rectangleBottomLeft.second <= point.second && point.second <= m_rectangleTopRight.second;
+    inline bool isInsideRectangle(Point const& point) const {
+        return m_rectangleBottomLeft.first <= point.first && point.first <= m_rectangleTopRight.first &&
+               m_rectangleBottomLeft.second <= point.second && point.second <= m_rectangleTopRight.second;
     }
 
     TwoDTree m_twoDTree;
@@ -137,6 +101,6 @@ private:
     Point m_rectangleTopRight;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

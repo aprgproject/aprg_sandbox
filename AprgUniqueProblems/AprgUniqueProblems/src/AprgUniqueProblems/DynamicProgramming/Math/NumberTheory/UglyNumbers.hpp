@@ -3,11 +3,9 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class UglyNumbers
-{
+class UglyNumbers {
 public:
     using Index = unsigned int;
     using Number = unsigned int;
@@ -24,9 +22,7 @@ private:
     Number const m_nth;
 };
 
-}
-
-
+}  // namespace alba
 
 // Ugly Numbers
 
@@ -44,5 +40,3 @@ private:
 // ---> Output : 24
 // -> Input  : n = 150
 // ---> Output : 5832
-
-

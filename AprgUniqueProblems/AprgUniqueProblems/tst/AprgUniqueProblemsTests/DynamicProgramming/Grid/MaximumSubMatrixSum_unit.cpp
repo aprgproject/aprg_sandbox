@@ -4,34 +4,22 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
-using ValueMatrix=MaximumSubMatrixSum::ValueMatrix;
-using SubArrayDetails=MaximumSubMatrixSum::SubArrayDetails;
-}
+namespace {
+using ValueMatrix = MaximumSubMatrixSum::ValueMatrix;
+using SubArrayDetails = MaximumSubMatrixSum::SubArrayDetails;
+}  // namespace
 
-TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWorksOnExample1)
-{
-    ValueMatrix pricesInDayByProduct(5U, 4U,
-    {  1,   2,  -1,  -4, -20,
-      -8,  -3,   4,   2,   1,
-       3,   8,  10,   1,   3,
-      -4,  -1,   1,   7,  -6});
+TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWorksOnExample1) {
+    ValueMatrix pricesInDayByProduct(5U, 4U, {1, 2, -1, -4, -20, -8, -3, 4, 2, 1, 3, 8, 10, 1, 3, -4, -1, 1, 7, -6});
     MaximumSubMatrixSum queryForTest(pricesInDayByProduct);
 
     EXPECT_EQ(29, queryForTest.getMaximumSubMatrixSum());
 }
 
-TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1)
-{
-    ValueMatrix pricesInDayByProduct(5U, 4U,
-    {  1,   2,  -1,  -4, -20,
-      -8,  -3,   4,   2,   1,
-       3,   8,  10,   1,   3,
-      -4,  -1,   1,   7,  -6});
+TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1) {
+    ValueMatrix pricesInDayByProduct(5U, 4U, {1, 2, -1, -4, -20, -8, -3, 4, 2, 1, 3, 8, 10, 1, 3, -4, -1, 1, 7, -6});
     MaximumSubMatrixSum queryForTest(pricesInDayByProduct);
 
     SubArrayDetails subArrayDetailsToVerify(queryForTest.getMaximumSubMatrixSumWithDetails());
@@ -43,4 +31,4 @@ TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1)
     EXPECT_EQ(29, subArrayDetailsToVerify.sum);
 }
 
-}
+}  // namespace alba

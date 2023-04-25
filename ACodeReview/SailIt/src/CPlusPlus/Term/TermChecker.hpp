@@ -4,19 +4,16 @@
 #include "Term.hpp"
 
 #include <optional>
-
 #include <ostream>
 #include <string>
 
+using std::optional;
 using std::ostream;
 using std::string;
-using std::optional;
 
-namespace codeReview
-{
+namespace codeReview {
 
-enum class TermCheckerType
-{
+enum class TermCheckerType {
     ConcreteTerm,
     isAssignmentOperator,
     isBiDirectionalOperator,
@@ -35,15 +32,14 @@ enum class TermCheckerType
     MultipleTerms
 };
 
-class TermChecker
-{
+class TermChecker {
 public:
     explicit TermChecker(TermCheckerType const termCheckerType);
     explicit TermChecker(Term const& term);
     explicit TermChecker(std::initializer_list<Term> const& initializerList);
 
     operator Term() const;
-    friend ostream& operator<<(ostream & out, TermChecker const& termChecker);
+    friend ostream& operator<<(ostream& out, TermChecker const& termChecker);
     bool operator==(Term const& term) const;
     friend bool operator==(Term const& term, TermChecker const& termChecker);
     bool operator!=(Term const& term) const;
@@ -60,4 +56,4 @@ private:
     std::Optional<MultipleTerms> m_multipleTermsOptional;
 };
 
-}// namespace codeReview
+}  // namespace codeReview

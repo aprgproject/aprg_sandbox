@@ -2,11 +2,9 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
@@ -29,11 +27,13 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
-Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial);
-Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial);
+Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(
+    Monomial const& firstMonomial, Monomial const& secondMonomial);
+Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(
+    Monomial const& firstMonomial, Monomial const& secondMonomial);
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

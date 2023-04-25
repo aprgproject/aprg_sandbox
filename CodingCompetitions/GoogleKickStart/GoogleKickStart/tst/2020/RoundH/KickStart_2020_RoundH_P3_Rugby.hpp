@@ -1,10 +1,7 @@
 #pragma once
 
-namespace KickStart_2020_RoundH_P3_Rugby
-{
+namespace KickStart_2020_RoundH_P3_Rugby {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-

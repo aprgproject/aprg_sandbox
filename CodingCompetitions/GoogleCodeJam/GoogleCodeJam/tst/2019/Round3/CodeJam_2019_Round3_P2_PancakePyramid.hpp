@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2019_Round3_P2_PancakePyramid
-{
+namespace CodeJam_2019_Round3_P2_PancakePyramid {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

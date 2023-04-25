@@ -2,13 +2,12 @@
 
 #include <cstdint>
 
-namespace alba
-{
+namespace alba {
 
-namespace AlbaDateTimeConstants
-{
+namespace AlbaDateTimeConstants {
 
-enum Month : uint32_t // C98 Enum, no scoping needed let the AlbaDateTimeConstants take care of the scope to avoid pollution
+enum Month : uint32_t  // C98 Enum, no scoping needed let the AlbaDateTimeConstants take care of the scope to avoid
+                       // pollution
 {
     January = 1,
     February = 2,
@@ -42,7 +41,7 @@ constexpr unsigned int NUMBER_OF_MINUTES_IN_AN_HOUR = 60;
 constexpr unsigned int NUMBER_OF_DAYS_IN_NON_LEAP_YEAR = 365;
 constexpr unsigned int NUMBER_OF_DAYS_IN_LEAP_YEAR = 366;
 
-}
+}  // namespace AlbaDateTimeConstants
 
 // enum class version:
 // enum class AlbaDateTimeConstants : unsigned int
@@ -61,4 +60,4 @@ constexpr unsigned int NUMBER_OF_DAYS_IN_LEAP_YEAR = 366;
 //     NUMBER_OF_DAYS_IN_LEAP_YEAR = 366
 // };
 
-}//namespace alba
+}  // namespace alba

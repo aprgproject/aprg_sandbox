@@ -6,7 +6,6 @@
 #include "Loopers/Looper.hpp"
 
 #include <optional>
-
 #include <string>
 #include <unordered_map>
 
@@ -17,38 +16,32 @@ using std::string;
 
 //#define DBGFLAG 2
 #if DBGFLAG == 3
-    #define DBGPRINT1(...) cout<<__VA_ARGS__<<"\n";
-    #define DBGPRINT2(...) cout<<__VA_ARGS__<<"\n";
-    #define DBGPRINT3(...) cout<<__VA_ARGS__<<"\n";
+#define DBGPRINT1(...) cout << __VA_ARGS__ << "\n";
+#define DBGPRINT2(...) cout << __VA_ARGS__ << "\n";
+#define DBGPRINT3(...) cout << __VA_ARGS__ << "\n";
 #elif DBGFLAG == 2
-    #define DBGPRINT1(...) cout<<__VA_ARGS__<<"\n";
-    #define DBGPRINT2(...) cout<<__VA_ARGS__<<"\n";
-    #define DBGPRINT3(...)
+#define DBGPRINT1(...) cout << __VA_ARGS__ << "\n";
+#define DBGPRINT2(...) cout << __VA_ARGS__ << "\n";
+#define DBGPRINT3(...)
 #elif DBGFLAG == 1
-    #define DBGPRINT1(...) cout<<__VA_ARGS__<<"\n";
-    #define DBGPRINT2(...)
-    #define DBGPRINT3(...)
+#define DBGPRINT1(...) cout << __VA_ARGS__ << "\n";
+#define DBGPRINT2(...)
+#define DBGPRINT3(...)
 #else
-    #define DBGPRINT1(...)
-    #define DBGPRINT2(...)
-    #define DBGPRINT3(...)
+#define DBGPRINT1(...)
+#define DBGPRINT2(...)
+#define DBGPRINT3(...)
 #endif
 
-namespace codeReview
-{
+namespace codeReview {
 
-enum class MoveBackType
-{
+enum class MoveBackType {
     Empty,
     GotoPreviousModifiedTerm
-    //Thinkharder
+    // Thinkharder
 };
 
-enum class LooperConnector
-{
-    None,
-    WhiteSpaceAndNewLine
-};
+enum class LooperConnector { None, WhiteSpaceAndNewLine };
 
 class CPlusPlusDatabase;
 class Findings;
@@ -57,27 +50,28 @@ class CPlusPlusMacro;
 class CPlusPlusFunction;
 class CPlusPlusFunctionSignature;
 
-class TermAnalyzer
-{
+class TermAnalyzer {
     typedef unordered_map<int, VectorOfTerms> MapOfMacroUsageParameters;
     typedef unordered_map<string, CPlusPlusType> MapOfCPlusPlusTypesForTypedef;
 
 public:
-    explicit TermAnalyzer(DequeOfTerms& terms,  CPlusPlusDatabase& database, Findings& findings);
-    explicit TermAnalyzer(DequeOfTerms& terms,  CPlusPlusDatabase& database, Findings& findings, SailIt& sailIt);
+    explicit TermAnalyzer(DequeOfTerms& terms, CPlusPlusDatabase& database, Findings& findings);
+    explicit TermAnalyzer(DequeOfTerms& terms, CPlusPlusDatabase& database, Findings& findings, SailIt& sailIt);
     void setFileName(string const& directory, string const& fileName);
     void analyze();
 
 private:
     void analyzeThisScope(Looper const& startLooper);
 
-    //Macros
+    // Macros
     bool isModifiedDueToMacros(Looper const& startLooper);
     bool isModifiedDueToIncludeMacroWithAngleBrackets(Looper const& startLooper);
     bool isModifiedDueToIncludeMacroWithConstantString(Looper const& startLooper);
     bool isModifiedDueToDefineMacro(Looper const& startLooper);
-    bool isModifiedDueToDefineMacroWithParameters(Looper const& startLooper, Looper const& afterIdentifierLooper, string const& macroName);
-    bool isModifiedDueToDefineMacroWithNoParameters(Looper const& startLooper, Looper const& equivalentStartLooper, string const& macroName);
+    bool isModifiedDueToDefineMacroWithParameters(
+        Looper const& startLooper, Looper const& afterIdentifierLooper, string const& macroName);
+    bool isModifiedDueToDefineMacroWithNoParameters(
+        Looper const& startLooper, Looper const& equivalentStartLooper, string const& macroName);
     bool isModifiedDueToUndefMacro(Looper const& startLooper);
     bool isModifiedDueToOtherMacros(Looper const& startLooper);
     void copyDatabaseOfIncludeFile(Looper const& startLooper, string const& includeFileName);
@@ -86,7 +80,7 @@ private:
     void copyLooperSpanToVectorOfTermsForMacro(Looper const& startLooper, CPlusPlusMacro& cPlusPlusMacro);
     void checkMacroParameters(Looper const& startLooper, CPlusPlusMacro& cPlusPlusMacro);
 
-    //Expressions
+    // Expressions
     void simplifyExpressions(Looper const& startLooper);
     void simplifyPrimitiveTypesForCurrentStatement(Looper const& startLooper);
     bool isModifiedDueToExpressions(Looper const& startLooper);
@@ -113,7 +107,7 @@ private:
     bool isModifiedDueToTypeWithExternKeyword(Looper const& startLooper);
     bool areTheTypesValidForCombination(CPlusPlusType const& type1, CPlusPlusType const& type2) const;
 
-    //Statements
+    // Statements
     bool isModifiedDueToStatements(Looper const& startLooper);
     bool isModifiedDueToVariableDeclaration(Looper const& startLooper);
     bool isModifiedDueToCStyleArrayDeclaration(Looper const& startLooper);
@@ -124,9 +118,10 @@ private:
     bool isModifiedDueToTypeDefWithNormalParameters(Looper const& startLooper, Looper const& nextLooper);
     bool isModifiedDueToTypeDefWithStructAndBracesCStyleStatement(Looper const& startLooper, Looper const& nextLooper);
     bool areVariableFoundForVariableDeclarationAndMoveLooper(Looper& movableLooper, VectorOfStrings& variableNames);
-    bool areTypesFoundForTypedefThenFillAndMoveLooper(Looper& movableLooper, CPlusPlusType const& type, MapOfCPlusPlusTypesForTypedef& typeMap);
+    bool areTypesFoundForTypedefThenFillAndMoveLooper(
+        Looper& movableLooper, CPlusPlusType const& type, MapOfCPlusPlusTypesForTypedef& typeMap);
 
-    //ControlStructures
+    // ControlStructures
     bool isModifiedDueToControlStructures(Looper const& startLooper);
     bool isModifiedDueToIfClauseAndMoveLooper(Looper const& startLooper);
     bool isModifiedDueToElseIfClauseAndMoveLooper(Looper const& startLooper);
@@ -134,67 +129,102 @@ private:
     bool isModifiedDueToIfElseIfChainClause(Looper const& startLooper);
     bool isModifiedDueToIfElseChainStopClause(Looper const& startLooper);
     bool isModifiedDueToWhileLoopAndMoveLooper(Looper const& startLooper);
-    template <class Container> bool isModifiedDueToOneConditionConstructAndMoveLooper(Looper const& startLooper, Container const& expectedTerms, TermType const newTermType);
+    template <class Container>
+    bool isModifiedDueToOneConditionConstructAndMoveLooper(
+        Looper const& startLooper, Container const& expectedTerms, TermType const newTermType);
 
-    //Functions
+    // Functions
     bool isModifiedDueToFunctions(Looper const& startLooper);
     bool isModifiedDueToFunctionDeclaration(Looper const& startLooper);
     bool isModifiedDueToFunctionDefinition(Looper const& startLooper);
-    void fillFunctionSignatureFromFunctionDeclaration(Looper const& startLooper, CPlusPlusFunctionSignature& cPlusPlusFunctionSignature);
-    void fillFunctionSignatureFromFunctionCall(Looper const& startLooper, CPlusPlusFunctionSignature& cPlusPlusFunctionSignature);
+    void fillFunctionSignatureFromFunctionDeclaration(
+        Looper const& startLooper, CPlusPlusFunctionSignature& cPlusPlusFunctionSignature);
+    void fillFunctionSignatureFromFunctionCall(
+        Looper const& startLooper, CPlusPlusFunctionSignature& cPlusPlusFunctionSignature);
 
-    //Classes
+    // Classes
     bool isModifiedDueToClasses(Looper const& startLooper);
     bool isModifiedDueToClassDeclaration(Looper const& startLooper);
     bool isModifiedDueToClassDefinition(Looper const& startLooper);
     bool isModifiedDueToCStyleStructDefinition(Looper const& startLooper);
     bool isModifiedDueToCStyleStructArrayDefinition(Looper const& startLooper);
 
-    //Namespaces
+    // Namespaces
     bool isModifiedDueToNamespaces(Looper const& startLooper);
     bool isModifiedDueToNamespaceDefinition(Looper const& startLooper);
     bool isModifiedDueToExternBlock(Looper const& startLooper);
 
-    //SharedSimplifiers
+    // SharedSimplifiers
     void checkCondition(Looper const& startLooper);
-    bool isClosingPartnerFoundAndMoveLooper(Looper& movableLooper, string const& openingOperator, string const& closingOperator);
-    template <LooperConnector looperConnector> void connectLooper(Looper&);
+    bool isClosingPartnerFoundAndMoveLooper(
+        Looper& movableLooper, string const& openingOperator, string const& closingOperator);
+    template <LooperConnector looperConnector>
+    void connectLooper(Looper&);
 
-    //Modifiers
-    bool isModifiedDueToUpdatedIdentifiers(Looper const& startLooper, LooperIndex& previousUpdatedIndexForMacro, LooperIndex& previousUpdatedIndexForOthers);
+    // Modifiers
+    bool isModifiedDueToUpdatedIdentifiers(
+        Looper const& startLooper, LooperIndex& previousUpdatedIndexForMacro,
+        LooperIndex& previousUpdatedIndexForOthers);
     void combineToASingleTerm(Looper const& startLooper, Looper const& endLooper, TermType const termType);
-    void combineToASingleTermWithValueType(Looper const& startLooper, Looper const& endLooper, TermType const termType, CPlusPlusType const& valueType);
+    void combineToASingleTermWithValueType(
+        Looper const& startLooper, Looper const& endLooper, TermType const termType, CPlusPlusType const& valueType);
     void replaceLooperContentsWithASingleTerm(Looper const& startLooper, Looper const& endLooper, Term const& term);
     void eraseTermAndSetModifiedFlag(Looper const& eraseLooper);
     void eraseTermsAndSetModifiedFlag(Looper const& eraseLooper);
     void replaceTermWithMacroEquivalent(Looper const& replaceLooper, CPlusPlusMacro& cPlusPlusMacro);
-    void replaceTermWithMacroEquivalent(Looper const& eraseLooper, Looper const& parameterLooper, CPlusPlusMacro& cPlusPlusMacro);
-    void checkMacroUsageParameters(Looper const& parameterLooper, CPlusPlusMacro& cPlusPlusMacro, MapOfMacroUsageParameters& macroUsageParameters);
+    void replaceTermWithMacroEquivalent(
+        Looper const& eraseLooper, Looper const& parameterLooper, CPlusPlusMacro& cPlusPlusMacro);
+    void checkMacroUsageParameters(
+        Looper const& parameterLooper, CPlusPlusMacro& cPlusPlusMacro, MapOfMacroUsageParameters& macroUsageParameters);
     void clearFlagsForAnotherIteration();
 
-    //TemplateFunctions
-    template<LooperConnector looperConnector, class Container> bool isSingleLineComparisonSatisfiedThenMoveLooper(Looper& movableLooper, Container const& expectedTerms);
-    template<LooperConnector looperConnector, class Container> bool isMultiLineComparisonSatisfiedThenMoveLooper(Looper& movableLooper, Container const& expectedTerms);
-    template<typename ExpectedTermsIteratorType> bool isTheMismatchWithWhiteSpaceAndMoveLooper(Looper& movableLooper, ExpectedTermsIteratorType& itExpected);
-    template<typename ExpectedTermsIteratorType> bool isTheMismatchWithNewLineAndMoveLooper(Looper& movableLooper, ExpectedTermsIteratorType& itExpected);
-    template<typename ExpectedTermsIteratorType> bool isTheMismatchWithIgnorableTermAndMoveLooper(Looper& movableLooper, ExpectedTermsIteratorType& itExpected);
-    template <LooperConnector looperConnector> bool isBothBracketsFoundAndMoveLoopers(Looper const& startLooper, Looper& afterOpeningBracket, Looper& afterClosingBracket);
-    template <LooperConnector looperConnector> bool isBothParenthesesFoundAndMoveLoopers(Looper const& startLooper, Looper& afterOpeningParenthesis, Looper& afterClosingParenthesis);
-    template <LooperConnector looperConnector> bool isBothAngleBracketsFoundAndMoveLoopers(Looper const& startLooper, Looper& afterOpeningParenthesis, Looper& afterClosingParenthesis);
-    template <LooperConnector looperConnector> bool isBothBracesFoundAndMoveLoopers(Looper const& startLooper, Looper& afterOpeningBraces, Looper& afterClosingBraces);
-    template <LooperConnector looperConnector> bool isBothBracesFoundWithSemicolonAndMoveLoopers(Looper const& startLooper, Looper& afterOpeningBraces, Looper& afterClosingBraces, Looper& afterSemiColon);
-    template <LooperConnector looperConnector> bool isSemiColonFoundAndMoveLooper(Looper& afterSemiColon);
-    template<class Container> VectorOfTerms getTerms(Looper const& startLooper, Container const& expectedTerms);
-    template <FindingsToAdd findingsToAdd> void incrementLooperIfWhiteSpaceForMacro(Looper& movableLooper);
-    template <FindingsToAdd findingsToAdd> void incrementLooperIfWhiteSpaceAndOneNewLine(Looper& movableLooper);
-    template <FindingsToAdd findingsToAdd> void incrementLooperIfWhiteSpaceAndNewLine(Looper& movableLooper);
-    template <FindingsToAdd findingsToAdd> void decrementLooperIfWhiteSpaceAndNewLine(Looper& movableLooper);
+    // TemplateFunctions
+    template <LooperConnector looperConnector, class Container>
+    bool isSingleLineComparisonSatisfiedThenMoveLooper(Looper& movableLooper, Container const& expectedTerms);
+    template <LooperConnector looperConnector, class Container>
+    bool isMultiLineComparisonSatisfiedThenMoveLooper(Looper& movableLooper, Container const& expectedTerms);
+    template <typename ExpectedTermsIteratorType>
+    bool isTheMismatchWithWhiteSpaceAndMoveLooper(Looper& movableLooper, ExpectedTermsIteratorType& itExpected);
+    template <typename ExpectedTermsIteratorType>
+    bool isTheMismatchWithNewLineAndMoveLooper(Looper& movableLooper, ExpectedTermsIteratorType& itExpected);
+    template <typename ExpectedTermsIteratorType>
+    bool isTheMismatchWithIgnorableTermAndMoveLooper(Looper& movableLooper, ExpectedTermsIteratorType& itExpected);
+    template <LooperConnector looperConnector>
+    bool isBothBracketsFoundAndMoveLoopers(
+        Looper const& startLooper, Looper& afterOpeningBracket, Looper& afterClosingBracket);
+    template <LooperConnector looperConnector>
+    bool isBothParenthesesFoundAndMoveLoopers(
+        Looper const& startLooper, Looper& afterOpeningParenthesis, Looper& afterClosingParenthesis);
+    template <LooperConnector looperConnector>
+    bool isBothAngleBracketsFoundAndMoveLoopers(
+        Looper const& startLooper, Looper& afterOpeningParenthesis, Looper& afterClosingParenthesis);
+    template <LooperConnector looperConnector>
+    bool isBothBracesFoundAndMoveLoopers(
+        Looper const& startLooper, Looper& afterOpeningBraces, Looper& afterClosingBraces);
+    template <LooperConnector looperConnector>
+    bool isBothBracesFoundWithSemicolonAndMoveLoopers(
+        Looper const& startLooper, Looper& afterOpeningBraces, Looper& afterClosingBraces, Looper& afterSemiColon);
+    template <LooperConnector looperConnector>
+    bool isSemiColonFoundAndMoveLooper(Looper& afterSemiColon);
+    template <class Container>
+    VectorOfTerms getTerms(Looper const& startLooper, Container const& expectedTerms);
+    template <FindingsToAdd findingsToAdd>
+    void incrementLooperIfWhiteSpaceForMacro(Looper& movableLooper);
+    template <FindingsToAdd findingsToAdd>
+    void incrementLooperIfWhiteSpaceAndOneNewLine(Looper& movableLooper);
+    template <FindingsToAdd findingsToAdd>
+    void incrementLooperIfWhiteSpaceAndNewLine(Looper& movableLooper);
+    template <FindingsToAdd findingsToAdd>
+    void decrementLooperIfWhiteSpaceAndNewLine(Looper& movableLooper);
 
-    //Findings
+    // Findings
     void addFinding(string const& fileLocator, string const& content, Looper const& findingLooper);
-    template <FindingsToAdd findingsToAdd> void addFindingsForExpectedNewLineIfNeeded(Looper const&);
-    template <FindingsToAdd findingsToAdd> void addFindingsForUnexpectedWhiteSpaceIfNeeded(Looper const&);
-    template <FindingsToAdd findingsToAdd> void addFindingsForUnexpectedNewLineIfNeeded(Looper const&);
+    template <FindingsToAdd findingsToAdd>
+    void addFindingsForExpectedNewLineIfNeeded(Looper const&);
+    template <FindingsToAdd findingsToAdd>
+    void addFindingsForUnexpectedWhiteSpaceIfNeeded(Looper const&);
+    template <FindingsToAdd findingsToAdd>
+    void addFindingsForUnexpectedNewLineIfNeeded(Looper const&);
 
     bool isModifiedDueToCStyleStruct(Looper const& startLooper);
     bool isSingleLineOrMultiLineComment(Looper const& startLooper);
@@ -213,7 +243,7 @@ private:
     CPlusPlusDatabase& m_database;
     Findings& m_findings;
     FindingsBuffer m_findingsBuffer;
-    std::optional <SailIt&> m_optionalSailIt;
+    std::optional<SailIt&> m_optionalSailIt;
     bool m_isTermsModified;
     ModifyDetails m_modifyDetails;
     MoveBackType m_moveBackType;
@@ -222,4 +252,4 @@ private:
     unsigned int m_uniqueFileId;
 };
 
-}// namespace codeReview
+}  // namespace codeReview

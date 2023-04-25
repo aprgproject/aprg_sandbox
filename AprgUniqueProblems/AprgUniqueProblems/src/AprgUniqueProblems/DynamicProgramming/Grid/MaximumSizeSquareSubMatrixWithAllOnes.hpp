@@ -2,18 +2,15 @@
 
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class MaximumSizeSquareSubMatrixWithAllOnes
-{
+class MaximumSizeSquareSubMatrixWithAllOnes {
 public:
-
     using Index = unsigned int;
     using Unit = unsigned int;
     using BooleanMatrix = matrix::AlbaMatrix<bool>;
     using UnitMatrix = matrix::AlbaMatrix<Unit>;
-    static constexpr Unit UNUSED_UNIT=std::numeric_limits<Unit>::max();
+    static constexpr Unit UNUSED_UNIT = std::numeric_limits<Unit>::max();
 
     MaximumSizeSquareSubMatrixWithAllOnes(BooleanMatrix const& booleanMatrix);
 
@@ -22,12 +19,12 @@ public:
     Unit getMaximumSquareAreaUsingIterativeDPAndTimeEfficient() const;
 
 private:
-    Unit getMaximumSideUsingMemoizationDP(UnitMatrix & sideMatrix, Index const x, Index const y) const;
+    Unit getMaximumSideUsingMemoizationDP(UnitMatrix& sideMatrix, Index const x, Index const y) const;
     Unit getUnitAt(Index const x, Index const y) const;
     BooleanMatrix const m_booleanMatrix;
 };
 
-}
+}  // namespace alba
 
 // Given a binary matrix, find out the maximum size square sub-matrix with all 1s.
 // For example, consider the below binary matrix:
@@ -71,7 +68,3 @@ private:
 
 // The value of maximum entry in above matrix is 3 and coordinates of the entry are (4, 3).
 // Using the maximum value and its coordinates, we can find out the required sub-matrix.
-
-
-
-

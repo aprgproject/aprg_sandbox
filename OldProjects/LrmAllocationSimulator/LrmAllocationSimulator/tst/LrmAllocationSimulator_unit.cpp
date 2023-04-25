@@ -4,12 +4,8 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(LrmAllocationSimulatorTest, SampleTest1)
-{
-    LrmAllocationSimulator entity;
-}
+TEST(LrmAllocationSimulatorTest, SampleTest1) { LrmAllocationSimulator entity; }
 
-}
+}  // namespace alba

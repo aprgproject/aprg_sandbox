@@ -6,19 +6,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using InvertedMapForTest = InvertedMapForSymbolGraph<unsigned int, string>;
 }
 
-TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorksWhenAddingVertices)
-{
+TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorksWhenAddingVertices) {
     InvertedMapForTest invertedMap;
 
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("zero");
@@ -30,8 +26,7 @@ TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorks
     EXPECT_TRUE(invertedMap.getUnusedVertices().empty());
 }
 
-TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorksWhenReusingVertices)
-{
+TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorksWhenReusingVertices) {
     InvertedMapForTest invertedMap;
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("zero");
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("one");
@@ -47,8 +42,7 @@ TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorks
     EXPECT_EQ(expectedUnusedVertices, invertedMap.getUnusedVertices());
 }
 
-TEST(InvertedMapForSymbolGraphTest, RemoveObjectWorksWhenAddingObjects)
-{
+TEST(InvertedMapForSymbolGraphTest, RemoveObjectWorksWhenAddingObjects) {
     InvertedMapForTest invertedMap;
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("zero");
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("one");
@@ -63,8 +57,7 @@ TEST(InvertedMapForSymbolGraphTest, RemoveObjectWorksWhenAddingObjects)
     EXPECT_EQ(expectedUnusedVertices, invertedMap.getUnusedVertices());
 }
 
-TEST(InvertedMapForSymbolGraphTest, ClearWorks)
-{
+TEST(InvertedMapForSymbolGraphTest, ClearWorks) {
     InvertedMapForTest invertedMap;
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("zero");
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("one");
@@ -78,6 +71,6 @@ TEST(InvertedMapForSymbolGraphTest, ClearWorks)
     EXPECT_TRUE(invertedMap.getUnusedVertices().empty());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -5,16 +5,14 @@
 
 #include <optional>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class Environment
-{
+class Environment {
 private:
     Environment();
+
 public:
-    struct ResetableMembers
-    {
+    struct ResetableMembers {
         Components components;
         UmlLogger umlLogger;
     };
@@ -34,4 +32,4 @@ private:
     void performSend(GenericMessage const& messageToRoute);
 };
 
-}
+}  // namespace DesignDocumentCreator

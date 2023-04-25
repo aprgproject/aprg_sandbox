@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOZeroSections)
-{
+TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOZeroSections) {
     CountPossibleWaysToConstructBuildings queryForTest(0);
 
     EXPECT_EQ(1U, queryForTest.getNumberOfWaysUsingCountOfBuildingAndSpaces());
@@ -16,8 +14,7 @@ TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOZeroSection
     EXPECT_EQ(1U, queryForTest.getNumberOfWaysUsingCombinations());
 }
 
-TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample1)
-{
+TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample1) {
     CountPossibleWaysToConstructBuildings queryForTest(1);
 
     EXPECT_EQ(4U, queryForTest.getNumberOfWaysUsingCountOfBuildingAndSpaces());
@@ -25,8 +22,7 @@ TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample1)
     EXPECT_EQ(4U, queryForTest.getNumberOfWaysUsingCombinations());
 }
 
-TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample2)
-{
+TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample2) {
     CountPossibleWaysToConstructBuildings queryForTest(2);
 
     EXPECT_EQ(9U, queryForTest.getNumberOfWaysUsingCountOfBuildingAndSpaces());
@@ -34,8 +30,7 @@ TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample2)
     EXPECT_EQ(9U, queryForTest.getNumberOfWaysUsingCombinations());
 }
 
-TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample3)
-{
+TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample3) {
     CountPossibleWaysToConstructBuildings queryForTest(3);
 
     EXPECT_EQ(25U, queryForTest.getNumberOfWaysUsingCountOfBuildingAndSpaces());
@@ -43,8 +38,7 @@ TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample3)
     EXPECT_EQ(25U, queryForTest.getNumberOfWaysUsingCombinations());
 }
 
-TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample4)
-{
+TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample4) {
     CountPossibleWaysToConstructBuildings queryForTest(4);
 
     EXPECT_EQ(64U, queryForTest.getNumberOfWaysUsingCountOfBuildingAndSpaces());
@@ -52,8 +46,7 @@ TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample4)
     EXPECT_EQ(64U, queryForTest.getNumberOfWaysUsingCombinations());
 }
 
-TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample5)
-{
+TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample5) {
     CountPossibleWaysToConstructBuildings queryForTest(5);
 
     EXPECT_EQ(169U, queryForTest.getNumberOfWaysUsingCountOfBuildingAndSpaces());
@@ -61,4 +54,4 @@ TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOnExample5)
     EXPECT_EQ(169U, queryForTest.getNumberOfWaysUsingCombinations());
 }
 
-}
+}  // namespace alba

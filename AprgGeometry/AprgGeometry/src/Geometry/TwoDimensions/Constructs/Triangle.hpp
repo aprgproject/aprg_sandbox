@@ -2,16 +2,13 @@
 
 #include <Geometry/TwoDimensions/Constructs/Polygon.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
 using TrianglePolygonParent = Polygon<3>;
 
-class Triangle : public TrianglePolygonParent
-{
+class Triangle : public TrianglePolygonParent {
 public:
     Triangle();
     Triangle(Point const& first, Point const& second, Point const& third);
@@ -19,8 +16,8 @@ public:
     bool isRightTriangle() const;
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Triangle const& triangle);
+    friend std::ostream& operator<<(std::ostream& out, Triangle const& triangle);
 };
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

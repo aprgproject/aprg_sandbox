@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace State
-{
+namespace State {
 
-TEST(StateTest, Test1)
-{
+TEST(StateTest, Test1) {
     Context context;
 
     context.setState(make_unique<ConcreteStateA>());
@@ -18,4 +16,4 @@ TEST(StateTest, Test1)
     context.request();
 }
 
-}
+}  // namespace State

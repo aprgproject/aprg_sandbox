@@ -5,19 +5,16 @@
 using namespace alba::algorithm::IndexedHeapPriorityQueueConstants;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
-using IndexedMaxPriorityQueueForTest = IndexedHeapPriorityQueue<char, less, 2U>; //less leads to Max Priority Queue same as in c++ standard
+namespace {
+using IndexedMaxPriorityQueueForTest =
+    IndexedHeapPriorityQueue<char, less, 2U>;  // less leads to Max Priority Queue same as in c++ standard
 }
 
-TEST(IndexedHeapPriorityQueueTest, IsEmptyWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, IsEmptyWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ1;
     IndexedMaxPriorityQueueForTest indexedPQ2;
     indexedPQ2.insert(0U, 'A');
@@ -26,8 +23,7 @@ TEST(IndexedHeapPriorityQueueTest, IsEmptyWorks)
     EXPECT_FALSE(indexedPQ2.isEmpty());
 }
 
-TEST(IndexedHeapPriorityQueueTest, ContainsWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, ContainsWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(2U, 'C');
 
@@ -36,8 +32,7 @@ TEST(IndexedHeapPriorityQueueTest, ContainsWorks)
     EXPECT_TRUE(indexedPQ.contains(2U));
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetSizeWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetSizeWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ1;
     IndexedMaxPriorityQueueForTest indexedPQ2;
     indexedPQ2.insert(1U, 'B');
@@ -48,8 +43,7 @@ TEST(IndexedHeapPriorityQueueTest, GetSizeWorks)
     EXPECT_EQ(3U, indexedPQ2.getSize());
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetObjectsWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetObjectsWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -59,30 +53,29 @@ TEST(IndexedHeapPriorityQueueTest, GetObjectsWorks)
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetTreeIndexToObjectIndexWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetTreeIndexToObjectIndexWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
     indexedPQ.insert(4U, 'E');
 
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 4U, 1U, 2U, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 4U, 1U, 2U, VALUE_FOR_UNUSED_INDEX};
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetObjectIndexToTreeIndexWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetObjectIndexToTreeIndexWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
     indexedPQ.insert(4U, 'E');
 
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX, 1U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX, 1U};
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetIndexOfTopObjectWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetIndexOfTopObjectWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -91,8 +84,7 @@ TEST(IndexedHeapPriorityQueueTest, GetIndexOfTopObjectWorks)
     EXPECT_EQ(4U, indexedPQ.getIndexOfTopObject());
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetTopObjectWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetTopObjectWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -101,8 +93,7 @@ TEST(IndexedHeapPriorityQueueTest, GetTopObjectWorks)
     EXPECT_EQ('E', indexedPQ.getTopObject());
 }
 
-TEST(IndexedHeapPriorityQueueTest, GetObjectAtWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, GetObjectAtWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -115,8 +106,7 @@ TEST(IndexedHeapPriorityQueueTest, GetObjectAtWorks)
     EXPECT_EQ('E', indexedPQ.getObjectAt(4U));
 }
 
-TEST(IndexedHeapPriorityQueueTest, SetNumberOfItemsWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, SetNumberOfItemsWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
 
     indexedPQ.setNumberOfItems(5);
@@ -128,8 +118,7 @@ TEST(IndexedHeapPriorityQueueTest, SetNumberOfItemsWorks)
     EXPECT_EQ('\0', indexedPQ.getObjectAt(4U));
 }
 
-TEST(IndexedHeapPriorityQueueTest, InsertWorks)
-{
+TEST(IndexedHeapPriorityQueueTest, InsertWorks) {
     IndexedMaxPriorityQueueForTest indexedPQ;
 
     indexedPQ.insert(1U, 'B');
@@ -137,15 +126,16 @@ TEST(IndexedHeapPriorityQueueTest, InsertWorks)
     indexedPQ.insert(4U, 'E');
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', 'B', 'C', '\0', 'E'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 4U, 1U, 2U, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX, 1U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 4U, 1U, 2U, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX, 1U};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, DeleteAndGetTopObjectWorksWhenEmpty)
-{
+TEST(IndexedHeapPriorityQueueTest, DeleteAndGetTopObjectWorksWhenEmpty) {
     IndexedMaxPriorityQueueForTest indexedPQ;
 
     EXPECT_EQ('\0', indexedPQ.deleteAndGetTopObject());
@@ -155,8 +145,7 @@ TEST(IndexedHeapPriorityQueueTest, DeleteAndGetTopObjectWorksWhenEmpty)
     EXPECT_TRUE(indexedPQ.getObjectIndexToTreeIndex().empty());
 }
 
-TEST(IndexedHeapPriorityQueueTest, DeleteAndGetTopObjectWorksWhenNotEmpty)
-{
+TEST(IndexedHeapPriorityQueueTest, DeleteAndGetTopObjectWorksWhenNotEmpty) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -165,15 +154,16 @@ TEST(IndexedHeapPriorityQueueTest, DeleteAndGetTopObjectWorksWhenNotEmpty)
     EXPECT_EQ('E', indexedPQ.deleteAndGetTopObject());
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', 'B', 'C', '\0', '\0'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 2U, 1U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, 2U, 1U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, 1U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, 1U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenEmpty)
-{
+TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenEmpty) {
     IndexedMaxPriorityQueueForTest indexedPQ;
 
     indexedPQ.deleteObjectAt(2U);
@@ -183,8 +173,7 @@ TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenEmpty)
     EXPECT_TRUE(indexedPQ.getObjectIndexToTreeIndex().empty());
 }
 
-TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenObjectExists)
-{
+TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenObjectExists) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -193,15 +182,16 @@ TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenObjectExists)
     indexedPQ.deleteObjectAt(2U);
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', 'B', '\0', '\0', 'E'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 4U, 1U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, 2U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 4U, 1U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenObjectDoesNotExist)
-{
+TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenObjectDoesNotExist) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(1U, 'B');
     indexedPQ.insert(2U, 'C');
@@ -210,57 +200,62 @@ TEST(IndexedHeapPriorityQueueTest, DeleteObjectAtWorksWhenObjectDoesNotExist)
     indexedPQ.deleteObjectAt(0U);
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', 'B', 'C', '\0', 'E'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 4U, 1U, 2U, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX, 1U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 4U, 1U, 2U, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX, 1U};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenEmpty)
-{
+TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenEmpty) {
     IndexedMaxPriorityQueueForTest indexedPQ;
 
     indexedPQ.change(2U, 'c');
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', '\0', 'c'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 2U, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenObjectExists)
-{
+TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenObjectExists) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(2U, 'C');
 
     indexedPQ.change(2U, 'c');
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', '\0', 'c'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 2U, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenObjectDoesNotExist)
-{
+TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenObjectDoesNotExist) {
     IndexedMaxPriorityQueueForTest indexedPQ;
     indexedPQ.insert(3U, 'D');
 
     indexedPQ.change(2U, 'c');
 
     IndexedMaxPriorityQueueForTest::Objects const& expectedObjects{'\0', '\0', 'c', 'D'};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX};
-    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U, 2U};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedTreeIndexToObjectIndex{
+        VALUE_FOR_UNUSED_INDEX, 2U, 3U, VALUE_FOR_UNUSED_INDEX};
+    IndexedMaxPriorityQueueForTest::Indexes const& expectedObjectIndexToTreeIndex{
+        VALUE_FOR_UNUSED_INDEX, VALUE_FOR_UNUSED_INDEX, 1U, 2U};
     EXPECT_EQ(expectedObjects, indexedPQ.getObjects());
     EXPECT_EQ(expectedTreeIndexToObjectIndex, indexedPQ.getTreeIndexToObjectIndex());
     EXPECT_EQ(expectedObjectIndexToTreeIndex, indexedPQ.getObjectIndexToTreeIndex());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -2,18 +2,15 @@
 
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-struct LowerAndHigherValues
-{
+struct LowerAndHigherValues {
     AlbaNumber lowerValue;
     AlbaNumber higherValue;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -8,59 +8,39 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-enum class ContinuityType
-{
+enum class ContinuityType {
     Unknown,
     ContinuousAtBothSides,
     DiscontinuousWithRemovableDiscontinuity,
     DiscontinuousWithEssentialDiscontinuity
 };
 
-bool isContinuousAt(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value);
+bool isContinuousAt(Term const& term, std::string const& variableName, AlbaNumber const& value);
 
 bool isContinuousAt(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value,
-        LimitAtAValueApproachType const limitApproachType);
+    Term const& term, std::string const& variableName, AlbaNumber const& value,
+    LimitAtAValueApproachType const limitApproachType);
 
 bool isContinuousAt(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value,
-        LimitAtAValueApproachType const limitApproachType,
-        bool const isDifferentiableAtValue);
+    Term const& term, std::string const& variableName, AlbaNumber const& value,
+    LimitAtAValueApproachType const limitApproachType, bool const isDifferentiableAtValue);
 
 bool isContinuousAtWithMultipleVariablesWithDifferentApproaches(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& valueToApproach,
-        SubstitutionsOfVariablesToTerms const& substitutionsForApproaches);
+    Term const& term, std::string const& variableName, AlbaNumber const& valueToApproach,
+    SubstitutionsOfVariablesToTerms const& substitutionsForApproaches);
 
 bool isIntermediateValueTheoremSatisfied(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& firstValue,
-        AlbaNumber const& secondValue,
-        AlbaNumber const& valueToTest);
+    Term const& term, std::string const& variableName, AlbaNumber const& firstValue, AlbaNumber const& secondValue,
+    AlbaNumber const& valueToTest);
 
-ContinuityType getContinuityTypeAt(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value);
+ContinuityType getContinuityTypeAt(Term const& term, std::string const& variableName, AlbaNumber const& value);
 
-SolutionSet getContinuityDomain(
-        Term const& term);
+SolutionSet getContinuityDomain(Term const& term);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

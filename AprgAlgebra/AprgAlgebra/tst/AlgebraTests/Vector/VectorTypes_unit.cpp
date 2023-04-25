@@ -9,14 +9,11 @@ using namespace alba::algebra::Functions;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(VectorTypesTest, GettingMagnitudeWorks)
-{
+TEST(VectorTypesTest, GettingMagnitudeWorks) {
     Term x(createExpressionIfPossible({2, "*", cos("t")}));
     Term y(createExpressionIfPossible({2, "*", sin("t")}));
     MathVectorOfTwoTerms termVector{x, y};
@@ -28,6 +25,6 @@ TEST(VectorTypesTest, GettingMagnitudeWorks)
     EXPECT_EQ(stringToExpect, convertToString(magnitude));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

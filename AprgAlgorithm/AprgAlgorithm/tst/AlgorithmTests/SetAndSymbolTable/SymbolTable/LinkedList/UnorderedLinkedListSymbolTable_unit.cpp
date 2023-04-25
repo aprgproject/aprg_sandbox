@@ -6,108 +6,74 @@
 using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
+namespace alba {
 
-namespace alba
-{
+namespace algorithm {
 
-namespace algorithm
-{
-
-namespace
-{
+namespace {
 using SymbolTableForTest = UnorderedLinkedListSymbolTable<unsigned int, char>;
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenEmpty)
-{
+TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenEmpty) {
     testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenNotEmpty)
-{
+TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenNotEmpty) {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, DoesContainWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, DoesContainWorks) {
     testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenEmpty)
-{
+TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenEmpty) {
     testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenNotEmpty)
-{
+TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenNotEmpty) {
     testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetWorks)
-{
-    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(UnorderedLinkedListSymbolTableTest, GetWorks) { testGetWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetRankWorks)
-{
-    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(UnorderedLinkedListSymbolTableTest, GetRankWorks) { testGetRankWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetMinimumWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, GetMinimumWorks) {
     testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetMaximumWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, GetMaximumWorks) {
     testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, SelectAtWorks)
-{
-    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(UnorderedLinkedListSymbolTableTest, SelectAtWorks) { testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetFloorWorks)
-{
-    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(UnorderedLinkedListSymbolTableTest, GetFloorWorks) { testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetCeilingWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, GetCeilingWorks) {
     testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, PutWorks)
-{
-    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(UnorderedLinkedListSymbolTableTest, PutWorks) { testPutWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(UnorderedLinkedListSymbolTableTest, DeleteBasedOnKeyWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, DeleteBasedOnKeyWorks) {
     testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, DeleteMinimumWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, DeleteMinimumWorks) {
     testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, DeleteMaximumWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, DeleteMaximumWorks) {
     testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetKeys)
-{
-    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(UnorderedLinkedListSymbolTableTest, GetKeys) { testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetKeysInRangeWorks)
-{
+TEST(UnorderedLinkedListSymbolTableTest, GetKeysInRangeWorks) {
     testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

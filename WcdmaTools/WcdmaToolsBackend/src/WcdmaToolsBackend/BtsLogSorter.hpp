@@ -10,11 +10,9 @@
 #include <set>
 #include <string>
 
-namespace wcdmaToolsBackend
-{
+namespace wcdmaToolsBackend {
 
-class BtsLogSorter
-{
+class BtsLogSorter {
 public:
     BtsLogSorter(BtsLogSorterConfiguration const& configuration);
     void processDirectory(std::string const& directoryPath);
@@ -25,7 +23,6 @@ public:
     double getTotalSizeToBeRead();
     double getTotalSizeToBeRead(std::set<std::string> const& listOfFiles);
 
-
 private:
     void createTempDirectories() const;
     void deleteTempFilesAndDirectoriesOfOneDayOld() const;
@@ -33,16 +30,18 @@ private:
     void deleteLogsWithoutPcTime() const;
     void saveLogToOutputFileIfAllHavePcTime(std::string const& outputPath);
     void saveLogToOutputFileIfNotAllHavePcTime(std::string const& outputPath);
-    std::string getPathOfLogWithoutPcTimeBasedFromHardwareAddress(std::string const& directory, std::string const& hardwareAddress) const;
+    std::string getPathOfLogWithoutPcTimeBasedFromHardwareAddress(
+        std::string const& directory, std::string const& hardwareAddress) const;
     void openStartupLogsIfNeeded();
     void addStartupLogsOnSorterWithPcTime();
-    void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
+    void writeLogsWithoutPcTimeToOutputFile(std::ofstream& outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentAddresses();
-    void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);
-    void addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader);
-    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
-    void updateOrWriteCurrentPrint(BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
-    void writeLastPrint(std::ofstream & outputLogFileStream);
+    void writeLogsWithPcTimeToOutputFile(std::ofstream& outputLogFileStream);
+    void addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback& printReader);
+    void writePrintsFromFileReaderBeforeThisPrint(
+        BtsPrintReaderWithRollback& printReader, BtsLogPrint const& logPrint, std::ofstream& outputLogFileStream);
+    void updateOrWriteCurrentPrint(BtsLogPrint const& logPrint, std::ofstream& outputLogFileStream);
+    void writeLastPrint(std::ofstream& outputLogFileStream);
     void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
     bool m_isFilterOn;
     alba::AlbaGrepStringEvaluator m_acceptedFilesGrepEvaluator;
@@ -58,4 +57,4 @@ private:
     std::set<std::string> m_foundHardwareAddresses;
 };
 
-}
+}  // namespace wcdmaToolsBackend

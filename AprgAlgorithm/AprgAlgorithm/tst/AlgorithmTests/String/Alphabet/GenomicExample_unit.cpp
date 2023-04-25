@@ -9,32 +9,24 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 
-string compressCharactersToValues(string const& characters)
-{
+string compressCharactersToValues(string const& characters) {
     Alphabet<unsigned char> dnaAlphabet("ACTG");
     stringstream inputSs;
     inputSs << characters;
     stringstream outputSs;
     AlbaStreamBitReader reader(inputSs);
     AlbaStreamBitWriter writer(outputSs);
-    while(true)
-    {
+    while (true) {
         bitset<2U> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));
-        if(!inputSs.eof())
-        {
+        if (!inputSs.eof()) {
             writer.writeBitsetData<2U>(valueBitset, 0U, 1U);
-        }
-        else
-        {
+        } else {
             break;
         }
     }
@@ -42,23 +34,18 @@ string compressCharactersToValues(string const& characters)
     return outputSs.str();
 }
 
-string expandValuesToCharacters(string const& characters)
-{
+string expandValuesToCharacters(string const& characters) {
     Alphabet<unsigned char> dnaAlphabet("ACTG");
     stringstream inputSs;
     inputSs << characters;
     stringstream outputSs;
     AlbaStreamBitReader reader(inputSs);
     AlbaStreamBitWriter writer(outputSs);
-    while(true)
-    {
+    while (true) {
         bitset<2U> valueBitset(reader.readBitsetData<2U>(0, 1));
-        if(!inputSs.eof())
-        {
+        if (!inputSs.eof()) {
             writer.writeCharData(dnaAlphabet.getCharacter(static_cast<unsigned char>(valueBitset.to_ulong())));
-        }
-        else
-        {
+        } else {
             break;
         }
     }
@@ -66,18 +53,16 @@ string expandValuesToCharacters(string const& characters)
     return outputSs.str();
 }
 
-}
+}  // namespace
 
-TEST(GenomicExampleTest, CompressCharactersToValuesWorks)
-{
+TEST(GenomicExampleTest, CompressCharactersToValuesWorks) {
     EXPECT_EQ("\x13\x1E\x13", compressCharactersToValues("ATAGATGCATAG"));
 }
 
-TEST(GenomicExampleTest, ExpandValuesToCharactersWorks)
-{
+TEST(GenomicExampleTest, ExpandValuesToCharactersWorks) {
     EXPECT_EQ("ATAGATGCATAG", expandValuesToCharacters("\x13\x1E\x13"));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

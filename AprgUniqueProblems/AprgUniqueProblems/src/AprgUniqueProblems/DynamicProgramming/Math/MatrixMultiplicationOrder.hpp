@@ -5,19 +5,16 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class MatrixMultiplicationOrder
-{
+class MatrixMultiplicationOrder {
 public:
-
     using Count = unsigned int;
     using Index = unsigned int;
     using Dimension = unsigned int;
     using Dimensions = std::vector<Dimension>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count MAX_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count MAX_COUNT = std::numeric_limits<Count>::max();
 
     MatrixMultiplicationOrder(Dimensions const& dimensions);
 
@@ -27,11 +24,12 @@ public:
 
 private:
     Count getMinimumNumberOfOperationsUsingNaiveRecursion(Index const left, Index const right) const;
-    Count getMinimumNumberOfOperationsUsingMemoizationDP(CountMatrix & countMatrix, Index const left, Index const right) const;
+    Count getMinimumNumberOfOperationsUsingMemoizationDP(
+        CountMatrix& countMatrix, Index const left, Index const right) const;
     Dimensions m_dimensions;
 };
 
-}
+}  // namespace alba
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -60,15 +58,14 @@ private:
 // -----------> The count of using an "inBetween" is the sum of this three parts:
 // -------------> Get matrix value at "leftParenthesis" and "inBetween"
 // -------------> Get matrix value at "inBetween" and "rightParenthesis"
-// -------------> (get dimension at leftParenthesis) * (get dimension at inBetween) * (get dimension at rightParenthesis)
-
-
+// -------------> (get dimension at leftParenthesis) * (get dimension at inBetween) * (get dimension at
+// rightParenthesis)
 
 // Matrix Chain Multiplication
 
 // Given a sequence of matrices, find the most efficient way to multiply these matrices together.
-// The problem is not actually to perform the multiplications, but merely to decide in which order to perform the multiplications.
-// We have many options to multiply a chain of matrices because matrix multiplication is associative.
+// The problem is not actually to perform the multiplications, but merely to decide in which order to perform the
+// multiplications. We have many options to multiply a chain of matrices because matrix multiplication is associative.
 // In other words, no matter how we parenthesize the product, the result will be the same.
 
 // For example, if we had four matrices A, B, C, and D, we would have:
@@ -83,7 +80,8 @@ private:
 
 // Clearly the first parenthesization requires less number of operations.
 // Given an array p[] which represents the chain of matrices such that the ith matrix Ai is of dimension p[i-1] x p[i].
-// We need to write a function MatrixChainOrder() that should return the minimum number of multiplications needed to multiply the chain.
+// We need to write a function MatrixChainOrder() that should return the minimum number of multiplications needed to
+// multiply the chain.
 
 // -> Input: p[] = {40, 20, 30, 10, 30}
 // ---> Output: 26000
@@ -118,7 +116,6 @@ private:
 // We can see that there are many subproblems being called more than once.
 
 // Since same subproblems are called again, this problem has Overlapping Subproblems property.
-// So Matrix Chain Multiplication problem has both properties (Overlapping Subproblems and Optimal Substructure) of a dynamic programming problem.
-// Like other typical Dynamic Programming(DP) problems,
-// recomputations of same subproblems can be avoided by constructing a temporary array m[][] in bottom up manner.
-
+// So Matrix Chain Multiplication problem has both properties (Overlapping Subproblems and Optimal Substructure) of a
+// dynamic programming problem. Like other typical Dynamic Programming(DP) problems, recomputations of same subproblems
+// can be avoided by constructing a temporary array m[][] in bottom up manner.

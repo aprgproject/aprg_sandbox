@@ -4,26 +4,23 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
 using PointParent = AlbaXY<double>;
 
-class Point : public PointParent
-{
+class Point : public PointParent {
 public:
     Point();
     Point(PointParent const& pointParent);
     Point(double const xValue, double const yValue);
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Point const& point);
+    friend std::ostream& operator<<(std::ostream& out, Point const& point);
 };
 
 using Points = std::vector<Point>;
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

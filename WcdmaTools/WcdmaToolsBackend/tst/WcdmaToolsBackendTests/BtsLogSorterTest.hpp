@@ -2,13 +2,11 @@
 
 #include <gtest/gtest.h>
 
-namespace wcdmaToolsBackend
-{
+namespace wcdmaToolsBackend {
 
-struct BtsLogSorterTest : public testing::Test
-{
+struct BtsLogSorterTest : public testing::Test {
     BtsLogSorterTest();
     BtsLogSorterConfiguration m_configuration;
 };
 
-}
+}  // namespace wcdmaToolsBackend

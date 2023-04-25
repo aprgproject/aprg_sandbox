@@ -8,48 +8,38 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace soosa
-{
+namespace soosa {
 
-InputConfiguration UserInterface::getSavedConfiguration() const
-{
-    return m_savedConfiguration;
-}
+InputConfiguration UserInterface::getSavedConfiguration() const { return m_savedConfiguration; }
 
-void UserInterface::setPath(string const& path)
-{
-    m_savedConfiguration.setPath(path);
-}
+void UserInterface::setPath(string const& path) { m_savedConfiguration.setPath(path); }
 
-void UserInterface::askUserForMainDetails()
-{
-    cout <<"Enter area:\n";
+void UserInterface::askUserForMainDetails() {
+    cout << "Enter area:\n";
     string area(m_userInterface.getUserInput());
 
-    cout <<"Enter period:" <<  "\n";
+    cout << "Enter period:"
+         << "\n";
     string period(m_userInterface.getUserInput());
 
-    cout <<"Enter discharge:\n";
+    cout << "Enter discharge:\n";
     double discharge(m_userInterface.getNumberFromInput<double>());
 
-    cout <<"Enter minimum satisfactory score (inclusive):\n";
+    cout << "Enter minimum satisfactory score (inclusive):\n";
     unsigned int minimumSatisfactoryScore(m_userInterface.getNumberFromInput<unsigned int>());
 
     m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);
 }
 
-void UserInterface::askUserForFormDetails()
-{
+void UserInterface::askUserForFormDetails() {
     AlbaLocalPathHandler formDetailsDirectoryPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
     formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");
     saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
 }
 
-string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath)
-{
+string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath) {
     AlbaLocalPathHandler formDetailsPathHandler(formDetailsDirectoryPath);
 
     set<string> listOfFiles;
@@ -59,9 +49,8 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
 
     formDetailsPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
 
-    for(string const& formDetailsFile: listOfFiles)
-    {
-        cout << "Choice " << choice<<" :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << "\n";
+    for (string const& formDetailsFile : listOfFiles) {
+        cout << "Choice " << choice << " :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << "\n";
         choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
     }
     unsigned chosenChoice(m_userInterface.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices));
@@ -70,31 +59,25 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
     return choices[chosenChoice];
 }
 
-void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
-{
+void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath) {
     ifstream formDetailsStream(formDetailsFilePath);
     AlbaFileReader fileReader(formDetailsStream);
 
     m_savedConfiguration.setFormDetailsTitle(fileReader.getLineAndIgnoreWhiteSpaces());
 
-    unsigned int columnNumber=0;
-    while(fileReader.isNotFinished())
-    {
+    unsigned int columnNumber = 0;
+    while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(!line.empty())
-        {
-            if(line == "NEW_COLUMN")
-            {
+        if (!line.empty()) {
+            if (line == "NEW_COLUMN") {
                 columnNumber++;
-            }
-            else
-            {
+            } else {
                 m_savedConfiguration.addQuestion(columnNumber, line);
             }
         }
     }
 }
 
-}
+}  // namespace soosa
 
-}
+}  // namespace alba

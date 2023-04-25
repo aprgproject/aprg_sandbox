@@ -4,17 +4,15 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum
-{
+class CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum {
 public:
     using Count = unsigned int;
     using Value = unsigned int;
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum(Count const numberOfDigits, Value const sumOfDigits);
 
@@ -26,13 +24,13 @@ public:
 
 private:
     Count getCountUsingNaiveRecursion(Value const partialSum, Count const digitIndex) const;
-    Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Value const partialSum, Count const digitIndex) const;
+    Count getCountUsingMemoizationDP(CountMatrix& countMatrix, Value const partialSum, Count const digitIndex) const;
 
     Count const m_numberOfDigits;
     Value const m_targetSumOfDigits;
 };
 
-}
+}  // namespace alba
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -52,7 +50,8 @@ private:
 
 // 2) Dynamic Programming by Iterative method:
 // -> Create an matrix of counts with size of columns as "targetSumOfDigits"+1 and size of rows as "numberOfDigits"
-// -> At the start, because its for the most significant digit, fill the first row with 1 if possible (note the count for zero is 1)
+// -> At the start, because its for the most significant digit, fill the first row with 1 if possible (note the count
+// for zero is 1)
 // -> Thus each "partialSum" and "digit index" has a count.
 // -> Forward traversal for "partialSum" and "digit index" (starting with "digit index" at 1, since first row is filled)
 // -> Traversal uses previous counts to compute for a new count
@@ -64,7 +63,8 @@ private:
 
 // 3) Dynamic Programming by Iterative method and space efficient:
 // -> Create an array of counts with size as "targetSumOfDigits"+1.
-// -> Initially, because its for the most significant digit, initialize with 1 if possible (note the count for zero is 1)
+// -> Initially, because its for the most significant digit, initialize with 1 if possible (note the count for zero is
+// 1)
 // -> Thus each "partialSum" has a count.
 // -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
@@ -75,12 +75,10 @@ private:
 // -------> Get the previous count by checking the array with "partialSum" - "digit value"
 // -> The last entry in the array (with index "targetSumOfDigits") contains the total count.
 
-
-
-
 // Count of n digit numbers whose sum of digits equals to given sum
 
-// Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not counted as digits.
+// Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not
+// counted as digits.
 // -> 1 <= n <= 100 and
 // -> 1 <= sum <= 500
 
@@ -94,7 +92,8 @@ private:
 // Input:  n = 3, sum = 6
 // -> Output: 21
 
-// The idea is simple, we subtract all values from 0 to 9 from given sum and recur for sum minus that digit. Below is recursive formula.
+// The idea is simple, we subtract all values from 0 to 9 from given sum and recur for sum minus that digit. Below is
+// recursive formula.
 //
 // -> countRec(n, sum) = ∑countRec(n-1, sum-x)
 // ->                         where 0 =< x = 0
@@ -107,5 +106,6 @@ private:
 // Another Method
 // -> We can easily count n digit numbers whose sum of digit equals to given sum by iterating all n digits
 // -> and checking if current n digit number’s sum is equal to given sum,
-// -> if it is then we will start increment number by 9 until it reaches to number whose sum of digit’s is greater than given sum,
+// -> if it is then we will start increment number by 9 until it reaches to number whose sum of digit’s is greater than
+// given sum,
 // -> then again we will increment by 1 until we found another number with given sum.

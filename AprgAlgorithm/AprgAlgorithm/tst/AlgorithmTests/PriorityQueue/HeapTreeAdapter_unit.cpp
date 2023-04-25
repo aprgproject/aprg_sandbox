@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ContainerForTest = vector<char>;
 using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2U, less>;
-}
+}  // namespace
 
-TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks)
-{
+TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks) {
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
@@ -28,12 +24,11 @@ TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks)
     EXPECT_EQ('S', adapter.getObjectConstReferenceOnTree(objects.size()));
 }
 
-TEST(HeapTreeAdapterTest, GetObjectReferenceOnTreeWorks)
-{
+TEST(HeapTreeAdapterTest, GetObjectReferenceOnTreeWorks) {
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
-    char & characterAtTopOfTree(adapter.getObjectReferenceOnTree(1U));
+    char& characterAtTopOfTree(adapter.getObjectReferenceOnTree(1U));
 
     characterAtTopOfTree = 'Z';
 
@@ -41,8 +36,7 @@ TEST(HeapTreeAdapterTest, GetObjectReferenceOnTreeWorks)
     EXPECT_EQ(objectsToExpect, objects);
 }
 
-TEST(HeapTreeAdapterTest, SwimWorks)
-{
+TEST(HeapTreeAdapterTest, SwimWorks) {
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
@@ -52,8 +46,7 @@ TEST(HeapTreeAdapterTest, SwimWorks)
     EXPECT_EQ(objectsToExpect, objects);
 }
 
-TEST(HeapTreeAdapterTest, SinkWorksOnExample1)
-{
+TEST(HeapTreeAdapterTest, SinkWorksOnExample1) {
     ContainerForTest objects{'A', 'D', 'A', 'P', 'T', 'E', 'R', 'F', 'O', 'R', 'H', 'E', 'A', 'P'};
     AdapterForTest adapter(objects);
 
@@ -63,8 +56,7 @@ TEST(HeapTreeAdapterTest, SinkWorksOnExample1)
     EXPECT_EQ(objectsToExpect, objects);
 }
 
-TEST(HeapTreeAdapterTest, SinkWorksOnExample2)
-{
+TEST(HeapTreeAdapterTest, SinkWorksOnExample2) {
     ContainerForTest objects{'A', 'B'};
     AdapterForTest adapter(objects);
 
@@ -74,6 +66,6 @@ TEST(HeapTreeAdapterTest, SinkWorksOnExample2)
     EXPECT_EQ(objectsToExpect, objects);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

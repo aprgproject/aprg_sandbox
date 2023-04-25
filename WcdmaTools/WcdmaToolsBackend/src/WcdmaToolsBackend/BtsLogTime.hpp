@@ -4,17 +4,11 @@
 
 #include <string>
 
-namespace wcdmaToolsBackend
-{
+namespace wcdmaToolsBackend {
 
-enum class BtsLogTimeType
-{
-    BtsTimeStamp,
-    PcTimeStamp
-};
+enum class BtsLogTimeType { BtsTimeStamp, PcTimeStamp };
 
-class BtsLogTime
-{
+class BtsLogTime {
 public:
     BtsLogTime();
     BtsLogTime(BtsLogTimeType logTimeType, std::string const& timeStampString);
@@ -39,11 +33,11 @@ public:
     bool operator==(BtsLogTime const& btsLogTimeToCompare) const;
     BtsLogTime operator+(BtsLogTime const& btsLogTime) const;
     BtsLogTime operator-(BtsLogTime const& btsLogTime) const;
-    friend std::ostream & operator<<(std::ostream & out, BtsLogTime const& btsLogTime);
-    friend std::istream & operator>>(std::istream & in, BtsLogTime& btsLogTime);
+    friend std::ostream& operator<<(std::ostream& out, BtsLogTime const& btsLogTime);
+    friend std::istream& operator>>(std::istream& in, BtsLogTime& btsLogTime);
 
 private:
     alba::AlbaDateTime m_dateTime;
 };
 
-}
+}  // namespace wcdmaToolsBackend

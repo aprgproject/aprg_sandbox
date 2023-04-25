@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2019_Round1B_P1_ManhattanCrepeCart
-{
+namespace CodeJam_2019_Round1B_P1_ManhattanCrepeCart {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

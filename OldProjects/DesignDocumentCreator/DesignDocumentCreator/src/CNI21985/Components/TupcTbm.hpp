@@ -3,13 +3,12 @@
 #include <Common/Components/Component.hpp>
 #include <Common/Components/ComponentName.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class TupcTbm : public Component
-{
+class TupcTbm : public Component {
 public:
     TupcTbm(ComponentName const componentName);
+
 private:
     void handleStartup();
     void handleTupcTbmConfigurationMsg(GenericMessage const& genericMessage);
@@ -40,15 +39,23 @@ private:
     void sendTransportBearerReallocationCleanupResp() const;
     void sendCmBearersSetupReqBasedOnTbRegisterMsg(GenericMessage const& tbRegisterGenericMessage) const;
     void sendCmBearersReleaseReqBasedOnTbUnregisterMsg(GenericMessage const& tbRegisterGenericMessage) const;
-    void sendCmBearersModifyReqBasedOnTbModificationPrepareReqMsg(GenericMessage const& tbModificationPrepareGenericMessage) const;
-    void sendCmBearersModifyReqBasedOnTbModificationCommitReqMsg(GenericMessage const& tbModificationCommitGenericMessage) const;
-    void sendCmBearersModifyReqBasedOnTbModificationCancelReqMsg(GenericMessage const& tbModificationCancelGenericMessage) const;
-    void sendCmBearersModifyReqBasedOnReallocationCommitReqMsg(GenericMessage const& tbReallocationCommitGenericMessage) const;
+    void sendCmBearersModifyReqBasedOnTbModificationPrepareReqMsg(
+        GenericMessage const& tbModificationPrepareGenericMessage) const;
+    void sendCmBearersModifyReqBasedOnTbModificationCommitReqMsg(
+        GenericMessage const& tbModificationCommitGenericMessage) const;
+    void sendCmBearersModifyReqBasedOnTbModificationCancelReqMsg(
+        GenericMessage const& tbModificationCancelGenericMessage) const;
+    void sendCmBearersModifyReqBasedOnReallocationCommitReqMsg(
+        GenericMessage const& tbReallocationCommitGenericMessage) const;
     void sendTransportConnectionSetupReqsBasedOnCmBearersSetupResp(GenericMessage const& cmBearerGenericMessage) const;
-    void sendTransportConnectionReleaseReqsBasedOnCmBearersReleaseResp(GenericMessage const& cmBearerGenericMessage) const;
-    void sendTransportConnectionReleaseReqsBasedOnCmBearersUpdateInd(GenericMessage const& cmBearerGenericMessage) const;
-    void sendTransportConnectionReleaseReqsBasedOnReallocationCleanupReqMsg(GenericMessage const& cmBearerGenericMessage) const;
-    void sendTransportConnectionTransferReqsBasedOnReallocationPrepareReqMsg(GenericMessage const& tbReallocationPrepareGenericMessage) const;
+    void sendTransportConnectionReleaseReqsBasedOnCmBearersReleaseResp(
+        GenericMessage const& cmBearerGenericMessage) const;
+    void sendTransportConnectionReleaseReqsBasedOnCmBearersUpdateInd(
+        GenericMessage const& cmBearerGenericMessage) const;
+    void sendTransportConnectionReleaseReqsBasedOnReallocationCleanupReqMsg(
+        GenericMessage const& cmBearerGenericMessage) const;
+    void sendTransportConnectionTransferReqsBasedOnReallocationPrepareReqMsg(
+        GenericMessage const& tbReallocationPrepareGenericMessage) const;
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
     virtual void handleOtherEvent(OtherEvent const& otherEvent);
@@ -56,4 +63,4 @@ private:
     unsigned int m_modifyTransactionType;
 };
 
-}
+}  // namespace DesignDocumentCreator

@@ -2,17 +2,13 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class RationalizeTermOverTerm
-{
+class RationalizeTermOverTerm {
 public:
-    struct RationalizationDetails
-    {
+    struct RationalizationDetails {
         bool canBeRationalized;
         Term termToRationalize;
         Term otherTerm;
@@ -28,54 +24,32 @@ public:
     void rationalizeDenominator();
 
 private:
-    void rationalize(Term & termToRationalize, Term & otherTerm);
-    void simplifyForRationalize(Term & term);
-    void retrieveTermsForRationalization(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            Term const& term) const;
+    void rationalize(Term& termToRationalize, Term& otherTerm);
+    void simplifyForRationalize(Term& term);
+    void retrieveTermsForRationalization(Term& rationalizedTerm, Term& multiplier, Term const& term) const;
     void retrieveTermsForRationalizationForPolynomial(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            Polynomial const& polynomial) const;
+        Term& rationalizedTerm, Term& multiplier, Polynomial const& polynomial) const;
     void retrieveTermsForRationalizationForPolynomial(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            Monomial const& firstMonomial,
-            Monomial const& secondMonomial) const;
+        Term& rationalizedTerm, Term& multiplier, Monomial const& firstMonomial, Monomial const& secondMonomial) const;
     void retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByTwo(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            Monomial const& firstMonomial,
-            Monomial const& secondMonomial) const;
+        Term& rationalizedTerm, Term& multiplier, Monomial const& firstMonomial, Monomial const& secondMonomial) const;
     void retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByThree(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            Monomial const& firstMonomial,
-            Monomial const& secondMonomial) const;
+        Term& rationalizedTerm, Term& multiplier, Monomial const& firstMonomial, Monomial const& secondMonomial) const;
     void retrieveTermsForRationalizationForExpression(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            Expression const& expression) const;
+        Term& rationalizedTerm, Term& multiplier, Expression const& expression) const;
     void retrieveTermsForRationalizationForExpression(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            TermWithDetails const& firstTermWithDetails,
-            TermWithDetails const& secondTermWithDetails) const;
+        Term& rationalizedTerm, Term& multiplier, TermWithDetails const& firstTermWithDetails,
+        TermWithDetails const& secondTermWithDetails) const;
     void retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByTwo(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            TermWithDetails const& firstTermWithDetails,
-            TermWithDetails const& secondTermWithDetails) const;
+        Term& rationalizedTerm, Term& multiplier, TermWithDetails const& firstTermWithDetails,
+        TermWithDetails const& secondTermWithDetails) const;
     void retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByThree(
-            Term & rationalizedTerm,
-            Term & multiplier,
-            TermWithDetails const& firstTermWithDetails,
-            TermWithDetails const& secondTermWithDetails) const;
+        Term& rationalizedTerm, Term& multiplier, TermWithDetails const& firstTermWithDetails,
+        TermWithDetails const& secondTermWithDetails) const;
     Term m_numerator;
     Term m_denominator;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

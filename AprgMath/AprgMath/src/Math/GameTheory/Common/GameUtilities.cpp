@@ -4,51 +4,39 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-GameState reverseGameState(GameState const gameState)
-{
-    if(GameState::Losing == gameState)
-    {
+GameState reverseGameState(GameState const gameState) {
+    if (GameState::Losing == gameState) {
         return GameState::Winning;
-    }
-    else
-    {
+    } else {
         return GameState::Losing;
     }
 }
 
-GameState getGameStateFromGrundyNumber(
-        UnsignedInteger const grundyNumber)
-{
+GameState getGameStateFromGrundyNumber(UnsignedInteger const grundyNumber) {
     // The Grundy number of a losing state is 0, and the Grundy number of a winning state is a positive number.
 
-    if(grundyNumber > 0)
-    {
+    if (grundyNumber > 0) {
         return GameState::Winning;
-    }
-    else
-    {
+    } else {
         return GameState::Losing;
     }
 }
 
-UnsignedInteger getGrundyNumber(
-        SetOfUnsignedIntegers const& nextGrundyNumbers)
-{
+UnsignedInteger getGrundyNumber(SetOfUnsignedIntegers const& nextGrundyNumbers) {
     // Sprague–Grundy theorem
-    // The Sprague–Grundy theorem generalizes the strategy used in nim to all games that fulfill the following requirements:
+    // The Sprague–Grundy theorem generalizes the strategy used in nim to all games that fulfill the following
+    // requirements:
     // -> There are two players who move alternately.
     // -> The game consists of states, and the possible moves in a state do not depend on whose turn it is.
     // -> The game ends when a player cannot make a move.
     // -> The game surely ends sooner or later.
-    // -> The players have complete information about the states and allowed moves, and there is no randomness in the game.
-    // The idea is to calculate for each game state a Grundy number that corresponds o the number of sticks in a nim heap.
-    // When we know the Grundy numbers of all states, we can play the game like the nim game.
+    // -> The players have complete information about the states and allowed moves, and there is no randomness in the
+    // game. The idea is to calculate for each game state a Grundy number that corresponds o the number of sticks in a
+    // nim heap. When we know the Grundy numbers of all states, we can play the game like the nim game.
 
     // The Grundy number of a game state is mex({g1, g2,..., gn}),
     // where g1, g2,..., gn are the Grundy numbers of the states to which we can move,
@@ -59,13 +47,10 @@ UnsignedInteger getGrundyNumber(
     // and if the Grundy number is x>0, we can move to states whose Grundy numbers include all numbers 0,1,...,x-1.
 
     UnsignedInteger result(0);
-    if(!nextGrundyNumbers.empty())
-    {
-        UnsignedInteger possibleGrundyNumber=0;
-        for(UnsignedInteger const nextGrundyNumber : nextGrundyNumbers)
-        {
-            if(possibleGrundyNumber != nextGrundyNumber)
-            {
+    if (!nextGrundyNumbers.empty()) {
+        UnsignedInteger possibleGrundyNumber = 0;
+        for (UnsignedInteger const nextGrundyNumber : nextGrundyNumbers) {
+            if (possibleGrundyNumber != nextGrundyNumber) {
                 break;
             }
             possibleGrundyNumber++;
@@ -75,15 +60,11 @@ UnsignedInteger getGrundyNumber(
     return result;
 }
 
-UnsignedInteger getCombinedGrundyNumber(
-        UnsignedInteger const grundyNumber1,
-        UnsignedInteger const grundyNumber2)
-{
+UnsignedInteger getCombinedGrundyNumber(UnsignedInteger const grundyNumber1, UnsignedInteger const grundyNumber2) {
     return grundyNumber1 ^ grundyNumber2;
 }
 
-UnsignedInteger getOverallGrundyNumber(UnsignedIntegers const& grundyNumbers)
-{
+UnsignedInteger getOverallGrundyNumber(UnsignedIntegers const& grundyNumbers) {
     // Same as nim sum
 
     // Sometimes a move in a game divides the game into subgames that are independent of each other.
@@ -92,13 +73,12 @@ UnsignedInteger getOverallGrundyNumber(UnsignedIntegers const& grundyNumbers)
     // where move k generates subgames with Grundy numbers ak1, ak2, ..., akm.
 
     return accumulate(
-                grundyNumbers.cbegin(), grundyNumbers.cend(), 0U,
-                [](UnsignedInteger const grundyNumber1, UnsignedInteger const grundyNumber2)
-    {
-        return grundyNumber1 ^ grundyNumber2;
-    });
+        grundyNumbers.cbegin(), grundyNumbers.cend(), 0U,
+        [](UnsignedInteger const grundyNumber1, UnsignedInteger const grundyNumber2) {
+            return grundyNumber1 ^ grundyNumber2;
+        });
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

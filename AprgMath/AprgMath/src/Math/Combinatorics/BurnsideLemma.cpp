@@ -7,27 +7,23 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 UnsignedInteger getNumberOfSymmetricCombinationsUsingBurnsideLemma(
-        UnsignedInteger const numberOfWaysToChangePosition,
-        UnsignedIntegerBinaryFunction const& getNumberOfCombinationsFunction)
-{
+    UnsignedInteger const numberOfWaysToChangePosition,
+    UnsignedIntegerBinaryFunction const& getNumberOfCombinationsFunction) {
     // Burnside’s lemma can be used to count the number of combinations so that
     // only one representative is counted for each group of symmetric combinations.
 
     // Burnside’s lemma states that the number of combinations is summation of c(k)/n and k is from 1 to n,
-    // where there are n ways to change the position of a combination, and there are c(k) combinations that remain unchanged when the kth way is applied.
+    // where there are n ways to change the position of a combination, and there are c(k) combinations that remain
+    // unchanged when the kth way is applied.
 
     UnsignedInteger result(0);
-    if(numberOfWaysToChangePosition > 0)
-    {
-        for(UnsignedInteger kthWay=1; kthWay<=numberOfWaysToChangePosition; kthWay++)
-        {
+    if (numberOfWaysToChangePosition > 0) {
+        for (UnsignedInteger kthWay = 1; kthWay <= numberOfWaysToChangePosition; kthWay++) {
             result += getNumberOfCombinationsFunction(numberOfWaysToChangePosition, kthWay);
         }
         result /= numberOfWaysToChangePosition;
@@ -36,9 +32,7 @@ UnsignedInteger getNumberOfSymmetricCombinationsUsingBurnsideLemma(
 }
 
 UnsignedInteger getNumberOfCombinationsOfAPearlNecklace(
-        UnsignedInteger const numberOfPearls,
-        UnsignedInteger const& numberOfColors)
-{
+    UnsignedInteger const numberOfPearls, UnsignedInteger const& numberOfColors) {
     // As an example, let us calculate the number of necklaces of "n" pearls, where each pearl has "m" possible colors.
     // Two necklaces are symmetric if they are similar after rotating them.
 
@@ -65,12 +59,11 @@ UnsignedInteger getNumberOfCombinationsOfAPearlNecklace(
     // ---> RRR, GGG, BBB
 
     return getNumberOfSymmetricCombinationsUsingBurnsideLemma(
-                numberOfPearls, [&](UnsignedInteger const nWays, UnsignedInteger const kthWay)
-    {
-        return getRaiseToPowerForIntegers(numberOfColors, getGreatestCommonFactor(kthWay-1, nWays));
-    });
+        numberOfPearls, [&](UnsignedInteger const nWays, UnsignedInteger const kthWay) {
+            return getRaiseToPowerForIntegers(numberOfColors, getGreatestCommonFactor(kthWay - 1, nWays));
+        });
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

@@ -2,22 +2,18 @@
 
 #include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class PSeries : public SeriesBasedOnSummation
-{
+class PSeries : public SeriesBasedOnSummation {
 public:
     PSeries(AlbaNumber const& power);
 
 protected:
     Term getFormula(AlbaNumber const& power) const;
-
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

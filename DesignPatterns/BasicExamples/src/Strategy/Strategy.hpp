@@ -1,70 +1,48 @@
 #include <iostream>
 #include <memory>
 
-namespace Strategy
-{
+namespace Strategy {
 
 // Strategy
 // declares an interface common to all supported algorithms
 
-class Strategy
-{
+class Strategy {
 public:
-    virtual ~Strategy() = default; // polymorphic destruction
+    virtual ~Strategy() = default;  // polymorphic destruction
 
     virtual void algorithmInterface() = 0;
     // ...
 };
 
-
 // Concrete Strategies
 // implement the algorithm using the Strategy interface
 
-class ConcreteStrategyA : public Strategy
-{
+class ConcreteStrategyA : public Strategy {
 public:
-    void algorithmInterface() override
-    {
-        std::cout << "Concrete Strategy A\n";
-    }
+    void algorithmInterface() override { std::cout << "Concrete Strategy A\n"; }
     // ...
 };
 
-class ConcreteStrategyB : public Strategy
-{
+class ConcreteStrategyB : public Strategy {
 public:
-    void algorithmInterface() override
-    {
-        std::cout << "Concrete Strategy B\n";
-    }
+    void algorithmInterface() override { std::cout << "Concrete Strategy B\n"; }
     // ...
 };
 
-class ConcreteStrategyC : public Strategy
-{
+class ConcreteStrategyC : public Strategy {
 public:
-    void algorithmInterface() override
-    {
-        std::cout << "Concrete Strategy C\n";
-    }
+    void algorithmInterface() override { std::cout << "Concrete Strategy C\n"; }
     // ...
 };
-
 
 // Context
 // maintains a reference to a Strategy object
 
-class Context
-{
+class Context {
 public:
-    Context(std::unique_ptr<Strategy> strategy)
-        : m_strategy(std::move(strategy))
-    {}
+    Context(std::unique_ptr<Strategy> strategy) : m_strategy(std::move(strategy)) {}
 
-    void contextInterface()
-    {
-        m_strategy->algorithmInterface();
-    }
+    void contextInterface() { m_strategy->algorithmInterface(); }
     // ...
 
 private:
@@ -72,12 +50,13 @@ private:
     // ...
 };
 
-}
+}  // namespace Strategy
 
 // Strategy discussion:
 
 // ONE LINE NOTE:
-// -> Implement a common ABSTRACT STRATEGY INTERFACE and implement different strategies or FAMILIES OF ALGORITHMS by subclassing so that it can be changed in runtime.
+// -> Implement a common ABSTRACT STRATEGY INTERFACE and implement different strategies or FAMILIES OF ALGORITHMS by
+// subclassing so that it can be changed in runtime.
 
 // Intent:
 // Strategy defines a family of algorithms, encapsulates each one, and makes them interchangeable.
@@ -100,7 +79,8 @@ private:
 // ---> Inhertiance offers another way to support a variety of algorithms or behaviors.
 // -> Strategies eliminate conditional statements
 // ---> The Strategy pattern offers an alternative to conditional statements for selecting desired behavior.
-// ---> When different behaviors are lumped into one class, its hard to avoid using conditional statements to select the right behavior.
+// ---> When different behaviors are lumped into one class, its hard to avoid using conditional statements to select the
+// right behavior.
 // -> A choice of implementations
 // ---> Strategies can provide different implementations.
 // -> Clients must be aware different Strategies

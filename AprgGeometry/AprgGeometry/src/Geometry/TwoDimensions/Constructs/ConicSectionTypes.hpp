@@ -2,22 +2,11 @@
 
 #include <Geometry/TwoDimensions/Constructs/Polygon.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-enum class ConicSectionType
-{
-    Unknown,
-    Point,
-    Line,
-    Circle,
-    Parabola,
-    Ellipse,
-    Hyperbola
-};
+enum class ConicSectionType { Unknown, Point, Line, Circle, Parabola, Ellipse, Hyperbola };
 
 }
-}
+}  // namespace alba

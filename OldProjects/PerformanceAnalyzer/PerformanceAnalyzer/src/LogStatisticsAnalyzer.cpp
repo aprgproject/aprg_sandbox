@@ -9,59 +9,47 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-bool LogDetails::operator<(LogDetails const& logDetails) const
-{
+bool LogDetails::operator<(LogDetails const& logDetails) const {
     string string1(stringHelper::combineStrings(logStrings, ""));
     string string2(stringHelper::combineStrings(logDetails.logStrings, ""));
     return string1 < string2;
 }
 
-bool LogDetails::operator>(LogDetails const& logDetails) const
-{
+bool LogDetails::operator>(LogDetails const& logDetails) const {
     string string1(stringHelper::combineStrings(logStrings, ""));
     string string2(stringHelper::combineStrings(logDetails.logStrings, ""));
     return string1 > string2;
 }
 
-bool LogDetails::operator==(LogDetails const& logDetails) const
-{
+bool LogDetails::operator==(LogDetails const& logDetails) const {
     string string1(stringHelper::combineStrings(logStrings, ""));
     string string2(stringHelper::combineStrings(logDetails.logStrings, ""));
     return string1 == string2;
 }
 
-LogStatisticsAnalyzer::LogStatisticsAnalyzer()
-    : m_btsLogPathHandler("")
-    , m_totalLinesFound(0)
-    , m_totalLines(0)
-{
+LogStatisticsAnalyzer::LogStatisticsAnalyzer() : m_btsLogPathHandler(""), m_totalLinesFound(0), m_totalLines(0) {
     initializeLogDetailsToCheck();
 }
 
-void LogStatisticsAnalyzer::saveDataToCsv(string const& csvPath)
-{
+void LogStatisticsAnalyzer::saveDataToCsv(string const& csvPath) {
     AlbaLocalPathHandler outputFileHandler(csvPath);
     ofstream outputFileStream(outputFileHandler.getFullPath());
     saveLogDetailsToCsv(outputFileStream);
 }
 
-void LogStatisticsAnalyzer::saveLogDetailsToCsv(ofstream & outputCsvFileStream)
-{
-    outputCsvFileStream << "Log,Count,Percentage" <<"\n";
+void LogStatisticsAnalyzer::saveLogDetailsToCsv(ofstream& outputCsvFileStream) {
+    outputCsvFileStream << "Log,Count,Percentage"
+                        << "\n";
     map<string, unsigned int> dataToDisplay;
-    for (LogDetails const& logDetails : m_logDetailsToCheck)
-    {
+    for (LogDetails const& logDetails : m_logDetailsToCheck) {
         string stringInCsv;
         stringHelper::strings const& logStrings(logDetails.logStrings);
-        if(!logStrings.empty())
-        {
+        if (!logStrings.empty()) {
             string firstLogStringInCsv(string("[") + logStrings.front() + "]");
             stringInCsv += firstLogStringInCsv;
-            for(auto it=logStrings.cbegin()+1; it!=logStrings.cend(); it++)
-            {
+            for (auto it = logStrings.cbegin() + 1; it != logStrings.cend(); it++) {
                 string logStringInCsv(string("[") + *it + "]");
                 stringInCsv += " && ";
                 stringInCsv += logStringInCsv;
@@ -69,87 +57,76 @@ void LogStatisticsAnalyzer::saveLogDetailsToCsv(ofstream & outputCsvFileStream)
         }
         dataToDisplay.emplace(stringInCsv, logDetails.count);
     }
-    for (pair<string, unsigned int> const& data : dataToDisplay)
-    {
-        outputCsvFileStream << data.first << "," << data.second << "," << ((double)data.second)/m_totalLines*100 <<"\n";
+    for (pair<string, unsigned int> const& data : dataToDisplay) {
+        outputCsvFileStream << data.first << "," << data.second << "," << ((double)data.second) / m_totalLines * 100
+                            << "\n";
     }
-    outputCsvFileStream << "Total Lines found," << m_totalLinesFound << "," << ((double)m_totalLinesFound)/m_totalLines*100 <<"\n";
-    outputCsvFileStream << "Total Lines," << m_totalLines << "," << ((double)m_totalLines)/m_totalLines*100 <<"\n";
+    outputCsvFileStream << "Total Lines found," << m_totalLinesFound << ","
+                        << ((double)m_totalLinesFound) / m_totalLines * 100 << "\n";
+    outputCsvFileStream << "Total Lines," << m_totalLines << "," << ((double)m_totalLines) / m_totalLines * 100 << "\n";
 }
 
-void LogStatisticsAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSortedLog)
-{
+void LogStatisticsAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSortedLog) {
     m_btsLogPathHandler.input(pathOfBtsSortedLog);
     ifstream inputLogFileStream(m_btsLogPathHandler.getFullPath());
 
     AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
-    {
+    while (fileReader.isNotFinished()) {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         analyzeLog(lineInLogs);
     }
 }
 
-void LogStatisticsAnalyzer::analyzeLog(std::string const& lineInLogs)
-{
-    if(m_totalLines%10000==0)
-    {
-        cout << "m_totalLines: [" << m_totalLines << "]" <<"\n";
+void LogStatisticsAnalyzer::analyzeLog(std::string const& lineInLogs) {
+    if (m_totalLines % 10000 == 0) {
+        cout << "m_totalLines: [" << m_totalLines << "]"
+             << "\n";
     }
     m_totalLines++;
-    bool areLogStringFoundInTheLine=false;
-    for (LogDetails & logDetails : m_logDetailsToCheck)
-    {
-        bool areLogStringFound=false;
-        bool areLogStringFoundInAllLogDetails=true;
-        for(string const& logString : logDetails.logStrings)
-        {
-            if(!stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, logString))
-            {
-                areLogStringFoundInAllLogDetails=false;
+    bool areLogStringFoundInTheLine = false;
+    for (LogDetails& logDetails : m_logDetailsToCheck) {
+        bool areLogStringFound = false;
+        bool areLogStringFoundInAllLogDetails = true;
+        for (string const& logString : logDetails.logStrings) {
+            if (!stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, logString)) {
+                areLogStringFoundInAllLogDetails = false;
                 break;
             }
         }
         areLogStringFound = areLogStringFoundInAllLogDetails;
-        if(areLogStringFound)
-        {
-            areLogStringFoundInTheLine=true;
+        if (areLogStringFound) {
+            areLogStringFoundInTheLine = true;
             logDetails.count++;
-            //break;
+            // break;
         }
     }
-    if(!areLogStringFoundInTheLine)
-    {
-        cout << "line not processed: [" << lineInLogs << "]" <<"\n";
-    }
-    else
-    {
+    if (!areLogStringFoundInTheLine) {
+        cout << "line not processed: [" << lineInLogs << "]"
+             << "\n";
+    } else {
         m_totalLinesFound++;
     }
 }
 
-void LogStatisticsAnalyzer::addLogDetailsToCheckInInitialization(strings const& logStrings)
-{
+void LogStatisticsAnalyzer::addLogDetailsToCheckInInitialization(strings const& logStrings) {
     LogDetails logDetails;
-    for(string const& logString : logStrings)
-    {
+    for (string const& logString : logStrings) {
         logDetails.logStrings.emplace_back(logString);
     }
-    logDetails.count=0;
+    logDetails.count = 0;
     m_logDetailsToCheck.emplace_back(logDetails);
 }
 
-void LogStatisticsAnalyzer::addLogDetailsToCheckInInitialization(string const& firstLogString, string const& secondLogString)
-{
+void LogStatisticsAnalyzer::addLogDetailsToCheckInInitialization(
+    string const& firstLogString, string const& secondLogString) {
     LogDetails logDetails;
     logDetails.logStrings.emplace_back(firstLogString);
     logDetails.logStrings.emplace_back(secondLogString);
-    logDetails.count=0;
+    logDetails.count = 0;
     m_logDetailsToCheck.emplace_back(logDetails);
 }
 
-void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
-{
+void LogStatisticsAnalyzer::initializeLogDetailsToCheck() {
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_RL_RECONFIG_PREPARE_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_LRM_RL_RECONFIG_PREPARE_RESP_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_RL_SETUP_REQ_MSG");
@@ -177,7 +154,8 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
     addLogDetailsToCheckInInitialization("TCOM/LRM", "BB_CONFIGURE_RAKE_RESOURCE_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "BB_CONFIGURE_RAKE_RESOURCE_RESP_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "handleRlSetupReq(): Some parts of user already exist");
-    addLogDetailsToCheckInInitialization("TCOM/LRM", "createNewTransactionErrorHandler(): Error when creating new transaction");
+    addLogDetailsToCheckInInitialization(
+        "TCOM/LRM", "createNewTransactionErrorHandler(): Error when creating new transaction");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "handleMsg(): NULL transaction has been tried to be used");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_EDCH_RES_RECONFIG_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_EDCH_RES_RECONFIG_RESP_MSG");
@@ -186,8 +164,10 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
 
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_HSUPA_USER_REALLOCATION_DONE_IND_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_ANY_CF_BB_COMMON_EDCH_HW_RESOURCE_INFO_REQ_MSG");
-    addLogDetailsToCheckInInitialization("TCOM/LRM", "handleHsRachCfAdditionRequest(): Failed adding HsRach CFs in Dsp.");
-    addLogDetailsToCheckInInitialization("TCOM/LRM", "handleUserTransferResp(): Failure of defragmentation user transfer");
+    addLogDetailsToCheckInInitialization(
+        "TCOM/LRM", "handleHsRachCfAdditionRequest(): Failed adding HsRach CFs in Dsp.");
+    addLogDetailsToCheckInInitialization(
+        "TCOM/LRM", "handleUserTransferResp(): Failure of defragmentation user transfer");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_ANY_CF_BB_COMMON_EDCH_HW_RESOURCE_INFO_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_HSUPA_USER_REALLOCATION_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "TC_2_LRM_HSUPA_USER_REALLOCATION_RESP_MSG");
@@ -207,10 +187,6 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
     addLogDetailsToCheckInInitialization("TCOM/LRM", "BB_COMMON_EDCH_HW_RESOURCE_REMOVAL_RESP_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "BB_COMMON_EDCH_HW_RESOURCE_REMOVAL_IND_MSG");
     addLogDetailsToCheckInInitialization("TCOM/LRM", "handleRlReleaseDoneInd(): Unknown nbccId");
-
-
-
-
 
     addLogDetailsToCheckInInitialization("/TUP/", "[Rcvd: M_IP_ECF]");
     addLogDetailsToCheckInInitialization("/TUP/", "Connection data:");
@@ -303,7 +279,6 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
     addLogDetailsToCheckInInitialization("TCOM/R", "BB_DSP_REALLOCATION_COMMIT_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/R", "BB_DSP_REALLOCATION_COMMIT_RESP_MSG");
 
-
     addLogDetailsToCheckInInitialization("TCOM/R", "RLH_CTRL_RlSetupFail3G");
     addLogDetailsToCheckInInitialization("TCOM/R", "RLH_CTRL_RlReconfigFail3G");
     addLogDetailsToCheckInInitialization("TCOM/R", "TC_2_LRM_RL_SETUP_NACK_RESP_MSG");
@@ -333,7 +308,6 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
     addLogDetailsToCheckInInitialization("TCOM/R", "TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG");
     addLogDetailsToCheckInInitialization("TCOM/R", "TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_RESP_MSG");
 
-
     addLogDetailsToCheckInInitialization("TCOM/WRC", "getAverageRxPowerMonitoringLevel");
     addLogDetailsToCheckInInitialization("TCOM/WRC", "handlePowerEvent");
     addLogDetailsToCheckInInitialization("TCOM/WRC", "handleRxMonitoringTimeout");
@@ -348,7 +322,6 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
     addLogDetailsToCheckInInitialization("TCOM/WRC", "handleRadioConfiguration");
     addLogDetailsToCheckInInitialization("TCOM/WRC", "addRadioResource");
     addLogDetailsToCheckInInitialization("TCOM/WRC", "sendLtxMessage");
-
 
     addLogDetailsToCheckInInitialization("TCOM/CH", "BB_2_BCH_INFORMATION_REQ_MSG");
 
@@ -374,8 +347,6 @@ void LogStatisticsAnalyzer::initializeLogDetailsToCheck()
     addLogDetailsToCheckInInitialization(strings{"TCOM/R"});
     addLogDetailsToCheckInInitialization(strings{"TCOM/LRM"});
     addLogDetailsToCheckInInitialization(strings{"TCOM/WRC"});
-
-
 }
 
-}
+}  // namespace alba

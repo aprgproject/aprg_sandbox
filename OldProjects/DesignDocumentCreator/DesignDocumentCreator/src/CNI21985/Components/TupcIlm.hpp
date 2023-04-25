@@ -3,13 +3,12 @@
 #include <Common/Components/Component.hpp>
 #include <Common/Components/ComponentName.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class TupcIlm : public Component
-{
+class TupcIlm : public Component {
 public:
     TupcIlm(ComponentName const componentName);
+
 private:
     void handleStartup();
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
@@ -17,4 +16,4 @@ private:
     virtual void handleOtherEvent(OtherEvent const& otherEvent);
 };
 
-}
+}  // namespace DesignDocumentCreator

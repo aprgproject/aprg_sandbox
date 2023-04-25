@@ -1,23 +1,20 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class BaseSorter
-{
+class BaseSorter {
 public:
-    virtual ~BaseSorter() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseSorter() = default;  // virtual destructor because of virtual functions (vtable exists)
 
-    virtual void sort(Values & valuesToSort) const = 0;
+    virtual void sort(Values& valuesToSort) const = 0;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Applications
 // Obvious:

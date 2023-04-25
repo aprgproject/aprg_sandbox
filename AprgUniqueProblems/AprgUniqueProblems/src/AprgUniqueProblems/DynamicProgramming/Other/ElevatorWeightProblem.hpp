@@ -2,18 +2,18 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class ElevatorWeightProblem
-{
+class ElevatorWeightProblem {
 public:
-    // There is an elevator with maximum weight x, and n people with known weights who want to get from the ground floor to the top floor.
-    // What is the minimum number of rides needed if the people enter the elevator in an optimal order?
+    // There is an elevator with maximum weight x, and n people with known weights who want to get from the ground floor
+    // to the top floor. What is the minimum number of rides needed if the people enter the elevator in an optimal
+    // order?
 
     // Recursive formulation:
     // -> Let numberOfRides(peopleBits) be the number of rides of people in peopleBits
-    // -> Let lastWeight(peopleBits) be the last weight of the ride of people in peopleBits (peopleBits includes people from last ride)
+    // -> Let lastWeight(peopleBits) be the last weight of the ride of people in peopleBits (peopleBits includes people
+    // from last ride)
     // -> For every person:
     // ---> if lastWeight(peopleBits without the person) + person weight <= maximum elevator weight:
     // -----> Then, add person to current ride
@@ -35,6 +35,7 @@ public:
     ElevatorWeightProblem(Weight const maximumElevatorWeight, Weights const& peopleWeights);
 
     unsigned int getNumberOfOptimalRides();
+
 private:
     bool isPersonIncluded(PeopleBits const peopleBits, Person const person) const;
     Person getNumberOfPeople() const;
@@ -46,4 +47,4 @@ private:
     NumberOfRidesAndWeights m_numberOfRidesAndLastWeights;
 };
 
-}
+}  // namespace alba

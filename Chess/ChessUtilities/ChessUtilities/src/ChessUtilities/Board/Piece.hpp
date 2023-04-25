@@ -8,14 +8,11 @@
 #include <ostream>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-struct Piece
-{
+struct Piece {
 public:
     static PieceColor extractColor(uint8_t const value);
     static PieceType extractType(uint8_t const value);
@@ -46,9 +43,8 @@ private:
 
 using Pieces = std::vector<Piece>;
 
+std::ostream& operator<<(std::ostream& out, Piece const& piece);
 
-std::ostream & operator<<(std::ostream & out, Piece const& piece);
+}  // namespace chess
 
-}
-
-}
+}  // namespace alba

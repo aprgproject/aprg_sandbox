@@ -4,40 +4,31 @@
 #include <AudioManipulator/CommonTypes.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgAudio
-{
+namespace AprgAudio {
 
-class AudioManipulator
-{
+class AudioManipulator {
 public:
     AudioManipulator(std::string const& audioFilePath);
 
     AudioInDouble const& getAudio() const;
-    AudioInDouble & getAudioReference();
+    AudioInDouble& getAudioReference();
 
     void addSamplesWithValue(double const value);
-    void addSamplesAtChannelWithValue(
-            unsigned int const channelIndex,
-            double const value);
+    void addSamplesAtChannelWithValue(unsigned int const channelIndex, double const value);
     void multiplySamplesWithValue(double const value);
-    void multiplySamplesAtChannelWithValue(
-            unsigned int const channelIndex,
-            double const value);
+    void multiplySamplesAtChannelWithValue(unsigned int const channelIndex, double const value);
 
     void saveAudioIntoCurrentFile();
-    void saveAudioIntoFileInTheSameDirectory(
-            std::string const& filename);
-    void saveAudioIntoFileWithFullFilePath(
-            std::string const& newFilePath);
+    void saveAudioIntoFileInTheSameDirectory(std::string const& filename);
+    void saveAudioIntoFileWithFullFilePath(std::string const& newFilePath);
 
 private:
     AlbaLocalPathHandler m_filePathHandler;
     AudioInDouble m_audio;
 };
 
-}
+}  // namespace AprgAudio
 
-}
+}  // namespace alba

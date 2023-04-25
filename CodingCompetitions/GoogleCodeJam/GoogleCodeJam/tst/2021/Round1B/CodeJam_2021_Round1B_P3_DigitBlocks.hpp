@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2021_Round1B_P3_DigitBlocks
-{
+namespace CodeJam_2021_Round1B_P3_DigitBlocks {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2019_PracticeRound_P2_Mural.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -18,8 +19,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2019_PracticeRound_P2_Mural
-{
+namespace KickStart_2019_PracticeRound_P2_Mural {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -27,31 +27,27 @@ namespace KickStart_2019_PracticeRound_P2_Mural
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     int numberOfSections;
     my_cin >> numberOfSections;
     string scoresString;
     my_cin >> scoresString;
 
     vector<int> scores(numberOfSections, 0);
-    for(int i=0; i<min(numberOfSections, static_cast<int>(scoresString.length())); i++)
-    {
+    for (int i = 0; i < min(numberOfSections, static_cast<int>(scoresString.length())); i++) {
         scores[i] = scoresString[i] - '0';
     }
 
-    int subarraySize = (numberOfSections+1)/2;
-    int currentAccumulatedScore=0;
-    int i=0;
-    for(; i<subarraySize; i++)
-    {
+    int subarraySize = (numberOfSections + 1) / 2;
+    int currentAccumulatedScore = 0;
+    int i = 0;
+    for (; i < subarraySize; i++) {
         currentAccumulatedScore += scores.at(i);
     }
-    int maxAccumulatedScore=currentAccumulatedScore;
-    for(; i<numberOfSections; i++)
-    {
+    int maxAccumulatedScore = currentAccumulatedScore;
+    for (; i < numberOfSections; i++) {
         currentAccumulatedScore += scores.at(i);
-        currentAccumulatedScore -= scores.at(i-subarraySize);
+        currentAccumulatedScore -= scores.at(i - subarraySize);
         maxAccumulatedScore = max(maxAccumulatedScore, currentAccumulatedScore);
     }
 
@@ -75,18 +71,15 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << ret << '\n';
 }*/
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -96,8 +89,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2019_PracticeRound_P2_Mural
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

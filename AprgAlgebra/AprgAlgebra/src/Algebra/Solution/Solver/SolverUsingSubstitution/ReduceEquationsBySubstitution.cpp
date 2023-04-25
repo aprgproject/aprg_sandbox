@@ -8,26 +8,23 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-void reduceEquationsBySubstitution(
-        Equations & substitutedEquations,
-        VariableNamesSet const& variableNamesToIgnore)
-{
+void reduceEquationsBySubstitution(Equations& substitutedEquations, VariableNamesSet const& variableNamesToIgnore) {
     VariableNamesRetriever unknownsRetriever;
     unknownsRetriever.retrieveFromEquations(substitutedEquations);
     bool areVariableAndEquationSelected(true);
-    while(areVariableAndEquationSelected && unknownsRetriever.getSavedData().size() > 1)
-    {
+    while (areVariableAndEquationSelected && unknownsRetriever.getSavedData().size() > 1) {
         areVariableAndEquationSelected = false;
         string selectedVariableName;
         unsigned int selectedEquationIndex(0U);
-        selectVariableNameAndEquationNumber(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations, variableNamesToIgnore);
-        substituteEquationForSelectedEquationIndex(substitutedEquations, areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
+        selectVariableNameAndEquationNumber(
+            areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations,
+            variableNamesToIgnore);
+        substituteEquationForSelectedEquationIndex(
+            substitutedEquations, areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
         removeEquationsWithoutUnknowns(substitutedEquations);
         unknownsRetriever.getSavedDataReference().clear();
         unknownsRetriever.retrieveFromEquations(substitutedEquations);
@@ -35,25 +32,18 @@ void reduceEquationsBySubstitution(
 }
 
 void selectVariableNameAndEquationNumber(
-        bool & areVariableAndEquationSelected,
-        string & selectedVariableName,
-        unsigned int & selectedEquationIndex,
-        Equations const& equations,
-        VariableNamesSet const& variableNamesToIgnore)
-{
+    bool& areVariableAndEquationSelected, string& selectedVariableName, unsigned int& selectedEquationIndex,
+    Equations const& equations, VariableNamesSet const& variableNamesToIgnore) {
     areVariableAndEquationSelected = false;
     selectedVariableName.clear();
     selectedEquationIndex = 0U;
     VariableNamesSet variableNamesToCheck(getVariablesNamesToCheck(equations, variableNamesToIgnore));
-    unsigned int equationIndex=0;
-    for(Equation const& equation : equations)
-    {
+    unsigned int equationIndex = 0;
+    for (Equation const& equation : equations) {
         IsolationOfOneVariableOnEqualityEquation isolation(equation);
-        for(string const& variableName : variableNamesToCheck)
-        {
-            if(isolation.canBeIsolated(variableName)
-                    && isolation.getIdenticalExponentForVariableIfPossible(variableName) == 1)
-            {
+        for (string const& variableName : variableNamesToCheck) {
+            if (isolation.canBeIsolated(variableName) &&
+                isolation.getIdenticalExponentForVariableIfPossible(variableName) == 1) {
                 areVariableAndEquationSelected = true;
                 selectedVariableName = variableName;
                 selectedEquationIndex = equationIndex;
@@ -65,51 +55,42 @@ void selectVariableNameAndEquationNumber(
 }
 
 void substituteEquationForSelectedEquationIndex(
-        Equations & substitutedEquations,
-        bool const areVariableAndEquationSelected,
-        string const& selectedVariableName,
-        unsigned int const selectedEquationIndex)
-{
-    if(areVariableAndEquationSelected)
-    {
+    Equations& substitutedEquations, bool const areVariableAndEquationSelected, string const& selectedVariableName,
+    unsigned int const selectedEquationIndex) {
+    if (areVariableAndEquationSelected) {
         IsolationOfOneVariableOnEqualityEquation isolation(substitutedEquations.at(selectedEquationIndex));
         substitutedEquations.erase(substitutedEquations.begin() + selectedEquationIndex);
         SubstitutionOfVariablesToTerms substitution;
-        substitution.putVariableWithTerm(selectedVariableName, isolation.getEquivalentTermByIsolatingAVariable(selectedVariableName));
-        for(Equation & substitutedEquation : substitutedEquations)
-        {
+        substitution.putVariableWithTerm(
+            selectedVariableName, isolation.getEquivalentTermByIsolatingAVariable(selectedVariableName));
+        for (Equation& substitutedEquation : substitutedEquations) {
             substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);
         }
     }
 }
 
-void removeEquationsWithoutUnknowns(Equations& substitutedEquations)
-{
+void removeEquationsWithoutUnknowns(Equations& substitutedEquations) {
     substitutedEquations.erase(
-                remove_if(substitutedEquations.begin(), substitutedEquations.end(), [](Equation const& equation)
-    {
-
-                    VariableNamesRetriever unknownsRetriever;
-                    unknownsRetriever.retrieveFromEquation(equation);
-                    return unknownsRetriever.getSavedData().empty();
-                }),
-            substitutedEquations.end());
+        remove_if(
+            substitutedEquations.begin(), substitutedEquations.end(),
+            [](Equation const& equation) {
+                VariableNamesRetriever unknownsRetriever;
+                unknownsRetriever.retrieveFromEquation(equation);
+                return unknownsRetriever.getSavedData().empty();
+            }),
+        substitutedEquations.end());
 }
 
-VariableNamesSet getVariablesNamesToCheck(
-        Equations const& equations,
-        VariableNamesSet const& variableNamesToIgnore)
-{
+VariableNamesSet getVariablesNamesToCheck(Equations const& equations, VariableNamesSet const& variableNamesToIgnore) {
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromEquations(equations);
     VariableNamesSet variableNamesToCheck(variableNamesRetriever.getSavedData());
-    for(string const& variableNameToIgnore : variableNamesToIgnore)
-    {
+    for (string const& variableNameToIgnore : variableNamesToIgnore) {
         variableNamesToCheck.erase(variableNameToIgnore);
     }
     return variableNamesToCheck;
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

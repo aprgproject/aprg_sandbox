@@ -6,105 +6,87 @@
 using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = InterpolationNearestValueSearch<ValuesForTest>;
-}
+}  // namespace
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue) {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues) {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues) {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower) {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher) {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
-{
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue) {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues) {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
     EXPECT_EQ(3U, search.getIndexOfNearestValue(33));
 }
 
-TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower) {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher) {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(5U, 6U, sortedValues);
 
     EXPECT_EQ(43U, search.getNearestValue(33));
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(3U, 5U, sortedValues);
 
     EXPECT_EQ(33U, search.getNearestValue(33));
 }
 
-TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd)
-{
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(1U, 8U, sortedValues);
 
     EXPECT_EQ(33U, search.getNearestValue(33));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

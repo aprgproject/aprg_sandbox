@@ -7,16 +7,13 @@ using namespace alba::math;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-CountPossibleWaysToConstructBuildings::CountPossibleWaysToConstructBuildings(
-        Count const numberOfSections)
-    : m_numberOfSections(numberOfSections)
-{}
+CountPossibleWaysToConstructBuildings::CountPossibleWaysToConstructBuildings(Count const numberOfSections)
+    : m_numberOfSections(numberOfSections) {}
 
-CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildings::getNumberOfWaysUsingCountOfBuildingAndSpaces() const
-{
+CountPossibleWaysToConstructBuildings::Count
+CountPossibleWaysToConstructBuildings::getNumberOfWaysUsingCountOfBuildingAndSpaces() const {
     // Time Complexity: O(numberOfSections)
     // Auxiliary Space: Constant
 
@@ -45,19 +42,13 @@ CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildin
     // result2(N) = result1(N) * result1(N)
 
     Count resultInOnSide(0);
-    if (m_numberOfSections == 0)
-    {
+    if (m_numberOfSections == 0) {
         resultInOnSide = 1;
-    }
-    else if (m_numberOfSections == 1)
-    {
+    } else if (m_numberOfSections == 1) {
         resultInOnSide = 2;  // 2 for one side and 4 for two sides
-    }
-    else
-    {
-        Count countOfBuildings=1, countOfSpaces=1;
-        for (Count section=2; section<=m_numberOfSections; section++)
-        {
+    } else {
+        Count countOfBuildings = 1, countOfSpaces = 1;
+        for (Count section = 2; section <= m_numberOfSections; section++) {
             Count previousCountOfBuildings = countOfBuildings;
             Count previousCountOfSpaces = countOfSpaces;
 
@@ -66,22 +57,23 @@ CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildin
         }
         resultInOnSide = countOfBuildings + countOfSpaces;
     }
-    return resultInOnSide*resultInOnSide;
+    return resultInOnSide * resultInOnSide;
 }
 
-CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildings::getNumberOfWaysUsingFibonacciNumber() const
-{
+CountPossibleWaysToConstructBuildings::Count
+CountPossibleWaysToConstructBuildings::getNumberOfWaysUsingFibonacciNumber() const {
     // Time Complexity: O(Constant)
     // Auxiliary Space: Constant
 
     // Approach:
-    // Let us think of buildings as the sequence of N (because there are N plots on either side) length binary string (each digit either 0 or 1) where :
+    // Let us think of buildings as the sequence of N (because there are N plots on either side) length binary string
+    // (each digit either 0 or 1) where :
     // -> 1 => Represents building has been made on the ith plot
     // -> 0 => Represents building has not been made on the ith plot
 
-    // Now as the problem states we have to find the number of ways such that we don’t have consecutive Buildings on plots,
-    // in the binary string, it can be interpreted as,
-    // we need to find the number of ways such that we do not have consecutive 1 in the binary string (as 1 represented building being made)
+    // Now as the problem states we have to find the number of ways such that we don’t have consecutive Buildings on
+    // plots, in the binary string, it can be interpreted as, we need to find the number of ways such that we do not
+    // have consecutive 1 in the binary string (as 1 represented building being made)
 
     // Example :
     // -> N = 3
@@ -114,24 +106,23 @@ CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildin
 
     // In general, we can say that: result(N) = getFibonacciNumber(N+2)^2
 
-    Count resultInOnSide = getNthFibonacciNumber(m_numberOfSections+2);
-    return resultInOnSide*resultInOnSide;
+    Count resultInOnSide = getNthFibonacciNumber(m_numberOfSections + 2);
+    return resultInOnSide * resultInOnSide;
 }
 
-CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildings::getNumberOfWaysUsingCombinations() const
-{
+CountPossibleWaysToConstructBuildings::Count CountPossibleWaysToConstructBuildings::getNumberOfWaysUsingCombinations()
+    const {
     // Time Complexity: O(numberOfSections)
     // Auxiliary Space: Constant
 
     // Approach: Using box and balls combinations (with spaces)
 
-    Count maxNumberOfBuildings = (m_numberOfSections+1)/2;
+    Count maxNumberOfBuildings = (m_numberOfSections + 1) / 2;
     Count resultInOnSide(0);
-    for (Count numberOfBuildings=0; numberOfBuildings<=maxNumberOfBuildings; numberOfBuildings++)
-    {
-        resultInOnSide += getNumberOfCombinations(m_numberOfSections-numberOfBuildings+1, numberOfBuildings);
+    for (Count numberOfBuildings = 0; numberOfBuildings <= maxNumberOfBuildings; numberOfBuildings++) {
+        resultInOnSide += getNumberOfCombinations(m_numberOfSections - numberOfBuildings + 1, numberOfBuildings);
     }
-    return resultInOnSide*resultInOnSide;
+    return resultInOnSide * resultInOnSide;
 }
 
-}
+}  // namespace alba

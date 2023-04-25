@@ -8,15 +8,13 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class StronglyConnectedComponentsUsingKosarajuSharir : public BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseDirectedGraph<Vertex>>
-{
+class StronglyConnectedComponentsUsingKosarajuSharir
+    : public BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseDirectedGraph<Vertex>> {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using BaseClass = BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseDirectedGraphWithVertex>;
@@ -26,66 +24,58 @@ public:
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)
-        : BaseClass(graph)
-        , b_graph(BaseClass::m_graph)
-        , b_numberOfComponentIds(BaseClass::m_numberOfComponentIds)
-        , b_vertexToComponentIdMap(BaseClass::m_vertexToComponentIdMap)
-    {
+        : BaseClass(graph),
+          b_graph(BaseClass::m_graph),
+          b_numberOfComponentIds(BaseClass::m_numberOfComponentIds),
+          b_vertexToComponentIdMap(BaseClass::m_vertexToComponentIdMap) {
         initialize();
     }
 
 private:
-
-    void initialize()
-    {
+    void initialize() {
         // Kosaraju Sharir algorithm works on reversing directions and iterating vertices in topological order
         // and iterating that vertices using DFS on the original graph with orginial directions
 
         // This works because:
         // -> reversing the edges -> reverses the dependency of the vertices in the graph
-        // -> traversing the vertices in topological order -> means that vertices in a connected component is traversed only once
+        // -> traversing the vertices in topological order -> means that vertices in a connected component is traversed
+        // only once
         // -> this means contracting each strong component into a single vertex
         // and we can increment the id when one vertex finishes DFS (in the original graph)
 
         b_numberOfComponentIds = 0U;
         DirectedGraphWithListOfEdgesWithVertex graphWithReversedDirections(getGraphWithReversedDirections(b_graph));
         VertexOrderingUsingDfs<Vertex> vertexOrdering(graphWithReversedDirections);
-        for(Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder())
-        {
-            if(m_processedVertices.isNotFound(vertex))
-            {
+        for (Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder()) {
+            if (m_processedVertices.isNotFound(vertex)) {
                 traverseUsingDfs(vertex);
                 b_numberOfComponentIds++;
             }
         }
     }
 
-    void traverseUsingDfs(Vertex const& vertex)
-    {
+    void traverseUsingDfs(Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
-        b_vertexToComponentIdMap[vertex] = b_numberOfComponentIds+1;
-        for(Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex))
-        {
-            if(m_processedVertices.isNotFound(adjacentVertex))
-            {
+        b_vertexToComponentIdMap[vertex] = b_numberOfComponentIds + 1;
+        for (Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex)) {
+            if (m_processedVertices.isNotFound(adjacentVertex)) {
                 traverseUsingDfs(adjacentVertex);
             }
         }
     }
 
-    DirectedGraphWithListOfEdgesWithVertex getGraphWithReversedDirections(BaseDirectedGraphWithVertex const& graph) const
-    {
+    DirectedGraphWithListOfEdgesWithVertex getGraphWithReversedDirections(
+        BaseDirectedGraphWithVertex const& graph) const {
         DirectedGraphWithListOfEdgesWithVertex result;
-        for(Edge const& edge : graph.getEdges())
-        {
+        for (Edge const& edge : graph.getEdges()) {
             result.connect(edge.second, edge.first);
         }
         return result;
     }
 
     BaseDirectedGraphWithVertex const& b_graph;
-    unsigned int & b_numberOfComponentIds;
-    VertexToUnsignedIntMap & b_vertexToComponentIdMap;
+    unsigned int& b_numberOfComponentIds;
+    VertexToUnsignedIntMap& b_vertexToComponentIdMap;
     CheckableVerticesWithVertex m_processedVertices;
 };
 
@@ -94,7 +84,6 @@ private:
 // First DFS: Reverse directions of the graph and get topological sort ordered vertices.
 // Second DFS: Perform DFS starting at topological sorted vertices(from first DFS),
 // and add a new component ID every time a new (and unprocessed) start vertex is processed
-
 
 // Linear time because DFS.
 
@@ -112,7 +101,6 @@ private:
 // -> correctness: tricky
 // -> implementation: easy
 
-
 // Other discussions:
 // Kosaraju’s algorithm is an efficient method for finding the strongly connected components of a directed graph.
 // The algorithm performs two depth-first searches:
@@ -123,6 +111,6 @@ private:
 // The time complexity of the algorithm is O(n + m), because the algorithm performs two depth-first searches.
 // Note: n is the number of nodes and m is the number of edges.
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

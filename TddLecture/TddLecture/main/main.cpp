@@ -5,8 +5,7 @@
 using namespace alba;
 using namespace std;
 
-int main()
-{
+int main() {
     TddLecture tddLecture;
     TddLecture::UnsignedInts oneToTen(tddLecture.getUnsignedIntsOneToTen());
 

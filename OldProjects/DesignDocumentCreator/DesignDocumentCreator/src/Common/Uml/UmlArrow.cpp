@@ -7,59 +7,32 @@
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-string UmlArrow::getRedArrow()
-{
-    return "-[#red]>";
-}
+string UmlArrow::getRedArrow() { return "-[#red]>"; }
 
-string UmlArrow::getBlueArrow()
-{
-    return "-[#blue]>";
-}
+string UmlArrow::getBlueArrow() { return "-[#blue]>"; }
 
-string UmlArrow::getGreenArrow()
-{
-    return "-[#green]>";
-}
+string UmlArrow::getGreenArrow() { return "-[#green]>"; }
 
-string UmlArrow::getDarkerGreenArrow()
-{
-    return "-[#000099]>";
-}
+string UmlArrow::getDarkerGreenArrow() { return "-[#000099]>"; }
 
-string UmlArrow::getBlackArrow()
-{
-    return "-[#black]>";
-}
+string UmlArrow::getBlackArrow() { return "-[#black]>"; }
 
-string UmlArrow::getLostMessageArrow()
-{
-    return "->x";
-}
+string UmlArrow::getLostMessageArrow() { return "->x"; }
 
-string UmlArrow::getArrowBaseFromMessageName(string const& messageName)
-{
+string UmlArrow::getArrowBaseFromMessageName(string const& messageName) {
     string result;
-    if(isNbapMessage(messageName))
-    {
+    if (isNbapMessage(messageName)) {
         result = getBlackArrow();
-    }
-    else if(isTcomMessage(messageName))
-    {
+    } else if (isTcomMessage(messageName)) {
         result = getBlueArrow();
-    }
-    else if(isDspMessage(messageName))
-    {
+    } else if (isDspMessage(messageName)) {
         result = getDarkerGreenArrow();
-    }
-    else
-    {
+    } else {
         result = getGreenArrow();
     }
     return result;
 }
 
-}
+}  // namespace DesignDocumentCreator

@@ -2,17 +2,15 @@
 
 #include <Geometry/ThreeDimensions/Constructs/Point.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-class EllipticParaboloid
-{
+class EllipticParaboloid {
 public:
     EllipticParaboloid();
-    EllipticParaboloid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient);
+    EllipticParaboloid(
+        Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient);
     // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = (z-center.z)/c
     bool operator==(EllipticParaboloid const& ellipticParaboloid) const;
     bool operator!=(EllipticParaboloid const& ellipticParaboloid) const;
@@ -25,7 +23,7 @@ public:
     double calculateZFromXAndY(double const x, double const y) const;
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, EllipticParaboloid const& ellipticParaboloid);
+    friend std::ostream& operator<<(std::ostream& out, EllipticParaboloid const& ellipticParaboloid);
 
     Point m_center;
     double m_aValue;
@@ -35,5 +33,5 @@ private:
 
 using EllipticParaboloids = std::vector<EllipticParaboloid>;
 
-}
-}
+}  // namespace ThreeDimensions
+}  // namespace alba

@@ -8,22 +8,18 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(PowerSeriesTest, IsSummationModelValidWorks)
-{
+TEST(PowerSeriesTest, IsSummationModelValidWorks) {
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
     EXPECT_FALSE(series.isSummationModelValid());
 }
 
-TEST(PowerSeriesTest, GetIntervalsOfConvergenceWorks)
-{
+TEST(PowerSeriesTest, GetIntervalsOfConvergenceWorks) {
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -32,16 +28,14 @@ TEST(PowerSeriesTest, GetIntervalsOfConvergenceWorks)
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1), createOpenEndpoint(3)), expectedIntervals.at(0));
 }
 
-TEST(PowerSeriesTest, GetRadiusOfConvergenceWorks)
-{
+TEST(PowerSeriesTest, GetRadiusOfConvergenceWorks) {
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
     EXPECT_EQ(AlbaNumber(1), series.getRadiusOfConvergence());
 }
 
-TEST(PowerSeriesTest, DifferentiateWorks)
-{
+TEST(PowerSeriesTest, DifferentiateWorks) {
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -51,8 +45,7 @@ TEST(PowerSeriesTest, DifferentiateWorks)
     EXPECT_EQ(stringToExpect, convertToString(series.getFormulaForEachTermInSummation()));
 }
 
-TEST(PowerSeriesTest, IntegrateWorks)
-{
+TEST(PowerSeriesTest, IntegrateWorks) {
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -62,6 +55,6 @@ TEST(PowerSeriesTest, IntegrateWorks)
     EXPECT_EQ(stringToExpect, convertToString(series.getFormulaForEachTermInSummation()));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

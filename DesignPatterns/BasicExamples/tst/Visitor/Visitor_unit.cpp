@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Visitor
-{
+namespace Visitor {
 
-TEST(VisitorTest, Test1)
-{
+TEST(VisitorTest, Test1) {
     ConcreteElementA elementA;
     ConcreteElementB elementB;
 
@@ -22,4 +20,4 @@ TEST(VisitorTest, Test1)
     elementB.accept(visitor2);
 }
 
-}
+}  // namespace Visitor

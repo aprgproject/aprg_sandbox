@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "ContestName_Year_Round_P5_SampleProblem.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -16,8 +17,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace ContestName_Year_Round_P5_SampleProblem
-{
+namespace ContestName_Year_Round_P5_SampleProblem {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -25,23 +25,19 @@ namespace ContestName_Year_Round_P5_SampleProblem
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
-{
-    //my_cout << "Case #" << testCaseNumber << ": " << answer << '\n';
+void runTestCase(unsigned int const testCaseNumber) {
+    // my_cout << "Case #" << testCaseNumber << ": " << answer << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -51,8 +47,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace ContestName_Year_Round_P5_SampleProblem
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

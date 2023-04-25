@@ -5,16 +5,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
+namespace {
 using VectorTwoElements = AlbaMathVector<double, 2>;
 }
 
-TEST(AlbaMathVectorTest, ConstructionWorks)
-{
+TEST(AlbaMathVectorTest, ConstructionWorks) {
     VectorTwoElements mathVector1;
     VectorTwoElements::ValuesInArray values{6, 7};
     VectorTwoElements mathVector2(values);
@@ -31,84 +28,78 @@ TEST(AlbaMathVectorTest, ConstructionWorks)
     EXPECT_DOUBLE_EQ(4, mathVector3.getValueAt(1));
 }
 
-TEST(AlbaMathVectorTest, OperatorEqualsWorks)
-{
+TEST(AlbaMathVectorTest, OperatorEqualsWorks) {
     VectorTwoElements mathVector1{3, 4};
     VectorTwoElements mathVector2{3, 4};
     VectorTwoElements mathVector3{3, 3};
     VectorTwoElements mathVector4{4, 4};
     VectorTwoElements mathVector5{5, 5};
-    VectorTwoElements mathVector6{static_cast<double>(1)/3, static_cast<double>(4)/3};
+    VectorTwoElements mathVector6{static_cast<double>(1) / 3, static_cast<double>(4) / 3};
 
-    EXPECT_TRUE(mathVector1==mathVector1);
-    EXPECT_TRUE(mathVector1==mathVector2);
-    EXPECT_FALSE(mathVector1==mathVector3);
-    EXPECT_FALSE(mathVector1==mathVector4);
-    EXPECT_FALSE(mathVector1==mathVector5);
-    EXPECT_TRUE(mathVector6==mathVector6);
+    EXPECT_TRUE(mathVector1 == mathVector1);
+    EXPECT_TRUE(mathVector1 == mathVector2);
+    EXPECT_FALSE(mathVector1 == mathVector3);
+    EXPECT_FALSE(mathVector1 == mathVector4);
+    EXPECT_FALSE(mathVector1 == mathVector5);
+    EXPECT_TRUE(mathVector6 == mathVector6);
 }
 
-TEST(AlbaMathVectorTest, OperatorNotEqualsWorks)
-{
+TEST(AlbaMathVectorTest, OperatorNotEqualsWorks) {
     VectorTwoElements mathVector1{3, 4};
     VectorTwoElements mathVector2{3, 4};
     VectorTwoElements mathVector3{3, 3};
     VectorTwoElements mathVector4{4, 4};
     VectorTwoElements mathVector5{5, 5};
-    VectorTwoElements mathVector6{static_cast<double>(1)/3, static_cast<double>(4)/3};
+    VectorTwoElements mathVector6{static_cast<double>(1) / 3, static_cast<double>(4) / 3};
 
-    EXPECT_FALSE(mathVector1!=mathVector1);
-    EXPECT_FALSE(mathVector1!=mathVector2);
-    EXPECT_TRUE(mathVector1!=mathVector3);
-    EXPECT_TRUE(mathVector1!=mathVector4);
-    EXPECT_TRUE(mathVector1!=mathVector5);
-    EXPECT_FALSE(mathVector6!=mathVector6);
+    EXPECT_FALSE(mathVector1 != mathVector1);
+    EXPECT_FALSE(mathVector1 != mathVector2);
+    EXPECT_TRUE(mathVector1 != mathVector3);
+    EXPECT_TRUE(mathVector1 != mathVector4);
+    EXPECT_TRUE(mathVector1 != mathVector5);
+    EXPECT_FALSE(mathVector6 != mathVector6);
 }
 
-TEST(AlbaMathVectorTest, OperatorLessThanWorks)
-{
+TEST(AlbaMathVectorTest, OperatorLessThanWorks) {
     VectorTwoElements mathVector1{3, 4};
     VectorTwoElements mathVector2{3, 4};
     VectorTwoElements mathVector3{3, 3};
     VectorTwoElements mathVector4{4, 4};
     VectorTwoElements mathVector5{5, 5};
-    VectorTwoElements mathVector6{static_cast<double>(1)/3, static_cast<double>(4)/3};
+    VectorTwoElements mathVector6{static_cast<double>(1) / 3, static_cast<double>(4) / 3};
 
-    EXPECT_FALSE(mathVector1<mathVector1);
-    EXPECT_FALSE(mathVector1<mathVector2);
-    EXPECT_FALSE(mathVector1<mathVector3);
-    EXPECT_TRUE(mathVector1<mathVector4);
-    EXPECT_TRUE(mathVector1<mathVector5);
-    EXPECT_TRUE(mathVector3<mathVector1);
-    EXPECT_FALSE(mathVector4<mathVector1);
-    EXPECT_FALSE(mathVector5<mathVector1);
-    EXPECT_FALSE(mathVector6<mathVector6);
+    EXPECT_FALSE(mathVector1 < mathVector1);
+    EXPECT_FALSE(mathVector1 < mathVector2);
+    EXPECT_FALSE(mathVector1 < mathVector3);
+    EXPECT_TRUE(mathVector1 < mathVector4);
+    EXPECT_TRUE(mathVector1 < mathVector5);
+    EXPECT_TRUE(mathVector3 < mathVector1);
+    EXPECT_FALSE(mathVector4 < mathVector1);
+    EXPECT_FALSE(mathVector5 < mathVector1);
+    EXPECT_FALSE(mathVector6 < mathVector6);
 }
 
-TEST(AlbaMathVectorTest, OperatorBinaryAddWorks)
-{
+TEST(AlbaMathVectorTest, OperatorBinaryAddWorks) {
     VectorTwoElements mathVector1{3, 4};
     VectorTwoElements mathVector2{5, 6};
 
-    VectorTwoElements actualMathVector(mathVector1+mathVector2);
+    VectorTwoElements actualMathVector(mathVector1 + mathVector2);
 
     VectorTwoElements expectedMathVector{8, 10};
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorBinaryMinusWorks)
-{
+TEST(AlbaMathVectorTest, OperatorBinaryMinusWorks) {
     VectorTwoElements mathVector1{7, 9};
     VectorTwoElements mathVector2{5, 6};
 
-    VectorTwoElements actualMathVector(mathVector1-mathVector2);
+    VectorTwoElements actualMathVector(mathVector1 - mathVector2);
 
     VectorTwoElements expectedMathVector{2, 3};
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorUnaryAddWorks)
-{
+TEST(AlbaMathVectorTest, OperatorUnaryAddWorks) {
     VectorTwoElements mathVector{3, 4};
 
     VectorTwoElements actualMathVector(+mathVector);
@@ -117,8 +108,7 @@ TEST(AlbaMathVectorTest, OperatorUnaryAddWorks)
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorUnaryMinusWorks)
-{
+TEST(AlbaMathVectorTest, OperatorUnaryMinusWorks) {
     VectorTwoElements mathVector{7, 9};
 
     VectorTwoElements actualMathVector(-mathVector);
@@ -127,57 +117,51 @@ TEST(AlbaMathVectorTest, OperatorUnaryMinusWorks)
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorBinaryMultiplyScalarWorks)
-{
+TEST(AlbaMathVectorTest, OperatorBinaryMultiplyScalarWorks) {
     VectorTwoElements mathVector{3, 4};
 
-    VectorTwoElements actualMathVector(mathVector*2);
+    VectorTwoElements actualMathVector(mathVector * 2);
 
     VectorTwoElements expectedMathVector{6, 8};
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorBinaryDivideScalarWorks)
-{
+TEST(AlbaMathVectorTest, OperatorBinaryDivideScalarWorks) {
     VectorTwoElements mathVector{7, 9};
 
-    VectorTwoElements actualMathVector(mathVector/2);
+    VectorTwoElements actualMathVector(mathVector / 2);
 
     VectorTwoElements expectedMathVector{3.5, 4.5};
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorAdditionAssignmentWorks)
-{
+TEST(AlbaMathVectorTest, OperatorAdditionAssignmentWorks) {
     VectorTwoElements actualMathVector{3, 4};
     VectorTwoElements anotherMathVector{5, 6};
 
-    actualMathVector+=anotherMathVector;
+    actualMathVector += anotherMathVector;
 
     VectorTwoElements expectedMathVector{8, 10};
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, OperatorSubtractionAssignmentWorks)
-{
+TEST(AlbaMathVectorTest, OperatorSubtractionAssignmentWorks) {
     VectorTwoElements actualMathVector{7, 9};
     VectorTwoElements anotherMathVector{5, 6};
 
-    actualMathVector-=anotherMathVector;
+    actualMathVector -= anotherMathVector;
 
     VectorTwoElements expectedMathVector{2, 3};
     EXPECT_EQ(expectedMathVector, actualMathVector);
 }
 
-TEST(AlbaMathVectorTest, GetSizeWorks)
-{
+TEST(AlbaMathVectorTest, GetSizeWorks) {
     VectorTwoElements mathVector{3.5, 4.5};
 
     EXPECT_EQ(2U, mathVector.getSize());
 }
 
-TEST(AlbaMathVectorTest, GetValueAtWorks)
-{
+TEST(AlbaMathVectorTest, GetValueAtWorks) {
     VectorTwoElements mathVector{3.5, 4.5};
 
     ASSERT_EQ(2U, mathVector.getSize());
@@ -185,8 +169,7 @@ TEST(AlbaMathVectorTest, GetValueAtWorks)
     EXPECT_DOUBLE_EQ(4.5, mathVector.getValueAt(1));
 }
 
-TEST(AlbaMathVectorTest, GetMagnitudeWorks)
-{
+TEST(AlbaMathVectorTest, GetMagnitudeWorks) {
     VectorTwoElements mathVector1{3, 4};
     VectorTwoElements mathVector2{6, 7};
 
@@ -194,8 +177,7 @@ TEST(AlbaMathVectorTest, GetMagnitudeWorks)
     EXPECT_DOUBLE_EQ(9.2195444572928871, mathVector2.getMagnitude());
 }
 
-TEST(AlbaMathVectorTest, GetValuesWorks)
-{
+TEST(AlbaMathVectorTest, GetValuesWorks) {
     VectorTwoElements mathVector{3.5, 4.5};
 
     VectorTwoElements::ValuesInArray values(mathVector.getValues());
@@ -205,8 +187,7 @@ TEST(AlbaMathVectorTest, GetValuesWorks)
     EXPECT_DOUBLE_EQ(4.5, values.at(1));
 }
 
-TEST(AlbaMathVectorTest, OutputStreamOperatorWorks)
-{
+TEST(AlbaMathVectorTest, OutputStreamOperatorWorks) {
     stringstream ss;
     VectorTwoElements mathVector{3.5, 4.5};
 
@@ -215,4 +196,4 @@ TEST(AlbaMathVectorTest, OutputStreamOperatorWorks)
     EXPECT_EQ("{3.5, 4.5}", ss.str());
 }
 
-}
+}  // namespace alba

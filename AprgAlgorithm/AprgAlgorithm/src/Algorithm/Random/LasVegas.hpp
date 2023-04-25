@@ -2,16 +2,13 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 using LasVegasAlgorithm = std::function<void(void)>;
 
-void performALasVegasAlgorithm(LasVegasAlgorithm const& lasVegasAlgorithm)
-{
+void performALasVegasAlgorithm(LasVegasAlgorithm const& lasVegasAlgorithm) {
     // A Las Vegas algorithm is a randomized algorithm that always gives the correct answer,
     // but its running time varies randomly.
     // The goal is to design an algorithm that is efficient with high probability.
@@ -19,6 +16,6 @@ void performALasVegasAlgorithm(LasVegasAlgorithm const& lasVegasAlgorithm)
     lasVegasAlgorithm();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

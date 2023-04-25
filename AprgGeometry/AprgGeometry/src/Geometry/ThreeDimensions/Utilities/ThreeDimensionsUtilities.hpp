@@ -9,16 +9,13 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-//implement tests
+// implement tests
 
-namespace threeDimensionsUtilities
-{
+namespace threeDimensionsUtilities {
 
 bool isPointInLine(Point const& point, Line const& line);
 bool isPointInPlane(Point const& point, Plane const& plane);
@@ -58,8 +55,8 @@ Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2);
 Plane getPlaneOfTwoDifferentLinesWithSameSlope(Line const& line1, Line const& line2);
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
 
-}
+}  // namespace threeDimensionsUtilities
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace alba

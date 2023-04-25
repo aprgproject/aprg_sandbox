@@ -7,11 +7,9 @@
 #include <string>
 #include <vector>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-struct DownloadDirectoryDetails
-{
+struct DownloadDirectoryDetails {
     std::string downloadDirectory;
     CrawlMode mode;
     CrawlState state;
@@ -19,8 +17,7 @@ struct DownloadDirectoryDetails
     std::string stateString;
 };
 
-class UserInterface
-{
+class UserInterface {
 public:
     void startUi();
 
@@ -31,8 +28,8 @@ private:
     void inputDownloadSchedule();
     void inputDownloadDirectoryTask();
 
-    void copyWorkingDirectoriesToChoices(alba::AlbaUserInterface::Choices<std::string> & choices);
-    void copyDownloadDirectoriesToChoices(alba::AlbaUserInterface::Choices<std::string> & choices);
+    void copyWorkingDirectoriesToChoices(alba::AlbaUserInterface::Choices<std::string>& choices);
+    void copyDownloadDirectoriesToChoices(alba::AlbaUserInterface::Choices<std::string>& choices);
     void showWorkingDirectories() const;
     void showDownloadDirectories() const;
     void showDownloadSchedule() const;
@@ -50,8 +47,8 @@ private:
     void renameImmediateDirectoryToTitle(std::string const& downloadDirectory) const;
     void createBatchFile() const;
     DownloadDirectoryDetails createDownloadDirectoryDetails(std::string const& downloadDirectory) const;
-    DownloadDirectoryDetails createDownloadDirectoryDetails(std::string const& workingDirectory, std::string const& webLink) const;
-
+    DownloadDirectoryDetails createDownloadDirectoryDetails(
+        std::string const& workingDirectory, std::string const& webLink) const;
 
     std::vector<std::string> m_workingDirectories;
     std::vector<DownloadDirectoryDetails> m_downloadDirectories;
@@ -64,4 +61,4 @@ private:
     alba::AlbaUserInterface m_userInterface;
 };
 
-}
+}  // namespace aprgWebCrawler

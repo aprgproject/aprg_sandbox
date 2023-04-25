@@ -7,77 +7,48 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace DomainAndRange
-{
+namespace DomainAndRange {
 
-using FunctionToCheck=std::function<AlbaNumber(AlbaNumber const&)>;
+using FunctionToCheck = std::function<AlbaNumber(AlbaNumber const&)>;
 
 SolutionSet calculateDomainUsingTransitionValues(
-        AlbaNumbers const& domainValuesToCheck,
-        FunctionToCheck const& functionToCheck);
-SolutionSet calculateDomainForTermWithOneVariable(
-        AlbaNumbers const& valuesToCheck,
-        Term const& term);
-SolutionSet calculateDomainForTermWithOneVariable(
-        Term const& term);
+    AlbaNumbers const& domainValuesToCheck, FunctionToCheck const& functionToCheck);
+SolutionSet calculateDomainForTermWithOneVariable(AlbaNumbers const& valuesToCheck, Term const& term);
+SolutionSet calculateDomainForTermWithOneVariable(Term const& term);
 
 SolutionSet calculateDomainForEquation(
-        std::string const& variableNameToCheck,
-        AlbaNumbers const& valuesToCheck,
-        Equation const& equation);
-SolutionSet calculateDomainForEquation(
-        std::string const& variableNameToCheck,
-        Equation const& equation);
+    std::string const& variableNameToCheck, AlbaNumbers const& valuesToCheck, Equation const& equation);
+SolutionSet calculateDomainForEquation(std::string const& variableNameToCheck, Equation const& equation);
 
 SolutionSet calculateRangeForEquation(
-        std::string const& variableNameToCheck,
-        AlbaNumbers const& valuesToCheck,
-        Equation const& equation);
-SolutionSet calculateRangeForEquation(
-        std::string const& variableNameToCheck,
-        Equation const& equation);
+    std::string const& variableNameToCheck, AlbaNumbers const& valuesToCheck, Equation const& equation);
+SolutionSet calculateRangeForEquation(std::string const& variableNameToCheck, Equation const& equation);
 
 SolutionSet calculateDomainForEquationWithVariableToSubstitute(
-        std::string const& variableNameToSubstitute,
-        AlbaNumbers const& valuesToCheck,
-        Equation const& equation);
+    std::string const& variableNameToSubstitute, AlbaNumbers const& valuesToCheck, Equation const& equation);
 
-void collectAndUniqueValuesAndSort(
-        AlbaNumbersSet & sortedValues,
-        AlbaNumbers const& valuesToCheck);
-void collectMinAndMaxValues(
-        AlbaNumbersSet & collectedValues,
-        AlbaNumbersSet const& sortedValues);
+void collectAndUniqueValuesAndSort(AlbaNumbersSet& sortedValues, AlbaNumbers const& valuesToCheck);
+void collectMinAndMaxValues(AlbaNumbersSet& collectedValues, AlbaNumbersSet const& sortedValues);
 void appendTransitionValues(
-        AlbaNumbersSet & transitionValues,
-        AlbaNumbersSet const& sortedValues,
-        FunctionToCheck const& functionToCheck);
+    AlbaNumbersSet& transitionValues, AlbaNumbersSet const& sortedValues, FunctionToCheck const& functionToCheck);
 AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues);
 
 AlbaNumber getTransitionValue(
-        AlbaNumber const& inputValueYieldsToFiniteValue,
-        AlbaNumber const& inputValueYieldsToNonFiniteValue,
-        DomainAndRange::FunctionToCheck const& functionToCheck);
+    AlbaNumber const& inputValueYieldsToFiniteValue, AlbaNumber const& inputValueYieldsToNonFiniteValue,
+    DomainAndRange::FunctionToCheck const& functionToCheck);
 
 void retrieveTwoVariableNames(
-        std::string & nameThatMatch,
-        std::string & nameThatDoesNotMatch,
-        VariableNamesSet const& variableNames,
-        std::string const& variableNameToCheck);
+    std::string& nameThatMatch, std::string& nameThatDoesNotMatch, VariableNamesSet const& variableNames,
+    std::string const& variableNameToCheck);
 
-bool isOneToOne(
-        std::string const& variableNameToCheck,
-        Equation const& equation);
+bool isOneToOne(std::string const& variableNameToCheck, Equation const& equation);
 
+}  // namespace DomainAndRange
 
-}
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

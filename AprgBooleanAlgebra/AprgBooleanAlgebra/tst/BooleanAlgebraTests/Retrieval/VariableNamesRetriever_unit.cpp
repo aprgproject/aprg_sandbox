@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks)
-{
+TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks) {
     VariableNamesRetriever retriever;
 
     retriever.retrieveFromTerm(Constant(true));
@@ -25,8 +22,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks)
     EXPECT_EQ("x", *(it++));
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromConstantWorks)
-{
+TEST(VariableNamesRetrieverTest, RetrieveFromConstantWorks) {
     VariableNamesRetriever retriever;
 
     retriever.retrieveFromConstant(Constant(true));
@@ -35,8 +31,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromConstantWorks)
     EXPECT_TRUE(variableNamesSet.empty());
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromVariableTermWorks)
-{
+TEST(VariableNamesRetrieverTest, RetrieveFromVariableTermWorks) {
     VariableNamesRetriever retriever;
 
     retriever.retrieveFromVariableTerm(VariableTerm("x"));
@@ -47,8 +42,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromVariableTermWorks)
     EXPECT_EQ("x", *(it++));
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromExpressionWorks)
-{
+TEST(VariableNamesRetrieverTest, RetrieveFromExpressionWorks) {
     VariableNamesRetriever retriever;
 
     retriever.retrieveFromExpression(createExpressionIfPossible({"a", "&", "b"}));
@@ -60,6 +54,6 @@ TEST(VariableNamesRetrieverTest, RetrieveFromExpressionWorks)
     EXPECT_EQ("b", *(it++));
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

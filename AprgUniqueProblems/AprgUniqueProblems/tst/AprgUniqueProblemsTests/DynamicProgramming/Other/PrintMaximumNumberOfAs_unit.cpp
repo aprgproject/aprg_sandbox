@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnZero)
-{
+TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnZero) {
     PrintMaximumNumberOfAs queryForTest(0U);
 
     EXPECT_EQ(0U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
@@ -17,8 +15,7 @@ TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnZero)
     EXPECT_EQ(0U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample1)
-{
+TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample1) {
     PrintMaximumNumberOfAs queryForTest(1U);
 
     EXPECT_EQ(1U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
@@ -27,8 +24,7 @@ TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample1)
     EXPECT_EQ(1U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample2)
-{
+TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample2) {
     PrintMaximumNumberOfAs queryForTest(3U);
 
     EXPECT_EQ(3U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
@@ -37,8 +33,7 @@ TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample2)
     EXPECT_EQ(3U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample3)
-{
+TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample3) {
     PrintMaximumNumberOfAs queryForTest(7U);
 
     EXPECT_EQ(9U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
@@ -47,15 +42,13 @@ TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample3)
     EXPECT_EQ(9U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample4)
-{
+TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample4) {
     PrintMaximumNumberOfAs queryForTest(11U);
 
-    //EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion()); // too long
+    // EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion()); // too long
     EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
     EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
     EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
-
-}
+}  // namespace alba

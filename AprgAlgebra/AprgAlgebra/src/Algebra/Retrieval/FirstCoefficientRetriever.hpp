@@ -3,16 +3,13 @@
 #include <Algebra/Retrieval/BaseRetriever.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using BaseFirstCoefficientRetriever = BaseRetriever<AlbaNumber>;
 
-class FirstCoefficientRetriever final : public BaseFirstCoefficientRetriever
-{
+class FirstCoefficientRetriever final : public BaseFirstCoefficientRetriever {
 public:
     FirstCoefficientRetriever();
     void retrieveFromConstant(Constant const& constant) override;
@@ -23,6 +20,6 @@ private:
     bool m_isValueSet;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

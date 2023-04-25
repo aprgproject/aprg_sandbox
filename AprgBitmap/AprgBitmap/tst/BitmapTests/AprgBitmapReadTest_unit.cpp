@@ -13,20 +13,16 @@ using namespace std;
 #define APRG_BITMAP_24_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\24BitBitmap.bmp)"
 #define APRG_BITMAP_32_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\32BitBitmap.bmp)"
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-TEST(BitmapReadTest, TestForInvalidBitmap)
-{
+TEST(BitmapReadTest, TestForInvalidBitmap) {
     Bitmap bitmap(APRG_BITMAP_INVALID_TEST_FILE);
     EXPECT_FALSE(bitmap.getConfiguration().isValid());
 }
 
-TEST(BitmapReadTest, TestForMonochromeBitmap)
-{
+TEST(BitmapReadTest, TestForMonochromeBitmap) {
     Bitmap bitmap(APRG_BITMAP_MONOCHROME_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -93,8 +89,7 @@ TEST(BitmapReadTest, TestForMonochromeBitmap)
     EXPECT_EQ(0x0U, snippet5.getColorAt(BitmapXY(180, 180)));
 }
 
-TEST(BitmapReadTest, TestFor16ColorBitmap)
-{
+TEST(BitmapReadTest, TestFor16ColorBitmap) {
     Bitmap bitmap(APRG_BITMAP_16_COLOR_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -166,9 +161,7 @@ TEST(BitmapReadTest, TestFor16ColorBitmap)
     EXPECT_EQ(0x0U, snippet5.getColorAt(BitmapXY(180, 180)));
 }
 
-
-TEST(BitmapReadTest, TestFor256ColorBitmap)
-{
+TEST(BitmapReadTest, TestFor256ColorBitmap) {
     Bitmap bitmap(APRG_BITMAP_256_COLOR_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -243,8 +236,7 @@ TEST(BitmapReadTest, TestFor256ColorBitmap)
     EXPECT_EQ(0x0U, snippet5.getColorAt(BitmapXY(180, 180)));
 }
 
-TEST(BitmapReadTest, TestFor24BitBitmap)
-{
+TEST(BitmapReadTest, TestFor24BitBitmap) {
     Bitmap bitmap(APRG_BITMAP_24_BIT_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -333,8 +325,7 @@ TEST(BitmapReadTest, TestFor24BitBitmap)
     EXPECT_EQ(0x0U, snippet5.getColorAt(BitmapXY(180, 180)));
 }
 
-TEST(BitmapReadTest, TestFor32BitBitmap)
-{
+TEST(BitmapReadTest, TestFor32BitBitmap) {
     Bitmap bitmap(APRG_BITMAP_32_BIT_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -355,8 +346,7 @@ TEST(BitmapReadTest, TestFor32BitBitmap)
     EXPECT_EQ(0x00442E47U, snippet.getColorAt(BitmapXY(49, 49)));
 }
 
-TEST(BitmapReadTest, TestForMonochromeBitmapWithOutOfRangeValues)
-{
+TEST(BitmapReadTest, TestForMonochromeBitmapWithOutOfRangeValues) {
     Bitmap bitmap(APRG_BITMAP_MONOCHROME_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
@@ -376,21 +366,19 @@ TEST(BitmapReadTest, TestForMonochromeBitmapWithOutOfRangeValues)
     EXPECT_EQ(0x00000000U, snippet.getPixelAt(BitmapXY(99999999, 99999999)));
 }
 
-TEST(BitmapReadTest, TestForFileThatDoesExist)
-{
+TEST(BitmapReadTest, TestForFileThatDoesExist) {
     Bitmap bitmap("FileThatDoesNotExist");
     BitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(-100, -100, 99999999, 99999999));
     EXPECT_EQ(BitmapXY(0, 0), snippet.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(0, 0), snippet.getBottomRightCorner());
 }
 
-TEST(BitmapReadTest, DISABLED_ExperimentTest)
-{
+TEST(BitmapReadTest, DISABLED_ExperimentTest) {
     Bitmap bitmap(APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromClipboard.bmp)");
     EXPECT_TRUE(bitmap.getConfiguration().isValid());
     EXPECT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 }
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

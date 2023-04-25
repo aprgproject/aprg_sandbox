@@ -7,14 +7,11 @@
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Characters = forward_list<char>;
 using Integers = forward_list<int>;
 using Doubles = forward_list<double>;
@@ -25,58 +22,52 @@ using IntegersSorter = QuickSorterForForwardList<int>;
 using DoublesSorter = QuickSorterForForwardList<double>;
 using StringsSorter = QuickSorterForForwardList<string>;
 using StabilityCheckObjectsSorter = QuickSorterForForwardList<StabilityCheckObject>;
-}
+}  // namespace
 
-TEST(QuickSorterForForwardListTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForForwardListTest, SortWorksOnCharactersUsingOneValueExample)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnCharactersUsingOneValueExample) {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForForwardListTest, SortWorksOnCharactersUsingExample1)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnCharactersUsingExample1) {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForForwardListTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnCharactersUsingExample2) {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 // CANNOT SORT STD::LIST
 
-TEST(QuickSorterForForwardListTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(QuickSorterForForwardListTest, SortWorksOnDoublesUsingExample1)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnDoublesUsingExample1) {
     DoublesSorter sorter;
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(QuickSorterForForwardListTest, SortWorksOnStringsUsingExample1)
-{
+TEST(QuickSorterForForwardListTest, SortWorksOnStringsUsingExample1) {
     StringsSorter sorter;
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(QuickSorterForForwardListTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(QuickSorterForForwardListTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE
 {
     StabilityCheckObjectsSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
+        sorter);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -3,6 +3,6 @@
 /*
 typedef struct Message1Structure
 {
-	unsigned int temporary;
+        unsigned int temporary;
 } Message1Structure;
 */

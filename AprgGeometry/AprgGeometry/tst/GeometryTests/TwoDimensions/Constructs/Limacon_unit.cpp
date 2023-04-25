@@ -4,56 +4,55 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-TEST(LimaconTest, ConstructionWorks)
-{
-    Limacon(1, 1, LimaconTrigonometricFunctionType::Sine);
+TEST(LimaconTest, ConstructionWorks) { Limacon(1, 1, LimaconTrigonometricFunctionType::Sine); }
+
+TEST(LimaconTest, EqualityOperatorWorks) {
+    EXPECT_TRUE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(1, 1, LimaconTrigonometricFunctionType::Sine));
+    EXPECT_FALSE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(2, 1, LimaconTrigonometricFunctionType::Sine));
+    EXPECT_FALSE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(1, 2, LimaconTrigonometricFunctionType::Sine));
+    EXPECT_FALSE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) ==
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Cosine));
 }
 
-TEST(LimaconTest, EqualityOperatorWorks)
-{
-    EXPECT_TRUE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(1, 1, LimaconTrigonometricFunctionType::Sine));
-    EXPECT_FALSE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(2, 1, LimaconTrigonometricFunctionType::Sine));
-    EXPECT_FALSE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(1, 2, LimaconTrigonometricFunctionType::Sine));
-    EXPECT_FALSE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) == Limacon(1, 1, LimaconTrigonometricFunctionType::Cosine));
+TEST(LimaconTest, NonEqualityOperatorWorks) {
+    EXPECT_FALSE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(1, 1, LimaconTrigonometricFunctionType::Sine));
+    EXPECT_TRUE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(2, 1, LimaconTrigonometricFunctionType::Sine));
+    EXPECT_TRUE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(1, 2, LimaconTrigonometricFunctionType::Sine));
+    EXPECT_TRUE(
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) !=
+        Limacon(1, 1, LimaconTrigonometricFunctionType::Cosine));
 }
 
-TEST(LimaconTest, NonEqualityOperatorWorks)
-{
-    EXPECT_FALSE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(1, 1, LimaconTrigonometricFunctionType::Sine));
-    EXPECT_TRUE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(2, 1, LimaconTrigonometricFunctionType::Sine));
-    EXPECT_TRUE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(1, 2, LimaconTrigonometricFunctionType::Sine));
-    EXPECT_TRUE(Limacon(1, 1, LimaconTrigonometricFunctionType::Sine) != Limacon(1, 1, LimaconTrigonometricFunctionType::Cosine));
-}
-
-TEST(LimaconTest, GetAValueWorks)
-{
+TEST(LimaconTest, GetAValueWorks) {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     EXPECT_DOUBLE_EQ(10, limacon.getAValue());
 }
 
-TEST(LimaconTest, GetBValueWorks)
-{
+TEST(LimaconTest, GetBValueWorks) {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     EXPECT_DOUBLE_EQ(13, limacon.getBValue());
 }
 
-TEST(LimaconTest, GetTrigonometricFunctionTypeWorks)
-{
+TEST(LimaconTest, GetTrigonometricFunctionTypeWorks) {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     EXPECT_EQ(LimaconTrigonometricFunctionType::Cosine, limacon.getTrigonometricFunctionType());
 }
 
-TEST(LimaconTest, GetLimaconTypeWorks)
-{
+TEST(LimaconTest, GetLimaconTypeWorks) {
     Limacon limacon1(1, 2, LimaconTrigonometricFunctionType::Cosine);
     Limacon limacon2(1, 1, LimaconTrigonometricFunctionType::Cosine);
     Limacon limacon3(3, 2, LimaconTrigonometricFunctionType::Cosine);
@@ -65,20 +64,18 @@ TEST(LimaconTest, GetLimaconTypeWorks)
     EXPECT_EQ(LimaconType::Convex, limacon4.getLimaconType());
 }
 
-TEST(LimaconTest, GetPointsForShapeWorks)
-{
+TEST(LimaconTest, GetPointsForShapeWorks) {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     Points points(limacon.getPointsForShape(AlbaAngle(AngleUnitType::Degrees, 90)));
     ASSERT_EQ(4U, points.size());
-    EXPECT_EQ(Point(23,0), points.at(0));
-    EXPECT_EQ(Point(0,10), points.at(1));
-    EXPECT_EQ(Point(3,0), points.at(2));
-    EXPECT_EQ(Point(0,-10), points.at(3));
+    EXPECT_EQ(Point(23, 0), points.at(0));
+    EXPECT_EQ(Point(0, 10), points.at(1));
+    EXPECT_EQ(Point(3, 0), points.at(2));
+    EXPECT_EQ(Point(0, -10), points.at(3));
 }
 
-TEST(LimaconTest, CalculateRadiusFromThetaWorks)
-{
+TEST(LimaconTest, CalculateRadiusFromThetaWorks) {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     EXPECT_DOUBLE_EQ(10, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 90)));
@@ -87,8 +84,7 @@ TEST(LimaconTest, CalculateRadiusFromThetaWorks)
     EXPECT_DOUBLE_EQ(23, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 
-TEST(LimaconTest, CalculateThetaFromRadiusWorks)
-{
+TEST(LimaconTest, CalculateThetaFromRadiusWorks) {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     EXPECT_DOUBLE_EQ(90, limacon.calculateThetaFromRadius(10).getDegrees());
@@ -96,6 +92,6 @@ TEST(LimaconTest, CalculateThetaFromRadiusWorks)
     EXPECT_DOUBLE_EQ(0, limacon.calculateThetaFromRadius(23).getDegrees());
 }
 
-}
+}  // namespace TwoDimensions
 
-}
+}  // namespace alba

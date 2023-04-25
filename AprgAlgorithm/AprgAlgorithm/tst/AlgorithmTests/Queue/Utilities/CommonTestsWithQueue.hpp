@@ -4,26 +4,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithQueue
-{
+namespace CommonTestsWithQueue {
 
 template <typename Queue>
-void testIsEmptyWhenEmptyWithUnsignedInt()
-{
+void testIsEmptyWhenEmptyWithUnsignedInt() {
     Queue queue;
 
     EXPECT_TRUE(queue.isEmpty());
 }
 
 template <typename Queue>
-void testIsEmptyWhenNotEmptyWithUnsignedInt()
-{
+void testIsEmptyWhenNotEmptyWithUnsignedInt() {
     Queue queue;
     queue.enqueue(10U);
 
@@ -31,16 +26,14 @@ void testIsEmptyWhenNotEmptyWithUnsignedInt()
 }
 
 template <typename Queue>
-void testGetSizeWhenEmptyWithUnsignedInt()
-{
+void testGetSizeWhenEmptyWithUnsignedInt() {
     Queue queue;
 
     EXPECT_EQ(0U, queue.getSize());
 }
 
 template <typename Queue>
-void testGetSizeWhenNotEmptyWithUnsignedInt()
-{
+void testGetSizeWhenNotEmptyWithUnsignedInt() {
     Queue queue;
     queue.enqueue(10U);
     queue.enqueue(5U);
@@ -50,8 +43,7 @@ void testGetSizeWhenNotEmptyWithUnsignedInt()
 }
 
 template <typename Queue>
-void testEnqueueWithUnsignedInt()
-{
+void testEnqueueWithUnsignedInt() {
     Queue queue;
     queue.enqueue(1U);
     queue.enqueue(2U);
@@ -64,8 +56,7 @@ void testEnqueueWithUnsignedInt()
 }
 
 template <typename Queue>
-void testDequeueWithUnsignedInt()
-{
+void testDequeueWithUnsignedInt() {
     Queue queue;
     queue.enqueue(1U);
     queue.enqueue(2U);
@@ -78,14 +69,13 @@ void testDequeueWithUnsignedInt()
 }
 
 template <typename Queue>
-void testDequeueAssertionWhenEmptyWithUnsignedInt()
-{
+void testDequeueAssertionWhenEmptyWithUnsignedInt() {
     Queue queue;
     EXPECT_DEATH(queue.dequeue(), "Assertion failed!");
 }
 
-}
+}  // namespace CommonTestsWithQueue
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

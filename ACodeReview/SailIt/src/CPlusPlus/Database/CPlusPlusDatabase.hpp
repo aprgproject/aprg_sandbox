@@ -8,23 +8,21 @@
 #include "CPlusPlusScope.hpp"
 #include "CPlusPlusVariable.hpp"
 
-#include <optional>
-
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
 
-using std::string;
-using std::set;
+using std::function;
 using std::map;
 using std::pair;
-using std::function;
+using std::set;
+using std::string;
 using std::vector;
 
-namespace codeReview
-{
+namespace codeReview {
 
 typedef set<string> IncludeFiles;
 typedef string IncludeFile;
@@ -44,8 +42,7 @@ typedef map<string, CPlusPlusVariable> Variables;
 typedef pair<string, CPlusPlusVariable> VariablePair;
 typedef vector<CPlusPlusScope> Scopes;
 
-class CPlusPlusDatabase
-{
+class CPlusPlusDatabase {
 public:
     CPlusPlusDatabase();
     void initializeCStyleArray();
@@ -72,7 +69,8 @@ public:
     CPlusPlusScope& getCurrentScope();
     CPlusPlusFunction& getFunctionReference(string const& functionName);
     CPlusPlusFunctionOptional getFunctionOptionalInClass(string const& className, string const& functionName);
-    CPlusPlusFunctionOptional getFunctionOptionalInTemplateClass(string const& templateClassName, string const& functionName, int instantiationIndex);
+    CPlusPlusFunctionOptional getFunctionOptionalInTemplateClass(
+        string const& templateClassName, string const& functionName, int instantiationIndex);
     CPlusPlusFunction& getFunctionReferenceWithAlias(string const& functionName);
     CPlusPlusNamespace& getNamespaceReference(string const& namespaceName);
     CPlusPlusMacro& getMacroReference(string const& macroName);
@@ -98,7 +96,8 @@ public:
     void addIncludeFile(string const& includeFileName);
     void addMacro(string const& macroName);
     void addNamespace(string const& namespaceName);
-    void addTemplateClass(string const& templateClassName, CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
+    void addTemplateClass(
+        string const& templateClassName, CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
     void addType(string const& typeDefName, CPlusPlusType const& type);
     void addUsingNamespace(string const& usingNamespace);
     void addVariable(string const& variableName, CPlusPlusType const& cPlusPlusType);
@@ -131,4 +130,4 @@ private:
     bool m_isModified;
 };
 
-}// namespace codeReview
+}  // namespace codeReview

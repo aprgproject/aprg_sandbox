@@ -2,11 +2,9 @@
 
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class FileDestructor
-{
+class FileDestructor {
 public:
     FileDestructor();
     void destroy() const;
@@ -20,4 +18,4 @@ private:
     AlbaLocalPathHandler m_pathToDestroy;
 };
 
-}
+}  // namespace alba

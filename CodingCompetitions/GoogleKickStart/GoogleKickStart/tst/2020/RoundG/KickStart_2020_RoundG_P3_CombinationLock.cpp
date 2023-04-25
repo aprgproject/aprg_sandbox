@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2020_RoundG_P3_CombinationLock.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -10,8 +11,8 @@
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
-#include <vector>
 #include <limits>
+#include <vector>
 
 using namespace std;
 
@@ -19,8 +20,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2020_RoundG_P3_CombinationLock
-{
+namespace KickStart_2020_RoundG_P3_CombinationLock {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -28,12 +28,11 @@ namespace KickStart_2020_RoundG_P3_CombinationLock
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     int n, k;
     my_cin >> n >> k;
     vector<int> a(n);
-    for(int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         my_cin >> a[i];
         a[i]--;
     }
@@ -41,46 +40,43 @@ void runTestCase(unsigned int const testCaseNumber)
     long long best_answer = numeric_limits<long long>::max();
     int L = 0, R = 0;
     long long current = 0;
-    for(int i = 1; i < n; ++i) {
+    for (int i = 1; i < n; ++i) {
         current += k - a[i];
     }
     int cnt_minus = 0;
-    for(int me = 0; me < n; ++me) {
-        if(me != 0) {
+    for (int me = 0; me < n; ++me) {
+        if (me != 0) {
             current -= a[me];
             cnt_minus--;
         }
-        while(R + 1 < n && a[R+1] - a[me] <= k / 2) {
+        while (R + 1 < n && a[R + 1] - a[me] <= k / 2) {
             ++R;
             current -= k - a[R];
             current += a[R];
             cnt_minus++;
         }
-        while(a[me] - a[L] > k / 2) {
+        while (a[me] - a[L] > k / 2) {
             current -= -a[L];
             current += k + a[L];
             cnt_minus++;
             ++L;
         }
-        long long maybe = current + (long long) (n - 1 - 2 * cnt_minus) * a[me];
+        long long maybe = current + (long long)(n - 1 - 2 * cnt_minus) * a[me];
         best_answer = min(best_answer, maybe);
         current += -a[me];
     }
     my_cout << "Case #" << testCaseNumber << ": " << best_answer << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -90,8 +86,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_RoundG_P3_CombinationLock
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

@@ -8,25 +8,15 @@
 #include <fstream>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-class ChessEngineControllerWithUci
-{
+class ChessEngineControllerWithUci {
 public:
-    enum class ControllerState
-    {
-        Initializing,
-        WaitingForUciOkay,
-        Calculating,
-        Idle
-    };
+    enum class ControllerState { Initializing, WaitingForUciOkay, Calculating, Idle };
 
-    enum class CommandType
-    {
+    enum class CommandType {
         Uci,
         UciOption,
         Position,
@@ -34,17 +24,15 @@ public:
         Stop,
     };
 
-    struct Command
-    {
+    struct Command {
         CommandType commandType;
         std::string commandString;
     };
 
-    using StepsInCalculationMonitoring = std::function<void(CalculationDetails const&)> ;
+    using StepsInCalculationMonitoring = std::function<void(CalculationDetails const&)>;
 
     ChessEngineControllerWithUci(
-            ChessEngineHandler & engineHandler,
-            stringHelper::StringPairs const& uciOptionNamesAndValuePairs = {});
+        ChessEngineHandler& engineHandler, stringHelper::StringPairs const& uciOptionNamesAndValuePairs = {});
 
     void resetToNewGame();
     void setupStartPosition();
@@ -61,7 +49,6 @@ public:
     void setLogFile(std::string const& logFilePath);
 
 private:
-
     void initialize();
     void resetEngine();
 
@@ -94,7 +81,7 @@ private:
 
     std::string constructUciOptionCommand(std::string const& name, std::string const& value);
 
-    ChessEngineHandler & m_engineHandler;
+    ChessEngineHandler& m_engineHandler;
     stringHelper::StringPairs m_uciOptionNamesAndValuePairs;
     std::optional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
     std::optional<std::ofstream> m_logFileStreamOptional;
@@ -105,9 +92,8 @@ private:
 };
 
 std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);
-std::ostream & operator<<(std::ostream & out, ChessEngineControllerWithUci::ControllerState const state);
+std::ostream& operator<<(std::ostream& out, ChessEngineControllerWithUci::ControllerState const state);
 
+}  // namespace chess
 
-}
-
-}
+}  // namespace alba

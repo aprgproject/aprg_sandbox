@@ -5,27 +5,23 @@
 #include <numeric>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
 template <unsigned int DIMENSIONS>
-class DataStatisticsUtilities
-{
+class DataStatisticsUtilities {
 public:
     using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
 
-    static Sample calculateSum(Samples const& samples)
-    {
+    static Sample calculateSum(Samples const& samples) {
         return (Sample)std::accumulate(samples.begin(), samples.end(), Sample(), std::plus<Sample>());
     }
 
-    static double calculateDistance(Sample const& sample1, Sample const& sample2)
-    {
-        Sample distanceCalculationTemp(sample1-sample2);
+    static double calculateDistance(Sample const& sample1, Sample const& sample2) {
+        Sample distanceCalculationTemp(sample1 - sample2);
         distanceCalculationTemp = distanceCalculationTemp.calculateRaiseToPower(2);
         return pow((double)distanceCalculationTemp.getSum(), 0.5);
     }
 };
 
-}
+}  // namespace alba

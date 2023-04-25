@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace soosa
-{
+namespace soosa {
 
-TEST(SoosaConfigurationTest, AParameterCanBeUpdated)
-{
+TEST(SoosaConfigurationTest, AParameterCanBeUpdated) {
     SoosaConfiguration soosaConfiguration;
 
     soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "10");
@@ -21,8 +18,7 @@ TEST(SoosaConfigurationTest, AParameterCanBeUpdated)
     EXPECT_EQ(10U, soosaConfiguration.getNumberOfChoices());
 }
 
-TEST(SoosaConfigurationTest, TwoParametersCanBeUpdated)
-{
+TEST(SoosaConfigurationTest, TwoParametersCanBeUpdated) {
     SoosaConfiguration soosaConfiguration;
 
     soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "10");
@@ -33,8 +29,7 @@ TEST(SoosaConfigurationTest, TwoParametersCanBeUpdated)
     EXPECT_EQ(200U, soosaConfiguration.getAcceptableLineDeviationForLineModelInPixels());
 }
 
-TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks)
-{
+TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks) {
     AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\SoosaConfigurationForTest.txt)");
     SoosaConfiguration soosaConfiguration;
 
@@ -66,6 +61,6 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks)
     EXPECT_DOUBLE_EQ(0.40, soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle());
 }
 
-}
+}  // namespace soosa
 
-}
+}  // namespace alba

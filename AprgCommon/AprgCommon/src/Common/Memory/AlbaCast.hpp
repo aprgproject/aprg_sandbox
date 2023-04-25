@@ -4,8 +4,8 @@
 
 // NOTE: APRG is compiled with no RTTI so dynamic_cast can't be used.
 
-// From: https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used
-
+// From:
+// https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used
 
 // static_cast
 
@@ -13,14 +13,15 @@
 // -> It does things like implicit conversions between types (such as int to float, or pointer to void*),
 // -> and it can also call explicit conversion functions (or implicit ones).
 // -> In many cases, explicitly stating static_cast isn't necessary,
-// -> but it's important to note that the T(something) syntax is equivalent to (T)something and should be avoided (more on that later).
+// -> but it's important to note that the T(something) syntax is equivalent to (T)something and should be avoided (more
+// on that later).
 // -> A T(something, something_else) is safe, however, and guaranteed to call the constructor.
 
 // -> static_cast can also cast through inheritance hierarchies.
 // -> It is unnecessary when casting upwards (towards a base class),
 // -> but when casting downwards it can be used as long as it doesn't cast through virtual inheritance.
-// -> It does not do checking, however, and it is undefined behavior to static_cast down a hierarchy to a type that isn't actually the type of the object.
-
+// -> It does not do checking, however, and it is undefined behavior to static_cast down a hierarchy to a type that
+// isn't actually the type of the object.
 
 // const_cast
 
@@ -33,7 +34,6 @@
 
 // -> const_cast also works similarly on volatile, though that's less common.
 
-
 // dynamic_cast
 
 // -> dynamic_cast is exclusively used for handling polymorphism.
@@ -44,27 +44,29 @@
 // -> If it can't, it will return nullptr in the case of a pointer, or throw std::bad_cast in the case of a reference.
 
 // -> dynamic_cast has some limitations, though.
-// -> It doesn't work if there are multiple objects of the same type in the inheritance hierarchy (the so-called 'dreaded diamond')
+// -> It doesn't work if there are multiple objects of the same type in the inheritance hierarchy (the so-called
+// 'dreaded diamond')
 // -> and you aren't using virtual inheritance.
-// -> It also can only go through public inheritance - it will always fail to travel through protected or private inheritance.
+// -> It also can only go through public inheritance - it will always fail to travel through protected or private
+// inheritance.
 // -> This is rarely an issue, however, as such forms of inheritance are rare.
-
 
 // reinterpret_cast
 
 // -> reinterpret_cast is the most dangerous cast, and should be used very sparingly.
 // -> It turns one type directly into another — such as casting the value from one pointer to another,
 // -> or storing a pointer in an int, or all sorts of other nasty things.
-// -> Largely, the only guarantee you get with reinterpret_cast is that normally if you cast the result back to the original type,
+// -> Largely, the only guarantee you get with reinterpret_cast is that normally if you cast the result back to the
+// original type,
 // -> you will get the exact same value (but not if the intermediate type is smaller than the original type).
 // -> There are a number of conversions that reinterpret_cast cannot do, too.
 // -> It's used primarily for particularly weird conversions and bit manipulations,
 // -> like turning a raw data stream into actual data, or storing data in the low bits of a pointer to aligned data.
 
-
 // C-style cast
 
-// -> C-style cast and function-style cast are casts using (type)object or type(object), respectively, and are functionally equivalent.
+// -> C-style cast and function-style cast are casts using (type)object or type(object), respectively, and are
+// functionally equivalent.
 // -> They are defined as the first of the following which succeeds:
 // ->
 // ->     const_cast
@@ -79,19 +81,19 @@
 // -> unless you are sure static_cast will succeed or reinterpret_cast will fail.
 // -> Even then, consider the longer, more explicit option.
 
-// -> C-style casts also ignore access control when performing a static_cast, which means that they have the ability to perform an operation that no other cast can. This is mostly a kludge, though, and in my mind is just another reason to avoid C-style casts.
+// -> C-style casts also ignore access control when performing a static_cast, which means that they have the ability to
+// perform an operation that no other cast can. This is mostly a kludge, though, and in my mind is just another reason
+// to avoid C-style casts.
 
-
-namespace alba
-{
+namespace alba {
 
 template <typename InputType, typename OutputType>
-OutputType getFloatingPointMemoryRepresentation(InputType const floatingPointValue)
-{
-    static_assert(typeHelper::isFloatingPointType<InputType>(), "Input type needs to be should be floating point type.");
+OutputType getFloatingPointMemoryRepresentation(InputType const floatingPointValue) {
+    static_assert(
+        typeHelper::isFloatingPointType<InputType>(), "Input type needs to be should be floating point type.");
     static_assert(typeHelper::isIntegralType<OutputType>(), "Output type needs to be should be integral point type.");
     static_assert(sizeof(InputType) == sizeof(OutputType), "Input type and output type sizes must match.");
     return *reinterpret_cast<OutputType const*>(&floatingPointValue);
 }
 
-}
+}  // namespace alba

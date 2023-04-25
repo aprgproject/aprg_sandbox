@@ -1,16 +1,13 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Object>
-class BaseStack
-{
+class BaseStack {
 public:
-    virtual ~BaseStack() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseStack() = default;  // virtual destructor because of virtual functions (vtable exists)
 
     virtual bool isEmpty() const = 0;
     virtual unsigned int getSize() const = 0;
@@ -18,6 +15,6 @@ public:
     virtual Object pop() = 0;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

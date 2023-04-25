@@ -3,22 +3,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using LongestPathsForTest = LongestPathsInTree<VertexForTest>;
 using EndPointPairsForTest = typename LongestPathsForTest::EndPointPairs;
 
-void putConnectionsForTest(GraphForTest & graph)
-{
+void putConnectionsForTest(GraphForTest& graph) {
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(1U, 4U);
@@ -26,10 +22,9 @@ void putConnectionsForTest(GraphForTest & graph)
     graph.connect(2U, 6U);
     graph.connect(4U, 7U);
 }
-}
+}  // namespace
 
-TEST(LongestPathsInTreeTest, GetEndPointPairsOfLongestPathsWorks)
-{
+TEST(LongestPathsInTreeTest, GetEndPointPairsOfLongestPathsWorks) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     LongestPathsForTest longestPath(graph);
@@ -41,8 +36,7 @@ TEST(LongestPathsInTreeTest, GetEndPointPairsOfLongestPathsWorks)
     EXPECT_EQ(endPointPairsToExpect, endPointPairsToVerify);
 }
 
-TEST(LongestPathsInTreeTest, GetLongestDistanceWorks)
-{
+TEST(LongestPathsInTreeTest, GetLongestDistanceWorks) {
     // This function is coupled with search function
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -52,8 +46,7 @@ TEST(LongestPathsInTreeTest, GetLongestDistanceWorks)
     EXPECT_EQ(4U, longestPath.getLongestDistance());
 }
 
-TEST(LongestPathsInTreeTest, SearchForAtLeastOneEndPointPairWorks)
-{
+TEST(LongestPathsInTreeTest, SearchForAtLeastOneEndPointPairWorks) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     LongestPathsForTest longestPath(graph);
@@ -66,8 +59,7 @@ TEST(LongestPathsInTreeTest, SearchForAtLeastOneEndPointPairWorks)
     EXPECT_EQ(endPointPairsToExpect, endPointPairsToVerify);
 }
 
-TEST(LongestPathsInTreeTest, SearchForAllEndPointPairsWorks)
-{
+TEST(LongestPathsInTreeTest, SearchForAllEndPointPairsWorks) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     LongestPathsForTest longestPath(graph);
@@ -79,6 +71,6 @@ TEST(LongestPathsInTreeTest, SearchForAllEndPointPairsWorks)
     EXPECT_EQ(endPointPairsToExpect, endPointPairsToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

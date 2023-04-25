@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ReversingALinkedList
-{
+namespace ReversingALinkedList {
 
-TEST(ReversingALinkedListTest, ThreeNodes)
-{
+TEST(ReversingALinkedListTest, ThreeNodes) {
     std::unique_ptr<Node> node1(new Node{1, nullptr});
     std::unique_ptr<Node> node2(new Node{2, nullptr});
     std::unique_ptr<Node> node3(new Node{3, nullptr});
@@ -29,8 +26,7 @@ TEST(ReversingALinkedListTest, ThreeNodes)
     EXPECT_FALSE(result);
 }
 
-TEST(ReversingALinkedListTest, SevenNodes)
-{
+TEST(ReversingALinkedListTest, SevenNodes) {
     std::unique_ptr<Node> node1(new Node{1, nullptr});
     std::unique_ptr<Node> node2(new Node{2, nullptr});
     std::unique_ptr<Node> node3(new Node{3, nullptr});
@@ -64,6 +60,6 @@ TEST(ReversingALinkedListTest, SevenNodes)
     EXPECT_FALSE(result);
 }
 
-}
+}  // namespace ReversingALinkedList
 
-}
+}  // namespace alba

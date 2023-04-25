@@ -5,18 +5,17 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-class Hyperbola
-{
+class Hyperbola {
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Hyperbola();
-    Hyperbola(Point const& center, double const aCoefficient, double const bCoefficient); // ((x-center.x)^2/aCoefficient^2) - ((y-center.y)^2/bCoefficient^2) = 1
+    Hyperbola(
+        Point const& center, double const aCoefficient,
+        double const bCoefficient);  // ((x-center.x)^2/aCoefficient^2) - ((y-center.y)^2/bCoefficient^2) = 1
     bool operator==(Hyperbola const& hyperbola) const;
     bool operator!=(Hyperbola const& hyperbola) const;
     Point getCenter() const;
@@ -41,7 +40,7 @@ private:
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
 
-    friend std::ostream & operator<<(std::ostream & out, Hyperbola const& hyperbola);
+    friend std::ostream& operator<<(std::ostream& out, Hyperbola const& hyperbola);
 
     Point m_center;
     double m_aValue;
@@ -50,5 +49,5 @@ private:
 
 using Hyperbolas = std::vector<Hyperbola>;
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

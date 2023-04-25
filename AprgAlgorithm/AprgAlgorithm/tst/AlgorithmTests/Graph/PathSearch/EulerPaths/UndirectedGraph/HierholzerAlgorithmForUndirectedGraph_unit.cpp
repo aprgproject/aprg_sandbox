@@ -6,84 +6,68 @@
 
 using namespace alba::algorithm::CommonTestsWithEulerPathForUndirectedGraph;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = HierholzerAlgorithmForUndirectedGraph<VertexForTest>;
-}
+}  // namespace
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices) {
     testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices) {
     testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithOneOddDegreeVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithOneOddDegreeVertices) {
     testHasEulerPathWorksOnGraphWithOneOddDegreeVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices) {
     testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices) {
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnEmptyGraph)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnEmptyGraph) {
     testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices) {
     testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices) {
     testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnEmptyGraph)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnEmptyGraph) {
     testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices) {
     testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices) {
     testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleAndPathWorksOnExample1)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleAndPathWorksOnExample1) {
     testGetEulerCycleAndPathWorksOnExample1<PathSearchForTest, GraphForTest>();
 }
 
-TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleAndPathWorksOnExample2)
-{
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleAndPathWorksOnExample2) {
     testGetEulerCycleAndPathWorksOnExample2<PathSearchForTest, GraphForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

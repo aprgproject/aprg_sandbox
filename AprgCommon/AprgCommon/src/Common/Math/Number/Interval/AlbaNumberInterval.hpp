@@ -2,16 +2,12 @@
 
 #include <Common/Math/Number/Interval/AlbaNumberIntervalEndpoint.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaNumberInterval
-{
+class AlbaNumberInterval {
 public:
-
     AlbaNumberInterval(
-            AlbaNumberIntervalEndpoint const& firstEndpoint,
-            AlbaNumberIntervalEndpoint const& secondEndpoint);
+        AlbaNumberIntervalEndpoint const& firstEndpoint, AlbaNumberIntervalEndpoint const& secondEndpoint);
 
     // rule of zero
 
@@ -25,11 +21,11 @@ public:
 
     void setNewEndpoint(AlbaNumberIntervalEndpoint const& endpoint);
 
-    friend std::ostream & operator<<(std::ostream & out, AlbaNumberInterval const& interval);
+    friend std::ostream& operator<<(std::ostream& out, AlbaNumberInterval const& interval);
 
 private:
     AlbaNumberIntervalEndpoint m_lowerEndpoint;
     AlbaNumberIntervalEndpoint m_higherEndpoint;
 };
 
-}
+}  // namespace alba

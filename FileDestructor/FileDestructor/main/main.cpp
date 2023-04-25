@@ -2,8 +2,7 @@
 
 using namespace alba;
 
-int main()
-{
+int main() {
     FileDestructor fileDestructor;
     fileDestructor.destroy();
     system("pause");

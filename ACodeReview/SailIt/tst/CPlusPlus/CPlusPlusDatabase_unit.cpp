@@ -4,8 +4,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST(CPlusPlusDatabaseTest, CheckAdders)
-{
+TEST(CPlusPlusDatabaseTest, CheckAdders) {
     CPlusPlusDatabase database;
 
     database.addFunction("function1");
@@ -39,8 +38,7 @@ TEST(CPlusPlusDatabaseTest, CheckAdders)
     EXPECT_EQ((*it3++).first, "variable3");
 }
 
-TEST(CPlusPlusDatabaseTest, CheckFunctions)
-{
+TEST(CPlusPlusDatabaseTest, CheckFunctions) {
     CPlusPlusDatabase database;
 
     EXPECT_FALSE(database.isFunction("function1"));
@@ -54,8 +52,7 @@ TEST(CPlusPlusDatabaseTest, CheckFunctions)
     EXPECT_TRUE(database.isFunction("function3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckVariable)
-{
+TEST(CPlusPlusDatabaseTest, CheckVariable) {
     CPlusPlusDatabase database;
 
     EXPECT_FALSE(database.isVariable("variable1"));
@@ -69,8 +66,7 @@ TEST(CPlusPlusDatabaseTest, CheckVariable)
     EXPECT_TRUE(database.isVariable("variable3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckMacro)
-{
+TEST(CPlusPlusDatabaseTest, CheckMacro) {
     CPlusPlusDatabase database;
 
     EXPECT_FALSE(database.isMacro("MACRO1"));
@@ -90,8 +86,7 @@ TEST(CPlusPlusDatabaseTest, CheckMacro)
     EXPECT_FALSE(database.isMacro("MACRO3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckTypeDef)
-{
+TEST(CPlusPlusDatabaseTest, CheckTypeDef) {
     CPlusPlusDatabase database;
 
     EXPECT_FALSE(database.isType("typeDef1"));
@@ -105,20 +100,16 @@ TEST(CPlusPlusDatabaseTest, CheckTypeDef)
     EXPECT_TRUE(database.isType("typeDef3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckEnterExitScope)
-{
+TEST(CPlusPlusDatabaseTest, CheckEnterExitScope) {
     CPlusPlusDatabase database;
 
-    database.performInNewScope([&]()
-    {
+    database.performInNewScope([&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
-        database.performInNewScope([&]()
-        {
+        database.performInNewScope([&]() {
             database.addFunction("function2");
             database.addVariable("variable2", CPlusPlusType());
-            database.performInNewScope([&]()
-            {
+            database.performInNewScope([&]() {
                 database.addFunction("function3");
                 database.addVariable("variable3", CPlusPlusType());
                 EXPECT_TRUE(database.isFunction("function1"));
@@ -151,20 +142,16 @@ TEST(CPlusPlusDatabaseTest, CheckEnterExitScope)
     EXPECT_FALSE(database.isVariable("variable3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckEnterExitClass)
-{
+TEST(CPlusPlusDatabaseTest, CheckEnterExitClass) {
     CPlusPlusDatabase database;
 
-    database.performInClass("Class1", [&]()
-    {
+    database.performInClass("Class1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
-        database.performInClass("Class2", [&]()
-        {
+        database.performInClass("Class2", [&]() {
             database.addFunction("function2");
             database.addVariable("variable2", CPlusPlusType());
-            database.performInClass("Class3", [&]()
-            {
+            database.performInClass("Class3", [&]() {
                 database.addFunction("function3");
                 database.addVariable("variable3", CPlusPlusType());
                 EXPECT_TRUE(database.isFunction("Class1::function1"));
@@ -208,20 +195,16 @@ TEST(CPlusPlusDatabaseTest, CheckEnterExitClass)
     EXPECT_TRUE(database.isClass("Class1::Class2::Class3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckEnterExitNamespace)
-{
+TEST(CPlusPlusDatabaseTest, CheckEnterExitNamespace) {
     CPlusPlusDatabase database;
 
-    database.performInNamespace("Namespace1", [&]()
-    {
+    database.performInNamespace("Namespace1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
-        database.performInNamespace("Namespace2", [&]()
-        {
+        database.performInNamespace("Namespace2", [&]() {
             database.addFunction("function2");
             database.addVariable("variable2", CPlusPlusType());
-            database.performInNamespace("Namespace3", [&]()
-            {
+            database.performInNamespace("Namespace3", [&]() {
                 database.addFunction("function3");
                 database.addVariable("variable3", CPlusPlusType());
                 EXPECT_TRUE(database.isFunction("Namespace1::function1"));
@@ -265,12 +248,10 @@ TEST(CPlusPlusDatabaseTest, CheckEnterExitNamespace)
     EXPECT_TRUE(database.isNamespace("Namespace1::Namespace2::Namespace3"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckClassContents)
-{
+TEST(CPlusPlusDatabaseTest, CheckClassContents) {
     CPlusPlusDatabase database;
 
-    database.performInClass("Class1", [&]()
-    {
+    database.performInClass("Class1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("innerClass1");
@@ -296,12 +277,10 @@ TEST(CPlusPlusDatabaseTest, CheckClassContents)
     EXPECT_TRUE(cPlusPlusClass.isNamespace("namespace1"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckNamespaceContents)
-{
+TEST(CPlusPlusDatabaseTest, CheckNamespaceContents) {
     CPlusPlusDatabase database;
 
-    database.performInNamespace("Namespace1", [&]()
-    {
+    database.performInNamespace("Namespace1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("class1");
@@ -327,20 +306,17 @@ TEST(CPlusPlusDatabaseTest, CheckNamespaceContents)
     EXPECT_TRUE(cPlusPlusNamespace.isNamespace("innerNamespace1"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckNamespaceAliasIsFound)
-{
+TEST(CPlusPlusDatabaseTest, CheckNamespaceAliasIsFound) {
     CPlusPlusDatabase database;
 
-    database.performInNamespace("Namespace1", [&]()
-    {
+    database.performInNamespace("Namespace1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("class1");
         database.addNamespace("innerNamespace1");
     });
 
-    database.performInNamespace("Namespace1", [&]()
-    {
+    database.performInNamespace("Namespace1", [&]() {
         EXPECT_TRUE(database.isFunctionWithAlias("function1"));
         EXPECT_TRUE(database.isVariableWithAlias("variable1"));
         EXPECT_TRUE(database.isClassWithAlias("class1"));
@@ -348,20 +324,17 @@ TEST(CPlusPlusDatabaseTest, CheckNamespaceAliasIsFound)
     });
 }
 
-TEST(CPlusPlusDatabaseTest, CheckClassAliasIsFound)
-{
+TEST(CPlusPlusDatabaseTest, CheckClassAliasIsFound) {
     CPlusPlusDatabase database;
 
-    database.performInClass("Class1", [&]()
-    {
+    database.performInClass("Class1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("innerClass1");
         database.addNamespace("namespace1");
     });
 
-    database.performInClass("Class1", [&]()
-    {
+    database.performInClass("Class1", [&]() {
         EXPECT_TRUE(database.isFunctionWithAlias("function1"));
         EXPECT_TRUE(database.isVariableWithAlias("variable1"));
         EXPECT_TRUE(database.isClassWithAlias("innerClass1"));
@@ -369,12 +342,10 @@ TEST(CPlusPlusDatabaseTest, CheckClassAliasIsFound)
     });
 }
 
-TEST(CPlusPlusDatabaseTest, CheckUsingNamespaceAliasIsFound)
-{
+TEST(CPlusPlusDatabaseTest, CheckUsingNamespaceAliasIsFound) {
     CPlusPlusDatabase database;
 
-    database.performInNamespace("Namespace1", [&]()
-    {
+    database.performInNamespace("Namespace1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("class1");
@@ -388,18 +359,15 @@ TEST(CPlusPlusDatabaseTest, CheckUsingNamespaceAliasIsFound)
     EXPECT_TRUE(database.isNamespaceWithAlias("innerNamespace1"));
 }
 
-TEST(CPlusPlusDatabaseTest, CheckNewScopeInNamespace_AliasesAreFound)
-{
+TEST(CPlusPlusDatabaseTest, CheckNewScopeInNamespace_AliasesAreFound) {
     CPlusPlusDatabase database;
 
-    database.performInNamespace("Namespace1", [&]()
-    {
+    database.performInNamespace("Namespace1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("class1");
         database.addNamespace("innerNamespace1");
-        database.performInNewScope([&]()
-        {
+        database.performInNewScope([&]() {
             EXPECT_TRUE(database.isFunctionWithAlias("function1"));
             EXPECT_TRUE(database.isVariableWithAlias("variable1"));
             EXPECT_TRUE(database.isClassWithAlias("class1"));
@@ -408,18 +376,15 @@ TEST(CPlusPlusDatabaseTest, CheckNewScopeInNamespace_AliasesAreFound)
     });
 }
 
-TEST(CPlusPlusDatabaseTest, CheckNewScopeInClass_AliasesAreFound)
-{
+TEST(CPlusPlusDatabaseTest, CheckNewScopeInClass_AliasesAreFound) {
     CPlusPlusDatabase database;
 
-    database.performInClass("Class1", [&]()
-    {
+    database.performInClass("Class1", [&]() {
         database.addFunction("function1");
         database.addVariable("variable1", CPlusPlusType());
         database.addClass("innerClass1");
         database.addNamespace("namespace1");
-        database.performInNewScope([&]()
-        {
+        database.performInNewScope([&]() {
             EXPECT_TRUE(database.isFunctionWithAlias("function1"));
             EXPECT_TRUE(database.isVariableWithAlias("variable1"));
             EXPECT_TRUE(database.isClassWithAlias("innerClass1"));
@@ -428,8 +393,7 @@ TEST(CPlusPlusDatabaseTest, CheckNewScopeInClass_AliasesAreFound)
     });
 }
 
-void checkThatDatabaseIsEmpty(CPlusPlusDatabase& database)
-{
+void checkThatDatabaseIsEmpty(CPlusPlusDatabase& database) {
     EXPECT_EQ(database.getClassesReference().size(), 0);
     EXPECT_EQ(database.getFunctionsReference().size(), 0);
     EXPECT_EQ(database.getIncludeFilesReference().size(), 0);

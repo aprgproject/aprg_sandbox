@@ -6,11 +6,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(FrequencyStatisticsTest, SamplesAreEmpty)
-{
+TEST(FrequencyStatisticsTest, SamplesAreEmpty) {
     FrequencyStatistics::FrequencySamples samples;
 
     FrequencyStatistics::MultipleValues modes(FrequencyStatistics::calculateMode(samples));
@@ -21,8 +19,7 @@ TEST(FrequencyStatisticsTest, SamplesAreEmpty)
     ASSERT_EQ(0U, modes.size());
 }
 
-TEST(FrequencyStatisticsTest, SingleSamplePerValueWithOddNumberOfValues)
-{
+TEST(FrequencyStatisticsTest, SingleSamplePerValueWithOddNumberOfValues) {
     FrequencyStatistics::FrequencySamples samples;
     samples[1] = 1;
     samples[2] = 1;
@@ -51,8 +48,7 @@ TEST(FrequencyStatisticsTest, SingleSamplePerValueWithOddNumberOfValues)
     EXPECT_EQ(9, modes[8]);
 }
 
-TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues)
-{
+TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues) {
     FrequencyStatistics::FrequencySamples samples;
     samples[1] = 1;
     samples[2] = 1;
@@ -83,8 +79,7 @@ TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues)
     EXPECT_EQ(10, modes[9]);
 }
 
-TEST(FrequencyStatisticsTest, MulipleSamplesPerValue)
-{
+TEST(FrequencyStatisticsTest, MulipleSamplesPerValue) {
     FrequencyStatistics::FrequencySamples samples;
     samples[1] = 7;
     samples[2] = 1;
@@ -101,8 +96,7 @@ TEST(FrequencyStatisticsTest, MulipleSamplesPerValue)
     EXPECT_EQ(4, modes[0]);
 }
 
-TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues)
-{
+TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues) {
     FrequencyStatistics::FrequencySamples samples;
     samples[9] = 0;
     samples[10] = 7;
@@ -126,4 +120,4 @@ TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues)
     EXPECT_EQ(20, modes[0]);
 }
 
-}
+}  // namespace alba

@@ -2,21 +2,13 @@
 
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaNumberIntervalEndpoint
-{
+class AlbaNumberIntervalEndpoint {
 public:
-    enum class Type
-    {
-        Open,
-        Close
-    };
+    enum class Type { Open, Close };
 
-    AlbaNumberIntervalEndpoint(
-            Type const type,
-            AlbaNumber const value);
+    AlbaNumberIntervalEndpoint(Type const type, AlbaNumber const value);
 
     bool operator==(AlbaNumberIntervalEndpoint const& second) const;
     bool isOpen() const;
@@ -28,11 +20,10 @@ public:
     void setType(Type const type);
 
 private:
-
-    friend std::ostream & operator<<(std::ostream & out, AlbaNumberIntervalEndpoint const& endpoint);
+    friend std::ostream& operator<<(std::ostream& out, AlbaNumberIntervalEndpoint const& endpoint);
 
     Type m_type;
     AlbaNumber m_value;
 };
 
-}
+}  // namespace alba

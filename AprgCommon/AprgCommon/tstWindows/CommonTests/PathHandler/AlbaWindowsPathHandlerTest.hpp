@@ -2,15 +2,13 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-struct AlbaWindowsPathHandlerTest : public testing::Test
-{
+struct AlbaWindowsPathHandlerTest : public testing::Test {
     AlbaWindowsPathHandlerTest();
     std::string convertToSimplestPath(std::string const& path);
     std::string getDriveOfAprgDir();
     std::string pathOfAprgDirectory;
 };
 
-}
+}  // namespace alba

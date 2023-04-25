@@ -3,20 +3,14 @@
 #include <functional>
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-class OutwardCircleTraversal
-{
+class OutwardCircleTraversal {
 public:
-    struct Coordinate
-    {
-        Coordinate(
-                unsigned int const firstValue,
-                unsigned int const secondValue);
+    struct Coordinate {
+        Coordinate(unsigned int const firstValue, unsigned int const secondValue);
         unsigned int coordinate1;
         unsigned int coordinate2;
     };
@@ -33,6 +27,6 @@ private:
     RadiusToCoordinates m_radiusToCoordinates;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

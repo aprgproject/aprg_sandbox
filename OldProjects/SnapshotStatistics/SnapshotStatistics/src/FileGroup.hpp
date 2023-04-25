@@ -2,11 +2,9 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-class FileGroup
-{
+class FileGroup {
 public:
     using ConditionFunction = std::function<bool(std::string const&)>;
     FileGroup(std::string const& wildcardName, ConditionFunction const& condition);
@@ -18,4 +16,4 @@ private:
     ConditionFunction m_condition;
 };
 
-}
+}  // namespace alba

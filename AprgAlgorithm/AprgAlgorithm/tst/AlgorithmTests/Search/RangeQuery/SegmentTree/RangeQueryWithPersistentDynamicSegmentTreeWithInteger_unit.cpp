@@ -4,41 +4,34 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithPersistentDynamicSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
-RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2) {
     return min(value1, value2);
 };
 
-RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2) {
     return max(value1, value2);
 };
 
 RangeQueryForTest::Function plusFunction = plus<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1) {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
     RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
@@ -56,8 +49,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMinim
     EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1) {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
     RangeQueryForTest maximumRangeQuery(values, maximumFunction);
 
@@ -75,8 +67,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithMaxim
     EXPECT_EQ(8U, maximumRangeQuery.getValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -96,8 +87,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithSumWo
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -106,8 +96,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWo
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue) {
     ValuesForTest values{5};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -116,8 +105,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWo
     EXPECT_EQ(3U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -139,14 +127,15 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWo
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalOnPreviousTreeWithSumWorksAfterChangingValuesOnExample1)
-{
+TEST(
+    RangeQueryWithPersistentDynamicSegmentTreeTest,
+    GetValueOnIntervalOnPreviousTreeWithSumWorksAfterChangingValuesOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
-    sumRangeQuery.changeValueAtIndex(3U, 3U); // New values: 1, 3, 4, 3, 6, 1, 4, 2, 9
-    sumRangeQuery.changeValueAtIndex(4U, 4U); // New values: 1, 3, 4, 3, 4, 1, 4, 2, 9
-    sumRangeQuery.changeValueAtIndex(5U, 5U); // New values: 1, 3, 4, 3, 4, 5, 4, 2, 9
+    sumRangeQuery.changeValueAtIndex(3U, 3U);  // New values: 1, 3, 4, 3, 6, 1, 4, 2, 9
+    sumRangeQuery.changeValueAtIndex(4U, 4U);  // New values: 1, 3, 4, 3, 4, 1, 4, 2, 9
+    sumRangeQuery.changeValueAtIndex(5U, 5U);  // New values: 1, 3, 4, 3, 4, 5, 4, 2, 9
 
     // On zero previous step (current values), the values are: 1, 3, 4, 3, 4, 5, 4, 2, 9
     EXPECT_EQ(1U, sumRangeQuery.getValueOnIntervalOnPreviousTree(0U, 0U, 0U));
@@ -229,6 +218,6 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalOnPreviou
     EXPECT_EQ(0U, sumRangeQuery.getValueOnIntervalOnPreviousTree(4U, 4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-TEST(ChessEngineControllerWithUciTest, DISABLED_WorksOnStartPosition)
-{
+TEST(ChessEngineControllerWithUciTest, DISABLED_WorksOnStartPosition) {
     ChessEngineHandler chessEngineHandler(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaTest.exe)");
     chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaLog.log)");
     ChessEngineControllerWithUci controller(chessEngineHandler);
@@ -24,6 +21,6 @@ TEST(ChessEngineControllerWithUciTest, DISABLED_WorksOnStartPosition)
     Sleep(1000);
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

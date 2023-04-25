@@ -5,11 +5,9 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-struct MapAnalyzerData
-{
+struct MapAnalyzerData {
     std::string mapName;
     double zenyPotential;
     double baseExperiencePotential;
@@ -20,8 +18,7 @@ struct MapAnalyzerData
 
 using MapsAnalyzerData = std::vector<MapAnalyzerData>;
 
-class MapAnalyzer
-{
+class MapAnalyzer {
 public:
     MapAnalyzer();
 
@@ -31,8 +28,7 @@ public:
     void printResult() const;
 
     double getPotentialZenyFromMonster(Monster const& monster) const;
-    void printPotentialZenyFromMonster(
-            std::string const& monsterName) const;
+    void printPotentialZenyFromMonster(std::string const& monsterName) const;
     double getMultiplierForExperience(std::string const& mapName);
 
 private:
@@ -43,5 +39,4 @@ private:
     MapsAnalyzerData m_mapsAnalyzerData;
 };
 
-
-}
+}  // namespace alba

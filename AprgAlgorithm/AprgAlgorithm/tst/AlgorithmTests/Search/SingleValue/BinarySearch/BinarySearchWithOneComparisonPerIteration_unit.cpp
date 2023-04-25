@@ -6,73 +6,72 @@
 using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = BinarySearchWithOneComparisonPerIteration<ValuesForTest>;
-}
+}  // namespace
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue)
-{
+TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue)
-{
+TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest,
+    GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest,
+    GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest,
+    GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest,
+    GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest,
+    GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(
+    BinarySearchWithOneComparisonPerIterationTest,
+    GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

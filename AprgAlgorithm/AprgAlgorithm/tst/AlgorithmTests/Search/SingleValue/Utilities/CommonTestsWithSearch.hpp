@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithSearch
-{
+namespace CommonTestsWithSearch {
 
 // getIndexOfValue
 
 template <typename Search, typename Values>
-void testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts()
-{
+void testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts() {
     Values emptyValues;
     Search search(emptyValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -26,8 +22,7 @@ void testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt()
-{
+void testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt() {
     Values oneValue{10};
     Search search(oneValue);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -36,8 +31,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt()
-{
+void testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt() {
     Values oneValue{10};
     Search search(oneValue);
 
@@ -45,8 +39,7 @@ void testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithUnsortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithUnsortedUnsignedInts() {
     Values unsortedValues{96, 96, 53, 53, 53, 72, 72, 72, 72, 14, 33, 33, 33, 13, 13};
     Search search(unsortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -55,8 +48,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithUnsortedUnsignedInt
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithUnsortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithUnsortedUnsignedInts() {
     Values unsortedValues{96, 96, 53, 53, 53, 72, 72, 72, 72, 14, 33, 33, 33, 13, 13};
     Search search(unsortedValues);
 
@@ -64,8 +56,7 @@ void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithUnsortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsNotFoundWithUnsortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsNotFoundWithUnsortedUnsignedInts() {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -74,8 +65,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithUnsortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsFoundWithUnsortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsFoundWithUnsortedUnsignedInts() {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
 
@@ -83,8 +73,7 @@ void testGetIndexOfValueWhenValueIsFoundWithUnsortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts() {
     Values sortedValues{13, 13, 14, 33, 33, 33, 53, 53, 53, 72, 72, 72, 72, 96, 96};
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -93,8 +82,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts(
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts() {
     Values sortedValues{13, 13, 14, 33, 33, 33, 53, 53, 53, 72, 72, 72, 72, 96, 96};
     Search search(sortedValues);
 
@@ -102,8 +90,7 @@ void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -112,8 +99,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -122,8 +108,7 @@ void testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts(
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -132,20 +117,17 @@ void testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedI
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfValue(33U));
 }
 
-
 // getIndexOfValue with indices
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithUnsortedUnsignedInts()
-{
+void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithUnsortedUnsignedInts() {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -154,8 +136,7 @@ void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithUnsortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWithIndicesWhenValueIsFoundWithUnsortedUnsignedInts()
-{
+void testGetIndexOfValueWithIndicesWhenValueIsFoundWithUnsortedUnsignedInts() {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
 
@@ -163,8 +144,7 @@ void testGetIndexOfValueWithIndicesWhenValueIsFoundWithUnsortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
@@ -173,16 +153,15 @@ void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWithIndicesWhenValueIsFoundWithSortedUnsignedInts()
-{
+void testGetIndexOfValueWithIndicesWhenValueIsFoundWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfValue(0U, 6U, 33U));
 }
 
-}
+}  // namespace CommonTestsWithSearch
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

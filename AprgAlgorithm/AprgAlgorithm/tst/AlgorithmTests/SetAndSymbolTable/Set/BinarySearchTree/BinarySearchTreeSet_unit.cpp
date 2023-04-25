@@ -6,112 +6,53 @@
 using namespace alba::algorithm::CommonTestsWithSet;
 using namespace std;
 
+namespace alba {
 
-namespace alba
-{
+namespace algorithm {
 
-namespace algorithm
-{
-
-namespace
-{
+namespace {
 using SetForTest = BinarySearchTreeSet<unsigned int>;
 using NodeForTest = typename SetForTest::Node;
 using KeysForTest = typename SetForTest::Keys;
-}
+}  // namespace
 
-TEST(BinarySearchTreeSetTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, DoesContainWorks)
-{
-    testDoesContainWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, DoesContainWorks) { testDoesContainWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetWorks)
-{
-    testGetWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetWorks) { testGetWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetRankWorks)
-{
-    testGetRankWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetRankWorks) { testGetRankWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetMinimumWorks)
-{
-    testGetMinimumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetMinimumWorks) { testGetMinimumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetMaximumWorks)
-{
-    testGetMaximumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetMaximumWorks) { testGetMaximumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, SelectAtWorks)
-{
-    testSelectAtWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, SelectAtWorks) { testSelectAtWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetFloorWorks)
-{
-    testGetFloorWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetFloorWorks) { testGetFloorWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetCeilingWorks)
-{
-    testGetCeilingWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetCeilingWorks) { testGetCeilingWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, PutWorks)
-{
-    testPutWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, PutWorks) { testPutWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, DeleteBasedOnKeyWorks)
-{
-    testDeleteBasedOnKeyWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, DeleteMinimumWorks)
-{
-    testDeleteMinimumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, DeleteMinimumWorks) { testDeleteMinimumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, DeleteMaximumWorks)
-{
-    testDeleteMaximumWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, DeleteMaximumWorks) { testDeleteMaximumWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetKeys)
-{
-    testGetKeysWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetKeys) { testGetKeysWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetKeysInRangeWorks)
-{
-    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SetForTest>();
-}
+TEST(BinarySearchTreeSetTest, GetKeysInRangeWorks) { testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SetForTest>(); }
 
-TEST(BinarySearchTreeSetTest, GetRootWorks)
-{
+TEST(BinarySearchTreeSetTest, GetRootWorks) {
     SetForTest setObject;
     setObject.put(8U);
 
@@ -125,8 +66,7 @@ TEST(BinarySearchTreeSetTest, GetRootWorks)
     EXPECT_EQ(node.numberOfNodesOnThisSubTree, expectedRoot->numberOfNodesOnThisSubTree);
 }
 
-TEST(BinarySearchTreeSetTest, TraverseByPreOrderWorks)
-{
+TEST(BinarySearchTreeSetTest, TraverseByPreOrderWorks) {
     SetForTest setObject;
     setObject.put(3U);
     setObject.put(4U);
@@ -136,17 +76,13 @@ TEST(BinarySearchTreeSetTest, TraverseByPreOrderWorks)
     setObject.put(7U);
 
     KeysForTest keysToVerify;
-    setObject.traverseByPreOrder([&keysToVerify](NodeForTest const& node)
-    {
-        keysToVerify.emplace_back(node.key);
-    });
+    setObject.traverseByPreOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3U, 4U, 5U, 9U, 8U, 7U}; // not balanced
+    KeysForTest expectedKeys{3U, 4U, 5U, 9U, 8U, 7U};  // not balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-TEST(BinarySearchTreeSetTest, TraverseByInOrderWorks)
-{
+TEST(BinarySearchTreeSetTest, TraverseByInOrderWorks) {
     SetForTest setObject;
     setObject.put(3U);
     setObject.put(4U);
@@ -156,17 +92,13 @@ TEST(BinarySearchTreeSetTest, TraverseByInOrderWorks)
     setObject.put(7U);
 
     KeysForTest keysToVerify;
-    setObject.traverseByInOrder([&keysToVerify](NodeForTest const& node)
-    {
-        keysToVerify.emplace_back(node.key);
-    });
+    setObject.traverseByInOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
     KeysForTest expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-TEST(BinarySearchTreeSetTest, TraverseByPostOrderWorks)
-{
+TEST(BinarySearchTreeSetTest, TraverseByPostOrderWorks) {
     SetForTest setObject;
     setObject.put(3U);
     setObject.put(4U);
@@ -176,15 +108,12 @@ TEST(BinarySearchTreeSetTest, TraverseByPostOrderWorks)
     setObject.put(7U);
 
     KeysForTest keysToVerify;
-    setObject.traverseByPostOrder([&keysToVerify](NodeForTest const& node)
-    {
-        keysToVerify.emplace_back(node.key);
-    });
+    setObject.traverseByPostOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{7U, 8U, 9U, 5U, 4U, 3U}; // not balanced
+    KeysForTest expectedKeys{7U, 8U, 9U, 5U, 4U, 3U};  // not balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

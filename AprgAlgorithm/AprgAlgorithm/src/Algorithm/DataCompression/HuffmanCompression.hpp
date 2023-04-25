@@ -8,45 +8,32 @@
 #include <memory>
 #include <queue>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Count>
-class HuffmanCompression
-{
-public :
-    static constexpr unsigned int RADIX=256U;
+class HuffmanCompression {
+public:
+    static constexpr unsigned int RADIX = 256U;
 
     using Characters = std::vector<char>;
     using HuffmanCode = std::vector<bool>;
     using FrequencyOfEachCharacter = std::array<Count, RADIX>;
     using HuffmanCodeTable = std::array<HuffmanCode, RADIX>;
-    struct CharacterFrequency
-    {
-        CharacterFrequency(char const characterAsParameter, Count const frequencyAsParameter, bool const isProritizedAsParameter)
-            : character(characterAsParameter)
-            , frequency(frequencyAsParameter)
-            , isProritized(isProritizedAsParameter)
-        {}
+    struct CharacterFrequency {
+        CharacterFrequency(
+            char const characterAsParameter, Count const frequencyAsParameter, bool const isProritizedAsParameter)
+            : character(characterAsParameter), frequency(frequencyAsParameter), isProritized(isProritizedAsParameter) {}
 
-        bool operator>(CharacterFrequency const& second) const
-        {
+        bool operator>(CharacterFrequency const& second) const {
             bool result(false);
-            if(frequency != second.frequency)
-            {
+            if (frequency != second.frequency) {
                 result = frequency > second.frequency;
-            }
-            else
-            {
-                if(isProritized != second.isProritized)
-                {
+            } else {
+                if (isProritized != second.isProritized) {
                     result = isProritized < second.isProritized;
-                }
-                else
-                {
+                } else {
                     result = frequency > second.frequency;
                 }
             }
@@ -59,27 +46,21 @@ public :
     };
     struct TrieNode;
     using TrieNodeUniquePointer = std::unique_ptr<TrieNode>;
-    struct TrieNode
-    {
-        TrieNode(char const characterAsParameter, TrieNodeUniquePointer leftAsParameter, TrieNodeUniquePointer rightAsParameter)
-            : character(characterAsParameter)
-            , left(std::move(leftAsParameter))
-            , right(std::move(rightAsParameter))
-        {}
+    struct TrieNode {
+        TrieNode(
+            char const characterAsParameter, TrieNodeUniquePointer leftAsParameter,
+            TrieNodeUniquePointer rightAsParameter)
+            : character(characterAsParameter), left(std::move(leftAsParameter)), right(std::move(rightAsParameter)) {}
 
-        bool isLeaf() const
-        {
-            return !left && !right;
-        }
-        char character; // not used if internal node
+        bool isLeaf() const { return !left && !right; }
+        char character;  // not used if internal node
         TrieNodeUniquePointer left;
         TrieNodeUniquePointer right;
     };
 
     HuffmanCompression() = default;
 
-    void compress(std::istream & input, std::ostream & output)
-    {
+    void compress(std::istream& input, std::ostream& output) {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
@@ -94,8 +75,7 @@ public :
         writeHuffmanCodes(writer, allInputCharacters, huffmanCodeTable);
     }
 
-    void expand(std::istream & input, std::ostream & output)
-    {
+    void expand(std::istream& input, std::ostream& output) {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
@@ -105,91 +85,71 @@ public :
     }
 
 private:
-
-    Characters readAllCharacters(AlbaStreamBitReader & reader)
-    {
+    Characters readAllCharacters(AlbaStreamBitReader& reader) {
         Characters result;
-        while(true)
-        {
+        while (true) {
             char c(reader.readCharData());
-            if(!reader.getInputStream().eof())
-            {
+            if (!reader.getInputStream().eof()) {
                 result.emplace_back(c);
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
         return result;
     }
 
-    FrequencyOfEachCharacter getFrequencyOfEachCharacter(Characters const& charactersInput)
-    {
+    FrequencyOfEachCharacter getFrequencyOfEachCharacter(Characters const& charactersInput) {
         FrequencyOfEachCharacter frequency{};
-        for(Count i=0; i< charactersInput.size(); i++)
-        {
+        for (Count i = 0; i < charactersInput.size(); i++) {
             frequency[charactersInput.at(i)]++;
         }
         return frequency;
     }
 
-    void writeHuffmanCodes(AlbaStreamBitWriter & writer, Characters const& wholeInput, HuffmanCodeTable const& huffmanCodeTable)
-    {
-        for(Count i=0; i< wholeInput.size(); i++)
-        {
+    void writeHuffmanCodes(
+        AlbaStreamBitWriter& writer, Characters const& wholeInput, HuffmanCodeTable const& huffmanCodeTable) {
+        for (Count i = 0; i < wholeInput.size(); i++) {
             HuffmanCode const& huffmanCode(huffmanCodeTable.at(wholeInput.at(i)));
-            for(bool const b : huffmanCode)
-            {
+            for (bool const b : huffmanCode) {
                 writer.writeBoolData(b);
             }
         }
     }
 
-    void expandAllCharacters(AlbaStreamBitReader & reader, AlbaStreamBitWriter & writer, TrieNodeUniquePointer const& root, Count const lengthOfString)
-    {
-        for(Count i=0; i<lengthOfString; i++)
-        {
+    void expandAllCharacters(
+        AlbaStreamBitReader& reader, AlbaStreamBitWriter& writer, TrieNodeUniquePointer const& root,
+        Count const lengthOfString) {
+        for (Count i = 0; i < lengthOfString; i++) {
             expandOneCharacterBasedFromTrieAndCode(reader, writer, root);
         }
     }
 
-    void expandOneCharacterBasedFromTrieAndCode(AlbaStreamBitReader & reader, AlbaStreamBitWriter & writer, TrieNodeUniquePointer const& root)
-    {
+    void expandOneCharacterBasedFromTrieAndCode(
+        AlbaStreamBitReader& reader, AlbaStreamBitWriter& writer, TrieNodeUniquePointer const& root) {
         TrieNode const* currentNodePointer(root.get());
-        while(!currentNodePointer->isLeaf())
-        {
+        while (!currentNodePointer->isLeaf()) {
             bool bit(reader.readBoolData());
-            if(!reader.getInputStream().eof())
-            {
-                if(bit) // if one, go to the right
+            if (!reader.getInputStream().eof()) {
+                if (bit)  // if one, go to the right
                 {
                     currentNodePointer = currentNodePointer->right.get();
-                }
-                else // if zero, go to the left
+                } else  // if zero, go to the left
                 {
                     currentNodePointer = currentNodePointer->left.get();
                 }
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
         writer.writeCharData(currentNodePointer->character);
     }
 
-    void writeTrie(AlbaStreamBitWriter & writer, TrieNodeUniquePointer const& nodePointer)
-    {
-        if(nodePointer)
-        {
-            if(nodePointer->isLeaf())
-            {
+    void writeTrie(AlbaStreamBitWriter& writer, TrieNodeUniquePointer const& nodePointer) {
+        if (nodePointer) {
+            if (nodePointer->isLeaf()) {
                 writer.writeBoolData(true);
                 writer.writeCharData(nodePointer->character);
-            }
-            else
-            {
+            } else {
                 writer.writeBoolData(false);
                 writeTrie(writer, nodePointer->left);
                 writeTrie(writer, nodePointer->right);
@@ -197,18 +157,15 @@ private:
         }
     }
 
-    TrieNodeUniquePointer readTrie(AlbaStreamBitReader & reader)
-    {
+    TrieNodeUniquePointer readTrie(AlbaStreamBitReader& reader) {
         TrieNodeUniquePointer result;
         bool bit(reader.readBoolData());
-        if(!reader.getInputStream().eof())
-        {
-            if(bit) // this mean its a leaf
+        if (!reader.getInputStream().eof()) {
+            if (bit)  // this mean its a leaf
             {
                 char c(reader.readCharData());
                 result = std::make_unique<TrieNode>(c, nullptr, nullptr);
-            }
-            else // keep reading if not leaf
+            } else  // keep reading if not leaf
             {
                 // recursively read the left and read the right
                 TrieNodeUniquePointer left(readTrie(reader));
@@ -219,54 +176,53 @@ private:
         return result;
     }
 
-    TrieNodeUniquePointer buildTrie(FrequencyOfEachCharacter const& frequency)
-    {
+    TrieNodeUniquePointer buildTrie(FrequencyOfEachCharacter const& frequency) {
         // This is quite different from the original huffman algorithm
         // Here, frequency is not placed on the trie because its not really needed after building the trie.
-        std::priority_queue<CharacterFrequency, std::deque<CharacterFrequency>, std::greater<CharacterFrequency>> frequenciesInMinimumOrder; // min priority queue
+        std::priority_queue<CharacterFrequency, std::deque<CharacterFrequency>, std::greater<CharacterFrequency>>
+            frequenciesInMinimumOrder;  // min priority queue
         std::array<TrieNodeUniquePointer, RADIX> characterNode{};
-        for(Count c=0; c < RADIX; c++)
-        {
-            if(frequency.at(c) > 0)
-            {
-                frequenciesInMinimumOrder.emplace(static_cast<char>(c), frequency.at(c), false); // This PQ is used to prioritize low frequency characters first
-                characterNode[c] = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr); // These character nodes are used to build trie later on
+        for (Count c = 0; c < RADIX; c++) {
+            if (frequency.at(c) > 0) {
+                frequenciesInMinimumOrder.emplace(
+                    static_cast<char>(c), frequency.at(c),
+                    false);  // This PQ is used to prioritize low frequency characters first
+                characterNode[c] = std::make_unique<TrieNode>(
+                    static_cast<char>(c), nullptr, nullptr);  // These character nodes are used to build trie later on
             }
         }
 
-        while(frequenciesInMinimumOrder.size() > 1) // Needs to be 2 or higher because we are popping 2 items per iteration
+        while (frequenciesInMinimumOrder.size() >
+               1)  // Needs to be 2 or higher because we are popping 2 items per iteration
         {
             // process the frequencies (minimum first) and build the trie by combining two nodes with lowest frequencies
             CharacterFrequency first(frequenciesInMinimumOrder.top());
             frequenciesInMinimumOrder.pop();
             CharacterFrequency second(frequenciesInMinimumOrder.top());
             frequenciesInMinimumOrder.pop();
-            frequenciesInMinimumOrder.emplace(first.character, first.frequency+second.frequency, true); // use first character to keep track
+            frequenciesInMinimumOrder.emplace(
+                first.character, first.frequency + second.frequency, true);  // use first character to keep track
             TrieNodeUniquePointer firstNode(std::move(characterNode[first.character]));
             TrieNodeUniquePointer secondNode(std::move(characterNode[second.character]));
-            characterNode[first.character] = std::make_unique<TrieNode>('\0', std::move(firstNode), std::move(secondNode)); // only leafs have characters
+            characterNode[first.character] = std::make_unique<TrieNode>(
+                '\0', std::move(firstNode), std::move(secondNode));  // only leafs have characters
         }
         CharacterFrequency last(frequenciesInMinimumOrder.top());
         return std::move(characterNode[last.character]);
     }
 
-    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)
-    {
+    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root) {
         HuffmanCodeTable result{};
         buildHuffmanCodeTableFromTrie(result, root, {});
         return result;
     }
 
-    void buildHuffmanCodeTableFromTrie(HuffmanCodeTable & huffmanCodeTable, TrieNodeUniquePointer const& nodePointer, HuffmanCode const& huffmanCode)
-    {
-        if(nodePointer)
-        {
-            if(nodePointer->isLeaf())
-            {
+    void buildHuffmanCodeTableFromTrie(
+        HuffmanCodeTable& huffmanCodeTable, TrieNodeUniquePointer const& nodePointer, HuffmanCode const& huffmanCode) {
+        if (nodePointer) {
+            if (nodePointer->isLeaf()) {
                 huffmanCodeTable[nodePointer->character] = huffmanCode;
-            }
-            else
-            {
+            } else {
                 HuffmanCode newHuffmanCode(huffmanCode);
                 newHuffmanCode.emplace_back(false);
                 buildHuffmanCodeTableFromTrie(huffmanCodeTable, nodePointer->left, newHuffmanCode);
@@ -278,9 +234,9 @@ private:
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Variable length codes
 // -> use different numbers of bit to encode different chars
@@ -291,7 +247,8 @@ private:
 // -> Ensure that no codeword is a prefix of another
 // ---> Solution 1: Fixed length code
 // ---> Solution 2: Append special stop character to each codeword
-// ---> Solution 3: General prefix free code -> Huffman code is an example (it also uses the fewest bits for representing)
+// ---> Solution 3: General prefix free code -> Huffman code is an example (it also uses the fewest bits for
+// representing)
 
 // How to represent the prefix free code?
 // -> We can use a binary trie!
@@ -346,7 +303,6 @@ private:
 
 // Running time for encoding -> N*R*log(R) -> Where R is the RADIX
 
-
 // Other discussions:
 
 // Huffman coding is a lossless data compression algorithm.
@@ -369,10 +325,11 @@ private:
 
 // Steps to build Huffman Tree
 // Input is an array of unique characters along with their frequency of occurrences and output is Huffman Tree.
-// 1) Create a leaf node for each unique character and build a min heap of all leaf nodes (Min Heap is used as a priority queue.
-// -> The value of frequency field is used to compare two nodes in min heap. Initially, the least frequent character is at root)
-// 2) Extract two nodes with the minimum frequency from the min heap.
-// 3) Create a new internal node with a frequency equal to the sum of the two nodes frequencies.
+// 1) Create a leaf node for each unique character and build a min heap of all leaf nodes (Min Heap is used as a
+// priority queue.
+// -> The value of frequency field is used to compare two nodes in min heap. Initially, the least frequent character is
+// at root) 2) Extract two nodes with the minimum frequency from the min heap. 3) Create a new internal node with a
+// frequency equal to the sum of the two nodes frequencies.
 // -> Make the first extracted node as its left child and the other extracted node as its right child.
 // -> Add this node to the min heap.
 // 4) Repeat steps#2 and #3 until the heap contains only one node.
@@ -386,9 +343,9 @@ private:
 // 4) Print the array when a leaf node is encountered.
 
 // Time complexity: O(nlogn) where n is the number of unique characters.
-// If there are n nodes, extractMin() is called 2*(n – 1) times, extractMin() takes O(logn) time as it calles minHeapify().
-// So, overall complexity is O(nlogn).
-// If the input array is sorted, there exists a linear time algorithm. We will soon be discussing in our next post.
+// If there are n nodes, extractMin() is called 2*(n – 1) times, extractMin() takes O(logn) time as it calles
+// minHeapify(). So, overall complexity is O(nlogn). If the input array is sorted, there exists a linear time algorithm.
+// We will soon be discussing in our next post.
 
 // Applications of Huffman Coding:
 // -> They are used for transmitting fax and text.
@@ -399,10 +356,9 @@ private:
 
 // Efficient Huffman Coding for Sorted Input (NOT IMPLEMENTED)
 // Time complexity of the algorithm discussed in above is O(nLogn).
-// If we know that the given array is sorted (by non-decreasing order of frequency), we can generate Huffman codes in O(n) time.
-// Following is a O(n) algorithm for sorted input:
-// Step 1: Create two empty queues.
-// Step 2: Create a leaf node for each unique character and enqueue it to the first queue in non-decreasing order of frequency.
+// If we know that the given array is sorted (by non-decreasing order of frequency), we can generate Huffman codes in
+// O(n) time. Following is a O(n) algorithm for sorted input: Step 1: Create two empty queues. Step 2: Create a leaf
+// node for each unique character and enqueue it to the first queue in non-decreasing order of frequency.
 // -> Initially second queue is empty.
 // Step 3: Dequeue two nodes with the minimum frequency by examining the front of both queues.
 // -> Repeat following steps two times
@@ -410,14 +366,13 @@ private:
 // ---> 3.2: If first queue is empty, dequeue from second queue.
 // ---> 3.3: Else, compare the front of two queues and dequeue the minimum.
 // Step 4: Create a new internal node with frequency equal to the sum of the two nodes frequencies.
-// -> Make the first dequeued node as its left child and the second dequeued node as right child. Enqueue this node to second queue.
-// Step 5: Repeat steps#3 and #4 while there is more than one node in the queues.
+// -> Make the first dequeued node as its left child and the second dequeued node as right child. Enqueue this node to
+// second queue. Step 5: Repeat steps#3 and #4 while there is more than one node in the queues.
 // -> The remaining node is the root node and the tree is complete.
 // Time complexity: O(n) for sorted input
 // -> If the input is not sorted, it need to be sorted first before it can be processed by the above algorithm.
 // -> Sorting can be done using heap-sort or merge-sort both of which run in Theta(nlogn).
 // -> So, the overall time complexity becomes O(nlogn) for unsorted input.
-
 
 // Example Huffman tree:
 // -> Example original string: "abbccddeee"
@@ -442,7 +397,8 @@ private:
 // -----> Step1: Characters with lowest frequency are 'a' and 'b'. So, a(1) and b(2) is combined to ab(3).
 // -----> Step2: Characters with lowest frequency are 'c' and 'd'. So, c(2) and d(2) is combined to cd(4).
 // -----> Step3: Characters with lowest frequency are 'ab' and 'e'. So, ab(3)and e(3) is combined to abe(6).
-// -----> Step3: Characters with lowest frequency are 'abe' and 'cd'. So, abe(6)and cd(4) is combined to abcde(10), which is the whole tree.
+// -----> Step3: Characters with lowest frequency are 'abe' and 'cd'. So, abe(6)and cd(4) is combined to abcde(10),
+// which is the whole tree.
 // ---> Generated huffman codes:
 // -----> a -> 000(if left 0 and right 1) or 111(if left 1 and right 0)
 // -----> b -> 001(if left 0 and right 1) or 110(if left 1 and right 0)
@@ -450,4 +406,3 @@ private:
 // -----> d -> 11(if left 0 and right 1) or 00(if left 1 and right 0)
 // -----> e -> 01(if left 0 and right 1) or 10(if left 1 and right 0)
 // ---> "abbccddeee" converts to "00000100110101111010101" which is 23 bits
-

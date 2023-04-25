@@ -1,22 +1,18 @@
 #include "ProgressCounters.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace ProgressCounters
-{
+namespace ProgressCounters {
 
-int getOverAllProgress()
-{
-    if(0 == numberOfStepsEnabled)
-    {
+int getOverAllProgress() {
+    if (0 == numberOfStepsEnabled) {
         return 0;
     }
-    return (getExtractProgress() + getCombineAndSortProgress() + grepProcessProgress + cropProcessProgress) / numberOfStepsEnabled;
+    return (getExtractProgress() + getCombineAndSortProgress() + grepProcessProgress + cropProcessProgress) /
+           numberOfStepsEnabled;
 }
 
-void resetProgressCounters()
-{
+void resetProgressCounters() {
     numberOfFilesToBeAnalyzedForExtraction = 0;
     numberOfFilesAnalyzedForExtraction = 0;
     totalSizeToBeReadForCombine = 0;
@@ -27,28 +23,24 @@ void resetProgressCounters()
     numberOfStepsEnabled = 0;
 }
 
-int getExtractProgress()
-{
+int getExtractProgress() {
     return getCorrectProgressValue(numberOfFilesAnalyzedForExtraction, numberOfFilesToBeAnalyzedForExtraction);
 }
 
-int getCombineAndSortProgress()
-{
-    return (getCorrectProgressValue(totalSizeReadForCombine, totalSizeToBeReadForCombine) + writeProgressForCombine)/2;
+int getCombineAndSortProgress() {
+    return (getCorrectProgressValue(totalSizeReadForCombine, totalSizeToBeReadForCombine) + writeProgressForCombine) /
+           2;
 }
 
 template <typename NumberType>
-int getCorrectProgressValue(NumberType const numerator, NumberType const denominator)
-{
-    if(denominator == 0)
-    {
+int getCorrectProgressValue(NumberType const numerator, NumberType const denominator) {
+    if (denominator == 0) {
         return 0;
     }
-    if(numerator > denominator)
-    {
+    if (numerator > denominator) {
         return 100;
     }
-    return 100*numerator/denominator;
+    return 100 * numerator / denominator;
 }
 
 int numberOfFilesToBeAnalyzedForExtraction;
@@ -60,6 +52,6 @@ int grepProcessProgress;
 int cropProcessProgress;
 int numberOfStepsEnabled;
 
-}
+}  // namespace ProgressCounters
 
-}
+}  // namespace alba

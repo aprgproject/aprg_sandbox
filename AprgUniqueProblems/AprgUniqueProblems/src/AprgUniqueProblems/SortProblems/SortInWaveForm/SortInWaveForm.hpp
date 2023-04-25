@@ -4,52 +4,43 @@
 
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class SortInWaveForm
-{
+class SortInWaveForm {
 public:
     SortInWaveForm() = default;
 
-    void sort(Values & valuesToSort) const
-    {
-        auto previousOddIt=valuesToSort.begin();
-        for(auto it=valuesToSort.begin(); it!=valuesToSort.end(); it++)
-        {
-            auto nextOddIt=it; // get next odd
+    void sort(Values& valuesToSort) const {
+        auto previousOddIt = valuesToSort.begin();
+        for (auto it = valuesToSort.begin(); it != valuesToSort.end(); it++) {
+            auto nextOddIt = it;  // get next odd
             nextOddIt++;
 
             // all odds must be larger than even
-            if(*it < *previousOddIt) // previous odd must be greater
+            if (*it < *previousOddIt)  // previous odd must be greater
             {
                 std::swap(*it, *previousOddIt);
             }
-            if(nextOddIt!=valuesToSort.end() && *it < *nextOddIt)
-            {
-                std::swap(*it, *nextOddIt); // next odd must be greater
+            if (nextOddIt != valuesToSort.end() && *it < *nextOddIt) {
+                std::swap(*it, *nextOddIt);  // next odd must be greater
             }
 
-            it++; // keep it even
-            if(it!=valuesToSort.end())
-            {
-                previousOddIt = it; // get previous odd
-            }
-            else
-            {
+            it++;  // keep it even
+            if (it != valuesToSort.end()) {
+                previousOddIt = it;  // get previous odd
+            } else {
                 break;
             }
         }
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Given an unsorted array of integers, sort the array into a wave like array.
 // An array ‘arr[0..n-1]’ is sorted in wave form if arr[0] >= arr[1] <= arr[2] >= arr[3] <= arr[4] >= …..
@@ -74,6 +65,3 @@ public:
 // ---> 1) Traverse all even positioned elements of input array, and do following.
 // -----> a) If current element is smaller than previous odd element, swap previous and current.
 // -----> b) If current element is smaller than next odd element, swap next and current.
-
-
-

@@ -1,6 +1,5 @@
 #pragma once
 
-typedef struct Message1Structure
-{
-	unsigned int temporary;
+typedef struct Message1Structure {
+    unsigned int temporary;
 } Message1Structure;

@@ -3,38 +3,33 @@
 #include <set>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class MaximumEmployeeCount
-{
+class MaximumEmployeeCount {
 public:
     // sweepline approach
 
-    enum class EventType
-    {
-        StartOfDayOfEmployee = 1,
-        EndOfDayOfEmployee = 2
-    };
+    enum class EventType { StartOfDayOfEmployee = 1, EndOfDayOfEmployee = 2 };
 
-    struct Event
-    {
+    struct Event {
         unsigned int time;
         EventType eventType;
         bool operator<(Event const& event) const;
     };
 
     unsigned int getMaximumCountOfEmployeesAtATime() const;
-    void addEmployeeSchedule(unsigned int const startTime, unsigned int const endTime); // assumption is every entry is unique
+    void addEmployeeSchedule(
+        unsigned int const startTime, unsigned int const endTime);  // assumption is every entry is unique
 
 private:
     std::multiset<Event> m_sortedEvents;
 };
 
-}
+}  // namespace alba
 
 // As an example, consider the following problem:
-// There is a company that has n employees, and we know for each employee their arrival and leaving times on a certain day.
+// There is a company that has n employees, and we know for each employee their arrival and leaving times on a certain
+// day.
 
 // Our task is to calculate the maximum number of employees that were in the office at the same time.
 // The problem can be solved by modeling the situation so that each employee

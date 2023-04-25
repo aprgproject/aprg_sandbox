@@ -41,7 +41,6 @@
  #
 */
 
-
 #include <fstream>
 // These includes are necessary to get the plug-in compile ! Don't forget to link with 'libtiff' and 'libtiffxx' !
 #include "tiffio.h"
@@ -55,27 +54,25 @@ using namespace cimg_library;
 // Main procedure
 //----------------
 int main() {
+    std::ifstream inFile("input.tif", std::ifstream::in | std::ifstream::binary);
+    std::ofstream outFile("outFile.tif", std::ofstream::out | std::ifstream::binary);
 
-  std::ifstream inFile("input.tif", std::ifstream::in | std::ifstream::binary);
-  std::ofstream outFile("outFile.tif", std::ofstream::out | std::ifstream::binary);
+    if (!inFile.good()) {
+        std::cout << "Error Reading from infile" << std::endl;
+    }
 
-  if (!inFile.good())
-  {
-    std::cout << "Error Reading from infile" << std::endl;
-  }
+    cimg_library::CImg<unsigned short> imgIn;
+    imgIn.load_tiff(&inFile);
+    imgIn.display();
+    CImg<unsigned short> imgOut = imgIn.save_tiff(&outFile, 2U);
+    imgOut.display();
 
-  cimg_library::CImg<unsigned short> imgIn;
-  imgIn.load_tiff(&inFile);
-  imgIn.display();
-  CImg<unsigned short> imgOut = imgIn.save_tiff(&outFile, 2U);
-  imgOut.display();
+    inFile.close();
+    outFile.close();
 
-  inFile.close();
-  outFile.close();
-
-  inFile.open("outFile.tif", std::ifstream::in | std::ifstream::binary);
-  imgIn.load_tiff(&inFile);
-  imgIn.display();
-  inFile.close();
-  return 0;
+    inFile.open("outFile.tif", std::ifstream::in | std::ifstream::binary);
+    imgIn.load_tiff(&inFile);
+    imgIn.display();
+    inFile.close();
+    return 0;
 }

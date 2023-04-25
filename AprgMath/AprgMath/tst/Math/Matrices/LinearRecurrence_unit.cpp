@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(LinearRecurrenceTest, GetNextFibonacciNumbersUsingLinearRecurrenceWorks)
-{
+TEST(LinearRecurrenceTest, GetNextFibonacciNumbersUsingLinearRecurrenceWorks) {
     EXPECT_EQ(UnsignedIntegerPair(1U, 1U), getNextFibonacciNumbersUsingLinearRecurrence({0U, 1U}));
     EXPECT_EQ(UnsignedIntegerPair(1U, 2U), getNextFibonacciNumbersUsingLinearRecurrence({1U, 1U}));
     EXPECT_EQ(UnsignedIntegerPair(2U, 3U), getNextFibonacciNumbersUsingLinearRecurrence({1U, 2U}));
@@ -20,8 +17,7 @@ TEST(LinearRecurrenceTest, GetNextFibonacciNumbersUsingLinearRecurrenceWorks)
     EXPECT_EQ(UnsignedIntegerPair(8U, 13U), getNextFibonacciNumbersUsingLinearRecurrence({5U, 8U}));
 }
 
-TEST(LinearRecurrenceTest, GetNextNumberOfDerangementsUsingLinearRecurrenceWorks)
-{
+TEST(LinearRecurrenceTest, GetNextNumberOfDerangementsUsingLinearRecurrenceWorks) {
     EXPECT_EQ(UnsignedIntegerPair(0U, 0U), getNextNumberOfDerangementsUsingLinearRecurrence(0U, {0U, 0U}));
     EXPECT_EQ(UnsignedIntegerPair(0U, 0U), getNextNumberOfDerangementsUsingLinearRecurrence(1U, {0U, 0U}));
     EXPECT_EQ(UnsignedIntegerPair(0U, 0U), getNextNumberOfDerangementsUsingLinearRecurrence(2U, {0U, 0U}));
@@ -31,6 +27,6 @@ TEST(LinearRecurrenceTest, GetNextNumberOfDerangementsUsingLinearRecurrenceWorks
     EXPECT_EQ(UnsignedIntegerPair(44U, 265U), getNextNumberOfDerangementsUsingLinearRecurrence(6U, {9U, 44U}));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

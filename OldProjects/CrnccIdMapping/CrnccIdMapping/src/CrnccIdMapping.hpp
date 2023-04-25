@@ -1,4 +1,4 @@
-//remove this
+// remove this
 
 using TCRNCCommunicationContextId = unsigned int;
 using TNbccId = unsigned int;
@@ -7,8 +7,7 @@ constexpr unsigned int MAX_USERS_IN_NODEB = 2500;
 
 #include <map>
 
-//remove this
-
+// remove this
 
 #pragma once
 
@@ -20,19 +19,16 @@ constexpr unsigned int MAX_USERS_IN_NODEB = 2500;
 
 #include <array>
 
-
-class CrnccIdMapping
-{
+class CrnccIdMapping {
 public:
     static void set(TCRNCCommunicationContextId const crnccId, TNbccId const nbccId);
     static TNbccId get(TCRNCCommunicationContextId const crnccId);
+
 private:
     static std::array<TCRNCCommunicationContextId, MAX_USERS_IN_NODEB + 1> m_crnccIdMapping;
 };
 
-
-extern "C"
-{
+extern "C" {
 void setCrnccIdMapping(TCRNCCommunicationContextId const crnccId, TNbccId const nbccId);
 TNbccId getNbccIdFromCrnccId(TCRNCCommunicationContextId const crnccId);
 }
@@ -43,7 +39,6 @@ void setCrnccIdMapping(TCRNCCommunicationContextId const crnccId, TNbccId const 
 TNbccId getNbccIdFromCrnccId(TCRNCCommunicationContextId const crnccId);
 
 #endif
-
 
 /*
 #pragma once

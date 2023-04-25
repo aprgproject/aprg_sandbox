@@ -2,24 +2,16 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class TermRaiseToTerms
-{
+class TermRaiseToTerms {
 public:
     TermRaiseToTerms();
-    TermRaiseToTerms(
-            TermsWithDetails const& termsInRaiseToPowerExpression);
-    TermRaiseToTerms(
-            Term const& base,
-            Terms const& exponents);
-    TermRaiseToTerms(
-            Term const& base,
-            Term const& exponent);
+    TermRaiseToTerms(TermsWithDetails const& termsInRaiseToPowerExpression);
+    TermRaiseToTerms(Term const& base, Terms const& exponents);
+    TermRaiseToTerms(Term const& base, Term const& exponent);
 
     bool isEmpty() const;
     bool doesEvenExponentCancellationHappen() const;
@@ -28,7 +20,7 @@ public:
     Term const& getBase() const;
     TermsWithDetails const& getExponents() const;
 
-    Term & getBaseReference();
+    Term& getBaseReference();
 
     void setBase(Term const& base);
     void setBaseAndExponent(Term const& base, Term const& exponent);
@@ -42,16 +34,17 @@ private:
     void simplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseIfNeeded();
 
     void simplifyBaseAndExponents();
-    void simplifyConstantRaiseToFunction(Term & base, TermsWithDetails & exponents, Term const& exponentCombinedTerm);
-    void simplifyMonomialRaiseToConstant(Term & base, Monomial const& monomialBase, AlbaNumber const& exponent);
-    void simplifyPolynomialRaiseToPositiveInteger(Term & base, Polynomial const& polynomialBase, unsigned int const exponent);
-    void simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(Term & base, Expression const& expressionBase, unsigned int const exponent);
-    void simplifyConstantRaiseToMultiplicationAndDivisionExpression(Term & base, TermsWithDetails & exponents, Term const& exponentCombinedTerm);
+    void simplifyConstantRaiseToFunction(Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm);
+    void simplifyMonomialRaiseToConstant(Term& base, Monomial const& monomialBase, AlbaNumber const& exponent);
+    void simplifyPolynomialRaiseToPositiveInteger(
+        Term& base, Polynomial const& polynomialBase, unsigned int const exponent);
+    void simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(
+        Term& base, Expression const& expressionBase, unsigned int const exponent);
+    void simplifyConstantRaiseToMultiplicationAndDivisionExpression(
+        Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm);
 
-    void initializeUsingTermsInRaiseToPowerExpression(
-            TermsWithDetails const& termsInRaiseToPowerExpression);
-    void initializeExponentsInTerms(
-            Terms const& exponents);
+    void initializeUsingTermsInRaiseToPowerExpression(TermsWithDetails const& termsInRaiseToPowerExpression);
+    void initializeExponentsInTerms(Terms const& exponents);
     Term getCombinedBaseAndExponents() const;
 
     Term m_base;
@@ -61,6 +54,6 @@ private:
     bool m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

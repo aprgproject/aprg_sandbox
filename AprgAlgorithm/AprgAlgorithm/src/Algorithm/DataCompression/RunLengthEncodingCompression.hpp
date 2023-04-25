@@ -6,76 +6,61 @@
 #include <iostream>
 #include <limits>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Count>
-class RunLengthEncodingCompression
-{
-public :
-
+class RunLengthEncodingCompression {
+public:
     RunLengthEncodingCompression() = default;
 
-    void compress(std::istream & input, std::ostream & output)
-    {
+    void compress(std::istream& input, std::ostream& output) {
         Count maxValueForCount(std::numeric_limits<Count>::max());
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
         Count currentCount(0);
         bool currentBit(false), previousBit(false);
-        while(true)
-        {
+        while (true) {
             currentBit = reader.readBoolData();
-            if(!input.eof()) // do not continue if end of file
+            if (!input.eof())  // do not continue if end of file
             {
-                if(currentBit != previousBit) // if there is 0->1 or 1->0
+                if (currentBit != previousBit)  // if there is 0->1 or 1->0
                 {
-                    writer.writeBigEndianNumberData<Count>(currentCount); // write count
-                    currentCount = 0; // reset count
-                    previousBit = currentBit; // switch to the next bit value
-                }
-                else if(currentCount == maxValueForCount) // if count reached max
+                    writer.writeBigEndianNumberData<Count>(currentCount);  // write count
+                    currentCount = 0;                                      // reset count
+                    previousBit = currentBit;                              // switch to the next bit value
+                } else if (currentCount == maxValueForCount)               // if count reached max
                 {
-                    writer.writeBigEndianNumberData<Count>(currentCount); // write current count
-                    writer.writeBigEndianNumberData<Count>(0); // write 0 to switch bits when reading
-                    currentCount = 0; // reset count
+                    writer.writeBigEndianNumberData<Count>(currentCount);  // write current count
+                    writer.writeBigEndianNumberData<Count>(0);             // write 0 to switch bits when reading
+                    currentCount = 0;                                      // reset count
                 }
                 currentCount++;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
         writer.writeCharData(currentCount);
     }
 
-    void expand(std::istream & input, std::ostream & output)
-    {
+    void expand(std::istream& input, std::ostream& output) {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
-        bool bit(false); // start with 0
-        while(true)
-        {
+        bool bit(false);  // start with 0
+        while (true) {
             Count currentCount(reader.readBigEndianNumberData<Count>());
-            if(!input.eof()) // do not continue if end of file
+            if (!input.eof())  // do not continue if end of file
             {
-                for(char i=0; i<currentCount; i++)
-                {
-                    writer.writeBoolData(bit); // write number of bits based from the count
+                for (char i = 0; i < currentCount; i++) {
+                    writer.writeBoolData(bit);  // write number of bits based from the count
                 }
-                bit = !bit; // switch from 0->1 or 1->0
-            }
-            else
-            {
+                bit = !bit;  // switch from 0->1 or 1->0
+            } else {
                 break;
             }
         }
     }
-
 };
 
 // Motivation:
@@ -95,8 +80,6 @@ public :
 // -> Compress a bitmap
 // ---> Observation: Bits are mostly white
 
+}  // namespace algorithm
 
-
-}
-
-}
+}  // namespace alba

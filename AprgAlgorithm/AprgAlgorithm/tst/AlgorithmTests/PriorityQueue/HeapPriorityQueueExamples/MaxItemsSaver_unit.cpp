@@ -6,39 +6,29 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
-template<typename Object>
-class MaxItemsSaver
-{
+namespace {
+template <typename Object>
+class MaxItemsSaver {
 public:
     using MinPriorityQueue = HeapPriorityQueue<Object, greater>;
     using Objects = vector<Object>;
 
-    MaxItemsSaver(unsigned int const numberOfItemsToSave)
-        : m_numberOfItemsToSave(numberOfItemsToSave)
-    {}
+    MaxItemsSaver(unsigned int const numberOfItemsToSave) : m_numberOfItemsToSave(numberOfItemsToSave) {}
 
-    void save(Object const& object)
-    {
+    void save(Object const& object) {
         m_minimumPriorityQueue.insert(object);
-        while(m_minimumPriorityQueue.getSize() > m_numberOfItemsToSave)
-        {
+        while (m_minimumPriorityQueue.getSize() > m_numberOfItemsToSave) {
             m_minimumPriorityQueue.deleteAndGetTopObject();
         }
     }
 
-    Objects getMaxItemsAndClear()
-    {
+    Objects getMaxItemsAndClear() {
         Objects result;
-        while(!m_minimumPriorityQueue.isEmpty())
-        {
+        while (!m_minimumPriorityQueue.isEmpty()) {
             result.emplace_back(m_minimumPriorityQueue.deleteAndGetTopObject());
         }
         return result;
@@ -46,15 +36,14 @@ public:
 
 private:
     unsigned int m_numberOfItemsToSave;
-    MinPriorityQueue m_minimumPriorityQueue; // counter intuitive to use min priority queue here but think about it
+    MinPriorityQueue m_minimumPriorityQueue;  // counter intuitive to use min priority queue here but think about it
 };
 
 using MaxItemsSaverForTest = MaxItemsSaver<unsigned int>;
 
-}
+}  // namespace
 
-TEST(MaxItemsSaverTest, GetMaxItemsAndClearWorks)
-{
+TEST(MaxItemsSaverTest, GetMaxItemsAndClearWorks) {
     MaxItemsSaverForTest saver(3);
     saver.save(5U);
     saver.save(100U);
@@ -70,6 +59,6 @@ TEST(MaxItemsSaverTest, GetMaxItemsAndClearWorks)
     EXPECT_EQ(expectedObjects, saver.getMaxItemsAndClear());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -7,26 +7,18 @@
 #include <cstdint>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace matrix
-{
-template <> bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess::Piece const& value2);
+namespace matrix {
+template <>
+bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess::Piece const& value2);
 }
 
-namespace chess
-{
+namespace chess {
 
-struct Board
-{
+struct Board {
 public:
-    enum class Orientation
-    {
-        Unknown,
-        BlackUpWhiteDown,
-        WhiteUpBlackDown
-    };
+    enum class Orientation { Unknown, BlackUpWhiteDown, WhiteUpBlackDown };
     using PieceValue = uint16_t;
     using InitializerList = std::initializer_list<Piece>;
     using PieceMatrix = matrix::AlbaMatrix<Piece>;
@@ -74,12 +66,18 @@ private:
     bool isAnLMove(Move const& move) const;
     bool isAOneStepMove(Move const& move) const;
     bool doesMoveHasNoBlockingPieceInBetween(Move const& move) const;
-    unsigned int getDiagonalMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
-    unsigned int getStraightMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
-    unsigned int getKnightMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
-    unsigned int getKingMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
-    unsigned int getPawnReverseMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const;
-    unsigned int getPawnReverseCapturesPossibleToThisDestination(Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const;
+    unsigned int getDiagonalMovesPossibleToThisDestination(
+        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+    unsigned int getStraightMovesPossibleToThisDestination(
+        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+    unsigned int getKnightMovesPossibleToThisDestination(
+        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+    unsigned int getKingMovesPossibleToThisDestination(
+        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+    unsigned int getPawnReverseMovesPossibleToThisDestination(
+        Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const;
+    unsigned int getPawnReverseCapturesPossibleToThisDestination(
+        Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const;
     CoordinateDataType getOneIncrementData(CoordinateDataType const coordinateDataType) const;
     Coordinates getLDeltaCoordinates() const;
     Coordinates getDiagonalIncrementDeltaCoordinates() const;
@@ -91,21 +89,18 @@ private:
     Coordinates getPossiblePawnReverseCapturesDeltaCoordinates(PieceColor const color) const;
     MovePairs getPossibleCastlingKingAndRookMovePairs(PieceColor const color) const;
     MovePair getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatShouldMatch) const;
-    void retrievePossibleMovesBasedFromPieceType(Moves & result, Coordinate const& start) const;
-    void retrievePossiblePawnMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleKnightMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleBishopMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleRookMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleQueenMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleKingMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleOneKingMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleKingCastlingMoves(Moves & result, Coordinate const& start) const;
-    void retrievePossibleCastlingMoves(MovePairs & kingAndRookMoves, PieceColor const color) const;
-    void retrievePossibleMovesByIncrements(
-            Moves & result,
-            Coordinate const& source,
-            Coordinate const& increment) const;
-    void addMoveToListOfMoves(Moves & moves, Move const& move) const;
+    void retrievePossibleMovesBasedFromPieceType(Moves& result, Coordinate const& start) const;
+    void retrievePossiblePawnMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleKnightMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleBishopMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleRookMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleQueenMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleKingMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleOneKingMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleKingCastlingMoves(Moves& result, Coordinate const& start) const;
+    void retrievePossibleCastlingMoves(MovePairs& kingAndRookMoves, PieceColor const color) const;
+    void retrievePossibleMovesByIncrements(Moves& result, Coordinate const& source, Coordinate const& increment) const;
+    void addMoveToListOfMoves(Moves& moves, Move const& move) const;
 
     PieceMatrix::MatrixData getInitialValues(Orientation const& inputType) const;
     void changePieceMatrixWithMove(Move const& move);
@@ -114,6 +109,6 @@ private:
     PieceMatrix m_pieceMatrix;
 };
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

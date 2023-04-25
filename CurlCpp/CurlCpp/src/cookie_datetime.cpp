@@ -23,16 +23,12 @@ curl::cookie_datetime *curl::cookie_datetime::set_date(const cookie_date &cookie
 }
 
 // Implementation of get_time method.
-curl::cookie_time curl::cookie_datetime::get_time() const NOEXCEPT {
-    return this->time;
-}
+curl::cookie_time curl::cookie_datetime::get_time() const NOEXCEPT { return this->time; }
 
 // Implementation of get_date method.
-curl::cookie_date curl::cookie_datetime::get_date() const NOEXCEPT {
-    return this->date;
-}
+curl::cookie_date curl::cookie_datetime::get_date() const NOEXCEPT { return this->date; }
 
 // Implementation of get method.
 std::string curl::cookie_datetime::get_formatted() NOEXCEPT {
-    return this->date.get_formatted()+" "+this->time.get_formatted();
+    return this->date.get_formatted() + " " + this->time.get_formatted();
 }

@@ -8,45 +8,31 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 OneEquationOneVariableNonEqualitySolver::OneEquationOneVariableNonEqualitySolver()
-    : BaseOneEquationOneVariableSolver()
-{}
+    : BaseOneEquationOneVariableSolver() {}
 
-void OneEquationOneVariableNonEqualitySolver::calculateSolution(
-        SolutionSet & solutionSet,
-        Equation const& equation)
-{
-    if(!equation.getEquationOperator().isEqual())
-    {
+void OneEquationOneVariableNonEqualitySolver::calculateSolution(SolutionSet& solutionSet, Equation const& equation) {
+    if (!equation.getEquationOperator().isEqual()) {
         Equation simplifiedEquation(equation);
         simplifiedEquation.simplify();
-        if(simplifiedEquation.isEquationSatisfied())
-        {
+        if (simplifiedEquation.isEquationSatisfied()) {
             processWhenEquationIsAlwaysSatisfied(solutionSet);
-        }
-        else
-        {
+        } else {
             calculateWhenEquationIsSometimesSatisfied(solutionSet, simplifiedEquation);
         }
     }
 }
 
-void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
-        SolutionSet & solutionSet,
-        Equation const& equation)
-{
+void OneEquationOneVariableNonEqualitySolver::calculateForEquation(SolutionSet& solutionSet, Equation const& equation) {
     Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromTerm(nonZeroLeftHandTerm);
     VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
-    if(variableNames.size() == 1)
-    {
+    if (variableNames.size() == 1) {
         string variableName = *variableNames.cbegin();
         calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
         sortAndRemoveDuplicateCalculatedValues();
@@ -54,14 +40,9 @@ void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
     }
 }
 
-void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(
-        Term const& term,
-        string const& )
-{
-    PolynomialOverPolynomialOptional popOptional(
-                createPolynomialOverPolynomialFromTermIfPossible(term));
-    if(popOptional)
-    {
+void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(Term const& term, string const&) {
+    PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
+    if (popOptional) {
         PolynomialOverPolynomial const& pop(popOptional.value());
         AlbaNumbers numeratorRoots(getRoots(RootType::RealAndImaginaryRoots, pop.getNumerator()));
         AlbaNumbers denominatorRoots(getRoots(RootType::RealAndImaginaryRoots, pop.getDenominator()));
@@ -73,25 +54,20 @@ void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(
 }
 
 void OneEquationOneVariableNonEqualitySolver::addIntervalsToSolutionSetIfNeeded(
-        SolutionSet& solutionSet,
-        Equation const& equation,
-        string const& variableName)
-{
-    if(!m_calculatedValues.empty() && isACompleteSolution())
-    {
+    SolutionSet& solutionSet, Equation const& equation, string const& variableName) {
+    if (!m_calculatedValues.empty() && isACompleteSolution()) {
         SubstitutionOfVariablesToValues substitution;
-        solutionSet.determineAndAddAcceptedIntervals(m_calculatedValues, [&](AlbaNumber const& value)
-        {
+        solutionSet.determineAndAddAcceptedIntervals(m_calculatedValues, [&](AlbaNumber const& value) {
             substitution.putVariableWithValue(variableName, value);
             Equation substitutedEquation(substitution.performSubstitutionTo(equation));
-            return isARealFiniteConstant(substitutedEquation.getLeftHandTerm())
-                    && isARealFiniteConstant(substitutedEquation.getRightHandTerm())
-                    && substitutedEquation.isEquationSatisfied();
+            return isARealFiniteConstant(substitutedEquation.getLeftHandTerm()) &&
+                   isARealFiniteConstant(substitutedEquation.getRightHandTerm()) &&
+                   substitutedEquation.isEquationSatisfied();
         });
         setAsCompleteSolution();
     }
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

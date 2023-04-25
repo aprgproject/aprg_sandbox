@@ -2,17 +2,13 @@
 
 #include <cstdint>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-namespace ColorUtilities
-{
+namespace ColorUtilities {
 
-struct ColorPercentagesData
-{
+struct ColorPercentagesData {
     double redPercentage;
     double greenPercentage;
     double bluePercentage;
@@ -21,22 +17,19 @@ struct ColorPercentagesData
     double deltaMaxMinPercentage;
 };
 
-struct HueSaturationLightnessData
-{
+struct HueSaturationLightnessData {
     double hueDegrees;
     double saturationLightnessDecimal;
     double lightnessDecimal;
 };
 
-struct HueSaturationValueData
-{
+struct HueSaturationValueData {
     double hueDegrees;
     double saturationValueDecimal;
     double valueDecimalOfColorMax;
 };
 
-struct ChromaColorData
-{
+struct ChromaColorData {
     double chroma;
     double xSecondLargestComponent;
     double mOffset;
@@ -50,12 +43,14 @@ uint32_t getColorValueOnly(uint32_t const value);
 ColorPercentagesData calculateColorPercentagesData(uint32_t const color);
 double calculateHueDegrees(ColorPercentagesData const& colorPercentagesData);
 double calculateColorIntensityDecimal(uint32_t const color);
-double calculateLuma601Decimal(uint32_t const color); //Rec. 601 NTSC
-double calculateLuma709Decimal(uint32_t const color); //Rec. 709
+double calculateLuma601Decimal(uint32_t const color);  // Rec. 601 NTSC
+double calculateLuma709Decimal(uint32_t const color);  // Rec. 709
 double calculateSaturationColorIntensityDecimal(uint32_t const color);
 
-HueSaturationLightnessData createHueSaturationLightnessData(double const hueDegrees, double const saturationLightnessDecimal, double const lightnessDecimal);
-HueSaturationValueData createHueSaturationValueData(double const hueDegrees, double const saturationValueDecimal, double const valueDecimalOfColorMax);
+HueSaturationLightnessData createHueSaturationLightnessData(
+    double const hueDegrees, double const saturationLightnessDecimal, double const lightnessDecimal);
+HueSaturationValueData createHueSaturationValueData(
+    double const hueDegrees, double const saturationValueDecimal, double const valueDecimalOfColorMax);
 
 uint32_t combineRgbToColor(uint8_t const red, uint8_t const green, uint8_t const blue);
 uint32_t combine2Colors(uint32_t const color1, uint32_t const color2);
@@ -74,8 +69,8 @@ uint8_t extractBlue(uint32_t const color);
 uint8_t extractMaxForOneColor(uint32_t const color);
 uint8_t extractMinForOneColor(uint32_t const color);
 
-}
+}  // namespace ColorUtilities
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

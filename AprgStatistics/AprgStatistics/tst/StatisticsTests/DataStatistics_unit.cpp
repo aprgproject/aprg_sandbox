@@ -6,11 +6,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(DataStatisticsTest, StatisticsAreCorrectWhenSamplesAreEmpty)
-{
+TEST(DataStatisticsTest, StatisticsAreCorrectWhenSamplesAreEmpty) {
     using LocalStatistics = DataStatistics<3>;
     using LocalSamples = LocalStatistics::Samples;
     using LocalSample = LocalStatistics::Sample;
@@ -41,8 +39,7 @@ TEST(DataStatisticsTest, StatisticsAreCorrectWhenSamplesAreEmpty)
     EXPECT_DOUBLE_EQ(expectedDispersion, dispersion);
 }
 
-TEST(DataStatisticsTest, StatisticsAreCorrect)
-{
+TEST(DataStatisticsTest, StatisticsAreCorrect) {
     using LocalStatistics = DataStatistics<3>;
     using LocalSamples = LocalStatistics::Samples;
     using LocalSample = LocalStatistics::Sample;
@@ -51,7 +48,8 @@ TEST(DataStatisticsTest, StatisticsAreCorrect)
     LocalSample expectedSampleVariance{1, 100, 10000};
     LocalSample expectedSampleStandardDeviation{1, 10, 100};
     LocalSample expectedPopulationVariance{0.66666666666666662966, 66.666666666666671404, 6666.6666666666669698};
-    LocalSample expectedPopulationStandardDeviation{0.81649658092772603446, 8.1649658092772607887, 81.64965809277261144};
+    LocalSample expectedPopulationStandardDeviation{
+        0.81649658092772603446, 8.1649658092772607887, 81.64965809277261144};
     double expectedDispersion(100.50373127401788);
 
     LocalSamples samples{LocalSample{1, 10, 100}, LocalSample{2, 20, 200}, LocalSample{3, 30, 300}};
@@ -73,8 +71,7 @@ TEST(DataStatisticsTest, StatisticsAreCorrect)
     EXPECT_DOUBLE_EQ(expectedDispersion, dispersion);
 }
 
-TEST(DataStatisticsTest, StatisticsCanBeClearedAfterCalculation)
-{
+TEST(DataStatisticsTest, StatisticsCanBeClearedAfterCalculation) {
     using LocalStatistics = DataStatistics<3>;
     using LocalSamples = LocalStatistics::Samples;
     using LocalSample = LocalStatistics::Sample;
@@ -114,4 +111,4 @@ TEST(DataStatisticsTest, StatisticsCanBeClearedAfterCalculation)
     EXPECT_DOUBLE_EQ(expectedDispersion, dispersion);
 }
 
-}
+}  // namespace alba

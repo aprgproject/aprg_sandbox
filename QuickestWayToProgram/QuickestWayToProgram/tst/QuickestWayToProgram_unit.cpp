@@ -7,6 +7,7 @@
 #include <QuickestWayToProgram.hpp>
 
 #include <gtest/gtest.h>
+
 #include <windows.h>
 
 #include <algorithm>
@@ -19,38 +20,27 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ProgressCounters
-{
+namespace ProgressCounters {
 int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
-}
+}  // namespace ProgressCounters
 
-TEST(SampleTest, CountFromMsbValue)
-{
-    vector<pair<int, int>> container{{3,3}, {5,5}};
-    auto itRight = upper_bound(container.cbegin(), container.cend(), 1, [](
-                int const value, pair<int, int> const& intPair)
-    {
-        return value < intPair.first;
-    });
+TEST(SampleTest, CountFromMsbValue) {
+    vector<pair<int, int>> container{{3, 3}, {5, 5}};
+    auto itRight = upper_bound(
+        container.cbegin(), container.cend(), 1,
+        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
     auto itLeft = prev(itRight, 1);
-    if(itLeft != container.cend())
-    {
+    if (itLeft != container.cend()) {
         ALBA_PRINT1(*itLeft);
-    }
-    else
-    {
+    } else {
         ALBA_PRINT1("itLeft is end");
     }
-    if(itRight != container.cend())
-    {
+    if (itRight != container.cend()) {
         ALBA_PRINT1(*itRight);
-    }
-    else
-    {
+    } else {
         ALBA_PRINT1("itRight is end");
     }
 }
@@ -137,9 +127,11 @@ TEST(SampleTest, FindSourceFilesToAdjust_FileList)
             string filePath(listFileReader.getLineAndIgnoreWhiteSpaces());
             AlbaLocalPathHandler filePathHandler(filePath);
             string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
-            if((extensionInCapitals=="C" || extensionInCapitals=="CPP" || extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
+            if((extensionInCapitals=="C" || extensionInCapitals=="CPP" || extensionInCapitals=="H" ||
+extensionInCapitals=="HPP") &&
                     !(
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX")
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(),
+"CP_LINUX")
 
                         ))
             {
@@ -151,7 +143,8 @@ TEST(SampleTest, FindSourceFilesToAdjust_FileList)
                     {
                         string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
                         string stringToAnalyze(lineInFile);
-                        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "createSicad"))
+                        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze,
+"createSicad"))
                         {
                             ALBA_PRINT1(filePath);
                             ALBA_PRINT1(stringToAnalyze);
@@ -184,21 +177,23 @@ TEST(SampleTest, FindSourceFilesToAdjust_FileList)
             string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
             if((extensionInCapitals=="C" || extensionInCapitals=="CPP") &&
                     !(
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(),
+"CP_MEAS") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX")
+|| stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
 
                         ))
             {
-                AlbaLocalPathHandler headerFileWithH(filePathHandler.getDirectory()+filePathHandler.getFilenameOnly()+".h");
-                AlbaLocalPathHandler headerFileWithHpp(filePathHandler.getDirectory()+filePathHandler.getFilenameOnly()+".hpp");
-                string headerIncludeWithH = string(R"(#include ")") + filePathHandler.getFilenameOnly() + string(R"(.h")");
-                string headerIncludeWithHpp = string(R"(#include ")") + filePathHandler.getFilenameOnly() + string(R"(.hpp")");
-                bool isHeaderFileWithH = headerFileWithH.isFoundInLocalSystem();
-                bool isHeaderFileWithHpp = headerFileWithHpp.isFoundInLocalSystem();
+                AlbaLocalPathHandler
+headerFileWithH(filePathHandler.getDirectory()+filePathHandler.getFilenameOnly()+".h"); AlbaLocalPathHandler
+headerFileWithHpp(filePathHandler.getDirectory()+filePathHandler.getFilenameOnly()+".hpp"); string headerIncludeWithH =
+string(R"(#include ")") + filePathHandler.getFilenameOnly() + string(R"(.h")"); string headerIncludeWithHpp =
+string(R"(#include ")") + filePathHandler.getFilenameOnly() + string(R"(.hpp")"); bool isHeaderFileWithH =
+headerFileWithH.isFoundInLocalSystem(); bool isHeaderFileWithHpp = headerFileWithHpp.isFoundInLocalSystem();
 
                 if(isHeaderFileWithH || isHeaderFileWithHpp)
-                        // && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), R"(CP_DMGR\src\messages\MessageHandler)"))
+                        // &&
+stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(),
+R"(CP_DMGR\src\messages\MessageHandler)"))
                 {
                     ifstream logStream(filePath);
                     if(logStream.is_open())
@@ -209,12 +204,14 @@ TEST(SampleTest, FindSourceFilesToAdjust_FileList)
                         {
                             string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
                             string stringToAnalyze(lineInFile);
-                            if(isHeaderFileWithH && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, headerIncludeWithH))
+                            if(isHeaderFileWithH &&
+stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, headerIncludeWithH))
                             {
                                 isHeaderIncludeWithQuotationsFound = true;
                                 break;
                             }
-                            if(isHeaderFileWithHpp && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, headerIncludeWithHpp))
+                            if(isHeaderFileWithHpp &&
+stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, headerIncludeWithHpp))
                             {
                                 isHeaderIncludeWithQuotationsFound = true;
                                 break;
@@ -252,9 +249,9 @@ TEST(SampleTest, FindHeaderFilesToAdjust_FileList)
             string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
             if((extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
                     !(
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
-                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(),
+"CP_MEAS") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX")
+|| stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
 
                         ))
             {
@@ -298,9 +295,9 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
         string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
         if((extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
                 !(
-                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
-                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
-                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(),
+"CP_MEAS") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX")
+|| stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
 
                     ))
         {
@@ -312,8 +309,8 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
                 {
                     string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
                     string stringToAnalyze(lineInFile);
-                    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "using namespace fw") ||
-                            stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "using fw::")
+                    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "using namespace
+fw") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "using fw::")
                             )
                     {
                         ALBA_PRINT1(filePathHandler.getFullPath());
@@ -340,9 +337,9 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
         string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
         if((extensionInCapitals=="C" || extensionInCapitals=="CPP") &&
                 !(
-                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
-                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
-                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(),
+"CP_MEAS") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX")
+|| stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
 
                     ))
         {
@@ -394,9 +391,9 @@ TEST(SampleTest, FindNearEmptyFiles)
                 extensionInCapitals=="H" ||
                 extensionInCapitals=="HPP")
         {
-            if(!stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFile(), "CMakeLists.txt") &&
-                    !stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFile(), "_cppc_sup") &&
-                    filePathHandler.getFileSizeEstimate() < 50)
+            if(!stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFile(),
+"CMakeLists.txt") && !stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFile(),
+"_cppc_sup") && filePathHandler.getFileSizeEstimate() < 50)
             {
                 ALBA_PRINT1(filePathHandler.getFullPath());
             }
@@ -475,8 +472,8 @@ TEST(SampleTest, ExtractFilesAndCopyLogsForSctTests)
     {
         string newFilePath(file);
         stringHelper::transformReplaceStringIfFound(newFilePath, inputDirectoryPathHandler.getFullPath(), "");
-        newFilePath = stringHelper::getStringAfterThisString(stringHelper::getStringAfterThisString(newFilePath, R"(\)"), R"(\)");
-        if(!newFilePath.empty())
+        newFilePath = stringHelper::getStringAfterThisString(stringHelper::getStringAfterThisString(newFilePath,
+R"(\)"), R"(\)"); if(!newFilePath.empty())
         {
             AlbaLocalPathHandler newFilePathHandler(outputDirectoryPathHandler.getFullPath() + newFilePath);
             newFilePathHandler.createDirectoriesForNonExisitingDirectories();
@@ -511,7 +508,8 @@ TEST(SampleTest, LrmDirectoriesToFind)
 {
     ListOfPaths files;
     ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\SystemFrameworkImprovement3\tcom-SystemFrameworkImprovement3-lrm\C_Application\SC_TCOM\CP_LRM\tst)");
+    AlbaLocalPathHandler
+pathHandler(R"(C:\Branches\CP\SystemFrameworkImprovement3\tcom-SystemFrameworkImprovement3-lrm\C_Application\SC_TCOM\CP_LRM\tst)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& directory: directories)
@@ -657,17 +655,17 @@ TEST(SampleTest, LogComparePrints)
         cout << "Log2:      [" << nearestLineInLog2 << "]\n";
         if(!nearestLineInLog2.empty())
         {
-            int diffInOriginalAndNearestLog2 = static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal, nearestLineInLog2));
-            if(diffInOriginalAndNearestLog2 <= 30)
+            int diffInOriginalAndNearestLog2 = static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal,
+nearestLineInLog2)); if(diffInOriginalAndNearestLog2 <= 30)
             {
                 cout << "diffInOriginalAndLog2:    [" << diffInOriginalAndNearestLog2 << "]\n";
                 string nearestLineInLog1 = getNearestLine(linesInLog1, lineInOriginal);
                 cout << "Log1:      [" << nearestLineInLog1 << "]\n";
                 if(!nearestLineInLog1.empty())
                 {
-                    int diffInOriginalAndNearestLog1 = static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal, nearestLineInLog1));
-                    int finalScore = diffInOriginalAndNearestLog2+diffInOriginalAndNearestLog1;
-                    cout << "Score:     [" << finalScore << "]\n";
+                    int diffInOriginalAndNearestLog1 =
+static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal, nearestLineInLog1)); int finalScore =
+diffInOriginalAndNearestLog2+diffInOriginalAndNearestLog1; cout << "Score:     [" << finalScore << "]\n";
                     scoreToLogsMap.emplace(finalScore, ThreeLogs{lineInOriginal, nearestLineInLog1, nearestLineInLog2});
                 }
             }
@@ -678,7 +676,8 @@ TEST(SampleTest, LogComparePrints)
 
     using ThreeLogMapType = map<int, ThreeLogs>;
     using ThreeLogPairType = pair<int, ThreeLogs>;
-    for(ThreeLogMapType::reverse_iterator iterator = scoreToLogsMap.rbegin(); iterator!= scoreToLogsMap.rend(); iterator++)
+    for(ThreeLogMapType::reverse_iterator iterator = scoreToLogsMap.rbegin(); iterator!= scoreToLogsMap.rend();
+iterator++)
     {
         ThreeLogPairType const& scoreToLogPair = *iterator;
         cout << "Score:     [" << scoreToLogPair.first << "]\n";
@@ -736,7 +735,8 @@ TEST(SampleTest, LrmDirectoriesToFind)
 {
     ListOfPaths files;
     ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(D:\SFI3NotCorrupted\tcom-SystemFrameworkImprovement3-grm\C_Application\SC_TCOM\CP_GRM\tst)");
+    AlbaLocalPathHandler
+pathHandler(R"(D:\SFI3NotCorrupted\tcom-SystemFrameworkImprovement3-grm\C_Application\SC_TCOM\CP_GRM\tst)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& directory: directories)
@@ -793,8 +793,9 @@ TEST(SampleTest, Shit)
 
 TEST(SampleTest, CounterOfCounts)
 {
-    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
-    ifstream queueLogStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler
+pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)"); ifstream
+queueLogStream(pathHandler.getFullPath());
 
     map<int, string> highestJumpsQueueLengths;
     map<int, string> highestJumpsMsgQueueingTimes;
@@ -811,9 +812,12 @@ TEST(SampleTest, CounterOfCounts)
         while(queueLogFileReader.isNotFinished())
         {
             string lineInFile(queueLogFileReader.getLineAndIgnoreWhiteSpaces());
-            int queueLength(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInFile, R"(queueLength: )")));
-            int msgQueueingTime(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInFile, R"(msgQueueingTime: )")));
-            int msgPoolUsage(stringHelper::convertStringToNumber<int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(msgPoolUsage: )")));
+            int queueLength(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInFile,
+R"(queueLength: )"))); int
+msgQueueingTime(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInFile,
+R"(msgQueueingTime: )"))); int
+msgPoolUsage(stringHelper::convertStringToNumber<int>(stringHelper::getHexNumberAfterThisString(lineInFile,
+R"(msgPoolUsage: )")));
 
             highestJumpsQueueLengths.emplace(queueLength-previousQueueLength, lineInFile);
             highestJumpsMsgQueueingTimes.emplace(msgQueueingTime-previousMsgQueueingTime, lineInFile);
@@ -859,8 +863,9 @@ TEST(SampleTest, CounterOfCounts)
 
 TEST(SampleTest, MessageIdCounter)
 {
-    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
-    ifstream queueLogStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler
+pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)"); ifstream
+queueLogStream(pathHandler.getFullPath());
 
     map<unsigned int, unsigned int> lastMsgRcvdToCount;
     map<unsigned int, unsigned int> lastMsgSentToCount;
@@ -875,9 +880,11 @@ TEST(SampleTest, MessageIdCounter)
         while(queueLogFileReader.isNotFinished())
         {
             string lineInFile(queueLogFileReader.getLineAndIgnoreWhiteSpaces());
-            unsigned int lastMsgRcvd(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastMsgRcvd: 0x)")));
-            unsigned int lastMsgSent(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastMsgSent: 0x)")));
-            unsigned int lastInternalMsg(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastInternalMsg: 0x)")));
+            unsigned int lastMsgRcvd(stringHelper::convertHexStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastMsgRcvd: 0x)"))); unsigned int
+lastMsgSent(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile,
+R"(lastMsgSent: 0x)"))); unsigned int lastInternalMsg(stringHelper::convertHexStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastInternalMsg: 0x)")));
             if(lastMsgRcvdToCount.find(lastMsgRcvd) != lastMsgRcvdToCount.cend())
             {
                 lastMsgRcvdToCount[lastMsgRcvd]++;
@@ -947,7 +954,8 @@ void function1(UglyDataType input)
 {
     input.uglyPointer = nullptr; // this will compile
 }
-void function2(UglyDataType const input) //Since its mandatory to put const for all parameters we will notice the compiler error.
+void function2(UglyDataType const input) //Since its mandatory to put const for all parameters we will notice the
+compiler error.
 {
     input.uglyPointer = nullptr; // this will not compile
 }
@@ -987,7 +995,8 @@ T sumSample(ContainerT const& container, OperationT const& operation)
     });
 //                           boost::bind(std::plus<T>(), 1, boost::bind(operation, 2)));
     //return std::accumulate(container.begin(), container.end(), T(),
-                            //std::bind(std::plus<T>(), 1, std::bind(static_cast<typename T()>(OperationT::operation), 2)));
+                            //std::bind(std::plus<T>(), 1, std::bind(static_cast<typename T()>(OperationT::operation),
+2)));
 }
 
 TEST(SampleTest, BindingToClassMethod)
@@ -1049,7 +1058,8 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
                  }
                  if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"("rp3NodeAddress": )"))
                  {
-                     currentRp3NodeAddress = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("rp3NodeAddress": )", R"(,)"));
+                     currentRp3NodeAddress = stringHelper::convertStringToNumber<unsigned
+int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("rp3NodeAddress": )", R"(,)"));
                  }
              }
              else if(streamState==2)
@@ -1113,7 +1123,8 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
                  }
                  if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"("rp3NodeAddress": )"))
                  {
-                     currentRp3NodeAddress = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("rp3NodeAddress": )", R"(,)"));
+                     currentRp3NodeAddress = stringHelper::convertStringToNumber<unsigned
+int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("rp3NodeAddress": )", R"(,)"));
                  }
              }
              else if(streamState==2)
@@ -1136,7 +1147,8 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
             string lineInFile(murrkuLogsFileReader.getLineAndIgnoreWhiteSpaces());
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"(bbBusAddr: )"))
             {
-                 unsigned int rp3NodeAddress(stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"(bbBusAddr: )", R"( )")));
+                 unsigned int rp3NodeAddress(stringHelper::convertStringToNumber<unsigned
+int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"(bbBusAddr: )", R"( )")));
                  //cout<<rp3NodeAddress<<"\n";
                  cout<<lineInFile<<"   ["<<ratTypeToAddressMap[rp3NodeAddress]<<"]\n";
             }
@@ -1155,8 +1167,8 @@ TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
     {
         for(unsigned int number = 0; number<20; number++)
         {
-            unsigned int size(mathHelper::getDifferenceFromGreaterMultiple(multiple, number)+mathHelper::getNumberOfMultiplesInclusive(multiple, number));
-            csvFile<<size<<" ";
+            unsigned int size(mathHelper::getDifferenceFromGreaterMultiple(multiple,
+number)+mathHelper::getNumberOfMultiplesInclusive(multiple, number)); csvFile<<size<<" ";
         }
         csvFile<<";\n";
     }
@@ -1165,8 +1177,9 @@ TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
 
 TEST(SampleTest, MessageIds_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
-    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
+    AlbaLocalPathHandler
+pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)"); AlbaLocalPathHandler
+pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
     AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
 
 
@@ -1185,17 +1198,18 @@ TEST(SampleTest, MessageIds_test)
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
             {
                 string messageIdString(stringHelper::getStringInBetweenTwoStrings(lineInFile, "(", ")"));
-                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "TC_TCOM_BASE");
-                unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x"));
-                string messageName = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile, "#define", "("));
-                if(messageId>0)
+                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile,
+"TC_TCOM_BASE"); unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x")); string messageName =
+stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile,
+"#define", "(")); if(messageId>0)
                 {
                     if(isTcomBasePrintVisible)
                     {
                         messageId = 0x6800+messageId;
                     }
-                    //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<" messageName: "<<dec<<messageName<<"\n";
-                    messageIds.emplace(messageId, messageName);
+                    //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<"
+messageName: "<<dec<<messageName<<"\n"; messageIds.emplace(messageId, messageName);
                 }
             }
         }
@@ -1210,17 +1224,18 @@ TEST(SampleTest, MessageIds_test)
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
             {
                 string messageIdString(stringHelper::getStringInBetweenTwoStrings(lineInFile, "(", ")"));
-                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "TC_DSP_BASE");
-                unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x"));
-                string messageName = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile, "#define", "("));
-                if(messageId>0)
+                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile,
+"TC_DSP_BASE"); unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x")); string messageName =
+stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile,
+"#define", "(")); if(messageId>0)
                 {
                     if(isTcomBasePrintVisible)
                     {
                         messageId = 0x5000+messageId;
                     }
-                    //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<" messageName: "<<dec<<messageName<<"\n";
-                    messageIds.emplace(messageId, messageName);
+                    //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<"
+messageName: "<<dec<<messageName<<"\n"; messageIds.emplace(messageId, messageName);
                 }
             }
         }
@@ -1232,14 +1247,16 @@ TEST(SampleTest, MessageIds_test)
         while(messageMapFileReader.isNotFinished())
         {
             string lineInFile(messageMapFileReader.getLineAndIgnoreWhiteSpaces());
-            unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "msgid:0x"));
-            unsigned int offset = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "off:0x"));
-            unsigned int messageSize = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "msgsize:"));
-            unsigned int messagePoolCorruptionAddress = 0x3fdb00;
-            int distance = (int)offset+(int)messageSize-(int)messagePoolCorruptionAddress;
-            if(messageIds.find(messageId)!= messageIds.end())
+            unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(lineInFile, "msgid:0x")); unsigned int offset =
+stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "off:0x"));
+            unsigned int messageSize = stringHelper::convertStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(lineInFile, "msgsize:")); unsigned int messagePoolCorruptionAddress =
+0x3fdb00; int distance = (int)offset+(int)messageSize-(int)messagePoolCorruptionAddress; if(messageIds.find(messageId)!=
+messageIds.end())
             {
-                cout<<"distance of the end of the message to corruption: "<<setw(5)<<distance<<", messageId: "<<hex<<messageId<<", messageName: "<<messageIds[messageId] << ", offset+messageSize:0x"<<offset+messageSize<<dec<<"\n";
+                cout<<"distance of the end of the message to corruption: "<<setw(5)<<distance<<", messageId:
+"<<hex<<messageId<<", messageName: "<<messageIds[messageId] << ", offset+messageSize:0x"<<offset+messageSize<<dec<<"\n";
             }
             else
             {
@@ -1404,7 +1421,8 @@ TEST(SampleTest, DISABLED_RlhNewLogic)
     {
         for(u32 calculatedSfn=0; calculatedSfn<=4096; calculatedSfn++)
         {
-            fileOutput<<currentSfn<<","<<calculatedSfn<<","<<calculateShiftDelayedSfnNew(currentSfn, calculatedSfn)<<"\n";
+            fileOutput<<currentSfn<<","<<calculatedSfn<<","<<calculateShiftDelayedSfnNew(currentSfn,
+calculatedSfn)<<"\n";
         }
     }
 }
@@ -1429,25 +1447,30 @@ TEST(SampleTest, FilesToFind)
 {
     ListOfPaths files;
     ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18Second\trace_TUPCexe_Conman_EU_1448_1494233464)");
+    AlbaLocalPathHandler
+pathHandler(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18Second\trace_TUPCexe_Conman_EU_1448_1494233464)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);
         cout<<R"(./decodeTrace )"<<filePathHandler.getFilenameOnly()<<R"(.log SS_TUPC addr2line)\n";
-        cout<<R"(./flameGraph )"<<filePathHandler.getFilenameOnly()<<R"(.log_decode > )"<<filePathHandler.getFilenameOnly()<<R"(.log_flame)\n";
-        cout<<R"(cat )"<<filePathHandler.getFilenameOnly()<<R"(.log_flame ~/flamegraphs/FlameGraph-master/stackcollapse-perf.pl | ~/flamegraphs/FlameGraph-master/flamegraph.pl > generatedflamegraphs2/)"<<filePathHandler.getFilenameOnly()<<R"(.svg)\n";
+        cout<<R"(./flameGraph )"<<filePathHandler.getFilenameOnly()<<R"(.log_decode >
+)"<<filePathHandler.getFilenameOnly()<<R"(.log_flame)\n"; cout<<R"(cat
+)"<<filePathHandler.getFilenameOnly()<<R"(.log_flame ~/flamegraphs/FlameGraph-master/stackcollapse-perf.pl |
+~/flamegraphs/FlameGraph-master/flamegraph.pl >
+generatedflamegraphs2/)"<<filePathHandler.getFilenameOnly()<<R"(.svg)\n";
     }
 }
 
 
 TEST(SampleTest, MessageId_TcomTcom_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
-    AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
-    AlbaLocalPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
-    AlbaLocalPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
+    AlbaLocalPathHandler
+pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)"); AlbaLocalPathHandler
+pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)"); AlbaLocalPathHandler
+pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)"); AlbaLocalPathHandler
+pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
 
     ifstream tcomTcomFile(pathHandler.getFullPath());
     ifstream routeListFile(pathHandler3.getFullPath());
@@ -1467,18 +1490,18 @@ TEST(SampleTest, MessageId_TcomTcom_test)
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
             {
                 string messageIdString(stringHelper::getStringInBetweenTwoStrings(lineInFile, "(", ")"));
-                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "TC_TCOM_BASE");
-                unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x"));
-                string messageName = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile, "#define", "("));
-                if(messageId>0)
+                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile,
+"TC_TCOM_BASE"); unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned
+int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x")); string messageName =
+stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile,
+"#define", "(")); if(messageId>0)
                 {
                     if(isTcomBasePrintVisible)
                     {
                         messageId = 0x6800+messageId;
                     }
-                    cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<messageId<<" messageName: "<<messageName<<"\n";
-                    tcomTcomMessageIds.emplace(messageId, messageName);
-                    xmlFormattedFile<<"\t<message>\n";
+                    cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<messageId<<" messageName:
+"<<messageName<<"\n"; tcomTcomMessageIds.emplace(messageId, messageName); xmlFormattedFile<<"\t<message>\n";
                     xmlFormattedFile<<"\t\t<type>"<<messageId<<"</type>\n";
                     xmlFormattedFile<<"\t</message>\n";
                 }
@@ -1504,8 +1527,8 @@ TEST(SampleTest, MessageId_TcomTcom_test)
 
             if(isMessageSpace && stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "<type>"))
             {
-                unsigned int messageId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, "<type>", "</type>"));
-                if(messageId>0)
+                unsigned int messageId = stringHelper::convertStringToNumber<unsigned
+int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, "<type>", "</type>")); if(messageId>0)
                 {
                     routeListMessageIds.emplace(messageId);
 
@@ -1545,7 +1568,8 @@ TEST(SampleTest, DISABLED_SampleTest1)
 TEST(SampleTest, DISABLED_SampleTest2)
 {
     AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
-    AlbaLocalPathHandler pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
+    AlbaLocalPathHandler
+pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
 
     ifstream wiresharkDumpFile(pathHandler.getFullPath());
     ofstream wiresharkDumpFileFixed(pathHandler2.getFullPath(), ofstream::binary);
@@ -1602,9 +1626,9 @@ void checkTrace();
 
 void checkTrace()
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861_slow\PS NRT\1100_MegaPlexer\Ip_10.68.159.157_41786_544_160706_110531.codec.wtbin)");
-    ifstream megaplexerStream(pathHandler.getFullPath(), ifstream::binary);
-    if(megaplexerStream.is_open())
+    AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861_slow\PS
+NRT\1100_MegaPlexer\Ip_10.68.159.157_41786_544_160706_110531.codec.wtbin)"); ifstream
+megaplexerStream(pathHandler.getFullPath(), ifstream::binary); if(megaplexerStream.is_open())
     {
         char fourBytes[4];
         megaplexerStream.read (fourBytes, 4);
@@ -1614,9 +1638,8 @@ void checkTrace()
             cout<<"What the hell is this?"<<megaplexerStream.tellg()<<"\n";
         }
         megaplexerStream.read (fourBytes, 4);
-        int size = ((unsigned int)fourBytes[0]<<24) | ((unsigned int)fourBytes[1]<<16) | ((unsigned int)fourBytes[2]<<8) | ((unsigned int)fourBytes[3]);
-        megaplexerStream.seekg(size-4, ios_base::cur);
-        cout<<"size"<<size<<"\n";
+        int size = ((unsigned int)fourBytes[0]<<24) | ((unsigned int)fourBytes[1]<<16) | ((unsigned int)fourBytes[2]<<8)
+| ((unsigned int)fourBytes[3]); megaplexerStream.seekg(size-4, ios_base::cur); cout<<"size"<<size<<"\n";
     }
 }
 
@@ -1664,7 +1687,8 @@ TEST(SampleTest, DISABLED_GenerateFeatureSpecificComponentFiles)
     ifstream componentNameFile(featureSpecificDirectory.getFullPath()+"ComponentName.hpp");
     ofstream addComponentFile(featureSpecificDirectory.getFullPath()+"AddComponent.hpp");
     ofstream componentsIncludesFile(featureSpecificDirectory.getFullPath()+"ComponentsIncludes.hpp");
-    ofstream convertToStringComponentNameFile(featureSpecificDirectory.getFullPath()+"ConvertToStringComponentName.hpp");
+    ofstream
+convertToStringComponentNameFile(featureSpecificDirectory.getFullPath()+"ConvertToStringComponentName.hpp");
 
     AlbaFileReader componentNameFileReader(componentNameFile);
     while(componentNameFileReader.isNotFinished())
@@ -1886,5 +1910,4 @@ TEST(SampleTest, FindThoseIpAddresses)
 }
 */
 
-
-}
+}  // namespace alba

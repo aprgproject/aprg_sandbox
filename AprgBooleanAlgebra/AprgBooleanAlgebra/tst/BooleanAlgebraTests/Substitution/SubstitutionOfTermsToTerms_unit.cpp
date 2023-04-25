@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2{{"x", false}, {"y", true}};
     TermToTermMap variableWithValues{{"x", false}, {"y", true}};
@@ -27,8 +24,7 @@ TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks)
     EXPECT_EQ(Term(true), substitution3.getTermForTerm("y"));
 }
 
-TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", false}, {"y", true}});
 
@@ -36,8 +32,7 @@ TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks)
     EXPECT_FALSE(substitution2.isEmpty());
 }
 
-TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", false}, {"y", true}});
 
     EXPECT_TRUE(substitution.isTermFound("x"));
@@ -46,8 +41,7 @@ TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks)
     EXPECT_FALSE(substitution.isTermFound("b"));
 }
 
-TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", false}, {"y", true}});
 
@@ -55,8 +49,7 @@ TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks)
     EXPECT_EQ(2U, substitution2.getSize());
 }
 
-TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", false}, {"y", true}});
 
     EXPECT_EQ(Term(false), substitution.getTermForTerm("x"));
@@ -65,8 +58,7 @@ TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks)
     EXPECT_EQ(Term(), substitution.getTermForTerm("b"));
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression) {
     SubstitutionOfTermsToTerms substitution({{"x", false}, {"y", true}});
     Expression expression1;
     Expression expression2(createExpressionIfPossible({"x", "&", "y"}));
@@ -80,8 +72,7 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression)
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm) {
     SubstitutionOfTermsToTerms substitution({{"x", false}, {"y", true}});
     Term term1;
     Term term2("x");
@@ -103,8 +94,7 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm4, verifyTerm4);
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", "a"}, {"y", true}});
     Expression expression(createExpressionIfPossible({"x", "&", "y"}));
 
@@ -114,6 +104,6 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks)
     EXPECT_EQ(expectExpression, verifyExpression);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

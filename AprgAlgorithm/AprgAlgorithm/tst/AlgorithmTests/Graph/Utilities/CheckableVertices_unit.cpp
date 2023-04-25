@@ -2,20 +2,16 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using CheckableVerticesForTest = CheckableVertices<VertexForTest>;
-}
+}  // namespace
 
-TEST(CheckableVerticesTest, IsFoundWorks)
-{
+TEST(CheckableVerticesTest, IsFoundWorks) {
     CheckableVerticesForTest emptyCheckableVertices;
     CheckableVerticesForTest nonEmptyCheckableVertices;
     nonEmptyCheckableVertices.putVertex(10U);
@@ -30,8 +26,7 @@ TEST(CheckableVerticesTest, IsFoundWorks)
     EXPECT_FALSE(nonEmptyCheckableVertices.isFound(13U));
 }
 
-TEST(CheckableVerticesTest, IsNotFoundWorks)
-{
+TEST(CheckableVerticesTest, IsNotFoundWorks) {
     CheckableVerticesForTest emptyCheckableVertices;
     CheckableVerticesForTest nonEmptyCheckableVertices;
     nonEmptyCheckableVertices.putVertex(10U);
@@ -46,8 +41,7 @@ TEST(CheckableVerticesTest, IsNotFoundWorks)
     EXPECT_TRUE(nonEmptyCheckableVertices.isNotFound(13U));
 }
 
-TEST(CheckableVerticesTest, PutVertexWorks)
-{
+TEST(CheckableVerticesTest, PutVertexWorks) {
     CheckableVerticesForTest checkableVertices;
 
     checkableVertices.putVertex(10U);
@@ -61,8 +55,7 @@ TEST(CheckableVerticesTest, PutVertexWorks)
     EXPECT_FALSE(checkableVertices.isFound(13U));
 }
 
-TEST(CheckableVerticesTest, RemoveVertexWorks)
-{
+TEST(CheckableVerticesTest, RemoveVertexWorks) {
     CheckableVerticesForTest checkableVertices;
     checkableVertices.putVertex(10U);
     checkableVertices.putVertex(11U);
@@ -78,8 +71,7 @@ TEST(CheckableVerticesTest, RemoveVertexWorks)
     EXPECT_FALSE(checkableVertices.isFound(13U));
 }
 
-TEST(CheckableVerticesTest, ClearWorks)
-{
+TEST(CheckableVerticesTest, ClearWorks) {
     CheckableVerticesForTest checkableVertices;
     checkableVertices.putVertex(10U);
     checkableVertices.putVertex(11U);
@@ -94,6 +86,6 @@ TEST(CheckableVerticesTest, ClearWorks)
     EXPECT_FALSE(checkableVertices.isFound(13U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

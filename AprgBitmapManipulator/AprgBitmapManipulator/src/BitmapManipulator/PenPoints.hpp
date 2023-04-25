@@ -4,16 +4,13 @@
 
 #include <set>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-class PenPoints
-{
+class PenPoints {
 public:
-    using PenPointsSet=std::set<BitmapXY>;
+    using PenPointsSet = std::set<BitmapXY>;
 
     bool isPenPoint(BitmapXY const& penPoint) const;
     PenPointsSet const& getPenPoints() const;
@@ -22,10 +19,11 @@ public:
     void addAsPenPoints(BitmapXYs const& bitmapPoints);
     void removePenPoint(BitmapXY const& penPoint);
     void clear();
+
 private:
     PenPointsSet m_penPoints;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

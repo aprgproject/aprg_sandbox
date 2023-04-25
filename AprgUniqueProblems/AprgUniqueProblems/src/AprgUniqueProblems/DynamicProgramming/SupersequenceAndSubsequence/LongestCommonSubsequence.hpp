@@ -5,11 +5,9 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class LongestCommonSubsequence
-{
+class LongestCommonSubsequence {
 public:
     using Index = unsigned int;
     using Count = unsigned int;
@@ -17,7 +15,7 @@ public:
     using Values = std::vector<Value>;
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     LongestCommonSubsequence(Values const& sequence1, Values const& sequence2);
 
@@ -27,15 +25,13 @@ public:
     Count getLongestLengthUsingIterativeDPAndSpaceEfficient() const;
 
 private:
-
     Count getLongestLengthUsingNaiveRecursion(Index const index1, Index const index2) const;
-    Count getLongestLengthUsingMemoizationDP(CountMatrix & lengthMatrix, Index const index1, Index const index2) const;
+    Count getLongestLengthUsingMemoizationDP(CountMatrix& lengthMatrix, Index const index1, Index const index2) const;
     Values m_sequence1;
     Values m_sequence2;
-
 };
 
-}
+}  // namespace alba
 
 // LCS Problem Statement:
 // Given two sequences, find the length of longest subsequence present in both of them.
@@ -54,16 +50,16 @@ private:
 // Note that it takes O(n) time to check if a subsequence is common to both the strings.
 // This time complexity can be improved using dynamic programming.
 
-// It is a classic computer science problem, the basis of diff (a file comparison program that outputs the differences between two files),
-// and has applications in bioinformatics.
+// It is a classic computer science problem, the basis of diff (a file comparison program that outputs the differences
+// between two files), and has applications in bioinformatics.
 
 // Examples:
 // LCS for input Valuess “ABCDGH” and “AEDFHR” is “ADH” of length 3.
 // LCS for input Valuess “AGGTAB” and “GXTXAYB” is “GTAB” of length 4.
 
-// The naive solution for this problem is to generate all subsequences of both given sequences and find the longest matching subsequence.
-// This solution is exponential in term of time complexity.
-// Let us see how this problem possesses both important properties of a Dynamic Programming (DP) Problem.
+// The naive solution for this problem is to generate all subsequences of both given sequences and find the longest
+// matching subsequence. This solution is exponential in term of time complexity. Let us see how this problem possesses
+// both important properties of a Dynamic Programming (DP) Problem.
 
 // 1) Optimal Substructure:
 // Let the input sequences be X[0..m-1] and Y[0..n-1] of lengths m and n respectively.
@@ -94,7 +90,9 @@ private:
 // Last characters do not match for the strings.
 // So length of LCS can be written as:
 // L(“ABCDGH”, “AEDFHR”) = MAX ( L(“ABCDG”, “AEDFHR”), L(“ABCDGH”, “AEDFH”) )
-// So the LCS problem has optimal substructure property as the main problem can be solved using solutions to subproblems.
+// So the LCS problem has optimal substructure property as the main problem can be solved using solutions to
+// subproblems.
 
 // 2) Overlapping Subproblems:
-// Time Complexity of the above implementation is O(mn) which is much better than the worst-case time complexity of Naive Recursive implementation.
+// Time Complexity of the above implementation is O(mn) which is much better than the worst-case time complexity of
+// Naive Recursive implementation.

@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Flyweight
-{
+namespace Flyweight {
 
-TEST(FlyweightTest, Test1)
-{
+TEST(FlyweightTest, Test1) {
     FlyweightFactory factory;
 
     factory.getFlyweight(1).operation();
@@ -18,4 +16,4 @@ TEST(FlyweightTest, Test1)
     UnsharedFlyweightPointer->operation();
 }
 
-}
+}  // namespace Flyweight

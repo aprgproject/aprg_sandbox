@@ -3,21 +3,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using WalkPathsForTest = WalkInSuccessorGraph<VertexForTest>;
-}
+}  // namespace
 
-TEST(WalkInSuccessorGraphTest, WalkWorksOnExample1)
-{
+TEST(WalkInSuccessorGraphTest, WalkWorksOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 3U);
     graph.connect(3U, 7U);
@@ -33,8 +29,7 @@ TEST(WalkInSuccessorGraphTest, WalkWorksOnExample1)
     EXPECT_EQ(1U, walkPaths.walk(9U, 3U));
 }
 
-TEST(WalkInSuccessorGraphTest, WalkWorksOnExample2)
-{
+TEST(WalkInSuccessorGraphTest, WalkWorksOnExample2) {
     GraphForTest graph;
     graph.connect(4U, 6U);
     graph.connect(8U, 6U);
@@ -49,6 +44,6 @@ TEST(WalkInSuccessorGraphTest, WalkWorksOnExample2)
     EXPECT_EQ(2U, walkPaths.walk(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

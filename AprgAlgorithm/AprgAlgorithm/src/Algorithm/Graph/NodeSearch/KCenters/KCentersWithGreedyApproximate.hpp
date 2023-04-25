@@ -1,17 +1,14 @@
 #pragma once
 
-#include <Algorithm/Graph/Types/GraphTypes.hpp>
 #include <Algorithm/Graph/PathSearch/BreadthFirstSearch/PathSearchUsingBfsWithDistanceSum.hpp>
+#include <Algorithm/Graph/Types/GraphTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph>
-class KCentersWithGreedyApproximate
-{
+class KCentersWithGreedyApproximate {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
@@ -19,66 +16,44 @@ public:
     using Bfs = PathSearchUsingBfsWithDistanceSum<Vertex, Weight, EdgeWeightedGraph>;
 
     KCentersWithGreedyApproximate(
-            EdgeWeightedGraph const& graph,
-            Vertex const& startVertex,
-            unsigned int const numberOfCenters)
-        : m_graph(graph)
-        , m_startVertex(startVertex)
-        , m_numberOfCenters(numberOfCenters)
-    {
+        EdgeWeightedGraph const& graph, Vertex const& startVertex, unsigned int const numberOfCenters)
+        : m_graph(graph), m_startVertex(startVertex), m_numberOfCenters(numberOfCenters) {
         initialize();
     }
 
-    Vertices const& getFoundCenters() const
-    {
-        return m_foundCenters;
-    }
+    Vertices const& getFoundCenters() const { return m_foundCenters; }
 
 private:
+    void initialize() { traverseWithGreedyApproach(); }
 
-    void initialize()
-    {
-        traverseWithGreedyApproach();
-    }
-
-    void traverseWithGreedyApproach()
-    {
-        Vertex currentCenter(m_startVertex); // start vertex is a center
-        for(unsigned int centerCount=0; centerCount<m_numberOfCenters; centerCount++)
-        {
+    void traverseWithGreedyApproach() {
+        Vertex currentCenter(m_startVertex);  // start vertex is a center
+        for (unsigned int centerCount = 0; centerCount < m_numberOfCenters; centerCount++) {
             m_foundCenters.emplace_back(currentCenter);
             updateClosestDistances(currentCenter);
             currentCenter = getVertexForMaximumClosestDistance();
         }
     }
 
-    void updateClosestDistances(Vertex const& currentCenter)
-    {
+    void updateClosestDistances(Vertex const& currentCenter) {
         Bfs bfs(m_graph, {currentCenter});
-        for(auto const& endVertexAndDistanceSumPair : bfs.getEndVertexToDistanceSumMap())
-        {
+        for (auto const& endVertexAndDistanceSumPair : bfs.getEndVertexToDistanceSumMap()) {
             Vertex const& vertex(endVertexAndDistanceSumPair.first);
             Weight const& distance(endVertexAndDistanceSumPair.second);
             auto it = m_closestDistanceForVertex.find(vertex);
-            if(it != m_closestDistanceForVertex.cend())
-            {
+            if (it != m_closestDistanceForVertex.cend()) {
                 it->second = std::min(it->second, distance);
-            }
-            else
-            {
+            } else {
                 m_closestDistanceForVertex.emplace(vertex, distance);
             }
         }
     }
 
-    Vertex getVertexForMaximumClosestDistance()
-    {
+    Vertex getVertexForMaximumClosestDistance() {
         Vertex result{};
         Weight maximumClosestDistance{};
-        for(auto const& vertexAndClosestDistancePair: m_closestDistanceForVertex)
-        {
-            if(maximumClosestDistance < vertexAndClosestDistancePair.second)
-            {
+        for (auto const& vertexAndClosestDistancePair : m_closestDistanceForVertex) {
+            if (maximumClosestDistance < vertexAndClosestDistancePair.second) {
                 maximumClosestDistance = vertexAndClosestDistancePair.second;
                 result = vertexAndClosestDistancePair.first;
             }
@@ -93,12 +68,12 @@ private:
     Vertices m_foundCenters;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
-// Given n cities and distances between every pair of cities, select k cities to place warehouses (or ATMs or Cloud Server)
-// such that the maximum distance of a city to a warehouse (or ATM or Cloud Server) is minimized.
+// Given n cities and distances between every pair of cities, select k cities to place warehouses (or ATMs or Cloud
+// Server) such that the maximum distance of a city to a warehouse (or ATM or Cloud Server) is minimized.
 
 // For example consider the following four cities, 0, 1, 2 and 3 and distances between them,
 // how do place 2 ATMs among these 4 cities so that the maximum distance of a city to an ATM is minimized.
@@ -116,7 +91,8 @@ private:
 // ---> Choose (i+1)’th center by picking the city whi   ch is farthest from already selected centers,
 // ---> i.e, the point p which has following value as maximum Min[dist(p, c1), dist(p, c2), dist(p, c3), …. dist(p, ci)]
 
-// Note that the greedy algorithm doesn’t give best solution as this is just an approximate algorithm with bound as twice of optimal.
+// Note that the greedy algorithm doesn’t give best solution as this is just an approximate algorithm with bound as
+// twice of optimal.
 
 // Proof that the above greedy algorithm is 2 approximate.
 // -> Let OPT be the maximum distance of a city from a center in the Optimal solution.
@@ -129,4 +105,3 @@ private:
 // ---> e) There exists a pair of points with the same center X in the optimal solution
 // --->(pigeonhole principle: k optimal centers, k+1 points)
 // ---> f) The distance between them is at most 2·OPT (triangle inequality) which is a contradiction.
-

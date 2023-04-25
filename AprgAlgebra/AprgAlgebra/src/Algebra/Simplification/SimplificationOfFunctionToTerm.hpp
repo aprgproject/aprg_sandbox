@@ -2,30 +2,22 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-class SimplificationOfFunctionToTerm
-{
+class SimplificationOfFunctionToTerm {
 public:
-    struct ConfigurationDetails
-    {
+    struct ConfigurationDetails {
         bool shouldSimplifyTrigonometricFunctionsToSinAndCos;
         bool shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel;
     };
 
-    class Configuration
-            : public AlbaConfigurationHolder<ConfigurationDetails>
-    {};
+    class Configuration : public AlbaConfigurationHolder<ConfigurationDetails> {};
 
-    class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
-    {};
+    class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails> {};
 
     SimplificationOfFunctionToTerm();
 
@@ -38,15 +30,14 @@ private:
     Term simplifyTrigometricFunctionToExpression(Function const& functionObject);
     Term simplifyLogarithmicFunctionToExpression(Function const& functionObject);
     Term getLogarithmicOfTermBasedFromName(Term const& term, std::string const& functionName) const;
-
 };
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
 template <>
 algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails
 getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails>();
 
-}
+}  // namespace alba

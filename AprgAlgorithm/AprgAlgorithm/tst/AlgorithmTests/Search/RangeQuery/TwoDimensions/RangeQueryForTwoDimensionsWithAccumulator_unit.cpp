@@ -4,28 +4,20 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = unsigned int;
 using RangeQueryForTest = RangeQueryForTwoDimensionsWithAccumulator<unsigned int>;
 using ValueMatrixForTest = RangeQueryForTest::ValueMatrix;
 RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
 RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
-}
+}  // namespace
 
-TEST(RangeQueryForTwoDimensionsWithAccumulatorTest, GetValueOn2DIntervalWorksOnExample1)
-{
-    ValueMatrixForTest valueMatrix(4U, 4U,
-    {7U, 6U, 1U, 6U,
-     8U, 7U, 5U, 2U,
-     3U, 9U, 7U, 1U,
-     8U, 5U, 3U, 8U});
+TEST(RangeQueryForTwoDimensionsWithAccumulatorTest, GetValueOn2DIntervalWorksOnExample1) {
+    ValueMatrixForTest valueMatrix(4U, 4U, {7U, 6U, 1U, 6U, 8U, 7U, 5U, 2U, 3U, 9U, 7U, 1U, 8U, 5U, 3U, 8U});
     RangeQueryForTest sumRangeQuery(valueMatrix, plusAccumulator, minusAccumulator);
 
     // starts with (0,0)
@@ -53,6 +45,6 @@ TEST(RangeQueryForTwoDimensionsWithAccumulatorTest, GetValueOn2DIntervalWorksOnE
     EXPECT_EQ(47U, sumRangeQuery.getAccumulatedValueOn2DInterval(1U, 1U, 3U, 3U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

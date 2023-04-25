@@ -3,20 +3,16 @@
 #include <map>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
 void gatherAndSaveDataInAnimizeColor(std::string const& bitmapPath);
 
-class AnimizeColor
-{
+class AnimizeColor {
 public:
     AnimizeColor();
-    struct ColorDetails
-    {
+    struct ColorDetails {
         unsigned int count;
         double newValue;
     };
@@ -32,19 +28,15 @@ public:
 
 private:
     bool isValueIncluded(double const value) const;
-    void addCountToValue(
-            ColorDataMap & colorDataMap,
-            double const value);
-    void calculateNewValues(ColorDataMap & colorDataMap);
-    double getNewValue(
-            ColorDataMap const& colorDataMap,
-            double const originalValue) const;
+    void addCountToValue(ColorDataMap& colorDataMap, double const value);
+    void calculateNewValues(ColorDataMap& colorDataMap);
+    double getNewValue(ColorDataMap const& colorDataMap, double const originalValue) const;
     double m_lowestIncludedValue;
     double m_highestIncludedValue;
     ColorDataMap m_lightnessData;
     ColorDataMap m_saturationData;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

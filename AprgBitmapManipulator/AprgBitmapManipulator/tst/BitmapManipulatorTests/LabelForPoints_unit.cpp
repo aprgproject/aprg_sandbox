@@ -5,41 +5,34 @@
 using namespace alba::AprgBitmap;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-TEST(LabelForPointsTest, IsInitialLabelWorks)
-{
+TEST(LabelForPointsTest, IsInitialLabelWorks) {
     EXPECT_TRUE(isInitialLabel(INITIAL_LABEL_VALUE));
     EXPECT_FALSE(isInitialLabel(INVALID_LABEL_VALUE));
 }
 
-TEST(LabelForPointsTest, IsInvalidLabelWorks)
-{
+TEST(LabelForPointsTest, IsInvalidLabelWorks) {
     EXPECT_FALSE(isInvalidLabel(INITIAL_LABEL_VALUE));
     EXPECT_TRUE(isInvalidLabel(INVALID_LABEL_VALUE));
 }
 
-TEST(LabelForPointsTest, IsInitialOrInvalidLabelWorks)
-{
+TEST(LabelForPointsTest, IsInitialOrInvalidLabelWorks) {
     EXPECT_TRUE(isInitialOrInvalidLabel(INITIAL_LABEL_VALUE));
     EXPECT_TRUE(isInitialOrInvalidLabel(INVALID_LABEL_VALUE));
     EXPECT_FALSE(isInitialOrInvalidLabel(1U));
 }
 
-TEST(LabelForPointsTest, GetLabelColorWorks)
-{
+TEST(LabelForPointsTest, GetLabelColorWorks) {
     EXPECT_EQ(0x0U, getLabelColor(INITIAL_LABEL_VALUE));
     EXPECT_EQ(0x1A2BCEU, getLabelColor(INVALID_LABEL_VALUE));
     EXPECT_EQ(0x9ACA3BU, getLabelColor(1U));
     EXPECT_EQ(0xCD651DU, getLabelColor(2U));
 }
 
-TEST(LabelForPointsTest, GetLabelWorks)
-{
+TEST(LabelForPointsTest, GetLabelWorks) {
     LabelForPoints labelForPixels;
     labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
 
@@ -47,8 +40,7 @@ TEST(LabelForPointsTest, GetLabelWorks)
     EXPECT_EQ(INITIAL_LABEL_VALUE, labelForPixels.getLabel(BitmapXY(56, 78)));
 }
 
-TEST(LabelForPointsTest, GetPixelsToLabelsWorks)
-{
+TEST(LabelForPointsTest, GetPixelsToLabelsWorks) {
     LabelForPoints labelForPixels;
     labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
 
@@ -60,8 +52,7 @@ TEST(LabelForPointsTest, GetPixelsToLabelsWorks)
     EXPECT_EQ(0x123456U, pairToVerify.second);
 }
 
-TEST(LabelForPointsTest, SetLabelWorks)
-{
+TEST(LabelForPointsTest, SetLabelWorks) {
     LabelForPoints labelForPixels;
 
     labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
@@ -73,7 +64,6 @@ TEST(LabelForPointsTest, SetLabelWorks)
     EXPECT_EQ(0x123456U, pairToVerify.second);
 }
 
+}  // namespace AprgBitmap
 
-}
-
-}
+}  // namespace alba

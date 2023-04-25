@@ -7,14 +7,11 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks) {
     SubstitutionOfVariablesToValues substitution1;
     SubstitutionOfVariablesToValues substitution2{{"x", 1}, {"y", 2}};
     VariablesToValuesMap variableWithValues{{"x", 1}, {"y", 2}};
@@ -29,8 +26,7 @@ TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
     EXPECT_EQ(AlbaNumber(2), substitution2.getValueForVariable("y"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks) {
     SubstitutionOfVariablesToValues substitution1;
     SubstitutionOfVariablesToValues substitution2({{"x", 1}, {"y", 2}});
 
@@ -38,8 +34,7 @@ TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks)
     EXPECT_FALSE(substitution2.isEmpty());
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
 
     EXPECT_TRUE(substitution.isVariableFound("x"));
@@ -48,8 +43,7 @@ TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
     EXPECT_FALSE(substitution.isVariableFound("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks) {
     SubstitutionOfVariablesToValues substitution1;
     SubstitutionOfVariablesToValues substitution2({{"x", 1}, {"y", 2}});
 
@@ -57,8 +51,7 @@ TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks)
     EXPECT_EQ(2U, substitution2.getSize());
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
 
     EXPECT_EQ(AlbaNumber(1), substitution.getValueForVariable("x"));
@@ -67,8 +60,7 @@ TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks)
     EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariable)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariable) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Variable variable1;
     Variable variable2("x");
@@ -86,8 +78,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariable)
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnMonomial)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnMonomial) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Monomial monomial1;
     Monomial monomial2(7, {{"x", 3}});
@@ -105,12 +96,14 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnMonomial)
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnPolynomial)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnPolynomial) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
-    Polynomial polynomial3{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})};
+    Polynomial polynomial2{
+        Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
+    Polynomial polynomial3{
+        Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}),
+        Monomial(5, {{"x", 3}})};
 
     Term verifyTerm1(substitution.performSubstitutionTo(polynomial1));
     Term verifyTerm2(substitution.performSubstitutionTo(polynomial2));
@@ -124,8 +117,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnPolynomial
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Expression expression1;
     Expression expression2(createExpressionIfPossible({"x", "^", "y"}));
@@ -139,8 +131,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnFunction)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnFunction) {
     SubstitutionOfVariablesToValues substitution({{"x", -2}});
     Function function1;
     Function function2(abs("x"));
@@ -154,13 +145,14 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnFunction)
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Term term1;
     Term term2("x");
     Term term3(Monomial(7, {{"x", 3}}));
-    Term term4(Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})});
+    Term term4(Polynomial{
+        Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}),
+        Monomial(5, {{"x", 3}})});
     Term term5(createExpressionIfPossible({"x", "^", "y"}));
     Term term6(10);
 
@@ -185,8 +177,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm6, verifyTerm6);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitializerList)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitializerList) {
     SubstitutionOfVariablesToValues substitution;
 
     substitution.putVariablesWithValues({{"x", 1}, {"y", 2}});
@@ -197,8 +188,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitia
     EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap) {
     SubstitutionOfVariablesToValues substitution;
     VariablesToValuesMap variablesWithValues;
     variablesWithValues.emplace("x", 1);
@@ -212,8 +202,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap)
     EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks) {
     SubstitutionOfVariablesToValues substitution;
 
     substitution.putVariableWithValue("x", 5);
@@ -222,8 +211,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks)
     EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTheLastValue)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTheLastValue) {
     SubstitutionOfVariablesToValues substitution;
 
     substitution.putVariableWithValue("x", 5);
@@ -233,8 +221,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTh
     EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForMonomialWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForMonomialWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Monomial monomial(5, {{"x", 2}, {"y", 3}});
 
@@ -244,8 +231,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForMonomialWorks)
     EXPECT_EQ(expectMonomial, verifyMonomial);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForPolynomialWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForPolynomialWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Polynomial polynomial{Monomial(5, {{"x", 2}, {"y", 3}}), Monomial(7, {{"x", 3}, {"y", 4}})};
 
@@ -255,8 +241,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForPolynomialWorks)
     EXPECT_EQ(expectPolynomial, verifyPolynomial);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForExpressionWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForExpressionWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Expression expression(createExpressionIfPossible({"x", "^", "y"}));
 
@@ -266,8 +251,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForExpressionWorks)
     EXPECT_EQ(expectExpression, verifyExpression);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForFunctionWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForFunctionWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
     Term subTerm(createExpressionIfPossible({"x", "^", "y"}));
     Function functionToTest(abs(subTerm));
@@ -278,6 +262,6 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForFunctionWorks)
     EXPECT_EQ(expectExpression, verifyFunction);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

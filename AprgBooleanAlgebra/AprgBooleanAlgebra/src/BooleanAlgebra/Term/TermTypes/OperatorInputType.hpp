@@ -1,18 +1,11 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-enum class OperatorInputType
-{
-    Unknown,
-    UnaryOperation,
-    BinaryOperation
-};
+enum class OperatorInputType { Unknown, UnaryOperation, BinaryOperation };
 
 }
 
-}
+}  // namespace alba

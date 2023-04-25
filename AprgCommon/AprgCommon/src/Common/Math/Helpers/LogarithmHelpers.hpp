@@ -4,14 +4,11 @@
 
 #include <cmath>
 
-namespace alba
-{
+namespace alba {
 
-namespace mathHelper
-{
+namespace mathHelper {
 
-inline double getLogarithm(double const base, double const inputForLogarithm)
-{
+inline double getLogarithm(double const base, double const inputForLogarithm) {
     // change of base formula
     // log a(b) = C
     // -> b = a^C
@@ -20,42 +17,37 @@ inline double getLogarithm(double const base, double const inputForLogarithm)
     // -> C = log10(b)/log10(a)
 
     // log a(b) = log10(b) / log10(a)
-    return log10(inputForLogarithm)/log10(base);
+    return log10(inputForLogarithm) / log10(base);
 }
 
-template <typename NumberType> inline NumberType getLogarithmWithBase2Of(NumberType const value)
-{
+template <typename NumberType>
+inline NumberType getLogarithmWithBase2Of(NumberType const value) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     return AlbaBitValueUtilities<NumberType>::getLogarithmWithBase2Of(value);
 }
 
-template <typename NumberType> NumberType getLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm)
-{
+template <typename NumberType>
+NumberType getLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm) {
     // This is always correct and faster than pow (check performance test for comparison)
 
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     NumberType result(0);
-    if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive
+    if (base > 1 && inputForLogarithm > 0)  // base must be at least 2 and input should be positive
     {
         NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
-        while(remainingValue > 0)
-        {
+        while (remainingValue > 0) {
             NumberType nextRemainingValue = remainingValue / currentBase;
-            if(nextRemainingValue > 0)
-            {
+            if (nextRemainingValue > 0) {
                 result += currentCount;
                 currentBase *= base;
                 currentCount++;
-            }
-            else
-            {
+            } else {
                 nextRemainingValue = remainingValue / base;
-                if(nextRemainingValue > 0)
-                {
+                if (nextRemainingValue > 0) {
                     result++;
-                    currentBase = base*base;
+                    currentBase = base * base;
                     currentCount = 2;
                 }
             }
@@ -65,14 +57,14 @@ template <typename NumberType> NumberType getLogarithmForIntegers(NumberType con
     return result;
 }
 
-template <typename NumberType> NumberType getCeilOfLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm)
-{
-    return getLogarithmForIntegers(base, (inputForLogarithm*base)-1);
+template <typename NumberType>
+NumberType getCeilOfLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm) {
+    return getLogarithmForIntegers(base, (inputForLogarithm * base) - 1);
 }
 
 unsigned int getIterativeLogarithm(double const base, double const inputForLogarithm);
 int getSuperLogarithm(double const base, double const inputForLogarithm);
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

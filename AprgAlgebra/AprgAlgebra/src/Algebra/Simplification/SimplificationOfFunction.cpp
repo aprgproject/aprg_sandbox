@@ -6,41 +6,29 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-SimplificationOfFunction::SimplificationOfFunction(
-        Function const& functionObject)
-    : m_function(functionObject)
-{}
+SimplificationOfFunction::SimplificationOfFunction(Function const& functionObject) : m_function(functionObject) {}
 
-Function SimplificationOfFunction::getFunction() const
-{
-    return m_function;
-}
+Function SimplificationOfFunction::getFunction() const { return m_function; }
 
-void SimplificationOfFunction::simplify()
-{
-    Term & inputTermReference(getTermReferenceFromBaseTerm(m_function.getInputTermReference()));
+void SimplificationOfFunction::simplify() {
+    Term& inputTermReference(getTermReferenceFromBaseTerm(m_function.getInputTermReference()));
     inputTermReference.simplify();
 
-    if("abs" == m_function.getFunctionName())
-    {
-        if(isANegativeTerm(inputTermReference))
-        {
+    if ("abs" == m_function.getFunctionName()) {
+        if (isANegativeTerm(inputTermReference)) {
             inputTermReference = negateTerm(inputTermReference);
         }
     }
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

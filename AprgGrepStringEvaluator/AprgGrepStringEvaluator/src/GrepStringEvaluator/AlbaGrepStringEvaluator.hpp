@@ -11,16 +11,18 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaGrepStringEvaluator
-{
+class AlbaGrepStringEvaluator {
     using VectorOfTokens = std::vector<AlbaGrepStringToken>;
-    using InfixEvaluator = algorithm::ExpressionEvaluator::ExpressionInfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
-    using PostfixEvaluator = algorithm::ExpressionEvaluator::ExpressionPostfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
-    using EvaluatorTerm = algorithm::ExpressionEvaluator::ExpressionEvaluatorTerm<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
-    using EvaluatorConverter = algorithm::ExpressionEvaluator::ExpressionEvaluatorConverter<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using InfixEvaluator = algorithm::ExpressionEvaluator::ExpressionInfixEvaluator<
+        AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using PostfixEvaluator = algorithm::ExpressionEvaluator::ExpressionPostfixEvaluator<
+        AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using EvaluatorTerm = algorithm::ExpressionEvaluator::ExpressionEvaluatorTerm<
+        AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using EvaluatorConverter = algorithm::ExpressionEvaluator::ExpressionEvaluatorConverter<
+        AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
 
 public:
     AlbaGrepStringEvaluator(std::string const& condition);
@@ -30,7 +32,7 @@ public:
 
 private:
     void extractTokens(std::string const& condition);
-    void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
+    void extractTokensWhileOnString(bool& isOnString, std::string& stringToBuild, char const& currentCharacter);
     void extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
     void generateExpressionEvaluatorPostfix();
     bool isEvaluationPossible() const;
@@ -46,4 +48,4 @@ private:
     PostfixEvaluator m_postfixEvaluator;
 };
 
-}
+}  // namespace alba

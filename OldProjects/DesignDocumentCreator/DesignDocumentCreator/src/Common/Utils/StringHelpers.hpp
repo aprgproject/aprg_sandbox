@@ -8,20 +8,18 @@
 
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-namespace StringHelpers
-{
-    std::string convertToString(ComponentName const componentName);
-    std::string convertToString(MessageName const componentName);
-    std::string convertToString(TimerType const timerType);
-    std::string convertToString(UmlPositionType const position);
-    std::string convertToString(OtherEventType const otherEventType);
-    std::string convertToString(ComponentNames const componentNames);
-    bool isTcomMessage(std::string const& messageName);
-    bool isDspMessage(std::string const& messageName);
-    bool isNbapMessage(std::string const& messageName);
-}
+namespace StringHelpers {
+std::string convertToString(ComponentName const componentName);
+std::string convertToString(MessageName const componentName);
+std::string convertToString(TimerType const timerType);
+std::string convertToString(UmlPositionType const position);
+std::string convertToString(OtherEventType const otherEventType);
+std::string convertToString(ComponentNames const componentNames);
+bool isTcomMessage(std::string const& messageName);
+bool isDspMessage(std::string const& messageName);
+bool isNbapMessage(std::string const& messageName);
+}  // namespace StringHelpers
 
-}
+}  // namespace DesignDocumentCreator

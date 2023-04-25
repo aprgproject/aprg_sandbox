@@ -2,11 +2,9 @@
 
 #include <set>
 
-namespace alba
-{
+namespace alba {
 
-class Kepler
-{
+class Kepler {
 public:
     Kepler(unsigned short int const nid);
     bool operator<(Kepler const& kepler) const;
@@ -18,4 +16,4 @@ private:
 using KeplerInitializerList = std::initializer_list<Kepler>;
 using SetOfKeplers = std::set<Kepler>;
 
-}
+}  // namespace alba

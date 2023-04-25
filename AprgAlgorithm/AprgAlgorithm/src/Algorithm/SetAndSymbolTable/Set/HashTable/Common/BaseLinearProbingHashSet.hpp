@@ -6,20 +6,19 @@
 #include <Algorithm/SetAndSymbolTable/Set/BaseSet.hpp>
 #include <Algorithm/SetAndSymbolTable/Set/HashTable/Common/BaseSetWithBaseLinearProbingHash.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key, typename HashFunction>
 class BaseLinearProbingHashSet
-        : public BaseSetWithBaseLinearProbingHash<BaseLinearProbingHash<Key, HashTableEntry<Key>, HashFunction, OrderedArraySet<Key>, BaseSet<Key>>>
-{
+    : public BaseSetWithBaseLinearProbingHash<
+          BaseLinearProbingHash<Key, HashTableEntry<Key>, HashFunction, OrderedArraySet<Key>, BaseSet<Key>>> {
 public:
-    ~BaseLinearProbingHashSet() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseLinearProbingHashSet() override = default;  // no need for virtual destructor because base destructor is
+                                                     // virtual (similar to other virtual functions)
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

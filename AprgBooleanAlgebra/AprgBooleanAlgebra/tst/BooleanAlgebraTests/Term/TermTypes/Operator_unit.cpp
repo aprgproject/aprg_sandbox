@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(OperatorTest, OperatorsAreConstructedCorrectly)
-{
+TEST(OperatorTest, OperatorsAreConstructedCorrectly) {
     Operator operator1;
     Operator operator2("test");
 
@@ -19,44 +16,40 @@ TEST(OperatorTest, OperatorsAreConstructedCorrectly)
     EXPECT_EQ("test", operator2.getOperatorString());
 }
 
-TEST(OperatorTest, EqualityOperatorWorks)
-{
+TEST(OperatorTest, EqualityOperatorWorks) {
     Operator operator1;
     Operator operator2("&");
     Operator operator3("|");
     Operator operator4("&");
 
-    EXPECT_TRUE(operator1==operator1);
-    EXPECT_FALSE(operator1==operator2);
-    EXPECT_TRUE(operator2==operator2);
-    EXPECT_FALSE(operator2==operator3);
-    EXPECT_TRUE(operator2==operator4);
+    EXPECT_TRUE(operator1 == operator1);
+    EXPECT_FALSE(operator1 == operator2);
+    EXPECT_TRUE(operator2 == operator2);
+    EXPECT_FALSE(operator2 == operator3);
+    EXPECT_TRUE(operator2 == operator4);
 }
 
-TEST(OperatorTest, InequalityOperatorWorks)
-{
+TEST(OperatorTest, InequalityOperatorWorks) {
     Operator operator1;
     Operator operator2("&");
     Operator operator3("|");
     Operator operator4("&");
 
-    EXPECT_FALSE(operator1!=operator1);
-    EXPECT_TRUE(operator1!=operator2);
-    EXPECT_FALSE(operator2!=operator2);
-    EXPECT_TRUE(operator2!=operator3);
-    EXPECT_FALSE(operator2!=operator4);
+    EXPECT_FALSE(operator1 != operator1);
+    EXPECT_TRUE(operator1 != operator2);
+    EXPECT_FALSE(operator2 != operator2);
+    EXPECT_TRUE(operator2 != operator3);
+    EXPECT_FALSE(operator2 != operator4);
 }
 
-TEST(OperatorTest, LessThanOperatorWorks)
-{
+TEST(OperatorTest, LessThanOperatorWorks) {
     EXPECT_FALSE(Operator() < Operator());
     EXPECT_FALSE(Operator("&") < Operator("&"));
     EXPECT_FALSE(Operator("|") < Operator("&"));
     EXPECT_TRUE(Operator("&") < Operator("|"));
 }
 
-TEST(OperatorTest, IsNotWorks)
-{
+TEST(OperatorTest, IsNotWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -74,8 +67,7 @@ TEST(OperatorTest, IsNotWorks)
     EXPECT_FALSE(invalidOperator.isNot());
 }
 
-TEST(OperatorTest, IsAndWorks)
-{
+TEST(OperatorTest, IsAndWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -93,8 +85,7 @@ TEST(OperatorTest, IsAndWorks)
     EXPECT_FALSE(invalidOperator.isAnd());
 }
 
-TEST(OperatorTest, IsOrWorks)
-{
+TEST(OperatorTest, IsOrWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -112,8 +103,7 @@ TEST(OperatorTest, IsOrWorks)
     EXPECT_FALSE(invalidOperator.isOr());
 }
 
-TEST(OperatorTest, IsAnOperatorThatCanPerformedWorks)
-{
+TEST(OperatorTest, IsAnOperatorThatCanPerformedWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -131,8 +121,7 @@ TEST(OperatorTest, IsAnOperatorThatCanPerformedWorks)
     EXPECT_FALSE(invalidOperator.isAnOperatorThatCanPerformed());
 }
 
-TEST(OperatorTest, IsOpeningGroupOperatorWorks)
-{
+TEST(OperatorTest, IsOpeningGroupOperatorWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -150,8 +139,7 @@ TEST(OperatorTest, IsOpeningGroupOperatorWorks)
     EXPECT_FALSE(invalidOperator.isOpeningGroupOperator());
 }
 
-TEST(OperatorTest, IsClosingGroupOperatorWorks)
-{
+TEST(OperatorTest, IsClosingGroupOperatorWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -169,8 +157,7 @@ TEST(OperatorTest, IsClosingGroupOperatorWorks)
     EXPECT_FALSE(invalidOperator.isClosingGroupOperator());
 }
 
-TEST(OperatorTest, IsUnaryOperatorWorks)
-{
+TEST(OperatorTest, IsUnaryOperatorWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -188,8 +175,7 @@ TEST(OperatorTest, IsUnaryOperatorWorks)
     EXPECT_FALSE(invalidOperator.isUnaryOperator());
 }
 
-TEST(OperatorTest, IsBinaryOperatorWorks)
-{
+TEST(OperatorTest, IsBinaryOperatorWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -207,8 +193,7 @@ TEST(OperatorTest, IsBinaryOperatorWorks)
     EXPECT_FALSE(invalidOperator.isBinaryOperator());
 }
 
-TEST(OperatorTest, IsSameOperatorInputTypeWorks)
-{
+TEST(OperatorTest, IsSameOperatorInputTypeWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -233,8 +218,7 @@ TEST(OperatorTest, IsSameOperatorInputTypeWorks)
     EXPECT_FALSE(invalidOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
 }
 
-TEST(OperatorTest, GetOperatorTypeWorks)
-{
+TEST(OperatorTest, GetOperatorTypeWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -252,8 +236,7 @@ TEST(OperatorTest, GetOperatorTypeWorks)
     EXPECT_EQ(OperatorType::Unknown, invalidOperator.getOperatorType());
 }
 
-TEST(OperatorTest, GetOperatorStringValueWorks)
-{
+TEST(OperatorTest, GetOperatorStringValueWorks) {
     Operator nullOperator;
     Operator notOperator("~");
     Operator andOperator("&");
@@ -271,8 +254,7 @@ TEST(OperatorTest, GetOperatorStringValueWorks)
     EXPECT_EQ("invalid", invalidOperator.getOperatorString());
 }
 
-TEST(OperatorTest, SettingANewOperatingStringWorks)
-{
+TEST(OperatorTest, SettingANewOperatingStringWorks) {
     Operator operatorForTest1;
     Operator operatorForTest2;
 
@@ -282,8 +264,7 @@ TEST(OperatorTest, SettingANewOperatingStringWorks)
     EXPECT_EQ("multiply", operatorForTest2.getOperatorString());
 }
 
-TEST(OperatorTest, OutputStreamOperatorWorks)
-{
+TEST(OperatorTest, OutputStreamOperatorWorks) {
     stringstream ss;
     Operator nullOperator;
     Operator notOperator("~");
@@ -293,12 +274,12 @@ TEST(OperatorTest, OutputStreamOperatorWorks)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    ss << nullOperator << "," << notOperator << "," << andOperator << "," << orOperator << ","
-       << openingGroupOperator << "," << closingGroupOperator << "," << invalidOperator;
+    ss << nullOperator << "," << notOperator << "," << andOperator << "," << orOperator << "," << openingGroupOperator
+       << "," << closingGroupOperator << "," << invalidOperator;
 
     EXPECT_EQ(",~,&,|,(,),invalid", ss.str());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

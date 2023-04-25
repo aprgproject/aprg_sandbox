@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(StickGameTest, GetGameStateWorks)
-{
+TEST(StickGameTest, GetGameStateWorks) {
     StickGame stickGame(3U);
 
     EXPECT_EQ(GameState::Losing, stickGame.getGameState(0U));
@@ -25,8 +22,7 @@ TEST(StickGameTest, GetGameStateWorks)
     EXPECT_EQ(GameState::Losing, stickGame.getGameState(8U));
 }
 
-TEST(StickGameTest, GetOptimalNumberOfSticksToTakeWorks)
-{
+TEST(StickGameTest, GetOptimalNumberOfSticksToTakeWorks) {
     StickGame stickGame(3U);
 
     EXPECT_EQ(0U, stickGame.getOptimalNumberOfSticksToTake(0U));
@@ -40,6 +36,6 @@ TEST(StickGameTest, GetOptimalNumberOfSticksToTakeWorks)
     EXPECT_EQ(1U, stickGame.getOptimalNumberOfSticksToTake(8U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

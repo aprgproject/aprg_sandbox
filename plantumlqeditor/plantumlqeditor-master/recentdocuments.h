@@ -1,18 +1,17 @@
 #ifndef RECENTDOCUMENTS_H
 #define RECENTDOCUMENTS_H
 
-#include <QObject>
 #include <QList>
+#include <QObject>
 #include <QStringList>
 
 class QAction;
 class QSettings;
 
-class RecentDocuments : public QObject
-{
+class RecentDocuments : public QObject {
     Q_OBJECT
 public:
-    explicit RecentDocuments(int max_documents, QObject *parent = 0);
+    explicit RecentDocuments(int max_documents, QObject* parent = 0);
     QList<QAction*> actions() const { return m_actions; }
 
     void clear();
@@ -36,4 +35,4 @@ private:
     QStringList m_documents;
 };
 
-#endif // RECENTDOCUMENTS_H
+#endif  // RECENTDOCUMENTS_H

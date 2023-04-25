@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2018_Round1C_P1_AWholeNewWord
-{
+namespace CodeJam_2018_Round1C_P1_AWholeNewWord {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

@@ -7,108 +7,75 @@
 using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using HashFunctionForTest = UnsignedIntegerBasedHashFunction<unsigned int, unsigned int>;
 using SymbolTableForTest = SeparateChainingHashSymbolTable<unsigned int, char, HashFunctionForTest, 2U>;
-}
+}  // namespace
 
-TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty)
-{
+TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty) {
     testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenNotEmpty)
-{
+TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenNotEmpty) {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, DoesContainWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, DoesContainWorks) {
     testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenEmpty)
-{
+TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenEmpty) {
     testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenNotEmpty)
-{
+TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenNotEmpty) {
     testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, GetWorks)
-{
-    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(SeparateChainingHashSymbolTableTest, GetWorks) { testGetWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(SeparateChainingHashSymbolTableTest, GetRankWorks)
-{
-    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(SeparateChainingHashSymbolTableTest, GetRankWorks) { testGetRankWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(SeparateChainingHashSymbolTableTest, GetMinimumWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, GetMinimumWorks) {
     testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, GetMaximumWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, GetMaximumWorks) {
     testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, SelectAtWorks)
-{
-    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(SeparateChainingHashSymbolTableTest, SelectAtWorks) { testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(SeparateChainingHashSymbolTableTest, GetFloorWorks)
-{
-    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(SeparateChainingHashSymbolTableTest, GetFloorWorks) { testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(SeparateChainingHashSymbolTableTest, GetCeilingWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, GetCeilingWorks) {
     testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, PutWorks)
-{
-    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(SeparateChainingHashSymbolTableTest, PutWorks) { testPutWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(SeparateChainingHashSymbolTableTest, DeleteBasedOnKeyWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, DeleteBasedOnKeyWorks) {
     testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, DeleteMinimumWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, DeleteMinimumWorks) {
     testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, DeleteMaximumWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, DeleteMaximumWorks) {
     testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(SeparateChainingHashSymbolTableTest, GetKeys)
-{
-    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+TEST(SeparateChainingHashSymbolTableTest, GetKeys) { testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>(); }
 
-TEST(SeparateChainingHashSymbolTableTest, GetKeysInRangeWorks)
-{
+TEST(SeparateChainingHashSymbolTableTest, GetKeysInRangeWorks) {
     testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

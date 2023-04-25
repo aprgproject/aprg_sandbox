@@ -7,17 +7,13 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-TEST(SimplificationOfFunctionToTermTest, SimplifyWorksWhenInputIsConstant)
-{
+TEST(SimplificationOfFunctionToTermTest, SimplifyWorksWhenInputIsConstant) {
     SimplificationOfFunctionToTerm simplification;
 
     Term termToVerify1(simplification.simplifyToTerm(Functions::abs(-5)));
@@ -29,10 +25,11 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyWorksWhenInputIsConstant)
     EXPECT_EQ(termToExpect2, termToVerify2);
 }
 
-TEST(SimplificationOfFunctionToTermTest, SimplifyOfTrigonometricFunctionsWorksWhenShouldSimplifyTrigonometricFunctionsToSinAndCosIsFalse)
-{
+TEST(
+    SimplificationOfFunctionToTermTest,
+    SimplifyOfTrigonometricFunctionsWorksWhenShouldSimplifyTrigonometricFunctionsToSinAndCosIsFalse) {
     SimplificationOfFunctionToTerm::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
     configurationDetails.shouldSimplifyTrigonometricFunctionsToSinAndCos = false;
     SimplificationOfFunctionToTerm::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -60,10 +57,11 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfTrigonometricFunctionsWorksWh
     EXPECT_EQ(termToExpect6, termToVerify6);
 }
 
-TEST(SimplificationOfFunctionToTermTest, SimplifyOfTrigonometricFunctionsWorksWhenShouldSimplifyTrigonometricFunctionsToSinAndCosIsTrue)
-{
+TEST(
+    SimplificationOfFunctionToTermTest,
+    SimplifyOfTrigonometricFunctionsWorksWhenShouldSimplifyTrigonometricFunctionsToSinAndCosIsTrue) {
     SimplificationOfFunctionToTerm::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
     configurationDetails.shouldSimplifyTrigonometricFunctionsToSinAndCos = true;
     SimplificationOfFunctionToTerm::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -91,10 +89,11 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfTrigonometricFunctionsWorksWh
     EXPECT_EQ(termToExpect6, termToVerify6);
 }
 
-TEST(SimplificationOfFunctionToTermTest, SimplifyOfLogarithmicFunctionsWorksWhenShouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevelFalse)
-{
+TEST(
+    SimplificationOfFunctionToTermTest,
+    SimplifyOfLogarithmicFunctionsWorksWhenShouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevelFalse) {
     SimplificationOfFunctionToTerm::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
     configurationDetails.shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel = false;
     SimplificationOfFunctionToTerm::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -131,10 +130,11 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfLogarithmicFunctionsWorksWhen
     EXPECT_EQ(termToExpect8, termToVerify8);
 }
 
-TEST(SimplificationOfFunctionToTermTest, SimplifyOfLogarithmicFunctionsWorksWhenShouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevelTrue)
-{
+TEST(
+    SimplificationOfFunctionToTermTest,
+    SimplifyOfLogarithmicFunctionsWorksWhenShouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevelTrue) {
     SimplificationOfFunctionToTerm::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfFunctionToTerm::ConfigurationDetails>());
     configurationDetails.shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel = true;
     SimplificationOfFunctionToTerm::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -171,8 +171,8 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfLogarithmicFunctionsWorksWhen
     EXPECT_EQ(termToExpect8, termToVerify8);
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

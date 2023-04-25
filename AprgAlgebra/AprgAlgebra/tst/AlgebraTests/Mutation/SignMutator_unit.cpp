@@ -8,14 +8,11 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SignMutatorTest, MutateTermWorks)
-{
+TEST(SignMutatorTest, MutateTermWorks) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
@@ -41,8 +38,7 @@ TEST(SignMutatorTest, MutateTermWorks)
     EXPECT_TRUE(isNan(term6));
 }
 
-TEST(SignMutatorTest, MutateTermWorksOnVariable)
-{
+TEST(SignMutatorTest, MutateTermWorksOnVariable) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
@@ -59,8 +55,7 @@ TEST(SignMutatorTest, MutateTermWorksOnVariable)
     EXPECT_TRUE(isNan(variableTerm3));
 }
 
-TEST(SignMutatorTest, MutateTermWorksOnFunction)
-{
+TEST(SignMutatorTest, MutateTermWorksOnFunction) {
     SignMutator mutator;
     Term functionTerm1(abs("a"));
     Term functionTerm2(sin("a"));
@@ -72,8 +67,7 @@ TEST(SignMutatorTest, MutateTermWorksOnFunction)
     EXPECT_TRUE(isNan(functionTerm2));
 }
 
-TEST(SignMutatorTest, MutateConstantWorks)
-{
+TEST(SignMutatorTest, MutateConstantWorks) {
     SignMutator mutator;
     Constant constant(5);
 
@@ -82,8 +76,7 @@ TEST(SignMutatorTest, MutateConstantWorks)
     EXPECT_EQ(Constant(1), constant);
 }
 
-TEST(SignMutatorTest, MutateVariableWorks)
-{
+TEST(SignMutatorTest, MutateVariableWorks) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     Variable variable("a");
@@ -93,8 +86,7 @@ TEST(SignMutatorTest, MutateVariableWorks)
     EXPECT_EQ(Variable("a"), variable);
 }
 
-TEST(SignMutatorTest, MutateMonomialWorks)
-{
+TEST(SignMutatorTest, MutateMonomialWorks) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     Monomial monomial(7, {{"a", 1}});
@@ -105,8 +97,7 @@ TEST(SignMutatorTest, MutateMonomialWorks)
     EXPECT_EQ(monomialToExpect, monomial);
 }
 
-TEST(SignMutatorTest, MutatePolynomialWorks)
-{
+TEST(SignMutatorTest, MutatePolynomialWorks) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
@@ -128,8 +119,7 @@ TEST(SignMutatorTest, MutatePolynomialWorks)
     EXPECT_TRUE(isNan(polynomial4));
 }
 
-TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction)
-{
+TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
@@ -152,8 +142,7 @@ TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction)
     EXPECT_EQ(expressionToExpect4, expression4);
 }
 
-TEST(SignMutatorTest, MutateExpressionWorksOnMultiplicationAndDivision)
-{
+TEST(SignMutatorTest, MutateExpressionWorksOnMultiplicationAndDivision) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
@@ -169,8 +158,7 @@ TEST(SignMutatorTest, MutateExpressionWorksOnMultiplicationAndDivision)
     EXPECT_EQ(expressionToExpect2, expression2);
 }
 
-TEST(SignMutatorTest, MutateExpressionWorksOnRaiseToPower)
-{
+TEST(SignMutatorTest, MutateExpressionWorksOnRaiseToPower) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
@@ -198,8 +186,7 @@ TEST(SignMutatorTest, MutateExpressionWorksOnRaiseToPower)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(SignMutatorTest, MutateFunctionWorks)
-{
+TEST(SignMutatorTest, MutateFunctionWorks) {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     Function functionObject(sin("a"));
@@ -210,6 +197,6 @@ TEST(SignMutatorTest, MutateFunctionWorks)
     EXPECT_EQ(functionToExpect, functionObject);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

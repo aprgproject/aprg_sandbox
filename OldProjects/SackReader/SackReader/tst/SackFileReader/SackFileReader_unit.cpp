@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(SackFileReaderTest, DISABLED_Constants)
-{
+TEST(SackFileReaderTest, DISABLED_Constants) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\DOpenIUBCommonDefs.h)");
@@ -22,8 +20,7 @@ TEST(SackFileReaderTest, DISABLED_Constants)
     EXPECT_EQ("2", details.value);
 }
 
-TEST(SackFileReaderTest, DISABLED_DTechLogDef)
-{
+TEST(SackFileReaderTest, DISABLED_DTechLogDef) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\DTechLogDef.h)");
@@ -37,8 +34,7 @@ TEST(SackFileReaderTest, DISABLED_DTechLogDef)
     EXPECT_EQ("16", details.value);
 }
 
-TEST(SackFileReaderTest, DISABLED_IfAaSysComGw_Defs)
-{
+TEST(SackFileReaderTest, DISABLED_IfAaSysComGw_Defs) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\IfAaSysComGw_Defs.h)");
@@ -48,8 +44,7 @@ TEST(SackFileReaderTest, DISABLED_IfAaSysComGw_Defs)
     EXPECT_EQ("48", details.value);
 }
 
-TEST(SackFileReaderTest, DISABLED_CommentInStructure)
-{
+TEST(SackFileReaderTest, DISABLED_CommentInStructure) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\Oam_Tcom_TestModelService.h)");
@@ -58,27 +53,27 @@ TEST(SackFileReaderTest, DISABLED_CommentInStructure)
     EXPECT_EQ("numberOfHsPdsch", details.name);
     EXPECT_EQ("TNumberOfItems", details.type);
     EXPECT_FALSE(details.isAnArray);
-    //EXPECT_EQ("indicates how many HS-PDSCH is setup for TM5", details.description); //TooHard
+    // EXPECT_EQ("indicates how many HS-PDSCH is setup for TM5", details.description); //TooHard
 
     details = database.getStructureParameterDetails("STestModelSetupReqMsg", "testPattern");
     EXPECT_EQ("testPattern", details.name);
     EXPECT_EQ("ECdmaTestDataPattern", details.type);
     EXPECT_FALSE(details.isAnArray);
-    //EXPECT_EQ("indicates what kind of testdata is generated to test channels", details.description); //TooHard
+    // EXPECT_EQ("indicates what kind of testdata is generated to test channels", details.description); //TooHard
 }
 
-TEST(SackFileReaderTest, DISABLED_MessageOamAtmSigFile)
-{
+TEST(SackFileReaderTest, DISABLED_MessageOamAtmSigFile) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\MessageId_OamAtm.sig)");
 
     EXPECT_EQ("SAtmHwConfigurationMsg", database.getMessageStructure("OAM_ATM_HW_CONFIGURATION_MSG"));
-    EXPECT_EQ("STupcAalmanInternalConfigurationResp", database.getMessageStructure("OAM_ATM_TUPC_AALMAN_INTERNAL_CONFIGURATION_RESP_MSG"));
+    EXPECT_EQ(
+        "STupcAalmanInternalConfigurationResp",
+        database.getMessageStructure("OAM_ATM_TUPC_AALMAN_INTERNAL_CONFIGURATION_RESP_MSG"));
 }
 
-TEST(SackFileReaderTest, DISABLED_MessageOamTcomFile)
-{
+TEST(SackFileReaderTest, DISABLED_MessageOamTcomFile) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\MessageId_OamTcom.sig)");
@@ -87,8 +82,7 @@ TEST(SackFileReaderTest, DISABLED_MessageOamTcomFile)
     EXPECT_EQ("SetCellParamResp", database.getMessageStructure("TC_SET_CELL_PARAM_RESP_MSG"));
 }
 
-TEST(SackFileReaderTest, DISABLED_OamTupcStructures)
-{
+TEST(SackFileReaderTest, DISABLED_OamTupcStructures) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\Oam_Atm.h)");
@@ -113,8 +107,7 @@ TEST(SackFileReaderTest, DISABLED_OamTupcStructures)
     EXPECT_EQ("", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_OamTcomStructures)
-{
+TEST(SackFileReaderTest, DISABLED_OamTcomStructures) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\oam_tcom.h)");
@@ -139,8 +132,7 @@ TEST(SackFileReaderTest, DISABLED_OamTcomStructures)
     EXPECT_EQ("", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_SWamUnit)
-{
+TEST(SackFileReaderTest, DISABLED_SWamUnit) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\SWamUnit.h)");
@@ -155,11 +147,13 @@ TEST(SackFileReaderTest, DISABLED_SWamUnit)
     EXPECT_EQ("numOfFspUnits", details.name);
     EXPECT_EQ("u8", details.type);
     EXPECT_FALSE(details.isAnArray);
-    EXPECT_EQ("Number of FSP units in System Module. Valid only for EControlUnitType_Fcm2 from Extension System Module in TC_HW_CONFIGURATION_CHANGE_MSG.", details.description);
+    EXPECT_EQ(
+        "Number of FSP units in System Module. Valid only for EControlUnitType_Fcm2 from Extension System Module in "
+        "TC_HW_CONFIGURATION_CHANGE_MSG.",
+        details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_EHspaMapping)
-{
+TEST(SackFileReaderTest, DISABLED_EHspaMapping) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\EHspaMapping.h)");
@@ -175,8 +169,7 @@ TEST(SackFileReaderTest, DISABLED_EHspaMapping)
     EXPECT_EQ("in case of UltraSite", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_EControlUnitType)
-{
+TEST(SackFileReaderTest, DISABLED_EControlUnitType) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\EControlUnitType.h)");
@@ -192,8 +185,7 @@ TEST(SackFileReaderTest, DISABLED_EControlUnitType)
     EXPECT_EQ("if EUBB WSPF is control unit", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_UConfigInfoElement)
-{
+TEST(SackFileReaderTest, DISABLED_UConfigInfoElement) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\UConfigInfoElement.h)");
@@ -217,8 +209,7 @@ TEST(SackFileReaderTest, DISABLED_UConfigInfoElement)
     EXPECT_EQ("Rx or Tx resource info", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_UIpMacAddress)
-{
+TEST(SackFileReaderTest, DISABLED_UIpMacAddress) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\UIpMacAddress.h)");
@@ -236,8 +227,7 @@ TEST(SackFileReaderTest, DISABLED_UIpMacAddress)
     EXPECT_EQ("<TODO>", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_URxAntennaBusParameters)
-{
+TEST(SackFileReaderTest, DISABLED_URxAntennaBusParameters) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\URxAntennaBusParameters.h)");
@@ -255,8 +245,7 @@ TEST(SackFileReaderTest, DISABLED_URxAntennaBusParameters)
     EXPECT_EQ("RP3 RX Antenna address information mapped to current LCR ID.", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_TAichPower)
-{
+TEST(SackFileReaderTest, DISABLED_TAichPower) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\TAichPower.h)");
@@ -267,8 +256,7 @@ TEST(SackFileReaderTest, DISABLED_TAichPower)
     EXPECT_EQ("Definition of Aich power Defined in Iub spec 3.2.0. ch 4.6.4", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_TSubrackNbr)
-{
+TEST(SackFileReaderTest, DISABLED_TSubrackNbr) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\TSubrackNbr.h)");
@@ -279,8 +267,7 @@ TEST(SackFileReaderTest, DISABLED_TSubrackNbr)
     EXPECT_EQ("", details.description);
 }
 
-TEST(SackFileReaderTest, DISABLED_TSubunits)
-{
+TEST(SackFileReaderTest, DISABLED_TSubunits) {
     Database database;
     SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\TSubunits.h)");
@@ -291,4 +278,4 @@ TEST(SackFileReaderTest, DISABLED_TSubunits)
     EXPECT_EQ("Subunits in floating point format.", details.description);
 }
 
-}
+}  // namespace alba

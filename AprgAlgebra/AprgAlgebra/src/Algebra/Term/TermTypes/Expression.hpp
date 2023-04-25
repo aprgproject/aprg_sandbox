@@ -8,21 +8,17 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Expression : public BaseTermData
-{
+class Expression : public BaseTermData {
 public:
-
     Expression();
     Expression(BaseTerm const& baseTerm);
-    Expression(BaseTerm && baseTerm);
+    Expression(BaseTerm&& baseTerm);
     Expression(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails);
-    Expression(OperatorLevel const operatorLevel, TermsWithDetails && termsWithDetails);
+    Expression(OperatorLevel const operatorLevel, TermsWithDetails&& termsWithDetails);
 
     // rule of zero
 
@@ -39,7 +35,7 @@ public:
     TermsWithAssociation const& getTermsWithAssociation() const;
     std::string getDebugString() const;
 
-    TermsWithAssociation & getTermsWithAssociationReference();
+    TermsWithAssociation& getTermsWithAssociationReference();
 
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
@@ -54,9 +50,7 @@ public:
     void putExpressionWithMultiplication(Expression const& expression);
     void putTermWithDetails(TermWithDetails const& termToSave);
     void putTermsWithDetails(TermsWithDetails const& termsToSave);
-    void putTerm(
-            BaseTerm const& baseTerm,
-            TermAssociationType const overallAssociation);
+    void putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation);
 
     void reverseTheAssociationOfTheTerms();
     void set(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails);
@@ -72,23 +66,18 @@ public:
     void clearAllInnerSimplifiedFlags();
 
 private:
-
-    //put functions
+    // put functions
     void putTermWithAddition(BaseTerm const& baseTerm);
     void putTermWithSubtraction(BaseTerm const& baseTerm);
     void putOnlyTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm);
     void putTermWithMultiplication(BaseTerm const& baseTerm);
     void putTermWithDivision(BaseTerm const& baseTerm);
     void putTermWithRaiseToPower(BaseTerm const& baseTerm);
-    void putTermForExpressionAndNonExpressions(
-            BaseTerm const& baseTerm,
-            TermAssociationType const overallAssociation);
+    void putTermForExpressionAndNonExpressions(BaseTerm const& baseTerm, TermAssociationType const overallAssociation);
     void putTermWithRaiseToPowerForExpressionAndNonExpressions(
-            BaseTerm const& baseTerm,
-            TermAssociationType const overallAssociation);
+        BaseTerm const& baseTerm, TermAssociationType const overallAssociation);
     void putTermsWithAssociation(
-            TermsWithAssociation const& termsWithAssociation,
-            TermAssociationType const overallAssociation);
+        TermsWithAssociation const& termsWithAssociation, TermAssociationType const overallAssociation);
 
     // functions for multiply then add or subtract
     void distributeAndMultiply(Polynomial const& polynomial, Expression const& expression);
@@ -97,20 +86,18 @@ private:
     void distributeAndMultiply(TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
     void distributeAndMultiply(BaseTerm const& baseTerm, TermsWithDetails const& termsWithDetails);
     void distributeAndMultiply(TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);
-    void distributeAndMultiply(
-            TermsWithDetails const& termsWithDetails1,
-            TermsWithDetails const& termsWithDetails2);
+    void distributeAndMultiply(TermsWithDetails const& termsWithDetails1, TermsWithDetails const& termsWithDetails2);
     void distributeAndMultiply(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
 
-    friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
+    friend std::ostream& operator<<(std::ostream& out, Expression const& expression);
 
     OperatorLevel m_commonOperatorLevel;
     TermsWithAssociation m_termsWithAssociation;
     bool m_isSimplified;
 };
 
-using Expressions=std::vector<Expression>;
+using Expressions = std::vector<Expression>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

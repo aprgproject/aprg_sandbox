@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaMemoryBufferTest, DefaultConstructorWorks)
-{
+TEST(AlbaMemoryBufferTest, DefaultConstructorWorks) {
     AlbaMemoryBuffer buffer;
 
     EXPECT_FALSE(buffer);
@@ -16,8 +14,7 @@ TEST(AlbaMemoryBufferTest, DefaultConstructorWorks)
     EXPECT_EQ(0U, buffer.getSize());
 }
 
-TEST(AlbaMemoryBufferTest, ConstructorWithPointerAndSizeWorks)
-{
+TEST(AlbaMemoryBufferTest, ConstructorWithPointerAndSizeWorks) {
     int input = 11111111;
 
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
@@ -29,8 +26,7 @@ TEST(AlbaMemoryBufferTest, ConstructorWithPointerAndSizeWorks)
     EXPECT_EQ(input, output);
 }
 
-TEST(AlbaMemoryBufferTest, CopyConstructorWorks)
-{
+TEST(AlbaMemoryBufferTest, CopyConstructorWorks) {
     int input = 11111111;
     AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));
 
@@ -43,8 +39,7 @@ TEST(AlbaMemoryBufferTest, CopyConstructorWorks)
     EXPECT_EQ(input, output);
 }
 
-TEST(AlbaMemoryBufferTest, CopyAssignmentWorks)
-{
+TEST(AlbaMemoryBufferTest, CopyAssignmentWorks) {
     int input = 11111111;
     AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));
     AlbaMemoryBuffer buffer2;
@@ -58,8 +53,7 @@ TEST(AlbaMemoryBufferTest, CopyAssignmentWorks)
     EXPECT_EQ(input, output);
 }
 
-TEST(AlbaMemoryBufferTest, MoveConstructorWorks)
-{
+TEST(AlbaMemoryBufferTest, MoveConstructorWorks) {
     int input = 11111111;
     AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));
 
@@ -74,8 +68,7 @@ TEST(AlbaMemoryBufferTest, MoveConstructorWorks)
     EXPECT_EQ(input, output2);
 }
 
-TEST(AlbaMemoryBufferTest, MoveAssignmentWorks)
-{
+TEST(AlbaMemoryBufferTest, MoveAssignmentWorks) {
     int input = 11111111;
     AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));
     AlbaMemoryBuffer buffer2;
@@ -91,8 +84,7 @@ TEST(AlbaMemoryBufferTest, MoveAssignmentWorks)
     EXPECT_EQ(input, output2);
 }
 
-TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferLarger)
-{
+TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferLarger) {
     int input = 11111111;
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
 
@@ -105,8 +97,7 @@ TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferLarger)
     EXPECT_EQ(input, output);
 }
 
-TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferSmaller)
-{
+TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferSmaller) {
     int input = 0x12345678;
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
 
@@ -121,8 +112,7 @@ TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferSmaller)
     EXPECT_EQ(0x34, bufferPointer[2]);
 }
 
-TEST(AlbaMemoryBufferTest, ClearAndSetNewDataWorks)
-{
+TEST(AlbaMemoryBufferTest, ClearAndSetNewDataWorks) {
     int input = 11111111, input2 = 22222222;
     AlbaMemoryBuffer buffer;
 
@@ -136,8 +126,7 @@ TEST(AlbaMemoryBufferTest, ClearAndSetNewDataWorks)
     EXPECT_EQ(input2, output);
 }
 
-TEST(AlbaMemoryBufferTest, ResizeWithAdditionalSizeAndReturnBeginOfAdditionalDataWorks)
-{
+TEST(AlbaMemoryBufferTest, ResizeWithAdditionalSizeAndReturnBeginOfAdditionalDataWorks) {
     AlbaMemoryBuffer buffer;
     unsigned char inputBuffer1[] = {0x12, 0x34, 0x56, 0x78};
     unsigned char inputBuffer2[] = {0x87, 0x65, 0x43, 0x21};
@@ -159,8 +148,7 @@ TEST(AlbaMemoryBufferTest, ResizeWithAdditionalSizeAndReturnBeginOfAdditionalDat
     EXPECT_EQ(0x21U, reader[7]);
 }
 
-TEST(AlbaMemoryBufferTest, AddDataWorksOnPrimitiveTypes)
-{
+TEST(AlbaMemoryBufferTest, AddDataWorksOnPrimitiveTypes) {
     int input = 11111111;
     AlbaMemoryBuffer buffer;
 
@@ -173,11 +161,9 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPrimitiveTypes)
     EXPECT_EQ(input, output);
 }
 
-TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure)
-{
+TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure) {
     AlbaMemoryBuffer buffer;
-    struct Sample
-    {
+    struct Sample {
         bool param1;
         int param2;
         double param3;
@@ -189,7 +175,7 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure)
 
     buffer.addData(static_cast<void*>(&input), sizeof(input));
 
-    Sample output = *reinterpret_cast<Sample *>(buffer.getBufferPointer());
+    Sample output = *reinterpret_cast<Sample*>(buffer.getBufferPointer());
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
     EXPECT_EQ(sizeof(Sample), buffer.getSize());
@@ -198,8 +184,7 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure)
     EXPECT_EQ(input.param3, output.param3);
 }
 
-TEST(AlbaMemoryBufferTest, SaveObjectWorksOnPrimitiveTypes)
-{
+TEST(AlbaMemoryBufferTest, SaveObjectWorksOnPrimitiveTypes) {
     AlbaMemoryBuffer buffer;
     int input = 0x12345678;
 
@@ -210,11 +195,9 @@ TEST(AlbaMemoryBufferTest, SaveObjectWorksOnPrimitiveTypes)
     EXPECT_EQ(input, output);
 }
 
-TEST(AlbaMemoryBufferTest, SaveObjectWorksOnDynamicTypes)
-{
+TEST(AlbaMemoryBufferTest, SaveObjectWorksOnDynamicTypes) {
     AlbaMemoryBuffer buffer;
-    struct SampleDynamicClass
-    {
+    struct SampleDynamicClass {
         vector<int> integers;
     };
     SampleDynamicClass dynamicInput;
@@ -226,15 +209,14 @@ TEST(AlbaMemoryBufferTest, SaveObjectWorksOnDynamicTypes)
     EXPECT_EQ((vector<int>{11, 22, 33, 44, 55}), output.integers);
 }
 
-TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks)
-{
+TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks) {
     int input = 0x12345678;
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
     stringstream ss;
 
-    ss<<buffer;
+    ss << buffer;
 
     EXPECT_EQ("Decimal values: {120, 86, 52, 18, }\nHexadecimal values: {78, 56, 34, 12, }\n", ss.str());
 }
 
-}
+}  // namespace alba

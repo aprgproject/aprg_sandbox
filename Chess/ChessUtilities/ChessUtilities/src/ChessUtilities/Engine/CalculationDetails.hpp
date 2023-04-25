@@ -2,14 +2,11 @@
 
 #include <Common/String/AlbaStringHelper.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-struct CalculationDetails
-{
+struct CalculationDetails {
     unsigned int depth;
     unsigned int selectiveDepth;
     unsigned int time;
@@ -23,6 +20,6 @@ struct CalculationDetails
     std::string ponderMove;
 };
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

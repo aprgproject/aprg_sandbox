@@ -4,58 +4,50 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<bool>;
 using QueryForTest = CountOnesInASortedBinaryContainer<ValuesForTest>;
-}
+}  // namespace
 
-TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty)
-{
+TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query;
 
     EXPECT_EQ(0U, query.getNumberOfOnesInASortedBinaryContainer(valuesForTest));
 }
 
-TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnOneValue)
-{
+TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnOneValue) {
     ValuesForTest valuesForTest{true};
     QueryForTest query;
 
     EXPECT_EQ(1U, query.getNumberOfOnesInASortedBinaryContainer(valuesForTest));
 }
 
-TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnWhenAllZeroes)
-{
+TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnWhenAllZeroes) {
     ValuesForTest valuesForTest{false, false, false, false, false, false, false};
     QueryForTest query;
 
     EXPECT_EQ(0U, query.getNumberOfOnesInASortedBinaryContainer(valuesForTest));
 }
 
-TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnWhenAllOnes)
-{
+TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnWhenAllOnes) {
     ValuesForTest valuesForTest{true, true, true, true, true, true, true};
     QueryForTest query;
 
     EXPECT_EQ(7U, query.getNumberOfOnesInASortedBinaryContainer(valuesForTest));
 }
 
-TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnExample1)
-{
+TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnExample1) {
     ValuesForTest valuesForTest{false, false, false, true, true, true, true};
     QueryForTest query;
 
     EXPECT_EQ(4U, query.getNumberOfOnesInASortedBinaryContainer(valuesForTest));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

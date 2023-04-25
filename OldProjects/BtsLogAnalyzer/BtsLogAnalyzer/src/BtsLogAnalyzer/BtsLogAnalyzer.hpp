@@ -9,47 +9,35 @@
 
 using wcdmaToolsBackend::BtsLogTime;
 
-namespace alba
-{
+namespace alba {
 
-struct BtsLogDelay
-{
+struct BtsLogDelay {
     std::optional<BtsLogTime> startTimeOptional;
     std::optional<BtsLogTime> endTimeOptional;
 };
 
-struct UniqueId
-{
-    UniqueId()
-        : crnccId(0)
-        , nbccId(0)
-        , transactionId(0)
-    {}
+struct UniqueId {
+    UniqueId() : crnccId(0), nbccId(0), transactionId(0) {}
     int crnccId;
     int nbccId;
     int transactionId;
-    bool operator <(UniqueId const& uniqueId) const
-    {
-        if(crnccId!=uniqueId.crnccId)
-        {
-            return crnccId<uniqueId.crnccId;
+    bool operator<(UniqueId const& uniqueId) const {
+        if (crnccId != uniqueId.crnccId) {
+            return crnccId < uniqueId.crnccId;
         }
-        if(nbccId!=uniqueId.nbccId)
-        {
-            return nbccId<uniqueId.nbccId;
+        if (nbccId != uniqueId.nbccId) {
+            return nbccId < uniqueId.nbccId;
         }
-        return transactionId<uniqueId.transactionId;
+        return transactionId < uniqueId.transactionId;
     }
 };
 
-struct WireSharkDelay
-{
+struct WireSharkDelay {
     std::optional<double> startTimeOptional;
     std::optional<double> endTimeOptional;
 };
 
-class BtsLogAnalyzer
-{
+class BtsLogAnalyzer {
 public:
     BtsLogAnalyzer();
     BtsLogAnalyzer(std::string const& pathOfOutputFile);
@@ -64,6 +52,7 @@ public:
     double getWireSharkTime(std::string const& lineInLogs) const;
     std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch) const;
     double getComputedAverageDelay() const;
+
 private:
     std::ofstream m_outputStream;
     double m_totalDelay;
@@ -73,4 +62,4 @@ private:
     std::map<int, BtsLogDelay> m_btsLogDelaysGrm;
 };
 
-}//namespace alba
+}  // namespace alba

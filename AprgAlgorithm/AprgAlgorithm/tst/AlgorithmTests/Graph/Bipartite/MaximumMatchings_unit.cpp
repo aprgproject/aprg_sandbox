@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using Edges = typename GraphTypes<VertexForTest>::Edges;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
@@ -18,10 +15,9 @@ using MaximumMatchingsForTest = MaximumMatchings<VertexForTest>;
 
 VertexForTest newSourceVertex = 0xFFFFFFFEU;
 VertexForTest newSinkVertex = 0xFFFFFFFFU;
-}
+}  // namespace
 
-TEST(MaximumMatchingsTest, GetMaximumMatchingsWorksOnExample1)
-{
+TEST(MaximumMatchingsTest, GetMaximumMatchingsWorksOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 5U);
     graph.connect(2U, 7U);
@@ -35,8 +31,7 @@ TEST(MaximumMatchingsTest, GetMaximumMatchingsWorksOnExample1)
     EXPECT_EQ(expectedMatchings, maximumMatchings.getMaximumMatchings(newSourceVertex, newSinkVertex));
 }
 
-TEST(MaximumMatchingsTest, DoesHavePerfectMatchingByCheckingASubsetWorksOnExample1)
-{
+TEST(MaximumMatchingsTest, DoesHavePerfectMatchingByCheckingASubsetWorksOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 5U);
     graph.connect(2U, 7U);
@@ -50,6 +45,6 @@ TEST(MaximumMatchingsTest, DoesHavePerfectMatchingByCheckingASubsetWorksOnExampl
     EXPECT_FALSE(maximumMatchings.doesHavePerfectMatchingByCheckingASubset({2U, 4U}));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

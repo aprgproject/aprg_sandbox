@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(MaximumEmployeeCountTest, GetMaximumCountOfEmployeesAtATimeWorks)
-{
+TEST(MaximumEmployeeCountTest, GetMaximumCountOfEmployeesAtATimeWorks) {
     MaximumEmployeeCount maximumEmployeeCount;
 
     maximumEmployeeCount.addEmployeeSchedule(10U, 15U);
@@ -19,4 +17,4 @@ TEST(MaximumEmployeeCountTest, GetMaximumCountOfEmployeesAtATimeWorks)
     EXPECT_EQ(3U, maximumEmployeeCount.getMaximumCountOfEmployeesAtATime());
 }
 
-}
+}  // namespace alba

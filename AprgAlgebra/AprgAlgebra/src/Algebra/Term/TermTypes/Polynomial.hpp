@@ -6,14 +6,11 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Polynomial : public BaseTermData
-{
+class Polynomial : public BaseTermData {
 public:
     Polynomial();
     Polynomial(Monomials const& monomials);
@@ -28,7 +25,7 @@ public:
     bool isSimplified() const;
     Monomials const& getMonomialsConstReference() const;
 
-    Monomials & getMonomialsReference();
+    Monomials& getMonomialsReference();
     void clear();
     void simplify();
     void sortMonomialsWithInversePriority();
@@ -49,15 +46,14 @@ private:
     void simplifyContinuouslyIfChanged();
     void simplifyMonomialsAndReAdd();
 
-    friend std::ostream & operator<<(std::ostream & out, Polynomial const& polynomial);
+    friend std::ostream& operator<<(std::ostream& out, Polynomial const& polynomial);
 
     Monomials m_monomials;
     bool m_isSimplified;
 };
 
-using Polynomials=std::vector<Polynomial>;
+using Polynomials = std::vector<Polynomial>;
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

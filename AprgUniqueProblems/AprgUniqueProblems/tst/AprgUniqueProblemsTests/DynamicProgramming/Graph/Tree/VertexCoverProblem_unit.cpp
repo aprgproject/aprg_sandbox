@@ -4,16 +4,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
-using SetOfVertices=VertexCoverProblem::SetOfVertices;
+namespace {
+using SetOfVertices = VertexCoverProblem::SetOfVertices;
 }
 
-TEST(VertexCoverProblemTest, GetMinimumCountWorksOnExample1)
-{
+TEST(VertexCoverProblemTest, GetMinimumCountWorksOnExample1) {
     VertexCoverProblem::Graph graph;
     graph.connect(10U, 20U);
     graph.connect(10U, 30U);
@@ -29,8 +26,7 @@ TEST(VertexCoverProblemTest, GetMinimumCountWorksOnExample1)
     EXPECT_EQ((SetOfVertices{20U, 30U, 50U}), queryForTest.getMinimumSetUsingMemoizationDP());
 }
 
-TEST(VertexCoverProblemTest, GetMinimumCountWorksOnExample2)
-{
+TEST(VertexCoverProblemTest, GetMinimumCountWorksOnExample2) {
     VertexCoverProblem::Graph graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 4U);
@@ -46,4 +42,4 @@ TEST(VertexCoverProblemTest, GetMinimumCountWorksOnExample2)
     EXPECT_EQ((SetOfVertices{1U, 2U, 4U, 7U}), queryForTest.getMinimumSetUsingMemoizationDP());
 }
 
-}
+}  // namespace alba

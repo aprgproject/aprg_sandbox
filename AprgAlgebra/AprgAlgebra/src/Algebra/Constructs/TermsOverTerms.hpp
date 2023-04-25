@@ -7,14 +7,11 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class TermsOverTerms
-{
+class TermsOverTerms {
 public:
     TermsOverTerms();
     TermsOverTerms(TermsWithDetails const& termsInMultiplicationAndDivision);
@@ -27,11 +24,9 @@ public:
     Term getCombinedNumerator() const;
     Term getCombinedDenominator() const;
     void retrievePolynomialAndNonPolynomialNumerators(
-            Polynomial & polynomialNumerator,
-            Terms & nonPolynomialNumerators) const;
+        Polynomial& polynomialNumerator, Terms& nonPolynomialNumerators) const;
     void retrievePolynomialAndNonPolynomialsDenominators(
-            Polynomial & polynomialDenominator,
-            Terms & nonPolynomialDenominators) const;
+        Polynomial& polynomialDenominator, Terms& nonPolynomialDenominators) const;
     TermsRaiseToNumbers getTermsRaiseToNumbers() const;
     TermsRaiseToTerms getTermsRaiseToTerms() const;
 
@@ -45,58 +40,33 @@ public:
 private:
     Terms factorizeIfNeeded(Terms const& terms) const;
     Terms factorize(Terms const& terms) const;
-    void continueToSimplifyToFactors(
-            Terms & factorizedNumerators,
-            Terms & factorizedDenominators);
-    void continueToSimplifyAndCombineFactors(
-            Terms & factorizedNumerators,
-            Terms & factorizedDenominators);
+    void continueToSimplifyToFactors(Terms& factorizedNumerators, Terms& factorizedDenominators);
+    void continueToSimplifyAndCombineFactors(Terms& factorizedNumerators, Terms& factorizedDenominators);
     Polynomial multiplyPolynomialTerms(Terms const& polynomialTerms) const;
-    bool removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
-            Terms & numerators,
-            Terms & denominators);
+    bool removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(Terms& numerators, Terms& denominators);
     void clearTermsThenEmplacePolynomialAndRemainingTerms(
-            Polynomial const& polynomialNumerator,
-            Terms const& remainingNumerators,
-            Terms & termsToUpdate) const;
-    void emplacePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomialNumerator) const;
+        Polynomial const& polynomialNumerator, Terms const& remainingNumerators, Terms& termsToUpdate) const;
+    void emplacePolynomialIfNeeded(Terms& termsResult, Polynomial const& polynomialNumerator) const;
     void retrievePolynomialAndNonPolynomialsTerms(
-            Terms const& termsToCheck,
-            Polynomial & polynomial,
-            Terms & nonPolynomialTerms) const;
+        Terms const& termsToCheck, Polynomial& polynomial, Terms& nonPolynomialTerms) const;
     void calculateBasesAndExponentsAndPutThatToNumeratorsAndDenominators(
-            Terms & numeratorTerms,
-            Terms & denominatorTerms);
+        Terms& numeratorTerms, Terms& denominatorTerms);
     void putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms(
-            Terms & numeratorTerms,
-            Terms & denominatorTerms,
-            TermsRaiseToTerms const& termsRaiseToTerms);
+        Terms& numeratorTerms, Terms& denominatorTerms, TermsRaiseToTerms const& termsRaiseToTerms);
     void putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
-            Terms & numeratorTerms,
-            Terms & denominatorTerms,
-            TermsRaiseToNumbers const& termsRaiseToNumbers);
-    void handleZerosInNumeratorOrDenominator(
-            Terms& denominators,
-            Terms& numerators);
-    void populateTermsWithBase(
-            Terms & termsToUpdate,
-            Term const& base,
-            AlbaNumber const& exponent);
-    void removeTermsThatHaveNoEffect(Terms & terms) const;
-    void putTermsOnNumeratorAndDenominatorCorrectly(
-            Terms & numerators,
-            Terms & denominators);
+        Terms& numeratorTerms, Terms& denominatorTerms, TermsRaiseToNumbers const& termsRaiseToNumbers);
+    void handleZerosInNumeratorOrDenominator(Terms& denominators, Terms& numerators);
+    void populateTermsWithBase(Terms& termsToUpdate, Term const& base, AlbaNumber const& exponent);
+    void removeTermsThatHaveNoEffect(Terms& terms) const;
+    void putTermsOnNumeratorAndDenominatorCorrectly(Terms& numerators, Terms& denominators);
     void putTermsToRetainAndOnTheOtherSide(
-            Terms const& termsToCheck,
-            Terms & termsToRetain,
-            Terms & termsToPutOnTheOtherSide) const;
+        Terms const& termsToCheck, Terms& termsToRetain, Terms& termsToPutOnTheOtherSide) const;
     void simplifyPolynomialNumeratorAndPolynomialDenominator(
-            Polynomial & polynomialNumerator,
-            Polynomial & polynomialDenominator) const;
+        Polynomial& polynomialNumerator, Polynomial& polynomialDenominator) const;
     void simplifyMonomialsToPolynomialOverPolynomial();
     void simplifyPolynomialsToPolynomialOverPolynomial();
 
-    friend std::ostream & operator<<(std::ostream & out, TermsOverTerms const& termsOverTerms);
+    friend std::ostream& operator<<(std::ostream& out, TermsOverTerms const& termsOverTerms);
 
     Terms m_numerators;
     Terms m_denominators;
@@ -106,6 +76,6 @@ private:
 
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

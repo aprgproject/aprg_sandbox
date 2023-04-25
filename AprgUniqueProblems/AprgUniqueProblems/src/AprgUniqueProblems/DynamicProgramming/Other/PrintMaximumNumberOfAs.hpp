@@ -5,33 +5,22 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class PrintMaximumNumberOfAs
-{
+class PrintMaximumNumberOfAs {
 public:
     using Index = unsigned int;
     using Count = unsigned int;
     using Counts = std::vector<Count>;
-    enum class PressType
-    {
-        Unknown,
-        TypeA,
-        CtrlA,
-        CtrlC,
-        CtrlV
-    };
-    struct CountDetail
-    {
+    enum class PressType { Unknown, TypeA, CtrlA, CtrlC, CtrlV };
+    struct CountDetail {
         Count numberInScreen;
         Count numberInBuffer;
         Count numberInSelection;
     };
     using CountDetails = std::vector<CountDetail>;
     using CountDetailMatrix = matrix::AlbaMatrix<CountDetail>;
-    static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
-
+    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     PrintMaximumNumberOfAs(Count const numberOfPresses);
 
@@ -41,17 +30,19 @@ public:
     Count getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient() const;
 
 private:
-    CountDetail getMaxCountOfAOnScreenUsingNaiveRecursion(Count const remainingNumberOfPresses, PressType const pressType) const;
-    CountDetail getMaxCountOfAOnScreenUsingMemoizationDP(CountDetailMatrix & savedCounts, Count const remainingNumberOfPresses, PressType const pressType) const;
-    CountDetail getBestDetailBasedOnPreviousDetails(CountDetails & previousDetails, Count const remainingNumberOfPresses, PressType const pressType) const;
-    void updateDetailsBasedOnPressType(CountDetails & previousDetails, PressType const pressType) const;
+    CountDetail getMaxCountOfAOnScreenUsingNaiveRecursion(
+        Count const remainingNumberOfPresses, PressType const pressType) const;
+    CountDetail getMaxCountOfAOnScreenUsingMemoizationDP(
+        CountDetailMatrix& savedCounts, Count const remainingNumberOfPresses, PressType const pressType) const;
+    CountDetail getBestDetailBasedOnPreviousDetails(
+        CountDetails& previousDetails, Count const remainingNumberOfPresses, PressType const pressType) const;
+    void updateDetailsBasedOnPressType(CountDetails& previousDetails, PressType const pressType) const;
     Count const m_numberOfPresses;
 };
 
-std::ostream & operator<<(std::ostream & out, PrintMaximumNumberOfAs::CountDetail const& countDetail);
+std::ostream& operator<<(std::ostream& out, PrintMaximumNumberOfAs::CountDetail const& countDetail);
 
-}
-
+}  // namespace alba
 
 // How to print maximum number of A’s using given four keys
 
@@ -87,6 +78,3 @@ std::ostream & operator<<(std::ostream & out, PrintMaximumNumberOfAs::CountDetai
 // -> following key sequence.
 // -> A, A, A, Ctrl A, Ctrl C, Ctrl V, Ctrl V, Ctrl A,
 // -> Ctrl C, Ctrl V, Ctrl V
-
-
-

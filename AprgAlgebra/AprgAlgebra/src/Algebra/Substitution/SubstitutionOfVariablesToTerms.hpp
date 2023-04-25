@@ -5,17 +5,14 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using VariablesToTermsMap = std::map<std::string, Term>;
 using VariableTermPair = std::pair<std::string, Term>;
 
-class SubstitutionOfVariablesToTerms
-{
+class SubstitutionOfVariablesToTerms {
 public:
     SubstitutionOfVariablesToTerms();
     SubstitutionOfVariablesToTerms(std::initializer_list<VariableTermPair> const& variablesWithTerms);
@@ -45,12 +42,12 @@ public:
     void putVariableWithTerm(std::string const& variable, Term const& term);
 
 private:
-    void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
+    void performSubstitutionForTermsWithAssociation(TermsWithAssociation& termsWithAssociation) const;
     VariablesToTermsMap m_variableToTermsMap;
 };
 
-using SubstitutionsOfVariablesToTerms=std::vector<SubstitutionOfVariablesToTerms>;
+using SubstitutionsOfVariablesToTerms = std::vector<SubstitutionOfVariablesToTerms>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

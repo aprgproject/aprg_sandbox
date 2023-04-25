@@ -8,15 +8,13 @@
 #include <deque>
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class Component
-{
+class Component {
 public:
     Component(ComponentName const componentName);
-    Component(Component const &) = delete;
-    Component& operator=(Component const &) = delete;
+    Component(Component const&) = delete;
+    Component& operator=(Component const&) = delete;
     void pushBackEvent(Event const& event);
     void handleOneEvent();
     void handleAllEvents();
@@ -42,4 +40,4 @@ protected:
     std::deque<Event> m_eventQueue;
 };
 
-}
+}  // namespace DesignDocumentCreator

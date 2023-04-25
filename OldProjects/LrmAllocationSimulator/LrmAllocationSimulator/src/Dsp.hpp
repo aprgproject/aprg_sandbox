@@ -3,11 +3,9 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-enum class DspMode
-{
+enum class DspMode {
     NyquistMixedChannelDevice,
     NyquistCommonChannelDeviceSmall,
     NyquistCommonChannelDeviceNormal,
@@ -15,14 +13,9 @@ enum class DspMode
     NyquistPicDevice
 };
 
-enum class NyquistType
-{
-    Nyquist,
-    TurboNyquist
-};
+enum class NyquistType { Nyquist, TurboNyquist };
 
-struct DspDetails
-{
+struct DspDetails {
     DspDetails();
     unsigned int address;
     unsigned int lcgId;
@@ -38,8 +31,7 @@ struct DspDetails
     NyquistType nyquistType;
 };
 
-class Dsp
-{
+class Dsp {
 public:
     Dsp();
     Dsp(DspDetails const& dspDetails);
@@ -67,10 +59,11 @@ public:
     bool hasEmergencyCalls() const;
     bool hasFreeDli() const;
     bool isNbicAllocated() const;
+
 private:
     DspDetails m_dspDetails;
 };
 
 using DspAddresses = std::vector<unsigned int>;
 
-}
+}  // namespace alba

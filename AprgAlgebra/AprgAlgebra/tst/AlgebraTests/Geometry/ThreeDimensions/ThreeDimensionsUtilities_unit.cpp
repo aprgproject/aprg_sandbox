@@ -6,33 +6,27 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-TEST(ThreeDimensionsUtilitiesTest, GetEllipsoidEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetEllipsoidEquationWorks) {
     Equation equationToVerify(getEllipsoidEquation());
 
     string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))+(((z-z0)^2)/(c^2))) = 1");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetEllipticConeEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetEllipticConeEquationWorks) {
     Equation equationToVerify(getEllipticConeEquation());
 
     string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))+(((z-z0)^2)/(c^2))) = 0");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetEllipticHyperboloidEquationEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetEllipticHyperboloidEquationEquationWorks) {
     Equation equationToVerify1(getEllipticHyperboloidEquation(false));
     Equation equationToVerify2(getEllipticHyperboloidEquation(true));
 
@@ -42,24 +36,21 @@ TEST(ThreeDimensionsUtilitiesTest, GetEllipticHyperboloidEquationEquationWorks)
     EXPECT_EQ(stringToExpect2, convertToString(equationToVerify2));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetEllipticParaboloidEquationEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetEllipticParaboloidEquationEquationWorks) {
     Equation equationToVerify(getEllipticParaboloidEquation());
 
     string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))) = ((z-z0)/c)");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetHyperbolicParaboloidEquationEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetHyperbolicParaboloidEquationEquationWorks) {
     Equation equationToVerify(getHyperbolicParaboloidEquation());
 
     string stringToExpect("((((y-y0)^2)/(b^2))-(((x-x0)^2)/(a^2))) = ((z-z0)/c)");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetLineEquationsWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetLineEquationsWorks) {
     Equations equationsToVerify(getLineEquations());
 
     string stringToExpect1("((x-x0)/a) = ((y-y0)/b)");
@@ -69,32 +60,29 @@ TEST(ThreeDimensionsUtilitiesTest, GetLineEquationsWorks)
     EXPECT_EQ(stringToExpect2, convertToString(equationsToVerify.at(1)));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWorks) {
     Equation equationToVerify(getPlaneEquation());
 
     string stringToExpect("((a*x)+(b*y)+(c*z)+d) = 0");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWithPointCoordinatesWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWithPointCoordinatesWorks) {
     Equation equationToVerify(getPlaneEquationWithPointCoordinates());
 
     string stringToExpect("((a*x)-(a*x0)+(b*y)-(b*y0)+(c*z)-(c*z0)) = 0");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetSphereEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetSphereEquationWorks) {
     Equation equationToVerify(getSphereEquation());
 
     string stringToExpect("(((x-x0)^2)+((y-y0)^2)+((z-z0)^2)) = (r^2)");
     EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

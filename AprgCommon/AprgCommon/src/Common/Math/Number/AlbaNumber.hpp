@@ -4,25 +4,19 @@
 #include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/AlbaComplexNumber.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
+
 #include <cmath>
 #include <cstdint>
 #include <ostream>
 
-namespace alba
-{
+namespace alba {
 class AlbaNumber  // This is value type.
 {
 public:
     using ComplexFloat = AlbaComplexNumber<float>;
     static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
 
-    enum class Type
-    {
-        Integer,
-        Double,
-        Fraction,
-        ComplexNumber
-    };
+    enum class Type { Integer, Double, Fraction, ComplexNumber };
     struct FractionData  // alignas(8) has no effect on performance (tested in benchmark)
     {
         int32_t numerator;
@@ -46,13 +40,11 @@ public:
         ComplexNumberData complexNumberData;
     };
 
-    struct ConfigurationDetails
-    {
+    struct ConfigurationDetails {
         double comparisonTolerance;
         double floatAdjustmentTolerance;
     };
-    class Configuration : public AlbaConfigurationHolder<ConfigurationDetails>
-    {
+    class Configuration : public AlbaConfigurationHolder<ConfigurationDetails> {
     public:
         using BaseConfigurationHolder = AlbaConfigurationHolder<ConfigurationDetails>;
         static ConfigurationDetails getConfigurationDetailsWithZeroTolerance();
@@ -61,8 +53,7 @@ public:
         void setComparisonTolerance(double const comparisonTolerance);
         void setFloatAdjustmentTolerance(double const comparisonTolerance);
     };
-    class ScopeConfigurationObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
-    {
+    class ScopeConfigurationObject : public AlbaConfigurationScopeObject<ConfigurationDetails> {
     public:
         void setInThisScopeTheTolerancesToZero() const;
     };
@@ -79,8 +70,7 @@ public:
     // constexpr functions
 
     template <typename ArithmeticType>
-    void constexpr checkArithmeticType()
-    {
+    void constexpr checkArithmeticType() {
         static_assert(sizeof(ArithmeticType) <= 8, "Maximum size is 8 bytes/64 bits.");
         static_assert(
             !(sizeof(ArithmeticType) == 8 && typeHelper::isUnsignedType<ArithmeticType>()),
@@ -88,8 +78,7 @@ public:
     }
 
     template <typename ArithmeticType>
-    Type constexpr getTypeBasedFromArithmeticType()
-    {
+    Type constexpr getTypeBasedFromArithmeticType() {
         return typeHelper::isIntegralType<ArithmeticType>() ? Type::Integer : Type::Double;
     }
 
@@ -105,17 +94,14 @@ public:
         : m_type(getTypeBasedFromArithmeticType<ArithmeticType>()),
           m_data(
               static_cast<typeHelper::ConditionalType<typeHelper::isIntegralType<ArithmeticType>(), int64_t, double>>(
-                  value))
-    {
+                  value)) {
         checkArithmeticType<ArithmeticType>();
     }
 
     constexpr AlbaNumber(FractionData const& fractionData) : m_type(Type::Fraction), m_data(fractionData) {}
 
     constexpr AlbaNumber(ComplexNumberData const& complexNumberData)
-        : m_type(Type::ComplexNumber), m_data(complexNumberData)
-    {
-    }
+        : m_type(Type::ComplexNumber), m_data(complexNumberData) {}
 
     // rule of zero
 
@@ -214,12 +200,10 @@ static_assert(sizeof(AlbaNumber) == 16, "The size of AlbaNumber should be 16 byt
 // Source: https://en.cppreference.com/w/cpp/language/user_literal
 // NOTE: The string needs to have a underscore '_' prefix because all letters as prefix are reserved according to the
 // standard.
-constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(unsigned long long int const value)
-{
+constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(unsigned long long int const value) {
     return AlbaNumber(static_cast<int64_t>(value));
 }
-constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(long double const value)
-{
+constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(long double const value) {
     return AlbaNumber(static_cast<double>(value));
 }
 // AlbaNumber operator "" _AS_ALBA_NUMBER(char const value) = delete; // not needed to delete because there is no

@@ -5,15 +5,13 @@
 #include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/Graph/VertexOrdering/VertexOrderingUsingDfs.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
-class PathSearchForDirectedAcyclicGraph : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>
-{
+template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template <class> class ComparatorTemplateType>
+class PathSearchForDirectedAcyclicGraph
+    : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType> {
 public:
     using Graph = EdgeWeightedGraph;
     using BaseClass = BasePathSearchWithRelax<Vertex, Weight, Graph, ComparatorTemplateType>;
@@ -21,44 +19,38 @@ public:
     using VertexOrderingUsingDfsWithVertex = VertexOrderingUsingDfs<Vertex>;
 
     PathSearchForDirectedAcyclicGraph(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)
-        , b_graph(BaseClass::m_graph)
-    {
+        : BaseClass(graph, startVertex), b_graph(BaseClass::m_graph) {
         searchForPathIfPossible();
     }
 
 private:
-
-    void searchForPathIfPossible()
-    {
-        if(GraphUtilities::isDirectedAcyclicGraph(b_graph))
-        {
+    void searchForPathIfPossible() {
+        if (GraphUtilities::isDirectedAcyclicGraph(b_graph)) {
             searchForPath();
         }
     }
 
-    void searchForPath()
-    {
+    void searchForPath() {
         VertexOrderingUsingDfsWithVertex vertexOrdering(b_graph);
-        Vertices verticesInTopologicalOrder(vertexOrdering.getVerticesInTopologicalOrder()); // Uses topological sort
+        Vertices verticesInTopologicalOrder(vertexOrdering.getVerticesInTopologicalOrder());  // Uses topological sort
         // Since dependency is in order, we are assured we are getting best weight path for each vertex
         // This works even with negative weights
-        for(Vertex const& vertex : verticesInTopologicalOrder)
-        {
+        for (Vertex const& vertex : verticesInTopologicalOrder) {
             this->relaxAt(vertex);
         }
     }
     Graph const& b_graph;
-
 };
 
 // Applications:
-// -> Content-aware resizing. Seam carving: Resize an image without distortion for display on cell phones and web browsers.
-// ---> how to find seams: less weighted (energy function) path from top to bottom (horizontal scaling) or left to right (vertical scaling)
+// -> Content-aware resizing. Seam carving: Resize an image without distortion for display on cell phones and web
+// browsers.
+// ---> how to find seams: less weighted (energy function) path from top to bottom (horizontal scaling) or left to right
+// (vertical scaling)
 // ---> and just remove the seams
 // -> Parallel job scheduling
 // ---> How to find the minimum completion time? Longest path in the graph. This is critical path method (CPM).
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

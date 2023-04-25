@@ -6,132 +6,92 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace soosa
-{
+namespace soosa {
 
-SoosaConfiguration::SoosaConfiguration()
-{}
+SoosaConfiguration::SoosaConfiguration() {}
 
-unsigned int SoosaConfiguration::getAcceptableLineDeviationForLineModelInPixels() const
-{
+unsigned int SoosaConfiguration::getAcceptableLineDeviationForLineModelInPixels() const {
     return m_acceptableLineDeviationForLineModelInPixels;
 }
 
-double SoosaConfiguration::getRemovalRatioForSquareErrorsInLineModel() const
-{
+double SoosaConfiguration::getRemovalRatioForSquareErrorsInLineModel() const {
     return m_removalRatioForSquareErrorsInLineModel;
 }
 
-unsigned int SoosaConfiguration::getMinimumLineSamples() const
-{
-    return m_minimumLineSamples;
-}
+unsigned int SoosaConfiguration::getMinimumLineSamples() const { return m_minimumLineSamples; }
 
-double SoosaConfiguration::getBitmapWidthToBarWidthMultiplier() const
-{
-    return m_bitmapWidthToBarWidthMultiplier;
-}
+double SoosaConfiguration::getBitmapWidthToBarWidthMultiplier() const { return m_bitmapWidthToBarWidthMultiplier; }
 
-double SoosaConfiguration::getLineBarWidthSearchInitialBlackPointsValue() const
-{
+double SoosaConfiguration::getLineBarWidthSearchInitialBlackPointsValue() const {
     return m_lineBarWidthSearchInitialBlackPointsValue;
 }
 
-double SoosaConfiguration::getLineBarWidthSearchAcceptedRunningBlackRatio() const
-{
+double SoosaConfiguration::getLineBarWidthSearchAcceptedRunningBlackRatio() const {
     return m_lineBarWidthSearchAcceptedRunningBlackRatio;
 }
 
-double SoosaConfiguration::getAcceptableDistanceOverWidthRatioFromWidthMidpoint() const
-{
+double SoosaConfiguration::getAcceptableDistanceOverWidthRatioFromWidthMidpoint() const {
     return m_acceptableDistanceOverWidthRatioFromWidthMidpoint;
 }
 
-unsigned int SoosaConfiguration::getAcceptableMinimumDistanceFromWidthMidpoint() const
-{
+unsigned int SoosaConfiguration::getAcceptableMinimumDistanceFromWidthMidpoint() const {
     return m_acceptableMinimumDistanceFromWidthMidpoint;
 }
 
-double SoosaConfiguration::getAcceptableSdOverMeanDeviationForLine() const
-{
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForLine() const {
     return m_acceptableSdOverMeanDeviationForLine;
 }
 
-double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBar() const
-{
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBar() const {
     return m_acceptableSdOverMeanDeviationForBar;
 }
 
-double SoosaConfiguration::getRemovalRatioForLineAndBar() const
-{
-    return m_removalRatioForLineAndBar;
-}
+double SoosaConfiguration::getRemovalRatioForLineAndBar() const { return m_removalRatioForLineAndBar; }
 
-double SoosaConfiguration::getInitialValueForMaximumDistanceBetweenBarHeights() const
-{
+double SoosaConfiguration::getInitialValueForMaximumDistanceBetweenBarHeights() const {
     return m_initialValueForMaximumDistanceBetweenBarHeights;
 }
 
-double SoosaConfiguration::getMultiplierForMaximumDistanceBetweenBarHeights() const
-{
+double SoosaConfiguration::getMultiplierForMaximumDistanceBetweenBarHeights() const {
     return m_multiplierForMaximumDistanceBetweenBarHeights;
 }
 
-double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const
-{
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const {
     return m_acceptableSdOverMeanDeviationForBarHeight;
 }
 
-double SoosaConfiguration::getRemovalRatioForBarHeight() const
-{
-    return m_removalRatioForBarHeight;
-}
+double SoosaConfiguration::getRemovalRatioForBarHeight() const { return m_removalRatioForBarHeight; }
 
-unsigned int SoosaConfiguration::getNumberOfChoices() const
-{
-    return m_numberOfChoices;
-}
+unsigned int SoosaConfiguration::getNumberOfChoices() const { return m_numberOfChoices; }
 
-unsigned int SoosaConfiguration::getColorIntensityForWhite() const
-{
-    return m_colorIntensityForWhite;
-}
+unsigned int SoosaConfiguration::getColorIntensityForWhite() const { return m_colorIntensityForWhite; }
 
-double SoosaConfiguration::getBarHeightToDiameterMultiplier() const
-{
-    return m_barHeightToDiameterMultiplier;
-}
+double SoosaConfiguration::getBarHeightToDiameterMultiplier() const { return m_barHeightToDiameterMultiplier; }
 
-double SoosaConfiguration::getMinimumPercentageOfBlackPixelsForAFilledCircle() const
-{
+double SoosaConfiguration::getMinimumPercentageOfBlackPixelsForAFilledCircle() const {
     return m_minimumPercentageOfBlackPixelsForAFilledCircle;
 }
 
-void SoosaConfiguration::loadConfigurationFromFile(string const& filePath)
-{
+void SoosaConfiguration::loadConfigurationFromFile(string const& filePath) {
     readNamesAndValuesFromFile(filePath);
     update();
 }
 
-void SoosaConfiguration::bufferNameAndValueString(string const& nameOfParameter, string const& valueString)
-{
+void SoosaConfiguration::bufferNameAndValueString(string const& nameOfParameter, string const& valueString) {
     m_nameToValueStringMapBuffer[nameOfParameter] = valueString;
 }
 
-void SoosaConfiguration::update()
-{
+void SoosaConfiguration::update() {
     BufferMap::iterator it;
 
-#define UPDATE_PARAMETER(nameOfParameter, type) \
-    it = m_nameToValueStringMapBuffer.find(#nameOfParameter); \
-    if(it != m_nameToValueStringMapBuffer.end()) \
-    { \
-    nameOfParameter = convertStringToNumber<type>(it->second); \
-    m_nameToValueStringMapBuffer.erase(it); \
-}
+#define UPDATE_PARAMETER(nameOfParameter, type)                    \
+    it = m_nameToValueStringMapBuffer.find(#nameOfParameter);      \
+    if (it != m_nameToValueStringMapBuffer.end()) {                \
+        nameOfParameter = convertStringToNumber<type>(it->second); \
+        m_nameToValueStringMapBuffer.erase(it);                    \
+    }
 
     // Line model parameters
     UPDATE_PARAMETER(m_acceptableLineDeviationForLineModelInPixels, unsigned int);
@@ -161,23 +121,16 @@ void SoosaConfiguration::update()
 #undef UPDATE_PARAMETER
 }
 
-void SoosaConfiguration::readNamesAndValuesFromFile(string const& filePath)
-{
+void SoosaConfiguration::readNamesAndValuesFromFile(string const& filePath) {
     ifstream inputFileStream(filePath);
-    if(inputFileStream.is_open())
-    {
+    if (inputFileStream.is_open()) {
         AlbaFileReader fileReader(inputFileStream);
-        while(fileReader.isNotFinished())
-        {
+        while (fileReader.isNotFinished()) {
             string line(fileReader.getLineAndIgnoreWhiteSpaces());
-            if(!line.empty())
-            {
-                if(line.substr(0, 2) == "//")
-                {
+            if (!line.empty()) {
+                if (line.substr(0, 2) == "//") {
                     // do nothing if comment
-                }
-                else
-                {
+                } else {
                     string beforeColon;
                     string afterColon;
                     copyBeforeStringAndAfterString(line, ":", beforeColon, afterColon);
@@ -188,7 +141,6 @@ void SoosaConfiguration::readNamesAndValuesFromFile(string const& filePath)
     }
 }
 
+}  // namespace soosa
 
-}
-
-}
+}  // namespace alba

@@ -2,22 +2,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithTransitiveClosure
-{
+namespace CommonTestsWithTransitiveClosure {
 
 template <typename TransitiveClosure, typename Graph>
-void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
-{
+void testIsReachableWhenEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     TransitiveClosure transitiveClosure(graph);
 
-    //Reachability in 0
+    // Reachability in 0
     EXPECT_FALSE(transitiveClosure.isReachable(0U, 1U));
     EXPECT_FALSE(transitiveClosure.isReachable(0U, 2U));
     EXPECT_FALSE(transitiveClosure.isReachable(0U, 3U));
@@ -33,8 +29,7 @@ void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename TransitiveClosure, typename Graph>
-void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 5U);
@@ -60,7 +55,7 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     graph.connect(12U, 9U);
     TransitiveClosure transitiveClosure(graph);
 
-    //Reachability in 0
+    // Reachability in 0
     EXPECT_TRUE(transitiveClosure.isReachable(0U, 1U));
     EXPECT_TRUE(transitiveClosure.isReachable(0U, 2U));
     EXPECT_TRUE(transitiveClosure.isReachable(0U, 3U));
@@ -74,7 +69,7 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_FALSE(transitiveClosure.isReachable(0U, 11U));
     EXPECT_FALSE(transitiveClosure.isReachable(0U, 12U));
 
-    //Reachability in 6
+    // Reachability in 6
     EXPECT_TRUE(transitiveClosure.isReachable(6U, 1U));
     EXPECT_TRUE(transitiveClosure.isReachable(6U, 2U));
     EXPECT_TRUE(transitiveClosure.isReachable(6U, 3U));
@@ -88,7 +83,7 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_TRUE(transitiveClosure.isReachable(6U, 11U));
     EXPECT_TRUE(transitiveClosure.isReachable(6U, 12U));
 
-    //Reachability in 9
+    // Reachability in 9
     EXPECT_TRUE(transitiveClosure.isReachable(9U, 1U));
     EXPECT_TRUE(transitiveClosure.isReachable(9U, 2U));
     EXPECT_TRUE(transitiveClosure.isReachable(9U, 3U));
@@ -101,11 +96,10 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_TRUE(transitiveClosure.isReachable(9U, 10U));
     EXPECT_TRUE(transitiveClosure.isReachable(9U, 11U));
     EXPECT_TRUE(transitiveClosure.isReachable(9U, 12U));
-
 }
 
-}
+}  // namespace CommonTestsWithTransitiveClosure
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

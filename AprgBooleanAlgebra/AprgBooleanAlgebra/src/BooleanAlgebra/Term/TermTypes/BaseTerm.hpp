@@ -2,23 +2,20 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class BaseTerm
-{
+class BaseTerm {
 public:
     BaseTerm() = default;
-    virtual ~BaseTerm() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseTerm() = default;  // virtual destructor because of virtual functions (vtable exists)
 
 private:
 };
 
-std::ostream & operator<<(std::ostream & out, BaseTerm const& baseTerm);
+std::ostream& operator<<(std::ostream& out, BaseTerm const& baseTerm);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

@@ -1,7 +1,7 @@
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
-#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
@@ -11,14 +11,11 @@ using namespace alba::AlbaNumberConstants;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SolutionSetTest, IsEmptyWorks)
-{
+TEST(SolutionSetTest, IsEmptyWorks) {
     SolutionSet solutionSet1;
     SolutionSet solutionSet2;
     SolutionSet solutionSet3;
@@ -26,8 +23,7 @@ TEST(SolutionSetTest, IsEmptyWorks)
     solutionSet2.addAcceptedValue(45);
     solutionSet3.addRejectedValue(67);
     AlbaNumbers addedValuesToCheck{1};
-    solutionSet4.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
+    solutionSet4.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
         return find(addedValuesToCheck.cbegin(), addedValuesToCheck.cend(), numberToCheck) == addedValuesToCheck.cend();
     });
 
@@ -37,8 +33,7 @@ TEST(SolutionSetTest, IsEmptyWorks)
     EXPECT_FALSE(solutionSet4.isEmpty());
 }
 
-TEST(SolutionSetTest, AddAcceptedValueWorks)
-{
+TEST(SolutionSetTest, AddAcceptedValueWorks) {
     SolutionSet solutionSet;
 
     solutionSet.addAcceptedValue(5863);
@@ -48,8 +43,7 @@ TEST(SolutionSetTest, AddAcceptedValueWorks)
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddRejectedValueWorks)
-{
+TEST(SolutionSetTest, AddRejectedValueWorks) {
     SolutionSet solutionSet;
 
     solutionSet.addRejectedValue(5863);
@@ -59,8 +53,7 @@ TEST(SolutionSetTest, AddRejectedValueWorks)
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddAcceptedValuesWorks)
-{
+TEST(SolutionSetTest, AddAcceptedValuesWorks) {
     SolutionSet solutionSet;
 
     solutionSet.addAcceptedValues(AlbaNumbers{5863, 8546});
@@ -70,8 +63,7 @@ TEST(SolutionSetTest, AddAcceptedValuesWorks)
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddRejectedValuesWorks)
-{
+TEST(SolutionSetTest, AddRejectedValuesWorks) {
     SolutionSet solutionSet;
 
     solutionSet.addRejectedValues(AlbaNumbers{5863, 8546});
@@ -81,8 +73,7 @@ TEST(SolutionSetTest, AddRejectedValuesWorks)
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddAcceptedIntervalWorks)
-{
+TEST(SolutionSetTest, AddAcceptedIntervalWorks) {
     SolutionSet solutionSet;
 
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
@@ -92,35 +83,31 @@ TEST(SolutionSetTest, AddAcceptedIntervalWorks)
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)), actualIntervals.at(0));
 }
 
-TEST(SolutionSetTest, AddValueForAcceptedValueWorks)
-{
+TEST(SolutionSetTest, AddValueForAcceptedValueWorks) {
     SolutionSet solutionSet;
 
-    solutionSet.addValue(5863, [](AlbaNumber const&){return true;});
+    solutionSet.addValue(5863, [](AlbaNumber const&) { return true; });
 
     EXPECT_EQ(AlbaNumbers{5863}, solutionSet.getAcceptedValues());
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddValueForRejectedValueWorks)
-{
+TEST(SolutionSetTest, AddValueForRejectedValueWorks) {
     SolutionSet solutionSet;
 
-    solutionSet.addValue(5863, [](AlbaNumber const&){return false;});
+    solutionSet.addValue(5863, [](AlbaNumber const&) { return false; });
 
     EXPECT_EQ(AlbaNumbers{5863}, solutionSet.getRejectedValues());
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithOnePoint)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithOnePoint) {
     SolutionSet solutionSet;
 
     AlbaNumbers addedValuesToCheck{1};
-    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
+    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
         return find(addedValuesToCheck.cbegin(), addedValuesToCheck.cend(), numberToCheck) == addedValuesToCheck.cend();
     });
 
@@ -130,16 +117,15 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithOnePoint)
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1), createPositiveInfinityOpenEndpoint()), actualIntervals.at(1));
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAcceptedValue)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAcceptedValue) {
     SolutionSet solutionSet;
     solutionSet.addAcceptedValue(2);
 
     AlbaNumbers addedValuesToCheck{1};
-    AlbaNumbers valuesThatAreNotAccepted{1,2};
-    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
-        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
+    AlbaNumbers valuesThatAreNotAccepted{1, 2};
+    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
+        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) ==
+               valuesThatAreNotAccepted.cend();
     });
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -149,16 +135,15 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAcceptedValue)
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(2), createPositiveInfinityOpenEndpoint()), actualIntervals.at(2));
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRejectedValue)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRejectedValue) {
     SolutionSet solutionSet;
     solutionSet.addRejectedValue(2);
 
     AlbaNumbers addedValuesToCheck{1};
-    AlbaNumbers valuesThatAreNotAccepted{1,2};
-    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
-        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
+    AlbaNumbers valuesThatAreNotAccepted{1, 2};
+    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
+        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) ==
+               valuesThatAreNotAccepted.cend();
     });
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -168,20 +153,16 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRejectedValue)
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(2), createPositiveInfinityOpenEndpoint()), actualIntervals.at(2));
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRedundantInfinities)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRedundantInfinities) {
     SolutionSet solutionSet;
 
     AlbaNumbers addedValuesToCheck{
-        1,
-        ALBA_NUMBER_POSITIVE_INFINITY,
-                ALBA_NUMBER_NEGATIVE_INFINITY,
-                ALBA_NUMBER_POSITIVE_INFINITY,
-                ALBA_NUMBER_NEGATIVE_INFINITY};
+        1, ALBA_NUMBER_POSITIVE_INFINITY, ALBA_NUMBER_NEGATIVE_INFINITY, ALBA_NUMBER_POSITIVE_INFINITY,
+        ALBA_NUMBER_NEGATIVE_INFINITY};
     AlbaNumbers valuesThatAreNotAccepted{1};
-    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
-        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
+    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
+        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) ==
+               valuesThatAreNotAccepted.cend();
     });
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -190,14 +171,13 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRedundantInfiniti
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1), createPositiveInfinityOpenEndpoint()), actualIntervals.at(1));
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllKindOfIntervalsIncluded)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllKindOfIntervalsIncluded) {
     SolutionSet solutionSet;
 
-    AlbaNumbers valuesThatAreNotAccepted{4,5};
-    solutionSet.determineAndAddAcceptedIntervals(valuesThatAreNotAccepted, [&](AlbaNumber const& numberToCheck)
-    {
-        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
+    AlbaNumbers valuesThatAreNotAccepted{4, 5};
+    solutionSet.determineAndAddAcceptedIntervals(valuesThatAreNotAccepted, [&](AlbaNumber const& numberToCheck) {
+        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) ==
+               valuesThatAreNotAccepted.cend();
     });
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -207,15 +187,14 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllKindOfInterval
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(5), createPositiveInfinityOpenEndpoint()), actualIntervals.at(2));
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllConnectedIntervalsCombined)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllConnectedIntervalsCombined) {
     SolutionSet solutionSet;
 
-    AlbaNumbers addedValuesToCheck{1,2,3};
+    AlbaNumbers addedValuesToCheck{1, 2, 3};
     AlbaNumbers valuesThatAreNotAccepted{2};
-    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
-        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
+    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
+        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) ==
+               valuesThatAreNotAccepted.cend();
     });
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -224,15 +203,14 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllConnectedInter
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(2), createPositiveInfinityOpenEndpoint()), actualIntervals.at(1));
 }
 
-TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksAndNotAcceptedIntervalsNotIncluded)
-{
+TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksAndNotAcceptedIntervalsNotIncluded) {
     SolutionSet solutionSet;
 
-    AlbaNumbers addedValuesToCheck{1,2};
+    AlbaNumbers addedValuesToCheck{1, 2};
     AlbaNumbers valuesThatAreNotAccepted{1, 1.5, 2};
-    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
-    {
-        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
+    solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck) {
+        return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) ==
+               valuesThatAreNotAccepted.cend();
     });
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -241,18 +219,19 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksAndNotAcceptedInterva
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(2), createPositiveInfinityOpenEndpoint()), actualIntervals.at(1));
 }
 
-TEST(SolutionSetTest, OutputStreamOperatorWorks)
-{
+TEST(SolutionSetTest, OutputStreamOperatorWorks) {
     SolutionSet solutionSet;
     solutionSet.addAcceptedValue(3.7);
     solutionSet.addAcceptedValue(5.6);
     solutionSet.addRejectedValue(6.5);
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
 
-    EXPECT_EQ("AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]",
-              convertToString(solutionSet));
+    EXPECT_EQ(
+        "AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: "
+        "1 | (87, 99), }]",
+        convertToString(solutionSet));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

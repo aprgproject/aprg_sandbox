@@ -3,14 +3,13 @@
 #include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class HamiltonianPathSearchWithDfs // The Traveling Salesman Problem. // This is an intractable problem (classical NP-complete problem)
+class HamiltonianPathSearchWithDfs  // The Traveling Salesman Problem. // This is an intractable problem (classical
+                                    // NP-complete problem)
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
@@ -18,8 +17,7 @@ public:
     using Paths = typename GraphTypes<Vertex>::Paths;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    enum class SearchType
-    {
+    enum class SearchType {
         Unknown,
         AllHamiltonianPaths,
         OneHamiltonianPath,
@@ -28,13 +26,9 @@ public:
     };
 
     HamiltonianPathSearchWithDfs(BaseGraphWithVertex const& graph)
-        : m_graph(graph)
-        , m_numberOfVertices(m_graph.getNumberOfVertices())
-        , m_searchType(SearchType::Unknown)
-    {}
+        : m_graph(graph), m_numberOfVertices(m_graph.getNumberOfVertices()), m_searchType(SearchType::Unknown) {}
 
-    Paths getAllHamiltonianPaths()
-    {
+    Paths getAllHamiltonianPaths() {
         // A Hamiltonian path also visits every vertex once with no repeats
         clear();
         m_searchType = SearchType::AllHamiltonianPaths;
@@ -42,21 +36,18 @@ public:
         return m_savedPaths;
     }
 
-    Path getOneHamiltonianPath()
-    {
+    Path getOneHamiltonianPath() {
         Path result;
         clear();
         m_searchType = SearchType::OneHamiltonianPath;
         searchForHamiltonianPaths();
-        if(!m_savedPaths.empty())
-        {
+        if (!m_savedPaths.empty()) {
             result = m_savedPaths.front();
         }
         return result;
     }
 
-    Paths getAllHamiltonianCycles()
-    {
+    Paths getAllHamiltonianCycles() {
         // A Hamiltonian path also visits every vertex once with no repeats
         clear();
         m_searchType = SearchType::AllHamiltonianCycles;
@@ -64,60 +55,48 @@ public:
         return m_savedPaths;
     }
 
-    Path getOneHamiltonianCycle()
-    {
+    Path getOneHamiltonianCycle() {
         Path result;
         clear();
         m_searchType = SearchType::OneHamiltonianCycle;
         searchForHamiltonianPaths();
-        if(!m_savedPaths.empty())
-        {
+        if (!m_savedPaths.empty()) {
             result = m_savedPaths.front();
         }
         return result;
     }
 
 protected:
-
-    bool shouldStop() const
-    {
-        return (SearchType::OneHamiltonianPath == m_searchType || SearchType::OneHamiltonianCycle == m_searchType)
-                && 1U <= m_savedPaths.size();
+    bool shouldStop() const {
+        return (SearchType::OneHamiltonianPath == m_searchType || SearchType::OneHamiltonianCycle == m_searchType) &&
+               1U <= m_savedPaths.size();
     }
 
-    void clear()
-    {
+    void clear() {
         m_searchType = SearchType::Unknown;
         m_savedPaths.clear();
     }
 
-    void searchForHamiltonianPaths()
-    {
-        for(Vertex const& startVertex : m_graph.getVertices())
-        {
+    void searchForHamiltonianPaths() {
+        for (Vertex const& startVertex : m_graph.getVertices()) {
             Path currentPath;
             traverseUsingDfs(currentPath, startVertex);
-            if(shouldStop())
-            {
+            if (shouldStop()) {
                 break;
             }
         }
     }
 
-    void traverseUsingDfs(Path & currentPath, Vertex const& vertex)
-    {
+    void traverseUsingDfs(Path& currentPath, Vertex const& vertex) {
         currentPath.emplace_back(vertex);
         checkPathAndSaveIfNeeded(currentPath);
         m_processedVertices.putVertex(vertex);
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {
+        for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
             checkCycleAndSaveIfNeeded(currentPath, adjacentVertex);
-            if(shouldStop()) // needs to stop here to prune all dfs recursion instances
+            if (shouldStop())  // needs to stop here to prune all dfs recursion instances
             {
                 break;
-            }
-            else if(m_processedVertices.isNotFound(adjacentVertex))
-            {
+            } else if (m_processedVertices.isNotFound(adjacentVertex)) {
                 traverseUsingDfs(currentPath, adjacentVertex);
             }
         }
@@ -125,22 +104,17 @@ protected:
         currentPath.pop_back();
     }
 
-    void checkPathAndSaveIfNeeded(Path const& currentPath)
-    {
-        if((SearchType::AllHamiltonianPaths == m_searchType || SearchType::OneHamiltonianPath == m_searchType)
-                && currentPath.size() == m_numberOfVertices)
-        {
+    void checkPathAndSaveIfNeeded(Path const& currentPath) {
+        if ((SearchType::AllHamiltonianPaths == m_searchType || SearchType::OneHamiltonianPath == m_searchType) &&
+            currentPath.size() == m_numberOfVertices) {
             m_savedPaths.emplace_back(currentPath);
         }
     }
 
-    void checkCycleAndSaveIfNeeded(Path const& currentPath, Vertex const& nextVertex)
-    {
-        if((SearchType::AllHamiltonianCycles == m_searchType || SearchType::OneHamiltonianCycle == m_searchType)
-                && currentPath.size() == m_numberOfVertices && currentPath.size() > 0)
-        {
-            if(currentPath.front() == nextVertex)
-            {
+    void checkCycleAndSaveIfNeeded(Path const& currentPath, Vertex const& nextVertex) {
+        if ((SearchType::AllHamiltonianCycles == m_searchType || SearchType::OneHamiltonianCycle == m_searchType) &&
+            currentPath.size() == m_numberOfVertices && currentPath.size() > 0) {
+            if (currentPath.front() == nextVertex) {
                 Path cycle(currentPath);
                 cycle.emplace_back(currentPath.front());
                 m_savedPaths.emplace_back(cycle);
@@ -157,15 +131,16 @@ protected:
 
 // No efficient method is known for testing if a graph contains a Hamiltonian path, and the problem is NP-hard.
 // Still, in some special cases, we can be certain that a graph contains a Hamiltonian path.
-// A simple observation is that if the graph is complete, i.e., there is an edge between all pairs of nodes, it also contains a Hamiltonian path.
+// A simple observation is that if the graph is complete, i.e., there is an edge between all pairs of nodes, it also
+// contains a Hamiltonian path.
 
-// A simple way to search for a Hamiltonian path is to use a backtracking algorithm that goes through all possible ways to construct the path (implemented above).
-// The time complexity of such an algorithm is at least O(n!), because there are n! different ways to choose the order of n nodes.
-// A more efficient solution is based on dynamic programming.
-// The idea is to calculate values of a function possible(S, x), where S is a subset of nodes and x is one of the nodes.
-// The function indicates whether there is a Hamiltonian path that visits the nodes of S and ends at node x.
-// It is possible to implement this solution in O(2^n * n^2) time.
+// A simple way to search for a Hamiltonian path is to use a backtracking algorithm that goes through all possible ways
+// to construct the path (implemented above). The time complexity of such an algorithm is at least O(n!), because there
+// are n! different ways to choose the order of n nodes. A more efficient solution is based on dynamic programming. The
+// idea is to calculate values of a function possible(S, x), where S is a subset of nodes and x is one of the nodes. The
+// function indicates whether there is a Hamiltonian path that visits the nodes of S and ends at node x. It is possible
+// to implement this solution in O(2^n * n^2) time.
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

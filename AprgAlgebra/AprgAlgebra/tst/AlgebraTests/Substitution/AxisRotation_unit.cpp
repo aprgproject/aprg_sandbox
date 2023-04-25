@@ -1,8 +1,8 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Substitution/AxisRotation.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Math/Number/AlbaNumberConstants.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
@@ -11,14 +11,11 @@ using namespace alba::algebra::Functions;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(AxisRotationTest, RotateTermByAngleWorks)
-{
+TEST(AxisRotationTest, RotateTermByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Term term1(5);
     Term term2("x");
@@ -48,8 +45,7 @@ TEST(AxisRotationTest, RotateTermByAngleWorks)
     EXPECT_EQ(stringToExpect6, convertToString(termToVerify6));
 }
 
-TEST(AxisRotationTest, RotateConstantByAngleWorks)
-{
+TEST(AxisRotationTest, RotateConstantByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Constant constant(5);
 
@@ -59,8 +55,7 @@ TEST(AxisRotationTest, RotateConstantByAngleWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-TEST(AxisRotationTest, RotateVariableByAngleWorks)
-{
+TEST(AxisRotationTest, RotateVariableByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Variable variable("x");
 
@@ -70,8 +65,7 @@ TEST(AxisRotationTest, RotateVariableByAngleWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-TEST(AxisRotationTest, RotateMonomialByAngleWorks)
-{
+TEST(AxisRotationTest, RotateMonomialByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Monomial monomial(7, {{"x", 1}});
 
@@ -81,8 +75,7 @@ TEST(AxisRotationTest, RotateMonomialByAngleWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-TEST(AxisRotationTest, RotatePolynomialByAngleWorks)
-{
+TEST(AxisRotationTest, RotatePolynomialByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Polynomial polynomial{Monomial(9, {{"x", 1}}), Monomial(11, {{"y", 1}})};
 
@@ -92,8 +85,7 @@ TEST(AxisRotationTest, RotatePolynomialByAngleWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-TEST(AxisRotationTest, RotateExpressionByAngleWorks)
-{
+TEST(AxisRotationTest, RotateExpressionByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Expression expression(createExpressionIfPossible({"x", "^", "y"}));
 
@@ -103,8 +95,7 @@ TEST(AxisRotationTest, RotateExpressionByAngleWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-TEST(AxisRotationTest, RotateFunctionByAngleWorks)
-{
+TEST(AxisRotationTest, RotateFunctionByAngleWorks) {
     AxisRotation rotation("x", "y", ALBA_NUMBER_PI.getDouble(), false);
     Function functionObject(sin("x"));
 
@@ -114,6 +105,6 @@ TEST(AxisRotationTest, RotateFunctionByAngleWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

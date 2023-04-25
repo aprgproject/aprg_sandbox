@@ -4,24 +4,20 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 constexpr VertexForTest MAX_VERTEX_VALUE = 7U;
 
 using UndirectedGraphForTest = UndirectedGraphWithAdjacencyMatrix<VertexForTest, MAX_VERTEX_VALUE>;
 using DirectedGraphForTest = DirectedGraphWithAdjacencyMatrix<VertexForTest, MAX_VERTEX_VALUE>;
 using CountPathsForTest = CountPathsWithLengthUsingAdjacencyMatrix<VertexForTest>;
-}
+}  // namespace
 
-TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithUndirectedGraphOnExample1)
-{
+TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithUndirectedGraphOnExample1) {
     UndirectedGraphForTest graph;
     graph.connect(1U, 4U);
     graph.connect(1U, 2U);
@@ -40,8 +36,7 @@ TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithUndirectedGr
     EXPECT_EQ(1U, countPaths.getCount(1U, 6U));
 }
 
-TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithDirectedGraphOnExample1)
-{
+TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithDirectedGraphOnExample1) {
     DirectedGraphForTest graph;
     graph.connect(1U, 4U);
     graph.connect(1U, 2U);
@@ -60,8 +55,7 @@ TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithDirectedGrap
     EXPECT_EQ(1U, countPaths.getCount(1U, 6U));
 }
 
-TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithDirectedGraphOnExample2)
-{
+TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithDirectedGraphOnExample2) {
     DirectedGraphForTest graph;
     graph.connect(1U, 4U);
     graph.connect(2U, 1U);
@@ -82,6 +76,6 @@ TEST(CountPathsWithLengthUsingAdjacencyMatrixTest, GetCountWorksWithDirectedGrap
     EXPECT_EQ(2U, countPaths.getCount(2U, 5U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

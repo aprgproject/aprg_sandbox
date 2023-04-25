@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(DegreeOnlyMutatorTest, MutateEquationWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateEquationWorks) {
     DegreeOnlyMutator mutator("x");
     Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
@@ -26,8 +23,7 @@ TEST(DegreeOnlyMutatorTest, MutateEquationWorks)
     EXPECT_EQ(expectedEquation, equation);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateTermWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateTermWorks) {
     DegreeOnlyMutator mutator("x");
     Term constantTerm(Constant(110));
     Term variableTerm(Variable("x"));
@@ -35,12 +31,8 @@ TEST(DegreeOnlyMutatorTest, MutateTermWorks)
     Term polynomialTerm(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
     Term expressionTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
     Term functionTerm(Function(
-                "functionName",
-                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    }));
+        "functionName", Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; }));
 
     mutator.mutateTerm(constantTerm);
     mutator.mutateTerm(variableTerm);
@@ -55,17 +47,11 @@ TEST(DegreeOnlyMutatorTest, MutateTermWorks)
     EXPECT_EQ(Term(Monomial(1, {{"x", 7}})), polynomialTerm);
     EXPECT_EQ(Term(Monomial(1, {{"x", 9}})), expressionTerm);
     Term expectedFunctionTerm(Function(
-                "functionName",
-                Term(Monomial(1, {{"x", 10}})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    }));
+        "functionName", Term(Monomial(1, {{"x", 10}})), [](AlbaNumber const& number) -> AlbaNumber { return number; }));
     EXPECT_EQ(expectedFunctionTerm, functionTerm);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateConstantWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateConstantWorks) {
     DegreeOnlyMutator mutator("x");
     Constant constant(110);
 
@@ -74,8 +60,7 @@ TEST(DegreeOnlyMutatorTest, MutateConstantWorks)
     EXPECT_EQ(Constant(110), constant);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateVariableWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateVariableWorks) {
     DegreeOnlyMutator mutator("x");
     Variable variable("x");
 
@@ -84,8 +69,7 @@ TEST(DegreeOnlyMutatorTest, MutateVariableWorks)
     EXPECT_EQ(Variable("x"), variable);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateMonomialWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateMonomialWorks) {
     DegreeOnlyMutator mutator("x");
     Monomial monomial(34, {{"x", 5}, {"y", 6}});
 
@@ -95,8 +79,7 @@ TEST(DegreeOnlyMutatorTest, MutateMonomialWorks)
     EXPECT_EQ(expectedMonomial, monomial);
 }
 
-TEST(DegreeOnlyMutatorTest, MutatePolynomialWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutatePolynomialWorks) {
     DegreeOnlyMutator mutator("x");
     Polynomial polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})};
 
@@ -106,8 +89,7 @@ TEST(DegreeOnlyMutatorTest, MutatePolynomialWorks)
     EXPECT_EQ(expectedPolynomial, polynomial);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateExpressionWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateExpressionWorks) {
     DegreeOnlyMutator mutator("x");
     Expression expression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
@@ -117,8 +99,7 @@ TEST(DegreeOnlyMutatorTest, MutateExpressionWorks)
     EXPECT_EQ(expectedExpression, expression);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateExpressionWorksWhenRaiseToPowerFractionalExponent)
-{
+TEST(DegreeOnlyMutatorTest, MutateExpressionWorksWhenRaiseToPowerFractionalExponent) {
     DegreeOnlyMutator mutator("x");
     Term base(Polynomial{Monomial(516, {{"x", 16}}), Monomial(643, {{"y", 8}})});
     Expression expression(createExpressionIfPossible({base, "^", AlbaNumber::createFraction(3, 4)}));
@@ -129,29 +110,19 @@ TEST(DegreeOnlyMutatorTest, MutateExpressionWorksWhenRaiseToPowerFractionalExpon
     EXPECT_EQ(expectedExpression, expression);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateFunctionWorks)
-{
+TEST(DegreeOnlyMutatorTest, MutateFunctionWorks) {
     DegreeOnlyMutator mutator("x");
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     mutator.mutateFunction(functionObject);
 
     Function expectedFunction(
-                "functionName",
-                Term(Monomial(1, {{"x", 10}})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(Monomial(1, {{"x", 10}})), [](AlbaNumber const& number) -> AlbaNumber { return number; });
     EXPECT_EQ(expectedFunction, functionObject);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

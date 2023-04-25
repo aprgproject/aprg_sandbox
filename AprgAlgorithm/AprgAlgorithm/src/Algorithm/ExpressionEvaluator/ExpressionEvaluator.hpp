@@ -5,114 +5,67 @@
 #include <stack>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace ExpressionEvaluator
-{
+namespace ExpressionEvaluator {
 
-//Operations
+// Operations
 template <typename ValueTemplateType, typename OperatorTemplateType>
 ValueTemplateType performUnaryOperation(OperatorTemplateType const& operatorObject, ValueTemplateType const& value);
 
 template <typename ValueTemplateType, typename OperatorTemplateType>
-ValueTemplateType performBinaryOperation(ValueTemplateType const& value1, OperatorTemplateType const& operatorObject, ValueTemplateType const& value2);
+ValueTemplateType performBinaryOperation(
+    ValueTemplateType const& value1, OperatorTemplateType const& operatorObject, ValueTemplateType const& value2);
 
-
-//Converter
+// Converter
 template <typename ValueTemplateType, typename OperatorTemplateType>
 class ExpressionEvaluatorConverter;
 
-
-//Term
+// Term
 template <typename ValueTemplateType, typename OperatorTemplateType>
-class ExpressionEvaluatorTerm
-{
+class ExpressionEvaluatorTerm {
 public:
-    enum class TermType
-    {
-        Value,
-        Operator
-    };
-    enum class OperatorSyntaxType
-    {
-        Unknown,
-        PrefixUnary,
-        Binary,
-        StartGroup,
-        EndGroup
-    };
+    enum class TermType { Value, Operator };
+    enum class OperatorSyntaxType { Unknown, PrefixUnary, Binary, StartGroup, EndGroup };
     ExpressionEvaluatorTerm(ValueTemplateType const& value)
-        : m_termType(TermType::Value)
-        , m_value(value)
-        , m_operator()
-        , m_operatorSyntaxType(OperatorSyntaxType::Unknown)
-        , m_operatorPriority(0)
-    {}
+        : m_termType(TermType::Value),
+          m_value(value),
+          m_operator(),
+          m_operatorSyntaxType(OperatorSyntaxType::Unknown),
+          m_operatorPriority(0) {}
     ExpressionEvaluatorTerm(OperatorSyntaxType const& operatorSyntaxValue)
-        : m_termType(TermType::Operator)
-        , m_value()
-        , m_operator()
-        , m_operatorSyntaxType(operatorSyntaxValue)
-        , m_operatorPriority(0)
-    {}
+        : m_termType(TermType::Operator),
+          m_value(),
+          m_operator(),
+          m_operatorSyntaxType(operatorSyntaxValue),
+          m_operatorPriority(0) {}
     ExpressionEvaluatorTerm(OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue)
-        : m_termType(TermType::Operator)
-        , m_value()
-        , m_operator(operatorValue)
-        , m_operatorSyntaxType(operatorSyntaxValue)
-        , m_operatorPriority(0)
-    {}
-    ExpressionEvaluatorTerm(OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue, unsigned int const operatorPriority)
-        : m_termType(TermType::Operator)
-        , m_value()
-        , m_operator(operatorValue)
-        , m_operatorSyntaxType(operatorSyntaxValue)
-        , m_operatorPriority(operatorPriority)
-    {}
-    bool isOperator() const
-    {
-        return m_termType == TermType::Operator;
-    }
-    bool isValue() const
-    {
-        return m_termType == TermType::Value;
-    }
-    bool isStartGroupOperator() const
-    {
-        return m_operatorSyntaxType == OperatorSyntaxType::StartGroup;
-    }
-    bool isEndGroupOperator() const
-    {
-        return m_operatorSyntaxType == OperatorSyntaxType::EndGroup;
-    }
-    bool isPrefixUnaryOperator() const
-    {
-        return m_operatorSyntaxType == OperatorSyntaxType::PrefixUnary;
-    }
-    bool isBinaryOperator() const
-    {
-        return m_operatorSyntaxType == OperatorSyntaxType::Binary;
-    }
-    ValueTemplateType getValue() const
-    {
-        return m_value;
-    }
-    ValueTemplateType& getReferenceOfValue()
-    {
-        return m_value;
-    }
-    OperatorTemplateType getOperator() const
-    {
-        return m_operator;
-    }
-    unsigned int getOperatorPriority() const
-    {
-        return m_operatorPriority;
-    }
+        : m_termType(TermType::Operator),
+          m_value(),
+          m_operator(operatorValue),
+          m_operatorSyntaxType(operatorSyntaxValue),
+          m_operatorPriority(0) {}
+    ExpressionEvaluatorTerm(
+        OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue,
+        unsigned int const operatorPriority)
+        : m_termType(TermType::Operator),
+          m_value(),
+          m_operator(operatorValue),
+          m_operatorSyntaxType(operatorSyntaxValue),
+          m_operatorPriority(operatorPriority) {}
+    bool isOperator() const { return m_termType == TermType::Operator; }
+    bool isValue() const { return m_termType == TermType::Value; }
+    bool isStartGroupOperator() const { return m_operatorSyntaxType == OperatorSyntaxType::StartGroup; }
+    bool isEndGroupOperator() const { return m_operatorSyntaxType == OperatorSyntaxType::EndGroup; }
+    bool isPrefixUnaryOperator() const { return m_operatorSyntaxType == OperatorSyntaxType::PrefixUnary; }
+    bool isBinaryOperator() const { return m_operatorSyntaxType == OperatorSyntaxType::Binary; }
+    ValueTemplateType getValue() const { return m_value; }
+    ValueTemplateType& getReferenceOfValue() { return m_value; }
+    OperatorTemplateType getOperator() const { return m_operator; }
+    unsigned int getOperatorPriority() const { return m_operatorPriority; }
+
 private:
     TermType m_termType;
     ValueTemplateType m_value;
@@ -122,86 +75,59 @@ private:
 };
 
 template <typename ValueTemplateType, typename OperatorTemplateType>
-class ExpressionInfixEvaluator
-{
+class ExpressionInfixEvaluator {
 public:
     using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;
     using Terms = std::vector<Term>;
     using ValueStack = std::stack<ValueTemplateType>;
     using OperatorStack = std::stack<Term>;
-    void addTerm(Term const& term)
-    {
-        m_terms.emplace_back(term);
-    }
-    ValueTemplateType evaluate()
-    {
+    void addTerm(Term const& term) { m_terms.emplace_back(term); }
+    ValueTemplateType evaluate() {
         ValueTemplateType result{};
         ValueStack valueStack;
         OperatorStack operatorStack;
         traverseAllTermsForEvaluation(valueStack, operatorStack);
-        while(!operatorStack.empty())
-        {
+        while (!operatorStack.empty()) {
             performOperationWithStacks(valueStack, operatorStack);
         }
-        if(valueStack.size()==1)
-        {
+        if (valueStack.size() == 1) {
             result = valueStack.top();
         }
         return result;
     }
-    Terms getTerms() const
-    {
-        return m_terms;
-    }
-    Terms& getTermsReference()
-    {
-        return m_terms;
-    }
+    Terms getTerms() const { return m_terms; }
+    Terms& getTermsReference() { return m_terms; }
+
 private:
-    void traverseAllTermsForEvaluation(ValueStack & valueStack, OperatorStack & operatorStack)
-    {
-        //Dijkstra two stack algorithm
-        for(Term const& term : m_terms)
-        {
-            if(term.isOperator())
-            {
-                if(term.isStartGroupOperator())
-                {
+    void traverseAllTermsForEvaluation(ValueStack& valueStack, OperatorStack& operatorStack) {
+        // Dijkstra two stack algorithm
+        for (Term const& term : m_terms) {
+            if (term.isOperator()) {
+                if (term.isStartGroupOperator()) {
                     continue;
-                }
-                else if(term.isEndGroupOperator())
-                {
+                } else if (term.isEndGroupOperator()) {
                     performOperationWithStacks(valueStack, operatorStack);
-                }
-                else
-                {
-                    while(!operatorStack.empty() && term.getOperatorPriority() < operatorStack.top().getOperatorPriority())
-                    {
+                } else {
+                    while (!operatorStack.empty() &&
+                           term.getOperatorPriority() < operatorStack.top().getOperatorPriority()) {
                         performOperationWithStacks(valueStack, operatorStack);
                     }
                     operatorStack.push(term);
                 }
-            }
-            else if(term.isValue())
-            {
+            } else if (term.isValue()) {
                 valueStack.push(term.getValue());
             }
         }
     }
-    void performOperationWithStacks(ValueStack & valueStack, OperatorStack & operatorStack)
-    {
-        if(!operatorStack.empty())
-        {
+    void performOperationWithStacks(ValueStack& valueStack, OperatorStack& operatorStack) {
+        if (!operatorStack.empty()) {
             Term& operatorTerm(operatorStack.top());
             operatorStack.pop();
-            if(operatorTerm.isPrefixUnaryOperator() && !valueStack.empty())
-            {
+            if (operatorTerm.isPrefixUnaryOperator() && !valueStack.empty()) {
                 ValueTemplateType const& value(valueStack.top());
                 valueStack.pop();
                 valueStack.push(performUnaryOperation(operatorTerm.getOperator(), value));
-            }
-            else if(operatorTerm.isBinaryOperator() && valueStack.size()>=2)
-            {
+            } else if (operatorTerm.isBinaryOperator() && valueStack.size() >= 2) {
                 ValueTemplateType const& value1(valueStack.top());
                 valueStack.pop();
                 ValueTemplateType const& value2(valueStack.top());
@@ -215,91 +141,62 @@ private:
 };
 
 template <typename ValueTemplateType, typename OperatorTemplateType>
-class ExpressionPostfixEvaluator // prefix is reverse postfix, so no prefix needed
+class ExpressionPostfixEvaluator  // prefix is reverse postfix, so no prefix needed
 {
 public:
     using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;
     using Terms = std::vector<Term>;
     using ValueStack = std::stack<ValueTemplateType>;
-    void addTerm(Term const& term)
-    {
-        m_terms.emplace_back(term);
-    }
-    ValueTemplateType evaluate()
-    {
+    void addTerm(Term const& term) { m_terms.emplace_back(term); }
+    ValueTemplateType evaluate() {
         ValueTemplateType result{};
         ValueStack valueStack;
         traverseAllTermsForEvaluation(valueStack);
-        if(valueStack.size()==1)
-        {
+        if (valueStack.size() == 1) {
             result = valueStack.top();
         }
         return result;
     }
-    Terms getTerms() const
-    {
-        return m_terms;
-    }
-    Terms& getTermsReference()
-    {
-        return m_terms;
-    }
-    bool isEvaluationPossible() const
-    {
+    Terms getTerms() const { return m_terms; }
+    Terms& getTermsReference() { return m_terms; }
+    bool isEvaluationPossible() const {
         int resultStackSize(0);
-        for (Term const& term : m_terms)
-        {
-            if(term.isValue())
-            {
+        for (Term const& term : m_terms) {
+            if (term.isValue()) {
                 resultStackSize++;
-            }
-            else if(term.isPrefixUnaryOperator())
-            {
-                if(resultStackSize<=0)
-                {
+            } else if (term.isPrefixUnaryOperator()) {
+                if (resultStackSize <= 0) {
                     return false;
                 }
-            }
-            else if(term.isBinaryOperator())
-            {
+            } else if (term.isBinaryOperator()) {
                 resultStackSize--;
-                if(resultStackSize<=0)
-                {
+                if (resultStackSize <= 0) {
                     return false;
                 }
             }
         }
-        if(resultStackSize!=1)
-        {
+        if (resultStackSize != 1) {
             return false;
         }
         return true;
     }
+
 private:
-    void traverseAllTermsForEvaluation(ValueStack & valueStack)
-    {
-        for(Term const& term : m_terms)
-        {
-            if(term.isOperator())
-            {
+    void traverseAllTermsForEvaluation(ValueStack& valueStack) {
+        for (Term const& term : m_terms) {
+            if (term.isOperator()) {
                 performOperationWithValueStack(valueStack, term);
-            }
-            else if(term.isValue())
-            {
+            } else if (term.isValue()) {
                 valueStack.push(term.getValue());
             }
         }
     }
-    void performOperationWithValueStack(ValueStack & valueStack, Term const& operatorTerm)
-    {
-        if(operatorTerm.isPrefixUnaryOperator() && !valueStack.empty())
-        {
+    void performOperationWithValueStack(ValueStack& valueStack, Term const& operatorTerm) {
+        if (operatorTerm.isPrefixUnaryOperator() && !valueStack.empty()) {
             ValueTemplateType value(valueStack.top());
             valueStack.pop();
             valueStack.push(performUnaryOperation(operatorTerm.getOperator(), value));
-        }
-        else if(operatorTerm.isBinaryOperator() && valueStack.size()>=2)
-        {
+        } else if (operatorTerm.isBinaryOperator() && valueStack.size() >= 2) {
             ValueTemplateType value1(valueStack.top());
             valueStack.pop();
             ValueTemplateType value2(valueStack.top());
@@ -312,10 +209,8 @@ private:
 };
 
 template <typename ValueTemplateType, typename OperatorTemplateType>
-class ExpressionEvaluatorConverter
-{
+class ExpressionEvaluatorConverter {
 public:
-
     using PostfixEvaluator = ExpressionPostfixEvaluator<ValueTemplateType, OperatorTemplateType>;
     using InfixEvaluator = ExpressionInfixEvaluator<ValueTemplateType, OperatorTemplateType>;
     using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;
@@ -327,74 +222,53 @@ public:
     ExpressionEvaluatorConverter() = delete;
     ~ExpressionEvaluatorConverter() = delete;
     ExpressionEvaluatorConverter(ExpressionEvaluatorConverter const&) = delete;
-    ExpressionEvaluatorConverter & operator= (ExpressionEvaluatorConverter const&) = delete;
-    ExpressionEvaluatorConverter(ExpressionEvaluatorConverter &&) = delete;
-    ExpressionEvaluatorConverter & operator= (ExpressionEvaluatorConverter &&) = delete;
+    ExpressionEvaluatorConverter& operator=(ExpressionEvaluatorConverter const&) = delete;
+    ExpressionEvaluatorConverter(ExpressionEvaluatorConverter&&) = delete;
+    ExpressionEvaluatorConverter& operator=(ExpressionEvaluatorConverter&&) = delete;
 
-    static PostfixEvaluator convertInfixToPostfix(InfixEvaluator const& infixEvaluator)
-    {
+    static PostfixEvaluator convertInfixToPostfix(InfixEvaluator const& infixEvaluator) {
         PostfixEvaluator postfixEvaluator;
         Terms const& termsInInfix(infixEvaluator.m_terms);
-        Terms & termsInPostfix(postfixEvaluator.m_terms);
+        Terms& termsInPostfix(postfixEvaluator.m_terms);
         TermStack operatorStack;
-        for(Term const& term : termsInInfix)
-        {
-            if (term.isStartGroupOperator())
-            {
+        for (Term const& term : termsInInfix) {
+            if (term.isStartGroupOperator()) {
                 operatorStack.push(term);
-            }
-            else if (term.isEndGroupOperator())
-            {
-                transferTermStackToTerms(operatorStack, termsInPostfix, [term](TermStack& termStack)
-                {
+            } else if (term.isEndGroupOperator()) {
+                transferTermStackToTerms(operatorStack, termsInPostfix, [term](TermStack& termStack) {
                     return !termStack.top().isStartGroupOperator();
                 });
-                if(!operatorStack.empty()) operatorStack.pop();
-            }
-            else if (term.isOperator())
-            {
-                transferTermStackToTerms(operatorStack, termsInPostfix, [term](TermStack& termStack)
-                {
-                    return term.getOperatorPriority() <= termStack.top().getOperatorPriority() && !termStack.top().isStartGroupOperator();
+                if (!operatorStack.empty()) operatorStack.pop();
+            } else if (term.isOperator()) {
+                transferTermStackToTerms(operatorStack, termsInPostfix, [term](TermStack& termStack) {
+                    return term.getOperatorPriority() <= termStack.top().getOperatorPriority() &&
+                           !termStack.top().isStartGroupOperator();
                 });
                 operatorStack.push(term);
-            }
-            else
-            {
+            } else {
                 termsInPostfix.push_back(term);
             }
         }
-        transferTermStackToTerms(operatorStack, termsInPostfix, [](TermStack&)
-        {
-            return true;
-        });
+        transferTermStackToTerms(operatorStack, termsInPostfix, [](TermStack&) { return true; });
         return postfixEvaluator;
     }
 
-    static InfixEvaluator convertPostfixToInfix(PostfixEvaluator const& postfixEvaluator)
-    {
+    static InfixEvaluator convertPostfixToInfix(PostfixEvaluator const& postfixEvaluator) {
         InfixEvaluator infixEvaluator;
         Terms const& termsInPostfix(postfixEvaluator.m_terms);
-        Terms & termsInInfix(infixEvaluator.m_terms);
+        Terms& termsInInfix(infixEvaluator.m_terms);
         TermsStack expressionsStack;
-        for(Term const& term : termsInPostfix)
-        {
-            if (term.isValue())
-            {
+        for (Term const& term : termsInPostfix) {
+            if (term.isValue()) {
                 expressionsStack.push({term});
-            }
-            else if (term.isOperator())
-            {
-                if(term.isPrefixUnaryOperator())
-                {
+            } else if (term.isOperator()) {
+                if (term.isPrefixUnaryOperator()) {
                     Terms expressionOperand = popTermsStackAndReturnTopValue(expressionsStack);
                     Terms newExpression;
                     newExpression.emplace_back(term);
                     copyTermsAndPutGroupOperatorsIfNeeded(expressionOperand, newExpression);
                     expressionsStack.push(newExpression);
-                }
-                else if(term.isBinaryOperator())
-                {
+                } else if (term.isBinaryOperator()) {
                     Terms expressionOperand1 = popTermsStackAndReturnTopValue(expressionsStack);
                     Terms expressionOperand2 = popTermsStackAndReturnTopValue(expressionsStack);
                     Terms newExpression;
@@ -405,56 +279,45 @@ public:
                 }
             }
         }
-        if(!expressionsStack.empty())
-        {
-            Terms finalExpression=expressionsStack.top();
+        if (!expressionsStack.empty()) {
+            Terms finalExpression = expressionsStack.top();
             termsInInfix.reserve(finalExpression.size());
             std::copy(finalExpression.cbegin(), finalExpression.cend(), std::back_inserter(termsInInfix));
         }
         return infixEvaluator;
     }
+
 private:
     static void transferTermStackToTerms(
-            TermStack& termStack,
-            Terms& terms,
-            std::function<bool(TermStack&)> loopCondition)
-    {
-        while (!termStack.empty() && loopCondition(termStack))
-        {
+        TermStack& termStack, Terms& terms, std::function<bool(TermStack&)> loopCondition) {
+        while (!termStack.empty() && loopCondition(termStack)) {
             terms.push_back(termStack.top());
             termStack.pop();
         }
     }
-    static Terms popTermsStackAndReturnTopValue(TermsStack& termsStack)
-    {
+    static Terms popTermsStackAndReturnTopValue(TermsStack& termsStack) {
         Terms terms;
-        if(!termsStack.empty())
-        {
+        if (!termsStack.empty()) {
             terms = termsStack.top();
             termsStack.pop();
         }
         return terms;
     }
-    static void copyTermsAndPutGroupOperatorsIfNeeded(
-            Terms const& inputTerms,
-            Terms & outputTerms)
-    {
+    static void copyTermsAndPutGroupOperatorsIfNeeded(Terms const& inputTerms, Terms& outputTerms) {
         bool areGroupOperatorsNeeded = inputTerms.size() > 1;
-        if(areGroupOperatorsNeeded)
-        {
+        if (areGroupOperatorsNeeded) {
             outputTerms.emplace_back(Term::OperatorSyntaxType::StartGroup);
         }
         outputTerms.reserve(inputTerms.size());
         std::copy(inputTerms.cbegin(), inputTerms.cend(), std::back_inserter(outputTerms));
-        if(areGroupOperatorsNeeded)
-        {
+        if (areGroupOperatorsNeeded) {
             outputTerms.emplace_back(Term::OperatorSyntaxType::EndGroup);
         }
     }
 };
 
-}
+}  // namespace ExpressionEvaluator
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

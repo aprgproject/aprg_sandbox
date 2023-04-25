@@ -8,14 +8,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using PathForTest = GraphTypes<VertexForTest>::Path;
@@ -24,12 +21,12 @@ using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using ShortestPathSearchForTest = PathSearchUsingDijkstra<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest, less>;
+using ShortestPathSearchForTest =
+    PathSearchUsingDijkstra<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest, less>;
 
-}
+}  // namespace
 
-TEST(OptimalGraphByDijkstraTest, GetOptimalDirectedGraph_UndirectedToOptimizedDirectedWorksOnExample1)
-{
+TEST(OptimalGraphByDijkstraTest, GetOptimalDirectedGraph_UndirectedToOptimizedDirectedWorksOnExample1) {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(1U, 2U, 3.0);
     graph.connect(1U, 3U, 5.0);
@@ -40,12 +37,13 @@ TEST(OptimalGraphByDijkstraTest, GetOptimalDirectedGraph_UndirectedToOptimizedDi
     graph.connect(4U, 5U, 1.0);
     ShortestPathSearchForTest pathSearch(graph, 1U);
 
-    EdgeWeightedDirectedGraphForTest optimalGraph(getOptimalDirectedGraph<EdgeWeightedDirectedGraphForTest, ShortestPathSearchForTest>(pathSearch));
+    EdgeWeightedDirectedGraphForTest optimalGraph(
+        getOptimalDirectedGraph<EdgeWeightedDirectedGraphForTest, ShortestPathSearchForTest>(pathSearch));
 
     EdgesWithWeightForTest expectedEdges{{1U, 2U, 3.0}, {1U, 3U, 5.0}, {2U, 4U, 7.0}, {4U, 5U, 8.0}};
     EXPECT_EQ(expectedEdges, optimalGraph.getEdgesWithWeight());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -5,24 +5,15 @@
 #include <map>
 #include <string>
 
-using std::string;
 using std::map;
 using std::pair;
+using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 
-enum class CPlusPlusScopeType
-{
-    Class,
-    Global,
-    Normal,
-    Namespace,
-    TemplateClass
-};
+enum class CPlusPlusScopeType { Class, Global, Normal, Namespace, TemplateClass };
 
-class CPlusPlusScope
-{
+class CPlusPlusScope {
 public:
     CPlusPlusScope(CPlusPlusScopeType const scopeType, string const& name);
     bool isClass() const;
@@ -55,4 +46,4 @@ private:
     VectorOfStrings m_variables;
 };
 
-}
+}  // namespace codeReview

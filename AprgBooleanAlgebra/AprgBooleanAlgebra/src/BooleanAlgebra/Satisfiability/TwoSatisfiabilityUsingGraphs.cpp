@@ -6,45 +6,36 @@
 using namespace alba::algorithm;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TwoSatisfiabilityUsingGraphs::TwoSatisfiabilityUsingGraphs(
-        SatisfiabilityTerms const& satTerms)
-    : m_variableNames(createVariableNamesFromSatTerms(satTerms))
-    , m_graph(createDirectedGraphBasedFromSatTerms(satTerms))
-    , m_connectedComponents(m_graph)
-{}
+TwoSatisfiabilityUsingGraphs::TwoSatisfiabilityUsingGraphs(SatisfiabilityTerms const& satTerms)
+    : m_variableNames(createVariableNamesFromSatTerms(satTerms)),
+      m_graph(createDirectedGraphBasedFromSatTerms(satTerms)),
+      m_connectedComponents(m_graph) {}
 
-bool TwoSatisfiabilityUsingGraphs::hasSolution() const
-{
-    bool isAVariableAndItsNegationConnected = any_of(m_variableNames.cbegin(), m_variableNames.cend(), [&](string const& variableName)
-    {
-            return m_connectedComponents.isConnected(VariableTerm(variableName), VariableTerm::createNegatedVariableTerm(variableName));
-});
+bool TwoSatisfiabilityUsingGraphs::hasSolution() const {
+    bool isAVariableAndItsNegationConnected =
+        any_of(m_variableNames.cbegin(), m_variableNames.cend(), [&](string const& variableName) {
+            return m_connectedComponents.isConnected(
+                VariableTerm(variableName), VariableTerm::createNegatedVariableTerm(variableName));
+        });
     return !isAVariableAndItsNegationConnected;
 }
 
-Term TwoSatisfiabilityUsingGraphs::getSolution() const
-{
+Term TwoSatisfiabilityUsingGraphs::getSolution() const {
     using VertexOrdering = VertexOrderingUsingDfs<VariableTerm>;
     VertexOrdering vertexOrdering(m_graph);
     auto const& variableTermsInOrder(vertexOrdering.getVerticesInThisOrder(VertexTraversalOrder::PostOrder));
     VariableNamesSet processedNames;
     Expression result;
-    for(VariableTerm const& variableTerm : variableTermsInOrder)
-    {
+    for (VariableTerm const& variableTerm : variableTermsInOrder) {
         string variableName(variableTerm.getVariableTermName());
-        if(processedNames.find(variableName) == processedNames.cend())
-        {
+        if (processedNames.find(variableName) == processedNames.cend()) {
             result.putTermWithAndOperationIfNeeded(Term(variableTerm));
             processedNames.emplace(variableName);
-        }
-        else
-        {
+        } else {
             break;
         }
     }
@@ -52,14 +43,10 @@ Term TwoSatisfiabilityUsingGraphs::getSolution() const
     return convertExpressionToSimplestTerm(result);
 }
 
-VariableNamesSet TwoSatisfiabilityUsingGraphs::createVariableNamesFromSatTerms(
-        SatisfiabilityTerms const& satTerms)
-{
+VariableNamesSet TwoSatisfiabilityUsingGraphs::createVariableNamesFromSatTerms(SatisfiabilityTerms const& satTerms) {
     VariableNamesSet result;
-    for(SatisfiabilityTerm const& satTerm : satTerms)
-    {
-        for(VariableTerm const& variableTerm : satTerm)
-        {
+    for (SatisfiabilityTerm const& satTerm : satTerms) {
+        for (VariableTerm const& variableTerm : satTerm) {
             result.emplace(variableTerm.getVariableTermName());
         }
     }
@@ -67,19 +54,14 @@ VariableNamesSet TwoSatisfiabilityUsingGraphs::createVariableNamesFromSatTerms(
 }
 
 TwoSatisfiabilityUsingGraphs::DirectedGraph TwoSatisfiabilityUsingGraphs::createDirectedGraphBasedFromSatTerms(
-        SatisfiabilityTerms const& satTerms)
-{
+    SatisfiabilityTerms const& satTerms) {
     DirectedGraph result;
-    if(2U == getSatisfiabilityLevel(satTerms)) // 2SAT
+    if (2U == getSatisfiabilityLevel(satTerms))  // 2SAT
     {
-        for(SatisfiabilityTerm const& satTerm : satTerms)
-        {
-            if(satTerm.size() == 1)
-            {
+        for (SatisfiabilityTerm const& satTerm : satTerms) {
+            if (satTerm.size() == 1) {
                 result.connect(~satTerm.at(0), satTerm.at(0));
-            }
-            else if(satTerm.size() == 2)
-            {
+            } else if (satTerm.size() == 2) {
                 result.connect(~satTerm.at(0), satTerm.at(1));
                 result.connect(~satTerm.at(1), satTerm.at(0));
             }
@@ -88,6 +70,6 @@ TwoSatisfiabilityUsingGraphs::DirectedGraph TwoSatisfiabilityUsingGraphs::create
     return result;
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

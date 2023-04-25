@@ -7,14 +7,13 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksForTermThatCanBeConvertedToPolynomial)
-{
+TEST(
+    ConstructUtilitiesTest,
+    CreatePolynomialOverPolynomialFromTermIfPossibleWorksForTermThatCanBeConvertedToPolynomial) {
     Polynomial polynomial{Monomial(3, {{"x", 3}}), Monomial(6, {{"y", 3}})};
     Term polynomialTerm(polynomial);
 
@@ -26,11 +25,11 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
     EXPECT_EQ(createPolynomialFromNumber(1), pop.getDenominator());
 }
 
-TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksForExpressionThatHaveMonomialsOnMultiplyAndDivide)
-{
-    Expression expression(
-                createExpressionIfPossible(
-    {Monomial(1, {{"x", 9}}), "*", Monomial(2, {{"y", 8}}), "/", Monomial(3, {{"z", 7}})}));
+TEST(
+    ConstructUtilitiesTest,
+    CreatePolynomialOverPolynomialFromTermIfPossibleWorksForExpressionThatHaveMonomialsOnMultiplyAndDivide) {
+    Expression expression(createExpressionIfPossible(
+        {Monomial(1, {{"x", 9}}), "*", Monomial(2, {{"y", 8}}), "/", Monomial(3, {{"z", 7}})}));
     Term expressionTerm(expression);
 
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(expressionTerm));
@@ -43,13 +42,13 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
     EXPECT_EQ(expectedDenominator, pop.getDenominator());
 }
 
-TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksForExpressionThatHavePolynomialsOnMultiplyAndDivide)
-{
-    Expression expression(
-                createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "*",
-     Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "/",
-     Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}}));
+TEST(
+    ConstructUtilitiesTest,
+    CreatePolynomialOverPolynomialFromTermIfPossibleWorksForExpressionThatHavePolynomialsOnMultiplyAndDivide) {
+    Expression expression(createExpressionIfPossible(
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "*",
+         Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "/",
+         Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}}));
     Term expressionTerm(expression);
 
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(expressionTerm));
@@ -62,8 +61,7 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
     EXPECT_EQ(expectedDenominator, pop.getDenominator());
 }
 
-TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksAsEmptyWhenThereIsNoPolynomial)
-{
+TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksAsEmptyWhenThereIsNoPolynomial) {
     Expression expression(createExpressionIfPossible({"x", "^", "x"}));
     Term expressionTerm(expression);
 
@@ -72,8 +70,7 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
     EXPECT_FALSE(popOptional);
 }
 
-TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression) {
     Term nonExpressionTerm("x");
 
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonExpressionTerm));
@@ -85,8 +82,7 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression)
     EXPECT_TRUE(denominatorsToVerify.empty());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonMultiplicationDivisionExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonMultiplicationDivisionExpression) {
     Term nonMultiplicationDivisionExpressionTerm(createExpressionIfPossible({"x", "^", "x"}));
 
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonMultiplicationDivisionExpressionTerm));
@@ -98,8 +94,7 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonMultiplicati
     EXPECT_TRUE(denominatorsToVerify.empty());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForMultiplicationDivisionExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForMultiplicationDivisionExpression) {
     Term multiplicationDivisionExpressionTerm(createExpressionIfPossible({"x", "/", "y"}));
 
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(multiplicationDivisionExpressionTerm));
@@ -112,8 +107,7 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForMultiplicationD
     EXPECT_EQ(Term("y"), denominatorsToVerify.at(0));
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomialOrExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomialOrExpression) {
     Term nonMonomialOrExpressionTerm("x");
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(nonMonomialOrExpressionTerm));
@@ -122,8 +116,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomial
     EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWithSingleVariable)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWithSingleVariable) {
     Term monomialTerm(Monomial(1, {{"x", 1.78}}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(monomialTerm));
@@ -132,25 +125,20 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWit
     EXPECT_EQ(AlbaNumber(1.78), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWithMultipleVariables)
-{
-    Term monomialTerm(Monomial(1,
-    {{"x", AlbaNumber::createFraction(1, 2)},
-     {"y", AlbaNumber::createFraction(2, 7)},
-     {"z", AlbaNumber::createFraction(9, 5)}}));
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWithMultipleVariables) {
+    Term monomialTerm(Monomial(
+        1, {{"x", AlbaNumber::createFraction(1, 2)},
+            {"y", AlbaNumber::createFraction(2, 7)},
+            {"z", AlbaNumber::createFraction(9, 5)}}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(monomialTerm));
 
-    Term baseToExpect(Monomial(1,
-    {{"x", 35},
-     {"y", 20},
-     {"z", 126}}));
+    Term baseToExpect(Monomial(1, {{"x", 35}, {"y", 20}, {"z", 126}}));
     EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber::createFraction(1, 70), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonRaiseToPowerExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonRaiseToPowerExpression) {
     Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({"x", "+", "y"}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(nonRaiseToPowerExpressionTerm));
@@ -160,8 +148,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonRaiseToP
     EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithOneTerm)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithOneTerm) {
     Expression raiseToPowerExpression(Term("x"));
     raiseToPowerExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
     Term raiseToPowerExpressionTerm(raiseToPowerExpression);
@@ -172,8 +159,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowe
     EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithTwoTerms)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithTwoTerms) {
     Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
     Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, "^", 1.79}));
 
@@ -183,8 +169,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowe
     EXPECT_EQ(AlbaNumber(1.79), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithThreeTerms)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithThreeTerms) {
     Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
     Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, "^", 1.79, "^", "y"}));
 
@@ -195,8 +180,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowe
     EXPECT_EQ(AlbaNumber(1.79), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithMonomialExponent)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithMonomialExponent) {
     Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
     Term exponentTerm(Monomial(2.84, {{"x", 2}, {"y", 3}}));
     Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, "^", exponentTerm}));
@@ -209,8 +193,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowe
     EXPECT_EQ(AlbaNumber(2.84), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMonomialWorks)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMonomialWorks) {
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromMonomial(Monomial(64, {{"x", 18}, {"y", 12}})));
 
     Term baseToExpect(Monomial(2, {{"x", 3}, {"y", 2}}));
@@ -218,21 +201,16 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMonomialWorks)
     EXPECT_EQ(AlbaNumber(6), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromPolynomialWorks)
-{
-    TermRaiseToANumber termRaiseToANumber(
-                createTermRaiseToANumberFromPolynomial(Polynomial
-    {Monomial(1, {{"x", 2}}),
-     Monomial(2, {{"x", 1}}),
-     Monomial(1, {})}));
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromPolynomialWorks) {
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromPolynomial(
+        Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}));
 
     Term baseToExpect(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(2), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithAdditionAndSubtractionOperation)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithAdditionAndSubtractionOperation) {
     Expression additionAndSubtractionExpression(createExpressionIfPossible({abs("x"), "+", 100}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromExpression(additionAndSubtractionExpression));
@@ -242,8 +220,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithAdd
     EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithMultiplicationAndDivisionOperation)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithMultiplicationAndDivisionOperation) {
     Monomial numerator(32, {{"x", 5}});
     Polynomial polynomialForDenominator{Monomial(1, {{"x", 1}}), Monomial(7, {})};
     Expression denominator(createExpressionIfPossible({polynomialForDenominator, "^", 10}));
@@ -256,8 +233,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithMul
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithRaiseToPowerOperation)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithRaiseToPowerOperation) {
     Expression raiseToPowerExpression(createExpressionIfPossible({abs("x"), "^", 100}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromExpression(raiseToPowerExpression));
@@ -266,9 +242,10 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithRai
     EXPECT_EQ(AlbaNumber(100), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithRaiseToPowerOperationAndMultipleExponents)
-{
-    Expression raiseToPowerExpression(createExpressionIfPossible({abs("x"), "^", 10, "^", 20, "^", Monomial(30, {{"x", 1}})}));
+TEST(
+    ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithRaiseToPowerOperationAndMultipleExponents) {
+    Expression raiseToPowerExpression(
+        createExpressionIfPossible({abs("x"), "^", 10, "^", 20, "^", Monomial(30, {{"x", 1}})}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromExpression(raiseToPowerExpression));
 
@@ -277,24 +254,21 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithRai
     EXPECT_EQ(AlbaNumber(6000), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithDivisionOperationOnly)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithDivisionOperationOnly) {
     Polynomial polynomial1ForDenominator{Monomial(1, {{"x", 1}}), Monomial(5, {})};
     Polynomial polynomial2ForDenominator{Monomial(1, {{"x", 1}}), Monomial(7, {})};
-    Expression denominator(createExpressionIfPossible(
-    {polynomial1ForDenominator, "^", 2, "*", polynomial2ForDenominator, "^", 4}));
+    Expression denominator(
+        createExpressionIfPossible({polynomial1ForDenominator, "^", 2, "*", polynomial2ForDenominator, "^", 4}));
     Expression multiplicationAndDivisionExpression(createExpressionIfPossible({1, "/", denominator}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromExpression(multiplicationAndDivisionExpression));
 
-    Term expectedBase(createExpressionIfPossible(
-    {polynomial1ForDenominator, "*", polynomial2ForDenominator, "^", 2}));
+    Term expectedBase(createExpressionIfPossible({polynomial1ForDenominator, "*", polynomial2ForDenominator, "^", 2}));
     EXPECT_EQ(expectedBase, termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(-2), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromRaiseToPowerExpressionWorks)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromRaiseToPowerExpressionWorks) {
     Expression raiseToPowerExpression(createExpressionIfPossible({abs("x"), "^", 100}));
 
     TermRaiseToANumber result;
@@ -304,8 +278,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromRaiseToPowerExpressionW
     EXPECT_EQ(AlbaNumber(100), result.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMultiplicationAndDivisionExpressionWorks)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMultiplicationAndDivisionExpressionWorks) {
     Monomial numerator(32, {{"x", 5}});
     Polynomial polynomialForDenominator{Monomial(1, {{"x", 1}}), Monomial(7, {})};
     Expression denominator(createExpressionIfPossible({polynomialForDenominator, "^", 10}));
@@ -319,8 +292,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMultiplicationAndDivisi
     EXPECT_EQ(AlbaNumber(5), result.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForNonMonomialOrExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForNonMonomialOrExpression) {
     Term nonMonomialOrExpressionTerm("x");
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromTerm(nonMonomialOrExpressionTerm));
@@ -329,8 +301,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForNonMonomialOr
     EXPECT_EQ(Term(1), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForMonomialWithSingleVariable)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForMonomialWithSingleVariable) {
     Term monomialTerm(Monomial(1, {{"x", 1.78}}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromTerm(monomialTerm));
@@ -339,25 +310,20 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForMonomialWithS
     EXPECT_EQ(Term(1.78), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForMonomialWithMultipleVariables)
-{
-    Term monomialTerm(Monomial(1,
-    {{"x", AlbaNumber::createFraction(1, 2)},
-     {"y", AlbaNumber::createFraction(2, 7)},
-     {"z", AlbaNumber::createFraction(9, 5)}}));
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForMonomialWithMultipleVariables) {
+    Term monomialTerm(Monomial(
+        1, {{"x", AlbaNumber::createFraction(1, 2)},
+            {"y", AlbaNumber::createFraction(2, 7)},
+            {"z", AlbaNumber::createFraction(9, 5)}}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromTerm(monomialTerm));
 
-    Term baseToExpect(Monomial(1,
-    {{"x", 35},
-     {"y", 20},
-     {"z", 126}}));
+    Term baseToExpect(Monomial(1, {{"x", 35}, {"y", 20}, {"z", 126}}));
     EXPECT_EQ(baseToExpect, termRaiseToTerms.getBase());
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 70)), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForNonRaiseToPowerExpression)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForNonRaiseToPowerExpression) {
     Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({"x", "+", "y"}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromTerm(nonRaiseToPowerExpressionTerm));
@@ -367,8 +333,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForNonRaiseToPow
     EXPECT_EQ(Term(1), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithOneTerm)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithOneTerm) {
     Expression raiseToPowerExpression(Term("x"));
     raiseToPowerExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
     Term raiseToPowerExpressionTerm(raiseToPowerExpression);
@@ -379,8 +344,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerE
     EXPECT_EQ(Term(1), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithTwoTerms)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithTwoTerms) {
     Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
     Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, "^", 1.79}));
 
@@ -390,8 +354,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerE
     EXPECT_EQ(Term(1.79), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithThreeTerms)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithThreeTerms) {
     Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
     Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, "^", 1.79, "^", "y"}));
 
@@ -402,8 +365,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerE
     EXPECT_EQ(expectedExponent, termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithMonomialExponent)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerExpressionWithMonomialExponent) {
     Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
     Term exponentTerm(Monomial(2.84, {{"x", 2}, {"y", 3}}));
     Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, "^", exponentTerm}));
@@ -414,8 +376,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromTermWorksForRaiseToPowerE
     EXPECT_EQ(exponentTerm, termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithAdditionAndSubtractionOperation)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithAdditionAndSubtractionOperation) {
     Expression additionAndSubtractionExpression(createExpressionIfPossible({abs("x"), "+", 100}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromExpression(additionAndSubtractionExpression));
@@ -425,8 +386,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithAddit
     EXPECT_EQ(Term(1), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithMultiplicationAndDivisionOperation)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithMultiplicationAndDivisionOperation) {
     Monomial numerator(32, {{"x", 5}});
     Polynomial polynomialForDenominator{Monomial(1, {{"x", 1}}), Monomial(7, {})};
     Expression denominator(createExpressionIfPossible({polynomialForDenominator, "^", 10}));
@@ -441,8 +401,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithMulti
     EXPECT_EQ(Term(5), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithRaiseToPowerOperation)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithRaiseToPowerOperation) {
     Expression raiseToPowerExpression(createExpressionIfPossible({abs("x"), "^", 100}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromExpression(raiseToPowerExpression));
@@ -451,9 +410,9 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithRaise
     EXPECT_EQ(Term(100), termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithRaiseToPowerOperationAndMultipleExponents)
-{
-    Expression raiseToPowerExpression(createExpressionIfPossible({abs("x"), "^", 10, "^", 20, "^", Monomial(30, {{"x", 1}})}));
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithRaiseToPowerOperationAndMultipleExponents) {
+    Expression raiseToPowerExpression(
+        createExpressionIfPossible({abs("x"), "^", 10, "^", 20, "^", Monomial(30, {{"x", 1}})}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromExpression(raiseToPowerExpression));
 
@@ -463,22 +422,21 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithRaise
     EXPECT_EQ(expectedExponent, termRaiseToTerms.getCombinedExponents());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithDivisionOperationOnly)
-{
+TEST(ConstructUtilitiesTest, CreateTermRaiseToTermsFromExpressionWorks_WithDivisionOperationOnly) {
     Polynomial polynomial1ForDenominator{Monomial(1, {{"x", 1}}), Monomial(5, {})};
     Polynomial polynomial2ForDenominator{Monomial(1, {{"x", 1}}), Monomial(7, {})};
-    Expression denominator(createExpressionIfPossible(
-    {polynomial1ForDenominator, "^", 2, "*",
-     polynomial2ForDenominator, "^", 4}));
+    Expression denominator(
+        createExpressionIfPossible({polynomial1ForDenominator, "^", 2, "*", polynomial2ForDenominator, "^", 4}));
     Expression multiplicationAndDivisionExpression(createExpressionIfPossible({1, "/", denominator}));
 
     TermRaiseToTerms termRaiseToTerms(createTermRaiseToTermsFromExpression(multiplicationAndDivisionExpression));
 
-    Term expectedBase(Polynomial{Monomial(1, {{"x", 3}}), Monomial(19, {{"x", 2}}), Monomial(119, {{"x", 1}}), Monomial(245, {})});
+    Term expectedBase(
+        Polynomial{Monomial(1, {{"x", 3}}), Monomial(19, {{"x", 2}}), Monomial(119, {{"x", 1}}), Monomial(245, {})});
     EXPECT_EQ(expectedBase, termRaiseToTerms.getBase());
     EXPECT_EQ(Term(-2), termRaiseToTerms.getCombinedExponents());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

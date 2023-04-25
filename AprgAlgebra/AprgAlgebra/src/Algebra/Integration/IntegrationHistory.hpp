@@ -5,14 +5,11 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-enum class IntegrationPurpose
-{
+enum class IntegrationPurpose {
     NotSet,
     IntegrationByParts,
     Trigonometric,
@@ -24,9 +21,7 @@ enum class IntegrationPurpose
 
 using IntegrationPurposes = std::vector<IntegrationPurpose>;
 
-class IntegrationHistory
-{
-
+class IntegrationHistory {
 public:
     IntegrationHistory();
     bool didThisIntegrationPurposeAlreadyHappened(IntegrationPurpose const purpose) const;
@@ -45,6 +40,6 @@ private:
     IntegrationPurposes m_recordOfIntegrationPurposes;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

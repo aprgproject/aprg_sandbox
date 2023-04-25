@@ -15,22 +15,14 @@
 #include <map>
 #include <optional>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-class ChessPieceRetriever
-{
+class ChessPieceRetriever {
 public:
-    enum class WhiteOrBlack
-    {
-        White,
-        Black
-    };
-    struct CheckDetail
-    {
+    enum class WhiteOrBlack { White, Black };
+    struct CheckDetail {
         AprgBitmap::BitmapXY pointOffset;
         WhiteOrBlack condition;
     };
@@ -45,11 +37,17 @@ public:
     ChessPieceRetriever() = delete;
     ChessPieceRetriever(ChessPeekConfiguration const& configuration);
 
-    Piece getChessCellPiece(AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
-    BitSet64 getChessCellBitValue(AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
+    Piece getChessCellPiece(
+        AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
+    BitSet64 getChessCellBitValue(
+        AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
 
-    void retrieveWhiteOffsetPoints(AprgBitmap::BitmapXYs & bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
-    void retrieveBlackOffsetPoints(AprgBitmap::BitmapXYs & bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
+    void retrieveWhiteOffsetPoints(
+        AprgBitmap::BitmapXYs& bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex,
+        unsigned int const yIndex) const;
+    void retrieveBlackOffsetPoints(
+        AprgBitmap::BitmapXYs& bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex,
+        unsigned int const yIndex) const;
 
     void setLogFile(std::string const& logFilePath);
 
@@ -58,13 +56,19 @@ private:
     void initializeConverterToChessDotCom();
     void initializeConverterToLichessDotOrg();
 
-    bool isBitValueAsserted(AprgBitmap::BitmapSnippet const& chessBoardSnippet, CheckDetail const& checkDetail, AprgBitmap::BitmapXY const& chessCellTopLeft, AprgBitmap::BitmapXY const& chessCellBottomRight) const;
+    bool isBitValueAsserted(
+        AprgBitmap::BitmapSnippet const& chessBoardSnippet, CheckDetail const& checkDetail,
+        AprgBitmap::BitmapXY const& chessCellTopLeft, AprgBitmap::BitmapXY const& chessCellBottomRight) const;
 
     PieceColorAndType getBestPieceFromChessCellBitValue(uint64_t const chessCellBitValue) const;
     PieceColorAndTypes getBestFitPiecesFromChessCellBitValue(uint64_t const chessCellBitValue) const;
 
-    void retrieveChessCellTopLeftAndBottomRight(AprgBitmap::BitmapXY & chessCellTopLeft, AprgBitmap::BitmapXY & chessCellBottomRight, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
-    void retrieveOffsetPointsWithCondition(AprgBitmap::BitmapXYs & bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex, BoolFunction const& condition) const;
+    void retrieveChessCellTopLeftAndBottomRight(
+        AprgBitmap::BitmapXY& chessCellTopLeft, AprgBitmap::BitmapXY& chessCellBottomRight,
+        AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
+    void retrieveOffsetPointsWithCondition(
+        AprgBitmap::BitmapXYs& bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex,
+        unsigned int const yIndex, BoolFunction const& condition) const;
 
     double calculateColorIntensityDecimal(uint32_t const color) const;
     uint8_t extractRed(uint32_t const color) const;
@@ -76,9 +80,8 @@ private:
     CheckDetails m_checkDetails;
     PieceToChessCellBitValueMap m_piecesToChessCellBitValuesMap;
     std::optional<std::ofstream> m_logFileStreamOptional;
-
 };
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

@@ -4,29 +4,16 @@
 
 #include <optional>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-class OutwardSnakeLikeTraversal
-{
+class OutwardSnakeLikeTraversal {
 public:
-    enum class Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    };
+    enum class Direction { Up, Down, Left, Right };
     OutwardSnakeLikeTraversal(
-            BitmapXY const& currentPoint,
-            Direction const direction,
-            unsigned int const lowestLeft,
-            unsigned int const highestRight,
-            unsigned int const lowestTop,
-            unsigned int const highestBottom);
+        BitmapXY const& currentPoint, Direction const direction, unsigned int const lowestLeft,
+        unsigned int const highestRight, unsigned int const lowestTop, unsigned int const highestBottom);
 
     bool isTraversalFinished() const;
     BitmapXY getNextPoint();
@@ -63,6 +50,6 @@ private:
     bool m_isFinished;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

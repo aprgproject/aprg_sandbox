@@ -3,17 +3,15 @@
 #include <Algorithm/Graph/Utilities/LaplaceanMatrix.hpp>
 #include <Common/Math/Matrix/Utilities/Determinant.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class CountSpanningTreesUsingKirchhoffTheorem
-{
+class CountSpanningTreesUsingKirchhoffTheorem {
 public:
-    // Kirchhoff’s theorem provides a way to calculate the number of spanning trees of a graph as a determinant of a special matrix.
+    // Kirchhoff’s theorem provides a way to calculate the number of spanning trees of a graph as a determinant of a
+    // special matrix.
 
     using RowAndColumnPair = std::pair<unsigned int, unsigned int>;
 
@@ -21,13 +19,12 @@ public:
     CountSpanningTreesUsingKirchhoffTheorem() = delete;
     ~CountSpanningTreesUsingKirchhoffTheorem() = delete;
     CountSpanningTreesUsingKirchhoffTheorem(CountSpanningTreesUsingKirchhoffTheorem const&) = delete;
-    CountSpanningTreesUsingKirchhoffTheorem & operator= (CountSpanningTreesUsingKirchhoffTheorem const&) = delete;
-    CountSpanningTreesUsingKirchhoffTheorem(CountSpanningTreesUsingKirchhoffTheorem &&) = delete;
-    CountSpanningTreesUsingKirchhoffTheorem & operator= (CountSpanningTreesUsingKirchhoffTheorem &&) = delete;
+    CountSpanningTreesUsingKirchhoffTheorem& operator=(CountSpanningTreesUsingKirchhoffTheorem const&) = delete;
+    CountSpanningTreesUsingKirchhoffTheorem(CountSpanningTreesUsingKirchhoffTheorem&&) = delete;
+    CountSpanningTreesUsingKirchhoffTheorem& operator=(CountSpanningTreesUsingKirchhoffTheorem&&) = delete;
 
-    template<unsigned int MAX_VERTEX_VALUE>
-    static unsigned int getCount(BaseGraph<Vertex> const& graph)
-    {
+    template <unsigned int MAX_VERTEX_VALUE>
+    static unsigned int getCount(BaseGraph<Vertex> const& graph) {
         // L is the Laplacean matrix.
         // It can be shown that the number of spanning trees equals the determinant of a matrix that is obtained
         // when we remove any row and any column from L.
@@ -37,25 +34,23 @@ public:
 
         LaplaceanMatrix laplaceanMatrix(createLaplaceanMatrix<Vertex, MAX_VERTEX_VALUE>(graph));
         RowAndColumnPair rowAndColumnPair(getBestRowAndColumnPairToRemove(laplaceanMatrix));
-        LaplaceanMatrix reducedMatrix(matrix::getMatrixWithOneColumnAndOneRowRemoved(laplaceanMatrix, rowAndColumnPair.first, rowAndColumnPair.second));
+        LaplaceanMatrix reducedMatrix(matrix::getMatrixWithOneColumnAndOneRowRemoved(
+            laplaceanMatrix, rowAndColumnPair.first, rowAndColumnPair.second));
         return matrix::getDeterminant(reducedMatrix);
     }
 
 private:
-
-    static RowAndColumnPair getBestRowAndColumnPairToRemove(
-            LaplaceanMatrix const& laplaceanMatrix)
-    {
+    static RowAndColumnPair getBestRowAndColumnPairToRemove(LaplaceanMatrix const& laplaceanMatrix) {
         LaplaceanMatrix::ListOfMatrixData columns;
         LaplaceanMatrix::ListOfMatrixData rows;
         laplaceanMatrix.retrieveColumns(columns);
         laplaceanMatrix.retrieveRows(rows);
 
-        return RowAndColumnPair{matrix::getIndexWithHighestNumberOfNonZeros(columns), matrix::getIndexWithHighestNumberOfNonZeros(rows)};
+        return RowAndColumnPair{
+            matrix::getIndexWithHighestNumberOfNonZeros(columns), matrix::getIndexWithHighestNumberOfNonZeros(rows)};
     }
-
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

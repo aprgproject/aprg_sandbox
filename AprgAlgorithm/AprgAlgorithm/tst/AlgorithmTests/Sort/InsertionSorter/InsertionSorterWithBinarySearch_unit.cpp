@@ -9,14 +9,11 @@
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Characters = vector<char>;
 using ListOfCharacters = list<char>;
 using Integers = vector<int>;
@@ -29,58 +26,51 @@ using IntegersSorter = InsertionSorterWithBinarySearch<Integers>;
 using DoublesSorter = InsertionSorterWithBinarySearch<Doubles>;
 using StringsSorter = InsertionSorterWithBinarySearch<Strings>;
 using StabilityCheckObjectsSorter = InsertionSorterWithBinarySearch<StabilityCheckObjects>;
-}
+}  // namespace
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersUsingOneValueExample)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersUsingOneValueExample) {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersUsingExample1)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersUsingExample1) {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnCharactersUsingExample2) {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 // CANNOT SORT STD::LIST
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnDoublesUsingExample1)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnDoublesUsingExample1) {
     DoublesSorter sorter;
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksOnStringsUsingExample1)
-{
+TEST(InsertionSorterWithBinarySearchTest, SortWorksOnStringsUsingExample1) {
     StringsSorter sorter;
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(InsertionSorterWithBinarySearchTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
+TEST(InsertionSorterWithBinarySearchTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)  // STABLE
 {
     StabilityCheckObjectsSorter sorter;
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

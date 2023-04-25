@@ -6,22 +6,18 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Integers = vector<int>;
 using IntegersInForwardList = vector<int>;
 using IntegersSorter = SortInWaveForm<Integers>;
 using IntegersInForwardListSorter = SortInWaveForm<IntegersInForwardList>;
-}
+}  // namespace
 
-TEST(SortInWaveFormTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(SortInWaveFormTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExample) {
     IntegersSorter sorter;
     Integers emptyContainer;
 
@@ -30,8 +26,7 @@ TEST(SortInWaveFormTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExample)
     EXPECT_TRUE(emptyContainer.empty());
 }
 
-TEST(SortInWaveFormTest, SortWorksOnIntegersUsingOneValueExample)
-{
+TEST(SortInWaveFormTest, SortWorksOnIntegersUsingOneValueExample) {
     IntegersSorter sorter;
     Integers valuesToTest{5};
 
@@ -41,8 +36,7 @@ TEST(SortInWaveFormTest, SortWorksOnIntegersUsingOneValueExample)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortInWaveFormTest, SortWorksOnIntegersUsingExample1)
-{
+TEST(SortInWaveFormTest, SortWorksOnIntegersUsingExample1) {
     IntegersSorter sorter;
     Integers valuesToTest{6, 5, 3, 2, 8, 10, 9};
 
@@ -52,8 +46,7 @@ TEST(SortInWaveFormTest, SortWorksOnIntegersUsingExample1)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortInWaveFormTest, SortWorksOnIntegersUsingExample2)
-{
+TEST(SortInWaveFormTest, SortWorksOnIntegersUsingExample2) {
     IntegersSorter sorter;
     Integers valuesToTest{10, 90, 49, 2, 1, 5, 23};
 
@@ -63,8 +56,7 @@ TEST(SortInWaveFormTest, SortWorksOnIntegersUsingExample2)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortInWaveFormTest, SortWorksOnIntegersUsingForwardListExample)
-{
+TEST(SortInWaveFormTest, SortWorksOnIntegersUsingForwardListExample) {
     IntegersInForwardListSorter sorter;
     IntegersInForwardList valuesToTest{10, 90, 49, 2, 1, 5, 23};
 
@@ -74,6 +66,6 @@ TEST(SortInWaveFormTest, SortWorksOnIntegersUsingForwardListExample)
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

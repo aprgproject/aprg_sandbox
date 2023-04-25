@@ -6,28 +6,23 @@
 
 using namespace alba::algorithm::CommonTestsWithTransitiveClosure;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
 using ReachabilityForTest = TransitiveClosureWithArray<unsigned int, 13>;
-}
+}  // namespace
 
-TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenEmpty)
-{
+TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenEmpty) {
     testIsReachableWhenEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }
 
-TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenNotEmpty)
-{
+TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenNotEmpty) {
     testIsReachableWhenNotEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

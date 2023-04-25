@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Math/AlbaMathConstants.hpp>
+#include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace AlbaNumberConstants
-{
+namespace AlbaNumberConstants {
 
 constexpr AlbaNumber ALBA_NUMBER_POSITIVE_INFINITY = AlbaNumber(AlbaMathConstants::POSITIVE_INFINITY_DOUBLE_VALUE);
 constexpr AlbaNumber ALBA_NUMBER_NEGATIVE_INFINITY = AlbaNumber(AlbaMathConstants::NEGATIVE_INFINITY_DOUBLE_VALUE);
@@ -15,6 +13,6 @@ constexpr AlbaNumber ALBA_NUMBER_NOT_A_NUMBER = AlbaNumber(AlbaMathConstants::NA
 constexpr AlbaNumber ALBA_NUMBER_PI = AlbaNumber(AlbaMathConstants::PI_DOUBLE_VALUE);
 constexpr AlbaNumber ALBA_NUMBER_E = AlbaNumber(AlbaMathConstants::E_DOUBLE_VALUE);
 
-}
+}  // namespace AlbaNumberConstants
 
-}
+}  // namespace alba

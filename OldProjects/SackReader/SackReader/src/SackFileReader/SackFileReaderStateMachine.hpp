@@ -5,14 +5,11 @@
 #include <CommonTypes.hpp>
 #include <Database.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace SackFileReaderStateMachineNamespace
-{
+namespace SackFileReaderStateMachineNamespace {
 
-enum class State
-{
+enum class State {
     Idle,
     SharpDefineForMessageId,
     SharpDefineForConstant,
@@ -29,19 +26,10 @@ enum class State
 };
 
 //#define MAX_NR_OF_CODES 2                /* 3GPP 10 Nokia 2*/
-enum class StateForConstant
-{
-    BeforeName,
-    AfterNameBeforeValue
-};
+enum class StateForConstant { BeforeName, AfterNameBeforeValue };
 
 //@def MAX_NR_OF_CODES :                  3GPP 10 Nokia 2.
-enum class StateForAtDefDescription
-{
-    BeforeName,
-    AfterNameBeforeColon,
-    AfterColon
-};
+enum class StateForAtDefDescription { BeforeName, AfterNameBeforeColon, AfterColon };
 
 /*
 struct SWamUnit
@@ -56,15 +44,13 @@ struct SWamUnit
 };
 typedef struct SWamUnit SWamUnit;
 */
-enum class StateForStruct
-{
+enum class StateForStruct {
     BeforeName,
     AfterName,
     AfterOpeningBraces,
 };
 
-enum class StateForStructAfterOpeningBraces
-{
+enum class StateForStructAfterOpeningBraces {
     BeforeParameterType,
     AfterParameterTypeBeforeParameterName,
     AfterParameterName,
@@ -73,12 +59,7 @@ enum class StateForStructAfterOpeningBraces
 };
 
 //@param logUnitAddr                : logical unit address (e.g. WAM10)
-enum class StateForAtParamDescription
-{
-    BeforeName,
-    AfterNameBeforeColon,
-    AfterColon
-};
+enum class StateForAtParamDescription { BeforeName, AfterNameBeforeColon, AfterColon };
 
 /*
 typedef enum EHspaMapping
@@ -90,15 +71,13 @@ typedef enum EHspaMapping
     EHspaMapping_SubrackUltra          = 4
 } EHspaMapping;
  */
-enum class StateForEnum
-{
+enum class StateForEnum {
     BeforeName,
     AfterName,
     AfterOpeningBraces,
 };
 
-enum class StateForEnumAfterOpeningBraces
-{
+enum class StateForEnumAfterOpeningBraces {
     BeforeEnumParameterName,
     AfterEnumParameterNameBeforeEqualSymbol,
     AfterEqualSymbolBeforeValue,
@@ -126,63 +105,50 @@ typedef union UIpMacAddress
     SIpMacAddressV6 ipMacv6;
 } UIpMacAddress;
 */
-enum class StateForUnion
-{
+enum class StateForUnion {
     BeforeName,
     AfterName,
     AfterOpeningBraces,
     AfterSemiColon,
 };
 
-enum class StateForUnionAfterOpeningBraces
-{
+enum class StateForUnionAfterOpeningBraces {
     BeforeParameterType,
     AfterParameterTypeBeforeParameterName,
     AfterParameterName
 };
 
-//typedef u32 TSubrackNbr; /* subrack number*/
-enum class StateForTypedef
-{
+// typedef u32 TSubrackNbr; /* subrack number*/
+enum class StateForTypedef {
     BeforeDerivedName,
     AfterDerivedNameBeforeName,
     AfterNameBeforeSemiColon,
 };
 
 /*
-* @typedef TSubunits
-*
-* Description : Subunits in floating point format.
-*
-* Reference   : BTSOM IFS, < BTSOM IFS version >
-*/
-enum class StateForAtTypedefDescription
-{
+ * @typedef TSubunits
+ *
+ * Description : Subunits in floating point format.
+ *
+ * Reference   : BTSOM IFS, < BTSOM IFS version >
+ */
+enum class StateForAtTypedefDescription {
     BeforeName,
     AfterNameBeforeDescriptionKeyword,
     AfterDescriptionKeywordBeforeColon,
     AfterColon,
 };
 
-enum class ParameterDescriptionType
-{
-    None,
-    Structure,
-    Enum,
-    Union
-};
+enum class ParameterDescriptionType { None, Structure, Enum, Union };
 
-
-struct InputToken
-{
+struct InputToken {
     bool isInMultilineComment;
     bool isNotInComment;
     std::string token;
     std::string line;
 };
 
-struct InnerStates
-{
+struct InnerStates {
     InnerStates();
     void reset();
     StateForConstant stateForConstant;
@@ -198,14 +164,10 @@ struct InnerStates
     StateForAtTypedefDescription stateForAtTypedefDescription;
 };
 
-
-
-
 using BaseSackFileReaderStateMachine = AlbaBaseStateMachine<State, InputToken>;
-class SackFileReaderStateMachine : public BaseSackFileReaderStateMachine
-{
+class SackFileReaderStateMachine : public BaseSackFileReaderStateMachine {
 public:
-    SackFileReaderStateMachine(Database & database, std::string const& fullPath);
+    SackFileReaderStateMachine(Database& database, std::string const& fullPath);
     bool isNextLineNeeded() const;
 
     void processInput(InputToken const& inputToken);
@@ -257,9 +219,9 @@ private:
     EnumDetails m_enumDetails;
     EnumParameterDetails m_enumParameterDetails;
     ParameterDescriptionType m_parameterDescriptionType;
-    Database & m_database;
+    Database& m_database;
 };
 
-}
+}  // namespace SackFileReaderStateMachineNamespace
 
-}//namespace alba
+}  // namespace alba

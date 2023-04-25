@@ -4,17 +4,15 @@
 
 using namespace std;
 
-namespace Decorator
-{
+namespace Decorator {
 
-TEST(DecoratorTest, Test1)
-{
+TEST(DecoratorTest, Test1) {
     auto coreComponent = make_unique<ConcreteComponent>();
     auto coreComponentWithA = make_unique<ConcreteDecoratorA>(move(coreComponent));
     auto coreComponentWithAAndB = make_unique<ConcreteDecoratorB>(move(coreComponentWithA));
 
-    Component * component = coreComponentWithAAndB.get();
+    Component* component = coreComponentWithAAndB.get();
     component->operation();
 }
 
-}
+}  // namespace Decorator

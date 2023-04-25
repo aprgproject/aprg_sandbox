@@ -4,26 +4,20 @@
 
 #include <limits>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Index>
-constexpr Index getInvalidIndex()
-{
+constexpr Index getInvalidIndex() {
     static_assert(typeHelper::isIntegralType<Index>(), "Index must an integer.");
-    if(std::is_signed<Index>::value)
-    {
+    if (std::is_signed<Index>::value) {
         return std::numeric_limits<Index>::min();
-    }
-    else
-    {
+    } else {
         return std::numeric_limits<Index>::max();
     }
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -12,22 +12,18 @@
 
 #include <cstdint>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-class ChessPeek
-{
+class ChessPeek {
 public:
     using ChessCellBitValueMatrix = matrix::AlbaMatrix<uint64_t>;
-    using EngineCalculationDetails=CalculationDetails;
+    using EngineCalculationDetails = CalculationDetails;
     using BoardAndMovePair = std::pair<Board, Move>;
     using BoardAndMovePairs = std::vector<BoardAndMovePair>;
 
-    struct PeekCalculationDetails
-    {
+    struct PeekCalculationDetails {
         unsigned int depth;
         int scoreInCentipawns;
         unsigned int mateInNumberOfMoves;
@@ -53,7 +49,7 @@ private:
     bool isPlayerKingAndOpponentKingValid() const;
     bool isOpponentKingOnCheck() const;
 
-    void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet & snippet);
+    void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet& snippet);
     void updatePlayerSideAndOrientation(unsigned int const pieceCount);
     void setOrientationDependingOnPlayerColor(PieceColor const newColor);
     void setKingDetailsIfPossible(Coordinate const& chessCoordinate, Piece const& chessPiece);
@@ -67,10 +63,11 @@ private:
 
     void printCalculationDetails() const;
     void printMoveTables(Moves const& currentMoves, Moves const& futureMoves) const;
-    void putSeparators(DisplayTable & displayTable) const;
+    void putSeparators(DisplayTable& displayTable) const;
     void putCurrentMovesTable(Moves const& currentMoves) const;
     void printFutureMovesTable(Moves const& futureMoves) const;
-    std::string getChessCellForDisplay(Piece const& piece, unsigned int const moveNumberStart, bool const canPreMove) const;
+    std::string getChessCellForDisplay(
+        Piece const& piece, unsigned int const moveNumberStart, bool const canPreMove) const;
     unsigned int getNumberOfColumnsOfDisplayTable(unsigned int const numberOfChessBoards) const;
 
     void initialize();
@@ -89,6 +86,6 @@ private:
     bool m_isEngineNewlyReseted;
 };
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

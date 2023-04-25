@@ -3,13 +3,12 @@
 #include <Common/Components/Component.hpp>
 #include <Common/Components/ComponentName.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class Component1 : public Component
-{
+class Component1 : public Component {
 public:
     Component1(ComponentName const componentName);
+
 private:
     void handleMessage1(GenericMessage const& genericMessage);
     void handleMessageEvent(GenericMessage const& genericMessage) override;
@@ -17,4 +16,4 @@ private:
     void handleOtherEvent(OtherEvent const& otherEvent) override;
 };
 
-}
+}  // namespace DesignDocumentCreator

@@ -2,18 +2,14 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithEulerPathForDirectedGraph
-{
+namespace CommonTestsWithEulerPathForDirectedGraph {
 
 template <typename PathSearch, typename Graph>
-void testHasEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees()
-{
+void testHasEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -24,8 +20,7 @@ void testHasEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees()
-{
+void testHasEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -35,8 +30,7 @@ void testHasEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithAllInDegreesEqualsOutDegrees()
-{
+void testHasEulerPathWorksOnGraphWithAllInDegreesEqualsOutDegrees() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -47,8 +41,7 @@ void testHasEulerPathWorksOnGraphWithAllInDegreesEqualsOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees()
-{
+void testHasEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -58,8 +51,7 @@ void testHasEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees()
-{
+void testHasEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -69,8 +61,7 @@ void testHasEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees(
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleWorksOnEmptyGraph()
-{
+void testGetEulerCycleWorksOnEmptyGraph() {
     using Path = typename PathSearch::Path;
     Graph graph;
     PathSearch pathSearch(graph);
@@ -81,8 +72,7 @@ void testGetEulerCycleWorksOnEmptyGraph()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees()
-{
+void testGetEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(0U, 1U);
@@ -97,8 +87,7 @@ void testGetEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees()
-{
+void testGetEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(0U, 1U);
@@ -111,8 +100,7 @@ void testGetEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerPathWorksOnEmptyGraph()
-{
+void testGetEulerPathWorksOnEmptyGraph() {
     using Path = typename PathSearch::Path;
     Graph graph;
     PathSearch pathSearch(graph);
@@ -123,8 +111,7 @@ void testGetEulerPathWorksOnEmptyGraph()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees()
-{
+void testGetEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(0U, 1U);
@@ -138,8 +125,7 @@ void testGetEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees()
-{
+void testGetEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(0U, 1U);
@@ -152,8 +138,7 @@ void testGetEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees(
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleAndPathWorksOnExample1()
-{
+void testGetEulerCycleAndPathWorksOnExample1() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(1U, 2U);
@@ -172,8 +157,8 @@ void testGetEulerCycleAndPathWorksOnExample1()
     EXPECT_TRUE(cycleToVerify.empty());
 }
 
-}
+}  // namespace CommonTestsWithEulerPathForDirectedGraph
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

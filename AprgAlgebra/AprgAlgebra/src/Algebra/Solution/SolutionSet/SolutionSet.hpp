@@ -6,14 +6,11 @@
 #include <map>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class SolutionSet
-{
+class SolutionSet {
 public:
     using FunctionForCheckingValues = std::function<bool(AlbaNumber const&)>;
 
@@ -31,33 +28,26 @@ public:
     void addRejectedValues(AlbaNumbers const& values);
     void addAcceptedInterval(AlbaNumberInterval const& interval);
 
-    void addValue(
-            AlbaNumber const& value,
-            FunctionForCheckingValues const& isValueAcceptedFunction);
+    void addValue(AlbaNumber const& value, FunctionForCheckingValues const& isValueAcceptedFunction);
     void determineAndAddAcceptedIntervals(
-            AlbaNumbers const& additionalValuesToCheck,
-            FunctionForCheckingValues const& isValueAcceptedFunction);
+        AlbaNumbers const& additionalValuesToCheck, FunctionForCheckingValues const& isValueAcceptedFunction);
 
 private:
-
-    void prepareValuesToCheck(AlbaNumbers & combinedValuesToCheck);
+    void prepareValuesToCheck(AlbaNumbers& combinedValuesToCheck);
     void checkValuesAndPutIntervals(
-            AlbaNumbers const& valuesToCheck,
-            FunctionForCheckingValues const& isValueAcceptedFunction);
+        AlbaNumbers const& valuesToCheck, FunctionForCheckingValues const& isValueAcceptedFunction);
     void addInterval(
-            AlbaNumber const& lowerEndpointValue,
-            AlbaNumber const& intervalValueToCheck,
-            AlbaNumber const& higherEndpointValue,
-            FunctionForCheckingValues const& isValueAcceptedFunction);
+        AlbaNumber const& lowerEndpointValue, AlbaNumber const& intervalValueToCheck,
+        AlbaNumber const& higherEndpointValue, FunctionForCheckingValues const& isValueAcceptedFunction);
     void combineAcceptedIntervalsIfPossible();
 
-    friend std::ostream & operator<<(std::ostream & out, SolutionSet const& solutionSet);
+    friend std::ostream& operator<<(std::ostream& out, SolutionSet const& solutionSet);
 
     AlbaNumbers m_acceptedValues;
     AlbaNumbers m_rejectedValues;
     AlbaNumberIntervals m_acceptedIntervals;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

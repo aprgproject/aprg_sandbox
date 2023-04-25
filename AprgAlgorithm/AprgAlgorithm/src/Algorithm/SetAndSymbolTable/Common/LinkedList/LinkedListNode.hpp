@@ -2,27 +2,23 @@
 
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key>
-struct LinkedListNode
-{
+struct LinkedListNode {
     Key key;
     std::unique_ptr<LinkedListNode> next;
 };
 
 template <typename Key, typename Value>
-struct LinkedListNodeWithValue
-{
+struct LinkedListNodeWithValue {
     Key key;
     Value value;
     std::unique_ptr<LinkedListNodeWithValue> next;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

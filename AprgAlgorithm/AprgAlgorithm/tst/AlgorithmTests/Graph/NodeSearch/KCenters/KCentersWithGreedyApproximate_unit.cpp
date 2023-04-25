@@ -4,25 +4,22 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using VerticesForTest = GraphTypes<VertexForTest>::Vertices;
 using ContentMapForTest = GraphTypesWithWeights<VertexForTest, WeightForTest>::VertexToWeightMap;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using NodeSearchForTest = KCentersWithGreedyApproximate<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
-}
+using NodeSearchForTest =
+    KCentersWithGreedyApproximate<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
+}  // namespace
 
-TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphForExample1)
-{
+TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphForExample1) {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(0U, 1U, 0.05);
     graph.connect(0U, 2U, 0.10);
@@ -38,8 +35,7 @@ TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphFor
     EXPECT_EQ(expectedCenters, nodeSearch.getFoundCenters());
 }
 
-TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphForExample2)
-{
+TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphForExample2) {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(0U, 1U, 1.0);
     graph.connect(0U, 2U, 0.7);
@@ -53,6 +49,6 @@ TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphFor
     EXPECT_EQ(expectedCenters, nodeSearch.getFoundCenters());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

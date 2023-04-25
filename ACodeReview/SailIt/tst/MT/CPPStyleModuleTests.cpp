@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, CheckScopeOperatorForCPlusPlus)
-{
+TEST_F(ModuleTest, CheckScopeOperatorForCPlusPlus) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "namespace myNamespace\n";

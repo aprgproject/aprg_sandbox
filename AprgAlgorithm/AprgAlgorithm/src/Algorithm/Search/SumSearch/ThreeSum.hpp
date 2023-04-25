@@ -2,15 +2,12 @@
 
 #include <Algorithm/Search/SumSearch/TwoSum.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class ThreeSum
-{
+class ThreeSum {
 public:
     // Approach: By Sorting the array the efficiency of the algorithm can be improved.
     // This efficient approach uses the two-pointer technique.
@@ -37,22 +34,17 @@ public:
     using Value = typename Values::value_type;
     using ThreeValues = std::tuple<Value, Value, Value>;
 
-    ThreeSum(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+    ThreeSum(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    ThreeValues getNonDuplicateThreeValuesWithSum(Value const& targetSum) const
-    {
+    ThreeValues getNonDuplicateThreeValuesWithSum(Value const& targetSum) const {
         ThreeValues result{};
-        if(!m_sortedValues.empty())
-        {
+        if (!m_sortedValues.empty()) {
             TwoSum<Values> twoSum(m_sortedValues);
-            for(Index firstIndex=0; firstIndex<m_sortedValues.size(); firstIndex++)
-            {
+            for (Index firstIndex = 0; firstIndex < m_sortedValues.size(); firstIndex++) {
                 Value const& firstValue(m_sortedValues.at(firstIndex));
-                auto twoSumValues(twoSum.getNonDuplicateTwoValuesWithSum(targetSum-firstValue, firstIndex+1, m_sortedValues.size()-1));
-                if(firstValue + twoSumValues.first + twoSumValues.second == targetSum)
-                {
+                auto twoSumValues(twoSum.getNonDuplicateTwoValuesWithSum(
+                    targetSum - firstValue, firstIndex + 1, m_sortedValues.size() - 1));
+                if (firstValue + twoSumValues.first + twoSumValues.second == targetSum) {
                     result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
                     break;
                 }
@@ -61,18 +53,15 @@ public:
         return result;
     }
 
-    ThreeValues getPossibleDuplicatedThreeValuesWithSum(Value const& targetSum) const
-    {
+    ThreeValues getPossibleDuplicatedThreeValuesWithSum(Value const& targetSum) const {
         ThreeValues result{};
-        if(!m_sortedValues.empty())
-        {
+        if (!m_sortedValues.empty()) {
             TwoSum<Values> twoSum(m_sortedValues);
-            for(Index firstIndex=0; firstIndex<m_sortedValues.size(); firstIndex++)
-            {
+            for (Index firstIndex = 0; firstIndex < m_sortedValues.size(); firstIndex++) {
                 Value const& firstValue(m_sortedValues.at(firstIndex));
-                auto twoSumValues(twoSum.getPossibleDuplicatedTwoValuesWithSum(targetSum-firstValue, firstIndex, m_sortedValues.size()-1));
-                if(firstValue + twoSumValues.first + twoSumValues.second == targetSum)
-                {
+                auto twoSumValues(twoSum.getPossibleDuplicatedTwoValuesWithSum(
+                    targetSum - firstValue, firstIndex, m_sortedValues.size() - 1));
+                if (firstValue + twoSumValues.first + twoSumValues.second == targetSum) {
                     result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
                     break;
                 }
@@ -85,6 +74,6 @@ private:
     Values const& m_sortedValues;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

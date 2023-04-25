@@ -7,23 +7,16 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-enum class ShopType
-{
-    BuyingShop,
-    SellingShop
-};
+enum class ShopType { BuyingShop, SellingShop };
 
-struct NameAndRate
-{
+struct NameAndRate {
     std::string name;
     double rate;
 };
 
-struct MonsterDetailsOnRoMap
-{
+struct MonsterDetailsOnRoMap {
     std::string monsterName;
     unsigned int spawnCount;
     std::string spawnRate;
@@ -32,8 +25,7 @@ struct MonsterDetailsOnRoMap
 using NamesAndRates = std::vector<NameAndRate>;
 using MonstersDetailsOnRoMap = std::vector<MonsterDetailsOnRoMap>;
 
-struct Item
-{
+struct Item {
     unsigned int itemId;
     std::string name;
     std::string type;
@@ -55,8 +47,7 @@ struct Item
     NamesAndRates droppedByMonstersWithRates;
 };
 
-struct Monster
-{
+struct Monster {
     unsigned int monsterId;
     std::string name;
     unsigned int hp;
@@ -105,15 +96,13 @@ struct Monster
     bool hasStoneCurseSkill() const;
 };
 
-struct RoMap
-{
+struct RoMap {
     std::string name;
     std::string fullName;
     MonstersDetailsOnRoMap monstersDetailsOnMap;
 };
 
-struct ShopItemDetail
-{
+struct ShopItemDetail {
     std::string itemName;
     double averagePrice;
     unsigned int totalNumber;
@@ -124,9 +113,7 @@ using MonsterIdToMonsterMap = std::map<unsigned int, Monster>;
 using MapNameToRoMap = std::map<std::string, RoMap>;
 using ItemNameToShopItemDetailMap = std::map<std::string, ShopItemDetail>;
 
-
-class RagnarokOnline
-{
+class RagnarokOnline {
 public:
     RagnarokOnline();
 
@@ -184,27 +171,26 @@ private:
     ItemNameToShopItemDetailMap m_sellingShopItems;
 };
 
-std::ostream & operator<<(std::ostream & out, NameAndRate const& nameAndRate);
-std::ostream & operator<<(std::ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap);
-std::ostream & operator<<(std::ostream & out, Item const& item);
-std::ostream & operator<<(std::ostream & out, Monster const& monster);
-std::ostream & operator<<(std::ostream & out, ShopItemDetail const& shopItemDetail);
-std::ostream & operator<<(std::ostream & out, RoMap const& roMap);
-std::ostream & operator<<(std::ostream & out, ItemIdToItemMap const& itemIdToItemMap);
-std::ostream & operator<<(std::ostream & out, MonsterIdToMonsterMap const& monsterIdToMonsterMap);
-std::ostream & operator<<(std::ostream & out, MapNameToRoMap const& mapNameToRoMap);
-std::ostream & operator<<(std::ostream & out, ItemNameToShopItemDetailMap const& itemNameToShopItemDetailMap);
+std::ostream& operator<<(std::ostream& out, NameAndRate const& nameAndRate);
+std::ostream& operator<<(std::ostream& out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap);
+std::ostream& operator<<(std::ostream& out, Item const& item);
+std::ostream& operator<<(std::ostream& out, Monster const& monster);
+std::ostream& operator<<(std::ostream& out, ShopItemDetail const& shopItemDetail);
+std::ostream& operator<<(std::ostream& out, RoMap const& roMap);
+std::ostream& operator<<(std::ostream& out, ItemIdToItemMap const& itemIdToItemMap);
+std::ostream& operator<<(std::ostream& out, MonsterIdToMonsterMap const& monsterIdToMonsterMap);
+std::ostream& operator<<(std::ostream& out, MapNameToRoMap const& mapNameToRoMap);
+std::ostream& operator<<(std::ostream& out, ItemNameToShopItemDetailMap const& itemNameToShopItemDetailMap);
 
-std::istream & operator>>(std::istream & in, NameAndRate & nameAndRate);
-std::istream & operator>>(std::istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap);
-std::istream & operator>>(std::istream & in, Item & item);
-std::istream & operator>>(std::istream & in, Monster & monster);
-std::istream & operator>>(std::istream & in, ShopItemDetail & shopItemDetail);
-std::istream & operator>>(std::istream & in, RoMap & roMap);
-std::istream & operator>>(std::istream & in, ItemIdToItemMap & itemIdToItemMap);
-std::istream & operator>>(std::istream & in, MonsterIdToMonsterMap & monsterIdToMonsterMap);
-std::istream & operator>>(std::istream & in, MapNameToRoMap & mapNameToRoMap);
-std::istream & operator>>(std::istream & in, ItemNameToShopItemDetailMap & itemNameToShopItemDetailMap);
+std::istream& operator>>(std::istream& in, NameAndRate& nameAndRate);
+std::istream& operator>>(std::istream& in, MonsterDetailsOnRoMap& monsterDetailsOnRoMap);
+std::istream& operator>>(std::istream& in, Item& item);
+std::istream& operator>>(std::istream& in, Monster& monster);
+std::istream& operator>>(std::istream& in, ShopItemDetail& shopItemDetail);
+std::istream& operator>>(std::istream& in, RoMap& roMap);
+std::istream& operator>>(std::istream& in, ItemIdToItemMap& itemIdToItemMap);
+std::istream& operator>>(std::istream& in, MonsterIdToMonsterMap& monsterIdToMonsterMap);
+std::istream& operator>>(std::istream& in, MapNameToRoMap& mapNameToRoMap);
+std::istream& operator>>(std::istream& in, ItemNameToShopItemDetailMap& itemNameToShopItemDetailMap);
 
-
-}
+}  // namespace alba

@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, MultiLineFunctionDefinitionTest)
-{
+TEST_F(ModuleTest, MultiLineFunctionDefinitionTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int main(int args, void** argv)\n";
@@ -19,9 +18,9 @@ TEST_F(ModuleTest, MultiLineFunctionDefinitionTest)
 
     processFile();
     CPlusPlusFunction& myFunction(m_database.getFunctionReference("main"));
-    auto & signatures = myFunction.getFunctionSignaturesReference();
+    auto& signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();
+    auto& parameters = signatures[0].getFunctionParametersReference();
     ASSERT_EQ(parameters.size(), 2);
     EXPECT_EQ(parameters[0].getType(), CPlusPlusType("int", CPlusPlusTypeType::Primitive));
     EXPECT_EQ(parameters[1].getType(), CPlusPlusType("void", CPlusPlusTypeType::Primitive, 2));
@@ -32,8 +31,7 @@ TEST_F(ModuleTest, MultiLineFunctionDefinitionTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, FunctionSignaturesAreCheckedTest)
-{
+TEST_F(ModuleTest, FunctionSignaturesAreCheckedTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int myFunction(double parameter1, double* parameter2)\n";
@@ -52,9 +50,9 @@ TEST_F(ModuleTest, FunctionSignaturesAreCheckedTest)
 
     processFile();
     CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
-    auto & signatures = myFunction.getFunctionSignaturesReference();
+    auto& signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();
+    auto& parameters = signatures[0].getFunctionParametersReference();
     ASSERT_EQ(parameters.size(), 2);
     EXPECT_EQ(parameters[0].getType(), CPlusPlusType("double", CPlusPlusTypeType::Primitive));
     EXPECT_EQ(parameters[1].getType(), CPlusPlusType("double", CPlusPlusTypeType::Primitive, 1));
@@ -74,8 +72,7 @@ TEST_F(ModuleTest, FunctionSignaturesAreCheckedTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(ModuleTest, ReturnValuesAreUsed)
-{
+TEST_F(ModuleTest, ReturnValuesAreUsed) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int myFunction()\n";
@@ -86,9 +83,9 @@ TEST_F(ModuleTest, ReturnValuesAreUsed)
 
     processFile();
     CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
-    auto & signatures = myFunction.getFunctionSignaturesReference();
+    auto& signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();
+    auto& parameters = signatures[0].getFunctionParametersReference();
     ASSERT_EQ(parameters.size(), 0);
 
     ASSERT_EQ(m_terms.size(), 2);
@@ -98,8 +95,7 @@ TEST_F(ModuleTest, ReturnValuesAreUsed)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, ComplicatedFunctionTest)
-{
+TEST_F(ModuleTest, ComplicatedFunctionTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int myFunction(int parameter1, int& parameter2, int* parameter3, int** parameter4)\n";
@@ -111,9 +107,9 @@ TEST_F(ModuleTest, ComplicatedFunctionTest)
 
     processFile();
     CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
-    auto & signatures = myFunction.getFunctionSignaturesReference();
+    auto& signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();
+    auto& parameters = signatures[0].getFunctionParametersReference();
     ASSERT_EQ(parameters.size(), 4);
     EXPECT_EQ(parameters[0].getType(), CPlusPlusType("int", CPlusPlusTypeType::Primitive));
     CPlusPlusType integerReference("int", CPlusPlusTypeType::Primitive);
@@ -124,14 +120,16 @@ TEST_F(ModuleTest, ComplicatedFunctionTest)
 
     ASSERT_EQ(m_terms.size(), 3);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::ProcessedTerm, "int myFunction(int parameter1, int& parameter2, int* parameter3, int** parameter4)\n{\n}\n", 1);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "int myFunction(int parameter1, int& parameter2, int* parameter3, int** parameter4)\n{\n}\n", 1);
     CHECK_TERM(it, TermType::ProcessedTerm, "int myInteger;\n", 4);
-    CHECK_TERM(it, TermType::ProcessedTerm, "int x = myFunction(myInteger, myInteger, &myInteger, &(&myInteger));\n", 5);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm, "int x = myFunction(myInteger, myInteger, &myInteger, &(&myInteger));\n", 5);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, FunctionsCanBeOverloadedTest)
-{
+TEST_F(ModuleTest, FunctionsCanBeOverloadedTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int myFunction(int parameter1)\n";
@@ -145,7 +143,7 @@ TEST_F(ModuleTest, FunctionsCanBeOverloadedTest)
 
     processFile();
     CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
-    auto & signatures = myFunction.getFunctionSignaturesReference();
+    auto& signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 2);
     EXPECT_EQ(signatures[0].getFunctionParametersReference().size(), 1);
     EXPECT_EQ(signatures[1].getFunctionParametersReference().size(), 2);
@@ -158,8 +156,7 @@ TEST_F(ModuleTest, FunctionsCanBeOverloadedTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, NamesCheckedForFunctionDeclarationAndDefinitionTest)
-{
+TEST_F(ModuleTest, NamesCheckedForFunctionDeclarationAndDefinitionTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int myFunction1(int thisIsADifferentName);\n";

@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Values = vector<unsigned int>;
 using GenerationForTest = CombinationsWithSum<Values>;
 using Combinations = GenerationForTest::Combinations;
-}
+}  // namespace
 
-TEST(CombinationsWithSumTest, GetCombinationsWithSumUsingRecursionWorks)
-{
+TEST(CombinationsWithSumTest, GetCombinationsWithSumUsingRecursionWorks) {
     Values inputValues{1U, 2U, 3U, 4U};
     GenerationForTest generation(inputValues);
 
@@ -28,8 +24,7 @@ TEST(CombinationsWithSumTest, GetCombinationsWithSumUsingRecursionWorks)
     EXPECT_EQ(expectedCombinations, actualCombinations);
 }
 
-TEST(CombinationsWithSumTest, GetCombinationsWithSumUsingLoopsWorks)
-{
+TEST(CombinationsWithSumTest, GetCombinationsWithSumUsingLoopsWorks) {
     Values inputValues{1U, 2U, 3U, 4U};
     GenerationForTest generation(inputValues);
 
@@ -39,6 +34,6 @@ TEST(CombinationsWithSumTest, GetCombinationsWithSumUsingLoopsWorks)
     EXPECT_EQ(expectedCombinations, actualCombinations);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

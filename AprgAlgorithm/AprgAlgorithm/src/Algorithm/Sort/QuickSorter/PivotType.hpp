@@ -2,20 +2,12 @@
 
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-enum class PivotType
-{
-    ValueAtLowestIndex,
-    ValueAtHighestIndex,
-    ValueAtRandomIndex,
-    ValueAtMedianOfMedians
-};
+enum class PivotType { ValueAtLowestIndex, ValueAtHighestIndex, ValueAtRandomIndex, ValueAtMedianOfMedians };
 
 }
 
-}
+}  // namespace alba

@@ -8,11 +8,9 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaStreamBitWriterTest, WriteBoolDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteBoolDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -28,8 +26,7 @@ TEST(AlbaStreamBitWriterTest, WriteBoolDataWorks)
     EXPECT_EQ(R"(3)", ss.str());
 }
 
-TEST(AlbaStreamBitWriterTest, WriteCharDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteCharDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -40,8 +37,7 @@ TEST(AlbaStreamBitWriterTest, WriteCharDataWorks)
     EXPECT_EQ(R"(./*)", ss.str());
 }
 
-TEST(AlbaStreamBitWriterTest, WriteStringDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteStringDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -50,8 +46,7 @@ TEST(AlbaStreamBitWriterTest, WriteStringDataWorks)
     EXPECT_EQ(R"(A1BA)", ss.str());
 }
 
-TEST(AlbaStreamBitWriterTest, WriteHexDigitDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteHexDigitDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -60,8 +55,7 @@ TEST(AlbaStreamBitWriterTest, WriteHexDigitDataWorks)
     EXPECT_EQ(R"(A1BAA1BA)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -71,8 +65,7 @@ TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks)
     EXPECT_EQ(R"(0102030404030201)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-TEST(AlbaStreamBitWriterTest, WriteBigEndianNumberDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteBigEndianNumberDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -81,8 +74,7 @@ TEST(AlbaStreamBitWriterTest, WriteBigEndianNumberDataWorks)
     EXPECT_EQ(R"(01020304)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-TEST(AlbaStreamBitWriterTest, WriteLittleEndianNumberDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteLittleEndianNumberDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
 
@@ -91,8 +83,7 @@ TEST(AlbaStreamBitWriterTest, WriteLittleEndianNumberDataWorks)
     EXPECT_EQ(R"(04030201)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks)
-{
+TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
     bitset<32U> bitsetToWrite(0x1234'5678);
@@ -102,8 +93,7 @@ TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks)
     EXPECT_EQ(R"(16)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-TEST(AlbaStreamBitWriterTest, FlushWorks)
-{
+TEST(AlbaStreamBitWriterTest, FlushWorks) {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
     writer.writeBoolData(true);
@@ -113,4 +103,4 @@ TEST(AlbaStreamBitWriterTest, FlushWorks)
     EXPECT_EQ(R"(80)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-}
+}  // namespace alba

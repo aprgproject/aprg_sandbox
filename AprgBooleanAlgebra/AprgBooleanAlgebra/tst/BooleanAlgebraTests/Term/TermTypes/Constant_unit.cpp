@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(ConstantTest, ConstantsAreConstructedCorrectly)
-{
+TEST(ConstantTest, ConstantsAreConstructedCorrectly) {
     Constant constant1;
     Constant constant2(true);
     Constant constant3(false);
@@ -21,50 +18,45 @@ TEST(ConstantTest, ConstantsAreConstructedCorrectly)
     EXPECT_FALSE(constant3.getBooleanValue());
 }
 
-TEST(ConstantTest, EqualityOperatorWorks)
-{
+TEST(ConstantTest, EqualityOperatorWorks) {
     Constant constant1;
     Constant constant2(true);
     Constant constant3(false);
     Constant constant4(true);
 
-    EXPECT_TRUE(constant1==constant1);
-    EXPECT_FALSE(constant1==constant2);
-    EXPECT_TRUE(constant2==constant2);
-    EXPECT_FALSE(constant2==constant3);
-    EXPECT_TRUE(constant2==constant4);
+    EXPECT_TRUE(constant1 == constant1);
+    EXPECT_FALSE(constant1 == constant2);
+    EXPECT_TRUE(constant2 == constant2);
+    EXPECT_FALSE(constant2 == constant3);
+    EXPECT_TRUE(constant2 == constant4);
 }
 
-TEST(ConstantTest, InequalityOperatorWorks)
-{
+TEST(ConstantTest, InequalityOperatorWorks) {
     Constant constant1;
     Constant constant2(true);
     Constant constant3(false);
     Constant constant4(true);
 
-    EXPECT_FALSE(constant1!=constant1);
-    EXPECT_TRUE(constant1!=constant2);
-    EXPECT_FALSE(constant2!=constant2);
-    EXPECT_TRUE(constant2!=constant3);
-    EXPECT_FALSE(constant2!=constant4);
+    EXPECT_FALSE(constant1 != constant1);
+    EXPECT_TRUE(constant1 != constant2);
+    EXPECT_FALSE(constant2 != constant2);
+    EXPECT_TRUE(constant2 != constant3);
+    EXPECT_FALSE(constant2 != constant4);
 }
 
-TEST(ConstantTest, LessThanOperatorWorks)
-{
+TEST(ConstantTest, LessThanOperatorWorks) {
     EXPECT_FALSE(Constant() < Constant());
     EXPECT_FALSE(Constant(true) < Constant(true));
     EXPECT_FALSE(Constant(true) < Constant(false));
     EXPECT_TRUE(Constant(false) < Constant(true));
 }
 
-TEST(ConstantTest, NotOperationWorks)
-{
+TEST(ConstantTest, NotOperationWorks) {
     EXPECT_EQ(Constant(true), ~Constant(false));
     EXPECT_EQ(Constant(false), ~Constant(true));
 }
 
-TEST(ConstantTest, SettingANewNumberWorks)
-{
+TEST(ConstantTest, SettingANewNumberWorks) {
     Constant constant(true);
     EXPECT_TRUE(constant.getBooleanValue());
 
@@ -72,8 +64,7 @@ TEST(ConstantTest, SettingANewNumberWorks)
     EXPECT_FALSE(constant.getBooleanValue());
 }
 
-TEST(ConstantTest, NegateWorks)
-{
+TEST(ConstantTest, NegateWorks) {
     Constant constant1(false);
     Constant constant2(true);
 
@@ -84,8 +75,7 @@ TEST(ConstantTest, NegateWorks)
     EXPECT_FALSE(constant2.getBooleanValue());
 }
 
-TEST(ConstantTest, OutputStreamOperatorWorks)
-{
+TEST(ConstantTest, OutputStreamOperatorWorks) {
     stringstream ss;
     Constant constant1;
     Constant constant2(true);
@@ -96,6 +86,6 @@ TEST(ConstantTest, OutputStreamOperatorWorks)
     EXPECT_EQ("[false],[true],[false]", ss.str());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

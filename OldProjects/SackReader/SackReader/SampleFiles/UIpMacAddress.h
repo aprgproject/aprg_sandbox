@@ -1,6 +1,8 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1806_001_00/I_Interface/Application_Env/Definitions/UIpMacAddress.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1806_001_00/I_Interface/Application_Env/Definitions/UIpMacAddress.h
+*$
 * @version               $LastChangedRevision: 2150 $
 * @date                  $LastChangedDate: 2014-09-15 21:09:01 +0800 (Mon, 15 Sep 2014) $
 * @author                $Author: autobuild_sack_wro $
@@ -20,8 +22,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-typedef union UIpMacAddress
-{
+typedef union UIpMacAddress {
     SIpMacAddressV4 ipMacv4;
     SIpMacAddressV6 ipMacv6;
 } UIpMacAddress;
@@ -31,7 +32,6 @@ typedef union UIpMacAddress
 #endif /* __cplusplus */
 
 #endif /* _U_IP_MAC_ADDRESS_H */
-
 
 /**
 ********************************************************************************

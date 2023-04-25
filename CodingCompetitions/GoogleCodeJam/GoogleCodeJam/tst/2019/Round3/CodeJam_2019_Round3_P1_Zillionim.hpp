@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2019_Round3_P1_Zillionim
-{
+namespace CodeJam_2019_Round3_P1_Zillionim {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

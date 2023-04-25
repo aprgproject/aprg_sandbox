@@ -5,15 +5,13 @@
 #include <map>
 #include <string>
 
-using std::string;
 using std::map;
 using std::pair;
+using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 
-class CPlusPlusNamespace
-{
+class CPlusPlusNamespace {
 public:
     bool isVariable(string const& variableName) const;
     bool isFunction(string const& functionName) const;
@@ -37,4 +35,4 @@ private:
     VectorOfStrings m_namespaces;
 };
 
-}
+}  // namespace codeReview

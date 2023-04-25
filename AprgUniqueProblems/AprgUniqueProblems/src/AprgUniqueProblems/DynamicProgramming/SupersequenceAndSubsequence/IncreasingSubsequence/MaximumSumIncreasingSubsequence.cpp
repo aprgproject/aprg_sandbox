@@ -4,28 +4,20 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-MaximumSumIncreasingSubsequence::MaximumSumIncreasingSubsequence(Values const& sequence)
-    : m_sequence(sequence)
-{}
+MaximumSumIncreasingSubsequence::MaximumSumIncreasingSubsequence(Values const& sequence) : m_sequence(sequence) {}
 
-MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaximumSum() const
-{
+MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaximumSum() const {
     // Quadratic time because of double loop
 
     Value result(0);
-    if(!m_sequence.empty())
-    {
+    if (!m_sequence.empty()) {
         Values partialSums(m_sequence.size(), 0);
-        for (Index index(0); index<m_sequence.size(); index++)
-        {
-            Value & partialSum(partialSums[index]);
-            for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
-            {
-                if(m_sequence.at(lowerIndex) < m_sequence.at(index))
-                {
+        for (Index index(0); index < m_sequence.size(); index++) {
+            Value& partialSum(partialSums[index]);
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
+                if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {
                     partialSum = max(partialSum, partialSums.at(lowerIndex));
                 }
             }
@@ -36,26 +28,20 @@ MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaxim
     return result;
 }
 
-MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubsequenceWithMaximumSum() const
-{
+MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubsequenceWithMaximumSum() const {
     // Quadratic time because of double loop
 
     Values result;
-    if(!m_sequence.empty())
-    {
+    if (!m_sequence.empty()) {
         Values partialSums(m_sequence.size(), 0);
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
 
-        for (Index index(0); index<m_sequence.size(); index++)
-        {
-            Value & partialSum(partialSums[index]);
-            Value & previousIndex(indexToPreviousIndex[index]);
-            for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
-            {
-                if(m_sequence.at(lowerIndex) < m_sequence.at(index)
-                        && partialSum < partialSums.at(lowerIndex))
-                {
+        for (Index index(0); index < m_sequence.size(); index++) {
+            Value& partialSum(partialSums[index]);
+            Value& previousIndex(indexToPreviousIndex[index]);
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
+                if (m_sequence.at(lowerIndex) < m_sequence.at(index) && partialSum < partialSums.at(lowerIndex)) {
                     partialSum = partialSums.at(lowerIndex);
                     previousIndex = lowerIndex;
                 }
@@ -65,10 +51,10 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
 
         // construct longest sequence
         auto itMax = max_element(partialSums.cbegin(), partialSums.cend());
-        Index indexOfMaxSum = distance(partialSums.cbegin(), itMax );
-        Index traverseIndex=indexOfMaxSum;
-        for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
-        {
+        Index indexOfMaxSum = distance(partialSums.cbegin(), itMax);
+        Index traverseIndex = indexOfMaxSum;
+        for (; traverseIndex != indexToPreviousIndex.at(traverseIndex);
+             traverseIndex = indexToPreviousIndex.at(traverseIndex)) {
             result.emplace_back(m_sequence.at(traverseIndex));
         }
         result.emplace_back(m_sequence.at(traverseIndex));
@@ -77,4 +63,4 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
     return result;
 }
 
-}
+}  // namespace alba

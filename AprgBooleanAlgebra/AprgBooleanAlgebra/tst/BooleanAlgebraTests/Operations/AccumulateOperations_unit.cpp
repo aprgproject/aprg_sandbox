@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(AccumulateOperationsTest, AccumulateTermsWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsWorks) {
     Term termToTest1;
     Term termToTest2;
 
@@ -25,8 +22,7 @@ TEST(AccumulateOperationsTest, AccumulateTermsWorks)
     EXPECT_EQ(termToExpect2, termToTest2);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorks) {
     Term termToTest(true);
     Term term1(createExpressionIfPossible({"a", "&", "b"}));
     Term term2(createExpressionIfPossible({"c", "&", "d"}));
@@ -36,12 +32,12 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorks)
 
     accumulateTermsWithAndOperation(termToTest, termsToCombine);
 
-    Term termToExpect(createExpressionIfPossible({"a", "&", "b", "&", "c", "&", "d", "&", "e", "&", "f", "&", "g", "&", "h"}));
+    Term termToExpect(
+        createExpressionIfPossible({"a", "&", "b", "&", "c", "&", "d", "&", "e", "&", "f", "&", "g", "&", "h"}));
     EXPECT_EQ(termToExpect, termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorksWithEmptyTermAtTheStart)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorksWithEmptyTermAtTheStart) {
     Term termToTest;
     Term term1;
     Term term2(true);
@@ -52,8 +48,7 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorksWithEmptyTerm
     EXPECT_EQ(Term(true), termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorks) {
     Term termToTest(false);
     Term term1(createExpressionIfPossible({"a", "|", "b"}));
     Term term2(createExpressionIfPossible({"c", "|", "d"}));
@@ -63,12 +58,12 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorks)
 
     accumulateTermsWithOrOperation(termToTest, termsToCombine);
 
-    Term termToExpect(createExpressionIfPossible({"a", "|", "b", "|", "c", "|", "d", "|", "e", "|", "f", "|", "g", "|", "h"}));
+    Term termToExpect(
+        createExpressionIfPossible({"a", "|", "b", "|", "c", "|", "d", "|", "e", "|", "f", "|", "g", "|", "h"}));
     EXPECT_EQ(termToExpect, termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorksWithEmptyTermAtTheStart)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorksWithEmptyTermAtTheStart) {
     Term termToTest;
     Term term1;
     Term term2(false);
@@ -79,7 +74,6 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorksWithEmptyTermA
     EXPECT_EQ(Term(false), termToTest);
 }
 
+}  // namespace booleanAlgebra
 
-}
-
-}
+}  // namespace alba

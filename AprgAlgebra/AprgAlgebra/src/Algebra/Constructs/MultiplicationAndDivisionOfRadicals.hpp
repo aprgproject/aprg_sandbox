@@ -4,25 +4,20 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class MultiplicationAndDivisionOfRadicals
-{
+class MultiplicationAndDivisionOfRadicals {
 public:
-    struct RadicalDetail
-    {
+    struct RadicalDetail {
         TermRaiseToANumber radical;
         TermAssociationType association;
     };
     using RadicalDetails = std::vector<RadicalDetail>;
 
     MultiplicationAndDivisionOfRadicals();
-    MultiplicationAndDivisionOfRadicals(
-            TermsWithDetails const& termsWithDetails);
+    MultiplicationAndDivisionOfRadicals(TermsWithDetails const& termsWithDetails);
 
     Term getCombinedTerm() const;
     TermsWithDetails const& getTermsWithDetails() const;
@@ -30,16 +25,19 @@ public:
     void simplify();
 
 private:
-    bool shouldBeCombined(RadicalDetails const& radicalDetails, Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
-    bool isNotANegativeTermWithExponentDenominatorEven(Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
-    void gatherDetails(RadicalDetails & radicalDetails, Monomial & combinedMonomial, TermsWithDetails & remainingTerms);
+    bool shouldBeCombined(
+        RadicalDetails const& radicalDetails, Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
+    bool isNotANegativeTermWithExponentDenominatorEven(
+        Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
+    void gatherDetails(RadicalDetails& radicalDetails, Monomial& combinedMonomial, TermsWithDetails& remainingTerms);
     AlbaNumber getGcfOfExponents(RadicalDetails const& radicalDetails);
-    void combineMonomialAndRadicalsAndSave(RadicalDetails const& radicalDetails, Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
+    void combineMonomialAndRadicalsAndSave(
+        RadicalDetails const& radicalDetails, Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
     void saveRemainingTerms(TermsWithDetails const& remainingTerms);
 
     TermsWithDetails m_termsWithDetails;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

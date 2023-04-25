@@ -1,21 +1,14 @@
 #include "TermsRaiseToNumbers.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TermsRaiseToNumbers::TermsRaiseToNumbers()
-    : TermsRaiseToNumbersBase()
-{}
+TermsRaiseToNumbers::TermsRaiseToNumbers() : TermsRaiseToNumbersBase() {}
 
-TermsRaiseToNumbers::TermsRaiseToNumbers(
-        BaseToExponentMap const& baseToExponentMap)
-    : TermsRaiseToNumbersBase(baseToExponentMap)
-{}
+TermsRaiseToNumbers::TermsRaiseToNumbers(BaseToExponentMap const& baseToExponentMap)
+    : TermsRaiseToNumbersBase(baseToExponentMap) {}
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

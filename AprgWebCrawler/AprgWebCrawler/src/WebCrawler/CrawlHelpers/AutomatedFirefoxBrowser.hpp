@@ -4,11 +4,9 @@
 
 #include <string>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-class AutomatedFirefoxBrowser
-{
+class AutomatedFirefoxBrowser {
 public:
     static AutomatedFirefoxBrowser& getInstance();
     void downloadFileWithDefaultSettings(std::string const& webPath, std::string const& downloadLocalPath) const;
@@ -19,6 +17,7 @@ public:
     void saveBinaryFile(std::string const& downloadLocalPath) const;
     void doLeftClickAt(alba::MousePosition const& position) const;
     void sleep(unsigned int const milliseconds) const;
+
 private:
     AutomatedFirefoxBrowser();
     void openFirefox() const;
@@ -32,4 +31,4 @@ private:
     alba::AlbaWindowsUserAutomation m_userAutomation;
 };
 
-}
+}  // namespace aprgWebCrawler

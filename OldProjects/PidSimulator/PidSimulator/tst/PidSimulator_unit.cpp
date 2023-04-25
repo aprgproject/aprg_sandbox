@@ -4,12 +4,8 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(SampleTest, DISABLED_SampleTest1)
-{
-    PidSimulator({"This", "is", "just", "a", "test"});
-}
+TEST(SampleTest, DISABLED_SampleTest1) { PidSimulator({"This", "is", "just", "a", "test"}); }
 
-}
+}  // namespace alba

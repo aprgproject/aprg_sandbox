@@ -6,49 +6,27 @@
 using namespace alba::algorithm::CommonTestsWithStack;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using StackForTest = DoublingSizeStack<unsigned int>;
 }
 
-TEST(DoublingSizeStackTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedInt<StackForTest>();
-}
+TEST(DoublingSizeStackTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<StackForTest>(); }
 
-TEST(DoublingSizeStackTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedInt<StackForTest>();
-}
+TEST(DoublingSizeStackTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<StackForTest>(); }
 
-TEST(DoublingSizeStackTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedInt<StackForTest>();
-}
+TEST(DoublingSizeStackTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<StackForTest>(); }
 
-TEST(DoublingSizeStackTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedInt<StackForTest>();
-}
+TEST(DoublingSizeStackTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<StackForTest>(); }
 
-TEST(DoublingSizeStackTest, PushWorks)
-{
-    testPushWithUnsignedInt<StackForTest>();
-}
+TEST(DoublingSizeStackTest, PushWorks) { testPushWithUnsignedInt<StackForTest>(); }
 
-TEST(DoublingSizeStackTest, PopWorks)
-{
-    testPopWithUnsignedInt<StackForTest>();
-}
+TEST(DoublingSizeStackTest, PopWorks) { testPopWithUnsignedInt<StackForTest>(); }
 
-TEST(DoublingSizeStackTest, GetContainerSizeWorks)
-{
+TEST(DoublingSizeStackTest, GetContainerSizeWorks) {
     StackForTest stack1;
     StackForTest stack2;
     stack2.push(10U);
@@ -59,8 +37,7 @@ TEST(DoublingSizeStackTest, GetContainerSizeWorks)
     EXPECT_EQ(4U, stack2.getContainerSize());
 }
 
-TEST(DoublingSizeStackTest, PushWorksWithDoublingContainerSize)
-{
+TEST(DoublingSizeStackTest, PushWorksWithDoublingContainerSize) {
     StackForTest stack;
     EXPECT_EQ(1U, stack.getContainerSize());
 
@@ -76,8 +53,7 @@ TEST(DoublingSizeStackTest, PushWorksWithDoublingContainerSize)
     EXPECT_EQ(8U, stack.getContainerSize());
 }
 
-TEST(DoublingSizeStackTest, PopWorksWithHalvingContainerSize)
-{
+TEST(DoublingSizeStackTest, PopWorksWithHalvingContainerSize) {
     StackForTest stack;
 
     stack.push(1U);
@@ -99,11 +75,11 @@ TEST(DoublingSizeStackTest, PopWorksWithHalvingContainerSize)
     EXPECT_EQ(1U, stack.getContainerSize());
 }
 
-TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
 {
     testPopAssertionWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

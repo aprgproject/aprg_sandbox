@@ -2,28 +2,20 @@
 
 #include <windows.h>
 
-#include <functional>
 #include <fstream>
+#include <functional>
 #include <mutex>
 #include <optional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-class ChessEngineHandler
-{
+class ChessEngineHandler {
 public:
-    enum class LogType
-    {
-        FromEngine,
-        ToEngine,
-        HandlerStatus
-    };
-    using ProcessAStringFunction = std::function<void(std::string const&)> ;
+    enum class LogType { FromEngine, ToEngine, HandlerStatus };
+    using ProcessAStringFunction = std::function<void(std::string const&)>;
 
     ChessEngineHandler(std::string const& enginePath);
     ~ChessEngineHandler();
@@ -54,6 +46,6 @@ private:
     std::optional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

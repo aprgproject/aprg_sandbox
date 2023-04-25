@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(TermOperatorsTest, UnaryNotOperatorWorks)
-{
+TEST(TermOperatorsTest, UnaryNotOperatorWorks) {
     EXPECT_EQ(Term(), ~Term());
     EXPECT_EQ(Term(true), ~Term(false));
     EXPECT_EQ(Term(false), ~Term(true));
 }
 
-TEST(TermOperatorsTest, BinaryAndOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryAndOperatorWorks) {
     Term term1 = Term(false) & Term(false);
     Term term2 = Term(false) & Term(true);
     Term term3 = Term(true) & Term(false);
@@ -30,8 +26,7 @@ TEST(TermOperatorsTest, BinaryAndOperatorWorks)
     EXPECT_EQ(Term(true), term4);
 }
 
-TEST(TermOperatorsTest, BinaryAndAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryAndAssignmentOperatorWorks) {
     Term term1(false);
     term1 &= Term(false);
     Term term2(false);
@@ -47,8 +42,7 @@ TEST(TermOperatorsTest, BinaryAndAssignmentOperatorWorks)
     EXPECT_EQ(Term(true), term4);
 }
 
-TEST(TermOperatorsTest, BinaryOrOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryOrOperatorWorks) {
     Term term1 = Term(false) | Term(false);
     Term term2 = Term(false) | Term(true);
     Term term3 = Term(true) | Term(false);
@@ -60,8 +54,7 @@ TEST(TermOperatorsTest, BinaryOrOperatorWorks)
     EXPECT_EQ(Term(true), term4);
 }
 
-TEST(TermOperatorsTest, BinaryOrAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryOrAssignmentOperatorWorks) {
     Term term1(false);
     term1 |= Term(false);
     Term term2(false);
@@ -77,6 +70,6 @@ TEST(TermOperatorsTest, BinaryOrAssignmentOperatorWorks)
     EXPECT_EQ(Term(true), term4);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

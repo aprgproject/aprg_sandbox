@@ -5,33 +5,27 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class ProofByInduction
-{
+class ProofByInduction {
 public:
-    using FunctionToCheck=std::function<AlbaNumber(AlbaNumber const&)>;
+    using FunctionToCheck = std::function<AlbaNumber(AlbaNumber const&)>;
 
     ProofByInduction(
-            std::string const& variableNameInExpression,
-            Term const& algebraicExpressionToCheck,
-            FunctionToCheck const& functionToCheck);
+        std::string const& variableNameInExpression, Term const& algebraicExpressionToCheck,
+        FunctionToCheck const& functionToCheck);
 
     bool isVerificationOnASpecificValueSuccessful(AlbaNumber const& value) const;
     bool isVerificationOnInductionStepSuccessful(
-            Term const& firstTerm,
-            Term const& secondTerm,
-            Term const& expectedDifferenceOfSecondAndFirstTerm) const;
+        Term const& firstTerm, Term const& secondTerm, Term const& expectedDifferenceOfSecondAndFirstTerm) const;
 
     std::string m_variableNameInExpression;
     Term m_algebraicExpressionToCheck;
     FunctionToCheck m_functionToCheck;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

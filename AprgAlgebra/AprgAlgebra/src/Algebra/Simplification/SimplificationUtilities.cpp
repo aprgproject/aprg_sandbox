@@ -8,19 +8,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-void simplifyTermToACommonDenominator(Term & term)
-{
+void simplifyTermToACommonDenominator(Term& term) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
 
     SimplificationOfExpression::ScopeObject scopeObject;
@@ -30,10 +26,9 @@ void simplifyTermToACommonDenominator(Term & term)
     term.simplify();
 }
 
-void simplifyTermByCombiningRadicals(Term & term)
-{
+void simplifyTermByCombiningRadicals(Term& term) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
 
     SimplificationOfExpression::ScopeObject scopeObject;
@@ -43,10 +38,9 @@ void simplifyTermByCombiningRadicals(Term & term)
     term.simplify();
 }
 
-void simplifyTermByFactoringToNonDoubleFactors(Term & term)
-{
+void simplifyTermByFactoringToNonDoubleFactors(Term& term) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
 
@@ -57,10 +51,9 @@ void simplifyTermByFactoringToNonDoubleFactors(Term & term)
     term.simplify();
 }
 
-void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term)
-{
+void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term& term) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
@@ -73,82 +66,68 @@ void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term)
 }
 
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
-        Expression & expression)
-{
+    Expression& expression) {
     bool isChanged(false);
-    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
-    {
+    if (expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction) {
         isChanged = tryToAddSubtractTermsOverTermsAndReturnIfChanged(expression);
-    }
-    else
-    {
+    } else {
         simplifyTermsWithDetailsInExpressionToACommonDenominator(expression);
     }
     return isChanged;
 }
 
-bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression)
-{
+bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression& addSubtractExpression) {
     AdditionAndSubtractionOfTermsOverTerms addSubtractTermsOverTerms;
     bool isAddSubtractExpressionUpdateNeeded(false);
-    for(TermWithDetails const& addSubtractTermWithDetails : addSubtractExpression.getTermsWithAssociation().getTermsWithDetails())
-    {
+    for (TermWithDetails const& addSubtractTermWithDetails :
+         addSubtractExpression.getTermsWithAssociation().getTermsWithDetails()) {
         Term const& addSubtractTerm(getTermConstReferenceFromUniquePointer(addSubtractTermWithDetails.baseTermPointer));
         TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(addSubtractTerm));
-        if(!termsOverTerms.getDenominators().empty())
-        {
-            isAddSubtractExpressionUpdateNeeded=true;
+        if (!termsOverTerms.getDenominators().empty()) {
+            isAddSubtractExpressionUpdateNeeded = true;
         }
         addSubtractTermsOverTerms.putAsAddOrSubtraction(termsOverTerms, addSubtractTermWithDetails.association);
     }
-    if(isAddSubtractExpressionUpdateNeeded)
-    {
-        addSubtractExpression=addSubtractTermsOverTerms.getCombinedExpression();
+    if (isAddSubtractExpressionUpdateNeeded) {
+        addSubtractExpression = addSubtractTermsOverTerms.getCombinedExpression();
         addSubtractExpression.simplify();
     }
     return isAddSubtractExpressionUpdateNeeded;
 }
 
-void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression)
-{
+void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression& expression) {
     bool isChanged(true);
-    while(isChanged)
-    {
-        isChanged=false;
-        for(TermWithDetails & termWithDetails : expression.getTermsWithAssociationReference().getTermsWithDetailsReference())
-        {
-            Term & term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-            if(term.isExpression())
-            {
-                Expression & subExpression(term.getExpressionReference());
-                isChanged = isChanged || simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(subExpression);
+    while (isChanged) {
+        isChanged = false;
+        for (TermWithDetails& termWithDetails :
+             expression.getTermsWithAssociationReference().getTermsWithDetailsReference()) {
+            Term& term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
+            if (term.isExpression()) {
+                Expression& subExpression(term.getExpressionReference());
+                isChanged =
+                    isChanged ||
+                    simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
+                        subExpression);
             }
         }
-        if(isChanged)
-        {
+        if (isChanged) {
             expression.simplify();
         }
     }
 }
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
-        TermsWithDetails & newTermsWithDetails,
-        OperatorLevel & mainOperatorLevel,
-        TermsWithDetails const& oldTermsWithDetails)
-{
-    for(TermWithDetails const& oldTermWithDetails : oldTermsWithDetails)
-    {
+    TermsWithDetails& newTermsWithDetails, OperatorLevel& mainOperatorLevel,
+    TermsWithDetails const& oldTermsWithDetails) {
+    for (TermWithDetails const& oldTermWithDetails : oldTermsWithDetails) {
         Term const& term(getTermConstReferenceFromUniquePointer(oldTermWithDetails.baseTermPointer));
-        if(term.isExpression())
-        {
+        if (term.isExpression()) {
             Expression subExpression(term.getExpressionConstReference());
             subExpression.simplify();
             TermAssociationType subExpressionAssociation(oldTermWithDetails.association);
             simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
-                        newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
-        }
-        else if(isNonEmptyOrNonOperatorType(term))
-        {
+                newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
+        } else if (isNonEmptyOrNonOperatorType(term)) {
             Term newTerm(term);
             newTerm.simplify();
             newTermsWithDetails.emplace_back(newTerm, oldTermWithDetails.association);
@@ -157,45 +136,36 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
 }
 
 void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
-        TermsWithDetails & newTermsWithDetails,
-        OperatorLevel & mainOperatorLevel,
-        Expression const& subExpression,
-        TermAssociationType const subExpressionAssociation)
-{
+    TermsWithDetails& newTermsWithDetails, OperatorLevel& mainOperatorLevel, Expression const& subExpression,
+    TermAssociationType const subExpressionAssociation) {
     OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
-    if(subExpression.containsOnlyOnePositivelyAssociatedTerm()
-            || OperatorLevel::Unknown == mainOperatorLevel
-            || (subExpressionOperatorLevel == mainOperatorLevel
-                && OperatorLevel::AdditionAndSubtraction == mainOperatorLevel
-                && OperatorLevel::MultiplicationAndDivision == mainOperatorLevel))
-    {
-        if(OperatorLevel::Unknown == mainOperatorLevel)
-        {
+    if (subExpression.containsOnlyOnePositivelyAssociatedTerm() || OperatorLevel::Unknown == mainOperatorLevel ||
+        (subExpressionOperatorLevel == mainOperatorLevel &&
+         OperatorLevel::AdditionAndSubtraction == mainOperatorLevel &&
+         OperatorLevel::MultiplicationAndDivision == mainOperatorLevel)) {
+        if (OperatorLevel::Unknown == mainOperatorLevel) {
             mainOperatorLevel = subExpression.getCommonOperatorLevel();
         }
-        TermsWithAssociation termsWithAssociation(getTermsWithAssociationAndReverseIfNeeded(subExpression, subExpressionAssociation));
-        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(newTermsWithDetails, mainOperatorLevel, termsWithAssociation.getTermsWithDetails());
-    }
-    else
-    {
+        TermsWithAssociation termsWithAssociation(
+            getTermsWithAssociationAndReverseIfNeeded(subExpression, subExpressionAssociation));
+        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
+            newTermsWithDetails, mainOperatorLevel, termsWithAssociation.getTermsWithDetails());
+    } else {
         newTermsWithDetails.emplace_back(Term(subExpression), subExpressionAssociation);
     }
 }
 
 TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
-        Expression const& expression,
-        TermAssociationType const overallAssociation)
-{
+    Expression const& expression, TermAssociationType const overallAssociation) {
     TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());
-    if(TermAssociationType::Negative == overallAssociation)
-    {
+    if (TermAssociationType::Negative == overallAssociation) {
         termsWithAssociation.reverseTheAssociationOfTheTerms();
     }
     return termsWithAssociation;
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

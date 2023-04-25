@@ -5,21 +5,24 @@
 #include <set>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AprgFileExtractor
-{
+class AprgFileExtractor {
     typedef std::set<std::string> SetOfFilePaths;
+
 public:
     AprgFileExtractor();
     AprgFileExtractor(std::string const& condition);
-    AprgFileExtractor(std::string const& condition, std::string const& pathOf7zExecutable, std::string const& pathOf7zTempFile);
+    AprgFileExtractor(
+        std::string const& condition, std::string const& pathOf7zExecutable, std::string const& pathOf7zTempFile);
     void extractAllRelevantFiles(std::string const& pathOfFileOrDirectory);
-    void copyRelativeFilePathsFromCompressedFile(std::string const& filePathOfCompressedFile, SetOfFilePaths& files) const;
+    void copyRelativeFilePathsFromCompressedFile(
+        std::string const& filePathOfCompressedFile, SetOfFilePaths& files) const;
     std::string extractOnceForAllFiles(std::string const& filePathOfCompressedFile) const;
-    std::string extractOneFile(std::string const& filePathOfCompressedFile, std::string const& relativePathOfFile) const;
+    std::string extractOneFile(
+        std::string const& filePathOfCompressedFile, std::string const& relativePathOfFile) const;
     bool isRecognizedCompressedFile(std::string const& extension) const;
+
 private:
     void extractAllRelevantFilesInThisDirectory(std::string const& directoryPath);
     void extractAllRelevantFilesInThisCompressedFile(std::string const& filePathOfCompressedFile);
@@ -31,4 +34,4 @@ private:
     std::string m_pathOf7zTempFile;
 };
 
-}
+}  // namespace alba

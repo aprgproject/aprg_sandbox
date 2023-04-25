@@ -2,15 +2,12 @@
 
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class CountPathsWithLengthUsingAdjacencyMatrix
-{
+class CountPathsWithLengthUsingAdjacencyMatrix {
 public:
     // The powers of an adjacency matrix of a graph have an interesting property.
     // When V is an adjacency matrix of an unweighted graph,
@@ -20,34 +17,23 @@ public:
     using Count = unsigned int;
     using CountMatrix = matrix::AlbaMatrix<Count>;
 
-    CountPathsWithLengthUsingAdjacencyMatrix(
-            unsigned int const lengthOfPath,
-            AdjacencyMatrix const& adjacencyMatrix)
-        : m_countMatrix(createCountMatrix(lengthOfPath, adjacencyMatrix))
-    {}
+    CountPathsWithLengthUsingAdjacencyMatrix(unsigned int const lengthOfPath, AdjacencyMatrix const& adjacencyMatrix)
+        : m_countMatrix(createCountMatrix(lengthOfPath, adjacencyMatrix)) {}
 
-    Count getCount(Vertex const& start, Vertex const& end) const
-    {
-        return m_countMatrix.getEntry(start, end);
-    }
+    Count getCount(Vertex const& start, Vertex const& end) const { return m_countMatrix.getEntry(start, end); }
 
 private:
-
-    CountMatrix createCountMatrix(
-            unsigned int const lengthOfPath,
-            AdjacencyMatrix const& adjacencyMatrix)
-    {
+    CountMatrix createCountMatrix(unsigned int const lengthOfPath, AdjacencyMatrix const& adjacencyMatrix) {
         CountMatrix oneCountMatrix(adjacencyMatrix.getNumberOfColumns(), adjacencyMatrix.getNumberOfRows());
-        adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
-        {
+        adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
             oneCountMatrix.setEntry(x, y, adjacencyMatrix.getEntry(x, y));
         });
-        return oneCountMatrix^lengthOfPath;
+        return oneCountMatrix ^ lengthOfPath;
     }
 
     CountMatrix m_countMatrix;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

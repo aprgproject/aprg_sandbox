@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample1)
-{
+TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample1) {
     BinomialCoefficient queryForTest(0U, 0U);
 
     EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingNaiveRecursion());
@@ -18,8 +16,7 @@ TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample1)
     EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingGcf());
 }
 
-TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample2)
-{
+TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample2) {
     BinomialCoefficient queryForTest(5U, 2U);
 
     EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingNaiveRecursion());
@@ -29,8 +26,7 @@ TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample2)
     EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingGcf());
 }
 
-TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample3)
-{
+TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample3) {
     BinomialCoefficient queryForTest(34U, 17U);
 
     // EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingNaiveRecursion()); // Too long
@@ -40,4 +36,4 @@ TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample3)
     EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingGcf());
 }
 
-}
+}  // namespace alba

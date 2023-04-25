@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundC_P1_Countdown.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,51 +6,59 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundC_P1_Countdown
-{
+namespace KickStart_2020_RoundC_P1_Countdown {
 
-TEST(KickStart_2020_RoundC_P1_CountdownTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundC_P1_CountdownTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "3                      " "\n"
-            << "12 3                   " "\n"
-            << "1 2 3 7 9 3 2 1 8 3 2 1" "\n"
-            << "4 2                    " "\n"
-            << "101 100 99 98          " "\n"
-            << "9 6                    " "\n"
-            << "100 7 6 5 4 3 2 1 100  " "\n"
-            << endl;
+    inputStringStream << "3                      "
+                         "\n"
+                      << "12 3                   "
+                         "\n"
+                      << "1 2 3 7 9 3 2 1 8 3 2 1"
+                         "\n"
+                      << "4 2                    "
+                         "\n"
+                      << "101 100 99 98          "
+                         "\n"
+                      << "9 6                    "
+                         "\n"
+                      << "100 7 6 5 4 3 2 1 100  "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 2" "\n"
-                "Case #2: 0" "\n"
-                "Case #3: 1" "\n"
-                , outputStringStream.str());
+        "Case #1: 2"
+        "\n"
+        "Case #2: 0"
+        "\n"
+        "Case #3: 1"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_RoundC_P1_Countdown
 
 /*
 Problem
 
 Avery has an array of N positive integers. The i-th integer of the array is Ai.
 
-A contiguous subarray is an m-countdown if it is of length m and contains the integers m, m-1, m-2, ..., 2, 1 in that order. For example, [3, 2, 1] is a 3-countdown.
+A contiguous subarray is an m-countdown if it is of length m and contains the integers m, m-1, m-2, ..., 2, 1 in that
+order. For example, [3, 2, 1] is a 3-countdown.
 
 Can you help Avery count the number of K-countdowns in her array?
 Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line containing the integers N and K. The second line contains N integers. The i-th integer is Ai.
-Output
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line
+containing the integers N and K. The second line contains N integers. The i-th integer is Ai. Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the number of K-countdowns in her array.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the number of K-countdowns in her array. Limits
 
 Time limit: 20 seconds.
 Memory limit: 1 GB.

@@ -5,13 +5,12 @@
 
 #include "cookie_date.h"
 
-using std::out_of_range;
 using std::ostringstream;
+using std::out_of_range;
 
 // Implementation of constructor with parameters.
-curl::cookie_date::cookie_date(const unsigned int week_day, const unsigned int day,
-		const unsigned int month, const unsigned int year) NOEXCEPT {
-
+curl::cookie_date::cookie_date(
+    const unsigned int week_day, const unsigned int day, const unsigned int month, const unsigned int year) NOEXCEPT {
     this->set_week_day(week_day)->set_day(day)->set_month(month)->set_year(year);
 }
 
@@ -43,32 +42,24 @@ curl::cookie_date *curl::cookie_date::set_month(const unsigned int cookieMonth) 
 
 // Implementation of set_year method.
 curl::cookie_date *curl::cookie_date::set_year(const unsigned int cookieYear) NOEXCEPT {
-    this->year = (cookieYear < 1970 ) ? 1970 : cookieYear;
+    this->year = (cookieYear < 1970) ? 1970 : cookieYear;
     return this;
 }
 
-std::string curl::cookie_date::get_week_day() const NOEXCEPT {
-    return this->week_day;
-}
+std::string curl::cookie_date::get_week_day() const NOEXCEPT { return this->week_day; }
 
 // Implementation of get_day method.
-unsigned int curl::cookie_date::get_day() const NOEXCEPT {
-    return this->day;
-}
+unsigned int curl::cookie_date::get_day() const NOEXCEPT { return this->day; }
 
 // Implementation of get_month method.
-std::string curl::cookie_date::get_month() const NOEXCEPT {
-    return this->month;
-}
+std::string curl::cookie_date::get_month() const NOEXCEPT { return this->month; }
 
 // Implementation of get_year method.
-unsigned int curl::cookie_date::get_year() const NOEXCEPT {
-    return this->year;
-}
+unsigned int curl::cookie_date::get_year() const NOEXCEPT { return this->year; }
 
 // Implementation of get_formatted method.
 std::string curl::cookie_date::get_formatted() NOEXCEPT {
     ostringstream stream;
-    stream<<this->week_day<<", "<<this->day<<"-"<<this->month<<"-"<<this->year;
+    stream << this->week_day << ", " << this->day << "-" << this->month << "-" << this->year;
     return stream.str();
 }

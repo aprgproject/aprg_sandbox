@@ -9,18 +9,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaSackReaderTest, SackTest)
-{
+TEST(AlbaSackReaderTest, SackTest) {
     AlbaSackReader sackReader(R"(D:\W\trunk\I_Interface)", "[.cpp] || [.hpp] || [.c] || [.h]");
     sackReader.process();
     sackReader.printAll();
 }
 
-TEST(AlbaSackReaderTest, ClassesAreRecognized)
-{
+TEST(AlbaSackReaderTest, ClassesAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -42,8 +39,7 @@ TEST(AlbaSackReaderTest, ClassesAreRecognized)
     EXPECT_EQ("doubleParameter", myClassParameters[1].getParameterName());
 }
 
-TEST(AlbaSackReaderTest, ClassesAreRecognizedInForwardDeclaration)
-{
+TEST(AlbaSackReaderTest, ClassesAreRecognizedInForwardDeclaration) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -57,8 +53,7 @@ TEST(AlbaSackReaderTest, ClassesAreRecognizedInForwardDeclaration)
     ASSERT_EQ(0U, myClassParameters.size());
 }
 
-TEST(AlbaSackReaderTest, TypedefAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -81,8 +76,7 @@ TEST(AlbaSackReaderTest, TypedefAreRecognized)
     EXPECT_EQ("type1", *(type2OtherTypes.begin()));
 }
 
-TEST(AlbaSackReaderTest, TypedefArrayAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefArrayAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -105,8 +99,7 @@ TEST(AlbaSackReaderTest, TypedefArrayAreRecognized)
     EXPECT_EQ("type1", *(type2OtherTypes.begin()));
 }
 
-TEST(AlbaSackReaderTest, TypedefWithStructAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefWithStructAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -122,8 +115,7 @@ TEST(AlbaSackReaderTest, TypedefWithStructAreRecognized)
     ASSERT_EQ(0U, type2OtherTypes.size());
 }
 
-TEST(AlbaSackReaderTest, TypedefWithStructWithParametersAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefWithStructWithParametersAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -133,7 +125,6 @@ TEST(AlbaSackReaderTest, TypedefWithStructWithParametersAreRecognized)
     testFile << "double doubleParameter;\n";
     testFile << "} myStruct2;\n";
     testFile.close();
-
 
     AlbaSackReader sackReader(file1ToReadPathHandler.getFullPath());
     sackReader.process();
@@ -148,8 +139,7 @@ TEST(AlbaSackReaderTest, TypedefWithStructWithParametersAreRecognized)
     ASSERT_EQ(0U, myClassOtherTypes.size());
 }
 
-TEST(AlbaSackReaderTest, TypedefWithSingleStructWithParametersAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefWithSingleStructWithParametersAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -159,7 +149,6 @@ TEST(AlbaSackReaderTest, TypedefWithSingleStructWithParametersAreRecognized)
     testFile << "double doubleParameter;\n";
     testFile << "} myStruct1;\n";
     testFile.close();
-
 
     AlbaSackReader sackReader(file1ToReadPathHandler.getFullPath());
     sackReader.process();
@@ -175,8 +164,7 @@ TEST(AlbaSackReaderTest, TypedefWithSingleStructWithParametersAreRecognized)
     EXPECT_FALSE(myClass.isUnion());
 }
 
-TEST(AlbaSackReaderTest, TypedefWithUnionWithParametersAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefWithUnionWithParametersAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -186,7 +174,6 @@ TEST(AlbaSackReaderTest, TypedefWithUnionWithParametersAreRecognized)
     testFile << "double doubleParameter;\n";
     testFile << "} myUnion2;\n";
     testFile.close();
-
 
     AlbaSackReader sackReader(file1ToReadPathHandler.getFullPath());
     sackReader.process();
@@ -202,8 +189,7 @@ TEST(AlbaSackReaderTest, TypedefWithUnionWithParametersAreRecognized)
     EXPECT_TRUE(myClass.isUnion());
 }
 
-TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized)
-{
+TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized) {
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -222,4 +208,4 @@ TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized)
     ASSERT_EQ(0U, myClassParameters.size());
 }
 
-}
+}  // namespace alba

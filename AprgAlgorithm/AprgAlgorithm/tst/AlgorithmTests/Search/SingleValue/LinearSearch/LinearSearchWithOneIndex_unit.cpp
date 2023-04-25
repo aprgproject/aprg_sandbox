@@ -6,63 +6,51 @@
 using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = LinearSearchWithOneIndex<ValuesForTest>;
-}
+}  // namespace
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsFoundWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(LinearSearchWithOneIndexTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsFoundWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

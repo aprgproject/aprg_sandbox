@@ -2,15 +2,13 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 bool isNumberOfCombinationsEqualToItsCounterpart(UnsignedInteger const n, UnsignedInteger const k);
 bool isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(UnsignedInteger const n);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

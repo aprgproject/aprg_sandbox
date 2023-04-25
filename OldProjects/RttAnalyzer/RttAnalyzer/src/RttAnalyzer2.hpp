@@ -7,11 +7,9 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class RttAnalyzer2
-{
+class RttAnalyzer2 {
 public:
     RttAnalyzer2(std::string const& outputFilePath);
     void processFile(std::string const& file);
@@ -26,7 +24,6 @@ public:
 
 private:
     std::ofstream m_outputLogStream;
-
 };
 
-}
+}  // namespace alba

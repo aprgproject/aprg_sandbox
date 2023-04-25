@@ -4,15 +4,13 @@
 
 using namespace std;
 
-namespace Proxy
-{
+namespace Proxy {
 
-TEST(ProxyTest, Test1)
-{
+TEST(ProxyTest, Test1) {
     Proxy *proxy = new Proxy();
     proxy->request();
 
     delete proxy;
 }
 
-}
+}  // namespace Proxy

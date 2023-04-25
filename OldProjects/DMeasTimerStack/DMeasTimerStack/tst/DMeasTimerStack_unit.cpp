@@ -5,8 +5,7 @@
 using namespace std;
 using namespace DMeas;
 
-TEST(TimerStackTest, TestForEmptyTimerStack)
-{
+TEST(TimerStackTest, TestForEmptyTimerStack) {
     TimerStack timerStack;
     TSfn sampleSfn = 0;
     TimerStack::TimerIndex sampleTimerIndex = 0;
@@ -33,13 +32,12 @@ TEST(TimerStackTest, TestForEmptyTimerStack)
     EXPECT_EQ(EBoolean_True, timerStack.insertMeasurement(TimerType::FreeTimer, 0, 0, 0, sampleTimerIndex, 0));
 }
 
-TEST(TimerStackTest, InsertThenExpireAndRemoveTheTimer)
-{
+TEST(TimerStackTest, InsertThenExpireAndRemoveTheTimer) {
     TimerStack timerStack;
     TSfn sampleSfn = 17;
     TimerData sampleTimerData;
-    sampleTimerData.timerType=TimerType::MeasurementInit;
-    sampleTimerData.timerValue=20;
+    sampleTimerData.timerType = TimerType::MeasurementInit;
+    sampleTimerData.timerValue = 20;
     TimerStack::TimerIndex firstTimerIndex = 0;
 
     EXPECT_EQ(EBoolean_True, timerStack.insert(sampleSfn, sampleTimerData));

@@ -5,14 +5,11 @@
 #include <BooleanAlgebra/Satisfiability/Utilities.hpp>
 #include <BooleanAlgebra/Term/TermTypes/TermContainerTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class TwoSatisfiabilityUsingGraphs
-{
+class TwoSatisfiabilityUsingGraphs {
 public:
     using DirectedGraph = algorithm::DirectedGraphWithListOfEdges<VariableTerm>;
     using ConnectedComponents = algorithm::StronglyConnectedComponentsUsingKosarajuSharir<VariableTerm>;
@@ -34,6 +31,6 @@ private:
 // A more difficult problem is the 3SAT problem, where each part of the formula is of the form (a|b|c).
 // This problem is NP-hard, so no efficient algorithm for solving the problem is known.
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

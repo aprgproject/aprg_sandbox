@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(CatalanNumbersTest, GetCatalanNumberWorks)
-{
+TEST(CatalanNumbersTest, GetCatalanNumberWorks) {
     EXPECT_EQ(1U, getCatalanNumber(0U));
     EXPECT_EQ(1U, getCatalanNumber(1U));
     EXPECT_EQ(2U, getCatalanNumber(2U));
@@ -23,8 +20,7 @@ TEST(CatalanNumbersTest, GetCatalanNumberWorks)
     EXPECT_EQ(129644790U, getCatalanNumber(17U));
 }
 
-TEST(CatalanNumbersTest, GetNumberOfBinaryTreesWorks)
-{
+TEST(CatalanNumbersTest, GetNumberOfBinaryTreesWorks) {
     EXPECT_EQ(1U, getNumberOfBinaryTrees(0U));
     EXPECT_EQ(1U, getNumberOfBinaryTrees(1U));
     EXPECT_EQ(2U, getNumberOfBinaryTrees(2U));
@@ -36,8 +32,7 @@ TEST(CatalanNumbersTest, GetNumberOfBinaryTreesWorks)
     EXPECT_EQ(129644790U, getNumberOfBinaryTrees(17U));
 }
 
-TEST(CatalanNumbersTest, GetNumberOfRootedTreesWorks)
-{
+TEST(CatalanNumbersTest, GetNumberOfRootedTreesWorks) {
     EXPECT_EQ(1U, getNumberOfRootedTrees(1U));
     EXPECT_EQ(1U, getNumberOfRootedTrees(2U));
     EXPECT_EQ(2U, getNumberOfRootedTrees(3U));
@@ -49,6 +44,6 @@ TEST(CatalanNumbersTest, GetNumberOfRootedTreesWorks)
     EXPECT_EQ(129644790U, getNumberOfRootedTrees(18U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

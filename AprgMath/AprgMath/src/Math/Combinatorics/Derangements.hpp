@@ -2,16 +2,14 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 UnsignedInteger getNumberOfDerangements(UnsignedInteger const n);
 UnsignedInteger getNumberOfDerangementsApproximation(UnsignedInteger const n);
 double getDerangementsProbability(UnsignedInteger const n);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

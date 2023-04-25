@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-namespace
-{
+namespace {
 using StickHeaps = GrundyGame::StickHeaps;
 }
 
-TEST(GrundyGameTest, Example1Works)
-{
+TEST(GrundyGameTest, Example1Works) {
     GrundyGame game(8U);
 
     EXPECT_EQ((StickHeaps{8U}), game.getStickHeaps());
@@ -59,9 +55,8 @@ TEST(GrundyGameTest, Example1Works)
     EXPECT_EQ(GameState::Losing, game.getGameState());
     EXPECT_EQ(make_tuple(0U, 0U, 0U), game.getOptimalWayToSplit());
     EXPECT_TRUE(game.hasNoMoves());
-
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

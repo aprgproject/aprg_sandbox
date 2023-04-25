@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(SubstitutionOfVariablesToTermsTest, ConstructionWorks)
-{
+TEST(SubstitutionOfVariablesToTermsTest, ConstructionWorks) {
     SubstitutionOfVariablesToTerms substitution1;
     SubstitutionOfVariablesToTerms substitution2{{"x", "y"}};
     VariablesToTermsMap variableWithExpressions{{"x", "y"}};
@@ -25,8 +22,7 @@ TEST(SubstitutionOfVariablesToTermsTest, ConstructionWorks)
     EXPECT_EQ(Term("y"), substitution3.getTermForVariable("x"));
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, IsEmptyWorks)
-{
+TEST(SubstitutionOfVariablesToTermsTest, IsEmptyWorks) {
     SubstitutionOfVariablesToTerms substitution1;
     SubstitutionOfVariablesToTerms substitution2({{"x", "y"}});
 
@@ -34,8 +30,7 @@ TEST(SubstitutionOfVariablesToTermsTest, IsEmptyWorks)
     EXPECT_FALSE(substitution2.isEmpty());
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, IsVariableFoundWorks)
-{
+TEST(SubstitutionOfVariablesToTermsTest, IsVariableFoundWorks) {
     SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
 
     EXPECT_TRUE(substitution.isVariableFound("x"));
@@ -44,8 +39,7 @@ TEST(SubstitutionOfVariablesToTermsTest, IsVariableFoundWorks)
     EXPECT_FALSE(substitution.isVariableFound("b"));
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, GetSizeWorks)
-{
+TEST(SubstitutionOfVariablesToTermsTest, GetSizeWorks) {
     SubstitutionOfVariablesToTerms substitution1;
     SubstitutionOfVariablesToTerms substitution2({{"x", "y"}});
 
@@ -53,8 +47,7 @@ TEST(SubstitutionOfVariablesToTermsTest, GetSizeWorks)
     EXPECT_EQ(1U, substitution2.getSize());
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, GetValueForVariableWorks)
-{
+TEST(SubstitutionOfVariablesToTermsTest, GetValueForVariableWorks) {
     SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
 
     Term termToExpect("y");
@@ -64,8 +57,7 @@ TEST(SubstitutionOfVariablesToTermsTest, GetValueForVariableWorks)
     EXPECT_EQ(Term{}, substitution.getTermForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnVariableTerm)
-{
+TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnVariableTerm) {
     SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("x");
@@ -83,8 +75,7 @@ TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnVariableTer
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnExpression)
-{
+TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnExpression) {
     SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
     Expression expression1;
     Expression expression2(createExpressionIfPossible({"x", "&", "y"}));
@@ -98,8 +89,7 @@ TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnExpression)
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnTerm)
-{
+TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnTerm) {
     SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
     Term term1;
     Term term2("x");
@@ -121,8 +111,7 @@ TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm4, verifyTerm4);
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, VariableToExpressionSubstitutionWorks)
-{
+TEST(SubstitutionOfVariablesToTermsTest, VariableToExpressionSubstitutionWorks) {
     SubstitutionOfVariablesToTerms substitution({{"x", createExpressionIfPossible({"a", "&", "b"})}});
     Term term1;
     Term term2("x");
@@ -144,6 +133,6 @@ TEST(SubstitutionOfVariablesToTermsTest, VariableToExpressionSubstitutionWorks)
     EXPECT_EQ(expectTerm4, verifyTerm4);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

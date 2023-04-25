@@ -1,18 +1,10 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-class AlbaRatio
-{
+class AlbaRatio {
 public:
-    enum class Type
-    {
-        BothValuesZero,
-        FirstValueIsZero,
-        SecondValueIsZero,
-        WithValidRatio
-    };
+    enum class Type { BothValuesZero, FirstValueIsZero, SecondValueIsZero, WithValidRatio };
     AlbaRatio(double const firstValue, double const secondValue);
     Type getType() const;
     double getValidRatioIfPossible() const;
@@ -27,4 +19,4 @@ private:
     double m_ratio;
 };
 
-}
+}  // namespace alba

@@ -5,18 +5,17 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-class Ellipse
-{
+class Ellipse {
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Ellipse();
-    Ellipse(Point const& center, double const aCoefficient, double const bCoefficient); // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = 1
+    Ellipse(
+        Point const& center, double const aCoefficient,
+        double const bCoefficient);  // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = 1
     bool operator==(Ellipse const& ellipse) const;
     bool operator!=(Ellipse const& ellipse) const;
     Point getCenter() const;
@@ -26,7 +25,7 @@ public:
     double getEccentricity() const;
     double getSemiLatusRectum() const;
     double getArea() const;
-    //double getCircumference() const;
+    // double getCircumference() const;
     bool isInside(Point const& point) const;
     Points getFoci() const;
     Points getMajorVertices() const;
@@ -45,7 +44,7 @@ private:
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
 
-    friend std::ostream & operator<<(std::ostream & out, Ellipse const& ellipse);
+    friend std::ostream& operator<<(std::ostream& out, Ellipse const& ellipse);
 
     Point m_center;
     double m_aValue;
@@ -54,5 +53,5 @@ private:
 
 using Ellipses = std::vector<Ellipse>;
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

@@ -1,17 +1,11 @@
 #pragma once
 
-namespace curl
-{
+namespace curl {
 
-namespace CurlInterface
-{
+namespace CurlInterface {
 
-enum class OutputFileType
-{
-    Binary,
-    Default
-};
+enum class OutputFileType { Binary, Default };
 
 }
 
-}
+}  // namespace curl

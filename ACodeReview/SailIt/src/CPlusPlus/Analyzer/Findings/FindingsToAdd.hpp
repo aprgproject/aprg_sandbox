@@ -1,10 +1,8 @@
 #pragma once
 
-namespace codeReview
-{
+namespace codeReview {
 
-enum class FindingsToAdd
-{
+enum class FindingsToAdd {
     None,
     ExpectsNewLineAndUnexpectsWhiteSpace,
     UnexpectsWhiteSpace,

@@ -6,78 +6,59 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace ExpressionEvaluator
-{
+namespace ExpressionEvaluator {
 
 template <>
-int performUnaryOperation<int, string>(string const& operatorObject, int const& value)
-{
+int performUnaryOperation<int, string>(string const& operatorObject, int const& value) {
     int result(0);
-    if(operatorObject == "~")
-    {
+    if (operatorObject == "~") {
         result = ~value;
     }
     return result;
 }
 
 template <>
-int performBinaryOperation<int, string>(int const& value1, string const& operatorObject, int const& value2)
-{
+int performBinaryOperation<int, string>(int const& value1, string const& operatorObject, int const& value2) {
     int result(0);
-    if(operatorObject == "+")
-    {
-        result = value1+value2;
-    }
-    else if(operatorObject == "-")
-    {
-        result = value1-value2;
-    }
-    else if(operatorObject == "*")
-    {
-        result = value1*value2;
-    }
-    else if(operatorObject == "/")
-    {
-        result = value1/value2;
+    if (operatorObject == "+") {
+        result = value1 + value2;
+    } else if (operatorObject == "-") {
+        result = value1 - value2;
+    } else if (operatorObject == "*") {
+        result = value1 * value2;
+    } else if (operatorObject == "/") {
+        result = value1 / value2;
     }
     return result;
 }
-
 
 using InfixEvaluatorForTest = ExpressionInfixEvaluator<int, string>;
 using PostfixEvaluatorForTest = ExpressionPostfixEvaluator<int, string>;
 using EvaluatorConverterForTest = ExpressionEvaluatorConverter<int, string>;
 
-
-TEST(ExpressionInfixEvaluatorTest, DoesNotCrashWhenValueAreEmpty)
-{
+TEST(ExpressionInfixEvaluatorTest, DoesNotCrashWhenValueAreEmpty) {
     InfixEvaluatorForTest evaluator;
     evaluator.evaluate();
 }
 
-TEST(ExpressionInfixEvaluatorTest, SingleValueIsEvaluatedCorrectly)
-{
+TEST(ExpressionInfixEvaluatorTest, SingleValueIsEvaluatedCorrectly) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term(5U));
     EXPECT_EQ(5, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, PrefixUnaryOperationAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, PrefixUnaryOperationAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term("~", InfixEvaluatorForTest::Term::OperatorSyntaxType::PrefixUnary));
     evaluator.addTerm(InfixEvaluatorForTest::Term(0U));
     EXPECT_EQ(-1, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, BinaryOperationAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, BinaryOperationAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term(123U));
     evaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
@@ -85,8 +66,7 @@ TEST(ExpressionInfixEvaluatorTest, BinaryOperationAreCorrectlyEvaluated)
     EXPECT_EQ(777, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithPriorityAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithPriorityAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term(100U));
     evaluator.addTerm(InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary, 2));
@@ -96,8 +76,7 @@ TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithPriorityAreCorrectlyEvalua
     EXPECT_EQ(1100, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithCompleteParenthesesAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithCompleteParenthesesAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     evaluator.addTerm(InfixEvaluatorForTest::Term(123U));
@@ -107,8 +86,7 @@ TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithCompleteParenthesesAreCorr
     EXPECT_EQ(777, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithNoLeftParenthesisAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithNoLeftParenthesisAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term(123U));
     evaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
@@ -117,8 +95,7 @@ TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithNoLeftParenthesisAreCorrec
     EXPECT_EQ(777, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithNoRightParenthesisAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithNoRightParenthesisAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     evaluator.addTerm(InfixEvaluatorForTest::Term(123U));
@@ -127,8 +104,7 @@ TEST(ExpressionInfixEvaluatorTest, BinaryOperationWithNoRightParenthesisAreCorre
     EXPECT_EQ(777, evaluator.evaluate());
 }
 
-TEST(ExpressionInfixEvaluatorTest, ComplicatedOperationsAndParenthesesAreCorrectlyEvaluated)
-{
+TEST(ExpressionInfixEvaluatorTest, ComplicatedOperationsAndParenthesesAreCorrectlyEvaluated) {
     InfixEvaluatorForTest evaluator;
     evaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     evaluator.addTerm(InfixEvaluatorForTest::Term(1U));
@@ -150,32 +126,29 @@ TEST(ExpressionInfixEvaluatorTest, ComplicatedOperationsAndParenthesesAreCorrect
     EXPECT_EQ(101, evaluator.evaluate());
 }
 
-TEST(ExpressionPostfixEvaluatorTest, DoesNotCrashWhenValueAreEmpty)
-{
+TEST(ExpressionPostfixEvaluatorTest, DoesNotCrashWhenValueAreEmpty) {
     PostfixEvaluatorForTest evaluator;
     EXPECT_FALSE(evaluator.isEvaluationPossible());
     evaluator.evaluate();
 }
 
-TEST(ExpressionPostfixEvaluatorTest, SingleValueIsEvaluatedCorrectly)
-{
+TEST(ExpressionPostfixEvaluatorTest, SingleValueIsEvaluatedCorrectly) {
     PostfixEvaluatorForTest evaluator;
     evaluator.addTerm(PostfixEvaluatorForTest::Term(5U));
     EXPECT_TRUE(evaluator.isEvaluationPossible());
     EXPECT_EQ(5, evaluator.evaluate());
 }
 
-TEST(ExpressionPostfixEvaluatorTest, PrefixUnaryOperationAreCorrectlyEvaluated)
-{
+TEST(ExpressionPostfixEvaluatorTest, PrefixUnaryOperationAreCorrectlyEvaluated) {
     PostfixEvaluatorForTest evaluator;
     evaluator.addTerm(PostfixEvaluatorForTest::Term(0U));
-    evaluator.addTerm(PostfixEvaluatorForTest::Term("~", PostfixEvaluatorForTest::Term::OperatorSyntaxType::PrefixUnary));
+    evaluator.addTerm(
+        PostfixEvaluatorForTest::Term("~", PostfixEvaluatorForTest::Term::OperatorSyntaxType::PrefixUnary));
     EXPECT_TRUE(evaluator.isEvaluationPossible());
     EXPECT_EQ(-1, evaluator.evaluate());
 }
 
-TEST(ExpressionPostfixEvaluatorTest, BinaryOperationAreCorrectlyEvaluated)
-{
+TEST(ExpressionPostfixEvaluatorTest, BinaryOperationAreCorrectlyEvaluated) {
     PostfixEvaluatorForTest evaluator;
     evaluator.addTerm(PostfixEvaluatorForTest::Term(123U));
     evaluator.addTerm(PostfixEvaluatorForTest::Term(654U));
@@ -184,12 +157,13 @@ TEST(ExpressionPostfixEvaluatorTest, BinaryOperationAreCorrectlyEvaluated)
     EXPECT_EQ(777, evaluator.evaluate());
 }
 
-TEST(ExpressionPostfixEvaluatorTest,ParenthesesAreIgnoredWhenEvaluated)
-{
+TEST(ExpressionPostfixEvaluatorTest, ParenthesesAreIgnoredWhenEvaluated) {
     PostfixEvaluatorForTest evaluator;
-    evaluator.addTerm(PostfixEvaluatorForTest::Term("(", PostfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
+    evaluator.addTerm(
+        PostfixEvaluatorForTest::Term("(", PostfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     evaluator.addTerm(PostfixEvaluatorForTest::Term(123U));
-    evaluator.addTerm(PostfixEvaluatorForTest::Term("(", PostfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
+    evaluator.addTerm(
+        PostfixEvaluatorForTest::Term("(", PostfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     evaluator.addTerm(PostfixEvaluatorForTest::Term(654U));
     evaluator.addTerm(PostfixEvaluatorForTest::Term("+", PostfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
     evaluator.addTerm(PostfixEvaluatorForTest::Term(")", PostfixEvaluatorForTest::Term::OperatorSyntaxType::EndGroup));
@@ -197,8 +171,7 @@ TEST(ExpressionPostfixEvaluatorTest,ParenthesesAreIgnoredWhenEvaluated)
     EXPECT_EQ(777, evaluator.evaluate());
 }
 
-TEST(ExpressionPostfixEvaluatorTest, ComplicatedOperationssAreCorrectlyEvaluated)
-{
+TEST(ExpressionPostfixEvaluatorTest, ComplicatedOperationssAreCorrectlyEvaluated) {
     PostfixEvaluatorForTest evaluator;
     evaluator.addTerm(PostfixEvaluatorForTest::Term(1U));
     evaluator.addTerm(PostfixEvaluatorForTest::Term(2U));
@@ -213,16 +186,14 @@ TEST(ExpressionPostfixEvaluatorTest, ComplicatedOperationssAreCorrectlyEvaluated
     EXPECT_EQ(101, evaluator.evaluate());
 }
 
-TEST(ExpressionPostfixEvaluatorTest, EvaluationIsNotPossibleForIncompleteOperandForUnaryOperation)
-{
+TEST(ExpressionPostfixEvaluatorTest, EvaluationIsNotPossibleForIncompleteOperandForUnaryOperation) {
     PostfixEvaluatorForTest evaluator;
     evaluator.addTerm(PostfixEvaluatorForTest::Term("~", PostfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
     EXPECT_FALSE(evaluator.isEvaluationPossible());
     evaluator.evaluate();
 }
 
-TEST(ExpressionPostfixEvaluatorTest, EvaluationIsNotPossibleForIncompleteOperandsForBinaryOperation)
-{
+TEST(ExpressionPostfixEvaluatorTest, EvaluationIsNotPossibleForIncompleteOperandsForBinaryOperation) {
     PostfixEvaluatorForTest evaluator;
     evaluator.addTerm(PostfixEvaluatorForTest::Term(1U));
     evaluator.addTerm(PostfixEvaluatorForTest::Term("+", PostfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
@@ -230,10 +201,10 @@ TEST(ExpressionPostfixEvaluatorTest, EvaluationIsNotPossibleForIncompleteOperand
     EXPECT_EQ(1, evaluator.evaluate());
 }
 
-TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForUnaryOperation)
-{
+TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForUnaryOperation) {
     InfixEvaluatorForTest infixEvaluator;
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("~", InfixEvaluatorForTest::Term::OperatorSyntaxType::PrefixUnary));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("~", InfixEvaluatorForTest::Term::OperatorSyntaxType::PrefixUnary));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(0U));
     EXPECT_EQ(-1, infixEvaluator.evaluate());
 
@@ -245,8 +216,7 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForUnaryOper
     EXPECT_EQ(-1, postfixEvaluator.evaluate());
 }
 
-TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOperation)
-{
+TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOperation) {
     InfixEvaluatorForTest infixEvaluator;
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(123U));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
@@ -262,13 +232,14 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOpe
     EXPECT_EQ(777, postfixEvaluator.evaluate());
 }
 
-TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOperationWithPriority)
-{
+TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOperationWithPriority) {
     InfixEvaluatorForTest infixEvaluator;
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(100U));
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary, 2));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary, 2));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(10U));
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary, 1));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary, 1));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(100U));
     EXPECT_EQ(1100, infixEvaluator.evaluate());
 
@@ -283,20 +254,23 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOpe
     EXPECT_EQ(1100, postfixEvaluator.evaluate());
 }
 
-TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForComplicatedOperationsWithParentheses)
-{
+TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForComplicatedOperationsWithParentheses) {
     InfixEvaluatorForTest infixEvaluator;
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(1U));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(2U));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(3U));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(")", InfixEvaluatorForTest::Term::OperatorSyntaxType::EndGroup));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
-    infixEvaluator.addTerm(InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
+    infixEvaluator.addTerm(
+        InfixEvaluatorForTest::Term("(", InfixEvaluatorForTest::Term::OperatorSyntaxType::StartGroup));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(4U));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
     infixEvaluator.addTerm(InfixEvaluatorForTest::Term(5U));
@@ -320,8 +294,7 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForComplicat
     EXPECT_EQ(101, postfixEvaluator.evaluate());
 }
 
-TEST(ExpressionEvaluatorConverterTest, PostfixInfixToConvertionWorks)
-{
+TEST(ExpressionEvaluatorConverterTest, PostfixInfixToConvertionWorks) {
     PostfixEvaluatorForTest postfixEvaluator;
     postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(1U));
     postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(2U));
@@ -356,8 +329,8 @@ TEST(ExpressionEvaluatorConverterTest, PostfixInfixToConvertionWorks)
     EXPECT_EQ(101, postfixEvaluator.evaluate());
 }
 
-}
+}  // namespace ExpressionEvaluator
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

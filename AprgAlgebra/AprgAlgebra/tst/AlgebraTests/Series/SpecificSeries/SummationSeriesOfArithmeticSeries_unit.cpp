@@ -5,21 +5,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-
-TEST(SummationSeriesOfArithmeticSeriesTest, IsConvergentWorks)
-{
+TEST(SummationSeriesOfArithmeticSeriesTest, IsConvergentWorks) {
     SummationSeriesOfArithmeticSeries seriesWithDifferenceLessThanOne(1, AlbaNumber::createFraction(1, 2));
 
     EXPECT_TRUE(seriesWithDifferenceLessThanOne.isSummationModelValid());
     EXPECT_FALSE(seriesWithDifferenceLessThanOne.isConvergent());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

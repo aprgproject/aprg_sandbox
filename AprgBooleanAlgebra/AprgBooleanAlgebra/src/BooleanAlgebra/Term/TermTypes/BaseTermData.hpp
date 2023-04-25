@@ -1,19 +1,15 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class BaseTermData
-{
+class BaseTermData {
 public:
     BaseTermData() = default;
-    virtual ~BaseTermData() = default; // virtual destructor because of virtual functions (vtable exists)
-
+    virtual ~BaseTermData() = default;  // virtual destructor because of virtual functions (vtable exists)
 };
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

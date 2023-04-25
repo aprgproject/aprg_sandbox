@@ -4,16 +4,13 @@
 
 #include <algorithm>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 // use https://en.wikipedia.org/wiki/List_of_logic_symbols
 
-Term getNegation(Term const& term)
-{
+Term getNegation(Term const& term) {
     // Name: Negation
     // Symbol: '¬', '˜', '!'
     // Read as: "not"
@@ -22,8 +19,7 @@ Term getNegation(Term const& term)
     return ~term;
 }
 
-Term getConjunction(Term const& term1, Term const& term2)
-{
+Term getConjunction(Term const& term1, Term const& term2) {
     // Name: Logical conjunction
     // Symbol: '∧', '·', '&'
     // Read as: "and"
@@ -31,8 +27,7 @@ Term getConjunction(Term const& term1, Term const& term2)
     return term1 & term2;
 }
 
-Term getInclusiveDisjunction(Term const& term1, Term const& term2)
-{
+Term getInclusiveDisjunction(Term const& term1, Term const& term2) {
     // Name: Logical inclusive disjunction
     // Symbol: '∨', '+', '||'
     // Read as: "or"
@@ -40,17 +35,15 @@ Term getInclusiveDisjunction(Term const& term1, Term const& term2)
     return term1 | term2;
 }
 
-Term getExclusiveDisjunction(Term const& term1, Term const& term2)
-{
+Term getExclusiveDisjunction(Term const& term1, Term const& term2) {
     // Name: Exclusive disjunction
     // Symbol: '⊕', '⊻', '≢'
     // Read as: "xor", "either.... or"
     // Note: Uses XOR logic
-    return (term1 & ~term2) | (~term1 & term2); // Note this is bitwise XOR
+    return (term1 & ~term2) | (~term1 & term2);  // Note this is bitwise XOR
 }
 
-Term getImplication(Term const& term1, Term const& term2)
-{
+Term getImplication(Term const& term1, Term const& term2) {
     // Name: Material implication
     // Symbol: '⇒', '→' '⊃'
     // Read as: "implies", "if... then"
@@ -59,8 +52,7 @@ Term getImplication(Term const& term1, Term const& term2)
     return ~(term1 & ~term2);
 }
 
-Term getEquivalence(Term const& term1, Term const& term2)
-{
+Term getEquivalence(Term const& term1, Term const& term2) {
     // Name: Material equivalence
     // Symbol: '⇔', '≡', '↔'
     // Read as: "if and only if", "iff", "means the same as"
@@ -70,8 +62,7 @@ Term getEquivalence(Term const& term1, Term const& term2)
     return (term1 & term2) | (~term1 & ~term2);
 }
 
-Term getUniversalQuantification(Terms const& terms, UnaryBooleanFunction const& unaryBooleanFunction)
-{
+Term getUniversalQuantification(Terms const& terms, UnaryBooleanFunction const& unaryBooleanFunction) {
     // Name: Universal quantification
     // Symbol: '∀', '()'
     // Read as: "for all", "for any", "for each", "for every"
@@ -82,8 +73,7 @@ Term getUniversalQuantification(Terms const& terms, UnaryBooleanFunction const& 
     return std::all_of(terms.cbegin(), terms.cend(), unaryBooleanFunction);
 }
 
-Term getExistentialQuantification(Terms const& terms, UnaryBooleanFunction const& unaryBooleanFunction)
-{
+Term getExistentialQuantification(Terms const& terms, UnaryBooleanFunction const& unaryBooleanFunction) {
     // Name: Existential quantification
     // Symbol: '∃'
     // Read as: "there exists"
@@ -94,8 +84,7 @@ Term getExistentialQuantification(Terms const& terms, UnaryBooleanFunction const
     return std::any_of(terms.cbegin(), terms.cend(), unaryBooleanFunction);
 }
 
-Term getUniquenessQuantification(Terms const& terms, UnaryBooleanFunction const& unaryBooleanFunction)
-{
+Term getUniquenessQuantification(Terms const& terms, UnaryBooleanFunction const& unaryBooleanFunction) {
     // Name: Uniqueness quantification
     // Symbol: '∃!'
     // Read as: "there exists exactly one"
@@ -105,36 +94,27 @@ Term getUniquenessQuantification(Terms const& terms, UnaryBooleanFunction const&
 
     auto it = std::find_if(terms.cbegin(), terms.cend(), unaryBooleanFunction);
     bool result(false);
-    if(it != terms.cend())
-    {
+    if (it != terms.cend()) {
         it++;
         result = std::none_of(it, terms.cend(), unaryBooleanFunction);
     }
     return result;
 }
 
-UnaryBooleanFunction getTautology()
-{
+UnaryBooleanFunction getTautology() {
     // Name: Tautology
     // Symbol: '⊤', 'T', '1'
     // The statement ⊤ is unconditionally true.
 
-    return [](Term const&)
-    {
-        return true;
-    };
+    return [](Term const&) { return true; };
 }
 
-UnaryBooleanFunction getContradiction()
-{
+UnaryBooleanFunction getContradiction() {
     // Name: Contradiction
     // Symbol: '⊥', 'F', '0'
     // The statement ⊤ is unconditionally false.
 
-    return [](Term const&)
-    {
-        return false;
-    };
+    return [](Term const&) { return false; };
 }
 
 // Non codable examples:
@@ -143,7 +123,8 @@ UnaryBooleanFunction getContradiction()
 // Name: Definition
 // Symbol: '≔', '≡', ':⇔'
 // Read as: "is defined", "such that"
-// Note: x ≔ y or x ≡ y means x is defined to be another name for y (but note that ≡ can also mean other things, such as congruence).
+// Note: x ≔ y or x ≡ y means x is defined to be another name for y (but note that ≡ can also mean other things, such as
+// congruence).
 
 // 2)
 // Name: Precedence Grouping
@@ -163,7 +144,6 @@ UnaryBooleanFunction getContradiction()
 // Read as: "models"
 // Note: x ⊨ y means x models (semantically entails) y
 
+}  // namespace booleanAlgebra
 
-}
-
-}
+}  // namespace alba

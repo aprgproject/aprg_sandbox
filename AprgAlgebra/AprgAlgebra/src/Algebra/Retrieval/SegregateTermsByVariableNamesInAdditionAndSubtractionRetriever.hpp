@@ -6,16 +6,13 @@
 #include <string>
 #include <unordered_map>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever
-{
+class SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever {
 public:
-    using VariableNameToTermMap=std::unordered_map<std::string, Term>;
+    using VariableNameToTermMap = std::unordered_map<std::string, Term>;
 
     SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever(stringHelper::strings const& variableNames);
 
@@ -30,6 +27,7 @@ public:
     void retrieveFromExpression(Expression const& expression);
     void retrieveFromFunction(Function const& functionObject);
     void retrieveFromTerm(Term const& term);
+
 private:
     void initializeWithVariableNames(stringHelper::strings const& namesInOrder);
     void saveTerm(Term const& term, unsigned int numberOfTimesFound, std::string const& variableName);
@@ -38,6 +36,6 @@ private:
     Term m_remainingTerm;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

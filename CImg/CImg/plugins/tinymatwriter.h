@@ -52,12 +52,10 @@ This library is available from:
     https://github.com/jkriege2/TinyMAT
 ------------------------------------------------------------------------------------*/
 
-
-
 #ifndef cimg_plugin_tinymatwriter
 #define cimg_plugin_tinymatwriter
 
-#include<cstdint>
+#include <cstdint>
 
 /////////////////////////////////////////////////////////////////
 //
@@ -71,38 +69,34 @@ This library is available from:
    \param filename filename of the output file
    \note TinyMATWriter supports signed/unsigned int with 8/16/32/64 bits, double, float and bool as pixel types!
 **/
-const CImg& save_tinymat(const char *filename) const {
+const CImg& save_tinymat(const char* filename) const {
+    TinyMATWriterFile* mat = TinyMATWriter_open(filename);
+    if (mat) {
+        int32_t size_x = width();
+        int32_t size_y = height();
+        int32_t size_z = depth();
+        int32_t size_c = spectrum();
 
-  TinyMATWriterFile* mat=TinyMATWriter_open(filename);
-  if (mat) {
-      int32_t size_x=width();
-      int32_t size_y=height();
-      int32_t size_z=depth();
-      int32_t size_c=spectrum();
+        int32_t sizes[4] = {size_x, size_y, size_z, size_c};
+        uint32_t dims = 4;
+        if (size_c == 1) {
+            dims = 3;
+            if (size_z == 1) {
+                dims = 2;
+                if (size_y == 1) {
+                    dims = 1;
+                }
+            }
+        }
 
-      int32_t sizes[4]={size_x, size_y, size_z, size_c};
-      uint32_t dims=4;
-      if (size_c==1) {
-          dims=3;
-          if (size_z==1) {
-              dims=2;
-                          if (size_y==1) {
-                  dims=1;
-                          }
-          }
-      }
+        TinyMATWriter_writeMatrixND_rowmajor(mat, "CImg_image", data(), sizes, dims);
+        TinyMATWriter_close(mat);
+    } else {
+        throw CImgIOException(_cimg_instance "save_tinymat(): Failed to open file.", cimg_instance);
+    }
 
-          TinyMATWriter_writeMatrixND_rowmajor(mat, "CImg_image", data(), sizes, dims);
-      TinyMATWriter_close(mat);
-  } else {
-      throw CImgIOException(_cimg_instance
-                            "save_tinymat(): Failed to open file.",
-                            cimg_instance);
-  }
-
-  return *this;
+    return *this;
 }
-
 
 // End of the plug-in
 //-------------------

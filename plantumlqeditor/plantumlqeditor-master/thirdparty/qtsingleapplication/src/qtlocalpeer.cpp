@@ -37,39 +37,37 @@
 **
 ****************************************************************************/
 
-
 #include "qtlocalpeer.h"
+
 #include <QtCore/QCoreApplication>
-#include <QtCore/QTime>
 #include <QtCore/QDataStream>
+#include <QtCore/QTime>
 
 #if defined(Q_OS_WIN)
 #include <QtCore/QLibrary>
 #include <QtCore/qt_windows.h>
-typedef BOOL(WINAPI*PProcessIdToSessionId)(DWORD,DWORD*);
+typedef BOOL(WINAPI* PProcessIdToSessionId)(DWORD, DWORD*);
 static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif
 #if defined(Q_OS_UNIX)
-#include <time.h>
-#include <unistd.h>
 #include <sys/types.h>
+#include <unistd.h>
+
+#include <time.h>
 #endif
 
-namespace QtLP_Private 
-{
+namespace QtLP_Private {
 #include "qtlockedfile.cpp"
 #if defined(Q_OS_WIN)
 #include "qtlockedfile_win.cpp"
 #else
 #include "qtlockedfile_unix.cpp"
 #endif
-}
+}  // namespace QtLP_Private
 
 const char* QtLocalPeer::ack = "ack";
 
-QtLocalPeer::QtLocalPeer(QObject* parent, const QString &appId)
-    : QObject(parent), id(appId)
-{
+QtLocalPeer::QtLocalPeer(QObject* parent, const QString& appId) : QObject(parent), id(appId) {
     QString prefix = id;
     if (id.isEmpty()) {
         id = QCoreApplication::applicationFilePath();
@@ -83,8 +81,7 @@ QtLocalPeer::QtLocalPeer(QObject* parent, const QString &appId)
 
     QByteArray idc = id.toUtf8();
     quint16 idNum = qChecksum(idc.constData(), idc.size());
-    socketName = QLatin1String("qtsingleapp-") + prefix
-                 + QLatin1Char('-') + QString::number(idNum, 16);
+    socketName = QLatin1String("qtsingleapp-") + prefix + QLatin1Char('-') + QString::number(idNum, 16);
 
 #if defined(Q_OS_WIN)
     if (!pProcessIdToSessionId) {
@@ -101,83 +98,66 @@ QtLocalPeer::QtLocalPeer(QObject* parent, const QString &appId)
 #endif
 
     server = new QLocalServer(this);
-    QString lockName = QDir(QDir::tempPath()).absolutePath()
-                       + QLatin1Char('/') + socketName
-                       + QLatin1String("-lockfile");
+    QString lockName =
+        QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + socketName + QLatin1String("-lockfile");
     lockFile.setFileName(lockName);
     lockFile.open(QIODevice::ReadWrite);
 }
 
+bool QtLocalPeer::isClient() {
+    if (lockFile.isLocked()) return false;
 
-
-bool QtLocalPeer::isClient()
-{
-    if (lockFile.isLocked())
-        return false;
-
-    if (!lockFile.lock(QtLP_Private::QtLockedFile::WriteLock, false))
-        return true;
+    if (!lockFile.lock(QtLP_Private::QtLockedFile::WriteLock, false)) return true;
 
     bool res = server->listen(socketName);
-#if defined(Q_OS_UNIX) && (QT_VERSION >= QT_VERSION_CHECK(4,5,0))
+#if defined(Q_OS_UNIX) && (QT_VERSION >= QT_VERSION_CHECK(4, 5, 0))
     // ### Workaround
     if (!res && server->serverError() == QAbstractSocket::AddressInUseError) {
-        QFile::remove(QDir::cleanPath(QDir::tempPath())+QLatin1Char('/')+socketName);
+        QFile::remove(QDir::cleanPath(QDir::tempPath()) + QLatin1Char('/') + socketName);
         res = server->listen(socketName);
     }
 #endif
-    if (!res)
-        qWarning("QtSingleCoreApplication: listen on local socket failed, %s", qPrintable(server->errorString()));
+    if (!res) qWarning("QtSingleCoreApplication: listen on local socket failed, %s", qPrintable(server->errorString()));
     QObject::connect(server, SIGNAL(newConnection()), SLOT(receiveConnection()));
     return false;
 }
 
-
-bool QtLocalPeer::sendMessage(const QString &message, int timeout)
-{
-    if (!isClient())
-        return false;
+bool QtLocalPeer::sendMessage(const QString& message, int timeout) {
+    if (!isClient()) return false;
 
     QLocalSocket socket;
     bool connOk = false;
-    for(int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         // Try twice, in case the other instance is just starting up
         socket.connectToServer(socketName);
-        connOk = socket.waitForConnected(timeout/2);
-        if (connOk || i)
-            break;
+        connOk = socket.waitForConnected(timeout / 2);
+        if (connOk || i) break;
         int ms = 250;
 #if defined(Q_OS_WIN)
         Sleep(DWORD(ms));
 #else
-        struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };
+        struct timespec ts = {ms / 1000, (ms % 1000) * 1000 * 1000};
         nanosleep(&ts, NULL);
 #endif
     }
-    if (!connOk)
-        return false;
+    if (!connOk) return false;
 
     QByteArray uMsg(message.toUtf8());
     QDataStream ds(&socket);
     ds.writeBytes(uMsg.constData(), uMsg.size());
     bool res = socket.waitForBytesWritten(timeout);
     if (res) {
-        res &= socket.waitForReadyRead(timeout);   // wait for ack
-        if (res)
-            res &= (socket.read(qstrlen(ack)) == ack);
+        res &= socket.waitForReadyRead(timeout);  // wait for ack
+        if (res) res &= (socket.read(qstrlen(ack)) == ack);
     }
     return res;
 }
 
-
-void QtLocalPeer::receiveConnection()
-{
+void QtLocalPeer::receiveConnection() {
     QLocalSocket* socket = server->nextPendingConnection();
-    if (!socket)
-        return;
+    if (!socket) return;
 
-    while (socket->bytesAvailable() < (int)sizeof(quint32))
-        socket->waitForReadyRead();
+    while (socket->bytesAvailable() < (int)sizeof(quint32)) socket->waitForReadyRead();
     QDataStream ds(socket);
     QByteArray uMsg;
     quint32 remaining;
@@ -199,5 +179,5 @@ void QtLocalPeer::receiveConnection()
     socket->write(ack, qstrlen(ack));
     socket->waitForBytesWritten(1000);
     delete socket;
-    emit messageReceived(message); //### (might take a long time to return)
+    emit messageReceived(message);  //### (might take a long time to return)
 }

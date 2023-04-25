@@ -3,26 +3,26 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class MaximumProfitByBuyingAndSellingAShareAtMostTwice // the largest possible sum of a sequence of consecutive values in the array
+class MaximumProfitByBuyingAndSellingAShareAtMostTwice  // the largest possible sum of a sequence of consecutive values
+                                                        // in the array
 {
 public:
     using Index = unsigned int;
     using Value = int;
     using Values = std::vector<Value>;
-    static constexpr Index MAX_NUMBER_OF_TRANSACTIONS=2;
+    static constexpr Index MAX_NUMBER_OF_TRANSACTIONS = 2;
 
     MaximumProfitByBuyingAndSellingAShareAtMostTwice(Values const& prices);
 
     Value getMaximumProfitUsingIterativeDP() const;
+
 private:
     Values const m_prices;
 };
 
-}
-
+}  // namespace alba
 
 // Maximum profit by buying and selling a share at most twice
 

@@ -8,13 +8,11 @@
 
 #include <string>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-class GoogleImages
-{
+class GoogleImages {
 public:
-    GoogleImages(WebCrawler & webCrawler);
+    GoogleImages(WebCrawler& webCrawler);
     void crawl();
 
 private:
@@ -26,10 +24,10 @@ private:
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;
-    WebCrawler & m_webCrawler;
+    WebCrawler& m_webCrawler;
     CrawlConfiguration m_configuration;
     std::string m_linkForVideo;
     std::string m_localPathForCurrentVideo;
 };
 
-}
+}  // namespace aprgWebCrawler

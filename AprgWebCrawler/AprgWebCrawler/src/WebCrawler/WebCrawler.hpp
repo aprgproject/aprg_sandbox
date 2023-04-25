@@ -9,11 +9,9 @@
 #include <fstream>
 #include <string>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-class WebCrawler
-{
+class WebCrawler {
 public:
     typedef std::deque<std::string> WebLinks;
     WebCrawler(std::string const& downloadDirectory, std::string const& temporaryFilePath);
@@ -72,4 +70,4 @@ private:
     WebLinks m_webLinks;
 };
 
-}
+}  // namespace aprgWebCrawler

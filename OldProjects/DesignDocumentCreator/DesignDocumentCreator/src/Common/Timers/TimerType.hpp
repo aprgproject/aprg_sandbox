@@ -1,14 +1,7 @@
 #pragma once
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-enum class TimerType
-{
-    Empty,
-    CellTimer,
-    DspTimer,
-    CarrierResourceTimer
-};
+enum class TimerType { Empty, CellTimer, DspTimer, CarrierResourceTimer };
 
 }

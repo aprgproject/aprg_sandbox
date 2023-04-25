@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(HardwareConfigurationTest, OneFspOneLcgEvenDistribution)
-{
+TEST(HardwareConfigurationTest, OneFspOneLcgEvenDistribution) {
     HardwareConfiguration hardwareConfiguration;
     hardwareConfiguration.changeConfigurationToOneFspOneLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
@@ -31,8 +29,7 @@ TEST(HardwareConfigurationTest, OneFspOneLcgEvenDistribution)
     EXPECT_TRUE(fspIn1200.isMasterTcom());
 }
 
-TEST(HardwareConfigurationTest, OneFspTwoLcgEvenDistribution)
-{
+TEST(HardwareConfigurationTest, OneFspTwoLcgEvenDistribution) {
     HardwareConfiguration hardwareConfiguration;
     hardwareConfiguration.changeConfigurationToOneFspTwoLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
@@ -64,8 +61,7 @@ TEST(HardwareConfigurationTest, OneFspTwoLcgEvenDistribution)
     EXPECT_TRUE(fspIn1200.isMasterTcom());
 }
 
-TEST(HardwareConfigurationTest, TwoFspOneLcgEvenDistribution_CheckSecondFsp)
-{
+TEST(HardwareConfigurationTest, TwoFspOneLcgEvenDistribution_CheckSecondFsp) {
     HardwareConfiguration hardwareConfiguration;
     hardwareConfiguration.changeConfigurationToTwoFspOneLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
@@ -88,8 +84,7 @@ TEST(HardwareConfigurationTest, TwoFspOneLcgEvenDistribution_CheckSecondFsp)
     EXPECT_FALSE(fspIn1300.isMasterTcom());
 }
 
-TEST(HardwareConfigurationTest, TwoFspTwoLcgEvenDistribution)
-{
+TEST(HardwareConfigurationTest, TwoFspTwoLcgEvenDistribution) {
     HardwareConfiguration hardwareConfiguration;
     hardwareConfiguration.changeConfigurationToTwoFspTwoLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
@@ -136,4 +131,4 @@ TEST(HardwareConfigurationTest, TwoFspTwoLcgEvenDistribution)
     EXPECT_FALSE(fspIn1300.isMasterTcom());
 }
 
-}
+}  // namespace alba

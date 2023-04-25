@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Memento
-{
+namespace Memento {
 
-TEST(MementoTest, Test1)
-{
+TEST(MementoTest, Test1) {
     CareTaker caretaker;
 
     caretaker.save(Originator(1));
@@ -24,4 +22,4 @@ TEST(MementoTest, Test1)
     caretaker.save(originator1);
 }
 
-}
+}  // namespace Memento

@@ -4,25 +4,23 @@
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace ExpressionEvaluator
-{
+namespace ExpressionEvaluator {
 
 template <>
-AlbaGrepStringEvaluatorTerm performUnaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>
-(AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value);
+AlbaGrepStringEvaluatorTerm performUnaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>(
+    AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value);
 
 template <>
-AlbaGrepStringEvaluatorTerm performBinaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>
-(AlbaGrepStringEvaluatorTerm const& value1, AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value2);
+AlbaGrepStringEvaluatorTerm performBinaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>(
+    AlbaGrepStringEvaluatorTerm const& value1, AlbaGrepStringOperatorType const& operatorObject,
+    AlbaGrepStringEvaluatorTerm const& value2);
 
-}
+}  // namespace ExpressionEvaluator
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

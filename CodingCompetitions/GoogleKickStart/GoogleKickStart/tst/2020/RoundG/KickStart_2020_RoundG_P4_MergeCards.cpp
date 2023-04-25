@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2020_RoundG_P4_MergeCards.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -17,8 +18,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2020_RoundG_P4_MergeCards
-{
+namespace KickStart_2020_RoundG_P4_MergeCards {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -26,39 +26,35 @@ namespace KickStart_2020_RoundG_P4_MergeCards
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     int n;
     my_cin >> n;
     vector<int> a(n);
-    for(int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         my_cin >> a[i];
     }
     double answer = 0;
-    for(int x = 0; x < n - 1; ++x) {
-        for(int i = x; i >= 0; --i) {
-            answer += a[i] / (double) (x - i + 1);
+    for (int x = 0; x < n - 1; ++x) {
+        for (int i = x; i >= 0; --i) {
+            answer += a[i] / (double)(x - i + 1);
         }
-        for(int i = x + 1; i < n; ++i) {
-            answer += a[i] / (double) (i - x);
+        for (int i = x + 1; i < n; ++i) {
+            answer += a[i] / (double)(i - x);
         }
     }
     my_cout.precision(10);
     my_cout << "Case #" << testCaseNumber << ": " << answer << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -68,8 +64,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_RoundG_P4_MergeCards
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

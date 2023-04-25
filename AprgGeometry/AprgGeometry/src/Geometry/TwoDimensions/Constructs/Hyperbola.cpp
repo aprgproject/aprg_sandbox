@@ -11,77 +11,41 @@ using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-Hyperbola::Hyperbola()
-    : m_center()
-    , m_aValue(0)
-    , m_bValue(0)
-{}
+Hyperbola::Hyperbola() : m_center(), m_aValue(0), m_bValue(0) {}
 
 Hyperbola::Hyperbola(Point const& center, double const aCoefficient, double const bCoefficient)
-    : m_center(center)
-    , m_aValue(aCoefficient)
-    , m_bValue(bCoefficient)
-{}
+    : m_center(center), m_aValue(aCoefficient), m_bValue(bCoefficient) {}
 
-bool Hyperbola::operator==(Hyperbola const& hyperbola) const
-{
-    return (m_center == hyperbola.m_center)
-            && isAlmostEqual(m_aValue, hyperbola.m_aValue)
-            && isAlmostEqual(m_bValue, hyperbola.m_bValue);
+bool Hyperbola::operator==(Hyperbola const& hyperbola) const {
+    return (m_center == hyperbola.m_center) && isAlmostEqual(m_aValue, hyperbola.m_aValue) &&
+           isAlmostEqual(m_bValue, hyperbola.m_bValue);
 }
 
-bool Hyperbola::operator!=(Hyperbola const& hyperbola) const
-{
-    return !((*this)==hyperbola);
-}
+bool Hyperbola::operator!=(Hyperbola const& hyperbola) const { return !((*this) == hyperbola); }
 
-Point Hyperbola::getCenter() const
-{
-    return m_center;
-}
+Point Hyperbola::getCenter() const { return m_center; }
 
-double Hyperbola::getAValue() const
-{
-    return m_aValue;
-}
+double Hyperbola::getAValue() const { return m_aValue; }
 
-double Hyperbola::getBValue() const
-{
-    return m_bValue;
-}
+double Hyperbola::getBValue() const { return m_bValue; }
 
-double Hyperbola::getCValue() const
-{
-    return getSquareRootOfXSquaredPlusYSquared(m_aValue, m_bValue);
-}
+double Hyperbola::getCValue() const { return getSquareRootOfXSquaredPlusYSquared(m_aValue, m_bValue); }
 
-double Hyperbola::getEccentricity() const
-{
-    return pow(1 + (pow(m_bValue, 2)/pow(m_aValue, 2)), 0.5);
-}
+double Hyperbola::getEccentricity() const { return pow(1 + (pow(m_bValue, 2) / pow(m_aValue, 2)), 0.5); }
 
-double Hyperbola::getSemiLactusRectum() const
-{
-    return pow(m_bValue, 2)/m_aValue;
-}
+double Hyperbola::getSemiLactusRectum() const { return pow(m_bValue, 2) / m_aValue; }
 
-Points Hyperbola::getFoci() const
-{
+Points Hyperbola::getFoci() const {
     Points foci;
-    if(m_aValue > 0)
-    {
+    if (m_aValue > 0) {
         double c(getCValue());
         foci.emplace_back(m_center + Point(c, 0));
         foci.emplace_back(m_center - Point(c, 0));
-    }
-    else
-    {
+    } else {
         double c(getCValue());
         foci.emplace_back(m_center + Point(0, c));
         foci.emplace_back(m_center - Point(0, c));
@@ -89,16 +53,12 @@ Points Hyperbola::getFoci() const
     return foci;
 }
 
-Points Hyperbola::getVertices() const
-{
+Points Hyperbola::getVertices() const {
     Points vertices;
-    if(m_aValue > 0)
-    {
+    if (m_aValue > 0) {
         vertices.emplace_back(m_center + Point(m_aValue, 0));
         vertices.emplace_back(m_center - Point(m_aValue, 0));
-    }
-    else
-    {
+    } else {
         double bPositive = getAbsoluteValue(m_bValue);
         vertices.emplace_back(m_center + Point(0, bPositive));
         vertices.emplace_back(m_center - Point(0, bPositive));
@@ -106,107 +66,88 @@ Points Hyperbola::getVertices() const
     return vertices;
 }
 
-Points Hyperbola::getPointsForShape(double const interval) const
-{
+Points Hyperbola::getPointsForShape(double const interval) const {
     Points result;
-    if(m_aValue!=0 && m_bValue!=0)
-    {
+    if (m_aValue != 0 && m_bValue != 0) {
         Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
         Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
         Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
         Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
-        result.reserve(pointsInFirstQuarter.size()+pointsInSecondQuarter.size()+pointsInThirdQuarter.size()+pointsInFourthQuarter.size());
-        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
+        result.reserve(
+            pointsInFirstQuarter.size() + pointsInSecondQuarter.size() + pointsInThirdQuarter.size() +
+            pointsInFourthQuarter.size());
+        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend() - 1, back_inserter(result));
         copy(pointsInFourthQuarter.cbegin(), pointsInFourthQuarter.cend(), back_inserter(result));
-        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
+        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend() - 1, back_inserter(result));
         copy(pointsInThirdQuarter.cbegin(), pointsInThirdQuarter.cend(), back_inserter(result));
     }
     return result;
 }
 
-Lines Hyperbola::getAsymptotes() const
-{
+Lines Hyperbola::getAsymptotes() const {
     Lines result;
-    result.emplace_back(m_bValue, m_aValue, -m_bValue*m_center.getX() - m_aValue*m_center.getY());
-    result.emplace_back(m_bValue, -m_aValue, -m_bValue*m_center.getX() + m_aValue*m_center.getY());
+    result.emplace_back(m_bValue, m_aValue, -m_bValue * m_center.getX() - m_aValue * m_center.getY());
+    result.emplace_back(m_bValue, -m_aValue, -m_bValue * m_center.getX() + m_aValue * m_center.getY());
     return result;
 }
 
-double Hyperbola::calculateYFromX(double const x, double const signOfRoot) const
-{
-    return pow(pow((x-m_center.getX())/m_aValue, 2) - 1, 0.5)*signOfRoot*m_bValue + m_center.getY();
+double Hyperbola::calculateYFromX(double const x, double const signOfRoot) const {
+    return pow(pow((x - m_center.getX()) / m_aValue, 2) - 1, 0.5) * signOfRoot * m_bValue + m_center.getY();
 }
 
-double Hyperbola::calculateXFromY(double const y, double const signOfRoot) const
-{
-    return pow(1 + pow((y-m_center.getY())/m_bValue, 2), 0.5)*signOfRoot*m_aValue + m_center.getX();
+double Hyperbola::calculateXFromY(double const y, double const signOfRoot) const {
+    return pow(1 + pow((y - m_center.getY()) / m_bValue, 2), 0.5) * signOfRoot * m_aValue + m_center.getX();
 }
 
-double Hyperbola::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const
-{
-    return pow(pow(x/m_aValue, 2) - 1, 0.5)*signOfRoot*m_bValue;
+double Hyperbola::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const {
+    return pow(pow(x / m_aValue, 2) - 1, 0.5) * signOfRoot * m_bValue;
 }
 
-double Hyperbola::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const
-{
-    return pow(1 + pow(y/m_bValue, 2), 0.5)*signOfRoot*m_aValue;
+double Hyperbola::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const {
+    return pow(1 + pow(y / m_bValue, 2), 0.5) * signOfRoot * m_aValue;
 }
 
-Points Hyperbola::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const
-{
+Points Hyperbola::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const {
     Points result;
     Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
     Points pointsFromTraversingY(getPointsInTraversingY(signOfX, signOfY, interval));
-    if(signOfX>0 && signOfY>0) //first quarter
+    if (signOfX > 0 && signOfY > 0)  // first quarter
     {
         result = getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
-    }
-    else if(signOfX>0 && signOfY<0) //fourth quarter
+    } else if (signOfX > 0 && signOfY < 0)  // fourth quarter
     {
         result = getMergedPointsInIncreasingX(pointsFromTraversingX, pointsFromTraversingY);
-    }
-    else if(signOfX<0 && signOfY>0) //second quarter
+    } else if (signOfX < 0 && signOfY > 0)  // second quarter
     {
         result = getMergedPointsInIncreasingX(pointsFromTraversingX, pointsFromTraversingY);
-    }
-    else if(signOfX<0 && signOfY<0) //third quarter
+    } else if (signOfX < 0 && signOfY < 0)  // third quarter
     {
         result = getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
     }
     return result;
 }
 
-Points Hyperbola::getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const
-{
+Points Hyperbola::getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const {
     Points result;
-    AlbaValueRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
-    yRange.traverse([&](double const yValue)
-    {
-        result.emplace_back(calculateXFromY(yValue, signOfX), yValue);
-    });
+    AlbaValueRange<double> yRange(m_center.getY(), m_center.getY() + (m_bValue * signOfY), interval);
+    yRange.traverse([&](double const yValue) { result.emplace_back(calculateXFromY(yValue, signOfX), yValue); });
     return result;
 }
 
-Points Hyperbola::getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const
-{
+Points Hyperbola::getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const {
     Points result;
-    double stepValue(m_aValue*signOfX);
-    AlbaValueRange<double> xRange(m_center.getX()+stepValue, m_center.getX()+2*stepValue, interval); // whats with the 2 step value? it should configurable
-    xRange.traverse([&](double const xValue)
-    {
-        result.emplace_back(xValue, calculateYFromX(xValue, signOfY));
-    });
+    double stepValue(m_aValue * signOfX);
+    AlbaValueRange<double> xRange(
+        m_center.getX() + stepValue, m_center.getX() + 2 * stepValue,
+        interval);  // whats with the 2 step value? it should configurable
+    xRange.traverse([&](double const xValue) { result.emplace_back(xValue, calculateYFromX(xValue, signOfY)); });
     return result;
 }
 
-ostream & operator<<(ostream & out, Hyperbola const& hyperbola)
-{
-    out << "(center: " << hyperbola.m_center
-        << " a: " << hyperbola.m_aValue
-        << " b: " << hyperbola.m_bValue
-        << ")";
+ostream& operator<<(ostream& out, Hyperbola const& hyperbola) {
+    out << "(center: " << hyperbola.m_center << " a: " << hyperbola.m_aValue << " b: " << hyperbola.m_bValue << ")";
     return out;
 }
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

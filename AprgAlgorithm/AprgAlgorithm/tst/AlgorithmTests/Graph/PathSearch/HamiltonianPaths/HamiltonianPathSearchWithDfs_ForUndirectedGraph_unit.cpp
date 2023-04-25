@@ -3,23 +3,19 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = HamiltonianPathSearchWithDfs<VertexForTest>;
 using PathForTest = PathSearchForTest::Path;
 using PathsForTest = PathSearchForTest::Paths;
-}
+}  // namespace
 
-TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianPathsWorks)
-{
+TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianPathsWorks) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -30,15 +26,13 @@ TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianPaths
 
     PathsForTest pathsToVerify(pathSearch.getAllHamiltonianPaths());
 
-    PathsForTest pathsToExpect
-    {{0U, 1U, 2U, 3U}, {0U, 1U, 3U, 2U}, {0U, 2U, 1U, 3U}, {0U, 2U, 3U, 1U}, {1U, 0U, 2U, 3U},
-        {1U, 3U, 2U, 0U}, {2U, 0U, 1U, 3U}, {2U, 3U, 1U, 0U}, {3U, 1U, 0U, 2U}, {3U, 1U, 2U, 0U},
-        {3U, 2U, 0U, 1U}, {3U, 2U, 1U, 0U}};
+    PathsForTest pathsToExpect{{0U, 1U, 2U, 3U}, {0U, 1U, 3U, 2U}, {0U, 2U, 1U, 3U}, {0U, 2U, 3U, 1U},
+                               {1U, 0U, 2U, 3U}, {1U, 3U, 2U, 0U}, {2U, 0U, 1U, 3U}, {2U, 3U, 1U, 0U},
+                               {3U, 1U, 0U, 2U}, {3U, 1U, 2U, 0U}, {3U, 2U, 0U, 1U}, {3U, 2U, 1U, 0U}};
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianPathWorks)
-{
+TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianPathWorks) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -53,8 +47,7 @@ TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianPathW
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianCyclesWorks)
-{
+TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianCyclesWorks) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -65,14 +58,12 @@ TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianCycle
 
     PathsForTest pathsToVerify(pathSearch.getAllHamiltonianCycles());
 
-    PathsForTest pathsToExpect
-    {{0U, 1U, 3U, 2U, 0U}, {0U, 2U, 3U, 1U, 0U}, {1U, 0U, 2U, 3U, 1U}, {1U, 3U, 2U, 0U, 1U},
-        {2U, 0U, 1U, 3U, 2U}, {2U, 3U, 1U, 0U, 2U}, {3U, 1U, 0U, 2U, 3U}, {3U, 2U, 0U, 1U, 3U}};
+    PathsForTest pathsToExpect{{0U, 1U, 3U, 2U, 0U}, {0U, 2U, 3U, 1U, 0U}, {1U, 0U, 2U, 3U, 1U}, {1U, 3U, 2U, 0U, 1U},
+                               {2U, 0U, 1U, 3U, 2U}, {2U, 3U, 1U, 0U, 2U}, {3U, 1U, 0U, 2U, 3U}, {3U, 2U, 0U, 1U, 3U}};
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianCycleWorks)
-{
+TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianCycleWorks) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -87,6 +78,6 @@ TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianCycle
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

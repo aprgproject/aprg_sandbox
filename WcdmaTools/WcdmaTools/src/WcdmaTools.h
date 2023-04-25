@@ -1,23 +1,20 @@
 #pragma once
 
 #include <ProgressBarThread.hpp>
+#include <QLineEdit>
+#include <QMainWindow>
 #include <StepHandlerThread.hpp>
 #include <WcdmaToolsConfiguration.hpp>
 
-#include <QMainWindow>
-#include <QLineEdit>
-
-namespace Ui
-{
+namespace Ui {
 class WcdmaTools;
 }
 
-class WcdmaTools : public QMainWindow
-{
+class WcdmaTools : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit WcdmaTools(QWidget *parent = 0);
+    explicit WcdmaTools(QWidget* parent = 0);
     ~WcdmaTools();
     void setInputFileOrDirectory(std::string const& inputFileOrDirectory);
 
@@ -72,7 +69,7 @@ private slots:
 
 private:
     void updateGuiUsingConfiguration();
-    Ui::WcdmaTools *ui;
+    Ui::WcdmaTools* ui;
     wcdmaToolsGui::WcdmaToolsConfiguration m_configuration;
     wcdmaToolsGui::StepHandlerThread m_stepHandlerThread;
     wcdmaToolsGui::ProgressBarThread m_progressBarThread;

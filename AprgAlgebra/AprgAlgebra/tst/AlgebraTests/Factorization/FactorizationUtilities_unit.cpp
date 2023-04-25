@@ -4,17 +4,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Factorization
-{
+namespace Factorization {
 
-TEST(FactorizationUtilitiesTest, AreExponentsDivisibleWorks)
-{
+TEST(FactorizationUtilitiesTest, AreExponentsDivisibleWorks) {
     Monomial monomial1;
     Monomial monomial2(4, {{"x", 4}});
     Monomial monomial3(2, {{"x", 4}});
@@ -26,8 +22,7 @@ TEST(FactorizationUtilitiesTest, AreExponentsDivisibleWorks)
     EXPECT_FALSE(areExponentsDivisible(monomial4, 4));
 }
 
-TEST(FactorizationUtilitiesTest, IsPerfectSquareWorks)
-{
+TEST(FactorizationUtilitiesTest, IsPerfectSquareWorks) {
     Monomial monomial1;
     Monomial monomial2(25, {{"x", 8}});
     Monomial monomial3(26, {{"x", 8}});
@@ -39,8 +34,7 @@ TEST(FactorizationUtilitiesTest, IsPerfectSquareWorks)
     EXPECT_FALSE(isPerfectSquare(monomial4));
 }
 
-TEST(FactorizationUtilitiesTest, IsPerfectCubeWorks)
-{
+TEST(FactorizationUtilitiesTest, IsPerfectCubeWorks) {
     Monomial monomial1;
     Monomial monomial2(125, {{"x", 6}});
     Monomial monomial3(126, {{"x", 6}});
@@ -52,8 +46,7 @@ TEST(FactorizationUtilitiesTest, IsPerfectCubeWorks)
     EXPECT_FALSE(isPerfectCube(monomial4));
 }
 
-TEST(FactorizationUtilitiesTest, IsPerfectNthPowerWorks)
-{
+TEST(FactorizationUtilitiesTest, IsPerfectNthPowerWorks) {
     Monomial monomial1;
     Monomial monomial2(16, {{"x", 4}});
     Monomial monomial3(17, {{"x", 4}});
@@ -65,8 +58,7 @@ TEST(FactorizationUtilitiesTest, IsPerfectNthPowerWorks)
     EXPECT_FALSE(isPerfectNthPower(monomial4, 4));
 }
 
-TEST(FactorizationUtilitiesTest, DoesNotNeedToBeFactorizedWorks)
-{
+TEST(FactorizationUtilitiesTest, DoesNotNeedToBeFactorizedWorks) {
     EXPECT_TRUE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 4}})}));
     EXPECT_TRUE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}));
     EXPECT_TRUE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}})}));
@@ -75,37 +67,26 @@ TEST(FactorizationUtilitiesTest, DoesNotNeedToBeFactorizedWorks)
     EXPECT_FALSE(doesNotNeedToBeFactorized(Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}));
     EXPECT_FALSE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 0.5}}), Monomial(2, {})}));
     EXPECT_FALSE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 1}, {"y", 1}}), Monomial(2, {})}));
-    EXPECT_FALSE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(2, {{"z", 1}})}));
+    EXPECT_FALSE(doesNotNeedToBeFactorized(
+        Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(2, {{"z", 1}})}));
 }
 
-TEST(FactorizationUtilitiesTest, DoesContainOnlyConstantsWorks)
-{
-    EXPECT_FALSE(doesContainOnlyConstants(
-    {Polynomial{Monomial(1, {})},
-     Polynomial{Monomial(2, {{"x", 3}})}}));
+TEST(FactorizationUtilitiesTest, DoesContainOnlyConstantsWorks) {
+    EXPECT_FALSE(doesContainOnlyConstants({Polynomial{Monomial(1, {})}, Polynomial{Monomial(2, {{"x", 3}})}}));
     EXPECT_TRUE(doesContainOnlyConstants(
-    {Polynomial{Monomial(1, {})},
-     Polynomial{Monomial(2, {})},
-     Polynomial{Monomial(3, {})}}));
+        {Polynomial{Monomial(1, {})}, Polynomial{Monomial(2, {})}, Polynomial{Monomial(3, {})}}));
 }
 
-TEST(FactorizationUtilitiesTest, DoesContainConstantsOrOnlyOneNonConstantWorks)
-{
+TEST(FactorizationUtilitiesTest, DoesContainConstantsOrOnlyOneNonConstantWorks) {
     EXPECT_FALSE(IsEmptyOrContainConstantsOrOneNonConstant(
-    {Polynomial{Monomial(1, {})},
-     Polynomial{Monomial(2, {{"x", 3}})},
-     Polynomial{Monomial(4, {{"y", 5}})}}));
+        {Polynomial{Monomial(1, {})}, Polynomial{Monomial(2, {{"x", 3}})}, Polynomial{Monomial(4, {{"y", 5}})}}));
+    EXPECT_TRUE(
+        IsEmptyOrContainConstantsOrOneNonConstant({Polynomial{Monomial(1, {})}, Polynomial{Monomial(2, {{"x", 3}})}}));
     EXPECT_TRUE(IsEmptyOrContainConstantsOrOneNonConstant(
-    {Polynomial{Monomial(1, {})},
-     Polynomial{Monomial(2, {{"x", 3}})}}));
-    EXPECT_TRUE(IsEmptyOrContainConstantsOrOneNonConstant(
-    {Polynomial{Monomial(1, {})},
-     Polynomial{Monomial(2, {})},
-     Polynomial{Monomial(3, {})}}));
+        {Polynomial{Monomial(1, {})}, Polynomial{Monomial(2, {})}, Polynomial{Monomial(3, {})}}));
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpty)
-{
+TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpty) {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
 
     Polynomials polynomialsToVerify;
@@ -116,8 +97,7 @@ TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWo
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty)
-{
+TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {
     Polynomial polynomialToTest;
 
     Polynomials polynomialsToVerify;
@@ -126,8 +106,7 @@ TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWo
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
-TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpty)
-{
+TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpty) {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
 
     Polynomials polynomialsToVerify;
@@ -138,8 +117,7 @@ TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpt
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
 
-TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty)
-{
+TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {
     Polynomial polynomialToTest;
 
     Polynomials polynomialsToVerify;
@@ -148,8 +126,7 @@ TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty)
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsNotEmpty)
-{
+TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsNotEmpty) {
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
     Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
     Polynomial polynomial3{Monomial(1, {{"z", 1}}), Monomial(17, {})};
@@ -167,8 +144,7 @@ TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksW
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsEmpty)
-{
+TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsEmpty) {
     Polynomial singlePolynomial{Monomial(1, {{"a", 1}}), Monomial(23, {})};
     Polynomials polynomialsToVerify;
 
@@ -179,8 +155,8 @@ TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksW
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
 }
 
-}
+}  // namespace Factorization
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

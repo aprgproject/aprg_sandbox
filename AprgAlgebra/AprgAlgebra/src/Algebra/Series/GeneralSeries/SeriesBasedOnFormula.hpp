@@ -5,16 +5,12 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class SeriesBasedOnFormula
-{
+class SeriesBasedOnFormula {
 public:
-
     SeriesBasedOnFormula(Term const& formulaForSeries, std::string const& nameForVariableInFormula);
     virtual bool isConvergent() const;
     virtual bool isIncreasing() const;
@@ -41,6 +37,6 @@ protected:
     std::string m_nameForVariableInFormula;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

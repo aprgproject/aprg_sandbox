@@ -29,82 +29,87 @@
 #include "curl_easy.h"
 
 namespace curl {
+/**
+ * This class implements a sender that sends raw data on an established
+ * connection on an easy handler.
+ */
+template <class T>
+class curl_sender {
+public:
     /**
-     * This class implements a sender that sends raw data on an established
-     * connection on an easy handler.
+     * The constructor initializes the easy handler and the number of
+     * sent bytes.
      */
-    template<class T> class curl_sender {
-    public:
-        /**
-         * The constructor initializes the easy handler and the number of
-         * sent bytes.
-         */
-        explicit curl_sender(curl_easy &easy);
-        /**
-         * This method wraps the curl_easy_send function that sends raw data
-         * on an established connection on an easy handler.
-         */
-        void send(T, size_t);
-        /**
-         * Simple getter method that returns sent's current byte number.
-         */
-        size_t get_sent_bytes() const;
-    private:
-        curl_easy &_easy;
-        size_t _sent_bytes;
-    };
-    
-    // Implementation of constructor.
-    template<class T> curl_sender<T>::curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {
-        // ... nothing to do here ...
-    }
-    
-    // Implementation of send method.
-    template<class T> void curl_sender<T>::send(const T buffer, const size_t size) {
-        const CURLcode code = curl_easy_send(_easy.get_curl(),buffer,size,&_sent_bytes);
-        if (code != CURLE_OK) {
-            throw curl_easy_exception(code,__FUNCTION__);
-        }
-    }
-    
-    // Implementation of get_sent_bytes method.
-    template<class T> inline size_t curl_sender<T>::get_sent_bytes() const {
-        return _sent_bytes;
-    }
-    
+    explicit curl_sender(curl_easy &easy);
     /**
-     * Template specialization for strings. C++ string type is not supported by libcurl C
-     * functions, so we must treat it as a const char pointer. This is the purpose of
-     * this class.
+     * This method wraps the curl_easy_send function that sends raw data
+     * on an established connection on an easy handler.
      */
-    template<> class curl_sender<std::string> {
-    public:
-        /**
-         * The constructor initializes the easy handler and the number of
-         * sent bytes.
-         */
-        explicit curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {}
-        /**
-         * This method wraps the curl_easy_send function that sends raw data
-         * on an established connection on an easy handler, treating strings
-         * as const char pointers.
-         */
-        void send(const std::string& buffer) {
-            const CURLcode code = curl_easy_send(_easy.get_curl(),buffer.c_str(),buffer.length(),&_sent_bytes);
-            if (code != CURLE_OK) {
-                throw curl_easy_exception(code,__FUNCTION__);
-            }
-        }
-        /**
-         * Simple getter method that returns sent's current byte number.
-         */
-        inline size_t get_sent_bytes() const {
-            return _sent_bytes;
-        }
-    private:
-        curl_easy &_easy;
-        size_t _sent_bytes;
-    };
+    void send(T, size_t);
+    /**
+     * Simple getter method that returns sent's current byte number.
+     */
+    size_t get_sent_bytes() const;
+
+private:
+    curl_easy &_easy;
+    size_t _sent_bytes;
+};
+
+// Implementation of constructor.
+template <class T>
+curl_sender<T>::curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {
+    // ... nothing to do here ...
 }
+
+// Implementation of send method.
+template <class T>
+void curl_sender<T>::send(const T buffer, const size_t size) {
+    const CURLcode code = curl_easy_send(_easy.get_curl(), buffer, size, &_sent_bytes);
+    if (code != CURLE_OK) {
+        throw curl_easy_exception(code, __FUNCTION__);
+    }
+}
+
+// Implementation of get_sent_bytes method.
+template <class T>
+inline size_t curl_sender<T>::get_sent_bytes() const {
+    return _sent_bytes;
+}
+
+/**
+ * Template specialization for strings. C++ string type is not supported by libcurl C
+ * functions, so we must treat it as a const char pointer. This is the purpose of
+ * this class.
+ */
+template <>
+class curl_sender<std::string> {
+public:
+    /**
+     * The constructor initializes the easy handler and the number of
+     * sent bytes.
+     */
+    explicit curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {}
+    /**
+     * This method wraps the curl_easy_send function that sends raw data
+     * on an established connection on an easy handler, treating strings
+     * as const char pointers.
+     */
+    void send(const std::string &buffer) {
+        const CURLcode code = curl_easy_send(_easy.get_curl(), buffer.c_str(), buffer.length(), &_sent_bytes);
+        if (code != CURLE_OK) {
+            throw curl_easy_exception(code, __FUNCTION__);
+        }
+    }
+    /**
+     * Simple getter method that returns sent's current byte number.
+     */
+    inline size_t get_sent_bytes() const { return _sent_bytes; }
+
+private:
+    curl_easy &_easy;
+    size_t _sent_bytes;
+};
+}  // namespace curl
 
 #endif /* defined(__curlcpp__curl_sender__) */

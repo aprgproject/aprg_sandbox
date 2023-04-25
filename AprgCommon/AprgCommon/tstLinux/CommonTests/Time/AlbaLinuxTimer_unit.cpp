@@ -2,6 +2,7 @@
 #include <Common/Time/AlbaLinuxTimer.hpp>
 
 #include <gtest/gtest.h>
+
 #include <unistd.h>
 
 namespace alba

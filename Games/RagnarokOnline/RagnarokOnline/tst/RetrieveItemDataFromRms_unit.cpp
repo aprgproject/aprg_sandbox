@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(RagnarokOnlineItemUpdateTest, DISABLED_RetrieveItemDataFromRmsWebPagesAndThenSaveTheData)
-{
+TEST(RagnarokOnlineItemUpdateTest, DISABLED_RetrieveItemDataFromRmsWebPagesAndThenSaveTheData) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.retrieveItemDataFromRmsWebpages(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\)");
@@ -16,8 +14,7 @@ TEST(RagnarokOnlineItemUpdateTest, DISABLED_RetrieveItemDataFromRmsWebPagesAndTh
     ragnarokOnline.saveItemIdToItemMapToFile(R"(C:\Users\detectivemark7\Desktop\RO\ItemIdToItemMap.txt)");
 }
 
-TEST(RagnarokOnlineItemTest, ReadItemIdToItemMapFromFileWorks)
-{
+TEST(RagnarokOnlineItemTest, ReadItemIdToItemMapFromFileWorks) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.readItemIdToItemMapFromFile(R"(C:\Users\detectivemark7\Desktop\RO\ItemIdToItemMap.txt)");
@@ -25,8 +22,7 @@ TEST(RagnarokOnlineItemTest, ReadItemIdToItemMapFromFileWorks)
     EXPECT_EQ(6225U, ragnarokOnline.getItemIdToItemMap().size());
 }
 
-TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPagesWorks)
-{
+TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPagesWorks) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.retrieveItemDataFromRmsWebpages(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\)");
@@ -34,11 +30,11 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPagesWorks)
     EXPECT_EQ(6225U, ragnarokOnline.getItemIdToItemMap().size());
 }
 
-TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
-{
+TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveItemDataFromRmsWebPage(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\itemWithLetter_a_pageNumber_1.html)");
+    ragnarokOnline.retrieveItemDataFromRmsWebPage(
+        R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\itemWithLetter_a_pageNumber_1.html)");
 
     ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());
     ASSERT_EQ(12U, itemIdToItemMap.size());
@@ -84,7 +80,9 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item2.prefixOrSuffix.empty());
     ASSERT_EQ(1U, item2.applicableJobs.size());
     EXPECT_EQ("Every Job", item2.applicableJobs.at(0));
-    EXPECT_EQ("Academy Freshman Hat! If you wear this, you should greet all of members of academy. Max HP + 80, Max SP + 10", item2.description);
+    EXPECT_EQ(
+        "Academy Freshman Hat! If you wear this, you should greet all of members of academy. Max HP + 80, Max SP + 10",
+        item2.description);
     EXPECT_EQ("{ bonus bMaxHP,80; bonus bMaxSP,10; },{},{}", item2.itemScript);
     EXPECT_TRUE(item2.droppedByMonstersWithRates.empty());
 
@@ -148,7 +146,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item5.property.empty());
     EXPECT_TRUE(item5.prefixOrSuffix.empty());
     EXPECT_TRUE(item5.applicableJobs.empty());
-    EXPECT_EQ("A legendary brush which is used by a Master of dark arts. People says it's made of the best ivory and hair of a god.", item5.description);
+    EXPECT_EQ(
+        "A legendary brush which is used by a Master of dark arts. People says it's made of the best ivory and hair of "
+        "a god.",
+        item5.description);
     EXPECT_EQ("{},{},{}", item5.itemScript);
     EXPECT_TRUE(item5.droppedByMonstersWithRates.empty());
 
@@ -169,7 +170,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item6.property.empty());
     EXPECT_TRUE(item6.prefixOrSuffix.empty());
     EXPECT_TRUE(item6.applicableJobs.empty());
-    EXPECT_EQ("A picture of Maestro Song that was taken in front of Thanatos tower. Written on the back is 'I want to have a Teddy Bear. I need 33?'.", item6.description);
+    EXPECT_EQ(
+        "A picture of Maestro Song that was taken in front of Thanatos tower. Written on the back is 'I want to have a "
+        "Teddy Bear. I need 33?'.",
+        item6.description);
     EXPECT_EQ("{},{},{}", item6.itemScript);
     EXPECT_TRUE(item6.droppedByMonstersWithRates.empty());
 
@@ -211,7 +215,11 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item8.property.empty());
     EXPECT_TRUE(item8.prefixOrSuffix.empty());
     EXPECT_TRUE(item8.applicableJobs.empty());
-    EXPECT_EQ("A box containing 5 Abrasive. For 5 minutes, the player will receive +30 Critical Rate. This rate is doubled by Katar weapons. Once this item is purchased, termination of contract is impossible. Also, this item is not refundable.", item8.description);
+    EXPECT_EQ(
+        "A box containing 5 Abrasive. For 5 minutes, the player will receive +30 Critical Rate. This rate is doubled "
+        "by Katar weapons. Once this item is purchased, termination of contract is impossible. Also, this item is not "
+        "refundable.",
+        item8.description);
     EXPECT_EQ("{ getitem 14536,5; },{},{}", item8.itemScript);
     EXPECT_TRUE(item8.droppedByMonstersWithRates.empty());
 
@@ -232,7 +240,11 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item9.property.empty());
     EXPECT_TRUE(item9.prefixOrSuffix.empty());
     EXPECT_TRUE(item9.applicableJobs.empty());
-    EXPECT_EQ("A box containing 10 Abrasive. For 5 minutes, the player will receive +30 Critical Rate. This rate is doubled by Katar weapons. Once this item is purchased, termination of contract is impossible. Also, this item is not refundable.", item9.description);
+    EXPECT_EQ(
+        "A box containing 10 Abrasive. For 5 minutes, the player will receive +30 Critical Rate. This rate is doubled "
+        "by Katar weapons. Once this item is purchased, termination of contract is impossible. Also, this item is not "
+        "refundable.",
+        item9.description);
     EXPECT_EQ("{ getitem 14536,10; },{},{}", item9.itemScript);
     EXPECT_TRUE(item9.droppedByMonstersWithRates.empty());
 
@@ -253,7 +265,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item10.property.empty());
     EXPECT_TRUE(item10.prefixOrSuffix.empty());
     EXPECT_TRUE(item10.applicableJobs.empty());
-    EXPECT_EQ("A box containing 5 Abrasive. Once this item is purchased, termination of contract is impossible. Also, this item is not refundable.", item10.description);
+    EXPECT_EQ(
+        "A box containing 5 Abrasive. Once this item is purchased, termination of contract is impossible. Also, this "
+        "item is not refundable.",
+        item10.description);
     EXPECT_EQ("{ getitem 14536,5; },{},{}", item10.itemScript);
     EXPECT_TRUE(item10.droppedByMonstersWithRates.empty());
 
@@ -274,7 +289,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item11.property.empty());
     EXPECT_TRUE(item11.prefixOrSuffix.empty());
     EXPECT_TRUE(item11.applicableJobs.empty());
-    EXPECT_EQ("A box containing 10 Abrasive. Once this item is purchased, termination of contract is impossible. Also, this item is not refundable.", item11.description);
+    EXPECT_EQ(
+        "A box containing 10 Abrasive. Once this item is purchased, termination of contract is impossible. Also, this "
+        "item is not refundable.",
+        item11.description);
     EXPECT_EQ("{ getitem 14536,10; },{},{}", item11.itemScript);
     EXPECT_TRUE(item11.droppedByMonstersWithRates.empty());
 
@@ -296,16 +314,19 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item12.prefixOrSuffix.empty());
     ASSERT_EQ(1U, item12.applicableJobs.size());
     EXPECT_EQ("Every Job", item12.applicableJobs.at(0));
-    EXPECT_EQ("An abrasive that adds sharpness to a weapon. For 5 minutes, the player will receive +30 Critical Rate. This rate is doubled by Katar weapons.", item12.description);
+    EXPECT_EQ(
+        "An abrasive that adds sharpness to a weapon. For 5 minutes, the player will receive +30 Critical Rate. This "
+        "rate is doubled by Katar weapons.",
+        item12.description);
     EXPECT_EQ("{ specialeffect2 EF_MAGICALATTHIT; sc_start SC_INCCRI,300000,30; },{},{}", item12.itemScript);
     EXPECT_TRUE(item12.droppedByMonstersWithRates.empty());
 }
 
-TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
-{
+TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveItemDataFromRmsWebPage(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\itemWithLetter_z_pageNumber_1.html)");
+    ragnarokOnline.retrieveItemDataFromRmsWebPage(
+        R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\itemWithLetter_z_pageNumber_1.html)");
 
     ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());
     ASSERT_EQ(12U, itemIdToItemMap.size());
@@ -536,8 +557,13 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_EQ("Swordman", item4.applicableJobs.at(0));
     EXPECT_EQ("Knight", item4.applicableJobs.at(1));
     EXPECT_EQ("Crusader", item4.applicableJobs.at(2));
-    EXPECT_EQ("A spear imbued with the Wind Property. Add a 10% chance of auto casting Level 3 Thunder Storm on the enemy when attacking. Causes Silence effect to enemies by 2% chance.", item4.description);
-    EXPECT_EQ(R"({ bonus bAtkEle,Ele_Wind; bonus2 bAddEff,Eff_Silence,200; bonus3 bAutoSpell,"MG_THUNDERSTORM",3,100; },{},{})", item4.itemScript);
+    EXPECT_EQ(
+        "A spear imbued with the Wind Property. Add a 10% chance of auto casting Level 3 Thunder Storm on the enemy "
+        "when attacking. Causes Silence effect to enemies by 2% chance.",
+        item4.description);
+    EXPECT_EQ(
+        R"({ bonus bAtkEle,Ele_Wind; bonus2 bAddEff,Eff_Silence,200; bonus3 bAutoSpell,"MG_THUNDERSTORM",3,100; },{},{})",
+        item4.itemScript);
     ASSERT_EQ(1U, item4.droppedByMonstersWithRates.size());
     EXPECT_EQ("Knight of Windstorm / Stormy Knight", item4.droppedByMonstersWithRates.at(0).name);
     EXPECT_DOUBLE_EQ(1.5, item4.droppedByMonstersWithRates.at(0).rate);
@@ -562,8 +588,13 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_EQ("Swordman", item5.applicableJobs.at(0));
     EXPECT_EQ("Knight", item5.applicableJobs.at(1));
     EXPECT_EQ("Crusader", item5.applicableJobs.at(2));
-    EXPECT_EQ("A spear imbued with the Wind Property. Add a 10% chance of auto casting Level 3 Thunder Storm on the enemy when attacking. Causes Silence effect to enemies by 2% chance.", item5.description);
-    EXPECT_EQ(R"({ bonus bAtkEle,Ele_Wind; bonus2 bAddEff,Eff_Silence,200; bonus3 bAutoSpell,"MG_THUNDERSTORM",3,100; },{},{})", item5.itemScript);
+    EXPECT_EQ(
+        "A spear imbued with the Wind Property. Add a 10% chance of auto casting Level 3 Thunder Storm on the enemy "
+        "when attacking. Causes Silence effect to enemies by 2% chance.",
+        item5.description);
+    EXPECT_EQ(
+        R"({ bonus bAtkEle,Ele_Wind; bonus2 bAddEff,Eff_Silence,200; bonus3 bAutoSpell,"MG_THUNDERSTORM",3,100; },{},{})",
+        item5.itemScript);
     EXPECT_TRUE(item5.droppedByMonstersWithRates.empty());
 
     Item const& item6(itemIdToItemMap.at(4096U));
@@ -606,8 +637,13 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_TRUE(item7.property.empty());
     EXPECT_EQ("Dominatrix", item7.prefixOrSuffix);
     EXPECT_TRUE(item7.applicableJobs.empty());
-    EXPECT_EQ("LUK + 2 Inflict 10% more damage with Throw Arrow and Musical Strike. [Injustice Card Combo] More Information on Combo:Injustice Card & Zealotus Card", item7.description);
-    EXPECT_EQ(R"({ bonus bLuk,2; bonus2 bSkillAtk,"BA_MUSICALSTRIKE",10; bonus2 bSkillAtk,"DC_THROWARROW",10; },{},{})", item7.itemScript);
+    EXPECT_EQ(
+        "LUK + 2 Inflict 10% more damage with Throw Arrow and Musical Strike. [Injustice Card Combo] More Information "
+        "on Combo:Injustice Card & Zealotus Card",
+        item7.description);
+    EXPECT_EQ(
+        R"({ bonus bLuk,2; bonus2 bSkillAtk,"BA_MUSICALSTRIKE",10; bonus2 bSkillAtk,"DC_THROWARROW",10; },{},{})",
+        item7.itemScript);
     ASSERT_EQ(1U, item7.droppedByMonstersWithRates.size());
     EXPECT_EQ("Zherlthsh / Zealotus", item7.droppedByMonstersWithRates.at(0).name);
     EXPECT_DOUBLE_EQ(0.01, item7.droppedByMonstersWithRates.at(0).rate);
@@ -630,7 +666,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_TRUE(item8.prefixOrSuffix.empty());
     ASSERT_EQ(1U, item8.applicableJobs.size());
     EXPECT_EQ("Every Job", item8.applicableJobs.at(0));
-    EXPECT_EQ("Zaha doll hat which resembles angel of Zaha. It looks great on your head. INT + 2 Enables use of Level 3 Magnificat. Impossible to refine this item. (Select to show Renewal description for later added effect).", item8.description);
+    EXPECT_EQ(
+        "Zaha doll hat which resembles angel of Zaha. It looks great on your head. INT + 2 Enables use of Level 3 "
+        "Magnificat. Impossible to refine this item. (Select to show Renewal description for later added effect).",
+        item8.description);
     EXPECT_EQ(R"({ bonus bInt,2; skill "PR_MAGNIFICAT", 3; },{},{})", item8.itemScript);
     EXPECT_TRUE(item8.droppedByMonstersWithRates.empty());
 
@@ -652,8 +691,14 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_TRUE(item9.prefixOrSuffix.empty());
     ASSERT_EQ(1U, item9.applicableJobs.size());
     EXPECT_EQ("Every Job except Novice", item9.applicableJobs.at(0));
-    EXPECT_EQ("This mask, which is symbolic of Zherlthsh, mistress of the Glast Heim Underground Prison, makes its wearer feel like looking down on normal human peons. Inflicts 5% more damage on DemiHuman monster. Reduce 5% of the damage taken from DemiHuman monster.", item9.description);
-    EXPECT_EQ(R"({ bonus2 bAddRace,RC_DemiHuman,5; bonus2 bAddRace,RC_Player,5; bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_Player,5; },{},{})", item9.itemScript);
+    EXPECT_EQ(
+        "This mask, which is symbolic of Zherlthsh, mistress of the Glast Heim Underground Prison, makes its wearer "
+        "feel like looking down on normal human peons. Inflicts 5% more damage on DemiHuman monster. Reduce 5% of the "
+        "damage taken from DemiHuman monster.",
+        item9.description);
+    EXPECT_EQ(
+        R"({ bonus2 bAddRace,RC_DemiHuman,5; bonus2 bAddRace,RC_Player,5; bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_Player,5; },{},{})",
+        item9.itemScript);
     EXPECT_TRUE(item9.droppedByMonstersWithRates.empty());
 
     Item const& item10(itemIdToItemMap.at(9026U));
@@ -673,7 +718,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_TRUE(item10.property.empty());
     EXPECT_TRUE(item10.prefixOrSuffix.empty());
     EXPECT_TRUE(item10.applicableJobs.empty());
-    EXPECT_EQ("An egg in which a Zherlthsh Cute Pet rests. Can be hatched by using a Pet Incubator. Increases your magic attack power by 2%. Increases magical damage to the DemiHuman by 2%.", item10.description);
+    EXPECT_EQ(
+        "An egg in which a Zherlthsh Cute Pet rests. Can be hatched by using a Pet Incubator. Increases your magic "
+        "attack power by 2%. Increases magical damage to the DemiHuman by 2%.",
+        item10.description);
     EXPECT_EQ("{},{},{}", item10.itemScript);
     EXPECT_TRUE(item10.droppedByMonstersWithRates.empty());
 
@@ -694,7 +742,10 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_TRUE(item11.property.empty());
     EXPECT_TRUE(item11.prefixOrSuffix.empty());
     EXPECT_TRUE(item11.applicableJobs.empty());
-    EXPECT_EQ("A box containing 1 Zeny Pet Egg Scroll. Once this item is purchased, termination of contract is impossible. Also, this item is not refundable.", item11.description);
+    EXPECT_EQ(
+        "A box containing 1 Zeny Pet Egg Scroll. Once this item is purchased, termination of contract is impossible. "
+        "Also, this item is not refundable.",
+        item11.description);
     EXPECT_EQ("{ getitem 14508,1; },{},{}", item11.itemScript);
     EXPECT_TRUE(item11.droppedByMonstersWithRates.empty());
 
@@ -721,4 +772,4 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
     EXPECT_TRUE(item12.droppedByMonstersWithRates.empty());
 }
 
-}
+}  // namespace alba

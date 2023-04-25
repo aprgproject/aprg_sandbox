@@ -10,22 +10,18 @@ using namespace alba::algebra::Functions;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(TermRaiseToANumberTest, ConstructionWorks)
-{
+TEST(TermRaiseToANumberTest, ConstructionWorks) {
     TermRaiseToANumber termRaiseToANumber("x", 5);
 
     EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
 }
 
-TEST(TermRaiseToANumberTest, IsEmptyWorks)
-{
+TEST(TermRaiseToANumberTest, IsEmptyWorks) {
     TermRaiseToANumber empty;
     TermRaiseToANumber nonEmpty("x", 5);
 
@@ -33,8 +29,7 @@ TEST(TermRaiseToANumberTest, IsEmptyWorks)
     EXPECT_FALSE(nonEmpty.isEmpty());
 }
 
-TEST(TermRaiseToANumberTest, IsRadicalWorks)
-{
+TEST(TermRaiseToANumberTest, IsRadicalWorks) {
     TermRaiseToANumber termWithIntegerExponent("x", 5);
     TermRaiseToANumber termWithFractionalExponent("x", AlbaNumber::createFraction(3, 4));
     TermRaiseToANumber termWithDoubleExponent("x", 1.693);
@@ -44,8 +39,7 @@ TEST(TermRaiseToANumberTest, IsRadicalWorks)
     EXPECT_TRUE(termWithDoubleExponent.isRadical());
 }
 
-TEST(TermRaiseToANumberTest, GetCombinedTermWorks)
-{
+TEST(TermRaiseToANumberTest, GetCombinedTermWorks) {
     TermRaiseToANumber baseAndExponent1("x", 1);
     TermRaiseToANumber baseAndExponent2(Monomial(5, {{"x", 6}}), 7);
     TermRaiseToANumber baseAndExponent3(sin("x"), 7);
@@ -58,22 +52,19 @@ TEST(TermRaiseToANumberTest, GetCombinedTermWorks)
     EXPECT_EQ(stringToExpect3, convertToString(baseAndExponent3.getCombinedTerm()));
 }
 
-TEST(TermRaiseToANumberTest, GetBaseWorks)
-{
+TEST(TermRaiseToANumberTest, GetBaseWorks) {
     TermRaiseToANumber termRaiseToANumber("x", 5);
 
     EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
 }
 
-TEST(TermRaiseToANumberTest, GetExponentWorks)
-{
+TEST(TermRaiseToANumberTest, GetExponentWorks) {
     TermRaiseToANumber termRaiseToANumber("x", 5);
 
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
 }
 
-TEST(TermRaiseToANumberTest, GetBaseReferenceWorks)
-{
+TEST(TermRaiseToANumberTest, GetBaseReferenceWorks) {
     TermRaiseToANumber termRaiseToANumber("x", 5);
 
     termRaiseToANumber.getBaseReference() = "y";
@@ -81,6 +72,6 @@ TEST(TermRaiseToANumberTest, GetBaseReferenceWorks)
     EXPECT_EQ(Term("y"), termRaiseToANumber.getBase());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

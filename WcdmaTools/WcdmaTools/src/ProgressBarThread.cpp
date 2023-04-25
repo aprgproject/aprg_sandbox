@@ -1,23 +1,16 @@
 #include "ProgressBarThread.hpp"
 
-#include <StepHandler.hpp>
-
 #include <QtWidgets>
+#include <StepHandler.hpp>
 
 using namespace std;
 
-namespace wcdmaToolsGui
-{
+namespace wcdmaToolsGui {
 
 ProgressBarThread::ProgressBarThread(QObject *parent)
-    : QThread(parent)
-    , m_mutex()
-    , m_condition()
-    , m_state(ThreadState::Stopped)
-{}
+    : QThread(parent), m_mutex(), m_condition(), m_state(ThreadState::Stopped) {}
 
-ProgressBarThread::~ProgressBarThread()
-{
+ProgressBarThread::~ProgressBarThread() {
     m_mutex.lock();
     m_state = ThreadState::Killed;
     m_mutex.unlock();
@@ -25,41 +18,32 @@ ProgressBarThread::~ProgressBarThread()
     wait();
 }
 
-void ProgressBarThread::startUpdatingProgressBar()
-{
+void ProgressBarThread::startUpdatingProgressBar() {
     m_mutex.lock();
     m_state = ThreadState::Started;
     m_mutex.unlock();
     m_condition.wakeAll();
 }
 
-void ProgressBarThread::stopUpdatingProgressBar()
-{
+void ProgressBarThread::stopUpdatingProgressBar() {
     m_mutex.lock();
     m_state = ThreadState::Stopped;
     m_mutex.unlock();
 }
 
-void ProgressBarThread::run()
-{
-    forever
-    {
-        if(m_state == ThreadState::Stopped)
-        {
+void ProgressBarThread::run() {
+    forever {
+        if (m_state == ThreadState::Stopped) {
             m_mutex.lock();
             m_condition.wait(&m_mutex);
             m_mutex.unlock();
-        }
-        else if(m_state == ThreadState::Started)
-        {
+        } else if (m_state == ThreadState::Started) {
             emit triggerUpdateProgressBar();
             msleep(500);
-        }
-        else if(m_state == ThreadState::Killed)
-        {
+        } else if (m_state == ThreadState::Killed) {
             return;
         }
     }
 }
 
-}
+}  // namespace wcdmaToolsGui

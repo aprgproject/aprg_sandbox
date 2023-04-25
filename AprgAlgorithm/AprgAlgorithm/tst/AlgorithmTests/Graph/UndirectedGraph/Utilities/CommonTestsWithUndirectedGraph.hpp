@@ -4,26 +4,21 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithUndirectedGraph
-{
+namespace CommonTestsWithUndirectedGraph {
 
 template <typename Graph>
-void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
-{
+void testGetGraphDirectionTypeWithVertexAsUnsignedInt() {
     Graph graph;
 
     EXPECT_EQ(GraphDirectionType::Undirected, graph.getGraphDirectionType());
 }
 
 template <typename Graph>
-void testIsEmptyWithVertexAsUnsignedInt()
-{
+void testIsEmptyWithVertexAsUnsignedInt() {
     Graph emptyGraph;
     Graph nonEmptyGraph;
     nonEmptyGraph.connect(0U, 1U);
@@ -34,8 +29,7 @@ void testIsEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt()
-{
+void testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt() {
     Graph graph;
 
     EXPECT_FALSE(graph.hasAnyConnection(0U));
@@ -45,8 +39,7 @@ void testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -58,8 +51,7 @@ void testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
-{
+void testIsConnectedWhenEmptyWithVertexAsUnsignedInt() {
     Graph graph;
 
     EXPECT_FALSE(graph.isDirectlyConnected(0U, 1U));
@@ -69,8 +61,7 @@ void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -82,16 +73,14 @@ void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt()
-{
+void testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt() {
     Graph graph;
 
     EXPECT_EQ(0U, graph.getNumberOfVertices());
 }
 
 template <typename Graph>
-void testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -100,16 +89,14 @@ void testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt()
-{
+void testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt() {
     Graph graph;
 
     EXPECT_EQ(0U, graph.getNumberOfEdges());
 }
 
 template <typename Graph>
-void testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -118,8 +105,7 @@ void testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt()
-{
+void testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt() {
     using Vertices = typename Graph::Vertices;
     Graph graph;
 
@@ -129,8 +115,7 @@ void testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt() {
     using Vertices = typename Graph::Vertices;
     Graph graph;
     graph.connect(0U, 1U);
@@ -149,8 +134,7 @@ void testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetVerticesWhenEmptyWithVertexAsUnsignedInt()
-{
+void testGetVerticesWhenEmptyWithVertexAsUnsignedInt() {
     using Vertices = typename Graph::Vertices;
     Graph graph;
 
@@ -160,8 +144,7 @@ void testGetVerticesWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt() {
     using Vertices = typename Graph::Vertices;
     Graph graph;
     graph.connect(0U, 1U);
@@ -174,8 +157,7 @@ void testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetEdgesWhenEmptyWithVertexAsUnsignedInt()
-{
+void testGetEdgesWhenEmptyWithVertexAsUnsignedInt() {
     using Edges = typename Graph::Edges;
     Graph graph;
 
@@ -185,8 +167,7 @@ void testGetEdgesWhenEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt()
-{
+void testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt() {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 1U);
@@ -199,8 +180,7 @@ void testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testConnectWithVertexAsUnsignedInt()
-{
+void testConnectWithVertexAsUnsignedInt() {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 1U);
@@ -214,8 +194,7 @@ void testConnectWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testDisconnectWithVertexAsUnsignedInt()
-{
+void testDisconnectWithVertexAsUnsignedInt() {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 1U);
@@ -231,8 +210,7 @@ void testDisconnectWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testClearWithVertexAsUnsignedInt()
-{
+void testClearWithVertexAsUnsignedInt() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -245,8 +223,7 @@ void testClearWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testGraphWorksAfterClearWithVertexAsUnsignedInt()
-{
+void testGraphWorksAfterClearWithVertexAsUnsignedInt() {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 1U);
@@ -265,8 +242,7 @@ void testGraphWorksAfterClearWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testWithComplicatedExampleWithVertexAsUnsignedInt()
-{
+void testWithComplicatedExampleWithVertexAsUnsignedInt() {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 5U);
@@ -286,13 +262,13 @@ void testWithComplicatedExampleWithVertexAsUnsignedInt()
     EXPECT_EQ(13U, graph.getNumberOfVertices());
     EXPECT_EQ(13U, graph.getNumberOfEdges());
     Edges edgesToVerify(graph.getEdges());
-    Edges edgesToExpect
-    {{0U, 1U}, {0U, 2U}, {0U, 5U}, {0U, 6U}, {3U, 4U}, {3U, 5U}, {4U, 5U}, {4U, 6U}, {7U, 8U}, {9U, 10U}, {9U, 11U}, {9U, 12U}, {11U, 12U}};
+    Edges edgesToExpect{{0U, 1U}, {0U, 2U}, {0U, 5U},  {0U, 6U},  {3U, 4U},  {3U, 5U},  {4U, 5U},
+                        {4U, 6U}, {7U, 8U}, {9U, 10U}, {9U, 11U}, {9U, 12U}, {11U, 12U}};
     EXPECT_EQ(edgesToExpect, edgesToVerify);
 }
 
-}
+}  // namespace CommonTestsWithUndirectedGraph
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

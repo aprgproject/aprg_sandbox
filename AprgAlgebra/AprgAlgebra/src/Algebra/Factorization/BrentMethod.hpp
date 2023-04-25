@@ -4,17 +4,13 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class BrentMethod
-{
+class BrentMethod {
 public:
-    struct CalculationValues
-    {
+    struct CalculationValues {
         AlbaNumberOptional solutionOptional;
         AlbaNumber a;
         AlbaNumber b;
@@ -44,28 +40,18 @@ private:
     bool isAlmostEqualForBrentMethod(AlbaNumber const& value1, double const value2) const;
     AlbaNumber calculate(AlbaNumber const& inputValue) const;
     AlbaNumberOptional calculateInverseQuadraticInterpolation(
-            AlbaNumber const& a,
-            AlbaNumber const& b,
-            AlbaNumber const& c) const;
-    AlbaNumberOptional calculateSecantMethod(
-            AlbaNumber const& a,
-            AlbaNumber const& b) const;
-    AlbaNumber calculateBiSectionMethod(
-            AlbaNumber const& a,
-            AlbaNumber const& b) const;
+        AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c) const;
+    AlbaNumberOptional calculateSecantMethod(AlbaNumber const& a, AlbaNumber const& b) const;
+    AlbaNumber calculateBiSectionMethod(AlbaNumber const& a, AlbaNumber const& b) const;
     bool isBisectionMethodNeeded(
-            AlbaNumber const& a,
-            AlbaNumber const& b,
-            AlbaNumber const& c,
-            AlbaNumber const& d,
-            AlbaNumber const& s,
-            bool const mflag) const;
+        AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c, AlbaNumber const& d, AlbaNumber const& s,
+        bool const mflag) const;
     void convertSolutionToIntegerIfNeeded();
     unsigned int m_numberOfIterationsExecuted;
     AlbaNumbers m_coefficients;
     CalculationValues m_values;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

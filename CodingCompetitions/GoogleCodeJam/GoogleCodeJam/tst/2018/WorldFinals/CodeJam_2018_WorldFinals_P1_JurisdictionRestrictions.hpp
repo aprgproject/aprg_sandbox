@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2018_WorldFinals_P1_JurisdictionRestrictions
-{
+namespace CodeJam_2018_WorldFinals_P1_JurisdictionRestrictions {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

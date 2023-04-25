@@ -6,14 +6,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-bool isNumberOfCombinationsEqualToItsCounterpart(UnsignedInteger const n, UnsignedInteger const k)
-{
+bool isNumberOfCombinationsEqualToItsCounterpart(UnsignedInteger const n, UnsignedInteger const k) {
     // (n, k) = (n, n-k)
     // This is true because we actually divide a set of n elements into two subsets:
     // the first contains k elements and the second contains n-k elements.
@@ -33,26 +30,23 @@ bool isNumberOfCombinationsEqualToItsCounterpart(UnsignedInteger const n, Unsign
 
     // By just switching the balls to empty boxes and vice versa, we can see that the number its equal
 
-    bool result(false); // false if input is wrong
-    if(n>k)
-    {
-        result = getNumberOfCombinations(n, k) == getNumberOfCombinations(n, n-k);
+    bool result(false);  // false if input is wrong
+    if (n > k) {
+        result = getNumberOfCombinations(n, k) == getNumberOfCombinations(n, n - k);
     }
     return result;
 }
 
-bool isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(UnsignedInteger const n)
-{
+bool isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(UnsignedInteger const n) {
     // Sum of all (n, k) from k=0 to k=n is equal to 2^n
     UnsignedInteger sumOfNumberOfCombinations(0);
-    for(UnsignedInteger k=0; k<=n; k++)
-    {
+    for (UnsignedInteger k = 0; k <= n; k++) {
         sumOfNumberOfCombinations += getNumberOfCombinations(n, k);
     }
 
     return sumOfNumberOfCombinations == AlbaBitValueUtilities<UnsignedInteger>::get2ToThePowerOf(n);
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

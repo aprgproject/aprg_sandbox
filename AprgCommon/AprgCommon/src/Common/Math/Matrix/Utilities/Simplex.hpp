@@ -3,18 +3,14 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/Math/Matrix/Utilities/SimplexHeaders.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace matrix
-{
+namespace matrix {
 
 template <typename DataType>
 AlbaMatrix<DataType> constructSimplexTableWithLessThanConstraints(
-        AlbaMatrix<DataType> const& constraintsCoefficients,
-        AlbaMatrixData<DataType> const& constraintsValues,
-        AlbaMatrixData<DataType> const& objectiveFunctionCoefficients)
-{
+    AlbaMatrix<DataType> const& constraintsCoefficients, AlbaMatrixData<DataType> const& constraintsValues,
+    AlbaMatrixData<DataType> const& objectiveFunctionCoefficients) {
     // Table should look like this:
     // A is constraintsCoefficients
     // b is constraintsValues
@@ -28,53 +24,47 @@ AlbaMatrix<DataType> constructSimplexTableWithLessThanConstraints(
 
     assert(constraintsCoefficients.getNumberOfColumns() == objectiveFunctionCoefficients.size());
     assert(constraintsCoefficients.getNumberOfRows() == constraintsValues.size());
-    unsigned int numberOfColumns = constraintsCoefficients.getNumberOfColumns() + constraintsCoefficients.getNumberOfRows() + 1;
-    unsigned int numberOfRows = constraintsCoefficients.getNumberOfRows()+1;
+    unsigned int numberOfColumns =
+        constraintsCoefficients.getNumberOfColumns() + constraintsCoefficients.getNumberOfRows() + 1;
+    unsigned int numberOfRows = constraintsCoefficients.getNumberOfRows() + 1;
 
     AlbaMatrix<DataType> result(numberOfColumns, numberOfRows);
-    constraintsCoefficients.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
-    {
+    constraintsCoefficients.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
         result.setEntry(x, y, constraintsCoefficients.getEntry(x, y));
     });
-    for(unsigned int i=0; i<constraintsCoefficients.getNumberOfRows(); i++) // setting 1 for identity matrix
+    for (unsigned int i = 0; i < constraintsCoefficients.getNumberOfRows(); i++)  // setting 1 for identity matrix
     {
-        result.setEntry(i+constraintsCoefficients.getNumberOfColumns(), i, 1);
+        result.setEntry(i + constraintsCoefficients.getNumberOfColumns(), i, 1);
     }
-    result.setRow(numberOfRows-1, objectiveFunctionCoefficients);
-    result.setColumn(numberOfColumns-1, constraintsValues);
+    result.setRow(numberOfRows - 1, objectiveFunctionCoefficients);
+    result.setColumn(numberOfColumns - 1, constraintsValues);
     return result;
 }
 
 template <typename DataType>
-void solveSimplexTable(AlbaMatrix<DataType> & simplexTable)
-{
+void solveSimplexTable(AlbaMatrix<DataType>& simplexTable) {
     bool didPivot(true);
-    while(didPivot)
-    {
-        didPivot=false;
+    while (didPivot) {
+        didPivot = false;
         unsigned int pivotingColumn(getPivotingColumnUsingBlandsRule(simplexTable));
-        if(pivotingColumn < simplexTable.getNumberOfColumns())
-        {
+        if (pivotingColumn < simplexTable.getNumberOfColumns()) {
             unsigned int pivotingRow(getPivotingRowUsingMinRatioRule(simplexTable, pivotingColumn));
-            if(pivotingRow < simplexTable.getNumberOfRows()) // if no pivoting row then its unbounded
+            if (pivotingRow < simplexTable.getNumberOfRows())  // if no pivoting row then its unbounded
             {
                 pivotAt(simplexTable, pivotingColumn, pivotingRow);
                 // Pivoting makes the column of the objective function (last row) result to zero
-                didPivot=true;
+                didPivot = true;
             }
         }
     }
 }
 
 template <typename DataType>
-bool isOptimal(AlbaMatrix<DataType> const& simplexTable)
-{
-    unsigned int lastY(simplexTable.getNumberOfRows()-1);
+bool isOptimal(AlbaMatrix<DataType> const& simplexTable) {
+    unsigned int lastY(simplexTable.getNumberOfRows() - 1);
     bool result(true);
-    for(unsigned int x=0; x<simplexTable.getNumberOfColumns(); x++)
-    {
-        if(simplexTable.getEntry(x, lastY) > 0)
-        {
+    for (unsigned int x = 0; x < simplexTable.getNumberOfColumns(); x++) {
+        if (simplexTable.getEntry(x, lastY) > 0) {
             result = false;
         }
     }
@@ -82,16 +72,13 @@ bool isOptimal(AlbaMatrix<DataType> const& simplexTable)
 }
 
 template <typename DataType>
-unsigned int getPivotingColumnUsingBlandsRule(AlbaMatrix<DataType> const& simplexTable)
-{
+unsigned int getPivotingColumnUsingBlandsRule(AlbaMatrix<DataType> const& simplexTable) {
     // Findint entring q using Bland's rule: index of first column whose objective function coefficient is positive
 
-    unsigned int lastY(simplexTable.getNumberOfRows()-1);
-    unsigned int x=0;
-    for(; x<simplexTable.getNumberOfColumns(); x++)
-    {
-        if(simplexTable.getEntry(x, lastY) > 0)
-        {
+    unsigned int lastY(simplexTable.getNumberOfRows() - 1);
+    unsigned int x = 0;
+    for (; x < simplexTable.getNumberOfColumns(); x++) {
+        if (simplexTable.getEntry(x, lastY) > 0) {
             break;
         }
     }
@@ -99,71 +86,67 @@ unsigned int getPivotingColumnUsingBlandsRule(AlbaMatrix<DataType> const& simple
 }
 
 template <typename DataType>
-unsigned int getPivotingRowUsingMinRatioRule(AlbaMatrix<DataType> const& simplexTable, unsigned int const pivotingColumn)
-{
+unsigned int getPivotingRowUsingMinRatioRule(
+    AlbaMatrix<DataType> const& simplexTable, unsigned int const pivotingColumn) {
     bool isFirst(true);
-    unsigned int pivotingRow=0;
+    unsigned int pivotingRow = 0;
     DataType pivotingRatio{};
-    unsigned int lastX(simplexTable.getNumberOfColumns()-1);
-    for(unsigned int y=0; y<simplexTable.getNumberOfRows()-1; y++) // pivoting row does not include the last row (because last row contains the objective function)
+    unsigned int lastX(simplexTable.getNumberOfColumns() - 1);
+    for (unsigned int y = 0; y < simplexTable.getNumberOfRows() - 1;
+         y++)  // pivoting row does not include the last row (because last row contains the objective function)
     {
-        if(simplexTable.getEntry(pivotingColumn, y) > 0) // consider only positive coefficient and positive value
+        if (simplexTable.getEntry(pivotingColumn, y) > 0)  // consider only positive coefficient and positive value
         {
-            // If there are no positive entries in the pivot column then the objective function is unbounded and there is no optimal solution.
-            DataType currentRatio = simplexTable.getEntry(lastX, y)/simplexTable.getEntry(pivotingColumn, y);
-            if(isFirst)
-            {
+            // If there are no positive entries in the pivot column then the objective function is unbounded and there
+            // is no optimal solution.
+            DataType currentRatio = simplexTable.getEntry(lastX, y) / simplexTable.getEntry(pivotingColumn, y);
+            if (isFirst) {
                 pivotingRow = y;
                 pivotingRatio = currentRatio;
                 isFirst = false;
-            }
-            else if(currentRatio < pivotingRatio) // ratio must be smaller
+            } else if (currentRatio < pivotingRatio)  // ratio must be smaller
             {
                 pivotingRow = y;
                 pivotingRatio = currentRatio;
             }
         }
     }
-    if(isFirst)
-    {
+    if (isFirst) {
         pivotingRow = simplexTable.getNumberOfRows();
     }
     return pivotingRow;
 }
 
 template <typename DataType>
-void pivotAt(AlbaMatrix<DataType> & simplexTable, unsigned int const pivotingColumn, unsigned int const pivotingRow)
-{
+void pivotAt(AlbaMatrix<DataType>& simplexTable, unsigned int const pivotingColumn, unsigned int const pivotingRow) {
     // In the high level, pivoting works by
-    // 1) subtracting the pivoting row to each row in the matrix and using the pivoting column as the basis on scaling the pivoting row
-    // 1) scaling the pivoting row such that the entry in the pivoting column is 1
+    // 1) subtracting the pivoting row to each row in the matrix and using the pivoting column as the basis on scaling
+    // the pivoting row 1) scaling the pivoting row such that the entry in the pivoting column is 1
 
     // scale all entries but pivoting row and pivoting column
-    simplexTable.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
-    {
-        if(x != pivotingColumn && y != pivotingRow)
-        {
-            DataType valueToSubtract(simplexTable.getEntry(x, pivotingRow) * simplexTable.getEntry(pivotingColumn, y) / simplexTable.getEntry(pivotingColumn, pivotingRow));
-            simplexTable.setEntry(x, y, simplexTable.getEntry(x, y)-valueToSubtract);
+    simplexTable.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+        if (x != pivotingColumn && y != pivotingRow) {
+            DataType valueToSubtract(
+                simplexTable.getEntry(x, pivotingRow) * simplexTable.getEntry(pivotingColumn, y) /
+                simplexTable.getEntry(pivotingColumn, pivotingRow));
+            simplexTable.setEntry(x, y, simplexTable.getEntry(x, y) - valueToSubtract);
         }
     });
 
     // zero out pivoting column
     // -> this also sets the objective function coefficient to zero (guaranteeing forward progress)
-    for(unsigned int y=0; y<simplexTable.getNumberOfRows(); y++)
-    {
-        if(y != pivotingRow)
-        {
+    for (unsigned int y = 0; y < simplexTable.getNumberOfRows(); y++) {
+        if (y != pivotingRow) {
             simplexTable.setEntry(pivotingColumn, y, 0);
         }
     }
 
     // scale pivoting row
-    for(unsigned int x=0; x<simplexTable.getNumberOfColumns(); x++)
-    {
-        if(x != pivotingColumn)
-        {
-            simplexTable.setEntry(x, pivotingRow, simplexTable.getEntry(x, pivotingRow)/simplexTable.getEntry(pivotingColumn, pivotingRow));
+    for (unsigned int x = 0; x < simplexTable.getNumberOfColumns(); x++) {
+        if (x != pivotingColumn) {
+            simplexTable.setEntry(
+                x, pivotingRow,
+                simplexTable.getEntry(x, pivotingRow) / simplexTable.getEntry(pivotingColumn, pivotingRow));
         }
     }
 
@@ -171,19 +154,19 @@ void pivotAt(AlbaMatrix<DataType> & simplexTable, unsigned int const pivotingCol
     simplexTable.setEntry(pivotingColumn, pivotingRow, 1);
 }
 
-//Simplex algorithm:
+// Simplex algorithm:
 //-> Developed shortly after WWII in response to logistical problems including the Berlin airlift
 //-> Ranked as one of the top 10 scientific algorithms of 20th century
 
-//Generic algorithm:
+// Generic algorithm:
 //-> Start at some extreme point
 //-> Pivot from one extreme point to an adjacent one
 //-> Repeat until optimal
 
-//How to implement?
+// How to implement?
 //-> Linear algebra
 
-//Basis
+// Basis
 //-> A basis is a subset of m of the n variables.
 //-> Basic feasible solution
 //---> Set n-m nonbasic variables to 0, solve from remaining m variables.
@@ -192,7 +175,8 @@ void pivotAt(AlbaMatrix<DataType> & simplexTable, unsigned int const pivotingCol
 //---> BFS <-> extreme point
 
 // Simplex algorithm: running time
-// Remarkable property: In typical practical applications, simplex algorithm terminates after at most 2(m+n) pivots. -> linear!
+// Remarkable property: In typical practical applications, simplex algorithm terminates after at most 2(m+n) pivots. ->
+// linear!
 // -> Still today is somewhat mysterious
 // -> Paper: "Smoothed Analysis of Algorithms: Why the Simplex Algorithm Usually takes Polynomial Time."
 
@@ -224,6 +208,6 @@ void pivotAt(AlbaMatrix<DataType> & simplexTable, unsigned int const pivotingCol
 // Modeling languages: Simplify task of modeling problem as LP
 // -> AMPL, AIMMS 3
 
-}
+}  // namespace matrix
 
-} // namespace alba
+}  // namespace alba

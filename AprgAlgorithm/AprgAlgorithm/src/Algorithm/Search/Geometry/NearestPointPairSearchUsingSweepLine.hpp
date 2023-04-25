@@ -7,14 +7,12 @@
 #include <map>
 #include <set>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Unit>
-class NearestPointPairSearchUsingSweepLine // The one on NearestPointSearch class is better(getNearestPointPair()).
+class NearestPointPairSearchUsingSweepLine  // The one on NearestPointSearch class is better(getNearestPointPair()).
 {
 public:
     using Point = std::pair<Unit, Unit>;
@@ -23,34 +21,28 @@ public:
     using SetOfUnits = std::set<Unit>;
     using UnitToSetOfUnitsMap = std::map<Unit, SetOfUnits>;
 
-    PointPair getNearestPointPair() const
-    {
+    PointPair getNearestPointPair() const {
         // sweep line algorithm
         PointPair result{};
         UnitToSetOfUnitsMap xToSetOfYMap;
         Unit smallestDistance(std::numeric_limits<Unit>::max());
-        for(Point const& point : m_setOfPoints)
-        {
+        for (Point const& point : m_setOfPoints) {
             xToSetOfYMap[point.first].emplace(point.second);
 
             auto itXToDelete = xToSetOfYMap.lower_bound(point.first - smallestDistance);
             xToSetOfYMap.erase(xToSetOfYMap.begin(), itXToDelete);
 
-            for(auto const& xAndSetOfYPair : xToSetOfYMap)
-            {
+            for (auto const& xAndSetOfYPair : xToSetOfYMap) {
                 Unit const x(xAndSetOfYPair.first);
                 SetOfUnits const& ys(xAndSetOfYPair.second);
                 auto itYStart = ys.lower_bound(point.second - smallestDistance);
                 auto itYEnd = ys.upper_bound(point.second + smallestDistance);
 
-                for(auto itY=itYStart; itY!=itYEnd; itY++)
-                {
+                for (auto itY = itYStart; itY != itYEnd; itY++) {
                     Point possibleNearPoint(x, *itY);
-                    if(point != possibleNearPoint)
-                    {
+                    if (point != possibleNearPoint) {
                         Unit distance = getDistance(point, possibleNearPoint);
-                        if(smallestDistance > distance)
-                        {
+                        if (smallestDistance > distance) {
                             smallestDistance = distance;
                             result = {point, possibleNearPoint};
                         }
@@ -61,29 +53,26 @@ public:
         return result;
     }
 
-    void addPoint(Point const& point)
-    {
-        m_setOfPoints.emplace(point);
-    }
+    void addPoint(Point const& point) { m_setOfPoints.emplace(point); }
 
 private:
-
-    inline Unit getDistance(Point const& point1, Point const& point2) const
-    {
-        return mathHelper::getSquareRootOfXSquaredPlusYSquared(point1.first-point2.first, point1.second-point2.second);
+    inline Unit getDistance(Point const& point1, Point const& point2) const {
+        return mathHelper::getSquareRootOfXSquaredPlusYSquared(
+            point1.first - point2.first, point1.second - point2.second);
     }
 
     SetOfPoints m_setOfPoints;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Given a set of n points, our next problem is to find two points whose Euclidean distance is minimum.
 
 // This is another example of a problem that can be solved in O(nlogn) time using a sweep line algorithm.
-// We go through the points from left to right and maintain a value d: the minimum distance between two points seen so far.
+// We go through the points from left to right and maintain a value d: the minimum distance between two points seen so
+// far.
 
 // At each point, we find the nearest point to the left.
 // If the distance is less than d, it is the new minimum distance and we update the value of d.
@@ -96,5 +85,5 @@ private:
 // We can go through those points in O(logn) time by maintaining a set of points whose x coordinate is between [x-d, x],
 // in increasing order according to their y coordinates.
 
-// The time complexity of the algorithm is O(nlogn), because we go through n points and find for each point the nearest point to the left in O(logn) time.
-
+// The time complexity of the algorithm is O(nlogn), because we go through n points and find for each point the nearest
+// point to the left in O(logn) time.

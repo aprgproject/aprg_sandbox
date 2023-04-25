@@ -1,15 +1,12 @@
 #include <QtCore/QDate>
 #include <QtCore/QString>
-#include <gmock/gmock.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-void PrintTo(const QString& string, ::std::ostream* os) {
-    *os<< "\"" << string.toStdString() << "\"";
-}
+void PrintTo(const QString& string, ::std::ostream* os) { *os << "\"" << string.toStdString() << "\""; }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();
 }

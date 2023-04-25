@@ -1,13 +1,11 @@
 #include "mainwindow.h"
-
 #include <QDebug>
 #include <QFileInfo>
 #include <QtSingleApplication>
 
-namespace 
-{
+namespace {
 const char* APPLICATION_NAME = "PlantUML Editor";
-const char* ORGANIZATION_NAME   = "Ionutz Borcoman";
+const char* ORGANIZATION_NAME = "Ionutz Borcoman";
 const char* ORGANIZATION_DOMAIN = "borco.net";
 
 const char* OPTION_HELP_SHORT = "-h";
@@ -23,12 +21,10 @@ void displayHelp(const char* app_name) {
                                    "\n"
                                    "If FILE is provided, load it on start. If running in single\n"
                                    "instance mode, the instance is signaled to load FILE.\n")
-                           .arg(OPTION_HELP_SHORT)
-                           .arg(OPTION_HELP_LONG)
-                           .arg(OPTION_SINGLE_INSTANCE_SHORT)
-                           .arg(OPTION_SINGLE_INSTANCE_LONG)
-                           )
-                ;
+                               .arg(OPTION_HELP_SHORT)
+                               .arg(OPTION_HELP_LONG)
+                               .arg(OPTION_SINGLE_INSTANCE_SHORT)
+                               .arg(OPTION_SINGLE_INSTANCE_LONG));
 }
 
 bool singleInstanceModeRequested(QStringList& options) {
@@ -37,10 +33,9 @@ bool singleInstanceModeRequested(QStringList& options) {
     options.removeAll(OPTION_SINGLE_INSTANCE_SHORT);
     return ret;
 }
-}
+}  // namespace
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(APPLICATION_NAME);
@@ -66,8 +61,8 @@ int main(int argc, char *argv[])
     if (a.isRunning() && single_instance_mode) {
         a.sendMessage(open_document_path);
         qDebug() << qPrintable(QObject::tr("%1 already running. Requested instance to open: %2. Now exitting...")
-                               .arg(APPLICATION_NAME)
-                               .arg(open_document_path));
+                                   .arg(APPLICATION_NAME)
+                                   .arg(open_document_path));
         return 0;
     }
 

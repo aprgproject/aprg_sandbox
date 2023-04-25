@@ -3,30 +3,23 @@
 #include <set>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class MinimumNumberOfPlatformsRequiredForARailwayStation
-{
+class MinimumNumberOfPlatformsRequiredForARailwayStation {
 public:
-
     // sweepline approach
 
-    enum class EventType
-    {
-        ArrivalToThePlatform = 1,
-        DepartureFromThePlatform = 2
-    };
+    enum class EventType { ArrivalToThePlatform = 1, DepartureFromThePlatform = 2 };
 
-    struct Event
-    {
+    struct Event {
         unsigned int time;
         EventType eventType;
         bool operator<(Event const& event) const;
     };
 
     unsigned int getMinimumNumberOfPlatforms() const;
-    void addTrainSchedule(unsigned int const startTime, unsigned int const endTime); // assumption is every entry is unique
+    void addTrainSchedule(
+        unsigned int const startTime, unsigned int const endTime);  // assumption is every entry is unique
 
 private:
     std::multiset<Event> m_sortedEvents;
@@ -49,4 +42,4 @@ private:
 // The running time of the algorithm is O(nlogn), because sorting the events takes O(nlogn) time
 // and the rest of the algorithm takes O(n) time.
 
-}
+}  // namespace alba

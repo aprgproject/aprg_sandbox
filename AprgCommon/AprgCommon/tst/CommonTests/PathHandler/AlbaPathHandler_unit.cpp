@@ -7,11 +7,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(PathTest, FullPathWithDirectoryAndFileGiven)
-{
+TEST(PathTest, FullPathWithDirectoryAndFileGiven) {
     AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)", pathHandler.getDirectory());
     EXPECT_EQ("76543.txt", pathHandler.getFile());
@@ -21,8 +19,7 @@ TEST(PathTest, FullPathWithDirectoryAndFileGiven)
     EXPECT_EQ("tst", pathHandler.getImmediateDirectoryName());
 }
 
-TEST(PathTest, FileOnly)
-{
+TEST(PathTest, FileOnly) {
     AlbaPathHandler pathHandler("src", R"(\)");
     EXPECT_TRUE(pathHandler.getDirectory().empty());
     EXPECT_EQ("src", pathHandler.getFile());
@@ -32,8 +29,7 @@ TEST(PathTest, FileOnly)
     EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
 }
 
-TEST(PathTest, ReInputFile)
-{
+TEST(PathTest, ReInputFile) {
     AlbaPathHandler pathHandler("src", R"(\)");
     pathHandler.reInput();
     EXPECT_TRUE(pathHandler.getDirectory().empty());
@@ -44,8 +40,7 @@ TEST(PathTest, ReInputFile)
     EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
 }
 
-TEST(PathTest, GoUpUntilLastFolder)
-{
+TEST(PathTest, GoUpUntilLastFolder) {
     AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", pathHandler.getFullPath());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
@@ -71,4 +66,4 @@ TEST(PathTest, GoUpUntilLastFolder)
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
-}
+}  // namespace alba

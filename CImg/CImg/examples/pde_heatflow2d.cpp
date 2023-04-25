@@ -54,61 +54,62 @@ namespace cil = cimg_library;
 
 // Main procedure
 //----------------
-int main(int argc,char **argv) {
+int main(int argc, char **argv) {
+    // Read command line arguments, and init images and displays
+    //-----------------------------------------------------------
+    cimg_usage("Perform a simple Heat Flow on 2D images");
+    cil::CImg<> img(cimg_option("-i", cimg_imagepath "milla.bmp", "Input image")), veloc(img);
+    const double dt = cimg_option("-dt", 3.0, "Adapting time step");
+    img.noise(cimg_option("-ng", 0.0, "Add gaussian noise"), 0)
+        .noise(cimg_option("-nu", 0.0, "Add uniform noise"), 1)
+        .noise(cimg_option("-ns", 0.0, "Add Salt&Pepper noise"), 2);
+    cil::CImgDisplay profile(400, 300, "Intensity Profile", 0, false, true), disp(img, "Heat flow 2D", 0, false, true);
+    disp.move(
+        (cil::CImgDisplay::screen_width() - disp.width() - profile.width()) / 2,
+        (cil::CImgDisplay::screen_height() - disp.height()) / 2);
 
-  // Read command line arguments, and init images and displays
-  //-----------------------------------------------------------
-  cimg_usage("Perform a simple Heat Flow on 2D images");
-  cil::CImg<> img(cimg_option("-i",cimg_imagepath "milla.bmp","Input image")), veloc(img);
-  const double dt = cimg_option("-dt",3.0,"Adapting time step");
-  img.
-    noise(cimg_option("-ng",0.0,"Add gaussian noise"),0).
-    noise(cimg_option("-nu",0.0,"Add uniform noise"),1).
-    noise(cimg_option("-ns",0.0,"Add Salt&Pepper noise"),2);
-  cil::CImgDisplay profile(400,300,"Intensity Profile",0,false,true), disp(img,"Heat flow 2D",0,false,true);
-  disp.move((cil::CImgDisplay::screen_width() - disp.width() - profile.width())/2,
-            (cil::CImgDisplay::screen_height() - disp.height())/2);
+    profile.move(disp.window_x() + 8 + disp.window_width(), disp.window_y());
+    const float white[] = {255, 255, 255};
+    bool run_PDE = true;
 
-  profile.move(disp.window_x() + 8 + disp.window_width(), disp.window_y());
-  const float white[] = { 255,255,255 };
-  bool run_PDE = true;
+    // Begin PDE iteration loop
+    //-------------------------
+    for (int iter = 0; !disp.is_closed() && !profile.is_closed() && !disp.is_keyQ() && !disp.is_keyESC() &&
+                       !profile.is_keyQ() && !profile.is_keyESC();) {
+        // Compute one iteration of PDE explicit scheme
+        if (run_PDE) {
+            CImg_3x3(I, float);
+            cimg_forC(img, k) cimg_for3x3(img, x, y, 0, k, I, float) veloc(x, y, k) = Inc + Ipc + Icn + Icp - 4 * Icc;
+            float m, M = veloc.max_min(m);
+            const double xdt = dt / (M - m);
+            img += veloc * xdt;
+            cil::CImg<>(img).draw_text(2, 2, "iter = %d", white, 0, 1, 13, iter).display(disp.wait(25));
+        }
 
-  // Begin PDE iteration loop
-  //-------------------------
-  for (int iter = 0; !disp.is_closed() && !profile.is_closed() &&
-         !disp.is_keyQ() && !disp.is_keyESC() && !profile.is_keyQ() && !profile.is_keyESC();) {
+        // Plot (R,G,B) intensity profiles and display it
+        if (disp.mouse_x() >= 0) {
+            const int mx = disp.mouse_x(), my = disp.mouse_y(), mnx = mx * profile.width() / disp.width();
+            const unsigned char red[] = {255, 0, 0}, green[] = {0, 255, 0}, blue[] = {0, 0, 255},
+                                white[] = {255, 255, 255};
+            cil::CImg<unsigned char>(profile.width(), profile.height(), 1, 3, 0)
+                .draw_graph(img.get_shared_row(my, 0, 0), red, 1, 1, 0, 255, 0)
+                .draw_graph(img.get_shared_row(my, 0, 1), green, 1, 1, 0, 255, 0)
+                .draw_graph(img.get_shared_row(my, 0, 2), blue, 1, 1, 0, 255, 0)
+                .draw_line(mnx, 0, mnx, profile.height() - 1, white, 0.5f, cil::cimg::rol(0xFF00FF00, iter % 32))
+                .draw_text(2, 2, "(x,y)=(%d,%d)", white, 0, 1, 13, mx, my)
+                .display(profile);
+        }
 
-    // Compute one iteration of PDE explicit scheme
-    if (run_PDE) {
-      CImg_3x3(I,float);
-      cimg_forC(img,k) cimg_for3x3(img,x,y,0,k,I,float) veloc(x,y,k) = Inc + Ipc + Icn + Icp - 4*Icc;
-      float m, M = veloc.max_min(m);
-      const double xdt = dt/(M - m);
-      img += veloc*xdt;
-      cil::CImg<>(img).draw_text(2,2,"iter = %d",white,0,1,13,iter).display(disp.wait(25));
+        // Mouse button stops/starts PDE evolution.
+        if (disp.button() || profile.button()) {
+            disp.set_button();
+            profile.set_button();
+            run_PDE = !run_PDE;
+        }
+        profile.resize();
+        disp.resize(disp);
+        if (run_PDE) ++iter;
     }
 
-    // Plot (R,G,B) intensity profiles and display it
-    if (disp.mouse_x()>=0) {
-      const int
-        mx = disp.mouse_x(), my = disp.mouse_y(),
-        mnx = mx*profile.width()/disp.width();
-      const unsigned char red[] = { 255,0,0 }, green[] = { 0,255,0 }, blue[] = { 0,0,255 }, white[] = { 255,255,255 };
-      cil::CImg<unsigned char>(profile.width(),profile.height(),1,3,0).
-        draw_graph(img.get_shared_row(my,0,0),red,1,1,0,255,0).
-        draw_graph(img.get_shared_row(my,0,1),green,1,1,0,255,0).
-        draw_graph(img.get_shared_row(my,0,2),blue,1,1,0,255,0).
-        draw_line(mnx,0,mnx,profile.height() - 1,white,0.5f,cil::cimg::rol(0xFF00FF00,iter%32)).
-        draw_text(2,2,"(x,y)=(%d,%d)",white,0,1,13,mx,my).
-        display(profile);
-    }
-
-    // Mouse button stops/starts PDE evolution.
-    if (disp.button() || profile.button()) { disp.set_button(); profile.set_button(); run_PDE = !run_PDE; }
-    profile.resize();
-    disp.resize(disp);
-    if (run_PDE) ++iter;
-  }
-
-  return 0;
+    return 0;
 }

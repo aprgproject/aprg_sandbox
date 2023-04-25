@@ -3,13 +3,12 @@
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class CountingSubGrids
-{
+class CountingSubGrids {
 public:
-    // Given an n£n grid whose each square is either black (1) or white (0), calculate the number of subgrids whose all corners are black.
+    // Given an n£n grid whose each square is either black (1) or white (0), calculate the number of subgrids whose all
+    // corners are black.
 
     using BitValue = uint64_t;
     using BitValueUtilities = AlbaBitValueUtilities<BitValue>;
@@ -20,9 +19,10 @@ public:
     CountingSubGrids(BitGrid const& bitGrid);
 
     unsigned int countSubGridsWithAllBlackCorners() const;
+
 private:
     void initialize(BitGrid const& bitGrid);
     BitValueGrid m_bitValueGrid;
 };
 
-}
+}  // namespace alba

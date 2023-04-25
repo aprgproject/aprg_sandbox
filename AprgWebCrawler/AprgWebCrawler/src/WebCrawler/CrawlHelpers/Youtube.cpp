@@ -16,8 +16,8 @@ namespace aprgWebCrawler
 
 void WebCrawler::crawlForYoutube()
 {
-    AlbaLocalPathHandler convertedYoutubeLinksPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
-    convertedYoutubeLinksPathHandler.createDirectoriesForNonExisitingDirectories();
+    AlbaLocalPathHandler convertedYoutubeLinksPathHandler(m_downloadDirectoryPathHandler.getDirectory() +
+R"(\ConvertedYoutubeLinks.txt)"); convertedYoutubeLinksPathHandler.createDirectoriesForNonExisitingDirectories();
     ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
 
     for(string & webLink : m_webLinks)
@@ -81,7 +81,8 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
         downloadBinaryFile(videoWebPathHandler, downloadPathHandler);
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
         {
-            cout << "Video file is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start\n";
+            cout << "Video file is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<<
+downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start\n";
             saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             continue;
         }
@@ -115,7 +116,8 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
         if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<div class="def-btn-box"><a)"))
         {
             links.linkForVideo = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");
-            links.localPathForCurrentVideo = m_downloadDirectoryPathHandler.getDirectory() + R"(\Video\)" + getStringInBetweenTwoStrings(lineInHtmlFile, R"(download=")", R"(")");
+            links.localPathForCurrentVideo = m_downloadDirectoryPathHandler.getDirectory() + R"(\Video\)" +
+getStringInBetweenTwoStrings(lineInHtmlFile, R"(download=")", R"(")");
         }
     }
     return links;

@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using SubTreeQueryForTest = SubTreeQueryWithAccumulator<VertexForTest>;
@@ -21,10 +18,9 @@ using RangeQueryForTest = SubTreeQueryForTest::RangeQuery;
 using CountsForTest = SubTreeQueryForTest::Counts;
 RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
 RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
-}
+}  // namespace
 
-TEST(SubTreeQueryWithAccumulatorTest, GetAccumulatedValueOfSubTreeAtWorks)
-{
+TEST(SubTreeQueryWithAccumulatorTest, GetAccumulatedValueOfSubTreeAtWorks) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
@@ -40,6 +36,6 @@ TEST(SubTreeQueryWithAccumulatorTest, GetAccumulatedValueOfSubTreeAtWorks)
     EXPECT_EQ(28U, subTreeQuery.getAccumulatedValueOfSubTreeAt(4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

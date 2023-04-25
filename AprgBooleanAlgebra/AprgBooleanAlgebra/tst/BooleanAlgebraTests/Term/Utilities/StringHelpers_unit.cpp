@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(StringHelpersTest, IsOperatorWorks)
-{
+TEST(StringHelpersTest, IsOperatorWorks) {
     EXPECT_FALSE(isOperator(""));
     EXPECT_TRUE(isOperator("~"));
     EXPECT_TRUE(isOperator("&"));
@@ -20,8 +17,7 @@ TEST(StringHelpersTest, IsOperatorWorks)
     EXPECT_FALSE(isOperator("notAnOperator"));
 }
 
-TEST(StringHelpersTest, GetOperatorTypeValueWorks)
-{
+TEST(StringHelpersTest, GetOperatorTypeValueWorks) {
     EXPECT_EQ(1U, getOperatorPriority("("));
     EXPECT_EQ(2U, getOperatorPriority(")"));
     EXPECT_EQ(3U, getOperatorPriority("~"));
@@ -30,23 +26,20 @@ TEST(StringHelpersTest, GetOperatorTypeValueWorks)
     EXPECT_EQ(0U, getOperatorPriority("notAnOperator"));
 }
 
-TEST(StringHelpersTest, GetStringWorksForOperatorType)
-{
+TEST(StringHelpersTest, GetStringWorksForOperatorType) {
     EXPECT_TRUE(getString(OperatorType::Unknown).empty());
     EXPECT_EQ("~", getString(OperatorType::Not));
     EXPECT_EQ("&", getString(OperatorType::And));
     EXPECT_EQ("|", getString(OperatorType::Or));
 }
 
-TEST(StringHelpersTest, GetStringWorksForOperatorLevel)
-{
+TEST(StringHelpersTest, GetStringWorksForOperatorLevel) {
     EXPECT_TRUE(getString(OperatorLevel::Unknown).empty());
     EXPECT_EQ("&", getString(OperatorLevel::And));
     EXPECT_EQ("|", getString(OperatorLevel::Or));
 }
 
-TEST(StringHelpersTest, GetStringForWrappedTermsWorks)
-{
+TEST(StringHelpersTest, GetStringForWrappedTermsWorks) {
     WrappedTerms wrappedTerms;
     wrappedTerms.emplace_back(Term(true));
     wrappedTerms.emplace_back(Term(true));
@@ -54,31 +47,27 @@ TEST(StringHelpersTest, GetStringForWrappedTermsWorks)
     EXPECT_EQ("[true], [true]", getString(wrappedTerms));
 }
 
-TEST(StringHelpersTest, CreateVariableTermNameForSubstitutionWorks)
-{
+TEST(StringHelpersTest, CreateVariableTermNameForSubstitutionWorks) {
     Term term(createVariableTermNameForSubstitution(Term("x")));
 
     EXPECT_EQ("{{x}}", createVariableTermNameForSubstitution(term));
 }
 
-TEST(StringHelpersTest, BuildTermIfPossibleWorks)
-{
+TEST(StringHelpersTest, BuildTermIfPossibleWorks) {
     Term termToVerify(buildTermIfPossible("x&y"));
 
     Term termToExpect(createExpressionIfPossible({"x", "&", "y"}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(StringHelpersTest, TokenizeToTermsWorks)
-{
+TEST(StringHelpersTest, TokenizeToTermsWorks) {
     Terms termsToVerify(tokenizeToTerms(" 5yyy & x1 & y1 | ~2015"));
 
     Terms termsToExpect{"5yyy", "&", "x1", "&", "y1", "|", "~", true};
     EXPECT_EQ(termsToExpect, termsToVerify);
 }
 
-TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
-{
+TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {
     Terms termsToVerify1;
 
     addValueTermIfNotEmpty(termsToVerify1, "true");
@@ -88,6 +77,6 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
     EXPECT_TRUE(termsToVerify1.at(0).getBooleanValue());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

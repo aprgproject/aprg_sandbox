@@ -7,14 +7,11 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(TermsRaiseToTermsTest, ConstructionWorks)
-{
+TEST(TermsRaiseToTermsTest, ConstructionWorks) {
     TermsRaiseToTerms termsRaiseToTerms1;
     TermsRaiseToTerms termsRaiseToTerms2({{"x", 1}, {"y", -2}, {"z", 3}});
 
@@ -32,8 +29,7 @@ TEST(TermsRaiseToTermsTest, ConstructionWorks)
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, GetBaseToExponentMapWorks)
-{
+TEST(TermsRaiseToTermsTest, GetBaseToExponentMapWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsRaiseToTerms::BaseToExponentMap const& mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
@@ -50,8 +46,7 @@ TEST(TermsRaiseToTermsTest, GetBaseToExponentMapWorks)
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, GetExponentOfBaseWorks)
-{
+TEST(TermsRaiseToTermsTest, GetExponentOfBaseWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     EXPECT_EQ(Term(1), termsRaiseToTerms.getExponentOfBase("x"));
@@ -60,8 +55,7 @@ TEST(TermsRaiseToTermsTest, GetExponentOfBaseWorks)
     EXPECT_EQ(Term(), termsRaiseToTerms.getExponentOfBase("NotFound"));
 }
 
-TEST(TermsRaiseToTermsTest, GetTermsInMultiplicationOperationWorks)
-{
+TEST(TermsRaiseToTermsTest, GetTermsInMultiplicationOperationWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     Terms const termsToVerify(termsRaiseToTerms.getTermsInMultiplicationOperation());
@@ -75,8 +69,7 @@ TEST(TermsRaiseToTermsTest, GetTermsInMultiplicationOperationWorks)
     EXPECT_EQ(expectedTerm3, termsToVerify.at(2));
 }
 
-TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks)
-{
+TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsWithDetails const termsToVerify(termsRaiseToTerms.getTermWithDetailsInMultiplicationAndDivisionOperation());
@@ -93,8 +86,7 @@ TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperati
     EXPECT_EQ(expectedTermWithDetails3, termsToVerify.at(2));
 }
 
-TEST(TermsRaiseToTermsTest, AddExponentsWorks)
-{
+TEST(TermsRaiseToTermsTest, AddExponentsWorks) {
     TermsRaiseToTerms termsRaiseToTermsToAdd({{"x", 1}, {"y", -2}, {"z", 3}});
     TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
 
@@ -113,8 +105,7 @@ TEST(TermsRaiseToTermsTest, AddExponentsWorks)
     EXPECT_EQ(Term(9), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, SubtractExponentsWorks)
-{
+TEST(TermsRaiseToTermsTest, SubtractExponentsWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
     TermsRaiseToTerms termsRaiseToTermsToSubtract({{"x", 1}, {"y", -2}, {"z", 3}});
 
@@ -133,8 +124,7 @@ TEST(TermsRaiseToTermsTest, SubtractExponentsWorks)
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, MultiplyNumberToExponentsWorks)
-{
+TEST(TermsRaiseToTermsTest, MultiplyNumberToExponentsWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
 
     termsRaiseToTerms.multiplyToExponents(5);
@@ -152,8 +142,7 @@ TEST(TermsRaiseToTermsTest, MultiplyNumberToExponentsWorks)
     EXPECT_EQ(Term(30), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, PutTermWorksOnMonomial)
-{
+TEST(TermsRaiseToTermsTest, PutTermWorksOnMonomial) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
     Term termWithPositive(Monomial(5, {{"x", 6}}));
     Term termWithNegative(Monomial(7, {{"y", 8}}));
@@ -182,8 +171,7 @@ TEST(TermsRaiseToTermsTest, PutTermWorksOnMonomial)
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes)
-{
+TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes) {
     TermsRaiseToTerms termsRaiseToTerms({{cos("x"), 1}, {sin("x"), -2}, {tan("x"), 3}});
     Term termWithPositive(createExpressionIfPossible({cos("x"), "^", 6}));
     Term termWithNegative(createExpressionIfPossible({sin("x"), "^", 8}));
@@ -204,12 +192,11 @@ TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes)
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, PutTermsWorks)
-{
+TEST(TermsRaiseToTermsTest, PutTermsWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     termsRaiseToTerms.putTerms(
-    {Monomial(1, {{"x", 5}}), Monomial(1, {{"y", 6}}), Monomial(1, {{"z", 7}})}, TermAssociationType::Positive);
+        {Monomial(1, {{"x", 5}}), Monomial(1, {{"y", 6}}), Monomial(1, {{"z", 7}})}, TermAssociationType::Positive);
 
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
@@ -224,8 +211,7 @@ TEST(TermsRaiseToTermsTest, PutTermsWorks)
     EXPECT_EQ(Term(10), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, SetBaseAndExponentWorks)
-{
+TEST(TermsRaiseToTermsTest, SetBaseAndExponentWorks) {
     TermsRaiseToTerms termsRaiseToTerms;
 
     termsRaiseToTerms.setBaseAndExponent("x", 9);
@@ -237,8 +223,7 @@ TEST(TermsRaiseToTermsTest, SetBaseAndExponentWorks)
     EXPECT_EQ(Term(9), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, RemoveItemWithBaseWorks)
-{
+TEST(TermsRaiseToTermsTest, RemoveItemWithBaseWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     termsRaiseToTerms.removeItemWithBase("x");
@@ -253,8 +238,7 @@ TEST(TermsRaiseToTermsTest, RemoveItemWithBaseWorks)
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 
-TEST(TermsRaiseToTermsTest, SimplifyWorks)
-{
+TEST(TermsRaiseToTermsTest, SimplifyWorks) {
     TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", 0}, {"z", 0}});
 
     termsRaiseToTerms.simplify();
@@ -266,6 +250,6 @@ TEST(TermsRaiseToTermsTest, SimplifyWorks)
     EXPECT_EQ(Term(1), itToVerify->second);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

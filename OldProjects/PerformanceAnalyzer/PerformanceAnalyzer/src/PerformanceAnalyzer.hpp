@@ -6,20 +6,17 @@
 #include <optional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class PerformanceAnalyzer
-{
+class PerformanceAnalyzer {
 private:
-    struct UniqueUserId
-    {
+    struct UniqueUserId {
         UniqueUserId();
         UniqueUserId(std::string const& lineInLogs);
         int nbccId;
         int crnccId;
         int transactionId;
-        bool operator <(UniqueUserId const& uniqueUserId) const;
+        bool operator<(UniqueUserId const& uniqueUserId) const;
         void saveNbccId(std::string const& lineInLogs);
         void saveCrnccId(std::string const& lineInLogs);
         void saveTransactionId(std::string const& lineInLogs);
@@ -27,8 +24,7 @@ private:
         int getCrnccId(std::string const& lineInLogs) const;
         int getTransactionId(std::string const& lineInLogs) const;
     };
-    struct BtsLogDelay
-    {
+    struct BtsLogDelay {
         std::optional<wcdmaToolsBackend::BtsLogTime> startTimeOptional;
         std::optional<wcdmaToolsBackend::BtsLogTime> endTimeOptional;
     };
@@ -53,8 +49,10 @@ public:
     void processFileForTraceLog(std::string const& traceLogPath);
     void processDirectoryForTraceLog(std::string const& traceLogPath);
 
-    int getDelayTimeInUs(wcdmaToolsBackend::BtsLogTime const& endTime, wcdmaToolsBackend::BtsLogTime const& startTime) const;
-    int getDelayTimeInMinutes(wcdmaToolsBackend::BtsLogTime const& endTime, wcdmaToolsBackend::BtsLogTime const& startTime) const;
+    int getDelayTimeInUs(
+        wcdmaToolsBackend::BtsLogTime const& endTime, wcdmaToolsBackend::BtsLogTime const& startTime) const;
+    int getDelayTimeInMinutes(
+        wcdmaToolsBackend::BtsLogTime const& endTime, wcdmaToolsBackend::BtsLogTime const& startTime) const;
 
 private:
     std::string m_extractGrepCondition;
@@ -62,4 +60,4 @@ private:
     std::optional<std::ofstream> m_RawDataFileOptional;
 };
 
-}
+}  // namespace alba

@@ -4,24 +4,21 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using MinimumSpanningTreeSearchForTest = KruskalAlgorithm<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
+using MinimumSpanningTreeSearchForTest =
+    KruskalAlgorithm<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
 using Edges = GraphTypes<VertexForTest>::Edges;
-}
+}  // namespace
 
-TEST(KruskalAlgorithmTest, WorksOnUndirectedGraph)
-{
+TEST(KruskalAlgorithmTest, WorksOnUndirectedGraph) {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
@@ -42,11 +39,10 @@ TEST(KruskalAlgorithmTest, WorksOnUndirectedGraph)
 
     MinimumSpanningTreeSearchForTest spanningTreeSearch(graph, 0U);
 
-    Edges expectedMinimumSpanningTree
-    {{0U, 7U}, {2U, 3U}, {1U, 7U}, {0U, 2U}, {5U, 7U}, {4U, 5U}, {2U, 6U}};
+    Edges expectedMinimumSpanningTree{{0U, 7U}, {2U, 3U}, {1U, 7U}, {0U, 2U}, {5U, 7U}, {4U, 5U}, {2U, 6U}};
     EXPECT_EQ(expectedMinimumSpanningTree, spanningTreeSearch.getMinimumSpanningTreeEdges());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

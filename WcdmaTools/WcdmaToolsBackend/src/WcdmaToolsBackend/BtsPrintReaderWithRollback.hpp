@@ -4,11 +4,9 @@
 
 #include <fstream>
 
-namespace wcdmaToolsBackend
-{
+namespace wcdmaToolsBackend {
 
-class BtsPrintReaderWithRollback
-{
+class BtsPrintReaderWithRollback {
 public:
     BtsPrintReaderWithRollback();
     void clear();
@@ -17,10 +15,11 @@ public:
     void rollBackPrint();
     void openIfNeeded(std::string const& filePath);
     double getCurrentLocation();
+
 private:
     bool m_isRollbackActivated;
     BtsLogPrint m_previousPrint;
     std::ifstream m_inputStream;
 };
 
-}
+}  // namespace wcdmaToolsBackend

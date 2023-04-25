@@ -6,14 +6,11 @@
 #include <cstdint>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-enum class CompressedMethodType
-{
+enum class CompressedMethodType {
     BI_RGB,
     BI_RLE8,
     BI_RLE4,
@@ -27,8 +24,7 @@ enum class CompressedMethodType
     Unknown
 };
 
-class BitmapConfiguration
-{
+class BitmapConfiguration {
 public:
     BitmapConfiguration();
     bool isValid() const;
@@ -64,8 +60,10 @@ public:
     unsigned int getMaximumNumberOfPixelsBeforeOneByte() const;
     unsigned int getMinimumNumberOfBytesForOnePixel() const;
     unsigned int getEstimatedSquareSideInPixels(unsigned int const numberOfBytesToRead) const;
-    unsigned int getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const;
-    unsigned int getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const;
+    unsigned int getOneRowSizeInBytesFromPixels(
+        unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const;
+    unsigned int getOneRowSizeInBytesFromBytes(
+        unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const;
 
     Colors getColorTable() const;
 
@@ -100,8 +98,9 @@ private:
     Colors m_colors;
 };
 
-bool areBitmapConfigurationsCompatibleForChangingPixelData(BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2);
+bool areBitmapConfigurationsCompatibleForChangingPixelData(
+    BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2);
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

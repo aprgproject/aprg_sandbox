@@ -2,14 +2,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace soosa
-{
+namespace soosa {
 
-SoosaConfiguration getSoosaConfiguration()
-{
+SoosaConfiguration getSoosaConfiguration() {
     SoosaConfiguration soosaConfiguration;
 
     // Line model parameters
@@ -41,8 +38,7 @@ SoosaConfiguration getSoosaConfiguration()
     return soosaConfiguration;
 }
 
-InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPath)
-{
+InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPath) {
     InputConfiguration inputConfiguration;
     inputConfiguration.setPath(inputPath);
     inputConfiguration.setFormDetailsTitle("Form Title");
@@ -59,7 +55,10 @@ InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPa
     inputConfiguration.addQuestion(1, "10. Nursing Care - promptness of service");
     inputConfiguration.addQuestion(1, "11. Nursing Care - quality of patient care");
     inputConfiguration.addQuestion(1, "12. Nursing Care - courtesy in dealing with patients");
-    inputConfiguration.addQuestion(1, "13. Nursing Care - patient is well-informed regarding his medication, diagnostic tests, dietary needs, & others");
+    inputConfiguration.addQuestion(
+        1,
+        "13. Nursing Care - patient is well-informed regarding his medication, diagnostic tests, dietary needs, & "
+        "others");
     inputConfiguration.addQuestion(1, "14. Medical Care - promptness of service");
     inputConfiguration.addQuestion(1, "15. Medical Care - quality of care and treatment");
     inputConfiguration.addQuestion(1, "16. Medical Care - courtesy in dealing with patients");
@@ -83,14 +82,17 @@ InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPa
     inputConfiguration.addQuestion(2, "34. Cashier/Cash Services - courtesy of staff");
     inputConfiguration.addQuestion(2, "35. Security Services - visibility of security personnel");
     inputConfiguration.addQuestion(2, "36. Security Services - courtesy of security personnel");
-    inputConfiguration.addQuestion(2, "37. Patient Discharge - patient is well-informed regarding requirements prior to discharge");
-    inputConfiguration.addQuestion(2, "38. Patient Discharge - adequacy of instructions regarding medication and on how to care for the patient at home");
+    inputConfiguration.addQuestion(
+        2, "37. Patient Discharge - patient is well-informed regarding requirements prior to discharge");
+    inputConfiguration.addQuestion(
+        2,
+        "38. Patient Discharge - adequacy of instructions regarding medication and on how to care for the patient at "
+        "home");
     inputConfiguration.addQuestion(2, "39. Overall assessment of the hospital");
     return inputConfiguration;
 }
 
-InputConfiguration getInputConfigurationForDemObas(string const& inputPath)
-{
+InputConfiguration getInputConfigurationForDemObas(string const& inputPath) {
     InputConfiguration inputConfiguration;
     inputConfiguration.setPath(inputPath);
     inputConfiguration.setFormDetailsTitle("Form Title");
@@ -104,11 +106,13 @@ InputConfiguration getInputConfigurationForDemObas(string const& inputPath)
     inputConfiguration.addQuestion(1, "07. Nursing Care - promptness of service");
     inputConfiguration.addQuestion(1, "08. Nursing Care - quality of patient care");
     inputConfiguration.addQuestion(1, "09. Nursing Care - courtesy in dealing with patients");
-    inputConfiguration.addQuestion(1, "10. Nursing Care - ability to give important information regarding the needs  of patient");
+    inputConfiguration.addQuestion(
+        1, "10. Nursing Care - ability to give important information regarding the needs  of patient");
     inputConfiguration.addQuestion(1, "11. Medical Care - promptness of service");
     inputConfiguration.addQuestion(1, "12. Medical Care - quality of care and treatment");
     inputConfiguration.addQuestion(1, "13. Medical Care - courtesy in dealing with patients");
-    inputConfiguration.addQuestion(1, "14. Medical Care - ability to give important information regarding the patient's  condition");
+    inputConfiguration.addQuestion(
+        1, "14. Medical Care - ability to give important information regarding the patient's  condition");
     inputConfiguration.addQuestion(2, "15. Pharmacy - availability of medicines and medical supplies");
     inputConfiguration.addQuestion(2, "16. Pharmacy - promptness of  service");
     inputConfiguration.addQuestion(2, "17. Pharmacy - courtesy of staff");
@@ -122,14 +126,16 @@ InputConfiguration getInputConfigurationForDemObas(string const& inputPath)
     inputConfiguration.addQuestion(2, "25. ECG - courtesy of staff");
     inputConfiguration.addQuestion(2, "26. Cashier/Cash Services - promptness of  service");
     inputConfiguration.addQuestion(2, "27. Cashier/Cash Services - courtesy of staff");
-    inputConfiguration.addQuestion(2, "28. Security Services - ability to ensure that the area is safe and secured by  observing people and enforcing hospital rules and  regulations");
+    inputConfiguration.addQuestion(
+        2,
+        "28. Security Services - ability to ensure that the area is safe and secured by  observing people and "
+        "enforcing hospital rules and  regulations");
     inputConfiguration.addQuestion(2, "29 Security Services - courtesy of security personnel");
     inputConfiguration.addQuestion(2, "30. Overall assessment of the hospital");
     return inputConfiguration;
 }
 
-InputConfiguration getInputConfigurationForSpecialUnits(string const& inputPath)
-{
+InputConfiguration getInputConfigurationForSpecialUnits(string const& inputPath) {
     InputConfiguration inputConfiguration;
     inputConfiguration.setPath(inputPath);
     inputConfiguration.setFormDetailsTitle("Form Title");
@@ -150,8 +156,7 @@ InputConfiguration getInputConfigurationForSpecialUnits(string const& inputPath)
     return inputConfiguration;
 }
 
-void checkAnswersForCharityPayWardsPattern1(SOOSA const& soosa)
-{
+void checkAnswersForCharityPayWardsPattern1(SOOSA const& soosa) {
     EXPECT_EQ(39U, soosa.getNumberOfAnswers());
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(1));
@@ -194,8 +199,7 @@ void checkAnswersForCharityPayWardsPattern1(SOOSA const& soosa)
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(38));
 }
 
-void checkAnswersForDemObasPattern1(SOOSA const& soosa)
-{
+void checkAnswersForDemObasPattern1(SOOSA const& soosa) {
     EXPECT_EQ(19U, soosa.getNumberOfAnswers());
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(1));
@@ -229,8 +233,7 @@ void checkAnswersForDemObasPattern1(SOOSA const& soosa)
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(29));
 }
 
-void checkAnswersForDemObasPattern2(SOOSA const& soosa)
-{
+void checkAnswersForDemObasPattern2(SOOSA const& soosa) {
     EXPECT_EQ(23U, soosa.getNumberOfAnswers());
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(1));
@@ -264,8 +267,7 @@ void checkAnswersForDemObasPattern2(SOOSA const& soosa)
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(29));
 }
 
-void checkAnswersForDemObasPattern3(SOOSA const& soosa)
-{
+void checkAnswersForDemObasPattern3(SOOSA const& soosa) {
     EXPECT_EQ(30U, soosa.getNumberOfAnswers());
     EXPECT_EQ(1U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(1));
@@ -299,8 +301,7 @@ void checkAnswersForDemObasPattern3(SOOSA const& soosa)
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(29));
 }
 
-void checkAnswersForDemObasPattern4(SOOSA const& soosa)
-{
+void checkAnswersForDemObasPattern4(SOOSA const& soosa) {
     EXPECT_EQ(26U, soosa.getNumberOfAnswers());
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
@@ -334,8 +335,7 @@ void checkAnswersForDemObasPattern4(SOOSA const& soosa)
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(29));
 }
 
-void checkAnswersForDemObasPattern5(SOOSA const& soosa)
-{
+void checkAnswersForDemObasPattern5(SOOSA const& soosa) {
     EXPECT_EQ(19U, soosa.getNumberOfAnswers());
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(1));
@@ -369,8 +369,7 @@ void checkAnswersForDemObasPattern5(SOOSA const& soosa)
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(29));
 }
 
-void checkAnswersForSpecialUnitsPattern1(SOOSA const& soosa)
-{
+void checkAnswersForSpecialUnitsPattern1(SOOSA const& soosa) {
     EXPECT_EQ(13U, soosa.getNumberOfAnswers());
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
@@ -387,8 +386,7 @@ void checkAnswersForSpecialUnitsPattern1(SOOSA const& soosa)
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(12));
 }
 
-void checkAnswersForSpecialUnitsPattern2(SOOSA const& soosa)
-{
+void checkAnswersForSpecialUnitsPattern2(SOOSA const& soosa) {
     EXPECT_EQ(13U, soosa.getNumberOfAnswers());
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
@@ -405,8 +403,7 @@ void checkAnswersForSpecialUnitsPattern2(SOOSA const& soosa)
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(12));
 }
 
-void checkAnswersForSpecialUnitsPattern3(SOOSA const& soosa)
-{
+void checkAnswersForSpecialUnitsPattern3(SOOSA const& soosa) {
     EXPECT_EQ(13U, soosa.getNumberOfAnswers());
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
@@ -423,11 +420,8 @@ void checkAnswersForSpecialUnitsPattern3(SOOSA const& soosa)
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(12));
 }
 
-void checkAnswersForEmptyForm(SOOSA const& soosa)
-{
-    EXPECT_EQ(0U, soosa.getNumberOfAnswers());
-}
+void checkAnswersForEmptyForm(SOOSA const& soosa) { EXPECT_EQ(0U, soosa.getNumberOfAnswers()); }
 
-}
+}  // namespace soosa
 
-}
+}  // namespace alba

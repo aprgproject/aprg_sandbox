@@ -3,22 +3,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using Vertices = typename GraphTypes<VertexForTest>::Vertices;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using BipartiteCheckerForTest = BipartiteCheckerUsingDfs<VertexForTest>;
-}
+}  // namespace
 
-TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph)
-{
+TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph) {
     GraphForTest nonBipartiteGraph;
     nonBipartiteGraph.connect(0U, 1U);
     nonBipartiteGraph.connect(0U, 2U);
@@ -45,8 +41,7 @@ TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph)
     EXPECT_EQ(expectedWithSecondColor, verticesWithSecondColor);
 }
 
-TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph)
-{
+TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph) {
     GraphForTest bipartiteGraph;
     bipartiteGraph.connect(0U, 1U);
     bipartiteGraph.connect(0U, 2U);
@@ -75,6 +70,6 @@ TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph)
     EXPECT_EQ(expectedWithSecondColor, verticesWithSecondColor);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

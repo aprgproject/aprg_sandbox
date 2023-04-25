@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SubTermsRetrieverTest, RetrieveFromEquationsWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromEquationsWorks) {
     SubTermsRetriever retriever;
     Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
     Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
@@ -26,8 +23,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromEquationsWorks)
     EXPECT_EQ(Term(Monomial(18, {{"y", 8}})), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromEquationWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromEquationWorks) {
     SubTermsRetriever retriever;
     Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
@@ -42,18 +38,12 @@ TEST(SubTermsRetrieverTest, RetrieveFromEquationWorks)
     EXPECT_EQ(Term(Monomial(41, {{"y", 6}})), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromTermWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromTermWorks) {
     SubTermsRetriever retriever;
     Term expesssionTerm1(createExpressionIfPossible({"a", "^", 2}));
     Term expesssionTerm2(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
     Function functionObject(
-                "functionName",
-                expesssionTerm1,
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", expesssionTerm1, [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term functionTerm1(functionObject);
 
     retriever.retrieveFromTerm(Constant(1.234));
@@ -79,8 +69,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromTermWorks)
     EXPECT_EQ(functionTerm1, *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromConstantWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromConstantWorks) {
     SubTermsRetriever retriever;
 
     retriever.retrieveFromConstant(Constant(1.234));
@@ -91,8 +80,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromConstantWorks)
     EXPECT_EQ(Term(1.234), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromVariableWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromVariableWorks) {
     SubTermsRetriever retriever;
 
     retriever.retrieveFromVariable(Variable("x"));
@@ -103,8 +91,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromVariableWorks)
     EXPECT_EQ(Term("x"), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromMonomialWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromMonomialWorks) {
     SubTermsRetriever retriever;
 
     retriever.retrieveFromMonomial(Monomial(34, {{"x", 5}, {"y", 6}}));
@@ -115,8 +102,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromMonomialWorks)
     EXPECT_EQ(Term(Monomial(34, {{"x", 5}, {"y", 6}})), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromPolynomialWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromPolynomialWorks) {
     SubTermsRetriever retriever;
 
     retriever.retrieveFromPolynomial(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
@@ -127,8 +113,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromPolynomialWorks)
     EXPECT_EQ(Term(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromExpressionWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromExpressionWorks) {
     SubTermsRetriever retriever;
     Expression expression(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
 
@@ -142,17 +127,11 @@ TEST(SubTermsRetrieverTest, RetrieveFromExpressionWorks)
     EXPECT_EQ(Term(expression), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromFunctionWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromFunctionWorks) {
     SubTermsRetriever retriever;
     Expression expression(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})}));
     Function functionObject(
-                "functionName",
-                Term(expression),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(expression), [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     retriever.retrieveFromFunction(functionObject);
 
@@ -165,8 +144,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromFunctionWorks)
     EXPECT_EQ(Term(functionObject), *(it++));
 }
 
-TEST(SubTermsRetrieverTest, RetrieveFromPolynomialsWorks)
-{
+TEST(SubTermsRetrieverTest, RetrieveFromPolynomialsWorks) {
     SubTermsRetriever retriever;
     Polynomials polynomials;
     Polynomial polynomial1{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
@@ -183,6 +161,6 @@ TEST(SubTermsRetrieverTest, RetrieveFromPolynomialsWorks)
     EXPECT_EQ(Term(polynomial2), *(it++));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

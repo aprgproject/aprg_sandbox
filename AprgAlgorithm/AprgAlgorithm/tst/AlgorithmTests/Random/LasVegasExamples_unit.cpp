@@ -6,14 +6,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-TEST(LasVegasTest, GraphColoringExample)
-{
+TEST(LasVegasTest, GraphColoringExample) {
     // Given a graph that contains n nodes and m edges,
     // our task is to find a way to color the nodes of the graph using two colors so that for at least m/2 edges,
     // the endpoints have different colors.
@@ -34,26 +31,21 @@ TEST(LasVegasTest, GraphColoringExample)
     graph.connect(4U, 5U);
     map<Vertex, Color> vertexToColorMap;
 
-    LasVegasAlgorithm graphColoringAlgorithm = [&]()
-    {
+    LasVegasAlgorithm graphColoringAlgorithm = [&]() {
         unsigned int numberOfEdgesWithDifferentColors(0);
-        do
-        {
+        do {
             vertexToColorMap.clear();
-            for(Vertex const& vertex : graph.getVertices())
-            {
-                vertexToColorMap[vertex] = static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(0, 1));
+            for (Vertex const& vertex : graph.getVertices()) {
+                vertexToColorMap[vertex] =
+                    static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(0, 1));
             }
             numberOfEdgesWithDifferentColors = 0;
-            for(Edge const& edge : graph.getEdges())
-            {
-                if(vertexToColorMap.at(edge.first) != vertexToColorMap.at(edge.second))
-                {
+            for (Edge const& edge : graph.getEdges()) {
+                if (vertexToColorMap.at(edge.first) != vertexToColorMap.at(edge.second)) {
                     numberOfEdgesWithDifferentColors++;
                 }
             }
-        }
-        while(numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges()/2);
+        } while (numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges() / 2);
     };
 
     performALasVegasAlgorithm(graphColoringAlgorithm);
@@ -61,6 +53,6 @@ TEST(LasVegasTest, GraphColoringExample)
     EXPECT_EQ(5U, vertexToColorMap.size());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -4,31 +4,26 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<double>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 RangeQueryForTest::Function multipliesFunction = multiplies<>();
 RangeQueryForTest::Function dividesFunction = divides<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction, dividesFunction, 1);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction, dividesFunction, 1);
 
@@ -48,8 +43,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithGeometr
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction, dividesFunction, 1);
 
@@ -58,8 +52,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithGeometricS
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction, dividesFunction, 1);
 
@@ -82,8 +75,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithGeometricS
     EXPECT_DOUBLE_EQ(24, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction, dividesFunction, 1);
 
@@ -92,8 +84,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithGeometr
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction, dividesFunction, 1);
 
@@ -115,6 +106,6 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithGeometr
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace NullObject
-{
+namespace NullObject {
 
-TEST(NullObjectTest, Test1)
-{
+TEST(NullObjectTest, Test1) {
     std::unique_ptr<AbstractObject> realObject(make_unique<RealObject>());
     realObject->doSomething();
 
@@ -16,4 +14,4 @@ TEST(NullObjectTest, Test1)
     nullObject->doSomething();
 }
 
-}
+}  // namespace NullObject

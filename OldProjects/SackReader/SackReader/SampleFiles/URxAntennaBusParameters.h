@@ -1,12 +1,14 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1806_001_00/I_Interface/Application_Env/Definitions/URxAntennaBusParameters.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1806_001_00/I_Interface/Application_Env/Definitions/URxAntennaBusParameters.h
+*$
 * @version               $LastChangedRevision: 2029 $
 * @date                  $LastChangedDate: 2014-06-23 16:25:46 +0800 (Mon, 23 Jun 2014) $
 * @author                $Author: autobuild_sack_wro $
-* 
+*
 * Original author        Sinikka Mikkola
-* 
+*
 * Copyright 2010 Nokia. All rights reserved.
 ******************************************************************************/
 
@@ -16,10 +18,9 @@
 #include <SAntennaBusParametersForRfBus.h>
 #include <SAntennaPhysicalAddress.h>
 
-union URxAntennaBusParameters
-{
-    SAntennaBusParametersForRfBus     paramsForRfBus;
-    SAntennaPhysicalAddress           paramsForRp3;
+union URxAntennaBusParameters {
+    SAntennaBusParametersForRfBus paramsForRfBus;
+    SAntennaPhysicalAddress paramsForRp3;
 };
 typedef union URxAntennaBusParameters URxAntennaBusParameters;
 
@@ -43,11 +44,7 @@ typedef union URxAntennaBusParameters URxAntennaBusParameters;
 * Additional Information :
 *
 * Definition Provided by : DSP
-* 
+*
 * Remember to put an empty line in the end of each definition file.
 * Otherwise the compiler will generate a warning.
 ******************************************************************************/
-
-
-
-

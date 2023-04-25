@@ -2,19 +2,12 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-Term performOperation(
-        Operator const& operatorTerm,
-        Term const& term);
-Term performOperation(
-        Operator const& operatorTerm,
-        Term const& term1,
-        Term const& term2);
+Term performOperation(Operator const& operatorTerm, Term const& term);
+Term performOperation(Operator const& operatorTerm, Term const& term1, Term const& term2);
 Term performUnaryPlus(Term const& term);
 Term performUnaryMinus(Term const& term);
 Term performAddition(Term const& term1, Term const& term2);
@@ -23,6 +16,6 @@ Term performMultiplication(Term const& term1, Term const& term2);
 Term performDivision(Term const& term1, Term const& term2);
 Term performRaiseToPower(Term const& term1, Term const& term2);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

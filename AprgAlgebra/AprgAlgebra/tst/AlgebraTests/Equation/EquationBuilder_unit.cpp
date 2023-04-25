@@ -4,35 +4,27 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(EquationBuilderTest, ConstructionWorks)
-{
-    EquationBuilder("");
-}
+TEST(EquationBuilderTest, ConstructionWorks) { EquationBuilder(""); }
 
-TEST(EquationBuilderTest, GetEquationWorksWhenVariableEqualsVariable)
-{
+TEST(EquationBuilderTest, GetEquationWorksWhenVariableEqualsVariable) {
     EquationBuilder builder("a=b");
 
     Equation expectedEquation("a", "=", "b");
     EXPECT_EQ(expectedEquation, builder.getEquation());
 }
 
-TEST(EquationBuilderTest, GetEquationWorksWhenMonomialEqualsMonomial)
-{
+TEST(EquationBuilderTest, GetEquationWorksWhenMonomialEqualsMonomial) {
     EquationBuilder builder("531*x^2*y^3 = 145*a^4*b^5");
 
-    Equation expectedEquation(Monomial(531, {{"x",2},{"y",3}}), "=", Monomial(145, {{"a",4},{"b",5}}));
+    Equation expectedEquation(Monomial(531, {{"x", 2}, {"y", 3}}), "=", Monomial(145, {{"a", 4}, {"b", 5}}));
     EXPECT_EQ(expectedEquation, builder.getEquation());
 }
 
-TEST(EquationBuilderTest, GetTermStringsWorks)
-{
+TEST(EquationBuilderTest, GetTermStringsWorks) {
     EquationBuilder builder("a=b=c=d");
 
     stringHelper::strings termStrings(builder.getTermStrings());
@@ -44,8 +36,7 @@ TEST(EquationBuilderTest, GetTermStringsWorks)
     EXPECT_EQ("d", termStrings.at(3));
 }
 
-TEST(EquationBuilderTest, GetEquationOperatorStringsWorks)
-{
+TEST(EquationBuilderTest, GetEquationOperatorStringsWorks) {
     EquationBuilder builder("a=a==a!=a<a>a<=a>=a");
 
     stringHelper::strings equationOperatorStrings(builder.getEquationOperatorStrings());
@@ -60,6 +51,6 @@ TEST(EquationBuilderTest, GetEquationOperatorStringsWorks)
     EXPECT_EQ(">=", equationOperatorStrings.at(6));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

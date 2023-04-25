@@ -4,16 +4,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
-using SetOfVertices=LargestIndependentSetProblem::SetOfVertices;
+namespace {
+using SetOfVertices = LargestIndependentSetProblem::SetOfVertices;
 }
 
-TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample1)
-{
+TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample1) {
     LargestIndependentSetProblem::Graph graph;
     graph.connect(10U, 20U);
     graph.connect(10U, 30U);
@@ -29,8 +26,7 @@ TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample1)
     EXPECT_EQ((SetOfVertices{10U, 40U, 60U, 70U, 80U}), queryForTest.getMaximumSetUsingMemoizationDP());
 }
 
-TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample2)
-{
+TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample2) {
     LargestIndependentSetProblem::Graph graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 4U);
@@ -46,4 +42,4 @@ TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample2)
     EXPECT_EQ((SetOfVertices{1U, 3U, 6U, 7U}), queryForTest.getMaximumSetUsingMemoizationDP());
 }
 
-}
+}  // namespace alba

@@ -3,9 +3,8 @@
 #include <set>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
 using ListOfPaths = std::set<std::string>;
 
-}//namespace alba
+}  // namespace alba

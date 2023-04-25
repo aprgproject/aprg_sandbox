@@ -4,11 +4,9 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 using FactorsToCountMap = std::map<UnsignedInteger, UnsignedInteger>;
 
@@ -28,6 +26,6 @@ UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number);
 UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number);
 FactorsToCountMap getPrimeFactorsToCountMap(UnsignedInteger const number);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

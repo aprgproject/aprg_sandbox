@@ -3,19 +3,16 @@
 #include "../Database/CPlusPlusType.hpp"
 
 #include <optional>
-
 #include <ostream>
 #include <string>
 
-using std::string;
-using std::ostream;
 using std::optional;
+using std::ostream;
+using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 
-enum class TermType
-{
+enum class TermType {
     Class,
     Comment,
     Constant_Boolean,
@@ -47,13 +44,12 @@ enum class TermType
     WhiteSpace
 };
 
-class Term
-{
+class Term {
 public:
-    explicit Term(TermType termType, unsigned int const lineNumber=0);
-    explicit Term(TermType termType, string const& content, unsigned int const lineNumber=0);
+    explicit Term(TermType termType, unsigned int const lineNumber = 0);
+    explicit Term(TermType termType, string const& content, unsigned int const lineNumber = 0);
 
-    friend ostream& operator<<(ostream & out, Term const& term);
+    friend ostream& operator<<(ostream& out, Term const& term);
     bool operator==(Term const& termToCompare) const;
     bool operator==(string const& content) const;
     friend bool operator==(string const& content, Term const& term);
@@ -71,7 +67,7 @@ public:
     unsigned int getLineNumber() const;
 
     void clearValueType();
-    void setString(string const & string1);
+    void setString(string const& string1);
     void setTermType(TermType termType);
     void setValueType(CPlusPlusType const& cPlusPlusType);
     void setLineNumber(unsigned int lineNumber);
@@ -84,7 +80,6 @@ private:
     string m_valueType;
     unsigned int m_lineNumber;
     std::Optional<CPlusPlusType> m_ValueTypeOptional;
-
 };
 
-}
+}  // namespace codeReview

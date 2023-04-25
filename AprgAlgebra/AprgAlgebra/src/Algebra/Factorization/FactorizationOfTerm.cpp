@@ -7,58 +7,41 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Factorization
-{
+namespace Factorization {
 
-Terms factorizeTerm(Term const& term)
-{
-    return factorizeTerms({term});
-}
+Terms factorizeTerm(Term const& term) { return factorizeTerms({term}); }
 
-Terms factorizeTerms(Terms const& terms)
-{
+Terms factorizeTerms(Terms const& terms) {
     Terms result;
-    for(Term const& term : terms)
-    {
-        if(term.isPolynomial())
-        {
+    for (Term const& term : terms) {
+        if (term.isPolynomial()) {
             Polynomial simplifiedPolynomial(term.getPolynomialConstReference());
             simplifiedPolynomial.simplify();
             Polynomials polynomialFactors(factorizeAPolynomial(simplifiedPolynomial));
-            for(Polynomial const& polynomialFactor : polynomialFactors)
-            {
+            for (Polynomial const& polynomialFactor : polynomialFactors) {
                 result.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomialFactor));
             }
-        }
-        else if(term.isExpression())
-        {
-            if(shouldSimplifyExpressionsToFactors())
-            {
+        } else if (term.isExpression()) {
+            if (shouldSimplifyExpressionsToFactors()) {
                 Terms factors(factorizeAnExpression(term.getExpressionConstReference()));
                 result.reserve(result.size() + factors.size());
                 copy(factors.cbegin(), factors.cend(), back_inserter(result));
-            }
-            else
-            {
+            } else {
                 result.emplace_back(term);
             }
-        }
-        else
-        {
+        } else {
             result.emplace_back(term);
         }
     }
     return result;
 }
 
-}
+}  // namespace Factorization
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -2,16 +2,14 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 UnsignedInteger getCatalanNumber(UnsignedInteger const n);
 UnsignedInteger getNumberOfBinaryTrees(UnsignedInteger const numberOfNodes);
 UnsignedInteger getNumberOfRootedTrees(UnsignedInteger const numberOfNodes);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

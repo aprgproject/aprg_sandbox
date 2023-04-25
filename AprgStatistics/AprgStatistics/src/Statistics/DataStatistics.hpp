@@ -4,15 +4,12 @@
 
 #include <algorithm>
 #include <functional>
-
 #include <optional>
 
-namespace alba
-{
+namespace alba {
 
 template <unsigned int DIMENSIONS>
-class DataStatistics
-{
+class DataStatistics {
 public:
     using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
@@ -20,15 +17,11 @@ public:
     using SampleOptional = std::optional<Sample>;
     using DoubleOptional = std::optional<double>;
 
-    DataStatistics()
-    {}
+    DataStatistics() {}
 
-    DataStatistics(Samples const& samples)
-        : m_samples(samples)
-    {}
+    DataStatistics(Samples const& samples) : m_samples(samples) {}
 
-    void clearPreviousCalculations()
-    {
+    void clearPreviousCalculations() {
         m_sum.reset();
         m_mean.reset();
         m_sampleVariance.reset();
@@ -38,118 +31,89 @@ public:
         m_dispersionAroundTheCentroid.reset();
     }
 
-    Samples const& getSamples() const
-    {
-        return m_samples;
-    }
+    Samples const& getSamples() const { return m_samples; }
 
-    Sample getSum()
-    {
+    Sample getSum() {
         calculateSumIfNeeded();
         return m_sum.value();
     }
 
-    Sample getMean()
-    {
+    Sample getMean() {
         calculateMeanIfNeeded();
         return m_mean.value();
     }
 
-    Sample getSampleVariance()
-    {
+    Sample getSampleVariance() {
         calculateSampleVarianceIfNeeded();
         return m_sampleVariance.value();
     }
 
-    Sample getSampleStandardDeviation()
-    {
+    Sample getSampleStandardDeviation() {
         calculateSampleStandardDeviationIfNeeded();
         return m_sampleStandardDeviation.value();
     }
 
-    Sample getPopulationVariance()
-    {
+    Sample getPopulationVariance() {
         calculatePopulationVarianceIfNeeded();
         return m_populationVariance.value();
     }
 
-    Sample getPopulationStandardDeviation()
-    {
+    Sample getPopulationStandardDeviation() {
         calculatePopulationStandardDeviationIfNeeded();
         return m_populationStandardDeviation.value();
     }
 
-    double getDispersionAroundTheCentroid()
-    {
+    double getDispersionAroundTheCentroid() {
         calculateDispersionAroundTheCentroidIfNeeded();
         return m_dispersionAroundTheCentroid.value();
     }
 
 protected:
-    void calculateSumIfNeeded()
-    {
-        if(!m_sum)
-        {
+    void calculateSumIfNeeded() {
+        if (!m_sum) {
             m_sum = StatisticsUtilities::calculateSum(m_samples);
         }
     }
 
-    void calculateMeanIfNeeded()
-    {
-        if(!m_mean)
-        {
+    void calculateMeanIfNeeded() {
+        if (!m_mean) {
             calculateSumIfNeeded();
             unsigned int sampleSize(m_samples.empty() ? 1 : m_samples.size());
-            m_mean = m_sum.value()/sampleSize;
+            m_mean = m_sum.value() / sampleSize;
         }
     }
 
-    void calculateSampleVarianceIfNeeded()
-    {
-        calculateVarianceIfNeeded(m_sampleVariance, m_samples.size()-1);
+    void calculateSampleVarianceIfNeeded() { calculateVarianceIfNeeded(m_sampleVariance, m_samples.size() - 1); }
+
+    void calculateSampleStandardDeviationIfNeeded() {
+        calculateStandardDeviationIfNeeded(m_sampleStandardDeviation, m_sampleVariance, m_samples.size() - 1);
     }
 
-    void calculateSampleStandardDeviationIfNeeded()
-    {
-        calculateStandardDeviationIfNeeded(m_sampleStandardDeviation, m_sampleVariance, m_samples.size()-1);
-    }
+    void calculatePopulationVarianceIfNeeded() { calculateVarianceIfNeeded(m_populationVariance, m_samples.size()); }
 
-    void calculatePopulationVarianceIfNeeded()
-    {
-        calculateVarianceIfNeeded(m_populationVariance, m_samples.size());
-    }
-
-    void calculatePopulationStandardDeviationIfNeeded()
-    {
+    void calculatePopulationStandardDeviationIfNeeded() {
         calculateStandardDeviationIfNeeded(m_populationStandardDeviation, m_populationVariance, m_samples.size());
     }
 
-    void calculateVarianceIfNeeded(SampleOptional & variance, unsigned int sampleSize)
-    {
-        if(!variance)
-        {
-            if(!m_samples.empty())
-            {
+    void calculateVarianceIfNeeded(SampleOptional& variance, unsigned int sampleSize) {
+        if (!variance) {
+            if (!m_samples.empty()) {
                 Samples varianceCalculationTemp(m_samples);
                 calculateMeanIfNeeded();
-                for(Sample & sample: varianceCalculationTemp)
-                {
-                    sample = sample-m_mean.value();
+                for (Sample& sample : varianceCalculationTemp) {
+                    sample = sample - m_mean.value();
                     sample = sample.calculateRaiseToPower(2);
                 }
-                variance = StatisticsUtilities::calculateSum(varianceCalculationTemp)/sampleSize;
-            }
-            else
-            {
+                variance = StatisticsUtilities::calculateSum(varianceCalculationTemp) / sampleSize;
+            } else {
                 variance = Sample{};
             }
         }
     }
 
-    void calculateStandardDeviationIfNeeded(SampleOptional & standardDeviation, SampleOptional & variance, unsigned int sampleSize)
-    {
-        if(!standardDeviation)
-        {
+    void calculateStandardDeviationIfNeeded(
+        SampleOptional& standardDeviation, SampleOptional& variance, unsigned int sampleSize) {
+        if (!standardDeviation) {
             calculateVarianceIfNeeded(variance, sampleSize);
             Sample standardDeviationTemp(variance.value());
             standardDeviationTemp = standardDeviationTemp.calculateRaiseToInversePower(2);
@@ -157,10 +121,8 @@ protected:
         }
     }
 
-    void calculateDispersionAroundTheCentroidIfNeeded()
-    {
-        if(!m_dispersionAroundTheCentroid)
-        {
+    void calculateDispersionAroundTheCentroidIfNeeded() {
+        if (!m_dispersionAroundTheCentroid) {
             calculateSampleStandardDeviationIfNeeded();
             Sample dispersionCalculationTemp(m_sampleStandardDeviation.value());
             dispersionCalculationTemp = dispersionCalculationTemp.calculateRaiseToPower(2);
@@ -178,4 +140,4 @@ protected:
     Samples const& m_samples;
 };
 
-}
+}  // namespace alba

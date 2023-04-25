@@ -4,12 +4,10 @@
 
 #include <gtest/gtest.h>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-namespace MessageVerifier
-{
-    void verifierTC_LRM_CONFIGURATION_DATA_IND_MSG(GenericMessage const& genericMessage);
+namespace MessageVerifier {
+void verifierTC_LRM_CONFIGURATION_DATA_IND_MSG(GenericMessage const& genericMessage);
 }
 
-} // namespace DesignDocumentCreator
+}  // namespace DesignDocumentCreator

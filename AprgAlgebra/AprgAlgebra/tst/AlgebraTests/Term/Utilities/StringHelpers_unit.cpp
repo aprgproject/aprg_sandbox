@@ -2,14 +2,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(StringHelpersTest, IsOperatorWorks)
-{
+TEST(StringHelpersTest, IsOperatorWorks) {
     EXPECT_FALSE(isOperator(""));
     EXPECT_TRUE(isOperator("+"));
     EXPECT_TRUE(isOperator("-"));
@@ -21,15 +18,13 @@ TEST(StringHelpersTest, IsOperatorWorks)
     EXPECT_FALSE(isOperator("notAnOperator"));
 }
 
-TEST(StringHelpersTest, IsFunctionWorks)
-{
+TEST(StringHelpersTest, IsFunctionWorks) {
     EXPECT_FALSE(isFunction(""));
     EXPECT_TRUE(isFunction("abs"));
     EXPECT_FALSE(isFunction("notAnFunction"));
 }
 
-TEST(StringHelpersTest, GetOperatorLevelValueWorks)
-{
+TEST(StringHelpersTest, GetOperatorLevelValueWorks) {
     EXPECT_EQ(1U, getOperatorPriority("("));
     EXPECT_EQ(2U, getOperatorPriority(")"));
     EXPECT_EQ(3U, getOperatorPriority("+"));
@@ -39,8 +34,7 @@ TEST(StringHelpersTest, GetOperatorLevelValueWorks)
     EXPECT_EQ(7U, getOperatorPriority("^"));
     EXPECT_EQ(0U, getOperatorPriority("operator"));
 }
-TEST(StringHelpersTest, GetOperatingStringWorks)
-{
+TEST(StringHelpersTest, GetOperatingStringWorks) {
     EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Positive).empty());
     EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
     EXPECT_EQ("+", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive));
@@ -51,35 +45,40 @@ TEST(StringHelpersTest, GetOperatingStringWorks)
     EXPECT_TRUE(getOperatingString(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
 }
 
-TEST(StringHelpersTest, GetFirstStringIfNegativeAssociationWorks)
-{
+TEST(StringHelpersTest, GetFirstStringIfNegativeAssociationWorks) {
     EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::Unknown, TermAssociationType::Positive).empty());
     EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
-    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive).empty());
-    EXPECT_EQ("-", getFirstStringIfNegativeAssociation(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
-    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive).empty());
-    EXPECT_EQ("1/", getFirstStringIfNegativeAssociation(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
-    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Positive).empty());
-    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
+    EXPECT_TRUE(
+        getFirstStringIfNegativeAssociation(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive)
+            .empty());
+    EXPECT_EQ(
+        "-", getFirstStringIfNegativeAssociation(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
+    EXPECT_TRUE(
+        getFirstStringIfNegativeAssociation(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive)
+            .empty());
+    EXPECT_EQ(
+        "1/",
+        getFirstStringIfNegativeAssociation(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
+    EXPECT_TRUE(
+        getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Positive).empty());
+    EXPECT_TRUE(
+        getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
 }
 
-TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks)
-{
+TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks) {
     Term term(Polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
 
     EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(term));
 }
 
-TEST(StringHelpersTest, BuildTermIfPossibleWorks)
-{
+TEST(StringHelpersTest, BuildTermIfPossibleWorks) {
     Term termToVerify(buildTermIfPossible("x^2*y^-3*z^4"));
 
     Term termToExpect(Monomial(1, {{"x", 2}, {"y", -3}, {"z", 4}}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(StringHelpersTest, TokenizeToTermsWorks)
-{
+TEST(StringHelpersTest, TokenizeToTermsWorks) {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
 
     ASSERT_EQ(7U, termsToVerify1.size());
@@ -99,8 +98,7 @@ TEST(StringHelpersTest, TokenizeToTermsWorks)
     EXPECT_DOUBLE_EQ(20.15, termsToVerify1.at(6).getConstantValueConstReference().getDouble());
 }
 
-TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
-{
+TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {
     Terms termsToVerify1;
 
     addValueTermIfNotEmpty(termsToVerify1, "5");
@@ -110,6 +108,6 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
     EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantValueConstReference().getDouble());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

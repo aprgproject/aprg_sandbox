@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SolverUsingSubstitutionTest, ConstructionWorks)
-{
-    SolverUsingSubstitution();
-}
+TEST(SolverUsingSubstitutionTest, ConstructionWorks) { SolverUsingSubstitution(); }
 
-TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonEqualityEquation)
-{
+TEST(
+    SolverUsingSubstitutionTest,
+    CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonEqualityEquation) {
     SolverUsingSubstitution solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
@@ -29,8 +25,7 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksAsDo
     EXPECT_TRUE(solutionSets.empty());
 }
 
-TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor1Equation)
-{
+TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor1Equation) {
     SolverUsingSubstitution solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
@@ -48,8 +43,7 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor1
     EXPECT_EQ(AlbaNumber(4), acceptedValuesForX.at(0));
 }
 
-TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor2Equations)
-{
+TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor2Equations) {
     SolverUsingSubstitution solver;
     Equations equations;
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}})};
@@ -72,8 +66,7 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor2
     EXPECT_EQ(AlbaNumber(3), acceptedValuesForY.at(0));
 }
 
-TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor3Equations)
-{
+TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor3Equations) {
     SolverUsingSubstitution solver;
     Equations equations;
     Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(1, {{"z", 1}})};
@@ -101,11 +94,11 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor3
     EXPECT_EQ(AlbaNumber(3), acceptedValuesForZ.at(0));
 }
 
-TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksForLinearAndQuadratic)
-{
+TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksForLinearAndQuadratic) {
     SolverUsingSubstitution solver;
     Equations equations;
-    Polynomial polynomial1{Monomial(1, {{"x", 2}}), Monomial(-5, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(4, {})};
+    Polynomial polynomial1{
+        Monomial(1, {{"x", 2}}), Monomial(-5, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(4, {})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(-4, {{"y", 1}})};
     equations.emplace_back(polynomial1, "=", 0);
     equations.emplace_back(polynomial2, "=", 1);
@@ -127,12 +120,12 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksForL
     EXPECT_EQ(2U, solutionSet2.getNumberOfVariablesWithSolutions());
     AlbaNumbers acceptedValuesForX2(solutionSet2.getSolutionSetForVariable("x").getAcceptedValues());
     ASSERT_EQ(1U, acceptedValuesForX2.size());
-    EXPECT_EQ(AlbaNumber(17)/4, acceptedValuesForX2.at(0));
+    EXPECT_EQ(AlbaNumber(17) / 4, acceptedValuesForX2.at(0));
     AlbaNumbers acceptedValuesForY2(solutionSet2.getSolutionSetForVariable("y").getAcceptedValues());
     ASSERT_EQ(1U, acceptedValuesForY2.size());
-    EXPECT_EQ(AlbaNumber(13)/16, acceptedValuesForY2.at(0));
+    EXPECT_EQ(AlbaNumber(13) / 16, acceptedValuesForY2.at(0));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

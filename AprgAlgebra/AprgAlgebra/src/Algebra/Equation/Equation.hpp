@@ -6,20 +6,14 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Equation
-{
+class Equation {
 public:
     Equation() = default;
-    Equation(
-            Term const& leftHandTerm,
-            std::string const& equationOperator,
-            Term const& rightHandTerm);
+    Equation(Term const& leftHandTerm, std::string const& equationOperator, Term const& rightHandTerm);
 
     // rule of zero
 
@@ -34,13 +28,13 @@ public:
     Term const& getLeftHandTerm() const;
     Term const& getRightHandTerm() const;
 
-    Term & getLeftHandTermReference();
-    Term & getRightHandTermReference();
+    Term& getLeftHandTermReference();
+    Term& getRightHandTermReference();
 
     void simplify();
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Equation const& equation);
+    friend std::ostream& operator<<(std::ostream& out, Equation const& equation);
 
     EquationOperator m_equationOperator;
     Term m_leftHandTerm;
@@ -49,6 +43,6 @@ private:
 
 using Equations = std::vector<Equation>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -2,18 +2,15 @@
 
 #include <Common/Messages/Messages.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-GenericMessage MessageFactory::createLrmConfigurationDataForMoreThan2K2sWithNbic()
-{
+GenericMessage MessageFactory::createLrmConfigurationDataForMoreThan2K2sWithNbic() {
     SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message;
     saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 
-void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(SLrmConfigurationDataInd & payload)
-{
+void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(SLrmConfigurationDataInd& payload) {
     payload.numOfDsps = 4;
     payload.dspInfo[0].dspAddress = 0x1230;
     payload.dspInfo[0].isUnitAvailable = EAvailability_Available;
@@ -87,11 +84,11 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(SLrm
     payload.delayedLinksInfo[0].numberOfDelayedLinkIndices = 12;
     payload.delayedLinksInfo[1].subrackAddress = 0x20110000;
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
-    //payload.transportLayerAddress = 0; // why does LRM need this?
+    // payload.transportLayerAddress = 0; // why does LRM need this?
 }
 
-void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(SLrmConfigurationDataInd & payload)
-{
+void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(
+    SLrmConfigurationDataInd& payload) {
     payload.numOfDsps = 8;
     payload.dspInfo[0].dspAddress = 0x1230;
     payload.dspInfo[0].isUnitAvailable = EAvailability_Available;
@@ -186,11 +183,11 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2
     payload.delayedLinksInfo[1].subrackAddress = 0x20110000;
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
 
-    //payload.transportLayerAddress = 0; // why does LRM need this?
+    // payload.transportLayerAddress = 0; // why does LRM need this?
 }
 
-void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithWrongPowerGroup(SLrmConfigurationDataInd & payload)
-{
+void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithWrongPowerGroup(
+    SLrmConfigurationDataInd& payload) {
     payload.numOfDsps = 4;
     payload.dspInfo[0].dspAddress = 0x1230;
     payload.dspInfo[0].isUnitAvailable = EAvailability_Available;
@@ -264,11 +261,11 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithW
     payload.delayedLinksInfo[0].numberOfDelayedLinkIndices = 12;
     payload.delayedLinksInfo[1].subrackAddress = 0x20110000;
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
-    //payload.transportLayerAddress = 0; // why does LRM need this?
+    // payload.transportLayerAddress = 0; // why does LRM need this?
 }
 
-void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCcdDInFspForMcdCcdD(SLrmConfigurationDataInd & payload)
-{
+void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCcdDInFspForMcdCcdD(
+    SLrmConfigurationDataInd& payload) {
     payload.numOfDsps = 6;
     payload.dspInfo[0].dspAddress = 0x1230;
     payload.dspInfo[0].isUnitAvailable = EAvailability_Available;
@@ -359,11 +356,11 @@ void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCc
     payload.delayedLinksInfo[0].numberOfDelayedLinkIndices = 12;
     payload.delayedLinksInfo[1].subrackAddress = 0x20110000;
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
-    //payload.transportLayerAddress = 0; // why does LRM need this?
+    // payload.transportLayerAddress = 0; // why does LRM need this?
 }
 
-void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberK2sForMcdCcdD(SLrmConfigurationDataInd & payload)
-{
+void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberK2sForMcdCcdD(
+    SLrmConfigurationDataInd& payload) {
     payload.numOfDsps = 8;
     payload.dspInfo[0].dspAddress = 0x1230;
     payload.dspInfo[0].isUnitAvailable = EAvailability_Available;
@@ -464,7 +461,7 @@ void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberK2sFo
     payload.delayedLinksInfo[0].numberOfDelayedLinkIndices = 12;
     payload.delayedLinksInfo[1].subrackAddress = 0x20110000;
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
-    //payload.transportLayerAddress = 0; // why does LRM need this?
+    // payload.transportLayerAddress = 0; // why does LRM need this?
 }
 
-}
+}  // namespace DesignDocumentCreator

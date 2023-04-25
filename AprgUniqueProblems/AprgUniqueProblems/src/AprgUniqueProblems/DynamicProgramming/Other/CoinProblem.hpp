@@ -6,11 +6,9 @@
 #include <set>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CoinProblem
-{
+class CoinProblem {
 public:
     // Given a set of coin values coins = {c1, c2,..., ck} and a target sum of money n
     // First problem: Our task is to form the sum n using as few coins as possible.
@@ -42,7 +40,7 @@ public:
     using VectorOfCoins = std::vector<Coins>;
     using CoinPermutationsPerValue = std::vector<CoinPermutations>;
     using CoinCombinationsPerValue = std::vector<CoinCombinations>;
-    static constexpr unsigned int UNUSED_COUNT=std::numeric_limits<unsigned int>::max();
+    static constexpr unsigned int UNUSED_COUNT = std::numeric_limits<unsigned int>::max();
 
     CoinProblem(Coins const& availableCoins);
 
@@ -70,20 +68,25 @@ private:
     Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
-    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(
+        CountPerValue& countPerValue, Value const total) const;
+    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins& fewestCoins, Value const total) const;
 
     // permutations
-    unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
-    CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(CoinPermutationsPerValue & coinPermutationsPerValue, Value const total) const;
+    unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(
+        CountPerValue& countPerValue, Value const total) const;
+    CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(
+        CoinPermutationsPerValue& coinPermutationsPerValue, Value const total) const;
 
     // combinations
-    unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(CountMatrix & countByValueByCoin, Value const total, unsigned int const coinIndex) const;
-    CoinCombinations getCoinCombinationsUsingMemoizationDPInternal(CoinCombinationsPerValue & coinCombinationsPerValue, Value const total) const;
+    unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(
+        CountMatrix& countByValueByCoin, Value const total, unsigned int const coinIndex) const;
+    CoinCombinations getCoinCombinationsUsingMemoizationDPInternal(
+        CoinCombinationsPerValue& coinCombinationsPerValue, Value const total) const;
     Coins m_availableCoins;
 };
 
-}
+}  // namespace alba
 
 // COIN COMBINATIONS PROBLEM:
 // Given a value N, if we want to make change for N cents,
@@ -103,7 +106,8 @@ private:
 // ---> 2) Solutions that contain at least one Sm.
 // -> Let count(S[], m, n) be the function to count the number of solutions,
 // then it can be written as sum of count(S[], m-1, n) and count(S[], m, n-Sm).
-// -> Therefore, the problem has optimal substructure property as the problem can be solved using solutions to subproblems.
+// -> Therefore, the problem has optimal substructure property as the problem can be solved using solutions to
+// subproblems.
 
 // It should be noted that without memoization the above function computes the same subproblems again and again.
 // See the following recursion tree for S = {1, 2, 3} and n = 5.
@@ -127,10 +131,9 @@ private:
 //                                               |   |
 //                                              .      .
 
-
 // FEWEST COIN PROBLEM:
-// Given a value V, if we want to make change for V cents, and we have infinite supply of each of C = { C1, C2, .. , Cm} valued coins,
-// what is the minimum number of coins to make the change?
+// Given a value V, if we want to make change for V cents, and we have infinite supply of each of C = { C1, C2, .. , Cm}
+// valued coins, what is the minimum number of coins to make the change?
 
 // Examples:
 // -> Input: coins[] = {25, 10, 5}, V = 30
@@ -141,7 +144,8 @@ private:
 // ---> We can use one coin of 6 cents and 1 coin of 5 cents
 
 // This problem is a variation of the problem discussed Coin Change Problem.
-// Here instead of finding total number of possible solutions, we need to find the solution with minimum number of coins.
+// Here instead of finding total number of possible solutions, we need to find the solution with minimum number of
+// coins.
 
 // The minimum number of coins for a value V can be computed using below recursive formula.
 // If V == 0, then 0 coins required.
@@ -156,6 +160,3 @@ private:
 // Like other typical Dynamic Programming(DP) problems,
 // recomputations of same subproblems can be avoided by constructing a temporary array table[][] in bottom up manner.
 // Time complexity of DP solution using loops is O(mV).
-
-
-

@@ -10,172 +10,115 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 void accumulateAndDoOperationOnTermDetails(
-        Term & combinedTerm,
-        OperatorLevel const operatorLevel,
-        TermWithDetails const& termWithDetails)
-{
+    Term& combinedTerm, OperatorLevel const operatorLevel, TermWithDetails const& termWithDetails) {
     Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-    switch(operatorLevel)
-    {
-    case OperatorLevel::AdditionAndSubtraction:
-    {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            combinedTerm = performAddition(combinedTerm, term);
+    switch (operatorLevel) {
+        case OperatorLevel::AdditionAndSubtraction: {
+            if (termWithDetails.hasPositiveAssociation()) {
+                combinedTerm = performAddition(combinedTerm, term);
+            } else if (termWithDetails.hasNegativeAssociation()) {
+                combinedTerm = performSubtraction(combinedTerm, term);
+            }
+            break;
         }
-        else if(termWithDetails.hasNegativeAssociation())
-        {
-            combinedTerm = performSubtraction(combinedTerm, term);
+        case OperatorLevel::MultiplicationAndDivision: {
+            if (termWithDetails.hasPositiveAssociation()) {
+                combinedTerm = performMultiplication(combinedTerm, term);
+            } else if (termWithDetails.hasNegativeAssociation()) {
+                combinedTerm = performDivision(combinedTerm, term);
+            }
+            break;
         }
-        break;
-    }
-    case OperatorLevel::MultiplicationAndDivision:
-    {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            combinedTerm = performMultiplication(combinedTerm, term);
+        case OperatorLevel::RaiseToPower: {
+            if (termWithDetails.hasPositiveAssociation()) {
+                combinedTerm = performRaiseToPower(combinedTerm, term);
+            }
+            break;
         }
-        else if(termWithDetails.hasNegativeAssociation())
-        {
-            combinedTerm = performDivision(combinedTerm, term);
-        }
-        break;
-    }
-    case OperatorLevel::RaiseToPower:
-    {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            combinedTerm = performRaiseToPower(combinedTerm, term);
-        }
-        break;
-    }
-    default:
-        break;
+        default:
+            break;
     }
 }
 
-void accumulateTermsForAdditionAndSubtraction(
-        Term & combinedTerm,
-        TermsWithDetails const& termsToCombine)
-{
+void accumulateTermsForAdditionAndSubtraction(Term& combinedTerm, TermsWithDetails const& termsToCombine) {
     bool isFirst(willHaveNoEffectOnAdditionOrSubtraction(combinedTerm));
-    for(TermWithDetails const& termWithDetails : termsToCombine)
-    {
+    for (TermWithDetails const& termWithDetails : termsToCombine) {
         Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-        if(isNan(combinedTerm) || isNan(term))
-        {
+        if (isNan(combinedTerm) || isNan(term)) {
             combinedTerm = ALBA_NUMBER_NOT_A_NUMBER;
             break;
-        }
-        else if(willHaveNoEffectOnAdditionOrSubtraction(term))
-        {
+        } else if (willHaveNoEffectOnAdditionOrSubtraction(term)) {
             continue;
-        }
-        else if(isFirst)
-        {
-            if(termWithDetails.hasPositiveAssociation())
-            {
+        } else if (isFirst) {
+            if (termWithDetails.hasPositiveAssociation()) {
                 combinedTerm = term;
-            }
-            else if(termWithDetails.hasNegativeAssociation())
-            {
+            } else if (termWithDetails.hasNegativeAssociation()) {
                 combinedTerm = negateTerm(term);
             }
-            isFirst=false;
-        }
-        else
-        {
+            isFirst = false;
+        } else {
             accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::AdditionAndSubtraction, termWithDetails);
         }
     }
-    if(combinedTerm.isEmpty())
-    {
+    if (combinedTerm.isEmpty()) {
         combinedTerm = 0;
     }
 }
 
-void accumulateTermsForMultiplicationAndDivision(
-        Term & combinedTerm,
-        TermsWithDetails const& termsToCombine)
-{
+void accumulateTermsForMultiplicationAndDivision(Term& combinedTerm, TermsWithDetails const& termsToCombine) {
     bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
-    if(isTheValue(combinedTerm, 0))
-    {
+    if (isTheValue(combinedTerm, 0)) {
         combinedTerm = 0;
-    }
-    else
-    {
-        for(TermWithDetails const& termWithDetails : termsToCombine)
-        {
+    } else {
+        for (TermWithDetails const& termWithDetails : termsToCombine) {
             Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-            if(isTheValue(term, 0) && termWithDetails.hasPositiveAssociation())
-            {
+            if (isTheValue(term, 0) && termWithDetails.hasPositiveAssociation()) {
                 combinedTerm = 0;
                 break;
             }
-            if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
-            {
+            if (willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term)) {
                 continue;
-            }
-            else if(isFirst)
-            {
-                if(termWithDetails.hasPositiveAssociation())
-                {
+            } else if (isFirst) {
+                if (termWithDetails.hasPositiveAssociation()) {
                     combinedTerm = term;
+                } else if (termWithDetails.hasNegativeAssociation()) {
+                    combinedTerm = 1 / term;
                 }
-                else if(termWithDetails.hasNegativeAssociation())
-                {
-                    combinedTerm = 1/term;
-                }
-                isFirst=false;
-            }
-            else
-            {
-                accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::MultiplicationAndDivision, termWithDetails);
+                isFirst = false;
+            } else {
+                accumulateAndDoOperationOnTermDetails(
+                    combinedTerm, OperatorLevel::MultiplicationAndDivision, termWithDetails);
             }
         }
-        if(combinedTerm.isEmpty())
-        {
+        if (combinedTerm.isEmpty()) {
             combinedTerm = 1;
         }
     }
 }
 
-void accumulateTermsForRaiseToPower(
-        Term & combinedTerm,
-        TermsWithDetails const& termsToCombine)
-{
+void accumulateTermsForRaiseToPower(Term& combinedTerm, TermsWithDetails const& termsToCombine) {
     bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
-    for(TermWithDetails const& termWithDetails : termsToCombine)
-    {
+    for (TermWithDetails const& termWithDetails : termsToCombine) {
         Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-        if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
-        {
+        if (willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term)) {
             continue;
-        }
-        else if(isFirst)
-        {
+        } else if (isFirst) {
             combinedTerm = term;
-            isFirst=false;
-        }
-        else
-        {
+            isFirst = false;
+        } else {
             accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::RaiseToPower, termWithDetails);
         }
     }
-    if(combinedTerm.isEmpty())
-    {
+    if (combinedTerm.isEmpty()) {
         combinedTerm = 1;
     }
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

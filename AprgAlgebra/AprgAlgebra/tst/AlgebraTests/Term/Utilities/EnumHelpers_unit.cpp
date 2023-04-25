@@ -2,28 +2,23 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(EnumHelpersTest, GetAssociationPriorityWorks)
-{
+TEST(EnumHelpersTest, GetAssociationPriorityWorks) {
     EXPECT_EQ(1U, getAssociationPriority(TermAssociationType::Positive));
     EXPECT_EQ(2U, getAssociationPriority(TermAssociationType::Negative));
 }
 
-TEST(EnumHelpersTest, GetOperatorLevelInversePriorityWorks)
-{
+TEST(EnumHelpersTest, GetOperatorLevelInversePriorityWorks) {
     EXPECT_EQ(0U, getOperatorLevelInversePriority(OperatorLevel::Unknown));
     EXPECT_EQ(3U, getOperatorLevelInversePriority(OperatorLevel::AdditionAndSubtraction));
     EXPECT_EQ(2U, getOperatorLevelInversePriority(OperatorLevel::MultiplicationAndDivision));
     EXPECT_EQ(1U, getOperatorLevelInversePriority(OperatorLevel::RaiseToPower));
 }
 
-TEST(EnumHelpersTest, GetTermPriorityValueWorks)
-{
+TEST(EnumHelpersTest, GetTermPriorityValueWorks) {
     EXPECT_EQ(0U, getTermTypePriorityValue(TermType::Empty));
     EXPECT_EQ(1U, getTermTypePriorityValue(TermType::Operator));
     EXPECT_EQ(2U, getTermTypePriorityValue(TermType::Constant));
@@ -34,14 +29,12 @@ TEST(EnumHelpersTest, GetTermPriorityValueWorks)
     EXPECT_EQ(7U, getTermTypePriorityValue(TermType::Function));
 }
 
-TEST(EnumHelpersTest, GetReversedAssociationTypeWorks)
-{
+TEST(EnumHelpersTest, GetReversedAssociationTypeWorks) {
     EXPECT_EQ(TermAssociationType::Negative, getReversedAssociationType(TermAssociationType::Positive));
     EXPECT_EQ(TermAssociationType::Positive, getReversedAssociationType(TermAssociationType::Negative));
 }
 
-TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks)
-{
+TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks) {
     EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
     EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
     EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));
@@ -52,20 +45,18 @@ TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks)
     EXPECT_EQ("Function", getEnumShortString(TermType::Function));
 }
 
-TEST(EnumHelpersTest, GetEnumShortStringForTermAssociationTypeWorks)
-{
+TEST(EnumHelpersTest, GetEnumShortStringForTermAssociationTypeWorks) {
     EXPECT_EQ("{POS}", getEnumShortString(TermAssociationType::Positive));
     EXPECT_EQ("{NEG}", getEnumShortString(TermAssociationType::Negative));
 }
 
-TEST(EnumHelpersTest, GetEnumShortStringForOperatorLevelWorks)
-{
+TEST(EnumHelpersTest, GetEnumShortStringForOperatorLevelWorks) {
     EXPECT_EQ("{?}", getEnumShortString(OperatorLevel::Unknown));
     EXPECT_EQ("{+-}", getEnumShortString(OperatorLevel::AdditionAndSubtraction));
     EXPECT_EQ("{*/}", getEnumShortString(OperatorLevel::MultiplicationAndDivision));
     EXPECT_EQ("{^}", getEnumShortString(OperatorLevel::RaiseToPower));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

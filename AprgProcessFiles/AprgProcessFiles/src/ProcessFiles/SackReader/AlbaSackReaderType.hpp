@@ -6,11 +6,9 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaSackReaderType
-{
+class AlbaSackReaderType {
 public:
     typedef std::vector<AlbaSackReaderParameter> Parameters;
     typedef std::set<std::string> TypeNames;
@@ -32,4 +30,4 @@ private:
     TypeNames m_otherTypes;
 };
 
-}
+}  // namespace alba

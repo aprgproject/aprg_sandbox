@@ -7,11 +7,12 @@
 class Assistant;
 class AssistantXmlReader;
 
-class AssistantItem : public QObject
-{
+class AssistantItem : public QObject {
     Q_OBJECT
 public:
-    explicit AssistantItem(const QString& name, const QString& data, const QString& notes, const QString& icon_prefix, QObject *parent = 0);
+    explicit AssistantItem(
+        const QString& name, const QString& data, const QString& notes, const QString& icon_prefix,
+        QObject* parent = 0);
 
     const QString& name() const { return m_name; }
     const QString& data() const { return m_data; }
@@ -25,11 +26,10 @@ private:
     const QString m_icon;
 };
 
-class Assistant : public QObject
-{
+class Assistant : public QObject {
     Q_OBJECT
 public:
-    explicit Assistant(const QString& name, QObject *parent = 0);
+    explicit Assistant(const QString& name, QObject* parent = 0);
     ~Assistant();
 
     const QString& name() const { return m_name; }
@@ -43,11 +43,10 @@ private:
     QList<AssistantItem*> m_items;
 };
 
-class AssistantXmlReader: public QObject
-{
+class AssistantXmlReader : public QObject {
     Q_OBJECT
 public:
-    explicit AssistantXmlReader(QObject *parent = 0);
+    explicit AssistantXmlReader(QObject* parent = 0);
 
     bool readFile(const QString& path);
 
@@ -56,14 +55,14 @@ public:
     const QString& iconDir() const { return m_iconDir; }
 
     static QString removeWhiteSpace(const QString& data);
-    static int trimLeft(QString& data); //< returns the number of chars trimmed
+    static int trimLeft(QString& data);  //< returns the number of chars trimmed
     static void trimRight(QString& data);
 
 private:
     void readRootElement();
     void skipUnknownElement();
     void readAssistantElement();
-    void readAssistantItemElement(Assistant *assistant);
+    void readAssistantItemElement(Assistant* assistant);
     QString readAssistantItemNotes();
 
     QString m_iconDir;
@@ -71,4 +70,4 @@ private:
     QXmlStreamReader m_reader;
 };
 
-#endif // ASSISTANTXMLREADER_H
+#endif  // ASSISTANTXMLREADER_H

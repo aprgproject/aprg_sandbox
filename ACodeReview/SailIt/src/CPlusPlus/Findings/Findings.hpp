@@ -5,26 +5,24 @@
 #include <map>
 #include <string>
 
-using std::string;
 using std::multimap;
 using std::pair;
+using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 typedef multimap<int, Finding> MultiMapOfFindings;
 typedef pair<int, Finding> FindingsPair;
 
-class Findings
-{
+class Findings {
 public:
-
     MultiMapOfFindings& getMultiMapOfFindingsReference();
 
     void printFindings(ostream& outputStream);
     void printFindings(ostream& outputStream, string const& details);
 
     void addFinding(unsigned int const lineNumber, string const& fileLocator, string const& content);
-    void addFinding(unsigned int const lineNumber, string const& fileLocator, string const& content, string const& locator);
+    void addFinding(
+        unsigned int const lineNumber, string const& fileLocator, string const& content, string const& locator);
     void copyFindings(Findings& findings);
     void clear();
     void setFileName(string const& fileName);
@@ -34,4 +32,4 @@ private:
     string m_fileName;
 };
 
-}
+}  // namespace codeReview

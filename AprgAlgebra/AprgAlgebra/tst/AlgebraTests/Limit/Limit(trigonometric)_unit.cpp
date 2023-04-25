@@ -10,14 +10,11 @@ using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(LimitTest, GetLimitAtAValueWorksForSinXOverX)
-{
+TEST(LimitTest, GetLimitAtAValueWorksForSinXOverX) {
     Term sinXOverX(createExpressionIfPossible({sin("x"), "/", "x"}));
 
     EXPECT_EQ(Term(1), getLimitAtAValue(sinXOverX, "x", 0, LimitAtAValueApproachType::BothSides));
@@ -25,8 +22,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForSinXOverX)
     EXPECT_EQ(Term(1), getLimitAtAValue(sinXOverX, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
-TEST(LimitTest, GetLimitAtAValueWorksForSinXHarmonicOverSinXHarmonic)
-{
+TEST(LimitTest, GetLimitAtAValueWorksForSinXHarmonicOverSinXHarmonic) {
     Term numerator(sin(Monomial(3, {{"x", 1}})));
     Term denominator(sin(Monomial(5, {{"x", 1}})));
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -36,8 +32,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForSinXHarmonicOverSinXHarmonic)
     EXPECT_EQ(Term(0.6), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
-TEST(LimitTest, GetLimitAtAValueWorksForCosineExpression)
-{
+TEST(LimitTest, GetLimitAtAValueWorksForCosineExpression) {
     Term numerator(createExpressionIfPossible({1, "-", cos("x")}));
     Term denominator("x");
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -47,8 +42,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForCosineExpression)
     EXPECT_EQ(Term(0), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
-TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression)
-{
+TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression) {
     Term numerator(createExpressionIfPossible({1, "-", cos("x")}));
     Term denominator(sin("x"));
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -58,8 +52,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression)
     EXPECT_EQ(Term(0), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
-TEST(LimitTest, GetLimitAtAValueWorksForTangentExpression)
-{
+TEST(LimitTest, GetLimitAtAValueWorksForTangentExpression) {
     Term numerator(createExpressionIfPossible({2, "*", tan("x"), "^", 2}));
     Term denominator(Monomial(1, {{"x", 2}}));
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -69,8 +62,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForTangentExpression)
     EXPECT_EQ(Term(2), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
-TEST(LimitTest, GetLimitAtAValueWorksForComplicatedSinOverX)
-{
+TEST(LimitTest, GetLimitAtAValueWorksForComplicatedSinOverX) {
     Term numerator(sin(Monomial(ALBA_NUMBER_PI, {{"x", 1}})));
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}})});
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -82,10 +74,12 @@ TEST(LimitTest, GetLimitAtAValueWorksForComplicatedSinOverX)
     // The limit in 1 should not be negative infinity (it should be negative pi)
     // but the calculation of sin of pi is not zero (its only near zero) for some reason.
     EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::PositiveSide));
-    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::NegativeSide));
+    EXPECT_EQ(
+        getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(
+        getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::NegativeSide));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

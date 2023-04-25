@@ -3,9 +3,8 @@
 #include <Common/Bit/AlbaBitConstants.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-namespace alba
-{
-#ifdef __has_builtin // you could also use __has_include as well
+namespace alba {
+#ifdef __has_builtin  // you could also use __has_include as well
 #define INLINE_WITHOUT_BUILT_IN
 #define INLINE_WITH_BUILT_IN inline
 #else
@@ -13,61 +12,43 @@ namespace alba
 #define INLINE_WITH_BUILT_IN
 #endif
 
+namespace BitUtilitiesBuiltIn {
 
-namespace BitUtilitiesBuiltIn
-{
-
-INLINE_WITHOUT_BUILT_IN namespace BitUtilitiesWithoutBuiltIn
-{
+INLINE_WITHOUT_BUILT_IN namespace BitUtilitiesWithoutBuiltIn {
     template <typename DataType>
-    constexpr inline unsigned int getNumberOfOnes(DataType const value)
-    {
+    constexpr inline unsigned int getNumberOfOnes(DataType const value) {
         unsigned int result(0);
-        for(auto temporary(value); temporary!=0; temporary>>=1)
-        {
-            if((temporary&1) != 0)
-            {
+        for (auto temporary(value); temporary != 0; temporary >>= 1) {
+            if ((temporary & 1) != 0) {
                 ++result;
             }
         }
         return result;
     }
     template <typename DataType>
-    constexpr inline bool isEvenParity(DataType const value)
-    {
-        return (getNumberOfOnes(value)&1) == 0; // AND implementation because we sure that its unsigned
+    constexpr inline bool isEvenParity(DataType const value) {
+        return (getNumberOfOnes(value) & 1) == 0;  // AND implementation because we sure that its unsigned
     }
     template <typename DataType>
-    constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(
-                DataType const value)
-    {
+    constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(DataType const value) {
         unsigned int result(0);
-        for(DataType mask = DataType(1)<<((sizeof(DataType)*AlbaBitConstants::BYTE_SIZE_IN_BITS)-1); mask!=0; mask>>=1)
-        {
-            if((value&mask) == 0)
-            {
+        for (DataType mask = DataType(1) << ((sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS) - 1); mask != 0;
+             mask >>= 1) {
+            if ((value & mask) == 0) {
                 ++result;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
         return result;
     }
     template <typename DataType>
-    constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(
-                DataType const value)
-    {
+    constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(DataType const value) {
         unsigned int result(0);
-        for(DataType mask=1; mask!=0; mask<<=1)
-        {
-            if((value&mask) == 0)
-            {
+        for (DataType mask = 1; mask != 0; mask <<= 1) {
+            if ((value & mask) == 0) {
                 ++result;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -75,70 +56,52 @@ INLINE_WITHOUT_BUILT_IN namespace BitUtilitiesWithoutBuiltIn
     }
 }
 
-INLINE_WITH_BUILT_IN namespace BitUtilitiesWithBuiltIn
-{
+INLINE_WITH_BUILT_IN namespace BitUtilitiesWithBuiltIn {
 #ifdef __has_builtin
     template <typename DataType>
-    constexpr inline bool isEvenParity(DataType const value)
-    {
-        if constexpr(sizeof(DataType) <= 4)
-        {
-            return __builtin_parity(value)==0;
-        }
-        else
-        {
-            return __builtin_parityll(value)==0;
+    constexpr inline bool isEvenParity(DataType const value) {
+        if constexpr (sizeof(DataType) <= 4) {
+            return __builtin_parity(value) == 0;
+        } else {
+            return __builtin_parityll(value) == 0;
         }
     }
     template <typename DataType>
-    constexpr inline unsigned int getNumberOfOnes(DataType const value)
-    {
-        if constexpr(sizeof(DataType) <= 4)
-        {
+    constexpr inline unsigned int getNumberOfOnes(DataType const value) {
+        if constexpr (sizeof(DataType) <= 4) {
             return __builtin_popcount(value);
-        }
-        else
-        {
+        } else {
             return __builtin_popcountll(value);
         }
     }
     template <typename DataType>
-    constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(
-                DataType const value)
-    {
-        if constexpr(sizeof(DataType) < 4)
-        {
-            static_assert(typeHelper::isUnsignedType<DataType>(), "There might a problem when DataType is signed because of conversion.");
-            return __builtin_clz(value) - ((4-sizeof(DataType))*AlbaBitConstants::BYTE_SIZE_IN_BITS);
-        }
-        else if constexpr(4 < sizeof(DataType))
-        {
+    constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(DataType const value) {
+        if constexpr (sizeof(DataType) < 4) {
+            static_assert(
+                typeHelper::isUnsignedType<DataType>(),
+                "There might a problem when DataType is signed because of conversion.");
+            return __builtin_clz(value) - ((4 - sizeof(DataType)) * AlbaBitConstants::BYTE_SIZE_IN_BITS);
+        } else if constexpr (4 < sizeof(DataType)) {
             return __builtin_clzll(value);
-        }
-        else // if constexpr(sizeof(DataType) == 4)
+        } else  // if constexpr(sizeof(DataType) == 4)
         {
             return __builtin_clz(value);
         }
     }
     template <typename DataType>
-    constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(
-                DataType const value)
-    {
-        if constexpr(sizeof(DataType) <= 4)
-        {
+    constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(DataType const value) {
+        if constexpr (sizeof(DataType) <= 4) {
             return __builtin_ctz(value);
-        }
-        else
-        {
+        } else {
             return __builtin_ctzll(value);
         }
     }
 #endif
 }
 
-}
+}  // namespace BitUtilitiesBuiltIn
 
 #undef INLINE_WITH_BUILT_IN
 #undef INLINE_WITHOUT_BUILT_IN
 
-}
+}  // namespace alba

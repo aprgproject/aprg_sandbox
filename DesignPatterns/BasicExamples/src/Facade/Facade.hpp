@@ -1,68 +1,53 @@
 #include <iostream>
 
-namespace Facade
-{
+namespace Facade {
 
 // Subsystems
 // implement more complex subsystem functionality
 // and have no knowledge of the facade
 
-class SubsystemA
-{
+class SubsystemA {
 public:
-    void suboperation()
-    {
+    void suboperation() {
         std::cout << "Subsystem A method\n";
         // ...
     }
     // ...
 };
 
-class SubsystemB
-{
+class SubsystemB {
 public:
-    void suboperation()
-    {
+    void suboperation() {
         std::cout << "Subsystem B method\n";
         // ...
     }
     // ...
 };
 
-class SubsystemC
-{
+class SubsystemC {
 public:
-    void suboperation()
-    {
+    void suboperation() {
         std::cout << "Subsystem C method\n";
         // ...
     }
     // ...
 };
 
-
 // Facade
 // delegates client requests to appropriate subsystem object
 // and unified interface that is easier to use
 
-class Facade
-{
+class Facade {
 public:
-    Facade()
-        : m_subsystemA()
-        , m_subsystemB()
-        , m_subsystemC()
-    {}
+    Facade() : m_subsystemA(), m_subsystemB(), m_subsystemC() {}
 
-    void operation1()
-    {
+    void operation1() {
         m_subsystemA.suboperation();
         m_subsystemB.suboperation();
         // ...
     }
 
-    void operation2()
-    {
+    void operation2() {
         m_subsystemC.suboperation();
         // ...
     }
@@ -75,7 +60,7 @@ private:
     // ...
 };
 
-}
+}  // namespace Facade
 
 // Façade discussion:
 
@@ -109,7 +94,8 @@ private:
 
 // Implementation:
 // -> Reducing client-subsystem coupling.
-// ---> The coupling can be reduced more by making Facade an abstract class and have concrete classes with different implementations.
+// ---> The coupling can be reduced more by making Facade an abstract class and have concrete classes with different
+// implementations.
 // ---> Then, the clients can communicate with the subsystem throught the interface of the abstract Facade class.
 // ---> This abstract coupling keeps clients from knowing which implementation of a subsystem is used.
 // -> Public versus private subsystem classes.
@@ -119,13 +105,14 @@ private:
 // -----> Tge pprivate instace is just ofr susbsytem externders.
 
 // Related Patterns
-// -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem independent way.
+// -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem
+// independent way.
 // -> [AbstractFactory] can also be used as an alternative to Facade to hide platform specific classes.
 // -> [Mediator] is similar to Facade in that it abstract functionality of existing classes.
 // ---> However, Mediator purpose is abstract arbitiary communication between colleague objects,
 // ---> often centralizing functionality that doesn't belong in any one of them.
-// ---> A Mediator colleages are aware of and communicate with the meditator instead of communicating with each other directly.
+// ---> A Mediator colleages are aware of and communicate with the meditator instead of communicating with each other
+// directly.
 // ---> In contrast a [Facade] merely abstracts the interface to subsystem objects to make them easier to use.
 // ---> [Facade] doesnt define new functionality and subsystem classes dont know about it.
 // -> Facade objects are often [Singleton] because usually only one [Facade] object is required.
-

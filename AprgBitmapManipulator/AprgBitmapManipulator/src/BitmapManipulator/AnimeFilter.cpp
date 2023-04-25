@@ -10,15 +10,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-void animize(string const& inputFile,
-             string const& outputFile)
-{
+void animize(string const& inputFile, string const& outputFile) {
     AlbaLocalTimer localTimer;
     AlbaLocalPathHandler inputFilePathHandler(inputFile);
     AlbaLocalPathHandler outputFilePathHandler(outputFile);
@@ -40,12 +36,15 @@ void animize(string const& inputFile,
 
     bitmapFilters.determinePenPoints(penPointsBeforeAnimeColor, tempSnippet, 3, 0x08);
     bitmapFilters.drawPenPoints(penPointsBeforeAnimeColor, tempSnippet, debugSnippet);
-    doStuffsAfterSteps(localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen points (before anime color)");
+    doStuffsAfterSteps(
+        localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen points (before anime color)");
 
-    bitmapFilters.determinePenCirclesFromPenPoints(penCirclesBeforeAnimeColor, penPointsBeforeAnimeColor, tempSnippet, 0x06, 0.90);
+    bitmapFilters.determinePenCirclesFromPenPoints(
+        penCirclesBeforeAnimeColor, penPointsBeforeAnimeColor, tempSnippet, 0x06, 0.90);
     debugSnippet = bitmapFilters.getBlankSnippetWithBackground();
     bitmapFilters.drawPenCircles(penCirclesBeforeAnimeColor, debugSnippet);
-    doStuffsAfterSteps(localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen circles (before anime color)");
+    doStuffsAfterSteps(
+        localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen circles (before anime color)");
 
     bitmapFilters.drawAnimeColor(tempSnippet, animizeColor);
     doStuffsAfterSteps(localTimer, bitmapFilters, tempSnippet, inputFile, "Drawing to anime color");
@@ -53,15 +52,18 @@ void animize(string const& inputFile,
     bitmapFilters.drawWithBlurringDisimilarColors(tempSnippet, 5, 0x02);
     doStuffsAfterSteps(localTimer, bitmapFilters, tempSnippet, inputFile, "Blur disimilar colors");
 
-    bitmapFilters.determinePenPoints(penPointsAfterAnimeColor, tempSnippet, 3, 0x08); //detect pixelation
+    bitmapFilters.determinePenPoints(penPointsAfterAnimeColor, tempSnippet, 3, 0x08);  // detect pixelation
     debugSnippet = bitmapFilters.getBlankSnippetWithBackground();
     bitmapFilters.drawPenPoints(penPointsAfterAnimeColor, tempSnippet, debugSnippet);
-    doStuffsAfterSteps(localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen points (after anime color)");
+    doStuffsAfterSteps(
+        localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen points (after anime color)");
 
-    bitmapFilters.determinePenCirclesFromPenPoints(penCirclesAfterAnimeColor, penPointsAfterAnimeColor, tempSnippet, 0x08, 0.60);
+    bitmapFilters.determinePenCirclesFromPenPoints(
+        penCirclesAfterAnimeColor, penPointsAfterAnimeColor, tempSnippet, 0x08, 0.60);
     debugSnippet = bitmapFilters.getBlankSnippetWithBackground();
     bitmapFilters.drawPenCircles(penCirclesAfterAnimeColor, debugSnippet);
-    doStuffsAfterSteps(localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen circles (after anime color)");
+    doStuffsAfterSteps(
+        localTimer, bitmapFilters, debugSnippet, inputFile, "Determining pen circles (after anime color)");
 
     bitmapFilters.drawNonPenPoints(penPointsAfterAnimeColor, tempSnippet, outputSnippet);
     doStuffsAfterSteps(localTimer, bitmapFilters, outputSnippet, inputFile, "Drawing non pen points");
@@ -85,45 +87,31 @@ void animize(string const& inputFile,
     bitmapFilters.saveSnippetIntoFileWithFullFilePath(outputSnippet, outputFilePathHandler.getFullPath());
 }
 
-void doStuffsAfterSteps(
-        AlbaLocalTimer & localTimer,
-        string const& description)
-{
+void doStuffsAfterSteps(AlbaLocalTimer& localTimer, string const& description) {
     localTimer.stopTimer();
-    cout << localTimer.getDifferenceAsAlbaDateTime()  << ": " << description << "\n";
+    cout << localTimer.getDifferenceAsAlbaDateTime() << ": " << description << "\n";
     localTimer.resetTimer();
 }
 
 void doStuffsAfterSteps(
-        AlbaLocalTimer & localTimer,
-        BitmapFilters & bitmapFilters,
-        BitmapSnippet const& snippet,
-        string const& inputFilePath,
-        string const& description)
-{
-    static unsigned int step=1;
+    AlbaLocalTimer& localTimer, BitmapFilters& bitmapFilters, BitmapSnippet const& snippet, string const& inputFilePath,
+    string const& description) {
+    static unsigned int step = 1;
     localTimer.stopTimer();
     bitmapFilters.saveSnippetIntoFileWithFullFilePath(snippet, getNewFilePath(inputFilePath, step++, description));
-    cout << localTimer.getDifferenceAsAlbaDateTime()  << ": " << description << "\n";
+    cout << localTimer.getDifferenceAsAlbaDateTime() << ": " << description << "\n";
     localTimer.resetTimer();
 }
 
-string getNewFilePath(
-        string const& inputFilePath,
-        unsigned int const step,
-        string const& description)
-{
+string getNewFilePath(string const& inputFilePath, unsigned int const step, string const& description) {
     AlbaLocalPathHandler inputFilePathHandler(inputFilePath);
     stringstream ss;
-    ss << inputFilePathHandler.getDirectory()
-       << inputFilePathHandler.getFilenameOnly()
-       << "_Step" << step
-       << "_(" << stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(description)
-       << ")."
+    ss << inputFilePathHandler.getDirectory() << inputFilePathHandler.getFilenameOnly() << "_Step" << step << "_("
+       << stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(description) << ")."
        << inputFilePathHandler.getExtension();
     return ss.str();
 }
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

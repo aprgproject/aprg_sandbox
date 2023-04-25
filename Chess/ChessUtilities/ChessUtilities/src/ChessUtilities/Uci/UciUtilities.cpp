@@ -7,24 +7,19 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-namespace
-{
+namespace {
 
-enum class TokenState
-{
+enum class TokenState {
     Idle,
     OneValueHeaderFound,
     InPv,
 };
 
-struct TokenProcessingData
-{
+struct TokenProcessingData {
     TokenState state;
     string headerToken;
     strings pvMovesInBestLine;
@@ -32,74 +27,44 @@ struct TokenProcessingData
     string currentMoveNumber;
 };
 
-bool isOneHeaderToken(string const& token)
-{
-    static const strings oneHeaderTokens
-    {"depth", "seldepth", "selectiveDepth", "time", "nodes", "nps", "cp", "mate", "currmove", "currmovenumber", "bestmove", "ponder"};
+bool isOneHeaderToken(string const& token) {
+    static const strings oneHeaderTokens{"depth", "seldepth", "selectiveDepth", "time",           "nodes",    "nps",
+                                         "cp",    "mate",     "currmove",       "currmovenumber", "bestmove", "ponder"};
 
     return find(oneHeaderTokens.cbegin(), oneHeaderTokens.cend(), token) != oneHeaderTokens.cend();
 }
 
-void processToken(
-        CalculationDetails & calculationDetails,
-        TokenProcessingData & data,
-        string const& token)
-{
-    if(TokenState::OneValueHeaderFound == data.state)
-    {
-        if("depth" == data.headerToken)
-        {
+void processToken(CalculationDetails& calculationDetails, TokenProcessingData& data, string const& token) {
+    if (TokenState::OneValueHeaderFound == data.state) {
+        if ("depth" == data.headerToken) {
             calculationDetails.depth = convertStringToNumber<unsigned int>(token);
-        }
-        else if("seldepth" == data.headerToken || "selectiveDepth" == data.headerToken)
-        {
+        } else if ("seldepth" == data.headerToken || "selectiveDepth" == data.headerToken) {
             calculationDetails.selectiveDepth = convertStringToNumber<unsigned int>(token);
-        }
-        else if("time" == data.headerToken)
-        {
+        } else if ("time" == data.headerToken) {
             calculationDetails.time = convertStringToNumber<unsigned int>(token);
-        }
-        else if("nodes" == data.headerToken)
-        {
+        } else if ("nodes" == data.headerToken) {
             calculationDetails.nodes = convertStringToNumber<unsigned int>(token);
-        }
-        else if("nps" == data.headerToken)
-        {
+        } else if ("nps" == data.headerToken) {
             calculationDetails.nodesPerSecond = convertStringToNumber<unsigned int>(token);
-        }
-        else if("cp" == data.headerToken)
-        {
+        } else if ("cp" == data.headerToken) {
             calculationDetails.scoreInCentipawns = convertStringToNumber<int>(token);
-        }
-        else if("mate" == data.headerToken)
-        {
+        } else if ("mate" == data.headerToken) {
             calculationDetails.mateInNumberOfMoves = convertStringToNumber<unsigned int>(token);
-        }
-        else if("currmove" == data.headerToken)
-        {
+        } else if ("currmove" == data.headerToken) {
             data.currentMove = token;
-        }
-        else if("currmovenumber" == data.headerToken)
-        {
+        } else if ("currmovenumber" == data.headerToken) {
             data.currentMoveNumber = token;
-        }
-        else if("bestmove" == data.headerToken)
-        {
+        } else if ("bestmove" == data.headerToken) {
             calculationDetails.bestMove = token;
-        }
-        else if("ponder" == data.headerToken)
-        {
+        } else if ("ponder" == data.headerToken) {
             calculationDetails.ponderMove = token;
         }
 
-        if(!data.currentMove.empty() && !data.currentMoveNumber.empty())
-        {
+        if (!data.currentMove.empty() && !data.currentMoveNumber.empty()) {
             unsigned int index = convertStringToNumber<unsigned int>(data.currentMoveNumber) - 1;
-            if(index < 100)
-            {
-                if(index >= calculationDetails.currentlySearchingMoves.size())
-                {
-                    calculationDetails.currentlySearchingMoves.resize(index+1);
+            if (index < 100) {
+                if (index >= calculationDetails.currentlySearchingMoves.size()) {
+                    calculationDetails.currentlySearchingMoves.resize(index + 1);
                 }
                 calculationDetails.currentlySearchingMoves[index] = data.currentMove;
             }
@@ -108,49 +73,36 @@ void processToken(
         }
 
         data.state = TokenState::Idle;
-    }
-    else if(TokenState::InPv == data.state)
-    {
+    } else if (TokenState::InPv == data.state) {
         data.pvMovesInBestLine.emplace_back(token);
-    }
-    else if(isOneHeaderToken(token))
-    {
+    } else if (isOneHeaderToken(token)) {
         data.state = TokenState::OneValueHeaderFound;
         data.headerToken = token;
-    }
-    else if("pv" == token)
-    {
+    } else if ("pv" == token) {
         data.state = TokenState::InPv;
     }
 }
-}
-
+}  // namespace
 
 void retrieveCalculationDetailsOnStringFromEngine(
-        CalculationDetails & calculationDetails,
-        string const& stringFromEngine)
-{
+    CalculationDetails& calculationDetails, string const& stringFromEngine) {
     strings tokens;
-    splitToStrings<SplitStringType::WithoutDelimeters>(tokens, getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine), " ");
+    splitToStrings<SplitStringType::WithoutDelimeters>(
+        tokens, getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine), " ");
 
-    if(!tokens.empty())
-    {
-        if("info"==tokens.front() || "bestmove"==tokens.front())
-        {
+    if (!tokens.empty()) {
+        if ("info" == tokens.front() || "bestmove" == tokens.front()) {
             TokenProcessingData tokenProcessingData{};
-            for(string const& token : tokens)
-            {
+            for (string const& token : tokens) {
                 processToken(calculationDetails, tokenProcessingData, token);
             }
-            if(!tokenProcessingData.pvMovesInBestLine.empty())
-            {
+            if (!tokenProcessingData.pvMovesInBestLine.empty()) {
                 calculationDetails.pvMovesInBestLine = tokenProcessingData.pvMovesInBestLine;
             }
         }
     }
-
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

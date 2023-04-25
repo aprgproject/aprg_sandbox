@@ -3,17 +3,13 @@
 #include <Algorithm/Graph/PathSearch/BreadthFirstSearch/PathSearchUsingBfs.hpp>
 #include <Algorithm/Graph/PathSearch/Common/BasePathSearchWithDistanceCount.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class PathSearchUsingBfsWithDistanceCount
-        : public BasePathSearchWithDistanceCount<Vertex>
-        , public PathSearchUsingBfs<Vertex>
-{
+class PathSearchUsingBfsWithDistanceCount : public BasePathSearchWithDistanceCount<Vertex>,
+                                            public PathSearchUsingBfs<Vertex> {
 public:
     using BaseDistanceCount = BasePathSearchWithDistanceCount<Vertex>;
     using BaseBfs = PathSearchUsingBfs<Vertex>;
@@ -23,29 +19,19 @@ public:
     using UpdateDataFunction = typename BaseBfs::UpdateDataFunction;
 
     PathSearchUsingBfsWithDistanceCount(BaseGraphWithVertex const& graph, Vertices const& startVertices)
-        : BaseDistanceCount()
-        , BaseBfs(graph, startVertices, getInitializeDataFunction(), getUpdateDataFunction())
-    {}
+        : BaseDistanceCount(), BaseBfs(graph, startVertices, getInitializeDataFunction(), getUpdateDataFunction()) {}
 
 private:
-
-    InitializeDataFunction getInitializeDataFunction()
-    {
-        return [&](Vertices const& vertices)
-        {
-            BaseDistanceCount::initializeDistances(vertices);
-        };
+    InitializeDataFunction getInitializeDataFunction() {
+        return [&](Vertices const& vertices) { BaseDistanceCount::initializeDistances(vertices); };
     }
 
-    UpdateDataFunction getUpdateDataFunction()
-    {
-        return [&](Vertex const& vertex1, Vertex const& vertex2)
-        {
-            BaseDistanceCount::updateDistance(vertex1, vertex2);
-        };
+    UpdateDataFunction getUpdateDataFunction() {
+        return
+            [&](Vertex const& vertex1, Vertex const& vertex2) { BaseDistanceCount::updateDistance(vertex1, vertex2); };
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -2,18 +2,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-void printParameter(ostream & outputStream, string const& parameter)
-{
-    outputStream << parameter;
-}
+void printParameter(ostream& outputStream, string const& parameter) { outputStream << parameter; }
 
 template <>
-void printParameterWithName(ostream & outputStream, string const&, char const*const parameter)
-{
+void printParameterWithName(ostream& outputStream, string const&, char const* const parameter) {
     outputStream << R"([")" << parameter << R"("])";
 }
 
-}//namespace alba
+}  // namespace alba

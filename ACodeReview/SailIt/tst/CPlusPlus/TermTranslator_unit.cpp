@@ -8,36 +8,28 @@
 using namespace codeReview;
 using namespace std;
 
-struct TermTranslatorTest : public ::testing::Test
-{
-    TermTranslatorTest()
-        : m_findings()
-        , m_terms()
-        , m_termTranslator(MT_FILE_READER_TEST_FILE, m_findings, m_terms)
-    {}
+struct TermTranslatorTest : public ::testing::Test {
+    TermTranslatorTest() : m_findings(), m_terms(), m_termTranslator(MT_FILE_READER_TEST_FILE, m_findings, m_terms) {}
 
-    void processFile()
-    {
+    void processFile() {
         m_termTranslator.readFile();
-        //printTerms(m_terms);
-        //m_findings.printFindings(cout);
+        // printTerms(m_terms);
+        // m_findings.printFindings(cout);
     }
     Findings m_findings;
     DequeOfTerms m_terms;
     TermTranslator m_termTranslator;
 };
 
-TEST_F(TermTranslatorTest, DISABLED_ActualTest)
-{
+TEST_F(TermTranslatorTest, DISABLED_ActualTest) {
     Findings findings;
     DequeOfTerms terms;
     TermTranslator termTranslator("C:\\APRG\\SailIt\\SailIt\\tst\\Actual.txt", findings, terms);
     termTranslator.readFile();
-    //printTerms(terms);
+    // printTerms(terms);
 }
 
-TEST_F(TermTranslatorTest, CheckWhiteSpace)
-{
+TEST_F(TermTranslatorTest, CheckWhiteSpace) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "   ABC   DE  GH  I JK  L MN  OPQ   \n";
@@ -78,8 +70,7 @@ TEST_F(TermTranslatorTest, CheckWhiteSpace)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 17);
 }
 
-TEST_F(TermTranslatorTest, CheckIncludeFiles)
-{
+TEST_F(TermTranslatorTest, CheckIncludeFiles) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#include<iostream>\n";
@@ -117,8 +108,7 @@ TEST_F(TermTranslatorTest, CheckIncludeFiles)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckIdentifiersAndConstants)
-{
+TEST_F(TermTranslatorTest, CheckIdentifiersAndConstants) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "aBcdwXyZ def1 2ghi jkl_3 4_mnop true false\n";
@@ -140,11 +130,11 @@ TEST_F(TermTranslatorTest, CheckIdentifiersAndConstants)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckMacros)
-{
+TEST_F(TermTranslatorTest, CheckMacros) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
-    testFile << "#define # undef #  ifdef #   ifndef #\tif #\tendif #   else #  elif # line # \t error #\t \tinclude #\t\t\tpragma\n";
+    testFile << "#define # undef #  ifdef #   ifndef #\tif #\tendif #   else #  elif # line # \t error #\t \tinclude "
+                "#\t\t\tpragma\n";
     testFile.close();
 
     unsigned lineNumber(1);
@@ -168,8 +158,7 @@ TEST_F(TermTranslatorTest, CheckMacros)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckOperatorWords)
-{
+TEST_F(TermTranslatorTest, CheckOperatorWords) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "typeid const_cast static_cast reinterpret_cast static_cast sizeof new delete throw\n";
@@ -193,8 +182,7 @@ TEST_F(TermTranslatorTest, CheckOperatorWords)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckTypeWords)
-{
+TEST_F(TermTranslatorTest, CheckTypeWords) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "bool char char16_t char32_t double float int long short signed unsigned void wchar_t\n";
@@ -222,8 +210,7 @@ TEST_F(TermTranslatorTest, CheckTypeWords)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckMultipleCharacterOperators)
-{
+TEST_F(TermTranslatorTest, CheckMultipleCharacterOperators) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "->* <<= >>=\n";
@@ -241,8 +228,7 @@ TEST_F(TermTranslatorTest, CheckMultipleCharacterOperators)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckPeriod)
-{
+TEST_F(TermTranslatorTest, CheckPeriod) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << ". .. ...\n";
@@ -263,8 +249,7 @@ TEST_F(TermTranslatorTest, CheckPeriod)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckSingleLineComment)
-{
+TEST_F(TermTranslatorTest, CheckSingleLineComment) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "aBcdwXyZ //This is @ 1 line comment\n";
@@ -283,8 +268,7 @@ TEST_F(TermTranslatorTest, CheckSingleLineComment)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckMultiLineComment)
-{
+TEST_F(TermTranslatorTest, CheckMultiLineComment) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "aBcdwXyZ /*This is @\n";
@@ -306,8 +290,7 @@ TEST_F(TermTranslatorTest, CheckMultiLineComment)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckString)
-{
+TEST_F(TermTranslatorTest, CheckString) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "aBcdwXyZ \"This is @ simple string\" deFsTUv\n";
@@ -321,11 +304,13 @@ TEST_F(TermTranslatorTest, CheckString)
     ASSERT_EQ(m_terms.size(), 20);
     auto it = m_terms.begin();
     CHECK_TERM_THEN_WHITE_SPACE(it, TermType::Identifier, "aBcdwXyZ", lineNumber);
-    CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(it, TermType::Constant_String, "\"This is @ simple string\"", "string", lineNumber);
+    CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(
+        it, TermType::Constant_String, "\"This is @ simple string\"", "string", lineNumber);
     CHECK_TERM(it, TermType::Identifier, "deFsTUv", lineNumber);
     CHECK_TERM_IF_NEWLINE(it, lineNumber++);
     CHECK_TERM_THEN_WHITE_SPACE(it, TermType::Identifier, "aBcdwXyZ", lineNumber);
-    CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(it, TermType::Constant_String, "\"This is @ string with \\\"quotation\\\"\"", "string", lineNumber);
+    CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(
+        it, TermType::Constant_String, "\"This is @ string with \\\"quotation\\\"\"", "string", lineNumber);
     CHECK_TERM(it, TermType::Identifier, "deFsTUv", lineNumber);
     CHECK_TERM_IF_NEWLINE(it, lineNumber++);
     CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(it, TermType::Constant_Character, "\'Q\'", "char", lineNumber);
@@ -337,8 +322,7 @@ TEST_F(TermTranslatorTest, CheckString)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(TermTranslatorTest, CheckStringWithSlashes)
-{
+TEST_F(TermTranslatorTest, CheckStringWithSlashes) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "aBcdwXyZ1 \"\\\\\" deFsTUv2\n";
@@ -360,16 +344,15 @@ TEST_F(TermTranslatorTest, CheckStringWithSlashes)
     CHECK_TERM(it, TermType::Identifier, "deFsTUv4", lineNumber);
     CHECK_TERM_IF_NEWLINE(it, lineNumber++);
     CHECK_TERM_THEN_WHITE_SPACE(it, TermType::Identifier, "aBcdwXyZ5", lineNumber);
-    CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(it, TermType::Constant_String, "\"\\\\\\\"\\\"\\\\\"", "string", lineNumber);
+    CHECK_TERM_WITH_VALUE_TYPE_THEN_WHITE_SPACE(
+        it, TermType::Constant_String, "\"\\\\\\\"\\\"\\\\\"", "string", lineNumber);
     CHECK_TERM(it, TermType::Identifier, "deFsTUv6", lineNumber);
     CHECK_TERM_IF_NEWLINE(it, lineNumber++);
 
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-
-TEST_F(TermTranslatorTest, CheckKeyword)
-{
+TEST_F(TermTranslatorTest, CheckKeyword) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "for while if\n";

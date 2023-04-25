@@ -3,13 +3,8 @@
 #include <map>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-enum class SymbolTableFileType
-{
-    SymbolTableFromObjdump,
-    MappedFile
-};
+enum class SymbolTableFileType { SymbolTableFromObjdump, MappedFile };
 
 }

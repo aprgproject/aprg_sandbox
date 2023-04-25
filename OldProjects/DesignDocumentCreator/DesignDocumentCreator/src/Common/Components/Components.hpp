@@ -6,13 +6,11 @@
 #include <map>
 #include <memory>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-//Make this noncopyable
+// Make this noncopyable
 
-class Components
-{
+class Components {
 public:
     using ComponentMap = std::map<ComponentName, std::unique_ptr<Component>>;
     Components();
@@ -30,4 +28,4 @@ private:
     ComponentMap m_componentsMap;
 };
 
-}
+}  // namespace DesignDocumentCreator

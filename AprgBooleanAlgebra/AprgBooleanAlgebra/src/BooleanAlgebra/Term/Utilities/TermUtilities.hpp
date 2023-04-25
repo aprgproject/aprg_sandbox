@@ -3,11 +3,9 @@
 #include <BooleanAlgebra/Term/TermTypes/Term.hpp>
 #include <BooleanAlgebra/Term/TermTypes/TermContainerTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 bool isNonEmptyOrNonOperatorType(Term const& term);
 bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term);
@@ -19,6 +17,6 @@ VariableNamesSet getVariableNames(Term const& term);
 
 Term getTermFromVariableAndPrimeValue(std::string const& variableName, char const primeValue);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

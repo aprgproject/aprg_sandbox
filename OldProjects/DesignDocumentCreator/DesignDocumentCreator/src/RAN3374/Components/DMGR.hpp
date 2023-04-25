@@ -3,18 +3,17 @@
 #include <Common/Components/Component.hpp>
 #include <Common/Components/ComponentName.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class DMGR : public Component
-{
+class DMGR : public Component {
 public:
     DMGR();
     DMGR(ComponentName const componentName);
+
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
     ComponentName m_componentName;
 };
 
-}
+}  // namespace DesignDocumentCreator

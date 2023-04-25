@@ -7,13 +7,11 @@
 
 #include <string>
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-class Y8Crawler
-{
+class Y8Crawler {
 public:
-    Y8Crawler(WebCrawler & webCrawler);
+    Y8Crawler(WebCrawler& webCrawler);
     void crawl();
 
 private:
@@ -25,11 +23,11 @@ private:
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;
-    WebCrawler & m_webCrawler;
+    WebCrawler& m_webCrawler;
     CrawlConfiguration m_configuration;
     std::string m_linkForNextHtml;
     std::string m_linkForCurrentFileToDownload;
     std::string m_localPathForCurrentFileToDownload;
 };
 
-}
+}  // namespace aprgWebCrawler

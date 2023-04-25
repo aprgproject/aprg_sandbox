@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationsWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationsWorks) {
     FirstCoefficientRetriever retriever;
     Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
     Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
@@ -20,8 +17,7 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationsWorks)
     EXPECT_EQ(AlbaNumber(34), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationWorks) {
     FirstCoefficientRetriever retriever;
     Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
@@ -32,16 +28,11 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationWorks)
     EXPECT_EQ(AlbaNumber(34), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromTermWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromTermWorks) {
     FirstCoefficientRetriever retriever;
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({"x", "^", 2})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({"x", "^", 2})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     retriever.retrieveFromTerm(Constant(1.234));
     retriever.retrieveFromTerm(Variable("x"));
@@ -53,8 +44,7 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromTermWorks)
     EXPECT_EQ(AlbaNumber(1.234), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromConstantWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromConstantWorks) {
     FirstCoefficientRetriever retriever;
 
     retriever.retrieveFromConstant(Constant(1.234));
@@ -62,8 +52,7 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromConstantWorks)
     EXPECT_EQ(AlbaNumber(1.234), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromVariableWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromVariableWorks) {
     FirstCoefficientRetriever retriever;
 
     retriever.retrieveFromVariable(Variable("x"));
@@ -71,8 +60,7 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromVariableWorks)
     EXPECT_EQ(AlbaNumber(1), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromMonomialWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromMonomialWorks) {
     FirstCoefficientRetriever retriever;
 
     retriever.retrieveFromMonomial(Monomial(34, {{"x", 5}, {"y", 6}}));
@@ -80,8 +68,7 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromMonomialWorks)
     EXPECT_EQ(AlbaNumber(34), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromPolynomialWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromPolynomialWorks) {
     FirstCoefficientRetriever retriever;
 
     retriever.retrieveFromPolynomial(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
@@ -89,8 +76,7 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromPolynomialWorks)
     EXPECT_EQ(AlbaNumber(516), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromExpressionWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromExpressionWorks) {
     FirstCoefficientRetriever retriever;
 
     retriever.retrieveFromExpression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
@@ -98,24 +84,18 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromExpressionWorks)
     EXPECT_EQ(AlbaNumber(678), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromFunctionWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromFunctionWorks) {
     FirstCoefficientRetriever retriever;
     Function functionObject(
-                "functionName",
-                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
-                [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    });
+        "functionName", Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     retriever.retrieveFromFunction(functionObject);
 
     EXPECT_EQ(AlbaNumber(4516), retriever.getSavedData());
 }
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromPolynomialsWorks)
-{
+TEST(FirstCoefficientRetrieverTest, RetrieveFromPolynomialsWorks) {
     FirstCoefficientRetriever retriever;
     Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
@@ -126,6 +106,6 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromPolynomialsWorks)
     EXPECT_EQ(AlbaNumber(516), retriever.getSavedData());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

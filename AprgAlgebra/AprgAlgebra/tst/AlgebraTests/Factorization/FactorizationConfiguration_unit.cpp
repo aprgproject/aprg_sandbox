@@ -4,25 +4,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Factorization
-{
+namespace Factorization {
 
-TEST(FactorizationConfigurationTest, SomeConditionWorksAsDefault)
-{
+TEST(FactorizationConfigurationTest, SomeConditionWorksAsDefault) {
     EXPECT_FALSE(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
 }
 
-TEST(FactorizationConfigurationTest, SomeConditionWorksAndCanBeChangedAndChangedBack)
-{
+TEST(FactorizationConfigurationTest, SomeConditionWorksAndCanBeChangedAndChangedBack) {
     {
-        ConfigurationDetails configurationDetails(
-                    getDefaultConfigurationDetails<ConfigurationDetails>());
+        ConfigurationDetails configurationDetails(getDefaultConfigurationDetails<ConfigurationDetails>());
         configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
         ScopeObject scopeObject;
         scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -32,8 +26,8 @@ TEST(FactorizationConfigurationTest, SomeConditionWorksAndCanBeChangedAndChanged
     EXPECT_FALSE(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
 }
 
-}
+}  // namespace Factorization
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

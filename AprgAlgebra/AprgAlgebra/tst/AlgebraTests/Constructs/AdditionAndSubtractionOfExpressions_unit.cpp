@@ -9,22 +9,18 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(AdditionAndSubtractionOfExpressionsTest, DefaultConstructionWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, DefaultConstructionWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
 
     EXPECT_TRUE(additionAndSubtraction.getExpressions().empty());
     EXPECT_TRUE(additionAndSubtraction.getAssociations().empty());
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, TermsWithDetailsConstructionWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, TermsWithDetailsConstructionWorks) {
     Expression expression1(createExpressionIfPossible({"x"}));
     Expression expression2(createExpressionIfPossible({"y"}));
     TermWithDetails termWithDetails1(Term(expression1), TermAssociationType::Negative);
@@ -42,8 +38,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TermsWithDetailsConstructionWorks)
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetExpressionsWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, GetExpressionsWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({"x"}));
     Expression expression2(createExpressionIfPossible({"y"}));
@@ -57,8 +52,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetExpressionsWorks)
     EXPECT_EQ(expression2, expressions.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetAssociationsWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, GetAssociationsWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({"x"}));
     Expression expression2(createExpressionIfPossible({"y"}));
@@ -72,8 +66,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetAssociationsWorks)
     EXPECT_EQ(TermAssociationType::Negative, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetSizeWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, GetSizeWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction1;
     AdditionAndSubtractionOfExpressions additionAndSubtraction2;
     Expression expression1(createExpressionIfPossible({"x"}));
@@ -85,8 +78,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetSizeWorks)
     EXPECT_EQ(2U, additionAndSubtraction2.getSize());
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({"x"}));
     Expression expression2(createExpressionIfPossible({"y"}));
@@ -106,8 +98,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks)
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetails.at(1).association);
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAdditionWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAdditionWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression(createExpressionIfPossible({"x"}));
 
@@ -121,8 +112,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAdditionWorks)
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, PutAsSubtractionWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, PutAsSubtractionWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression(createExpressionIfPossible({"x"}));
 
@@ -136,8 +126,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutAsSubtractionWorks)
     EXPECT_EQ(TermAssociationType::Negative, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAddOrSubtractionWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAddOrSubtractionWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression(createExpressionIfPossible({"x"}));
 
@@ -151,8 +140,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAddOrSubtractionWorks)
     EXPECT_EQ(TermAssociationType::Negative, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({"x"}));
     Expression expression2(createExpressionIfPossible({"y"}));
@@ -172,8 +160,9 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks)
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressions)
-{
+TEST(
+    AdditionAndSubtractionOfExpressionsTest,
+    CombineExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressions) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({5, "*", "y", "^", "y"}));
     Expression expression2(createExpressionIfPossible({"y", "^", "y"}));
@@ -194,8 +183,9 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
-{
+TEST(
+    AdditionAndSubtractionOfExpressionsTest,
+    CombineExpressionIfPossibleWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({"x", "^", "y"}));
     Expression expression2(createExpressionIfPossible({2, "*", "y", "^", "y"}));
@@ -226,8 +216,9 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
-{
+TEST(
+    AdditionAndSubtractionOfExpressionsTest,
+    CombineExpressionIfPossibleWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({100, "*", "y", "^", "y", "*", "x", "^", "x"}));
     Expression expression2(createExpressionIfPossible({10, "*", "x", "^", "x", "*", "y", "^", "y"}));
@@ -248,8 +239,9 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
-{
+TEST(
+    AdditionAndSubtractionOfExpressionsTest,
+    CombineExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({10, "*", "y", "^", "y"}));
     Expression expression2(createExpressionIfPossible({"x", "*", "y", "^", "y"}));
@@ -275,8 +267,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksAndSquareRootExpressionAreAddedCorrectly)
-{
+TEST(
+    AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksAndSquareRootExpressionAreAddedCorrectly) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
@@ -294,8 +286,9 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksAn
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithNegativeTermWithTrigonometricFunctions)
-{
+TEST(
+    AdditionAndSubtractionOfExpressionsTest,
+    CombineExpressionIfPossibleWorksWithNegativeTermWithTrigonometricFunctions) {
     Expression positiveCosX(createExpressionIfPossible({cos("x")}));
     Expression negativeSinX(createExpressionIfPossible({-1, "*", sin("x")}));
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
@@ -316,8 +309,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
     EXPECT_EQ(TermAssociationType::Negative, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithEToTheXWithTrigonometricExpressions)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithEToTheXWithTrigonometricExpressions) {
     Term eToTheX(createExpressionIfPossible({getEAsATerm(), "^", "x"}));
     Term eToTheXTimesSinX(createExpressionIfPossible({eToTheX, "*", sin("x")}));
     Term eToTheXTimesCosX(createExpressionIfPossible({eToTheX, "*", cos("x")}));
@@ -342,8 +334,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithSinLogarithmicExpressions)
-{
+TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithSinLogarithmicExpressions) {
     Term lnOfX(ln("x"));
     Term sinOfLnOfX(sin(lnOfX));
     Term cosOfLnOfX(cos(lnOfX));
@@ -371,6 +362,6 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -9,14 +9,11 @@
 #include <set>
 #include <vector>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class DelayedLinkIndices
-{
+class DelayedLinkIndices {
 public:
-    struct DliPoolData
-    {
+    struct DliPoolData {
         DliPoolData();
         unsigned int poolId;
         unsigned int numberOfIndices;
@@ -31,23 +28,21 @@ public:
     unsigned int getNumberOfIndices(unsigned int const poolId) const;
     bool isAllocated(unsigned int const poolId) const;
     PoolIdVector getAvailablePoolIds(unsigned int const minimumIndices) const;
-    void prioritizeDliPoolForRel4(PoolIdVector & poolIds) const;
+    void prioritizeDliPoolForRel4(PoolIdVector& poolIds) const;
     bool hasConflictWithNextAvailablePool(PoolIdVector const& poolIds, unsigned int const minimumIndices) const;
 
     void setIndices(unsigned int const maximumIndices);
     void setPoolAsAllocated(unsigned int const poolId);
     void setPoolAsNotAllocated(unsigned int const poolId);
+
 private:
     PoolIdToNumberOfIndicesMap m_poolIdToNumberOfIndices;
-    unsigned int const m_numberOfIndices=12;
+    unsigned int const m_numberOfIndices = 12;
 };
 
-class LRM : public Component
-{
+class LRM : public Component {
 public:
-
-    struct DspData
-    {
+    struct DspData {
         DspData();
         SDspInfo dspInfo;
         EDspMode mode;
@@ -55,15 +50,13 @@ public:
         unsigned int dliPoolId;
     };
 
-    struct LcgData
-    {
+    struct LcgData {
         LcgData();
         SLCGList lcgInfo;
         unsigned int neededNumberOfDlis;
     };
 
-    struct PowerGroupData
-    {
+    struct PowerGroupData {
         PowerGroupData();
         unsigned int numberOfK2sInPowerGroup;
     };
@@ -94,16 +87,18 @@ public:
     DelayedLinkIndices::PoolIdVector getDliPoolIdsInFsp(TAaSysComNid const fspAddress) const;
     TNumberOfItems getNumberOfPicAndNbicPacketsInFsp(TAaSysComNid const fspAddress) const;
     TNumberOfItems getNumberOfMcdDcdAndMcdCcdPacketsInFsp(TAaSysComNid const fspAddress) const;
-    TNumberOfItems getNumberOfMcdCcdPacketsInFspForOtherLcgs(TAaSysComNid const fspAddress, TLocalCellGroupId const lcgId) const;
+    TNumberOfItems getNumberOfMcdCcdPacketsInFspForOtherLcgs(
+        TAaSysComNid const fspAddress, TLocalCellGroupId const lcgId) const;
     AddressesVector getDspAddressesForLcgId(TLocalCellGroupId const lcgId) const;
-    AddressesVector getDspAddressesForFspAddressAndLcgId(AddressesVector const& fspAddresses, TLocalCellGroupId const lcgId) const;
+    AddressesVector getDspAddressesForFspAddressAndLcgId(
+        AddressesVector const& fspAddresses, TLocalCellGroupId const lcgId) const;
     AddressesVector getFspAddressesForLcgId(TLocalCellGroupId const lcgId) const;
 
     TAaSysComNid findLocationOfMcdCcdDWithNbicForLcgId(TLocalCellGroupId const lcgId) const;
     TAaSysComNid findLocationOfMcdCcdDForLcgId(TLocalCellGroupId const lcgId) const;
-    void removeFspAddressInConflictWithDli(AddressesVector & fspAddresses, TLocalCellGroupId const lcgId) const;
-    void removeDspAddressesBasedOnFilterForSelectionMcdCcdD(AddressesVector & dspAddresses) const;
-    void prioritizeDspAddressesForSelectionMcdCcdD(AddressesVector & dspAddresses, TLocalCellGroupId const lcgId) const;
+    void removeFspAddressInConflictWithDli(AddressesVector& fspAddresses, TLocalCellGroupId const lcgId) const;
+    void removeDspAddressesBasedOnFilterForSelectionMcdCcdD(AddressesVector& dspAddresses) const;
+    void prioritizeDspAddressesForSelectionMcdCcdD(AddressesVector& dspAddresses, TLocalCellGroupId const lcgId) const;
 
     void processStartupForAllLcg();
     void processStartupForOneLcg(TLocalCellGroupId const lcgId);
@@ -112,7 +107,9 @@ public:
     void allocateMcdCcdD(TLocalCellGroupId const lcgId);
     void allocateMcdCcdDWithNbic(TLocalCellGroupId const lcgId);
     unsigned int getAvailableDliInAddress(TAaSysComNid const dspAddress, TLocalCellGroupId const lcgId) const;
-    bool hasConflictWithNextAvailablePool(TAaSysComNid const dspAddress, DelayedLinkIndices::PoolIdVector const& poolIds, TLocalCellGroupId const lcgId) const;
+    bool hasConflictWithNextAvailablePool(
+        TAaSysComNid const dspAddress, DelayedLinkIndices::PoolIdVector const& poolIds,
+        TLocalCellGroupId const lcgId) const;
     unsigned int getNeededNumberOfDlis(TLocalCellGroupId const lcgId) const;
 
     void setMasterTcomNid(TAaSysComNid const masterTcomNid);
@@ -139,4 +136,4 @@ private:
     TAaSysComNid m_masterTcomNid;
 };
 
-}
+}  // namespace DesignDocumentCreator

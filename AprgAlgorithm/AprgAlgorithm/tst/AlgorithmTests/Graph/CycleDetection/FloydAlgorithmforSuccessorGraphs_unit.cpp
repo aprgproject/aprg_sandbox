@@ -3,23 +3,19 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using PathsForTest = GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using CycleDetectionForTest = FloydAlgorithmForSuccessorGraphs<VertexForTest>;
-}
+}  // namespace
 
-TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
-{
+TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty) {
     GraphForTest graph;
     CycleDetectionForTest cycleDetection(graph);
 
@@ -27,8 +23,7 @@ TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
     EXPECT_TRUE(cycleDetection.getCycle().empty());
 }
 
-TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle)
-{
+TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -41,8 +36,7 @@ TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle
     EXPECT_TRUE(cycleDetection.getCycle().empty());
 }
 
-TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksUsingExample1)
-{
+TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksUsingExample1) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -60,6 +54,6 @@ TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksUsingExample1)
     EXPECT_EQ(expectedCycle, cycleDetection.getCycle());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

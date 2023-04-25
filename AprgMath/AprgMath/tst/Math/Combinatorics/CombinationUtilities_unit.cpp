@@ -4,25 +4,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(CombinationUtilitiesTest, IsNumberOfCombinationsEqualToItsCounterpartWorks)
-{
-    EXPECT_FALSE(isNumberOfCombinationsEqualToItsCounterpart(2U, 4U)); // Wrong input so its false, it should be n>k
+TEST(CombinationUtilitiesTest, IsNumberOfCombinationsEqualToItsCounterpartWorks) {
+    EXPECT_FALSE(isNumberOfCombinationsEqualToItsCounterpart(2U, 4U));  // Wrong input so its false, it should be n>k
     EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(4U, 2U));
     EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(10U, 5U));
 }
 
-TEST(CombinationUtilitiesTest, IsTheSumOfAllNumberOfCombinationsEqualTo2ToTheNWorks)
-{
+TEST(CombinationUtilitiesTest, IsTheSumOfAllNumberOfCombinationsEqualTo2ToTheNWorks) {
     EXPECT_TRUE(isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(4U));
     EXPECT_TRUE(isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(10U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SolutionUtilitiesTest, GetPositiveLogarithmOfLargestNumberWorks)
-{
+TEST(SolutionUtilitiesTest, GetPositiveLogarithmOfLargestNumberWorks) {
     EXPECT_EQ(AlbaNumber(6.90775527898214), getPositiveLogarithmOfLargestNumber(1000));
     EXPECT_EQ(AlbaNumber(0), getPositiveLogarithmOfLargestNumber("x"));
 }
 
-TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForTerm)
-{
+TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForTerm) {
     AlbaNumbers actualValues(getInitialValuesForIteratingMethods(Monomial(123, {{"x", 456}})));
 
     ASSERT_EQ(8U, actualValues.size());
@@ -31,11 +27,9 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForTerm)
     EXPECT_DOUBLE_EQ(456, actualValues.at(7).getDouble());
 }
 
-TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation)
-{
+TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation) {
     AlbaNumbers actualValues(
-                getInitialValuesForIteratingMethods(
-                    Equation(Monomial(1, {{"x", 123}}), "=", Monomial(1, {{"x", 456}}))));
+        getInitialValuesForIteratingMethods(Equation(Monomial(1, {{"x", 123}}), "=", Monomial(1, {{"x", 456}}))));
 
     ASSERT_EQ(11U, actualValues.size());
     EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());
@@ -51,7 +45,6 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation)
     EXPECT_DOUBLE_EQ(456, actualValues.at(10).getDouble());
 }
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

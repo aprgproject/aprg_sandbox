@@ -6,23 +6,21 @@
 #include <Algorithm/SetAndSymbolTable/SymbolTable/BaseSymbolTable.hpp>
 #include <Algorithm/SetAndSymbolTable/SymbolTable/HashTable/Common/BaseSymbolTableWithBaseLinearProbingHash.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Key, typename Value, typename HashFunction>
 class BaseLinearProbingHashSymbolTable
-        : public BaseSymbolTableWithBaseLinearProbingHash<
-        Value,
-        BaseLinearProbingHash<Key, HashTableEntryWithValue<Key, Value>, HashFunction,
-        OrderedArraySymbolTable<Key, Value>, BaseSymbolTable<Key, Value>>>
-{
+    : public BaseSymbolTableWithBaseLinearProbingHash<
+          Value, BaseLinearProbingHash<
+                     Key, HashTableEntryWithValue<Key, Value>, HashFunction, OrderedArraySymbolTable<Key, Value>,
+                     BaseSymbolTable<Key, Value>>> {
 public:
-    ~BaseLinearProbingHashSymbolTable() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseLinearProbingHashSymbolTable() override = default;  // no need for virtual destructor because base destructor
+                                                             // is virtual (similar to other virtual functions)
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

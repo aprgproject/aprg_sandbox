@@ -4,19 +4,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(BurnsideLemmaTest, GetNumberOfSymmetricCombinationsUsingBurnsideLemmaWorks)
-{
-    UnsignedIntegerBinaryFunction const getNumberOfCombinationsFunction = [](
-            UnsignedInteger const nWays, UnsignedInteger const kthWay)
-    {
-        return nWays*kthWay;
-    };
+TEST(BurnsideLemmaTest, GetNumberOfSymmetricCombinationsUsingBurnsideLemmaWorks) {
+    UnsignedIntegerBinaryFunction const getNumberOfCombinationsFunction =
+        [](UnsignedInteger const nWays, UnsignedInteger const kthWay) { return nWays * kthWay; };
 
     EXPECT_EQ(0U, getNumberOfSymmetricCombinationsUsingBurnsideLemma(0U, getNumberOfCombinationsFunction));
     EXPECT_EQ(1U, getNumberOfSymmetricCombinationsUsingBurnsideLemma(1U, getNumberOfCombinationsFunction));
@@ -26,8 +20,7 @@ TEST(BurnsideLemmaTest, GetNumberOfSymmetricCombinationsUsingBurnsideLemmaWorks)
     EXPECT_EQ(15U, getNumberOfSymmetricCombinationsUsingBurnsideLemma(5U, getNumberOfCombinationsFunction));
 }
 
-TEST(BurnsideLemmaTest, GetNumberOfCombinationsOfAPearlNecklaceWorks)
-{
+TEST(BurnsideLemmaTest, GetNumberOfCombinationsOfAPearlNecklaceWorks) {
     EXPECT_EQ(0U, getNumberOfCombinationsOfAPearlNecklace(0U, 0U));
     EXPECT_EQ(0U, getNumberOfCombinationsOfAPearlNecklace(0U, 1U));
     EXPECT_EQ(0U, getNumberOfCombinationsOfAPearlNecklace(4U, 0U));
@@ -39,6 +32,6 @@ TEST(BurnsideLemmaTest, GetNumberOfCombinationsOfAPearlNecklaceWorks)
     EXPECT_EQ(976887U, getNumberOfCombinationsOfAPearlNecklace(10U, 5U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

@@ -1,10 +1,8 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-class SimplestDesignToCopyForPrograms
-{
+class SimplestDesignToCopyForPrograms {
 public:
     SimplestDesignToCopyForPrograms();
 
@@ -12,4 +10,4 @@ private:
     int m_sample;
 };
 
-}
+}  // namespace alba

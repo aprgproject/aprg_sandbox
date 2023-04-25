@@ -1,14 +1,12 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace mathHelper
-{
+namespace mathHelper {
 
 double getCumulativeStandardDistributionApproximation(double const z);
 double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

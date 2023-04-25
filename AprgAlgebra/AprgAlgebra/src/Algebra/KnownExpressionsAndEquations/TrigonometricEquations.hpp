@@ -2,18 +2,19 @@
 
 #include <Algebra/Equation/Equation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 Equation getTrigonometricPythagoreanIdentity(Term const& term);
 Equation getSineEquationOfRightTriangle(Term const& angle, Term const& oppositeSideOfAngle, Term const& hypotenuse);
 Equation getCosineEquationOfRightTriangle(Term const& angle, Term const& adjacentSideOfAngle, Term const& hypotenuse);
-Equation getTangentEquationOfRightTriangle(Term const& angle, Term const& oppositeSideOfAngle, Term const& adjacentSideOfAngle);
-Equation getLawOfSineEquation(Term const& side1, Term const& oppositeAngleOfSide1, Term const& side2, Term const& oppositeAngleOfSide2);
-Equation getLawOfCosineEquation(Term const& side1, Term const& side2, Term const& side3, Term const& oppositeAngleOfSide1);
+Equation getTangentEquationOfRightTriangle(
+    Term const& angle, Term const& oppositeSideOfAngle, Term const& adjacentSideOfAngle);
+Equation getLawOfSineEquation(
+    Term const& side1, Term const& oppositeAngleOfSide1, Term const& side2, Term const& oppositeAngleOfSide2);
+Equation getLawOfCosineEquation(
+    Term const& side1, Term const& side2, Term const& side3, Term const& oppositeAngleOfSide1);
 Term getSineSquared(Term const& term);
 Term getSineSquaredInCosine(Term const& term);
 Term getCosineSquared(Term const& term);
@@ -37,7 +38,6 @@ Term getCosineOfHalvedValue(Term const& term, bool const isPositiveRoot);
 Term getSineSquaredOfHalvedValue(Term const& term);
 Term getCosineSquaredOfHalvedValue(Term const& term);
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

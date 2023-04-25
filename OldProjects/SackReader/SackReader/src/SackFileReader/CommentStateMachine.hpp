@@ -4,36 +4,26 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace CommentStateMachineNamespace
-{
+namespace CommentStateMachineNamespace {
 
-enum class State
-{
-    NotInComment,
-    Slash,
-    DoubleSlash,
-    InCommentNotInAsterisk,
-    InCommentAsterisk
-};
+enum class State { NotInComment, Slash, DoubleSlash, InCommentNotInAsterisk, InCommentAsterisk };
 
-struct InputToken
-{
+struct InputToken {
     bool isNewLine;
     std::string token;
 };
 
 using BaseCommentStateMachine = AlbaBaseStateMachine<State, InputToken>;
-class CommentStateMachine : public BaseCommentStateMachine
-{
+class CommentStateMachine : public BaseCommentStateMachine {
 public:
     CommentStateMachine();
     bool isInSingleLineComment() const;
     bool isInMultilineComment() const;
     bool isInComment() const;
     void processInput(InputToken const& inputToken);
+
 private:
     void processStateNotInComment(InputToken const& inputToken);
     void processStateSlash(InputToken const& inputToken);
@@ -42,6 +32,6 @@ private:
     void processStateInCommentAsterisk(InputToken const& inputToken);
 };
 
-}
+}  // namespace CommentStateMachineNamespace
 
-}//namespace alba
+}  // namespace alba

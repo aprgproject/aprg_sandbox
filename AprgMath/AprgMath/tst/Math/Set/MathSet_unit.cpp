@@ -7,38 +7,29 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-namespace
-{
+namespace {
 using CharSet = MathSet<char>;
 using IntegerSet = MathSet<unsigned int>;
 using IntegerSets = IntegerSet::MathSets;
-IntegerSet::GenerateFunction generateNumbersFromZeroToTen = [](
-        IntegerSet::VoidElementFunction const& elementFunction)
-{
-    for(unsigned int i=0; i<=10; i++)
-    {
+IntegerSet::GenerateFunction generateNumbersFromZeroToTen = [](IntegerSet::VoidElementFunction const& elementFunction) {
+    for (unsigned int i = 0; i <= 10; i++) {
         elementFunction(i);
     }
 };
 
-CharSet::GenerateFunction generateCharactersFromSmallAToSmallZ = [](
-        IntegerSet::VoidElementFunction const& elementFunction)
-{
-    for(char c='a'; c<='z'; c++)
-    {
-        elementFunction(c);
-    }
-};
-}
+CharSet::GenerateFunction generateCharactersFromSmallAToSmallZ =
+    [](IntegerSet::VoidElementFunction const& elementFunction) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            elementFunction(c);
+        }
+    };
+}  // namespace
 
-TEST(MathSetTest, NullSetWorks)
-{
+TEST(MathSetTest, NullSetWorks) {
     IntegerSet nullSet;
 
     EXPECT_FALSE(nullSet.contains(4));
@@ -47,9 +38,8 @@ TEST(MathSetTest, NullSetWorks)
     EXPECT_EQ("{...  ...}", nullSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, MathSetCreatedWithRosterListWorks)
-{
-    IntegerSet::RosterList rosterList{1,2,3,4,5};
+TEST(MathSetTest, MathSetCreatedWithRosterListWorks) {
+    IntegerSet::RosterList rosterList{1, 2, 3, 4, 5};
     IntegerSet mathSet(rosterList);
 
     EXPECT_TRUE(mathSet.contains(1));
@@ -60,9 +50,8 @@ TEST(MathSetTest, MathSetCreatedWithRosterListWorks)
     EXPECT_EQ("{... 1, 2, 3, 4, 5 ...}", mathSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, MathSetCreatedWithInitializerListWorks)
-{
-    IntegerSet mathSet({2,4,6,8,9});
+TEST(MathSetTest, MathSetCreatedWithInitializerListWorks) {
+    IntegerSet mathSet({2, 4, 6, 8, 9});
 
     EXPECT_TRUE(mathSet.contains(2));
     EXPECT_FALSE(mathSet.contains(0));
@@ -72,12 +61,9 @@ TEST(MathSetTest, MathSetCreatedWithInitializerListWorks)
     EXPECT_EQ("{... 2, 4, 6, 8, 9 ...}", mathSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, MathSetCreatedWithASetRuleWorks)
-{
-    IntegerSet mathSet("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, MathSetCreatedWithASetRuleWorks) {
+    IntegerSet mathSet(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     EXPECT_TRUE(mathSet.contains(2));
     EXPECT_FALSE(mathSet.contains(1));
@@ -87,41 +73,28 @@ TEST(MathSetTest, MathSetCreatedWithASetRuleWorks)
     EXPECT_EQ("{... 0, 2, 4, 6, 8, 10 ...}", mathSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, IsASubsetOfWorks)
-{
-    IntegerSet mathSet1({2,4});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, IsASubsetOfWorks) {
+    IntegerSet mathSet1({2, 4});
+    IntegerSet mathSet2(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     EXPECT_TRUE(mathSet1.isASubsetOf(mathSet2, generateNumbersFromZeroToTen));
     EXPECT_FALSE(mathSet2.isASubsetOf(mathSet1, generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, IsASupersetOfWorks)
-{
-    IntegerSet mathSet1({3,5});
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
-    {
-        return isOdd(elementToCheck);
-    });
+TEST(MathSetTest, IsASupersetOfWorks) {
+    IntegerSet mathSet1({3, 5});
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck) { return isOdd(elementToCheck); });
 
     EXPECT_TRUE(mathSet2.isASupersetOf(mathSet1, generateNumbersFromZeroToTen));
     EXPECT_FALSE(mathSet1.isASupersetOf(mathSet2, generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, IsDisjointWithWorks)
-{
-    IntegerSet mathSet1("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
-    {
-        return isOdd(elementToCheck);
-    });
-    IntegerSet mathSet3({2,4});
+TEST(MathSetTest, IsDisjointWithWorks) {
+    IntegerSet mathSet1(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck) { return isOdd(elementToCheck); });
+    IntegerSet mathSet3({2, 4});
 
     EXPECT_TRUE(mathSet1.isDisjointWith(mathSet2, generateNumbersFromZeroToTen));
     EXPECT_TRUE(mathSet2.isDisjointWith(mathSet1, generateNumbersFromZeroToTen));
@@ -129,12 +102,9 @@ TEST(MathSetTest, IsDisjointWithWorks)
     EXPECT_FALSE(mathSet3.isDisjointWith(mathSet1, generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetComplementWorks)
-{
-    IntegerSet mathSet("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, GetComplementWorks) {
+    IntegerSet mathSet(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     IntegerSet complementSet(mathSet.getComplement());
 
@@ -146,13 +116,10 @@ TEST(MathSetTest, GetComplementWorks)
     EXPECT_EQ("{... 1, 3, 5, 7, 9 ...}", complementSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetUnionWithWorks)
-{
-    IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, GetUnionWithWorks) {
+    IntegerSet mathSet1({1, 2, 3});
+    IntegerSet mathSet2(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     IntegerSet unionSet(mathSet1.getUnionWith(mathSet2));
 
@@ -164,13 +131,10 @@ TEST(MathSetTest, GetUnionWithWorks)
     EXPECT_EQ("{... 0, 1, 2, 3, 4, 6, 8, 10 ...}", unionSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetIntersectionWithWorks)
-{
-    IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, GetIntersectionWithWorks) {
+    IntegerSet mathSet1({1, 2, 3});
+    IntegerSet mathSet2(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     IntegerSet intersectionSet(mathSet1.getIntersectionWith(mathSet2));
 
@@ -182,13 +146,10 @@ TEST(MathSetTest, GetIntersectionWithWorks)
     EXPECT_EQ("{... 2 ...}", intersectionSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetDifferenceWithWorks)
-{
-    IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, GetDifferenceWithWorks) {
+    IntegerSet mathSet1({1, 2, 3});
+    IntegerSet mathSet2(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     IntegerSet differenceSet(mathSet1.getDifferenceWith(mathSet2));
 
@@ -200,9 +161,8 @@ TEST(MathSetTest, GetDifferenceWithWorks)
     EXPECT_EQ("{... 1, 3 ...}", differenceSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetSubsetsWithWorks)
-{
-    IntegerSet mathSet({1,2,3});
+TEST(MathSetTest, GetSubsetsWithWorks) {
+    IntegerSet mathSet({1, 2, 3});
 
     IntegerSets actualSubsets(mathSet.getSubsets(generateNumbersFromZeroToTen));
 
@@ -210,13 +170,9 @@ TEST(MathSetTest, GetSubsetsWithWorks)
     EXPECT_EQ("{}, {1}, {1, 2}, {1, 2, 3}, {1, 3}, {2}, {2, 3}, {3}, ", actualSubsetsString);
 }
 
-TEST(MathSetTest, GetUnionWorks)
-{
-    IntegerSet mathSet1({3,4,5});
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
-    {
-        return isOdd(elementToCheck);
-    });
+TEST(MathSetTest, GetUnionWorks) {
+    IntegerSet mathSet1({3, 4, 5});
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck) { return isOdd(elementToCheck); });
 
     IntegerSet unionSet(getUnion(mathSet1, mathSet2));
 
@@ -228,13 +184,9 @@ TEST(MathSetTest, GetUnionWorks)
     EXPECT_EQ("{... 1, 3, 4, 5, 7, 9 ...}", unionSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetIntersectionWorks)
-{
-    IntegerSet mathSet1({3,4,5});
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
-    {
-        return isOdd(elementToCheck);
-    });
+TEST(MathSetTest, GetIntersectionWorks) {
+    IntegerSet mathSet1({3, 4, 5});
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck) { return isOdd(elementToCheck); });
 
     IntegerSet intersectionSet(getIntersection(mathSet1, mathSet2));
 
@@ -246,13 +198,10 @@ TEST(MathSetTest, GetIntersectionWorks)
     EXPECT_EQ("{... 3, 5 ...}", intersectionSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetDifferenceWorks)
-{
-    IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
-    {
-        return isEven(elementToCheck);
-    });
+TEST(MathSetTest, GetDifferenceWorks) {
+    IntegerSet mathSet1({1, 2, 3});
+    IntegerSet mathSet2(
+        "set of even numbers", [](unsigned int const& elementToCheck) { return isEven(elementToCheck); });
 
     IntegerSet differenceSet(getDifference(mathSet1, mathSet2));
 
@@ -264,20 +213,20 @@ TEST(MathSetTest, GetDifferenceWorks)
     EXPECT_EQ("{... 1, 3 ...}", differenceSet.getGeneratedRosterString(generateNumbersFromZeroToTen));
 }
 
-TEST(MathSetTest, GetCartesianProductWorks)
-{
-    IntegerSet mathSet1({1,2});
-    CharSet mathSet2({'x','y'});
+TEST(MathSetTest, GetCartesianProductWorks) {
+    IntegerSet mathSet1({1, 2});
+    CharSet mathSet2({'x', 'y'});
 
-    MathSet<pair<unsigned int, char>> cartesianProduct(getCartersianProduct(mathSet1, mathSet2, generateNumbersFromZeroToTen, generateCharactersFromSmallAToSmallZ));
+    MathSet<pair<unsigned int, char>> cartesianProduct(
+        getCartersianProduct(mathSet1, mathSet2, generateNumbersFromZeroToTen, generateCharactersFromSmallAToSmallZ));
 
-    EXPECT_TRUE(cartesianProduct.contains(pair<unsigned int, char>(1,'y')));
-    EXPECT_FALSE(cartesianProduct.contains(pair<unsigned int, char>(3,'y')));
-    EXPECT_TRUE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'z')));
-    EXPECT_FALSE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'x')));
+    EXPECT_TRUE(cartesianProduct.contains(pair<unsigned int, char>(1, 'y')));
+    EXPECT_FALSE(cartesianProduct.contains(pair<unsigned int, char>(3, 'y')));
+    EXPECT_TRUE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2, 'z')));
+    EXPECT_FALSE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2, 'x')));
     EXPECT_EQ("{(1,x), (1,y), (2,x), (2,y)}", cartesianProduct.getDescription());
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

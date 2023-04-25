@@ -5,17 +5,15 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class LongestPalindromicSubstring
-{
+class LongestPalindromicSubstring {
 public:
     using Index = unsigned int;
     using Indices = std::vector<Index>;
     using IndexMatrix = matrix::AlbaMatrix<Index>;
     using BoolMatrix = matrix::AlbaMatrix<bool>;
-    static constexpr Index MAX_INDEX=std::numeric_limits<Index>::max();
+    static constexpr Index MAX_INDEX = std::numeric_limits<Index>::max();
 
     LongestPalindromicSubstring(std::string const& stringParameter);
 
@@ -28,12 +26,11 @@ public:
 
 private:
     Index getLongestLengthUsingNaiveRecursion(Index const left, Index const right) const;
-    Index getLongestLengthUsingMemoizationDP(IndexMatrix & lengthMatrix, Index const left, Index const right) const;
+    Index getLongestLengthUsingMemoizationDP(IndexMatrix& lengthMatrix, Index const left, Index const right) const;
     std::string m_string;
-
 };
 
-}
+}  // namespace alba
 
 // Given a string, find the longest substring which is palindrome.
 // For example,

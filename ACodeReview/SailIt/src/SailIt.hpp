@@ -4,17 +4,14 @@
 #include "CPlusPlus/Findings/Findings.hpp"
 #include "FileDirectoryDatabase/FileDirectoryDatabase.hpp"
 
-namespace codeReview
-{
+namespace codeReview {
 typedef map<string, CPlusPlusDatabase> FileCPlusPlusDatabasesMap;
 typedef pair<string, CPlusPlusDatabase> FileCPlusPlusDatabasesPair;
 typedef map<string, Findings> FileFindingsMap;
 typedef pair<string, Findings> FileFindingsPair;
 
-class SailIt
-{
+class SailIt {
 public:
-
     void printAll(ostream& outputStream);
     void printFindings(ostream& outputStream, string const& finding);
     bool isCPlusPlusDatabaseAvailableForThisFile(string const& fullPathFile);
@@ -30,4 +27,4 @@ private:
     FileDirectoryDatabase m_fileDirectoryDatabase;
 };
 
-}
+}  // namespace codeReview

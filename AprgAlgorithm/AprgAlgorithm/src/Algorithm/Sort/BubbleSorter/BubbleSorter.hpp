@@ -4,41 +4,31 @@
 
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class BubbleSorter : public BaseSorter<Values>
-{
+class BubbleSorter : public BaseSorter<Values> {
 public:
-
     BubbleSorter() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
-        if(!valuesToSort.empty())
-        {
-            auto itStop=valuesToSort.begin();
+    void sort(Values& valuesToSort) const override {
+        if (!valuesToSort.empty()) {
+            auto itStop = valuesToSort.begin();
             itStop++;
-            for(auto itEnd=valuesToSort.end(); itStop!=itEnd; itEnd--)
-            {
+            for (auto itEnd = valuesToSort.end(); itStop != itEnd; itEnd--) {
                 bool noSwapHappened(true);
                 auto itFirst = valuesToSort.begin();
                 auto itSecond = valuesToSort.begin();
                 itSecond++;
-                for(; itSecond!=itEnd; itFirst++,itSecond++)
-                {
-                    if(*itSecond < *itFirst)
-                    {
+                for (; itSecond != itEnd; itFirst++, itSecond++) {
+                    if (*itSecond < *itFirst) {
                         std::swap(*itFirst, *itSecond);
                         noSwapHappened = false;
                     }
                 }
-                if(noSwapHappened)
-                {
+                if (noSwapHappened) {
                     break;
                 }
             }
@@ -46,11 +36,12 @@ public:
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
-// Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order.
+// Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in
+// wrong order.
 
 // Optimized Implementation:
 // The above function always runs O(n^2) time even if the array is sorted.

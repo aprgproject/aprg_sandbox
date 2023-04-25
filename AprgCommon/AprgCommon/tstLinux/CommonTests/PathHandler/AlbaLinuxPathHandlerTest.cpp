@@ -4,12 +4,10 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-string AlbaLinuxPathHandlerTest::convertToSimplestPath(string const& path)
-{
+string AlbaLinuxPathHandlerTest::convertToSimplestPath(string const& path) {
     return getCorrectPathWithoutDoublePeriod<'/'>(getCorrectPathWithReplacedSlashCharacters<'/'>(path));
 }
 
-}
+}  // namespace alba

@@ -5,16 +5,12 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-class VariableTerm : public BaseTermData
-{
+class VariableTerm : public BaseTermData {
 public:
-
     VariableTerm();
     VariableTerm(std::string const& variableName);
 
@@ -38,7 +34,7 @@ public:
 private:
     void initializeIfNotEmpty();
 
-    friend std::ostream & operator<<(std::ostream & out, VariableTerm const& variableTerm);
+    friend std::ostream& operator<<(std::ostream& out, VariableTerm const& variableTerm);
 
     std::string m_variableName;
     bool m_isNegated;
@@ -46,6 +42,6 @@ private:
 
 using VariableTerms = std::vector<VariableTerm>;
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

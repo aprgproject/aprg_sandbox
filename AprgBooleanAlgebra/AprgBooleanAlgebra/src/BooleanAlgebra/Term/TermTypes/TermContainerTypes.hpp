@@ -6,17 +6,15 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 using TermPair = std::pair<Term, Term>;
 using VariableNames = std::vector<std::string>;
 using VariableNamesSet = std::set<std::string>;
 using TermSet = std::set<Term>;
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

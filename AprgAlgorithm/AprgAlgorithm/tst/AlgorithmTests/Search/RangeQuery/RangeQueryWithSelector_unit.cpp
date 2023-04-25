@@ -4,47 +4,39 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithSelector<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
-RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2) {
     return min(value1, value2);
 };
 
-RangeQueryForTest::SelectorFunction maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::SelectorFunction maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2) {
     return max(value1, value2);
 };
-}
+}  // namespace
 
-TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
 
     EXPECT_EQ(0U, minimumRangeQuery.getSelectedValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithOneValue)
-{
+TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithOneValue) {
     ValuesForTest values{5U};
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
 
     EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithTwoValues)
-{
+TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithTwoValues) {
     ValuesForTest values{5U, 9U};
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
 
@@ -53,8 +45,7 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithT
     EXPECT_EQ(9U, minimumRangeQuery.getSelectedValueOnInterval(1U, 1U));
 }
 
-TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksOnExample1)
-{
+TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksOnExample1) {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
 
@@ -72,8 +63,7 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksOnExa
     EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMaximumWorksOnExample1)
-{
+TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMaximumWorksOnExample1) {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
     RangeQueryForTest maximumRangeQuery(values, maximumSelector);
 
@@ -91,6 +81,6 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMaximumWorksOnExa
     EXPECT_EQ(8U, maximumRangeQuery.getSelectedValueOnInterval(2U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

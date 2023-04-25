@@ -2,20 +2,16 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithConnectedComponents
-{
+namespace CommonTestsWithConnectedComponents {
 
-//UndirectedGraph
+// UndirectedGraph
 
 template <typename ConnectedComponent, typename Graph>
-void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
-{
+void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph() {
     Graph graph;
     ConnectedComponent connectedComponents(graph);
 
@@ -23,8 +19,7 @@ void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGr
 }
 
 template <typename ConnectedComponent, typename Graph>
-void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
-{
+void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -37,8 +32,7 @@ void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirecte
 }
 
 template <typename ConnectedComponent, typename Graph>
-void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
-{
+void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph() {
     Graph graph;
     ConnectedComponent connectedComponents(graph);
 
@@ -57,8 +51,7 @@ void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 }
 
 template <typename ConnectedComponent, typename Graph>
-void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
-{
+void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -90,12 +83,10 @@ void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
     EXPECT_TRUE(connectedComponents.isConnected(9U, 12U));
 }
 
-
-//DirectedGraph
+// DirectedGraph
 
 template <typename ConnectedComponent, typename Graph>
-void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph()
-{
+void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph() {
     Graph graph;
     ConnectedComponent connectedComponents(graph);
 
@@ -103,8 +94,7 @@ void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithDirectedGrap
 }
 
 template <typename ConnectedComponent, typename Graph>
-void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph()
-{
+void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -120,8 +110,7 @@ void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithDirectedG
 }
 
 template <typename ConnectedComponent, typename Graph>
-void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph()
-{
+void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph() {
     Graph graph;
     ConnectedComponent connectedComponents(graph);
 
@@ -140,8 +129,7 @@ void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph()
 }
 
 template <typename ConnectedComponent, typename Graph>
-void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph()
-{
+void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 5U);
@@ -181,8 +169,8 @@ void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph()
     EXPECT_TRUE(connectedComponents.isConnected(9U, 12U));
 }
 
-}
+}  // namespace CommonTestsWithConnectedComponents
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

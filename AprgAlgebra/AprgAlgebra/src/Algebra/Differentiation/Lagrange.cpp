@@ -7,17 +7,11 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-Terms getLagrangeMultipliers(
-        Term const& term,
-        strings const& coordinateNames,
-        Terms const& lagrangeFunctions)
-{
+Terms getLagrangeMultipliers(Term const& term, strings const& coordinateNames, Terms const& lagrangeFunctions) {
     strings lagrangeMultiplierNames(getLagrangeMultiplierNames(lagrangeFunctions.size()));
     Term termWithLagrangeFunctions(getTermWithLagrangeFunctions(term, lagrangeFunctions, lagrangeMultiplierNames));
     Equations lagrangeEquations;
@@ -25,60 +19,46 @@ Terms getLagrangeMultipliers(
 
     Terms result;
     IsolationOfOneVariableOnEqualityEquations isolation(lagrangeEquations);
-    for(string const& lagrangeMultiplierName : lagrangeMultiplierNames)
-    {
+    for (string const& lagrangeMultiplierName : lagrangeMultiplierNames) {
         result.emplace_back(isolation.getEquivalentTermByIsolatingAVariable(lagrangeMultiplierName));
     }
     return result;
 }
 
 void calculateLagrangeEquations(
-        Equations & lagrangeEquations,
-        Term const& termWithLagrangeFunctions,
-        strings const& coordinateNames,
-        strings const& lagrangeMultiplierNames)
-{
-    for(string const& coordinateName : coordinateNames)
-    {
+    Equations& lagrangeEquations, Term const& termWithLagrangeFunctions, strings const& coordinateNames,
+    strings const& lagrangeMultiplierNames) {
+    for (string const& coordinateName : coordinateNames) {
         lagrangeEquations.emplace_back(getPartialDerivative(termWithLagrangeFunctions, coordinateName), "=", 0);
     }
-    for(string const& lagrangeMultiplierName : lagrangeMultiplierNames)
-    {
+    for (string const& lagrangeMultiplierName : lagrangeMultiplierNames) {
         lagrangeEquations.emplace_back(getPartialDerivative(termWithLagrangeFunctions, lagrangeMultiplierName), "=", 0);
     }
 }
 
 Term getTermWithLagrangeFunctions(
-        Term const& term,
-        Terms const& lagrangeFunctions,
-        strings const& lagrangeMultiplierNames)
-{
+    Term const& term, Terms const& lagrangeFunctions, strings const& lagrangeMultiplierNames) {
     unsigned int size(min(lagrangeFunctions.size(), lagrangeMultiplierNames.size()));
     Term result(term);
-    for(unsigned int i=0; i<size; i++)
-    {
+    for (unsigned int i = 0; i < size; i++) {
         result += lagrangeFunctions.at(i) * Term(lagrangeMultiplierNames.at(i));
     }
     return result;
 }
 
-strings getLagrangeMultiplierNames(unsigned int const size)
-{
+strings getLagrangeMultiplierNames(unsigned int const size) {
     strings result;
-    for(unsigned int i=0; i<size; i++)
-    {
+    for (unsigned int i = 0; i < size; i++) {
         result.emplace_back(getLagrangeMultiplierName(i));
     }
     return result;
 }
 
-string getLagrangeMultiplierName(unsigned int const index)
-{
+string getLagrangeMultiplierName(unsigned int const index) {
     static StringConverterWithFormatting converter(3, '0');
     return "multiplier" + converter.convertToString(index);
 }
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

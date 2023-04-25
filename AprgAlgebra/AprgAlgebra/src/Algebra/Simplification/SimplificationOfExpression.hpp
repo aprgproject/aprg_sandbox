@@ -6,21 +6,16 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Common/Container/AlbaConfigurationHolder.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-class SimplificationOfExpression
-{
+class SimplificationOfExpression {
 public:
     // is logarithm simplification needed?
-    struct ConfigurationDetails
-    {
+    struct ConfigurationDetails {
         bool shouldSimplifyToACommonDenominator;
         bool shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
         bool shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision;
@@ -34,12 +29,9 @@ public:
         bool shouldPerformDebug;
     };
 
-    class Configuration
-            : public AlbaConfigurationHolder<ConfigurationDetails>
-    {};
+    class Configuration : public AlbaConfigurationHolder<ConfigurationDetails> {};
 
-    class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
-    {};
+    class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails> {};
 
     SimplificationOfExpression();
     SimplificationOfExpression(Expression const& expression);
@@ -61,46 +53,33 @@ public:
     void simplify();
 
 private:
-    bool isChangeDetected(
-            Expression const& expression1,
-            Expression const& expression2) const;
+    bool isChangeDetected(Expression const& expression1, Expression const& expression2) const;
 
     void simplifyExpressionUntilNoChange();
-    void simplifyExpression(Expression & expression);
+    void simplifyExpression(Expression& expression);
     void simplifyExpressionUntilNoChangeInitiallyIfNeeded();
     void simplifyToACommonDenominatorIfNeeded();
     void simplifyBySubstitutingExpressionAndFunctionsToVariablesIfNeeded();
 
     void processTermsBaseOnOperatorLevel(
-            Expression & expression,
-            TermsWithDetails const& termsToProcess,
-            OperatorLevel const operatorLevel);
-    void processAndSaveTermsForAdditionAndSubtraction(
-            Expression & expression,
-            TermsWithDetails const& termsToProcess);
+        Expression& expression, TermsWithDetails const& termsToProcess, OperatorLevel const operatorLevel);
+    void processAndSaveTermsForAdditionAndSubtraction(Expression& expression, TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForMultiplicationAndDivision(
-            Expression & expression,
-            TermsWithDetails const& termsToProcess);
-    void processAndSaveTermsForRaiseToPower(
-            Expression & expression,
-            TermsWithDetails const& termsToProcess);
+        Expression& expression, TermsWithDetails const& termsToProcess);
+    void processAndSaveTermsForRaiseToPower(Expression& expression, TermsWithDetails const& termsToProcess);
 
-    //functions for addition/subtraction
-    void addOrSubtractTermsWithExpressions(
-            Term & combinedTerm,
-            TermsWithDetails const& termsWithExpressions) const;
+    // functions for addition/subtraction
+    void addOrSubtractTermsWithExpressions(Term& combinedTerm, TermsWithDetails const& termsWithExpressions) const;
 
-    //functions for multiplication/division
+    // functions for multiplication/division
     void simplifyByCombiningRadicalsInMultiplicationAndDivisionIfNeeded(
-            TermsWithDetails & termsInMultiplicationAndDivision) const;
+        TermsWithDetails& termsInMultiplicationAndDivision) const;
     Term getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(
-            TermsOverTerms const& termsOverTerms) const;
+        TermsOverTerms const& termsOverTerms) const;
 
-    //functions for raise to power
-    Term getCombinedTermUsingTermsRaiseToTerms(
-            TermRaiseToTerms const& termRaiseToTerms);
-    Term getEachBasesRaisedToConstantIfPossible(
-            TermRaiseToTerms const& termRaiseToTerms);
+    // functions for raise to power
+    Term getCombinedTermUsingTermsRaiseToTerms(TermRaiseToTerms const& termRaiseToTerms);
+    Term getEachBasesRaisedToConstantIfPossible(TermRaiseToTerms const& termRaiseToTerms);
 
     // other functions
     bool shouldDistributeExponentConstantToEachBase() const;
@@ -108,18 +87,18 @@ private:
     bool tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(Expression const& expression);
     Expression getNewExpressionWithSubstitutedVariableForTerm(Term const& mainExpression, Term const& termToSubstitute);
     void convertPolynomialOverPolynomialIfNeeded();
-    void convertPolynomialToPolynomialOverPolynomial(Term & term);
-    void convertPolynomialToPolynomialOverPolynomial(Expression & expression);
+    void convertPolynomialToPolynomialOverPolynomial(Term& term);
+    void convertPolynomialToPolynomialOverPolynomial(Expression& expression);
 
     Expression m_expression;
 };
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
 template <>
 algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
 getDefaultConfigurationDetails<algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>();
 
-}
+}  // namespace alba

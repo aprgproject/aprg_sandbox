@@ -2,19 +2,12 @@
 
 #include <Bitmap/CommonTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-enum class ChessPeekConfigurationType
-{
-    ChessDotComUserVsUser,
-    ChessDotComUserVsComputer,
-    LichessDotOrg
-};
+enum class ChessPeekConfigurationType { ChessDotComUserVsUser, ChessDotComUserVsComputer, LichessDotOrg };
 
 }
 
-}
+}  // namespace alba

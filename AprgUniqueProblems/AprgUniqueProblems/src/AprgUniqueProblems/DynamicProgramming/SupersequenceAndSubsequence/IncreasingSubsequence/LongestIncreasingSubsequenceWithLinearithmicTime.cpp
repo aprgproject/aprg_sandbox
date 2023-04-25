@@ -5,78 +5,68 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-LongestIncreasingSubsequenceWithLinearithmicTime::LongestIncreasingSubsequenceWithLinearithmicTime(Values const& sequence)
-    : m_sequence(sequence)
-{}
+LongestIncreasingSubsequenceWithLinearithmicTime::LongestIncreasingSubsequenceWithLinearithmicTime(
+    Values const& sequence)
+    : m_sequence(sequence) {}
 
-LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequenceWithLinearithmicTime::getLongestLength() const
-{
+LongestIncreasingSubsequenceWithLinearithmicTime::Index
+LongestIncreasingSubsequenceWithLinearithmicTime::getLongestLength() const {
     Index longestLength(0);
-    if(!m_sequence.empty())
-    {
-        IndexToValue lengthMinus1ToEndValue(m_sequence.size(), 0); // dynamic programming
+    if (!m_sequence.empty()) {
+        IndexToValue lengthMinus1ToEndValue(m_sequence.size(), 0);  // dynamic programming
         lengthMinus1ToEndValue[0] = m_sequence.front();
         longestLength = 1;
-        for (auto itValue=m_sequence.cbegin()+1; itValue!=m_sequence.cend(); itValue++)
-        {
+        for (auto itValue = m_sequence.cbegin() + 1; itValue != m_sequence.cend(); itValue++) {
             auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
 
-            if(lowerBoundItForEndValue == endIt) // if current value is the highest
+            if (lowerBoundItForEndValue == endIt)  // if current value is the highest
             {
-                lengthMinus1ToEndValue[longestLength++] = *itValue; // extend
-            }
-            else
-            {
-                *lowerBoundItForEndValue = *itValue; // replace
+                lengthMinus1ToEndValue[longestLength++] = *itValue;  // extend
+            } else {
+                *lowerBoundItForEndValue = *itValue;  // replace
             }
         }
     }
     return longestLength;
 }
 
-LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const
-{
+LongestIncreasingSubsequenceWithLinearithmicTime::Values
+LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const {
     Values result;
-    if(!m_sequence.empty())
-    {
+    if (!m_sequence.empty()) {
         Index longestLength(1);
-        IndexToValue lengthMinus1ToEndValue(m_sequence.size(), 0); // length minus one because its length index
+        IndexToValue lengthMinus1ToEndValue(m_sequence.size(), 0);  // length minus one because its length index
         IndexToIndex lengthMinus1ToEndIndex(m_sequence.size(), 0);
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
         lengthMinus1ToEndValue[0] = m_sequence.front();
-        for (Index i=1; i<m_sequence.size(); i++)
-        {
+        for (Index i = 1; i < m_sequence.size(); i++) {
             Value const& value(m_sequence.at(i));
             auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
 
-            if(lowerBoundItForEndValue == endIt) // if current value is the highest
+            if (lowerBoundItForEndValue == endIt)  // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength-1);
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);
                 lengthMinus1ToEndIndex[longestLength] = i;
-                lengthMinus1ToEndValue[longestLength++] = value; // extend
-            }
-            else
-            {
+                lengthMinus1ToEndValue[longestLength++] = value;  // extend
+            } else {
                 Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
-                if(currentLength > 0)
-                {
-                    indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength-1];
+                if (currentLength > 0) {
+                    indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength - 1];
                 }
                 lengthMinus1ToEndIndex[currentLength] = i;
-                *lowerBoundItForEndValue = value; // replace
+                *lowerBoundItForEndValue = value;  // replace
             }
         }
 
         // construct longest sequence
-        Index traverseIndex=lengthMinus1ToEndIndex.at(longestLength-1);
-        for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
-        {
+        Index traverseIndex = lengthMinus1ToEndIndex.at(longestLength - 1);
+        for (; traverseIndex != indexToPreviousIndex.at(traverseIndex);
+             traverseIndex = indexToPreviousIndex.at(traverseIndex)) {
             result.emplace_back(m_sequence.at(traverseIndex));
         }
         result.emplace_back(m_sequence.at(traverseIndex));
@@ -85,4 +75,4 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubseq
     return result;
 }
 
-}
+}  // namespace alba

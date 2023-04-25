@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using AlphabetForTest = Alphabet<unsigned char>;
 }
 
-TEST(AlphabetsTest, ContainsWorks)
-{
+TEST(AlphabetsTest, ContainsWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_TRUE(alphabet.contains('A'));
@@ -28,8 +24,7 @@ TEST(AlphabetsTest, ContainsWorks)
     EXPECT_FALSE(alphabet.contains('G'));
 }
 
-TEST(AlphabetsTest, GetCharacterWorks)
-{
+TEST(AlphabetsTest, GetCharacterWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_EQ('A', alphabet.getCharacter(0U));
@@ -41,8 +36,7 @@ TEST(AlphabetsTest, GetCharacterWorks)
     EXPECT_EQ('\0', alphabet.getCharacter(6U));
 }
 
-TEST(AlphabetsTest, GetDigitValueWorks)
-{
+TEST(AlphabetsTest, GetDigitValueWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_EQ(0U, alphabet.getDigitValue('A'));
@@ -54,36 +48,32 @@ TEST(AlphabetsTest, GetDigitValueWorks)
     EXPECT_EQ(0U, alphabet.getDigitValue('G'));
 }
 
-TEST(AlphabetsTest, GetRadixWorks)
-{
+TEST(AlphabetsTest, GetRadixWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_EQ(6U, alphabet.getRadix());
 }
 
-TEST(AlphabetsTest, ConvertStringToDigitValuesWorks)
-{
+TEST(AlphabetsTest, ConvertStringToDigitValuesWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
     AlphabetForTest::DigitValues values{1U, 1U, 0U, 0U, 5U, 3U, 3U, 0U, 4U};
     EXPECT_EQ(values, alphabet.convertStringToDigitValues("BBAGFDDGE"));
 }
 
-TEST(AlphabetsTest, ConvertDigitValuesToStringWorks)
-{
+TEST(AlphabetsTest, ConvertDigitValuesToStringWorks) {
     AlphabetForTest alphabet("ABCDEF");
     AlphabetForTest::DigitValues values{1U, 1U, 0U, 5U, 3U, 4U};
 
     EXPECT_EQ("BBAFDE", alphabet.convertDigitValuesToString(values));
 }
 
-TEST(AlphabetsTest, GetCharactersWorks)
-{
+TEST(AlphabetsTest, GetCharactersWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_EQ("ABCDEF", alphabet.getCharacters());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

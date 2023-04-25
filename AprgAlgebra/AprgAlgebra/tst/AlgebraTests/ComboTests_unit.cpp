@@ -9,8 +9,8 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
-#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 #include <Common/Math/Number/AlbaNumberConstants.hpp>
+#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
 
@@ -18,37 +18,31 @@ using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample1)
-{
+TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample1) {
     SubstitutionOfVariablesToValues substitution({{"x", 8}});
     Term term(buildTermIfPossible("(x+2)*(x+2)*(x+2)*(x+2)"));
     EXPECT_EQ(Term(10000), substitution.performSubstitutionTo(term));
 }
 
-TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample2)
-{
+TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample2) {
     SubstitutionOfVariablesToValues substitution({{"x", 3}});
     Term term(buildTermIfPossible("(4*x-5)*(6*x+7)*(8*x+9)"));
     EXPECT_EQ(Term(5775), substitution.performSubstitutionTo(term));
 }
 
-TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample3)
-{
+TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample3) {
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Term term(buildTermIfPossible("(4*x-5)*(6*x+7)*(8*x+9)*(11*x-13)"));
     EXPECT_EQ(Term(12825), substitution.performSubstitutionTo(term));
 }
 
-TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1)
-{
+TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -61,8 +55,7 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1)
     EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1) {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
 
@@ -72,8 +65,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), acceptedIntervals.front().getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2) {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("7/x > 2")));
 
@@ -83,8 +75,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2)
     EXPECT_EQ(createOpenEndpoint(AlbaNumber::createFraction(7, 2)), acceptedIntervals.front().getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3) {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("abs(3*x+2) > 5")));
 
@@ -98,8 +89,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3)
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4) {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("x^2+7*x+12 >= 0")));
 
@@ -113,8 +103,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4)
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
 
-TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks)
-{
+TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks) {
     Differentiation differentiationForXWithY("x", {"y"});
     Term term1ForEquation(Polynomial{Monomial(3, {{"x", 4}, {"y", 2}}), Monomial(-7, {{"x", 1}, {"y", 3}})});
     Term term2ForEquation(Polynomial{Monomial(4, {}), Monomial(-8, {{"y", 1}})});
@@ -122,20 +111,16 @@ TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks)
     Equation differentiatedEquation(differentiationForXWithY.differentiate(equation));
     IsolationOfOneVariableOnEqualityEquation isolation(differentiatedEquation);
 
-    Polynomial numerator{
-        Monomial(-12, {{"x", 3}, {"y", 2}}),
-                Monomial(7, {{"y", 3}})};
-    Polynomial denominator{
-        Monomial(6, {{"x", 4}, {"y", 1}}),
-                Monomial(-21, {{"x", 1}, {"y", 2}}),
-                Monomial(8, {})};
+    Polynomial numerator{Monomial(-12, {{"x", 3}, {"y", 2}}), Monomial(7, {{"y", 3}})};
+    Polynomial denominator{Monomial(6, {{"x", 4}, {"y", 1}}), Monomial(-21, {{"x", 1}, {"y", 2}}), Monomial(8, {})};
     Term expectedIsolatedXLeftSide(createExpressionIfPossible({numerator, "/", denominator}));
     Term expectedIsolatedXRightSide("d[y]/d[x]");
-    EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolation.isolateTermWithVariableOnRightSideOfEquation("d[y]/d[x]"));
+    EXPECT_EQ(
+        Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide),
+        isolation.isolateTermWithVariableOnRightSideOfEquation("d[y]/d[x]"));
 }
 
-TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivativeWorks)
-{
+TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivativeWorks) {
     Differentiation differentiationForXWithY("x", {"y"});
     Term term1ForEquation(Polynomial{Monomial(4, {{"x", 2}}), Monomial(9, {{"y", 2}})});
     Term term2ForEquation(36);
@@ -151,14 +136,13 @@ TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivati
 
     Polynomial expectedPolynomial{
         Monomial(AlbaNumber::createFraction(-16, 81), {{"x", 2}, {"y", -3}}),
-                Monomial(AlbaNumber::createFraction(-4, 9), {{"y", -1}})};
+        Monomial(AlbaNumber::createFraction(-4, 9), {{"y", -1}})};
     Term expectedIsolatedXLeftSide(expectedPolynomial);
     Term expectedIsolatedXRightSide("d2[y]/d[x]2");
     EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolatedSecondDerivativeEquation);
 }
 
-TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest)
-{
+TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest) {
     // A tank is in the form of an inverted cone having an altitude of 16m and a radius of 4m.
     // Water is flowing into the tank at the rate of 2m3/min.
     // How fast is the water level rising when the water is 5m deep?
@@ -180,6 +164,6 @@ TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest)
     EXPECT_EQ(AlbaNumbers{0.4074366543152521}, solutionSet.getAcceptedValues());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -7,28 +7,27 @@
 #include <functional>
 #include <list>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class RangeQueryWithPersistentDynamicSegmentTree
-{
+class RangeQueryWithPersistentDynamicSegmentTree {
 public:
     // This supports "selector" and "accumulator" type queries.
 
-    // Using a dynamic implementation, it is also possible to create a persistent segment tree that stores the modification history of the tree.
-    // In such an implementation, we can efficiently access all versions of the tree that have existed during the algorithm.
-    // When the modification history is available, we can perform queries in any previous tree like in an ordinary segment tree,
-    // because the full structure of each tree is stored. We can also create new trees based on previous trees and modify them independently.
+    // Using a dynamic implementation, it is also possible to create a persistent segment tree that stores the
+    // modification history of the tree. In such an implementation, we can efficiently access all versions of the tree
+    // that have existed during the algorithm. When the modification history is available, we can perform queries in any
+    // previous tree like in an ordinary segment tree, because the full structure of each tree is stored. We can also
+    // create new trees based on previous trees and modify them independently.
 
     // After each update, most nodes of the tree remain the same, so an efficient way to store the modification history
     // is to represent each tree in the history as a combination of new nodes and subtrees of previous trees.
 
-    // The structure of each previous tree can be reconstructed by following the pointers starting at the corresponding root node.
-    // Since each operation adds only O(logn) new nodes to the tree, it is possible to store the full modification history of the tree.
+    // The structure of each previous tree can be reconstructed by following the pointers starting at the corresponding
+    // root node. Since each operation adds only O(logn) new nodes to the tree, it is possible to store the full
+    // modification history of the tree.
 
     using Index = unsigned int;
     using Value = typename Values::value_type;
@@ -40,113 +39,88 @@ public:
     using NodeRoots = std::list<NodeRoot>;
     using StepCount = unsigned int;
 
-    RangeQueryWithPersistentDynamicSegmentTree(
-            Values const& valuesToCheck,
-            Function const& functionObject)
-        : m_maxChildrenIndex(0U)
-        , m_numberOfValues(valuesToCheck.size())
-        , m_function(functionObject)
-    {
+    RangeQueryWithPersistentDynamicSegmentTree(Values const& valuesToCheck, Function const& functionObject)
+        : m_maxChildrenIndex(0U), m_numberOfValues(valuesToCheck.size()), m_function(functionObject) {
         initialize(valuesToCheck);
     }
 
-    Value getValueOnInterval(Index const start, Index const end) const
-    {
+    Value getValueOnInterval(Index const start, Index const end) const {
         // This has log(N) running time
         Value result{};
-        if(start<=end && start<m_numberOfValues && end<m_numberOfValues)
-        {
+        if (start <= end && start < m_numberOfValues && end < m_numberOfValues) {
             result = getValueOnIntervalFromTopToBottom(start, end, m_roots.back(), 0, m_maxChildrenIndex);
         }
         return result;
     }
 
-    Value getValueOnIntervalOnPreviousTree(Index const start, Index const end, StepCount const numberOfPreviousSteps) const
-    {
+    Value getValueOnIntervalOnPreviousTree(
+        Index const start, Index const end, StepCount const numberOfPreviousSteps) const {
         // This has log(N) running time
         Value result{};
-        if(start<=end && start<m_numberOfValues && end<m_numberOfValues && numberOfPreviousSteps<m_roots.size())
-        {
-            auto it=m_roots.crbegin();
+        if (start <= end && start < m_numberOfValues && end < m_numberOfValues &&
+            numberOfPreviousSteps < m_roots.size()) {
+            auto it = m_roots.crbegin();
             std::advance(it, numberOfPreviousSteps);
             result = getValueOnIntervalFromTopToBottom(start, end, *it, 0, m_maxChildrenIndex);
         }
         return result;
     }
 
-    virtual void changeValueAtIndex(Index const index, Value const& newValue)
-    {
+    virtual void changeValueAtIndex(Index const index, Value const& newValue) {
         // This has log(N) running time
-        if(index<m_numberOfValues)
-        {
-            NodeRoot & previousTreeRoot(m_roots.back());
+        if (index < m_numberOfValues) {
+            NodeRoot& previousTreeRoot(m_roots.back());
             m_roots.emplace_back();
-            changeValueOnIndexFromTopToBottom(
-                        index, newValue, previousTreeRoot, m_roots.back(), 0, m_maxChildrenIndex);
+            changeValueOnIndexFromTopToBottom(index, newValue, previousTreeRoot, m_roots.back(), 0, m_maxChildrenIndex);
         }
     }
 
 protected:
-
     Value getValueOnIntervalFromTopToBottom(
-            Index const startInterval,
-            Index const endInterval,
-            NodePointer const& nodePointer,
-            Index const baseLeft,
-            Index const baseRight) const
-    {
+        Index const startInterval, Index const endInterval, NodePointer const& nodePointer, Index const baseLeft,
+        Index const baseRight) const {
         // This has log(N) running time
 
         Value result{};
-        if(startInterval<=baseLeft && baseRight<=endInterval)
-        {
+        if (startInterval <= baseLeft && baseRight <= endInterval) {
             result = nodePointer->value;
-        }
-        else
-        {
+        } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
-            bool isLeftPartIncluded = nodePointer->leftChildPointer && !(endInterval<baseLeft || baseMidPoint<startInterval);
-            bool isRightPartIncluded = nodePointer->rightChildPointer && !(endInterval<baseMidPoint+1 || baseRight<startInterval);
-            if(isLeftPartIncluded && isRightPartIncluded)
-            {
+            bool isLeftPartIncluded =
+                nodePointer->leftChildPointer && !(endInterval < baseLeft || baseMidPoint < startInterval);
+            bool isRightPartIncluded =
+                nodePointer->rightChildPointer && !(endInterval < baseMidPoint + 1 || baseRight < startInterval);
+            if (isLeftPartIncluded && isRightPartIncluded) {
                 result = m_function(
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
-            }
-            else if(isLeftPartIncluded)
-            {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
-            }
-            else if(isRightPartIncluded)
-            {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+                    getValueOnIntervalFromTopToBottom(
+                        startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
+                    getValueOnIntervalFromTopToBottom(
+                        startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint + 1, baseRight));
+            } else if (isLeftPartIncluded) {
+                result = getValueOnIntervalFromTopToBottom(
+                    startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
+            } else if (isRightPartIncluded) {
+                result = getValueOnIntervalFromTopToBottom(
+                    startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint + 1, baseRight);
             }
         }
         return result;
     }
 
-    Value getCombinedValueBasedFromChildren(NodePointer const& nodePointer) const
-    {
+    Value getCombinedValueBasedFromChildren(NodePointer const& nodePointer) const {
         Value result{};
-        if(nodePointer->leftChildPointer && nodePointer->rightChildPointer)
-        {
+        if (nodePointer->leftChildPointer && nodePointer->rightChildPointer) {
             result = m_function(nodePointer->leftChildPointer->value, nodePointer->rightChildPointer->value);
-        }
-        else if(nodePointer->leftChildPointer)
-        {
+        } else if (nodePointer->leftChildPointer) {
             result = nodePointer->leftChildPointer->value;
-        }
-        else if(nodePointer->rightChildPointer)
-        {
+        } else if (nodePointer->rightChildPointer) {
             result = nodePointer->rightChildPointer->value;
         }
         return result;
     }
 
-    void initialize(Values const& valuesToCheck)
-    {
-        if(!valuesToCheck.empty())
-        {
+    void initialize(Values const& valuesToCheck) {
+        if (!valuesToCheck.empty()) {
             m_maxChildrenIndex = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
             m_roots.emplace_back();
             setValuesFromTopToBottom(valuesToCheck, m_roots.back(), 0, m_maxChildrenIndex);
@@ -154,63 +128,44 @@ protected:
     }
 
     void setValuesFromTopToBottom(
-            Values const& values,
-            NodePointer & nodePointer,
-            Index const baseLeft,
-            Index const baseRight)
-    {
+        Values const& values, NodePointer& nodePointer, Index const baseLeft, Index const baseRight) {
         // This has log(N) running time
 
-        if(!nodePointer)
-        {
+        if (!nodePointer) {
             nodePointer.reset(new Node{Value{}, nullptr, nullptr});
         }
-        if(baseLeft==baseRight)
-        {
+        if (baseLeft == baseRight) {
             nodePointer->value = values.at(baseLeft);
-        }
-        else
-        {
+        } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
-            if(baseMidPoint+1<values.size())
-            {
-                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+            if (baseMidPoint + 1 < values.size()) {
+                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint + 1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
         }
     }
 
     void changeValueOnIndexFromTopToBottom(
-            Index const index,
-            Value const& newValue,
-            NodePointer const& previousTreeNode,
-            NodePointer & newTreeNode,
-            Index const baseLeft,
-            Index const baseRight)
-    {
+        Index const index, Value const& newValue, NodePointer const& previousTreeNode, NodePointer& newTreeNode,
+        Index const baseLeft, Index const baseRight) {
         // This has log(N) running time
 
-        if(previousTreeNode)
-        {
-            if(baseLeft==baseRight)
-            {
+        if (previousTreeNode) {
+            if (baseLeft == baseRight) {
                 newTreeNode.reset(new Node{newValue, nullptr, nullptr});
-            }
-            else
-            {
+            } else {
                 Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
-                if(index <= baseMidPoint)
-                {
+                if (index <= baseMidPoint) {
                     newTreeNode.reset(new Node{Value{}, nullptr, previousTreeNode->rightChildPointer});
                     changeValueOnIndexFromTopToBottom(
-                                index, newValue, previousTreeNode->leftChildPointer, newTreeNode->leftChildPointer, baseLeft, baseMidPoint);
-                }
-                else
-                {
+                        index, newValue, previousTreeNode->leftChildPointer, newTreeNode->leftChildPointer, baseLeft,
+                        baseMidPoint);
+                } else {
                     newTreeNode.reset(new Node{Value{}, previousTreeNode->leftChildPointer, nullptr});
                     changeValueOnIndexFromTopToBottom(
-                                index, newValue, previousTreeNode->rightChildPointer, newTreeNode->rightChildPointer, baseMidPoint+1, baseRight);
+                        index, newValue, previousTreeNode->rightChildPointer, newTreeNode->rightChildPointer,
+                        baseMidPoint + 1, baseRight);
                 }
                 newTreeNode->value = getCombinedValueBasedFromChildren(newTreeNode);
             }
@@ -223,6 +178,6 @@ protected:
     NodeRoots m_roots;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

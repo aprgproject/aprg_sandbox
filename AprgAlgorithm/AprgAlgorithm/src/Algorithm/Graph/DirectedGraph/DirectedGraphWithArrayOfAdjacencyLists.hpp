@@ -5,15 +5,12 @@
 
 #include <array>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
-class DirectedGraphWithArrayOfAdjacencyLists : public BaseDirectedGraph<Vertex>
-{
+class DirectedGraphWithArrayOfAdjacencyLists : public BaseDirectedGraph<Vertex> {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
@@ -21,109 +18,82 @@ public:
     using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::array<AdjacencyList, MAX_VERTEX_VALUE>;
 
-    DirectedGraphWithArrayOfAdjacencyLists()
-        : m_numberOfEdges(0U)
-        , m_adjacencyLists{}
-    {}
+    DirectedGraphWithArrayOfAdjacencyLists() : m_numberOfEdges(0U), m_adjacencyLists{} {}
 
-    bool isEmpty() const
-    {
-        return m_numberOfEdges==0;
-    }
+    bool isEmpty() const { return m_numberOfEdges == 0; }
 
-    bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
-    {
+    bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
         return adjacencyList.find(destinationVertex) != adjacencyList.cend();
     }
 
-    unsigned int getNumberOfVertices() const override
-    {
-        return getUniqueVertices().size();
-    }
+    unsigned int getNumberOfVertices() const override { return getUniqueVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override
-    {
-        return m_numberOfEdges;
-    }
+    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
 
-    Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
-    {
+    Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
         return Vertices(adjacencyList.cbegin(), adjacencyList.cend());
     }
 
-    Vertices getVertices() const override
-    {
+    Vertices getVertices() const override {
         SetOfVertices uniqueVertices(getUniqueVertices());
         return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
-    Edges getEdges() const override
-    {
+    Edges getEdges() const override {
         Edges result;
-        for(Vertex vertex1=0; vertex1<m_adjacencyLists.size(); vertex1++)
-        {
+        for (Vertex vertex1 = 0; vertex1 < m_adjacencyLists.size(); vertex1++) {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
-            for(Vertex const& vertex2 : adjacencyList)
-            {
+            for (Vertex const& vertex2 : adjacencyList) {
                 result.emplace_back(vertex1, vertex2);
             }
         }
         return result;
     }
 
-    void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
-    {
-        if(!isDirectlyConnected(sourceVertex, destinationVertex))
-        {
+    void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override {
+        if (!isDirectlyConnected(sourceVertex, destinationVertex)) {
             m_numberOfEdges++;
             m_adjacencyLists[sourceVertex].emplace(destinationVertex);
         }
     }
 
-    void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
-    {
-        if(isDirectlyConnected(sourceVertex, destinationVertex))
-        {
+    void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override {
+        if (isDirectlyConnected(sourceVertex, destinationVertex)) {
             m_numberOfEdges--;
             m_adjacencyLists[sourceVertex].erase(destinationVertex);
         }
     }
 
-    void clear()
-    {
+    void clear() {
         m_numberOfEdges = 0;
-        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
-        {
+        for (Vertex sourceVertex = 0; sourceVertex < m_adjacencyLists.size(); sourceVertex++) {
             m_adjacencyLists[sourceVertex].clear();
         }
     }
 
 protected:
-    SetOfVertices getUniqueVertices() const
-    {
+    SetOfVertices getUniqueVertices() const {
         SetOfVertices uniqueVertices;
-        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
-        {
+        for (Vertex sourceVertex = 0; sourceVertex < m_adjacencyLists.size(); sourceVertex++) {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
-            if(!adjacencyList.empty())
-            {
+            if (!adjacencyList.empty()) {
                 uniqueVertices.emplace(sourceVertex);
-                std::copy(adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
+                std::copy(
+                    adjacencyList.cbegin(), adjacencyList.cend(),
+                    std::inserter(uniqueVertices, uniqueVertices.cbegin()));
             }
         }
         return uniqueVertices;
     }
 
-    friend std::ostream & operator<<(std::ostream & out, DirectedGraphWithArrayOfAdjacencyLists const& graph)
-    {
+    friend std::ostream& operator<<(std::ostream& out, DirectedGraphWithArrayOfAdjacencyLists const& graph) {
         out << "Adjacency Lists: \n";
-        for(Vertex vertex=0; vertex<graph.m_adjacencyLists.size(); vertex++)
-        {
-            DirectedGraphWithArrayOfAdjacencyLists::AdjacencyList const& adjacencyList(graph.m_adjacencyLists.at(vertex));
-            if(!adjacencyList.empty())
-            {
+        for (Vertex vertex = 0; vertex < graph.m_adjacencyLists.size(); vertex++) {
+            DirectedGraphWithArrayOfAdjacencyLists::AdjacencyList const& adjacencyList(
+                graph.m_adjacencyLists.at(vertex));
+            if (!adjacencyList.empty()) {
                 out << "Adjacent with vertex " << vertex << ": {";
                 containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);
                 out << "} \n";
@@ -136,6 +106,6 @@ protected:
     AdjacencyLists m_adjacencyLists;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

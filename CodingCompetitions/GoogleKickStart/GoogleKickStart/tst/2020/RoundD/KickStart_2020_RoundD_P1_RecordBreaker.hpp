@@ -1,10 +1,7 @@
 #pragma once
 
-namespace KickStart_2020_RoundD_P1_RecordBreaker
-{
+namespace KickStart_2020_RoundD_P1_RecordBreaker {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-

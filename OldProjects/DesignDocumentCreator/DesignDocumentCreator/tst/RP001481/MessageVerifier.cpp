@@ -4,17 +4,16 @@
 
 using testing::FLAGS_gtest_break_on_failure;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-void MessageVerifier::verifierTC_LRM_CONFIGURATION_DATA_IND_MSG(GenericMessage const& genericMessage)
-{
+void MessageVerifier::verifierTC_LRM_CONFIGURATION_DATA_IND_MSG(GenericMessage const& genericMessage) {
     ASSERT_EQ(MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG, genericMessage.getMessageName());
 
-    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
+    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(
+        convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
     SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
 
     EXPECT_EQ(0U, payload.numOfDsps);
 }
 
-}
+}  // namespace DesignDocumentCreator

@@ -4,11 +4,9 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class BoxStackingProblem
-{
+class BoxStackingProblem {
 public:
     using Index = unsigned int;
     using Value = unsigned int;
@@ -22,13 +20,13 @@ public:
 
     Index getMaximumStackedHeight() const;
     Boxes getBoxesWithMaximumStackedHeight() const;
+
 private:
     Boxes getAllPossibleBoxes() const;
     Boxes m_boxes;
-
 };
 
-}
+}  // namespace alba
 
 // VARIANT OF: Longest Increasing Subsequence
 
@@ -62,6 +60,3 @@ private:
 // ---> MSH(i) = { Max ( MSH(j) ) + height(i) } where j < i and width(j) > width(i) and depth(j) > depth(i).
 // -> If there is no such j then MSH(i) = height(i)
 // -> 4) To get overall maximum height, we return max(MSH(i)) where 0 < i < n
-
-
-

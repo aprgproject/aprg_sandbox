@@ -2,18 +2,14 @@
 
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <string>
 #include <deque>
+#include <string>
 
-namespace alba
-{
+namespace alba {
 
-class JobWithProfitAndDeadlines
-{
+class JobWithProfitAndDeadlines {
 public:
-
-    struct Job
-    {
+    struct Job {
         std::string jobName;
         unsigned int profit;
         unsigned int deadline;
@@ -31,11 +27,12 @@ private:
     Jobs m_jobs;
 };
 
-}
+}  // namespace alba
 
 // Given a set of n jobs where each job i has a deadline di >=1 and profit pi>=0.
 // Only one job can be scheduled at a time. Each job takes 1 unit of time to complete.
-// We earn the profit if and only if the job is completed by its deadline. The task is to find the subset of jobs that maximizes profit.
+// We earn the profit if and only if the job is completed by its deadline. The task is to find the subset of jobs that
+// maximizes profit.
 
 // Examples:
 // -> Input: Four Jobs with following deadlines and profits
@@ -59,7 +56,8 @@ private:
 // -> Step 1: Sort all jobs in decreasing order of profit.
 // -> Step 2: Initialize the result sequence as first job in sorted jobs.
 // -> Step 3: Do following for remaining n-1 jobs
-// ---> If the current job can fit in the current result sequence without missing the deadline, add current job to the result.
+// ---> If the current job can fit in the current result sequence without missing the deadline, add current job to the
+// result.
 // ---> Else ignore the current job.
 
 // Using Disjoint Set for Job Sequencing
@@ -81,5 +79,5 @@ private:
 // So the time slot returned is always maximum.
 // When we assign a time slot ‘t’ to a job, we do union of ‘t’ with ‘t-1’ in a way that ‘t-1’ becomes parent of ‘t’.
 // To do this we call union(t-1, t).
-// This means that all future queries for time slot t would now return the latest time slot available for set represented by t-1.
-
+// This means that all future queries for time slot t would now return the latest time slot available for set
+// represented by t-1.

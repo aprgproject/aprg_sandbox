@@ -7,124 +7,91 @@
 using namespace alba::algorithm::CommonTestsWithUndirectedGraph;
 using namespace alba::stringHelper;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetGraphDirectionTypeWorks)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetGraphDirectionTypeWorks) {
     testGetGraphDirectionTypeWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, IsEmptyWorks)
-{
-    testIsEmptyWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithListOfEdgesTest, IsEmptyWorks) { testIsEmptyWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenEmpty) {
     testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenNotEmpty) {
     testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenEmpty) {
     testIsConnectedWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenNotEmpty) {
     testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenEmpty) {
     testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenNotEmpty) {
     testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenEmpty) {
     testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenNotEmpty) {
     testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenEmpty) {
     testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenNotEmpty) {
     testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenEmpty) {
     testGetVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenNotEmpty) {
     testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenEmpty) {
     testGetEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenNotEmpty) {
     testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, ConnectWorks)
-{
-    testConnectWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithListOfEdgesTest, ConnectWorks) { testConnectWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithListOfEdgesTest, DisconnectWorks)
-{
-    testDisconnectWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithListOfEdgesTest, DisconnectWorks) { testDisconnectWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithListOfEdgesTest, ClearWorks)
-{
-    testClearWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithListOfEdgesTest, ClearWorks) { testClearWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GraphWorksAfterClear)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, GraphWorksAfterClear) {
     testGraphWorksAfterClearWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, ComplicatedTestWorks) {
     testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, OutputStreamOperatorWorks)
-{
+TEST(UndirectedGraphWithListOfEdgesTest, OutputStreamOperatorWorks) {
     GraphForTest graph;
 
     graph.connect(0U, 1U);
@@ -133,6 +100,6 @@ TEST(UndirectedGraphWithListOfEdgesTest, OutputStreamOperatorWorks)
     EXPECT_EQ("Edges: {0<->1, 0<->2, 1<->0, 2<->0, }", convertToString(graph));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

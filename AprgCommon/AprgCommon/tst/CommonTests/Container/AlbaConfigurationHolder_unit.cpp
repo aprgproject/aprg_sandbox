@@ -4,30 +4,25 @@
 
 using namespace std;
 
-namespace
-{
+namespace {
 
-struct SampleConfigurationDetails
-{
+struct SampleConfigurationDetails {
     unsigned int valueToTest;
 };
 
-using SampleConfigurationHolder=alba::AlbaConfigurationHolder<SampleConfigurationDetails>;
-using SampleConfigurationScopeObject=alba::AlbaConfigurationScopeObject<SampleConfigurationDetails>;
+using SampleConfigurationHolder = alba::AlbaConfigurationHolder<SampleConfigurationDetails>;
+using SampleConfigurationScopeObject = alba::AlbaConfigurationScopeObject<SampleConfigurationDetails>;
 
-}
+}  // namespace
 
-namespace alba
-{
+namespace alba {
 
 template <>
-SampleConfigurationDetails getDefaultConfigurationDetails<SampleConfigurationDetails>()
-{
+SampleConfigurationDetails getDefaultConfigurationDetails<SampleConfigurationDetails>() {
     return SampleConfigurationDetails{};
 }
 
-TEST(AlbaConfigurationHolderTest, ConfigurationWorks)
-{
+TEST(AlbaConfigurationHolderTest, ConfigurationWorks) {
     SampleConfigurationHolder configurationHolder1;
     SampleConfigurationHolder configurationHolder2(SampleConfigurationDetails{75842});
 
@@ -35,25 +30,23 @@ TEST(AlbaConfigurationHolderTest, ConfigurationWorks)
     EXPECT_EQ(75842U, configurationHolder2.getConfigurationDetails().valueToTest);
 }
 
-TEST(AlbaConfigurationHolderTest, GetConfigurationDetailsWorksAtDefault)
-{
+TEST(AlbaConfigurationHolderTest, GetConfigurationDetailsWorksAtDefault) {
     SampleConfigurationDetails const& configurationDetails(
-                SampleConfigurationHolder::getInstance().getConfigurationDetails());
+        SampleConfigurationHolder::getInstance().getConfigurationDetails());
 
     EXPECT_EQ(0U, configurationDetails.valueToTest);
 }
 
-TEST(AlbaConfigurationHolderTest, SetConfigurationDetailsWorks)
-{
+TEST(AlbaConfigurationHolderTest, SetConfigurationDetailsWorks) {
     SampleConfigurationHolder::getInstance().setConfigurationDetails(SampleConfigurationDetails{48564U});
 
     EXPECT_EQ(48564U, SampleConfigurationHolder::getInstance().getConfigurationDetails().valueToTest);
 
-    SampleConfigurationHolder::getInstance().setConfigurationToDefault(); //Ensure set the static values back for other tests
+    SampleConfigurationHolder::getInstance()
+        .setConfigurationToDefault();  // Ensure set the static values back for other tests
 }
 
-TEST(AlbaConfigurationHolderTest, SetConfigurationToDefaultWorks)
-{
+TEST(AlbaConfigurationHolderTest, SetConfigurationToDefaultWorks) {
     SampleConfigurationHolder::getInstance().setConfigurationDetails(SampleConfigurationDetails{48564U});
 
     SampleConfigurationHolder::getInstance().setConfigurationToDefault();
@@ -61,8 +54,7 @@ TEST(AlbaConfigurationHolderTest, SetConfigurationToDefaultWorks)
     EXPECT_EQ(0U, SampleConfigurationHolder::getInstance().getConfigurationDetails().valueToTest);
 }
 
-TEST(AlbaConfigurationScopeObjectTest, SetInThisScopeThisConfigurationWorksAtDefaultValuesAndValuesAreSetBack)
-{
+TEST(AlbaConfigurationScopeObjectTest, SetInThisScopeThisConfigurationWorksAtDefaultValuesAndValuesAreSetBack) {
     EXPECT_EQ(0U, SampleConfigurationHolder::getInstance().getConfigurationDetails().valueToTest);
 
     {
@@ -75,5 +67,4 @@ TEST(AlbaConfigurationScopeObjectTest, SetInThisScopeThisConfigurationWorksAtDef
     EXPECT_EQ(0U, SampleConfigurationHolder::getInstance().getConfigurationDetails().valueToTest);
 }
 
-
-}
+}  // namespace alba

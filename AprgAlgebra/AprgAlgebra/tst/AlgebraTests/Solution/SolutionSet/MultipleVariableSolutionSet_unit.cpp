@@ -7,21 +7,17 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(MultipleVariableSolutionSetTest, ConstructorWorksAndEmpty)
-{
+TEST(MultipleVariableSolutionSetTest, ConstructorWorksAndEmpty) {
     MultipleVariableSolutionSet solutionSet;
 
     EXPECT_TRUE(solutionSet.getVariableNameToSolutionSetMap().empty());
 }
 
-TEST(MultipleVariableSolutionSetTest, IsValueAcceptedForVariableWorks)
-{
+TEST(MultipleVariableSolutionSetTest, IsValueAcceptedForVariableWorks) {
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(AlbaNumber(58));
@@ -34,8 +30,7 @@ TEST(MultipleVariableSolutionSetTest, IsValueAcceptedForVariableWorks)
     EXPECT_FALSE(solutionSet.isValueAcceptedForVariable("b", 59));
 }
 
-TEST(MultipleVariableSolutionSetTest, GetNumberOfVariablesWithSolutionsWorks)
-{
+TEST(MultipleVariableSolutionSetTest, GetNumberOfVariablesWithSolutionsWorks) {
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(AlbaNumber(58));
@@ -45,8 +40,7 @@ TEST(MultipleVariableSolutionSetTest, GetNumberOfVariablesWithSolutionsWorks)
     EXPECT_EQ(2U, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks)
-{
+TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks) {
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(AlbaNumber(58));
@@ -59,8 +53,7 @@ TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks)
     EXPECT_EQ("b", *(it++));
 }
 
-TEST(MultipleVariableSolutionSetTest, GetSolutionSetForVariableWorks)
-{
+TEST(MultipleVariableSolutionSetTest, GetSolutionSetForVariableWorks) {
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForA;
     solutionSetForA.addAcceptedValue(AlbaNumber(58));
@@ -71,23 +64,22 @@ TEST(MultipleVariableSolutionSetTest, GetSolutionSetForVariableWorks)
     EXPECT_EQ(AlbaNumbers{58}, solutionSetToVerify.getAcceptedValues());
 }
 
-TEST(MultipleVariableSolutionSetTest, AddSolutionSetForVariableWorks)
-{
+TEST(MultipleVariableSolutionSetTest, AddSolutionSetForVariableWorks) {
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForA;
     solutionSetForA.addAcceptedValue(AlbaNumber(58));
 
     solutionSet.addSolutionSetForVariable("a", solutionSetForA);
 
-    MultipleVariableSolutionSet::VariableNameToSolutionSetMap expectedMap(solutionSet.getVariableNameToSolutionSetMap());
+    MultipleVariableSolutionSet::VariableNameToSolutionSetMap expectedMap(
+        solutionSet.getVariableNameToSolutionSetMap());
     ASSERT_EQ(1U, expectedMap.size());
     auto const it = expectedMap.cbegin();
     EXPECT_EQ("a", it->first);
     EXPECT_EQ(AlbaNumbers{58}, it->second.getAcceptedValues());
 }
 
-TEST(MultipleVariableSolutionSetTest, OutputStreamOperatorWorks)
-{
+TEST(MultipleVariableSolutionSetTest, OutputStreamOperatorWorks) {
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(3.7);
@@ -97,11 +89,14 @@ TEST(MultipleVariableSolutionSetTest, OutputStreamOperatorWorks)
     solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);
     solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
 
-    EXPECT_EQ("Variable:{a} SolutionSet:{AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]}\n"
-              "Variable:{b} SolutionSet:{AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]}\n",
-              convertToString(solutionSet));
+    EXPECT_EQ(
+        "Variable:{a} SolutionSet:{AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] "
+        "AcceptedIntervals: : [{size: 1 | (87, 99), }]}\n"
+        "Variable:{b} SolutionSet:{AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] "
+        "AcceptedIntervals: : [{size: 1 | (87, 99), }]}\n",
+        convertToString(solutionSet));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -2,17 +2,15 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-enum class PathType{Empty, Directory, File};
+enum class PathType { Empty, Directory, File };
 
-class AlbaPathHandler
-{
+class AlbaPathHandler {
 public:
     explicit AlbaPathHandler(std::string const& slashCharacterString);
     explicit AlbaPathHandler(std::string const& path, std::string const& slashCharacterString);
-    virtual ~AlbaPathHandler() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~AlbaPathHandler() = default;  // virtual destructor because of virtual functions (vtable exists)
 
     virtual void clear();
     virtual std::string getFullPath() const;
@@ -31,7 +29,7 @@ public:
 
 protected:
     virtual void save(std::string const& path);
-    void setPath(std::string const& path); // non virtual because used by constructor
+    void setPath(std::string const& path);  // non virtual because used by constructor
     void setExtensionFromPath(std::string const& path);
     void setDirectoryAndFileFromPath(std::string const& path);
     void setFileType();
@@ -42,4 +40,4 @@ protected:
     std::string m_extension;
 };
 
-}//namespace alba
+}  // namespace alba

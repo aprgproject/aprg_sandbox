@@ -5,17 +5,13 @@
 #include <optional>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class PolynomialOverPolynomial
-{
+class PolynomialOverPolynomial {
 public:
-    struct QuotientAndRemainder
-    {
+    struct QuotientAndRemainder {
         Polynomial quotient;
         Polynomial remainder;
     };
@@ -28,7 +24,7 @@ public:
     Polynomial const& getDenominator() const;
 
     void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
-            bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
+        bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
 
     void simplify();
     void simplifyWithoutFactorization();
@@ -44,8 +40,7 @@ private:
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
     Monomial getMonomialWithMaxNegativeExponentsAndConvertItToPositive(Polynomial const& polynomial);
     bool removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(
-            Polynomials & numeratorFactors,
-            Polynomials & denominatorFactors) const;
+        Polynomials& numeratorFactors, Polynomials& denominatorFactors) const;
     Polynomial multiplyAndSimplifyFactors(Polynomials const& factors) const;
     Polynomial m_numerator;
     Polynomial m_denominator;
@@ -55,6 +50,6 @@ private:
 using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;
 using PolynomialOverPolynomialOptional = std::optional<PolynomialOverPolynomial>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

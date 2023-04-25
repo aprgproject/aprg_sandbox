@@ -6,15 +6,12 @@
 #include <functional>
 #include <numeric>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class FindTheMissingNumber
-{
+class FindTheMissingNumber {
 public:
     using Count = unsigned int;
     using Index = unsigned int;
@@ -22,26 +19,28 @@ public:
 
     FindTheMissingNumber() = default;
 
-    Value getTheMissingNumberUsingSum(Values const& values) // values can be unsorted because of xor
+    Value getTheMissingNumberUsingSum(Values const& values)  // values can be unsorted because of xor
     {
         static_assert(typeHelper::isIntegralType<Value>(), "Value needs to be an integer.");
 
         // There is only one loop here.
-        Value totalCountOfNumbers(values.size()+1);
+        Value totalCountOfNumbers(values.size() + 1);
         Value actualSum = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(0), std::plus<Value>());
-        Value expectedSum = (totalCountOfNumbers+1)*totalCountOfNumbers/2;
+        Value expectedSum = (totalCountOfNumbers + 1) * totalCountOfNumbers / 2;
 
-        return expectedSum-actualSum;
+        return expectedSum - actualSum;
     }
 
-    Value getTheMissingNumberUsingXor(Values const& values) // values can be unsorted because of xor
+    Value getTheMissingNumberUsingXor(Values const& values)  // values can be unsorted because of xor
     {
         static_assert(typeHelper::isIntegralType<Value>(), "Value needs to be an integer.");
 
         // There are two loops here (std::accumulate and for loop)
-        Value totalCountOfNumbers(values.size()+1);
-        Value accumulatedXor = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(1), std::bit_xor<Value>());
-        for(Value number(2); number<=totalCountOfNumbers; number++) // start with 2 (skip 1 because its processed in accumulate)
+        Value totalCountOfNumbers(values.size() + 1);
+        Value accumulatedXor =
+            std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(1), std::bit_xor<Value>());
+        for (Value number(2); number <= totalCountOfNumbers;
+             number++)  // start with 2 (skip 1 because its processed in accumulate)
         {
             accumulatedXor ^= number;
         }
@@ -49,9 +48,9 @@ public:
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Find the Missing Number
 

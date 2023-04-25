@@ -4,16 +4,13 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class SegregateTermsByConditionInAdditionAndSubtractionRetriever
-{
+class SegregateTermsByConditionInAdditionAndSubtractionRetriever {
 public:
-    using ConditionFunction=std::function<bool(Term const&)>;
+    using ConditionFunction = std::function<bool(Term const&)>;
 
     SegregateTermsByConditionInAdditionAndSubtractionRetriever(ConditionFunction const& condition);
 
@@ -27,6 +24,7 @@ public:
     void retrieveFromExpression(Expression const& expression);
     void retrieveFromFunction(Function const& functionObject);
     void retrieveFromTerm(Term const& term);
+
 private:
     void saveTerm(Term const& term);
     ConditionFunction m_condition;
@@ -34,6 +32,6 @@ private:
     Term m_termWithoutCondition;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -3,16 +3,13 @@
 #include <Algebra/Retrieval/BaseRetriever.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using BaseSubTermsRetriever = BaseRetriever<TermSet>;
 
-class SubTermsRetriever final : public BaseSubTermsRetriever
-{
+class SubTermsRetriever final : public BaseSubTermsRetriever {
 public:
     SubTermsRetriever();
 
@@ -24,6 +21,6 @@ public:
     void retrieveFromFunction(Function const& functionObject) override;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

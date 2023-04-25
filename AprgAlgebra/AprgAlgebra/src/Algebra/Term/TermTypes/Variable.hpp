@@ -4,14 +4,11 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Variable : public BaseTermData
-{
+class Variable : public BaseTermData {
 public:
     Variable();
     Variable(std::string const& variableName);
@@ -26,12 +23,11 @@ public:
     void setVariableName(std::string const& variableName);
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Variable const& variable);
+    friend std::ostream& operator<<(std::ostream& out, Variable const& variable);
 
     std::string m_variableName;
 };
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

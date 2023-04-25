@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2019_RoundB_P2_EnergyStones.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -19,8 +20,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2019_RoundB_P2_EnergyStones
-{
+namespace KickStart_2019_RoundB_P2_EnergyStones {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -28,8 +28,7 @@ namespace KickStart_2019_RoundB_P2_EnergyStones
 #define my_cin cin
 #endif
 
-struct Stone
-{
+struct Stone {
     int timeToConsume;
     int energy;
     int rateOfLoss;
@@ -40,7 +39,7 @@ struct Stone
 using Stones = vector<Stone>;
 
 int numberOfStones;
-vector<int> savedEnergies; // Dynamic Programming
+vector<int> savedEnergies;  // Dynamic Programming
 Stones stones;
 int maxTime;
 
@@ -107,81 +106,64 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << maxEnergy << '\n';
 }*/
 
-
 // Solution recommended by kickstart
-int getIndex(int const index, int const time)
-{
-    return index*maxTime+time;
-}
+int getIndex(int const index, int const time) { return index * maxTime + time; }
 
-int getMaxEnergy(
-        int const index,
-        int const elapsedTime)
-{
-    if(index<(int)stones.size())
-    {
-        int & savedEnergy(savedEnergies[getIndex(index, elapsedTime)]);
-        if(savedEnergy == INT_MAX)
-        {
+int getMaxEnergy(int const index, int const elapsedTime) {
+    if (index < (int)stones.size()) {
+        int& savedEnergy(savedEnergies[getIndex(index, elapsedTime)]);
+        if (savedEnergy == INT_MAX) {
             Stone stone(stones.at(index));
-            int remainingEnergyOfStone = max(0, stone.energy - (stone.rateOfLoss*elapsedTime));
-            int energyIfEaten = getMaxEnergy(index+1, elapsedTime+stone.timeToConsume) + remainingEnergyOfStone;
-            int energyIfSkipped = getMaxEnergy(index+1, elapsedTime);
+            int remainingEnergyOfStone = max(0, stone.energy - (stone.rateOfLoss * elapsedTime));
+            int energyIfEaten = getMaxEnergy(index + 1, elapsedTime + stone.timeToConsume) + remainingEnergyOfStone;
+            int energyIfSkipped = getMaxEnergy(index + 1, elapsedTime);
             savedEnergy = max(energyIfEaten, energyIfSkipped);
         }
         return savedEnergy;
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     my_cin >> numberOfStones;
 
-    int totalConsumptionTime=0;
+    int totalConsumptionTime = 0;
     stones.clear();
     stones.reserve(numberOfStones);
-    for(int y=0; y<numberOfStones; ++y)
-    {
+    for (int y = 0; y < numberOfStones; ++y) {
         Stone stone;
         my_cin >> stone.timeToConsume >> stone.energy >> stone.rateOfLoss;
         totalConsumptionTime += stone.timeToConsume;
         stones.emplace_back(stone);
     }
-    maxTime=totalConsumptionTime;
+    maxTime = totalConsumptionTime;
 
     // Observe that SiLj is the total loss of energy if i is used first.
     // Likewise, SjLi is the loss if j is used first.
     // Thus, if SiLj < SjLi then taking i first leads to a smaller overall loss of energy.
     // It may not be obvious that we should always take i before j even if it leads to a smaller loss of energy.
 
-    sort(stones.begin(), stones.end(), [](Stone const& stone1, Stone const& stone2)
-    {
-        return stone2.timeToConsume*stone1.rateOfLoss > stone1.timeToConsume*stone2.rateOfLoss;
+    sort(stones.begin(), stones.end(), [](Stone const& stone1, Stone const& stone2) {
+        return stone2.timeToConsume * stone1.rateOfLoss > stone1.timeToConsume * stone2.rateOfLoss;
     });
 
-    savedEnergies.assign(numberOfStones*maxTime, INT_MAX);
+    savedEnergies.assign(numberOfStones * maxTime, INT_MAX);
 
     int maxEnergy = getMaxEnergy(0, 0);
 
     my_cout << "Case #" << testCaseNumber << ": " << maxEnergy << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -191,9 +173,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2019_RoundB_P2_EnergyStones
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-
-

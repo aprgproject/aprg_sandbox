@@ -3,18 +3,17 @@
 #include <Common/Components/Component.hpp>
 #include <Common/Components/ComponentName.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class TOAM : public Component
-{
+class TOAM : public Component {
 public:
     TOAM();
     TOAM(ComponentName const componentName);
+
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
     ComponentName m_componentName;
 };
 
-}
+}  // namespace DesignDocumentCreator

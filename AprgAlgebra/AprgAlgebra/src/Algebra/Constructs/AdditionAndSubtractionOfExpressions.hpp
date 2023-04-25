@@ -2,14 +2,11 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class AdditionAndSubtractionOfExpressions
-{
+class AdditionAndSubtractionOfExpressions {
 public:
     AdditionAndSubtractionOfExpressions();
     AdditionAndSubtractionOfExpressions(TermsWithDetails const& termsWithDetails);
@@ -29,28 +26,22 @@ public:
     void combineExpressionsIfPossible();
 
 private:
-    void mergeExpressionsByCheckingTwoTermsAtATime(Terms & mergeParts, Terms & commonParts);
+    void mergeExpressionsByCheckingTwoTermsAtATime(Terms& mergeParts, Terms& commonParts);
     Term mergeTerms(
-            Term const& mergePart1,
-            Term const& mergePart2,
-            TermAssociationType const association1,
-            TermAssociationType const association2);
-    void prepareCommonParts(Terms & commonParts);
-    void retrieveMergeParts(Terms & mergeParts);
-    void retrieveCommonParts(Terms & commonParts);
-    void retrieveMergePart(Term & mergePart, Expression const& expression);
-    void retrieveCommonPart(Term & commonPart, Expression const& expression);
+        Term const& mergePart1, Term const& mergePart2, TermAssociationType const association1,
+        TermAssociationType const association2);
+    void prepareCommonParts(Terms& commonParts);
+    void retrieveMergeParts(Terms& mergeParts);
+    void retrieveCommonParts(Terms& commonParts);
+    void retrieveMergePart(Term& mergePart, Expression const& expression);
+    void retrieveCommonPart(Term& commonPart, Expression const& expression);
     bool doAllSizesMatch(Terms const& mergeParts, Terms const& commonParts) const;
-    bool canBeMerged(
-            Term const& mergePart1,
-            Term const& mergePart2,
-            Term const& commonPart1,
-            Term const& commonPart2);
+    bool canBeMerged(Term const& mergePart1, Term const& mergePart2, Term const& commonPart1, Term const& commonPart2);
     void putItem(Expression const& expression, TermAssociationType const association);
     Expressions m_expressions;
     TermAssociationTypes m_associations;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using QueryForTest = GetValuePairWithPositiveDelta<ValuesForTest>;
 using ValuePairForTest = QueryForTest::ValuePair;
-}
+}  // namespace
 
-TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty)
-{
+TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty) {
     ValuesForTest sortedValues;
     QueryForTest query(sortedValues);
 
@@ -26,8 +22,7 @@ TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerW
     EXPECT_EQ(pairToExpect, query.getValuePairWithPositiveDelta(8U));
 }
 
-TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerWorksOnOneValue)
-{
+TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerWorksOnOneValue) {
     ValuesForTest sortedValues{5U};
     QueryForTest query(sortedValues);
 
@@ -35,8 +30,7 @@ TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerW
     EXPECT_EQ(pairToExpect, query.getValuePairWithPositiveDelta(8U));
 }
 
-TEST(GetValuePairWithPositiveDeltaTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesDoesNotWorkOnExample1)
-{
+TEST(GetValuePairWithPositiveDeltaTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesDoesNotWorkOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     QueryForTest query(sortedValues);
 
@@ -44,6 +38,6 @@ TEST(GetValuePairWithPositiveDeltaTest, GetPossibleDuplicatedTwoValuesWithSumWit
     EXPECT_EQ(pairToExpect, query.getValuePairWithPositiveDelta(8U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

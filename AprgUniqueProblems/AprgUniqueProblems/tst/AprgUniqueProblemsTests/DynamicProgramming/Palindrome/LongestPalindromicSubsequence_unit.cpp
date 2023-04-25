@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(LongestPalindromicSubsequenceTest, GetLongestLengthWorksOnExample1)
-{
+TEST(LongestPalindromicSubsequenceTest, GetLongestLengthWorksOnExample1) {
     LongestPalindromicSubsequence queryForTest("GEEKSFORGEEKS");
 
     EXPECT_EQ(5U, queryForTest.getLongestLengthUsingNaiveRecursion());
@@ -17,8 +15,7 @@ TEST(LongestPalindromicSubsequenceTest, GetLongestLengthWorksOnExample1)
     EXPECT_EQ(5U, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(LongestPalindromicSubsequenceTest, GetLongestLengthWorksOnExample2)
-{
+TEST(LongestPalindromicSubsequenceTest, GetLongestLengthWorksOnExample2) {
     LongestPalindromicSubsequence queryForTest("BBABCBCAB");
 
     EXPECT_EQ(7U, queryForTest.getLongestLengthUsingNaiveRecursion());
@@ -27,4 +24,4 @@ TEST(LongestPalindromicSubsequenceTest, GetLongestLengthWorksOnExample2)
     EXPECT_EQ(7U, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
 }
 
-}
+}  // namespace alba

@@ -6,25 +6,23 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
-using ShortestPathSearchForTest = PathSearchUsingBellmanFord<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, less>;
-using LongestPathSearchForTest = PathSearchUsingBellmanFord<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, greater>;
-}
+using ShortestPathSearchForTest =
+    PathSearchUsingBellmanFord<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, less>;
+using LongestPathSearchForTest =
+    PathSearchUsingBellmanFord<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, greater>;
+}  // namespace
 
-TEST(PathSearchUsingBellmanFordTest, ShortestPathSearchEndsWhenThereArePositiveCycles)
-{
+TEST(PathSearchUsingBellmanFordTest, ShortestPathSearchEndsWhenThereArePositiveCycles) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 1U, 0.26);
     graph.connect(1U, 2U, 0.38);
@@ -44,8 +42,7 @@ TEST(PathSearchUsingBellmanFordTest, ShortestPathSearchEndsWhenThereArePositiveC
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(4U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, ShortestPathSearchEndsWhenThereAreNegativeCycles)
-{
+TEST(PathSearchUsingBellmanFordTest, ShortestPathSearchEndsWhenThereAreNegativeCycles) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 1U, -0.26);
     graph.connect(1U, 2U, -0.38);
@@ -65,8 +62,7 @@ TEST(PathSearchUsingBellmanFordTest, ShortestPathSearchEndsWhenThereAreNegativeC
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(4U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereArePositiveCycles)
-{
+TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereArePositiveCycles) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 1U, 0.26);
     graph.connect(1U, 2U, 0.38);
@@ -86,8 +82,7 @@ TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereArePositiveCy
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(4U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereAreNegativeCycles)
-{
+TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereAreNegativeCycles) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 1U, -0.26);
     graph.connect(1U, 2U, -0.38);
@@ -107,8 +102,7 @@ TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereAreNegativeCy
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(4U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
-{
+TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
@@ -133,8 +127,7 @@ TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraph
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
-{
+TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
@@ -159,8 +152,7 @@ TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraph
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(8U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
-{
+TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
@@ -185,8 +177,7 @@ TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraph
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
-{
+TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
@@ -211,6 +202,6 @@ TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraph
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(8U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

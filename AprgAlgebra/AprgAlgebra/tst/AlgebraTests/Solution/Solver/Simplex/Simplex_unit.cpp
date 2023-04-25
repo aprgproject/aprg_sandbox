@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SimplexSolverTest, SimplexWorksOnBrewersProblem)
-{
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblem) {
     Equations constraints;
     constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
     constraints.emplace_back(Polynomial{Monomial(4, {{"A", 1}}), Monomial(4, {{"B", 1}})}, "<=", 160);
@@ -28,25 +25,28 @@ TEST(SimplexSolverTest, SimplexWorksOnBrewersProblem)
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
 
-TEST(SimplexSolverTest, SimplexWorksOnExample1)
-{
+TEST(SimplexSolverTest, SimplexWorksOnExample1) {
     Equations constraints;
-    constraints.emplace_back(Polynomial{Monomial(1, {{"A", 1}}), Monomial(3, {{"B", 1}}), Monomial(2, {{"C", 1}})}, "<=", 10);
-    constraints.emplace_back(Polynomial{Monomial(-1, {{"A", 1}}), Monomial(-5, {{"B", 1}}), Monomial(-1, {{"C", 1}})}, ">=", -8);
+    constraints.emplace_back(
+        Polynomial{Monomial(1, {{"A", 1}}), Monomial(3, {{"B", 1}}), Monomial(2, {{"C", 1}})}, "<=", 10);
+    constraints.emplace_back(
+        Polynomial{Monomial(-1, {{"A", 1}}), Monomial(-5, {{"B", 1}}), Monomial(-1, {{"C", 1}})}, ">=", -8);
     Polynomial objectiveFunction{Monomial(8, {{"A", 1}}), Monomial(10, {{"B", 1}}), Monomial(7, {{"C", 1}})};
 
     SimplexSolver solver(constraints, objectiveFunction);
 
     Equations solutionEquations;
-    solutionEquations.emplace_back(Polynomial{Monomial(2, {{"B", 1}}), Monomial(-1, {{"C", 1}}), Monomial(2, {})}, "=", 0);
-    solutionEquations.emplace_back(Polynomial{Monomial(1, {{"A", 1}}), Monomial(5, {{"B", 1}}), Monomial(1, {{"C", 1}}), Monomial(-8, {})}, "=", 0);
+    solutionEquations.emplace_back(
+        Polynomial{Monomial(2, {{"B", 1}}), Monomial(-1, {{"C", 1}}), Monomial(2, {})}, "=", 0);
+    solutionEquations.emplace_back(
+        Polynomial{Monomial(1, {{"A", 1}}), Monomial(5, {{"B", 1}}), Monomial(1, {{"C", 1}}), Monomial(-8, {})}, "=",
+        0);
     EXPECT_TRUE(solver.isOptimized());
     EXPECT_EQ(AlbaNumber(64), solver.getOptimizedObjectiveValue());
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
 
-TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithZeroEquation)
-{
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithZeroEquation) {
     Equations constraints;
     constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
     constraints.emplace_back(Monomial(20, {{"C", 1}}), "=", 0);
@@ -65,8 +65,7 @@ TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithZeroEquation)
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
 
-TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithEqualEquation)
-{
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithEqualEquation) {
     Equations constraints;
     constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
     constraints.emplace_back("C", "=", 200);
@@ -85,13 +84,13 @@ TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithEqualEquation)
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
 
-TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunctionVariable)
-{
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunctionVariable) {
     Equations constraints;
     constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
     constraints.emplace_back(Polynomial{Monomial(4, {{"A", 1}}), Monomial(4, {{"B", 1}})}, "<=", 160);
     constraints.emplace_back(Polynomial{Monomial(35, {{"A", 1}}), Monomial(20, {{"B", 1}})}, "<=", 1190);
-    Polynomial objectiveFunction{Monomial(13, {{"A", 1}}), Monomial(23, {{"B", 1}}), Monomial(1, {{"C", 1}})}; // additional variable C
+    Polynomial objectiveFunction{
+        Monomial(13, {{"A", 1}}), Monomial(23, {{"B", 1}}), Monomial(1, {{"C", 1}})};  // additional variable C
 
     SimplexSolver solver(constraints, objectiveFunction);
 
@@ -103,6 +102,6 @@ TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunct
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

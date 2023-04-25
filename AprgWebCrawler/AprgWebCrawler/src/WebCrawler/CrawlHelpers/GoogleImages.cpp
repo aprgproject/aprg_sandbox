@@ -84,8 +84,8 @@ void WebCrawler::downloadGoogleImages() const
             cout << "ImageLinkWebPath : " << imageWebPathHandler.getFullPath() << "\n";
             return;
         }
-        //downloadBinaryFileUntilSuccessful(imageWebPathHandler, AlbaLocalPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile()));
-        listOfImages.pop_front();
+        //downloadBinaryFileUntilSuccessful(imageWebPathHandler,
+AlbaLocalPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile())); listOfImages.pop_front();
         ofstream outListFileStream(listPathHandler.getFullPath());
         if(!outListFileStream.is_open())
         {

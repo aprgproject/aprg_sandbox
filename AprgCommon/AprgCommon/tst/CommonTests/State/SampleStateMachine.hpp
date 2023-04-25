@@ -2,31 +2,14 @@
 
 #include <Common/State/AlbaBaseStateMachine.hpp>
 
-namespace alba
-{
-namespace FakeStateMachine
-{
-enum class State
-{
-    StateWithNoValue,
-    State1,
-    State2,
-    State3,
-    State4
-};
+namespace alba {
+namespace FakeStateMachine {
+enum class State { StateWithNoValue, State1, State2, State3, State4 };
 
-enum class Action
-{
-    InitializeTo1,
-    Increase,
-    Decrease,
-    NoAction,
-    MultiplyBy2
-};
+enum class Action { InitializeTo1, Increase, Decrease, NoAction, MultiplyBy2 };
 
 using BaseSampleStateMachine = AlbaBaseStateMachine<State, Action>;
-class SampleStateMachine : public BaseSampleStateMachine
-{
+class SampleStateMachine : public BaseSampleStateMachine {
 public:
     SampleStateMachine(State const stateIdentifier);
     // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)

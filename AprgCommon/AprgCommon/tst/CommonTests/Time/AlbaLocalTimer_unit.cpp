@@ -3,11 +3,9 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaLocalTimerTest, DISABLED_ResetTimerWorks)
-{
+TEST(AlbaLocalTimerTest, DISABLED_ResetTimerWorks) {
     AlbaLocalTimer timer;
     sleepFor(1000);
 
@@ -18,8 +16,7 @@ TEST(AlbaLocalTimerTest, DISABLED_ResetTimerWorks)
     EXPECT_EQ(2U, timer.getElapsedTimeInSeconds());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_StopTimerWorks)
-{
+TEST(AlbaLocalTimerTest, DISABLED_StopTimerWorks) {
     AlbaLocalTimer timer;
 
     sleepFor(2000);
@@ -28,7 +25,7 @@ TEST(AlbaLocalTimerTest, DISABLED_StopTimerWorks)
     EXPECT_EQ(2U, timer.getElapsedTimeInSeconds());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInNanosecondsWorks) // this is unstable because its not precise
+TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInNanosecondsWorks)  // this is unstable because its not precise
 {
     AlbaLocalTimer timer;
     sleepFor(1234);
@@ -37,7 +34,7 @@ TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInNanosecondsWorks) // this is u
     EXPECT_EQ(1234000000U, timer.getElapsedTimeInNanoseconds());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInMicrosecondsWorks) // this is unstable because its not precise
+TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInMicrosecondsWorks)  // this is unstable because its not precise
 {
     AlbaLocalTimer timer;
     sleepFor(4321);
@@ -46,7 +43,7 @@ TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInMicrosecondsWorks) // this is 
     EXPECT_EQ(4321000U, timer.getElapsedTimeInMicroseconds());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInMillisecondsWorks) // this is unstable because its not precise
+TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInMillisecondsWorks)  // this is unstable because its not precise
 {
     AlbaLocalTimer timer;
     sleepFor(4321);
@@ -55,17 +52,15 @@ TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInMillisecondsWorks) // this is 
     EXPECT_EQ(4321U, timer.getElapsedTimeInMilliseconds());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInSecondsWorks)
-{
+TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeInSecondsWorks) {
     AlbaLocalTimer timer;
     sleepFor(4321);
     timer.stopTimer();
 
-
     EXPECT_EQ(4U, timer.getElapsedTimeInSeconds());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_GetDifferenceAsAlbaDateTimeWorks) // this is unstable because its not precise
+TEST(AlbaLocalTimerTest, DISABLED_GetDifferenceAsAlbaDateTimeWorks)  // this is unstable because its not precise
 {
     AlbaLocalTimer timer;
     sleepFor(4321);
@@ -75,4 +70,4 @@ TEST(AlbaLocalTimerTest, DISABLED_GetDifferenceAsAlbaDateTimeWorks) // this is u
     EXPECT_EQ(expectedTime, timer.getDifferenceAsAlbaDateTime());
 }
 
-}
+}  // namespace alba

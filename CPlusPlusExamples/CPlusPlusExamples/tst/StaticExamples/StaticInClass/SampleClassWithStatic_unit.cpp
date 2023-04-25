@@ -2,11 +2,9 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-TEST(SampleClassWithStaticTest, InitialValuesAreCorrect)
-{
+TEST(SampleClassWithStaticTest, InitialValuesAreCorrect) {
     SampleClassWithStatic object1;
     SampleClassWithStatic object2;
 
@@ -18,8 +16,7 @@ TEST(SampleClassWithStaticTest, InitialValuesAreCorrect)
     EXPECT_EQ("500", SampleClassWithStatic::staticInlinedString);
 }
 
-TEST(SampleClassWithStaticTest, StaticDataCanBeReferedInSeveralWays)
-{
+TEST(SampleClassWithStaticTest, StaticDataCanBeReferedInSeveralWays) {
     SampleClassWithStatic object;
 
     EXPECT_EQ(200, SampleClassWithStatic::staticData);
@@ -35,16 +32,15 @@ TEST(SampleClassWithStaticTest, StaticDataCanBeReferedInSeveralWays)
     // Pointer dereference "->" works too for pointers
 }
 
-TEST(SampleClassWithStaticTest, ValuesCanBeChanged)
-{
+TEST(SampleClassWithStaticTest, ValuesCanBeChanged) {
     SampleClassWithStatic object1;
     SampleClassWithStatic object2;
 
-    object1.nonStaticData=101;
-    SampleClassWithStatic::staticData=201;
+    object1.nonStaticData = 101;
+    SampleClassWithStatic::staticData = 201;
     // SampleClassWithStatic::staticConstData=301; // can't be changed because its const
-    SampleClassWithStatic::staticInlinedData=401;
-    SampleClassWithStatic::staticInlinedString="501";
+    SampleClassWithStatic::staticInlinedData = 401;
+    SampleClassWithStatic::staticInlinedString = "501";
 
     EXPECT_EQ(101, object1.nonStaticData);
     EXPECT_EQ(100, object2.nonStaticData);
@@ -54,13 +50,12 @@ TEST(SampleClassWithStaticTest, ValuesCanBeChanged)
     EXPECT_EQ("501", SampleClassWithStatic::staticInlinedString);
 }
 
-TEST(SampleClassWithStaticTest, ClassDeclaredFunctionsCanCalledWithChangedValues)
-{
+TEST(SampleClassWithStaticTest, ClassDeclaredFunctionsCanCalledWithChangedValues) {
     SampleClassWithStatic object1;
     SampleClassWithStatic object2;
 
-    object1.nonStaticData=101;
-    SampleClassWithStatic::staticData=201;
+    object1.nonStaticData = 101;
+    SampleClassWithStatic::staticData = 201;
 
     EXPECT_EQ(101, object1.nonStaticFunctionWithClassDeclaration());
     EXPECT_EQ(201, SampleClassWithStatic::staticFunctionWithClassDeclaration());
@@ -68,13 +63,12 @@ TEST(SampleClassWithStaticTest, ClassDeclaredFunctionsCanCalledWithChangedValues
     EXPECT_EQ(201, object2.staticFunctionWithClassDeclaration());
 }
 
-TEST(SampleClassWithStaticTest, ClassDefinedFunctionsCanCalledWithChangedValues)
-{
+TEST(SampleClassWithStaticTest, ClassDefinedFunctionsCanCalledWithChangedValues) {
     SampleClassWithStatic object1;
     SampleClassWithStatic object2;
 
-    object1.nonStaticData=101;
-    SampleClassWithStatic::staticData=201;
+    object1.nonStaticData = 101;
+    SampleClassWithStatic::staticData = 201;
 
     EXPECT_EQ(101, object1.nonStaticFunctionWithClassDefinition());
     EXPECT_EQ(201, SampleClassWithStatic::staticFunctionWithClassDefinition());
@@ -82,4 +76,4 @@ TEST(SampleClassWithStaticTest, ClassDefinedFunctionsCanCalledWithChangedValues)
     EXPECT_EQ(201, object2.staticFunctionWithClassDefinition());
 }
 
-}
+}  // namespace alba

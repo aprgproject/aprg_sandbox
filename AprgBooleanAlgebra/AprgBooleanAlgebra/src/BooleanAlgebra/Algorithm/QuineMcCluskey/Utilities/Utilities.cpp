@@ -1,16 +1,11 @@
 #include "Utilities.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-LogicalValue getLogicalValue(bool const value)
-{
-    return value ? LogicalValue::True : LogicalValue::False;
-}
+LogicalValue getLogicalValue(bool const value) { return value ? LogicalValue::True : LogicalValue::False; }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

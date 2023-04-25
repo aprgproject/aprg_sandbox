@@ -4,31 +4,26 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 RangeQueryForTest::Function plusFunction = plus<>();
 RangeQueryForTest::Function minusFunction = minus<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
@@ -48,8 +43,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithSumWork
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
@@ -58,8 +52,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithSumWorksWi
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
@@ -81,8 +74,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, IncreaseAtRangeWithSumWorksOn
     EXPECT_EQ(10U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
@@ -91,8 +83,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWork
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue) {
     ValuesForTest values{5};
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
@@ -101,8 +92,7 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWork
     EXPECT_EQ(3U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
@@ -124,6 +114,6 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, ChangeValueAtIndexWithSumWork
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

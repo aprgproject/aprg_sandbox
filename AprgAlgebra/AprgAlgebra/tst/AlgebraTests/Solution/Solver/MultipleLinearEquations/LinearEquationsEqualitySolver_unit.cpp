@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(LinearEquationsEqualitySolverTest, ConstructionWorks)
-{
-    LinearEquationsEqualitySolver();
-}
+TEST(LinearEquationsEqualitySolverTest, ConstructionWorks) { LinearEquationsEqualitySolver(); }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonEqualityEquation)
-{
+TEST(
+    LinearEquationsEqualitySolverTest,
+    CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonEqualityEquation) {
     LinearEquationsEqualitySolver solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
@@ -29,8 +25,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(0U, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor1Equation)
-{
+TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor1Equation) {
     LinearEquationsEqualitySolver solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
@@ -46,8 +41,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(AlbaNumber(4), acceptedValuesForX.at(0));
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor2Equations)
-{
+TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor2Equations) {
     LinearEquationsEqualitySolver solver;
     Equations equations;
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}})};
@@ -68,8 +62,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(AlbaNumber(3), acceptedValuesForY.at(0));
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor3Equations)
-{
+TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor3Equations) {
     LinearEquationsEqualitySolver solver;
     Equations equations;
     Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(1, {{"z", 1}})};
@@ -95,8 +88,9 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(AlbaNumber(3), acceptedValuesForZ.at(0));
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonLinearEquation)
-{
+TEST(
+    LinearEquationsEqualitySolverTest,
+    CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonLinearEquation) {
     LinearEquationsEqualitySolver solver;
     Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {})});
@@ -108,8 +102,9 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(0U, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionWhenEquationNumberDoesNotMatchVariableNumber)
-{
+TEST(
+    LinearEquationsEqualitySolverTest,
+    CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionWhenEquationNumberDoesNotMatchVariableNumber) {
     LinearEquationsEqualitySolver solver;
     Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(-4, {})});
@@ -121,8 +116,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(0U, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor1Polynomial)
-{
+TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor1Polynomial) {
     LinearEquationsEqualitySolver solver;
     Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
@@ -137,8 +131,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(AlbaNumber(4), acceptedValuesForX.at(0));
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor2Polynomials)
-{
+TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor2Polynomials) {
     LinearEquationsEqualitySolver solver;
     Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(-4, {})});
@@ -157,13 +150,15 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(AlbaNumber(3), acceptedValuesForY.at(0));
 }
 
-TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor3Polynomials)
-{
+TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWorksFor3Polynomials) {
     LinearEquationsEqualitySolver solver;
     Polynomials polynomials;
-    polynomials.emplace_back(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(1, {{"z", 1}}), Monomial(-8, {})});
-    polynomials.emplace_back(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(3, {{"z", 1}}), Monomial(-9, {})});
-    polynomials.emplace_back(Polynomial{Monomial(4, {{"x", 1}}), Monomial(1, {{"y", 1}}), Monomial(-2, {{"z", 1}}), Monomial(-1, {})});
+    polynomials.emplace_back(
+        Polynomial{Monomial(2, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(1, {{"z", 1}}), Monomial(-8, {})});
+    polynomials.emplace_back(
+        Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(3, {{"z", 1}}), Monomial(-9, {})});
+    polynomials.emplace_back(
+        Polynomial{Monomial(4, {{"x", 1}}), Monomial(1, {{"y", 1}}), Monomial(-2, {{"z", 1}}), Monomial(-1, {})});
 
     MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(polynomials));
 
@@ -181,6 +176,6 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     EXPECT_EQ(AlbaNumber(3), acceptedValuesForZ.at(0));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

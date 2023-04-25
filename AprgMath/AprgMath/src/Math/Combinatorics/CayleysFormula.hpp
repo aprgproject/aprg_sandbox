@@ -2,14 +2,12 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 UnsignedInteger getNumberOfLabeledTreesUsingCayleysFormula(UnsignedInteger const& numberOfNodes);
 
 }
 
-}
+}  // namespace alba

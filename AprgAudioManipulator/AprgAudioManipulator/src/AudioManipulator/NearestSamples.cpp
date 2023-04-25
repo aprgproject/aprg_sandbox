@@ -6,43 +6,30 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgAudio
-{
+namespace AprgAudio {
 
-NearestSamples::NearestSamples(Samples const& samples)
-    : m_samples(samples)
-{
-    saveToValuesToIndexes();
-}
+NearestSamples::NearestSamples(Samples const& samples) : m_samples(samples) { saveToValuesToIndexes(); }
 
-Indexes NearestSamples::getNearestSamplesIndexes(
-        double const value,
-        unsigned int const recommendedNumberOfSamples)
-{
+Indexes NearestSamples::getNearestSamplesIndexes(double const value, unsigned int const recommendedNumberOfSamples) {
     Indexes result;
-    pair<ValuesToIndexes::const_iterator, ValuesToIndexes::const_iterator>
-            lowerAndUpperIterator(containerHelper::getLowerAndUpperConstIteratorsInMap(m_valuesToIndexes, value));
+    pair<ValuesToIndexes::const_iterator, ValuesToIndexes::const_iterator> lowerAndUpperIterator(
+        containerHelper::getLowerAndUpperConstIteratorsInMap(m_valuesToIndexes, value));
 
     set<unsigned int> indexesInOrder;
-    for(ValuesToIndexes::const_iterator it=lowerAndUpperIterator.first; it!=lowerAndUpperIterator.second; it++)
-    {
+    for (ValuesToIndexes::const_iterator it = lowerAndUpperIterator.first; it != lowerAndUpperIterator.second; it++) {
         indexesInOrder.emplace(it->second);
     }
-    ValuesToIndexes::const_iterator itLower=lowerAndUpperIterator.first;
-    ValuesToIndexes::const_iterator itUpper=lowerAndUpperIterator.second;
-    while(indexesInOrder.size() < recommendedNumberOfSamples
-          && itLower!=m_valuesToIndexes.cbegin() && itUpper!=m_valuesToIndexes.cend())
-    {
-        if(itLower!=m_valuesToIndexes.cbegin())
-        {
+    ValuesToIndexes::const_iterator itLower = lowerAndUpperIterator.first;
+    ValuesToIndexes::const_iterator itUpper = lowerAndUpperIterator.second;
+    while (indexesInOrder.size() < recommendedNumberOfSamples && itLower != m_valuesToIndexes.cbegin() &&
+           itUpper != m_valuesToIndexes.cend()) {
+        if (itLower != m_valuesToIndexes.cbegin()) {
             indexesInOrder.emplace(itLower->second);
             itLower--;
         }
-        if(itUpper!=m_valuesToIndexes.cend())
-        {
+        if (itUpper != m_valuesToIndexes.cend()) {
             indexesInOrder.emplace(itUpper->second);
             itUpper--;
         }
@@ -52,15 +39,13 @@ Indexes NearestSamples::getNearestSamplesIndexes(
     return result;
 }
 
-void NearestSamples::saveToValuesToIndexes()
-{
-    unsigned int i=0;
-    for(double const sample : m_samples)
-    {
+void NearestSamples::saveToValuesToIndexes() {
+    unsigned int i = 0;
+    for (double const sample : m_samples) {
         m_valuesToIndexes.emplace(sample, i++);
     }
 }
 
-}
+}  // namespace AprgAudio
 
-}
+}  // namespace alba

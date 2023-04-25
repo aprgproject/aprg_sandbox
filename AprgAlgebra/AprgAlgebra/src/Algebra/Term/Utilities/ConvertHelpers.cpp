@@ -8,109 +8,81 @@
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-bool canBeConvertedToConstant(Polynomial const& polynomial)
-{
+bool canBeConvertedToConstant(Polynomial const& polynomial) {
     return polynomial.isEmpty() || (isOneMonomial(polynomial) && isConstantOnly(getFirstMonomial(polynomial)));
 }
 
-bool canBeConvertedToMonomial(Term const& term)
-{
+bool canBeConvertedToMonomial(Term const& term) {
     TermType termType(term.getTermType());
     bool isPolynomialWithOneMonomial(false);
-    if(term.isPolynomial())
-    {
+    if (term.isPolynomial()) {
         isPolynomialWithOneMonomial = isOneMonomial(term.getPolynomialConstReference());
     }
-    return TermType::Constant==termType
-            || TermType::Variable==termType
-            || TermType::Monomial==termType
-            || isPolynomialWithOneMonomial;
+    return TermType::Constant == termType || TermType::Variable == termType || TermType::Monomial == termType ||
+           isPolynomialWithOneMonomial;
 }
 
-bool canBeConvertedToPolynomial(Term const& term)
-{
+bool canBeConvertedToPolynomial(Term const& term) {
     TermType termType(term.getTermType());
-    return TermType::Constant==termType
-            || TermType::Variable==termType
-            || TermType::Monomial==termType
-            || TermType::Polynomial==termType;
+    return TermType::Constant == termType || TermType::Variable == termType || TermType::Monomial == termType ||
+           TermType::Polynomial == termType;
 }
 
-Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
-{
+Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial) {
     Monomial newMonomial(monomial);
     newMonomial.simplify();
     return convertMonomialToSimplestTerm(newMonomial);
 }
 
-Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
-{
+Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial) {
     Polynomial newPolynomial(polynomial);
     newPolynomial.simplify();
     return convertPolynomialToSimplestTerm(newPolynomial);
 }
 
-Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
-{
+Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression) {
     Expression newExpression(expression);
     newExpression.simplify();
     return convertExpressionToSimplestTerm(newExpression);
 }
 
-Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionObject)
-{
+Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionObject) {
     Function newFunction(functionObject);
     newFunction.simplify();
     return convertFunctionToSimplestTerm(newFunction);
 }
 
-Term convertMonomialToSimplestTerm(Monomial const& monomial)
-{
+Term convertMonomialToSimplestTerm(Monomial const& monomial) {
     Term newTerm(monomial);
-    if(isTheValue(monomial, 0))
-    {
+    if (isTheValue(monomial, 0)) {
         newTerm = 0;
-    }
-    else if(isConstantOnly(monomial))
-    {
+    } else if (isConstantOnly(monomial)) {
         newTerm = monomial.getConstantConstReference();
-    }
-    else if(isVariableOnly(monomial))
-    {
+    } else if (isVariableOnly(monomial)) {
         newTerm = getFirstVariableName(monomial);
     }
     return newTerm;
 }
 
-Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
-{
+Term convertPolynomialToSimplestTerm(Polynomial const& polynomial) {
     Term newTerm(polynomial);
-    if(isTheValue(polynomial, 0))
-    {
+    if (isTheValue(polynomial, 0)) {
         newTerm = Term(0);
-    }
-    else if(isOneMonomial(polynomial))
-    {
+    } else if (isOneMonomial(polynomial)) {
         newTerm = simplifyAndConvertMonomialToSimplestTerm(getFirstMonomial(polynomial));
     }
     return newTerm;
 }
 
-Term convertExpressionToSimplestTerm(Expression const& expression)
-{
+Term convertExpressionToSimplestTerm(Expression const& expression) {
     Term newTerm(expression);
-    if(expression.isEmpty())
-    {
+    if (expression.isEmpty()) {
         newTerm.clear();
-    }
-    else if(expression.containsOnlyOnePositivelyAssociatedTerm())
-    {
+    } else if (expression.containsOnlyOnePositivelyAssociatedTerm()) {
         Term const& term = static_cast<Term const&>(expression.getFirstTermConstReference());
         newTerm = term;
         newTerm.simplify();
@@ -118,12 +90,11 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     return newTerm;
 }
 
-Term convertFunctionToSimplestTerm(Function const& functionObject)
-{
+Term convertFunctionToSimplestTerm(Function const& functionObject) {
     SimplificationOfFunctionToTerm simplification;
     return simplification.simplifyToTerm(functionObject);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

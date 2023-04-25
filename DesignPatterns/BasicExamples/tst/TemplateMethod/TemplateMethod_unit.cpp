@@ -6,13 +6,11 @@
 
 using namespace std;
 
-namespace TemplateMethod
-{
+namespace TemplateMethod {
 
-TEST(TemplateMethodTest, Test1)
-{
+TEST(TemplateMethodTest, Test1) {
     unique_ptr<AbstractClass> pointer = make_unique<ConcreteClass>();
     pointer->templateMethod();
 }
 
-}
+}  // namespace TemplateMethod

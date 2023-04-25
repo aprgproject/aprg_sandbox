@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = unsigned int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = FindCommonElementsInThreeSortedContainers<ValuesForTest>;
-}
+}  // namespace
 
-TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksWhenFirstContainerIsEmpty)
-{
+TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksWhenFirstContainerIsEmpty) {
     ValuesForTest values1{1U, 5U, 10U, 20U, 40U, 80U};
     ValuesForTest values2;
     ValuesForTest values3;
@@ -28,8 +24,7 @@ TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToS
     EXPECT_EQ(expectedValues, query.getCommonElements(values1, values2, values3));
 }
 
-TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksWhenSecondContainerIsEmpty)
-{
+TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksWhenSecondContainerIsEmpty) {
     ValuesForTest values1;
     ValuesForTest values2{6U, 7U, 20U, 80U, 100U};
     ValuesForTest values3;
@@ -39,8 +34,7 @@ TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToS
     EXPECT_EQ(expectedValues, query.getCommonElements(values1, values2, values3));
 }
 
-TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksWhenThirdContainerIsEmpty)
-{
+TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksWhenThirdContainerIsEmpty) {
     ValuesForTest values1;
     ValuesForTest values2;
     ValuesForTest values3{3U, 4U, 15U, 20U, 30U, 70U, 80U, 120U};
@@ -50,8 +44,7 @@ TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToS
     EXPECT_EQ(expectedValues, query.getCommonElements(values1, values2, values3));
 }
 
-TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksOnExample1)
-{
+TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksOnExample1) {
     ValuesForTest values1{1U, 5U, 10U, 20U, 40U, 80U};
     ValuesForTest values2{6U, 7U, 20U, 80U, 100U};
     ValuesForTest values3{3U, 4U, 15U, 20U, 30U, 70U, 80U, 120U};
@@ -61,8 +54,7 @@ TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToS
     EXPECT_EQ(expectedValues1, query.getCommonElements(values1, values2, values3));
 }
 
-TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksOnExample2)
-{
+TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToSumWorksOnExample2) {
     ValuesForTest values1{1U, 5U, 5U};
     ValuesForTest values2{3U, 4U, 5U, 5U, 10U};
     ValuesForTest values3{5U, 5U, 10U, 20U};
@@ -72,6 +64,6 @@ TEST(FindCommonElementsInThreeSortedContainersTest, GetValuePairThatIsClosestToS
     EXPECT_EQ(expectedValues1, query.getCommonElements(values1, values2, values3));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -6,16 +6,14 @@ using namespace std;
 
 #define SAMPLE_AUDIO_FILES_DIRECTORY APRG_DIR R"(\AprgAudioManipulator\FilesForTests\SampleAudioFiles\)"
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgAudio
-{
+namespace AprgAudio {
 
-TEST(AudioManipulatorTest, DISABLED_AddSamplesWithValueWorks)
-{
+TEST(AudioManipulatorTest, DISABLED_AddSamplesWithValueWorks) {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
-    AlbaLocalPathHandler audioFilePathHandler(audioDirectoryPathHandler.getDirectory()+"AChannel_AOpeningSong_001.wav");
+    AlbaLocalPathHandler audioFilePathHandler(
+        audioDirectoryPathHandler.getDirectory() + "AChannel_AOpeningSong_001.wav");
     AudioManipulator audioManipulator(audioFilePathHandler.getFullPath());
 
     audioManipulator.addSamplesWithValue(100);
@@ -23,10 +21,10 @@ TEST(AudioManipulatorTest, DISABLED_AddSamplesWithValueWorks)
     audioManipulator.saveAudioIntoFileInTheSameDirectory("output.wav");
 }
 
-TEST(AudioManipulatorTest, DISABLED_MultiplySamplesWithValueWorks)
-{
+TEST(AudioManipulatorTest, DISABLED_MultiplySamplesWithValueWorks) {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
-    AlbaLocalPathHandler audioFilePathHandler(audioDirectoryPathHandler.getDirectory()+"AChannel_AOpeningSong_001.wav");
+    AlbaLocalPathHandler audioFilePathHandler(
+        audioDirectoryPathHandler.getDirectory() + "AChannel_AOpeningSong_001.wav");
     AudioManipulator audioManipulator(audioFilePathHandler.getFullPath());
 
     audioManipulator.multiplySamplesWithValue(0.30);
@@ -34,8 +32,6 @@ TEST(AudioManipulatorTest, DISABLED_MultiplySamplesWithValueWorks)
     audioManipulator.saveAudioIntoFileInTheSameDirectory("output.wav");
 }
 
+}  // namespace AprgAudio
 
-
-}
-
-}
+}  // namespace alba

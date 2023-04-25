@@ -9,109 +9,80 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-SimplificationOfFunctionToTerm::SimplificationOfFunctionToTerm()
-{}
+SimplificationOfFunctionToTerm::SimplificationOfFunctionToTerm() {}
 
-bool SimplificationOfFunctionToTerm::shouldSimplifyTrigonometricFunctionsToSinAndCos()
-{
+bool SimplificationOfFunctionToTerm::shouldSimplifyTrigonometricFunctionsToSinAndCos() {
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyTrigonometricFunctionsToSinAndCos;
 }
 
-bool SimplificationOfFunctionToTerm::shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel()
-{
-    return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel;
+bool SimplificationOfFunctionToTerm::shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel() {
+    return Configuration::getInstance()
+        .getConfigurationDetails()
+        .shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel;
 }
 
-Term SimplificationOfFunctionToTerm::simplifyToTerm(
-        Function const& functionObject)
-{
+Term SimplificationOfFunctionToTerm::simplifyToTerm(Function const& functionObject) {
     Term result;
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if(inputTerm.isConstant())
-    {
+    if (inputTerm.isConstant()) {
         result = Term(functionObject.performFunctionAndReturnResultIfPossible());
-    }
-    else if(isTrigonometricFunction(functionObject))
-    {
+    } else if (isTrigonometricFunction(functionObject)) {
         result = simplifyTrigometricFunctionToExpression(functionObject);
         result.simplify();
-    }
-    else if(isLogarithmicFunction(functionObject))
-    {
+    } else if (isLogarithmicFunction(functionObject)) {
         result = simplifyLogarithmicFunctionToExpression(functionObject);
         result.simplify();
     }
 
-    if(result.isEmpty())
-    {
+    if (result.isEmpty()) {
         result = Term(functionObject);
     }
     return result;
 }
 
-Term SimplificationOfFunctionToTerm::simplifyTrigometricFunctionToExpression(
-        Function const& functionObject)
-{
+Term SimplificationOfFunctionToTerm::simplifyTrigometricFunctionToExpression(Function const& functionObject) {
     Term result;
     string functionName(functionObject.getFunctionName());
-    if(shouldSimplifyTrigonometricFunctionsToSinAndCos())
-    {
+    if (shouldSimplifyTrigonometricFunctionsToSinAndCos()) {
         Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-        if("tan" == functionName)
-        {
+        if ("tan" == functionName) {
             result = Term(createExpressionIfPossible({sin(inputTerm), "/", cos(inputTerm)}));
-        }
-        else if("csc" == functionName)
-        {
+        } else if ("csc" == functionName) {
             result = Term(createExpressionIfPossible({1, "/", sin(inputTerm)}));
-        }
-        else if("sec" == functionName)
-        {
+        } else if ("sec" == functionName) {
             result = Term(createExpressionIfPossible({1, "/", cos(inputTerm)}));
-        }
-        else if("cot" == functionName)
-        {
+        } else if ("cot" == functionName) {
             result = Term(createExpressionIfPossible({cos(inputTerm), "/", sin(inputTerm)}));
         }
     }
     return result;
 }
 
-Term SimplificationOfFunctionToTerm::simplifyLogarithmicFunctionToExpression(
-        Function const& functionObject)
-{
+Term SimplificationOfFunctionToTerm::simplifyLogarithmicFunctionToExpression(Function const& functionObject) {
     Term result;
-    if(!shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel())
-    {
+    if (!shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel()) {
         Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-        if(inputTerm.isExpression())
-        {
+        if (inputTerm.isExpression()) {
             Expression resultExpression;
             Expression const& inputExpression(inputTerm.getExpressionConstReference());
-            if(OperatorLevel::MultiplicationAndDivision == inputExpression.getCommonOperatorLevel())
-            {
+            if (OperatorLevel::MultiplicationAndDivision == inputExpression.getCommonOperatorLevel()) {
                 TermsWithDetails newTermsWithDetails(inputExpression.getTermsWithAssociation().getTermsWithDetails());
-                for(TermWithDetails & newTermWithDetails : newTermsWithDetails)
-                {
-                    Term & newTerm(getTermReferenceFromUniquePointer(newTermWithDetails.baseTermPointer));
+                for (TermWithDetails& newTermWithDetails : newTermsWithDetails) {
+                    Term& newTerm(getTermReferenceFromUniquePointer(newTermWithDetails.baseTermPointer));
                     newTerm = getLogarithmicOfTermBasedFromName(newTerm, functionObject.getFunctionName());
                 }
                 resultExpression.set(OperatorLevel::AdditionAndSubtraction, newTermsWithDetails);
-            }
-            else if(OperatorLevel::RaiseToPower == inputExpression.getCommonOperatorLevel())
-            {
+            } else if (OperatorLevel::RaiseToPower == inputExpression.getCommonOperatorLevel()) {
                 TermRaiseToTerms termRaiseToTerms(inputExpression.getTermsWithAssociation().getTermsWithDetails());
                 TermsWithDetails newTermsWithDetails(termRaiseToTerms.getExponents());
-                Term logarithmicBase(getLogarithmicOfTermBasedFromName(termRaiseToTerms.getBase(), functionObject.getFunctionName()));
+                Term logarithmicBase(
+                    getLogarithmicOfTermBasedFromName(termRaiseToTerms.getBase(), functionObject.getFunctionName()));
                 newTermsWithDetails.emplace_back(logarithmicBase, TermAssociationType::Positive);
                 resultExpression.set(OperatorLevel::MultiplicationAndDivision, newTermsWithDetails);
             }
@@ -122,31 +93,24 @@ Term SimplificationOfFunctionToTerm::simplifyLogarithmicFunctionToExpression(
 }
 
 Term SimplificationOfFunctionToTerm::getLogarithmicOfTermBasedFromName(
-        Term const& term,
-        string const& functionName) const
-{
+    Term const& term, string const& functionName) const {
     Term result;
-    if("ln" == functionName)
-    {
+    if ("ln" == functionName) {
         result = ln(term);
-    }
-    else if("log" == functionName)
-    {
+    } else if ("log" == functionName) {
         result = log(term);
     }
     return result;
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
 template <>
 algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails
-getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails>()
-{
-    return algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails
-    {false, false};
+getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails>() {
+    return algebra::Simplification::SimplificationOfFunctionToTerm::ConfigurationDetails{false, false};
 }
 
-}
+}  // namespace alba

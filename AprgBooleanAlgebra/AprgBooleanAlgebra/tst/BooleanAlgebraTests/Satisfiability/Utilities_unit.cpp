@@ -3,24 +3,20 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityLevelWorks)
-{
-    SatisfiabilityTerms satTermsToTest
-    {{VariableTerm("a")},
-     {VariableTerm("b"), VariableTerm("c")},
-     {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
+TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityLevelWorks) {
+    SatisfiabilityTerms satTermsToTest{
+        {VariableTerm("a")},
+        {VariableTerm("b"), VariableTerm("c")},
+        {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
 
     EXPECT_EQ(3U, getSatisfiabilityLevel(satTermsToTest));
 }
 
-TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithTerm)
-{
+TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithTerm) {
     Term term1(true);
     Term term2("x");
     Expression subExpression1(createExpressionIfPossible({"b", "|", "c"}));
@@ -33,32 +29,31 @@ TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithTerm)
 
     SatisfiabilityTerms satTermsToExpect1;
     SatisfiabilityTerms satTermsToExpect2{{VariableTerm("x")}};
-    SatisfiabilityTerms satTermsToExpect3
-    {{VariableTerm("a")},
-     {VariableTerm("b"), VariableTerm("c")},
-     {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
+    SatisfiabilityTerms satTermsToExpect3{
+        {VariableTerm("a")},
+        {VariableTerm("b"), VariableTerm("c")},
+        {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
     EXPECT_EQ(satTermsToExpect1, satTermsToVerify1);
     EXPECT_EQ(satTermsToExpect2, satTermsToVerify2);
     EXPECT_EQ(satTermsToExpect3, satTermsToVerify3);
 }
 
-TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression)
-{
+TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression) {
     Expression subExpression1(createExpressionIfPossible({"b", "|", "c"}));
     Expression subExpression2(createExpressionIfPossible({"d", "|", "e", "|", "f"}));
     Expression expressionToTest(createExpressionIfPossible({"a", "&", subExpression1, "&", subExpression2}));
 
     SatisfiabilityTerms satTermsToVerify(getSatisfiabilityTerms(expressionToTest));
 
-    SatisfiabilityTerms satTermsToExpect
-    {{VariableTerm("a")},
-     {VariableTerm("b"), VariableTerm("c")},
-     {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
+    SatisfiabilityTerms satTermsToExpect{
+        {VariableTerm("a")},
+        {VariableTerm("b"), VariableTerm("c")},
+        {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
     EXPECT_EQ(satTermsToExpect, satTermsToVerify);
 }
 
-TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression_ResultsAreEmptyWithConstantInAndExpression)
-{
+TEST(
+    SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression_ResultsAreEmptyWithConstantInAndExpression) {
     Expression subExpression1(createExpressionIfPossible({"b", "|", "c"}));
     Expression subExpression2(createExpressionIfPossible({"d", "|", "e", "|", "f"}));
     Expression expressionToTest(OperatorLevel::And, {Term(true), Term(subExpression1), Term(subExpression2)});
@@ -68,8 +63,7 @@ TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression_Resu
     EXPECT_TRUE(satTermsToVerify.empty());
 }
 
-TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression_ResultsAreEmptyWithConstantInOrExpression)
-{
+TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression_ResultsAreEmptyWithConstantInOrExpression) {
     Expression subExpression1(createExpressionIfPossible({"b", "|", "c"}));
     Expression subExpression2(createExpressionIfPossible({true, "|", "e", "|", "f"}));
     Expression expressionToTest(OperatorLevel::And, {Term("a"), Term(subExpression1), Term(subExpression2)});
@@ -79,6 +73,6 @@ TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithExpression_Resu
     EXPECT_TRUE(satTermsToVerify.empty());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

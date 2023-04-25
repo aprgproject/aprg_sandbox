@@ -6,11 +6,9 @@
 #include <string>
 #include <unordered_map>
 
-namespace wcdmaToolsGui
-{
+namespace wcdmaToolsGui {
 
-struct WcdmaToolsConfiguration
-{
+struct WcdmaToolsConfiguration {
     using NameToValueMap = std::unordered_map<std::string, std::string>;
     WcdmaToolsConfiguration();
     void loadDefaultConfigurationFile();
@@ -21,10 +19,11 @@ struct WcdmaToolsConfiguration
     std::string getCropFileName() const;
     void determineVariousLocationsBasedOnCurrentLocation();
     void loadConfigurationFromFile(std::string const& filePath);
-    void copyNamesAndValuesFromFile(NameToValueMap & nameToValueMap, std::string const& filePath);
-    void loadNamesAndValues(NameToValueMap & nameToValueMap);
-    void addConditionIntoGrepCondition(std::string & condition, bool const isGrepEnabled, std::string const& grepCondition) const;
-    void addGrepIntoFileName(std::string & wholeFileName, bool const isGrepEnabled, std::string const& grepName) const;
+    void copyNamesAndValuesFromFile(NameToValueMap& nameToValueMap, std::string const& filePath);
+    void loadNamesAndValues(NameToValueMap& nameToValueMap);
+    void addConditionIntoGrepCondition(
+        std::string& condition, bool const isGrepEnabled, std::string const& grepCondition) const;
+    void addGrepIntoFileName(std::string& wholeFileName, bool const isGrepEnabled, std::string const& grepName) const;
     bool isExtractStepOn;
     bool isCombineAndSortStepOn;
     bool isGrepStepOn;
@@ -91,4 +90,4 @@ struct WcdmaToolsConfiguration
     std::string locationOf7zExecutable;
 };
 
-}
+}  // namespace wcdmaToolsGui

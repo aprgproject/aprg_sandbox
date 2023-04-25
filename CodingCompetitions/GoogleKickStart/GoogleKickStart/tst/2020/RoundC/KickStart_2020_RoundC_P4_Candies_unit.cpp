@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundC_P4_Candies.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,44 +6,56 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundC_P4_Candies
-{
+namespace KickStart_2020_RoundC_P4_Candies {
 
-TEST(KickStart_2020_RoundC_P4_CandiesTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundC_P4_CandiesTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "2        " "\n"
-            << "5 4      " "\n"
-            << "1 3 9 8 2" "\n"
-            << "Q 2 4    " "\n"
-            << "Q 5 5    " "\n"
-            << "U 2 10   " "\n"
-            << "Q 1 2    " "\n"
-            << "3 3      " "\n"
-            << "4 5 5    " "\n"
-            << "U 1 2    " "\n"
-            << "U 1 7    " "\n"
-            << "Q 1 2    " "\n"
-            << endl;
+    inputStringStream << "2        "
+                         "\n"
+                      << "5 4      "
+                         "\n"
+                      << "1 3 9 8 2"
+                         "\n"
+                      << "Q 2 4    "
+                         "\n"
+                      << "Q 5 5    "
+                         "\n"
+                      << "U 2 10   "
+                         "\n"
+                      << "Q 1 2    "
+                         "\n"
+                      << "3 3      "
+                         "\n"
+                      << "4 5 5    "
+                         "\n"
+                      << "U 1 2    "
+                         "\n"
+                      << "U 1 7    "
+                         "\n"
+                      << "Q 1 2    "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: -8" "\n"
-                "Case #2: -3" "\n"
-                , outputStringStream.str());
+        "Case #1: -8"
+        "\n"
+        "Case #2: -3"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_RoundC_P4_Candies
 
 /*
 Problem
 
-Carl has an array of N candies. The i-th element of the array (indexed starting from 1) is Ai representing sweetness value of the i-th candy. He would like to perform a series of Q operations. There are two types of operation:
+Carl has an array of N candies. The i-th element of the array (indexed starting from 1) is Ai representing sweetness
+value of the i-th candy. He would like to perform a series of Q operations. There are two types of operation:
 
     Update the sweetness value of a candy in the array.
     Query the sweetness score of a subarray.
@@ -59,18 +70,22 @@ For example, the sweetness score of:
     [40, 30, 20, 10] is 40 × 1 - 30 × 2 + 20 × 3 - 10 × 4 = 0
     [2, 100] is 2 × 1 - 100 × 2 = -198
 
-Carl is interested in finding out the total sum of sweetness scores of all queries. If there is no query operation, the sum is considered to be 0. Can you help Carl find the sum?
-Input
+Carl is interested in finding out the total sum of sweetness scores of all queries. If there is no query operation, the
+sum is considered to be 0. Can you help Carl find the sum? Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line containing N and Q. The second line contains N integers describing the array. The i-th integer is Ai. The j-th of the following Q lines describe the j-th operation. Each line begins with a single character describing the type of operation (U for update, Q for query).
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line
+containing N and Q. The second line contains N integers describing the array. The i-th integer is Ai. The j-th of the
+following Q lines describe the j-th operation. Each line begins with a single character describing the type of operation
+(U for update, Q for query).
 
-    For an update operation, two integers Xj and Vj follow, indicating that the Xj-th element of the array is changed to Vj.
-    For a query operation, two integers Lj and Rj follow, querying the sweetness score of the subarray from the Lj-th element to the Rj-th element (inclusive).
+    For an update operation, two integers Xj and Vj follow, indicating that the Xj-th element of the array is changed to
+Vj. For a query operation, two integers Lj and Rj follow, querying the sweetness score of the subarray from the Lj-th
+element to the Rj-th element (inclusive).
 
 Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the total sum of sweetness scores of all the queries.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the total sum of sweetness scores of all the queries. Limits
 
 Time limit: 20 seconds per test set.
 Memory limit: 1GB.

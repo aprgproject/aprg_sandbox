@@ -5,14 +5,11 @@
 
 #include <cmath>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithTerm)
-{
+TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithTerm) {
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term()));
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term(false)));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term(true)));
@@ -21,16 +18,14 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithTerm)
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term(Expression())));
 }
 
-TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithExpression)
-{
+TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithExpression) {
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Expression()));
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({false})));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({true})));
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({"x"})));
 }
 
-TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithTerm)
-{
+TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithTerm) {
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term()));
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term(false)));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term(true)));
@@ -39,16 +34,14 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithTerm)
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term(Expression())));
 }
 
-TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithExpression)
-{
+TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithExpression) {
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Expression()));
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({false})));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({true})));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({"x"})));
 }
 
-TEST(ValueCheckingHelpersTest, IsTheValueWorksWithTerm)
-{
+TEST(ValueCheckingHelpersTest, IsTheValueWorksWithTerm) {
     Term term1;
     Term term2(false);
     Term term3(true);
@@ -70,8 +63,7 @@ TEST(ValueCheckingHelpersTest, IsTheValueWorksWithTerm)
     EXPECT_FALSE(isTheValue(term6, true));
 }
 
-TEST(ValueCheckingHelpersTest, IsTheValueWorksWithConstant)
-{
+TEST(ValueCheckingHelpersTest, IsTheValueWorksWithConstant) {
     Constant constant1;
     Constant constant2(false);
     Constant constant3(true);
@@ -84,8 +76,7 @@ TEST(ValueCheckingHelpersTest, IsTheValueWorksWithConstant)
     EXPECT_TRUE(isTheValue(constant3, true));
 }
 
-TEST(ValueCheckingHelpersTest, IsTheValueWorksWithExpression)
-{
+TEST(ValueCheckingHelpersTest, IsTheValueWorksWithExpression) {
     EXPECT_FALSE(isTheValue(Expression(), false));
     EXPECT_FALSE(isTheValue(Expression(), true));
     EXPECT_TRUE(isTheValue(createExpressionIfPossible({false}), false));
@@ -96,6 +87,6 @@ TEST(ValueCheckingHelpersTest, IsTheValueWorksWithExpression)
     EXPECT_FALSE(isTheValue(createExpressionIfPossible({"x"}), true));
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

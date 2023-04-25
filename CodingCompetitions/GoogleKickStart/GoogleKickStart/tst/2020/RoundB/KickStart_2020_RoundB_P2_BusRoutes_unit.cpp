@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundB_P2_BusRoutes.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,54 +6,64 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundB_P2_BusRoutes
-{
+namespace KickStart_2020_RoundB_P2_BusRoutes {
 
-TEST(KickStart_2020_RoundB_P2_BusRoutesTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundB_P2_BusRoutesTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "3         " "\n"
-            << "3 10      " "\n"
-            << "3 7 2     " "\n"
-            << "4 100     " "\n"
-            << "11 10 5 50" "\n"
-            << "1 1       " "\n"
-            << "1         " "\n"
-            << endl;
+    inputStringStream << "3         "
+                         "\n"
+                      << "3 10      "
+                         "\n"
+                      << "3 7 2     "
+                         "\n"
+                      << "4 100     "
+                         "\n"
+                      << "11 10 5 50"
+                         "\n"
+                      << "1 1       "
+                         "\n"
+                      << "1         "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 6" "\n"
-                "Case #2: 99" "\n"
-                "Case #3: 1" "\n"
-                , outputStringStream.str());
+        "Case #1: 6"
+        "\n"
+        "Case #2: 99"
+        "\n"
+        "Case #3: 1"
+        "\n",
+        outputStringStream.str());
 }
 
-}
-
+}  // namespace KickStart_2020_RoundB_P2_BusRoutes
 
 /*
 Problem
 
-Bucket is planning to make a very long journey across the countryside by bus. Her journey consists of N bus routes, numbered from 1 to N in the order she must take them. The buses themselves are very fast, but do not run often. The i-th bus route only runs every Xi days.
+Bucket is planning to make a very long journey across the countryside by bus. Her journey consists of N bus routes,
+numbered from 1 to N in the order she must take them. The buses themselves are very fast, but do not run often. The i-th
+bus route only runs every Xi days.
 
-More specifically, she can only take the i-th bus on day Xi, 2Xi, 3Xi and so on. Since the buses are very fast, she can take multiple buses on the same day.
+More specifically, she can only take the i-th bus on day Xi, 2Xi, 3Xi and so on. Since the buses are very fast, she can
+take multiple buses on the same day.
 
-Bucket must finish her journey by day D, but she would like to start the journey as late as possible. What is the latest day she could take the first bus, and still finish her journey by day D?
+Bucket must finish her journey by day D, but she would like to start the journey as late as possible. What is the latest
+day she could take the first bus, and still finish her journey by day D?
 
 It is guaranteed that it is possible for Bucket to finish her journey by day D.
 Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line containing the two integers N and D. Then, another line follows containing N integers, the i-th one is Xi.
-Output
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line
+containing the two integers N and D. Then, another line follows containing N integers, the i-th one is Xi. Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the latest day she could take the first bus, and still finish her journey by day D.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the latest day she could take the first bus, and still finish her journey by day D. Limits
 
 Time limit: 10 seconds per test set.
 Memory limit: 1GB.

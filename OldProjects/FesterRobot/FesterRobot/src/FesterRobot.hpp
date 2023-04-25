@@ -8,11 +8,9 @@
 
 using Frequencies = std::vector<int>;
 
-namespace alba
-{
+namespace alba {
 
-class FesterRobot
-{
+class FesterRobot {
 public:
     FesterRobot(std::string const& outputPath);
     void run();
@@ -35,4 +33,4 @@ private:
     bool m_retryCurrentFrequencies;
 };
 
-}
+}  // namespace alba

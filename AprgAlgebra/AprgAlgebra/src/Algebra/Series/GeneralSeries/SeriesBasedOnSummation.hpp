@@ -3,14 +3,11 @@
 #include <Algebra/Series/GeneralSeries/SeriesBasedOnFormula.hpp>
 #include <Algebra/Summation/Summation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class SeriesBasedOnSummation : public SeriesBasedOnFormula
-{
+class SeriesBasedOnSummation : public SeriesBasedOnFormula {
 public:
     SeriesBasedOnSummation(Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula);
 
@@ -25,14 +22,16 @@ public:
     Term getFormulaForEachTermInSummation() const;
 
 protected:
-    Summation getSummation(Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula) const;
-    Term getFormulaForSummation(Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula) const;
+    Summation getSummation(
+        Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula) const;
+    Term getFormulaForSummation(
+        Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula) const;
     Term m_formulaForEachTermInSummation;
     std::string m_nameForVariableInFormula;
     Summation m_summation;
     bool m_isSummationModelValid;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

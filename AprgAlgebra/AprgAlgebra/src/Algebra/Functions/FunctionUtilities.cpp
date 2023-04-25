@@ -8,76 +8,55 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Functions
-{
+namespace Functions {
 
-bool isFunctionContinuous(Function const& functionObject)
-{
+bool isFunctionContinuous(Function const& functionObject) {
     strings continuousFunctionNames{"abs", "sin", "cos"};
     return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
 }
 
-bool isTrigonometricFunction(Function const& functionObject)
-{
+bool isTrigonometricFunction(Function const& functionObject) {
     strings continuousFunctionNames{"sin", "cos", "tan", "csc", "sec", "cot"};
     return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
 }
 
-bool isInverseTrigonometricFunction(Function const& functionObject)
-{
+bool isInverseTrigonometricFunction(Function const& functionObject) {
     strings continuousFunctionNames{"arcsin", "arccos", "arctan", "arccsc", "arcsec", "arccot"};
     return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
 }
 
-bool isLogarithmicFunction(Function const& functionObject)
-{
+bool isLogarithmicFunction(Function const& functionObject) {
     strings continuousFunctionNames{"ln", "log"};
     return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
 }
 
-bool isFunctionNameFoundOnAList(
-        Function const& functionObject,
-        strings const& names)
-{
-    return any_of(names.cbegin(), names.cend(), [&](string const& name)
-    {
-        return name == functionObject.getFunctionName();
-    });
+bool isFunctionNameFoundOnAList(Function const& functionObject, strings const& names) {
+    return any_of(
+        names.cbegin(), names.cend(), [&](string const& name) { return name == functionObject.getFunctionName(); });
 }
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
-        AlbaNumbers const& numbers,
-        string const& variableName,
-        Function const& functionObject)
-{
+    AlbaNumbers const& numbers, string const& variableName, Function const& functionObject) {
     AlbaNumberPairs result;
     SubstitutionOfVariablesToValues substitution;
-    for(AlbaNumber const& number : numbers)
-    {
+    for (AlbaNumber const& number : numbers) {
         substitution.putVariableWithValue(variableName, number);
         Term substituteTerm(substitution.performSubstitutionTo(functionObject));
-        if(substituteTerm.isConstant())
-        {
+        if (substituteTerm.isConstant()) {
             result.emplace_back(number, substituteTerm.getConstantValueConstReference());
         }
     }
     return result;
 }
 
-Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(
-        Term const& term)
-{
-    return ln(abs(term));
-}
+Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term const& term) { return ln(abs(term)); }
 
-}
+}  // namespace Functions
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

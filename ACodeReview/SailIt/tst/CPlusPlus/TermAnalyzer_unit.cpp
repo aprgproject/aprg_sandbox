@@ -11,22 +11,19 @@
 using namespace codeReview;
 using namespace std;
 
-struct TermAnalyzerTest : public ::testing::Test
-{
+struct TermAnalyzerTest : public ::testing::Test {
     TermAnalyzerTest()
-        : m_database()
-        , m_findings()
-        , m_terms()
-        , m_termBuilder(m_terms)
-        , m_termAnalyzer(m_terms, m_database, m_findings)
-    {}
+        : m_database(),
+          m_findings(),
+          m_terms(),
+          m_termBuilder(m_terms),
+          m_termAnalyzer(m_terms, m_database, m_findings) {}
 
-    void processFile()
-    {
+    void processFile() {
         m_termAnalyzer.analyze();
-        //printTerms(m_terms);
-        //m_findings.printFindings(cout);
-        //m_database.print(cout);
+        // printTerms(m_terms);
+        // m_findings.printFindings(cout);
+        // m_database.print(cout);
     }
     CPlusPlusDatabase m_database;
     Findings m_findings;
@@ -35,8 +32,7 @@ struct TermAnalyzerTest : public ::testing::Test
     TermAnalyzer m_termAnalyzer;
 };
 
-TEST_F(TermAnalyzerTest, CheckCorrectIncludeFiles)
-{
+TEST_F(TermAnalyzerTest, CheckCorrectIncludeFiles) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addMacro("#include");
     termBuilder.addWhiteSpace();
@@ -73,8 +69,7 @@ TEST_F(TermAnalyzerTest, CheckCorrectIncludeFiles)
     EXPECT_EQ(*(it2++), "stdio.h");
 }
 
-TEST_F(TermAnalyzerTest, CheckCompareSingleLineWithWhiteSpaceAlgorithm)
-{
+TEST_F(TermAnalyzerTest, CheckCompareSingleLineWithWhiteSpaceAlgorithm) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addMacro("#include");
     termBuilder.addOperator("<");
@@ -111,7 +106,7 @@ TEST_F(TermAnalyzerTest, CheckCompareSingleLineWithWhiteSpaceAlgorithm)
 
     MultiMapOfFindings& multiMapOfFindings = m_findings.getMultiMapOfFindingsReference();
     ASSERT_EQ(multiMapOfFindings.size(), 6);
-    //EXPECT_EQ(multiMapOfFindings.begin()->getDetails(), "Expected white space[4]");
+    // EXPECT_EQ(multiMapOfFindings.begin()->getDetails(), "Expected white space[4]");
 
     ASSERT_EQ(m_database.getIncludeFilesReference().size(), 3);
     auto it2 = m_database.getIncludeFilesReference().begin();
@@ -120,8 +115,7 @@ TEST_F(TermAnalyzerTest, CheckCompareSingleLineWithWhiteSpaceAlgorithm)
     EXPECT_EQ(*(it2++), "stdio.h");
 }
 
-TEST_F(TermAnalyzerTest, CheckCompareMultiLineWithNewLineAlgorithm)
-{
+TEST_F(TermAnalyzerTest, CheckCompareMultiLineWithNewLineAlgorithm) {
     TermBuilder& termBuilder(m_termBuilder);
     m_database.addNamespace("Scope1");
     m_database.addNamespace("Scope2");
@@ -138,8 +132,7 @@ TEST_F(TermAnalyzerTest, CheckCompareMultiLineWithNewLineAlgorithm)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(TermAnalyzerTest, CheckGetEquivalentStringAlgorithm)
-{
+TEST_F(TermAnalyzerTest, CheckGetEquivalentStringAlgorithm) {
     TermBuilder& termBuilder(m_termBuilder);
     m_database.addNamespace("Scope1");
     m_database.addNamespace("Scope2");
@@ -156,8 +149,7 @@ TEST_F(TermAnalyzerTest, CheckGetEquivalentStringAlgorithm)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingScopeOperator)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingScopeOperator) {
     TermBuilder& termBuilder(m_termBuilder);
     m_database.addNamespace("Scope1");
     m_database.addNamespace("Scope2");
@@ -191,8 +183,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingScopeOperator)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingIncrementDecrementOperators)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingIncrementDecrementOperators) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addTerm(T(TermType::Value_LValue, "LValue"));
     termBuilder.getLastTermReference().setValueType(CPlusPlusType("unsigned int", CPlusPlusTypeType::Primitive));
@@ -225,8 +216,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingIncrementDecrementOperator
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 2);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingFunctionCall)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingFunctionCall) {
     CPlusPlusType intPrimitiveType("int", CPlusPlusTypeType::Primitive);
 
     m_database.addFunction("myFunction0");
@@ -259,8 +249,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingFunctionCall)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 2);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingPeriodOperator)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingPeriodOperator) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addTerm(T(TermType::Value_RValue, "RValue"));
     termBuilder.getLastTermReference().setValueType(CPlusPlusType("unsigned int", CPlusPlusTypeType::Primitive));
@@ -281,8 +270,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingPeriodOperator)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingArrowOperator)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingArrowOperator) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addTerm(T(TermType::Value_RValue, "RValue"));
     termBuilder.getLastTermReference().setValueType(CPlusPlusType("unsigned int", CPlusPlusTypeType::Primitive));
@@ -305,8 +293,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingArrowOperator)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 4);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingPrefixOperator)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingPrefixOperator) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addOperator("+");
     termBuilder.addTerm(T(TermType::Value_RValue, "RValue"));
@@ -327,8 +314,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingPrefixOperator)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 4);
 }
 
-TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingBiDirectoryOperator)
-{
+TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingBiDirectoryOperator) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addTerm(T(TermType::Value_LValue, "LValue"));
     termBuilder.getLastTermReference().setValueType(CPlusPlusType("unsigned int", CPlusPlusTypeType::Primitive));
@@ -357,8 +343,7 @@ TEST_F(TermAnalyzerTest, ExpressionsAreSimplifiedUsingBiDirectoryOperator)
     ASSERT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 4);
 }
 
-TEST_F(TermAnalyzerTest, TypesAreSimplifiedUsingMultiplePrimtiveTypes)
-{
+TEST_F(TermAnalyzerTest, TypesAreSimplifiedUsingMultiplePrimtiveTypes) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addPrimitiveType("signed");
     termBuilder.addWhiteSpace();
@@ -381,8 +366,7 @@ TEST_F(TermAnalyzerTest, TypesAreSimplifiedUsingMultiplePrimtiveTypes)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 4);
 }
 
-TEST_F(TermAnalyzerTest, TypesAreSimplifiedUsingPointersAndReference)
-{
+TEST_F(TermAnalyzerTest, TypesAreSimplifiedUsingPointersAndReference) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addPrimitiveType("void");
     termBuilder.addOperator("*");
@@ -405,8 +389,7 @@ TEST_F(TermAnalyzerTest, TypesAreSimplifiedUsingPointersAndReference)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingAssignment)
-{
+TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingAssignment) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addPrimitiveType("int");
     termBuilder.addWhiteSpace();
@@ -444,8 +427,7 @@ TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingAssignment)
     EXPECT_TRUE(m_database.isVariable("testname2"));
 }
 
-TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingFunctionDeclaration)
-{
+TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingFunctionDeclaration) {
     TermBuilder& termBuilder(m_termBuilder);
     termBuilder.addPrimitiveType("void");
     termBuilder.addWhiteSpace();
@@ -485,8 +467,7 @@ TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingFunctionDeclaration)
     EXPECT_TRUE(m_database.isFunction("function2"));
 }
 
-TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingRValueStatement)
-{
+TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingRValueStatement) {
     CPlusPlusType intPrimitiveType("int", CPlusPlusTypeType::Primitive);
 
     m_database.addFunction("myFunction0");

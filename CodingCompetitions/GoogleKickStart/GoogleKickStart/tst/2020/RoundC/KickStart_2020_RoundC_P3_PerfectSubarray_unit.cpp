@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundC_P3_PerfectSubarray.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,49 +6,58 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundC_P3_PerfectSubarray
-{
+namespace KickStart_2020_RoundC_P3_PerfectSubarray {
 
-TEST(KickStart_2020_RoundC_P3_PerfectSubarrayTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundC_P3_PerfectSubarrayTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "3           " "\n"
-            << "3           " "\n"
-            << "2 2 6       " "\n"
-            << "5           " "\n"
-            << "30 30 9 1 30" "\n"
-            << "4           " "\n"
-            << "4 0 0 16    " "\n"
-            << endl;
+    inputStringStream << "3           "
+                         "\n"
+                      << "3           "
+                         "\n"
+                      << "2 2 6       "
+                         "\n"
+                      << "5           "
+                         "\n"
+                      << "30 30 9 1 30"
+                         "\n"
+                      << "4           "
+                         "\n"
+                      << "4 0 0 16    "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 1" "\n"
-                "Case #2: 3" "\n"
-                "Case #3: 9" "\n"
-                , outputStringStream.str());
+        "Case #1: 1"
+        "\n"
+        "Case #2: 3"
+        "\n"
+        "Case #3: 9"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_RoundC_P3_PerfectSubarray
 
 /*
 Problem
 
-Cristobal has an array of N (possibly negative) integers. The i-th integer in his array is Ai. A contiguous non-empty subarray of Cristobal's array is perfect if its total sum is a perfect square. A perfect square is a number that is the product of a non-negative integer with itself. For example, the first five perfect squares are 0, 1, 4, 9 and 16.
+Cristobal has an array of N (possibly negative) integers. The i-th integer in his array is Ai. A contiguous non-empty
+subarray of Cristobal's array is perfect if its total sum is a perfect square. A perfect square is a number that is the
+product of a non-negative integer with itself. For example, the first five perfect squares are 0, 1, 4, 9 and 16.
 
-How many subarrays are perfect? Two subarrays are different if they start or end at different indices in the array, even if the subarrays contain the same values in the same order.
-Input
+How many subarrays are perfect? Two subarrays are different if they start or end at different indices in the array, even
+if the subarrays contain the same values in the same order. Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. The first line of each test case contains the integer N. The second line contains N integers describing Cristobal's array. The i-th integer is Ai.
-Output
+The first line of the input gives the number of test cases, T. T test cases follow. The first line of each test case
+contains the integer N. The second line contains N integers describing Cristobal's array. The i-th integer is Ai. Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the number of perfect subarrays.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the number of perfect subarrays. Limits
 
 Memory limit: 1GB.
 1 ≤ T ≤ 100.

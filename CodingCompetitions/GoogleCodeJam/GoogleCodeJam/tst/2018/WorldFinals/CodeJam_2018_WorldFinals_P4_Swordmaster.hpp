@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2018_WorldFinals_P4_Swordmaster
-{
+namespace CodeJam_2018_WorldFinals_P4_Swordmaster {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

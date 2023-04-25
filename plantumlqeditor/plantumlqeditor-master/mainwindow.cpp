@@ -1,25 +1,24 @@
+#include "mainwindow.h"
+
 #include "assistantxmlreader.h"
 #include "filecache.h"
-#include "mainwindow.h"
 #include "preferencesdialog.h"
 #include "previewwidget.h"
 #include "recentdocuments.h"
 #include "settingsconstants.h"
 #include "textedit.h"
 #include "utils.h"
-
 #include <QScrollArea>
 #include <QtGui>
 #include <QtSingleApplication>
 #include <QtSvg>
 
-namespace 
-{
+namespace {
 const int ASSISTANT_ITEM_DATA_ROLE = Qt::UserRole;
 const int ASSISTANT_ITEM_NOTES_ROLE = Qt::UserRole + 1;
 
 const int MAX_RECENT_DOCUMENT_SIZE = 10;
-const int STATUSBAR_TIMEOUT = 3000; // in miliseconds
+const int STATUSBAR_TIMEOUT = 3000;  // in miliseconds
 const QString TITLE_FORMAT_STRING = "%1[*] - %2";
 const QString EXPORT_TO_MENU_FORMAT_STRING = QObject::tr("Export to %1");
 const QString EXPORT_TO_LABEL_FORMAT_STRING = QObject::tr("Export to: %1");
@@ -27,8 +26,7 @@ const QString AUTOREFRESH_STATUS_LABEL = QObject::tr("Auto-refresh");
 const QString CACHE_SIZE_FORMAT_STRING = QObject::tr("Cache: %1");
 const QSize ASSISTANT_ICON_SIZE(128, 128);
 
-QIcon iconFromSvg(QSize size, const QString& path)
-{
+QIcon iconFromSvg(QSize size, const QString& path) {
     QPixmap pixmap(size);
     QPainter painter(&pixmap);
     const QRect bounding_rect(QPoint(0, 0), size);
@@ -64,8 +62,7 @@ QIcon iconFromSvg(QSize size, const QString& path)
     return icon;
 }
 
-QListWidget* newAssistantListWidget(const QSize& icon_size, QWidget* parent)
-{
+QListWidget* newAssistantListWidget(const QSize& icon_size, QWidget* parent) {
     QListWidget* view = new QListWidget(parent);
     view->setUniformItemSizes(true);
     view->setMovement(QListView::Static);
@@ -75,19 +72,15 @@ QListWidget* newAssistantListWidget(const QSize& icon_size, QWidget* parent)
     return view;
 }
 
-} // namespace {}
+}  // namespace
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , m_hasValidPaths(false)
-    , m_process(0)
-    , m_currentImageFormat(SvgFormat)
-    , m_needsRefresh(false)
-{
-    setWindowTitle(TITLE_FORMAT_STRING
-                   .arg("")
-                   .arg(qApp->applicationName())
-                   );
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent),
+      m_hasValidPaths(false),
+      m_process(0),
+      m_currentImageFormat(SvgFormat),
+      m_needsRefresh(false) {
+    setWindowTitle(TITLE_FORMAT_STRING.arg("").arg(qApp->applicationName()));
 
     m_cache = new FileCache(0, this);
 
@@ -117,25 +110,20 @@ MainWindow::MainWindow(QWidget *parent)
     setUnifiedTitleAndToolBarOnMac(true);
 
     m_assistantInsertSignalMapper = new QSignalMapper(this);
-    connect(m_assistantInsertSignalMapper, SIGNAL(mapped(QWidget*)),
-            this, SLOT(onAssistantItemInsert(QWidget*)));
+    connect(m_assistantInsertSignalMapper, SIGNAL(mapped(QWidget*)), this, SLOT(onAssistantItemInsert(QWidget*)));
 
     readSettings();
 
     QtSingleApplication* single_app = qobject_cast<QtSingleApplication*>(qApp);
     if (single_app) {
         single_app->setActivationWindow(this);
-        connect(single_app, SIGNAL(messageReceived(QString)),
-                this, SLOT(onSingleApplicationReceivedMessage(QString)));
+        connect(single_app, SIGNAL(messageReceived(QString)), this, SLOT(onSingleApplicationReceivedMessage(QString)));
     }
 }
 
-MainWindow::~MainWindow()
-{
-}
+MainWindow::~MainWindow() {}
 
-void MainWindow::newDocument()
-{
+void MainWindow::newDocument() {
     if (!maybeSave()) {
         return;
     }
@@ -149,66 +137,57 @@ void MainWindow::newDocument()
 
     QString text = "@startuml\n\nclass Foo\n\n@enduml";
     m_editor->setPlainText(text);
-    setWindowTitle(TITLE_FORMAT_STRING
-                   .arg(tr("Untitled"))
-                   .arg(qApp->applicationName())
-                   );
+    setWindowTitle(TITLE_FORMAT_STRING.arg(tr("Untitled")).arg(qApp->applicationName()));
     setWindowModified(false);
     refresh();
 
     enableUndoRedoActions();
 }
 
-void MainWindow::copyImage()
-{
+void MainWindow::copyImage() {
     QPixmap pixmap;
     pixmap.loadFromData(m_cachedImage);
     QApplication::clipboard()->setPixmap(pixmap);
     qDebug() << "Image copy into Clipboard";
 }
 
-void MainWindow::undo()
-{
-    QTextDocument *document = m_editor->document();
+void MainWindow::undo() {
+    QTextDocument* document = m_editor->document();
     document->undo();
     enableUndoRedoActions();
 }
 
-void MainWindow::redo()
-{
-    QTextDocument *document = m_editor->document();
+void MainWindow::redo() {
+    QTextDocument* document = m_editor->document();
     document->redo();
     enableUndoRedoActions();
 }
 
-void MainWindow::about()
-{
-    QMessageBox::about(this, tr("About %1").arg(qApp->applicationName()),
-                       tr(
-                           "The <b>%1</b> allows simple edit and preview of UML "
-                           "diagrams generated with <u>%2</u>.<br>"
-                           "<br>"
-                           "<u>%2</u> and <u>%3</u> must be installed before "
-                           "using the editor.<br>"
-                           "<br>"
-                           "<center>Copyright (c) 2012 - Ionutz Borcoman</center>"
-                           )
-                       .arg(qApp->applicationName()).arg("PlantUML").arg("graphiz")
-                       );
+void MainWindow::about() {
+    QMessageBox::about(
+        this, tr("About %1").arg(qApp->applicationName()),
+        tr("The <b>%1</b> allows simple edit and preview of UML "
+           "diagrams generated with <u>%2</u>.<br>"
+           "<br>"
+           "<u>%2</u> and <u>%3</u> must be installed before "
+           "using the editor.<br>"
+           "<br>"
+           "<center>Copyright (c) 2012 - Ionutz Borcoman</center>")
+            .arg(qApp->applicationName())
+            .arg("PlantUML")
+            .arg("graphiz"));
 }
 
-QString MainWindow::makeKeyForDocument(QByteArray current_document)
-{
-    QString key = QString("%1.%2")
+QString MainWindow::makeKeyForDocument(QByteArray current_document) {
+    QString key =
+        QString("%1.%2")
             .arg(QString::fromUtf8(QCryptographicHash::hash(current_document, QCryptographicHash::Md5).toHex()))
-            .arg(m_imageFormatNames[m_currentImageFormat])
-            ;
+            .arg(m_imageFormatNames[m_currentImageFormat]);
 
     return key;
 }
 
-bool MainWindow::refreshFromCache()
-{
+bool MainWindow::refreshFromCache() {
     if (m_useCache) {
         QByteArray current_document = m_editor->toPlainText().toUtf8().trimmed();
         if (current_document.isEmpty()) {
@@ -216,13 +195,13 @@ bool MainWindow::refreshFromCache()
             return true;
         }
 
-        switch(m_currentImageFormat) {
-        case SvgFormat:
-            m_imageWidget->setMode(PreviewWidget::SvgMode);
-            break;
-        case PngFormat:
-            m_imageWidget->setMode(PreviewWidget::PngMode);
-            break;
+        switch (m_currentImageFormat) {
+            case SvgFormat:
+                m_imageWidget->setMode(PreviewWidget::SvgMode);
+                break;
+            case PngFormat:
+                m_imageWidget->setMode(PreviewWidget::PngMode);
+                break;
         }
 
         QString key = makeKeyForDocument(current_document);
@@ -246,8 +225,7 @@ bool MainWindow::refreshFromCache()
     return false;
 }
 
-void MainWindow::refresh(bool forced)
-{
+void MainWindow::refresh(bool forced) {
     if (m_process) {
         qDebug() << "still processing previous refresh. skipping...";
         return;
@@ -259,7 +237,8 @@ void MainWindow::refresh(bool forced)
 
     if (!m_hasValidPaths) {
         qDebug() << "please configure paths for plantuml and java. aborting...";
-        statusBar()->showMessage(tr("PlantUML or Java not found. Please set them correctly in the \"Preferences\" dialog!"));
+        statusBar()->showMessage(
+            tr("PlantUML or Java not found. Please set them correctly in the \"Preferences\" dialog!"));
         return;
     }
 
@@ -274,13 +253,13 @@ void MainWindow::refresh(bool forced)
     }
     m_needsRefresh = false;
 
-    switch(m_currentImageFormat) {
-    case SvgFormat:
-        m_imageWidget->setMode(PreviewWidget::SvgMode);
-        break;
-    case PngFormat:
-        m_imageWidget->setMode(PreviewWidget::PngMode);
-        break;
+    switch (m_currentImageFormat) {
+        case SvgFormat:
+            m_imageWidget->setMode(PreviewWidget::SvgMode);
+            break;
+        case PngFormat:
+            m_imageWidget->setMode(PreviewWidget::PngMode);
+            break;
     }
 
     QString key = makeKeyForDocument(current_document);
@@ -289,11 +268,11 @@ void MainWindow::refresh(bool forced)
 
     QStringList arguments;
 
-    arguments
-            << "-jar" << m_plantUmlPath
-            << QString("-t%1").arg(m_imageFormatNames[m_currentImageFormat]);
+    arguments << "-jar" << m_plantUmlPath << QString("-t%1").arg(m_imageFormatNames[m_currentImageFormat]);
     if (m_useCustomGraphiz) arguments << "-graphizdot" << m_graphizPath;
-    arguments << "-charset" << "UTF-8" << "-pipe";
+    arguments << "-charset"
+              << "UTF-8"
+              << "-pipe";
 
     m_lastKey = key;
     m_process = new QProcess(this);
@@ -313,15 +292,12 @@ void MainWindow::refresh(bool forced)
     m_process->closeWriteChannel();
 }
 
-void MainWindow::updateCacheSizeInfo()
-{
-    m_cacheSizeLabel->setText(m_useCache ?
-                                  CACHE_SIZE_FORMAT_STRING.arg(cacheSizeToString(m_cache->totalCost())) :
-                                  tr("NO CACHE"));
+void MainWindow::updateCacheSizeInfo() {
+    m_cacheSizeLabel->setText(
+        m_useCache ? CACHE_SIZE_FORMAT_STRING.arg(cacheSizeToString(m_cache->totalCost())) : tr("NO CACHE"));
 }
 
-void MainWindow::focusAssistant()
-{
+void MainWindow::focusAssistant() {
     QListWidget* widget = qobject_cast<QListWidget*>(m_assistantToolBox->currentWidget());
     if (widget) {
         widget->setFocus();
@@ -331,28 +307,24 @@ void MainWindow::focusAssistant()
     }
 }
 
-void MainWindow::refreshFinished()
-{
+void MainWindow::refreshFinished() {
     m_cachedImage = m_process->readAll();
     m_imageWidget->load(m_cachedImage);
     m_process->deleteLater();
     m_process = 0;
 
     if (m_useCache && m_cache) {
-        m_cache->addItem(m_cachedImage, m_lastKey,
-                         [](const QString& path,
-                            const QString& key,
-                            int cost,
-                            const QDateTime& date_time,
-                            QObject* parent
-                            ) { return new FileCacheItem(path, key, cost, date_time, parent); });
+        m_cache->addItem(
+            m_cachedImage, m_lastKey,
+            [](const QString& path, const QString& key, int cost, const QDateTime& date_time, QObject* parent) {
+                return new FileCacheItem(path, key, cost, date_time, parent);
+            });
         updateCacheSizeInfo();
     }
     statusBar()->showMessage(tr("Refreshed"), STATUSBAR_TIMEOUT);
 }
 
-void MainWindow::changeImageFormat()
-{
+void MainWindow::changeImageFormat() {
     ImageFormat new_format;
     if (m_pngPreviewAction->isChecked()) {
         new_format = PngFormat;
@@ -368,8 +340,7 @@ void MainWindow::changeImageFormat()
     }
 }
 
-void MainWindow::onAutoRefreshActionToggled(bool state)
-{
+void MainWindow::onAutoRefreshActionToggled(bool state) {
     if (state) {
         refresh();
         m_autoRefreshTimer->start();
@@ -379,8 +350,7 @@ void MainWindow::onAutoRefreshActionToggled(bool state)
     m_autoRefreshLabel->setEnabled(state);
 }
 
-void MainWindow::onEditorChanged()
-{
+void MainWindow::onEditorChanged() {
     if (!refreshFromCache()) m_needsRefresh = true;
 
     setWindowModified(true);
@@ -388,14 +358,12 @@ void MainWindow::onEditorChanged()
     enableUndoRedoActions();
 }
 
-void MainWindow::onRefreshActionTriggered()
-{
+void MainWindow::onRefreshActionTriggered() {
     m_needsRefresh = true;
     refresh(true);
 }
 
-void MainWindow::onPreferencesActionTriggered()
-{
+void MainWindow::onPreferencesActionTriggered() {
     writeSettings();
     PreferencesDialog dialog(m_cache, this);
     dialog.readSettings();
@@ -407,46 +375,27 @@ void MainWindow::onPreferencesActionTriggered()
     }
 }
 
-void MainWindow::onOpenDocumentActionTriggered()
-{
-    openDocument("");
-}
+void MainWindow::onOpenDocumentActionTriggered() { openDocument(""); }
 
-void MainWindow::onSaveActionTriggered()
-{
+void MainWindow::onSaveActionTriggered() {
     saveDocument(m_documentPath);
-    if (m_refreshOnSave)
-        onRefreshActionTriggered();
+    if (m_refreshOnSave) onRefreshActionTriggered();
 }
 
-void MainWindow::onSaveAsActionTriggered()
-{
-    saveDocument("");
-}
+void MainWindow::onSaveAsActionTriggered() { saveDocument(""); }
 
-void MainWindow::onExportImageActionTriggered()
-{
-    exportImage(m_exportPath);
-}
+void MainWindow::onExportImageActionTriggered() { exportImage(m_exportPath); }
 
-void MainWindow::onExportAsImageActionTriggered()
-{
-    exportImage("");
-}
+void MainWindow::onExportAsImageActionTriggered() { exportImage(""); }
 
-void MainWindow::onRecentDocumentsActionTriggered(const QString &path)
-{
-    openDocument(path);
-}
+void MainWindow::onRecentDocumentsActionTriggered(const QString& path) { openDocument(path); }
 
-void MainWindow::onAssistanItemDoubleClicked(QListWidgetItem *item)
-{
+void MainWindow::onAssistanItemDoubleClicked(QListWidgetItem* item) {
     insertAssistantCode(item->data(Qt::UserRole).toString());
-    m_editor->setFocus(); // force focus to move to the editor
+    m_editor->setFocus();  // force focus to move to the editor
 }
 
-void MainWindow::onSingleApplicationReceivedMessage(const QString &message)
-{
+void MainWindow::onSingleApplicationReceivedMessage(const QString& message) {
     // the message is a file to open
     QtSingleApplication* single_app = qobject_cast<QtSingleApplication*>(qApp);
     if (single_app) {
@@ -460,53 +409,42 @@ void MainWindow::onSingleApplicationReceivedMessage(const QString &message)
     }
 }
 
-void MainWindow::onAssistantFocus()
-{
-    focusAssistant();
-}
+void MainWindow::onAssistantFocus() { focusAssistant(); }
 
-void MainWindow::onAssistantItemInsert(QWidget *widget)
-{
+void MainWindow::onAssistantItemInsert(QWidget* widget) {
     QListWidget* list_widget = qobject_cast<QListWidget*>(widget);
     if (list_widget) {
         onAssistanItemDoubleClicked(list_widget->currentItem());
     }
 }
 
-void MainWindow::onNextAssistant()
-{
+void MainWindow::onNextAssistant() {
     m_assistantToolBox->setCurrentIndex((m_assistantToolBox->currentIndex() + 1) % m_assistantToolBox->count());
 }
 
-void MainWindow::onPrevAssistant()
-{
+void MainWindow::onPrevAssistant() {
     const int count = m_assistantToolBox->count();
     m_assistantToolBox->setCurrentIndex((count + m_assistantToolBox->currentIndex() - 1) % count);
 }
 
-void MainWindow::onAssistantItemSelectionChanged()
-{
+void MainWindow::onAssistantItemSelectionChanged() {
     QListWidget* widget = qobject_cast<QListWidget*>(m_assistantToolBox->currentWidget());
     if (widget) {
         QListWidgetItem* item = widget->currentItem();
         if (item) {
             QString notes = item->data(ASSISTANT_ITEM_NOTES_ROLE).toString();
-            m_assistantPreviewNotes->setText(notes.isEmpty() ?
-                                                 tr("Code:") :
-                                                 tr("Notes:<br>%1<br>Code:").arg(notes));
+            m_assistantPreviewNotes->setText(notes.isEmpty() ? tr("Code:") : tr("Notes:<br>%1<br>Code:").arg(notes));
             m_assistantCodePreview->setPlainText(item->data(ASSISTANT_ITEM_DATA_ROLE).toString());
         }
     }
 }
 
-void MainWindow::onCurrentAssistantChanged(int /*index*/)
-{
+void MainWindow::onCurrentAssistantChanged(int /*index*/) {
     focusAssistant();
-    onAssistantItemSelectionChanged(); // make sure we don't show stale info
+    onAssistantItemSelectionChanged();  // make sure we don't show stale info
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
+void MainWindow::closeEvent(QCloseEvent* event) {
     if (maybeSave()) {
         writeSettings();
         event->accept();
@@ -515,14 +453,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-bool MainWindow::maybeSave()
-{
+bool MainWindow::maybeSave() {
     if (m_editor->document()->isModified()) {
         QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, qApp->applicationName(),
-                                   tr("The document has been modified.\n"
-                                      "Do you want to save your changes?"),
-                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        ret = QMessageBox::warning(
+            this, qApp->applicationName(),
+            tr("The document has been modified.\n"
+               "Do you want to save your changes?"),
+            QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if (ret == QMessageBox::Save)
             return saveDocument(m_documentPath);
         else if (ret == QMessageBox::Cancel)
@@ -531,9 +469,8 @@ bool MainWindow::maybeSave()
     return true;
 }
 
-void MainWindow::readSettings(bool reload)
-{
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+void MainWindow::readSettings(bool reload) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     const QString DEFAULT_CACHE_PATH = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
 #else
     const QString DEFAULT_CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
@@ -548,7 +485,8 @@ void MainWindow::readSettings(bool reload)
     m_javaPath = m_useCustomJava ? m_customJavaPath : SETTINGS_CUSTOM_JAVA_PATH_DEFAULT;
 
     m_useCustomPlantUml = settings.value(SETTINGS_USE_CUSTOM_PLANTUML, SETTINGS_USE_CUSTOM_PLANTUML_DEFAULT).toBool();
-    m_customPlantUmlPath = settings.value(SETTINGS_CUSTOM_PLANTUML_PATH, SETTINGS_CUSTOM_PLANTUML_PATH_DEFAULT).toString();
+    m_customPlantUmlPath =
+        settings.value(SETTINGS_CUSTOM_PLANTUML_PATH, SETTINGS_CUSTOM_PLANTUML_PATH_DEFAULT).toString();
     m_plantUmlPath = m_useCustomPlantUml ? m_customPlantUmlPath : SETTINGS_CUSTOM_PLANTUML_PATH_DEFAULT;
 
     m_useCustomGraphiz = settings.value(SETTINGS_USE_CUSTOM_GRAPHIZ, SETTINGS_USE_CUSTOM_GRAPHIZ_DEFAULT).toBool();
@@ -564,31 +502,31 @@ void MainWindow::readSettings(bool reload)
     m_cachePath = m_useCustomCache ? m_customCachePath : DEFAULT_CACHE_PATH;
 
     m_cache->setMaxCost(m_cacheMaxSize);
-    m_cache->setPath(m_cachePath, [](const QString& path,
-                                     const QString& key,
-                                     int cost,
-                                     const QDateTime& date_time,
-                                     QObject* parent
-                                     ) { return new FileCacheItem(path, key, cost, date_time, parent); });
+    m_cache->setPath(
+        m_cachePath, [](const QString& path, const QString& key, int cost, const QDateTime& date_time,
+                        QObject* parent) { return new FileCacheItem(path, key, cost, date_time, parent); });
 
     reloadAssistantXml(settings.value(SETTINGS_ASSISTANT_XML_PATH).toString());
 
     const bool autorefresh_enabled = settings.value(SETTINGS_AUTOREFRESH_ENABLED, false).toBool();
     m_autoRefreshAction->setChecked(autorefresh_enabled);
-    m_autoRefreshTimer->setInterval(settings.value(SETTINGS_AUTOREFRESH_TIMEOUT, SETTINGS_AUTOREFRESH_TIMEOUT_DEFAULT).toInt());
+    m_autoRefreshTimer->setInterval(
+        settings.value(SETTINGS_AUTOREFRESH_TIMEOUT, SETTINGS_AUTOREFRESH_TIMEOUT_DEFAULT).toInt());
     if (autorefresh_enabled) {
         m_autoRefreshTimer->start();
     }
     m_autoRefreshLabel->setEnabled(autorefresh_enabled);
 
-    m_autoSaveImageAction->setChecked(settings.value(SETTINGS_AUTOSAVE_IMAGE_ENABLED, SETTINGS_AUTOSAVE_IMAGE_ENABLED_DEFAULT).toBool());
+    m_autoSaveImageAction->setChecked(
+        settings.value(SETTINGS_AUTOSAVE_IMAGE_ENABLED, SETTINGS_AUTOSAVE_IMAGE_ENABLED_DEFAULT).toBool());
 
     if (!reload) {
         restoreGeometry(settings.value(SETTINGS_GEOMETRY).toByteArray());
         restoreState(settings.value(SETTINGS_WINDOW_STATE).toByteArray());
     }
 
-    m_showMainToolbarAction->setChecked(m_mainToolBar->isVisibleTo(this)); // NOTE: works even if the current window is not yet displayed
+    m_showMainToolbarAction->setChecked(
+        m_mainToolBar->isVisibleTo(this));  // NOTE: works even if the current window is not yet displayed
     connect(m_showMainToolbarAction, SIGNAL(toggled(bool)), m_mainToolBar, SLOT(setVisible(bool)));
 
     const bool show_statusbar = settings.value(SETTINGS_SHOW_STATUSBAR, true).toBool();
@@ -596,7 +534,8 @@ void MainWindow::readSettings(bool reload)
     statusBar()->setVisible(show_statusbar);
     connect(m_showStatusBarAction, SIGNAL(toggled(bool)), statusBar(), SLOT(setVisible(bool)));
 
-    m_currentImageFormat = m_imageFormatNames.key(settings.value(SETTINGS_IMAGE_FORMAT, m_imageFormatNames[SvgFormat]).toString());
+    m_currentImageFormat =
+        m_imageFormatNames.key(settings.value(SETTINGS_IMAGE_FORMAT, m_imageFormatNames[SvgFormat]).toString());
     if (m_currentImageFormat == SvgFormat) {
         m_svgPreviewAction->setChecked(true);
     } else if (m_currentImageFormat == PngFormat) {
@@ -611,13 +550,12 @@ void MainWindow::readSettings(bool reload)
     settings.beginGroup(SETTINGS_EDITOR_SECTION);
 
     QFont defaultFont;
-    QFont editorFont ("Courier New");
+    QFont editorFont("Courier New");
     m_editor->setFont(editorFont);
     m_editor->setAutoIndent(settings.value(SETTINGS_EDITOR_INDENT, SETTINGS_EDITOR_INDENT_DEFAULT).toBool());
-    m_editor->setIndentWithSpace(settings.value(SETTINGS_EDITOR_INDENT_WITH_SPACE,
-                                                SETTINGS_EDITOR_INDENT_WITH_SPACE_DEFAULT).toBool());
-    m_editor->setIndentSize(settings.value(SETTINGS_EDITOR_INDENT_SIZE,
-                                           SETTINGS_EDITOR_INDENT_SIZE_DEFAULT).toInt());
+    m_editor->setIndentWithSpace(
+        settings.value(SETTINGS_EDITOR_INDENT_WITH_SPACE, SETTINGS_EDITOR_INDENT_WITH_SPACE_DEFAULT).toBool());
+    m_editor->setIndentSize(settings.value(SETTINGS_EDITOR_INDENT_SIZE, SETTINGS_EDITOR_INDENT_SIZE_DEFAULT).toInt());
 
     m_refreshOnSave = settings.value(SETTINGS_EDITOR_REFRESH_ON_SAVE, SETTINGS_EDITOR_REFRESH_ON_SAVE_DEFAULT).toBool();
 
@@ -627,8 +565,7 @@ void MainWindow::readSettings(bool reload)
     updateCacheSizeInfo();
 }
 
-void MainWindow::writeSettings()
-{
+void MainWindow::writeSettings() {
     QSettings settings;
 
     settings.beginGroup(SETTINGS_MAIN_SECTION);
@@ -665,8 +602,7 @@ void MainWindow::writeSettings()
     m_recentDocuments->writeToSettings(settings, SETTINGS_RECENT_DOCUMENTS_SECTION);
 }
 
-void MainWindow::openDocument(const QString &name)
-{
+void MainWindow::openDocument(const QString& name) {
     if (!maybeSave()) {
         return;
     }
@@ -674,11 +610,8 @@ void MainWindow::openDocument(const QString &name)
     QString tmp_name = name;
 
     if (tmp_name.isEmpty() || QFileInfo(tmp_name).exists() == false) {
-        tmp_name = QFileDialog::getOpenFileName(this,
-                                                tr("Select a file to open"),
-                                                m_lastDir,
-                                                "PlantUML (*.plantuml);; All Files (*.*)"
-                                                );
+        tmp_name = QFileDialog::getOpenFileName(
+            this, tr("Select a file to open"), m_lastDir, "PlantUML (*.plantuml);; All Files (*.*)");
         if (tmp_name.isEmpty()) {
             return;
         } else {
@@ -694,24 +627,17 @@ void MainWindow::openDocument(const QString &name)
     m_editor->setPlainText(QString::fromUtf8(file.readAll()));
     setWindowModified(false);
     m_documentPath = tmp_name;
-    setWindowTitle(TITLE_FORMAT_STRING
-                   .arg(QFileInfo(tmp_name).fileName())
-                   .arg(qApp->applicationName())
-                   );
+    setWindowTitle(TITLE_FORMAT_STRING.arg(QFileInfo(tmp_name).fileName()).arg(qApp->applicationName()));
     m_needsRefresh = true;
     refresh();
     m_recentDocuments->accessing(tmp_name);
 }
 
-bool MainWindow::saveDocument(const QString &name)
-{
+bool MainWindow::saveDocument(const QString& name) {
     QString file_path = name;
     if (file_path.isEmpty()) {
-        file_path = QFileDialog::getSaveFileName(this,
-                                                tr("Select where to store the document"),
-                                                m_lastDir,
-                                                "PlantUML (*.plantuml);; All Files (*.*)"
-                                                );
+        file_path = QFileDialog::getSaveFileName(
+            this, tr("Select where to store the document"), m_lastDir, "PlantUML (*.plantuml);; All Files (*.*)");
         if (file_path.isEmpty()) {
             return false;
         } else {
@@ -728,20 +654,16 @@ bool MainWindow::saveDocument(const QString &name)
     file.write(m_editor->toPlainText().toUtf8());
     file.close();
     m_documentPath = file_path;
-    setWindowTitle(TITLE_FORMAT_STRING
-                   .arg(QFileInfo(file_path).fileName())
-                   .arg(qApp->applicationName())
-                   );
+    setWindowTitle(TITLE_FORMAT_STRING.arg(QFileInfo(file_path).fileName()).arg(qApp->applicationName()));
     statusBar()->showMessage(tr("Document save in %1").arg(file_path), STATUSBAR_TIMEOUT);
     m_recentDocuments->accessing(file_path);
 
     if (m_autoSaveImageAction->isChecked()) {
         QFileInfo info(file_path);
         QString image_path = QString("%1/%2.%3")
-                .arg(info.absolutePath())
-                .arg(info.baseName())
-                .arg(m_imageFormatNames[m_currentImageFormat])
-                ;
+                                 .arg(info.absolutePath())
+                                 .arg(info.baseName())
+                                 .arg(m_imageFormatNames[m_currentImageFormat]);
         qDebug() << "saving image in:   " << image_path;
         QFile image(image_path);
         if (!image.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -755,8 +677,7 @@ bool MainWindow::saveDocument(const QString &name)
     return true;
 }
 
-void MainWindow::exportImage(const QString &name)
-{
+void MainWindow::exportImage(const QString& name) {
     if (m_cachedImage.isEmpty()) {
         qDebug() << "no image to export. aborting...";
         return;
@@ -764,11 +685,8 @@ void MainWindow::exportImage(const QString &name)
 
     QString tmp_name = name;
     if (tmp_name.isEmpty()) {
-        tmp_name = QFileDialog::getSaveFileName(this,
-                                                tr("Select where to export the image"),
-                                                m_documentPath,
-                                                "Image (*.svg *.png);; All Files (*.*)"
-                                                );
+        tmp_name = QFileDialog::getSaveFileName(
+            this, tr("Select where to export the image"), m_documentPath, "Image (*.svg *.png);; All Files (*.*)");
         if (tmp_name.isEmpty()) {
             return;
         }
@@ -789,8 +707,7 @@ void MainWindow::exportImage(const QString &name)
     m_exportPathLabel->setEnabled(true);
 }
 
-void MainWindow::createActions()
-{
+void MainWindow::createActions() {
     // File menu
     m_newDocumentAction = new QAction(QIcon::fromTheme("document-new"), tr("&New"), this);
     m_newDocumentAction->setShortcut(QKeySequence::New);
@@ -831,11 +748,9 @@ void MainWindow::createActions()
     connect(m_redoAction, SIGNAL(triggered()), this, SLOT(redo()));
 
     m_copyImageAction = new QAction(QIcon::fromTheme("copy"), tr("&Copy Image"), this);
-    m_copyImageAction->setShortcuts(QList<QKeySequence>()
-                                    << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C)
-                                    << QKeySequence::Copy
-                                   );
-    connect(m_copyImageAction, SIGNAL(triggered()), this, SLOT(copyImage()) );
+    m_copyImageAction->setShortcuts(
+        QList<QKeySequence>() << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C) << QKeySequence::Copy);
+    connect(m_copyImageAction, SIGNAL(triggered()), this, SLOT(copyImage()));
 
     // Tools menu
     m_pngPreviewAction = new QAction(tr("PNG"), this);
@@ -916,15 +831,14 @@ void MainWindow::createActions()
     connect(m_zoomOriginalAction, SIGNAL(triggered()), m_imageWidget, SLOT(zoomOriginal()));
 }
 
-void MainWindow::createMenus()
-{
+void MainWindow::createMenus() {
     m_fileMenu = menuBar()->addMenu(tr("&File"));
     m_fileMenu->addAction(m_newDocumentAction);
     m_fileMenu->addAction(m_openDocumentAction);
     m_fileMenu->addAction(m_saveDocumentAction);
     m_fileMenu->addAction(m_saveAsDocumentAction);
     m_fileMenu->addSeparator();
-    QMenu *recent_documents_submenu = m_fileMenu->addMenu(tr("Recent Documents"));
+    QMenu* recent_documents_submenu = m_fileMenu->addMenu(tr("Recent Documents"));
     recent_documents_submenu->addActions(m_recentDocuments->actions());
     m_fileMenu->addSeparator();
     m_fileMenu->addAction(m_exportImageAction);
@@ -965,8 +879,7 @@ void MainWindow::createMenus()
     m_helpMenu->addAction(m_aboutQtAction);
 }
 
-void MainWindow::createToolBars()
-{
+void MainWindow::createToolBars() {
     m_mainToolBar = addToolBar(tr("MainToolbar"));
     m_mainToolBar->setObjectName("main_toolbar");
     m_mainToolBar->addAction(m_newDocumentAction);
@@ -990,8 +903,7 @@ void MainWindow::createToolBars()
     addZoomActions(m_zoomToolBar);
 }
 
-void MainWindow::createStatusBar()
-{
+void MainWindow::createStatusBar() {
     m_exportPathLabel = new QLabel(this);
     m_exportPathLabel->setMinimumWidth(200);
     m_exportPathLabel->setText(EXPORT_TO_LABEL_FORMAT_STRING.arg(""));
@@ -1022,9 +934,8 @@ void MainWindow::createStatusBar()
     statusBar()->showMessage(tr("Ready"), STATUSBAR_TIMEOUT);
 }
 
-void MainWindow::createDockWindows()
-{
-    QDockWidget *dock = new QDockWidget(tr("Text Editor"), this);
+void MainWindow::createDockWindows() {
+    QDockWidget* dock = new QDockWidget(tr("Text Editor"), this);
     m_editor = new TextEdit(dock);
     connect(m_editor->document(), SIGNAL(contentsChanged()), this, SLOT(onEditorChanged()));
     dock->setWidget(m_editor);
@@ -1042,13 +953,12 @@ void MainWindow::createDockWindows()
     dock->setWidget(m_assistantToolBox);
     dock->setObjectName("assistant");
     addDockWidget(Qt::LeftDockWidgetArea, dock);
-    connect(m_assistantToolBox, SIGNAL(currentChanged(int)),
-            this, SLOT(onCurrentAssistantChanged(int)));
+    connect(m_assistantToolBox, SIGNAL(currentChanged(int)), this, SLOT(onCurrentAssistantChanged(int)));
 
     m_showAssistantDockAction = dock->toggleViewAction();
     m_showAssistantDockAction->setIconVisibleInMenu(false);
     m_showAssistantDockAction->setStatusTip(tr("Show or hide the assistant dock"));
-#if !defined(Q_WS_WIN) // BUG: icons are not displayed when cross-linking
+#if !defined(Q_WS_WIN)  // BUG: icons are not displayed when cross-linking
     m_showAssistantDockAction->setIcon(QIcon(":/assistant.svg"));
 #endif
     m_showAssistantDockAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_1));
@@ -1070,40 +980,33 @@ void MainWindow::createDockWindows()
     m_showAssistantInfoDockAction = dock->toggleViewAction();
     m_showAssistantInfoDockAction->setIconVisibleInMenu(false);
     m_showAssistantInfoDockAction->setStatusTip(tr("Show or hide the assistant info dock"));
-#if !defined(Q_WS_WIN) // BUG: icons are not displayed when cross-linking
+#if !defined(Q_WS_WIN)  // BUG: icons are not displayed when cross-linking
     m_showAssistantInfoDockAction->setIcon(QIcon(":/assistant-info.svg"));
 #endif
     m_showAssistantInfoDockAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_2));
 }
 
-void MainWindow::enableUndoRedoActions()
-{
-    QTextDocument *document = m_editor->document();
+void MainWindow::enableUndoRedoActions() {
+    QTextDocument* document = m_editor->document();
     m_undoAction->setEnabled(document->isUndoAvailable());
     m_redoAction->setEnabled(document->isRedoAvailable());
 }
 
-void MainWindow::addZoomActions(QWidget *widget)
-{
+void MainWindow::addZoomActions(QWidget* widget) {
     widget->addAction(m_zoomInAction);
     widget->addAction(m_zoomOutAction);
     widget->addAction(m_zoomOriginalAction);
 }
 
-void MainWindow::checkPaths()
-{
-    m_hasValidPaths = QFileInfo(m_javaPath).exists() &&
-            QFileInfo(m_plantUmlPath).exists();
+void MainWindow::checkPaths() {
+    m_hasValidPaths = QFileInfo(m_javaPath).exists() && QFileInfo(m_plantUmlPath).exists();
 }
 
-void MainWindow::reloadAssistantXml(const QString &path)
-{
+void MainWindow::reloadAssistantXml(const QString& path) {
     if (m_assistantXmlPath != path) {
         m_assistantXmlPath = path;
 
-        foreach (QListWidget* widget, m_assistantWidgets) {
-            widget->deleteLater();
-        }
+        foreach (QListWidget* widget, m_assistantWidgets) { widget->deleteLater(); }
         m_assistantWidgets.clear();
 
         if (m_assistantXmlPath.isEmpty()) {
@@ -1120,23 +1023,21 @@ void MainWindow::reloadAssistantXml(const QString &path)
                 QListWidget* view = newAssistantListWidget(ASSISTANT_ICON_SIZE, this);
                 for (int j = 0; j < assistant->size(); ++j) {
                     const AssistantItem* assistantItem = assistant->item(j);
-                    QListWidgetItem* listWidgetItem =
-                            new QListWidgetItem(iconFromSvg(ASSISTANT_ICON_SIZE, assistantItem->icon()),
-                                                assistantItem->name(), view);
+                    QListWidgetItem* listWidgetItem = new QListWidgetItem(
+                        iconFromSvg(ASSISTANT_ICON_SIZE, assistantItem->icon()), assistantItem->name(), view);
                     listWidgetItem->setData(ASSISTANT_ITEM_DATA_ROLE, assistantItem->data());
                     listWidgetItem->setData(ASSISTANT_ITEM_NOTES_ROLE, assistantItem->notes());
                 }
                 m_assistantToolBox->addItem(view, assistant->name());
-                connect(view, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-                        this, SLOT(onAssistanItemDoubleClicked(QListWidgetItem*)));
-                connect(view, SIGNAL(itemSelectionChanged()),
-                        this, SLOT(onAssistantItemSelectionChanged()));
+                connect(
+                    view, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this,
+                    SLOT(onAssistanItemDoubleClicked(QListWidgetItem*)));
+                connect(view, SIGNAL(itemSelectionChanged()), this, SLOT(onAssistantItemSelectionChanged()));
 
                 QAction* action = new QAction(this);
                 action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return));
                 m_assistantInsertSignalMapper->setMapping(action, view);
-                connect(action, SIGNAL(triggered()),
-                        m_assistantInsertSignalMapper, SLOT(map()));
+                connect(action, SIGNAL(triggered()), m_assistantInsertSignalMapper, SLOT(map()));
                 view->addAction(action);
 
                 m_assistantWidgets << view;
@@ -1145,10 +1046,8 @@ void MainWindow::reloadAssistantXml(const QString &path)
     }
 }
 
-void MainWindow::insertAssistantCode(const QString &code)
-{
-    if (code.isEmpty())
-        return;
+void MainWindow::insertAssistantCode(const QString& code) {
+    if (code.isEmpty()) return;
 
     QTextCursor cursor = m_editor->textCursor();
     if (!cursor.isNull()) {

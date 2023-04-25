@@ -2,9 +2,8 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-//nothing
+// nothing
 
 }

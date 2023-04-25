@@ -9,11 +9,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests\)");
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests\)"), pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
@@ -22,8 +20,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInpu
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\////AprgCommon\\\\/FilesForTests\)");
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests\)"), pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
@@ -32,18 +29,18 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes)
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashesWithDirectoryDoesNotExists)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashesWithDirectoryDoesNotExists) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\////AprgCommon\\\\/AprgCommon/tst\DirectoryDoesNotExists\)");
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon\AprgCommon\tst\DirectoryDoesNotExists\)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon\AprgCommon\tst\DirectoryDoesNotExists\)"),
+        pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharacters)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharacters) {
     AlbaLinuxPathHandler pathHandler(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/)");
     EXPECT_EQ(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
@@ -52,8 +49,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSp
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileGiven_WithNumbersAndSpecialCharacters)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileGiven_WithNumbersAndSpecialCharacters) {
     AlbaLinuxPathHandler pathHandler(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/zxcvbnm12345.txt)");
     EXPECT_EQ(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/)", pathHandler.getDirectory());
     EXPECT_EQ("zxcvbnm12345.txt", pathHandler.getFile());
@@ -62,8 +58,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileGiven_WithNumbersAn
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbersAndSpecialCharacters)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbersAndSpecialCharacters) {
     AlbaLinuxPathHandler pathHandler(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/zxcvbnm12345.)");
     EXPECT_EQ(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/)", pathHandler.getDirectory());
     EXPECT_EQ("zxcvbnm12345.", pathHandler.getFile());
@@ -72,8 +67,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileNoFileExtensionGive
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileExtensionOnlyGiven_WithNumbersAndSpecialCharacters)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileExtensionOnlyGiven_WithNumbersAndSpecialCharacters) {
     AlbaLinuxPathHandler pathHandler(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/.zxcvbnm12345)");
     EXPECT_EQ(R"(/APRG12345/Aprg!@#$%Common/AprgCommon/tst/)", pathHandler.getDirectory());
     EXPECT_EQ(".zxcvbnm12345", pathHandler.getFile());
@@ -82,8 +76,9 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileExtensionOnlyGiven_
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbersAndSpecialCharactersTwoTimes)
-{
+TEST_F(
+    AlbaLinuxPathHandlerTest,
+    FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbersAndSpecialCharactersTwoTimes) {
     AlbaLinuxPathHandler pathHandler(R"(/APRG12345/Aprg!@#$%Common/Aprg1111Common/tst/76543.txt)");
     EXPECT_EQ(R"(/APRG12345/Aprg!@#$%Common/Aprg1111Common/tst/)", pathHandler.getDirectory());
     EXPECT_EQ("76543.txt", pathHandler.getFile());
@@ -99,8 +94,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFileNoFileExtensionGive
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_DoublePeriodInPath)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_DoublePeriodInPath) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\../dir/file.txt)");
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\../dir/)"), pathHandler.getDirectory());
     EXPECT_EQ("file.txt", pathHandler.getFile());
@@ -123,10 +117,10 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_DoublePeriodInPath
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_ActualLocalDirectory) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File1.log)");
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("File1.log", pathHandler.getFile());
     EXPECT_EQ("File1", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
@@ -158,13 +152,13 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_ActualLocalDirecto
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirectory)
-{
+TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirectory) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeDeleted.log)");
     ofstream fileToBeDeleted(pathHandler.getFullPath());
     fileToBeDeleted.close();
     pathHandler.reInput();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
@@ -173,7 +167,8 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirecto
 
     EXPECT_TRUE(pathHandler.deleteFile());
 
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
@@ -181,13 +176,13 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirecto
     EXPECT_FALSE(pathHandler.isFoundInLocalSystem());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirectory)
-{
+TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirectory) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeRenamed.log)");
     ofstream fileToBeRenamed(pathHandler.getFullPath());
     fileToBeRenamed.close();
     pathHandler.reInput();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeRenamed.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeRenamed", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
@@ -196,7 +191,8 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirecto
 
     EXPECT_TRUE(pathHandler.renameFile("RenamedFile.txt"));
 
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("RenamedFile.txt", pathHandler.getFile());
     EXPECT_EQ("RenamedFile", pathHandler.getFilenameOnly());
     EXPECT_EQ("txt", pathHandler.getExtension());
@@ -206,24 +202,26 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirecto
     EXPECT_TRUE(pathHandler.deleteFile());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FileIsCopiedToNewFile_ActualLocalDirectory)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FileIsCopiedToNewFile_ActualLocalDirectory) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeCopied.log)");
     string const pathOfCopiedFile("CopiedFile.log");
     ofstream fileToBeDeleted(pathHandler.getFullPath());
     fileToBeDeleted.close();
     pathHandler.reInput();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeCopied.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
-    EXPECT_TRUE(pathHandler.copyToNewFile(pathHandler.getDirectory()+pathOfCopiedFile));
+    EXPECT_TRUE(pathHandler.copyToNewFile(pathHandler.getDirectory() + pathOfCopiedFile));
 
-    AlbaLinuxPathHandler pathHandlerOfCopiedFile(pathHandler.getDirectory()+pathOfCopiedFile);
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandlerOfCopiedFile.getDirectory());
+    AlbaLinuxPathHandler pathHandlerOfCopiedFile(pathHandler.getDirectory() + pathOfCopiedFile);
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"),
+        pathHandlerOfCopiedFile.getDirectory());
     EXPECT_EQ("CopiedFile.log", pathHandlerOfCopiedFile.getFile());
     EXPECT_EQ("CopiedFile", pathHandlerOfCopiedFile.getFilenameOnly());
     EXPECT_EQ("log", pathHandlerOfCopiedFile.getExtension());
@@ -234,12 +232,12 @@ TEST_F(AlbaLinuxPathHandlerTest, FileIsCopiedToNewFile_ActualLocalDirectory)
     EXPECT_TRUE(pathHandlerOfCopiedFile.deleteFile());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDirectory)
-{
+TEST_F(AlbaLinuxPathHandlerTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDirectory) {
     string const pathOfDirectoryToBeRenamed(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1)");
 
     AlbaLinuxPathHandler pathHandler(pathOfDirectoryToBeRenamed);
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"),  pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"), pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
@@ -248,7 +246,9 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDi
 
     EXPECT_TRUE(pathHandler.renameImmediateDirectory("RenamedDirectory"));
 
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/RenamedDirectory/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/RenamedDirectory/)"),
+        pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
@@ -257,7 +257,8 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDi
 
     EXPECT_TRUE(pathHandler.renameImmediateDirectory("DIR1"));
 
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"), pathHandler.getDirectory());
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"), pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
@@ -265,8 +266,7 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDi
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryOneDepth)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryOneDepth) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)");
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
@@ -291,8 +291,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryOneDe
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/)"), *(itDirectories++));
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMultipleDepthTwo)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMultipleDepthTwo) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)");
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
@@ -302,11 +301,15 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMulti
     pathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectory, 2);
     ASSERT_EQ(10U, listOfFiles.size());
     auto itFiles = listOfFiles.begin();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/File1.log)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/File1.log)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/File3)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/File5.avi)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/File5.avi)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File1.log)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File3)"), *(itFiles++));
@@ -320,11 +323,11 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMulti
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepth)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepth) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)");
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
@@ -334,12 +337,18 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlim
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);
     ASSERT_EQ(11U, listOfFiles.size());
     auto itFiles = listOfFiles.begin();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/File1.log)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/File1.log)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/File3)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/File5.avi)"), *(itFiles++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/File6.jpg)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/File5.avi)"), *(itFiles++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/File6.jpg)"),
+        *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File1.log)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File3)"), *(itFiles++));
@@ -353,11 +362,11 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlim
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
+    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWithWildCard)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWithWildCard) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)");
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
@@ -371,8 +380,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlim
     ASSERT_EQ(0U, listOfDirectory.size());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsNotExisting)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsNotExisting) {
     AlbaLinuxPathHandler pathHandler("This path does not exist");
 
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
@@ -380,8 +388,7 @@ TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsNotExisting)
     EXPECT_DOUBLE_EQ(0, pathHandler.getFileSizeEstimate());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsExisting)
-{
+TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsExisting) {
     AlbaLinuxPathHandler pathHandler(ALBA_COMMON_SIZE_TEST_FILE);
 
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
@@ -389,12 +396,11 @@ TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsExisting)
     EXPECT_DOUBLE_EQ(5000, pathHandler.getFileSizeEstimate());
 }
 
-TEST_F(AlbaLinuxPathHandlerTest, SetCurrentDirectoryFromDetectedLocalPath)
-{
+TEST_F(AlbaLinuxPathHandlerTest, SetCurrentDirectoryFromDetectedLocalPath) {
     AlbaLinuxPathHandler pathHandler(AlbaLinuxPathHandler::createPathHandlerForDetectedPath());
 
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
 }
 
-}
+}  // namespace alba

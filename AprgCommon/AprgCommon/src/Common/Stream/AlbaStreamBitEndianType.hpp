@@ -1,12 +1,7 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-enum class AlbaStreamBitEndianType
-{
-    BigEndian,
-    LittleEndian
-};
+enum class AlbaStreamBitEndianType { BigEndian, LittleEndian };
 
-}//namespace alba
+}  // namespace alba

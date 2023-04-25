@@ -8,103 +8,98 @@
 using namespace alba;
 using namespace std;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-#define GET_ENUM_STRING(en) case en: result = #en; break;
+#define GET_ENUM_STRING(en) \
+    case en:                \
+        result = #en;       \
+        break;
 
-string StringHelpers::convertToString(ComponentName const componentName)
-{
+string StringHelpers::convertToString(ComponentName const componentName) {
     string result;
-    switch(componentName)
-    {
-#define COMPONENT_NAME_MACRO(COMPONENT_NAME) case ComponentName:: COMPONENT_NAME : result = #COMPONENT_NAME; break;
-    COMPONENT_NAME_MACRO(Empty)
-    COMPONENT_NAME_MACRO(SampleComponent)
-    #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
+    switch (componentName) {
+#define COMPONENT_NAME_MACRO(COMPONENT_NAME) \
+    case ComponentName::COMPONENT_NAME:      \
+        result = #COMPONENT_NAME;            \
+        break;
+        COMPONENT_NAME_MACRO(Empty)
+        COMPONENT_NAME_MACRO(SampleComponent)
+#include <FeatureSpecificFiles/ComponentNameMacro.hpp>
 #undef COMPONENT_NAME_MACRO
     }
     return result;
 }
 
-string StringHelpers::convertToString(MessageName const messageName)
-{
+string StringHelpers::convertToString(MessageName const messageName) {
     string result;
-    switch(messageName)
-    {
-#define MESSAGE_NAME_MACRO(MESSAGE_NAME) case MessageName:: MESSAGE_NAME : result = #MESSAGE_NAME; break;
-    MESSAGE_NAME_MACRO(Empty)
-    MESSAGE_NAME_MACRO(SampleStaticMessage)
-    MESSAGE_NAME_MACRO(SampleDynamicArrayMessage)
-    MESSAGE_NAME_MACRO(SampleDynamicPolymorphicMessage)
-    #include <FeatureSpecificFiles/MessageNameMacro.hpp>
+    switch (messageName) {
+#define MESSAGE_NAME_MACRO(MESSAGE_NAME) \
+    case MessageName::MESSAGE_NAME:      \
+        result = #MESSAGE_NAME;          \
+        break;
+        MESSAGE_NAME_MACRO(Empty)
+        MESSAGE_NAME_MACRO(SampleStaticMessage)
+        MESSAGE_NAME_MACRO(SampleDynamicArrayMessage)
+        MESSAGE_NAME_MACRO(SampleDynamicPolymorphicMessage)
+#include <FeatureSpecificFiles/MessageNameMacro.hpp>
 #undef MESSAGE_NAME_MACRO
     }
     return result;
 }
 
-string StringHelpers::convertToString(TimerType const timerType)
-{
+string StringHelpers::convertToString(TimerType const timerType) {
     string result;
-    switch(timerType)
-    {
-    GET_ENUM_STRING(TimerType::Empty)
-            GET_ENUM_STRING(TimerType::CellTimer)
-            GET_ENUM_STRING(TimerType::DspTimer)
-            GET_ENUM_STRING(TimerType::CarrierResourceTimer)
+    switch (timerType) {
+        GET_ENUM_STRING(TimerType::Empty)
+        GET_ENUM_STRING(TimerType::CellTimer)
+        GET_ENUM_STRING(TimerType::DspTimer)
+        GET_ENUM_STRING(TimerType::CarrierResourceTimer)
     }
     return stringHelper::getStringAfterThisString(result, "TimerType::");
 }
 
-string StringHelpers::convertToString(OtherEventType const otherEventType)
-{
+string StringHelpers::convertToString(OtherEventType const otherEventType) {
     string result;
-    switch(otherEventType)
-    {
-    GET_ENUM_STRING(OtherEventType::Empty)
-            GET_ENUM_STRING(OtherEventType::MainProcessStartup)
-            GET_ENUM_STRING(OtherEventType::SubProcessStartup)
+    switch (otherEventType) {
+        GET_ENUM_STRING(OtherEventType::Empty)
+        GET_ENUM_STRING(OtherEventType::MainProcessStartup)
+        GET_ENUM_STRING(OtherEventType::SubProcessStartup)
     }
     return stringHelper::getStringAfterThisString(result, "OtherEventType::");
 }
 
-string StringHelpers::convertToString(UmlPositionType const position)
-{
+string StringHelpers::convertToString(UmlPositionType const position) {
     string result;
-    switch(position)
-    {
-    GET_ENUM_STRING(UmlPositionType::right)
-            GET_ENUM_STRING(UmlPositionType::left)
-            GET_ENUM_STRING(UmlPositionType::over)
+    switch (position) {
+        GET_ENUM_STRING(UmlPositionType::right)
+        GET_ENUM_STRING(UmlPositionType::left)
+        GET_ENUM_STRING(UmlPositionType::over)
     }
     return stringHelper::getStringAfterThisString(result, "UmlLogPosition::");
 }
 
-string StringHelpers::convertToString(ComponentNames const componentNames)
-{
-    string result(accumulate(componentNames.cbegin(), componentNames.cend(), string(""), [](string const& partialResult, ComponentName const componentName)
-    {
-        return partialResult+convertToString(componentName)+",";
-    }));
+string StringHelpers::convertToString(ComponentNames const componentNames) {
+    string result(accumulate(
+        componentNames.cbegin(), componentNames.cend(), string(""),
+        [](string const& partialResult, ComponentName const componentName) {
+            return partialResult + convertToString(componentName) + ",";
+        }));
     result = stringHelper::getStringWithoutCharAtTheEnd(result, ',');
     return result;
 }
 
-bool StringHelpers::isTcomMessage(string const& messageName)
-{
+bool StringHelpers::isTcomMessage(string const& messageName) {
     return stringHelper::isEqualWithLowestCommonLength(messageName, "TC_");
 }
 
-bool StringHelpers::isDspMessage(string const& messageName)
-{
+bool StringHelpers::isDspMessage(string const& messageName) {
     return stringHelper::isEqualWithLowestCommonLength(messageName, "BB_");
 }
 
-bool StringHelpers::isNbapMessage(string const& messageName)
-{
+bool StringHelpers::isNbapMessage(string const& messageName) {
     return stringHelper::isEqualWithLowestCommonLength(messageName, "API_TCOM");
 }
 
 #undef GET_ENUM_STRING
 
-}
+}  // namespace DesignDocumentCreator

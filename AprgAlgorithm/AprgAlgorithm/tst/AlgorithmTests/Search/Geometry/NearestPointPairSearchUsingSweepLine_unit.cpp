@@ -4,20 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using SearchForTest = NearestPointPairSearchUsingSweepLine<double>;
 using PointPairForTest = SearchForTest::PointPair;
-}
+}  // namespace
 
-TEST(NearestPointPairSearchUsingSweepLineTest, GetNearestPointPairWorks)
-{
+TEST(NearestPointPairSearchUsingSweepLineTest, GetNearestPointPairWorks) {
     SearchForTest search;
     search.addPoint({0, 0});
     search.addPoint({3, -1});
@@ -42,6 +38,6 @@ TEST(NearestPointPairSearchUsingSweepLineTest, GetNearestPointPairWorks)
     EXPECT_EQ(pointPairToExpect, pointPairToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

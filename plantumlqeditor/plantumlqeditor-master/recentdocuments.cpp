@@ -4,20 +4,16 @@
 #include <QSettings>
 #include <QSignalMapper>
 
-namespace 
-{
+namespace {
 const QString SETTINGS_RECENT_DOCUMENTS_DOCUMENT_KEY = "document";
-} // namespace {}
+}  // namespace
 
-RecentDocuments::RecentDocuments(int max_documents, QObject *parent)
-    : QObject(parent)
-    , m_maxDocuments(max_documents)
-{
+RecentDocuments::RecentDocuments(int max_documents, QObject *parent) : QObject(parent), m_maxDocuments(max_documents) {
     QSignalMapper *mapper = new QSignalMapper(this);
     connect(mapper, SIGNAL(mapped(int)), this, SLOT(onRecentDocumentsActionTriggered(int)));
 
     for (int i = 0; i < m_maxDocuments; ++i) {
-        QAction* action = new QAction(this);
+        QAction *action = new QAction(this);
         connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
         mapper->setMapping(action, i);
         m_recentDocumentsActions << action;
@@ -28,9 +24,7 @@ RecentDocuments::RecentDocuments(int max_documents, QObject *parent)
     m_separatorAction->setSeparator(true);
     m_actions << m_separatorAction;
 
-    foreach(QAction* action, m_actions) {
-        action->setVisible(false);
-    }
+    foreach (QAction *action, m_actions) { action->setVisible(false); }
 
     // m_clearAction is allways visible
     m_clearAction = new QAction(this);
@@ -40,9 +34,8 @@ RecentDocuments::RecentDocuments(int max_documents, QObject *parent)
     connect(m_clearAction, SIGNAL(triggered()), this, SLOT(onCleatActionTriggered()));
 }
 
-void RecentDocuments::clear()
-{
-    foreach(QAction* action, m_recentDocumentsActions) {
+void RecentDocuments::clear() {
+    foreach (QAction *action, m_recentDocumentsActions) {
         action->setText("");
         action->setVisible(false);
     }
@@ -50,8 +43,7 @@ void RecentDocuments::clear()
     m_separatorAction->setVisible(false);
 }
 
-void RecentDocuments::accessing(const QString &name)
-{
+void RecentDocuments::accessing(const QString &name) {
     int index = m_documents.indexOf(name);
     if (index >= 0) {
         m_documents.removeAt(index);
@@ -77,8 +69,7 @@ void RecentDocuments::accessing(const QString &name)
     m_separatorAction->setVisible(true);
 }
 
-void RecentDocuments::readFromSettings(QSettings& settings, const QString &section)
-{
+void RecentDocuments::readFromSettings(QSettings &settings, const QString &section) {
     m_documents.clear();
 
     int size = settings.beginReadArray(section);
@@ -99,23 +90,16 @@ void RecentDocuments::readFromSettings(QSettings& settings, const QString &secti
     m_separatorAction->setVisible(size > 0);
 }
 
-void RecentDocuments::writeToSettings(QSettings &settings, const QString &section)
-{
+void RecentDocuments::writeToSettings(QSettings &settings, const QString &section) {
     settings.remove(section);
     settings.beginWriteArray(section);
-    for(int index = 0; index < m_documents.size(); ++index) {
+    for (int index = 0; index < m_documents.size(); ++index) {
         settings.setArrayIndex(index);
         settings.setValue(SETTINGS_RECENT_DOCUMENTS_DOCUMENT_KEY, m_documents.at(index));
     }
     settings.endArray();
 }
 
-void RecentDocuments::onCleatActionTriggered()
-{
-    clear();
-}
+void RecentDocuments::onCleatActionTriggered() { clear(); }
 
-void RecentDocuments::onRecentDocumentsActionTriggered(int index)
-{
-    emit recentDocument(m_documents.value(index));
-}
+void RecentDocuments::onRecentDocumentsActionTriggered(int index) { emit recentDocument(m_documents.value(index)); }

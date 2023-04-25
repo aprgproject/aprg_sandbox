@@ -2,18 +2,15 @@
 
 #include <Algorithm/Graph/BaseGraph.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class GraphIsomorphism
-{
-public: // Graph Isomorphism is a longstanding open problem // Its complexity is not even classified.
+class GraphIsomorphism {
+public:  // Graph Isomorphism is a longstanding open problem // Its complexity is not even classified.
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

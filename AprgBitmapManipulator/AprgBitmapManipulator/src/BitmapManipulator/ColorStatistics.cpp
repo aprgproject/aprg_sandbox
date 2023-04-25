@@ -8,17 +8,16 @@
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-void gatherAndSaveColorStatistics(string const& bitmapPath)
-{
+void gatherAndSaveColorStatistics(string const& bitmapPath) {
     AlbaLocalPathHandler bitmapPathHandler(bitmapPath);
-    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_SortedColorData.csv)");
-    AlbaLocalPathHandler colorStatisticsPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_Statistics.txt)");
+    AlbaLocalPathHandler colorDataPathHandler(
+        bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_SortedColorData.csv)");
+    AlbaLocalPathHandler colorStatisticsPathHandler(
+        bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_Statistics.txt)");
 
     AprgColorStatistics statistics;
     statistics.gatherStatistics(bitmapPathHandler.getFullPath());
@@ -26,12 +25,10 @@ void gatherAndSaveColorStatistics(string const& bitmapPath)
     statistics.saveColorStatistics(colorStatisticsPathHandler.getFullPath());
 }
 
-void AprgColorStatistics::gatherStatistics(string const& bitmapPath)
-{
+void AprgColorStatistics::gatherStatistics(string const& bitmapPath) {
     Bitmap bitmap(bitmapPath);
     BitmapSnippet canvas(bitmap.getSnippetReadFromFileWholeBitmap());
-    canvas.traverse([&](BitmapXY const&, uint32_t const color)
-    {
+    canvas.traverse([&](BitmapXY const&, uint32_t const color) {
         double colorIntensity(calculateColorIntensityDecimal(color));
         double luma601(calculateLuma601Decimal(color));
         double luma709(calculateLuma709Decimal(color));
@@ -56,8 +53,7 @@ void AprgColorStatistics::gatherStatistics(string const& bitmapPath)
     });
 }
 
-void AprgColorStatistics::saveColorData(string const& path)
-{
+void AprgColorStatistics::saveColorData(string const& path) {
     ofstream colorDataFileStream(path);
     multiset<double>::const_iterator colorIntensityIterator(colorIntensitySet.cbegin());
     multiset<double>::const_iterator hueDegreesIterator(hueDegreesSet.cbegin());
@@ -68,40 +64,32 @@ void AprgColorStatistics::saveColorData(string const& path)
     multiset<double>::const_iterator luma601Iterator(luma601Set.cbegin());
     multiset<double>::const_iterator luma709Iterator(luma709Set.cbegin());
 
-    colorDataFileStream
-            << "colorIntensity, "
-            << "hueDegreesDividedBy360, "
-            << "saturationLightness, "
-            << "lightness, "
-            << "saturationValueI, "
-            << "value, "
-            << "luma601, "
-            << "luma709" << "\n";
-    unsigned int count=0;
-    unsigned int size = min(colorIntensitySet.size(),
-                            min(hueDegreesSet.size(),
-                                min(saturationLightnessSet.size(),
-                                    min(lightnessSet.size(),
-                                        min(saturationValueSet.size(),
-                                            min(valueSet.size(),
-                                                min(luma601Set.size(), luma601Set.size())))))));
-    while(count<size)
-    {
-        colorDataFileStream
-                << *colorIntensityIterator++ << ", "
-                << *hueDegreesIterator++/360 << ", "
-                << *saturationLightnessIterator++ << ", "
-                << *lightnessIterator++ << ", "
-                << *saturationValueIterator++ << ", "
-                << *valueIterator++ << ", "
-                << *luma601Iterator++ << ", "
-                << *luma709Iterator++ << "\n";
+    colorDataFileStream << "colorIntensity, "
+                        << "hueDegreesDividedBy360, "
+                        << "saturationLightness, "
+                        << "lightness, "
+                        << "saturationValueI, "
+                        << "value, "
+                        << "luma601, "
+                        << "luma709"
+                        << "\n";
+    unsigned int count = 0;
+    unsigned int size = min(
+        colorIntensitySet.size(),
+        min(hueDegreesSet.size(),
+            min(saturationLightnessSet.size(),
+                min(lightnessSet.size(),
+                    min(saturationValueSet.size(), min(valueSet.size(), min(luma601Set.size(), luma601Set.size())))))));
+    while (count < size) {
+        colorDataFileStream << *colorIntensityIterator++ << ", " << *hueDegreesIterator++ / 360 << ", "
+                            << *saturationLightnessIterator++ << ", " << *lightnessIterator++ << ", "
+                            << *saturationValueIterator++ << ", " << *valueIterator++ << ", " << *luma601Iterator++
+                            << ", " << *luma709Iterator++ << "\n";
         count++;
     }
 }
 
-void AprgColorStatistics::saveColorStatistics(string const& path)
-{
+void AprgColorStatistics::saveColorStatistics(string const& path) {
     ofstream statisticsFileStream(path);
     OneDimensionStatistics colorIntensityStatistics(colorIntensitySamples);
     OneDimensionStatistics saturationLightnessStatistics(saturationLightnessSamples);
@@ -127,6 +115,6 @@ void AprgColorStatistics::saveColorStatistics(string const& path)
                          << " StdDev: " << luma709Statistics.getSampleStandardDeviation() << "\n";
 }
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

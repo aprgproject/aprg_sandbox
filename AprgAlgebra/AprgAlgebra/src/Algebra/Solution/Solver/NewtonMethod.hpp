@@ -4,20 +4,15 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class NewtonMethod
-{
+class NewtonMethod {
 public:
     using Function = std::function<AlbaNumber(AlbaNumber const&)>;
 
-    NewtonMethod(
-            AlbaNumber const& initialValue,
-            Function const& functionToIterate);
+    NewtonMethod(AlbaNumber const& initialValue, Function const& functionToIterate);
 
     bool isSolved() const;
     bool isFinished() const;
@@ -37,6 +32,6 @@ private:
     Function m_functionToIterate;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -2,14 +2,11 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-class ChineseRemainderTheorem
-{
+class ChineseRemainderTheorem {
 public:
     // The Chinese remainder theorem solves a group of equations of the form
     // x = a1 mod m1
@@ -29,6 +26,6 @@ private:
     UnsignedInteger m_productOfModulos;
 };
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

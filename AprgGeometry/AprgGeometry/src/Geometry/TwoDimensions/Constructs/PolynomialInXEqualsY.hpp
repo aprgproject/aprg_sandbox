@@ -2,46 +2,32 @@
 
 #include <Geometry/TwoDimensions/Constructs/Polynomial.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-template<unsigned int numberOfCoefficients>
-class PolynomialInXEqualsY : public Polynomial<numberOfCoefficients>
-{
+template <unsigned int numberOfCoefficients>
+class PolynomialInXEqualsY : public Polynomial<numberOfCoefficients> {
 public:
     using PolynomialInXEqualsYParent = Polynomial<numberOfCoefficients>;
-    PolynomialInXEqualsY()
-        : PolynomialInXEqualsYParent()
-    {}
+    PolynomialInXEqualsY() : PolynomialInXEqualsYParent() {}
 
     PolynomialInXEqualsY(std::initializer_list<double> const& coefficients)
-        : PolynomialInXEqualsYParent(coefficients)
-    {}
+        : PolynomialInXEqualsYParent(coefficients) {}
 
-    Points getPoints(double const startValueOfX, double const endValueOfX, double const interval) const
-    {
+    Points getPoints(double const startValueOfX, double const endValueOfX, double const interval) const {
         Points points;
         AlbaValueRange<double> range(startValueOfX, endValueOfX, interval);
-        range.traverse([&](double const traverseValueOfX)
-        {
+        range.traverse([&](double const traverseValueOfX) {
             points.emplace_back(traverseValueOfX, calculateYfromX(traverseValueOfX));
         });
         return points;
     }
 
-    double calculateYfromX(double const x) const
-    {
-        return PolynomialInXEqualsYParent::calculateOutputFromInput(x);
-    }
+    double calculateYfromX(double const x) const { return PolynomialInXEqualsYParent::calculateOutputFromInput(x); }
 
-    double getSlopeAt(double const x) const
-    {
-        return PolynomialInXEqualsYParent::getValueOfFirstDerivative(x);
-    }
+    double getSlopeAt(double const x) const { return PolynomialInXEqualsYParent::getValueOfFirstDerivative(x); }
 };
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

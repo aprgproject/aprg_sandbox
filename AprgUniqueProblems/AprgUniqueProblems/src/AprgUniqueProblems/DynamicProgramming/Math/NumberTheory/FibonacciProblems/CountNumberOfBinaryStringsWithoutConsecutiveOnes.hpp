@@ -4,17 +4,14 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CountNumberOfBinaryStringsWithoutConsecutiveOnes
-{
+class CountNumberOfBinaryStringsWithoutConsecutiveOnes {
 public:
-
     using Count = unsigned int;
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count UNUSED_VALUE=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_VALUE = std::numeric_limits<Count>::max();
 
     CountNumberOfBinaryStringsWithoutConsecutiveOnes(Count const length);
 
@@ -22,20 +19,20 @@ public:
     Count getCountUsingIterativeDP() const;
     Count getCountUsingIterativeDPAndSpaceEfficient() const;
     Count getCountUsingFibonacci() const;
+
 private:
     Count getCountUsingNaiveRecursion(bool const previousValue, Count const length) const;
     // no memoization because there is no recomputation
     Count const m_length;
 };
 
-}
+}  // namespace alba
 
 // APPROACH
 // Same as getting the Fibonacci number
 
-
-
-// Given a positive integer N, count all possible distinct binary strings of length N such that there are no consecutive 1’s.
+// Given a positive integer N, count all possible distinct binary strings of length N such that there are no consecutive
+// 1’s.
 
 // Examples:
 // -> Input:  N = 2
@@ -60,14 +57,11 @@ private:
 // So a[i] represents the number of binary strings for input length i+1.
 // Similarly, b[i] represents binary strings for input length i+1.
 
-
-// If we take a closer look at the pattern, we can observe that the count is actually (n+2)’th Fibonacci number for n >= 1.
-// The Fibonacci Numbers are 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144 ...
+// If we take a closer look at the pattern, we can observe that the count is actually (n+2)’th Fibonacci number for n
+// >= 1. The Fibonacci Numbers are 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144 ...
 // -> n = 1, count = 2  = fib(3)
 // -> n = 2, count = 3  = fib(4)
 // -> n = 3, count = 5  = fib(5)
 // -> n = 4, count = 8  = fib(6)
 // -> n = 5, count = 13 = fib(7)
 // Therefore we can use fibonacci numbers to count.
-
-

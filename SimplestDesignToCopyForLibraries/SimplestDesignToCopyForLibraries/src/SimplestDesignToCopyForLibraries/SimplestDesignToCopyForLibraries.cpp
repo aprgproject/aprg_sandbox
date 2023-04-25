@@ -1,11 +1,7 @@
 #include "SimplestDesignToCopyForLibraries.hpp"
 
-namespace alba
-{
+namespace alba {
 
-SimplestDesignToCopyForLibraries::SimplestDesignToCopyForLibraries()
-{
-    m_sample = 0;
-}
+SimplestDesignToCopyForLibraries::SimplestDesignToCopyForLibraries() { m_sample = 0; }
 
-}
+}  // namespace alba

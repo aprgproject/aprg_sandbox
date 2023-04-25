@@ -4,22 +4,18 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using HashValue = unsigned long long;
 using HashFunctionForTest = HornerHashFunctionForSubstrings<HashValue>;
-constexpr HashValue RADIX=256U;
-constexpr HashValue A_LARGE_PRIME=1229952067U;
-}
+constexpr HashValue RADIX = 256U;
+constexpr HashValue A_LARGE_PRIME = 1229952067U;
+}  // namespace
 
-TEST(HornerHashFunctionForSubstringsTest, Example1Works)
-{
+TEST(HornerHashFunctionForSubstringsTest, Example1Works) {
     HashFunctionForTest hashFunction(RADIX, A_LARGE_PRIME, "ALLEY");
 
     EXPECT_EQ(23869869ULL, hashFunction.getHashCodeOfWholeString());
@@ -39,8 +35,7 @@ TEST(HornerHashFunctionForSubstringsTest, Example1Works)
     EXPECT_EQ(0ULL, hashFunction.getHashCodeOfSubstring(3U, 5U));
 }
 
-TEST(HornerHashFunctionForSubstringsTest, Example2Works)
-{
+TEST(HornerHashFunctionForSubstringsTest, Example2Works) {
     HashFunctionForTest hashFunction(RADIX, A_LARGE_PRIME, "AACAA");
 
     EXPECT_EQ(1068681688ULL, hashFunction.getHashCodeOfWholeString());
@@ -53,8 +48,7 @@ TEST(HornerHashFunctionForSubstringsTest, Example2Works)
     EXPECT_EQ(0ULL, hashFunction.getHashCodeOfSubstring(0U, 5U));
 }
 
-TEST(HornerHashFunctionForSubstringsTest, Example3Works)
-{
+TEST(HornerHashFunctionForSubstringsTest, Example3Works) {
     HashFunctionForTest hashFunction(RADIX, A_LARGE_PRIME, "AABRAACADABRAACAADABRA");
 
     EXPECT_EQ(1085070900ULL, hashFunction.getHashCodeOfWholeString());
@@ -68,6 +62,6 @@ TEST(HornerHashFunctionForSubstringsTest, Example3Works)
     EXPECT_EQ(1068681688ULL, hashFunction.getHashCodeOfSubstring(12U, 16U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

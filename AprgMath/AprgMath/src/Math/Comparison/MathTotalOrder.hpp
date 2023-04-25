@@ -1,14 +1,11 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 template <typename DataType>
-bool hasTotalOrder(DataType const& /*value1*/, DataType const& /*value2*/)
-{
+bool hasTotalOrder(DataType const& /*value1*/, DataType const& /*value2*/) {
     // Objects in sort must satisfy this
     // Three things must be true:
     // anti-symmetry: if v<=w and w<=v then v=w
@@ -20,6 +17,6 @@ bool hasTotalOrder(DataType const& /*value1*/, DataType const& /*value2*/)
     return true;
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

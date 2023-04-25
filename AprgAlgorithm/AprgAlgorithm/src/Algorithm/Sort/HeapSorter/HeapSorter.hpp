@@ -6,23 +6,19 @@
 #include <functional>
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class HeapSorter : public BaseSorter<Values>
-{
+class HeapSorter : public BaseSorter<Values> {
 public:
-    static constexpr unsigned int NUMBER_OF_CHILDREN_IN_HEAP_TREE=2U;
+    static constexpr unsigned int NUMBER_OF_CHILDREN_IN_HEAP_TREE = 2U;
     using MaxHeapTreeAdapter = HeapTreeAdapter<Values, NUMBER_OF_CHILDREN_IN_HEAP_TREE, std::less>;
 
     HeapSorter() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
+    void sort(Values& valuesToSort) const override {
         MaxHeapTreeAdapter maxHeapTreeAdapter(valuesToSort);
 
         // two passes, first put in heap order, second use the top values to sort
@@ -31,40 +27,36 @@ public:
     }
 
 private:
-
-    void putItemsInHeapOrder(MaxHeapTreeAdapter & maxHeapTreeAdapter) const
-    {
+    void putItemsInHeapOrder(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
         unsigned int size(maxHeapTreeAdapter.getSize());
         // Traverse all parents (starting from bottom to top), and sink down to put items in heap order
-        for(unsigned int parentIndex=getLastParentAtTheBottom(maxHeapTreeAdapter); parentIndex>=maxHeapTreeAdapter.getTopTreeIndex(); parentIndex--)
-        {
+        for (unsigned int parentIndex = getLastParentAtTheBottom(maxHeapTreeAdapter);
+             parentIndex >= maxHeapTreeAdapter.getTopTreeIndex(); parentIndex--) {
             maxHeapTreeAdapter.sink(parentIndex, size);
         }
     }
 
-    void swapTopItemsToLastPlaces(MaxHeapTreeAdapter & maxHeapTreeAdapter) const
-    {
-        unsigned int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex()); // traverse from bottom to top
-        while(treeIndex > maxHeapTreeAdapter.getTopTreeIndex())
-        {
+    void swapTopItemsToLastPlaces(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
+        unsigned int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());  // traverse from bottom to top
+        while (treeIndex > maxHeapTreeAdapter.getTopTreeIndex()) {
             // swap current max to current last place
-            std::swap(maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
-                      maxHeapTreeAdapter.getObjectReferenceOnTree(treeIndex));
-            treeIndex--; // move the next last place
+            std::swap(
+                maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
+                maxHeapTreeAdapter.getObjectReferenceOnTree(treeIndex));
+            treeIndex--;  // move the next last place
             // starting from the top (where the object is swapped), sink down to maintain heap order
             maxHeapTreeAdapter.sink(maxHeapTreeAdapter.getTopTreeIndex(), treeIndex);
         }
     }
 
-    unsigned int getLastParentAtTheBottom(MaxHeapTreeAdapter const& maxHeapTreeAdapter) const
-    {
+    unsigned int getLastParentAtTheBottom(MaxHeapTreeAdapter const& maxHeapTreeAdapter) const {
         return maxHeapTreeAdapter.getParentIndex(maxHeapTreeAdapter.getBottomTreeIndex());
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Proposition: Heap construction uses <= 2N compares and exchanges
 // Proposition: Heap sort uses <= 2N*log2(N) lo compares and exchanges
@@ -81,12 +73,10 @@ private:
 // -> Makes poor use of cache memory (memory access are all over the place, not cache friendly)
 // -> not stable
 
-
-
 // Other discussions:
 // Heap sort is a comparison-based sorting technique based on Binary Heap data structure.
-// It is similar to selection sort where we first find the minimum element and place the minimum element at the beginning.
-// We repeat the same process for the remaining elements.
+// It is similar to selection sort where we first find the minimum element and place the minimum element at the
+// beginning. We repeat the same process for the remaining elements.
 
 // What is Binary Heap?
 // Let us first define a Complete Binary Tree.
@@ -98,8 +88,9 @@ private:
 // The heap can be represented by a binary tree or array.
 
 // Why array based representation for Binary Heap?
-// Since a Binary Heap is a Complete Binary Tree, it can be easily represented as an array and the array-based representation is space-efficient.
-// If the parent node is stored at index I, the left child can be calculated by 2 * I + 1 and the right child by 2 * I + 2 (assuming the indexing starts at 0).
+// Since a Binary Heap is a Complete Binary Tree, it can be easily represented as an array and the array-based
+// representation is space-efficient. If the parent node is stored at index I, the left child can be calculated by 2 * I
+// + 1 and the right child by 2 * I + 2 (assuming the indexing starts at 0).
 
 // Heap Sort Algorithm for sorting in increasing order:
 // 1. Build a max heap from the input data.
@@ -125,4 +116,3 @@ private:
 
 // Heap sort algorithm has limited uses because Quicksort and Mergesort are better in practice.
 // Nevertheless, the Heap data structure itself is enormously used.
-

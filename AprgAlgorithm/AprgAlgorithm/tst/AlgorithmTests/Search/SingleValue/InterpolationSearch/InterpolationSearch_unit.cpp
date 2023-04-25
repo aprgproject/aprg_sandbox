@@ -6,73 +6,59 @@
 using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = InterpolationSearch<ValuesForTest>;
-}
+}  // namespace
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereIsOneValue) {
     testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues) {
     testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWithIndicesWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
-{
+TEST(InterpolationSearchTest, GetIndexOfValueWithIndicesWorksWhenValueIsFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWithIndicesWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

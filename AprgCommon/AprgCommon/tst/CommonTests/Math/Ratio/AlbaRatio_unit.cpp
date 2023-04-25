@@ -2,12 +2,10 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaRatioTest, BothParametersAreZero)
-{
-    AlbaRatio actualRatio(0,0);
+TEST(AlbaRatioTest, BothParametersAreZero) {
+    AlbaRatio actualRatio(0, 0);
 
     EXPECT_EQ(AlbaRatio::Type::BothValuesZero, actualRatio.getType());
     EXPECT_EQ(0, actualRatio.getValidRatioIfPossible());
@@ -16,9 +14,8 @@ TEST(AlbaRatioTest, BothParametersAreZero)
     EXPECT_FALSE(actualRatio.hasValidRatio());
 }
 
-TEST(AlbaRatioTest, OnlyFirstParametersIsZero)
-{
-    AlbaRatio actualRatio(0,2983);
+TEST(AlbaRatioTest, OnlyFirstParametersIsZero) {
+    AlbaRatio actualRatio(0, 2983);
 
     EXPECT_EQ(AlbaRatio::Type::FirstValueIsZero, actualRatio.getType());
     EXPECT_EQ(0, actualRatio.getValidRatioIfPossible());
@@ -27,9 +24,8 @@ TEST(AlbaRatioTest, OnlyFirstParametersIsZero)
     EXPECT_FALSE(actualRatio.hasValidRatio());
 }
 
-TEST(AlbaRatioTest, OnlySecondParametersIsZero)
-{
-    AlbaRatio actualRatio(98,0);
+TEST(AlbaRatioTest, OnlySecondParametersIsZero) {
+    AlbaRatio actualRatio(98, 0);
 
     EXPECT_EQ(AlbaRatio::Type::SecondValueIsZero, actualRatio.getType());
     EXPECT_EQ(0, actualRatio.getValidRatioIfPossible());
@@ -38,9 +34,8 @@ TEST(AlbaRatioTest, OnlySecondParametersIsZero)
     EXPECT_FALSE(actualRatio.hasValidRatio());
 }
 
-TEST(AlbaRatioTest, BothParametersAreNonZero)
-{
-    AlbaRatio actualRatio(16,2);
+TEST(AlbaRatioTest, BothParametersAreNonZero) {
+    AlbaRatio actualRatio(16, 2);
 
     EXPECT_EQ(AlbaRatio::Type::WithValidRatio, actualRatio.getType());
     EXPECT_EQ(8, actualRatio.getValidRatioIfPossible());
@@ -49,4 +44,4 @@ TEST(AlbaRatioTest, BothParametersAreNonZero)
     EXPECT_TRUE(actualRatio.hasValidRatio());
 }
 
-}
+}  // namespace alba

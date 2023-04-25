@@ -1,6 +1,3 @@
 #include "ModuleTest.hpp"
 
-namespace DesignDocumentCreator
-{
-
-}
+namespace DesignDocumentCreator {}

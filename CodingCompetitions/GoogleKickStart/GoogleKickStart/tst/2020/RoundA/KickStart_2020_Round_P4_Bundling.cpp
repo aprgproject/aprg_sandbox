@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2020_Round_P4_Bundling.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -17,8 +18,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2020_Round_P4_Bundling
-{
+namespace KickStart_2020_Round_P4_Bundling {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -29,50 +29,44 @@ namespace KickStart_2020_Round_P4_Bundling
 int n, k, c[2000001][26], m, cnt[2000001];
 long long ans;
 
-void dfs(int u=0, int d=0) {
-    for(int v=0; v<26; ++v)
-        if(c[u][v])
-            dfs(c[u][v], d+1), cnt[u]+=cnt[c[u][v]];
-    while(cnt[u]>=k) {
-        cnt[u]-=k;
-        ans+=d;
+void dfs(int u = 0, int d = 0) {
+    for (int v = 0; v < 26; ++v)
+        if (c[u][v]) dfs(c[u][v], d + 1), cnt[u] += cnt[c[u][v]];
+    while (cnt[u] >= k) {
+        cnt[u] -= k;
+        ans += d;
     }
 }
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     my_cin >> n >> k;
-    m=1;
-    for(int i=0; i<n; ++i) {
+    m = 1;
+    for (int i = 0; i < n; ++i) {
         string s;
         my_cin >> s;
-        int u=0;
-        for(char d : s) {
-            if(!c[u][d-'A'])
-                c[u][d-'A']=m++;
-            u=c[u][d-'A'];
+        int u = 0;
+        for (char d : s) {
+            if (!c[u][d - 'A']) c[u][d - 'A'] = m++;
+            u = c[u][d - 'A'];
         }
         ++cnt[u];
     }
-    ans=0;
+    ans = 0;
     dfs();
-    memset(c, 0, m*sizeof(c[0]));
-    memset(cnt, 0, m*4);
+    memset(c, 0, m * sizeof(c[0]));
+    memset(cnt, 0, m * 4);
     my_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -82,8 +76,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_Round_P4_Bundling
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

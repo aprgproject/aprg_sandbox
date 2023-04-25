@@ -4,12 +4,10 @@
 
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-namespace UmlHelpers
-{
-    std::string getUmlAlias(ComponentName const componentName);
+namespace UmlHelpers {
+std::string getUmlAlias(ComponentName const componentName);
 }
 
-}
+}  // namespace DesignDocumentCreator

@@ -4,20 +4,17 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class BaseGraph
-{
+class BaseGraph {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
 
-    virtual ~BaseGraph() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseGraph() = default;  // virtual destructor because of virtual functions (vtable exists)
 
     virtual bool isEmpty() const = 0;
     virtual bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const = 0;
@@ -33,6 +30,6 @@ public:
     virtual void clear() = 0;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

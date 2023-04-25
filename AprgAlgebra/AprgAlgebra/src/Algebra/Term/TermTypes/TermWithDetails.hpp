@@ -6,23 +6,20 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-struct TermWithDetails
-{
+struct TermWithDetails {
     TermWithDetails(BaseTerm const& baseTerm, TermAssociationType const associationParameter);
-    TermWithDetails(BaseTerm && baseTerm, TermAssociationType const associationParameter);
+    TermWithDetails(BaseTerm&& baseTerm, TermAssociationType const associationParameter);
 
     // rule of five or six
     ~TermWithDetails() = default;
     TermWithDetails(TermWithDetails const& termWithDetails);
-    TermWithDetails & operator=(TermWithDetails const& termWithDetails);
-    TermWithDetails(TermWithDetails && termWithDetails) = default;
-    TermWithDetails & operator=(TermWithDetails && termWithDetails) = default;
+    TermWithDetails& operator=(TermWithDetails const& termWithDetails);
+    TermWithDetails(TermWithDetails&& termWithDetails) = default;
+    TermWithDetails& operator=(TermWithDetails&& termWithDetails) = default;
 
     bool operator==(TermWithDetails const& second) const;
     bool operator!=(TermWithDetails const& second) const;
@@ -36,8 +33,8 @@ struct TermWithDetails
     TermAssociationType association;
 };
 
-using TermsWithDetails=std::vector<TermWithDetails>;
+using TermsWithDetails = std::vector<TermWithDetails>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

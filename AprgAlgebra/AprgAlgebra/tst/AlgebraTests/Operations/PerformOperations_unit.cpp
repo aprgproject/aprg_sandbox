@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks)
-{
+TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks) {
     Term termToVerify1(performOperation(Operator("+"), 215));
     Term termToVerify2(performOperation(Operator("-"), 215));
 
@@ -19,8 +16,7 @@ TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks)
     EXPECT_EQ(Term(-215), termToVerify2);
 }
 
-TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
-{
+TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks) {
     Term termToVerify1(performOperation(Operator("+"), 25, 2));
     Term termToVerify2(performOperation(Operator("-"), 25, 2));
     Term termToVerify3(performOperation(Operator("*"), 25, 2));
@@ -34,7 +30,6 @@ TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
     EXPECT_EQ(Term(625), termToVerify5);
 }
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

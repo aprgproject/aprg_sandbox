@@ -1,6 +1,8 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_GLOBAL/tags/GLOBAL_ENV_13_54/I_Interface/Global_Env/Definitions/SMessageHeader.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_GLOBAL/tags/GLOBAL_ENV_13_54/I_Interface/Global_Env/Definitions/SMessageHeader.h
+*$
 * @version               $LastChangedRevision: 3080 $
 * @date                  $LastChangedDate: 2014-05-23 20:32:51 +0800 (Fri, 23 May 2014) $
 * @author                $Author: plaskonk $
@@ -12,9 +14,8 @@
 #ifndef _SMESSAGEHEADER_H
 #define _SMESSAGEHEADER_H
 
-
-#include <SMessageAddress.h>
 #include <SHeaderFlags.h>
+#include <SMessageAddress.h>
 
 #ifdef SYSCOM_NOT_IN_USE
 #define MESSAGEHEADER(fieldname) SMessageHeader fieldname;
@@ -28,14 +29,13 @@
 #include <TPad16.h>
 #include <glo_def.h>
 
-struct SMessageHeader
-{
-    TMessageIdDsp       id;
-    TPad16              pad;
-    SMessageAddress   receiver;
-    SMessageAddress   sender;
-    SHeaderFlags        flags;
-    u16                 length;
+struct SMessageHeader {
+    TMessageIdDsp id;
+    TPad16 pad;
+    SMessageAddress receiver;
+    SMessageAddress sender;
+    SHeaderFlags flags;
+    u16 length;
 };
 typedef struct SMessageHeader SMessageHeader;
 
@@ -43,13 +43,12 @@ typedef struct SMessageHeader SMessageHeader;
 
 #include <TMsgHeaderTypes.h>
 
-struct SMessageHeader
-{
-    TMessageId      id;
+struct SMessageHeader {
+    TMessageId id;
     SMessageAddress receiver;
     SMessageAddress sender;
-    TMsgLength      length;
-    SHeaderFlags    flags;
+    TMsgLength length;
+    SHeaderFlags flags;
 };
 typedef struct SMessageHeader SMessageHeader;
 
@@ -80,6 +79,3 @@ typedef struct SMessageHeader SMessageHeader;
 * Remember to put an empty line in the end of each definition file.
 * Otherwise the compiler will generate a warning.
 ************************************************************************/
-
-
-

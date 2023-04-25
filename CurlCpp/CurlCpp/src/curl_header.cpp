@@ -4,16 +4,17 @@
  */
 
 #include "curl_header.h"
+
 #include "curl_exception.h"
+
 #include <algorithm>
 
-using std::string;
-using std::initializer_list;
 using std::for_each;
+using std::initializer_list;
+using std::string;
 
-using curl::curl_header;
 using curl::curl_exception;
-
+using curl::curl_header;
 
 // Implementation of constructor.
 curl_header::curl_header() : size(0), headers(nullptr) {
@@ -22,9 +23,7 @@ curl_header::curl_header() : size(0), headers(nullptr) {
 
 // Implementation of the list constructor's initialize method.
 curl_header::curl_header(initializer_list<string> headers) : size(0), headers(nullptr) {
-    for_each(headers.begin(),headers.end(),[this](const string& header) {
-        this->add(header);
-    });
+    for_each(headers.begin(), headers.end(), [this](const string &header) { this->add(header); });
 }
 
 /**
@@ -53,10 +52,10 @@ curl_header::~curl_header() NOEXCEPT {
 }
 
 // Implementation of add overloaded method.
-void curl_header::add(const string& header) {
-    this->headers = curl_slist_append(this->headers,header.c_str());
+void curl_header::add(const string &header) {
+    this->headers = curl_slist_append(this->headers, header.c_str());
     if (this->headers == nullptr) {
-        throw curl_exception("Null pointer exception",__FUNCTION__);
+        throw curl_exception("Null pointer exception", __FUNCTION__);
     }
     ++this->size;
 }

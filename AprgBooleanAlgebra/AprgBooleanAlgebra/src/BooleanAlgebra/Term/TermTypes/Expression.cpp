@@ -14,115 +14,69 @@
 using namespace alba::booleanAlgebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-Expression::Expression()
-    : m_commonOperatorLevel(OperatorLevel::Unknown)
-    , m_wrappedTerms()
-    , m_isSimplified(false)
-{}
+Expression::Expression() : m_commonOperatorLevel(OperatorLevel::Unknown), m_wrappedTerms(), m_isSimplified(false) {}
 
 Expression::Expression(BaseTerm const& baseTerm)
-    : m_commonOperatorLevel(OperatorLevel::Unknown)
-    , m_wrappedTerms({baseTerm})
-    , m_isSimplified(false)
-{}
+    : m_commonOperatorLevel(OperatorLevel::Unknown), m_wrappedTerms({baseTerm}), m_isSimplified(false) {}
 
-Expression::Expression(BaseTerm && baseTerm)
-    : m_commonOperatorLevel(OperatorLevel::Unknown)
-    , m_wrappedTerms({move(baseTerm)})
-    , m_isSimplified(false)
-{}
+Expression::Expression(BaseTerm&& baseTerm)
+    : m_commonOperatorLevel(OperatorLevel::Unknown), m_wrappedTerms({move(baseTerm)}), m_isSimplified(false) {}
 
-Expression::Expression(
-        OperatorLevel const operatorLevel,
-        WrappedTerms const& wrappedTerms)
-    : m_commonOperatorLevel(wrappedTerms.empty() ? OperatorLevel::Unknown : operatorLevel)
-    , m_wrappedTerms(wrappedTerms)
-    , m_isSimplified(false)
-{}
+Expression::Expression(OperatorLevel const operatorLevel, WrappedTerms const& wrappedTerms)
+    : m_commonOperatorLevel(wrappedTerms.empty() ? OperatorLevel::Unknown : operatorLevel),
+      m_wrappedTerms(wrappedTerms),
+      m_isSimplified(false) {}
 
-Expression::Expression(
-        OperatorLevel const operatorLevel,
-        WrappedTerms && wrappedTerms)
-    : m_commonOperatorLevel(wrappedTerms.empty() ? OperatorLevel::Unknown : operatorLevel)
-    , m_wrappedTerms(move(wrappedTerms))
-    , m_isSimplified(false)
-{}
+Expression::Expression(OperatorLevel const operatorLevel, WrappedTerms&& wrappedTerms)
+    : m_commonOperatorLevel(wrappedTerms.empty() ? OperatorLevel::Unknown : operatorLevel),
+      m_wrappedTerms(move(wrappedTerms)),
+      m_isSimplified(false) {}
 
-bool Expression::operator==(Expression const& second) const
-{
-    return m_commonOperatorLevel == second.m_commonOperatorLevel
-            && m_wrappedTerms==second.m_wrappedTerms;
+bool Expression::operator==(Expression const& second) const {
+    return m_commonOperatorLevel == second.m_commonOperatorLevel && m_wrappedTerms == second.m_wrappedTerms;
 }
 
-bool Expression::operator!=(Expression const& second) const
-{
-    return !(operator==(second));
-}
+bool Expression::operator!=(Expression const& second) const { return !(operator==(second)); }
 
-bool Expression::operator<(Expression const& second) const
-{
+bool Expression::operator<(Expression const& second) const {
     bool result(false);
-    if(m_commonOperatorLevel == second.m_commonOperatorLevel)
-    {
+    if (m_commonOperatorLevel == second.m_commonOperatorLevel) {
         return m_wrappedTerms < second.m_wrappedTerms;
-    }
-    else
-    {
-        result = getOperatorLevelInversePriority(m_commonOperatorLevel)
-                < getOperatorLevelInversePriority(second.m_commonOperatorLevel);
+    } else {
+        result = getOperatorLevelInversePriority(m_commonOperatorLevel) <
+                 getOperatorLevelInversePriority(second.m_commonOperatorLevel);
     }
     return result;
 }
 
-Expression Expression::operator~() const
-{
+Expression Expression::operator~() const {
     Expression result(*this);
     result.negate();
     return result;
 }
 
-bool Expression::isEmpty() const
-{
-    return m_wrappedTerms.empty();
-}
+bool Expression::isEmpty() const { return m_wrappedTerms.empty(); }
 
-bool Expression::isSimplified() const
-{
-    return m_isSimplified;
-}
+bool Expression::isSimplified() const { return m_isSimplified; }
 
-bool Expression::containsOnlyOneTerm() const
-{
-    return m_wrappedTerms.size() == 1;
-}
+bool Expression::containsOnlyOneTerm() const { return m_wrappedTerms.size() == 1; }
 
-OperatorLevel Expression::getCommonOperatorLevel() const
-{
-    return m_commonOperatorLevel;
-}
+OperatorLevel Expression::getCommonOperatorLevel() const { return m_commonOperatorLevel; }
 
-BaseTerm const& Expression::getFirstTermConstReference() const
-{
+BaseTerm const& Expression::getFirstTermConstReference() const {
     return getBaseTermReferenceFromUniquePointer(m_wrappedTerms.front().baseTermPointer);
 }
 
-WrappedTerms const& Expression::getWrappedTerms() const
-{
-    return m_wrappedTerms;
-}
+WrappedTerms const& Expression::getWrappedTerms() const { return m_wrappedTerms; }
 
-string Expression::getDebugString() const
-{
+string Expression::getDebugString() const {
     stringstream result;
     result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
-    for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
-    {
+    for (WrappedTerm const& wrappedTerm : m_wrappedTerms) {
         Term const& term(getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
         result << getString(m_commonOperatorLevel) << term.getDebugString();
     }
@@ -130,165 +84,119 @@ string Expression::getDebugString() const
     return result.str();
 }
 
-WrappedTerms & Expression::getWrappedTermsReference()
-{
+WrappedTerms& Expression::getWrappedTermsReference() {
     clearSimplifiedFlag();
     return m_wrappedTerms;
 }
 
-void Expression::clear()
-{
+void Expression::clear() {
     m_commonOperatorLevel = OperatorLevel::Unknown;
     m_wrappedTerms.clear();
     clearSimplifiedFlag();
 }
 
-void Expression::clearAndPutTermInWrappedTerms(BaseTerm const& baseTerm)
-{
+void Expression::clearAndPutTermInWrappedTerms(BaseTerm const& baseTerm) {
     m_commonOperatorLevel = OperatorLevel::Unknown;
     m_wrappedTerms = {baseTerm};
     clearSimplifiedFlag();
 }
 
-void Expression::putTerm(BaseTerm const& baseTerm)
-{
+void Expression::putTerm(BaseTerm const& baseTerm) {
     m_wrappedTerms.emplace_back(baseTerm);
     clearSimplifiedFlag();
 }
 
-void Expression::putTerm(
-        BaseTerm const& baseTerm,
-        OperatorLevel const operatorLevel)
-{
-    if(OperatorLevel::And == operatorLevel)
-    {
+void Expression::putTerm(BaseTerm const& baseTerm, OperatorLevel const operatorLevel) {
+    if (OperatorLevel::And == operatorLevel) {
         putTermWithAndOperationIfNeeded(baseTerm);
-    }
-    else if(OperatorLevel::Or == operatorLevel)
-    {
+    } else if (OperatorLevel::Or == operatorLevel) {
         putTermWithOrOperationIfNeeded(baseTerm);
     }
     clearSimplifiedFlag();
 }
 
-void Expression::putTermWithAndOperationIfNeeded(BaseTerm const& baseTerm)
-{
+void Expression::putTermWithAndOperationIfNeeded(BaseTerm const& baseTerm) {
     Expression const& thisExpression(*this);
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(willHaveNoEffectOnAndOperation(term))
-    {
-        if(isEmpty())
-        {
+    if (willHaveNoEffectOnAndOperation(term)) {
+        if (isEmpty()) {
             setTerm(Term(true));
         }
-    }
-    else if(isTheValue(term, false))
-    {
-        if(!isTheValue(thisExpression, false))
-        {
+    } else if (isTheValue(term, false)) {
+        if (!isTheValue(thisExpression, false)) {
             setTerm(Term(false));
         }
-    }
-    else
-    {
-        if(willHaveNoEffectOnAndOperation(thisExpression))
-        {
+    } else {
+        if (willHaveNoEffectOnAndOperation(thisExpression)) {
             setTerm(baseTerm);
-        }
-        else if(isTheValue(thisExpression, false))
-        {
+        } else if (isTheValue(thisExpression, false)) {
             // do nothing
-        }
-        else
-        {
+        } else {
             putTermWithAndOperation(baseTerm);
         }
     }
     clearSimplifiedFlag();
 }
 
-void Expression::putTermWithOrOperationIfNeeded(BaseTerm const& baseTerm)
-{
+void Expression::putTermWithOrOperationIfNeeded(BaseTerm const& baseTerm) {
     Expression const& thisExpression(*this);
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(willHaveNoEffectOnOrOperation(term))
-    {
-        if(isEmpty())
-        {
+    if (willHaveNoEffectOnOrOperation(term)) {
+        if (isEmpty()) {
             setTerm(Term(false));
         }
-    }
-    else if(isTheValue(term, true))
-    {
-        if(!isTheValue(thisExpression, true))
-        {
+    } else if (isTheValue(term, true)) {
+        if (!isTheValue(thisExpression, true)) {
             setTerm(Term(true));
         }
-    }
-    else
-    {
-        if(willHaveNoEffectOnOrOperation(thisExpression))
-        {
+    } else {
+        if (willHaveNoEffectOnOrOperation(thisExpression)) {
             setTerm(baseTerm);
-        }
-        else if(isTheValue(thisExpression, true))
-        {
+        } else if (isTheValue(thisExpression, true)) {
             // do nothing
-        }
-        else
-        {
+        } else {
             putTermWithOrOperation(baseTerm);
         }
     }
     clearSimplifiedFlag();
 }
 
-void Expression::putWrappedTerm(WrappedTerm const& termToSave)
-{
+void Expression::putWrappedTerm(WrappedTerm const& termToSave) {
     m_wrappedTerms.emplace_back(termToSave);
     clearSimplifiedFlag();
 }
 
-void Expression::putWrappedTerms(WrappedTerms const& termsToSave)
-{
+void Expression::putWrappedTerms(WrappedTerms const& termsToSave) {
     m_wrappedTerms.reserve(m_wrappedTerms.size() + termsToSave.size());
     copy(termsToSave.cbegin(), termsToSave.cend(), back_inserter(m_wrappedTerms));
     clearSimplifiedFlag();
 }
 
-void Expression::set(OperatorLevel const operatorLevel, WrappedTerms const& wrappedTerms)
-{
+void Expression::set(OperatorLevel const operatorLevel, WrappedTerms const& wrappedTerms) {
     m_commonOperatorLevel = operatorLevel;
     m_wrappedTerms = wrappedTerms;
     clearSimplifiedFlag();
 }
 
-void Expression::setTerm(BaseTerm const& baseTerm)
-{
-    *this = createOrCopyExpressionFromATerm(
-                getTermConstReferenceFromBaseTerm(baseTerm));
+void Expression::setTerm(BaseTerm const& baseTerm) {
+    *this = createOrCopyExpressionFromATerm(getTermConstReferenceFromBaseTerm(baseTerm));
     clearSimplifiedFlag();
 }
 
-void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel)
-{
+void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel) {
     m_commonOperatorLevel = operatorLevel;
     clearSimplifiedFlag();
 }
 
-void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel)
-{
-    if(OperatorLevel::Unknown == m_commonOperatorLevel)
-    {
+void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel) {
+    if (OperatorLevel::Unknown == m_commonOperatorLevel) {
         m_commonOperatorLevel = operatorLevel;
     }
     clearSimplifiedFlag();
 }
 
-void Expression::simplify()
-{
-    if(!m_isSimplified)
-    {
+void Expression::simplify() {
+    if (!m_isSimplified) {
         SimplificationOfExpression simplification(*this);
         simplification.simplify();
         *this = simplification.getExpression();
@@ -296,124 +204,93 @@ void Expression::simplify()
     }
 }
 
-void Expression::sort()
-{
+void Expression::sort() {
     ::sort(m_wrappedTerms.begin(), m_wrappedTerms.end());
     clearSimplifiedFlag();
 }
 
-void Expression::negate()
-{
+void Expression::negate() {
     // Using De Morgan's Law
     // (x | y | z + ...)’ = x’ & y’ & z’ & ...
     // (x & y & z & ...)’ = x’ | y’ | z’ + ...
-    for(WrappedTerm & wrappedTerm : m_wrappedTerms)
-    {
-        Term & term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
+    for (WrappedTerm& wrappedTerm : m_wrappedTerms) {
+        Term& term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
         term.negate();
     }
     m_commonOperatorLevel = getDualOperatorLevel(m_commonOperatorLevel);
     clearSimplifiedFlag();
 }
 
-void Expression::setAsSimplified()
-{
-    m_isSimplified = true;
-}
+void Expression::setAsSimplified() { m_isSimplified = true; }
 
-void Expression::clearSimplifiedFlag()
-{
-    m_isSimplified = false;
-}
+void Expression::clearSimplifiedFlag() { m_isSimplified = false; }
 
-void Expression::clearAllInnerSimplifiedFlags()
-{
-    for(WrappedTerm & wrappedTerm : m_wrappedTerms)
-    {
-        Term & term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
+void Expression::clearAllInnerSimplifiedFlags() {
+    for (WrappedTerm& wrappedTerm : m_wrappedTerms) {
+        Term& term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
         term.clearAllInnerSimplifiedFlags();
     }
     clearSimplifiedFlag();
 }
 
-void Expression::putTermWithAndOperation(BaseTerm const& baseTerm)
-{
-    switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
-    case OperatorLevel::And:
-    {
-        m_commonOperatorLevel = OperatorLevel::And;
-        putTermForExpressionAndNonExpressions(baseTerm);
-        break;
-    }
-    case OperatorLevel::Or:
-    {
-        clearAndPutTermInWrappedTerms(Term(*this));
-        m_commonOperatorLevel = OperatorLevel::And;
-        putTermForExpressionAndNonExpressions(baseTerm);
-        break;
-    }
+void Expression::putTermWithAndOperation(BaseTerm const& baseTerm) {
+    switch (m_commonOperatorLevel) {
+        case OperatorLevel::Unknown:
+        case OperatorLevel::And: {
+            m_commonOperatorLevel = OperatorLevel::And;
+            putTermForExpressionAndNonExpressions(baseTerm);
+            break;
+        }
+        case OperatorLevel::Or: {
+            clearAndPutTermInWrappedTerms(Term(*this));
+            m_commonOperatorLevel = OperatorLevel::And;
+            putTermForExpressionAndNonExpressions(baseTerm);
+            break;
+        }
     }
 }
 
-void Expression::putTermWithOrOperation(BaseTerm const& baseTerm)
-{
-    switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
-    case OperatorLevel::Or:
-    {
-        m_commonOperatorLevel = OperatorLevel::Or;
-        putTermForExpressionAndNonExpressions(baseTerm);
-        break;
-    }
-    case OperatorLevel::And:
-    {
-        clearAndPutTermInWrappedTerms(Term(*this));
-        m_commonOperatorLevel = OperatorLevel::Or;
-        putTermForExpressionAndNonExpressions(baseTerm);
-        break;
-    }
+void Expression::putTermWithOrOperation(BaseTerm const& baseTerm) {
+    switch (m_commonOperatorLevel) {
+        case OperatorLevel::Unknown:
+        case OperatorLevel::Or: {
+            m_commonOperatorLevel = OperatorLevel::Or;
+            putTermForExpressionAndNonExpressions(baseTerm);
+            break;
+        }
+        case OperatorLevel::And: {
+            clearAndPutTermInWrappedTerms(Term(*this));
+            m_commonOperatorLevel = OperatorLevel::Or;
+            putTermForExpressionAndNonExpressions(baseTerm);
+            break;
+        }
     }
 }
 
-void Expression::putTermForExpressionAndNonExpressions(
-        BaseTerm const& baseTerm)
-{
+void Expression::putTermForExpressionAndNonExpressions(BaseTerm const& baseTerm) {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(term.isExpression())
-    {
-        Expression const & expression(term.getExpressionConstReference());
-        if(!expression.isEmpty())
-        {
-            if(m_commonOperatorLevel == expression.getCommonOperatorLevel() ||
-                    OperatorLevel::Unknown == expression.getCommonOperatorLevel())
-            {
+    if (term.isExpression()) {
+        Expression const& expression(term.getExpressionConstReference());
+        if (!expression.isEmpty()) {
+            if (m_commonOperatorLevel == expression.getCommonOperatorLevel() ||
+                OperatorLevel::Unknown == expression.getCommonOperatorLevel()) {
                 putWrappedTerms(expression.getWrappedTerms());
-            }
-            else
-            {
+            } else {
                 putTerm(baseTerm);
             }
         }
-    }
-    else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
-    {
+    } else if (isNonEmptyOrNonOperatorOrNonExpressionType(term)) {
         putTerm(baseTerm);
     }
 }
 
-ostream & operator<<(ostream & out, Expression const& expression)
-{
+ostream& operator<<(ostream& out, Expression const& expression) {
     WrappedTerms const& wrappedTerms(expression.m_wrappedTerms);
     string operatorString(getString(expression.m_commonOperatorLevel));
     out << "(";
-    if(!wrappedTerms.empty())
-    {
+    if (!wrappedTerms.empty()) {
         out << getTermConstReferenceFromUniquePointer(wrappedTerms.front().baseTermPointer);
-        for(auto it=wrappedTerms.cbegin()+1; it!=wrappedTerms.cend(); it++)
-        {
+        for (auto it = wrappedTerms.cbegin() + 1; it != wrappedTerms.cend(); it++) {
             Term const& term(getTermConstReferenceFromUniquePointer(it->baseTermPointer));
             out << operatorString << term;
         }
@@ -422,6 +299,6 @@ ostream & operator<<(ostream & out, Expression const& expression)
     return out;
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

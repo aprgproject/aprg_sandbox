@@ -2,22 +2,14 @@
 
 #include <Common/Math/AlbaMathConstants.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace mathHelper
-{
+namespace mathHelper {
 
-inline double getPi()
-{
-    return AlbaMathConstants::PI_DOUBLE_VALUE;
-}
+inline double getPi() { return AlbaMathConstants::PI_DOUBLE_VALUE; }
 
-inline double getE()
-{
-    return AlbaMathConstants::E_DOUBLE_VALUE;
-}
+inline double getE() { return AlbaMathConstants::E_DOUBLE_VALUE; }
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

@@ -1,72 +1,57 @@
 #pragma once
 
-#include <Algorithm/Graph/Types/GraphTypes.hpp>
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/PathSearch/EulerPaths/Common/Utilities.hpp>
+#include <Algorithm/Graph/Types/GraphTypes.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class BaseEulerPathSearchForDirectedGraph
-{
+class BaseEulerPathSearchForDirectedGraph {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    BaseEulerPathSearchForDirectedGraph(BaseDirectedGraphWithVertex const& graph)
-        : m_graph(graph)
-    {}
+    BaseEulerPathSearchForDirectedGraph(BaseDirectedGraphWithVertex const& graph) : m_graph(graph) {}
 
-    virtual ~BaseEulerPathSearchForDirectedGraph() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseEulerPathSearchForDirectedGraph() =
+        default;  // virtual destructor because of virtual functions (vtable exists)
 
-    bool hasEulerCycle() const
-    {
-        return hasEulerCycleForDirectedGraph(m_graph);
-    }
+    bool hasEulerCycle() const { return hasEulerCycleForDirectedGraph(m_graph); }
 
-    bool hasEulerPath() const
-    {
-        return hasEulerPathForDirectedGraph(m_graph);
-    }
+    bool hasEulerPath() const { return hasEulerPathForDirectedGraph(m_graph); }
 
-    // An Euler circuit is a circuit that uses every edge in a graph with no repeats. Being a circuit, it must start and end at the same vertex.
+    // An Euler circuit is a circuit that uses every edge in a graph with no repeats. Being a circuit, it must start and
+    // end at the same vertex.
     virtual Path getEulerCycle() const = 0;
 
-    // An Euler path is a path that uses every edge in a graph with no repeats. Being a path, it does not have to return to the starting vertex.
+    // An Euler path is a path that uses every edge in a graph with no repeats. Being a path, it does not have to return
+    // to the starting vertex.
     virtual Path getEulerPath() const = 0;
 
 protected:
-
-    Vertex getStartingVertexForEulerCycle() const
-    {
+    Vertex getStartingVertexForEulerCycle() const {
         Vertex result{};
         Vertices vertices(m_graph.getVertices());
-        if(!vertices.empty())
-        {
+        if (!vertices.empty()) {
             result = vertices.front();
         }
         return result;
     }
 
-    Vertex getStartingVertexForEulerPath() const
-    {
+    Vertex getStartingVertexForEulerPath() const {
         Vertex result{};
         Vertices vertices(m_graph.getVertices());
-        if(!vertices.empty())
-        {
+        if (!vertices.empty()) {
             result = vertices.front();
-            for(Vertex const& vertex : vertices)
-            {
-                if(mathHelper::isOdd(GraphUtilities::getDegreeAt(m_graph, vertex)))
-                {
+            for (Vertex const& vertex : vertices) {
+                if (mathHelper::isOdd(GraphUtilities::getDegreeAt(m_graph, vertex))) {
                     result = vertex;
                     break;
                 }
@@ -78,6 +63,6 @@ protected:
     BaseDirectedGraphWithVertex const& m_graph;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

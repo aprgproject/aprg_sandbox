@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2021_Round1A_P1_AppendSort
-{
+namespace CodeJam_2021_Round1A_P1_AppendSort {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

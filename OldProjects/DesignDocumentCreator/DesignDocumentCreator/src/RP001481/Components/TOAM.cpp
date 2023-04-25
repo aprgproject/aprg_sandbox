@@ -8,62 +8,55 @@
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-TOAM::TOAM(ComponentName const componentName)
-    : Component(componentName)
-{}
+TOAM::TOAM(ComponentName const componentName) : Component(componentName) {}
 
-void TOAM::handleMessage1(GenericMessage const& genericMessage)
-{
-    cout<<"handleMessage1()\n";
-    Environment & environment(Environment::getInstance());
+void TOAM::handleMessage1(GenericMessage const& genericMessage) {
+    cout << "handleMessage1()\n";
+    Environment& environment(Environment::getInstance());
 
-    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
+    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(
+        convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
     SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
     logNoteOnPreviousMessage("Message 1 description.");
     logNoteOnComponent("TOAM will do something.");
 }
 
-void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
-{
+void TOAM::handleMessageEvent(GenericMessage const& genericMessage) {
     MessageName messageName(genericMessage.getMessageName());
-    switch(messageName)
-    {
-    case MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG:
-        handleMessage1(genericMessage);
-        break;
-    default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<"\n";
-        break;
+    switch (messageName) {
+        case MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG:
+            handleMessage1(genericMessage);
+            break;
+        default:
+            cout << "No handler for messageName: " << genericMessage.getMessageNameInString()
+                 << " in component: " << getComponentNameInString() << "\n";
+            break;
     }
 }
 
-void TOAM::handleTimerEvent(Timer const& timer)
-{
-    switch(timer.getType())
-    {
-    //case TimerType::Empty:
-    //    cout<<"Handle Timer, Empty: \n";
-    //    break;
-    default:
-        cout<<"No handler for timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<". Please create one!\n";
-        break;
+void TOAM::handleTimerEvent(Timer const& timer) {
+    switch (timer.getType()) {
+        // case TimerType::Empty:
+        //    cout<<"Handle Timer, Empty: \n";
+        //    break;
+        default:
+            cout << "No handler for timerType: " << convertToString(timer.getType())
+                 << " timerId:" << (int)timer.getId() << ". Please create one!\n";
+            break;
     }
 }
 
-void TOAM::handleOtherEvent(OtherEvent const& otherEvent)
-{
-    switch(otherEvent.getType())
-    {
-    //case TimerType::Empty:
-    //    cout<<"Handle OtherEvent, Empty: \n";
-    //    break;
-    default:
-        cout<<"No handler for otherEventType: "<<(int)otherEvent.getType()<<". Please create one!\n";
-        break;
+void TOAM::handleOtherEvent(OtherEvent const& otherEvent) {
+    switch (otherEvent.getType()) {
+        // case TimerType::Empty:
+        //    cout<<"Handle OtherEvent, Empty: \n";
+        //    break;
+        default:
+            cout << "No handler for otherEventType: " << (int)otherEvent.getType() << ". Please create one!\n";
+            break;
     }
 }
 
-}
+}  // namespace DesignDocumentCreator

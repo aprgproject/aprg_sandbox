@@ -12,50 +12,37 @@ using namespace alba::stringHelper;
 using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-Youtube::Youtube(WebCrawler & webCrawler)
-    : m_webCrawler(webCrawler)
-    , m_configuration(webCrawler.getCrawlMode())
-{}
+Youtube::Youtube(WebCrawler& webCrawler) : m_webCrawler(webCrawler), m_configuration(webCrawler.getCrawlMode()) {}
 
-void Youtube::crawl()
-{
+void Youtube::crawl() {
     cout << "Youtube::crawl\n";
-    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
-    {
+    for (unsigned int webLinkIndex = 0; webLinkIndex < m_webCrawler.getNumberOfWebLinks();) {
         crawl(webLinkIndex);
-        if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
-        {
+        if (m_webCrawler.isOnCurrentDownloadFinishedCrawlState()) {
             m_webCrawler.removeWebLink(webLinkIndex);
             m_webCrawler.saveMemoryCard();
-        }
-        else
-        {
+        } else {
             m_webCrawler.addWebLink(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-            m_webCrawler.removeWebLink(webLinkIndex); //fix interface
+            m_webCrawler.removeWebLink(webLinkIndex);  // fix interface
             m_webCrawler.saveMemoryCard();
         }
-        webLinkIndex=0;
+        webLinkIndex = 0;
     }
 }
 
-void Youtube::crawl(unsigned int const webLinkIndex)
-{
+void Youtube::crawl(unsigned int const webLinkIndex) {
     m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-    if(isYoutubeLink(webLinkPathHandler))
-    {
+    if (isYoutubeLink(webLinkPathHandler)) {
         downloadFile(webLinkPathHandler);
     }
 }
 
-bool Youtube::isYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler)
-{
+bool Youtube::isYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler) {
     bool result(true);
-    if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLinkPathHandler.getFullPath(), "youtube"))
-    {
+    if (!isStringFoundInsideTheOtherStringNotCaseSensitive(webLinkPathHandler.getFullPath(), "youtube")) {
         cout << "Not a youtube link : " << webLinkPathHandler.getFullPath() << "\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
@@ -63,8 +50,7 @@ bool Youtube::isYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler)
     return result;
 }
 
-void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
-{
+void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler) {
     AutomatedFirefoxBrowser& firefoxBrowser(AutomatedFirefoxBrowser::getInstance());
 
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
@@ -80,25 +66,20 @@ void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
 
     firefoxBrowser.saveBinaryFile(localPathOfDownload.getDirectory());
     firefoxBrowser.closeTab();
-    //m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
-    //m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
+    // m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
+    // m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
 }
 
-void Youtube::clearLinks()
-{
+void Youtube::clearLinks() {
     m_linkForVideo.clear();
     m_localPathForCurrentVideo.clear();
 }
 
-bool Youtube::areLinksInvalid() const
-{
-    return m_linkForVideo.empty() || m_localPathForCurrentVideo.empty();
-}
+bool Youtube::areLinksInvalid() const { return m_linkForVideo.empty() || m_localPathForCurrentVideo.empty(); }
 
-void Youtube::printLinks() const
-{
+void Youtube::printLinks() const {
     cout << "m_linkForVideo : " << m_linkForVideo << "\n";
     cout << "m_localPathForCurrentVideo : " << m_localPathForCurrentVideo << "\n";
 }
 
-}
+}  // namespace aprgWebCrawler

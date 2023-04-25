@@ -3,24 +3,20 @@
 #include <algorithm>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Objects>
-class PermutationsGeneration
-{
+class PermutationsGeneration {
 public:
     using Object = typename Objects::value_type;
     using Permutation = Objects;
     using Permutations = std::vector<Objects>;
     using BooleanVector = std::vector<bool>;
 
-    struct RecursionData
-    {
-        Permutations & permutations;
+    struct RecursionData {
+        Permutations& permutations;
         Permutation currentPermutation;
         BooleanVector isProcessed;
         Objects const& objects;
@@ -31,28 +27,24 @@ public:
     PermutationsGeneration() = delete;
     ~PermutationsGeneration() = delete;
     PermutationsGeneration(PermutationsGeneration const&) = delete;
-    PermutationsGeneration & operator= (PermutationsGeneration const&) = delete;
-    PermutationsGeneration(PermutationsGeneration &&) = delete;
-    PermutationsGeneration & operator= (PermutationsGeneration &&) = delete;
+    PermutationsGeneration& operator=(PermutationsGeneration const&) = delete;
+    PermutationsGeneration(PermutationsGeneration&&) = delete;
+    PermutationsGeneration& operator=(PermutationsGeneration&&) = delete;
 
-    static Permutations generatePermutationsUsingCppFunctions(Objects const& objects)
-    {
+    static Permutations generatePermutationsUsingCppFunctions(Objects const& objects) {
         // Another method for generating permutations is to begin with the permutation {0,1,...,n-1}
         // and repeatedly use a function that constructs the next permutation in increasing order.
         // The C++ standard library contains the function next_permutation that can be used for this.
 
         Permutations result;
         Permutation currentPermutation(objects);
-        do
-        {
+        do {
             result.emplace_back(currentPermutation);
-        }
-        while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
+        } while (std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
         return result;
     }
 
-    static Permutations generatePermutationsUsingRecursion(Objects const& objects)
-    {
+    static Permutations generatePermutationsUsingRecursion(Objects const& objects) {
         // Like subsets, permutations can be generated using recursion.
         // The following function search goes through the permutations of the set {0,1,...,n-1}.
         // The function builds a vector permutation that contains the permutation,
@@ -68,40 +60,31 @@ public:
         return result;
     }
 
-    static Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength)
-    {
+    static Permutations generatePermutationsWithLength(
+        Objects const& objects, unsigned int const targetPermutationLength) {
         Permutations result;
-        RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, static_cast<unsigned int>(objects.size()))));
+        RecursionData recursionData(createRecursionData(
+            result, objects, std::min(targetPermutationLength, static_cast<unsigned int>(objects.size()))));
         collectPermutationsUsingRecursion(recursionData);
         return result;
     }
 
 private:
-
     static RecursionData createRecursionData(
-            Permutations & permutations,
-            Objects const& objects,
-            unsigned int const length)
-    {
+        Permutations& permutations, Objects const& objects, unsigned int const length) {
         return RecursionData{permutations, Permutation(), BooleanVector(objects.size(), false), objects, length};
     }
 
-    static void collectPermutationsUsingRecursion(RecursionData & recursionData)
-    {
-        if(recursionData.currentPermutation.size() == recursionData.targetPermutationLength)
-        {
+    static void collectPermutationsUsingRecursion(RecursionData& recursionData) {
+        if (recursionData.currentPermutation.size() == recursionData.targetPermutationLength) {
             recursionData.permutations.emplace_back(recursionData.currentPermutation);
-        }
-        else
-        {
+        } else {
             Objects const& objects(recursionData.objects);
-            Permutation & currentPermutation(recursionData.currentPermutation);
-            BooleanVector & isProcessed(recursionData.isProcessed);
+            Permutation& currentPermutation(recursionData.currentPermutation);
+            BooleanVector& isProcessed(recursionData.isProcessed);
 
-            for(unsigned int index=0; index<objects.size(); index++)
-            {
-                if(!isProcessed.at(index))
-                {
+            for (unsigned int index = 0; index < objects.size(); index++) {
+                if (!isProcessed.at(index)) {
                     currentPermutation.emplace_back(objects.at(index));
                     isProcessed[index] = true;
                     collectPermutationsUsingRecursion(recursionData);
@@ -113,6 +96,6 @@ private:
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -2,56 +2,46 @@
 
 #include <FeatureSpecificFiles/Sacks.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-struct StaticPartSack
-{
+struct StaticPartSack {
     int sampleStaticParameter;
 };
 
-struct DynamicArrayPartSack
-{
+struct DynamicArrayPartSack {
     int dynamicArrayParameter;
 };
 
-struct DynamicPlaceHolderSack
-{
+struct DynamicPlaceHolderSack {
     int dynamicPlaceHolderParameter;
 };
 
-struct DynamicPolymorphicPartSack
-{
+struct DynamicPolymorphicPartSack {
     int dynamicPolymorphicParameter;
 };
 
-struct StaticMessageSack
-{
+struct StaticMessageSack {
     int sampleParameter;
 };
 
-struct DynamicArrayMessageSack
-{
+struct DynamicArrayMessageSack {
     StaticPartSack staticPart;
     DynamicArrayPartSack dynamicPart[1];
 };
 
-struct DynamicPolymorphicMessageSack
-{
+struct DynamicPolymorphicMessageSack {
     StaticPartSack staticPart;
     DynamicPlaceHolderSack dynamicPart;
 };
 
-struct SampleActualDynamicArrayMessageSack
-{
+struct SampleActualDynamicArrayMessageSack {
     StaticPartSack staticPart;
     DynamicArrayPartSack dynamicPart[10];
 };
 
-struct SampleActualDynamicPolymorphicMessageSack
-{
+struct SampleActualDynamicPolymorphicMessageSack {
     StaticPartSack staticPart;
     DynamicPolymorphicPartSack dynamicPart;
 };
 
-}
+}  // namespace DesignDocumentCreator

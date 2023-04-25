@@ -1,10 +1,8 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-class QuickestWayToProgram
-{
+class QuickestWayToProgram {
 public:
     QuickestWayToProgram();
 
@@ -12,4 +10,4 @@ private:
     int m_sample;
 };
 
-}
+}  // namespace alba

@@ -5,11 +5,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-ostream& operator<<(ostream & out, ConstantDetails const& constantDetails)
-{
+ostream& operator<<(ostream& out, ConstantDetails const& constantDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(constantDetails.name);
     writer.writeData<string>(constantDetails.value);
@@ -21,8 +19,7 @@ ostream& operator<<(ostream & out, ConstantDetails const& constantDetails)
     return out;
 }
 
-istream& operator>>(istream & in, ConstantDetails& constantDetails)
-{
+istream& operator>>(istream& in, ConstantDetails& constantDetails) {
     AlbaStreamParameterReader reader(in);
     constantDetails.name = reader.readData<string>();
     constantDetails.value = reader.readData<string>();
@@ -33,8 +30,7 @@ istream& operator>>(istream & in, ConstantDetails& constantDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, MessageDetails const& messageDetails)
-{
+ostream& operator<<(ostream& out, MessageDetails const& messageDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(messageDetails.name);
     writer.writeData<string>(messageDetails.structureName);
@@ -44,8 +40,7 @@ ostream& operator<<(ostream & out, MessageDetails const& messageDetails)
     return out;
 }
 
-istream& operator>>(istream & in, MessageDetails& messageDetails)
-{
+istream& operator>>(istream& in, MessageDetails& messageDetails) {
     AlbaStreamParameterReader reader(in);
     messageDetails.name = reader.readData<string>();
     messageDetails.structureName = reader.readData<string>();
@@ -54,8 +49,7 @@ istream& operator>>(istream & in, MessageDetails& messageDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, EnumParameterDetails const& enumParameterDetails)
-{
+ostream& operator<<(ostream& out, EnumParameterDetails const& enumParameterDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(enumParameterDetails.name);
     writer.writeData<string>(enumParameterDetails.value);
@@ -65,8 +59,7 @@ ostream& operator<<(ostream & out, EnumParameterDetails const& enumParameterDeta
     return out;
 }
 
-istream& operator>>(istream & in, EnumParameterDetails& enumParameterDetails)
-{
+istream& operator>>(istream& in, EnumParameterDetails& enumParameterDetails) {
     AlbaStreamParameterReader reader(in);
     enumParameterDetails.name = reader.readData<string>();
     enumParameterDetails.value = reader.readData<string>();
@@ -75,8 +68,7 @@ istream& operator>>(istream & in, EnumParameterDetails& enumParameterDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, EnumDetails const& enumDetails)
-{
+ostream& operator<<(ostream& out, EnumDetails const& enumDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(enumDetails.name);
     writer.writeMapData(enumDetails.parameters);
@@ -86,8 +78,7 @@ ostream& operator<<(ostream & out, EnumDetails const& enumDetails)
     return out;
 }
 
-istream& operator>>(istream & in, EnumDetails& enumDetails)
-{
+istream& operator>>(istream& in, EnumDetails& enumDetails) {
     AlbaStreamParameterReader reader(in);
     enumDetails.name = reader.readData<string>();
     reader.readMapData(enumDetails.parameters);
@@ -96,8 +87,7 @@ istream& operator>>(istream & in, EnumDetails& enumDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, ParameterDetails const& parameterDetails)
-{
+ostream& operator<<(ostream& out, ParameterDetails const& parameterDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(parameterDetails.type);
     writer.writeData<string>(parameterDetails.name);
@@ -109,8 +99,7 @@ ostream& operator<<(ostream & out, ParameterDetails const& parameterDetails)
     return out;
 }
 
-istream& operator>>(istream & in, ParameterDetails& parameterDetails)
-{
+istream& operator>>(istream& in, ParameterDetails& parameterDetails) {
     AlbaStreamParameterReader reader(in);
     parameterDetails.type = reader.readData<string>();
     parameterDetails.name = reader.readData<string>();
@@ -121,8 +110,7 @@ istream& operator>>(istream & in, ParameterDetails& parameterDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, StructureDetails const& structureDetails)
-{
+ostream& operator<<(ostream& out, StructureDetails const& structureDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(structureDetails.name);
     writer.writeMapData(structureDetails.parameters);
@@ -134,8 +122,7 @@ ostream& operator<<(ostream & out, StructureDetails const& structureDetails)
     return out;
 }
 
-istream& operator>>(istream & in, StructureDetails& structureDetails)
-{
+istream& operator>>(istream& in, StructureDetails& structureDetails) {
     AlbaStreamParameterReader reader(in);
     structureDetails.name = reader.readData<string>();
     reader.readMapData(structureDetails.parameters);
@@ -146,8 +133,7 @@ istream& operator>>(istream & in, StructureDetails& structureDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, UnionDetails const& unionDetails)
-{
+ostream& operator<<(ostream& out, UnionDetails const& unionDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(unionDetails.name);
     writer.writeMapData(unionDetails.parameters);
@@ -158,8 +144,7 @@ ostream& operator<<(ostream & out, UnionDetails const& unionDetails)
     return out;
 }
 
-istream& operator>>(istream & in, UnionDetails& unionDetails)
-{
+istream& operator>>(istream& in, UnionDetails& unionDetails) {
     AlbaStreamParameterReader reader(in);
     unionDetails.name = reader.readData<string>();
     reader.readMapData(unionDetails.parameters);
@@ -169,8 +154,7 @@ istream& operator>>(istream & in, UnionDetails& unionDetails)
     return in;
 }
 
-ostream& operator<<(ostream & out, TypedefDetails const& typedefDetails)
-{
+ostream& operator<<(ostream& out, TypedefDetails const& typedefDetails) {
     AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(typedefDetails.name);
     writer.writeData<string>(typedefDetails.typedefDerivedName);
@@ -182,8 +166,7 @@ ostream& operator<<(ostream & out, TypedefDetails const& typedefDetails)
     return out;
 }
 
-istream& operator>>(istream & in, TypedefDetails& typedefDetails)
-{
+istream& operator>>(istream& in, TypedefDetails& typedefDetails) {
     AlbaStreamParameterReader reader(in);
     typedefDetails.name = reader.readData<string>();
     typedefDetails.typedefDerivedName = reader.readData<string>();
@@ -194,46 +177,28 @@ istream& operator>>(istream & in, TypedefDetails& typedefDetails)
     return in;
 }
 
-string getPrimitiveTypeDescription(string const& primitiveType)
-{
+string getPrimitiveTypeDescription(string const& primitiveType) {
     string result;
-    if("u8"==primitiveType)
-    {
-        result="Eight bits unsigned character.";
-    }
-    else if("u16"==primitiveType)
-    {
-        result="Sixteen bits unsigned integer.";
-    }
-    else if("u32"==primitiveType)
-    {
-        result="Thirty two bits unsigned integer.";
-    }
-    else if("i8"==primitiveType)
-    {
-        result="Eight bits signed character.";
-    }
-    else if("i16"==primitiveType)
-    {
-        result="Sixteen bits signed integer.";
-    }
-    else if("i32"==primitiveType)
-    {
-        result="Thirty two bits signed integer.";
-    }
-    else if("r32"==primitiveType)
-    {
-        result="Thirty two bits single-precision floating-point value.";
-    }
-    else if("r64"==primitiveType)
-    {
-        result="Sixty four bits double-precision floating-point value.";
-    }
-    else if("r128"==primitiveType)
-    {
-        result="One hundred twenty eight bits quadruple-precision floating-point value.";
+    if ("u8" == primitiveType) {
+        result = "Eight bits unsigned character.";
+    } else if ("u16" == primitiveType) {
+        result = "Sixteen bits unsigned integer.";
+    } else if ("u32" == primitiveType) {
+        result = "Thirty two bits unsigned integer.";
+    } else if ("i8" == primitiveType) {
+        result = "Eight bits signed character.";
+    } else if ("i16" == primitiveType) {
+        result = "Sixteen bits signed integer.";
+    } else if ("i32" == primitiveType) {
+        result = "Thirty two bits signed integer.";
+    } else if ("r32" == primitiveType) {
+        result = "Thirty two bits single-precision floating-point value.";
+    } else if ("r64" == primitiveType) {
+        result = "Sixty four bits double-precision floating-point value.";
+    } else if ("r128" == primitiveType) {
+        result = "One hundred twenty eight bits quadruple-precision floating-point value.";
     }
     return result;
 }
 
-}
+}  // namespace alba

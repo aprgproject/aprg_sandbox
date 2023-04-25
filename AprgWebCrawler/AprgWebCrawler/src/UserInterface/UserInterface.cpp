@@ -16,21 +16,17 @@ using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-void UserInterface::startUi()
-{
+void UserInterface::startUi() {
     readConfigurationFile();
     addExistingDownloadAndNonDownloadDirectories();
-    while(1)
-    {
+    while (1) {
         inputTask();
     }
 }
 
-void UserInterface::inputTask()
-{
+void UserInterface::inputTask() {
     cout << "\n";
     cout << "Working directory: [" << m_workingDirectory << "]\n";
 
@@ -42,37 +38,26 @@ void UserInterface::inputTask()
     choices.emplace("DS", "Check download schedule");
     choices.emplace("ST", "Start download");
 
-    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select a task.", choices));
+    string choice(
+        m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select a task.", choices));
 
-    if("A" == choice)
-    {
+    if ("A" == choice) {
         addNewDownloadDirectory();
-    }
-    else if("WD" == choice)
-    {
+    } else if ("WD" == choice) {
         inputWorkingDirectory();
-    }
-    else if("DD" == choice)
-    {
+    } else if ("DD" == choice) {
         inputDownloadDirectory();
-    }
-    else if("DN" == choice)
-    {
+    } else if ("DN" == choice) {
         showNotDownloadDirectories();
-    }
-    else if("DS" == choice)
-    {
+    } else if ("DS" == choice) {
         inputDownloadSchedule();
-    }
-    else if("ST" == choice)
-    {
+    } else if ("ST" == choice) {
         startDownload();
     }
     writeConfigurationFile();
 }
 
-void UserInterface::inputWorkingDirectory()
-{
+void UserInterface::inputWorkingDirectory() {
     cout << "\n";
     AlbaUserInterface::Choices<string> choices;
     copyWorkingDirectoriesToChoices(choices);
@@ -80,38 +65,28 @@ void UserInterface::inputWorkingDirectory()
     choices.emplace("C", "Create batch script to fix all directory names");
     choices.emplace("B", "Go back");
 
-    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select working directory.", choices));
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
+        "Please select working directory.", choices));
     unsigned int index = convertStringToNumber<unsigned int>(choice);
     bool isNumberFound(isNumber(choice));
 
-    if("A" == choice)
-    {
+    if ("A" == choice) {
         cout << "Input new directory path: ";
         m_workingDirectories.push_back(m_userInterface.getUserInput());
         inputWorkingDirectory();
-    }
-    else if("C" == choice)
-    {
+    } else if ("C" == choice) {
         createBatchFile();
-    }
-    else if("B" == choice)
-    {
-        //nothing here
-    }
-    else if (index < m_workingDirectories.size() && isNumberFound)
-    {
+    } else if ("B" == choice) {
+        // nothing here
+    } else if (index < m_workingDirectories.size() && isNumberFound) {
         m_workingDirectory = m_workingDirectories[index];
         addExistingDownloadAndNonDownloadDirectories();
-    }
-    else
-    {
+    } else {
         cout << "Input invalid: " << choice << "\n";
     }
-
 }
 
-void UserInterface::inputDownloadDirectory()
-{
+void UserInterface::inputDownloadDirectory() {
     cout << "\n";
     AlbaUserInterface::Choices<string> choices;
     copyDownloadDirectoriesToChoices(choices);
@@ -120,41 +95,31 @@ void UserInterface::inputDownloadDirectory()
     choices.emplace("B", "Go back");
 
     cout << "Input your choice: ";
-    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select download directory.", choices));
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
+        "Please select download directory.", choices));
     unsigned int index = convertStringToNumber<unsigned int>(choice);
     bool isNumberFound(isNumber(choice));
 
-    if("A" == choice)
-    {
+    if ("A" == choice) {
         addNewDownloadDirectory();
-    }
-    else if("R" == choice)
-    {
+    } else if ("R" == choice) {
         addExistingDownloadAndNonDownloadDirectories();
-    }
-    else if("B" == choice)
-    {
-        //nothing here
-    }
-    else if (index < m_downloadDirectories.size() && isNumberFound)
-    {
+    } else if ("B" == choice) {
+        // nothing here
+    } else if (index < m_downloadDirectories.size() && isNumberFound) {
         m_downloadDirectoryDetails = m_downloadDirectories[index];
         inputDownloadDirectoryTask();
-    }
-    else
-    {
+    } else {
         cout << "Input invalid: " << choice << "\n";
     }
 }
 
-void UserInterface::inputDownloadSchedule()
-{
+void UserInterface::inputDownloadSchedule() {
     cout << "\n";
     showDownloadSchedule();
 }
 
-void UserInterface::inputDownloadDirectoryTask()
-{
+void UserInterface::inputDownloadDirectoryTask() {
     cout << "\n";
     showDownloadDirectoryDetails();
     AlbaUserInterface::Choices<string> choices;
@@ -162,309 +127,241 @@ void UserInterface::inputDownloadDirectoryTask()
     choices.emplace("F", "Fix directory name and memory card");
     choices.emplace("B", "Go back");
 
-    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select download directory task.", choices));
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
+        "Please select download directory task.", choices));
 
-    if("DS" == choice)
-    {
+    if ("DS" == choice) {
         m_downloadSchedule.emplace(m_downloadSchedule.begin(), m_downloadDirectoryDetails);
-    }
-    else if("F" == choice)
-    {
+    } else if ("F" == choice) {
         renameImmediateDirectoryToTitle(m_downloadDirectoryDetails.downloadDirectory);
-    }
-    else if("B" == choice)
-    {
-        //nothing here
-    }
-    else
-    {
+    } else if ("B" == choice) {
+        // nothing here
+    } else {
         cout << "Input invalid: " << choice << "\n";
     }
 }
 
-
-void UserInterface::copyWorkingDirectoriesToChoices(AlbaUserInterface::Choices<string> & choices)
-{
+void UserInterface::copyWorkingDirectoriesToChoices(AlbaUserInterface::Choices<string>& choices) {
     unsigned int displayedIndex(0);
-    for(string const& workingDirectory : m_workingDirectories)
-    {
+    for (string const& workingDirectory : m_workingDirectories) {
         choices.emplace(convertToString(displayedIndex++), workingDirectory);
     }
 }
 
-void UserInterface::copyDownloadDirectoriesToChoices(AlbaUserInterface::Choices<string> & choices)
-{
+void UserInterface::copyDownloadDirectoriesToChoices(AlbaUserInterface::Choices<string>& choices) {
     unsigned int displayedIndex(0);
-    for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
-    {
-        choices.emplace(convertToString(displayedIndex++), downloadDirectoryDetails.downloadDirectory+" "+downloadDirectoryDetails.modeString+" "+downloadDirectoryDetails.stateString);
+    for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories) {
+        choices.emplace(
+            convertToString(displayedIndex++), downloadDirectoryDetails.downloadDirectory + " " +
+                                                   downloadDirectoryDetails.modeString + " " +
+                                                   downloadDirectoryDetails.stateString);
     }
 }
 
-void UserInterface::showWorkingDirectories() const
-{
+void UserInterface::showWorkingDirectories() const {
     cout << "Working Directories:\n";
     int index(0);
-    for(string const& workingDirectories : m_workingDirectories)
-    {
+    for (string const& workingDirectories : m_workingDirectories) {
         cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << workingDirectories << "\n";
     }
 }
 
-void UserInterface::showDownloadDirectories() const
-{
+void UserInterface::showDownloadDirectories() const {
     cout << "Download Directories:\n";
     int index(0);
-    for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
-    {
-        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : "
-             << downloadDirectoryDetails.downloadDirectory << " "
-             << downloadDirectoryDetails.modeString << " "
-             << downloadDirectoryDetails.stateString << "\n";
+    for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories) {
+        cout << "[" << std::setfill(' ') << std::setw(3) << index++
+             << "] : " << downloadDirectoryDetails.downloadDirectory << " " << downloadDirectoryDetails.modeString
+             << " " << downloadDirectoryDetails.stateString << "\n";
     }
 }
 
-void UserInterface::showDownloadSchedule() const
-{
+void UserInterface::showDownloadSchedule() const {
     cout << "Download Schedule:\n";
     int index(0);
-    for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
-    {
-        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << downloadDirectoryDetails.downloadDirectory << "\n";
+    for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule) {
+        cout << "[" << std::setfill(' ') << std::setw(3) << index++
+             << "] : " << downloadDirectoryDetails.downloadDirectory << "\n";
     }
 }
 
-void UserInterface::showNotDownloadDirectories() const
-{
+void UserInterface::showNotDownloadDirectories() const {
     cout << "Download Directories:\n";
     int index(0);
-    for(string const& notDownloadDirectory : m_notDownloadDirectories)
-    {
+    for (string const& notDownloadDirectory : m_notDownloadDirectories) {
         cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << notDownloadDirectory << "\n";
     }
 }
 
-void UserInterface::showDownloadDirectoryDetails() const
-{
+void UserInterface::showDownloadDirectoryDetails() const {
     cout << "Download Directories Details:\n";
     cout << "Download directory: " << m_downloadDirectoryDetails.downloadDirectory << "\n";
     cout << "Mode: " << m_downloadDirectoryDetails.modeString << "\n";
     cout << "State: " << m_downloadDirectoryDetails.stateString << "\n";
 }
 
-void UserInterface::addExistingDownloadAndNonDownloadDirectories()
-{
+void UserInterface::addExistingDownloadAndNonDownloadDirectories() {
     addExistingDownloadDirectories();
     addExistingNotDownloadDirectories();
 }
 
-void UserInterface::addExistingDownloadDirectories()
-{
+void UserInterface::addExistingDownloadDirectories() {
     cout << "Finding download directories\n";
     m_downloadDirectories.clear();
     AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     workingDirectoryPathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectories, 2);
-    for(string const& file : listOfFiles)
-    {
-        if(isStringFoundInsideTheOtherStringNotCaseSensitive(file, "MemoryCard.txt"))
-        {
+    for (string const& file : listOfFiles) {
+        if (isStringFoundInsideTheOtherStringNotCaseSensitive(file, "MemoryCard.txt")) {
             AlbaLocalPathHandler memoryCardPathHandler(file);
             m_downloadDirectories.push_back(createDownloadDirectoryDetails(memoryCardPathHandler.getDirectory()));
         }
     }
 }
 
-void UserInterface::addExistingNotDownloadDirectories()
-{
+void UserInterface::addExistingNotDownloadDirectories() {
     cout << "Finding not download directories\n";
     m_notDownloadDirectories.clear();
     AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     workingDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
-    for(string const& directory : listOfDirectories)
-    {
+    for (string const& directory : listOfDirectories) {
         bool isDownloadDirectory(false);
-        for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
-        {
-            if(isStringFoundInsideTheOtherStringNotCaseSensitive(downloadDirectoryDetails.downloadDirectory, directory))
-            {
+        for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories) {
+            if (isStringFoundInsideTheOtherStringNotCaseSensitive(
+                    downloadDirectoryDetails.downloadDirectory, directory)) {
                 isDownloadDirectory = true;
                 break;
             }
         }
-        if(!isDownloadDirectory)
-        {
+        if (!isDownloadDirectory) {
             m_notDownloadDirectories.push_back(directory);
         }
     }
 }
 
-void UserInterface::addNewDownloadDirectory()
-{
+void UserInterface::addNewDownloadDirectory() {
     cout << "Input webLink: ";
     string webLink(m_userInterface.getUserInput());
     m_downloadSchedule.emplace(m_downloadSchedule.begin(), createDownloadDirectoryDetails(m_workingDirectory, webLink));
     addExistingDownloadAndNonDownloadDirectories();
 }
 
-void UserInterface::writeConfigurationFile() const
-{
+void UserInterface::writeConfigurationFile() const {
     ofstream configurationFile(APRG_WEB_CRAWLER_CONFIGURATION_FILE);
-    if(configurationFile.is_open())
-    {
-        configurationFile<<"WorkingDirectory:\n";
+    if (configurationFile.is_open()) {
+        configurationFile << "WorkingDirectory:\n";
         configurationFile << m_workingDirectory << "\n";
-        configurationFile<<"WorkingDirectories:\n";
-        for(string const& workingDirectories : m_workingDirectories)
-        {
+        configurationFile << "WorkingDirectories:\n";
+        for (string const& workingDirectories : m_workingDirectories) {
             configurationFile << workingDirectories << "\n";
         }
-        configurationFile<<"TemporaryFilePath:\n";
+        configurationFile << "TemporaryFilePath:\n";
         configurationFile << m_temporaryFilePath << "\n";
-        configurationFile<<"DownloadSchedule:\n";
-        for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
-        {
+        configurationFile << "DownloadSchedule:\n";
+        for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule) {
             configurationFile << downloadDirectoryDetails.downloadDirectory << "\n";
         }
     }
 }
 
-void UserInterface::readConfigurationFile()
-{
-    int state=0;
+void UserInterface::readConfigurationFile() {
+    int state = 0;
     ifstream configurationFile(APRG_WEB_CRAWLER_CONFIGURATION_FILE);
-    if(configurationFile.is_open())
-    {
+    if (configurationFile.is_open()) {
         AlbaFileReader configurationFileReader(configurationFile);
-        while(configurationFileReader.isNotFinished())
-        {
+        while (configurationFileReader.isNotFinished()) {
             string lineFromConfigurationFile(configurationFileReader.getLineAndIgnoreWhiteSpaces());
-            if(lineFromConfigurationFile.empty())
-            {
+            if (lineFromConfigurationFile.empty()) {
                 continue;
-            }
-            else if("WorkingDirectory:" == lineFromConfigurationFile)
-            {
-                state=1;
-            }
-            else if("WorkingDirectories:" == lineFromConfigurationFile)
-            {
-                state=2;
-            }
-            else if("TemporaryFilePath:" == lineFromConfigurationFile)
-            {
-                state=3;
-            }
-            else if("DownloadSchedule:" == lineFromConfigurationFile)
-            {
-                state=4;
-            }
-            else if(1==state)
-            {
+            } else if ("WorkingDirectory:" == lineFromConfigurationFile) {
+                state = 1;
+            } else if ("WorkingDirectories:" == lineFromConfigurationFile) {
+                state = 2;
+            } else if ("TemporaryFilePath:" == lineFromConfigurationFile) {
+                state = 3;
+            } else if ("DownloadSchedule:" == lineFromConfigurationFile) {
+                state = 4;
+            } else if (1 == state) {
                 m_workingDirectory = lineFromConfigurationFile;
-            }
-            else if(2==state)
-            {
+            } else if (2 == state) {
                 m_workingDirectories.push_back(lineFromConfigurationFile);
-            }
-            else if(3==state)
-            {
+            } else if (3 == state) {
                 m_temporaryFilePath = lineFromConfigurationFile;
-            }
-            else if(4==state)
-            {
+            } else if (4 == state) {
                 m_downloadSchedule.push_back(createDownloadDirectoryDetails(lineFromConfigurationFile));
             }
         }
     }
 }
 
-void UserInterface::startDownload()
-{
-    for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
-    {
+void UserInterface::startDownload() {
+    for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule) {
         WebCrawler crawler(downloadDirectoryDetails.downloadDirectory, m_temporaryFilePath);
         crawler.crawl();
     }
 }
 
-void UserInterface::renameImmediateDirectoryToTitle(string const& downloadDirectory) const
-{
+void UserInterface::renameImmediateDirectoryToTitle(string const& downloadDirectory) const {
     string title;
     {
         WebCrawler crawler(downloadDirectory, m_temporaryFilePath);
         title = crawler.getNewDirectoryName();
     }
-    cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << "\n";
-    if(!title.empty())
-    {
+    cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title
+         << "\n";
+    if (!title.empty()) {
         AlbaLocalPathHandler directoryPathHandler(downloadDirectory);
-        cout<<"Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << "\n";
+        cout << "Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << "\n";
     }
 }
 
-void UserInterface::createBatchFile() const
-{
+void UserInterface::createBatchFile() const {
     ofstream batchFile(APRG_WEB_CRAWLER_FIX_BATCH_FILE);
-    if(batchFile.is_open())
-    {
+    if (batchFile.is_open()) {
         AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
         set<string> listOfFiles;
         set<string> listOfDirectories;
         workingDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
-        for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
-        {
+        for (DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories) {
             listOfDirectories.emplace(downloadDirectoryDetails.downloadDirectory);
         }
-        for(string const& directory : listOfDirectories)
-        {
+        for (string const& directory : listOfDirectories) {
             AlbaLocalPathHandler directoryPathHandler(directory);
             WebCrawler crawler(directory, m_temporaryFilePath);
             string newDirectoryName(crawler.getNewDirectoryName());
-            if(newDirectoryName.empty())
-            {
+            if (newDirectoryName.empty()) {
                 newDirectoryName = getStringWithoutStartingAndTrailingCharacters(
-                            getStringAndReplaceNonAlphanumericCharactersToUnderScore(
-                                directoryPathHandler.getImmediateDirectoryName()), "_");
+                    getStringAndReplaceNonAlphanumericCharactersToUnderScore(
+                        directoryPathHandler.getImmediateDirectoryName()),
+                    "_");
             }
 
-            if(directoryPathHandler.getImmediateDirectoryName() != newDirectoryName && !newDirectoryName.empty())
-            {
-                batchFile << R"(rename ")" << directory << R"(" ")" << newDirectoryName << R"(")" << "\n";
+            if (directoryPathHandler.getImmediateDirectoryName() != newDirectoryName && !newDirectoryName.empty()) {
+                batchFile << R"(rename ")" << directory << R"(" ")" << newDirectoryName << R"(")"
+                          << "\n";
             }
         }
     }
 }
 
-DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string const& downloadDirectory) const
-{
+DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string const& downloadDirectory) const {
     WebCrawler crawler(downloadDirectory, m_temporaryFilePath);
-    DownloadDirectoryDetails downloadDirectoryDetails =
-    {
-        downloadDirectory,
-        crawler.getCrawlMode(),
-        crawler.getCrawlState(),
-        crawler.getCrawlModeString(),
-        crawler.getCrawlStateString()
-    };
+    DownloadDirectoryDetails downloadDirectoryDetails = {
+        downloadDirectory, crawler.getCrawlMode(), crawler.getCrawlState(), crawler.getCrawlModeString(),
+        crawler.getCrawlStateString()};
     return downloadDirectoryDetails;
 }
 
-DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string const& workingDirectory, string const& webLink) const
-{
+DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(
+    string const& workingDirectory, string const& webLink) const {
     WebCrawler crawler(workingDirectory, webLink, m_temporaryFilePath);
-    DownloadDirectoryDetails downloadDirectoryDetails =
-    {
-        crawler.getDownloadDirectory(),
-        crawler.getCrawlMode(),
-        crawler.getCrawlState(),
-        crawler.getCrawlModeString(),
-        crawler.getCrawlStateString()
-    };
+    DownloadDirectoryDetails downloadDirectoryDetails = {
+        crawler.getDownloadDirectory(), crawler.getCrawlMode(), crawler.getCrawlState(), crawler.getCrawlModeString(),
+        crawler.getCrawlStateString()};
     return downloadDirectoryDetails;
 }
 
-}
+}  // namespace aprgWebCrawler

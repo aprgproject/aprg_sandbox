@@ -3,17 +3,14 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using VariablesToValuesMap = std::map<std::string, AlbaNumber>;
 using VariableValuePair = std::pair<std::string, AlbaNumber>;
 
-class SubstitutionOfVariablesToValues
-{
+class SubstitutionOfVariablesToValues {
 public:
     SubstitutionOfVariablesToValues();
     SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
@@ -43,12 +40,12 @@ public:
     void putVariableWithValue(std::string const& variable, AlbaNumber const& value);
 
 private:
-    void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
+    void performSubstitutionForTermsWithAssociation(TermsWithAssociation& termsWithAssociation) const;
     VariablesToValuesMap m_variableToValuesMap;
 };
 
-using SubstitutionsOfVariablesToValues=std::vector<SubstitutionOfVariablesToValues>;
+using SubstitutionsOfVariablesToValues = std::vector<SubstitutionOfVariablesToValues>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

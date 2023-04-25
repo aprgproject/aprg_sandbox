@@ -9,23 +9,21 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class StartupLogAnalyzer
-{
-
+class StartupLogAnalyzer {
 public:
-
     StartupLogAnalyzer();
     void clear();
     void saveDataToCsv(std::string const& csvPath);
-    void saveDataTimeToCsv(std::ofstream & outputCsvFileStream, std::string const& description, std::vector<double> const& data);
+    void saveDataTimeToCsv(
+        std::ofstream& outputCsvFileStream, std::string const& description, std::vector<double> const& data);
     void processFileWithSortedPrints(std::string const& pathOfBtsLog);
 
 private:
     void analyzeStartupDelays(std::string const& lineInLogs, wcdmaToolsBackend::BtsLogTime& previousNotableTime);
-    double getTotalSeconds(wcdmaToolsBackend::BtsLogTime const& beforeTime, wcdmaToolsBackend::BtsLogTime const& afterTime) const;
+    double getTotalSeconds(
+        wcdmaToolsBackend::BtsLogTime const& beforeTime, wcdmaToolsBackend::BtsLogTime const& afterTime) const;
     double getTotalSeconds(wcdmaToolsBackend::BtsLogTime const& btsLogTime) const;
     AlbaLocalPathHandler m_btsLogPathHandler;
     wcdmaToolsBackend::BtsLogTime m_firstLogTime;
@@ -78,8 +76,6 @@ private:
     std::vector<double> m_firstCtchSetupToSiuTime;
     std::vector<double> m_siuProcedureTime;
     std::vector<double> m_siuToCellOnAirTime;
-
-
 };
 
-}
+}  // namespace alba

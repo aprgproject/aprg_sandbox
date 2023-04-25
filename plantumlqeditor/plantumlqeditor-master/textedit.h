@@ -3,21 +3,19 @@
 
 #include <QPlainTextEdit>
 
-
-class TextEdit : public QPlainTextEdit
-{
+class TextEdit : public QPlainTextEdit {
     Q_OBJECT
 public:
     explicit TextEdit(QWidget *parent = 0);
-    
-    void setIndentSize(int indentSize) {this->_indentSize = indentSize;}
-    int  indentSize() const {return this->_indentSize;}
 
-    void setIndentWithSpace(bool indentWithSpace)  {this->_indentWithSpace = indentWithSpace;}
+    void setIndentSize(int indentSize) { this->_indentSize = indentSize; }
+    int indentSize() const { return this->_indentSize; }
+
+    void setIndentWithSpace(bool indentWithSpace) { this->_indentWithSpace = indentWithSpace; }
     bool indentWithSpace() const { return _indentWithSpace; }
 
-    void setAutoIndent(bool autoIndent) {this->_autoIndent = autoIndent;}
-    bool autoIndent() const {return this->_autoIndent;}
+    void setAutoIndent(bool autoIndent) { this->_autoIndent = autoIndent; }
+    bool autoIndent() const { return this->_autoIndent; }
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -32,11 +30,11 @@ private slots:
     void updateLineNumberArea(const QRect &rect, int dy);
 
 private:
-    int  _indentSize;
+    int _indentSize;
     bool _indentWithSpace;
     bool _autoIndent;
 
     QWidget *lineNumberArea;
 };
 
-#endif // TEXTEDIT_H
+#endif  // TEXTEDIT_H

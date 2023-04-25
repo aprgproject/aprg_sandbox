@@ -6,28 +6,24 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(OutlierStatisticsTest, OneDimensionOutlierStatisticsAreCorrect)
-{
+TEST(OutlierStatisticsTest, OneDimensionOutlierStatisticsAreCorrect) {
     using LocalStatistics = OutlierStatistics<1>;
     using LocalSamples = LocalStatistics::Samples;
     using LocalSample = LocalStatistics::Sample;
     LocalSamples samples{LocalSample{47}, LocalSample{50}, LocalSample{53}, LocalSample{55}, LocalSample{55},
-    LocalSample{56}, LocalSample{57}, LocalSample{57}, LocalSample{58}, LocalSample{58},
-    LocalSample{58}, LocalSample{58}, LocalSample{60}, LocalSample{60}, LocalSample{60},
-    LocalSample{61}, LocalSample{61}, LocalSample{61}, LocalSample{61}, LocalSample{61},
-    LocalSample{61}, LocalSample{62}, LocalSample{62}, LocalSample{62}, LocalSample{63},
-    LocalSample{63}, LocalSample{64}, LocalSample{67}, LocalSample{68},
-    LocalSample{72}};
+                         LocalSample{56}, LocalSample{57}, LocalSample{57}, LocalSample{58}, LocalSample{58},
+                         LocalSample{58}, LocalSample{58}, LocalSample{60}, LocalSample{60}, LocalSample{60},
+                         LocalSample{61}, LocalSample{61}, LocalSample{61}, LocalSample{61}, LocalSample{61},
+                         LocalSample{61}, LocalSample{62}, LocalSample{62}, LocalSample{62}, LocalSample{63},
+                         LocalSample{63}, LocalSample{64}, LocalSample{67}, LocalSample{68}, LocalSample{72}};
     LocalStatistics outlierStatistics(samples);
     EXPECT_TRUE(outlierStatistics.isAnOutlierBasedOnChauvenetCriterion(LocalSample{47}));
     EXPECT_FALSE(outlierStatistics.isAnOutlierBasedOnChauvenetCriterion(LocalSample{67}));
 }
 
-TEST(OutlierStatisticsTest, ThreeDimensionOutlierStatisticsAreCorrect)
-{
+TEST(OutlierStatisticsTest, ThreeDimensionOutlierStatisticsAreCorrect) {
     using LocalStatistics = OutlierStatistics<3>;
     using LocalSamples = LocalStatistics::Samples;
     using LocalSample = LocalStatistics::Sample;
@@ -40,4 +36,4 @@ TEST(OutlierStatisticsTest, ThreeDimensionOutlierStatisticsAreCorrect)
     EXPECT_FALSE(outlierStatistics.isAnOutlierBasedOnChauvenetCriterion(LocalSample{3.37, 33.7, 337}));
 }
 
-}
+}  // namespace alba

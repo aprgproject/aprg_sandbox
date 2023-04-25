@@ -6,43 +6,35 @@
 using namespace alba::algorithm::CommonTestsWithUnionFind;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using UnionFindForTest = QuickUnion<unsigned int, 13>;
 }
 
-TEST(QuickUnionTest, IsConnectedWorks)
-{
+TEST(QuickUnionTest, IsConnectedWorks) {
     UnionFindForTest unionFind;
     testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(QuickUnionTest, ConnectWorks)
-{
+TEST(QuickUnionTest, ConnectWorks) {
     UnionFindForTest unionFind;
     testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(QuickUnionTest, ConnectWorksWithExample1)
-{
+TEST(QuickUnionTest, ConnectWorksWithExample1) {
     UnionFindForTest unionFind;
     testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(QuickUnionTest, ConnectWorksWithExample2)
-{
+TEST(QuickUnionTest, ConnectWorksWithExample2) {
     UnionFindForTest unionFind;
     testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(QuickUnionTest, GetRootWorks)
-{
+TEST(QuickUnionTest, GetRootWorks) {
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
@@ -62,8 +54,7 @@ TEST(QuickUnionTest, GetRootWorks)
     EXPECT_EQ(8U, unionFind.getRoot(9));
 }
 
-TEST(QuickUnionTest, GetRelativeRootArrayWorks)
-{
+TEST(QuickUnionTest, GetRelativeRootArrayWorks) {
     UnionFindForTest unionFind;
 
     UnionFindForTest::RootArray expectedInitialRelativeRootArray{0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
@@ -79,6 +70,6 @@ TEST(QuickUnionTest, GetRelativeRootArrayWorks)
     EXPECT_EQ(expectedRelativeRootArray, unionFind.getRelativeRootArray());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

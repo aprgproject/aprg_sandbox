@@ -7,14 +7,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-TEST(EllipticHyperboloidTest, EmptyEllipticHyperboloid)
-{
+TEST(EllipticHyperboloidTest, EmptyEllipticHyperboloid) {
     EllipticHyperboloid ellipticHyperboloid;
 
     EXPECT_EQ(Point(0, 0, 0), ellipticHyperboloid.getCenter());
@@ -23,8 +20,7 @@ TEST(EllipticHyperboloidTest, EmptyEllipticHyperboloid)
     EXPECT_DOUBLE_EQ(0, ellipticHyperboloid.getCValue());
 }
 
-TEST(EllipticHyperboloidTest, EllipticHyperboloidAtOriginWithRadius)
-{
+TEST(EllipticHyperboloidTest, EllipticHyperboloidAtOriginWithRadius) {
     EllipticHyperboloid ellipticHyperboloid(Point(0, 0, 0), 10, 11, 12, false);
 
     EXPECT_EQ(Point(0, 0, 0), ellipticHyperboloid.getCenter());
@@ -36,8 +32,7 @@ TEST(EllipticHyperboloidTest, EllipticHyperboloidAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(-8.0719901383356785, ellipticHyperboloid.calculateZFromXAndY(5, 6, -1));
 }
 
-TEST(EllipticHyperboloidTest, EllipticHyperboloidNotAtOriginWithRadius)
-{
+TEST(EllipticHyperboloidTest, EllipticHyperboloidNotAtOriginWithRadius) {
     EllipticHyperboloid ellipticHyperboloid(Point(1, 2, 3), 10, 11, 12, false);
 
     EXPECT_EQ(Point(1, 2, 3), ellipticHyperboloid.getCenter());
@@ -49,13 +44,12 @@ TEST(EllipticHyperboloidTest, EllipticHyperboloidNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(-7.095478081099003, ellipticHyperboloid.calculateZFromXAndY(5, 6, -1));
 }
 
-TEST(EllipticHyperboloidTest, IsInsideWorks)
-{
+TEST(EllipticHyperboloidTest, IsInsideWorks) {
     EllipticHyperboloid ellipticHyperboloid(Point(1, 2, 3), 10, 11, 12, false);
 
     EXPECT_TRUE(ellipticHyperboloid.isInside(Point(0, 0, 0)));
 }
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace alba

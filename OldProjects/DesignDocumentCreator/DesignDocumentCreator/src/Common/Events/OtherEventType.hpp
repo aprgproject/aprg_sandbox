@@ -1,13 +1,7 @@
 #pragma once
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-enum class OtherEventType
-{
-    Empty,
-    MainProcessStartup,
-    SubProcessStartup
-};
+enum class OtherEventType { Empty, MainProcessStartup, SubProcessStartup };
 
 }

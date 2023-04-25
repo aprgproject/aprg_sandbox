@@ -1,5 +1,6 @@
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 #include "KickStart_2020_RoundH_P2_BoringNumbers.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
@@ -11,8 +12,7 @@ using namespace std;
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 using namespace alba;
-namespace KickStart_2020_RoundH_P2_BoringNumbers
-{
+namespace KickStart_2020_RoundH_P2_BoringNumbers {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -20,18 +20,15 @@ namespace KickStart_2020_RoundH_P2_BoringNumbers
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
-{
+void runTestCase(unsigned int const testCaseNumber) {
     int64_t L, R;
     my_cin >> L >> R;
     ++R;
     bool parity = 0;
     int64_t coeff = 1;
     int64_t ans = 0;
-    while (L < R)
-    {
-        auto is_good = [&](int64_t v)
-        {
+    while (L < R) {
+        auto is_good = [&](int64_t v) {
             bool d = v % 2;
             while (v > 0) {
                 if (v % 2 != d) return false;
@@ -40,15 +37,13 @@ void runTestCase(unsigned int const testCaseNumber)
             }
             return d == 0;
         };
-        while (L < R && L % 10 != 0)
-        {
+        while (L < R && L % 10 != 0) {
             if (is_good(L)) {
                 ans += coeff;
             }
             L++;
         }
-        while (L < R && R % 10 != 0)
-        {
+        while (L < R && R % 10 != 0) {
             --R;
             if (is_good(R)) {
                 ans += coeff;
@@ -66,18 +61,15 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -87,7 +79,5 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_RoundH_P2_BoringNumbers
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

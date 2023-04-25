@@ -6,11 +6,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaStreamBitReaderTest, ReadBoolDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadBoolDataWorks) {
     stringstream ss;
     ss << "A";
     AlbaStreamBitReader reader(ss);
@@ -26,8 +24,7 @@ TEST(AlbaStreamBitReaderTest, ReadBoolDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadCharDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadCharDataWorks) {
     stringstream ss;
     ss << "./*";
     AlbaStreamBitReader reader(ss);
@@ -38,8 +35,7 @@ TEST(AlbaStreamBitReaderTest, ReadCharDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadStringDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadStringDataWorks) {
     stringstream ss;
     ss << "./*";
     AlbaStreamBitReader reader(ss);
@@ -48,8 +44,7 @@ TEST(AlbaStreamBitReaderTest, ReadStringDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadWholeStreamAsStringDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadWholeStreamAsStringDataWorks) {
     stringstream ss;
     ss << "./*";
     AlbaStreamBitReader reader(ss);
@@ -58,8 +53,7 @@ TEST(AlbaStreamBitReaderTest, ReadWholeStreamAsStringDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks) {
     stringstream ss;
     ss.put(0x01);
     ss.put(0x02);
@@ -76,8 +70,7 @@ TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadBigEndianNumberDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadBigEndianNumberDataWorks) {
     stringstream ss;
     ss.put(0x01);
     ss.put(0x02);
@@ -89,8 +82,7 @@ TEST(AlbaStreamBitReaderTest, ReadBigEndianNumberDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadLittleEndianNumberDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadLittleEndianNumberDataWorks) {
     stringstream ss;
     ss.put(0x01);
     ss.put(0x02);
@@ -102,15 +94,16 @@ TEST(AlbaStreamBitReaderTest, ReadLittleEndianNumberDataWorks)
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
-TEST(AlbaStreamBitReaderTest, ReadBitsetDataWorks)
-{
+TEST(AlbaStreamBitReaderTest, ReadBitsetDataWorks) {
     stringstream ss;
     ss.put(0x12);
     ss.put(0x34);
     AlbaStreamBitReader reader(ss);
 
-    EXPECT_EQ(0x00000C48U, static_cast<unsigned int>(reader.readBitsetData<32>(0, 11).to_ulong())); //swapped due to reversed index
-    EXPECT_FALSE(reader.noRemainingBitsInBuffer()); // 4Bits remaining
+    EXPECT_EQ(
+        0x00000C48U,
+        static_cast<unsigned int>(reader.readBitsetData<32>(0, 11).to_ulong()));  // swapped due to reversed index
+    EXPECT_FALSE(reader.noRemainingBitsInBuffer());                               // 4Bits remaining
 }
 
-}
+}  // namespace alba

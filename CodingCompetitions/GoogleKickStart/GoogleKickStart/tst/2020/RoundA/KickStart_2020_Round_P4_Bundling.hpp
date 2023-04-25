@@ -1,10 +1,7 @@
 #pragma once
 
-namespace KickStart_2020_Round_P4_Bundling
-{
+namespace KickStart_2020_Round_P4_Bundling {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-

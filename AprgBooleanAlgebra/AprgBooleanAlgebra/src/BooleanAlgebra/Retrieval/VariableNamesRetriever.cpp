@@ -1,16 +1,13 @@
 #include "VariableNamesRetriever.hpp"
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-void VariableNamesRetriever::retrieveFromVariableTerm(VariableTerm const& variableTerm)
-{
+void VariableNamesRetriever::retrieveFromVariableTerm(VariableTerm const& variableTerm) {
     m_savedData.emplace(variableTerm.getVariableTermName());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

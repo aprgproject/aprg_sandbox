@@ -8,14 +8,11 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(ExpressionTest, ConstructionWorks)
-{
+TEST(ExpressionTest, ConstructionWorks) {
     WrappedTerm wrappedTerm1(Term(false));
     WrappedTerm wrappedTerm2(Term(true));
     Expression expression1;
@@ -40,15 +37,13 @@ TEST(ExpressionTest, ConstructionWorks)
     EXPECT_EQ(Term(true), getTermConstReferenceFromUniquePointer(termsToVerify4.at(1).baseTermPointer));
 }
 
-TEST(ExpressionTest, ExpressionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
-{
+TEST(ExpressionTest, ExpressionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet) {
     Expression expression;
 
     EXPECT_FALSE(expression.isSimplified());
 }
 
-TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
-{
+TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied) {
     Expression expressionWithSimplifiedNotSet;
     Expression expressionWithSimplifiedSet;
     expressionWithSimplifiedSet.setAsSimplified();
@@ -60,8 +55,7 @@ TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
     EXPECT_TRUE(expression2.isSimplified());
 }
 
-TEST(ExpressionTest, ExpressionThatIsConstructedWithWrappedTermsHasIsSimplifiedFlagNotSet)
-{
+TEST(ExpressionTest, ExpressionThatIsConstructedWithWrappedTermsHasIsSimplifiedFlagNotSet) {
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm wrappedTerm2(Term(false));
     Expression expression(OperatorLevel::And, {wrappedTerm1, wrappedTerm2});
@@ -69,8 +63,7 @@ TEST(ExpressionTest, ExpressionThatIsConstructedWithWrappedTermsHasIsSimplifiedF
     EXPECT_FALSE(expression.isSimplified());
 }
 
-TEST(ExpressionTest, EqualityOperatorWorks)
-{
+TEST(ExpressionTest, EqualityOperatorWorks) {
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", createExpressionIfPossible({true, "&", "x"})}));
     Expression expression3(createExpressionIfPossible({false, "&", "x"}));
@@ -78,17 +71,16 @@ TEST(ExpressionTest, EqualityOperatorWorks)
     Expression expression5(createExpressionIfPossible({true, "&", createExpressionIfPossible({true, "&"})}));
     Expression expression6(createExpressionIfPossible({true, "&", createExpressionIfPossible({true, "&", "x"})}));
 
-    EXPECT_TRUE(expression1==expression1);
-    EXPECT_FALSE(expression1==expression2);
-    EXPECT_TRUE(expression2==expression2);
-    EXPECT_FALSE(expression2==expression3);
-    EXPECT_FALSE(expression2==expression4);
-    EXPECT_FALSE(expression2==expression5);
-    EXPECT_TRUE(expression2==expression6);
+    EXPECT_TRUE(expression1 == expression1);
+    EXPECT_FALSE(expression1 == expression2);
+    EXPECT_TRUE(expression2 == expression2);
+    EXPECT_FALSE(expression2 == expression3);
+    EXPECT_FALSE(expression2 == expression4);
+    EXPECT_FALSE(expression2 == expression5);
+    EXPECT_TRUE(expression2 == expression6);
 }
 
-TEST(ExpressionTest, InequalityOperatorWorks)
-{
+TEST(ExpressionTest, InequalityOperatorWorks) {
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", createExpressionIfPossible({true, "&", "x"})}));
     Expression expression3(createExpressionIfPossible({false, "&", "x"}));
@@ -96,42 +88,37 @@ TEST(ExpressionTest, InequalityOperatorWorks)
     Expression expression5(createExpressionIfPossible({true, "&", createExpressionIfPossible({true, "&"})}));
     Expression expression6(createExpressionIfPossible({true, "&", createExpressionIfPossible({true, "&", "x"})}));
 
-    EXPECT_FALSE(expression1!=expression1);
-    EXPECT_TRUE(expression1!=expression2);
-    EXPECT_FALSE(expression2!=expression2);
-    EXPECT_TRUE(expression2!=expression3);
-    EXPECT_TRUE(expression2!=expression4);
-    EXPECT_TRUE(expression2!=expression5);
-    EXPECT_FALSE(expression2!=expression6);
+    EXPECT_FALSE(expression1 != expression1);
+    EXPECT_TRUE(expression1 != expression2);
+    EXPECT_FALSE(expression2 != expression2);
+    EXPECT_TRUE(expression2 != expression3);
+    EXPECT_TRUE(expression2 != expression4);
+    EXPECT_TRUE(expression2 != expression5);
+    EXPECT_FALSE(expression2 != expression6);
 }
 
-TEST(ExpressionTest, LessThanOperatorWorks)
-{
+TEST(ExpressionTest, LessThanOperatorWorks) {
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", "x"}));
     Expression expression3(createOrCopyExpressionFromATerm(true));
     Expression expression4(createExpressionIfPossible({true, "&", "x", "&", "y"}));
     Expression expression5(createExpressionIfPossible({false, "&", "x"}));
 
-    EXPECT_FALSE(expression1<expression1);
-    EXPECT_FALSE(expression2<expression2);
-    EXPECT_FALSE(expression2<expression3);
-    EXPECT_TRUE(expression2<expression4);
-    EXPECT_FALSE(expression2<expression5);
+    EXPECT_FALSE(expression1 < expression1);
+    EXPECT_FALSE(expression2 < expression2);
+    EXPECT_FALSE(expression2 < expression3);
+    EXPECT_TRUE(expression2 < expression4);
+    EXPECT_FALSE(expression2 < expression5);
 }
 
-TEST(ExpressionTest, NotOperationWorks)
-{
-    Expression expressionToTest(createExpressionIfPossible(
-    {"x", "&", "x'", "&", "y", "&", "z"}));
-    Expression expressionToExpect(createExpressionIfPossible(
-    {"x'", "|", "x", "|", "y'", "|", "z'"}));
+TEST(ExpressionTest, NotOperationWorks) {
+    Expression expressionToTest(createExpressionIfPossible({"x", "&", "x'", "&", "y", "&", "z"}));
+    Expression expressionToExpect(createExpressionIfPossible({"x'", "|", "x", "|", "y'", "|", "z'"}));
 
     EXPECT_EQ(expressionToExpect, ~expressionToTest);
 }
 
-TEST(ExpressionTest, IsEmptyWorks)
-{
+TEST(ExpressionTest, IsEmptyWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({true, "&", "x"}));
@@ -141,8 +128,7 @@ TEST(ExpressionTest, IsEmptyWorks)
     EXPECT_FALSE(expression3.isEmpty());
 }
 
-TEST(ExpressionTest, ContainsOnlyOneTermWorks)
-{
+TEST(ExpressionTest, ContainsOnlyOneTermWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", "x"}));
@@ -154,8 +140,7 @@ TEST(ExpressionTest, ContainsOnlyOneTermWorks)
     EXPECT_FALSE(expression4.containsOnlyOneTerm());
 }
 
-TEST(ExpressionTest, IsSimplifiedWorks)
-{
+TEST(ExpressionTest, IsSimplifiedWorks) {
     Expression expression1;
     Expression expression2;
     expression2.setAsSimplified();
@@ -164,8 +149,7 @@ TEST(ExpressionTest, IsSimplifiedWorks)
     EXPECT_TRUE(expression2.isSimplified());
 }
 
-TEST(ExpressionTest, GetCommonOperatorTypeWorks)
-{
+TEST(ExpressionTest, GetCommonOperatorTypeWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(true));
     Expression expression3(createExpressionIfPossible({"x", "&", "y"}));
@@ -177,8 +161,7 @@ TEST(ExpressionTest, GetCommonOperatorTypeWorks)
     EXPECT_EQ(OperatorLevel::Or, expression4.getCommonOperatorLevel());
 }
 
-TEST(ExpressionTest, GetFirstTermConstReferenceWorks)
-{
+TEST(ExpressionTest, GetFirstTermConstReferenceWorks) {
     Expression expression1(createOrCopyExpressionFromATerm(true));
     Expression expression2(createExpressionIfPossible({true, "&", "x"}));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -188,8 +171,7 @@ TEST(ExpressionTest, GetFirstTermConstReferenceWorks)
     EXPECT_EQ(Term(true), getTermConstReferenceFromBaseTerm(expression3.getFirstTermConstReference()));
 }
 
-TEST(ExpressionTest, GetWrappedTermsWorks)
-{
+TEST(ExpressionTest, GetWrappedTermsWorks) {
     Expression expression(createExpressionIfPossible({true, "&", "x", "|", "y"}));
 
     WrappedTerms const& wrappedTermsToVerify(expression.getWrappedTerms());
@@ -199,8 +181,7 @@ TEST(ExpressionTest, GetWrappedTermsWorks)
     EXPECT_EQ(Term("y"), getTermConstReferenceFromUniquePointer(wrappedTermsToVerify.at(1).baseTermPointer));
 }
 
-TEST(ExpressionTest, GetDebugStringWorks)
-{
+TEST(ExpressionTest, GetDebugStringWorks) {
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
     Expression expression3;
@@ -210,14 +191,15 @@ TEST(ExpressionTest, GetDebugStringWorks)
     EXPECT_EQ("( {?}|| )", expression1.getDebugString());
     EXPECT_EQ("( {|}|||x{VariableTerm}|y{VariableTerm} )", expression2.getDebugString());
     EXPECT_EQ("( {?}||[true]{Constant} )", expression3.getDebugString());
-    EXPECT_EQ("( {&}||&( {|}|||x{VariableTerm}|y{VariableTerm} ){Expression}&z{VariableTerm} )", expression4.getDebugString());
+    EXPECT_EQ(
+        "( {&}||&( {|}|||x{VariableTerm}|y{VariableTerm} ){Expression}&z{VariableTerm} )",
+        expression4.getDebugString());
 }
 
-TEST(ExpressionTest, GetWrappedTermsReferenceWorks)
-{
+TEST(ExpressionTest, GetWrappedTermsReferenceWorks) {
     Expression expressionToTest(createExpressionIfPossible({"x", "&", "y"}));
 
-    WrappedTerms & wrappedTerms(expressionToTest.getWrappedTermsReference());
+    WrappedTerms& wrappedTerms(expressionToTest.getWrappedTermsReference());
     wrappedTerms.emplace_back(Term("a"));
     wrappedTerms.emplace_back(Term("b"));
 
@@ -225,8 +207,7 @@ TEST(ExpressionTest, GetWrappedTermsReferenceWorks)
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
-TEST(ExpressionTest, ClearWorks)
-{
+TEST(ExpressionTest, ClearWorks) {
     Expression expression1;
     Expression expression2(createExpressionIfPossible({"x", "&", "y", "|", "z"}));
 
@@ -237,8 +218,7 @@ TEST(ExpressionTest, ClearWorks)
     EXPECT_TRUE(expression2.isEmpty());
 }
 
-TEST(ExpressionTest, ClearAndPutTermInWrappedTermsWorks)
-{
+TEST(ExpressionTest, ClearAndPutTermInWrappedTermsWorks) {
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
 
@@ -249,8 +229,7 @@ TEST(ExpressionTest, ClearAndPutTermInWrappedTermsWorks)
     EXPECT_EQ(createOrCopyExpressionFromATerm(true), expression2);
 }
 
-TEST(ExpressionTest, PutTermWorks)
-{
+TEST(ExpressionTest, PutTermWorks) {
     Expression expressionToTest;
 
     expressionToTest.putTerm(Term("a"));
@@ -266,8 +245,7 @@ TEST(ExpressionTest, PutTermWorks)
     EXPECT_EQ(Term("d"), getTermConstReferenceFromUniquePointer(termsToVerify.at(3).baseTermPointer));
 }
 
-TEST(ExpressionTest, PutTermWithOperationLevelWorks)
-{
+TEST(ExpressionTest, PutTermWithOperationLevelWorks) {
     Expression expressionToTest;
 
     expressionToTest.putTerm(Term("a"), OperatorLevel::And);
@@ -278,8 +256,7 @@ TEST(ExpressionTest, PutTermWithOperationLevelWorks)
     EXPECT_EQ("(((a|b)&c)|d)", convertToString(expressionToTest));
 }
 
-TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingNullExpressionWorks)
-{
+TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingNullExpressionWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -305,8 +282,7 @@ TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingNullExpressionWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingTermWithNoEffectWorks)
-{
+TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingTermWithNoEffectWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -332,8 +308,7 @@ TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingTermWithNoEffectWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingShortCircuitValueWorks)
-{
+TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingShortCircuitValueWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -359,8 +334,7 @@ TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingShortCircuitValueWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingExpressionWithSameOperationLevelWorks)
-{
+TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingExpressionWithSameOperationLevelWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -386,8 +360,7 @@ TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingExpressionWithSameOpera
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingExpressionWithDifferentOperationLevelWorks)
-{
+TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingExpressionWithDifferentOperationLevelWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -413,8 +386,7 @@ TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingExpressionWithDifferent
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingNullExpressionWorks)
-{
+TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingNullExpressionWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -440,8 +412,7 @@ TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingNullExpressionWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingTermWithNoEffectWorks)
-{
+TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingTermWithNoEffectWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -467,8 +438,7 @@ TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingTermWithNoEffectWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingShortCircuitValueWorks)
-{
+TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingShortCircuitValueWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -494,8 +464,7 @@ TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingShortCircuitValueWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingExpressionWithSameOperationLevelWorks)
-{
+TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingExpressionWithSameOperationLevelWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -521,8 +490,7 @@ TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingExpressionWithSameOperat
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingExpressionWithDifferentOperationLevelWorks)
-{
+TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingExpressionWithDifferentOperationLevelWorks) {
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({"~", false}));
@@ -548,8 +516,7 @@ TEST(ExpressionTest, PutTermWithOrOperationIfNeededUsingExpressionWithDifferentO
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutWrappedTermWorks)
-{
+TEST(ExpressionTest, PutWrappedTermWorks) {
     Expression expressionToTest;
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm wrappedTerm2(Term(false));
@@ -566,8 +533,7 @@ TEST(ExpressionTest, PutWrappedTermWorks)
     EXPECT_EQ(Term(true), getTermConstReferenceFromUniquePointer(termsToVerify.at(2).baseTermPointer));
 }
 
-TEST(ExpressionTest, PutWrappedTermsWorks)
-{
+TEST(ExpressionTest, PutWrappedTermsWorks) {
     Expression expressionToTest;
     WrappedTerms wrappedTerms;
     wrappedTerms.emplace_back(Term(true));
@@ -583,8 +549,7 @@ TEST(ExpressionTest, PutWrappedTermsWorks)
     EXPECT_EQ(Term(true), getTermConstReferenceFromUniquePointer(termsToVerify.at(2).baseTermPointer));
 }
 
-TEST(ExpressionTest, SetWorks)
-{
+TEST(ExpressionTest, SetWorks) {
     Expression expression;
     WrappedTerms wrappedTerms{Term(true), Term(false)};
 
@@ -593,8 +558,7 @@ TEST(ExpressionTest, SetWorks)
     EXPECT_EQ("([true]&[false])", convertToString(expression));
 }
 
-TEST(ExpressionTest, SetTermWorks)
-{
+TEST(ExpressionTest, SetTermWorks) {
     Expression expression1(createExpressionIfPossible({true, "&", "x"}));
     Expression expression2(createExpressionIfPossible({true, "&", "x"}));
     Expression expression3(createExpressionIfPossible({true, "&", "x"}));
@@ -611,8 +575,7 @@ TEST(ExpressionTest, SetTermWorks)
     EXPECT_EQ(expressionToExpect3, expression3);
 }
 
-TEST(ExpressionTest, SetCommonOperatorLevelWorks)
-{
+TEST(ExpressionTest, SetCommonOperatorLevelWorks) {
     Expression expression1;
     Expression expression2;
     Expression expression3;
@@ -626,8 +589,7 @@ TEST(ExpressionTest, SetCommonOperatorLevelWorks)
     EXPECT_EQ(OperatorLevel::Or, expression3.getCommonOperatorLevel());
 }
 
-TEST(ExpressionTest, SetCommonOperatorTypeIfStillUnknownWorks)
-{
+TEST(ExpressionTest, SetCommonOperatorTypeIfStillUnknownWorks) {
     Expression expression1;
     Expression expression2;
     expression1.setCommonOperatorLevel(OperatorLevel::Unknown);
@@ -640,8 +602,7 @@ TEST(ExpressionTest, SetCommonOperatorTypeIfStillUnknownWorks)
     EXPECT_EQ(OperatorLevel::And, expression2.getCommonOperatorLevel());
 }
 
-TEST(ExpressionTest, SimplifyWorks)
-{
+TEST(ExpressionTest, SimplifyWorks) {
     Expression expressionToTest(createExpressionIfPossible({true, "&", true, "|", true}));
 
     expressionToTest.simplify();
@@ -650,8 +611,7 @@ TEST(ExpressionTest, SimplifyWorks)
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
-TEST(ExpressionTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
-{
+TEST(ExpressionTest, SimplifyWorksWhenIsSimplifiedIsNotSet) {
     Expression expressionToTest(createExpressionIfPossible({true, "&", true, "|", true}));
 
     expressionToTest.simplify();
@@ -660,8 +620,7 @@ TEST(ExpressionTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
-TEST(ExpressionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
-{
+TEST(ExpressionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet) {
     Expression expressionToTest(createExpressionIfPossible({true, "&", true, "|", true}));
     expressionToTest.setAsSimplified();
 
@@ -671,32 +630,25 @@ TEST(ExpressionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
-TEST(ExpressionTest, SortWorks)
-{
-    Expression expression(createExpressionIfPossible(
-    {"x", "&", "x'", "&", "y", "&", "z"}));
+TEST(ExpressionTest, SortWorks) {
+    Expression expression(createExpressionIfPossible({"x", "&", "x'", "&", "y", "&", "z"}));
 
     expression.sort();
 
-    Expression expressionToExpect(createExpressionIfPossible(
-    {"x", "&", "x'", "&", "y", "&", "z"}));
+    Expression expressionToExpect(createExpressionIfPossible({"x", "&", "x'", "&", "y", "&", "z"}));
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-TEST(ExpressionTest, NegateWorks)
-{
-    Expression expression(createExpressionIfPossible(
-    {"x", "&", "x'", "&", "y", "&", "z"}));
+TEST(ExpressionTest, NegateWorks) {
+    Expression expression(createExpressionIfPossible({"x", "&", "x'", "&", "y", "&", "z"}));
 
     expression.negate();
 
-    Expression expressionToExpect(createExpressionIfPossible(
-    {"x'", "|", "x", "|", "y'", "|", "z'"}));
+    Expression expressionToExpect(createExpressionIfPossible({"x'", "|", "x", "|", "y'", "|", "z'"}));
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-TEST(ExpressionTest, SetAsSimplifiedWorks)
-{
+TEST(ExpressionTest, SetAsSimplifiedWorks) {
     Expression expression;
 
     expression.setAsSimplified();
@@ -704,8 +656,7 @@ TEST(ExpressionTest, SetAsSimplifiedWorks)
     EXPECT_TRUE(expression.isSimplified());
 }
 
-TEST(ExpressionTest, ClearSimplifiedFlagWorks)
-{
+TEST(ExpressionTest, ClearSimplifiedFlagWorks) {
     Expression expression;
     expression.setAsSimplified();
 
@@ -714,8 +665,7 @@ TEST(ExpressionTest, ClearSimplifiedFlagWorks)
     EXPECT_FALSE(expression.isSimplified());
 }
 
-TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks)
-{
+TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks) {
     Term innerTerm;
     innerTerm.setAsSimplified();
     Expression expression(innerTerm);
@@ -729,8 +679,7 @@ TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks)
     EXPECT_FALSE(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference()).isSimplified());
 }
 
-TEST(ExpressionTest, OutputStreamOperatorWorks)
-{
+TEST(ExpressionTest, OutputStreamOperatorWorks) {
     stringstream ss;
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
@@ -743,6 +692,6 @@ TEST(ExpressionTest, OutputStreamOperatorWorks)
     EXPECT_EQ("(),(x|y),([true]),((x|y)&z)", ss.str());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

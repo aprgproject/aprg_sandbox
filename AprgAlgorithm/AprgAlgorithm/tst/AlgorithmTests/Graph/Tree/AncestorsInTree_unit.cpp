@@ -3,21 +3,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using QueryForTest = AncestorsInTree<VertexForTest>;
-}
+}  // namespace
 
-TEST(AncestorsInTreeTest, GetAncestorWorks)
-{
+TEST(AncestorsInTreeTest, GetAncestorWorks) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 4U);
@@ -34,6 +30,6 @@ TEST(AncestorsInTreeTest, GetAncestorWorks)
     EXPECT_EQ(1U, query.getAncestor(8U, 3U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

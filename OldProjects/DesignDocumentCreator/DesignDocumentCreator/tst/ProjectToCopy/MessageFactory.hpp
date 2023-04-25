@@ -2,12 +2,10 @@
 
 #include <Common/Messages/GenericMessage.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-namespace MessageFactory
-{
-    GenericMessage createMESSAGE_1();
+namespace MessageFactory {
+GenericMessage createMESSAGE_1();
 }
 
-} // namespace DesignDocumentCreator
+}  // namespace DesignDocumentCreator

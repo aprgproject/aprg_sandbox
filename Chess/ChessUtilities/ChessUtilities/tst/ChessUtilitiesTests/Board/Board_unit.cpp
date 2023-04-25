@@ -4,41 +4,26 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-TEST(BoardTest, ConstructionWorks)
-{
+TEST(BoardTest, ConstructionWorks) {
     Board board1(Board::Orientation::BlackUpWhiteDown);
     Board board2(Board::Orientation::WhiteUpBlackDown);
 
-    Board::PieceMatrix expectedMatrix1(8U, 8U,
-    {12,10,11,13,14,11,10,12,
-     9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     1,1,1,1,1,1,1,1,
-     4,2,3,5,6,3,2,4});
-    Board::PieceMatrix expectedMatrix2(8U, 8U,
-    {4,2,3,6,5,3,2,4,
-     1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     9,9,9,9,9,9,9,9,
-     12,10,11,14,13,11,10,12});
+    Board::PieceMatrix expectedMatrix1(
+        8U, 8U,
+        {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 4, 2, 3, 5, 6, 3, 2, 4});
+    Board::PieceMatrix expectedMatrix2(8U, 8U, {4, 2, 3, 6, 5, 3, 2, 4, 1, 1, 1, 1, 1,  1,  1,  1,  0,  0,  0,  0, 0, 0,
+                                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0,  0, 0, 0,
+                                                0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 12, 10, 11, 14, 13, 11, 10, 12});
     EXPECT_EQ(expectedMatrix1, board1.getPieceMatrix());
     EXPECT_EQ(expectedMatrix2, board2.getPieceMatrix());
 }
 
-TEST(BoardTest, IsEmptyWorks)
-{
+TEST(BoardTest, IsEmptyWorks) {
     Board board(Board::Orientation::BlackUpWhiteDown);
     Coordinate emptyCoordinate{4, 4};
     Coordinate nonEmptyCoordinate{3, 6};
@@ -47,17 +32,11 @@ TEST(BoardTest, IsEmptyWorks)
     EXPECT_FALSE(board.isEmptyAt(nonEmptyCoordinate));
 }
 
-TEST(BoardTest, CanBeCapturedWorksOnExample1)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {12,10,11,13,14,11,10,12,
-     9,9,9,9,0,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,9,0,0,0,0,
-     0,0,0,0,1,0,0,0,
-     0,0,0,0,0,0,0,0,
-     1,1,1,1,0,1,1,1,
-     4,2,3,5,6,3,2,4});
+TEST(BoardTest, CanBeCapturedWorksOnExample1) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 0, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0,
+         0,  0,  0,  0,  1,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 4, 2, 3, 5, 6, 3, 2, 4});
 
     EXPECT_TRUE(board.canBeCaptured(Coordinate{3, 3}));
     EXPECT_FALSE(board.canBeCaptured(Coordinate{3, 4}));
@@ -65,23 +44,16 @@ TEST(BoardTest, CanBeCapturedWorksOnExample1)
     EXPECT_TRUE(board.canBeCaptured(Coordinate{4, 4}));
 }
 
-TEST(BoardTest, CanBeCapturedWorksOnExample2)
-{
-    Board board(Board::Orientation::WhiteUpBlackDown,
-    {6,0,4,0,4,0,0,0,
-     11,1,1,0,0,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,13,0,0,0,
-     0,9,0,0,0,0,0,0,
-     0,0,0,11,0,9,0,0,
-     0,9,9,0,0,0,0,9,
-     12,0,0,14,13,0,0,12});
+TEST(BoardTest, CanBeCapturedWorksOnExample2) {
+    Board board(
+        Board::Orientation::WhiteUpBlackDown,
+        {6, 0, 4, 0, 4, 0, 0, 0, 11, 1, 1, 0,  0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  13, 0, 0, 0,
+         0, 9, 0, 0, 0, 0, 0, 0, 0,  0, 0, 11, 0, 9, 0, 0, 0, 9, 9, 0, 0, 0, 0, 9, 12, 0, 0, 14, 13, 0, 0, 12});
 
     EXPECT_FALSE(board.canBeCaptured(Coordinate{0, 0}));
 }
 
-TEST(BoardTest, IsPossibleMoveWorks)
-{
+TEST(BoardTest, IsPossibleMoveWorks) {
     Board board(Board::Orientation::BlackUpWhiteDown);
     Move possibleMove1{{3, 6}, {3, 5}};
     Move possibleMove2{{3, 6}, {3, 4}};
@@ -94,17 +66,10 @@ TEST(BoardTest, IsPossibleMoveWorks)
     EXPECT_FALSE(board.isPossibleMove(notPossibleMove2));
 }
 
-TEST(BoardTest, IsPromotionMoveWorks)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,0,0,0,0,0,
-     0,1,0,0,0,0,0,0,
-     0,0,1,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0});
+TEST(BoardTest, IsPromotionMoveWorks) {
+    Board board(Board::Orientation::BlackUpWhiteDown, {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+                                                       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 
     Move promotionMove{{1, 1}, {1, 0}};
     Move nonPromotionMove{{2, 2}, {2, 1}};
@@ -113,8 +78,7 @@ TEST(BoardTest, IsPromotionMoveWorks)
     EXPECT_FALSE(board.isPromotionMove(nonPromotionMove));
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithPawn)
-{
+TEST(BoardTest, GetPossibleMovesWorksWithPawn) {
     Board board1(Board::Orientation::BlackUpWhiteDown);
     Board board2(Board::Orientation::WhiteUpBlackDown);
 
@@ -127,17 +91,11 @@ TEST(BoardTest, GetPossibleMovesWorksWithPawn)
     EXPECT_EQ(expectedMoves2, moves2);
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithKnight)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,0,0,0,0,0,
-     12,10,11,14,13,11,10,12,
-     9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     1,1,1,1,1,1,1,1,
-     4,2,3,6,5,3,2,4,
-     0,0,0,0,0,0,0,0});
+TEST(BoardTest, GetPossibleMovesWorksWithKnight) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 11, 14, 13, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 1,  1,  1,  1,  1,  1,  1,  1,  4, 2, 3, 6, 5, 3, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0});
 
     Moves moves(board.getPossibleMoves(Coordinate(1, 1)));
 
@@ -145,17 +103,11 @@ TEST(BoardTest, GetPossibleMovesWorksWithKnight)
     EXPECT_EQ(expectedMoves, moves);
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithBishop)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,0,0,0,0,0,
-     12,10,11,14,13,11,10,12,
-     1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     9,9,9,9,9,9,9,9,
-     4,2,3,6,5,3,2,4,
-     0,0,0,0,0,0,0,0});
+TEST(BoardTest, GetPossibleMovesWorksWithBishop) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 11, 14, 13, 11, 10, 12, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 9,  9,  9,  9,  9,  9,  9,  9,  4, 2, 3, 6, 5, 3, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0});
 
     Moves moves(board.getPossibleMoves(Coordinate(2, 1)));
 
@@ -163,17 +115,11 @@ TEST(BoardTest, GetPossibleMovesWorksWithBishop)
     EXPECT_EQ(expectedMoves, moves);
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithRook)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,0,0,0,0,0,
-     12,10,11,14,13,11,10,12,
-     1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     9,9,9,9,9,9,9,9,
-     4,2,3,6,5,3,2,4,
-     0,0,0,0,0,0,0,0});
+TEST(BoardTest, GetPossibleMovesWorksWithRook) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 11, 14, 13, 11, 10, 12, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 9,  9,  9,  9,  9,  9,  9,  9,  4, 2, 3, 6, 5, 3, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0});
 
     Moves moves(board.getPossibleMoves(Coordinate(0, 1)));
 
@@ -181,65 +127,43 @@ TEST(BoardTest, GetPossibleMovesWorksWithRook)
     EXPECT_EQ(expectedMoves, moves);
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithQueen)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,0,0,0,0,0,
-     12,10,11,14,13,11,10,12,
-     1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     9,9,9,9,9,9,9,9,
-     4,2,3,6,5,3,2,4,
-     0,0,0,0,0,0,0,0});
+TEST(BoardTest, GetPossibleMovesWorksWithQueen) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 11, 14, 13, 11, 10, 12, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 9,  9,  9,  9,  9,  9,  9,  9,  4, 2, 3, 6, 5, 3, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0});
 
     Moves moves(board.getPossibleMoves(Coordinate(4, 1)));
 
-    Moves expectedMoves{{{4, 1}, {3, 0}}, {{4, 1}, {3, 2}}, {{4, 1}, {5, 0}}, {{4, 1}, {5, 2}}, {{4, 1}, {4, 0}}, {{4, 1}, {4, 2}}};
+    Moves expectedMoves{{{4, 1}, {3, 0}}, {{4, 1}, {3, 2}}, {{4, 1}, {5, 0}},
+                        {{4, 1}, {5, 2}}, {{4, 1}, {4, 0}}, {{4, 1}, {4, 2}}};
     EXPECT_EQ(expectedMoves, moves);
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithKing)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,0,0,0,0,0,
-     12,10,11,14,13,11,10,12,
-     1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     9,9,9,9,9,9,9,9,
-     4,2,3,6,5,3,2,4,
-     0,0,0,0,0,0,0,0});
+TEST(BoardTest, GetPossibleMovesWorksWithKing) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 11, 14, 13, 11, 10, 12, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 9,  9,  9,  9,  9,  9,  9,  9,  4, 2, 3, 6, 5, 3, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0});
 
     Moves moves(board.getPossibleMoves(Coordinate(3, 1)));
 
-    Moves expectedMoves{{{3, 1}, {2, 0}}, {{3, 1}, {2, 2}}, {{3, 1}, {3, 0}}, {{3, 1}, {3, 2}}, {{3, 1}, {4, 0}}, {{3, 1}, {4, 2}}};
+    Moves expectedMoves{{{3, 1}, {2, 0}}, {{3, 1}, {2, 2}}, {{3, 1}, {3, 0}},
+                        {{3, 1}, {3, 2}}, {{3, 1}, {4, 0}}, {{3, 1}, {4, 2}}};
     EXPECT_EQ(expectedMoves, moves);
 }
 
-TEST(BoardTest, GetFenStringWorks)
-{
+TEST(BoardTest, GetFenStringWorks) {
     Board board1(Board::Orientation::BlackUpWhiteDown);
     Board board2(Board::Orientation::WhiteUpBlackDown);
-    Board board3(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,14,13,0,0,0,
-     12,10,11,0,0,11,10,12,
-     1,0,1,0,1,0,1,0,
-     0,1,0,1,0,1,0,1,
-     9,9,0,0,9,9,0,0,
-     0,0,9,9,0,0,9,9,
-     4,2,3,0 ,0,3,2,4,
-     0,0,0,6,5,0,0,0});
-    Board board4(Board::Orientation::WhiteUpBlackDown,
-    {4,0,3,6,5,3,0,4,
-     1,1,1,0,1,1,1,1,
-     0,0,2,0,0,2,0,0,
-     0,0,0,1,0,0,0,0,
-     0,0,0,10,0,0,0,0,
-     0,0,0,0,9,0,0,0,
-     9,9,9,9,0,9,9,9,
-     12,10,11,14,13,11,0,12});
-
+    Board board3(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 14, 13, 0, 0, 0, 12, 10, 11, 0, 0, 11, 10, 12, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1,
+         9, 9, 0, 0,  9,  9, 0, 0, 0,  0,  9,  9, 0, 0,  9,  9,  4, 2, 3, 0, 0, 3, 2, 4, 0, 0, 0, 6, 5, 0, 0, 0});
+    Board board4(
+        Board::Orientation::WhiteUpBlackDown,
+        {4, 0, 3, 6,  5, 3, 0, 4, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 2, 0, 0, 2, 0, 0, 0,  0,  0,  1,  0,  0,  0, 0,
+         0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 9, 9, 9, 9, 0, 9, 9, 9, 12, 10, 11, 14, 13, 11, 0, 12});
 
     string actualFenString1(board1.getFenString());
     string actualFenString2(board2.getFenString());
@@ -256,76 +180,45 @@ TEST(BoardTest, GetFenStringWorks)
     EXPECT_EQ(expectedFenString4, actualFenString4);
 }
 
-TEST(BoardTest, MoveWorksForExample1)
-{
+TEST(BoardTest, MoveWorksForExample1) {
     Board board(Board::Orientation::BlackUpWhiteDown);
 
-    board.move(Move{{2,6},{2,4}});
+    board.move(Move{{2, 6}, {2, 4}});
 
-    Board::PieceMatrix expectedMatrix(8U, 8U,
-    {12,10,11,13,14,11,10,12,
-     9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,1,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     1,1,0,1,1,1,1,1,
-     4,2,3,5,6,3,2,4});
+    Board::PieceMatrix expectedMatrix(8U, 8U, {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0,
+                                               0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                               0,  0,  0,  0,  1,  1,  0,  1,  1, 1, 1, 1, 4, 2, 3, 5, 6, 3, 2, 4});
     EXPECT_EQ(expectedMatrix, board.getPieceMatrix());
 }
 
-TEST(BoardTest, MoveWorksForExample2)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {12,10,0,0,0,0,0,0,
-     9,11,0,0,0,9,9,0,
-     0,9,0,0,0,0,0,0,
-     0,0,9,0,3,0,0,0,
-     0,0,1,0,0,0,0,0,
-     0,0,1,12,2,0,0,0,
-     1,0,0,0,0,0,1,1,
-     4,0,0,0,0,4,6,0});
+TEST(BoardTest, MoveWorksForExample2) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {12, 10, 0, 0, 0, 0, 0, 0, 9, 11, 0, 0,  0, 9, 9, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 3, 0, 0, 0,
+         0,  0,  1, 0, 0, 0, 0, 0, 0, 0,  1, 12, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 4, 6, 0});
 
-    board.move(Move{{5,7},{5,1}});
+    board.move(Move{{5, 7}, {5, 1}});
 
-    Board::PieceMatrix expectedMatrix(8U, 8U,
-    {12,10,0,0,0,0,0,0,
-     9,11,0,0,0,4,9,0,
-     0,9,0,0,0,0,0,0,
-     0,0,9,0,3,0,0,0,
-     0,0,1,0,0,0,0,0,
-     0,0,1,12,2,0,0,0,
-     1,0,0,0,0,0,1,1,
-     4,0,0,0,0,0,6,0});
+    Board::PieceMatrix expectedMatrix(
+        8U, 8U, {12, 10, 0, 0, 0, 0, 0, 0, 9, 11, 0, 0,  0, 4, 9, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 3, 0, 0, 0,
+                 0,  0,  1, 0, 0, 0, 0, 0, 0, 0,  1, 12, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 0, 6, 0});
     EXPECT_EQ(expectedMatrix, board.getPieceMatrix());
 }
 
-TEST(BoardTest, MoveWorksWithCastling)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {12,10,11,13,14,11,10,12,
-     9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     1,1,1,1,1,1,1,1,
-     4,0,0,0,6,3,2,4});
+TEST(BoardTest, MoveWorksWithCastling) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 6, 3, 2, 4});
 
-    board.move(Move{{4,7},{2,7}});
+    board.move(Move{{4, 7}, {2, 7}});
 
-    Board::PieceMatrix expectedMatrix(8U, 8U,
-    {12,10,11,13,14,11,10,12,
-     9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
-     1,1,1,1,1,1,1,1,
-     0,0,6,4,0,3,2,4});
+    Board::PieceMatrix expectedMatrix(8U, 8U, {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0,
+                                               0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                               0,  0,  0,  0,  1,  1,  1,  1,  1, 1, 1, 1, 0, 0, 6, 4, 0, 3, 2, 4});
     EXPECT_EQ(expectedMatrix, board.getPieceMatrix());
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

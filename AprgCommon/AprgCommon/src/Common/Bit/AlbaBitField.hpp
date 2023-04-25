@@ -2,13 +2,11 @@
 
 #include <cstdint>
 
-namespace alba
-{
+namespace alba {
 
 template <typename UnderlyingType, unsigned int numberOfBits>
-struct AlbaSingleBitField
-{
+struct AlbaSingleBitField {
     UnderlyingType value : numberOfBits;
 };
 
-}
+}  // namespace alba

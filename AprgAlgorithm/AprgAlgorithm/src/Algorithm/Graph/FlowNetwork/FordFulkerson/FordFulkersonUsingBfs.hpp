@@ -7,15 +7,12 @@
 #include <deque>
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename SinkSourceFlowNetworkType>
-class FordFulkersonUsingBfs : public BaseFordFulkerson<SinkSourceFlowNetworkType>
-{
+class FordFulkersonUsingBfs : public BaseFordFulkerson<SinkSourceFlowNetworkType> {
 public:
     using BaseClass = BaseFordFulkerson<SinkSourceFlowNetworkType>;
     using Vertex = typename SinkSourceFlowNetworkType::Vertex;
@@ -24,31 +21,28 @@ public:
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     FordFulkersonUsingBfs(SinkSourceFlowNetworkType const& flowNetwork)
-        : BaseClass(flowNetwork)
-        , b_flowNetwork(BaseClass::m_flowNetwork)
-        , b_processedVertices(BaseClass::m_processedVertices)
-        , b_vertexToAugmentingPathEdgeMap(BaseClass::m_vertexToAugmentingPathEdgeMap)
-    {
+        : BaseClass(flowNetwork),
+          b_flowNetwork(BaseClass::m_flowNetwork),
+          b_processedVertices(BaseClass::m_processedVertices),
+          b_vertexToAugmentingPathEdgeMap(BaseClass::m_vertexToAugmentingPathEdgeMap) {
         this->initialize();
     }
 
 protected:
-
-    bool findAnAugmentingPathAndReturnIfFound() override
-    {
+    bool findAnAugmentingPathAndReturnIfFound() override {
         b_vertexToAugmentingPathEdgeMap.clear();
         b_processedVertices.clear();
         b_processedVertices.putVertex(b_flowNetwork.getSourceVertex());
         std::deque<Vertex> queueOfVerticesToProcess{b_flowNetwork.getSourceVertex()};
 
-        while(!queueOfVerticesToProcess.empty()) // BFS like traversal
+        while (!queueOfVerticesToProcess.empty())  // BFS like traversal
         {
             Vertex vertex(queueOfVerticesToProcess.back());
             queueOfVerticesToProcess.pop_back();
-            for(FlowEdge const& flowEdge : b_flowNetwork.getFlowEdgesWithVertex(vertex))
-            {
+            for (FlowEdge const& flowEdge : b_flowNetwork.getFlowEdgesWithVertex(vertex)) {
                 Vertex otherVertex(flowEdge.getTheOtherVertex(vertex));
-                if(b_processedVertices.isNotFound(otherVertex) && flowEdge.getResidualCapacityTo(otherVertex) > 0) // we can still put flow to this other vertex
+                if (b_processedVertices.isNotFound(otherVertex) &&
+                    flowEdge.getResidualCapacityTo(otherVertex) > 0)  // we can still put flow to this other vertex
                 {
                     b_processedVertices.putVertex(otherVertex);
                     b_vertexToAugmentingPathEdgeMap[otherVertex] = flowEdge;
@@ -56,14 +50,14 @@ protected:
                 }
             }
         }
-        return b_processedVertices.isFound(b_flowNetwork.getSinkVertex()); // is sink vertex reached
+        return b_processedVertices.isFound(b_flowNetwork.getSinkVertex());  // is sink vertex reached
     }
 
     SinkSourceFlowNetworkType const& b_flowNetwork;
-    CheckableVerticesWithVertex & b_processedVertices;
-    VertexToFlowEdgeMap & b_vertexToAugmentingPathEdgeMap;
+    CheckableVerticesWithVertex& b_processedVertices;
+    VertexToFlowEdgeMap& b_vertexToAugmentingPathEdgeMap;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -2,16 +2,13 @@
 
 #include <Algebra/Retrieval/BaseRetriever.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 using BaseNumberOfTermsRetriever = BaseRetriever<unsigned int>;
 
-class NumberOfTermsRetriever final : public BaseNumberOfTermsRetriever
-{
+class NumberOfTermsRetriever final : public BaseNumberOfTermsRetriever {
 public:
     NumberOfTermsRetriever();
     void retrieveFromConstant(Constant const& constant) override;
@@ -21,6 +18,6 @@ public:
     void retrieveFromFunction(Function const& functionObject) override;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

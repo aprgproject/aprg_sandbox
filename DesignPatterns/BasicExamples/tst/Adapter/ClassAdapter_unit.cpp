@@ -4,15 +4,12 @@
 
 using namespace std;
 
+namespace ClassAdapter {
 
-namespace ClassAdapter
-{
-
-TEST(ClassAdapterTest, Test1)
-{
+TEST(ClassAdapterTest, Test1) {
     Target *t = new Adapter();
     t->request();
     delete t;
 }
 
-}
+}  // namespace ClassAdapter

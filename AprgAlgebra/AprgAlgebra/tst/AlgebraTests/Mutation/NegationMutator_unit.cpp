@@ -7,14 +7,11 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(NegationMutatorTest, MutateTermWorks)
-{
+TEST(NegationMutatorTest, MutateTermWorks) {
     NegationMutator mutator;
     Term term1(5);
     Term term2("a");
@@ -44,8 +41,7 @@ TEST(NegationMutatorTest, MutateTermWorks)
     EXPECT_EQ(termToExpect6, term6);
 }
 
-TEST(NegationMutatorTest, MutateConstantWorks)
-{
+TEST(NegationMutatorTest, MutateConstantWorks) {
     NegationMutator mutator;
     Constant constant(5);
 
@@ -55,8 +51,7 @@ TEST(NegationMutatorTest, MutateConstantWorks)
     EXPECT_EQ(constantToExpect, constant);
 }
 
-TEST(NegationMutatorTest, MutateVariableWorks)
-{
+TEST(NegationMutatorTest, MutateVariableWorks) {
     NegationMutator mutator;
     Variable variable("a");
 
@@ -66,8 +61,7 @@ TEST(NegationMutatorTest, MutateVariableWorks)
     EXPECT_EQ(variableToExpect, variable);
 }
 
-TEST(NegationMutatorTest, MutateMonomialWorks)
-{
+TEST(NegationMutatorTest, MutateMonomialWorks) {
     NegationMutator mutator;
     Monomial monomial(7, {{"a", 1}});
 
@@ -77,8 +71,7 @@ TEST(NegationMutatorTest, MutateMonomialWorks)
     EXPECT_EQ(monomialToExpect, monomial);
 }
 
-TEST(NegationMutatorTest, MutatePolynomialWorks)
-{
+TEST(NegationMutatorTest, MutatePolynomialWorks) {
     NegationMutator mutator;
     Polynomial polynomial{Monomial(9, {{"a", 1}}), Monomial(11, {{"b", 1}})};
 
@@ -88,8 +81,7 @@ TEST(NegationMutatorTest, MutatePolynomialWorks)
     EXPECT_EQ(polynomiaToExpect, polynomial);
 }
 
-TEST(NegationMutatorTest, MutateExpressionWorks)
-{
+TEST(NegationMutatorTest, MutateExpressionWorks) {
     NegationMutator mutator;
     Expression expression(createExpressionIfPossible({"a", "^", "b"}));
 
@@ -99,8 +91,7 @@ TEST(NegationMutatorTest, MutateExpressionWorks)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-TEST(NegationMutatorTest, MutateFunctionWorks)
-{
+TEST(NegationMutatorTest, MutateFunctionWorks) {
     NegationMutator mutator;
     Function functionObject(sin("a"));
 
@@ -110,6 +101,6 @@ TEST(NegationMutatorTest, MutateFunctionWorks)
     EXPECT_EQ(functionToExpect, functionObject);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

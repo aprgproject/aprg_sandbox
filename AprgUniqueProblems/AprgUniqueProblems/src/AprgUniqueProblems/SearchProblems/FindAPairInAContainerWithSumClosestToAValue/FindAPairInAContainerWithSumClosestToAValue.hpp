@@ -5,15 +5,12 @@
 #include <limits>
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class FindAPairInAContainerWithSumClosestToAValue
-{
+class FindAPairInAContainerWithSumClosestToAValue {
 public:
     // Another problem that can be solved using the two pointers method is the following problem,
     // also known as the 2SUM problem: given an array of n numbers and a target sum x,
@@ -23,50 +20,34 @@ public:
     using Value = typename Values::value_type;
     using ValuePair = std::pair<Value, Value>;
 
-    FindAPairInAContainerWithSumClosestToAValue(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+    FindAPairInAContainerWithSumClosestToAValue(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    ValuePair getValuePairWithSumClosestToAValue(
-            Value const& targetSum) const
-    {
+    ValuePair getValuePairWithSumClosestToAValue(Value const& targetSum) const {
         // std::less_equal because index can be equal
-        return getValuePairWithSumClosestToAValue(targetSum, 0, m_sortedValues.size()-1);
+        return getValuePairWithSumClosestToAValue(targetSum, 0, m_sortedValues.size() - 1);
     }
 
 private:
-
     ValuePair getValuePairWithSumClosestToAValue(
-            Value const& targetSum,
-            Index const lowestIndex,
-            Index const highestIndex) const
-    {
+        Value const& targetSum, Index const lowestIndex, Index const highestIndex) const {
         ValuePair result{};
-        if(!m_sortedValues.empty())
-        {
+        if (!m_sortedValues.empty()) {
             // similar to TwoSum
 
             Value minimumDeviation(std::numeric_limits<Value>::max());
-            Index lowerIndex=lowestIndex, higherIndex=highestIndex;
-            while(lowerIndex < higherIndex)
-            {
+            Index lowerIndex = lowestIndex, higherIndex = highestIndex;
+            while (lowerIndex < higherIndex) {
                 Value currentSum(m_sortedValues.at(lowerIndex) + m_sortedValues.at(higherIndex));
                 Value currentDeviation(mathHelper::getPositiveDelta(currentSum, targetSum));
-                if(minimumDeviation > currentDeviation)
-                {
+                if (minimumDeviation > currentDeviation) {
                     minimumDeviation = currentDeviation;
                     result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
                 }
-                if(currentSum==targetSum)
-                {
+                if (currentSum == targetSum) {
                     break;
-                }
-                else if(currentSum>targetSum)
-                {
+                } else if (currentSum > targetSum) {
                     higherIndex--;
-                }
-                else if(currentSum<targetSum)
-                {
+                } else if (currentSum < targetSum) {
                     lowerIndex++;
                 }
             }
@@ -77,9 +58,9 @@ private:
     Values const& m_sortedValues;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Given a sorted array and a number x, find a pair in array whose sum is closest to x.
 

@@ -4,19 +4,16 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
-using MaxPriorityQueueForTest = HeapPriorityQueue<char, less>; //less leads to Max Priority Queue same as in c++ standard
+namespace {
+using MaxPriorityQueueForTest =
+    HeapPriorityQueue<char, less>;  // less leads to Max Priority Queue same as in c++ standard
 }
 
-TEST(HeapPriorityQueueTest, IsEmptyWorks)
-{
+TEST(HeapPriorityQueueTest, IsEmptyWorks) {
     MaxPriorityQueueForTest queue1;
     MaxPriorityQueueForTest queue2;
     queue2.insert('A');
@@ -25,8 +22,7 @@ TEST(HeapPriorityQueueTest, IsEmptyWorks)
     EXPECT_FALSE(queue2.isEmpty());
 }
 
-TEST(HeapPriorityQueueTest, GetSizeWorks)
-{
+TEST(HeapPriorityQueueTest, GetSizeWorks) {
     MaxPriorityQueueForTest queue1;
     MaxPriorityQueueForTest queue2;
     queue2.insert('P');
@@ -37,8 +33,7 @@ TEST(HeapPriorityQueueTest, GetSizeWorks)
     EXPECT_EQ(3U, queue2.getSize());
 }
 
-TEST(HeapPriorityQueueTest, GetObjectsWorks)
-{
+TEST(HeapPriorityQueueTest, GetObjectsWorks) {
     MaxPriorityQueueForTest queue;
     queue.insert('P');
     queue.insert('Q');
@@ -50,8 +45,7 @@ TEST(HeapPriorityQueueTest, GetObjectsWorks)
     EXPECT_EQ(objectsToExpect, objectsToVerify);
 }
 
-TEST(HeapPriorityQueueTest, GetTopWorks)
-{
+TEST(HeapPriorityQueueTest, GetTopWorks) {
     MaxPriorityQueueForTest queue;
     queue.insert('P');
     queue.insert('Q');
@@ -60,8 +54,7 @@ TEST(HeapPriorityQueueTest, GetTopWorks)
     EXPECT_EQ('Q', queue.getTop());
 }
 
-TEST(HeapPriorityQueueTest, InsertWorksOnExample1)
-{
+TEST(HeapPriorityQueueTest, InsertWorksOnExample1) {
     MaxPriorityQueueForTest queue;
 
     queue.insert('P');
@@ -73,8 +66,7 @@ TEST(HeapPriorityQueueTest, InsertWorksOnExample1)
     EXPECT_EQ(objectsToExpect, objectsToVerify);
 }
 
-TEST(HeapPriorityQueueTest, InsertWorksOnExample2)
-{
+TEST(HeapPriorityQueueTest, InsertWorksOnExample2) {
     MaxPriorityQueueForTest queue;
 
     queue.insert('S');
@@ -90,13 +82,11 @@ TEST(HeapPriorityQueueTest, InsertWorksOnExample2)
     queue.insert('H');
 
     MaxPriorityQueueForTest::Objects const& objectsToVerify(queue.getObjects());
-    MaxPriorityQueueForTest::Objects const objectsToExpect
-    {'T', 'S', 'R', 'N', 'P', 'O', 'A', 'E', 'I', 'G', 'H'};
+    MaxPriorityQueueForTest::Objects const objectsToExpect{'T', 'S', 'R', 'N', 'P', 'O', 'A', 'E', 'I', 'G', 'H'};
     EXPECT_EQ(objectsToExpect, objectsToVerify);
 }
 
-TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample1)
-{
+TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample1) {
     MaxPriorityQueueForTest queue;
     queue.insert('P');
     queue.insert('Q');
@@ -106,13 +96,11 @@ TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample1)
 
     EXPECT_EQ('Q', objectToVerify);
     MaxPriorityQueueForTest::Objects const& objectsToVerify(queue.getObjects());
-    MaxPriorityQueueForTest::Objects const objectsToExpect
-    {'P', 'E'};
+    MaxPriorityQueueForTest::Objects const objectsToExpect{'P', 'E'};
     EXPECT_EQ(objectsToExpect, objectsToVerify);
 }
 
-TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample2)
-{
+TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample2) {
     MaxPriorityQueueForTest queue;
     queue.insert('S');
     queue.insert('P');
@@ -130,11 +118,10 @@ TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample2)
 
     EXPECT_EQ('T', objectToVerify);
     MaxPriorityQueueForTest::Objects const& objectsToVerify(queue.getObjects());
-    MaxPriorityQueueForTest::Objects const objectsToExpect
-    {'S', 'P', 'R', 'N', 'H', 'O', 'A', 'E', 'I', 'G'};
+    MaxPriorityQueueForTest::Objects const objectsToExpect{'S', 'P', 'R', 'N', 'H', 'O', 'A', 'E', 'I', 'G'};
     EXPECT_EQ(objectsToExpect, objectsToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

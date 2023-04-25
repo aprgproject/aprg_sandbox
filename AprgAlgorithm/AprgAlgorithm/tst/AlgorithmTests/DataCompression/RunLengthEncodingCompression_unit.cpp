@@ -7,20 +7,16 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
 using CompressionForTest = RunLengthEncodingCompression<unsigned char>;
-}
+}  // namespace
 
-TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1)
-{
+TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1) {
     bitset<40U> initialValue(0B0000000000000001111111000000011111111111);
     stringstream inputSs;
     stringstream outputSs;
@@ -34,8 +30,7 @@ TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1)
     EXPECT_EQ("0F07070B", getHexEquivalentOfCharacters(outputSs.str()));
 }
 
-TEST(RunLengthEncodingCompressionTest, ExpandWorksUsingExample1)
-{
+TEST(RunLengthEncodingCompressionTest, ExpandWorksUsingExample1) {
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
@@ -48,6 +43,6 @@ TEST(RunLengthEncodingCompressionTest, ExpandWorksUsingExample1)
     EXPECT_EQ("0001FC07FF", getHexEquivalentOfCharacters(outputSs.str()));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

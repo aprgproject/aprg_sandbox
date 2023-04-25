@@ -7,14 +7,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-TEST(EllipsoidTest, EmptyEllipsoid)
-{
+TEST(EllipsoidTest, EmptyEllipsoid) {
     Ellipsoid ellipsoid;
 
     EXPECT_EQ(Point(0, 0, 0), ellipsoid.getCenter());
@@ -23,8 +20,7 @@ TEST(EllipsoidTest, EmptyEllipsoid)
     EXPECT_DOUBLE_EQ(0, ellipsoid.getCValue());
 }
 
-TEST(EllipsoidTest, EllipsoidAtOriginWithRadius)
-{
+TEST(EllipsoidTest, EllipsoidAtOriginWithRadius) {
     Ellipsoid ellipsoid(Point(0, 0, 0), 10, 11, 12);
 
     EXPECT_EQ(Point(0, 0, 0), ellipsoid.getCenter());
@@ -36,8 +32,7 @@ TEST(EllipsoidTest, EllipsoidAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(-8.0719901383356785, ellipsoid.calculateZFromXAndY(5, 6, -1));
 }
 
-TEST(EllipsoidTest, EllipsoidNotAtOriginWithRadius)
-{
+TEST(EllipsoidTest, EllipsoidNotAtOriginWithRadius) {
     Ellipsoid ellipsoid(Point(1, 2, 3), 10, 11, 12);
 
     EXPECT_EQ(Point(1, 2, 3), ellipsoid.getCenter());
@@ -49,13 +44,12 @@ TEST(EllipsoidTest, EllipsoidNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(-7.095478081099003, ellipsoid.calculateZFromXAndY(5, 6, -1));
 }
 
-TEST(EllipsoidTest, IsInsideWorks)
-{
+TEST(EllipsoidTest, IsInsideWorks) {
     Ellipsoid ellipsoid(Point(1, 2, 3), 10, 11, 12);
 
     EXPECT_TRUE(ellipsoid.isInside(Point(0, 0, 0)));
 }
 
-}
+}  // namespace ThreeDimensions
 
-}
+}  // namespace alba

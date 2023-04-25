@@ -1,38 +1,39 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1803_001_00/I_Interface/Application_Env/Definitions/SWamUnit.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_COMMON_APPL/tags/COMMON_APPL_ENV_1803_001_00/I_Interface/Application_Env/Definitions/SWamUnit.h
+*$
 * @version               $LastChangedRevision: 2432 $
 * @date                  $LastChangedDate: 2015-06-30 17:25:09 +0800 (Tue, 30 Jun 2015) $
 * @author                $Author: zborkows $
-* 
+*
 * Original author        <nn>
-* 
+*
 * Copyright 2010 Nokia. All rights reserved.
 *******************************************************************************/
 
 #ifndef _S_WAM_UNIT_H
 #define _S_WAM_UNIT_H
 
-#include <TMsgHeaderTypes.h>
 #include <EAvailability.h>
-#include <TSubrackNbr.h>
-#include <glo_def.h>
-#include <TTrafficTpIdentification.h>
-#include <SAal2Tp.h>
-#include <Glo_bs.h>
 #include <EControlUnitType.h>
-#include <SMessageAddress.h>
 #include <EMcuSwDeployment.h>
+#include <Glo_bs.h>
+#include <SAal2Tp.h>
+#include <SMessageAddress.h>
+#include <TMsgHeaderTypes.h>
+#include <TSubrackNbr.h>
+#include <TTrafficTpIdentification.h>
+#include <glo_def.h>
 
-struct SWamUnit
-{
-    TBoard                    logUnitAddr;
-    TCpu                      cpuAddr;
-    u8                        pad1;
-    u8                        numOfFspUnits;
-    EControlUnitType          unitType;
-    EAvailability             isUnitAvailable;
-    EMcuSwDeployment          swDeployment;
+struct SWamUnit {
+    TBoard logUnitAddr;
+    TCpu cpuAddr;
+    u8 pad1;
+    u8 numOfFspUnits;
+    EControlUnitType unitType;
+    EAvailability isUnitAvailable;
+    EMcuSwDeployment swDeployment;
 };
 typedef struct SWamUnit SWamUnit;
 

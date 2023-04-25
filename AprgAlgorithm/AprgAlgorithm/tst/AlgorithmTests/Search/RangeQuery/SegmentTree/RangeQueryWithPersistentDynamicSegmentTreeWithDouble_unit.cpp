@@ -4,30 +4,25 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<double>;
 using RangeQueryForTest = RangeQueryWithPersistentDynamicSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 RangeQueryForTest::Function multipliesFunction = multiplies<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
 
@@ -47,8 +42,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithGeome
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
 
@@ -57,8 +51,7 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithGeome
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
 
@@ -80,14 +73,15 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, ChangeValueAtIndexWithGeome
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalOnPreviousTreeWithGeometricSumWorksAfterChangingValuesOnExample1)
-{
+TEST(
+    RangeQueryWithPersistentDynamicSegmentTreeTest,
+    GetValueOnIntervalOnPreviousTreeWithGeometricSumWorksAfterChangingValuesOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
 
-    geometricSumRangeQuery.changeValueAtIndex(3U, 3); // New values: 1, 3, 4, 3, 6, 1, 4, 2, 9
-    geometricSumRangeQuery.changeValueAtIndex(4U, 4); // New values: 1, 3, 4, 3, 4, 1, 4, 2, 9
-    geometricSumRangeQuery.changeValueAtIndex(5U, 5); // New values: 1, 3, 4, 3, 4, 5, 4, 2, 9
+    geometricSumRangeQuery.changeValueAtIndex(3U, 3);  // New values: 1, 3, 4, 3, 6, 1, 4, 2, 9
+    geometricSumRangeQuery.changeValueAtIndex(4U, 4);  // New values: 1, 3, 4, 3, 4, 1, 4, 2, 9
+    geometricSumRangeQuery.changeValueAtIndex(5U, 5);  // New values: 1, 3, 4, 3, 4, 5, 4, 2, 9
 
     // On zero previous step (current values), the values are: 1, 3, 4, 3, 4, 5, 4, 2, 9
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnIntervalOnPreviousTree(0U, 0U, 0U));
@@ -170,6 +164,6 @@ TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalOnPreviou
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnIntervalOnPreviousTree(4U, 4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

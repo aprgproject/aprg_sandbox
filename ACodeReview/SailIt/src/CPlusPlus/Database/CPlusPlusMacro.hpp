@@ -2,22 +2,19 @@
 
 #include "../Utilities.hpp"
 
-#include <optional>
-
 #include <map>
+#include <optional>
 #include <string>
 
-using std::string;
 using std::map;
 using std::pair;
+using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 
 typedef map<int, int> MapOfPositionToParameter;
 
-class CPlusPlusMacro
-{
+class CPlusPlusMacro {
 public:
     bool isPositionInMap(int const positionIndex) const;
     bool isEqualToVariadicParameterIndex(int const parameterIndex) const;
@@ -35,4 +32,4 @@ private:
     MapOfPositionToParameter m_positionToParameter;
 };
 
-}
+}  // namespace codeReview

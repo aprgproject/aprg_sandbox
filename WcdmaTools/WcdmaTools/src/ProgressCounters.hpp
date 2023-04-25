@@ -1,16 +1,15 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace ProgressCounters
-{
+namespace ProgressCounters {
 
 int getOverAllProgress();
 void resetProgressCounters();
 int getExtractProgress();
 int getCombineAndSortProgress();
-template <typename NumberType> int getCorrectProgressValue(NumberType const numerator, NumberType const denominator);
+template <typename NumberType>
+int getCorrectProgressValue(NumberType const numerator, NumberType const denominator);
 
 extern int numberOfFilesToBeAnalyzedForExtraction;
 extern int numberOfFilesAnalyzedForExtraction;
@@ -21,6 +20,6 @@ extern int grepProcessProgress;
 extern int cropProcessProgress;
 extern int numberOfStepsEnabled;
 
-}
+}  // namespace ProgressCounters
 
-}
+}  // namespace alba

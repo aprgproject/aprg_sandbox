@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CMakeDatabase.hpp"
-
 #include <File/AlbaFileReader.hpp>
 
 #include <fstream>
@@ -11,22 +10,20 @@
 #include <unordered_map>
 #include <vector>
 
-using std::string;
+using std::function;
 using std::ifstream;
+using std::set;
+using std::string;
 using std::unordered_map;
 using std::vector;
-using std::set;
-using std::function;
 
 using alba::AlbaFileReader;
 
-namespace codeReview
-{
+namespace codeReview {
 typedef unordered_map<string, set<string>> VariableMapType;
 typedef unordered_map<string, set<string>>::iterator VariableMapIterator;
 
-class CMakeReader
-{
+class CMakeReader {
 public:
     explicit CMakeReader(string const& fileName, CMakeDatabase& fileDirectoryDatabase);
     bool isFileValid();
@@ -38,6 +35,7 @@ public:
     void copyVariableMapExceptCMakeDirectory(VariableMapType const& inputVariableMap);
     void addToFilesAndDirectoriesDatabase(string const& filesAndDirectories);
     void readFile();
+
 private:
     void processProjectCommand(string& lineString, int& index);
     void processSetCommand(string& lineString, int& index);
@@ -46,15 +44,10 @@ private:
     void processAddSubDirectoryCommand(string& lineString, int& index);
     void includeSecondArgumentToFilesAndDirectories(string& lineString, int& index);
     void replaceVariableWithRealValuesInStringAndDoOperation(
-            VariableMapIterator startIterator,
-            string const& contents,
-            function<void(string)> operationIfFound);
+        VariableMapIterator startIterator, string const& contents, function<void(string)> operationIfFound);
     void separateStringsUsingWhiteSpaceAndDoOperation(
-            string const& string1,
-            function<void(string)> operationForEachString);
-    void addCMakeDirectoryIfNeededAndDoOperation(
-            string const& string1,
-            function<void(string)> operationForEachString);
+        string const& string1, function<void(string)> operationForEachString);
+    void addCMakeDirectoryIfNeededAndDoOperation(string const& string1, function<void(string)> operationForEachString);
     string getNextCMakeIdentifier(string& lineString, int& index);
     void findOpeningParenthesisAndProceed(string& lineString, int& index);
     string extractContentsUntilCloseParenthesis(string& lineString, int& index);
@@ -73,4 +66,4 @@ private:
     bool m_isFileValid;
 };
 
-}// namespace codeReview
+}  // namespace codeReview

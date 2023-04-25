@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using Paths = typename GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
@@ -19,10 +16,9 @@ using VertexPairs = typename GeneralPathCoverForTest::VertexPairs;
 
 VertexForTest newSourceVertex = 0xFFFFFFFEU;
 VertexForTest newSinkVertex = 0xFFFFFFFFU;
-}
+}  // namespace
 
-TEST(GeneralPathCoverTest, GetGeneralPathCoverWorksOnExample1)
-{
+TEST(GeneralPathCoverTest, GetGeneralPathCoverWorksOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 5U);
     graph.connect(2U, 6U);
@@ -34,12 +30,12 @@ TEST(GeneralPathCoverTest, GetGeneralPathCoverWorksOnExample1)
 
     Paths expectedPaths{{1U, 5U, 6U, 7U}, {2U, 6U, 3U, 4U}};
     VertexPairs expectedVertexPairs{{1U, 5U}, {2U, 3U}, {3U, 4U}, {5U, 6U}, {6U, 7U}};
-    EXPECT_EQ(expectedVertexPairs, generalPathCover.getConnectedVerticesOfGeneralPathCover(newSourceVertex, newSinkVertex));
+    EXPECT_EQ(
+        expectedVertexPairs, generalPathCover.getConnectedVerticesOfGeneralPathCover(newSourceVertex, newSinkVertex));
     EXPECT_EQ(expectedPaths, generalPathCover.getGeneralPathCover(newSourceVertex, newSinkVertex));
 }
 
-TEST(GeneralPathCoverTest, GetSizeOfMaximumAntichainOnExample1)
-{
+TEST(GeneralPathCoverTest, GetSizeOfMaximumAntichainOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 5U);
     graph.connect(2U, 6U);
@@ -52,6 +48,6 @@ TEST(GeneralPathCoverTest, GetSizeOfMaximumAntichainOnExample1)
     EXPECT_EQ(2U, generalPathCover.getSizeOfMaximumAntichain(newSourceVertex, newSinkVertex));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

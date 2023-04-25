@@ -2,34 +2,31 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneConstantWorks)
-{
-    EXPECT_FALSE(doesThePolynomialHaveOnlyOneConstant(Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
+TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneConstantWorks) {
+    EXPECT_FALSE(doesThePolynomialHaveOnlyOneConstant(
+        Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
     EXPECT_FALSE(doesThePolynomialHaveOnlyOneConstant(Polynomial{Monomial(-16, {}), Monomial(32, {})}));
     EXPECT_TRUE(doesThePolynomialHaveOnlyOneConstant(Polynomial{Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneVariableWorks)
-{
-    EXPECT_FALSE(doesThePolynomialHaveOnlyOneVariable(Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));
-    EXPECT_TRUE(doesThePolynomialHaveOnlyOneVariable(Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
+TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneVariableWorks) {
+    EXPECT_FALSE(doesThePolynomialHaveOnlyOneVariable(
+        Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));
+    EXPECT_TRUE(doesThePolynomialHaveOnlyOneVariable(
+        Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, DoesThePolynomialHaveDoubleValueWorks)
-{
+TEST(PolynomialHelpersTest, DoesThePolynomialHaveDoubleValueWorks) {
     EXPECT_FALSE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
     EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})}));
     EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 0.75}}), Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks)
-{
+TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks) {
     Polynomial polynomialWithoutDouble{Monomial(1, {{"x", 3}}), Monomial(-16, {})};
     Polynomial polynomialWithDouble{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})};
 
@@ -41,21 +38,19 @@ TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks)
     EXPECT_TRUE(doesOnePolynomialHaveADoubleValue(polynomials3));
 }
 
-TEST(PolynomialHelpersTest, HasAMonomialWithMultipleVariablesWorks)
-{
+TEST(PolynomialHelpersTest, HasAMonomialWithMultipleVariablesWorks) {
     EXPECT_FALSE(hasAMonomialWithMultipleVariables(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
     EXPECT_TRUE(hasAMonomialWithMultipleVariables(Polynomial{Monomial(1, {{"x", 3}, {"y", 4}}), Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, HasAMonomialWithDegreeMoreThanOneOrFractionalWorks)
-{
+TEST(PolynomialHelpersTest, HasAMonomialWithDegreeMoreThanOneOrFractionalWorks) {
     EXPECT_FALSE(hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-16, {})}));
     EXPECT_TRUE(hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-16, {})}));
-    EXPECT_TRUE(hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-16, {})}));
+    EXPECT_TRUE(hasAMonomialWithDegreeMoreThanOneOrFractional(
+        Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, IsOneMonomialWorks)
-{
+TEST(PolynomialHelpersTest, IsOneMonomialWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
@@ -65,8 +60,7 @@ TEST(PolynomialHelpersTest, IsOneMonomialWorks)
     EXPECT_FALSE(isOneMonomial(polynomial3));
 }
 
-TEST(PolynomialHelpersTest, IsVariableExponentMapContentFoundWorks)
-{
+TEST(PolynomialHelpersTest, IsVariableExponentMapContentFoundWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {{"x", 1}})};
     Polynomial polynomial3{Monomial(6, {{"x", 1}}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
@@ -76,14 +70,12 @@ TEST(PolynomialHelpersTest, IsVariableExponentMapContentFoundWorks)
     EXPECT_TRUE(isVariableExponentInMonomialFound(polynomial3, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
 }
 
-TEST(PolynomialHelpersTest, GetBinomialCoefficientWorks)
-{
+TEST(PolynomialHelpersTest, GetBinomialCoefficientWorks) {
     EXPECT_EQ(6U, getBinomialCoefficient(4U, 2U));
     EXPECT_EQ(252U, getBinomialCoefficient(10U, 5U));
 }
 
-TEST(PolynomialHelpersTest, GetMultinomialCoefficientWorks)
-{
+TEST(PolynomialHelpersTest, GetMultinomialCoefficientWorks) {
     // The third power of the trinomial a + b + c is given by
     // (a+b+c)^3 = a^3 + b^3 + c^3 + 3*a^2*b + 3*a^2*c + 3*a*b^2 + 3*b^2*c + 3*a*c^2 + 3*b*c^2 + 6*a*b*c
 
@@ -94,8 +86,7 @@ TEST(PolynomialHelpersTest, GetMultinomialCoefficientWorks)
     EXPECT_EQ(6U, getMultinomialCoefficient(3U, {1U, 1U, 1U}));
 }
 
-TEST(PolynomialHelpersTest, GetFirstMonomialWorks)
-{
+TEST(PolynomialHelpersTest, GetFirstMonomialWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
@@ -117,8 +108,7 @@ TEST(PolynomialHelpersTest, GetFirstMonomialWorks)
     ASSERT_TRUE(variableMap3.empty());
 }
 
-TEST(PolynomialHelpersTest, GetMaxDegreeWorks)
-{
+TEST(PolynomialHelpersTest, GetMaxDegreeWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
@@ -128,8 +118,7 @@ TEST(PolynomialHelpersTest, GetMaxDegreeWorks)
     EXPECT_DOUBLE_EQ(9, getMaxDegree(polynomial3).getDouble());
 }
 
-TEST(PolynomialHelpersTest, GetDegreeForVariableWorks)
-{
+TEST(PolynomialHelpersTest, GetDegreeForVariableWorks) {
     Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_DOUBLE_EQ(0, getDegreeForVariable(polynomial, "a").getDouble());
@@ -138,41 +127,41 @@ TEST(PolynomialHelpersTest, GetDegreeForVariableWorks)
     EXPECT_DOUBLE_EQ(4, getDegreeForVariable(polynomial, "z").getDouble());
 }
 
-TEST(PolynomialHelpersTest, GetCoefficientOfVariableExponentWorks)
-{
+TEST(PolynomialHelpersTest, GetCoefficientOfVariableExponentWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {{"x", 1}})};
     Polynomial polynomial3{Monomial(6, {{"x", 1}}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_DOUBLE_EQ(0, getCoefficientOfVariableExponent(polynomial1, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
-    EXPECT_DOUBLE_EQ(0, getCoefficientOfVariableExponent(polynomial2, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
-    EXPECT_DOUBLE_EQ(-7, getCoefficientOfVariableExponent(polynomial3, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(
+        0, getCoefficientOfVariableExponent(polynomial1, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(
+        0, getCoefficientOfVariableExponent(polynomial2, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(
+        -7, getCoefficientOfVariableExponent(polynomial3, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
 }
 
-TEST(PolynomialHelpersTest, GetRemainderForOneVariablePolynomialDividedByVariableMinusConstantValueWorks)
-{
+TEST(PolynomialHelpersTest, GetRemainderForOneVariablePolynomialDividedByVariableMinusConstantValueWorks) {
     Polynomial polynomial{Monomial(5, {{"x", 3}}), Monomial(-8, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(4, {})};
 
     AlbaNumber expectedRemainder(24);
-    EXPECT_EQ(expectedRemainder, getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(polynomial, 2));
+    EXPECT_EQ(
+        expectedRemainder, getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(polynomial, 2));
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenConstantIsGiven)
-{
+TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenConstantIsGiven) {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(-16, {})}));
 
     EXPECT_TRUE(roots.empty());
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenMultipleVariablesAreGiven)
-{
-    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));
+TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenMultipleVariablesAreGiven) {
+    AlbaNumbers roots(getRoots(
+        RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));
 
     EXPECT_TRUE(roots.empty());
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndFactorizesAPolynomial)
-{
+TEST(PolynomialHelpersTest, GetRootsWorksAndFactorizesAPolynomial) {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", 2}}), Monomial(-16, {})}));
 
     ASSERT_EQ(2U, roots.size());
@@ -180,55 +169,46 @@ TEST(PolynomialHelpersTest, GetRootsWorksAndFactorizesAPolynomial)
     EXPECT_EQ(AlbaNumber(4), roots.at(1));
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsZeroWhenExponentIsPositive)
-{
-    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}})}));
+TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsZeroWhenExponentIsPositive) {
+    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(4) / 3}})}));
 
     ASSERT_EQ(1U, roots.size());
     EXPECT_EQ(AlbaNumber(0), roots.at(0));
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndZeroIsNotIncludedWhenExponentIsNegative)
-{
-    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(-4)/3}})}));
+TEST(PolynomialHelpersTest, GetRootsWorksAndZeroIsNotIncludedWhenExponentIsNegative) {
+    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(-4) / 3}})}));
 
     EXPECT_TRUE(roots.empty());
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndWhenPolynomialIsNotSorted)
-{
+TEST(PolynomialHelpersTest, GetRootsWorksAndWhenPolynomialIsNotSorted) {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(-16, {}), Monomial(1, {{"x", 1}})}));
 
     ASSERT_EQ(1U, roots.size());
     EXPECT_EQ(AlbaNumber(16), roots.at(0));
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponentIsNotAnInteger)
-{
-    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}}), Monomial(-16, {})}));
+TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponentIsNotAnInteger) {
+    AlbaNumbers roots(
+        getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(4) / 3}}), Monomial(-16, {})}));
 
     ASSERT_EQ(1U, roots.size());
     EXPECT_EQ(AlbaNumber(8), roots.at(0));
 }
 
-TEST(PolynomialHelpersTest, RaiseBinomialToAPowerUsingBinomialExpansionWorks)
-{
+TEST(PolynomialHelpersTest, RaiseBinomialToAPowerUsingBinomialExpansionWorks) {
     Polynomial binomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
 
     Polynomial actualExpansion(raiseBinomialToAPowerUsingBinomialExpansion(binomial, 4));
 
     Polynomial expectedExpansion{
-        Monomial(1, {{"x", 4}}),
-                Monomial(4, {{"x", 3}, {"y", 1}}),
-                Monomial(6, {{"x", 2}, {"y", 2}}),
-                Monomial(4, {{"x", 1}, {"y", 3}}),
-                Monomial(1, {{"y", 4}})
-    };
+        Monomial(1, {{"x", 4}}), Monomial(4, {{"x", 3}, {"y", 1}}), Monomial(6, {{"x", 2}, {"y", 2}}),
+        Monomial(4, {{"x", 1}, {"y", 3}}), Monomial(1, {{"y", 4}})};
     EXPECT_EQ(expectedExpansion, actualExpansion);
 }
 
-TEST(PolynomialHelpersTest, RemoveEmptyPolynomialsWorks)
-{
+TEST(PolynomialHelpersTest, RemoveEmptyPolynomialsWorks) {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
     Polynomial polynomial3;
@@ -243,6 +223,6 @@ TEST(PolynomialHelpersTest, RemoveEmptyPolynomialsWorks)
     EXPECT_EQ(polynomial4, polynomials.at(1));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -4,41 +4,34 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithDynamicSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
-RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2) {
     return min(value1, value2);
 };
 
-RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2) {
     return max(value1, value2);
 };
 
 RangeQueryForTest::Function plusFunction = plus<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1) {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
     RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
@@ -56,8 +49,7 @@ TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnE
     EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1) {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
     RangeQueryForTest maximumRangeQuery(values, maximumFunction);
 
@@ -75,8 +67,7 @@ TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnE
     EXPECT_EQ(8U, maximumRangeQuery.getValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -96,8 +87,7 @@ TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExamp
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -106,8 +96,7 @@ TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmp
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue) {
     ValuesForTest values{5};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -116,8 +105,7 @@ TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOne
     EXPECT_EQ(3U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1) {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusFunction);
 
@@ -139,6 +127,6 @@ TEST(RangeQueryWithDynamicSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExamp
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

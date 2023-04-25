@@ -3,22 +3,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using FlowDataTypeForTest = double;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using FlowNetworkForTest = SinkSourceFlowNetwork<VertexForTest, FlowDataTypeForTest, DirectedGraphForTest>;
-}
+}  // namespace
 
-TEST(FlowNetworkTest, IsAnStCutWorks)
-{
+TEST(FlowNetworkTest, IsAnStCutWorks) {
     FlowNetworkForTest graph(0U, 2U);
     graph.connect(0U, 1U, 15.25, 3.5);
     graph.connect(1U, 2U, 16.25, 4.5);
@@ -29,24 +25,22 @@ TEST(FlowNetworkTest, IsAnStCutWorks)
     EXPECT_TRUE(graph.isAnStCut({0U, 1U}, {1U, 2U}));
 }
 
-TEST(FlowNetworkTest, GetSourceVertexWorks)
-{
+TEST(FlowNetworkTest, GetSourceVertexWorks) {
     FlowNetworkForTest graph(0U, 2U);
     graph.connect(0U, 1U, 15.25, 3.5);
     graph.connect(1U, 2U, 16.25, 4.5);
 
-    EXPECT_EQ(0U,  graph.getSourceVertex());
+    EXPECT_EQ(0U, graph.getSourceVertex());
 }
 
-TEST(FlowNetworkTest, GetSinkVerteWorks)
-{
+TEST(FlowNetworkTest, GetSinkVerteWorks) {
     FlowNetworkForTest graph(0U, 2U);
     graph.connect(0U, 1U, 15.25, 3.5);
     graph.connect(1U, 2U, 16.25, 4.5);
 
-    EXPECT_EQ(2U,  graph.getSinkVertex());
+    EXPECT_EQ(2U, graph.getSinkVertex());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

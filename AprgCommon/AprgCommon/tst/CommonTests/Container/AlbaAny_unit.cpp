@@ -4,18 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaAnyTest, DefaultConstructorWorks)
-{
+TEST(AlbaAnyTest, DefaultConstructorWorks) {
     AlbaAny any;
 
     EXPECT_FALSE(any.hasContent());
 }
 
-TEST(AlbaAnyTest, CopyConstructorWorks)
-{
+TEST(AlbaAnyTest, CopyConstructorWorks) {
     AlbaAny originalAny(1234U);
 
     AlbaAny copiedAny(originalAny);
@@ -24,8 +21,7 @@ TEST(AlbaAnyTest, CopyConstructorWorks)
     EXPECT_EQ(1234U, copiedAny.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, CopyAssignmentWorks)
-{
+TEST(AlbaAnyTest, CopyAssignmentWorks) {
     AlbaAny originalAny(1234U);
 
     AlbaAny copiedAny = originalAny;
@@ -34,8 +30,7 @@ TEST(AlbaAnyTest, CopyAssignmentWorks)
     EXPECT_EQ(1234U, copiedAny.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, MoveConstructorWorks)
-{
+TEST(AlbaAnyTest, MoveConstructorWorks) {
     AlbaAny originalAny(1234U);
 
     AlbaAny movedAny(move(originalAny));
@@ -44,8 +39,7 @@ TEST(AlbaAnyTest, MoveConstructorWorks)
     EXPECT_EQ(1234U, movedAny.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, MoveAssignmentWorks)
-{
+TEST(AlbaAnyTest, MoveAssignmentWorks) {
     AlbaAny originalAny(1234U);
 
     AlbaAny assignedAny = move(originalAny);
@@ -54,8 +48,7 @@ TEST(AlbaAnyTest, MoveAssignmentWorks)
     EXPECT_EQ(1234U, assignedAny.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, BoolOperatorWorks)
-{
+TEST(AlbaAnyTest, BoolOperatorWorks) {
     AlbaAny emptyAny;
     AlbaAny nonEmptyAny(1234U);
 
@@ -63,8 +56,7 @@ TEST(AlbaAnyTest, BoolOperatorWorks)
     EXPECT_TRUE(static_cast<bool>(nonEmptyAny));
 }
 
-TEST(AlbaAnyTest, HasContentWorks)
-{
+TEST(AlbaAnyTest, HasContentWorks) {
     AlbaAny emptyAny;
     AlbaAny nonEmptyAny(1234U);
 
@@ -72,25 +64,22 @@ TEST(AlbaAnyTest, HasContentWorks)
     EXPECT_TRUE(nonEmptyAny.hasContent());
 }
 
-TEST(AlbaAnyTest, GetContentAsWorks)
-{
+TEST(AlbaAnyTest, GetContentAsWorks) {
     AlbaAny any(1234U);
 
     EXPECT_EQ(1234U, any.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, GetContentReferenceAsWorks)
-{
+TEST(AlbaAnyTest, GetContentReferenceAsWorks) {
     AlbaAny any(1234U);
 
-    unsigned int & intReference = any.getContentReferenceAs<unsigned int>();
+    unsigned int& intReference = any.getContentReferenceAs<unsigned int>();
     intReference = 5678U;
 
     EXPECT_EQ(5678U, any.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, SaveContentWorks)
-{
+TEST(AlbaAnyTest, SaveContentWorks) {
     AlbaAny any(1234U);
 
     any.saveContent<unsigned int>(5678U);
@@ -98,8 +87,7 @@ TEST(AlbaAnyTest, SaveContentWorks)
     EXPECT_EQ(5678U, any.getContentAs<unsigned int>());
 }
 
-TEST(AlbaAnyTest, ClearWorks)
-{
+TEST(AlbaAnyTest, ClearWorks) {
     AlbaAny any(1234U);
 
     any.clear();
@@ -107,16 +95,15 @@ TEST(AlbaAnyTest, ClearWorks)
     EXPECT_FALSE(any.hasContent());
 }
 
-TEST(AlbaAnyTest, OutputStreamOperatorWorks)
-{
+TEST(AlbaAnyTest, OutputStreamOperatorWorks) {
     stringstream ss;
     AlbaAny any(1234U);
 
-    ss<<any;
+    ss << any;
 
-    EXPECT_EQ("hasContent: 1\n savedMemory: Decimal values: {210, 4, 0, 0, }\nHexadecimal values: {d2, 4, 0, 0, }\n",
-              ss.str());
+    EXPECT_EQ(
+        "hasContent: 1\n savedMemory: Decimal values: {210, 4, 0, 0, }\nHexadecimal values: {d2, 4, 0, 0, }\n",
+        ss.str());
 }
 
-
-}
+}  // namespace alba

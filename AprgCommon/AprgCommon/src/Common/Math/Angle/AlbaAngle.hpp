@@ -3,16 +3,10 @@
 #include <ostream>
 #include <vector>
 
-namespace alba
-{
-enum class AngleUnitType
-{
-    Radians,
-    Degrees
-};
+namespace alba {
+enum class AngleUnitType { Radians, Degrees };
 
-class AlbaAngle
-{
+class AlbaAngle {
 public:
     AlbaAngle();
     AlbaAngle(AngleUnitType const angleUnitType, double const angleValue);

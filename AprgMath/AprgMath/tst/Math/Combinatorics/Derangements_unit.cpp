@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(DerangementsTest, GetNumberOfDerangementsWorks)
-{
+TEST(DerangementsTest, GetNumberOfDerangementsWorks) {
     EXPECT_EQ(0U, getNumberOfDerangements(0U));
     EXPECT_EQ(0U, getNumberOfDerangements(1U));
     EXPECT_EQ(1U, getNumberOfDerangements(2U));
@@ -22,8 +19,7 @@ TEST(DerangementsTest, GetNumberOfDerangementsWorks)
     EXPECT_EQ(481066515734U, getNumberOfDerangements(15U));
 }
 
-TEST(DerangementsTest, GetNumberOfDerangementsApproximationWorks)
-{
+TEST(DerangementsTest, GetNumberOfDerangementsApproximationWorks) {
     EXPECT_EQ(0U, getNumberOfDerangementsApproximation(0U));
     EXPECT_EQ(0U, getNumberOfDerangementsApproximation(1U));
     EXPECT_EQ(1U, getNumberOfDerangementsApproximation(2U));
@@ -32,11 +28,10 @@ TEST(DerangementsTest, GetNumberOfDerangementsApproximationWorks)
     EXPECT_EQ(44U, getNumberOfDerangementsApproximation(5U));
     EXPECT_EQ(265U, getNumberOfDerangementsApproximation(6U));
     EXPECT_EQ(1334961U, getNumberOfDerangementsApproximation(10U));
-    EXPECT_EQ(481066515734U, getNumberOfDerangementsApproximation(15U)); // still accurate even at 15
+    EXPECT_EQ(481066515734U, getNumberOfDerangementsApproximation(15U));  // still accurate even at 15
 }
 
-TEST(DerangementsTest, GetDerangementsProbabilityWorks)
-{
+TEST(DerangementsTest, GetDerangementsProbabilityWorks) {
     EXPECT_DOUBLE_EQ(0, getDerangementsProbability(0U));
     EXPECT_DOUBLE_EQ(0, getDerangementsProbability(1U));
     EXPECT_DOUBLE_EQ(0.5, getDerangementsProbability(2U));
@@ -48,6 +43,6 @@ TEST(DerangementsTest, GetDerangementsProbabilityWorks)
     // This approaches 1/e. Please check approximation formula for more information.
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

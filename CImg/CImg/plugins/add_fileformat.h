@@ -48,30 +48,28 @@
 // These functions load ".foo" filenames
 //---------------------------------------
 static CImg<T> get_load_foo(const char *filename) {
-  std::fprintf(stderr,"Load '%s' here..\n",filename);
-  return CImg<T>(512,512,1,3,0).noise(30);
+    std::fprintf(stderr, "Load '%s' here..\n", filename);
+    return CImg<T>(512, 512, 1, 3, 0).noise(30);
 }
 
-CImg& load_foo(const char *filename) {
-  return get_load_foo(filename).swap(*this);
-}
+CImg &load_foo(const char *filename) { return get_load_foo(filename).swap(*this); }
 
 // This function saves the instance image into a ".foo" file.
 //-----------------------------------------------------------
-const CImg& save_foo(const char *filename) const {
-  std::fprintf(stderr,"Save '%s' here..\n",filename);
-  return *this;
+const CImg &save_foo(const char *filename) const {
+    std::fprintf(stderr, "Save '%s' here..\n", filename);
+    return *this;
 }
 
 // The code below allows to add the support for the specified extension.
 //---------------------------------------------------------------------
 #ifndef cimg_load_plugin
 #define cimg_load_plugin(filename) \
-  if (!cimg::strncasecmp(cimg::split_filename(filename),"foo",3)) return load_foo(filename);
+    if (!cimg::strncasecmp(cimg::split_filename(filename), "foo", 3)) return load_foo(filename);
 #endif
 #ifndef cimg_save_plugin
 #define cimg_save_plugin(filename) \
-  if (!cimg::strncasecmp(cimg::split_filename(filename),"foo",3)) return save_foo(filename);
+    if (!cimg::strncasecmp(cimg::split_filename(filename), "foo", 3)) return save_foo(filename);
 #endif
 
 // End of the plugin.

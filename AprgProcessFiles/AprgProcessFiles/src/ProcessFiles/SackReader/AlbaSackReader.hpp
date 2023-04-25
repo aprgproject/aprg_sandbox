@@ -8,14 +8,11 @@
 #include <map>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaSackReader
-{
+class AlbaSackReader {
 public:
-    enum class ReaderState
-    {
+    enum class ReaderState {
         LookingForInitialKeyword,
         ClassStateLookingForClassName,
         ClassStateLookingForOpeningBraceOrSemiColon,
@@ -30,8 +27,7 @@ public:
         TypedefEnumStateLookingForClosingBrace,
         TypedefEnumStateLookingForType
     };
-    struct ReaderTransactionData
-    {
+    struct ReaderTransactionData {
         ReaderState state;
         std::string typeName;
         std::string firstIdentifier;
@@ -48,14 +44,15 @@ private:
     void processDirectory(std::string const& path);
     void processFile(std::string const& path);
     std::string getReaderStateString(ReaderState const state);
-    void tokenize(stringHelper::strings & tokens, std::string const& line);
-    void combineWords(stringHelper::strings & tokens);
-    void combineArrayOperators(stringHelper::strings & tokens);
+    void tokenize(stringHelper::strings& tokens, std::string const& line);
+    void combineWords(stringHelper::strings& tokens);
+    void combineArrayOperators(stringHelper::strings& tokens);
     void analyze(stringHelper::strings const& tokens);
-    template <ReaderState readerState> void analyzeInReaderState(ReaderTransactionData& transactionData, std::string const& token);
+    template <ReaderState readerState>
+    void analyzeInReaderState(ReaderTransactionData& transactionData, std::string const& token);
     AlbaLocalPathHandler m_inputPathHandler;
     std::map<std::string, AlbaSackReaderType> m_types;
     AlbaGrepStringEvaluator m_fileEvaluator;
 };
 
-}
+}  // namespace alba

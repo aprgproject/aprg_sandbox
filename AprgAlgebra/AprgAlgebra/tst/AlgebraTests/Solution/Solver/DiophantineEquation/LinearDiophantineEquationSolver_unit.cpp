@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(LinearDiophantineEquationSolverTest, ConstructionWorks)
-{
-    LinearDiophantineEquationSolver();
-}
+TEST(LinearDiophantineEquationSolverTest, ConstructionWorks) { LinearDiophantineEquationSolver(); }
 
-TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonEqualityEquation)
-{
+TEST(
+    LinearDiophantineEquationSolverTest,
+    CalculateSolutionAndReturnSolutionSetWorksAsDoesNotFindASolutionForNonEqualityEquation) {
     LinearDiophantineEquationSolver solver;
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
     Equation equation(polynomial, ">", 4);
@@ -28,8 +24,7 @@ TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetW
     EXPECT_EQ(0U, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetWorksForThreeMonomials)
-{
+TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetWorksForThreeMonomials) {
     LinearDiophantineEquationSolver solver;
     Polynomial polynomial{Monomial(39, {{"x", 1}}), Monomial(15, {{"y", 1}})};
     Equation equation(polynomial, "=", 12);
@@ -43,6 +38,6 @@ TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetW
     EXPECT_EQ(AlbaNumbers{-20}, solutionSet.getSolutionSetForVariable("y").getAcceptedValues());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -2,11 +2,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-enum class AlbaGrepStringOperatorType
-{
+enum class AlbaGrepStringOperatorType {
     Unknown,
     AndOperator,
     ClosingParenthesis,

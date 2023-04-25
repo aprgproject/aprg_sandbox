@@ -5,30 +5,25 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(GeometricSeriesTest, ConstructionWorksUsingFirstTermAndCommonDifference)
-{
+TEST(GeometricSeriesTest, ConstructionWorksUsingFirstTermAndCommonDifference) {
     GeometricSeries series(-8, AlbaNumber::createFraction(-1, 2));
 
     EXPECT_EQ(Term(-8), series.getValueAtIndex(0));
     EXPECT_EQ(Term(0.015625), series.getValueAtIndex(9));
 }
 
-TEST(GeometricSeriesTest, ConstructionWorksUsing2ValuesAndCount)
-{
+TEST(GeometricSeriesTest, ConstructionWorksUsing2ValuesAndCount) {
     GeometricSeries series(4, 1, -2, 2);
 
     EXPECT_EQ(Term(-8), series.getValueAtIndex(0));
     EXPECT_EQ(Term(0.015625), series.getValueAtIndex(9));
 }
 
-TEST(GeometricSeriesTest, GetValueAtIndexWorks)
-{
+TEST(GeometricSeriesTest, GetValueAtIndexWorks) {
     GeometricSeries series(-15, 2);
 
     EXPECT_EQ(Term(-15), series.getValueAtIndex(0));
@@ -36,8 +31,7 @@ TEST(GeometricSeriesTest, GetValueAtIndexWorks)
     EXPECT_EQ(Term(-60), series.getValueAtIndex(2));
 }
 
-TEST(GeometricSeriesTest, GetSumWorks)
-{
+TEST(GeometricSeriesTest, GetSumWorks) {
     GeometricSeries series(1, 4);
 
     EXPECT_EQ(Term(21845), series.getSum(0, 7));
@@ -45,17 +39,15 @@ TEST(GeometricSeriesTest, GetSumWorks)
     EXPECT_EQ(Term(21840), series.getSum(2, 7));
 }
 
-TEST(GeometricSeriesTest, GetInfiniteSumWorks)
-{
-    GeometricSeries series(AlbaNumber::createFraction(1, 2), AlbaNumber::createFraction(1,2));
+TEST(GeometricSeriesTest, GetInfiniteSumWorks) {
+    GeometricSeries series(AlbaNumber::createFraction(1, 2), AlbaNumber::createFraction(1, 2));
 
     EXPECT_EQ(Term(1), series.getInfiniteSumStartingFrom(0));
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), series.getInfiniteSumStartingFrom(1));
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 4)), series.getInfiniteSumStartingFrom(2));
 }
 
-TEST(GeometricSeriesTest, GetSumIsEqualToFormulaInUtilities)
-{
+TEST(GeometricSeriesTest, GetSumIsEqualToFormulaInUtilities) {
     GeometricSeries series(1, 4);
 
     Term sumFromSeries(series.getSum(0, 7));
@@ -64,21 +56,17 @@ TEST(GeometricSeriesTest, GetSumIsEqualToFormulaInUtilities)
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }
 
-TEST(GeometricSeriesTest, GetInfiniteSumIsEqualToFormulaInUtilities)
-{
-    GeometricSeries series(AlbaNumber::createFraction(1, 2), AlbaNumber::createFraction(1,2));
+TEST(GeometricSeriesTest, GetInfiniteSumIsEqualToFormulaInUtilities) {
+    GeometricSeries series(AlbaNumber::createFraction(1, 2), AlbaNumber::createFraction(1, 2));
 
     Term sumFromSeries(series.getInfiniteSumStartingFrom(2));
-    Term sumFromFormula(
-                getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
-                    AlbaNumber::createFraction(1, 8),
-                    AlbaNumber::createFraction(1, 2)));
+    Term sumFromFormula(getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
+        AlbaNumber::createFraction(1, 8), AlbaNumber::createFraction(1, 2)));
 
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }
 
-TEST(GeometricSeriesTest, IsConvergentWorks)
-{
+TEST(GeometricSeriesTest, IsConvergentWorks) {
     // Geometric diverges when less than one
     GeometricSeries seriesWithMultiplierLessThanOne(1, AlbaNumber::createFraction(1, 2));
     GeometricSeries seriesWithMultiplierEqualsToOne(1, 1);
@@ -89,6 +77,6 @@ TEST(GeometricSeriesTest, IsConvergentWorks)
     EXPECT_FALSE(seriesWithMultiplierMoreThanOne.isConvergent());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

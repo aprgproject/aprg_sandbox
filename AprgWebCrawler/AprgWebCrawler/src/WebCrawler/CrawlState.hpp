@@ -1,10 +1,8 @@
 #pragma once
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler {
 
-enum class CrawlState
-{
+enum class CrawlState {
     Empty,
     Unknown,
     Active,

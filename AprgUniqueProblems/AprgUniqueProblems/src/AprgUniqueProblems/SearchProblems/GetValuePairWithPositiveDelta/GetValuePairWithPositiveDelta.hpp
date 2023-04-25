@@ -2,15 +2,12 @@
 
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class GetValuePairWithPositiveDelta
-{
+class GetValuePairWithPositiveDelta {
 public:
     // Another problem that can be solved using the two pointers method is the following problem,
     // also known as the 2SUM problem: given an array of n numbers and a target sum x,
@@ -20,31 +17,20 @@ public:
     using Value = typename Values::value_type;
     using ValuePair = std::pair<Value, Value>;
 
-    GetValuePairWithPositiveDelta(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+    GetValuePairWithPositiveDelta(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    ValuePair getValuePairWithPositiveDelta(
-            Value const& targetPositiveDelta) const
-    {
+    ValuePair getValuePairWithPositiveDelta(Value const& targetPositiveDelta) const {
         ValuePair result{};
-        if(!m_sortedValues.empty())
-        {
+        if (!m_sortedValues.empty()) {
             Index lowerIndex(0U), higherIndex(1U);
-            while(lowerIndex < higherIndex && higherIndex<m_sortedValues.size())
-            {
+            while (lowerIndex < higherIndex && higherIndex < m_sortedValues.size()) {
                 Value currentPositiveDelta = m_sortedValues.at(higherIndex) - m_sortedValues.at(lowerIndex);
-                if(currentPositiveDelta==targetPositiveDelta)
-                {
+                if (currentPositiveDelta == targetPositiveDelta) {
                     result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
                     break;
-                }
-                else if(currentPositiveDelta>targetPositiveDelta)
-                {
+                } else if (currentPositiveDelta > targetPositiveDelta) {
                     lowerIndex++;
-                }
-                else if(currentPositiveDelta<targetPositiveDelta)
-                {
+                } else if (currentPositiveDelta < targetPositiveDelta) {
                     higherIndex++;
                 }
             }
@@ -53,10 +39,9 @@ public:
     }
 
 private:
-
     Values const& m_sortedValues;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

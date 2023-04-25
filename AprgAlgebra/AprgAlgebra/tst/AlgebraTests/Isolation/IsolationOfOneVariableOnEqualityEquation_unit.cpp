@@ -7,14 +7,11 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomialEquation)
-{
+TEST(IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomialEquation) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -28,8 +25,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomia
     EXPECT_FALSE(isolation.canBeIsolated("c"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomialEquationWithMultipleVariableMonomials)
-{
+TEST(
+    IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomialEquationWithMultipleVariableMonomials) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}, {"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}, {"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -43,8 +40,7 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomia
     EXPECT_FALSE(isolation.canBeIsolated("c"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariableIfPossibleWorksOnPolynomialEquation)
-{
+TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariableIfPossibleWorksOnPolynomialEquation) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -58,8 +54,9 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariab
     EXPECT_EQ(AlbaNumber(0), isolation.getIdenticalExponentForVariableIfPossible("c"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariableIfPossibleWorksOnPolynomialEquationWithMultipleVariableMonomials)
-{
+TEST(
+    IsolationOfOneVariableOnEqualityEquationTest,
+    GetIdenticalExponentForVariableIfPossibleWorksOnPolynomialEquationWithMultipleVariableMonomials) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}, {"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}, {"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -73,41 +70,51 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariab
     EXPECT_EQ(AlbaNumber(0), isolation.getIdenticalExponentForVariableIfPossible("c"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableOnLeftSideOfEquationWorks)
-{
+TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableOnLeftSideOfEquationWorks) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
     Term expectedIsolatedBLeftSide(Monomial(1, {{"b", 4}}));
-    Term expectedIsolatedBRightSide(Polynomial{Monomial(AlbaNumber(-3)/4, {{"a", 3}}), Monomial(AlbaNumber(1)/2, {{"y", 2}}), Monomial(AlbaNumber(1)/4, {{"x", 1}})});
-    EXPECT_EQ(Equation(expectedIsolatedBLeftSide, "=", expectedIsolatedBRightSide), isolation.isolateTermWithVariableOnLeftSideOfEquation("b"));
+    Term expectedIsolatedBRightSide(Polynomial{
+        Monomial(AlbaNumber(-3) / 4, {{"a", 3}}), Monomial(AlbaNumber(1) / 2, {{"y", 2}}),
+        Monomial(AlbaNumber(1) / 4, {{"x", 1}})});
+    EXPECT_EQ(
+        Equation(expectedIsolatedBLeftSide, "=", expectedIsolatedBRightSide),
+        isolation.isolateTermWithVariableOnLeftSideOfEquation("b"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableOnRightSideOfEquationWorks)
-{
+TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableOnRightSideOfEquationWorks) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
-    Term expectedIsolatedBLeftSide(Polynomial{Monomial(AlbaNumber(-3)/4, {{"a", 3}}), Monomial(AlbaNumber(1)/2, {{"y", 2}}), Monomial(AlbaNumber(1)/4, {{"x", 1}})});
+    Term expectedIsolatedBLeftSide(Polynomial{
+        Monomial(AlbaNumber(-3) / 4, {{"a", 3}}), Monomial(AlbaNumber(1) / 2, {{"y", 2}}),
+        Monomial(AlbaNumber(1) / 4, {{"x", 1}})});
     Term expectedIsolatedBRightSide(Monomial(1, {{"b", 4}}));
-    EXPECT_EQ(Equation(expectedIsolatedBLeftSide, "=", expectedIsolatedBRightSide), isolation.isolateTermWithVariableOnRightSideOfEquation("b"));
+    EXPECT_EQ(
+        Equation(expectedIsolatedBLeftSide, "=", expectedIsolatedBRightSide),
+        isolation.isolateTermWithVariableOnRightSideOfEquation("b"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, GetTermByIsolatingVariableWorks)
-{
+TEST(IsolationOfOneVariableOnEqualityEquationTest, GetTermByIsolatingVariableWorks) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
     Polynomial polynomialForX{Monomial(4, {{"b", 4}}), Monomial(3, {{"a", 3}}), Monomial(-2, {{"y", 2}})};
-    Polynomial polynomialForY{Monomial(2, {{"b", 4}}), Monomial(AlbaNumber(3)/2, {{"a", 3}}), Monomial(AlbaNumber(-1)/2, {{"x", 1}})};
-    Polynomial polynomialForA{Monomial(AlbaNumber(-4)/3, {{"b", 4}}), Monomial(AlbaNumber(2)/3, {{"y", 2}}), Monomial(AlbaNumber(1)/3, {{"x", 1}})};
-    Polynomial polynomialForB{Monomial(AlbaNumber(-3)/4, {{"a", 3}}), Monomial(AlbaNumber(1)/2, {{"y", 2}}), Monomial(AlbaNumber(1)/4, {{"x", 1}})};
+    Polynomial polynomialForY{
+        Monomial(2, {{"b", 4}}), Monomial(AlbaNumber(3) / 2, {{"a", 3}}), Monomial(AlbaNumber(-1) / 2, {{"x", 1}})};
+    Polynomial polynomialForA{
+        Monomial(AlbaNumber(-4) / 3, {{"b", 4}}), Monomial(AlbaNumber(2) / 3, {{"y", 2}}),
+        Monomial(AlbaNumber(1) / 3, {{"x", 1}})};
+    Polynomial polynomialForB{
+        Monomial(AlbaNumber(-3) / 4, {{"a", 3}}), Monomial(AlbaNumber(1) / 2, {{"y", 2}}),
+        Monomial(AlbaNumber(1) / 4, {{"x", 1}})};
     Term expectedTermForX(polynomialForX);
     Term expectedTermForY(createExpressionIfPossible({polynomialForY, "^", AlbaNumber::createFraction(1, 2)}));
     Term expectedTermForA(createExpressionIfPossible({polynomialForA, "^", AlbaNumber::createFraction(1, 3)}));
@@ -118,8 +125,7 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, GetTermByIsolatingVariableWor
     EXPECT_EQ(expectedTermForB, isolation.getEquivalentTermByIsolatingAVariable("b"));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquation)
-{
+TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquation) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -130,11 +136,16 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     Term expectedTermWithX("x");
     Term expectedTermWithoutX(Polynomial{Monomial(4, {{"b", 4}}), Monomial(3, {{"a", 3}}), Monomial(-2, {{"y", 2}})});
     Term expectedTermWithY(Monomial(1, {{"y", 2}}));
-    Term expectedTermWithoutY(Polynomial{Monomial(2, {{"b", 4}}), Monomial(AlbaNumber(3)/2, {{"a", 3}}), Monomial(AlbaNumber(-1)/2, {{"x", 1}})});
+    Term expectedTermWithoutY(Polynomial{
+        Monomial(2, {{"b", 4}}), Monomial(AlbaNumber(3) / 2, {{"a", 3}}), Monomial(AlbaNumber(-1) / 2, {{"x", 1}})});
     Term expectedTermWithA(Monomial(1, {{"a", 3}}));
-    Term expectedTermWithoutA(Polynomial{Monomial(AlbaNumber(-4)/3, {{"b", 4}}), Monomial(AlbaNumber(2)/3, {{"y", 2}}), Monomial(AlbaNumber(1)/3, {{"x", 1}})});
+    Term expectedTermWithoutA(Polynomial{
+        Monomial(AlbaNumber(-4) / 3, {{"b", 4}}), Monomial(AlbaNumber(2) / 3, {{"y", 2}}),
+        Monomial(AlbaNumber(1) / 3, {{"x", 1}})});
     Term expectedTermWithB(Monomial(1, {{"b", 4}}));
-    Term expectedTermWithoutB(Polynomial{Monomial(AlbaNumber(-3)/4, {{"a", 3}}), Monomial(AlbaNumber(1)/2, {{"y", 2}}), Monomial(AlbaNumber(1)/4, {{"x", 1}})});
+    Term expectedTermWithoutB(Polynomial{
+        Monomial(AlbaNumber(-3) / 4, {{"a", 3}}), Monomial(AlbaNumber(1) / 2, {{"y", 2}}),
+        Monomial(AlbaNumber(1) / 4, {{"x", 1}})});
     isolation.isolateTermWithVariable("x", termWithVariable, termWithoutVariable);
     EXPECT_EQ(expectedTermWithX, termWithVariable);
     EXPECT_EQ(expectedTermWithoutX, termWithoutVariable);
@@ -149,8 +160,9 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     EXPECT_EQ(expectedTermWithoutB, termWithoutVariable);
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquationWithMultipleVariableMonomials)
-{
+TEST(
+    IsolationOfOneVariableOnEqualityEquationTest,
+    IsolateTermWithVariableWorksOnPolynomialEquationWithMultipleVariableMonomials) {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}, {"y", 2}})};
     Polynomial rightHandSide{Monomial(3, {{"a", 3}, {"b", 4}})};
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -163,9 +175,9 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     Term expectedTermWithY(Monomial(1, {{"y", 2}}));
     Term expectedTermWithoutY(Monomial(3, {{"a", 3}, {"b", 4}, {"x", -1}}));
     Term expectedTermWithA(Monomial(1, {{"a", 3}}));
-    Term expectedTermWithoutA(Monomial(AlbaNumber(1)/3, {{"b", -4}, {"x", 1}, {"y", 2}}));
+    Term expectedTermWithoutA(Monomial(AlbaNumber(1) / 3, {{"b", -4}, {"x", 1}, {"y", 2}}));
     Term expectedTermWithB(Monomial(1, {{"b", 4}}));
-    Term expectedTermWithoutB(Monomial(AlbaNumber(1)/3, {{"a", -3}, {"x", 1}, {"y", 2}}));
+    Term expectedTermWithoutB(Monomial(AlbaNumber(1) / 3, {{"a", -3}, {"x", 1}, {"y", 2}}));
     isolation.isolateTermWithVariable("x", termWithVariable, termWithoutVariable);
     EXPECT_EQ(expectedTermWithX, termWithVariable);
     EXPECT_EQ(expectedTermWithoutX, termWithoutVariable);
@@ -180,8 +192,9 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     EXPECT_EQ(expectedTermWithoutB, termWithoutVariable);
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnExpressionWithAdditionAndSubtractionOperation)
-{
+TEST(
+    IsolationOfOneVariableOnEqualityEquationTest,
+    IsolateTermWithVariableWorksOnExpressionWithAdditionAndSubtractionOperation) {
     Term leftHandSide(Polynomial{Monomial(1, {{"x", 1}, {"y", 2}})});
     Term rightHandSide(createExpressionIfPossible({2, "^", "z"}));
     Equation equation(leftHandSide, "=", rightHandSide);
@@ -195,14 +208,12 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     EXPECT_EQ("((2^z)/1[y^2])", convertToString(termWithoutVariable));
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquation_Example1UsingDerivatives)
-{
+TEST(
+    IsolationOfOneVariableOnEqualityEquationTest,
+    IsolateTermWithVariableWorksOnPolynomialEquation_Example1UsingDerivatives) {
     Polynomial leftHandSide{
-        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),
-                Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
-                Monomial(-6, {{"x", 5}}),
-                Monomial(-2, {{"dy/dx", 1}, {"y", 1}}),
-                Monomial(2, {{}})};
+        Monomial(18, {{"dy/dx", 1}, {"y", 5}}), Monomial(5, {{"dy/dx", 1}, {"y", 4}}), Monomial(-6, {{"x", 5}}),
+        Monomial(-2, {{"dy/dx", 1}, {"y", 1}}), Monomial(2, {{}})};
     Polynomial rightHandSide{Monomial(0, {})};
     Equation equation(leftHandSide, "=", rightHandSide);
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
@@ -218,6 +229,6 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     EXPECT_EQ(expectedTermWithoutDerivative, termWithoutVariable);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

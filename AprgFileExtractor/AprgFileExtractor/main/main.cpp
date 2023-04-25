@@ -6,22 +6,18 @@
 using namespace alba;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace ProgressCounters
-{
+namespace ProgressCounters {
 int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
-}
+}  // namespace ProgressCounters
 
-}
+}  // namespace alba
 
-int main(int argc, char *argv[])
-{
-    if(argc!=3)
-    {
-        cout<<"There are must be only 2 arguments.\n";
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        cout << "There are must be only 2 arguments.\n";
         return 1;
     }
     string condition(argv[1]);

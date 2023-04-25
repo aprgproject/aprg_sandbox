@@ -4,51 +4,40 @@
 #include <set>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class PermutationsWithSum
-{
+class PermutationsWithSum {
 public:
     using Value = typename Values::value_type;
     using Permutation = std::vector<Value>;
     using Permutations = std::set<Permutation>;
     using VectorOfPermutations = std::vector<Permutations>;
 
-    PermutationsWithSum(Values const& values)
-        : m_inputValues(values)
-    {}
+    PermutationsWithSum(Values const& values) : m_inputValues(values) {}
 
-    Permutations getPermutationsWithSumUsingLoops(Value const total)
-    {
+    Permutations getPermutationsWithSumUsingLoops(Value const total) {
         // using loops
-        if(total>=m_permutations.size())
-        {
-            Value initialValue=m_permutations.size();
-            unsigned int newSize = std::max(total+1, *(std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend()).second));
+        if (total >= m_permutations.size()) {
+            Value initialValue = m_permutations.size();
+            unsigned int newSize =
+                std::max(total + 1, *(std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend()).second));
             m_permutations.resize(newSize);
 
-            for(Value const inputValue : m_inputValues)
-            {
-                if(m_permutations.at(inputValue).empty())
-                {
+            for (Value const inputValue : m_inputValues) {
+                if (m_permutations.at(inputValue).empty()) {
                     m_permutations[inputValue].emplace(Permutation{inputValue});
                 }
             }
 
-            for(Value partialValue=initialValue; partialValue<newSize; partialValue++)
-            {
-                Permutations & permutations(m_permutations[partialValue]);
-                for(Value const inputValue : m_inputValues)
-                {
-                    if(partialValue > inputValue)
-                    {
-                        for(Permutation const& permutationWithoutValue : m_permutations.at(partialValue-inputValue))
-                        {
+            for (Value partialValue = initialValue; partialValue < newSize; partialValue++) {
+                Permutations& permutations(m_permutations[partialValue]);
+                for (Value const inputValue : m_inputValues) {
+                    if (partialValue > inputValue) {
+                        for (Permutation const& permutationWithoutValue :
+                             m_permutations.at(partialValue - inputValue)) {
                             Permutation permutationWithValue(permutationWithoutValue);
                             permutationWithValue.emplace_back(inputValue);
                             permutations.emplace(permutationWithValue);
@@ -62,9 +51,9 @@ public:
 
 private:
     Values const& m_inputValues;
-    VectorOfPermutations m_permutations; // dynamic programming
+    VectorOfPermutations m_permutations;  // dynamic programming
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

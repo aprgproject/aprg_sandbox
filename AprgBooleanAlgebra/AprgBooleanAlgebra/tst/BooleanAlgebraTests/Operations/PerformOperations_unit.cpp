@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks)
-{
+TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks) {
     Term termToVerify1(performOperation(Operator("~"), false));
     Term termToVerify2(performOperation(Operator("~"), true));
 
@@ -19,8 +16,7 @@ TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks)
     EXPECT_EQ(Term(false), termToVerify2);
 }
 
-TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
-{
+TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks) {
     Term termToVerify1(performOperation(Operator("&"), false, false));
     Term termToVerify2(performOperation(Operator("&"), false, true));
     Term termToVerify3(performOperation(Operator("&"), true, false));
@@ -40,8 +36,7 @@ TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
     EXPECT_EQ(Term(true), termToVerify8);
 }
 
-TEST(PerformOperationsTest, PerformNotWorks)
-{
+TEST(PerformOperationsTest, PerformNotWorks) {
     Term termToVerify1(performNot(false));
     Term termToVerify2(performNot(true));
 
@@ -49,8 +44,7 @@ TEST(PerformOperationsTest, PerformNotWorks)
     EXPECT_EQ(Term(false), termToVerify2);
 }
 
-TEST(PerformOperationsTest, PerformAndWorks)
-{
+TEST(PerformOperationsTest, PerformAndWorks) {
     Term termToVerify1(performAnd(false, false));
     Term termToVerify2(performAnd(false, true));
     Term termToVerify3(performAnd(true, false));
@@ -62,8 +56,7 @@ TEST(PerformOperationsTest, PerformAndWorks)
     EXPECT_EQ(Term(true), termToVerify4);
 }
 
-TEST(PerformOperationsTest, PerformOrWorks)
-{
+TEST(PerformOperationsTest, PerformOrWorks) {
     Term termToVerify1(performOr(false, false));
     Term termToVerify2(performOr(false, true));
     Term termToVerify3(performOr(true, false));
@@ -75,6 +68,6 @@ TEST(PerformOperationsTest, PerformOrWorks)
     EXPECT_EQ(Term(true), termToVerify4);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

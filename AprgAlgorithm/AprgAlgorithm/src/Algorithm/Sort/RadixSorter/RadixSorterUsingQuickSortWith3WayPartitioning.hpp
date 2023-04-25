@@ -5,15 +5,12 @@
 #include <functional>
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values, typename DigitValue>
-class RadixSorterUsingQuickSortWith3WayPartitioning : public BaseSorter<Values>
-{
+class RadixSorterUsingQuickSortWith3WayPartitioning : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
     using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
@@ -21,74 +18,56 @@ public:
 
     RadixSorterUsingQuickSortWith3WayPartitioning() = delete;
     RadixSorterUsingQuickSortWith3WayPartitioning(
-            GetDigitAtFunction const& getDigitAtFunction,
-            IsDigitFunction const& isDigitValidFunction)
-        : m_getDigitAtFunction(getDigitAtFunction)
-        , m_isDigitValidFunction(isDigitValidFunction)
-    {}
+        GetDigitAtFunction const& getDigitAtFunction, IsDigitFunction const& isDigitValidFunction)
+        : m_getDigitAtFunction(getDigitAtFunction), m_isDigitValidFunction(isDigitValidFunction) {}
 
-    void sort(Values & valuesToSort) const override
-    {
+    void sort(Values& valuesToSort) const override {
         // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
-        if(!valuesToSort.empty())
-        {
-            sortStartingAtMostSignificantDigit(valuesToSort, 0U, valuesToSort.size()-1, 0U);
+        if (!valuesToSort.empty()) {
+            sortStartingAtMostSignificantDigit(valuesToSort, 0U, valuesToSort.size() - 1, 0U);
         }
     }
 
     void sortStartingAtMostSignificantDigit(
-            Values & valuesToSort,
-            unsigned int const lowContainerIndex,
-            unsigned int const highContainerIndex,
-            unsigned int const digitIndex) const
-    {
-        if(lowContainerIndex < valuesToSort.size() && highContainerIndex < valuesToSort.size() && lowContainerIndex < highContainerIndex)
-        {
+        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
+        unsigned int const digitIndex) const {
+        if (lowContainerIndex < valuesToSort.size() && highContainerIndex < valuesToSort.size() &&
+            lowContainerIndex < highContainerIndex) {
             sortInternal(valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
         }
     }
 
 private:
-
     void sortInternal(
-            Values & valuesToSort,
-            unsigned int const lowContainerIndex,
-            unsigned int const highContainerIndex,
-            unsigned int const digitIndex) const
-    {
-        unsigned int lowIndexWithEqualValue = lowContainerIndex, i = lowContainerIndex+1, highIndexWithEqualValue = highContainerIndex;
-        Value const& partitionValue(valuesToSort.at(lowContainerIndex)); // use first value as partition
+        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
+        unsigned int const digitIndex) const {
+        unsigned int lowIndexWithEqualValue = lowContainerIndex, i = lowContainerIndex + 1,
+                     highIndexWithEqualValue = highContainerIndex;
+        Value const& partitionValue(valuesToSort.at(lowContainerIndex));  // use first value as partition
 
         DigitValue partitionDigit(m_getDigitAtFunction(partitionValue, digitIndex));
         bool shouldEqualPartProceed(m_isDigitValidFunction(partitionValue, digitIndex));
-        while(i <= highIndexWithEqualValue)
-        {
+        while (i <= highIndexWithEqualValue) {
             DigitValue currentDigit(m_getDigitAtFunction(valuesToSort.at(i), digitIndex));
-            if(currentDigit < partitionDigit)
-            {
+            if (currentDigit < partitionDigit) {
                 std::swap(valuesToSort[lowIndexWithEqualValue++], valuesToSort[i]);
-            }
-            else if(currentDigit > partitionDigit)
-            {
+            } else if (currentDigit > partitionDigit) {
                 std::swap(valuesToSort[i], valuesToSort[highIndexWithEqualValue--]);
-            }
-            else
-            {
+            } else {
                 i++;
             }
         }
 
-        if(lowContainerIndex+1U < lowIndexWithEqualValue)
-        {
-            sortInternal(valuesToSort, lowContainerIndex, lowIndexWithEqualValue-1U, digitIndex); // sort lower part
+        if (lowContainerIndex + 1U < lowIndexWithEqualValue) {
+            sortInternal(valuesToSort, lowContainerIndex, lowIndexWithEqualValue - 1U, digitIndex);  // sort lower part
         }
-        if(shouldEqualPartProceed && lowIndexWithEqualValue < highIndexWithEqualValue)
-        {
-            sortInternal(valuesToSort, lowIndexWithEqualValue, highIndexWithEqualValue, digitIndex+1); // sort equal part
+        if (shouldEqualPartProceed && lowIndexWithEqualValue < highIndexWithEqualValue) {
+            sortInternal(
+                valuesToSort, lowIndexWithEqualValue, highIndexWithEqualValue, digitIndex + 1);  // sort equal part
         }
-        if(highIndexWithEqualValue+1U < highContainerIndex)
-        {
-            sortInternal(valuesToSort, highIndexWithEqualValue+1, highContainerIndex, digitIndex); // sort higher part
+        if (highIndexWithEqualValue + 1U < highContainerIndex) {
+            sortInternal(
+                valuesToSort, highIndexWithEqualValue + 1, highContainerIndex, digitIndex);  // sort higher part
         }
     }
 
@@ -98,7 +77,8 @@ private:
 
 // Overview: Do 3 way partitioning on the dth character.
 // -> Less overhead than R-way partition in MSD string sort
-// -> Does not re-examine character equal to the partitioning char (but does re-examine characters not equal to the partitioning char)
+// -> Does not re-examine character equal to the partitioning char (but does re-examine characters not equal to the
+// partitioning char)
 
 // Standard quicksort vs 3-way string radix sort
 // -> Standard quicksort
@@ -119,6 +99,6 @@ private:
 // ---> Is in-place
 // Bottom line is 3 way string quicksort is method of choice for sorting strings.
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

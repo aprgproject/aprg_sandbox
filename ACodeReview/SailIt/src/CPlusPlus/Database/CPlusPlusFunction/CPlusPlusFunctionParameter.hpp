@@ -4,11 +4,9 @@
 
 #include <string>
 
-namespace codeReview
-{
+namespace codeReview {
 
-class CPlusPlusFunctionParameter
-{
+class CPlusPlusFunctionParameter {
 public:
     explicit CPlusPlusFunctionParameter(CPlusPlusType const& type, string const& name);
     bool operator==(CPlusPlusFunctionParameter const& cPlusPlusFunctionParameter) const;
@@ -23,4 +21,4 @@ private:
     string m_name;
 };
 
-}
+}  // namespace codeReview

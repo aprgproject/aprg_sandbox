@@ -4,17 +4,14 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 using TermToTermMap = std::map<Term, Term>;
 using TermTermPair = std::pair<Term, Term>;
 
-class SubstitutionOfTermsToTerms
-{
+class SubstitutionOfTermsToTerms {
 public:
     SubstitutionOfTermsToTerms() = default;
     SubstitutionOfTermsToTerms(std::initializer_list<TermTermPair> const& variablesWithValues);
@@ -34,10 +31,10 @@ public:
     void putTermToTermMapping(Term const& term1, Term const& term2);
 
 private:
-    void performSubstitutionForWrappedTerms(WrappedTerms & wrappedTerms) const;
+    void performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const;
     TermToTermMap m_termsToTermsMap;
 };
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

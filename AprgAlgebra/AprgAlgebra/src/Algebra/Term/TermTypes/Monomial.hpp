@@ -8,20 +8,17 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Monomial : public BaseTermData
-{
+class Monomial : public BaseTermData {
 public:
     using VariablesToExponentsMap = std::map<std::string, AlbaNumber>;
     using VariablesToExponentsMapIterator = VariablesToExponentsMap::iterator;
     using VariablesToExponentsMapConstIterator = VariablesToExponentsMap::const_iterator;
     using VariableExponentPair = std::pair<std::string, AlbaNumber>;
-    using VariableExponentReferencePair = std::pair<std::string & , AlbaNumber &>;
+    using VariableExponentReferencePair = std::pair<std::string&, AlbaNumber&>;
     using ChangeExponentsForVariableFunction = std::function<void(std::string const&, AlbaNumber&)>;
 
     Monomial();
@@ -31,11 +28,9 @@ public:
     // rule of zero
 
     static VariablesToExponentsMap combineVariableExponentMapByMultiplication(
-            VariablesToExponentsMap const& variablesMap1,
-            VariablesToExponentsMap const& variablesMap2);
+        VariablesToExponentsMap const& variablesMap1, VariablesToExponentsMap const& variablesMap2);
     static VariablesToExponentsMap combineVariableExponentMapByDivision(
-            VariablesToExponentsMap const& variablesMap1,
-            VariablesToExponentsMap const& variablesMap2);
+        VariablesToExponentsMap const& variablesMap1, VariablesToExponentsMap const& variablesMap2);
 
     bool operator==(Monomial const& second) const;
     bool operator!=(Monomial const& second) const;
@@ -62,21 +57,19 @@ public:
     void clearSimplifiedFlag();
 
 private:
-    bool isLessThanByComparingVariableNameMaps(
-            Monomial const& monomial1,
-            Monomial const& monomial2) const;
+    bool isLessThanByComparingVariableNameMaps(Monomial const& monomial1, Monomial const& monomial2) const;
     void setNanIfNeeded();
     void removeZeroExponents();
 
-    friend std::ostream & operator<<(std::ostream & out, Monomial const& monomial);
+    friend std::ostream& operator<<(std::ostream& out, Monomial const& monomial);
 
     AlbaNumber m_constant;
     VariablesToExponentsMap m_variablesToExponentsMap;
     bool m_isSimplified;
 };
 
-using Monomials=std::vector<Monomial>;
+using Monomials = std::vector<Monomial>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

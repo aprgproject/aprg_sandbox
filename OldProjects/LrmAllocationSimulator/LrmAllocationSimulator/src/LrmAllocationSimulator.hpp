@@ -5,17 +5,14 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-struct Configuration
-{
+struct Configuration {
     std::map<unsigned int, Dsp> dspAddressToDspMap;
     std::map<unsigned int, Fsp> fspAddressToFspMap;
 };
 
-class LrmAllocationSimulator
-{
+class LrmAllocationSimulator {
 public:
     LrmAllocationSimulator();
     Configuration createConfigurationForOneFspOneLcg();
@@ -25,4 +22,4 @@ public:
 private:
 };
 
-}
+}  // namespace alba

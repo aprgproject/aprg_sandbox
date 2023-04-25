@@ -2,40 +2,26 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 UnsignedInteger getUnionCountOfTwoSets(
-        UnsignedInteger const aSize,
-        UnsignedInteger const bSize,
-        UnsignedInteger const abIntersection);
+    UnsignedInteger const aSize, UnsignedInteger const bSize, UnsignedInteger const abIntersection);
 
 UnsignedInteger getIntersectionCountOfTwoSets(
-        UnsignedInteger const aSize,
-        UnsignedInteger const bSize,
-        UnsignedInteger const abUnion);
+    UnsignedInteger const aSize, UnsignedInteger const bSize, UnsignedInteger const abUnion);
 
 UnsignedInteger getUnionCountOfThreeSets(
-        UnsignedInteger const aSize,
-        UnsignedInteger const bSize,
-        UnsignedInteger const cSize,
-        UnsignedInteger const abIntersection,
-        UnsignedInteger const bcIntersection,
-        UnsignedInteger const acIntersection,
-        UnsignedInteger const abcIntersection);
+    UnsignedInteger const aSize, UnsignedInteger const bSize, UnsignedInteger const cSize,
+    UnsignedInteger const abIntersection, UnsignedInteger const bcIntersection, UnsignedInteger const acIntersection,
+    UnsignedInteger const abcIntersection);
 
 UnsignedInteger getIntersectionCountOfThreeSets(
-        UnsignedInteger const aSize,
-        UnsignedInteger const bSize,
-        UnsignedInteger const cSize,
-        UnsignedInteger const abIntersection,
-        UnsignedInteger const bcIntersection,
-        UnsignedInteger const acIntersection,
-        UnsignedInteger const abcUnion);
+    UnsignedInteger const aSize, UnsignedInteger const bSize, UnsignedInteger const cSize,
+    UnsignedInteger const abIntersection, UnsignedInteger const bcIntersection, UnsignedInteger const acIntersection,
+    UnsignedInteger const abcUnion);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

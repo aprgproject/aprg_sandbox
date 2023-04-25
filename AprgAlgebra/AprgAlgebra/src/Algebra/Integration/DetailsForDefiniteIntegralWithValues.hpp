@@ -5,14 +5,11 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-struct DetailsForDefiniteIntegralWithValues
-{
+struct DetailsForDefiniteIntegralWithValues {
     std::string variableName;
     AlbaNumber lowerEnd;
     AlbaNumber higherEnd;
@@ -20,6 +17,6 @@ struct DetailsForDefiniteIntegralWithValues
 
 using DetailsForDefiniteIntegralsWithValues = std::vector<DetailsForDefiniteIntegralWithValues>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

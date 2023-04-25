@@ -1,15 +1,12 @@
 #include "LrmAllocationSimulator.hpp"
 
-namespace alba
-{
+namespace alba {
 
-LrmAllocationSimulator::LrmAllocationSimulator()
-{}
+LrmAllocationSimulator::LrmAllocationSimulator() {}
 
-Configuration createConfigurationForOneFspOneLcg()
-{
+Configuration createConfigurationForOneFspOneLcg() {
     Configuration configuration;
     return configuration;
 }
 
-}
+}  // namespace alba

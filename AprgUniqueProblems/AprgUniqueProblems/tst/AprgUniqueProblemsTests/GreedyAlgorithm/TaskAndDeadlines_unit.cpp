@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(TaskAndDeadlinesTest, GetTasksAsPossibleWorksOnExample1)
-{
+TEST(TaskAndDeadlinesTest, GetTasksAsPossibleWorksOnExample1) {
     TaskAndDeadlines taskAndDeadlines;
     taskAndDeadlines.addTask("A", 4U, 2U);
     taskAndDeadlines.addTask("B", 3U, 5U);
@@ -21,4 +19,4 @@ TEST(TaskAndDeadlinesTest, GetTasksAsPossibleWorksOnExample1)
     EXPECT_EQ(expectedNames, actualNames);
 }
 
-}
+}  // namespace alba

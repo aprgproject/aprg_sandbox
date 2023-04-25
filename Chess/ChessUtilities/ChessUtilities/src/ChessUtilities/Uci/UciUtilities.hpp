@@ -2,16 +2,13 @@
 
 #include <ChessUtilities/Engine/CalculationDetails.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
 void retrieveCalculationDetailsOnStringFromEngine(
-        CalculationDetails & calculationDetails,
-        std::string const& stringFromEngine);
+    CalculationDetails& calculationDetails, std::string const& stringFromEngine);
 
 }
 
-}
+}  // namespace alba

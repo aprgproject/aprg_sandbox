@@ -4,16 +4,12 @@
 #include <ChessPeek/ChessPeekConfigurationType.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-class ChessPeekConfiguration
-{
+class ChessPeekConfiguration {
 public:
-
     ChessPeekConfiguration() = delete;
     ChessPeekConfiguration(ChessPeekConfigurationType const type);
 
@@ -41,9 +37,8 @@ private:
     AprgBitmap::BitmapXY m_bottomRightCorner;
     double m_whiteColorLimit;
     double m_blackColorLimit;
-
 };
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

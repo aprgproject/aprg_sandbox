@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 
 using IntervalForTest = Interval<unsigned int>;
 using SearchTreeForTest = IntervalSearchTree<unsigned int>;
-}
+}  // namespace
 
-TEST(IntervalSearchTreeTest, PutWorks)
-{
+TEST(IntervalSearchTreeTest, PutWorks) {
     SearchTreeForTest search;
     search.put({17, 19});
     search.put({5, 8});
@@ -39,8 +35,7 @@ TEST(IntervalSearchTreeTest, PutWorks)
     EXPECT_EQ(24U, root->right->maxIntervalValueInSubtree);
 }
 
-TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample1)
-{
+TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample1) {
     SearchTreeForTest search;
     search.put({17, 19});
     search.put({5, 8});
@@ -55,8 +50,7 @@ TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample1)
     EXPECT_TRUE(intervalsToVerify.empty());
 }
 
-TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample2)
-{
+TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample2) {
     SearchTreeForTest search;
     search.put({17, 19});
     search.put({5, 8});
@@ -72,8 +66,7 @@ TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample2)
     EXPECT_EQ(intervalsToExpect, intervalsToVerify);
 }
 
-TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample3)
-{
+TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample3) {
     SearchTreeForTest search;
     search.put({17, 19});
     search.put({5, 8});
@@ -89,6 +82,6 @@ TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample3)
     EXPECT_EQ(intervalsToExpect, intervalsToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

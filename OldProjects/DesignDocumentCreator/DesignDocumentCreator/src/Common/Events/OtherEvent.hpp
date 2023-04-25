@@ -2,11 +2,9 @@
 
 #include <Common/Events/OtherEventType.hpp>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class OtherEvent
-{
+class OtherEvent {
 public:
     OtherEvent();
     OtherEvent(OtherEventType const timerType);
@@ -16,4 +14,4 @@ private:
     OtherEventType m_type;
 };
 
-}
+}  // namespace DesignDocumentCreator

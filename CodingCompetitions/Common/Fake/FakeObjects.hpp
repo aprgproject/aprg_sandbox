@@ -4,13 +4,11 @@
 
 #include <sstream>
 
-namespace alba
-{
+namespace alba {
 
-struct FakeObjects : public alba::AlbaSingleton<FakeObjects>
-{
+struct FakeObjects : public alba::AlbaSingleton<FakeObjects> {
     std::stringstream inputStringStream;
     std::stringstream outputStringStream;
 };
 
-}
+}  // namespace alba

@@ -9,19 +9,13 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(OneEquationOneVariableEqualitySolverTest, ConstructionWorks)
-{
-    OneEquationOneVariableEqualitySolver();
-}
+TEST(OneEquationOneVariableEqualitySolverTest, ConstructionWorks) { OneEquationOneVariableEqualitySolver(); }
 
-TEST(OneEquationOneVariableEqualitySolverTest, NonEqualityOperatorsAreNotSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, NonEqualityOperatorsAreNotSolved) {
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation("x", "<", "x")));
@@ -31,8 +25,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, NonEqualityOperatorsAreNotSolved)
     EXPECT_TRUE(solutionSet.isEmpty());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, MultipleVariableEquationsAreNotSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, MultipleVariableEquationsAreNotSolved) {
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation("x", "=", "y")));
@@ -42,8 +35,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, MultipleVariableEquationsAreNotSo
     EXPECT_TRUE(solutionSet.isEmpty());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, EquationsThatAreAlwaysSatisfiedResultsInInfiniteRange)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, EquationsThatAreAlwaysSatisfiedResultsInInfiniteRange) {
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation("x", "=", "x")));
@@ -55,8 +47,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, EquationsThatAreAlwaysSatisfiedRe
     EXPECT_EQ(createAllRealValuesInterval(), actualIntervals.at(0));
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly) {
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Monomial(1, {{"x", 4}}), "=", 16)));
@@ -66,8 +57,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly)
     EXPECT_EQ((AlbaNumbers{-2, AlbaNumber::createComplexNumber(0, 2), 2}), solutionSet.getAcceptedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolvedCorrectly)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolvedCorrectly) {
     Polynomial numerator{Monomial(1, {{"x", 2}}), Monomial(-25, {})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-36, {})};
     Expression expression(createExpressionIfPossible({numerator, "/", denominator}));
@@ -81,8 +71,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolved
     EXPECT_EQ((AlbaNumbers{-6, 6}), solutionSet.getRejectedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, XToTheXAreSolvedCorrectly)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, XToTheXAreSolvedCorrectly) {
     Expression expression(createExpressionIfPossible({"x", "^", "x"}));
     OneEquationOneVariableEqualitySolver solver;
 
@@ -93,8 +82,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, XToTheXAreSolvedCorrectly)
     EXPECT_EQ(AlbaNumbers{7}, solutionSet.getAcceptedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, XToTheXWithNegativeSolutionAreNotSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, XToTheXWithNegativeSolutionAreNotSolved) {
     Expression expression(createExpressionIfPossible({"x", "^", "x"}));
     OneEquationOneVariableEqualitySolver solver;
 
@@ -105,8 +93,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, XToTheXWithNegativeSolutionAreNot
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionsAreSolved) {
     Term functionTerm(abs(createExpressionIfPossible({"x"})));
     OneEquationOneVariableEqualitySolver solver;
 
@@ -117,8 +104,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
     EXPECT_EQ((AlbaNumbers{-526, 526}), solutionSet.getAcceptedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionWithInputExpressionAreSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionWithInputExpressionAreSolved) {
     Term functionTerm(abs(createExpressionIfPossible({"x", "+", 100})));
     OneEquationOneVariableEqualitySolver solver;
 
@@ -129,10 +115,9 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionWithInputExp
     EXPECT_EQ((AlbaNumbers{-626, 426}), solutionSet.getAcceptedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolved)
-{
-    Term functionTerm1(abs(Polynomial{Monomial(2,{{"x", 1}}), Monomial(-1, {})}));
-    Term functionTerm2(abs(Polynomial{Monomial(4,{{"x", 1}}), Monomial(3, {})}));
+TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolved) {
+    Term functionTerm1(abs(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-1, {})}));
+    Term functionTerm2(abs(Polynomial{Monomial(4, {{"x", 1}}), Monomial(3, {})}));
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm1, "=", functionTerm2)));
@@ -143,8 +128,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolve
     EXPECT_EQ(AlbaNumber::createFraction(-1, 3), acceptedValues.at(1));
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolved) {
     Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};
     Polynomial polynomial2{Monomial(5, {{"x", 1}})};
     Polynomial polynomial3{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
@@ -160,8 +144,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolv
     EXPECT_EQ(AlbaNumbers{-1}, solutionSet.getAcceptedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, SquareRootInEquationAreSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, SquareRootInEquationAreSolved) {
     Polynomial polynomial1{Monomial(-5, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomial2{Monomial(-1, {{"x", 1}}), Monomial(1, {})};
     Expression expression1(createExpressionIfPossible({polynomial1, "^", AlbaNumber::createFraction(1, 2)}));
@@ -176,8 +159,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, SquareRootInEquationAreSolved)
     EXPECT_EQ(AlbaNumbers{0}, solutionSet.getAcceptedValues());
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, RadicalOverRadicalInEquationAreSolved)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, RadicalOverRadicalInEquationAreSolved) {
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
     Expression numerator(createExpressionIfPossible({polynomial1, "^", AlbaNumber::createFraction(1, 3)}));
@@ -193,6 +175,6 @@ TEST(OneEquationOneVariableEqualitySolverTest, RadicalOverRadicalInEquationAreSo
     EXPECT_EQ(AlbaNumbers{3}, solutionSet.getRejectedValues());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

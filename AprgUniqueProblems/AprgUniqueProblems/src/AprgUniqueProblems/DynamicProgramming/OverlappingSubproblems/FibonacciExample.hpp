@@ -5,11 +5,9 @@
 #include <set>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class FibonacciExample
-{
+class FibonacciExample {
 public:
     using Number = unsigned int;
     using Numbers = std::vector<Number>;
@@ -28,11 +26,11 @@ public:
     Number getNthFibonacciUsingLogarithmicIterativeDP(Number const number);
 
 private:
-    Number getNthFibonacciUsingMemoizationDP(Numbers & memoizationData, Number const number);
-    Number getNthFibonacciUsingLogarithmicMemoizationDP(Numbers & memoizationData, Number const number);
+    Number getNthFibonacciUsingMemoizationDP(Numbers& memoizationData, Number const number);
+    Number getNthFibonacciUsingLogarithmicMemoizationDP(Numbers& memoizationData, Number const number);
 };
 
-}
+}  // namespace alba
 
 // The Fibonacci numbers are the numbers in the following integer sequence.
 // -> 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
@@ -47,8 +45,6 @@ private:
 // ---> Output : 1
 // -> Input  : n = 9
 // ---> Output : 34
-
-
 
 // Logarithmic version of Fibonacci:
 

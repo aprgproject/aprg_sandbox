@@ -12,17 +12,16 @@
 static_assert(false, "WINDOWS and LINUX are the only supported OS yet.");
 #endif
 
-namespace alba
-{
+namespace alba {
 
 #ifdef OS_WINDOWS
-class AlbaLocalUserAutomation: public AlbaWindowsUserAutomation
+class AlbaLocalUserAutomation : public AlbaWindowsUserAutomation
 #endif
 
 #ifdef OS_LINUX
-class AlbaLocalUserAutomation: public AlbaLinuxUserAutomation
+                                class AlbaLocalUserAutomation : public AlbaLinuxUserAutomation
 #endif
 {
 };
 
-}
+}  // namespace alba

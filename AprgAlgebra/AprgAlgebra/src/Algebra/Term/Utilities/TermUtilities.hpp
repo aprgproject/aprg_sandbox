@@ -3,11 +3,9 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm);
 bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm);
@@ -20,7 +18,8 @@ unsigned int getNumberOfTerms(Term const& term);
 AlbaNumber getConstantFactor(Term const& term);
 AlbaNumber getDegree(Term const& term);
 
-AlbaNumberPairs evaluateAndGetInputOutputPair(AlbaNumbers const& numbers, std::string const& variableName, Term const& term);
+AlbaNumberPairs evaluateAndGetInputOutputPair(
+    AlbaNumbers const& numbers, std::string const& variableName, Term const& term);
 
 Term getPiAsATerm();
 Term getEAsATerm();
@@ -34,6 +33,6 @@ Term flipTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);
 Term invertTerm(Term const& term, std::string const& variableName);
 Expression negateExpression(Expression const& expression);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

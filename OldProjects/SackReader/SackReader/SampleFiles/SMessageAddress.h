@@ -1,6 +1,8 @@
 /**
 *******************************************************************************
-* @file                  $HeadURL: https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_GLOBAL/tags/GLOBAL_ENV_13_54/I_Interface/Global_Env/Definitions/SMessageAddress.h $
+* @file                  $HeadURL:
+*https://wrscmi.inside.nsn.com/isource/svnroot/BTS_I_GLOBAL/tags/GLOBAL_ENV_13_54/I_Interface/Global_Env/Definitions/SMessageAddress.h
+*$
 * @version               $LastChangedRevision: 4238 $
 * @date                  $LastChangedDate: 2016-10-11 22:13:29 +0800 (Tue, 11 Oct 2016) $
 * @author                $Author: demx1779 $
@@ -22,21 +24,19 @@
  */
 #if defined(__TCC__) || defined(SMESSAGEADDRESS_LITTLE_ENDIAN) || defined(CCS_LITTLE_ENDIAN)
 
-struct SMessageAddress
-{
-    TTask   task;
-    TCpu    cpu;
-    TBoard  board;
+struct SMessageAddress {
+    TTask task;
+    TCpu cpu;
+    TBoard board;
 };
 typedef struct SMessageAddress SMessageAddress;
 
 #else /* for PPC and PC MSC compilers */
 
-struct SMessageAddress
-{
-    TBoard  board;
-    TCpu    cpu;
-    TTask   task;
+struct SMessageAddress {
+    TBoard board;
+    TCpu cpu;
+    TTask task;
 };
 typedef struct SMessageAddress SMessageAddress;
 
@@ -63,4 +63,3 @@ typedef struct SMessageAddress SMessageAddress;
 * Remember to put an empty line in the end of each definition file.
 * Otherwise the compiler will generate a warning.
 ************************************************************************/
-

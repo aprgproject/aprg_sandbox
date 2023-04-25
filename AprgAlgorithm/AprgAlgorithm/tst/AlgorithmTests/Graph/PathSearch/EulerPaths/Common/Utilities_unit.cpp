@@ -4,21 +4,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
-}
+}  // namespace
 
-TEST(EulerPathUtilitiesTest, HasEulerCycleForUndirectedGraphWorksOnGraphWithAllEvenDegreesVertices)
-{
+TEST(EulerPathUtilitiesTest, HasEulerCycleForUndirectedGraphWorksOnGraphWithAllEvenDegreesVertices) {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -27,8 +23,7 @@ TEST(EulerPathUtilitiesTest, HasEulerCycleForUndirectedGraphWorksOnGraphWithAllE
     EXPECT_TRUE(hasEulerCycleForUndirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerCycleForUndirectedGraphWorksOnGraphWithNotAllEvenDegreesVertices)
-{
+TEST(EulerPathUtilitiesTest, HasEulerCycleForUndirectedGraphWorksOnGraphWithNotAllEvenDegreesVertices) {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -36,24 +31,21 @@ TEST(EulerPathUtilitiesTest, HasEulerCycleForUndirectedGraphWorksOnGraphWithNotA
     EXPECT_FALSE(hasEulerCycleForUndirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithOneOddDegreeVertices)
-{
+TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithOneOddDegreeVertices) {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
 
     EXPECT_TRUE(hasEulerPathForUndirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithTwoOddDegreesVertices)
-{
+TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithTwoOddDegreesVertices) {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     EXPECT_TRUE(hasEulerPathForUndirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithThreeOddDegreesVertices)
-{
+TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithThreeOddDegreesVertices) {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -62,8 +54,7 @@ TEST(EulerPathUtilitiesTest, HasEulerPathForUndirectedGraphWorksOnGraphWithThree
     EXPECT_FALSE(hasEulerPathForUndirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerCycleForDirectedGraphWorksWithAllInDegreesEqualsOutDegrees)
-{
+TEST(EulerPathUtilitiesTest, HasEulerCycleForDirectedGraphWorksWithAllInDegreesEqualsOutDegrees) {
     DirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -72,8 +63,7 @@ TEST(EulerPathUtilitiesTest, HasEulerCycleForDirectedGraphWorksWithAllInDegreesE
     EXPECT_TRUE(hasEulerCycleForDirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerCycleForDirectedGraphWorksOnGraphWithAllInDegreesNotEqualToOutDegrees)
-{
+TEST(EulerPathUtilitiesTest, HasEulerCycleForDirectedGraphWorksOnGraphWithAllInDegreesNotEqualToOutDegrees) {
     DirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -81,8 +71,7 @@ TEST(EulerPathUtilitiesTest, HasEulerCycleForDirectedGraphWorksOnGraphWithAllInD
     EXPECT_FALSE(hasEulerCycleForDirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksOnGraphWithAllInDegreesEqualsOutDegrees)
-{
+TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksOnGraphWithAllInDegreesEqualsOutDegrees) {
     DirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -91,8 +80,7 @@ TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksOnGraphWithAllInDe
     EXPECT_TRUE(hasEulerPathForDirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees)
-{
+TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees) {
     DirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -100,8 +88,7 @@ TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksOnGraphWithOneLess
     EXPECT_TRUE(hasEulerPathForDirectedGraph(graph));
 }
 
-TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksWithMoreThanOneLesserAndGreaterInAndOutDegrees)
-{
+TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksWithMoreThanOneLesserAndGreaterInAndOutDegrees) {
     DirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -109,6 +96,6 @@ TEST(EulerPathUtilitiesTest, HasEulerPathForDirectedGraphWorksWithMoreThanOneLes
     EXPECT_FALSE(hasEulerPathForDirectedGraph(graph));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

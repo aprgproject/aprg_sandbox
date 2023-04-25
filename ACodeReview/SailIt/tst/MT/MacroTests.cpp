@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, MacroDefinitionsDefineTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO0\n";
@@ -34,8 +33,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsDefineWithParameterMismatchTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineWithParameterMismatchTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO0(a, b) a = a + b\n";
@@ -57,8 +55,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineWithParameterMismatchTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 1);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsDefineWithVariadicParametersTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineWithVariadicParametersTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO0(...) __VA_ARGS__\n";
@@ -88,8 +85,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineWithVariadicParametersTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsDefineWithVariadicWithContentsParametersTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineWithVariadicWithContentsParametersTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO0(a, b, ...) int a = b + __VA_ARGS__\n";
@@ -105,8 +101,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineWithVariadicWithContentsParametersTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsDefineMultiLineTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineMultiLineTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACROSTART if(1 == 1)\\\n";
@@ -128,8 +123,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineMultiLineTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsUndefTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsUndefTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO1 variable1\n";
@@ -149,8 +143,7 @@ TEST_F(ModuleTest, MacroDefinitionsUndefTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsDefineWithCyclicEquivalentCannotBeAddedTest)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineWithCyclicEquivalentCannotBeAddedTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO1 MACRO1 MACRO2 MACRO3\n";
@@ -176,8 +169,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineWithCyclicEquivalentCannotBeAddedTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(ModuleTest, MacroDefinitionsDefineWithCyclicEquivalentCannotBeAddedTest2)
-{
+TEST_F(ModuleTest, MacroDefinitionsDefineWithCyclicEquivalentCannotBeAddedTest2) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define MACRO1 MACRO2\n";
@@ -199,8 +191,7 @@ TEST_F(ModuleTest, MacroDefinitionsDefineWithCyclicEquivalentCannotBeAddedTest2)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 1);
 }
 
-TEST_F(ModuleTest, MacroExtraMacroTest)
-{
+TEST_F(ModuleTest, MacroExtraMacroTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#ifdef I dont care what is the next part\n";
@@ -219,8 +210,7 @@ TEST_F(ModuleTest, MacroExtraMacroTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroWithParenthesisTest)
-{
+TEST_F(ModuleTest, MacroWithParenthesisTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#define _TRUNCATE ((size_t) - 1)\n";
@@ -237,8 +227,7 @@ TEST_F(ModuleTest, MacroWithParenthesisTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MacroWithStringsTest)
-{
+TEST_F(ModuleTest, MacroWithStringsTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "#ifdef _POSIX_\n";

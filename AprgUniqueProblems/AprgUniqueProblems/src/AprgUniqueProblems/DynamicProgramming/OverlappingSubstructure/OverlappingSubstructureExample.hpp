@@ -1,7 +1,6 @@
 #pragma once
 
-namespace alba
-{}
+namespace alba {}
 
 // 2) Optimal Substructure:
 // A given problems has Optimal Substructure Property if optimal solution of the given problem

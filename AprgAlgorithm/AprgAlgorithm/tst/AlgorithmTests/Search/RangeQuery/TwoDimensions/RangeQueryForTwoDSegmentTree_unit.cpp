@@ -4,28 +4,20 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = unsigned int;
 using RangeQueryForTest = RangeQueryForTwoDSegmentTree<unsigned int>;
 using ValueMatrixForTest = RangeQueryForTest::ValueMatrix;
 using Function = typename RangeQueryForTest::OneDFunction;
 Function plusFunction = plus<>();
-}
+}  // namespace
 
-TEST(RangeQueryForTwoDSegmentTreeTest, GetValueOn2DIntervalWorksOnExample1)
-{
-    ValueMatrixForTest valueMatrix(4U, 4U,
-    {7U, 6U, 1U, 6U,
-     8U, 7U, 5U, 2U,
-     3U, 9U, 7U, 1U,
-     8U, 5U, 3U, 8U});
+TEST(RangeQueryForTwoDSegmentTreeTest, GetValueOn2DIntervalWorksOnExample1) {
+    ValueMatrixForTest valueMatrix(4U, 4U, {7U, 6U, 1U, 6U, 8U, 7U, 5U, 2U, 3U, 9U, 7U, 1U, 8U, 5U, 3U, 8U});
     RangeQueryForTest sumRangeQuery(valueMatrix, plusFunction);
 
     // starts with (0,0)
@@ -53,13 +45,8 @@ TEST(RangeQueryForTwoDSegmentTreeTest, GetValueOn2DIntervalWorksOnExample1)
     EXPECT_EQ(47U, sumRangeQuery.getValueOn2DInterval(1U, 1U, 3U, 3U));
 }
 
-TEST(RangeQueryForTwoDSegmentTreeTest, ChangeValueAtWorksOnExample1)
-{
-    ValueMatrixForTest valueMatrix(4U, 4U,
-    {7U, 6U, 1U, 6U,
-     8U, 7U, 5U, 2U,
-     3U, 9U, 7U, 1U,
-     8U, 5U, 3U, 8U});
+TEST(RangeQueryForTwoDSegmentTreeTest, ChangeValueAtWorksOnExample1) {
+    ValueMatrixForTest valueMatrix(4U, 4U, {7U, 6U, 1U, 6U, 8U, 7U, 5U, 2U, 3U, 9U, 7U, 1U, 8U, 5U, 3U, 8U});
     RangeQueryForTest sumRangeQuery(valueMatrix, plusFunction);
 
     sumRangeQuery.changeValueAt(0U, 0U, 14U);
@@ -89,6 +76,6 @@ TEST(RangeQueryForTwoDSegmentTreeTest, ChangeValueAtWorksOnExample1)
     EXPECT_EQ(47U, sumRangeQuery.getValueOn2DInterval(1U, 1U, 3U, 3U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

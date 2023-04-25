@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-TEST(BoardUtilitiesTest, IsCoordinateOnBoardWorks)
-{
+TEST(BoardUtilitiesTest, IsCoordinateOnBoardWorks) {
     Coordinate inBoardCoordinate{4, 4};
     Coordinate outBoardCoordinate{-1, 8};
 
@@ -19,17 +16,11 @@ TEST(BoardUtilitiesTest, IsCoordinateOnBoardWorks)
     EXPECT_FALSE(isCoordinateOnBoard(outBoardCoordinate));
 }
 
-TEST(BoardUtilitiesTest, ConstructFenStringWorks)
-{
-    Board board(Board::Orientation::BlackUpWhiteDown,
-    {0,0,0,14,13,0,0,0,
-     12,10,11,0,0,11,10,12,
-     1,0,1,0,1,0,1,0,
-     0,1,0,1,0,1,0,1,
-     9,9,0,0,9,9,0,0,
-     0,0,9,9,0,0,9,9,
-     4,2,3,0 ,0,3,2,4,
-     0,0,0,6,5,0,0,0});
+TEST(BoardUtilitiesTest, ConstructFenStringWorks) {
+    Board board(
+        Board::Orientation::BlackUpWhiteDown,
+        {0, 0, 0, 14, 13, 0, 0, 0, 12, 10, 11, 0, 0, 11, 10, 12, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1,
+         9, 9, 0, 0,  9,  9, 0, 0, 0,  0,  9,  9, 0, 0,  9,  9,  4, 2, 3, 0, 0, 3, 2, 4, 0, 0, 0, 6, 5, 0, 0, 0});
 
     string actualFenString(constructFenString(board, PieceColor::White, "KQkq", "e3", 0, 1));
 
@@ -37,6 +28,6 @@ TEST(BoardUtilitiesTest, ConstructFenStringWorks)
     EXPECT_EQ(expectedFenString, actualFenString);
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

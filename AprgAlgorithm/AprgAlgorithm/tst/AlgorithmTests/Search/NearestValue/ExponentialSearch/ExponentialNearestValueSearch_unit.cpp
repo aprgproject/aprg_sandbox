@@ -6,81 +6,66 @@
 using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = ExponentialNearestValueSearch<ValuesForTest>;
-}
+}  // namespace
 
-TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue)
-{
+TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue) {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues) {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues) {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower) {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(ExponentialNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher) {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
-{
+TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue) {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues) {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
 }
 
-TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower) {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher) {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

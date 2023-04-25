@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = unsigned int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = FindKClosestElements<ValuesForTest>;
-}
+}  // namespace
 
-TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnEmpty)
-{
+TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query(valuesForTest);
 
@@ -26,8 +22,7 @@ TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnEmpty)
     EXPECT_EQ(expectedIndexPair, query.getIndexPairClosestElements(4U, 35U));
 }
 
-TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnOneValue)
-{
+TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnOneValue) {
     ValuesForTest valuesForTest{12};
     QueryForTest query(valuesForTest);
 
@@ -35,8 +30,7 @@ TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnOneValue)
     EXPECT_EQ(expectedIndexPair, query.getIndexPairClosestElements(4U, 35U));
 }
 
-TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnExample1)
-{
+TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnExample1) {
     ValuesForTest valuesForTest{12, 16, 22, 30, 35, 39, 42, 45, 48, 50, 53, 55, 56};
     QueryForTest query(valuesForTest);
 
@@ -44,6 +38,6 @@ TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnExample1)
     EXPECT_EQ(expectedIndexPair, query.getIndexPairClosestElements(4U, 35U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

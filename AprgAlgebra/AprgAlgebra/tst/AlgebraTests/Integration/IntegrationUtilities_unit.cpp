@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(IntegrationUtilitiesTest, IsTheSecondFundamentalTheoremOfCalculusTrueWorks)
-{
+TEST(IntegrationUtilitiesTest, IsTheSecondFundamentalTheoremOfCalculusTrueWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -21,8 +18,7 @@ TEST(IntegrationUtilitiesTest, IsTheSecondFundamentalTheoremOfCalculusTrueWorks)
     EXPECT_TRUE(isTheSecondFundamentalTheoremOfCalculusTrue(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, IsTheIntegralDefinitionForFiniteCalculusIsTrueWorks)
-{
+TEST(IntegrationUtilitiesTest, IsTheIntegralDefinitionForFiniteCalculusIsTrueWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -32,8 +28,7 @@ TEST(IntegrationUtilitiesTest, IsTheIntegralDefinitionForFiniteCalculusIsTrueWor
     EXPECT_TRUE(isTheIntegralDefinitionForFiniteCalculusIsTrue(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, IsAreaUnderTheCurveEqualToDefiniteIntegralWorks)
-{
+TEST(IntegrationUtilitiesTest, IsAreaUnderTheCurveEqualToDefiniteIntegralWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -43,8 +38,7 @@ TEST(IntegrationUtilitiesTest, IsAreaUnderTheCurveEqualToDefiniteIntegralWorks)
     EXPECT_TRUE(isAreaUnderTheCurveEqualToDefiniteIntegral(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, GetInputForAverageValueInBetweenTwoValuesWorks)
-{
+TEST(IntegrationUtilitiesTest, GetInputForAverageValueInBetweenTwoValuesWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -61,8 +55,7 @@ TEST(IntegrationUtilitiesTest, GetInputForAverageValueInBetweenTwoValuesWorks)
     EXPECT_EQ(AlbaNumber(7.76808126488466), numbersToVerify3.at(0));
 }
 
-TEST(IntegrationUtilitiesTest, GetAverageValueInBetweenTwoValuesWorks)
-{
+TEST(IntegrationUtilitiesTest, GetAverageValueInBetweenTwoValuesWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -72,8 +65,7 @@ TEST(IntegrationUtilitiesTest, GetAverageValueInBetweenTwoValuesWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(1875, 4)), getAverageValueInBetweenTwoValues(termToTest3, {"x", 5, 10}));
 }
 
-TEST(IntegrationUtilitiesTest, EvaluateValuesAndGetDifferenceWorks)
-{
+TEST(IntegrationUtilitiesTest, EvaluateValuesAndGetDifferenceWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -83,8 +75,7 @@ TEST(IntegrationUtilitiesTest, EvaluateValuesAndGetDifferenceWorks)
     EXPECT_EQ(Term(875), evaluateValuesAndGetDifference(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, EvaluateTermsAndGetDifferenceWorks)
-{
+TEST(IntegrationUtilitiesTest, EvaluateTermsAndGetDifferenceWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -101,8 +92,7 @@ TEST(IntegrationUtilitiesTest, EvaluateTermsAndGetDifferenceWorks)
     EXPECT_EQ(termToExpect3, termToVerify3);
 }
 
-TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)
-{
+TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -112,8 +102,7 @@ TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(9375, 4)), getAreaUnderACurveUsingReimannSums(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, GetApproximateValuesForDefiniteIntegralWorks)
-{
+TEST(IntegrationUtilitiesTest, GetApproximateValuesForDefiniteIntegralWorks) {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -130,6 +119,6 @@ TEST(IntegrationUtilitiesTest, GetApproximateValuesForDefiniteIntegralWorks)
     EXPECT_EQ(AlbaNumber(5000), valuesToVerify3.higherValue);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

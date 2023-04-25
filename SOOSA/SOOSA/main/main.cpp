@@ -8,16 +8,13 @@ using namespace alba::soosa;
 using namespace alba::stringHelper;
 using namespace std;
 
-
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     cout << "Survey Output Optical Scan Analyzer developed by the IRPDS\n";
     cout << "Code version: " << APRG_CODE_REVISION << "\n\n";
 
     strings argumentsInMain(getArgumentsToStringInMain(argc, argv));
 
-    if(argumentsInMain.size()==2)
-    {
+    if (argumentsInMain.size() == 2) {
         AlbaLocalPathHandler detectedPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
         AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
 
@@ -31,9 +28,7 @@ int main(int argc, char *argv[])
         SOOSA soosa(soosaConfiguration, ui.getSavedConfiguration());
 
         soosa.process();
-    }
-    else
-    {
+    } else {
         cout << "Exiting program because the number of input arguments is wrong.\n";
     }
     cout << "\n";

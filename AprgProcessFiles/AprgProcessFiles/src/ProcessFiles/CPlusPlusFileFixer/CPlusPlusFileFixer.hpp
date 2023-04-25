@@ -4,15 +4,12 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CPlusPlusFileFixer
-{
+class CPlusPlusFileFixer {
 public:
     void processDirectory(std::string const& path);
     void processFile(std::string const& path);
-
 
 private:
     void clear();
@@ -35,8 +32,8 @@ private:
     void addHeaderFileFromQuotations(std::string const& header);
 
     void writeFile(std::string const& path);
-    void writeHeadersWithQuotations(std::ofstream & outputLogFileStream) const;
-    void writeHeadersWithAngleBrackets(std::ofstream & outputLogFileStream) const;
+    void writeHeadersWithQuotations(std::ofstream& outputLogFileStream) const;
+    void writeHeadersWithAngleBrackets(std::ofstream& outputLogFileStream) const;
 
     bool isLineWithALoopStart(std::string const& line) const;
     bool isLineWithALoopEnd(std::string const& line) const;
@@ -54,4 +51,4 @@ private:
     bool m_isPragmaOnceFound;
 };
 
-}
+}  // namespace alba

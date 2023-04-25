@@ -8,11 +8,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(FileReadTest, ReadFromTestFile_ConstructorsWorks)
-{
+TEST(FileReadTest, ReadFromTestFile_ConstructorsWorks) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -23,8 +21,7 @@ TEST(FileReadTest, ReadFromTestFile_ConstructorsWorks)
     EXPECT_EQ(200U, fileReader2.getMaxBufferSize());
 }
 
-TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
-{
+TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -35,8 +32,7 @@ TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
     EXPECT_EQ(200U, fileReader.getMaxBufferSize());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -50,7 +46,8 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
     testFile << "12345678  \n";
     testFile << "123456789 \n";
     testFile << "1234567890\n";
-    testFile << "abcdefghijklmnopqrstuvwxyz                                                                          \n";
+    testFile
+        << "abcdefghijklmnopqrstuvwxyz                                                                          \n";
     testFile << "\n";
     testFile << "    \n";
     testFile << "        \n";
@@ -89,8 +86,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit) {
     AlbaLocalPathHandler commonSizeTestFileToRead(ALBA_COMMON_SIZE_TEST_FILE);
     ifstream inputTestFile(commonSizeTestFileToRead.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
@@ -108,8 +104,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
     EXPECT_TRUE(fileReader.getLineAndIgnoreWhiteSpaces().empty());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -123,28 +118,27 @@ TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ('1' ,fileReader.getCharacter());
-    EXPECT_EQ('2' ,fileReader.getCharacter());
-    EXPECT_EQ('3' ,fileReader.getCharacter());
-    EXPECT_EQ('!' ,fileReader.getCharacter());
-    EXPECT_EQ('@' ,fileReader.getCharacter());
-    EXPECT_EQ('#' ,fileReader.getCharacter());
-    EXPECT_EQ(' ' ,fileReader.getCharacter());
-    EXPECT_EQ('\t' ,fileReader.getCharacter());
+    EXPECT_EQ('1', fileReader.getCharacter());
+    EXPECT_EQ('2', fileReader.getCharacter());
+    EXPECT_EQ('3', fileReader.getCharacter());
+    EXPECT_EQ('!', fileReader.getCharacter());
+    EXPECT_EQ('@', fileReader.getCharacter());
+    EXPECT_EQ('#', fileReader.getCharacter());
+    EXPECT_EQ(' ', fileReader.getCharacter());
+    EXPECT_EQ('\t', fileReader.getCharacter());
 #ifdef OS_WINDOWS
-    EXPECT_EQ('\r' ,fileReader.getCharacter());
-    EXPECT_EQ('\n' ,fileReader.getCharacter());
+    EXPECT_EQ('\r', fileReader.getCharacter());
+    EXPECT_EQ('\n', fileReader.getCharacter());
 #endif
 #ifdef OS_LINUX
-   EXPECT_EQ('\n' ,fileReader.getCharacter());
+    EXPECT_EQ('\n', fileReader.getCharacter());
 #endif
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(fileReader.getCharacter(), 0);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -158,7 +152,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters=3U;
+    unsigned int numberOfCharacters = 3U;
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
@@ -188,8 +182,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyondBufferSize)
-{
+TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyondBufferSize) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -204,21 +197,20 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters=20000;
+    unsigned int numberOfCharacters = 20000;
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
     EXPECT_EQ(3U, numberOfCharacters);
     EXPECT_TRUE(fileReader.isNotFinished());
-    numberOfCharacters=20000;
+    numberOfCharacters = 20000;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("45", string(charPointer, numberOfCharacters));
     EXPECT_EQ(2U, numberOfCharacters);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadOneByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadOneByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -253,8 +245,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadOneByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -283,8 +274,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -309,8 +299,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -333,8 +322,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -363,8 +351,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadSwappedFourByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadSwappedFourByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -389,8 +376,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedFourByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
-{
+TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -413,8 +399,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer)
-{
+TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
@@ -446,4 +431,4 @@ TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-}
+}  // namespace alba

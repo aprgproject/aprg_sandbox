@@ -6,11 +6,9 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(DisplayTableTest, TableCanOutputProvideText)
-{
+TEST(DisplayTableTest, TableCanOutputProvideText) {
     DisplayTable table;
 
     table.addRow();
@@ -19,22 +17,20 @@ TEST(DisplayTableTest, TableCanOutputProvideText)
     EXPECT_EQ("Test\n", convertToString(table));
 }
 
-TEST(DisplayTableTest, TableCanOutputTextWithBorders)
-{
+TEST(DisplayTableTest, TableCanOutputTextWithBorders) {
     DisplayTable table;
 
-    table.setBorders("X","X");
+    table.setBorders("X", "X");
     table.addRow();
     table.getLastRow().addCell("Test");
 
     EXPECT_EQ("XXXXXX\nXTestX\nXXXXXX\n", convertToString(table));
 }
 
-TEST(DisplayTableTest, TableCanOutputTextFor3by3Table)
-{
+TEST(DisplayTableTest, TableCanOutputTextFor3by3Table) {
     DisplayTable table;
 
-    table.setBorders("-","|");
+    table.setBorders("-", "|");
     table.addRow();
     table.getLastRow().addCell("1000");
     table.getLastRow().addCell("2");
@@ -48,12 +44,13 @@ TEST(DisplayTableTest, TableCanOutputTextFor3by3Table)
     table.getLastRow().addCell("8");
     table.getLastRow().addCell("9000000");
 
-    EXPECT_EQ("----------------\n|1000|2|   3   |\n----------------\n|4.1 |5| 6.55  |\n----------------\n| 7  |8|9000000|\n----------------\n",
-              convertToString(table));
+    EXPECT_EQ(
+        "----------------\n|1000|2|   3   |\n----------------\n|4.1 |5| 6.55  |\n----------------\n| 7  "
+        "|8|9000000|\n----------------\n",
+        convertToString(table));
 }
 
-TEST(DisplayTableTest, CellWithAlignmentCanBeAdded)
-{
+TEST(DisplayTableTest, CellWithAlignmentCanBeAdded) {
     DisplayTable table;
 
     table.addRow();
@@ -70,11 +67,10 @@ TEST(DisplayTableTest, CellWithAlignmentCanBeAdded)
     EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", convertToString(table));
 }
 
-TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows)
-{
+TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows) {
     DisplayTable table(2U, 3U);
 
-    table.setBorders("-","|");
+    table.setBorders("-", "|");
     table.getCellReferenceAt(0U, 0U).setText("(0,0)");
     table.getCellReferenceAt(0U, 1U).setText("(0,1)");
     table.getCellReferenceAt(0U, 2U).setText("(0,2)");
@@ -82,8 +78,9 @@ TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows)
     table.getCellReferenceAt(1U, 1U).setText("(1,1)");
     table.getCellReferenceAt(1U, 2U).setText("(1,2)");
 
-    EXPECT_EQ("-------------\n|(0,0)|(1,0)|\n-------------\n|(0,1)|(1,1)|\n-------------\n|(0,2)|(1,2)|\n-------------\n",
-              convertToString(table));
+    EXPECT_EQ(
+        "-------------\n|(0,0)|(1,0)|\n-------------\n|(0,1)|(1,1)|\n-------------\n|(0,2)|(1,2)|\n-------------\n",
+        convertToString(table));
 }
 
-}
+}  // namespace alba

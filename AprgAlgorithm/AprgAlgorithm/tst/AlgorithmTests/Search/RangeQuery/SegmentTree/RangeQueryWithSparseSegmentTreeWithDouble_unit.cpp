@@ -4,28 +4,23 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = double;
 using RangeQueryForTest = RangeQueryWithSparseSegmentTree<ValueForTest>;
 RangeQueryForTest::Function multipliesFunction = multiplies<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues) {
     RangeQueryForTest geometricSumRangeQuery(0U, 1U, multipliesFunction);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1) {
     RangeQueryForTest geometricSumRangeQuery(9U, 1U, multipliesFunction);
 
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
@@ -44,8 +39,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWork
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksWithEmptySetOfValues) {
     RangeQueryForTest geometricSumRangeQuery(0U, 1U, multipliesFunction);
 
     geometricSumRangeQuery.setValueOnIndex(0U, 10U);
@@ -53,8 +47,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksWi
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksOnExample1) {
     RangeQueryForTest geometricSumRangeQuery(9U, 1U, multipliesFunction);
 
     geometricSumRangeQuery.setValueOnIndex(3U, 10U);
@@ -77,6 +70,6 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksOn
     EXPECT_DOUBLE_EQ(11, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

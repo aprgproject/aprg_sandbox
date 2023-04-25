@@ -6,18 +6,15 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CountingTilings
-{
+class CountingTilings {
 public:
-
     using Count = unsigned int;
     using Grid = matrix::AlbaMatrix<char>;
     using Row = std::string;
     using Rows = std::vector<Row>;
-    using RowToRowsMap=std::map<Row, Rows>; // This also can be represented by vector using bitstrings
+    using RowToRowsMap = std::map<Row, Rows>;  // This also can be represented by vector using bitstrings
 
     CountingTilings(Count const numberOfColumns, Count const numberOfRows);
 
@@ -26,9 +23,7 @@ public:
 
 private:
     Row getEmptyRow(Count const length) const;
-    void searchNextRow(
-            Count const rowIndex,
-            Row const& currentRow);
+    void searchNextRow(Count const rowIndex, Row const& currentRow);
     Rows const& getNextRows(Row const& currentRow);
     Rows calculateNextRows(Row const& currentRow);
     void startCompleteSearch();
@@ -42,12 +37,12 @@ private:
     RowToRowsMap m_currentRowToNextRows;
 };
 
-}
+}  // namespace alba
 
 // Tiling Problem
 
-// Given a “2 x n” board and tiles of size “2 x 1”, count the number of ways to tile the given board using the 2 x 1 tiles.
-// A tile can either be placed horizontally i.e., as a 1 x 2 tile or vertically i.e., as 2 x 1 tile.
+// Given a “2 x n” board and tiles of size “2 x 1”, count the number of ways to tile the given board using the 2 x 1
+// tiles. A tile can either be placed horizontally i.e., as a 1 x 2 tile or vertically i.e., as 2 x 1 tile.
 
 // Examples:
 // Input: n = 4
@@ -65,11 +60,11 @@ private:
 // -----> Place all 3 tiles vertically.
 // -----> Place 1 tile vertically and remaining 2 tiles horizontally.
 
-
 // Other description
 
 // Sometimes the states of a dynamic programming solution are more complex than fixed combinations of numbers.
-// As an example, consider the problem of calculating the number of distinct ways to fill an nxm grid using 1x2 and 2x1 size tiles.
+// As an example, consider the problem of calculating the number of distinct ways to fill an nxm grid using 1x2 and 2x1
+// size tiles.
 
 // Recursive formulation:
 // -> Next non filled row = all possible permutations of current row (based on previous "Next non filled row")

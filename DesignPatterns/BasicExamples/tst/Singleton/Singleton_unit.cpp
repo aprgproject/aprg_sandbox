@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Singleton
-{
+namespace Singleton {
 
-TEST(SingletonTest, Test1)
-{
+TEST(SingletonTest, Test1) {
     Singleton::getInstance().tellSomething();
 
     Singleton::restartInstance();
@@ -16,4 +14,4 @@ TEST(SingletonTest, Test1)
     Singleton::getInstance().tellSomething();
 }
 
-}
+}  // namespace Singleton

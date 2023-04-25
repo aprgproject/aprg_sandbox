@@ -2,17 +2,14 @@
 
 #include <Common/Math/Angle/AlbaAngle.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-struct PolarCoordinate
-{
+struct PolarCoordinate {
     double radius;
     AlbaAngle angle;
 };
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

@@ -6,28 +6,23 @@
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
 using SubstringSearchForTest = BoyerMooreSubstringSearch<Index>;
-}
+}  // namespace
 
-TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
-{
+TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
     testSearchUsingEmptyStringsAndDoesNotCrash<SubstringSearchForTest, Index>();
 }
 
-TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingExample1)
-{
+TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingExample1) {
     testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

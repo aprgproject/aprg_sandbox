@@ -5,11 +5,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaNumberIntervalTest, ConstructionForIntervalWorks)
-{
+TEST(AlbaNumberIntervalTest, ConstructionForIntervalWorks) {
     AlbaNumberInterval interval1(createOpenEndpoint(645), createCloseEndpoint(784));
     AlbaNumberInterval interval2(createCloseEndpoint(784), createOpenEndpoint(645));
 
@@ -19,22 +17,20 @@ TEST(AlbaNumberIntervalTest, ConstructionForIntervalWorks)
     EXPECT_EQ(createCloseEndpoint(784), interval2.getHigherEndpoint());
 }
 
-TEST(AlbaNumberIntervalTest, EqualityForIntervalsWorks)
-{
+TEST(AlbaNumberIntervalTest, EqualityForIntervalsWorks) {
     AlbaNumberInterval interval1(createOpenEndpoint(451), createOpenEndpoint(658));
     AlbaNumberInterval interval2(createOpenEndpoint(451), createOpenEndpoint(658));
     AlbaNumberInterval interval3(createOpenEndpoint(999), createOpenEndpoint(658));
     AlbaNumberInterval interval4(createOpenEndpoint(451), createOpenEndpoint(999));
     AlbaNumberInterval interval5(createOpenEndpoint(999), createOpenEndpoint(999));
 
-    EXPECT_TRUE(interval1==interval2);
-    EXPECT_FALSE(interval1==interval3);
-    EXPECT_FALSE(interval1==interval4);
-    EXPECT_FALSE(interval1==interval5);
+    EXPECT_TRUE(interval1 == interval2);
+    EXPECT_FALSE(interval1 == interval3);
+    EXPECT_FALSE(interval1 == interval4);
+    EXPECT_FALSE(interval1 == interval5);
 }
 
-TEST(AlbaNumberIntervalTest, IsValueInsideTheIntervalWorks)
-{
+TEST(AlbaNumberIntervalTest, IsValueInsideTheIntervalWorks) {
     AlbaNumberInterval openInterval(createOpenEndpoint(3), createOpenEndpoint(5));
     AlbaNumberInterval closeInterval(createCloseEndpoint(3), createCloseEndpoint(5));
 
@@ -50,8 +46,7 @@ TEST(AlbaNumberIntervalTest, IsValueInsideTheIntervalWorks)
     EXPECT_FALSE(closeInterval.isValueInsideTheInterval(6));
 }
 
-TEST(AlbaNumberIntervalTest, IsValueInsideTheIntervalExceptAtTheEndpointsWorks)
-{
+TEST(AlbaNumberIntervalTest, IsValueInsideTheIntervalExceptAtTheEndpointsWorks) {
     AlbaNumberInterval openInterval(createOpenEndpoint(3), createOpenEndpoint(5));
     AlbaNumberInterval closeInterval(createCloseEndpoint(3), createCloseEndpoint(5));
 
@@ -67,8 +62,7 @@ TEST(AlbaNumberIntervalTest, IsValueInsideTheIntervalExceptAtTheEndpointsWorks)
     EXPECT_FALSE(closeInterval.isValueInsideTheIntervalExceptAtTheEndpoints(6));
 }
 
-TEST(AlbaNumberIntervalTest, IsEndpointInsideTheIntervalWorks)
-{
+TEST(AlbaNumberIntervalTest, IsEndpointInsideTheIntervalWorks) {
     AlbaNumberInterval openInterval(createOpenEndpoint(3), createOpenEndpoint(5));
     AlbaNumberInterval closeInterval(createCloseEndpoint(3), createCloseEndpoint(5));
 
@@ -94,8 +88,7 @@ TEST(AlbaNumberIntervalTest, IsEndpointInsideTheIntervalWorks)
     EXPECT_FALSE(closeInterval.isEndpointInsideTheInterval(createCloseEndpoint(6)));
 }
 
-TEST(AlbaNumberIntervalTest, IsIntervalInsideTheIntervalWorks)
-{
+TEST(AlbaNumberIntervalTest, IsIntervalInsideTheIntervalWorks) {
     AlbaNumberInterval openInterval(createOpenEndpoint(3), createOpenEndpoint(5));
     AlbaNumberInterval closeInterval(createCloseEndpoint(3), createCloseEndpoint(5));
     AlbaNumberInterval intervalToTest1(createOpenEndpoint(3), createOpenEndpoint(5));
@@ -125,24 +118,21 @@ TEST(AlbaNumberIntervalTest, IsIntervalInsideTheIntervalWorks)
     EXPECT_FALSE(closeInterval.isIntervalInsideTheInterval(intervalToTest8));
 }
 
-TEST(AlbaNumberIntervalTest, GetLowerEndpointWorks)
-{
+TEST(AlbaNumberIntervalTest, GetLowerEndpointWorks) {
     AlbaNumberInterval interval(createOpenEndpoint(645), createCloseEndpoint(784));
 
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Open, interval.getLowerEndpoint().getType());
     EXPECT_EQ(645, interval.getLowerEndpoint().getValue().getInteger());
 }
 
-TEST(AlbaNumberIntervalTest, GetHigherEndpointWorks)
-{
+TEST(AlbaNumberIntervalTest, GetHigherEndpointWorks) {
     AlbaNumberInterval interval(createOpenEndpoint(645), createCloseEndpoint(784));
 
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Close, interval.getHigherEndpoint().getType());
     EXPECT_EQ(784, interval.getHigherEndpoint().getValue().getInteger());
 }
 
-TEST(AlbaNumberIntervalTest, SetNewEndpointWorks)
-{
+TEST(AlbaNumberIntervalTest, SetNewEndpointWorks) {
     AlbaNumberInterval interval1(createOpenEndpoint(645), createOpenEndpoint(784));
     AlbaNumberInterval interval2(createOpenEndpoint(645), createOpenEndpoint(784));
     AlbaNumberInterval interval3(createOpenEndpoint(645), createOpenEndpoint(784));
@@ -163,8 +153,7 @@ TEST(AlbaNumberIntervalTest, SetNewEndpointWorks)
     EXPECT_EQ(createCloseEndpoint(784), interval4.getHigherEndpoint());
 }
 
-TEST(AlbaNumberIntervalTest, OutputStreamOperatorWorks)
-{
+TEST(AlbaNumberIntervalTest, OutputStreamOperatorWorks) {
     stringstream ss;
     AlbaNumberInterval interval(createOpenEndpoint(645), createCloseEndpoint(784));
 
@@ -173,4 +162,4 @@ TEST(AlbaNumberIntervalTest, OutputStreamOperatorWorks)
     EXPECT_EQ("(645, 784]", ss.str());
 }
 
-}
+}  // namespace alba

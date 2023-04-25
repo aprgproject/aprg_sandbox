@@ -7,14 +7,11 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2{{"x", 2}, {"y", 5}};
     TermToTermMap variableWithValues{{"x", 2}, {"y", 5}};
@@ -29,8 +26,7 @@ TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks)
     EXPECT_EQ(Term(5), substitution3.getTermForTerm("y"));
 }
 
-TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", 2}, {"y", 5}});
 
@@ -38,8 +34,7 @@ TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks)
     EXPECT_FALSE(substitution2.isEmpty());
 }
 
-TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
 
     EXPECT_TRUE(substitution.isTermFound("x"));
@@ -48,8 +43,7 @@ TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks)
     EXPECT_FALSE(substitution.isTermFound("b"));
 }
 
-TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", 2}, {"y", 5}});
 
@@ -57,8 +51,7 @@ TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks)
     EXPECT_EQ(2U, substitution2.getSize());
 }
 
-TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
 
     EXPECT_EQ(Term(2), substitution.getTermForTerm("x"));
@@ -67,8 +60,7 @@ TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks)
     EXPECT_EQ(Term(), substitution.getTermForTerm("b"));
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression) {
     SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
     Expression expression1;
     Expression expression2(createExpressionIfPossible({"x", "^", "y"}));
@@ -82,8 +74,7 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression)
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnFunction)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnFunction) {
     SubstitutionOfTermsToTerms substitution({{"x", -2}});
     Function function1;
     Function function2(abs("x"));
@@ -97,13 +88,14 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnFunction)
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm) {
     SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
     Term term1;
     Term term2("x");
     Term term3(Monomial(7, {{"x", 3}}));
-    Term term4(Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})});
+    Term term4(Polynomial{
+        Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}),
+        Monomial(5, {{"x", 3}})});
     Term term5(createExpressionIfPossible({"x", "^", "y"}));
     Term term6(10);
 
@@ -128,8 +120,7 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm6, verifyTerm6);
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
     Expression expression(createExpressionIfPossible({"x", "^", "y"}));
 
@@ -139,8 +130,7 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks)
     EXPECT_EQ(expectExpression, verifyExpression);
 }
 
-TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForFunctionWorks)
-{
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForFunctionWorks) {
     SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
     Term subTerm(createExpressionIfPossible({"x", "^", "y"}));
     Function functionToTest(abs(subTerm));
@@ -151,6 +141,6 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForFunctionWorks)
     EXPECT_EQ(expectExpression, verifyFunction);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

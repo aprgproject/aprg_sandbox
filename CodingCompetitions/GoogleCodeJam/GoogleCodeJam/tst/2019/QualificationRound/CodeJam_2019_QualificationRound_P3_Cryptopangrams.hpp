@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2019_QualificationRound_P3_Cryptopangrams
-{
+namespace CodeJam_2019_QualificationRound_P3_Cryptopangrams {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

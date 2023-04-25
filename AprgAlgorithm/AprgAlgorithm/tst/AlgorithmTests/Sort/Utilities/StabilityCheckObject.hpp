@@ -2,14 +2,11 @@
 
 #include <ostream>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-class StabilityCheckObject
-{
+class StabilityCheckObject {
 public:
     StabilityCheckObject();
     StabilityCheckObject(char const visiblePart, unsigned int const notVisiblePart);
@@ -29,16 +26,18 @@ public:
     unsigned int getNotVisiblePart() const;
 
     friend double operator/(double const dividend, StabilityCheckObject const& divisor);
-    friend bool areObjectsEqualOnVisibleAndNotVisiblePart(StabilityCheckObject const& object1, StabilityCheckObject const& object2);
-    friend std::ostream & operator<<(std::ostream & out, StabilityCheckObject const& object);
+    friend bool areObjectsEqualOnVisibleAndNotVisiblePart(
+        StabilityCheckObject const& object1, StabilityCheckObject const& object2);
+    friend std::ostream& operator<<(std::ostream& out, StabilityCheckObject const& object);
 
 private:
     char m_visiblePart;
     unsigned int m_notVisiblePart;
 };
 
-bool areObjectsEqualOnVisibleAndNotVisiblePart(StabilityCheckObject const& object1, StabilityCheckObject const& object2);
+bool areObjectsEqualOnVisibleAndNotVisiblePart(
+    StabilityCheckObject const& object1, StabilityCheckObject const& object2);
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

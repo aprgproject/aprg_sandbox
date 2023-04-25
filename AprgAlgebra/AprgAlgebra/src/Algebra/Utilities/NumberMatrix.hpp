@@ -4,14 +4,12 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-using NumberMatrix=matrix::AlbaMatrix<AlbaNumber>;
+using NumberMatrix = matrix::AlbaMatrix<AlbaNumber>;
 
 }
 
-}
+}  // namespace alba

@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Builder
-{
+namespace Builder {
 
-TEST(BuilderTest, Test1)
-{
+TEST(BuilderTest, Test1) {
     Director director(make_unique<ConcreteBuilderX>());
     director.construct();
 
@@ -22,4 +20,4 @@ TEST(BuilderTest, Test1)
     std::cout << "2nd product parts: " << product2.getProduct() << "\n";
 }
 
-}
+}  // namespace Builder

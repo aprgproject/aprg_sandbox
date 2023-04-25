@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2021_QualificationRound_P5_CheatingDetection
-{
+namespace CodeJam_2021_QualificationRound_P5_CheatingDetection {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

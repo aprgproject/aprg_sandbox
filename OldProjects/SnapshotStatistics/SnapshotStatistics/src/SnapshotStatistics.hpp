@@ -7,11 +7,9 @@
 #include <set>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class SnapshotStatistics
-{
+class SnapshotStatistics {
 public:
     SnapshotStatistics();
     using SnapshotNameToFileSizeMap = std::map<std::string, double>;
@@ -49,4 +47,4 @@ private:
     WildcardNameToSampleSizesMap m_wildcardNameToSampleSizesMap;
 };
 
-}
+}  // namespace alba

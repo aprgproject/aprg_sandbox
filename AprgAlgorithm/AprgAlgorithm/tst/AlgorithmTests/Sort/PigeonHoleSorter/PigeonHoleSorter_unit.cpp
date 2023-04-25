@@ -9,14 +9,11 @@
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Characters = vector<char>;
 using ListOfCharacters = list<char>;
 using Integers = vector<int>;
@@ -29,40 +26,34 @@ using IntegersSorter = PigeonHoleSorter<Integers>;
 using DoublesSorter = PigeonHoleSorter<Doubles>;
 using StringsSorter = PigeonHoleSorter<Strings>;
 using StabilityCheckObjectsSorter = PigeonHoleSorter<StabilityCheckObjects>;
-}
+}  // namespace
 
-TEST(PigeonHoleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingOneValueExample)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingOneValueExample) {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample1)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample1) {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample2) {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PigeonHoleSorterTest, SortWorksOnListOfCharactersUsingExample1)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnListOfCharactersUsingExample1) {
     ListOfCharactersSorter sorter;
     testSortUsingExample1WithCharacters<ListOfCharactersSorter, ListOfCharacters>(sorter);
 }
 
-TEST(PigeonHoleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
@@ -71,14 +62,13 @@ TEST(PigeonHoleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 
 // CANNOT SORT STRINGS
 
-TEST(PigeonHoleSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
+TEST(PigeonHoleSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)  // STABLE
 {
     StabilityCheckObjectsSorter sorter;
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
-TEST(PigeonHoleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingOneValueExample)
-{
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingOneValueExample) {
     CharactersSorter sorter;
     Characters oneCharacter{'J'};
 
@@ -88,6 +78,6 @@ TEST(PigeonHoleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingOneValueExam
     EXPECT_EQ(expectedOneCharacter, oneCharacter);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

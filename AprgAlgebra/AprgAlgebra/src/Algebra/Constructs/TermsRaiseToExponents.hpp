@@ -4,15 +4,12 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
-class TermsRaiseToExponents
-{
+class TermsRaiseToExponents {
 public:
     using BaseToExponentMap = std::map<Term, ExponentType>;
     using BaseExponentPair = std::pair<Term, ExponentType>;
@@ -47,6 +44,6 @@ protected:
     BaseToExponentMap m_baseToExponentMap;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

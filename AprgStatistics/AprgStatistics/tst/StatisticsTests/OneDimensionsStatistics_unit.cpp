@@ -6,14 +6,12 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
 using LocalSample = OneDimensionsStatistics::Sample;
 using LocalSamples = OneDimensionsStatistics::Samples;
 
-TEST(OneDimensionsStatisticsTest, MinMaxValuesCanFetched)
-{
+TEST(OneDimensionsStatisticsTest, MinMaxValuesCanFetched) {
     LocalSamples samples;
     samples.emplace_back(LocalSample{-100});
     samples.emplace_back(LocalSample{-10});
@@ -27,4 +25,4 @@ TEST(OneDimensionsStatisticsTest, MinMaxValuesCanFetched)
     EXPECT_EQ(100, minMax.second);
 }
 
-}
+}  // namespace alba

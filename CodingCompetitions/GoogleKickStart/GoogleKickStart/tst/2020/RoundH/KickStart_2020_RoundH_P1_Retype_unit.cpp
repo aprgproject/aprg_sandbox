@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundH_P1_Retype.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,30 +6,32 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundH_P1_Retype
-{
+namespace KickStart_2020_RoundH_P1_Retype {
 
-TEST(KickStart_2020_RoundH_P1_RetypeTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundH_P1_RetypeTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "2     " "\n"
-            << "10 5 2" "\n"
-            << "10 7 6" "\n"
-            << endl;
+    inputStringStream << "2     "
+                         "\n"
+                      << "10 5 2"
+                         "\n"
+                      << "10 7 6"
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 15" "\n"
-                "Case #2: 12" "\n"
-                , outputStringStream.str());
+        "Case #1: 15"
+        "\n"
+        "Case #2: 12"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_RoundH_P1_Retype
 
 /*
 Problem
@@ -39,12 +40,12 @@ After spending many hours studying for programming competitions, you decided to 
 You are currently playing an adventure game called Quick Start.
 
 This game has N levels, and you are currently on the K-th level.
-Unfortunately, you just realized that to beat the boss at the final level, you will need a special sword, which can be picked up at level S.
-You have already completed that level, but you forgot to pick up the sword at that level.
+Unfortunately, you just realized that to beat the boss at the final level, you will need a special sword, which can be
+picked up at level S. You have already completed that level, but you forgot to pick up the sword at that level.
 
-Now you want to pick up the sword and finish the game in the least amount of time possible, and for that you have two options:
-    Restart the game and complete all levels again, starting from level 1.
-    Move to previous levels until you reach level S, pick up the sword and complete all the remaining levels, starting from level S.
+Now you want to pick up the sword and finish the game in the least amount of time possible, and for that you have two
+options: Restart the game and complete all levels again, starting from level 1. Move to previous levels until you reach
+level S, pick up the sword and complete all the remaining levels, starting from level S.
 
 Every time you enter a level you have to exit it,
 -> either by completing it and going to the next level
@@ -52,7 +53,8 @@ Every time you enter a level you have to exit it,
 Exiting any level takes 1 minute.
 That means, for example, that it took you L minutes to complete the first L levels.
 
-Your task is to discover which option would result in the least amount of total time to finish the game (including the time you have already spent).
+Your task is to discover which option would result in the least amount of total time to finish the game (including the
+time you have already spent).
 
 Input
 The first line of the input gives the number of test cases, T. T test cases follow.
@@ -89,9 +91,10 @@ Case #2: 12
 
 
 In Sample Case #1, it took you 4 minutes to complete the first 4 levels and enter 5-th level.
-Restarting the game and completing all levels again would take 11 more minutes (1 minute to restart and 10 to complete 10 levels),
-which adds up to 15 minutes. The other option would be to move backwards until you reach level 2 (which would take 3 minutes),
- and then complete all the remaining levels (taking 9 more minutes), which would result in a total of 16 minutes.
+Restarting the game and completing all levels again would take 11 more minutes (1 minute to restart and 10 to complete
+10 levels), which adds up to 15 minutes. The other option would be to move backwards until you reach level 2 (which
+would take 3 minutes), and then complete all the remaining levels (taking 9 more minutes), which would result in a total
+of 16 minutes.
 
 In Sample Case #2, it took you 6 minutes to complete the first 6 levels and enter 7-th level.
 Moving backwards until reaching level 6 (one minute), and then completing all the remaining levels (5 minutes),

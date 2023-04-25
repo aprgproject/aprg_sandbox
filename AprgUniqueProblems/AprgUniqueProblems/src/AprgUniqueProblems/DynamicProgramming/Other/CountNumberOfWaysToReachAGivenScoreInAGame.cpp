@@ -4,35 +4,30 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-CountNumberOfWaysToReachAGivenScoreInAGame::CountNumberOfWaysToReachAGivenScoreInAGame(
-        Value const targetScore)
-    : m_targetScore(targetScore)
-{}
+CountNumberOfWaysToReachAGivenScoreInAGame::CountNumberOfWaysToReachAGivenScoreInAGame(Value const targetScore)
+    : m_targetScore(targetScore) {}
 
-CountNumberOfWaysToReachAGivenScoreInAGame::Value CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingIterativeDP() const
-{
+CountNumberOfWaysToReachAGivenScoreInAGame::Value
+CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingIterativeDP() const {
     // Time Complexity: O(n^2)
     // Auxiliary Space: O(1)
 
     constexpr array<Value, 3> moveScores{3, 5, 10};
 
-    Values countsPerScore(m_targetScore+1, 0);
-    countsPerScore[0]=1;
-    for(Value const& moveScore : moveScores)
-    {
-        for(Value partialScore=moveScore; partialScore<=m_targetScore; partialScore++)
-        {
-            countsPerScore[partialScore] += countsPerScore.at(partialScore-moveScore);
+    Values countsPerScore(m_targetScore + 1, 0);
+    countsPerScore[0] = 1;
+    for (Value const& moveScore : moveScores) {
+        for (Value partialScore = moveScore; partialScore <= m_targetScore; partialScore++) {
+            countsPerScore[partialScore] += countsPerScore.at(partialScore - moveScore);
         }
     }
     return countsPerScore.back();
 }
 
-CountNumberOfWaysToReachAGivenScoreInAGame::Value CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingCoinProblemSolutions() const
-{
+CountNumberOfWaysToReachAGivenScoreInAGame::Value
+CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingCoinProblemSolutions() const {
     // Time Complexity: O(n^2)
     // Auxiliary Space: O(1)
 
@@ -42,4 +37,4 @@ CountNumberOfWaysToReachAGivenScoreInAGame::Value CountNumberOfWaysToReachAGiven
     return coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(m_targetScore);
 }
 
-}
+}  // namespace alba

@@ -6,18 +6,11 @@
 
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-enum class EventType
-{
-    MessageEvent,
-    TimerEvent,
-    OtherEvent
-};
+enum class EventType { MessageEvent, TimerEvent, OtherEvent };
 
-class Event
-{
+class Event {
 public:
     Event(GenericMessage const& message);
     Event(Timer const& timer);
@@ -36,4 +29,4 @@ private:
     OtherEvent m_otherEvent;
 };
 
-}
+}  // namespace DesignDocumentCreator

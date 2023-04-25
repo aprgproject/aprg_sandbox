@@ -8,11 +8,9 @@
 #include <string>
 #include <vector>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class UmlLogger
-{
+class UmlLogger {
 public:
     using UmlParticipants = std::vector<UmlParticipant>;
     UmlLogger();
@@ -24,7 +22,7 @@ public:
     void logNoteOnComponents(ComponentNames const componentName, std::string const& note);
     void logNote(std::string const& note);
     void saveUmlLogsToFile(std::string const& filePath);
-    
+
 private:
     unsigned int getOptimizedTargetLength(alba::stringHelper::strings const& linesInNote);
     std::string getUmlLogsForStart() const;
@@ -33,4 +31,4 @@ private:
     UmlParticipants m_participants;
 };
 
-}
+}  // namespace DesignDocumentCreator

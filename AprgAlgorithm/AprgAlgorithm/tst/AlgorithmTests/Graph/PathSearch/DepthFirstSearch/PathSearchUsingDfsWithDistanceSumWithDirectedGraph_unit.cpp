@@ -4,23 +4,20 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using ContentMapForTest = GraphTypesWithWeights<VertexForTest, WeightForTest>::VertexToWeightMap;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
-using PathSearchForTest = PathSearchUsingDfsWithDistanceSum<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest>;
+using PathSearchForTest =
+    PathSearchUsingDfsWithDistanceSum<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest>;
 
-void putConnectionsForTest(EdgeWeightedDirectedGraphForTest & graph)
-{
+void putConnectionsForTest(EdgeWeightedDirectedGraphForTest& graph) {
     graph.connect(0U, 1U, 0.05);
     graph.connect(0U, 2U, 0.10);
     graph.connect(0U, 5U, 0.15);
@@ -30,10 +27,9 @@ void putConnectionsForTest(EdgeWeightedDirectedGraphForTest & graph)
     graph.connect(3U, 4U, 0.35);
     graph.connect(3U, 5U, 0.40);
 }
-}
+}  // namespace
 
-TEST(PathSearchUsingDfsWithDistanceSumTest, GetDistanceToWorksWithDirectedGraph)
-{
+TEST(PathSearchUsingDfsWithDistanceSumTest, GetDistanceToWorksWithDirectedGraph) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
@@ -47,8 +43,7 @@ TEST(PathSearchUsingDfsWithDistanceSumTest, GetDistanceToWorksWithDirectedGraph)
     EXPECT_DOUBLE_EQ(0, pathSearch.getDistanceTo(6U));
 }
 
-TEST(PathSearchUsingDfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWithDirectedGraph)
-{
+TEST(PathSearchUsingDfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWithDirectedGraph) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
@@ -57,6 +52,6 @@ TEST(PathSearchUsingDfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWit
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceSumMap());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

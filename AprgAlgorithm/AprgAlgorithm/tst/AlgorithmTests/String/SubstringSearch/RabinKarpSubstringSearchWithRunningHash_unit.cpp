@@ -6,29 +6,24 @@
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
 using HashValue = unsigned long long;
 using SubstringSearchForTest = RabinKarpSubstringSearchWithRunningHash<Index, HashValue>;
-}
+}  // namespace
 
-TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
-{
+TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
     testSearchUsingEmptyStringsAndDoesNotCrash<SubstringSearchForTest, Index>();
 }
 
-TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingExample1)
-{
+TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingExample1) {
     testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

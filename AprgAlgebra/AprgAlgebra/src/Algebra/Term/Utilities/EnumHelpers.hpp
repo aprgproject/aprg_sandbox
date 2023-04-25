@@ -6,11 +6,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 unsigned int getAssociationPriority(TermAssociationType const association);
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermTypePriorityValue(TermType const termType);
@@ -21,6 +19,6 @@ std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(TermAssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

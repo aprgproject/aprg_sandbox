@@ -4,18 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-ostream & operator<<(ostream & out, PieceColor const pieceColor)
-{
+ostream& operator<<(ostream& out, PieceColor const pieceColor) {
     out << getEnumString(pieceColor);
     return out;
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

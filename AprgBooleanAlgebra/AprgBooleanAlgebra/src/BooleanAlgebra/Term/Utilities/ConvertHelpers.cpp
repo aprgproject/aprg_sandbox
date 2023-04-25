@@ -2,28 +2,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
-{
+Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression) {
     Expression newExpression(expression);
     newExpression.simplify();
     return convertExpressionToSimplestTerm(newExpression);
 }
 
-Term convertExpressionToSimplestTerm(Expression const& expression)
-{
+Term convertExpressionToSimplestTerm(Expression const& expression) {
     Term newTerm(expression);
-    if(expression.isEmpty())
-    {
+    if (expression.isEmpty()) {
         newTerm.clear();
-    }
-    else if(expression.containsOnlyOneTerm())
-    {
+    } else if (expression.containsOnlyOneTerm()) {
         Term const& term = static_cast<Term const&>(expression.getFirstTermConstReference());
         newTerm = term;
         newTerm.simplify();
@@ -31,6 +24,6 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     return newTerm;
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

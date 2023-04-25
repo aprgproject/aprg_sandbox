@@ -3,17 +3,15 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynomialInMultiplicationWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynomialInMultiplicationWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails{{Term(2), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
+    TermsWithDetails termsWithDetails{
+        {Term(2), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
     radicalConstruct.simplify();
@@ -23,12 +21,11 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynom
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningNegativeConstantAndRadicalPolynomialInMultiplicationWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningNegativeConstantAndRadicalPolynomialInMultiplicationWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails
-    {{Term(-2), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
+    TermsWithDetails termsWithDetails{
+        {Term(-2), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
     radicalConstruct.simplify();
@@ -37,11 +34,11 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningNegativeConstantAndRadica
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynomialInDivisionWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynomialInDivisionWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails{{Term(2), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Negative}};
+    TermsWithDetails termsWithDetails{
+        {Term(2), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Negative}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
     radicalConstruct.simplify();
@@ -51,11 +48,11 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynom
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynomialInMultiplicationWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynomialInMultiplicationWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
+    TermsWithDetails termsWithDetails{
+        {Term("x"), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
     radicalConstruct.simplify();
@@ -65,11 +62,11 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynom
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynomialInDivisionWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynomialInDivisionWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Negative}};
+    TermsWithDetails termsWithDetails{
+        {Term("x"), TermAssociationType::Positive}, {squareRootOfXPlusOneTerm, TermAssociationType::Negative}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
     radicalConstruct.simplify();
@@ -79,12 +76,11 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynom
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInMultiplicationWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInMultiplicationWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails
-    {{squareRootOfXPlusOneTerm, TermAssociationType::Positive},
+    TermsWithDetails termsWithDetails{
+        {squareRootOfXPlusOneTerm, TermAssociationType::Positive},
         {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
@@ -95,14 +91,14 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInMulti
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInDivisionWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInDivisionWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
     Term xPlusOneSquaredExpandedTerm(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})});
-    Term squareRootOfXPlusOneSquaredTerm(createExpressionIfPossible({xPlusOneSquaredExpandedTerm, "^", AlbaNumber::createFraction(1, 2)}));
-    TermsWithDetails termsWithDetails
-    {{squareRootOfXPlusOneSquaredTerm, TermAssociationType::Positive},
+    Term squareRootOfXPlusOneSquaredTerm(
+        createExpressionIfPossible({xPlusOneSquaredExpandedTerm, "^", AlbaNumber::createFraction(1, 2)}));
+    TermsWithDetails termsWithDetails{
+        {squareRootOfXPlusOneSquaredTerm, TermAssociationType::Positive},
         {squareRootOfXPlusOneTerm, TermAssociationType::Negative}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
@@ -113,12 +109,11 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInDivis
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialWithCubeRootAndRadicalSquaredCubeRootWorks)
-{
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialWithCubeRootAndRadicalSquaredCubeRootWorks) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term xPlusOneRadicalTerm(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(2, 3)}));
-    TermsWithDetails termsWithDetails
-    {{Term(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}})), TermAssociationType::Positive},
+    TermsWithDetails termsWithDetails{
+        {Term(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}})), TermAssociationType::Positive},
         {xPlusOneRadicalTerm, TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
@@ -129,10 +124,9 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialWithCubeRootAndRa
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
-TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningVariableAndMonomialWorks)
-{
-    TermsWithDetails termsWithDetails
-    {{Term("x"), TermAssociationType::Positive},
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningVariableAndMonomialWorks) {
+    TermsWithDetails termsWithDetails{
+        {Term("x"), TermAssociationType::Positive},
         {Term(Monomial(1, {{"x", AlbaNumber::createFraction(3, 2)}})), TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 
@@ -142,7 +136,6 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningVariableAndMonomialWorks)
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2020_RoundE_P4_GoldenStone.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -18,8 +19,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2020_RoundE_P4_GoldenStone
-{
+namespace KickStart_2020_RoundE_P4_GoldenStone {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -29,16 +29,22 @@ namespace KickStart_2020_RoundE_P4_GoldenStone
 
 using ll = long long;
 const ll INF = 1000000000000;
-#define F0R(i, a) for (int i=0; i<(a); i++)
-#define trav(a,x) for (auto& a : x)
-template<class T> bool ckmin(T& a, const T& b) { return b < a ? a = b, 1 : 0; }
+#define F0R(i, a) for (int i = 0; i < (a); i++)
+#define trav(a, x) for (auto& a : x)
+template <class T>
+bool ckmin(T& a, const T& b) {
+    return b < a ? a = b, 1 : 0;
+}
 
-void runTestCase(unsigned int const testCaseNumber)
-{
-    int N, M, S, R; my_cin >> N >> M >> S >> R;
+void runTestCase(unsigned int const testCaseNumber) {
+    int N, M, S, R;
+    my_cin >> N >> M >> S >> R;
     vector<vector<int>> graph(N);
     F0R(i, M) {
-        int A, B; my_cin >> A >> B; A--; B--;
+        int A, B;
+        my_cin >> A >> B;
+        A--;
+        B--;
         graph[A].push_back(B);
         graph[B].push_back(A);
     }
@@ -47,7 +53,8 @@ void runTestCase(unsigned int const testCaseNumber)
     F0R(r, N) {
         F0R(i, N) dist[r][r] = INF;
         dist[r][r] = 0;
-        queue<int> q; q.push(r);
+        queue<int> q;
+        q.push(r);
         while (!q.empty()) {
             int cur = q.front();
             q.pop();
@@ -60,27 +67,38 @@ void runTestCase(unsigned int const testCaseNumber)
         }
     }
 
-    ll cost[N][S]; F0R(i, N) F0R(j, S) cost[i][j] = INF;
-    priority_queue<pair<ll, pair<int, int>> > q;
+    ll cost[N][S];
+    F0R(i, N) F0R(j, S) cost[i][j] = INF;
+    priority_queue<pair<ll, pair<int, int>>> q;
     F0R(i, N) {
-        int C; my_cin >> C;
-        while(C--) {
-            int X; my_cin >> X; X--;
+        int C;
+        my_cin >> C;
+        while (C--) {
+            int X;
+            my_cin >> X;
+            X--;
             cost[i][X] = 0;
             q.push({0, {i, X}});
         }
     }
 
-    vector<int> in[R]; int out[R];
+    vector<int> in[R];
+    int out[R];
     F0R(i, R) {
-        int K; my_cin >> K;
-        while(K--) {
-            int X; my_cin >> X; X--; in[i].push_back(X);
+        int K;
+        my_cin >> K;
+        while (K--) {
+            int X;
+            my_cin >> X;
+            X--;
+            in[i].push_back(X);
         }
-        my_cin >> out[i]; out[i]--;
+        my_cin >> out[i];
+        out[i]--;
     }
 
-    bool vis[N][S]; F0R(i, N) F0R(j, S) vis[i][j] = false;
+    bool vis[N][S];
+    F0R(i, N) F0R(j, S) vis[i][j] = false;
     while (!q.empty()) {
         int p = q.top().second.first;
         int x = q.top().second.second;
@@ -105,24 +123,21 @@ void runTestCase(unsigned int const testCaseNumber)
         }
     }
 
-    ll ans = INF; F0R(i, N) ckmin(ans, cost[i][0]);
+    ll ans = INF;
+    F0R(i, N) ckmin(ans, cost[i][0]);
 
-
-    my_cout << "Case #" << testCaseNumber << ": " << (ans==INF?-1:ans) << '\n';
+    my_cout << "Case #" << testCaseNumber << ": " << (ans == INF ? -1 : ans) << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -132,8 +147,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_RoundE_P4_GoldenStone
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

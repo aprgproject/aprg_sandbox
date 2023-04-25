@@ -6,11 +6,9 @@
 #include <cstdint>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
 using PieceTypes = std::vector<PieceType>;
 using CoordinateDataType = int32_t;
@@ -21,6 +19,6 @@ using Moves = std::vector<Move>;
 using MovePair = std::pair<Move, Move>;
 using MovePairs = std::vector<MovePair>;
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

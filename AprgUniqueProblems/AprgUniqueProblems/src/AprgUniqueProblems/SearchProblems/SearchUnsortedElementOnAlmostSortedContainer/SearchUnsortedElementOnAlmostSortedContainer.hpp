@@ -2,72 +2,51 @@
 
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class SearchUnsortedElementOnAlmostSortedContainer
-{
+class SearchUnsortedElementOnAlmostSortedContainer {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
-    SearchUnsortedElementOnAlmostSortedContainer(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+    SearchUnsortedElementOnAlmostSortedContainer(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    Index getIndexOfValue(Value const& value) const
-    {
+    Index getIndexOfValue(Value const& value) const {
         Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())
-        {
-            result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);
+        if (!m_sortedValues.empty()) {
+            result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size() - 1, value);
         }
         return result;
     }
 
-    Index getIndexOfValue(Index const lowerIndex, Index const higherIndex, Value const& value) const
-    {
+    Index getIndexOfValue(Index const lowerIndex, Index const higherIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if(lowerIndex < m_sortedValues.size() && higherIndex < m_sortedValues.size() && lowerIndex<=higherIndex)
-        {
+        if (lowerIndex < m_sortedValues.size() && higherIndex < m_sortedValues.size() && lowerIndex <= higherIndex) {
             result = getIndexOfValueWithoutCheck(lowerIndex, higherIndex, value);
         }
         return result;
     }
 
 private:
-
-    Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const
-    {
+    Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if(lowerIndex <= higherIndex)
-        {
-            Index middleIndex = (lowerIndex+higherIndex)/2;
+        if (lowerIndex <= higherIndex) {
+            Index middleIndex = (lowerIndex + higherIndex) / 2;
             Value middleValue(m_sortedValues.at(middleIndex));
-            if(value == middleValue)
-            {
+            if (value == middleValue) {
                 result = middleIndex;
-            }
-            else if(lowerIndex < middleIndex && value==m_sortedValues.at(middleIndex-1U))
-            {
-                result = middleIndex-1U;
-            }
-            else if(middleIndex < higherIndex && value==m_sortedValues.at(middleIndex+1U))
-            {
-                result = middleIndex+1U;
-            }
-            else if(value < middleValue)
-            {
-                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex-2U, value);
-            }
-            else if(middleValue < value)
-            {
-                result = getIndexOfValueWithoutCheck(middleIndex+2U, higherIndex, value);
+            } else if (lowerIndex < middleIndex && value == m_sortedValues.at(middleIndex - 1U)) {
+                result = middleIndex - 1U;
+            } else if (middleIndex < higherIndex && value == m_sortedValues.at(middleIndex + 1U)) {
+                result = middleIndex + 1U;
+            } else if (value < middleValue) {
+                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex - 2U, value);
+            } else if (middleValue < value) {
+                result = getIndexOfValueWithoutCheck(middleIndex + 2U, higherIndex, value);
             }
         }
         return result;
@@ -76,9 +55,9 @@ private:
     Values const& m_sortedValues;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Given an array which is sorted, but after sorting some elements are moved to either of the adjacent positions,
 // i.e., arr[i] may be present at arr[i+1] or arr[i-1].
@@ -103,4 +82,3 @@ private:
 // Comparing with middle element is enough as all the elements after mid+2 must be greater than element mid
 // and all elements before mid-2 must be smaller than mid element.
 // Time complexity of the above function is O(Logn).
-

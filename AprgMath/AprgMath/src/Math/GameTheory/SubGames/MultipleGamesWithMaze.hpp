@@ -4,14 +4,11 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-class MultipleGamesWithMaze
-{
+class MultipleGamesWithMaze {
 public:
     // Next we will assume that our game consists of subgames, and on each turn,
     // the player first chooses a subgame and then a move in the subgame.
@@ -44,6 +41,6 @@ private:
     Coordinates m_coordinateInGames;
 };
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

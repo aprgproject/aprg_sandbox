@@ -1,17 +1,18 @@
 #include "config.h"
 #include "filecache.h"
-
 #include <QDir>
+
 #include <gmock/gmock.h>
 
 using ::testing::_;
 
 //------------------------------------------------------------------------------
 
-class MockFileCacheItem : public AbstractFileCacheItem
-{
+class MockFileCacheItem : public AbstractFileCacheItem {
 public:
-    explicit MockFileCacheItem(const QString& path, const QString& key, int cost, const QDateTime& date_time = QDateTime(), QObject* parent = 0)
+    explicit MockFileCacheItem(
+        const QString& path, const QString& key, int cost, const QDateTime& date_time = QDateTime(),
+        QObject* parent = 0)
         : AbstractFileCacheItem(path, key, cost, date_time, parent) {}
 
     MOCK_CONST_METHOD1(removeFileFromDisk, void(const QString&));
@@ -75,12 +76,16 @@ TEST(FileCache, testOlderItemsAreRemovedToMakeRoomForNewerOnes) {
 
     cache.addItem(item1);
     cache.addItem(new MockFileCacheItem("", "item2", 40, QDateTime(QDate(2010, 1, 2), QTime(0, 0))));
-    cache.addItem(new MockFileCacheItem("", "item3", 55, QDateTime(QDate(2010, 1, 3), QTime(0, 0)))); // forces "item1" out
+    cache.addItem(
+        new MockFileCacheItem("", "item3", 55, QDateTime(QDate(2010, 1, 3), QTime(0, 0))));  // forces "item1" out
 
     EXPECT_EQ(2, cache.size());
     EXPECT_EQ(95, cache.totalCost());
-    EXPECT_EQ(QSet<QString>::fromList(QList<QString>() << "item2" << "item3"),
-              QSet<QString>::fromList(cache.keys()));
+    EXPECT_EQ(
+        QSet<QString>::fromList(
+            QList<QString>() << "item2"
+                             << "item3"),
+        QSet<QString>::fromList(cache.keys()));
 }
 
 TEST(FileCache, testFileIsNotRemoveOnlyBecauseTheCacheIsDestroyed) {
@@ -135,8 +140,7 @@ TEST(FileCache, testAddingAgainAnItemOnlyUpdatesCostAndDate) {
     cache.addItem(new MockFileCacheItem(PATH1, KEY1, COST3, DATE_TIME3));
 
     EXPECT_EQ(COST2 + COST3, cache.totalCost());
-    EXPECT_EQ(QSet<QString>::fromList(QList<QString>() << KEY1 << KEY2),
-              QSet<QString>::fromList(cache.keys()));
+    EXPECT_EQ(QSet<QString>::fromList(QList<QString>() << KEY1 << KEY2), QSet<QString>::fromList(cache.keys()));
     EXPECT_EQ(COST3, cache.item(KEY1)->cost());
     EXPECT_EQ(DATE_TIME3, cache.item(KEY1)->dateTime());
 }
@@ -179,8 +183,7 @@ TEST(FileCache, testCorrectFileIsDeletedFromDiskAfterUpdating) {
     cache.addItem(item4);
 
     EXPECT_EQ(COST3 + COST4, cache.totalCost());
-    EXPECT_EQ(QSet<QString>::fromList(QList<QString>() << KEY1 << KEY4),
-              QSet<QString>::fromList(cache.keys()));
+    EXPECT_EQ(QSet<QString>::fromList(QList<QString>() << KEY1 << KEY4), QSet<QString>::fromList(cache.keys()));
 }
 
 TEST(FileCache, testAddingSameItemTwiceThrowsException) {
@@ -192,24 +195,21 @@ TEST(FileCache, testAddingSameItemTwiceThrowsException) {
 
 TEST(FileCache, testSetPath) {
     FileCache cache(100);
-    cache.setPath(TEST_DIR1, [](const QString& path,
-                                const QString& key,
-                                int cost,
-                                const QDateTime& date_time,
-                                QObject* parent
-                                ) { return new MockFileCacheItem(path, key, cost, date_time, parent); });
+    cache.setPath(
+        TEST_DIR1, [](const QString& path, const QString& key, int cost, const QDateTime& date_time, QObject* parent) {
+            return new MockFileCacheItem(path, key, cost, date_time, parent);
+        });
     EXPECT_EQ(38, cache.totalCost());
-    EXPECT_EQ(QSet<QString>::fromList(QList<QString>()
-                                      << "item1.png"
-                                      << "item1.svg"
-                                      << "item2.svg"
-                                      << "item3.png"
-                                      << "item3.svg"
-                                      << "item4.svg"
-                                      << "item5.svg"
-                                      ),
-              QSet<QString>::fromList(cache.keys()));
+    EXPECT_EQ(
+        QSet<QString>::fromList(
+            QList<QString>() << "item1.png"
+                             << "item1.svg"
+                             << "item2.svg"
+                             << "item3.png"
+                             << "item3.svg"
+                             << "item4.svg"
+                             << "item5.svg"),
+        QSet<QString>::fromList(cache.keys()));
 
-    EXPECT_EQ(QFileInfo(QDir(TEST_DIR1), "item1.svg").absoluteFilePath(),
-              cache.item("item1.svg")->path());
+    EXPECT_EQ(QFileInfo(QDir(TEST_DIR1), "item1.svg").absoluteFilePath(), cache.item("item1.svg")->path());
 }

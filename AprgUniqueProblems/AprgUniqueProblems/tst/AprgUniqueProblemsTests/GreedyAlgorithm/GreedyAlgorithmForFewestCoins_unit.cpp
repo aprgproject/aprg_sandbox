@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(GreedyAlgorithmForFewestCoinsTest, GetTasksAsPossibleWorksOnExample1)
-{
+TEST(GreedyAlgorithmForFewestCoinsTest, GetTasksAsPossibleWorksOnExample1) {
     GreedyAlgorithmForFewestCoins fewestCoins({1U, 2U, 5U, 10U, 20U, 50U, 100U});
 
     EXPECT_EQ(2U, fewestCoins.getFewestNumberOfCoins(70U));
@@ -16,4 +14,4 @@ TEST(GreedyAlgorithmForFewestCoinsTest, GetTasksAsPossibleWorksOnExample1)
     EXPECT_EQ(3U, fewestCoins.getFewestNumberOfCoins(121U));
 }
 
-}
+}  // namespace alba

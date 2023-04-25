@@ -2,8 +2,7 @@
 
 using namespace alba;
 
-int main()
-{
+int main() {
     HeartTee heartTee;
     heartTee.startRun();
     return 0;

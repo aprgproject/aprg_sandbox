@@ -9,14 +9,11 @@
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Characters = vector<char>;
 using ListOfCharacters = list<char>;
 using Integers = vector<int>;
@@ -29,62 +26,57 @@ using IntegersSorter = PatienceSorter<Integers>;
 using DoublesSorter = PatienceSorter<Doubles>;
 using StringsSorter = PatienceSorter<Strings>;
 using StabilityCheckObjectsSorter = PatienceSorter<StabilityCheckObjects>;
-}
+}  // namespace
 
-TEST(PatienceSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{
+TEST(PatienceSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnCharactersUsingOneValueExample)
-{
+TEST(PatienceSorterTest, SortWorksOnCharactersUsingOneValueExample) {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnCharactersUsingExample1)
-{
+TEST(PatienceSorterTest, SortWorksOnCharactersUsingExample1) {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(PatienceSorterTest, SortWorksOnCharactersUsingExample2) {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnListOfCharactersUsingExample1)
-{
+TEST(PatienceSorterTest, SortWorksOnListOfCharactersUsingExample1) {
     ListOfCharactersSorter sorter;
     testSortUsingExample1WithCharacters<ListOfCharactersSorter, ListOfCharacters>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
-{
+TEST(PatienceSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnDoublesUsingExample1)
-{
+TEST(PatienceSorterTest, SortWorksOnDoublesUsingExample1) {
     DoublesSorter sorter;
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksOnStringsUsingExample1)
-{
+TEST(PatienceSorterTest, SortWorksOnStringsUsingExample1) {
     StringsSorter sorter;
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(PatienceSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE (because of priority queue underneath)
+TEST(
+    PatienceSorterTest,
+    SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE (because of priority queue underneath)
 {
     StabilityCheckObjectsSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
+        sorter);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

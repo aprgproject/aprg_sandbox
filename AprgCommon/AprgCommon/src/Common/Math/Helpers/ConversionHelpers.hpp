@@ -2,22 +2,14 @@
 
 #include <Common/Math/Helpers/ConstantHelpers.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace mathHelper
-{
+namespace mathHelper {
 
-inline double convertDegreesToRadians(double const valueInDegrees)
-{
-    return valueInDegrees / 180 * getPi();
-}
+inline double convertDegreesToRadians(double const valueInDegrees) { return valueInDegrees / 180 * getPi(); }
 
-inline double convertRadiansToDegrees(double const valueInRadians)
-{
-    return valueInRadians / getPi() * 180;
-}
+inline double convertRadiansToDegrees(double const valueInRadians) { return valueInRadians / getPi() * 180; }
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

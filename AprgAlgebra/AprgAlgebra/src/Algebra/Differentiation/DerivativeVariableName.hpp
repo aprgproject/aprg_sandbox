@@ -2,19 +2,14 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class DerivativeVariableName
-{
+class DerivativeVariableName {
 public:
     DerivativeVariableName(
-            unsigned int const differentiationLevel,
-            std::string const& baseVariable,
-            std::string const& dependentVariable);
+        unsigned int const differentiationLevel, std::string const& baseVariable, std::string const& dependentVariable);
     DerivativeVariableName(std::string const& derivativeVariableInLeibnizNotation);
 
     bool isValid() const;
@@ -34,6 +29,6 @@ private:
     std::string m_dependentVariable;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -8,33 +8,24 @@
 #include <functional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class Function : public BaseTermData
-{
+class Function : public BaseTermData {
 public:
-    using EvaluationFunction=std::function<AlbaNumber(AlbaNumber const&)>;
+    using EvaluationFunction = std::function<AlbaNumber(AlbaNumber const&)>;
 
     Function();
-    Function(
-            std::string const& functionName,
-            BaseTerm const& baseTerm,
-            EvaluationFunction const& evaluationFunction);
-    Function(
-            std::string const& functionName,
-            BaseTerm && baseTerm,
-            EvaluationFunction const& evaluationFunction);
+    Function(std::string const& functionName, BaseTerm const& baseTerm, EvaluationFunction const& evaluationFunction);
+    Function(std::string const& functionName, BaseTerm&& baseTerm, EvaluationFunction const& evaluationFunction);
 
     // rule of five of six
     ~Function() = default;
     Function(Function const& functionObject);
-    Function & operator=(Function const& functionObject);
-    Function(Function && functionObject) = default;
-    Function & operator=(Function && functionObject) = default;
+    Function& operator=(Function const& functionObject);
+    Function(Function&& functionObject) = default;
+    Function& operator=(Function&& functionObject) = default;
 
     bool operator==(Function const& second) const;
     bool operator!=(Function const& second) const;
@@ -47,7 +38,7 @@ public:
     BaseTerm const& getInputTermConstReference() const;
     EvaluationFunction const& getEvaluationFunction() const;
 
-    BaseTerm & getInputTermReference();
+    BaseTerm& getInputTermReference();
     void simplify();
 
     void setAsSimplified();
@@ -55,7 +46,7 @@ public:
     void clearAllInnerSimplifiedFlags();
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Function const& functionObject);
+    friend std::ostream& operator<<(std::ostream& out, Function const& functionObject);
 
     std::string m_functionName;
     BaseTermUniquePointer m_inputTermPointer;
@@ -63,6 +54,6 @@ private:
     bool m_isSimplified;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

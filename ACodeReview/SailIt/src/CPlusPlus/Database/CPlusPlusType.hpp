@@ -3,14 +3,12 @@
 #include <ostream>
 #include <string>
 
-using std::string;
 using std::ostream;
+using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 
-enum class CPlusPlusTypeType
-{
+enum class CPlusPlusTypeType {
     Class,
     ConstantNumber,
     NoType,
@@ -20,12 +18,11 @@ enum class CPlusPlusTypeType
     TemplateType
 };
 
-class CPlusPlusType
-{
+class CPlusPlusType {
 public:
     CPlusPlusType();
-    CPlusPlusType(string const& typeName, CPlusPlusTypeType const cPlusPlusTypeType, int pointerCount=0);
-    friend ostream& operator<<(ostream & out, CPlusPlusType const& cPlusPlusType);
+    CPlusPlusType(string const& typeName, CPlusPlusTypeType const cPlusPlusTypeType, int pointerCount = 0);
+    friend ostream& operator<<(ostream& out, CPlusPlusType const& cPlusPlusType);
     string getTypeName() const;
     string getString() const;
     int getPointerCount() const;
@@ -35,7 +32,7 @@ public:
     bool isClass() const;
     bool isTemplateType() const;
     bool isTemplateClassInstantiation() const;
-    bool isNotAPointerOrReference() const;    
+    bool isNotAPointerOrReference() const;
     bool isPointer() const;
     bool isReference() const;
     bool isEqualIgnoreReference(CPlusPlusType const& type) const;
@@ -60,4 +57,4 @@ private:
     int m_templateInstantationIndex;
 };
 
-}
+}  // namespace codeReview

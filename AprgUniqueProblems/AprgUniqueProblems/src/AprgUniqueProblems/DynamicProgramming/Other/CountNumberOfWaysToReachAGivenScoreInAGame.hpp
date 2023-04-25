@@ -5,11 +5,9 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class CountNumberOfWaysToReachAGivenScoreInAGame
-{
+class CountNumberOfWaysToReachAGivenScoreInAGame {
 public:
     using Index = unsigned int;
     using Value = unsigned int;
@@ -24,12 +22,12 @@ private:
     Value m_targetScore;
 };
 
-}
-
+}  // namespace alba
 
 // Count number of ways to reach a given score in a game
 
-// Consider a game where a player can score 3 or 5 or 10 points in a move. Given a total score n, find number of ways to reach the given score.
+// Consider a game where a player can score 3 or 5 or 10 points in a move. Given a total score n, find number of ways to
+// reach the given score.
 
 // Examples:
 // Input: n = 20

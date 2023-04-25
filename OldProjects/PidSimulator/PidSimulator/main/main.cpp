@@ -1,13 +1,11 @@
+#include <Common/String/AlbaStringHelper.hpp>
 #include <PidSimulator.hpp>
 #include <PidSimulatorConfiguration.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 
 using namespace alba;
 using namespace std;
 
-
-int main(int argc, char * argv[])
-{
+int main(int argc, char* argv[]) {
     strings argumentsInMain(getArgumentsToStringInMain(argc, argv));
 
     /*argumentsInMain.emplace_back("kp=0.1");

@@ -4,12 +4,9 @@
 
 using namespace std;
 
+namespace AbstractFactory {
 
-namespace AbstractFactory
-{
-
-TEST(AbstractFactoryTest, Test1)
-{
+TEST(AbstractFactoryTest, Test1) {
     std::unique_ptr<AbstractFactory> factoryX = make_unique<ConcreteFactoryX>();
     std::unique_ptr<AbstractFactory> factoryY = make_unique<ConcreteFactoryY>();
 
@@ -24,4 +21,4 @@ TEST(AbstractFactoryTest, Test1)
     std::cout << "ProductBY: " << productBY->getName() << "\n";
 }
 
-}
+}  // namespace AbstractFactory

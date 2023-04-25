@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundB_P3_RobotPathDecoding.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,61 +6,73 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundB_P3_RobotPathDecoding
-{
+namespace KickStart_2020_RoundB_P3_RobotPathDecoding {
 
-TEST(KickStart_2020_RoundB_P3_RobotPathDecodingTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundB_P3_RobotPathDecodingTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "4                 " "\n"
-            << "SSSEEE            " "\n"
-            << "N                 " "\n"
-            << "N3(S)N2(E)N       " "\n"
-            << "2(3(NW)2(W2(EE)W))" "\n"
-            << endl;
+    inputStringStream << "4                 "
+                         "\n"
+                      << "SSSEEE            "
+                         "\n"
+                      << "N                 "
+                         "\n"
+                      << "N3(S)N2(E)N       "
+                         "\n"
+                      << "2(3(NW)2(W2(EE)W))"
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 4 4" "\n"
-                "Case #2: 1 1000000000" "\n"
-                "Case #3: 3 1" "\n"
-                "Case #4: 3 999999995" "\n"
-                , outputStringStream.str());
+        "Case #1: 4 4"
+        "\n"
+        "Case #2: 1 1000000000"
+        "\n"
+        "Case #3: 3 1"
+        "\n"
+        "Case #4: 3 999999995"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_RoundB_P3_RobotPathDecoding
 
 /*
 Problem
 
-Your country's space agency has just landed a rover on a new planet, which can be thought of as a grid of squares containing 109 columns (numbered starting from 1 from west to east) and 109 rows (numbered starting from 1 from north to south). Let (w, h) denote the square in the w-th column and the h-th row. The rover begins on the square (1, 1).
+Your country's space agency has just landed a rover on a new planet, which can be thought of as a grid of squares
+containing 109 columns (numbered starting from 1 from west to east) and 109 rows (numbered starting from 1 from north to
+south). Let (w, h) denote the square in the w-th column and the h-th row. The rover begins on the square (1, 1).
 
-The rover can be maneuvered around on the surface of the planet by sending it a program, which is a string of characters representing movements in the four cardinal directions. The robot executes each character of the string in order:
+The rover can be maneuvered around on the surface of the planet by sending it a program, which is a string of characters
+representing movements in the four cardinal directions. The robot executes each character of the string in order:
 
     N: Move one unit north.
     S: Move one unit south.
     E: Move one unit east.
     W: Move one unit west.
 
-There is also a special instruction X(Y), where X is a number between 2 and 9 inclusive and Y is a non-empty subprogram. This denotes that the robot should repeat the subprogram Y a total of X times. For example:
+There is also a special instruction X(Y), where X is a number between 2 and 9 inclusive and Y is a non-empty subprogram.
+This denotes that the robot should repeat the subprogram Y a total of X times. For example:
 
     2(NWE) is equivalent to NWENWE.
     3(S2(E)) is equivalent to SEESEESEE.
     EEEE4(N)2(SS) is equivalent to EEEENNNNSSSS.
 
-Since the planet is a torus, the first and last columns are adjacent, so moving east from column 109 will move the rover to column 1 and moving south from row 109 will move the rover to row 1. Similarly, moving west from column 1 will move the rover to column 109 and moving north from row 1 will move the rover to row 109. Given a program that the robot will execute, determine the final position of the robot after it has finished all its movements.
-Input
+Since the planet is a torus, the first and last columns are adjacent, so moving east from column 109 will move the rover
+to column 1 and moving south from row 109 will move the rover to row 1. Similarly, moving west from column 1 will move
+the rover to column 109 and moving north from row 1 will move the rover to row 109. Given a program that the robot will
+execute, determine the final position of the robot after it has finished all its movements. Input
 
-The first line of the input gives the number of test cases, T. T lines follow. Each line contains a single string: the program sent to the rover.
-Output
+The first line of the input gives the number of test cases, T. T lines follow. Each line contains a single string: the
+program sent to the rover. Output
 
-For each test case, output one line containing Case #x: w h, where x is the test case number (starting from 1) and w h is the final square (w, h) the rover finishes in.
-Limits
+For each test case, output one line containing Case #x: w h, where x is the test case number (starting from 1) and w h
+is the final square (w, h) the rover finishes in. Limits
 
 Time limit: 10 seconds per test set.
 Memory limit: 1GB.

@@ -10,94 +10,67 @@ using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 SeriesBasedOnSummation::SeriesBasedOnSummation(
-        Term const& formulaForEachTermInSummation,
-        string const& nameForVariableInFormula)
-    : SeriesBasedOnFormula(getFormulaForSummation(formulaForEachTermInSummation, nameForVariableInFormula), nameForVariableInFormula)
-    , m_formulaForEachTermInSummation(formulaForEachTermInSummation)
-    , m_nameForVariableInFormula(nameForVariableInFormula)
-    , m_summation(getSummation(formulaForEachTermInSummation, nameForVariableInFormula))
-    , m_isSummationModelValid(!isNan(getFormulaForSeries()))
-{}
+    Term const& formulaForEachTermInSummation, string const& nameForVariableInFormula)
+    : SeriesBasedOnFormula(
+          getFormulaForSummation(formulaForEachTermInSummation, nameForVariableInFormula), nameForVariableInFormula),
+      m_formulaForEachTermInSummation(formulaForEachTermInSummation),
+      m_nameForVariableInFormula(nameForVariableInFormula),
+      m_summation(getSummation(formulaForEachTermInSummation, nameForVariableInFormula)),
+      m_isSummationModelValid(!isNan(getFormulaForSeries())) {}
 
-bool SeriesBasedOnSummation::isSummationModelValid() const
-{
-    return m_isSummationModelValid;
-}
+bool SeriesBasedOnSummation::isSummationModelValid() const { return m_isSummationModelValid; }
 
-bool SeriesBasedOnSummation::isConvergent() const
-{
+bool SeriesBasedOnSummation::isConvergent() const {
     bool result(false);
-    if(m_isSummationModelValid)
-    {
+    if (m_isSummationModelValid) {
         result = SeriesBasedOnFormula::isConvergent();
-    }
-    else
-    {
-        result = getLimit(m_formulaForEachTermInSummation, m_nameForVariableInFormula, ALBA_NUMBER_POSITIVE_INFINITY) == 0;
+    } else {
+        result =
+            getLimit(m_formulaForEachTermInSummation, m_nameForVariableInFormula, ALBA_NUMBER_POSITIVE_INFINITY) == 0;
     }
     return result;
 }
 
-Term SeriesBasedOnSummation::getValueAtIndex(int const index) const
-{
+Term SeriesBasedOnSummation::getValueAtIndex(int const index) const {
     Term result;
-    if(m_isSummationModelValid)
-    {
+    if (m_isSummationModelValid) {
         result = SeriesBasedOnFormula::getValueAtIndex(index);
-    }
-    else
-    {
+    } else {
         result = m_summation.getSum(0, index);
     }
     return result;
 }
 
-bool SeriesBasedOnSummation::isAbsolutelyConvergent() const
-{
-    SeriesBasedOnSummation summation(
-                abs(m_formulaForEachTermInSummation),
-                m_nameForVariableInFormula);
+bool SeriesBasedOnSummation::isAbsolutelyConvergent() const {
+    SeriesBasedOnSummation summation(abs(m_formulaForEachTermInSummation), m_nameForVariableInFormula);
     return summation.isConvergent();
 }
 
-bool SeriesBasedOnSummation::isConditionallyConvergent() const
-{
-    return !isAbsolutelyConvergent() || isConvergent();
-}
+bool SeriesBasedOnSummation::isConditionallyConvergent() const { return !isAbsolutelyConvergent() || isConvergent(); }
 
-Term SeriesBasedOnSummation::getTermValueAtIndex(int const index) const
-{
+Term SeriesBasedOnSummation::getTermValueAtIndex(int const index) const {
     SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};
     return substitution.performSubstitutionTo(m_formulaForEachTermInSummation);
 }
 
-Term SeriesBasedOnSummation::getFormulaForEachTermInSummation() const
-{
-    return m_formulaForEachTermInSummation;
-}
+Term SeriesBasedOnSummation::getFormulaForEachTermInSummation() const { return m_formulaForEachTermInSummation; }
 
 Summation SeriesBasedOnSummation::getSummation(
-        Term const& formulaForEachTermInSummation,
-        string const& nameForVariableInFormula) const
-{
+    Term const& formulaForEachTermInSummation, string const& nameForVariableInFormula) const {
     Summation summation(formulaForEachTermInSummation, nameForVariableInFormula);
     return summation;
 }
 
 Term SeriesBasedOnSummation::getFormulaForSummation(
-        Term const& formulaForEachTermInSummation,
-        string const& nameForVariableInFormula) const
-{
+    Term const& formulaForEachTermInSummation, string const& nameForVariableInFormula) const {
     return getSummation(formulaForEachTermInSummation, nameForVariableInFormula).getSummationModelWithKnownConstant(0);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -2,22 +2,18 @@
 
 #include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class HarmonicSeries : public SeriesBasedOnSummation
-{
+class HarmonicSeries : public SeriesBasedOnSummation {
 public:
     HarmonicSeries();
 
 protected:
     Term getFormula() const;
-
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

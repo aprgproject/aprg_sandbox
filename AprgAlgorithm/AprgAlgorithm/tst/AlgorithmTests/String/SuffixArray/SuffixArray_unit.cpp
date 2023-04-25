@@ -4,26 +4,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using SuffixArrayForTest = SuffixArray<unsigned int>;
 }
 
-TEST(SuffixArrayTest, GetSizeWorks)
-{
+TEST(SuffixArrayTest, GetSizeWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
     EXPECT_EQ(19U, suffixArray.getSize());
 }
 
-TEST(SuffixArrayTest, GetIndexOnMainStringOfSuffixAtWorks)
-{
+TEST(SuffixArrayTest, GetIndexOnMainStringOfSuffixAtWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
     EXPECT_EQ(5U, suffixArray.getIndexOnMainStringOfSuffixAt(5));
@@ -31,15 +26,13 @@ TEST(SuffixArrayTest, GetIndexOnMainStringOfSuffixAtWorks)
     EXPECT_EQ(8U, suffixArray.getIndexOnMainStringOfSuffixAt(7));
 }
 
-TEST(SuffixArrayTest, GetRankWorks)
-{
+TEST(SuffixArrayTest, GetRankWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
     EXPECT_EQ(2U, suffixArray.getRank("LetsSingInstead"));
 }
 
-TEST(SuffixArrayTest, GetSuffixAtWorks)
-{
+TEST(SuffixArrayTest, GetSuffixAtWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
     EXPECT_EQ("DanceToThisSong", suffixArray.getSuffixAt(0));
@@ -54,8 +47,7 @@ TEST(SuffixArrayTest, GetSuffixAtWorks)
     EXPECT_EQ("g", suffixArray.getSuffixAt(9));
 }
 
-TEST(SuffixArrayTest, GetLongestCommonPrefixOfTwoSuffixesWorks)
-{
+TEST(SuffixArrayTest, GetLongestCommonPrefixOfTwoSuffixesWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
     EXPECT_EQ("T", suffixArray.getLongestCommonPrefixOfTwoSuffixes(3, 4));
@@ -63,6 +55,6 @@ TEST(SuffixArrayTest, GetLongestCommonPrefixOfTwoSuffixesWorks)
     EXPECT_EQ("e", suffixArray.getLongestCommonPrefixOfTwoSuffixes(7, 8));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

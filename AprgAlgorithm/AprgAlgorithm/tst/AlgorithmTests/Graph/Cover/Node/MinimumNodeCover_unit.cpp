@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using Edges = typename GraphTypes<VertexForTest>::Edges;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
@@ -18,10 +15,9 @@ using MinimumNodeCoverForTest = MinimumNodeCover<VertexForTest>;
 
 VertexForTest newSourceVertex = 0xFFFFFFFEU;
 VertexForTest newSinkVertex = 0xFFFFFFFFU;
-}
+}  // namespace
 
-TEST(MinimumNodeCoverTest, GetMinimumNodeCoverSizeWorksOnExample1)
-{
+TEST(MinimumNodeCoverTest, GetMinimumNodeCoverSizeWorksOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 5U);
     graph.connect(2U, 7U);
@@ -34,8 +30,7 @@ TEST(MinimumNodeCoverTest, GetMinimumNodeCoverSizeWorksOnExample1)
     EXPECT_EQ(3U, minimumNodeCover.getMinimumNodeCoverSize(newSourceVertex, newSinkVertex));
 }
 
-TEST(MinimumNodeCoverTest, GetMaximumIndependentSetSizeWorksOnExample1)
-{
+TEST(MinimumNodeCoverTest, GetMaximumIndependentSetSizeWorksOnExample1) {
     GraphForTest graph;
     graph.connect(1U, 5U);
     graph.connect(2U, 7U);
@@ -48,6 +43,6 @@ TEST(MinimumNodeCoverTest, GetMaximumIndependentSetSizeWorksOnExample1)
     EXPECT_EQ(5U, minimumNodeCover.getMaximumIndependentSetSize(newSourceVertex, newSinkVertex));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

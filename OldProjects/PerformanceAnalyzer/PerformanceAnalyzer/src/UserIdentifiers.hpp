@@ -3,11 +3,9 @@
 #include <optional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-struct UserIdentifiers
-{
+struct UserIdentifiers {
     UserIdentifiers();
     UserIdentifiers(std::string const& lineInLogs);
     void saveUserIndentfiers(std::string const& lineInLogs);
@@ -15,6 +13,7 @@ struct UserIdentifiers
     unsigned int getNbccId() const;
     unsigned int getCrnccId() const;
     unsigned int getTransactionId() const;
+
 private:
     void saveNbccId(std::string const& lineInLogs);
     void saveCrnccId(std::string const& lineInLogs);
@@ -24,4 +23,4 @@ private:
     std::optional<unsigned int> m_transactionIdOptional;
 };
 
-}
+}  // namespace alba

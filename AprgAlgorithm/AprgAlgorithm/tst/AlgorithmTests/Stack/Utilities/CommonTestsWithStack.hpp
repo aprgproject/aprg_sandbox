@@ -4,26 +4,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithStack
-{
+namespace CommonTestsWithStack {
 
 template <typename Stack>
-void testIsEmptyWhenEmptyWithUnsignedInt()
-{
+void testIsEmptyWhenEmptyWithUnsignedInt() {
     Stack stack;
 
     EXPECT_TRUE(stack.isEmpty());
 }
 
 template <typename Stack>
-void testIsEmptyWhenNotEmptyWithUnsignedInt()
-{
+void testIsEmptyWhenNotEmptyWithUnsignedInt() {
     Stack stack;
     stack.push(10U);
 
@@ -31,16 +26,14 @@ void testIsEmptyWhenNotEmptyWithUnsignedInt()
 }
 
 template <typename Stack>
-void testGetSizeWhenEmptyWithUnsignedInt()
-{
+void testGetSizeWhenEmptyWithUnsignedInt() {
     Stack stack;
 
     EXPECT_EQ(0U, stack.getSize());
 }
 
 template <typename Stack>
-void testGetSizeWhenNotEmptyWithUnsignedInt()
-{
+void testGetSizeWhenNotEmptyWithUnsignedInt() {
     Stack stack;
     stack.push(10U);
     stack.push(5U);
@@ -50,8 +43,7 @@ void testGetSizeWhenNotEmptyWithUnsignedInt()
 }
 
 template <typename Stack>
-void testPushWithUnsignedInt()
-{
+void testPushWithUnsignedInt() {
     Stack stack;
     stack.push(1U);
     stack.push(2U);
@@ -64,8 +56,7 @@ void testPushWithUnsignedInt()
 }
 
 template <typename Stack>
-void testPopWithUnsignedInt()
-{
+void testPopWithUnsignedInt() {
     Stack stack;
     stack.push(1U);
     stack.push(2U);
@@ -78,15 +69,14 @@ void testPopWithUnsignedInt()
 }
 
 template <typename Stack>
-void testPopAssertionWhenEmptyWithUnsignedInt()
-{
+void testPopAssertionWhenEmptyWithUnsignedInt() {
     Stack stack;
 
     EXPECT_DEATH(stack.pop(), "Assertion failed!");
 }
 
-}
+}  // namespace CommonTestsWithStack
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -3,21 +3,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = PathSearchUsingDfs<VertexForTest>;
 
-void putConnectionsForTest(GraphForTest & graph)
-{
+void putConnectionsForTest(GraphForTest& graph) {
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 5U);
@@ -27,10 +23,9 @@ void putConnectionsForTest(GraphForTest & graph)
     graph.connect(3U, 4U);
     graph.connect(3U, 5U);
 }
-}
+}  // namespace
 
-TEST(PathSearchUsingDfsTest, HasPathToWorksWithUndirectedGraph)
-{
+TEST(PathSearchUsingDfsTest, HasPathToWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
@@ -44,8 +39,7 @@ TEST(PathSearchUsingDfsTest, HasPathToWorksWithUndirectedGraph)
     EXPECT_FALSE(pathSearch.hasPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraph)
-{
+TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
@@ -59,8 +53,7 @@ TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraph)
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraphWithMultipleStartingPoints)
-{
+TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraphWithMultipleStartingPoints) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U, 3U});
@@ -74,8 +67,7 @@ TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraphWithMultipl
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, GetPreviousVertexWorksWithUndirectedGraph)
-{
+TEST(PathSearchUsingDfsTest, GetPreviousVertexWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
@@ -89,8 +81,7 @@ TEST(PathSearchUsingDfsTest, GetPreviousVertexWorksWithUndirectedGraph)
     EXPECT_EQ(0U, pathSearch.getPreviousVertex(6U));
 }
 
-TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
-{
+TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
@@ -106,8 +97,7 @@ TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraphWithMultipleStartingPoints)
-{
+TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraphWithMultipleStartingPoints) {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
@@ -123,6 +113,6 @@ TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraphWit
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

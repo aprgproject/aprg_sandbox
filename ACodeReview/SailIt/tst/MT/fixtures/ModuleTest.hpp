@@ -7,8 +7,7 @@
 #include "../../MtDirectoryConstants.hpp"
 #include "gtest/gtest.h"
 
-struct ModuleTest : public ::testing::Test
-{
+struct ModuleTest : public ::testing::Test {
     ModuleTest();
     void processFile();
     codeReview::CPlusPlusDatabase m_database;

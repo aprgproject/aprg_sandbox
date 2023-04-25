@@ -1,23 +1,20 @@
 #pragma once
 
+#include <Algorithm/String/Tries/TernarySearchTrie.hpp>
 #include <Common/Stream/AlbaStreamBitReader.hpp>
 #include <Common/Stream/AlbaStreamBitWriter.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
-#include <Algorithm/String/Tries/TernarySearchTrie.hpp>
 
 #include <iostream>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Code>
-class LzwCompression
-{
-public :
-    static constexpr unsigned int RADIX=256U;
+class LzwCompression {
+public:
+    static constexpr unsigned int RADIX = 256U;
     static constexpr unsigned int CODE_WORD_WIDTH = 12;
     static constexpr Code MAX_NUMBER_CODE_WORDS = 1 << CODE_WORD_WIDTH;
 
@@ -25,99 +22,87 @@ public :
 
     LzwCompression() = default;
 
-    void compress(std::istream & input, std::ostream & output)
-    {
+    void compress(std::istream& input, std::ostream& output) {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
-        std::string wholeInputString(reader.readWholeStreamAsStringData());// read whole input as string
+        std::string wholeInputString(reader.readWholeStreamAsStringData());  // read whole input as string
 
-        // This is the position of the code words : [0...RADIX-1(Single chars)][RADIX(Stop code word)][RADIX+1...MAX_NUMBER_CODE_WORDS(Multi char strings)]
+        // This is the position of the code words : [0...RADIX-1(Single chars)][RADIX(Stop code
+        // word)][RADIX+1...MAX_NUMBER_CODE_WORDS(Multi char strings)]
         SymbolTableUsingTrie codeTrie;
-        initializeCodeTableWithAllSingleCharacters(codeTrie); // initialize input as single char code words for radix R keys
-        Code lastCode(RADIX+1); // RADIX+1 because its the first code of the multi char strings
+        initializeCodeTableWithAllSingleCharacters(
+            codeTrie);             // initialize input as single char code words for radix R keys
+        Code lastCode(RADIX + 1);  // RADIX+1 because its the first code of the multi char strings
 
-        while(!wholeInputString.empty())
-        {
-            std::string bestTrieMatch(codeTrie.getLongestPrefixOf(wholeInputString)); // find longest prefix match
-            writeCode(writer, codeTrie.get(bestTrieMatch)); // write code word for the best match in trie
+        while (!wholeInputString.empty()) {
+            std::string bestTrieMatch(codeTrie.getLongestPrefixOf(wholeInputString));  // find longest prefix match
+            writeCode(writer, codeTrie.get(bestTrieMatch));  // write code word for the best match in trie
             Code matchLength(bestTrieMatch.length());
-            if(matchLength < wholeInputString.length() && lastCode < MAX_NUMBER_CODE_WORDS)
-            {
-                codeTrie.put(wholeInputString.substr(0, matchLength + 1), lastCode++); // add new next code word
+            if (matchLength < wholeInputString.length() && lastCode < MAX_NUMBER_CODE_WORDS) {
+                codeTrie.put(wholeInputString.substr(0, matchLength + 1), lastCode++);  // add new next code word
             }
             // remove processed part in the input:
-            wholeInputString = wholeInputString.substr(matchLength); // this is inefficient but trie only supports strings (not deque of chars)
+            wholeInputString = wholeInputString.substr(
+                matchLength);  // this is inefficient but trie only supports strings (not deque of chars)
         }
         Code stopCodeWord(RADIX);
-        writeCode(writer, stopCodeWord); // write stop code word
+        writeCode(writer, stopCodeWord);  // write stop code word
     }
 
-    void expand(std::istream & input, std::ostream & output)
-    {
+    void expand(std::istream& input, std::ostream& output) {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
         stringHelper::strings lookupTable;
         initializeLookupTablewithAllSingleCharacters(lookupTable);
         Code codeWord = readOneCodeword(reader);
-        Code multiCharCode = RADIX+2;
+        Code multiCharCode = RADIX + 2;
         std::string currentString(lookupTable.at(codeWord));
 
-        while(true)
-        {
+        while (true) {
             writer.writeStringData(currentString);
             codeWord = readOneCodeword(reader);
-            if(!input.eof() && codeWord != RADIX) // exit at stop code word(RADIX)
+            if (!input.eof() && codeWord != RADIX)  // exit at stop code word(RADIX)
             {
                 std::string nextString(lookupTable.at(codeWord));
-                if(codeWord == multiCharCode) // not in the symbol table yet (tricky case)
+                if (codeWord == multiCharCode)  // not in the symbol table yet (tricky case)
                 {
                     // we expand the current string as the same time as processing it as next
                     nextString = currentString + currentString.at(0);
                 }
-                if(multiCharCode < MAX_NUMBER_CODE_WORDS)
-                {
-                    lookupTable.emplace_back(currentString + nextString.at(0)); // add a new code word
+                if (multiCharCode < MAX_NUMBER_CODE_WORDS) {
+                    lookupTable.emplace_back(currentString + nextString.at(0));  // add a new code word
                     multiCharCode++;
                 }
                 currentString = nextString;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
     }
 
 private:
-
-    void initializeCodeTableWithAllSingleCharacters(SymbolTableUsingTrie & codeTrie)
-    {
-        for(Code c=0; c<RADIX; c++)
-        {
-            codeTrie.put(std::string()+static_cast<char>(c), c);
+    void initializeCodeTableWithAllSingleCharacters(SymbolTableUsingTrie& codeTrie) {
+        for (Code c = 0; c < RADIX; c++) {
+            codeTrie.put(std::string() + static_cast<char>(c), c);
         }
     }
 
-    void initializeLookupTablewithAllSingleCharacters(stringHelper::strings & lookupTable)
-    {
-        for(Code c=0; c<RADIX; c++)
-        {
-            lookupTable.emplace_back(std::string()+static_cast<char>(c));
+    void initializeLookupTablewithAllSingleCharacters(stringHelper::strings& lookupTable) {
+        for (Code c = 0; c < RADIX; c++) {
+            lookupTable.emplace_back(std::string() + static_cast<char>(c));
         }
-        lookupTable.emplace_back(""); // assign one for stop code word (location is at RADIX, so after the loop)
+        lookupTable.emplace_back("");  // assign one for stop code word (location is at RADIX, so after the loop)
     }
 
-    void writeCode(AlbaStreamBitWriter & writer, Code const& code)
-    {
+    void writeCode(AlbaStreamBitWriter& writer, Code const& code) {
         std::bitset<CODE_WORD_WIDTH> bitsetToWrite(code);
-        writer.writeBitsetData<CODE_WORD_WIDTH>(bitsetToWrite, CODE_WORD_WIDTH-1, 0U);
+        writer.writeBitsetData<CODE_WORD_WIDTH>(bitsetToWrite, CODE_WORD_WIDTH - 1, 0U);
     }
 
-    Code readOneCodeword(AlbaStreamBitReader & reader)
-    {
-        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(CODE_WORD_WIDTH-1, 0U));
+    Code readOneCodeword(AlbaStreamBitReader& reader) {
+        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(CODE_WORD_WIDTH - 1, 0U));
         return static_cast<Code>(bitsetCodeword.to_ullong());
     }
 };
@@ -186,6 +171,6 @@ private:
 // zip, 7zip, gzip, jar, png, pdf: deflate/zlib
 // iPhone, Sony Playstation 3 Apache HTTP server: deflate/zlib
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

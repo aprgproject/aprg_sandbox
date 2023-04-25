@@ -8,17 +8,13 @@
 
 using namespace alba::algebra::Functions;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-Equation getCircleEquation()
-{
+Equation getCircleEquation() {
     Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
     Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
     Term xSquared(createExpressionIfPossible({xMinusX0, "^", 2}));
@@ -29,8 +25,7 @@ Equation getCircleEquation()
     return Equation(leftHandSide, "=", rightHandSide);
 }
 
-Equation getEllipseEquation()
-{
+Equation getEllipseEquation() {
     Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
     Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
     Term xSquared(createExpressionIfPossible({xMinusX0, "^", 2}));
@@ -41,8 +36,7 @@ Equation getEllipseEquation()
     return Equation(leftHandSide, "=", 1);
 }
 
-Equation getHyperbolaEquation()
-{
+Equation getHyperbolaEquation() {
     Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
     Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
     Term xSquared(createExpressionIfPossible({xMinusX0, "^", 2}));
@@ -53,15 +47,11 @@ Equation getHyperbolaEquation()
     return Equation(leftHandSide, "=", 1);
 }
 
-Equation getLimaconEquation(LimaconTrigonometricFunctionType const type)
-{
+Equation getLimaconEquation(LimaconTrigonometricFunctionType const type) {
     Term trigPart;
-    if(LimaconTrigonometricFunctionType::Cosine == type)
-    {
+    if (LimaconTrigonometricFunctionType::Cosine == type) {
         trigPart = cos(theta);
-    }
-    else if(LimaconTrigonometricFunctionType::Sine == type)
-    {
+    } else if (LimaconTrigonometricFunctionType::Sine == type) {
         trigPart = sin(theta);
     }
     Term leftHandSide(createExpressionIfPossible({a, "+", b, "*", trigPart}));
@@ -69,24 +59,19 @@ Equation getLimaconEquation(LimaconTrigonometricFunctionType const type)
     return Equation(leftHandSide, "=", rightHandSide);
 }
 
-Equation getLineEquation()
-{
+Equation getLineEquation() {
     Term leftHandSide(createExpressionIfPossible({a, "*", x, "+", b, "*", y, "+", c}));
     return Equation(leftHandSide, "=", 0);
 }
 
-Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation)
-{
+Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation) {
     Equation result;
-    if(ParabolaOrientation::PolynomialX == parabolaOrientation)
-    {
+    if (ParabolaOrientation::PolynomialX == parabolaOrientation) {
         Term xSquared(createExpressionIfPossible({x, "^", 2}));
         Term leftHandSide(createExpressionIfPossible({a, "*", xSquared, "+", b, "*", x, "+", c}));
         Term rightHandSide(y);
         result = Equation(leftHandSide, "=", rightHandSide);
-    }
-    else if(ParabolaOrientation::PolynomialY == parabolaOrientation)
-    {
+    } else if (ParabolaOrientation::PolynomialY == parabolaOrientation) {
         Term ySquared(createExpressionIfPossible({y, "^", 2}));
         Term leftHandSide(createExpressionIfPossible({a, "*", ySquared, "+", b, "*", y, "+", c}));
         Term rightHandSide(x);
@@ -98,24 +83,45 @@ Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation)
 // A conical frustum is a frustum created by slicing the top off a cone (with the cut made parallel to the base).
 // For a right circular cone, let h be height, rb as bottom radius and rt as bottom radius.
 
-Term getSurfaceAreaOfAConicalFrustum()
-{
+Term getSurfaceAreaOfAConicalFrustum() {
     Term topCircleArea(createExpressionIfPossible({getPiAsATerm(), "*", "rt", "^", 2}));
     Term bottomCircleArea(createExpressionIfPossible({getPiAsATerm(), "*", "rb", "^", 2}));
     Term sideArea(createExpressionIfPossible(
-    {getPiAsATerm(), "*", "(", "rb", "+", "rt", ")", "*", "(", "(", "rb", "-", "rt", ")", "^", 2, "+", "h", "^", 2, ")", "^", AlbaNumber::createFraction(1, 2)}));
+        {getPiAsATerm(),
+         "*",
+         "(",
+         "rb",
+         "+",
+         "rt",
+         ")",
+         "*",
+         "(",
+         "(",
+         "rb",
+         "-",
+         "rt",
+         ")",
+         "^",
+         2,
+         "+",
+         "h",
+         "^",
+         2,
+         ")",
+         "^",
+         AlbaNumber::createFraction(1, 2)}));
 
     return Term(createExpressionIfPossible({topCircleArea, "+", bottomCircleArea, "+", sideArea}));
 }
 
-Term getVolumeOfAConicalFrustum()
-{
+Term getVolumeOfAConicalFrustum() {
     Term radiusPart(createExpressionIfPossible({"rt", "^", 2, "+", "rt", "*", "rb", "+", "rb", "^", 2}));
-    return Term(createExpressionIfPossible({AlbaNumber::createFraction(1, 3), "*", getPiAsATerm(), "*", "h", "*", radiusPart}));
+    return Term(
+        createExpressionIfPossible({AlbaNumber::createFraction(1, 3), "*", getPiAsATerm(), "*", "h", "*", radiusPart}));
 }
 
-}
+}  // namespace TwoDimensions
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

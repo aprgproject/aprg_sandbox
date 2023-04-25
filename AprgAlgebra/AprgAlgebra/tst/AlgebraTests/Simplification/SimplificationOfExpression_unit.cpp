@@ -12,18 +12,15 @@ using namespace alba::algebra::Functions;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnSimplifyingInnerTerms)
-{
-    Expression monomialRaiseToMonomial(createExpressionIfPossible({Monomial(1, {{"x", 1}}), "^", Monomial(1, {{"y", 1}})}));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnSimplifyingInnerTerms) {
+    Expression monomialRaiseToMonomial(
+        createExpressionIfPossible({Monomial(1, {{"x", 1}}), "^", Monomial(1, {{"y", 1}})}));
     SimplificationOfExpression simplification(monomialRaiseToMonomial);
 
     simplification.simplify();
@@ -33,8 +30,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnSimplifyingInnerTerms)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForAMultipleTermExpression)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForAMultipleTermExpression) {
     Term expressionTerm(createExpressionIfPossible({"x", "^", "x"}));
     Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
@@ -48,8 +44,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForAMu
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentAdditionExpressionLevels)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentAdditionExpressionLevels) {
     Term expressionTermLevel1(createExpressionIfPossible({"c", "+", "d"}));
     Term expressionTermLevel2(createExpressionIfPossible({"b", "+", expressionTermLevel1}));
     Term expressionTermLevel3(createExpressionIfPossible({"a", "+", expressionTermLevel2}));
@@ -59,14 +54,12 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentAdditionExpressionL
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(
-                createAndWrapExpressionFromATerm(
-                    Polynomial{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}}), Monomial(1, {{"c", 1}}), Monomial(1, {{"d", 1}})}));
+    Expression expressionToExpect(createAndWrapExpressionFromATerm(Polynomial{
+        Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}}), Monomial(1, {{"c", 1}}), Monomial(1, {{"d", 1}})}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentMultiplicationExpressionLevels)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentMultiplicationExpressionLevels) {
     Term expressionTermLevel1(createExpressionIfPossible({"c", "*", "d"}));
     Term expressionTermLevel2(createExpressionIfPossible({"b", "*", expressionTermLevel1}));
     Term expressionTermLevel3(createExpressionIfPossible({"a", "*", expressionTermLevel2}));
@@ -76,12 +69,12 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentMultiplicationExpre
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createAndWrapExpressionFromATerm(Monomial(1, {{"a", 1}, {"b", 1}, {"c", 1}, {"d", 1}})));
+    Expression expressionToExpect(
+        createAndWrapExpressionFromATerm(Monomial(1, {{"a", 1}, {"b", 1}, {"c", 1}, {"d", 1}})));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentRaiseToPowerExpressionLevels)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentRaiseToPowerExpressionLevels) {
     Term expressionTermLevel1(createExpressionIfPossible({"c", "^", "d"}));
     Term expressionTermLevel2(createExpressionIfPossible({"b", "^", expressionTermLevel1}));
     Term expressionTermLevel3(createExpressionIfPossible({"a", "^", expressionTermLevel2}));
@@ -95,8 +88,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentRaiseToPowerExpress
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForASingleTermExpression)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForASingleTermExpression) {
     Term expressionTerm(createAndWrapExpressionFromATerm(967));
     Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
@@ -110,8 +102,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForASi
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNullExpressions)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNullExpressions) {
     Expression nullExpression(createExpressionInAnExpression(Expression()));
     Expression expressionToTest(createExpressionIfPossible({nullExpression, "+", nullExpression, "+", nullExpression}));
     SimplificationOfExpression simplification(expressionToTest);
@@ -123,10 +114,8 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNullExpr
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForAddingAndSubtracting)
-{
-    Expression expressionToTest(
-                createExpressionIfPossible({0, "-", 200, "-", 50, "-", 0}));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForAddingAndSubtracting) {
+    Expression expressionToTest(createExpressionIfPossible({0, "-", 200, "-", 50, "-", 0}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -136,8 +125,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForAddingAndSubtracting)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplying)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplying) {
     Expression expressionToTest(createExpressionIfPossible({0, "*", 200, "*", 50}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -148,8 +136,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplying)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplyingWithRaiseToPowerExpression)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplyingWithRaiseToPowerExpression) {
     Expression expressionToTest(createExpressionIfPossible({0, "*", "z", "^", "z"}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -160,8 +147,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplyingWithRaiseT
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividing)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividing) {
     Expression expressionToTest(createExpressionIfPossible({0, "/", 1.17157287525381}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -172,8 +158,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividing)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividingWithRaiseToPowerExpression)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividingWithRaiseToPowerExpression) {
     Expression expressionToTest(createExpressionIfPossible({0, "/", "z", "^", "z"}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -184,8 +169,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividingWithRaiseToPo
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstants)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstants) {
     Expression expressionToTest(createExpressionIfPossible({100, "+", 200, "-", 50}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -196,35 +180,22 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstant
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsMonomialPolynomial)
-{
-    Expression expressionToTest(
-                createExpressionIfPossible(
-    {Monomial(43, {{"x", 2}, {"y", 3}}), "+", 159, "-",
-     Polynomial{
-         Monomial(56, {{"x", 3}}),
-         Monomial(-251, {}),
-         Monomial(13, {{"x", 2}, {"y", 3}})
-     }}));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsMonomialPolynomial) {
+    Expression expressionToTest(createExpressionIfPossible(
+        {Monomial(43, {{"x", 2}, {"y", 3}}), "+", 159, "-",
+         Polynomial{Monomial(56, {{"x", 3}}), Monomial(-251, {}), Monomial(13, {{"x", 2}, {"y", 3}})}}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(
-                createExpressionIfPossible(
-    {Polynomial{
-         Monomial(30, {{"x", 2}, {"y", 3}}),
-         Monomial(-56, {{"x", 3}}),
-         Monomial(410, {})
-     }}));
+    Expression expressionToExpect(createExpressionIfPossible(
+        {Polynomial{Monomial(30, {{"x", 2}, {"y", 3}}), Monomial(-56, {{"x", 3}}), Monomial(410, {})}}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsWithExpressionInBetween)
-{
-    Expression expressionToTest(createExpressionIfPossible(
-    {500, "+", "y", "^", "y", "-", 150 }));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsWithExpressionInBetween) {
+    Expression expressionToTest(createExpressionIfPossible({500, "+", "y", "^", "y", "-", 150}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -236,15 +207,8 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingConstant
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingZerosWithExpressionInBetween)
-{
-    Expression expressionToTest(
-                createExpressionIfPossible(
-    {
-                        0,
-                        "+", "y", "^", "y",
-                        "-",  0
-                    }));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingZerosWithExpressionInBetween) {
+    Expression expressionToTest(createExpressionIfPossible({0, "+", "y", "^", "y", "-", 0}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -254,13 +218,9 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingZerosWit
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressions)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressions) {
     Expression expressionToTest(
-                createExpressionIfPossible(
-    {5, "*", "y", "^", "y",
-     "+","y", "^", "y",
-     "-", 3, "*", "y", "^", "y"}));
+        createExpressionIfPossible({5, "*", "y", "^", "y", "+", "y", "^", "y", "-", 3, "*", "y", "^", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -271,16 +231,10 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToP
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions) {
     Expression expressionToTest(
-                createExpressionIfPossible(
-    {"x", "^", "y",
-     "-", 2, "*", "y", "^", "y",
-     "-", 3, "*", "x", "^", "y",
-     "+", "y", "^", "y",
-     "+", 4, "*", "x", "^", "y",
-     "+", 5, "*", "y", "^", "y"}));
+        createExpressionIfPossible({"x", "^", "y", "-", 2, "*", "y", "^", "y", "-", 3, "*", "x", "^", "y", "+",
+                                    "y", "^", "y", "+", 4, "*", "x", "^", "y", "+", 5, "*", "y", "^", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -294,12 +248,9 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingMultiple
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
-{
-    Expression expressionToTest(
-                createExpressionIfPossible(
-    {100, "*", "y", "^", "y", "*", "x", "^", "x",
-     "-", 10, "*", "x", "^", "x", "*", "y", "^", "y"}));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions) {
+    Expression expressionToTest(createExpressionIfPossible(
+        {100, "*", "y", "^", "y", "*", "x", "^", "x", "-", 10, "*", "x", "^", "x", "*", "y", "^", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -312,14 +263,10 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNonSorte
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded) {
     Expression expressionToTest(
-                createExpressionIfPossible(
-    {10, "*", "y", "^", "y",
-     "+", "x", "*", "y", "^", "y",
-     "-", 8, "*", "y", "^", "y",
-     "-", 6, "*", "x", "*", "y", "^", "y"}));
+        createExpressionIfPossible({10,  "*", "y", "^", "y", "+", "x", "*", "y", "^", "y", "-", 8,
+                                    "*", "y", "^", "y", "-", 6,   "*", "x", "*", "y", "^", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -332,8 +279,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToP
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingConstants)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingConstants) {
     Expression expressionToTest(createExpressionIfPossible({100, "*", 200, "/", 50}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -344,35 +290,24 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingConsta
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingPolynomials)
-{
-    Expression expressionToTest(
-                createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 1}, {"y", -1}}), Monomial(2, {{"x", -1}, {"y", 1}})}, "/",
-     Polynomial{Monomial(3, {{"y", 1}}), Monomial(4, {{"z", -1}})}}));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingPolynomials) {
+    Expression expressionToTest(createExpressionIfPossible(
+        {Polynomial{Monomial(1, {{"x", 1}, {"y", -1}}), Monomial(2, {{"x", -1}, {"y", 1}})}, "/",
+         Polynomial{Monomial(3, {{"y", 1}}), Monomial(4, {{"z", -1}})}}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(
-                createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 2}, {"z", 1}}), Monomial(2, {{"y", 2}, {"z", 1}})},
-     "/",
-     Polynomial{Monomial(3, {{"x", 1}, {"y", 2}, {"z", 1}}), Monomial(4, {{"x", 1}, {"y", 1}})}}));
+    Expression expressionToExpect(createExpressionIfPossible(
+        {Polynomial{Monomial(1, {{"x", 2}, {"z", 1}}), Monomial(2, {{"y", 2}, {"z", 1}})}, "/",
+         Polynomial{Monomial(3, {{"x", 1}, {"y", 2}, {"z", 1}}), Monomial(4, {{"x", 1}, {"y", 1}})}}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingRaiseToPowerExpressionsCanBeCancelled)
-{
-    Expression expressionToTest(
-                createExpressionIfPossible(
-    {"x", "^", "x",
-     "*", "y", "^", "y",
-     "*", "z", "^", "z",
-     "/", "z", "^", "z",
-     "/", "y", "^", "y",
-     "/", "x", "^", "x"}));
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingRaiseToPowerExpressionsCanBeCancelled) {
+    Expression expressionToTest(createExpressionIfPossible({"x", "^", "x", "*", "y", "^", "y", "*", "z", "^", "z", "/",
+                                                            "z", "^", "z", "/", "y", "^", "y", "/", "x", "^", "x"}));
 
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -383,8 +318,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnMultiplyingAndDividingRaiseT
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnRaiseToPowerWithMultipleTerms)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnRaiseToPowerWithMultipleTerms) {
     Expression expression1(createExpressionIfPossible({"a", "^", "b", "^", "c", "^", "d"}));
     Expression expression2(createExpressionIfPossible({"x", "^", 2, "^", 3, "^", "y"}));
     SimplificationOfExpression simplification1(expression1);
@@ -395,18 +329,13 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnRaiseToPowerWithMultipleTerm
 
     Expression expressionToVerify1(simplification1.getExpression());
     Expression expressionToVerify2(simplification2.getExpression());
-    Expression expressionToExpect1(
-                createExpressionIfPossible(
-    {"a", "^", Monomial(1, {{"b", 1}, {"c", 1}, {"d", 1}})}));
-    Expression expressionToExpect2(
-                createExpressionIfPossible(
-    {"x", "^", Monomial(6, {{"y", 1}})}));
+    Expression expressionToExpect1(createExpressionIfPossible({"a", "^", Monomial(1, {{"b", 1}, {"c", 1}, {"d", 1}})}));
+    Expression expressionToExpect2(createExpressionIfPossible({"x", "^", Monomial(6, {{"y", 1}})}));
     EXPECT_EQ(expressionToExpect1, expressionToVerify1);
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnRaiseToPowerAndItsNotAssociative)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnRaiseToPowerAndItsNotAssociative) {
     Term aToTheB(createExpressionIfPossible({"a", "^", "b"}));
     Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
     Expression expression(createExpressionIfPossible({aToTheB, "^", xToTheY}));
@@ -416,18 +345,17 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnRaiseToPowerAndItsNotAssocia
 
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(
-                createExpressionIfPossible(
-    {"a", "^", createExpressionIfPossible({"b", "*", xToTheY})}));
+        createExpressionIfPossible({"a", "^", createExpressionIfPossible({"b", "*", xToTheY})}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksMultiplyingPolynomialOverPolynomials)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksMultiplyingPolynomialOverPolynomials) {
     Polynomial polynomial1{Monomial(3, {{"x", 2}}), Monomial(-12, {{"x", 1}}), Monomial(-2, {})};
     Polynomial polynomial2{Monomial(1, {{"x", 2}}), Monomial(-6, {{"x", 1}}), Monomial(9, {})};
     Polynomial polynomial3{Monomial(1, {{"x", 2}}), Monomial(4, {{"x", 1}}), Monomial(6, {})};
     Polynomial polynomial4{Monomial(1, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(9, {})};
-    Polynomial polynomial5{Monomial(3, {{"x", 4}}), Monomial(-32, {{"x", 2}}), Monomial(-80, {{"x", 1}}), Monomial(-12, {})};
+    Polynomial polynomial5{
+        Monomial(3, {{"x", 4}}), Monomial(-32, {{"x", 2}}), Monomial(-80, {{"x", 1}}), Monomial(-12, {})};
     Polynomial polynomial6{Monomial(1, {{"x", 4}}), Monomial(-18, {{"x", 2}}), Monomial(81, {})};
     Expression subExpression1(createExpressionIfPossible({polynomial1, "/", polynomial2}));
     Expression subExpression2(createExpressionIfPossible({polynomial3, "/", polynomial4}));
@@ -437,13 +365,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksMultiplyingPolynomialOverPolyn
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(
-                createExpressionIfPossible({polynomial5, "/", polynomial6}));
+    Expression expressionToExpect(createExpressionIfPossible({polynomial5, "/", polynomial6}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksInsideAFunction)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksInsideAFunction) {
     Function absoluteValueFunction(abs(createOrCopyExpressionFromATerm(-100)));
     Expression expressionToTest(createOrCopyExpressionFromATerm(absoluteValueFunction));
     SimplificationOfExpression simplification(expressionToTest);
@@ -455,8 +381,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksInsideAFunction)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnConstantOverConstant)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnConstantOverConstant) {
     Expression expressionToTest;
     expressionToTest.putTermWithMultiplicationIfNeeded(Term(-252));
     expressionToTest.putTermWithDivisionIfNeeded(Term(25));
@@ -468,8 +393,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConstantOverConstant)
     EXPECT_EQ(Expression(Term(AlbaNumber::createFraction(-252, 25))), expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksOnPolynomialsToFractionalExponents)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnPolynomialsToFractionalExponents) {
     Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("(x+1)^(1/2)*(y+1)^(-1/3)*(z+1)^(1/4)")));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -483,13 +407,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnPolynomialsToFractionalExpon
     Term yExpressionTerm(createExpressionIfPossible({yPolynomialTerm, "^", AlbaNumber::createFraction(1, 3)}));
     Term zExpressionTerm(createExpressionIfPossible({zPolynomialTerm, "^", AlbaNumber::createFraction(1, 4)}));
     Expression expressionToExpect(
-                createExpressionIfPossible(
-    {xExpressionTerm, "*", zExpressionTerm, "/", yExpressionTerm}));
+        createExpressionIfPossible({xExpressionTerm, "*", zExpressionTerm, "/", yExpressionTerm}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorksWithEvaluatingFunctions)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWorksWithEvaluatingFunctions) {
     Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("x^2*y^-abs(-3)*z^4")));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -501,8 +423,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithEvaluatingFunctions)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(ExpressionTest, SimplifyWorksOnAddingMonomialAndExponentialTerms)
-{
+TEST(ExpressionTest, SimplifyWorksOnAddingMonomialAndExponentialTerms) {
     Expression subExpression1(createExpressionIfPossible({"a", "^", "b"}));
     Expression subExpression2(createExpressionIfPossible({Monomial(1, {{"x", 1}}), "*", subExpression1}));
     Expression subExpression3(createExpressionIfPossible({Monomial(1, {{"y", 1}}), "*", subExpression1}));
@@ -512,17 +433,14 @@ TEST(ExpressionTest, SimplifyWorksOnAddingMonomialAndExponentialTerms)
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(
-                createExpressionIfPossible(
-    {createExpressionIfPossible({"x", "*", subExpression1}),
-     "+", createExpressionIfPossible({"y", "*", subExpression1})}));
+    Expression expressionToExpect(createExpressionIfPossible(
+        {createExpressionIfPossible({"x", "*", subExpression1}), "+",
+         createExpressionIfPossible({"y", "*", subExpression1})}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash)
-{
-    Expression expression(createExpressionIfPossible(
-    {0, "/", 0}));
+TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash) {
+    Expression expression(createExpressionIfPossible({0, "/", 0}));
     SimplificationOfExpression simplification(expression);
 
     simplification.simplify();
@@ -531,67 +449,73 @@ TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash)
     EXPECT_TRUE(isNan(expressionToVerify));
 }
 
-TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksAsDefault)
-{
-    Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
+TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksAsDefault) {
+    Expression expressionToTest(
+        createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
     Term firstPart(createExpressionIfPossible({4, "/", Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}}));
-    Term secondPart(createExpressionIfPossible({Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}, "/", Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
-    Term thirdPart(createExpressionIfPossible({Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}, "/", Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}}));
+    Term secondPart(createExpressionIfPossible(
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}, "/",
+         Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
+    Term thirdPart(createExpressionIfPossible(
+        {Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}, "/",
+         Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}}));
     Expression expressionToExpect(createExpressionIfPossible({firstPart, "+", secondPart, "+", thirdPart}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToACommonDenominator = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
+    Expression expressionToTest(
+        createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
     Term firstPart(createExpressionIfPossible({4, "/", Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})}}));
-    Term secondPart(createExpressionIfPossible({Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}, "/", Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
-    Term thirdPart(createExpressionIfPossible({Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}, "/", Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}}));
+    Term secondPart(createExpressionIfPossible(
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})}, "/",
+         Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
+    Term thirdPart(createExpressionIfPossible(
+        {Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})}, "/",
+         Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}}));
     Expression expressionToExpect(createExpressionIfPossible({firstPart, "+", secondPart, "+", thirdPart}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
+    Expression expressionToTest(
+        createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(
-                createExpressionIfPossible(
-    {Polynomial{Monomial(2, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(-3, {})},
-     "/", Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
+    Expression expressionToExpect(createExpressionIfPossible(
+        {Polynomial{Monomial(2, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(-3, {})}, "/",
+         Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksWithExponentialAndTrigonometricFunction)
-{
+TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksWithExponentialAndTrigonometricFunction) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -607,73 +531,61 @@ TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksWith
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    EXPECT_EQ("(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2)",
-              convertToString(expressionToVerify));
+    EXPECT_EQ("(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2)", convertToString(expressionToVerify));
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksAsDefault)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksAsDefault) {
     Expression expression(createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})},
-     "^", 4,
-     "^", AlbaNumber::createFraction(1, 2)}));
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", 4, "^", AlbaNumber::createFraction(1, 2)}));
     SimplificationOfExpression simplification(expression);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(createOrCopyExpressionFromATerm(
-    {Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}}));
+        {Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     Expression expression(createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})},
-     "^", 4,
-     "^", AlbaNumber::createFraction(1, 2)}));
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", 4, "^", AlbaNumber::createFraction(1, 2)}));
     SimplificationOfExpression simplification(expression);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(createOrCopyExpressionFromATerm(
-    {Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}}));
+        {Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     Expression expression(createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})},
-     "^", 4,
-     "^", AlbaNumber::createFraction(1, 2)}));
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", 4, "^", AlbaNumber::createFraction(1, 2)}));
     SimplificationOfExpression simplification(expression);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createExpressionIfPossible(
-    {abs(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}),
-     "^", 2}));
+    Expression expressionToExpect(
+        createExpressionIfPossible({abs(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), "^", 2}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplicationAndDivisionWorksAsDefault)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplicationAndDivisionWorksAsDefault) {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
     Expression expressionToTest(createExpressionIfPossible({"x", "*", squareRootOfXPlusOne}));
@@ -686,10 +598,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplication
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplicationAndDivisionWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplicationAndDivisionWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -706,10 +617,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplication
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplicationAndDivisionWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplicationAndDivisionWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -723,12 +633,12 @@ TEST(SimplificationOfExpressionTest, SimplifyByCombiningRadicalsInMultiplication
 
     Expression expressionToVerify(simplification.getExpression());
     Term insideSquareRootTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 2}})});
-    Expression expressionToExpect(createExpressionIfPossible({insideSquareRootTerm, "^", AlbaNumber::createFraction(1, 2)}));
+    Expression expressionToExpect(
+        createExpressionIfPossible({insideSquareRootTerm, "^", AlbaNumber::createFraction(1, 2)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorksAsDefault)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorksAsDefault) {
     Term xPlusOneSquaredExpandedTerm(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})});
     Expression expressionToTest(createExpressionIfPossible({xPlusOneSquaredExpandedTerm, "^", "x"}));
     SimplificationOfExpression simplification(expressionToTest);
@@ -740,10 +650,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsign
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -759,10 +668,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsign
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -775,12 +683,11 @@ TEST(SimplificationOfExpressionTest, SimplifyByCheckingPolynomialRaiseToAnUnsign
 
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(createExpressionIfPossible(
-    {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", Monomial(2, {{"x", 1}})}));
+        {Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", Monomial(2, {{"x", 1}})}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksAsDefault)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksAsDefault) {
     Term numerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(3, {})});
     Expression expressionToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -795,10 +702,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksAsDefa
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByRationalizingNumerator = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -817,10 +723,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksIfItsN
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByRationalizingNumerator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -834,13 +739,13 @@ TEST(SimplificationOfExpressionTest, SimplifyByRationalizingNumeratorWorksIfItsS
 
     Expression expressionToVerify(simplification.getExpression());
     Term expectedNumerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
-    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
+    Term expectedDenominator(
+        Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
     Expression expressionToExpect(createExpressionIfPossible({expectedNumerator, "/", expectedDenominator}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksAsDefault)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksAsDefault) {
     Term numerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(3, {})});
     Expression expressionToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -855,10 +760,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksAsDe
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByRationalizingDenominator = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -877,10 +781,9 @@ TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksIfIt
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyByRationalizingDenominator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -893,14 +796,14 @@ TEST(SimplificationOfExpressionTest, SimplifyByRationalizingDenominatorWorksIfIt
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Term expectedNumerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
+    Term expectedNumerator(
+        Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-9, {})});
     Expression expressionToExpect(createExpressionIfPossible({expectedNumerator, "/", expectedDenominator}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesWorksAsDefault)
-{
+TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesWorksAsDefault) {
     Term tanX(tan("x"));
     Term numerator(createExpressionIfPossible({1, "+", tanX, "^", 2, "+", 2, "*", tanX}));
     Term denominator(createExpressionIfPossible({tanX, "+", 1}));
@@ -914,10 +817,9 @@ TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunction
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesWorksIfItsNotSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesWorksIfItsNotSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables = false;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -935,10 +837,9 @@ TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunction
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesWorksIfItsSet)
-{
+TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesWorksIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -956,10 +857,11 @@ TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunction
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunctionsToVariablesDoesNotCauseInfiniteLoopIfItsSet)
-{
+TEST(
+    SimplificationOfExpressionTest,
+    SimplifyBySubstitutingExpressionAndFunctionsToVariablesDoesNotCauseInfiniteLoopIfItsSet) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -976,10 +878,9 @@ TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunction
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyBySimplifyingToFactorsWorks)
-{
+TEST(SimplificationOfExpressionTest, SimplifyBySimplifyingToFactorsWorks) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToFactors = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -997,10 +898,11 @@ TEST(SimplificationOfExpressionTest, SimplifyBySimplifyingToFactorsWorks)
     EXPECT_EQ(stringToExpect, convertToString(expressionToVerify));
 }
 
-TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorAndShouldSimplifyToFactorsWorksToConvertPolynomialOverPolynomial)
-{
+TEST(
+    SimplificationOfExpressionTest,
+    ShouldSimplifyToACommonDenominatorAndShouldSimplifyToFactorsWorksToConvertPolynomialOverPolynomial) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldSimplifyToACommonDenominator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
@@ -1014,19 +916,14 @@ TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorAndShould
 
     Expression expressionToVerify(simplification.getExpression());
     Polynomial polynomialToExpect{Monomial(1, {{"x", 2}}), Monomial(1, {})};
-    Expression expressionToExpect(createExpressionIfPossible(
-    {polynomialToExpect,
-     "^",
-     AlbaNumber::createFraction(1, 2),
-     "/",
-     "x"}));
+    Expression expressionToExpect(
+        createExpressionIfPossible({polynomialToExpect, "^", AlbaNumber::createFraction(1, 2), "/", "x"}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWithoutDoubleValueWorks)
-{
+TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWithoutDoubleValueWorks) {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+        getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     SimplificationOfExpression::ScopeObject scopeObject;
@@ -1044,8 +941,8 @@ TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWithoutDoubleValueWorks)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

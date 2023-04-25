@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks) {
     Expression expression1(createExpressionIfPossible({true}));
     Expression expression2(createExpressionInAnExpression(expression1));
     Expression expression3(createExpressionInAnExpression(expression2));
@@ -33,8 +30,7 @@ TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
     EXPECT_TRUE(termToVerify5.getBooleanValue());
 }
 
-TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
-{
+TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks) {
     Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible({})));
     Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible({true})));
     Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible({"x", "&", "y"})));
@@ -45,6 +41,6 @@ TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
     EXPECT_EQ(termToExpect3, termToVerify3);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

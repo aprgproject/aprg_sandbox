@@ -2,19 +2,17 @@
 
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-enum class MessageName
-{
+enum class MessageName {
     Empty,
     SampleStaticMessage,
     SampleDynamicArrayMessage,
     SampleDynamicPolymorphicMessage
-#define MESSAGE_NAME_MACRO(MESSAGE_NAME) ,MESSAGE_NAME
-    #include <FeatureSpecificFiles/MessageNameMacro.hpp>
+#define MESSAGE_NAME_MACRO(MESSAGE_NAME) , MESSAGE_NAME
+#include <FeatureSpecificFiles/MessageNameMacro.hpp>
 #undef MESSAGE_NAME_MACRO
 
 };
 
-}
+}  // namespace DesignDocumentCreator

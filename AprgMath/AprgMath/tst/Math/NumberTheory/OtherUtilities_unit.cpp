@@ -4,30 +4,25 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-TEST(OtherUtilitiesTest, IsLagrangeTheoremTrueWorks)
-{
+TEST(OtherUtilitiesTest, IsLagrangeTheoremTrueWorks) {
     EXPECT_TRUE(isLagrangeTheoremTrue(13U));
     EXPECT_TRUE(isLagrangeTheoremTrue(64U));
     EXPECT_TRUE(isLagrangeTheoremTrue(65U));
     EXPECT_TRUE(isLagrangeTheoremTrue(84U));
 }
 
-TEST(OtherUtilitiesTest, IsZeckendorfTheoremTrueWorks)
-{
+TEST(OtherUtilitiesTest, IsZeckendorfTheoremTrueWorks) {
     EXPECT_TRUE(isZeckendorfTheoremTrue(13U));
     EXPECT_TRUE(isZeckendorfTheoremTrue(64U));
     EXPECT_TRUE(isZeckendorfTheoremTrue(65U));
     EXPECT_TRUE(isZeckendorfTheoremTrue(84U));
 }
 
-TEST(OtherUtilitiesTest, GetNthFibonacciNumberWorks)
-{
+TEST(OtherUtilitiesTest, GetNthFibonacciNumberWorks) {
     EXPECT_EQ(0U, getNthFibonacciNumber(0U));
     EXPECT_EQ(1U, getNthFibonacciNumber(1U));
     EXPECT_EQ(1U, getNthFibonacciNumber(2U));
@@ -36,8 +31,7 @@ TEST(OtherUtilitiesTest, GetNthFibonacciNumberWorks)
     EXPECT_EQ(34U, getNthFibonacciNumber(9U));
 }
 
-TEST(OtherUtilitiesTest, GetNthFibonacciNumberUsingBinetsFormulaWorks)
-{
+TEST(OtherUtilitiesTest, GetNthFibonacciNumberUsingBinetsFormulaWorks) {
     EXPECT_EQ(0U, getNthFibonacciNumberUsingBinetsFormula(0U));
     EXPECT_EQ(1U, getNthFibonacciNumberUsingBinetsFormula(1U));
     EXPECT_EQ(1U, getNthFibonacciNumberUsingBinetsFormula(2U));
@@ -46,8 +40,7 @@ TEST(OtherUtilitiesTest, GetNthFibonacciNumberUsingBinetsFormulaWorks)
     EXPECT_EQ(34U, getNthFibonacciNumberUsingBinetsFormula(9U));
 }
 
-TEST(OtherUtilitiesTest, GetNthFibonacciUsingMatrixPowerWithLogarithmicTimeWorks)
-{
+TEST(OtherUtilitiesTest, GetNthFibonacciUsingMatrixPowerWithLogarithmicTimeWorks) {
     EXPECT_EQ(0U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(0U));
     EXPECT_EQ(1U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(1U));
     EXPECT_EQ(1U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(2U));
@@ -56,8 +49,7 @@ TEST(OtherUtilitiesTest, GetNthFibonacciUsingMatrixPowerWithLogarithmicTimeWorks
     EXPECT_EQ(34U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(9U));
 }
 
-TEST(OtherUtilitiesTest, GetNthFibonacciUsingLogarithmicTabularDPTimeWorks)
-{
+TEST(OtherUtilitiesTest, GetNthFibonacciUsingLogarithmicTabularDPTimeWorks) {
     EXPECT_EQ(0U, getNthFibonacciUsingLogarithmicTabularDP(0U));
     EXPECT_EQ(1U, getNthFibonacciUsingLogarithmicTabularDP(1U));
     EXPECT_EQ(1U, getNthFibonacciUsingLogarithmicTabularDP(2U));
@@ -66,8 +58,7 @@ TEST(OtherUtilitiesTest, GetNthFibonacciUsingLogarithmicTabularDPTimeWorks)
     EXPECT_EQ(34U, getNthFibonacciUsingLogarithmicTabularDP(9U));
 }
 
-TEST(OtherUtilitiesTest, GetFibonacciNumbersBelowThisNumberWorks)
-{
+TEST(OtherUtilitiesTest, GetFibonacciNumbersBelowThisNumberWorks) {
     EXPECT_TRUE(getFibonacciNumbersBelowThisNumber(0U).empty());
     EXPECT_EQ((UnsignedIntegers{0U}), getFibonacciNumbersBelowThisNumber(1U));
     EXPECT_EQ((UnsignedIntegers{0U, 1U, 1U}), getFibonacciNumbersBelowThisNumber(2U));
@@ -76,6 +67,6 @@ TEST(OtherUtilitiesTest, GetFibonacciNumbersBelowThisNumberWorks)
     EXPECT_EQ((UnsignedIntegers{0U, 1U, 1U, 2U, 3U, 5U, 8U}), getFibonacciNumbersBelowThisNumber(9U));
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

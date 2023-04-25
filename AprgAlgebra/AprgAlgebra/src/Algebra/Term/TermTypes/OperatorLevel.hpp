@@ -1,19 +1,11 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-enum class OperatorLevel
-{
-    Unknown,
-    AdditionAndSubtraction,
-    MultiplicationAndDivision,
-    RaiseToPower
-};
+enum class OperatorLevel { Unknown, AdditionAndSubtraction, MultiplicationAndDivision, RaiseToPower };
 
 }
 
-}
+}  // namespace alba

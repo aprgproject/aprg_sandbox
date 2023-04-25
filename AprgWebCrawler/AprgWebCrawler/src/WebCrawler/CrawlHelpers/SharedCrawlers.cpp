@@ -53,7 +53,8 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler);
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
         {
-            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start\n";
+            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<<
+downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start\n";
             saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             continue;
         }

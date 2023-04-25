@@ -6,15 +6,12 @@
 #include <queue>
 #include <stack>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class EulerPathSearchForUndirectedGraphUsingDfs : public BaseEulerPathSearchForUndirectedGraph<Vertex>
-{
+class EulerPathSearchForUndirectedGraphUsingDfs : public BaseEulerPathSearchForUndirectedGraph<Vertex> {
 public:
     using BaseClass = BaseEulerPathSearchForUndirectedGraph<Vertex>;
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
@@ -26,15 +23,11 @@ public:
     using VertexToQueueOfEdgesMap = std::map<Vertex, QueueOfEdges>;
 
     EulerPathSearchForUndirectedGraphUsingDfs(BaseUndirectedGraphWithVertex const& graph)
-        : BaseClass(graph)
-        , b_graph(BaseClass::m_graph)
-    {}
+        : BaseClass(graph), b_graph(BaseClass::m_graph) {}
 
-    Path getEulerCycle() const override
-    {
+    Path getEulerCycle() const override {
         Path result;
-        if(this->hasEulerCycle())
-        {
+        if (this->hasEulerCycle()) {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerCycle());
             putStackOfVerticesOnPath(result, eulerPathInStack);
@@ -42,11 +35,9 @@ public:
         return result;
     }
 
-    Path getEulerPath() const override
-    {
+    Path getEulerPath() const override {
         Path result;
-        if(this->hasEulerPath())
-        {
+        if (this->hasEulerPath()) {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerPath());
             putStackOfVerticesOnPath(result, eulerPathInStack);
@@ -55,48 +46,43 @@ public:
     }
 
 private:
-
-    void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const
-    {
+    void searchForEulerPathUsingDfs(StackOfVertices& eulerPathInStack, Vertex const& startingVertex) const {
         // This is DFS
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap(createVertexToQueueOfEdgesMap());
         StackOfVertices pathToCheck;
         pathToCheck.push(startingVertex);
         SetOfEdges previousEdges;
-        while(!pathToCheck.empty())
-        {
+        while (!pathToCheck.empty()) {
             Vertex currentVertex(pathToCheck.top());
             pathToCheck.pop();
             auto it = vertexToQueueOfEdgesMap.find(currentVertex);
             // check the most recent vertex if there is a new path
-            while(it != vertexToQueueOfEdgesMap.cend() && !it->second.empty()) // traverse to find a continuous path, until a dead end is found
+            while (it != vertexToQueueOfEdgesMap.cend() &&
+                   !it->second.empty())  // traverse to find a continuous path, until a dead end is found
             {
-                QueueOfEdges & queueOfEdgesAtVertex(vertexToQueueOfEdgesMap[currentVertex]);
+                QueueOfEdges& queueOfEdgesAtVertex(vertexToQueueOfEdgesMap[currentVertex]);
                 Edge currentEdge(queueOfEdgesAtVertex.front());
                 queueOfEdgesAtVertex.pop();
-                if(previousEdges.find(currentEdge) != previousEdges.cend()) // must be a new edge
+                if (previousEdges.find(currentEdge) != previousEdges.cend())  // must be a new edge
                 {
                     continue;
                 }
                 previousEdges.emplace(currentEdge);
-                pathToCheck.push(currentVertex); // put encountered vertices in path to check
-                currentVertex = getTheOtherVertex(currentEdge, currentVertex); // get next vertex based from edge
+                pathToCheck.push(currentVertex);  // put encountered vertices in path to check
+                currentVertex = getTheOtherVertex(currentEdge, currentVertex);  // get next vertex based from edge
                 it = vertexToQueueOfEdgesMap.find(currentVertex);
             }
-            eulerPathInStack.push(currentVertex); // put the most recent "dead end" vertices (vertices with no new edges) on euler path
+            eulerPathInStack.push(
+                currentVertex);  // put the most recent "dead end" vertices (vertices with no new edges) on euler path
         }
     }
 
-    VertexToQueueOfEdgesMap createVertexToQueueOfEdgesMap() const
-    {
+    VertexToQueueOfEdgesMap createVertexToQueueOfEdgesMap() const {
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap;
-        for(Vertex const& vertex : b_graph.getVertices())
-        {
+        for (Vertex const& vertex : b_graph.getVertices()) {
             auto adjacentVertices(b_graph.getAdjacentVerticesAt(vertex));
-            for(Vertex const& adjacencyVertex : adjacentVertices)
-            {
-                if(vertex < adjacencyVertex)
-                {
+            for (Vertex const& adjacencyVertex : adjacentVertices) {
+                if (vertex < adjacencyVertex) {
                     vertexToQueueOfEdgesMap[vertex].emplace(Edge(vertex, adjacencyVertex));
                     vertexToQueueOfEdgesMap[adjacencyVertex].emplace(Edge(vertex, adjacencyVertex));
                 }
@@ -105,24 +91,18 @@ private:
         return vertexToQueueOfEdgesMap;
     }
 
-    void putStackOfVerticesOnPath(Path & result, StackOfVertices & cycle) const
-    {
-        while(!cycle.empty())
-        {
+    void putStackOfVerticesOnPath(Path& result, StackOfVertices& cycle) const {
+        while (!cycle.empty()) {
             result.emplace_back(cycle.top());
             cycle.pop();
         }
     }
 
-    Vertex getTheOtherVertex(Edge const& edge, Vertex const& currentVertex) const
-    {
+    Vertex getTheOtherVertex(Edge const& edge, Vertex const& currentVertex) const {
         Vertex result;
-        if(currentVertex == edge.first)
-        {
+        if (currentVertex == edge.first) {
             result = edge.second;
-        }
-        else
-        {
+        } else {
             result = edge.first;
         }
         return result;
@@ -130,6 +110,6 @@ private:
     BaseUndirectedGraphWithVertex const& b_graph;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

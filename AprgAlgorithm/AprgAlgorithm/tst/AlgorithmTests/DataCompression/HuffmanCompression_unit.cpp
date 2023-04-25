@@ -7,19 +7,15 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using CompressionForTest = HuffmanCompression<unsigned int>;
 }
 
-TEST(HuffmanCompressionTest, CompressWorksUsingExample1)
-{
+TEST(HuffmanCompressionTest, CompressWorksUsingExample1) {
     stringstream inputSs;
     inputSs << "ABRACADABRA!";
     stringstream outputSs;
@@ -30,8 +26,7 @@ TEST(HuffmanCompressionTest, CompressWorksUsingExample1)
     EXPECT_EQ("504A22434350AA400000018DD68DD4", getHexEquivalentOfCharacters(outputSs.str()));
 }
 
-TEST(HuffmanCompressionTest, ExpandWorksUsingExample1)
-{
+TEST(HuffmanCompressionTest, ExpandWorksUsingExample1) {
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
@@ -44,8 +39,7 @@ TEST(HuffmanCompressionTest, ExpandWorksUsingExample1)
     EXPECT_EQ("ABRACADABRA!", outputSs.str());
 }
 
-TEST(HuffmanCompressionTest, CompressWorksUsingExample2)
-{
+TEST(HuffmanCompressionTest, CompressWorksUsingExample2) {
     stringstream inputSs;
     inputSs << "it was the best of times it was the worst of times";
     stringstream outputSs;
@@ -53,15 +47,17 @@ TEST(HuffmanCompressionTest, CompressWorksUsingExample2)
 
     compression.compress(inputSs, outputSs);
 
-    EXPECT_EQ("0B6DDECB202E6B7AD1660B15CAC369BA000000196F4731F62E0676AEFD031DE8E63EC51AC676AEFD0300", getHexEquivalentOfCharacters(outputSs.str()));
+    EXPECT_EQ(
+        "0B6DDECB202E6B7AD1660B15CAC369BA000000196F4731F62E0676AEFD031DE8E63EC51AC676AEFD0300",
+        getHexEquivalentOfCharacters(outputSs.str()));
 }
 
-TEST(HuffmanCompressionTest, ExpandWorksUsingExample2)
-{
+TEST(HuffmanCompressionTest, ExpandWorksUsingExample2) {
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
-    initialWriter.writeHexDigitData("0B6DDECB202E6B7AD1660B15CAC369BA000000196F4731F62E0676AEFD031DE8E63EC51AC676AEFD0300");
+    initialWriter.writeHexDigitData(
+        "0B6DDECB202E6B7AD1660B15CAC369BA000000196F4731F62E0676AEFD031DE8E63EC51AC676AEFD0300");
     initialWriter.flush();
     CompressionForTest compression;
 
@@ -70,6 +66,6 @@ TEST(HuffmanCompressionTest, ExpandWorksUsingExample2)
     EXPECT_EQ("it was the best of times it was the worst of times", outputSs.str());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

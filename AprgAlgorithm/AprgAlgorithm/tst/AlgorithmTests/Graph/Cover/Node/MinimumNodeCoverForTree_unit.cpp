@@ -3,22 +3,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using SetOfVertices = typename GraphTypes<VertexForTest>::SetOfVertices;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using MinimumNodeCoverForTreeForTest = MinimumNodeCoverForTree<VertexForTest>;
-}
+}  // namespace
 
-TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample1)
-{
+TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample1) {
     GraphForTest graph;
     graph.connect(10U, 20U);
     graph.connect(10U, 30U);
@@ -33,8 +29,7 @@ TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample1)
     EXPECT_EQ((SetOfVertices{20U, 30U, 50U}), minimumNodeCover.getMinimumNodeCover());
 }
 
-TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample2)
-{
+TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample2) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 4U);
@@ -49,6 +44,6 @@ TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample2)
     EXPECT_EQ((SetOfVertices{1U, 2U, 4U, 7U}), minimumNodeCover.getMinimumNodeCover());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

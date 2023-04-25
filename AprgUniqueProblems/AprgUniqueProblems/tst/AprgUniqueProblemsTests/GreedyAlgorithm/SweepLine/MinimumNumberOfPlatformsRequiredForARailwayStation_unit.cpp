@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfPlatformsWorksForExample1)
-{
+TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfPlatformsWorksForExample1) {
     MinimumNumberOfPlatformsRequiredForARailwayStation maximumEmployeeCount;
 
     maximumEmployeeCount.addTrainSchedule(900U, 910U);
@@ -21,8 +19,7 @@ TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfP
     EXPECT_EQ(3U, maximumEmployeeCount.getMinimumNumberOfPlatforms());
 }
 
-TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfPlatformsWorksForExample2)
-{
+TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfPlatformsWorksForExample2) {
     MinimumNumberOfPlatformsRequiredForARailwayStation maximumEmployeeCount;
 
     maximumEmployeeCount.addTrainSchedule(900U, 910U);
@@ -31,4 +28,4 @@ TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfP
     EXPECT_EQ(1U, maximumEmployeeCount.getMinimumNumberOfPlatforms());
 }
 
-}
+}  // namespace alba

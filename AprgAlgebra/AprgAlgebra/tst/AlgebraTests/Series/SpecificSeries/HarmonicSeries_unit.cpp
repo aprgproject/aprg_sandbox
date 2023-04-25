@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(HarmonicSeriesTest, IsSummationModelValidWorks)
-{
+TEST(HarmonicSeriesTest, IsSummationModelValidWorks) {
     HarmonicSeries series;
 
     EXPECT_FALSE(series.isSummationModelValid());
 }
 
-TEST(HarmonicSeriesTest, GetValueAtIndexWorks)
-{
+TEST(HarmonicSeriesTest, GetValueAtIndexWorks) {
     HarmonicSeries series;
 
     EXPECT_EQ(Term(1), series.getValueAtIndex(0));
@@ -27,6 +23,6 @@ TEST(HarmonicSeriesTest, GetValueAtIndexWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(25, 12)), series.getValueAtIndex(3));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

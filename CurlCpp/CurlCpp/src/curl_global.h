@@ -26,40 +26,40 @@
 #ifndef __curlcpp__curl_global__
 #define __curlcpp__curl_global__
 
-#include <curl/curl.h>
 #include "curl_exception.h"
+#include <curl/curl.h>
 
 namespace curl {
+/**
+ * This class provides global initialization of curl so that use of all curl
+ * interfaces is thread safe.
+ */
+class curl_global {
+public:
     /**
-     * This class provides global initialization of curl so that use of all curl
-     * interfaces is thread safe.
+     * The default constructor will initialize the curl
+     * environment with the default flag.
      */
-    class curl_global {
-    public:
-        /**
-         * The default constructor will initialize the curl
-         * environment with the default flag.
-         */
-        curl_global();
-        /**
-         * Overloaded constructor that initializes curl environment
-         * with user specified flag.
-         */
-        explicit curl_global(long);
+    curl_global();
+    /**
+     * Overloaded constructor that initializes curl environment
+     * with user specified flag.
+     */
+    explicit curl_global(long);
 
-        /**
-          * Copying disabled to follow RAII idiom.
-          */
-        curl_global(const curl_global&) = delete;
-        curl_global& operator=(const curl_global&) = delete;
+    /**
+     * Copying disabled to follow RAII idiom.
+     */
+    curl_global(const curl_global&) = delete;
+    curl_global& operator=(const curl_global&) = delete;
 
-        /**
-         * The virtual destructor will provide an easy and clean
-         * way to deallocate resources, closing curl environment
-         * correctly.
-         */
-        virtual ~curl_global();
-    };
-}
+    /**
+     * The virtual destructor will provide an easy and clean
+     * way to deallocate resources, closing curl environment
+     * correctly.
+     */
+    virtual ~curl_global();
+};
+}  // namespace curl
 
-#endif	/* defined(__curlcpp__curl_global__) */
+#endif /* defined(__curlcpp__curl_global__) */

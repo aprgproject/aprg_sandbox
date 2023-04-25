@@ -4,172 +4,148 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-enum class IfsDefinitionType
-{
-    Struct,
-    Union,
-    Enum,
-    Typedef,
-    Constant
-};
+enum class IfsDefinitionType { Struct, Union, Enum, Typedef, Constant };
 
-struct ConstantDetails
-{
+struct ConstantDetails {
     std::string name;
     std::string value;
     std::string description;
     std::string descriptionFromUser;
     std::string path;
     bool isUsedInIfs;
-    void clear()
-    {
+    void clear() {
         name.clear();
         value.clear();
         description.clear();
         descriptionFromUser.clear();
-        isUsedInIfs=false;
+        isUsedInIfs = false;
     }
-    friend std::ostream & operator<<(std::ostream & out, ConstantDetails const& constantDetails);
-    friend std::istream & operator>>(std::istream & in, ConstantDetails& constantDetails);
+    friend std::ostream& operator<<(std::ostream& out, ConstantDetails const& constantDetails);
+    friend std::istream& operator>>(std::istream& in, ConstantDetails& constantDetails);
 };
 
-struct MessageDetails
-{
+struct MessageDetails {
     std::string name;
     std::string structureName;
     std::string path;
     bool isUsedInIfs;
-    void clear()
-    {
+    void clear() {
         name.clear();
         structureName.clear();
         path.clear();
-        isUsedInIfs=false;
+        isUsedInIfs = false;
     }
-    friend std::ostream & operator<<(std::ostream & out, MessageDetails const& messageDetails);
-    friend std::istream & operator>>(std::istream & in, MessageDetails& messageDetails);
+    friend std::ostream& operator<<(std::ostream& out, MessageDetails const& messageDetails);
+    friend std::istream& operator>>(std::istream& in, MessageDetails& messageDetails);
 };
 
-struct EnumParameterDetails
-{
+struct EnumParameterDetails {
     std::string name;
     std::string value;
     std::string description;
     std::string descriptionFromUser;
-    void clear()
-    {
+    void clear() {
         name.clear();
         value.clear();
         description.clear();
         descriptionFromUser.clear();
     }
-    friend std::ostream & operator<<(std::ostream & out, EnumParameterDetails const& enumParameterDetails);
-    friend std::istream & operator>>(std::istream & in, EnumParameterDetails& enumParameterDetails);
+    friend std::ostream& operator<<(std::ostream& out, EnumParameterDetails const& enumParameterDetails);
+    friend std::istream& operator>>(std::istream& in, EnumParameterDetails& enumParameterDetails);
 };
 
-struct EnumDetails
-{
+struct EnumDetails {
     using ParameterMap = std::map<std::string, EnumParameterDetails>;
     using ParameterPair = std::pair<std::string, EnumParameterDetails>;
     std::string name;
     ParameterMap parameters;
     std::string path;
     bool isUsedInIfs;
-    void clear()
-    {
+    void clear() {
         name.clear();
         parameters.clear();
-        isUsedInIfs=false;
+        isUsedInIfs = false;
     }
-    friend std::ostream & operator<<(std::ostream & out, EnumDetails const& enumDetails);
-    friend std::istream & operator>>(std::istream & in, EnumDetails& enumDetails);
+    friend std::ostream& operator<<(std::ostream& out, EnumDetails const& enumDetails);
+    friend std::istream& operator>>(std::istream& in, EnumDetails& enumDetails);
 };
 
-struct ParameterDetails
-{
+struct ParameterDetails {
     std::string type;
     std::string name;
     std::string description;
     std::string descriptionFromUser;
     bool isAnArray;
     std::string arraySize;
-    void clear()
-    {
+    void clear() {
         type.clear();
         name.clear();
         description.clear();
         descriptionFromUser.clear();
-        isAnArray=false;
+        isAnArray = false;
         arraySize.clear();
     }
-    friend std::ostream & operator<<(std::ostream & out, ParameterDetails const& parameterDetails);
-    friend std::istream & operator>>(std::istream & in, ParameterDetails& parameterDetails);
+    friend std::ostream& operator<<(std::ostream& out, ParameterDetails const& parameterDetails);
+    friend std::istream& operator>>(std::istream& in, ParameterDetails& parameterDetails);
 };
 
-struct StructureDetails
-{
+struct StructureDetails {
     using ParameterMap = std::map<std::string, ParameterDetails>;
     using ParameterPair = std::pair<std::string, ParameterDetails>;
     std::string name;
     ParameterMap parameters;
-    std::vector<std::string> parametersWithCorrectOrder; // unordered_map
+    std::vector<std::string> parametersWithCorrectOrder;  // unordered_map
     std::string path;
     bool isMessage;
     bool isUsedInIfs;
-    void clear()
-    {
+    void clear() {
         name.clear();
         parameters.clear();
         parametersWithCorrectOrder.clear();
-        isMessage=false;
-        isUsedInIfs=false;
+        isMessage = false;
+        isUsedInIfs = false;
     }
-    friend std::ostream & operator<<(std::ostream & out, StructureDetails const& structureDetails);
-    friend std::istream & operator>>(std::istream & in, StructureDetails& structureDetails);
+    friend std::ostream& operator<<(std::ostream& out, StructureDetails const& structureDetails);
+    friend std::istream& operator>>(std::istream& in, StructureDetails& structureDetails);
 };
 
-struct UnionDetails
-{
+struct UnionDetails {
     using ParameterMap = std::map<std::string, ParameterDetails>;
     using ParameterPair = std::pair<std::string, ParameterDetails>;
     std::string name;
     ParameterMap parameters;
-    std::vector<std::string> parametersWithCorrectOrder; // unordered_map
+    std::vector<std::string> parametersWithCorrectOrder;  // unordered_map
     std::string path;
     bool isUsedInIfs;
-    void clear()
-    {
+    void clear() {
         name.clear();
         parameters.clear();
         parametersWithCorrectOrder.clear();
-        isUsedInIfs=false;
+        isUsedInIfs = false;
     }
-    friend std::ostream & operator<<(std::ostream & out, UnionDetails const& unionDetails);
-    friend std::istream & operator>>(std::istream & in, UnionDetails& unionDetails);
+    friend std::ostream& operator<<(std::ostream& out, UnionDetails const& unionDetails);
+    friend std::istream& operator>>(std::istream& in, UnionDetails& unionDetails);
 };
 
-struct TypedefDetails
-{
+struct TypedefDetails {
     std::string name;
     std::string typedefDerivedName;
     std::string description;
     std::string descriptionFromUser;
     std::string path;
     bool isUsedInIfs;
-    void clear()
-    {
+    void clear() {
         name.clear();
         typedefDerivedName.clear();
         description.clear();
         descriptionFromUser.clear();
         path.clear();
-        isUsedInIfs=false;
+        isUsedInIfs = false;
     }
-    friend std::ostream & operator<<(std::ostream & out, TypedefDetails const& typedefDetails);
-    friend std::istream & operator>>(std::istream & in, TypedefDetails& typedefDetails);
+    friend std::ostream& operator<<(std::ostream& out, TypedefDetails const& typedefDetails);
+    friend std::istream& operator>>(std::istream& in, TypedefDetails& typedefDetails);
 };
 
 std::string getPrimitiveTypeDescription(std::string const& primitiveType);
@@ -189,5 +165,4 @@ using EnumNameToEnumDetailsPair = std::pair<std::string, EnumDetails>;
 using TypedefNameToTypedefDetailsMap = std::map<std::string, TypedefDetails>;
 using TypedefNameToTypedefDetailsPair = std::pair<std::string, TypedefDetails>;
 
-
-} // namespace alba
+}  // namespace alba

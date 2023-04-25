@@ -3,7 +3,6 @@
 #include "../Builder/TermBuilder.hpp"
 #include "../Findings/Findings.hpp"
 #include "../Term/Term.hpp"
-
 #include <File/AlbaFileReader.hpp>
 
 #include <fstream>
@@ -15,25 +14,24 @@ using std::ifstream;
 using std::string;
 using std::vector;
 
-namespace codeReview
-{
+namespace codeReview {
 
-class TermTranslator
-{
+class TermTranslator {
 public:
     explicit TermTranslator(string const& fileName, Findings& findings, DequeOfTerms& dequeOfTerms);
     bool isFileValid();
     void readFile();
+
 private:
-    bool getCPlusPlusTerm(string& lineString, int & index);
-    bool hasSingleLineComment(string & lineString, int& index);
-    bool hasMultiLineComment(string & lineString, int& index);
-    bool hasMacro(string & lineString, int& index);
-    bool hasStringConstant(string & lineString, int& index);
-    bool hasCharacterConstant(string & lineString, int& index);
-    bool hasOperator(string & operatorString, int& index);
-    bool hasWord(string & lineString, int& index);
-    bool hasWhiteSpace(string & lineString, int& index);
+    bool getCPlusPlusTerm(string& lineString, int& index);
+    bool hasSingleLineComment(string& lineString, int& index);
+    bool hasMultiLineComment(string& lineString, int& index);
+    bool hasMacro(string& lineString, int& index);
+    bool hasStringConstant(string& lineString, int& index);
+    bool hasCharacterConstant(string& lineString, int& index);
+    bool hasOperator(string& operatorString, int& index);
+    bool hasWord(string& lineString, int& index);
+    bool hasWhiteSpace(string& lineString, int& index);
 
     string getLine();
     bool isEqualToFirstTwoCharacters(string const& lineString, int& index, string const& stringToCheck);
@@ -60,4 +58,4 @@ private:
     vector<string> m_stringOfIgnorableIdentifiers;
 };
 
-}// namespace codeReview
+}  // namespace codeReview

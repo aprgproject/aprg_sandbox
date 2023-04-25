@@ -2,19 +2,16 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class BaseTerm
-{
+class BaseTerm {
 public:
     BaseTerm() = default;
-    virtual ~BaseTerm() = default; // virtual destructor because it needs to be polymorphically deleted
+    virtual ~BaseTerm() = default;  // virtual destructor because it needs to be polymorphically deleted
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

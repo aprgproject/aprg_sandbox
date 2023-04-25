@@ -4,13 +4,10 @@
 
 #include <string>
 
-namespace alba
-{
-using  MousePosition = AlbaXY<int>;
+namespace alba {
+using MousePosition = AlbaXY<int>;
 
-
-class AlbaLinuxUserAutomation
-{
+class AlbaLinuxUserAutomation {
     /*
 public:
     bool isLetterPressed(char const letter) const;
@@ -39,4 +36,4 @@ private:
     static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=1000;
 */
 };
-}
+}  // namespace alba

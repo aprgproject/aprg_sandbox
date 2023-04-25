@@ -5,34 +5,23 @@
 using namespace alba::algorithm;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-DeBruijnSequences::DeBruijnSequences(
-        unsigned int const substringSize,
-        string const& alphabet)
-    : m_substringSize(substringSize)
-    , m_alphabet(alphabet)
-{
+DeBruijnSequences::DeBruijnSequences(unsigned int const substringSize, string const& alphabet)
+    : m_substringSize(substringSize), m_alphabet(alphabet) {
     initialize();
 }
 
-string DeBruijnSequences::getDeBruijnString() const
-{
+string DeBruijnSequences::getDeBruijnString() const {
     string result;
-    if(m_substringSize==1)
-    {
+    if (m_substringSize == 1) {
         result = m_alphabet;
-    }
-    else
-    {
+    } else {
         HierholzerAlgorithmForDirectedGraph<string> eulerPathSearch(m_graph);
         auto eulerPath(eulerPathSearch.getEulerPath());
-        if(!eulerPath.empty())
-        {
+        if (!eulerPath.empty()) {
             result = eulerPath.front();
-            for(auto it=eulerPath.cbegin()+1; it!=eulerPath.cend(); it++)
-            {
+            for (auto it = eulerPath.cbegin() + 1; it != eulerPath.cend(); it++) {
                 result += it->back();
             }
         }
@@ -40,33 +29,25 @@ string DeBruijnSequences::getDeBruijnString() const
     return result;
 }
 
-void DeBruijnSequences::initialize()
-{
-    if(m_substringSize>1 && !m_alphabet.empty())
-    {
+void DeBruijnSequences::initialize() {
+    if (m_substringSize > 1 && !m_alphabet.empty()) {
         addAllSubstringsAsVertex();
     }
 }
 
-void DeBruijnSequences::addAllSubstringsAsVertex()
-{
-    string substring(m_substringSize-1, m_alphabet.front());
+void DeBruijnSequences::addAllSubstringsAsVertex() {
+    string substring(m_substringSize - 1, m_alphabet.front());
     addSubstringAsVertex(0U, substring);
 }
 
-void DeBruijnSequences::addSubstringAsVertex(
-        unsigned int const depth,
-        string const& substring)
-{
-    if(depth < m_substringSize)
-    {
-        for(char const c : m_alphabet)
-        {
+void DeBruijnSequences::addSubstringAsVertex(unsigned int const depth, string const& substring) {
+    if (depth < m_substringSize) {
+        for (char const c : m_alphabet) {
             string newSubstring = substring.substr(1, substring.length()) + c;
-            addSubstringAsVertex(depth+1, newSubstring);
+            addSubstringAsVertex(depth + 1, newSubstring);
             m_graph.connect(substring, newSubstring);
         }
     }
 }
 
-}
+}  // namespace alba

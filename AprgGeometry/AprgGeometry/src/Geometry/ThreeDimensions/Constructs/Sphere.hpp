@@ -4,17 +4,14 @@
 
 #include <optional>
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-class Sphere
-{
+class Sphere {
 public:
     Sphere();
-    Sphere(Point const& center, double const radius); // (x-center.x)^2 + (y-center.y)^2 + (z-center.z)^2 = r^2
+    Sphere(Point const& center, double const radius);  // (x-center.x)^2 + (y-center.y)^2 + (z-center.z)^2 = r^2
     bool operator==(Sphere const& sphere) const;
     bool operator!=(Sphere const& sphere) const;
     bool operator<(Sphere const& sphere) const;
@@ -26,7 +23,7 @@ public:
     std::optional<double> calculateZFromXAndY(double const x, double const y, double const signOfRoot) const;
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Sphere const& sphere);
+    friend std::ostream& operator<<(std::ostream& out, Sphere const& sphere);
 
     Point m_center;
     double m_radius;
@@ -35,5 +32,5 @@ private:
 
 using Spheres = std::vector<Sphere>;
 
-}
-}
+}  // namespace ThreeDimensions
+}  // namespace alba

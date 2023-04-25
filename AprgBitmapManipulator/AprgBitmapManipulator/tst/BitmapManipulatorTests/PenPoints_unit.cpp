@@ -5,14 +5,11 @@
 using namespace alba::AprgBitmap;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-TEST(PenPointsTest, IsPenPointWorks)
-{
+TEST(PenPointsTest, IsPenPointWorks) {
     PenPoints penPoints;
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
 
@@ -20,8 +17,7 @@ TEST(PenPointsTest, IsPenPointWorks)
     EXPECT_TRUE(penPoints.isPenPoint(BitmapXY(4155U, 6416U)));
 }
 
-TEST(PenPointsTest, GetPenPointsWorks)
-{
+TEST(PenPointsTest, GetPenPointsWorks) {
     PenPoints penPoints;
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
 
@@ -32,8 +28,7 @@ TEST(PenPointsTest, GetPenPointsWorks)
     EXPECT_EQ(BitmapXY(4155U, 6416U), pointToVerify);
 }
 
-TEST(PenPointsTest, AddAsPenPointWorks)
-{
+TEST(PenPointsTest, AddAsPenPointWorks) {
     PenPoints penPoints;
 
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
@@ -44,23 +39,21 @@ TEST(PenPointsTest, AddAsPenPointWorks)
     EXPECT_EQ(BitmapXY(4155U, 6416U), pointToVerify);
 }
 
-TEST(PenPointsTest, AddAsPenPointsWorks)
-{
+TEST(PenPointsTest, AddAsPenPointsWorks) {
     PenPoints penPoints;
 
     penPoints.addAsPenPoints({BitmapXY(4155U, 6416U), BitmapXY(4156U, 256U)});
 
     PenPoints::PenPointsSet const& penPointsToVerify(penPoints.getPenPoints());
     ASSERT_EQ(2U, penPointsToVerify.size());
-    PenPoints::PenPointsSet::const_iterator itToVerify=penPointsToVerify.cbegin();
+    PenPoints::PenPointsSet::const_iterator itToVerify = penPointsToVerify.cbegin();
     BitmapXY const& pointToVerify1(*itToVerify++);
     BitmapXY const& pointToVerify2(*itToVerify++);
     EXPECT_EQ(BitmapXY(4155U, 6416U), pointToVerify1);
     EXPECT_EQ(BitmapXY(4156U, 256U), pointToVerify2);
 }
 
-TEST(PenPointsTest, RemovePenPointWorks)
-{
+TEST(PenPointsTest, RemovePenPointWorks) {
     PenPoints penPoints;
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
 
@@ -70,8 +63,7 @@ TEST(PenPointsTest, RemovePenPointWorks)
     ASSERT_TRUE(penPointsToVerify.empty());
 }
 
-TEST(PenPointsTest, ClearWorks)
-{
+TEST(PenPointsTest, ClearWorks) {
     PenPoints penPoints;
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
 
@@ -81,6 +73,6 @@ TEST(PenPointsTest, ClearWorks)
     ASSERT_TRUE(penPointsToVerify.empty());
 }
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

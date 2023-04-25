@@ -4,115 +4,99 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(TermOperatorsTest, UnaryPlusOperatorWorksWithEmptyTerm)
-{
+TEST(TermOperatorsTest, UnaryPlusOperatorWorksWithEmptyTerm) {
     Term term(+Term());
 
     EXPECT_EQ(Term(), term);
 }
 
-TEST(TermOperatorsTest, UnaryPlusOperatorWorks)
-{
+TEST(TermOperatorsTest, UnaryPlusOperatorWorks) {
     Term term(+Term(6));
 
     EXPECT_EQ(Term(6), term);
 }
 
-TEST(TermOperatorsTest, UnaryMinusOperatorWorksWithEmptyTerm)
-{
+TEST(TermOperatorsTest, UnaryMinusOperatorWorksWithEmptyTerm) {
     Term term(-Term());
 
     EXPECT_EQ(Term(), term);
 }
 
-TEST(TermOperatorsTest, UnaryMinusOperatorWorks)
-{
+TEST(TermOperatorsTest, UnaryMinusOperatorWorks) {
     Term term(-Term(6));
 
     EXPECT_EQ(Term(-6), term);
 }
 
-TEST(TermOperatorsTest, BinaryPlusOperatorWorks)
-{
-    Term term(Term(6)+Term(3));
+TEST(TermOperatorsTest, BinaryPlusOperatorWorks) {
+    Term term(Term(6) + Term(3));
 
     EXPECT_EQ(Term(9), term);
 }
 
-TEST(TermOperatorsTest, BinaryPlusAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryPlusAssignmentOperatorWorks) {
     Term term(6);
     term += 3;
 
     EXPECT_EQ(Term(9), term);
 }
 
-TEST(TermOperatorsTest, BinaryMinusOperatorWorks)
-{
-    Term term(Term(6)-Term(3));
+TEST(TermOperatorsTest, BinaryMinusOperatorWorks) {
+    Term term(Term(6) - Term(3));
 
     EXPECT_EQ(Term(3), term);
 }
 
-TEST(TermOperatorsTest, BinaryMinusAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryMinusAssignmentOperatorWorks) {
     Term term(6);
     term -= 3;
 
     EXPECT_EQ(Term(3), term);
 }
 
-TEST(TermOperatorsTest, BinaryMultiplyOperatorWorks)
-{
-    Term term(Term(6)*Term(3));
+TEST(TermOperatorsTest, BinaryMultiplyOperatorWorks) {
+    Term term(Term(6) * Term(3));
 
     EXPECT_EQ(Term(18), term);
 }
 
-TEST(TermOperatorsTest, BinaryMultiplyAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryMultiplyAssignmentOperatorWorks) {
     Term term(6);
     term *= 3;
 
     EXPECT_EQ(Term(18), term);
 }
 
-TEST(TermOperatorsTest, BinaryDivideOperatorWorks)
-{
-    Term term(Term(6)/Term(3));
+TEST(TermOperatorsTest, BinaryDivideOperatorWorks) {
+    Term term(Term(6) / Term(3));
 
     EXPECT_EQ(Term(2), term);
 }
 
-TEST(TermOperatorsTest, BinaryDivideAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryDivideAssignmentOperatorWorks) {
     Term term(6);
     term /= 3;
 
     EXPECT_EQ(Term(2), term);
 }
 
-TEST(TermOperatorsTest, BinaryRaiseToPowerOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryRaiseToPowerOperatorWorks) {
     Term term(Term(6) ^ Term(2));
 
     EXPECT_EQ(Term(36), term);
 }
 
-TEST(TermOperatorsTest, BinaryRaiseToPowerAssignmentOperatorWorks)
-{
+TEST(TermOperatorsTest, BinaryRaiseToPowerAssignmentOperatorWorks) {
     Term term(6);
     term ^= 2;
 
     EXPECT_EQ(Term(36), term);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -1,5 +1,4 @@
 #include "KickStart_2019_PracticeRound_P1_NumberGuessing.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,52 +6,60 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2019_PracticeRound_P1_NumberGuessing
-{
+namespace KickStart_2019_PracticeRound_P1_NumberGuessing {
 
-TEST(KickStart_2019_PracticeRound_P1_NumberGuessingTest, DISABLED_Test1) // Interactive problem so it cant be tested here.
+TEST(
+    KickStart_2019_PracticeRound_P1_NumberGuessingTest,
+    DISABLED_Test1)  // Interactive problem so it cant be tested here.
 {
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "" "\n"
-            << "" "\n"
-            << "" "\n"
-            << "" "\n"
-            << endl;
+    inputStringStream << ""
+                         "\n"
+                      << ""
+                         "\n"
+                      << ""
+                         "\n"
+                      << ""
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "" "\n"
-                "" "\n"
-                "" "\n"
-                "" "\n"
-                , outputStringStream.str());
+        ""
+        "\n"
+        ""
+        "\n"
+        ""
+        "\n"
+        ""
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2019_PracticeRound_P1_NumberGuessing
 
 /*
 Problem
 
-This problem is a well-known classic; we present it primarily as an opportunity for you to try out the interactive judging system.
+This problem is a well-known classic; we present it primarily as an opportunity for you to try out the interactive
+judging system.
 
 We are thinking of an integer P within the range (A,B] — that is, A < P ≤ B. You have N tries to guess our number.
 After each guess that is not correct, we will tell you whether P is higher or lower than your guess.
 Input and output
 
-This problem is interactive, which means that the concepts of input and output are different than in standard Code Jam problems.
-You will interact with a separate process that both provides you with information and evaluates your responses.
-All information comes into your program via standard input; anything that you need to communicate should be sent via standard output.
- Remember that many programming languages buffer the output by default,
-so make sure your output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response.
-See the FAQ for an explanation of what it means to flush the buffer.
- Anything your program sends through standard error is ignored,
-but it might consume some memory and be counted against your memory limit, so do not overflow it.
-To help you debug, a local testing tool script (in Python) is provided at the very end of the problem statement.
+This problem is interactive, which means that the concepts of input and output are different than in standard Code Jam
+problems. You will interact with a separate process that both provides you with information and evaluates your
+responses. All information comes into your program via standard input; anything that you need to communicate should be
+sent via standard output. Remember that many programming languages buffer the output by default, so make sure your
+output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response. See the FAQ for
+an explanation of what it means to flush the buffer. Anything your program sends through standard error is ignored, but
+it might consume some memory and be counted against your memory limit, so do not overflow it. To help you debug, a local
+testing tool script (in Python) is provided at the very end of the problem statement.
 
 Initially, your program should read a single line containing a single integer T indicating the number of test cases.
 Then, you need to process T test cases.
@@ -103,7 +110,13 @@ Test set 2 (Hidden)
 B = 109.
 Sample interaction
 
-Here is a piece of pseudocode that demonstrates an interaction for one test set. Suppose there are three test cases in this test set. The pseudocode first reads an integer t, representing the number of test cases. Then the first test case begins. Suppose the correct answer P is 9 for the first test case. The pseudocode first reads three integers a, b, and n, representing the guessing range and maximum number of tries, respectively, and then outputs a guess 30. Since 30 is greater than 9, the string TOO_BIG is received through stdin from the judge. Then the pseudocode guesses 5 and receives TOO_SMALL in response. The guess 10 is subsequently printed to stdout which is again too big. Finally the pseudocode guesses 9, and receives CORRECT because 9 is the correct answer.
+Here is a piece of pseudocode that demonstrates an interaction for one test set. Suppose there are three test cases in
+this test set. The pseudocode first reads an integer t, representing the number of test cases. Then the first test case
+begins. Suppose the correct answer P is 9 for the first test case. The pseudocode first reads three integers a, b, and
+n, representing the guessing range and maximum number of tries, respectively, and then outputs a guess 30. Since 30 is
+greater than 9, the string TOO_BIG is received through stdin from the judge. Then the pseudocode guesses 5 and receives
+TOO_SMALL in response. The guess 10 is subsequently printed to stdout which is again too big. Finally the pseudocode
+guesses 9, and receives CORRECT because 9 is the correct answer.
 
   t = readline_int()         // reads 3 into t
   a, b = readline_two_int()  // reads 0 into a and 30 into b; note that 0 30 is one line
@@ -121,7 +134,11 @@ Here is a piece of pseudocode that demonstrates an interaction for one test set.
   flush stdout
   s = readline()             // reads CORRECT into s
 
-The second test case shows what happens if the code continues to read from stdin after the judge stops sending info. In this example, the contestant guesses 31, which is outside the range (0, 30]. As a result, the judging system sends WRONG_ANSWER to the input stream of the pseudocode and stops sending anything after that. However, after reading WRONG_ANSWER into string s, the code continues to read for the next test case. Since there is nothing in the input stream (judge has stopped sending info), the code hangs and will eventually receive a Time Limit Exceeded Error.
+The second test case shows what happens if the code continues to read from stdin after the judge stops sending info. In
+this example, the contestant guesses 31, which is outside the range (0, 30]. As a result, the judging system sends
+WRONG_ANSWER to the input stream of the pseudocode and stops sending anything after that. However, after reading
+WRONG_ANSWER into string s, the code continues to read for the next test case. Since there is nothing in the input
+stream (judge has stopped sending info), the code hangs and will eventually receive a Time Limit Exceeded Error.
 
   a, b = readline_two_int()  // reads 0 into a and 30 into b; note that 0 30 is one line
   n = readline_int()         // reads 30 into n
@@ -131,7 +148,8 @@ The second test case shows what happens if the code continues to read from stdin
   a, b = readline_two_int()  // tries to read for the third test case but hangs since
                              // judge has stopped sending info to stdin
 
-If the code in the example above exits immediately after reading WRONG_ANSWER, it will receive a Wrong Answer judgment instead.
+If the code in the example above exits immediately after reading WRONG_ANSWER, it will receive a Wrong Answer judgment
+instead.
 
   a, b = readline_two_int()  // reads 0 into a and 30 into b; note that 0 30 is one line
   n = readline_int()         // reads 30 into n
@@ -142,7 +160,12 @@ If the code in the example above exits immediately after reading WRONG_ANSWER, i
 
 Testing Tool
 
-You can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our interactive runner for that. For more information, read the instructions in comments in that file, and also check out the Interactive Problems section of the FAQ.
+You can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in
+parallel with your code; you can use our interactive runner for that. For more information, read the instructions in
+comments in that file, and also check out the Interactive Problems section of the FAQ.
 
-Instructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is NOT the real judging system and might behave differently. If your code passes the testing tool but fails the real judge, please check the Coding section of the FAQ to make sure that you are using the same compiler as us.
+Instructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases.
+Please be advised that although the testing tool is intended to simulate the judging system, it is NOT the real judging
+system and might behave differently. If your code passes the testing tool but fails the real judge, please check the
+Coding section of the FAQ to make sure that you are using the same compiler as us.
 */

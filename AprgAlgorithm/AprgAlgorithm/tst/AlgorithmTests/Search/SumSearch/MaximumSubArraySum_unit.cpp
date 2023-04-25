@@ -4,30 +4,25 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<int>;
 using SumSearch = MaximumSubArraySum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
 using SubArrayDetailsForTest = SumSearch::SubArrayDetails;
-}
+}  // namespace
 
-TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWorksOnExample1)
-{
+TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWorksOnExample1) {
     ValuesForTest valuesToTest{-1, 2, 4, -3, 5, 2, -5, 2};
     SumSearch search(valuesToTest);
 
     EXPECT_EQ(10, search.getMaximumSubArraySum());
 }
 
-TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample1)
-{
+TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample1) {
     ValuesForTest valuesToTest{-1, 2, 4, -3, 5, 2, -5, 2};
     SumSearch search(valuesToTest);
 
@@ -38,6 +33,6 @@ TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample1)
     EXPECT_EQ(10, subArrayDetailsToVerify.sum);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

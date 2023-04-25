@@ -7,8 +7,7 @@
 #include <stddef.h>
 
 template <typename Element, size_t n>
-constexpr size_t arraySize(Element(&)[n])
-{
+constexpr size_t arraySize(Element (&)[n]) {
     return n;
 }
 

@@ -2,9 +2,9 @@
 #include "curl_form.h"
 #include "curl_header.h"
 
-using curl::curl_header;
 using curl::curl_easy;
 using curl::curl_easy_exception;
+using curl::curl_header;
 using curl::curlcpp_traceback;
 
 /**
@@ -34,11 +34,11 @@ int main() {
         // Request execution
         easy.perform();
     } catch (curl_easy_exception &error) {
-		// If you want to print the last error.
-		std::cerr<<error.what()<<std::endl;
+        // If you want to print the last error.
+        std::cerr << error.what() << std::endl;
 
-		// If you want to print the entire error stack you can do
-		error.print_traceback();
+        // If you want to print the entire error stack you can do
+        error.print_traceback();
     }
     return 0;
 }

@@ -30,49 +30,50 @@
 #include "cookie_time.h"
 
 namespace curl {
+/**
+ * This class provide an easy way to specify the date and the time of cooking expiration.
+ */
+class cookie_datetime {
+public:
     /**
-     * This class provide an easy way to specify the date and the time of cooking expiration.
+     * Default constructor.
      */
-    class cookie_datetime {
-    public:
-        /**
-         * Default constructor.
-         */
-        cookie_datetime() = default;
-        /**
-         * The constructor with parameters allows to specify a time and a date for cookie expiration.
-         */
-        cookie_datetime(const cookie_time &, const cookie_date &) NOEXCEPT;
-        /**
-         * This method allows to set the expiration time.
-         */
-        cookie_datetime *set_time(const cookie_time &) NOEXCEPT;
-        /**
-         * This method allows to set the expiration date.
-         */
-        cookie_datetime *set_date(const cookie_date &) NOEXCEPT;
-        /**
-         * This method returns the time object.
-         */
-        cookie_time get_time() const NOEXCEPT;
-        /**
-         * This method returns the date object.
-         */
-        cookie_date get_date() const NOEXCEPT;
-        /**
-         * This method returns the cookie_datetime as a string.
-         */
-        std::string get_formatted() NOEXCEPT;
-    private:
-        /**
-         * Time object.
-         */
-        cookie_time time;
-        /**
-         * Date object.
-         */
-        cookie_date date;
-    };
-}
+    cookie_datetime() = default;
+    /**
+     * The constructor with parameters allows to specify a time and a date for cookie expiration.
+     */
+    cookie_datetime(const cookie_time &, const cookie_date &) NOEXCEPT;
+    /**
+     * This method allows to set the expiration time.
+     */
+    cookie_datetime *set_time(const cookie_time &) NOEXCEPT;
+    /**
+     * This method allows to set the expiration date.
+     */
+    cookie_datetime *set_date(const cookie_date &) NOEXCEPT;
+    /**
+     * This method returns the time object.
+     */
+    cookie_time get_time() const NOEXCEPT;
+    /**
+     * This method returns the date object.
+     */
+    cookie_date get_date() const NOEXCEPT;
+    /**
+     * This method returns the cookie_datetime as a string.
+     */
+    std::string get_formatted() NOEXCEPT;
 
-#endif //CURLCPP_COOKIE_DATETIME_H
+private:
+    /**
+     * Time object.
+     */
+    cookie_time time;
+    /**
+     * Date object.
+     */
+    cookie_date date;
+};
+}  // namespace curl
+
+#endif  // CURLCPP_COOKIE_DATETIME_H

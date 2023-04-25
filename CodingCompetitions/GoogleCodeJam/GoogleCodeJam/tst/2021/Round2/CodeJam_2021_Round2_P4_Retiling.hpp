@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2021_Round2_P4_Retiling
-{
+namespace CodeJam_2021_Round2_P4_Retiling {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

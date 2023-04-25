@@ -6,24 +6,17 @@
 #include <ctime>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-struct HeartTeeEcgPulse
-{
-    HeartTeeEcgPulse(int ecg, int pulse)
-        : m_ecg(ecg)
-        , m_pulse(pulse)
-    {}
+struct HeartTeeEcgPulse {
+    HeartTeeEcgPulse(int ecg, int pulse) : m_ecg(ecg), m_pulse(pulse) {}
     int m_ecg;
     int m_pulse;
 };
 
-struct HeartTeeData
-{
-    HeartTeeData(time_t timeDate, int milliSecond, int ecg, int pulse)
-    {
-        m_timeDate=timeDate;
+struct HeartTeeData {
+    HeartTeeData(time_t timeDate, int milliSecond, int ecg, int pulse) {
+        m_timeDate = timeDate;
         m_milliSecond = milliSecond;
         m_ecg = ecg;
         m_pulse = pulse;
@@ -34,8 +27,7 @@ struct HeartTeeData
     int m_pulse;
 };
 
-class HeartTee
-{
+class HeartTee {
 public:
     HeartTee();
     ~HeartTee();
@@ -48,6 +40,7 @@ public:
     void processData();
     void printDatabase();
     void saveToSql();
+
 private:
     time_t m_timeStamp;
     int m_sfn;
@@ -72,4 +65,4 @@ private:
     SqlConnect m_sqlConnect;
 };
 
-}
+}  // namespace alba

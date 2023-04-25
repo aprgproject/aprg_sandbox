@@ -6,39 +6,32 @@
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using Index = unsigned int;
 using BruteForceSubstringSearchWithOneLoop = BruteForceSubstringSearch<1U>;
 using BruteForceSubstringSearchWithTwoLoops = BruteForceSubstringSearch<2U>;
-}
+}  // namespace
 
-TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingEmptyStringsAndDoesNotCrash)
-{
+TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingEmptyStringsAndDoesNotCrash) {
     testSearchUsingEmptyStringsAndDoesNotCrash<BruteForceSubstringSearchWithOneLoop, Index>();
 }
 
-TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingEmptyStringsAndDoesNotCrash)
-{
+TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingEmptyStringsAndDoesNotCrash) {
     testSearchUsingEmptyStringsAndDoesNotCrash<BruteForceSubstringSearchWithTwoLoops, Index>();
 }
 
-TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1)
-{
+TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1) {
     testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();
 }
 
-TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1)
-{
+TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1) {
     testSearchUsingExample1<BruteForceSubstringSearchWithTwoLoops, Index>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

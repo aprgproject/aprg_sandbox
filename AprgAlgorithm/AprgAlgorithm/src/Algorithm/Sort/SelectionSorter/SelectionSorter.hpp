@@ -5,26 +5,20 @@
 #include <algorithm>
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class SelectionSorter : public BaseSorter<Values>
-{
+class SelectionSorter : public BaseSorter<Values> {
 public:
     SelectionSorter() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
-        if(!valuesToSort.empty())
-        {
+    void sort(Values& valuesToSort) const override {
+        if (!valuesToSort.empty()) {
             auto itEndMinus1 = valuesToSort.end();
             itEndMinus1--;
-            for(auto itToSwap=valuesToSort.begin(); itToSwap!=itEndMinus1; itToSwap++)
-            {
+            for (auto itToSwap = valuesToSort.begin(); itToSwap != itEndMinus1; itToSwap++) {
                 auto currentMinimumIt = std::min_element(itToSwap, valuesToSort.end());
                 std::swap(*itToSwap, *currentMinimumIt);
             }
@@ -32,9 +26,9 @@ public:
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // Proposition: Selection sort uses (N-1)+(N-2)+....+1+0 = (N^2)/2 compares and N exchanges
 // Proof: Trace the algorithm, double loop only happens for compare (second loop only covers not yet processed items)
@@ -44,8 +38,6 @@ public:
 // Data movement is minimal: Linear number of exchanges
 
 // Not stable -> Proof by counter example: Long distance swap might move an item past some equal item
-
-
 
 // Other discussions:
 // The selection sort algorithm sorts an array by repeatedly finding the minimum element (considering ascending order)

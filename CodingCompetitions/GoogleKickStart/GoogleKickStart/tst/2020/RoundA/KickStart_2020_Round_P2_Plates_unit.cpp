@@ -1,5 +1,4 @@
 #include "KickStart_2020_Round_P2_Plates.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,51 +6,61 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_Round_P2_Plates
-{
+namespace KickStart_2020_Round_P2_Plates {
 
-TEST(KickStart_2020_Round_P2_PlatesTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_Round_P2_PlatesTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "2           " "\n"
-            << "2 4 5       " "\n"
-            << "10 10 100 30" "\n"
-            << "80 50 10 50 " "\n"
-            << "3 2 3       " "\n"
-            << "80 80       " "\n"
-            << "15 50       " "\n"
-            << "20 10       " "\n"
-            << endl;
+    inputStringStream << "2           "
+                         "\n"
+                      << "2 4 5       "
+                         "\n"
+                      << "10 10 100 30"
+                         "\n"
+                      << "80 50 10 50 "
+                         "\n"
+                      << "3 2 3       "
+                         "\n"
+                      << "80 80       "
+                         "\n"
+                      << "15 50       "
+                         "\n"
+                      << "20 10       "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 250" "\n"
-                "Case #2: 180" "\n"
-                , outputStringStream.str());
+        "Case #1: 250"
+        "\n"
+        "Case #2: 180"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_Round_P2_Plates
 
 /*
 Problem
 
-Dr. Patel has N stacks of plates. Each stack contains K plates. Each plate has a positive beauty value, describing how beautiful it looks.
+Dr. Patel has N stacks of plates. Each stack contains K plates. Each plate has a positive beauty value, describing how
+beautiful it looks.
 
-Dr. Patel would like to take exactly P plates to use for dinner tonight. If he would like to take a plate in a stack, he must also take all of the plates above it in that stack as well.
+Dr. Patel would like to take exactly P plates to use for dinner tonight. If he would like to take a plate in a stack, he
+must also take all of the plates above it in that stack as well.
 
 Help Dr. Patel pick the P plates that would maximize the total sum of beauty values.
 Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line containing the three integers N, K and P. Then, N lines follow. The i-th line contains K integers, describing the beauty values of each stack of plates from top to bottom.
-Output
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line
+containing the three integers N, K and P. Then, N lines follow. The i-th line contains K integers, describing the beauty
+values of each stack of plates from top to bottom. Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the maximum total sum of beauty values that Dr. Patel could pick.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the maximum total sum of beauty values that Dr. Patel could pick. Limits
 
 Time limit: 20 seconds per test set.
 Memory limit: 1GB.
@@ -105,5 +114,6 @@ In Sample Case #2, Dr. Patel needs to pick P = 3 plates:
 
 In total, the sum of beauty values is 180.
 
-Note: Unlike previous editions, in Kick Start 2020, all test sets are visible verdict test sets, meaning you receive instant feedback upon submission.
+Note: Unlike previous editions, in Kick Start 2020, all test sets are visible verdict test sets, meaning you receive
+instant feedback upon submission.
 */

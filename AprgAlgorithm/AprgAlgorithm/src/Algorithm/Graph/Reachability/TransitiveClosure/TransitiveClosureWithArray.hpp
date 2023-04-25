@@ -7,15 +7,12 @@
 #include <array>
 #include <memory>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
-class TransitiveClosureWithArray : public BaseTransitiveClosure<Vertex>
-{
+class TransitiveClosureWithArray : public BaseTransitiveClosure<Vertex> {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Reachability = ReachabilityInDigraphWithArrayUsingDfs<Vertex, MAX_VERTEX_VALUE>;
@@ -24,29 +21,22 @@ public:
     using ReachabilityInitializerList = typename std::initializer_list<Reachability>;
 
     TransitiveClosureWithArray(BaseDirectedGraphWithVertex const& graph)
-        : m_graph(graph)
-        , m_reachabilityPointerArray{}
-    {
+        : m_graph(graph), m_reachabilityPointerArray{} {
         initialize();
     }
 
-    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
-    {
+    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         bool result(false);
         ReachabilityPointer const& pointer(m_reachabilityPointerArray.at(sourceVertex));
-        if(pointer)
-        {
+        if (pointer) {
             result = pointer->isReachable(destinationVertex);
         }
         return result;
     }
 
 private:
-
-    void initialize()
-    {
-        for(Vertex vertex=0; vertex<MAX_VERTEX_VALUE; vertex++)
-        {
+    void initialize() {
+        for (Vertex vertex = 0; vertex < MAX_VERTEX_VALUE; vertex++) {
             m_reachabilityPointerArray[vertex] = std::make_unique<Reachability>(m_graph, vertex);
         }
     }
@@ -55,6 +45,6 @@ private:
     ReachabilityPointerArray m_reachabilityPointerArray;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

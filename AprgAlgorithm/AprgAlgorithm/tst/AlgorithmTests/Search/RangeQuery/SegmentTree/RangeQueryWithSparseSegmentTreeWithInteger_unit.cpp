@@ -4,39 +4,32 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValueForTest = unsigned int;
 using RangeQueryForTest = RangeQueryWithSparseSegmentTree<ValueForTest>;
 
-RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2) {
     return min(value1, value2);
 };
 
-RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2) {
     return max(value1, value2);
 };
 
 RangeQueryForTest::Function plusFunction = plus<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithZeroNumberOfValues)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithZeroNumberOfValues) {
     RangeQueryForTest minimumRangeQuery(0U, 0U, minimumFunction);
 
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1) {
     RangeQueryForTest minimumRangeQuery(9U, 0U, minimumFunction);
 
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
@@ -53,8 +46,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnEx
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1) {
     RangeQueryForTest maximumRangeQuery(9U, 0U, maximumFunction);
 
     EXPECT_EQ(0U, maximumRangeQuery.getValueOnInterval(0U, 0U));
@@ -71,8 +63,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnEx
     EXPECT_EQ(0U, maximumRangeQuery.getValueOnInterval(2U, 4U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1) {
     RangeQueryForTest sumRangeQuery(9U, 0U, plusFunction);
 
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
@@ -91,8 +82,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExampl
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksWithZeroNumberOfValues)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksWithZeroNumberOfValues) {
     RangeQueryForTest minimumRangeQuery(0U, 0U, minimumFunction);
 
     minimumRangeQuery.setValueOnIndex(0U, 10U);
@@ -100,8 +90,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksWithZer
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksWithOneValue)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksWithOneValue) {
     RangeQueryForTest minimumRangeQuery(1U, 0U, minimumFunction);
 
     minimumRangeQuery.setValueOnIndex(0U, 10U);
@@ -109,8 +98,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksWithOne
     EXPECT_EQ(10U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksOnExample1) {
     RangeQueryForTest minimumRangeQuery(9U, 0U, minimumFunction);
 
     minimumRangeQuery.setValueOnIndex(3U, 10U);
@@ -133,8 +121,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMinimumWorksOnExamp
     EXPECT_EQ(11U, minimumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMaximumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMaximumWorksOnExample1) {
     RangeQueryForTest maximumRangeQuery(9U, 0U, maximumFunction);
 
     maximumRangeQuery.setValueOnIndex(3U, 10U);
@@ -157,8 +144,7 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithMaximumWorksOnExamp
     EXPECT_EQ(11U, maximumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithSumWorksOnExample1)
-{
+TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithSumWorksOnExample1) {
     RangeQueryForTest sumRangeQuery(9U, 0U, plusFunction);
 
     sumRangeQuery.setValueOnIndex(3U, 10U);
@@ -181,6 +167,6 @@ TEST(RangeQueryWithSparseSegmentTreeTest, SetValueOnIndexWithSumWorksOnExample1)
     EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

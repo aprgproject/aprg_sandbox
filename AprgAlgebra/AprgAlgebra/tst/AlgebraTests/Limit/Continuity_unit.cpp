@@ -10,14 +10,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(ContinuityTest, IsContinuousAtWorks)
-{
+TEST(ContinuityTest, IsContinuousAtWorks) {
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
     Term termToTest(createExpressionIfPossible({1, "/", denominator}));
 
@@ -25,21 +22,13 @@ TEST(ContinuityTest, IsContinuousAtWorks)
     EXPECT_TRUE(isContinuousAt(termToTest, "x", 3));
 }
 
-TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction)
-{
-    Function functionToTest(
-                "functionToTest",
-                Term("x"),
-                [](AlbaNumber const& number)
-    {
+TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction) {
+    Function functionToTest("functionToTest", Term("x"), [](AlbaNumber const& number) {
         AlbaNumber result;
-        if(number <= 10)
-        {
+        if (number <= 10) {
             result = number;
-        }
-        else
-        {
-            result = number*0.7 + 3;
+        } else {
+            result = number * 0.7 + 3;
         }
         return result;
     });
@@ -48,21 +37,13 @@ TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction)
     EXPECT_TRUE(isContinuousAt(functionTermToTest, "x", 10, LimitAtAValueApproachType::BothSides));
 }
 
-TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction)
-{
-    Function functionToTest(
-                "functionToTest",
-                Term("x"),
-                [](AlbaNumber const& number)
-    {
+TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction) {
+    Function functionToTest("functionToTest", Term("x"), [](AlbaNumber const& number) {
         AlbaNumber result;
-        if(number == 1)
-        {
+        if (number == 1) {
             result = 2;
-        }
-        else
-        {
-            result = number*2 + 3;
+        } else {
+            result = number * 2 + 3;
         }
         return result;
     });
@@ -71,8 +52,7 @@ TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction)
     EXPECT_FALSE(isContinuousAt(functionTermToTest, "x", 1, LimitAtAValueApproachType::BothSides));
 }
 
-TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial)
-{
+TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial) {
     Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
     Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
@@ -84,8 +64,7 @@ TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial)
     EXPECT_TRUE(isContinuousAt(termToTest, "x", 2, LimitAtAValueApproachType::NegativeSide));
 }
 
-TEST(ContinuityTest, IsContinuousAtWorksWithIsDifferentiableAtValue)
-{
+TEST(ContinuityTest, IsContinuousAtWorksWithIsDifferentiableAtValue) {
     Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
     Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
@@ -93,8 +72,7 @@ TEST(ContinuityTest, IsContinuousAtWorksWithIsDifferentiableAtValue)
     EXPECT_TRUE(isContinuousAt(termToTest, "x", -2, LimitAtAValueApproachType::BothSides, true));
 }
 
-TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenItExists)
-{
+TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenItExists) {
     Term numerator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-1, {{"y", 4}})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})});
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -105,8 +83,7 @@ TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenItE
     EXPECT_TRUE(isContinuousAtWithMultipleVariablesWithDifferentApproaches(termToTest, "x", 0, substitutions));
 }
 
-TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenDoesNotItExist)
-{
+TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenDoesNotItExist) {
     Term numerator(Monomial(1, {{"x", 1}, {"y", 1}}));
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})});
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -117,8 +94,7 @@ TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenDoe
     EXPECT_FALSE(isContinuousAtWithMultipleVariablesWithDifferentApproaches(termToTest, "x", 0, substitutions));
 }
 
-TEST(ContinuityTest, IsIntermediateValueTheoremSatisfiedWorks)
-{
+TEST(ContinuityTest, IsIntermediateValueTheoremSatisfiedWorks) {
     Polynomial numerator{Monomial(2, {})};
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -127,67 +103,47 @@ TEST(ContinuityTest, IsIntermediateValueTheoremSatisfiedWorks)
     EXPECT_TRUE(isIntermediateValueTheoremSatisfied(termToTest, "x", 5, 7, 6));
 }
 
-TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
-{
-    Function functionToTest(
-                "functionToTest",
-                Term("x"),
-                [](AlbaNumber const& number)
-    {
+TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction) {
+    Function functionToTest("functionToTest", Term("x"), [](AlbaNumber const& number) {
         AlbaNumber result;
-        if(number == 3)
-        {
+        if (number == 3) {
             result = 2;
-        }
-        else
-        {
+        } else {
             result = getAbsoluteValue(number - 3);
         }
         return result;
     });
     Term functionTermToTest(functionToTest);
 
-    EXPECT_EQ(ContinuityType::DiscontinuousWithRemovableDiscontinuity,
-              getContinuityTypeAt(functionTermToTest, "x", 3));
+    EXPECT_EQ(ContinuityType::DiscontinuousWithRemovableDiscontinuity, getContinuityTypeAt(functionTermToTest, "x", 3));
 }
 
-TEST(ContinuityTest, GetContinuityTypeAtWorksForEssentialDiscontinuityFunction)
-{
-    Function functionToTest(
-                "functionToTest",
-                Term("x"),
-                [](AlbaNumber const& number)
-    {
+TEST(ContinuityTest, GetContinuityTypeAtWorksForEssentialDiscontinuityFunction) {
+    Function functionToTest("functionToTest", Term("x"), [](AlbaNumber const& number) {
         AlbaNumber result;
-        if(number <= 1)
-        {
+        if (number <= 1) {
             result = number + 3;
-        }
-        else
-        {
+        } else {
             result = number - 3;
         }
         return result;
     });
     Term functionTermToTest(functionToTest);
 
-    EXPECT_EQ(ContinuityType::DiscontinuousWithEssentialDiscontinuity,
-              getContinuityTypeAt(functionTermToTest, "x", 1));
+    EXPECT_EQ(ContinuityType::DiscontinuousWithEssentialDiscontinuity, getContinuityTypeAt(functionTermToTest, "x", 1));
 }
 
-TEST(ContinuityTest, GetContinuityTypeAtWorksForPolynomialOverPolynomial)
-{
+TEST(ContinuityTest, GetContinuityTypeAtWorksForPolynomialOverPolynomial) {
     Polynomial numerator{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-2, {})};
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
-    EXPECT_EQ(ContinuityType::DiscontinuousWithRemovableDiscontinuity,
-              getContinuityTypeAt(termToTest, "x", 4));
+    EXPECT_EQ(ContinuityType::DiscontinuousWithRemovableDiscontinuity, getContinuityTypeAt(termToTest, "x", 4));
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomial)
-{
-    Term polynomialTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(1, {})});
+TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomial) {
+    Term polynomialTerm(
+        Polynomial{Monomial(1, {{"x", 3}}), Monomial(-2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(1, {})});
 
     SolutionSet continuityDomain(getContinuityDomain(polynomialTerm));
 
@@ -196,8 +152,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomial)
     EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify.front());
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
-{
+TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial) {
     Polynomial numerator{Monomial(1, {{"x", 3}}), Monomial(1, {})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-9, {})};
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -206,16 +161,12 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
 
     AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
     ASSERT_EQ(3U, intervalToVerify.size());
-    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createOpenEndpoint(-3)),
-              intervalToVerify.at(0));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3)),
-              intervalToVerify.at(1));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createPositiveInfinityOpenEndpoint()),
-              intervalToVerify.at(2));
+    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createOpenEndpoint(-3)), intervalToVerify.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3)), intervalToVerify.at(1));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createPositiveInfinityOpenEndpoint()), intervalToVerify.at(2));
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
-{
+TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial) {
     Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
     Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
@@ -226,8 +177,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-2), createCloseEndpoint(2)), intervalToVerify.at(0));
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions)
-{
+TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions) {
     SolutionSet continuityDomain1(getContinuityDomain(Functions::abs("x")));
     SolutionSet continuityDomain2(getContinuityDomain(Functions::sin("x")));
     SolutionSet continuityDomain3(getContinuityDomain(Functions::cos("x")));
@@ -247,6 +197,6 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions)
     EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify4.front());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

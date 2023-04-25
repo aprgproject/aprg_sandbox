@@ -3,22 +3,18 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using QueryForTest = ChildrenInTree<VertexForTest>;
 using VerticesForTest = QueryForTest::Vertices;
-}
+}  // namespace
 
-TEST(ChildrenInTreeTest, GetChildrenWorks)
-{
+TEST(ChildrenInTreeTest, GetChildrenWorks) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 4U);
@@ -35,6 +31,6 @@ TEST(ChildrenInTreeTest, GetChildrenWorks)
     EXPECT_EQ((VerticesForTest{8U}), query.getChildren(7U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

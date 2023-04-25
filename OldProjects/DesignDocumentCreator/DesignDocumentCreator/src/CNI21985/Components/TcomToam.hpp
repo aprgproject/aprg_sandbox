@@ -4,20 +4,19 @@
 #include <Common/Components/ComponentName.hpp>
 #include <STCWamAddressInd.h>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class TcomToam : public Component
-{
-    class HwConfiguration
-    {
+class TcomToam : public Component {
+    class HwConfiguration {
     public:
-        //this is fake
+        // this is fake
         void saveConfiguration(SHwConfigurationMsg const& hwConfigurationMsg);
         STCWamAddressIndNew generateWamAddressInd() const;
     };
+
 public:
     TcomToam(ComponentName const componentName);
+
 private:
     void handleHwConfigurationMessage(GenericMessage const& genericMessage);
     void handleHwConfigurationChangeMessage(GenericMessage const& genericMessage) const;
@@ -32,4 +31,4 @@ private:
     HwConfiguration m_configuration;
 };
 
-}
+}  // namespace DesignDocumentCreator

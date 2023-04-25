@@ -4,17 +4,15 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class TotalNumberOfNonDecreasingNumbersWithNDigits
-{
+class TotalNumberOfNonDecreasingNumbersWithNDigits {
 public:
     using Count = unsigned int;
     using Value = unsigned int;
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     TotalNumberOfNonDecreasingNumbersWithNDigits(Count const numberOfDigits);
 
@@ -26,12 +24,12 @@ public:
 
 private:
     Count getCountUsingNaiveRecursion(Value const digitValue, Count const digitIndex) const;
-    Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Value const digitValue, Count const digitIndex) const;
+    Count getCountUsingMemoizationDP(CountMatrix& countMatrix, Value const digitValue, Count const digitIndex) const;
 
     Count const m_numberOfDigits;
 };
 
-}
+}  // namespace alba
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -50,7 +48,8 @@ private:
 // -> Create an matrix of counts with size of columns as 10 and size of rows as "numberOfDigits"
 // -> At the start, because its for the most significant digit, fill the first row with 1.
 // -> Thus each "digit value" and "digit index" has a count.
-// -> Forward traversal for "digit value" and "digit index" (starting with "digit index" at 1, since first row is filled)
+// -> Forward traversal for "digit value" and "digit index" (starting with "digit index" at 1, since first row is
+// filled)
 // -> Traversal uses previous counts to compute for a new count
 // -> The computation of each count (each cell in the matrix) is:
 // ---> Accumulate all the counts of all parts from previous counts:
@@ -70,9 +69,6 @@ private:
 // -----> Iterating "beforeDigitValue" from 0 to "digit value":
 // -------> Get the previous count by checking the array with "beforeDigitValue"
 // ---> Get sum of array of counts for the total count
-
-
-
 
 // Total number of non-decreasing numbers with n digits
 

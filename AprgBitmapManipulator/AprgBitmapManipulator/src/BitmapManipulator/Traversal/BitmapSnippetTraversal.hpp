@@ -7,44 +7,31 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgBitmap
-{
+namespace AprgBitmap {
 
-class BitmapSnippetTraversal
-{
+class BitmapSnippetTraversal {
 public:
     using TraverseOperation = std::function<void(BitmapXY const&)>;
 
     BitmapSnippetTraversal(BitmapSnippet const& bitmapSnippet);
 
-    void traverseCircleArea(
-            TwoDimensions::Circle const& circle,
-            TraverseOperation const& traverseOperation) const;
+    void traverseCircleArea(TwoDimensions::Circle const& circle, TraverseOperation const& traverseOperation) const;
     void traverseQuadrilateralArea(
-            TwoDimensions::Quadrilateral const& quadrilateral,
-            TraverseOperation const& traverseOperation) const;
+        TwoDimensions::Quadrilateral const& quadrilateral, TraverseOperation const& traverseOperation) const;
     void traverseCoordinatesCombinations(
-            BitmapXY const& centerPoint,
-            unsigned int const coordinate1,
-            unsigned int const coordinate2,
-            TraverseOperation const& traverseOperation) const;
-    void traverse4WayConnectivity(
-            BitmapXY const& centerPoint,
-            TraverseOperation const& traverseOperation) const;
-    void traverse8WayConnectivity(
-            BitmapXY const& centerPoint,
-            TraverseOperation const& traverseOperation) const;
+        BitmapXY const& centerPoint, unsigned int const coordinate1, unsigned int const coordinate2,
+        TraverseOperation const& traverseOperation) const;
+    void traverse4WayConnectivity(BitmapXY const& centerPoint, TraverseOperation const& traverseOperation) const;
+    void traverse8WayConnectivity(BitmapXY const& centerPoint, TraverseOperation const& traverseOperation) const;
 
 private:
     void checkPointBeforeDoingTraverseOperation(
-            BitmapXY const& point,
-            TraverseOperation const& traverseOperation) const;
+        BitmapXY const& point, TraverseOperation const& traverseOperation) const;
     BitmapSnippet const& m_bitmapSnippet;
 };
 
-}
+}  // namespace AprgBitmap
 
-}
+}  // namespace alba

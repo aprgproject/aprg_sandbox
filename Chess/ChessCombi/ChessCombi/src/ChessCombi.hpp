@@ -1,10 +1,8 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-class ChessCombi
-{
+class ChessCombi {
 public:
     ChessCombi();
 
@@ -12,4 +10,4 @@ private:
     int m_sample;
 };
 
-}
+}  // namespace alba

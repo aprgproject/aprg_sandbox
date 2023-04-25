@@ -6,14 +6,11 @@
 #include <map>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class MultipleVariableSolutionSet
-{
+class MultipleVariableSolutionSet {
 public:
     using VariableNameToSolutionSetMap = std::map<std::string, SolutionSet>;
     using VariableNameToSolutionSetPair = std::pair<std::string, SolutionSet>;
@@ -30,14 +27,13 @@ public:
     void addSolutionSetForVariable(std::string const& variableName, SolutionSet const& solutionSet);
 
 private:
-
-    friend std::ostream & operator<<(std::ostream & out, MultipleVariableSolutionSet const& solutionSet);
+    friend std::ostream& operator<<(std::ostream& out, MultipleVariableSolutionSet const& solutionSet);
 
     VariableNameToSolutionSetMap m_variableNameToSolutionSetMap;
 };
 
 using MultipleVariableSolutionSets = std::vector<MultipleVariableSolutionSet>;
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

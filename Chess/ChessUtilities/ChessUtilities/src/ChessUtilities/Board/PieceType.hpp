@@ -2,14 +2,11 @@
 
 #include <ostream>
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-enum class PieceType
-{
+enum class PieceType {
     Empty = 0,
     Pawn = 1,
     Knight = 2,
@@ -19,9 +16,8 @@ enum class PieceType
     King = 6,
 };
 
+std::ostream& operator<<(std::ostream& out, PieceType const pieceType);
 
-std::ostream & operator<<(std::ostream & out, PieceType const pieceType);
+}  // namespace chess
 
-}
-
-}
+}  // namespace alba

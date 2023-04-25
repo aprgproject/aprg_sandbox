@@ -47,27 +47,26 @@ using namespace cimg_library;
 
 // Main procedure
 //----------------
-int main(int argc,char **argv) {
+int main(int argc, char **argv) {
+    // Read command line argument.
+    cimg_usage("Simple plotter of mathematical formulas");
+    const char *const formula = cimg_option("-f", "e^x", "Formula to plot");
+    const float x0 = cimg_option("-x0", -5.0f, "Minimal X-value");
+    const float x1 = cimg_option("-x1", 10.0f, "Maximal X-value");
+    const int resolution = cimg_option("-r", 1024, "Plot resolution");
+    const unsigned int nresolution = resolution > 1 ? resolution : 1024;
+    const unsigned int plot_type = cimg_option("-p", 1, "Plot type");
+    const unsigned int vertex_type = cimg_option("-v", 1, "Vertex type");
 
-  // Read command line argument.
-  cimg_usage("Simple plotter of mathematical formulas");
-  const char *const formula = cimg_option("-f","e^x","Formula to plot");
-  const float x0 = cimg_option("-x0",-5.0f,"Minimal X-value");
-  const float x1 = cimg_option("-x1",10.0f,"Maximal X-value");
-  const int resolution = cimg_option("-r",1024,"Plot resolution");
-  const unsigned int nresolution = resolution>1?resolution:1024;
-  const unsigned int plot_type = cimg_option("-p",1,"Plot type");
-  const unsigned int vertex_type = cimg_option("-v",1,"Vertex type");
+    // Create plot data.
+    CImg<double> values(4, nresolution, 1, 1, 0);
+    const unsigned int r = nresolution - 1;
+    // cimg_forY(values,X) values(0,X) = x0 + X*(x1 - x0)/r;
+    // cimg::eval(formula,values).move_to(values);
 
-  // Create plot data.
-  CImg<double> values(4,nresolution,1,1,0);
-  const unsigned int r = nresolution - 1;
-  //cimg_forY(values,X) values(0,X) = x0 + X*(x1 - x0)/r;
-  //cimg::eval(formula,values).move_to(values);
+    // Display interactive plot window.
+    values.display_graph(formula, plot_type, vertex_type, "X-axis", x0, x1, "Y-axis");
 
-  // Display interactive plot window.
-  values.display_graph(formula,plot_type,vertex_type,"X-axis",x0,x1,"Y-axis");
-
-  // Quit.
-  return 0;
+    // Quit.
+    return 0;
 }

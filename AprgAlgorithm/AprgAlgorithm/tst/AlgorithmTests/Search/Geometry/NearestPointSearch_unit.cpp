@@ -4,21 +4,17 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using SearchForTest = NearestPointSearch<double>;
 using PointForTest = SearchForTest::Point;
 using PointPairForTest = SearchForTest::PointPair;
-}
+}  // namespace
 
-TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft)
-{
+TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft) {
     SearchForTest search;
     search.addPoint({0, 0});
     search.addPoint({-5, 0});
@@ -30,8 +26,7 @@ TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft)
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
 
-TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheRight)
-{
+TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheRight) {
     SearchForTest search;
     search.addPoint({0, 0});
     search.addPoint({-5, 0});
@@ -43,8 +38,7 @@ TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheRight)
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
 
-TEST(NearestPointSearchTest, GetNearestPointWorksOnComplicatedExample)
-{
+TEST(NearestPointSearchTest, GetNearestPointWorksOnComplicatedExample) {
     SearchForTest search;
     search.addPoint({0, 0});
     search.addPoint({3, -2});
@@ -63,8 +57,7 @@ TEST(NearestPointSearchTest, GetNearestPointWorksOnComplicatedExample)
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
 
-TEST(NearestPointSearchTest, GetNearestPointPairWorks)
-{
+TEST(NearestPointSearchTest, GetNearestPointPairWorks) {
     SearchForTest search;
     search.addPoint({0, 0});
     search.addPoint({3, -1});
@@ -89,6 +82,6 @@ TEST(NearestPointSearchTest, GetNearestPointPairWorks)
     EXPECT_EQ(pointPairToExpect, pointPairToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

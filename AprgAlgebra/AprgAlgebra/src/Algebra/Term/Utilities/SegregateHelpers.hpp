@@ -2,49 +2,33 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
 void segregateMonomialsWithAndWithoutVariable(
-        Monomials const& monomialsToSegregate,
-        std::string const& variableName,
-        Monomials & monomialsWithVariable,
-        Monomials & monomialsWithoutVariable);
+    Monomials const& monomialsToSegregate, std::string const& variableName, Monomials& monomialsWithVariable,
+    Monomials& monomialsWithoutVariable);
+
+void segregateMonomialsAndNonMonomials(Terms const& termsToSegregate, Terms& monomials, Terms& nonMonomials);
 
 void segregateMonomialsAndNonMonomials(
-        Terms const& termsToSegregate,
-        Terms & monomials,
-        Terms & nonMonomials);
+    TermsWithDetails const& termsToSegregate, TermsWithDetails& monomials, TermsWithDetails& nonMonomials);
 
-void segregateMonomialsAndNonMonomials(
-        TermsWithDetails const& termsToSegregate,
-        TermsWithDetails & monomials,
-        TermsWithDetails & nonMonomials);
-
-void segregatePolynomialAndNonPolynomials(
-        Terms const& termsToSegregate,
-        Terms & polynomials,
-        Terms & nonPolynomials);
+void segregatePolynomialAndNonPolynomials(Terms const& termsToSegregate, Terms& polynomials, Terms& nonPolynomials);
 
 void segregateNonExpressionsAndExpressions(
-        TermsWithDetails const& termsToSegregate,
-        TermsWithDetails & termsWithNonExpressions,
-        TermsWithDetails & termsWithExpressions);
+    TermsWithDetails const& termsToSegregate, TermsWithDetails& termsWithNonExpressions,
+    TermsWithDetails& termsWithExpressions);
 
 void segregateTermsWithPositiveAndNegativeAssociations(
-        TermsWithDetails const& termsToSegregate,
-        TermsWithDetails & termsWithPositiveAssociation,
-        TermsWithDetails & termsWithNegativeAssociation);
+    TermsWithDetails const& termsToSegregate, TermsWithDetails& termsWithPositiveAssociation,
+    TermsWithDetails& termsWithNegativeAssociation);
 
 void segregateTermsWithAndWithoutVariable(
-        TermsWithDetails const& termsToSegregate,
-        std::string const& variableName,
-        TermsWithDetails & termsWithVariable,
-        TermsWithDetails & termsWithoutVariable);
+    TermsWithDetails const& termsToSegregate, std::string const& variableName, TermsWithDetails& termsWithVariable,
+    TermsWithDetails& termsWithoutVariable);
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

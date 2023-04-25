@@ -4,40 +4,29 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TwoSum::TwoSum(Values const& valuesToCheck)
-    : m_sortedValues(valuesToCheck)
-{
-    sort(m_sortedValues.begin(), m_sortedValues.end()); // sort first
+TwoSum::TwoSum(Values const& valuesToCheck) : m_sortedValues(valuesToCheck) {
+    sort(m_sortedValues.begin(), m_sortedValues.end());  // sort first
 }
 
-TwoSum::ValuesPair TwoSum::getTwoValuesWithSum(Value const targetSum) const
-{
+TwoSum::ValuesPair TwoSum::getTwoValuesWithSum(Value const targetSum) const {
     ValuesPair result{};
-    if(!m_sortedValues.empty())
-    {
+    if (!m_sortedValues.empty()) {
         bool isFound(false);
-        Index lower=0, higher=m_sortedValues.size()-1;
-        while(lower<higher)
-        {
+        Index lower = 0, higher = m_sortedValues.size() - 1;
+        while (lower < higher) {
             Value currentSum(m_sortedValues.at(lower) + m_sortedValues.at(higher));
-            if(currentSum==targetSum)
-            {
+            if (currentSum == targetSum) {
                 isFound = true;
                 break;
-            }
-            else if(currentSum>targetSum)
-            {
+            } else if (currentSum > targetSum) {
                 higher--;
-            }
-            else if(currentSum<targetSum)
-            {
+            } else if (currentSum < targetSum) {
                 lower++;
             }
         }
-        if(isFound) // empty if not found
+        if (isFound)  // empty if not found
         {
             result = {m_sortedValues.at(lower), m_sortedValues.at(higher)};
         }
@@ -45,4 +34,4 @@ TwoSum::ValuesPair TwoSum::getTwoValuesWithSum(Value const targetSum) const
     return result;
 }
 
-}
+}  // namespace alba

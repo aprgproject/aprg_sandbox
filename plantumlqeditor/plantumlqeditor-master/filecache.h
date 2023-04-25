@@ -1,12 +1,13 @@
 #ifndef FILECACHE_H
 #define FILECACHE_H
 
-#include <functional>
-#include <QObject>
-#include <QString>
 #include <QDateTime>
 #include <QMap>
+#include <QObject>
 #include <QSet>
+#include <QString>
+
+#include <functional>
 
 //------------------------------------------------------------------------------
 
@@ -14,11 +15,11 @@ struct FileCacheError {};
 
 //------------------------------------------------------------------------------
 
-class AbstractFileCacheItem : public QObject
-{
+class AbstractFileCacheItem : public QObject {
     Q_OBJECT
 public:
-    explicit AbstractFileCacheItem(const QString& path, const QString& key, int cost, const QDateTime& date_time, QObject* parent = 0);
+    explicit AbstractFileCacheItem(
+        const QString& path, const QString& key, int cost, const QDateTime& date_time, QObject* parent = 0);
     virtual ~AbstractFileCacheItem();
 
     const QString& path() const { return m_path; }
@@ -40,11 +41,11 @@ private:
 
 //------------------------------------------------------------------------------
 
-class FileCacheItem : public AbstractFileCacheItem
-{
+class FileCacheItem : public AbstractFileCacheItem {
     Q_OBJECT
 public:
-    explicit FileCacheItem(const QString& path, const QString& key, int cost, const QDateTime& date_time, QObject* parent = 0);
+    explicit FileCacheItem(
+        const QString& path, const QString& key, int cost, const QDateTime& date_time, QObject* parent = 0);
     virtual ~FileCacheItem();
 
 private:
@@ -55,16 +56,17 @@ private:
 
 //------------------------------------------------------------------------------
 
-class FileCache : public QObject
-{
+class FileCache : public QObject {
     Q_OBJECT
 public:
-    typedef std::function<AbstractFileCacheItem* (const QString&, // path
-                                                  const QString&, // key
-                                                  int, // cost
-                                                  const QDateTime&, // access time
-                                                  QObject* // parent
-                                                  )>  ItemGenerator;
+    typedef std::function<AbstractFileCacheItem*(
+        const QString&,    // path
+        const QString&,    // key
+        int,               // cost
+        const QDateTime&,  // access time
+        QObject*           // parent
+        )>
+        ItemGenerator;
 
     FileCache(int maxCost = 0, QObject* parent = 0);
     virtual ~FileCache();
@@ -89,7 +91,7 @@ public:
     const QString& path() const { return m_path; }
 
 private:
-    bool updateFromDisk(const QString &path, ItemGenerator item_generator);
+    bool updateFromDisk(const QString& path, ItemGenerator item_generator);
 
     QString m_path;
     int m_maxCost;
@@ -100,4 +102,4 @@ private:
 
 //------------------------------------------------------------------------------
 
-#endif // FILECACHE_H
+#endif  // FILECACHE_H

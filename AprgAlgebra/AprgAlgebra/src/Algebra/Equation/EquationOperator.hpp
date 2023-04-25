@@ -2,16 +2,12 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class EquationOperator
-{
+class EquationOperator {
 public:
-
     EquationOperator() = default;
     EquationOperator(std::string const& operatingString);
 
@@ -33,12 +29,11 @@ public:
     std::string getOperatorString() const;
 
 private:
-
-    friend std::ostream & operator<<(std::ostream & out, EquationOperator const& equationOperator);
+    friend std::ostream& operator<<(std::ostream& out, EquationOperator const& equationOperator);
 
     std::string m_operatingString;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

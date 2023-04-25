@@ -4,11 +4,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaWebPathHandler: public AlbaPathHandler
-{
+class AlbaWebPathHandler : public AlbaPathHandler {
 public:
     AlbaWebPathHandler(std::string const& path);
     // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
@@ -24,11 +22,12 @@ public:
 private:
     void save(std::string const& path) override;
     void setPath(std::string const& path);
-    void splitPathToBeforeAndAfterProtocol(std::string const& path, std::string & protocolWithSymbols, std::string & pathAfterProtocol);
+    void splitPathToBeforeAndAfterProtocol(
+        std::string const& path, std::string& protocolWithSymbols, std::string& pathAfterProtocol);
     void setUrlParameters(std::string const& urlParameters);
     std::string m_protocolWithSymbols;
     std::string m_urlParameters;
     bool m_hasProtocol;
 };
 
-}//namespace alba
+}  // namespace alba

@@ -1,75 +1,56 @@
 #pragma once
 
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class BinarySearchWithTwoIndices
-{
+class BinarySearchWithTwoIndices {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
-    BinarySearchWithTwoIndices(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+    BinarySearchWithTwoIndices(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    Index getIndexOfValue(Value const& value) const
-    {
+    Index getIndexOfValue(Value const& value) const {
         Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())
-        {
-            result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);
+        if (!m_sortedValues.empty()) {
+            result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size() - 1, value);
         }
         return result;
     }
 
-    Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const
-    {
+    Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if(startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex)
-        {
+        if (startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex) {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
         }
         return result;
     }
 
 private:
-
-    Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& value) const
-    {
+    Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
         Index lowerIndex(startIndex), higherIndex(endIndex);
-        while(lowerIndex<=higherIndex)
-        {
+        while (lowerIndex <= higherIndex) {
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
-            if(value == middleValue)
-            {
+            if (value == middleValue) {
                 result = middleIndex;
                 break;
-            }
-            else if(value < middleValue)
-            {
-                if(middleIndex > 0U)
-                {
-                    higherIndex = middleIndex-1;
-                }
-                else
-                {
+            } else if (value < middleValue) {
+                if (middleIndex > 0U) {
+                    higherIndex = middleIndex - 1;
+                } else {
                     break;
                 }
-            }
-            else // (middleValue < value)
+            } else  // (middleValue < value)
             {
-                lowerIndex = middleIndex+1;
+                lowerIndex = middleIndex + 1;
             }
         }
         return result;
@@ -78,9 +59,9 @@ private:
     Values const& m_sortedValues;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // The usual way to implement binary search resembles looking for a word in a dictionary.
 // The search maintains an active region in the array, which initially contains all array elements.
@@ -88,7 +69,8 @@ private:
 
 // At each step, the search checks the middle element of the active region.
 // If the middle element is the target element, the search terminates.
-// Otherwise, the search recursively continues to the left or right half of the region, depending on the value of the middle element.
+// Otherwise, the search recursively continues to the left or right half of the region, depending on the value of the
+// middle element.
 
 // In this implementation, the active region is a...b, and initially the region is 0...n-1.
 // The algorithm halves the size of the region at each step, so the time complexity is O(logn).

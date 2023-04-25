@@ -2,23 +2,20 @@
 
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace matrix
-{
+namespace matrix {
 
 // Template declaration
 
 template <typename DataType>
 bool isEqualForMathMatrixDataType(DataType const& value1, DataType const& value2);
 
-
 // Template specialization
 
-template<>
+template <>
 bool isEqualForMathMatrixDataType(AlbaNumber const& value1, AlbaNumber const& value2);
 
-}
+}  // namespace matrix
 
-}
+}  // namespace alba

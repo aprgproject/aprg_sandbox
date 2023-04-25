@@ -58,154 +58,153 @@
 /**
    This is the in-place version of get_nlmean().
 **/
-CImg<T>& nlmeans(int patch_size=1, double lambda=-1, double alpha=3, double sigma=-1, int sampling=1){
-  if (!is_empty()){
-    if (sigma<0) sigma = std::sqrt(variance_noise()); // noise variance estimation
-    const double np = (2*patch_size + 1)*(2*patch_size + 1)*spectrum()/(double)sampling;
-    if (lambda<0) {// Bandwidth estimation
-      if (np<100)
-        lambda = ((((((1.1785e-12*np - 5.1827e-10)*np + 9.5946e-08)*np -
-                     9.7798e-06)*np + 6.0756e-04)*np - 0.0248)*np + 1.9203)*np + 7.9599;
-      else
-        lambda = (-7.2611e-04*np + 1.3213)*np + 15.2726;
-    }
-#if cimg_debug>=1
-    std::fprintf(stderr,"Size of the patch                              : %dx%d \n",
-                 2*patch_size + 1,2*patch_size + 1);
-    std::fprintf(stderr,"Size of window where similar patch are looked for : %dx%d \n",
-                 (int)(alpha*(2*patch_size + 1)),(int)(alpha*(2*patch_size + 1)));
-    std::fprintf(stderr,"Bandwidth of the kernel                                : %fx%f^2 \n",
-                 lambda,sigma);
-    std::fprintf(stderr,"Noise standard deviation estimated to          : %f \n",
-                 sigma);
-#endif
-
-    CImg<T> dest(width(),height(),depth(),spectrum(),0);
-    double *uhat = new double[spectrum()];
-    const double h2 = -.5/(lambda*sigma*sigma); // [Kervrann] notations
-    if (depth()!=1){ // 3D case
-      const CImg<> P = (*this).get_blur(1); // inspired from Mahmoudi&Sapiro SPletter dec 05
-      const int n_simu = 64;
-      CImg<> tmp(n_simu,n_simu,n_simu);
-      const double sig = std::sqrt(tmp.fill(0.f).noise(sigma).blur(1).pow(2.).sum()/(n_simu*n_simu*n_simu));
-      const int
-        patch_size_z = 0,
-        pxi = (int)(alpha*patch_size),
-        pyi = (int)(alpha*patch_size),
-        pzi = 2; //Define the size of the neighborhood in z
-      for (int zi = 0; zi<depth(); ++zi) {
-#if cimg_debug>=1
-        std::fprintf(stderr,"\rProcessing : %3d %%",(int)((float)zi/(float)depth()*100.));fflush(stdout);
-#endif
-        for (int yi = 0; yi<height(); ++yi)
-          for (int xi = 0; xi<width(); ++xi) {
-            cimg_forC(*this,v) uhat[v] = 0;
-            float sw = 0, wmax = -1;
-            for (int zj = cimg::max(0,zi - pzi); zj<cimg::min(depth(),zi + pzi + 1); ++zj)
-              for (int yj = cimg::max(0,yi - pyi); yj<cimg::min(height(),yi + pyi + 1); ++yj)
-                for (int xj = cimg::max(0,xi - pxi); xj<cimg::min(width(),xi + pxi + 1); ++xj)
-                  if (cimg::abs(P(xi,yi,zi) - P(xj,yj,zj))/sig<3) {
-                    double d = 0;
-                    int n = 0;
-                    if (xi!=xj && yi!=yj && zi!=zj){
-                      for (int kz = -patch_size_z; kz<patch_size_z + 1; kz+=sampling) {
-                        int
-                          zj_ = zj + kz,
-                          zi_ = zi + kz;
-                        if (zj_>=0 && zj_<depth() && zi_>=0 && zi_<depth())
-                          for (int ky = -patch_size; ky<=patch_size; ky+=sampling) {
-                            int
-                              yj_ = yj + ky,
-                              yi_ = yi + ky;
-                            if (yj_>=0 && yj_<height() && yi_>=0 && yi_<height())
-                              for (int kx = -patch_size; kx<=patch_size; kx+=sampling) {
-                                int
-                                  xj_ = xj + kx,
-                                  xi_ = xi + kx;
-                                if (xj_>=0 && xj_<width() && xi_>=0 && xi_<width())
-                                  cimg_forC(*this,v) {
-                                    double d1 = (*this)(xj_,yj_,zj_,v) - (*this)(xi_,yi_,zi_,v);
-                                    d+=d1*d1;
-                                    ++n;
-                                  }
-                              }
-                          }
-                      }
-                      float w = (float)std::exp(d*h2);
-                      wmax = w>wmax?w:wmax;
-                      cimg_forC(*this,v) uhat[v]+=w*(*this)(xj,yj,zj,v);
-                      sw+=w;
-                    }
-                  }
-            // add the central pixel
-            cimg_forC(*this,v) uhat[v]+=wmax*(*this)(xi,yi,zi,v);
-            sw+=wmax;
-            if (sw) cimg_forC(*this,v) dest(xi,yi,zi,v) = (T)(uhat[v]/=sw);
-            else cimg_forC(*this,v) dest(xi,yi,zi,v) = (*this)(xi,yi,zi,v);
-          }
-      }
-    }
-    else { // 2D case
-      const CImg<> P = (*this).get_blur(1); // inspired from Mahmoudi&Sapiro SPletter dec 05
-      const int n_simu = 512;
-      CImg<> tmp(n_simu,n_simu);
-      const double sig = std::sqrt(tmp.fill(0.f).noise(sigma).blur(1).pow(2.).sum()/(n_simu*n_simu));
-      const int
-        pxi = (int)(alpha*patch_size),
-        pyi = (int)(alpha*patch_size); //Define the size of the neighborhood
-      for (int yi = 0; yi<height(); ++yi) {
-#if cimg_debug>=1
-        std::fprintf(stderr,"\rProcessing : %3d %%",(int)((float)yi/(float)height()*100.));fflush(stdout);
-#endif
-        for (int xi = 0; xi<width(); ++xi) {
-          cimg_forC(*this,v) uhat[v] = 0;
-          float sw = 0, wmax = -1;
-          for (int yj = cimg::max(0,yi - pyi); yj<cimg::min(height(),yi + pyi + 1); ++yj)
-            for (int xj = cimg::max(0,xi - pxi); xj<cimg::min(width(),xi + pxi + 1); ++xj)
-              if (cimg::abs(P(xi,yi) - P(xj,yj))/sig<3.) {
-                double d = 0;
-                int n = 0;
-                if (!(xi==xj && yi==yj)) //{
-                  for (int ky = -patch_size; ky<patch_size + 1; ky+=sampling) {
-                    int
-                      yj_ = yj + ky,
-                      yi_ = yi + ky;
-                    if (yj_>=0 && yj_<height() && yi_>=0 && yi_<height())
-                      for (int kx = -patch_size; kx<patch_size + 1; kx+=sampling) {
-                        int
-                          xj_ = xj + kx,
-                          xi_ = xi + kx;
-                        if (xj_>=0 && xj_<width() && xi_>=0 && xi_<width())
-                          cimg_forC(*this,v) {
-                            double d1 = (*this)(xj_,yj_,v) - (*this)(xi_,yi_,v);
-                            d+=d1*d1;
-                            n++;
-                          }
-                      }
-                    //}
-                float w = (float)std::exp(d*h2);
-                cimg_forC(*this,v) uhat[v]+=w*(*this)(xj,yj,v);
-                wmax = w>wmax?w:wmax; // Store the maximum of the weights
-                sw+=w; // Compute the sum of the weights
-                }
-              }
-          // add the central pixel with the maximum weight
-          cimg_forC(*this,v) uhat[v]+=wmax*(*this)(xi,yi,v);
-          sw+=wmax;
-
-          // Compute the estimate for the current pixel
-          if (sw) cimg_forC(*this,v) dest(xi,yi,v) = (T)(uhat[v]/=sw);
-          else cimg_forC(*this,v) dest(xi,yi,v) = (*this)(xi,yi,v);
+CImg<T>& nlmeans(int patch_size = 1, double lambda = -1, double alpha = 3, double sigma = -1, int sampling = 1) {
+    if (!is_empty()) {
+        if (sigma < 0) sigma = std::sqrt(variance_noise());  // noise variance estimation
+        const double np = (2 * patch_size + 1) * (2 * patch_size + 1) * spectrum() / (double)sampling;
+        if (lambda < 0) {  // Bandwidth estimation
+            if (np < 100)
+                lambda =
+                    ((((((1.1785e-12 * np - 5.1827e-10) * np + 9.5946e-08) * np - 9.7798e-06) * np + 6.0756e-04) * np -
+                      0.0248) *
+                         np +
+                     1.9203) *
+                        np +
+                    7.9599;
+            else
+                lambda = (-7.2611e-04 * np + 1.3213) * np + 15.2726;
         }
-      } // main loop
-    } // 2d
-    delete [] uhat;
-    dest.move_to(*this);
-#if cimg_debug>=1
-    std::fprintf(stderr,"\n"); // make a new line
+#if cimg_debug >= 1
+        std::fprintf(
+            stderr, "Size of the patch                              : %dx%d \n", 2 * patch_size + 1,
+            2 * patch_size + 1);
+        std::fprintf(
+            stderr, "Size of window where similar patch are looked for : %dx%d \n", (int)(alpha * (2 * patch_size + 1)),
+            (int)(alpha * (2 * patch_size + 1)));
+        std::fprintf(stderr, "Bandwidth of the kernel                                : %fx%f^2 \n", lambda, sigma);
+        std::fprintf(stderr, "Noise standard deviation estimated to          : %f \n", sigma);
 #endif
-  } // is empty
-  return *this;
+
+        CImg<T> dest(width(), height(), depth(), spectrum(), 0);
+        double* uhat = new double[spectrum()];
+        const double h2 = -.5 / (lambda * sigma * sigma);  // [Kervrann] notations
+        if (depth() != 1) {                                // 3D case
+            const CImg<> P = (*this).get_blur(1);          // inspired from Mahmoudi&Sapiro SPletter dec 05
+            const int n_simu = 64;
+            CImg<> tmp(n_simu, n_simu, n_simu);
+            const double sig = std::sqrt(tmp.fill(0.f).noise(sigma).blur(1).pow(2.).sum() / (n_simu * n_simu * n_simu));
+            const int patch_size_z = 0, pxi = (int)(alpha * patch_size), pyi = (int)(alpha * patch_size),
+                      pzi = 2;  // Define the size of the neighborhood in z
+            for (int zi = 0; zi < depth(); ++zi) {
+#if cimg_debug >= 1
+                std::fprintf(stderr, "\rProcessing : %3d %%", (int)((float)zi / (float)depth() * 100.));
+                fflush(stdout);
+#endif
+                for (int yi = 0; yi < height(); ++yi)
+                    for (int xi = 0; xi < width(); ++xi) {
+                        cimg_forC(*this, v) uhat[v] = 0;
+                        float sw = 0, wmax = -1;
+                        for (int zj = cimg::max(0, zi - pzi); zj < cimg::min(depth(), zi + pzi + 1); ++zj)
+                            for (int yj = cimg::max(0, yi - pyi); yj < cimg::min(height(), yi + pyi + 1); ++yj)
+                                for (int xj = cimg::max(0, xi - pxi); xj < cimg::min(width(), xi + pxi + 1); ++xj)
+                                    if (cimg::abs(P(xi, yi, zi) - P(xj, yj, zj)) / sig < 3) {
+                                        double d = 0;
+                                        int n = 0;
+                                        if (xi != xj && yi != yj && zi != zj) {
+                                            for (int kz = -patch_size_z; kz < patch_size_z + 1; kz += sampling) {
+                                                int zj_ = zj + kz, zi_ = zi + kz;
+                                                if (zj_ >= 0 && zj_ < depth() && zi_ >= 0 && zi_ < depth())
+                                                    for (int ky = -patch_size; ky <= patch_size; ky += sampling) {
+                                                        int yj_ = yj + ky, yi_ = yi + ky;
+                                                        if (yj_ >= 0 && yj_ < height() && yi_ >= 0 && yi_ < height())
+                                                            for (int kx = -patch_size; kx <= patch_size;
+                                                                 kx += sampling) {
+                                                                int xj_ = xj + kx, xi_ = xi + kx;
+                                                                if (xj_ >= 0 && xj_ < width() && xi_ >= 0 &&
+                                                                    xi_ < width())
+                                                                    cimg_forC(*this, v) {
+                                                                        double d1 = (*this)(xj_, yj_, zj_, v) -
+                                                                                    (*this)(xi_, yi_, zi_, v);
+                                                                        d += d1 * d1;
+                                                                        ++n;
+                                                                    }
+                                                            }
+                                                    }
+                                            }
+                                            float w = (float)std::exp(d * h2);
+                                            wmax = w > wmax ? w : wmax;
+                                            cimg_forC(*this, v) uhat[v] += w * (*this)(xj, yj, zj, v);
+                                            sw += w;
+                                        }
+                                    }
+                        // add the central pixel
+                        cimg_forC(*this, v) uhat[v] += wmax * (*this)(xi, yi, zi, v);
+                        sw += wmax;
+                        if (sw)
+                            cimg_forC(*this, v) dest(xi, yi, zi, v) = (T)(uhat[v] /= sw);
+                        else
+                            cimg_forC(*this, v) dest(xi, yi, zi, v) = (*this)(xi, yi, zi, v);
+                    }
+            }
+        } else {                                   // 2D case
+            const CImg<> P = (*this).get_blur(1);  // inspired from Mahmoudi&Sapiro SPletter dec 05
+            const int n_simu = 512;
+            CImg<> tmp(n_simu, n_simu);
+            const double sig = std::sqrt(tmp.fill(0.f).noise(sigma).blur(1).pow(2.).sum() / (n_simu * n_simu));
+            const int pxi = (int)(alpha * patch_size),
+                      pyi = (int)(alpha * patch_size);  // Define the size of the neighborhood
+            for (int yi = 0; yi < height(); ++yi) {
+#if cimg_debug >= 1
+                std::fprintf(stderr, "\rProcessing : %3d %%", (int)((float)yi / (float)height() * 100.));
+                fflush(stdout);
+#endif
+                for (int xi = 0; xi < width(); ++xi) {
+                    cimg_forC(*this, v) uhat[v] = 0;
+                    float sw = 0, wmax = -1;
+                    for (int yj = cimg::max(0, yi - pyi); yj < cimg::min(height(), yi + pyi + 1); ++yj)
+                        for (int xj = cimg::max(0, xi - pxi); xj < cimg::min(width(), xi + pxi + 1); ++xj)
+                            if (cimg::abs(P(xi, yi) - P(xj, yj)) / sig < 3.) {
+                                double d = 0;
+                                int n = 0;
+                                if (!(xi == xj && yi == yj))  //{
+                                    for (int ky = -patch_size; ky < patch_size + 1; ky += sampling) {
+                                        int yj_ = yj + ky, yi_ = yi + ky;
+                                        if (yj_ >= 0 && yj_ < height() && yi_ >= 0 && yi_ < height())
+                                            for (int kx = -patch_size; kx < patch_size + 1; kx += sampling) {
+                                                int xj_ = xj + kx, xi_ = xi + kx;
+                                                if (xj_ >= 0 && xj_ < width() && xi_ >= 0 && xi_ < width())
+                                                    cimg_forC(*this, v) {
+                                                        double d1 = (*this)(xj_, yj_, v) - (*this)(xi_, yi_, v);
+                                                        d += d1 * d1;
+                                                        n++;
+                                                    }
+                                            }
+                                        //}
+                                        float w = (float)std::exp(d * h2);
+                                        cimg_forC(*this, v) uhat[v] += w * (*this)(xj, yj, v);
+                                        wmax = w > wmax ? w : wmax;  // Store the maximum of the weights
+                                        sw += w;                     // Compute the sum of the weights
+                                    }
+                            }
+                    // add the central pixel with the maximum weight
+                    cimg_forC(*this, v) uhat[v] += wmax * (*this)(xi, yi, v);
+                    sw += wmax;
+
+                    // Compute the estimate for the current pixel
+                    if (sw)
+                        cimg_forC(*this, v) dest(xi, yi, v) = (T)(uhat[v] /= sw);
+                    else
+                        cimg_forC(*this, v) dest(xi, yi, v) = (*this)(xi, yi, v);
+                }
+            }  // main loop
+        }      // 2d
+        delete[] uhat;
+        dest.move_to(*this);
+#if cimg_debug >= 1
+        std::fprintf(stderr, "\n");  // make a new line
+#endif
+    }  // is empty
+    return *this;
 }
 
 //! Get the result of the NL-Means denoising algorithm.
@@ -235,8 +234,9 @@ CImg<T>& nlmeans(int patch_size=1, double lambda=-1, double alpha=3, double sigm
    Computer Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer Society Conference on
    Volume 2,  20-25 June 2005 Page(s):60 - 65 vol. 2
 **/
-CImg<T> get_nlmeans( int patch_size=1,  double lambda=-1, double alpha=3 ,double sigma=-1, int sampling=1) const  {
-  return CImg<T>(*this).nlmeans(patch_size,lambda,alpha,sigma,sampling);
+CImg<T> get_nlmeans(
+    int patch_size = 1, double lambda = -1, double alpha = 3, double sigma = -1, int sampling = 1) const {
+    return CImg<T>(*this).nlmeans(patch_size, lambda, alpha, sigma, sampling);
 }
 
 #endif /* cimg_plugin_nlmeans */

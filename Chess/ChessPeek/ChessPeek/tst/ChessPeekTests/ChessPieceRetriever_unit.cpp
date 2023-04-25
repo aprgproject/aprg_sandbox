@@ -1,5 +1,4 @@
 #include <ChessPeek/ChessPieceRetriever.hpp>
-
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
@@ -7,18 +6,13 @@
 using namespace alba::AprgBitmap;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace chess
-{
+namespace chess {
 
-namespace
-{
+namespace {
 void verifyGetChessCellPieceForBlackUpWhiteDown(
-        ChessPieceRetriever const& retriever,
-        BitmapSnippet const& inputSnippet)
-{
+    ChessPieceRetriever const& retriever, BitmapSnippet const& inputSnippet) {
     EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 0U, 6U));
     EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 1U, 6U));
     EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 2U, 6U));
@@ -52,56 +46,59 @@ void verifyGetChessCellPieceForBlackUpWhiteDown(
     EXPECT_EQ(Piece(PieceColorAndType::BlackQueen), retriever.getChessCellPiece(inputSnippet, 3U, 0U));
     EXPECT_EQ(Piece(PieceColorAndType::BlackKing), retriever.getChessCellPiece(inputSnippet, 4U, 0U));
 }
-}
+}  // namespace
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsUser)
-{
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\ChessDotComUserVsUser.bmp)");
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsUser) {
+    AlbaLocalPathHandler inputFile(
+        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\ChessDotComUserVsUser.bmp)");
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsUser);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet inputSnippet(
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
     ChessPieceRetriever retriever(configuration);
 
     verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
 }
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsComputer)
-{
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsComputer\ChessDotComUserVsComputer.bmp)");
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsComputer) {
+    AlbaLocalPathHandler inputFile(
+        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsComputer\ChessDotComUserVsComputer.bmp)");
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsComputer);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet inputSnippet(
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
     ChessPieceRetriever retriever(configuration);
 
     verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
 }
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg)
-{
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\LichessDotOrg.bmp)");
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet inputSnippet(
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
     ChessPieceRetriever retriever(configuration);
 
     verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
 }
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg_CircleChoicesAreNotPawns)
-{
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\ChoiceCirclesAreNotPawns.bmp)");
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg_CircleChoicesAreNotPawns) {
+    AlbaLocalPathHandler inputFile(
+        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\ChoiceCirclesAreNotPawns.bmp)");
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet inputSnippet(
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
     ChessPieceRetriever retriever(configuration);
 
     EXPECT_EQ(Piece(PieceColorAndType::Empty), retriever.getChessCellPiece(inputSnippet, 0U, 1U));
 }
 
-}
+}  // namespace chess
 
-}
+}  // namespace alba

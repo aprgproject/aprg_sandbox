@@ -5,32 +5,20 @@
 
 #include <functional>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-enum class LimaconType
-{
-    Unknown,
-    WithALoop,
-    Cardioid,
-    WithADent,
-    Convex
-};
+enum class LimaconType { Unknown, WithALoop, Cardioid, WithADent, Convex };
 
-enum class LimaconTrigonometricFunctionType
-{
-    Cosine,
-    Sine
-};
+enum class LimaconTrigonometricFunctionType { Cosine, Sine };
 
-class Limacon
-{
+class Limacon {
 public:
     Limacon();
-    Limacon(double const aCoefficient, double const bCoefficient, LimaconTrigonometricFunctionType const trigonometricFunction); // a + b*(cos or sin)(theta) = r
+    Limacon(
+        double const aCoefficient, double const bCoefficient,
+        LimaconTrigonometricFunctionType const trigonometricFunction);  // a + b*(cos or sin)(theta) = r
 
     bool operator==(Limacon const& limacon) const;
     bool operator!=(Limacon const& limacon) const;
@@ -47,7 +35,7 @@ private:
     double performTrigonometricFunction(AlbaAngle const& theta) const;
     AlbaAngle performInverseTrigonometricFunction(double const ratio) const;
 
-    friend std::ostream & operator<<(std::ostream & out, Limacon const& limacon);
+    friend std::ostream& operator<<(std::ostream& out, Limacon const& limacon);
 
     double m_aValue;
     double m_bValue;
@@ -56,5 +44,5 @@ private:
 
 using Limacons = std::vector<Limacon>;
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

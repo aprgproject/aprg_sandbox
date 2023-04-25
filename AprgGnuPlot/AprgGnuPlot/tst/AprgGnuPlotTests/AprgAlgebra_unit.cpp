@@ -13,11 +13,9 @@ using namespace alba::algebra::Functions;
 using namespace alba::algebra::ThreeDimensions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown)
-{
+TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown) {
     Equation generalEquation(getHyperbolicParaboloidEquation());
     SubstitutionOfVariablesToValues initialSubstitution;
     initialSubstitution.putVariableWithValue("a", 1);
@@ -28,17 +26,14 @@ TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown)
     initialSubstitution.putVariableWithValue("z0", 3);
     Equation equationWithValues(initialSubstitution.performSubstitutionTo(generalEquation));
     AprgGnuPlot3D::PointsInGraph pointsOfEquation;
-    for(double x=-100; x<=100; x+=5)
-    {
-        for(double y=-100; y<=100; y+=5)
-        {
+    for (double x = -100; x <= 100; x += 5) {
+        for (double y = -100; y <= 100; y += 5) {
             SubstitutionOfVariablesToValues substitution{{"x", x}, {"y", y}};
             Equation equationWithZ(substitution.performSubstitutionTo(equationWithValues));
             OneEquationOneVariableEqualitySolver solver;
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationWithZ));
             AlbaNumbers zAcceptedValues(solutionSet.getAcceptedValues());
-            for(AlbaNumber const& zNumber : zAcceptedValues)
-            {
+            for (AlbaNumber const& zNumber : zAcceptedValues) {
                 pointsOfEquation.emplace_back(AprgGnuPlot3D::getPoint(x, y, zNumber.getDouble()));
             }
         }
@@ -49,29 +44,24 @@ TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
-        gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1");
-    });
+    gnuPlot3D.doGraphs(
+        [&]() { gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1"); });
 }
 
-TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
-{
-    Term leftHandSize(Polynomial({Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
+TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown) {
+    Term leftHandSize(Polynomial(
+        {Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
     Term rightHandSize(z);
     Equation equation(leftHandSize, "=", rightHandSize);
     AprgGnuPlot3D::PointsInGraph pointsOfEquation;
-    for(double x=-2; x<=2; x+=0.1)
-    {
-        for(double y=-2; y<=2; y+=0.1)
-        {
+    for (double x = -2; x <= 2; x += 0.1) {
+        for (double y = -2; y <= 2; y += 0.1) {
             SubstitutionOfVariablesToValues substitution{{"x", x}, {"y", y}};
             Equation equationWithZ(substitution.performSubstitutionTo(equation));
             OneEquationOneVariableEqualitySolver solver;
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationWithZ));
             AlbaNumbers zAcceptedValues(solutionSet.getAcceptedValues());
-            for(AlbaNumber const& zNumber : zAcceptedValues)
-            {
+            for (AlbaNumber const& zNumber : zAcceptedValues) {
                 pointsOfEquation.emplace_back(AprgGnuPlot3D::getPoint(x, y, zNumber.getDouble()));
             }
         }
@@ -82,13 +72,16 @@ TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.doGraphs([&]()
-    {
+    gnuPlot3D.doGraphs([&]() {
         gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1");
-        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(-0.5, 1, static_cast<double>(-9)/8)}, "point1", "with points palette pointsize 2 pointtype 2");
+        gnuPlot3D.graph(
+            {AprgGnuPlot3D::getPoint(-0.5, 1, static_cast<double>(-9) / 8)}, "point1",
+            "with points palette pointsize 2 pointtype 2");
         gnuPlot3D.graph({AprgGnuPlot3D::getPoint(0, 1, -1)}, "point3", "with points palette pointsize 2 pointtype 3");
-        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(0.5, 1, static_cast<double>(-9)/8)}, "point4", "with points palette pointsize 2 pointtype 4");
+        gnuPlot3D.graph(
+            {AprgGnuPlot3D::getPoint(0.5, 1, static_cast<double>(-9) / 8)}, "point4",
+            "with points palette pointsize 2 pointtype 4");
     });
 }
 
-}
+}  // namespace alba

@@ -10,46 +10,35 @@
 using namespace alba::matrix;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-LinearEquationsEqualitySolver::LinearEquationsEqualitySolver()
-    : BaseSolver()
-{}
+LinearEquationsEqualitySolver::LinearEquationsEqualitySolver() : BaseSolver() {}
 
 MultipleVariableSolutionSet LinearEquationsEqualitySolver::calculateSolutionAndReturnSolutionSet(
-        Equations const& equations)
-{
+    Equations const& equations) {
     MultipleVariableSolutionSet solutionSet;
     calculateSolution(solutionSet, equations);
     return solutionSet;
 }
 
 MultipleVariableSolutionSet LinearEquationsEqualitySolver::calculateSolutionAndReturnSolutionSet(
-        Polynomials const& polynomials)
-{
+    Polynomials const& polynomials) {
     MultipleVariableSolutionSet solutionSet;
     calculateSolution(solutionSet, polynomials);
     return solutionSet;
 }
 
 void LinearEquationsEqualitySolver::calculateSolution(
-        MultipleVariableSolutionSet & solutionSet,
-        Equations const& equations)
-{
-    if(doesAllEquationsHaveEqualityOperator(equations))
-    {
+    MultipleVariableSolutionSet& solutionSet, Equations const& equations) {
+    if (doesAllEquationsHaveEqualityOperator(equations)) {
         Polynomials polynomials;
-        for(Equation const& equation : equations)
-        {
+        for (Equation const& equation : equations) {
             Equation simplifiedEquation(equation);
             simplifiedEquation.simplify();
             Term const& nonZeroLeftHandTerm(simplifiedEquation.getLeftHandTerm());
-            if(canBeConvertedToPolynomial(nonZeroLeftHandTerm))
-            {
+            if (canBeConvertedToPolynomial(nonZeroLeftHandTerm)) {
                 polynomials.emplace_back(createPolynomialIfPossible(nonZeroLeftHandTerm));
             }
         }
@@ -58,53 +47,39 @@ void LinearEquationsEqualitySolver::calculateSolution(
 }
 
 void LinearEquationsEqualitySolver::calculateSolution(
-        MultipleVariableSolutionSet & solutionSet,
-        Polynomials const& polynomials)
-{
+    MultipleVariableSolutionSet& solutionSet, Polynomials const& polynomials) {
     ExponentsRetriever exponentsRetriever;
     VariableNamesRetriever variablesRetriever;
     exponentsRetriever.retrieveFromPolynomials(polynomials);
     variablesRetriever.retrieveFromPolynomials(polynomials);
     AlbaNumbersSet const& exponents(exponentsRetriever.getSavedData());
     VariableNamesSet const& variables(variablesRetriever.getSavedData());
-    if(areExponentsEqualToOneAndZero(exponents)
-            && variables.size() == polynomials.size())
-    {
-        NumberMatrix coefficientsMatrix(variables.size()+1, polynomials.size());
+    if (areExponentsEqualToOneAndZero(exponents) && variables.size() == polynomials.size()) {
+        NumberMatrix coefficientsMatrix(variables.size() + 1, polynomials.size());
         setMatrixCoefficients(coefficientsMatrix, variables, polynomials);
         transformToReducedEchelonFormUsingGaussJordanReduction(coefficientsMatrix);
-        if(isReducedRowEchelonForm(coefficientsMatrix))
-        {
+        if (isReducedRowEchelonForm(coefficientsMatrix)) {
             saveSolutionSetsFromTheCoefficientMatrix(solutionSet, coefficientsMatrix, variables);
             setAsCompleteSolution();
         }
     }
 }
 
-bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(
-        AlbaNumbersSet const& exponents) const
-{
-    return all_of(exponents.cbegin(), exponents.cend(), [](AlbaNumber const& exponent)
-    {
+bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(AlbaNumbersSet const& exponents) const {
+    return all_of(exponents.cbegin(), exponents.cend(), [](AlbaNumber const& exponent) {
         return exponent == 1 || exponent == 0;
     });
 }
 
 void LinearEquationsEqualitySolver::setMatrixCoefficients(
-        NumberMatrix & coefficientsMatrix,
-        VariableNamesSet const& variableNames,
-        Polynomials const& polynomials)
-{
-    unsigned int rowIndex=0;
-    for(Polynomial const& polynomial : polynomials)
-    {
-        unsigned int columnIndex=0;
+    NumberMatrix& coefficientsMatrix, VariableNamesSet const& variableNames, Polynomials const& polynomials) {
+    unsigned int rowIndex = 0;
+    for (Polynomial const& polynomial : polynomials) {
+        unsigned int columnIndex = 0;
         VariableToValueMap variableToValueMap(getCoefficientsForVariablesOnly(polynomial));
-        for(string const& variableName : variableNames)
-        {
+        for (string const& variableName : variableNames) {
             VariableToValueMap::const_iterator it = variableToValueMap.find(variableName);
-            if(it != variableToValueMap.cend())
-            {
+            if (it != variableToValueMap.cend()) {
                 coefficientsMatrix.setEntry(columnIndex++, rowIndex, it->second);
             }
         }
@@ -113,17 +88,13 @@ void LinearEquationsEqualitySolver::setMatrixCoefficients(
 }
 
 void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
-        MultipleVariableSolutionSet & solutionSet,
-        NumberMatrix const& coefficientsMatrix,
-        VariableNamesSet const& variables)
-{
-    unsigned int index=0;
+    MultipleVariableSolutionSet& solutionSet, NumberMatrix const& coefficientsMatrix,
+    VariableNamesSet const& variables) {
+    unsigned int index = 0;
     unsigned int columnEndIndex = variables.size();
-    for(string const& variableName : variables)
-    {
+    for (string const& variableName : variables) {
         AlbaNumber identityDiagonalEntry(coefficientsMatrix.getEntry(index, index));
-        if(identityDiagonalEntry == 1)
-        {
+        if (identityDiagonalEntry == 1) {
             SolutionSet solutionSetForVariable;
             solutionSetForVariable.addAcceptedValue(-coefficientsMatrix.getEntry(columnEndIndex, index));
             solutionSet.addSolutionSetForVariable(variableName, solutionSetForVariable);
@@ -132,6 +103,6 @@ void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
     }
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

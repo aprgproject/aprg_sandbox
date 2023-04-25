@@ -6,13 +6,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
 using DataCollectionOfDoubles = DataCollection<double>;
 
-TEST(DataCollectionTest, CollectionDataAreCorrect)
-{
+TEST(DataCollectionTest, CollectionDataAreCorrect) {
     DataCollectionOfDoubles collection;
     collection.addData(-100);
     collection.addData(-10);
@@ -30,4 +28,4 @@ TEST(DataCollectionTest, CollectionDataAreCorrect)
     EXPECT_EQ(10, collection.getAverageWithDoubleFormat());
 }
 
-}
+}  // namespace alba

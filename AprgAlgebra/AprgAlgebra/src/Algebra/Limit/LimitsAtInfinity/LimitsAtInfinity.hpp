@@ -6,18 +6,13 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class LimitsAtInfinity
-{
+class LimitsAtInfinity {
 public:
-    LimitsAtInfinity(
-            Term const& term,
-            std::string const& variableName);
+    LimitsAtInfinity(Term const& term, std::string const& variableName);
 
     Term getSimplifiedTermAtInfinity() const;
     Term getValueAtInfinity(AlbaNumber const infinityValue) const;
@@ -28,9 +23,7 @@ private:
     void simplifyAsTermsOverTermsIfPossible();
     void simplifyPolynomialToMaxDegreeMonomialOnly();
     AlbaNumber getMaxDegree(Term const& term);
-    AlbaNumber getDegreeToRemove(
-            AlbaNumber const& numeratorDegree,
-            AlbaNumber const& denominatorDegree);
+    AlbaNumber getDegreeToRemove(AlbaNumber const& numeratorDegree, AlbaNumber const& denominatorDegree);
 
     Term m_simplifiedTermAtInfinity;
     std::string m_variableName;
@@ -39,6 +32,6 @@ private:
     RemoveMonomialsWithNegativeExponentMutator m_removeMonomialsWithNegativeExponentMutator;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

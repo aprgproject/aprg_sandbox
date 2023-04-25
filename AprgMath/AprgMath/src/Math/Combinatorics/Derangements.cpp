@@ -8,14 +8,11 @@ using namespace alba::AlbaMathConstants;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
-UnsignedInteger getNumberOfDerangements(UnsignedInteger const n)
-{
+UnsignedInteger getNumberOfDerangements(UnsignedInteger const n) {
     // As an example, let us count the number of derangements of elements {1,2,...,n},
     // i.e., permutations where no element remains in its original place.
     // For example, when n=3, there are two derangements: (2,3,1) and (3,1,2).
@@ -31,8 +28,9 @@ UnsignedInteger getNumberOfDerangements(UnsignedInteger const n)
     // So its number of derangements = !n = n! - |union of X1 and X2 ... Xn|
     // Using inclusion-exclusion, this reduces to calculating sizes of intersections which can be done efficiently.
     // For example, when n=3, the size of is |union of X1 and X2 and X3|.
-    // |union of X1 and X2 and X3| = |X1| + |X2| + |X3| - |intersection of X1 and X2| - |intersection of X1 and X3| - |intersection of X2 and X3| - |intersection of X1 and X2 and X3|
-    // number of derangements = !n = n! - |union of X1 and X2 and X3| = 6-4 =2
+    // |union of X1 and X2 and X3| = |X1| + |X2| + |X3| - |intersection of X1 and X2| - |intersection of X1 and X3| -
+    // |intersection of X2 and X3| - |intersection of X1 and X2 and X3| number of derangements = !n = n! - |union of X1
+    // and X2 and X3| = 6-4 =2
 
     // It turns out that the problem can also be solved without using inclusion exclusion.
     // Another approach let f (n) denote the number of derangements for {1,2,...,n}.
@@ -118,7 +116,8 @@ UnsignedInteger getNumberOfDerangements(UnsignedInteger const n)
     // -----> For example, swapping 1(at position 1) and 3(at position 3) yields to derangement of 2 and 4: (3,4,1,2)
     // 4) At any position, the invalid value of a position can be swapped with a valid value of another position.
     // ---> This reduces the problem on derangement of n-1.
-    // -----> For example, swapping 1(at position 1) and 3(not at position 3) yields to derangement of 2 3, and 4: (3,1,4,2) and (3,4,2,1)
+    // -----> For example, swapping 1(at position 1) and 3(not at position 3) yields to derangement of 2 3, and 4:
+    // (3,1,4,2) and (3,4,2,1)
     // -------> Derangement of X, 2, 3, and 4: (X,3,4,2) and (X,4,2,3).
     // -------> Swapping 1 and 3: (3,1,4,2) and (3,4,2,1).
     // 5) Finally, the formula reduces to this approach
@@ -127,40 +126,36 @@ UnsignedInteger getNumberOfDerangements(UnsignedInteger const n)
     // ---> Step 2: Check the valid values on that position
     // -----> Example: Valid values at position 3: {1,2,4}
     // ---> Step 3: For each of the valid values, do these to two cases:
-    // -----> Step 3.1: For case 1, assume that selected invalid value is on the invalid position of the current valid value.
+    // -----> Step 3.1: For case 1, assume that selected invalid value is on the invalid position of the current valid
+    // value.
     // -------> Step 3.1.1: Put the selected invalid value on the invalid position of the current valid value.
     // ---------> Example: Selected position 3 and valid value is 2: (X,3,X,X)
     // -------> Step 3.1.2: And put the current valid value on the selected position.
     // ---------> Example: Selected position 3 and valid value is 2: (X,3,2,X)
     // -------> Step 3.1.3: Do derangement of n-2 for the remaining positions.
     // ---------> Example: Selected position 3 and valid value is 2: (4,3,2,1)
-    // -----> Step 3.2: For case 2, assume that selected invalid value is NOT on the invalid position of the current valid value
+    // -----> Step 3.2: For case 2, assume that selected invalid value is NOT on the invalid position of the current
+    // valid value
     // -------> Step 3.2.1: Do derangement of n-1 for the positions except the selected position.
     // ---------> Example: Selected position 3: (2,4,X,1), (4,1,X,2)
     // -------> Step 3.2.2: Swap selected invalid value on the selected position with the current valid value.
     // ---------> Example: Selected position 3 and valid value is 2: (3,4,2,1), (4,1,2,3)
     // -----> Step 3.3: Collate all identified derangments from the two cases:
     // ---------> Example: All derangements of having value 2 at position 3: (4,3,2,1), (3,4,2,1), (4,1,2,3)
-    // 6) So formula is: Total derangments = (valid values at a selected position) * (derangments of n-2 + derangments of n-1)
-    // Total derangments = (n-1)*(derangements of n-2 + derangements of n-1)
+    // 6) So formula is: Total derangments = (valid values at a selected position) * (derangments of n-2 + derangments
+    // of n-1) Total derangments = (n-1)*(derangements of n-2 + derangements of n-1)
 
     UnsignedInteger result{};
-    if(n<=1)
-    {
+    if (n <= 1) {
         result = 0;
-    }
-    else if(n==2)
-    {
+    } else if (n == 2) {
         result = 1;
-    }
-    else
-    {
-        UnsignedInteger previousOfPrevious=0;
-        UnsignedInteger previous=1;
-        result=1;
-        for(UnsignedInteger i=3; i<=n; i++)
-        {
-            result = (i-1) * (previous + previousOfPrevious);
+    } else {
+        UnsignedInteger previousOfPrevious = 0;
+        UnsignedInteger previous = 1;
+        result = 1;
+        for (UnsignedInteger i = 3; i <= n; i++) {
+            result = (i - 1) * (previous + previousOfPrevious);
             previousOfPrevious = previous;
             previous = result;
         }
@@ -168,14 +163,14 @@ UnsignedInteger getNumberOfDerangements(UnsignedInteger const n)
     return result;
 }
 
-UnsignedInteger getNumberOfDerangementsApproximation(UnsignedInteger const n)
-{
+UnsignedInteger getNumberOfDerangementsApproximation(UnsignedInteger const n) {
     // Derivation:
     // From the original formula above:
     // !n = n! - |union of X1 and X2 ... Xn|
 
     // For example, when n=3, the size of is |union of X1 and X2 and X3|.
-    // |union of X1 and X2 and X3| = |X1| + |X2| + |X3| - |intersection of X1 and X2| - |intersection of X1 and X3| - |intersection of X2 and X3| - |intersection of X1 and X2 and X3|
+    // |union of X1 and X2 and X3| = |X1| + |X2| + |X3| - |intersection of X1 and X2| - |intersection of X1 and X3| -
+    // |intersection of X2 and X3| - |intersection of X1 and X2 and X3|
 
     // This expands to:
     // !n = n! - n!/1! + n!/2! - n!/3! + n!/4! ... n!/n!
@@ -186,11 +181,10 @@ UnsignedInteger getNumberOfDerangementsApproximation(UnsignedInteger const n)
     return getIntegerAfterRoundingADoubleValue<UnsignedInteger>(getNumberOfPermutations(n, n) / E_DOUBLE_VALUE);
 }
 
-double getDerangementsProbability(UnsignedInteger const n)
-{
+double getDerangementsProbability(UnsignedInteger const n) {
     return static_cast<double>(getNumberOfDerangements(n)) / getNumberOfPermutations(n, n);
 }
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

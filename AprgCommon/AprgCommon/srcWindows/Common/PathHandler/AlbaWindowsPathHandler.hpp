@@ -7,11 +7,9 @@
 #include <functional>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class AlbaWindowsPathHandler: public AlbaPathHandler
-{
+class AlbaWindowsPathHandler : public AlbaPathHandler {
 public:
     AlbaWindowsPathHandler(std::string const& path);
 
@@ -27,26 +25,19 @@ public:
     bool isRelativePath() const;
     void createDirectoriesForNonExisitingDirectories() const;
     bool deleteFile();
-    bool deleteDirectoryWithoutFilesAndDirectories(); //do tests
-    void deleteFilesInDirectory(); //do tests
-    void deleteInnerFilesAndDirectories(); //do tests
-    void deleteDirectoryWithFilesAndDirectories(); //do tests
+    bool deleteDirectoryWithoutFilesAndDirectories();  // do tests
+    void deleteFilesInDirectory();                     // do tests
+    void deleteInnerFilesAndDirectories();             // do tests
+    void deleteDirectoryWithFilesAndDirectories();     // do tests
     bool copyToNewFile(std::string const& newFilePath);
     bool renameFile(std::string const& newFileName);
     bool renameImmediateDirectory(std::string const& newDirectoryName);
     void findFilesAndDirectoriesOneDepth(
-            std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,
-            ListOfPaths& listOfDirectories) const;
+        std::string const& wildCardSearch, ListOfPaths& listOfFiles, ListOfPaths& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
-            std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,
-            ListOfPaths& listOfDirectories,
-            int depth) const;
+        std::string const& wildCardSearch, ListOfPaths& listOfFiles, ListOfPaths& listOfDirectories, int depth) const;
     void findFilesAndDirectoriesUnlimitedDepth(
-            std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,
-            ListOfPaths& listOfDirectories) const;
+        std::string const& wildCardSearch, ListOfPaths& listOfFiles, ListOfPaths& listOfDirectories) const;
 
 private:
     static std::string getCurrentDetectedPath();
@@ -54,11 +45,8 @@ private:
     void setPath(std::string const& path);
     void setDriveOrRoot();
     void findFilesAndDirectoriesWithDepth(
-            std::string const& currentDirectory,
-            std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,
-            ListOfPaths& listOfDirectories,
-            int depth) const;
+        std::string const& currentDirectory, std::string const& wildCardSearch, ListOfPaths& listOfFiles,
+        ListOfPaths& listOfDirectories, int depth) const;
     bool canBeLocated(std::string const& fullPath) const;
     bool isSlashNeededAtTheEnd(std::string const& correctedPath, std::string const& originalPath) const;
     std::string m_driveOrRoot;
@@ -66,4 +54,4 @@ private:
     bool m_relativePath;
 };
 
-}//namespace alba
+}  // namespace alba

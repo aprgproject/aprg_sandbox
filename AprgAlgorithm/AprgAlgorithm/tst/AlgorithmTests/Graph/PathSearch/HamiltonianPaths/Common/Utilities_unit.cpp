@@ -4,21 +4,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
-}
+}  // namespace
 
-TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseItsCompleteWorks)
-{
+TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseItsCompleteWorks) {
     UndirectedGraphForTest nonCompleteGraph;
     nonCompleteGraph.connect(0U, 1U);
     nonCompleteGraph.connect(0U, 2U);
@@ -31,9 +27,8 @@ TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseItsCompleteWorks)
     EXPECT_TRUE(hasHamiltonianPathBecauseItsComplete(completeGraph));
 }
 
-TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseOfDiracTheoremWorks)
-{
-    UndirectedGraphForTest graphWithNoPath; // Has min degree of 1 but half or number of vertices is 2
+TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseOfDiracTheoremWorks) {
+    UndirectedGraphForTest graphWithNoPath;  // Has min degree of 1 but half or number of vertices is 2
     graphWithNoPath.connect(0U, 1U);
     graphWithNoPath.connect(0U, 2U);
     graphWithNoPath.connect(0U, 3U);
@@ -52,8 +47,7 @@ TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseOfDiracTheoremWorks)
     EXPECT_TRUE(hasHamiltonianPathBecauseOfDiracTheorem(graphWithPathAndSatisfied));
 }
 
-TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseOfOreTheoremWorks)
-{
+TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseOfOreTheoremWorks) {
     UndirectedGraphForTest graphWithNoPath;
     graphWithNoPath.connect(1U, 2U);
     graphWithNoPath.connect(1U, 4U);
@@ -78,6 +72,6 @@ TEST(HamiltonianPathUtilitiesTest, HasHamiltonianPathBecauseOfOreTheoremWorks)
     EXPECT_TRUE(hasHamiltonianPathBecauseOfOreTheorem(graphWithPathAndSatisfied));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

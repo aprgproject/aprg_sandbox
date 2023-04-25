@@ -4,47 +4,45 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(RagnarokOnlineShopUpdateTest, DISABLED_RetrieveBuyingShopDataFromTalonRoWebpagesAndThenSaveTheData)
-{
+TEST(RagnarokOnlineShopUpdateTest, DISABLED_RetrieveBuyingShopDataFromTalonRoWebpagesAndThenSaveTheData) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveBuyingShopDataFromTalonRoWebpages(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
+    ragnarokOnline.retrieveBuyingShopDataFromTalonRoWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
 
     ragnarokOnline.saveBuyingShopItems(R"(C:\Users\detectivemark7\Desktop\RO\BuyingShopItemsCurrentData.txt)");
 }
 
-TEST(RagnarokOnlineShopUpdateTest, DISABLED_RetrieveSellingShopDataFromTalonRoWebpagesAndThenSaveTheData)
-{
+TEST(RagnarokOnlineShopUpdateTest, DISABLED_RetrieveSellingShopDataFromTalonRoWebpagesAndThenSaveTheData) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveSellingShopDataFromTalonRoWebpages(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
+    ragnarokOnline.retrieveSellingShopDataFromTalonRoWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
 
     ragnarokOnline.saveSellingShopItems(R"(C:\Users\detectivemark7\Desktop\RO\SellingShopItemsCurrentData.txt)");
 }
 
-TEST(RagnarokOnlineShopUpdateTest, DISABLED_SaveBuyingShopItemsCumulativeData)
-{
+TEST(RagnarokOnlineShopUpdateTest, DISABLED_SaveBuyingShopItemsCumulativeData) {
     string filePath(R"(C:\Users\detectivemark7\Desktop\RO\BuyingShopItemsCumulativeData.txt)");
     RagnarokOnline ragnarokOnline;
     ragnarokOnline.readBuyingShopItems(filePath);
-    ragnarokOnline.retrieveBuyingShopDataFromTalonRoWebpages(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
+    ragnarokOnline.retrieveBuyingShopDataFromTalonRoWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
     ragnarokOnline.saveBuyingShopItems(filePath);
 }
 
-TEST(RagnarokOnlineShopUpdateTest, DISABLED_SaveSellingShopItemsCumulativeData)
-{
+TEST(RagnarokOnlineShopUpdateTest, DISABLED_SaveSellingShopItemsCumulativeData) {
     string filePath(R"(C:\Users\detectivemark7\Desktop\RO\SellingShopItemsCumulativeData.txt)");
     RagnarokOnline ragnarokOnline;
     ragnarokOnline.readSellingShopItems(filePath);
-    ragnarokOnline.retrieveSellingShopDataFromTalonRoWebpages(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
+    ragnarokOnline.retrieveSellingShopDataFromTalonRoWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
     ragnarokOnline.saveSellingShopItems(filePath);
 }
 
-TEST(RagnarokOnlineShopTest, ReadBuyingShopItemsWorks)
-{
+TEST(RagnarokOnlineShopTest, ReadBuyingShopItemsWorks) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.readBuyingShopItems(R"(C:\Users\detectivemark7\Desktop\RO\BuyingShopItemsCurrentData.txt)");
@@ -52,8 +50,7 @@ TEST(RagnarokOnlineShopTest, ReadBuyingShopItemsWorks)
     EXPECT_EQ(45U, ragnarokOnline.getBuyingItemShops().size());
 }
 
-TEST(RagnarokOnlineShopTest, ReadSellingShopItemsWorks)
-{
+TEST(RagnarokOnlineShopTest, ReadSellingShopItemsWorks) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.readSellingShopItems(R"(C:\Users\detectivemark7\Desktop\RO\SellingShopItemsCurrentData.txt)");
@@ -61,29 +58,29 @@ TEST(RagnarokOnlineShopTest, ReadSellingShopItemsWorks)
     EXPECT_EQ(1697U, ragnarokOnline.getSellingItemShops().size());
 }
 
-TEST(RagnarokOnlineShopTest, RetrieveBuyingShopDataFromTalonRoWebpagesWorks)
-{
+TEST(RagnarokOnlineShopTest, RetrieveBuyingShopDataFromTalonRoWebpagesWorks) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveBuyingShopDataFromTalonRoWebpages(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
+    ragnarokOnline.retrieveBuyingShopDataFromTalonRoWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
 
     EXPECT_EQ(45U, ragnarokOnline.getBuyingItemShops().size());
 }
 
-TEST(RagnarokOnlineShopTest, RetrieveSellingShopDataFromTalonRoWebpagesWorks)
-{
+TEST(RagnarokOnlineShopTest, RetrieveSellingShopDataFromTalonRoWebpagesWorks) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveSellingShopDataFromTalonRoWebpages(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
+    ragnarokOnline.retrieveSellingShopDataFromTalonRoWebpages(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
 
     EXPECT_EQ(1697U, ragnarokOnline.getSellingItemShops().size());
 }
 
-TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithBuyingShopTypeExample1)
-{
+TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithBuyingShopTypeExample1) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveShopDataFromTalonRoWebPage(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\ForTesting\BuyingTest.html)", ShopType::BuyingShop);
+    ragnarokOnline.retrieveShopDataFromTalonRoWebPage(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\ForTesting\BuyingTest.html)", ShopType::BuyingShop);
 
     ItemNameToShopItemDetailMap const& shopItems(ragnarokOnline.getBuyingItemShops());
     ASSERT_EQ(13U, shopItems.size());
@@ -154,11 +151,11 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithBuyingShopTyp
     EXPECT_EQ(380U, shopItemDetail13.totalNumber);
 }
 
-TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTypeExample1)
-{
+TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTypeExample1) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveShopDataFromTalonRoWebPage(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\ForTesting\SellingTest.html)", ShopType::SellingShop);
+    ragnarokOnline.retrieveShopDataFromTalonRoWebPage(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\ForTesting\SellingTest.html)", ShopType::SellingShop);
 
     ItemNameToShopItemDetailMap const& shopItems(ragnarokOnline.getSellingItemShops());
     ASSERT_EQ(2U, shopItems.size());
@@ -174,11 +171,11 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTy
     EXPECT_EQ(1U, shopItemDetail2.totalNumber);
 }
 
-TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTypeExample2)
-{
+TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTypeExample2) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.retrieveShopDataFromTalonRoWebPage(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\ForTesting\SellingTest2.html)", ShopType::SellingShop);
+    ragnarokOnline.retrieveShopDataFromTalonRoWebPage(
+        R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\ForTesting\SellingTest2.html)", ShopType::SellingShop);
 
     ItemNameToShopItemDetailMap const& shopItems(ragnarokOnline.getSellingItemShops());
     ASSERT_EQ(10U, shopItems.size());
@@ -223,7 +220,8 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTy
     EXPECT_DOUBLE_EQ(24000000, shopItemDetail8.averagePrice);
     EXPECT_EQ(1U, shopItemDetail8.totalNumber);
 
-    ShopItemDetail const& shopItemDetail9(shopItems.at("Bow [4] [Marina Card] [Marina Card] [Marina Card] [Marina Card]"));
+    ShopItemDetail const& shopItemDetail9(
+        shopItems.at("Bow [4] [Marina Card] [Marina Card] [Marina Card] [Marina Card]"));
     EXPECT_EQ("Bow [4] [Marina Card] [Marina Card] [Marina Card] [Marina Card]", shopItemDetail9.itemName);
     EXPECT_DOUBLE_EQ(10000000, shopItemDetail9.averagePrice);
     EXPECT_EQ(1U, shopItemDetail9.totalNumber);
@@ -234,4 +232,4 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTy
     EXPECT_EQ(61U, shopItemDetail10.totalNumber);
 }
 
-}
+}  // namespace alba

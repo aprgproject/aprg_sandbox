@@ -4,18 +4,15 @@
 
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class WeightedJobScheduling
-{
+class WeightedJobScheduling {
 public:
     using Index = unsigned int;
     using Time = unsigned int;
     using Profit = unsigned int;
 
-    struct Job
-    {
+    struct Job {
         Time startTime;
         Time endTime;
         Profit profit;
@@ -33,7 +30,7 @@ private:
     Jobs m_jobs;
 };
 
-}
+}  // namespace alba
 
 // Given N jobs where every job is represented by following three elements of it.
 // -> Start Time
@@ -51,5 +48,5 @@ private:
 // -> Job 4:  {2, 100, 200}
 // ---> Output: The maximum profit is 250.
 // ---> We can get the maximum profit by scheduling jobs 1 and 4.
-// ---> Note that there is longer schedules possible Jobs 1, 2 and 3 but the profit with this schedule is 20+50+100 which is less than 250.
-
+// ---> Note that there is longer schedules possible Jobs 1, 2 and 3 but the profit with this schedule is 20+50+100
+// which is less than 250.

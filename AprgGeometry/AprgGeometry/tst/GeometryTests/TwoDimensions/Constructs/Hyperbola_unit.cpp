@@ -6,17 +6,14 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-TEST(HyperbolaTest, EmptyHyperbola)
-{
+TEST(HyperbolaTest, EmptyHyperbola) {
     Hyperbola hyperbola;
 
-    EXPECT_EQ(Point(0,0), hyperbola.getCenter());
+    EXPECT_EQ(Point(0, 0), hyperbola.getCenter());
     EXPECT_DOUBLE_EQ(0, hyperbola.getAValue());
     EXPECT_DOUBLE_EQ(0, hyperbola.getBValue());
     EXPECT_DOUBLE_EQ(0, hyperbola.getCValue());
@@ -27,8 +24,7 @@ TEST(HyperbolaTest, EmptyHyperbola)
     ASSERT_TRUE(points.empty());
 }
 
-TEST(HyperbolaTest, HyperbolaAtOriginWithRadius)
-{
+TEST(HyperbolaTest, HyperbolaAtOriginWithRadius) {
     Hyperbola hyperbola(Point(0, 0), 3, 2);
 
     EXPECT_EQ(Point(0, 0), hyperbola.getCenter());
@@ -40,32 +36,31 @@ TEST(HyperbolaTest, HyperbolaAtOriginWithRadius)
 
     Points points(hyperbola.getPointsForShape(1));
     ASSERT_EQ(22U, points.size());
-    EXPECT_EQ(Point(6,3.4641016151377543864), points.at(0));
-    EXPECT_EQ(Point(5,2.6666666666666669627), points.at(1));
-    EXPECT_EQ(Point(4.2426406871192856585,2), points.at(2));
-    EXPECT_EQ(Point(4,1.7638342073763935147), points.at(3));
-    EXPECT_EQ(Point(3.3541019662496847076,1), points.at(4));
-    EXPECT_EQ(Point(3,0), points.at(5));
-    EXPECT_EQ(Point(3.3541019662496847076,-1), points.at(6));
-    EXPECT_EQ(Point(4,-1.7638342073763935147), points.at(7));
-    EXPECT_EQ(Point(4.2426406871192856585,-2), points.at(8));
-    EXPECT_EQ(Point(5,-2.6666666666666669627), points.at(9));
-    EXPECT_EQ(Point(6,-3.4641016151377543864), points.at(10));
-    EXPECT_EQ(Point(-6,3.4641016151377543864), points.at(11));
-    EXPECT_EQ(Point(-5,2.6666666666666669627), points.at(12));
-    EXPECT_EQ(Point(-4.2426406871192856585,2), points.at(13));
-    EXPECT_EQ(Point(-4,1.7638342073763935147), points.at(14));
-    EXPECT_EQ(Point(-3.3541019662496847076,1), points.at(15));
-    EXPECT_EQ(Point(-3,0), points.at(16));
-    EXPECT_EQ(Point(-3.3541019662496847076,-1), points.at(17));
-    EXPECT_EQ(Point(-4,-1.7638342073763935147), points.at(18));
-    EXPECT_EQ(Point(-4.2426406871192856585,-2), points.at(19));
-    EXPECT_EQ(Point(-5,-2.6666666666666669627), points.at(20));
-    EXPECT_EQ(Point(-6,-3.4641016151377543864), points.at(21));
+    EXPECT_EQ(Point(6, 3.4641016151377543864), points.at(0));
+    EXPECT_EQ(Point(5, 2.6666666666666669627), points.at(1));
+    EXPECT_EQ(Point(4.2426406871192856585, 2), points.at(2));
+    EXPECT_EQ(Point(4, 1.7638342073763935147), points.at(3));
+    EXPECT_EQ(Point(3.3541019662496847076, 1), points.at(4));
+    EXPECT_EQ(Point(3, 0), points.at(5));
+    EXPECT_EQ(Point(3.3541019662496847076, -1), points.at(6));
+    EXPECT_EQ(Point(4, -1.7638342073763935147), points.at(7));
+    EXPECT_EQ(Point(4.2426406871192856585, -2), points.at(8));
+    EXPECT_EQ(Point(5, -2.6666666666666669627), points.at(9));
+    EXPECT_EQ(Point(6, -3.4641016151377543864), points.at(10));
+    EXPECT_EQ(Point(-6, 3.4641016151377543864), points.at(11));
+    EXPECT_EQ(Point(-5, 2.6666666666666669627), points.at(12));
+    EXPECT_EQ(Point(-4.2426406871192856585, 2), points.at(13));
+    EXPECT_EQ(Point(-4, 1.7638342073763935147), points.at(14));
+    EXPECT_EQ(Point(-3.3541019662496847076, 1), points.at(15));
+    EXPECT_EQ(Point(-3, 0), points.at(16));
+    EXPECT_EQ(Point(-3.3541019662496847076, -1), points.at(17));
+    EXPECT_EQ(Point(-4, -1.7638342073763935147), points.at(18));
+    EXPECT_EQ(Point(-4.2426406871192856585, -2), points.at(19));
+    EXPECT_EQ(Point(-5, -2.6666666666666669627), points.at(20));
+    EXPECT_EQ(Point(-6, -3.4641016151377543864), points.at(21));
 }
 
-TEST(HyperbolaTest, GetFociWorks)
-{
+TEST(HyperbolaTest, GetFociWorks) {
     Hyperbola hyperbola1(Point(0, 0), 1, 1);
     Hyperbola hyperbola2(Point(0, 0), 3, 4);
     Hyperbola hyperbola3(Point(0, 0), -3, -4);
@@ -85,8 +80,7 @@ TEST(HyperbolaTest, GetFociWorks)
     EXPECT_EQ(Point(0, -5), foci3.at(1));
 }
 
-TEST(HyperbolaTest, GetVerticesWorks)
-{
+TEST(HyperbolaTest, GetVerticesWorks) {
     Hyperbola hyperbola1(Point(0, 0), 1, 1);
     Hyperbola hyperbola2(Point(0, 0), 3, 4);
     Hyperbola hyperbola3(Point(0, 0), -3, -4);
@@ -106,8 +100,7 @@ TEST(HyperbolaTest, GetVerticesWorks)
     EXPECT_EQ(Point(0, -4), vertices3.at(1));
 }
 
-TEST(HyperbolaTest, GetAsymptotesWorks)
-{
+TEST(HyperbolaTest, GetAsymptotesWorks) {
     Hyperbola hyperbola1(Point(0, 0), 1, 1);
     Hyperbola hyperbola2(Point(0, 0), 3, 4);
     Hyperbola hyperbola3(Point(0, 0), -3, -4);
@@ -127,11 +120,10 @@ TEST(HyperbolaTest, GetAsymptotesWorks)
     EXPECT_EQ(Line(-4, 3, 0), asymptotes3.at(1));
 }
 
-TEST(HyperbolaTest, AreaTraversalIsCorrect)
-{
-    //traversal
+TEST(HyperbolaTest, AreaTraversalIsCorrect) {
+    // traversal
 }
 
-}
+}  // namespace TwoDimensions
 
-}
+}  // namespace alba

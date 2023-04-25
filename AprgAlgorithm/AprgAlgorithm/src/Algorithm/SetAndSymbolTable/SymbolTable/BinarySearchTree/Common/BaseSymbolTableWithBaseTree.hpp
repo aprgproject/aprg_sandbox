@@ -1,14 +1,11 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Value, typename BaseTree>
-class BaseSymbolTableWithBaseTree : public BaseTree
-{
+class BaseSymbolTableWithBaseTree : public BaseTree {
 public:
     using Key = typename BaseTree::Key;
     using Node = typename BaseTree::Node;
@@ -16,58 +13,48 @@ public:
     using Keys = typename BaseTree::Keys;
     using TraverseFunction = typename BaseTree::TraverseFunction;
 
-    BaseSymbolTableWithBaseTree()
-        : b_root(BaseTree::m_root)
-    {}
+    BaseSymbolTableWithBaseTree() : b_root(BaseTree::m_root) {}
 
-    virtual ~BaseSymbolTableWithBaseTree() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseSymbolTableWithBaseTree() =
+        default;  // virtual destructor because of virtual functions (vtable exists)
 
-    Value get(Key const& key) const override // overrides in BaseSymbolTable
+    Value get(Key const& key) const override  // overrides in BaseSymbolTable
     {
         return getStartingOnThisNode(b_root, key);
     }
 
-    void put(Key const& key, Value const& value) override // overrides in BaseSymbolTable
+    void put(Key const& key, Value const& value) override  // overrides in BaseSymbolTable
     {
         putStartingOnThisNode(b_root, key, value);
     }
 
 protected:
-
-    void copyContents(Node & destinationNode, Node const& sourceNode) const override
-    {
+    void copyContents(Node& destinationNode, Node const& sourceNode) const override {
         destinationNode.key = sourceNode.key;
         destinationNode.value = sourceNode.value;
     }
 
-    virtual Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
-    {
+    virtual Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const {
         Value result{};
-        if(nodePointer)
-        {
+        if (nodePointer) {
             Key const& currentKey(nodePointer->key);
-            if(key < currentKey)
-            {
+            if (key < currentKey) {
                 result = getStartingOnThisNode(nodePointer->left, key);
-            }
-            else if(key > currentKey)
-            {
+            } else if (key > currentKey) {
                 result = getStartingOnThisNode(nodePointer->right, key);
-            }
-            else
-            {
+            } else {
                 result = nodePointer->value;
             }
         }
         return result;
     }
 
-    virtual void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) = 0;
+    virtual void putStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key, Value const& value) = 0;
 
 private:
-    NodeUniquePointer & b_root;
+    NodeUniquePointer& b_root;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

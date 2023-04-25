@@ -6,32 +6,29 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
-using ShortestPathSearchForTest = PathSearchUsingDijkstra<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, less>;
-using LongestPathSearchForTest = PathSearchUsingDijkstra<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, greater>;
+using ShortestPathSearchForTest =
+    PathSearchUsingDijkstra<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, less>;
+using LongestPathSearchForTest =
+    PathSearchUsingDijkstra<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, greater>;
 
-void putConnectionsWithCyclesForTest(EdgeWeightedDirectedGraphForTest & graph)
-{
+void putConnectionsWithCyclesForTest(EdgeWeightedDirectedGraphForTest& graph) {
     graph.connect(0U, 1U, 0.26);
     graph.connect(1U, 2U, 0.38);
     graph.connect(2U, 3U, 0.29);
     graph.connect(3U, 0U, 0.34);
 }
 
-void putConnectionsWithNoCyclesForTest(EdgeWeightedDirectedGraphForTest & graph)
-{
+void putConnectionsWithNoCyclesForTest(EdgeWeightedDirectedGraphForTest& graph) {
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
     graph.connect(1U, 3U, 0.29);
@@ -43,10 +40,9 @@ void putConnectionsWithNoCyclesForTest(EdgeWeightedDirectedGraphForTest & graph)
     graph.connect(5U, 7U, 0.28);
     graph.connect(7U, 3U, 0.39);
 }
-}
+}  // namespace
 
-TEST(PathSearchUsingDijkstraTest, StillProcessWhenThereAreCyclesInLesserComparison)
-{
+TEST(PathSearchUsingDijkstraTest, StillProcessWhenThereAreCyclesInLesserComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithCyclesForTest(graph);
     ShortestPathSearchForTest pathSearch(graph, 0U);
@@ -63,8 +59,7 @@ TEST(PathSearchUsingDijkstraTest, StillProcessWhenThereAreCyclesInLesserComparis
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(4U));
 }
 
-TEST(PathSearchUsingDijkstraTest, DoesNotProcessWhenThereAreCyclesInGreaterComparison)
-{
+TEST(PathSearchUsingDijkstraTest, DoesNotProcessWhenThereAreCyclesInGreaterComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithCyclesForTest(graph);
     LongestPathSearchForTest pathSearch(graph, 0U);
@@ -81,8 +76,7 @@ TEST(PathSearchUsingDijkstraTest, DoesNotProcessWhenThereAreCyclesInGreaterCompa
     EXPECT_TRUE(pathSearch.getPathTo(4U).empty());
 }
 
-TEST(PathSearchUsingDijkstraTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
-{
+TEST(PathSearchUsingDijkstraTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
     ShortestPathSearchForTest pathSearch(graph, 0U);
@@ -98,8 +92,7 @@ TEST(PathSearchUsingDijkstraTest, HasPathToWorksWithEdgeWeightedDirectedGraphAnd
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
-{
+TEST(PathSearchUsingDijkstraTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
     ShortestPathSearchForTest pathSearch(graph, 0U);
@@ -115,8 +108,7 @@ TEST(PathSearchUsingDijkstraTest, GetPathToWorksWithEdgeWeightedDirectedGraphAnd
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
-{
+TEST(PathSearchUsingDijkstraTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
     LongestPathSearchForTest pathSearch(graph, 0U);
@@ -132,8 +124,7 @@ TEST(PathSearchUsingDijkstraTest, HasPathToWorksWithEdgeWeightedDirectedGraphAnd
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
-{
+TEST(PathSearchUsingDijkstraTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison) {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
     LongestPathSearchForTest pathSearch(graph, 0U);
@@ -149,6 +140,6 @@ TEST(PathSearchUsingDijkstraTest, GetPathToWorksWithEdgeWeightedDirectedGraphAnd
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(8U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

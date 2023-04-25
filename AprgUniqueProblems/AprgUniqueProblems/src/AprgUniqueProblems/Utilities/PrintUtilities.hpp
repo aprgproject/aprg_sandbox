@@ -3,9 +3,8 @@
 #include <ostream>
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-std::ostream & operator<<(std::ostream & out, std::pair<unsigned int, unsigned int> const& unsignedIntPair);
+std::ostream& operator<<(std::ostream& out, std::pair<unsigned int, unsigned int> const& unsignedIntPair);
 
 }

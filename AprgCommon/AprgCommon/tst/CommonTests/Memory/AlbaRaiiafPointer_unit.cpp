@@ -6,11 +6,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(AlbaRaiiafPointerTest, IntegerTest)
-{
+TEST(AlbaRaiiafPointerTest, IntegerTest) {
     AlbaRaiiafPointer integerPointer;
     integerPointer.setAndAllocateNewContent<int>(0xA1BA);
     EXPECT_EQ(integerPointer.get<int>(), 0xA1BA);
@@ -22,8 +20,7 @@ TEST(AlbaRaiiafPointerTest, IntegerTest)
     integerPointer.deAllocate<int>();
 }
 
-TEST(AlbaRaiiafPointerTest, StringTest)
-{
+TEST(AlbaRaiiafPointerTest, StringTest) {
     AlbaRaiiafPointer stringPointer;
     stringPointer.setAndAllocateNewContent<string>("Allocate new object");
     EXPECT_EQ(stringPointer.get<string>(), "Allocate new object");
@@ -35,8 +32,7 @@ TEST(AlbaRaiiafPointerTest, StringTest)
     stringPointer.deAllocate<string>();
 }
 
-TEST(AlbaRaiiafPointerTest, IntAndStringTest)
-{
+TEST(AlbaRaiiafPointerTest, IntAndStringTest) {
     AlbaRaiiafPointer anyPointer;
     anyPointer.setAndAllocateNewContent<int>(0xA1BA);
     EXPECT_EQ(anyPointer.get<int>(), 0xA1BA);
@@ -56,4 +52,4 @@ TEST(AlbaRaiiafPointerTest, IntAndStringTest)
     anyPointer.deAllocate<string>();
 }
 
-}
+}  // namespace alba

@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Command
-{
+namespace Command {
 
-TEST(CommandTest, Test1)
-{
+TEST(CommandTest, Test1) {
     Receiver receiver;
     ConcreteCommand command(receiver);
 
@@ -18,4 +16,4 @@ TEST(CommandTest, Test1)
     invoker.invokeUndo();
 }
 
-}
+}  // namespace Command

@@ -2,17 +2,15 @@
 
 #include <Geometry/ThreeDimensions/Constructs/Point.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-class HyperbolicParaboloid
-{
+class HyperbolicParaboloid {
 public:
     HyperbolicParaboloid();
-    HyperbolicParaboloid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient);
+    HyperbolicParaboloid(
+        Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient);
     // ((y-center.y)^2/bCoefficient^2) - ((x-center.x)^2/aCoefficient^2) = (z-center.z)/c
     bool operator==(HyperbolicParaboloid const& hyperbolicParaboloid) const;
     bool operator!=(HyperbolicParaboloid const& hyperbolicParaboloid) const;
@@ -25,7 +23,7 @@ public:
     double calculateZFromXAndY(double const x, double const y) const;
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, HyperbolicParaboloid const& hyperbolicParaboloid);
+    friend std::ostream& operator<<(std::ostream& out, HyperbolicParaboloid const& hyperbolicParaboloid);
 
     Point m_center;
     double m_aValue;
@@ -35,5 +33,5 @@ private:
 
 using HyperbolicParaboloids = std::vector<HyperbolicParaboloid>;
 
-}
-}
+}  // namespace ThreeDimensions
+}  // namespace alba

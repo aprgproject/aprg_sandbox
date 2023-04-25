@@ -3,14 +3,12 @@
 #include <Common/Math/Vector/AlbaMathVector.hpp>
 #include <Geometry/Dimensionless/Vector/VectorInternalFunctions.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-using Vector=AlbaMathVector<double, 3U>;
+using Vector = AlbaMathVector<double, 3U>;
 
 }
 
-}
+}  // namespace alba

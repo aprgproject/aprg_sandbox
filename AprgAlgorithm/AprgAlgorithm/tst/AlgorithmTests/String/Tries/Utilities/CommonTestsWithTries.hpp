@@ -4,26 +4,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithTries
-{
+namespace CommonTestsWithTries {
 
 template <typename Trie>
-void testIsEmptyWhenEmptyWithUnsignedInt()
-{
+void testIsEmptyWhenEmptyWithUnsignedInt() {
     Trie trie;
 
     EXPECT_TRUE(trie.isEmpty());
 }
 
 template <typename Trie>
-void testIsEmptyWhenNotEmptyWithUnsignedInt()
-{
+void testIsEmptyWhenNotEmptyWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
 
@@ -31,8 +26,7 @@ void testIsEmptyWhenNotEmptyWithUnsignedInt()
 }
 
 template <typename Trie>
-void testDoesContainWithUnsignedInt()
-{
+void testDoesContainWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
 
@@ -41,16 +35,14 @@ void testDoesContainWithUnsignedInt()
 }
 
 template <typename Trie>
-void testGetSizeWhenEmptyWithUnsignedInt()
-{
+void testGetSizeWhenEmptyWithUnsignedInt() {
     Trie trie;
 
     EXPECT_EQ(0U, trie.getSize());
 }
 
 template <typename Trie>
-void testGetSizeWhenNotEmptyWithUnsignedInt()
-{
+void testGetSizeWhenNotEmptyWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -60,8 +52,7 @@ void testGetSizeWhenNotEmptyWithUnsignedInt()
 }
 
 template <typename Trie>
-void testGetWithUnsignedInt()
-{
+void testGetWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -74,8 +65,7 @@ void testGetWithUnsignedInt()
 }
 
 template <typename Trie>
-void testGetLongestPrefixOfWithUnsignedInt()
-{
+void testGetLongestPrefixOfWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -94,8 +84,7 @@ void testGetLongestPrefixOfWithUnsignedInt()
 }
 
 template <typename Trie>
-void testPutWithUnsignedInt()
-{
+void testPutWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -108,8 +97,7 @@ void testPutWithUnsignedInt()
 }
 
 template <typename Trie>
-void testDeleteBasedOnKeyWithUnsignedInt()
-{
+void testDeleteBasedOnKeyWithUnsignedInt() {
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -129,8 +117,7 @@ void testDeleteBasedOnKeyWithUnsignedInt()
 }
 
 template <typename Trie>
-void testGetKeysWithUnsignedInt()
-{
+void testGetKeysWithUnsignedInt() {
     using Keys = typename Trie::Keys;
     Trie trie;
     trie.put("she", 0U);
@@ -150,8 +137,7 @@ void testGetKeysWithUnsignedInt()
 }
 
 template <typename Trie>
-void testGetAllKeysWithPrefixWithUnsignedInt()
-{
+void testGetAllKeysWithPrefixWithUnsignedInt() {
     using Keys = typename Trie::Keys;
     Trie trie;
     trie.put("she", 0U);
@@ -171,8 +157,7 @@ void testGetAllKeysWithPrefixWithUnsignedInt()
 }
 
 template <typename Trie>
-void testGetAllKeysThatMatchWithUnsignedInt()
-{
+void testGetAllKeysThatMatchWithUnsignedInt() {
     using Keys = typename Trie::Keys;
     Trie trie;
     trie.put("she", 0U);
@@ -192,8 +177,7 @@ void testGetAllKeysThatMatchWithUnsignedInt()
 }
 
 template <typename Trie>
-void testExample1WithUnsignedInt()
-{
+void testExample1WithUnsignedInt() {
     Trie trie;
     trie.put("CANAL", 2251U);
     trie.put("CANDY", 48430U);
@@ -218,8 +202,8 @@ void testExample1WithUnsignedInt()
     EXPECT_EQ(0U, trie.get("THERE"));
 }
 
-}
+}  // namespace CommonTestsWithTries
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

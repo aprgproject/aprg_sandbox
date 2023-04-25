@@ -13,30 +13,24 @@ using namespace alba::SackFileReaderStateMachineNamespace;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-SackFileReader::SackFileReader(Database & database)
-    : m_database(database)
-{}
+SackFileReader::SackFileReader(Database& database) : m_database(database) {}
 
-void SackFileReader::readFile(string const& fileFullPath)
-{
+void SackFileReader::readFile(string const& fileFullPath) {
     CommentStateMachine commentStateMachine;
     ifstream fileStream(fileFullPath);
     AlbaLocalPathHandler fileFullPathHandler(fileFullPath);
     AlbaFileReader fileReader(fileStream);
     SackFileReaderStateMachine sackFileReaderStateMachine(m_database, fileFullPathHandler.getFullPath());
-    while(fileReader.isNotFinished())
-    {
+    while (fileReader.isNotFinished()) {
         string line(getStringWithoutRedundantWhiteSpace(fileReader.getLineAndIgnoreWhiteSpaces()));
         strings tokens;
         splitToStrings<SplitStringType::WithDelimeters>(tokens, line, " ()[]{};\r\n:;/*/,");
         CommentStateMachineNamespace::InputToken commentStateMachineInputToken;
         commentStateMachineInputToken.isNewLine = true;
 
-        for(string const& token : tokens)
-        {
+        for (string const& token : tokens) {
             commentStateMachineInputToken.token = token;
             commentStateMachine.processInput(commentStateMachineInputToken);
 
@@ -48,14 +42,12 @@ void SackFileReader::readFile(string const& fileFullPath)
             sackFileReaderStateMachine.processInput(sackFileReaderStateMachineInputToken);
 
             commentStateMachineInputToken.isNewLine = false;
-            if(sackFileReaderStateMachine.isNextLineNeeded())
-            {
-                 break;
+            if (sackFileReaderStateMachine.isNextLineNeeded()) {
+                break;
             }
         }
         sackFileReaderStateMachine.processEndOfLine();
     }
 }
 
-
-}
+}  // namespace alba

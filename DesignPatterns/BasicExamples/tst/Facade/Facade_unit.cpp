@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Facade
-{
+namespace Facade {
 
-TEST(FacadeTest, Test1)
-{
+TEST(FacadeTest, Test1) {
     Facade *facade = new Facade();
 
     facade->operation1();
@@ -16,4 +14,4 @@ TEST(FacadeTest, Test1)
     delete facade;
 }
 
-}
+}  // namespace Facade

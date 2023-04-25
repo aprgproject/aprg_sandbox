@@ -7,11 +7,9 @@
 
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-class CommonModuleTest : public ::testing::Test
-{
+class CommonModuleTest : public ::testing::Test {
 public:
     CommonModuleTest();
     void SetUp() override;
@@ -21,9 +19,9 @@ public:
     Component* getComponentAndActivateAsParticipant(ComponentName const componentName, std::string const& umlAlias);
     void saveUmlLog();
     UmlLogger& getUmlLogger();
+
 private:
     Environment& m_environment;
 };
 
-
-} // namespace DesignDocumentCreator
+}  // namespace DesignDocumentCreator

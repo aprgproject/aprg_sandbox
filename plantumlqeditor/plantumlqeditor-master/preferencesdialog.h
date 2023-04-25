@@ -9,12 +9,11 @@ class PreferencesDialog;
 
 class FileCache;
 
-class PreferencesDialog : public QDialog
-{
+class PreferencesDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit PreferencesDialog(FileCache* file_cache, QWidget *parent = 0);
+    explicit PreferencesDialog(FileCache *file_cache, QWidget *parent = 0);
     ~PreferencesDialog();
 
     void readSettings();
@@ -35,7 +34,7 @@ private slots:
 
 private:
     Ui::PreferencesDialog *m_ui;
-    FileCache* m_fileCache;
+    FileCache *m_fileCache;
 };
 
-#endif // PREFERENCESDIALOG_H
+#endif  // PREFERENCESDIALOG_H

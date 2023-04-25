@@ -1,11 +1,7 @@
 #pragma once
 
-namespace CodeJam_2020_WorldFinals_P2_AdjacentAndConsecutive
-{
+namespace CodeJam_2020_WorldFinals_P2_AdjacentAndConsecutive {
 
-int main(); // this is main
+int main();  // this is main
 
 }
-
-
-

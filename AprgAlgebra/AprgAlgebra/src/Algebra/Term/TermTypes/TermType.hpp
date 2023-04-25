@@ -1,23 +1,11 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-enum class TermType
-{
-    Empty,
-    Constant,
-    Variable,
-    Operator,
-    Monomial,
-    Polynomial,
-    Expression,
-    Function
-};
+enum class TermType { Empty, Constant, Variable, Operator, Monomial, Polynomial, Expression, Function };
 
 }
 
-}
+}  // namespace alba

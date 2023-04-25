@@ -1,23 +1,23 @@
-#include <iostream>
-
+#include "cookie_datetime.h"
+#include "curl_cookie.h"
 #include "curl_easy.h"
 #include "curl_exception.h"
-#include "curl_cookie.h"
 #include "curl_ios.h"
-#include "cookie_datetime.h"
+
+#include <iostream>
 
 using std::ostringstream;
 
 using curl::cookie;
-using curl::curl_header;
+using curl::cookie_date;
+using curl::cookie_datetime;
+using curl::cookie_time;
+using curl::curl_cookie;
 using curl::curl_easy;
 using curl::curl_easy_exception;
-using curl::curl_cookie;
-using curl::curlcpp_cookies;
+using curl::curl_header;
 using curl::curl_ios;
-using curl::cookie_date;
-using curl::cookie_time;
-using curl::cookie_datetime;
+using curl::curlcpp_cookies;
 
 /**
  * This example shows to how to set and get cookies in a
@@ -36,9 +36,9 @@ int main() {
 
     // Let's create a cookie which expires at Mon, 27-03-2016 20:30:30 GMT
     cookie ck;
-    cookie_date date(curl::weekdays::MONDAY,27,curl::months::MARCH,2016);
-    cookie_time time(20,30,30);
-    cookie_datetime datetime(time,date);
+    cookie_date date(curl::weekdays::MONDAY, 27, curl::months::MARCH, 2016);
+    cookie_time time(20, 30, 30);
+    cookie_datetime datetime(time, date);
 
     ck.set_name("nomecookie");
     ck.set_value("valorecookie");
@@ -58,17 +58,17 @@ int main() {
         // Delete all the memory helded cookies.
         cookie_object.erase();
 
-		// Print them all!
-		for (const auto& cook : cookies) {
-			std::cout<<cook<<std::endl;
-		}
+        // Print them all!
+        for (const auto& cook : cookies) {
+            std::cout << cook << std::endl;
+        }
 
-    } catch (curl_easy_exception &error) {
-		// If you want to print the last error.
-		std::cerr<<error.what()<<std::endl;
+    } catch (curl_easy_exception& error) {
+        // If you want to print the last error.
+        std::cerr << error.what() << std::endl;
 
-		// If you want to print the entire error stack you can do.
-		error.print_traceback();
+        // If you want to print the entire error stack you can do.
+        error.print_traceback();
     }
     return 0;
 }

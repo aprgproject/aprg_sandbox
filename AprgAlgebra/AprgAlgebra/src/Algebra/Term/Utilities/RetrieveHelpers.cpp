@@ -11,52 +11,36 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-bool hasAnyFunctions(Term const& term)
-{
-    FunctionsRetriever functionsRetriever([](Function const&)
-    {
-        return true;
-    });
+bool hasAnyFunctions(Term const& term) {
+    FunctionsRetriever functionsRetriever([](Function const&) { return true; });
     functionsRetriever.retrieveFromTerm(term);
     return !functionsRetriever.getSavedData().empty();
 }
 
-bool hasAnyTrigonometricFunctions(Term const& term)
-{
-    FunctionsRetriever functionsRetriever([](Function const& functionObject)
-    {
-        return isTrigonometricFunction(functionObject);
-    });
+bool hasAnyTrigonometricFunctions(Term const& term) {
+    FunctionsRetriever functionsRetriever(
+        [](Function const& functionObject) { return isTrigonometricFunction(functionObject); });
     functionsRetriever.retrieveFromTerm(term);
     return !functionsRetriever.getSavedData().empty();
 }
 
-bool isVariableFoundInTerm(
-        Term const& term,
-        string const& variableName)
-{
+bool isVariableFoundInTerm(Term const& term, string const& variableName) {
     VariableNamesRetriever retriever;
     retriever.retrieveFromTerm(term);
     VariableNamesSet const& variableNames(retriever.getSavedData());
     return variableNames.find(variableName) != variableNames.cend();
 }
 
-AlbaNumber getCoefficientOfMonomialWithNoVariables(
-        Polynomial const& polynomial)
-{
+AlbaNumber getCoefficientOfMonomialWithNoVariables(Polynomial const& polynomial) {
     AlbaNumber coefficientValue;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
+    for (Monomial const& monomial : polynomial.getMonomialsConstReference()) {
         Monomial::VariablesToExponentsMap const& variableToExponentMap(
-                    monomial.getVariablesToExponentsMapConstReference());
-        if(variableToExponentMap.empty())
-        {
+            monomial.getVariablesToExponentsMapConstReference());
+        if (variableToExponentMap.empty()) {
             coefficientValue = monomial.getConstantConstReference();
             break;
         }
@@ -64,20 +48,14 @@ AlbaNumber getCoefficientOfMonomialWithNoVariables(
     return coefficientValue;
 }
 
-AlbaNumber getCoefficientOfMonomialWithVariableOnly(
-        Polynomial const& polynomial,
-        string const& variableName)
-{
+AlbaNumber getCoefficientOfMonomialWithVariableOnly(Polynomial const& polynomial, string const& variableName) {
     AlbaNumber coefficientValue;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
+    for (Monomial const& monomial : polynomial.getMonomialsConstReference()) {
         Monomial::VariablesToExponentsMap const& variableToExponentMap(
-                    monomial.getVariablesToExponentsMapConstReference());
-        if(variableToExponentMap.size() == 1)
-        {
+            monomial.getVariablesToExponentsMapConstReference());
+        if (variableToExponentMap.size() == 1) {
             auto const& variableExponentPair = *(variableToExponentMap.cbegin());
-            if(variableExponentPair.first == variableName)
-            {
+            if (variableExponentPair.first == variableName) {
                 coefficientValue = monomial.getConstantConstReference();
                 break;
             }
@@ -86,16 +64,12 @@ AlbaNumber getCoefficientOfMonomialWithVariableOnly(
     return coefficientValue;
 }
 
-VariableToValueMap getCoefficientsForVariablesOnly(
-        Polynomial const& polynomial)
-{
+VariableToValueMap getCoefficientsForVariablesOnly(Polynomial const& polynomial) {
     VariableToValueMap result;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
+    for (Monomial const& monomial : polynomial.getMonomialsConstReference()) {
         Monomial::VariablesToExponentsMap const& variableToExponentMap(
-                    monomial.getVariablesToExponentsMapConstReference());
-        if(variableToExponentMap.size() == 1)
-        {
+            monomial.getVariablesToExponentsMapConstReference());
+        if (variableToExponentMap.size() == 1) {
             auto const& variableExponentPair = *(variableToExponentMap.cbegin());
             result.emplace(variableExponentPair.first, monomial.getConstantConstReference());
         }
@@ -103,43 +77,33 @@ VariableToValueMap getCoefficientsForVariablesOnly(
     return result;
 }
 
-void retrieveTermsFromTermsWithDetails(
-        Terms & terms,
-        TermsWithDetails const& termsWithDetails)
-{
+void retrieveTermsFromTermsWithDetails(Terms& terms, TermsWithDetails const& termsWithDetails) {
     terms.reserve(terms.size() + termsWithDetails.size());
-    transform(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms), []
-              (TermWithDetails const& termWithDetails)
-    {
-        return getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer);
-    });
+    transform(
+        termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms),
+        [](TermWithDetails const& termWithDetails) {
+            return getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer);
+        });
 }
 
-Terms retrieveSubExpressionsAndSubFunctions(Term const& term)
-{
+Terms retrieveSubExpressionsAndSubFunctions(Term const& term) {
     ExpressionAndFunctionsRetriever retriever;
     retriever.retrieveFromTerm(term);
     Terms result;
-    for(Term const& retrievedTerm : retriever.getSavedData())
-    {
-        if((retrievedTerm.isFunction() || retrievedTerm.isExpression())
-                && term != retrievedTerm)
-        {
+    for (Term const& retrievedTerm : retriever.getSavedData()) {
+        if ((retrievedTerm.isFunction() || retrievedTerm.isExpression()) && term != retrievedTerm) {
             result.emplace_back(retrievedTerm);
         }
     }
     return result;
 }
 
-Terms retrieveSubTerms(Term const& term)
-{
+Terms retrieveSubTerms(Term const& term) {
     SubTermsRetriever retriever;
     retriever.retrieveFromTerm(term);
     Terms result;
-    for(Term const& retrievedTerm : retriever.getSavedData())
-    {
-        if(term != retrievedTerm)
-        {
+    for (Term const& retrievedTerm : retriever.getSavedData()) {
+        if (term != retrievedTerm) {
             result.emplace_back(retrievedTerm);
         }
     }
@@ -147,22 +111,16 @@ Terms retrieveSubTerms(Term const& term)
 }
 
 TermsWithDetails retrieveTermsWithDetailsThatSatisfiesCondition(
-        TermsWithDetails const& termsWithDetails,
-        ConditionFunctionForTermsWithDetails const& conditionFunction)
-{
+    TermsWithDetails const& termsWithDetails, ConditionFunctionForTermsWithDetails const& conditionFunction) {
     TermsWithDetails result;
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
-    {
-        if(conditionFunction(termWithDetails))
-        {
+    for (TermWithDetails const& termWithDetails : termsWithDetails) {
+        if (conditionFunction(termWithDetails)) {
             result.emplace_back(termWithDetails);
         }
     }
     return result;
-
 }
 
+}  // namespace algebra
 
-}
-
-}
+}  // namespace alba

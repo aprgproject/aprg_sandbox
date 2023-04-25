@@ -7,14 +7,11 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks)
-{
+TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -23,8 +20,7 @@ TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks)
     EXPECT_TRUE(isAxiomOfCompletenessTrue(series));
 }
 
-TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks)
-{
+TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -33,8 +29,7 @@ TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks)
     EXPECT_TRUE(isBoundedMonotonicSeriesConvergent(series));
 }
 
-TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks)
-{
+TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks) {
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -43,8 +38,7 @@ TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks)
     EXPECT_TRUE(isConvergentMonotonicSeriesBounded(series));
 }
 
-TEST(SeriesUtilitiesTest, IsConvergentUsingComparisonTestWorks)
-{
+TEST(SeriesUtilitiesTest, IsConvergentUsingComparisonTestWorks) {
     Term numeratorToTest(4);
     Term denominatorToTest(createExpressionIfPossible({3, "^", "n", "^", 1}));
     Term formulaToTest(createExpressionIfPossible({numeratorToTest, "/", denominatorToTest}));
@@ -57,8 +51,7 @@ TEST(SeriesUtilitiesTest, IsConvergentUsingComparisonTestWorks)
     EXPECT_TRUE(isConvergentUsingComparisonTest(seriesToTest, convergentSeries, 10));
 }
 
-TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks)
-{
+TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks) {
     Term numeratorToTest(1);
     Term denominatorToTest(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
     Term formulaToTest(createExpressionIfPossible({numeratorToTest, "/", denominatorToTest}));
@@ -71,8 +64,7 @@ TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks)
     EXPECT_TRUE(isDivergentUsingComparisonTest(seriesToTest, divergentSeries, 10));
 }
 
-TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks)
-{
+TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks) {
     Term numerator1(1);
     Term denominator1(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
     Term formula1(createExpressionIfPossible({numerator1, "/", denominator1}));
@@ -90,8 +82,7 @@ TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks)
     EXPECT_TRUE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsOneHalf)
-{
+TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsOneHalf) {
     Term numerator(1);
     Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -105,8 +96,7 @@ TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsOneHalf)
     EXPECT_TRUE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo)
-{
+TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo) {
     Term numerator(1);
     Term denominator(Monomial(1, {{"n", 2}}));
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -120,8 +110,7 @@ TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo)
     EXPECT_FALSE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent)
-{
+TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent) {
     Term numerator("n");
     Term denominator(createExpressionIfPossible({2, "^", "n"}));
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -135,8 +124,7 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent)
     EXPECT_FALSE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent)
-{
+TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent) {
     Term numerator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {{"n", 1}})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -150,8 +138,7 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent)
     EXPECT_FALSE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, PerformRootTestWorks)
-{
+TEST(SeriesUtilitiesTest, PerformRootTestWorks) {
     Term exponentNumerator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term exponentDenominator(Polynomial{Monomial(2, {{"n", 1}})});
     Term numerator(createExpressionIfPossible({3, "^", exponentNumerator}));
@@ -167,23 +154,20 @@ TEST(SeriesUtilitiesTest, PerformRootTestWorks)
     EXPECT_FALSE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues)
-{
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues) {
     EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(12, 18, 4));
 }
 
-TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
-{
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1) {
     Term firstTerm(1);
     Term lastTerm("n");
     Term count("n");
 
-    Term expectedSum(Polynomial{Monomial(AlbaNumber(1)/2, {{"n", 2}}), Monomial(AlbaNumber(1)/2, {{"n", 1}})});
+    Term expectedSum(Polynomial{Monomial(AlbaNumber(1) / 2, {{"n", 2}}), Monomial(AlbaNumber(1) / 2, {{"n", 1}})});
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
-TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample2)
-{
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample2) {
     Term firstTerm(4);
     Term lastTerm(Monomial(4, {{"n", 1}}));
     Term count("n");
@@ -192,28 +176,26 @@ TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWith
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
-TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample3)
-{
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample3) {
     Term firstTerm(1);
     Term lastTerm(Polynomial{Monomial(3, {{"n", 1}}), Monomial(-2, {})});
     Term count(Polynomial{Monomial(1, {{"n", 1}}), Monomial(-1, {})});
 
-    Term expectedSum(Polynomial{Monomial(AlbaNumber(3)/2, {{"n", 2}}), Monomial(-2, {{"n", 1}}), Monomial(AlbaNumber(1)/2, {})});
+    Term expectedSum(
+        Polynomial{Monomial(AlbaNumber(3) / 2, {{"n", 2}}), Monomial(-2, {{"n", 1}}), Monomial(AlbaNumber(1) / 2, {})});
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
-TEST(SeriesUtilitiesTest, GetSumOfGeometricSeriesUsingFirstValueAndCommonMultiplierWorksWithValues)
-{
+TEST(SeriesUtilitiesTest, GetSumOfGeometricSeriesUsingFirstValueAndCommonMultiplierWorksWithValues) {
     EXPECT_EQ(Term(10230), getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(10, 2, 10));
 }
 
-TEST(SeriesUtilitiesTest, GetInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractionalWorksWithValues)
-{
-    EXPECT_EQ(Term(20), getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(10, AlbaNumber::createFraction(1, 2)));
+TEST(SeriesUtilitiesTest, GetInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractionalWorksWithValues) {
+    EXPECT_EQ(
+        Term(20), getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(10, AlbaNumber::createFraction(1, 2)));
 }
 
-TEST(SeriesUtilitiesTest, GetEToTheXPowerSeriesWorks)
-{
+TEST(SeriesUtilitiesTest, GetEToTheXPowerSeriesWorks) {
     PowerSeries series(getEToTheXPowerSeries());
 
     string stringToExpect1("1");
@@ -229,6 +211,6 @@ TEST(SeriesUtilitiesTest, GetEToTheXPowerSeriesWorks)
     EXPECT_EQ(stringToExpect5, convertToString(series.getFormulaForEachTermInSummation()));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

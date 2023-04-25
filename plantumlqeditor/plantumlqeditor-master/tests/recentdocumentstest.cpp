@@ -1,6 +1,6 @@
 #include "recentdocuments.h"
-
 #include <QAction>
+
 #include <gmock/gmock.h>
 
 TEST(RecentDocuments, testDefaultActions) {

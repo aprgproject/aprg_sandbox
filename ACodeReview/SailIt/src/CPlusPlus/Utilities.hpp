@@ -9,12 +9,11 @@
 #include <vector>
 
 using std::deque;
-using std::vector;
-using std::string;
 using std::set;
+using std::string;
+using std::vector;
 
-namespace codeReview
-{
+namespace codeReview {
 
 typedef vector<string> VectorOfStrings;
 typedef set<string> SetOfStrings;
@@ -29,5 +28,4 @@ void printTerms(DequeOfTerms const& terms);
 void printTerms(VectorOfTerms const& terms);
 void printContentOfTerms(DequeOfTerms const& terms, std::ostream& fileStream);
 
-
-}// namespace codeReview
+}  // namespace codeReview

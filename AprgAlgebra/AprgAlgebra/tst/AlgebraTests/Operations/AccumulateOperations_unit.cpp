@@ -8,14 +8,11 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(AccumulateOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks) {
     Term termToTest1(45);
     Term termToTest2(45);
     TermWithDetails termWithDetails1(Term(25), TermAssociationType::Positive);
@@ -28,17 +25,15 @@ TEST(AccumulateOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks)
     EXPECT_EQ(Term(20), termToTest2);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorks) {
     Term termToTest(0);
     Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
     Term term1(createExpressionIfPossible({11, "*", xToTheY}));
     Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(0);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Negative),
-                TermWithDetails(term2, TermAssociationType::Positive),
-                TermWithDetails(term3, TermAssociationType::Negative)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Negative), TermWithDetails(term2, TermAssociationType::Positive),
+        TermWithDetails(term3, TermAssociationType::Negative)};
 
     accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
 
@@ -48,47 +43,41 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorks)
     EXPECT_EQ(termToExpect, termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWithEmptyTermAtTheStart)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWithEmptyTermAtTheStart) {
     Term termToTest;
     Term term1;
     Term term2(0);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Positive),
-                TermWithDetails(term2, TermAssociationType::Positive)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Positive), TermWithDetails(term2, TermAssociationType::Positive)};
 
     accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
 
     EXPECT_EQ(Term(0), termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWithNan)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWithNan) {
     Term termToTest;
     Term term1(1);
     Term term2(2);
     Term term3(ALBA_NUMBER_NOT_A_NUMBER);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Positive),
-                TermWithDetails(term2, TermAssociationType::Positive),
-                TermWithDetails(term3, TermAssociationType::Positive)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Positive), TermWithDetails(term2, TermAssociationType::Positive),
+        TermWithDetails(term3, TermAssociationType::Positive)};
 
     accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
 
     EXPECT_TRUE(isNan(termToTest));
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks) {
     Term termToTest(1);
     Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
     Term term1(createExpressionIfPossible({11, "*", xToTheY}));
     Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(1);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Negative),
-                TermWithDetails(term2, TermAssociationType::Positive),
-                TermWithDetails(term3, TermAssociationType::Negative)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Negative), TermWithDetails(term2, TermAssociationType::Positive),
+        TermWithDetails(term3, TermAssociationType::Negative)};
 
     accumulateTermsForMultiplicationAndDivision(termToTest, termsWithDetails);
 
@@ -96,31 +85,27 @@ TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
     EXPECT_EQ(termToExpect, termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorksWithEmptyTermAtTheStart)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorksWithEmptyTermAtTheStart) {
     Term termToTest;
     Term term1;
     Term term2(1);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Positive),
-                TermWithDetails(term2, TermAssociationType::Positive)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Positive), TermWithDetails(term2, TermAssociationType::Positive)};
 
     accumulateTermsForMultiplicationAndDivision(termToTest, termsWithDetails);
 
     EXPECT_EQ(Term(1), termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorks) {
     Term termToTest(1);
     Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
     Term term1(createExpressionIfPossible({11, "*", xToTheY}));
     Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(1);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Negative),
-                TermWithDetails(term2, TermAssociationType::Positive),
-                TermWithDetails(term3, TermAssociationType::Negative)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Negative), TermWithDetails(term2, TermAssociationType::Positive),
+        TermWithDetails(term3, TermAssociationType::Negative)};
 
     accumulateTermsForRaiseToPower(termToTest, termsWithDetails);
 
@@ -130,20 +115,18 @@ TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorks)
     EXPECT_EQ(termToExpect, termToTest);
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorksWithEmptyTermAtTheStart)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorksWithEmptyTermAtTheStart) {
     Term termToTest;
     Term term1;
     Term term2(1);
-    TermsWithDetails termsWithDetails
-    {TermWithDetails(term1, TermAssociationType::Positive),
-                TermWithDetails(term2, TermAssociationType::Positive)};
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(term1, TermAssociationType::Positive), TermWithDetails(term2, TermAssociationType::Positive)};
 
     accumulateTermsForRaiseToPower(termToTest, termsWithDetails);
 
     EXPECT_EQ(Term(1), termToTest);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

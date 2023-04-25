@@ -2,14 +2,12 @@
 
 #include <BooleanAlgebra/Algorithm/QuineMcCluskey/LogicalValue.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 LogicalValue getLogicalValue(bool const value);
 
 }
 
-}
+}  // namespace alba

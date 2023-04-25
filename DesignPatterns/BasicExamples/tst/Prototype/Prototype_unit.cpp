@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace Prototype
-{
+namespace Prototype {
 
-TEST(PrototypeTest, Test1)
-{
+TEST(PrototypeTest, Test1) {
     Client client;
     client.setPrototypeAt(0, make_unique<ConcretePrototypeA>());
     client.setPrototypeAt(1, make_unique<ConcretePrototypeB>());
@@ -20,4 +18,4 @@ TEST(PrototypeTest, Test1)
     std::cout << "CreatedObject2: " << createdObject2->getType() << "\n";
 }
 
-}
+}  // namespace Prototype

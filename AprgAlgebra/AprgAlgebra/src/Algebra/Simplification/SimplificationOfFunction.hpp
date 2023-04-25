@@ -2,17 +2,13 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-namespace Simplification
-{
+namespace Simplification {
 
-class SimplificationOfFunction
-{
+class SimplificationOfFunction {
 public:
     SimplificationOfFunction(Function const& functionObject);
 
@@ -24,8 +20,8 @@ private:
     Function m_function;
 };
 
-}
+}  // namespace Simplification
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

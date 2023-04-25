@@ -4,17 +4,14 @@
 
 #include <map>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 using VariablesToValuesMap = std::map<std::string, bool>;
 using VariableValuePair = std::pair<std::string, bool>;
 
-class SubstitutionOfVariablesToValues
-{
+class SubstitutionOfVariablesToValues {
 public:
     SubstitutionOfVariablesToValues() = default;
     SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
@@ -37,12 +34,12 @@ public:
     void putVariableWithValue(std::string const& variable, bool const value);
 
 private:
-    void performSubstitutionForWrappedTerms(WrappedTerms & wrappedTerms) const;
+    void performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const;
     VariablesToValuesMap m_variableToValuesMap;
 };
 
-using SubstitutionsOfVariablesToValues=std::vector<SubstitutionOfVariablesToValues>;
+using SubstitutionsOfVariablesToValues = std::vector<SubstitutionOfVariablesToValues>;
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

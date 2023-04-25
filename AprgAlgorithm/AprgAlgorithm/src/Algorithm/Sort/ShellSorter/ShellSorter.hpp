@@ -4,65 +4,55 @@
 
 #include <utility>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Values>
-class ShellSorter : public BaseSorter<Values> // This is invented by Shell in 1959
+class ShellSorter : public BaseSorter<Values>  // This is invented by Shell in 1959
 {
 public:
-
     ShellSorter() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
+    void sort(Values& valuesToSort) const override {
         unsigned int skipValue(getSkipValue(valuesToSort.size()));
-        while(skipValue >= 1)
-        {
+        while (skipValue >= 1) {
             sortWithSkipping(valuesToSort, skipValue);
-            skipValue /= 3; // Knuth approach. Integer divide by 3 results to the next value.
+            skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.
         }
     }
 
 private:
-
-    void sortWithSkipping(Values& valuesToSort, unsigned int const skipValue) const
-    {
+    void sortWithSkipping(Values& valuesToSort, unsigned int const skipValue) const {
         // This is h-sorting. An h-sorted array is h interleaved sorted subsequences.
         // This is insertion sort but with skipping
-        for(unsigned int i=skipValue; i<valuesToSort.size(); i++)
-        {
+        for (unsigned int i = skipValue; i < valuesToSort.size(); i++) {
             continuouslySwapDownIfStillOutOfOrderWithSkipping(valuesToSort, i, skipValue);
         }
     }
 
-    void continuouslySwapDownIfStillOutOfOrderWithSkipping(Values& valuesToSort, unsigned int const startingIndex, unsigned int const skipValue) const
-    {
+    void continuouslySwapDownIfStillOutOfOrderWithSkipping(
+        Values& valuesToSort, unsigned int const startingIndex, unsigned int const skipValue) const {
         // Works similar to insertion sort (but with skipping)
-        for(unsigned int i=startingIndex; i>=skipValue && valuesToSort.at(i) < valuesToSort.at(i-skipValue); i-=skipValue)
-        {
-            std::swap(valuesToSort[i], valuesToSort[i-skipValue]);
+        for (unsigned int i = startingIndex; i >= skipValue && valuesToSort.at(i) < valuesToSort.at(i - skipValue);
+             i -= skipValue) {
+            std::swap(valuesToSort[i], valuesToSort[i - skipValue]);
         }
     }
 
-    unsigned int getSkipValue(unsigned int const size) const
-    {
+    unsigned int getSkipValue(unsigned int const size) const {
         // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
         unsigned int result(1);
-        while(result < size/3)
-        {
-            result = 3*result + 1;
+        while (result < size / 3) {
+            result = 3 * result + 1;
         }
         return result;
     }
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
 
 // The idea behind shell sort is insertion sort is inefficient because elements only move one position at a time.
 // So in shell sort we can move elements several positions at a time.
@@ -70,15 +60,18 @@ private:
 
 // Insertion sort works well with skipping because:
 // At big skip value: the number of elements to sort is small
-// At small skip value: since it was already sorted at big skip values, the elements is nearly in order (insertion sort works well with this input)
+// At small skip value: since it was already sorted at big skip values, the elements is nearly in order (insertion sort
+// works well with this input)
 
-// Proposition: A g-sorted array remains g-sorted after h-sorting it. Intuitively its true but proving it is more challenging.
+// Proposition: A g-sorted array remains g-sorted after h-sorting it. Intuitively its true but proving it is more
+// challenging.
 
 // How do we determine the skip value?
 // -> Powers of two? -> No, its always even so it will have minimal effect.
 // -> Shell's original idea: Powers of two minus one? -> Okay, but it can be better.
 // -> Knuth: 3x+1 -> 1, 4, 13, 40, 121, 364 -> OK. Easy to compute.
-// -> Sedgewick: Merging of (9x4i) - (9x2i) + 1. -> Results in 1, 5, 19, 41, 109, 209. Tough to beat in empirical studies, but nobody knows if its the best one.
+// -> Sedgewick: Merging of (9x4i) - (9x2i) + 1. -> Results in 1, 5, 19, 41, 109, 209. Tough to beat in empirical
+// studies, but nobody knows if its the best one.
 
 // Proposition: The worst case number of compares used by shell sort with 3x+1 increments is O(N^(3/2))
 // In reality its much lesser than that. But an accurate model has not yet been discovered.
@@ -97,8 +90,6 @@ private:
 // Some good algorithms are still waiting discovery.
 
 // Not stable -> Proof by counter example: Long distance swap might move an item past some equal item
-
-
 
 // Other discussions:
 // ShellSort is mainly a variation of Insertion Sort.

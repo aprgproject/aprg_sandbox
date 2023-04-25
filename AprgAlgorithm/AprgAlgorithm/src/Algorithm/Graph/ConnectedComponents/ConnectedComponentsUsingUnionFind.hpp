@@ -4,15 +4,13 @@
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class ConnectedComponentsUsingUnionFind : public BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseUndirectedGraph<Vertex>>
-{
+class ConnectedComponentsUsingUnionFind
+    : public BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseUndirectedGraph<Vertex>> {
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using BaseClass = BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseUndirectedGraphWithVertex>;
@@ -22,46 +20,39 @@ public:
     using UnionFind = UnionFindUsingMap<Vertex>;
 
     ConnectedComponentsUsingUnionFind(BaseUndirectedGraphWithVertex const& graph)
-        : BaseClass(graph)
-        , b_graph(BaseClass::m_graph)
-        , b_numberOfComponentIds(BaseClass::m_numberOfComponentIds)
-        , b_vertexToComponentIdMap(BaseClass::m_vertexToComponentIdMap)
-    {
+        : BaseClass(graph),
+          b_graph(BaseClass::m_graph),
+          b_numberOfComponentIds(BaseClass::m_numberOfComponentIds),
+          b_vertexToComponentIdMap(BaseClass::m_vertexToComponentIdMap) {
         initialize();
     }
 
 private:
-    void initialize()
-    {
+    void initialize() {
         UnionFind unionFind;
-        for(Edge const& edge : b_graph.getEdges())
-        {
+        for (Edge const& edge : b_graph.getEdges()) {
             unionFind.connect(edge.first, edge.second);
         }
         SetOfVertices roots;
-        for(Vertex const& vertex : b_graph.getVertices())
-        {
+        for (Vertex const& vertex : b_graph.getVertices()) {
             unsigned int componentId{};
             Vertex root(unionFind.getRoot(vertex));
-            auto it=roots.find(root);
-            if(it != roots.cend())
-            {
+            auto it = roots.find(root);
+            if (it != roots.cend()) {
                 componentId = std::distance(roots.cbegin(), it);
-            }
-            else
-            {
+            } else {
                 componentId = roots.size();
                 roots.emplace(root);
             }
-            b_vertexToComponentIdMap[vertex] = componentId+1;
+            b_vertexToComponentIdMap[vertex] = componentId + 1;
         }
         b_numberOfComponentIds = roots.size();
     }
     BaseUndirectedGraphWithVertex const& b_graph;
-    unsigned int & b_numberOfComponentIds;
-    VertexToUnsignedIntMap & b_vertexToComponentIdMap;
+    unsigned int& b_numberOfComponentIds;
+    VertexToUnsignedIntMap& b_vertexToComponentIdMap;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

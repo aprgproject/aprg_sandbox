@@ -3,11 +3,9 @@
 #include <set>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class Lcg
-{
+class Lcg {
 public:
     Lcg(unsigned int const lcgId, unsigned int const percentageShare);
     bool operator<(Lcg const& lcg) const;
@@ -23,5 +21,4 @@ using LcgInitializerList = std::initializer_list<Lcg>;
 using SetOfLcgs = std::set<Lcg>;
 using VectorOfLcgs = std::vector<Lcg>;
 
-
-}
+}  // namespace alba

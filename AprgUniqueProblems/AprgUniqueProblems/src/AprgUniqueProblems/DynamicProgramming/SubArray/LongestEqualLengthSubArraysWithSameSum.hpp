@@ -3,32 +3,31 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class LongestEqualLengthSubArraysWithSameSum
-{
+class LongestEqualLengthSubArraysWithSameSum {
 public:
     using Index = unsigned int;
     using Value = int;
     using Values = std::vector<Value>;
-    static constexpr Value MIN_VALUE=std::numeric_limits<Value>::min();
+    static constexpr Value MIN_VALUE = std::numeric_limits<Value>::min();
 
     LongestEqualLengthSubArraysWithSameSum(Values const& values);
 
     Index getLongestTotalLengthOfSubArraysUsingPartialSums() const;
     Index getLongestTotalLengthOfSubArraysByAccumulatingSum() const;
+
 private:
     Values const m_values;
 };
 
-}
+}  // namespace alba
 
 // Longest Even Length Substring such that Sum of First and Second Half is same
 
 // Given a string ‘str’ of digits, find the length of the longest substring of ‘str’,
 // such that the length of the substring is 2k digits
-//and sum of left k digits is equal to the sum of right k digits.
+// and sum of left k digits is equal to the sum of right k digits.
 
 // Examples :
 // Input: str = "123123"

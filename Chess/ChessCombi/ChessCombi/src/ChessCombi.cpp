@@ -1,11 +1,7 @@
 #include "ChessCombi.hpp"
 
-namespace alba
-{
+namespace alba {
 
-ChessCombi::ChessCombi()
-{
-    m_sample = 0;
-}
+ChessCombi::ChessCombi() { m_sample = 0; }
 
-}
+}  // namespace alba

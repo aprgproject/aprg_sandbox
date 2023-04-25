@@ -2,26 +2,21 @@
 
 #include <AudioManipulator/CommonTypes.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace AprgAudio
-{
+namespace AprgAudio {
 
-class NearestSamples
-{
+class NearestSamples {
 public:
     NearestSamples(Samples const& samples);
 
-    Indexes getNearestSamplesIndexes(
-            double const value,
-            unsigned int const recommendedNumberOfSamples);
+    Indexes getNearestSamplesIndexes(double const value, unsigned int const recommendedNumberOfSamples);
 
 private:
     void saveToValuesToIndexes();
     Samples const& m_samples;
     ValuesToIndexes m_valuesToIndexes;
 };
-}
+}  // namespace AprgAudio
 
-}
+}  // namespace alba

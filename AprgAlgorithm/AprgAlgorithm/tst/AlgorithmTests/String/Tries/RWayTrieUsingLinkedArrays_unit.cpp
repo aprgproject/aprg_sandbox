@@ -6,84 +6,43 @@
 using namespace alba::algorithm::CommonTestsWithTries;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using TrieForTest = RWayTrieUsingLinkedArrays<unsigned int>;
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, DoesContainWorks)
-{
-    testDoesContainWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, DoesContainWorks) { testDoesContainWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetWorks)
-{
-    testGetWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, GetWorks) { testGetWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetLongestPrefixWorks)
-{
-    testGetLongestPrefixOfWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, GetLongestPrefixWorks) { testGetLongestPrefixOfWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, PutWorks)
-{
-    testPutWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, PutWorks) { testPutWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWorks)
-{
-    testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetKeysWorks)
-{
-    testGetKeysWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, GetKeysWorks) { testGetKeysWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetAllKeysWithPrefixWorks)
-{
+TEST(RWayTrieUsingLinkedArraysTest, GetAllKeysWithPrefixWorks) {
     testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>();
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetAllKeysThatMatchWorks)
-{
-    testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, GetAllKeysThatMatchWorks) { testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, Example1Works)
-{
-    testExample1WithUnsignedInt<TrieForTest>();
-}
+TEST(RWayTrieUsingLinkedArraysTest, Example1Works) { testExample1WithUnsignedInt<TrieForTest>(); }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetWhenEmptyStringWorks)
-{
+TEST(RWayTrieUsingLinkedArraysTest, GetWhenEmptyStringWorks) {
     TrieForTest trie;
 
     EXPECT_EQ(0U, trie.get(""));
@@ -92,15 +51,13 @@ TEST(RWayTrieUsingLinkedArraysTest, GetWhenEmptyStringWorks)
     EXPECT_EQ(17U, trie.get(""));
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetNumberOfNodesWorksWhenEmpty)
-{
+TEST(RWayTrieUsingLinkedArraysTest, GetNumberOfNodesWorksWhenEmpty) {
     TrieForTest trie;
 
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, GetNumberOfNodesWorksWhenNotEmpty)
-{
+TEST(RWayTrieUsingLinkedArraysTest, GetNumberOfNodesWorksWhenNotEmpty) {
     TrieForTest trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -119,8 +76,7 @@ TEST(RWayTrieUsingLinkedArraysTest, GetNumberOfNodesWorksWhenNotEmpty)
     EXPECT_EQ(9U, trie.getNumberOfNodes());
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, PutWorksWithNumberOfNodes)
-{
+TEST(RWayTrieUsingLinkedArraysTest, PutWorksWithNumberOfNodes) {
     TrieForTest trie;
 
     trie.put("she", 0U);
@@ -134,8 +90,7 @@ TEST(RWayTrieUsingLinkedArraysTest, PutWorksWithNumberOfNodes)
     EXPECT_EQ(2U, trie.get("sea"));
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, PutWhenEmptyStringWorks)
-{
+TEST(RWayTrieUsingLinkedArraysTest, PutWhenEmptyStringWorks) {
     TrieForTest trie;
 
     trie.put("", 17U);
@@ -145,8 +100,7 @@ TEST(RWayTrieUsingLinkedArraysTest, PutWhenEmptyStringWorks)
     EXPECT_EQ(17U, trie.get(""));
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
-{
+TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWorksWithNumberOfNodes) {
     TrieForTest trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -168,8 +122,7 @@ TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
-TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWhenEmptyStringWorks)
-{
+TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWhenEmptyStringWorks) {
     TrieForTest trie;
     trie.put("", 17U);
 
@@ -182,6 +135,6 @@ TEST(RWayTrieUsingLinkedArraysTest, DeleteBasedOnKeyWhenEmptyStringWorks)
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

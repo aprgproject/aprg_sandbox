@@ -4,13 +4,12 @@
 
 using testing::FLAGS_gtest_break_on_failure;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator {
 
-void MessageVerifier::verifyOneTransportBearerRegisterForCell(GenericMessage const& genericMessage)
-{
+void MessageVerifier::verifyOneTransportBearerRegisterForCell(GenericMessage const& genericMessage) {
     ASSERT_EQ(MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, genericMessage.getMessageName());
-    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> tbRegisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG>(genericMessage));
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> tbRegisterMessage(
+        convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG>(genericMessage));
     STransportBearerRegisterMsg& tbRegisterStaticPayload(tbRegisterMessage.getStaticPayloadReference());
     EXPECT_EQ(100001, tbRegisterStaticPayload.transactionId);
     EXPECT_EQ(100002, tbRegisterStaticPayload.cellId);
@@ -43,24 +42,23 @@ void MessageVerifier::verifyOneTransportBearerRegisterForCell(GenericMessage con
     EXPECT_EQ(0x12, dynamicPayload1.dsField);
 }
 
-void MessageVerifier::verifySuccessfulHwConfigurationResponseMessage(GenericMessage const& genericMessage)
-{
+void MessageVerifier::verifySuccessfulHwConfigurationResponseMessage(GenericMessage const& genericMessage) {
     ASSERT_EQ(MessageName::TC_HW_CONFIGURATION_RESP_MSG, genericMessage.getMessageName());
-    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_RESP_MSG> message(convertGenericToSpecificStatic<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(genericMessage));
+    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_RESP_MSG> message(
+        convertGenericToSpecificStatic<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(genericMessage));
     SHwConfigurationResponseMsg& payload(message.getStaticPayloadReference());
     EXPECT_EQ(EStatus_NoError, payload.status);
 }
 
-void MessageVerifier::verifyLinkStateResponseMessage(GenericMessage const& genericMessage)
-{
+void MessageVerifier::verifyLinkStateResponseMessage(GenericMessage const& genericMessage) {
     ASSERT_EQ(MessageName::TC_LINK_STATES_RESP_MSG, genericMessage.getMessageName());
-    //SpecificStaticMessage<MessageName::TC_LINK_STATES_RESP_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LINK_STATES_RESP_MSG>(genericMessage));
-    //SLinkStatesResponseMsg& payload(message.getStaticPayloadReference());
+    // SpecificStaticMessage<MessageName::TC_LINK_STATES_RESP_MSG>
+    // message(convertGenericToSpecificStatic<MessageName::TC_LINK_STATES_RESP_MSG>(genericMessage));
+    // SLinkStatesResponseMsg& payload(message.getStaticPayloadReference());
 }
 
-void MessageVerifier::verifyTcomDeploymentIndMessage(GenericMessage const& genericMessage)
-{
+void MessageVerifier::verifyTcomDeploymentIndMessage(GenericMessage const& genericMessage) {
     ASSERT_EQ(MessageName::TC_TCOM_DEPLOYMENT_IND_MSG, genericMessage.getMessageName());
 }
 
-}
+}  // namespace DesignDocumentCreator

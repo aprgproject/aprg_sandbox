@@ -1,10 +1,8 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-class AlbaSimpleRandomizer
-{
+class AlbaSimpleRandomizer {
 public:
     AlbaSimpleRandomizer();
     void resetRandomSeed();
@@ -12,4 +10,4 @@ public:
     double getRandomFloatingValueInUniformDistribution(double const minimum, double const maximum) const;
 };
 
-}//namespace alba
+}  // namespace alba

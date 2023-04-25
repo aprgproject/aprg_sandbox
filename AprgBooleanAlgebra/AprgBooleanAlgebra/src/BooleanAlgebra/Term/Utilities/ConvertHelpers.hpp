@@ -2,15 +2,13 @@
 
 #include <BooleanAlgebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term convertExpressionToSimplestTerm(Expression const& expression);
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

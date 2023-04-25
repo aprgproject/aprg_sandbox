@@ -6,52 +6,31 @@
 using namespace alba::algorithm::CommonTestsWithQueue;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using QueueForTest = LinkedListQueue<unsigned int>;
 }
 
-TEST(LinkedListQueueTest, IsEmptyWorksWhenEmpty)
-{
-    testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(LinkedListQueueTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, IsEmptyWorksWhenNotEmpty)
-{
-    testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(LinkedListQueueTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, GetSizeWorksWhenEmpty)
-{
-    testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(LinkedListQueueTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, GetSizeWorksWhenNotEmpty)
-{
-    testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>();
-}
+TEST(LinkedListQueueTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, EnqueueWorks)
-{
-    testEnqueueWithUnsignedInt<QueueForTest>();
-}
+TEST(LinkedListQueueTest, EnqueueWorks) { testEnqueueWithUnsignedInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, DequeueWorks)
-{
-    testDequeueWithUnsignedInt<QueueForTest>();
-}
+TEST(LinkedListQueueTest, DequeueWorks) { testDequeueWithUnsignedInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
 {
     testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

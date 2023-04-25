@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, MultiLineIfStatementTest)
-{
+TEST_F(ModuleTest, MultiLineIfStatementTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "if(1 == 1)\n";
@@ -26,8 +25,7 @@ TEST_F(ModuleTest, MultiLineIfStatementTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MultiLineIfStatementWithConstantBoolTest)
-{
+TEST_F(ModuleTest, MultiLineIfStatementWithConstantBoolTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "if(true)\n";
@@ -45,8 +43,7 @@ TEST_F(ModuleTest, MultiLineIfStatementWithConstantBoolTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MultiLineIfStatementIncorrectFormatTest)
-{
+TEST_F(ModuleTest, MultiLineIfStatementIncorrectFormatTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int x;\n";
@@ -65,8 +62,7 @@ TEST_F(ModuleTest, MultiLineIfStatementIncorrectFormatTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 14);
 }
 
-TEST_F(ModuleTest, MultiLineElseIfStatementTest)
-{
+TEST_F(ModuleTest, MultiLineElseIfStatementTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "else   if(2 == 2)\n";
@@ -84,8 +80,7 @@ TEST_F(ModuleTest, MultiLineElseIfStatementTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
 
-TEST_F(ModuleTest, MultiLineElseStatementTest)
-{
+TEST_F(ModuleTest, MultiLineElseStatementTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "else\n";
@@ -101,8 +96,7 @@ TEST_F(ModuleTest, MultiLineElseStatementTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 1);
 }
 
-TEST_F(ModuleTest, MultiLineIfElseIfElseStatementTest)
-{
+TEST_F(ModuleTest, MultiLineIfElseIfElseStatementTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int a = 5;\n";
@@ -125,12 +119,14 @@ TEST_F(ModuleTest, MultiLineIfElseIfElseStatementTest)
     ASSERT_EQ(m_terms.size(), 2);
     auto it = m_terms.begin();
     CHECK_TERM(it, TermType::ProcessedTerm, "int a = 5;\n", 1);
-    CHECK_TERM(it, TermType::ProcessedTerm, "if(1 == 1)\n{\nint x = 5;\n}\nelse if(2 == 2);\nelse if(3 == 3)\n{\nint x = 5;\n}\nelse\n{\nint x = 5;\n}\n", 2);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "if(1 == 1)\n{\nint x = 5;\n}\nelse if(2 == 2);\nelse if(3 == 3)\n{\nint x = 5;\n}\nelse\n{\nint x = 5;\n}\n",
+        2);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MultiLineCascadingIfClauses)
-{
+TEST_F(ModuleTest, MultiLineCascadingIfClauses) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "int a = 1;\n";
@@ -152,37 +148,52 @@ TEST_F(ModuleTest, MultiLineCascadingIfClauses)
     ASSERT_EQ(m_terms.size(), 2);
     auto it = m_terms.begin();
     CHECK_TERM(it, TermType::ProcessedTerm, "int a = 1;\n", 1);
-    CHECK_TERM(it, TermType::MultiLine_IfElseIfStartChain_Ignorable, "if(1 == 1)\n{\nint a = 2;\nif(2 == 2)\n{\nint a = 3;\nif(3 == 3)\n{\nint a = 4;\n}\n}\n}\n", 2);
+    CHECK_TERM(
+        it, TermType::MultiLine_IfElseIfStartChain_Ignorable,
+        "if(1 == 1)\n{\nint a = 2;\nif(2 == 2)\n{\nint a = 3;\nif(3 == 3)\n{\nint a = 4;\n}\n}\n}\n", 2);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MultiLineIncorrectIfElseIfElseStatementTest)
-{
+TEST_F(ModuleTest, MultiLineIncorrectIfElseIfElseStatementTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
-    testFile << "if(1 == 1)\n"; testFile << "   \n";
-    testFile << "{\n"; testFile << "   \n";
-    testFile << "int x = 5;\n"; testFile << "   \n";
-    testFile << "}\n"; testFile << "   \n";
-    testFile << "else if(2 == 2)\n"; testFile << "   \n";
-    testFile << "{\n"; testFile << "   \n";
-    testFile << "int x = 5;\n"; testFile << "   \n";
-    testFile << "}\n"; testFile << "   \n";
-    testFile << "else\n"; testFile << "   \n";
-    testFile << "{\n"; testFile << "   \n";
-    testFile << "int x = 5;\n"; testFile << "   \n";
+    testFile << "if(1 == 1)\n";
+    testFile << "   \n";
+    testFile << "{\n";
+    testFile << "   \n";
+    testFile << "int x = 5;\n";
+    testFile << "   \n";
+    testFile << "}\n";
+    testFile << "   \n";
+    testFile << "else if(2 == 2)\n";
+    testFile << "   \n";
+    testFile << "{\n";
+    testFile << "   \n";
+    testFile << "int x = 5;\n";
+    testFile << "   \n";
+    testFile << "}\n";
+    testFile << "   \n";
+    testFile << "else\n";
+    testFile << "   \n";
+    testFile << "{\n";
+    testFile << "   \n";
+    testFile << "int x = 5;\n";
+    testFile << "   \n";
     testFile << "}\n";
     testFile.close();
 
     processFile();
     ASSERT_EQ(m_terms.size(), 1);
     auto it = m_terms.begin();
-    CHECK_TERM(it, TermType::ProcessedTerm, "if(1 == 1)\n\n{\n\nint x = 5;\n\n}\n\nelse if(2 == 2)\n\n{\n\nint x = 5;\n\n}\n\nelse\n\n{\n\nint x = 5;\n\n}\n", 1);
+    CHECK_TERM(
+        it, TermType::ProcessedTerm,
+        "if(1 == 1)\n\n{\n\nint x = 5;\n\n}\n\nelse if(2 == 2)\n\n{\n\nint x = 5;\n\n}\n\nelse\n\n{\n\nint x = "
+        "5;\n\n}\n",
+        1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 11);
 }
 
-TEST_F(ModuleTest, MultiLineWhileLoopTest)
-{
+TEST_F(ModuleTest, MultiLineWhileLoopTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "while(1 == 1)\n";

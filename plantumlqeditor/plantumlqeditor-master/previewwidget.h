@@ -1,13 +1,12 @@
 #ifndef PREVIEWWIDGET_H
 #define PREVIEWWIDGET_H
 
-#include <QWidget>
 #include <QImage>
+#include <QWidget>
 
 class QSvgRenderer;
 
-class PreviewWidget : public QWidget
-{
+class PreviewWidget : public QWidget {
     Q_OBJECT
 public:
     enum Mode { NoMode, PngMode, SvgMode };
@@ -38,4 +37,4 @@ private:
     int m_zoomScale;
 };
 
-#endif // PREVIEWWIDGET_H
+#endif  // PREVIEWWIDGET_H

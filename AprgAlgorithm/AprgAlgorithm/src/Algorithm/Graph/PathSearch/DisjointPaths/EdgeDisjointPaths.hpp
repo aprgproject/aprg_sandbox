@@ -2,25 +2,22 @@
 
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <Algorithm/Graph/FlowNetwork/SinkSourceFlowNetwork.hpp>
 #include <Algorithm/Graph/FlowNetwork/FordFulkerson/FordFulkersonUsingBfs.hpp>
+#include <Algorithm/Graph/FlowNetwork/SinkSourceFlowNetwork.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class EdgeDisjointPaths
-{
+class EdgeDisjointPaths {
 public:
+    // We will first focus on the problem of finding the maximum number of edge-disjoint paths from the source to the
+    // sink. This means that we should construct a set of paths such that "each edge appears in at most one path".
 
-    // We will first focus on the problem of finding the maximum number of edge-disjoint paths from the source to the sink.
-    // This means that we should construct a set of paths such that "each edge appears in at most one path".
-
-    // It turns out that the maximum number of edge-disjoint paths equals the maximum flow of the graph, assuming that the capacity of each edge is one.
-    // After the maximum flow has been constructed, the edge-disjoint paths can be found greedily by following paths from the source to the sink.
+    // It turns out that the maximum number of edge-disjoint paths equals the maximum flow of the graph, assuming that
+    // the capacity of each edge is one. After the maximum flow has been constructed, the edge-disjoint paths can be
+    // found greedily by following paths from the source to the sink.
 
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Edge = typename GraphTypes<Vertex>::Edge;
@@ -28,33 +25,20 @@ public:
     using FlowNetwork = SinkSourceFlowNetwork<Vertex, int, DirectedGraphWithListOfEdges<Vertex>>;
     using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
 
-    EdgeDisjointPaths(
-            BaseDirectedGraphWithVertex const& graph,
-            Vertex const& startVertex,
-            Vertex const& endVertex)
-        : m_fordFulkerson(getFlowNetwork(graph, startVertex, endVertex))
-    {}
+    EdgeDisjointPaths(BaseDirectedGraphWithVertex const& graph, Vertex const& startVertex, Vertex const& endVertex)
+        : m_fordFulkerson(getFlowNetwork(graph, startVertex, endVertex)) {}
 
-    unsigned int getNumberOfEdgeDisjointPaths() const
-    {
+    unsigned int getNumberOfEdgeDisjointPaths() const {
         return static_cast<unsigned int>(m_fordFulkerson.getMaxFlowValue());
     }
 
-    Paths getEdgeDisjointPaths() const
-    {
-        return m_fordFulkerson.getAugmentingPaths();
-    }
+    Paths getEdgeDisjointPaths() const { return m_fordFulkerson.getAugmentingPaths(); }
 
 private:
-
     FlowNetwork getFlowNetwork(
-            BaseDirectedGraphWithVertex const& graph,
-            Vertex const& startVertex,
-            Vertex const& endVertex) const
-    {
+        BaseDirectedGraphWithVertex const& graph, Vertex const& startVertex, Vertex const& endVertex) const {
         FlowNetwork flowNetwork(startVertex, endVertex);
-        for(Edge const& edge : graph.getEdges())
-        {
+        for (Edge const& edge : graph.getEdges()) {
             flowNetwork.connect(edge.first, edge.second, 1, 0);
         }
         return flowNetwork;
@@ -63,6 +47,6 @@ private:
     FordFulkerson m_fordFulkerson;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

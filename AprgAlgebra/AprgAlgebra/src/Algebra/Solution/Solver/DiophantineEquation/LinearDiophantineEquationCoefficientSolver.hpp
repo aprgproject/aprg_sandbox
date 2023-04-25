@@ -2,28 +2,17 @@
 
 #include <Common/Math/Number/AlbaNumber.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-
-class LinearDiophantineEquationCoefficientSolver
-{
+class LinearDiophantineEquationCoefficientSolver {
 public:
     // A Linear Diophantine Equation is an equation of the form ax+by = c
 
     using Integer = long long int;
 
-    enum class SolutionStatus
-    {
-        Unknown,
-        CannotBeSolved,
-        InfiniteSolutions,
-        NoSolution,
-        Solved
-    };
+    enum class SolutionStatus { Unknown, CannotBeSolved, InfiniteSolutions, NoSolution, Solved };
 
     LinearDiophantineEquationCoefficientSolver(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
@@ -46,6 +35,6 @@ private:
     Integer m_gcfOfAAndB;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

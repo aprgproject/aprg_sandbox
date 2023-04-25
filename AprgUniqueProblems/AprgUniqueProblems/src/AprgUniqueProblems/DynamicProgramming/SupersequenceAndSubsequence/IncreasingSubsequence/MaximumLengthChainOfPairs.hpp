@@ -3,11 +3,9 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class MaximumLengthChainOfPairs
-{
+class MaximumLengthChainOfPairs {
 public:
     using Index = unsigned int;
     using Pair = std::pair<unsigned int, unsigned int>;
@@ -18,12 +16,12 @@ public:
 
     Index getLongestLength() const;
     Pairs getLongestSubsequence() const;
+
 private:
     Pairs m_sequence;
-
 };
 
-}
+}  // namespace alba
 
 // VARIANT OF: Longest Increasing Subsequence
 
@@ -43,5 +41,5 @@ private:
 // --> Consider the example {{6, 8}, {3, 4}} to understand the need of sorting.
 // ---> If we proceed to second step without sorting, we get output as 1.
 // -> But the correct output is 2.
-// 2) Now run a modified LIS process where we compare the second element of already finalized LIS with the first element of new LIS being constructed.
-
+// 2) Now run a modified LIS process where we compare the second element of already finalized LIS with the first element
+// of new LIS being constructed.

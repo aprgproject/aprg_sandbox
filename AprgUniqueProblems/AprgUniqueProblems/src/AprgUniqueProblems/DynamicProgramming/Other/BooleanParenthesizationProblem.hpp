@@ -5,13 +5,10 @@
 #include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-class BooleanParenthesizationProblem
-{
+class BooleanParenthesizationProblem {
 public:
-
     using Count = unsigned int;
     using Index = unsigned int;
     using Operator = char;
@@ -19,7 +16,7 @@ public:
     using Operators = std::vector<char>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
     using CountMatrices = std::vector<CountMatrix>;
-    static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
+    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     BooleanParenthesizationProblem(Booleans const& inputValues, Operators const& operators);
 
@@ -29,7 +26,8 @@ public:
 
 private:
     Count getNumberOfWaysUsingNaiveRecursion(bool const expectedOutput, Index const left, Index const right) const;
-    Count getNumberOfWaysUsingMemoizationDP(CountMatrices & countMatrices, bool const expectedOutput, Index const left, Index const right) const;
+    Count getNumberOfWaysUsingMemoizationDP(
+        CountMatrices& countMatrices, bool const expectedOutput, Index const left, Index const right) const;
 
     Count convertBoolToCount(bool const booleanValue) const;
     bool areSizesCorrect() const;
@@ -38,8 +36,7 @@ private:
     Operators m_operators;
 };
 
-}
-
+}  // namespace alba
 
 // Boolean Parenthesization Problem
 
@@ -57,7 +54,8 @@ private:
 //     ^   ---> boolean XOR
 
 // Count the number of ways we can parenthesize the expression so that the value of expression evaluates to true.
-// Let the input be in form of two arrays one contains the symbols (T and F) in order and other contains operators (&, | and ^}
+// Let the input be in form of two arrays one contains the symbols (T and F) in order and other contains operators (&, |
+// and ^}
 
 // Examples:
 // Input: symbol[] = {T, F, T}  operator[] = {^, &}
@@ -74,4 +72,3 @@ private:
 // -> Output: 4
 // -> The given expression is "T | T & F ^ T", it evaluates true in 4 ways:
 // --->((T|T)&(F^T)), (T|(T&(F^T))), (((T|T)&F)^T)  and (T|((T&F)^T)).
-

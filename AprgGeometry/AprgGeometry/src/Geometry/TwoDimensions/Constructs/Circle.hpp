@@ -5,19 +5,16 @@
 #include <functional>
 #include <optional>
 
-namespace alba
-{
+namespace alba {
 
-namespace TwoDimensions
-{
+namespace TwoDimensions {
 
-class Circle
-{
+class Circle {
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Circle();
-    Circle(Point const& center, double const radius); // (x-center.x)^2 + (y-center.y)^2 = r^2
-    Circle(double const a, double const d, double const e, double const f); //ax2+ay2+dx+ey+f=0
+    Circle(Point const& center, double const radius);                        // (x-center.x)^2 + (y-center.y)^2 = r^2
+    Circle(double const a, double const d, double const e, double const f);  // ax2+ay2+dx+ey+f=0
     bool operator==(Circle const& circle) const;
     bool operator!=(Circle const& circle) const;
     bool operator<(Circle const& circle) const;
@@ -37,12 +34,13 @@ public:
     Point getNearestPointInCircumference(Point const& pointNotCircumference) const;
 
 private:
-    void determineAndSaveCenterAndRadiusFromCoefficients(double const a, double const d, double const e, double const f);
+    void determineAndSaveCenterAndRadiusFromCoefficients(
+        double const a, double const d, double const e, double const f);
     Points getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
 
-    friend std::ostream & operator<<(std::ostream & out, Circle const& circle);
+    friend std::ostream& operator<<(std::ostream& out, Circle const& circle);
 
     Point m_center;
     double m_radius;
@@ -51,5 +49,5 @@ private:
 
 using Circles = std::vector<Circle>;
 
-}
-}
+}  // namespace TwoDimensions
+}  // namespace alba

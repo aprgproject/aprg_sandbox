@@ -3,21 +3,17 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using CountTrees = CountSpanningTreesUsingKirchhoffTheorem<VertexForTest>;
-}
+}  // namespace
 
-TEST(CountSpanningTreesUsingKirchhoffTheoremTest, GetCountWorks)
-{
+TEST(CountSpanningTreesUsingKirchhoffTheoremTest, GetCountWorks) {
     UndirectedGraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
@@ -27,6 +23,6 @@ TEST(CountSpanningTreesUsingKirchhoffTheoremTest, GetCountWorks)
     EXPECT_EQ(3U, CountTrees::getCount<5U>(graph));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

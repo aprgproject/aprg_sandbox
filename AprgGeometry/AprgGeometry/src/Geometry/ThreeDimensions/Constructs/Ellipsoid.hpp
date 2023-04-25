@@ -2,14 +2,11 @@
 
 #include <Geometry/ThreeDimensions/Constructs/Point.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace ThreeDimensions
-{
+namespace ThreeDimensions {
 
-class Ellipsoid
-{
+class Ellipsoid {
 public:
     Ellipsoid();
     Ellipsoid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient);
@@ -26,7 +23,7 @@ public:
     double calculateZFromXAndY(double const x, double const y, double const signOfRoot) const;
 
 private:
-    friend std::ostream & operator<<(std::ostream & out, Ellipsoid const& ellipsoid);
+    friend std::ostream& operator<<(std::ostream& out, Ellipsoid const& ellipsoid);
 
     Point m_center;
     double m_aValue;
@@ -36,5 +33,5 @@ private:
 
 using Ellipsoids = std::vector<Ellipsoid>;
 
-}
-}
+}  // namespace ThreeDimensions
+}  // namespace alba

@@ -5,22 +5,15 @@
 #include <QFile>
 #include <QFileInfo>
 
-namespace 
-{
+namespace {
 const QString ROOT_TAG = "assistants";
 const QString ASSISTANT_TAG = "assistant";
-}
+}  // namespace
 
-AssistantXmlReader::AssistantXmlReader(QObject *parent)
-    : QObject(parent)
-{
-}
+AssistantXmlReader::AssistantXmlReader(QObject *parent) : QObject(parent) {}
 
-bool AssistantXmlReader::readFile(const QString &path)
-{
-    foreach(Assistant* assistant, m_items) {
-        delete assistant;
-    }
+bool AssistantXmlReader::readFile(const QString &path) {
+    foreach (Assistant *assistant, m_items) { delete assistant; }
     m_items.clear();
 
     QDir dir = QFileInfo(path).absoluteDir();
@@ -66,10 +59,8 @@ bool AssistantXmlReader::readFile(const QString &path)
     return true;
 }
 
-QString AssistantXmlReader::removeWhiteSpace(const QString &data)
-{
-    if (data.isEmpty())
-        return data;
+QString AssistantXmlReader::removeWhiteSpace(const QString &data) {
+    if (data.isEmpty()) return data;
 
     QStringList lines = data.split('\n');
 
@@ -102,8 +93,7 @@ QString AssistantXmlReader::removeWhiteSpace(const QString &data)
     return lines.join(QChar('\n'));
 }
 
-int AssistantXmlReader::trimLeft(QString &data)
-{
+int AssistantXmlReader::trimLeft(QString &data) {
     for (int index = 0; index < data.size(); ++index) {
         if (!data[index].isSpace()) {
             data.remove(0, index);
@@ -115,8 +105,7 @@ int AssistantXmlReader::trimLeft(QString &data)
     return ret;
 }
 
-void AssistantXmlReader::trimRight(QString &data)
-{
+void AssistantXmlReader::trimRight(QString &data) {
     for (int index = data.size() - 1; index >= 0; --index) {
         if (!data[index].isSpace()) {
             data.chop(data.size() - 1 - index);
@@ -126,8 +115,7 @@ void AssistantXmlReader::trimRight(QString &data)
     data.clear();
 }
 
-void AssistantXmlReader::readRootElement()
-{
+void AssistantXmlReader::readRootElement() {
     m_reader.readNext();
     while (!m_reader.atEnd()) {
         if (m_reader.isEndElement()) {
@@ -147,8 +135,7 @@ void AssistantXmlReader::readRootElement()
     }
 }
 
-void AssistantXmlReader::skipUnknownElement()
-{
+void AssistantXmlReader::skipUnknownElement() {
     m_reader.readNext();
     while (!m_reader.atEnd()) {
         if (m_reader.isEndElement()) {
@@ -163,10 +150,9 @@ void AssistantXmlReader::skipUnknownElement()
     }
 }
 
-void AssistantXmlReader::readAssistantElement()
-{
+void AssistantXmlReader::readAssistantElement() {
     QString name = m_reader.attributes().value("name").toString();
-    Assistant* assistant = new Assistant(name, this);
+    Assistant *assistant = new Assistant(name, this);
     m_items.append(assistant);
 
     m_reader.readNext();
@@ -188,8 +174,7 @@ void AssistantXmlReader::readAssistantElement()
     }
 }
 
-void AssistantXmlReader::readAssistantItemElement(Assistant *assistant)
-{
+void AssistantXmlReader::readAssistantItemElement(Assistant *assistant) {
     QString name = m_reader.attributes().value("name").toString();
     QStringList data;
     QStringList notes;
@@ -220,16 +205,12 @@ void AssistantXmlReader::readAssistantItemElement(Assistant *assistant)
         }
     }
 
-    AssistantItem* item = new AssistantItem(name,
-                                            data.join(QChar('\n')),
-                                            notes.join(QChar('\n')),
-                                            m_iconDir + "/" + assistant->name(),
-                                            assistant);
+    AssistantItem *item = new AssistantItem(
+        name, data.join(QChar('\n')), notes.join(QChar('\n')), m_iconDir + "/" + assistant->name(), assistant);
     assistant->append(item);
 }
 
-QString AssistantXmlReader::readAssistantItemNotes()
-{
+QString AssistantXmlReader::readAssistantItemNotes() {
     QString notes;
     m_reader.readNext();
     while (!m_reader.atEnd()) {
@@ -248,31 +229,15 @@ QString AssistantXmlReader::readAssistantItemNotes()
     return notes;
 }
 
-AssistantItem::AssistantItem(const QString &name, const QString &data, const QString& notes, const QString& icon_prefix, QObject *parent)
-    : QObject(parent)
-    , m_name(name)
-    , m_data(data)
-    , m_notes(notes)
-    , m_icon(icon_prefix + " - " + name + ".svg")
-{
-}
+AssistantItem::AssistantItem(
+    const QString &name, const QString &data, const QString &notes, const QString &icon_prefix, QObject *parent)
+    : QObject(parent), m_name(name), m_data(data), m_notes(notes), m_icon(icon_prefix + " - " + name + ".svg") {}
 
+Assistant::Assistant(const QString &name, QObject *parent) : QObject(parent), m_name(name) {}
 
-Assistant::Assistant(const QString &name, QObject *parent)
-    : QObject(parent)
-    , m_name(name)
-{
-}
-
-Assistant::~Assistant()
-{
-    foreach(AssistantItem* item, m_items) {
-        delete item;
-    }
+Assistant::~Assistant() {
+    foreach (AssistantItem *item, m_items) { delete item; }
     m_items.clear();
 }
 
-void Assistant::append(AssistantItem *item)
-{
-    m_items.append(item);
-}
+void Assistant::append(AssistantItem *item) { m_items.append(item); }

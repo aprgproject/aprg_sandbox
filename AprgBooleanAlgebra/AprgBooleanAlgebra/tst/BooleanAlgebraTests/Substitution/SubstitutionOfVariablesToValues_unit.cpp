@@ -5,14 +5,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks) {
     SubstitutionOfVariablesToValues substitution1;
     SubstitutionOfVariablesToValues substitution2{{"x", false}, {"y", true}};
     VariablesToValuesMap variableWithValues{{"x", false}, {"y", true}};
@@ -27,8 +24,7 @@ TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
     EXPECT_TRUE(substitution2.getValueForVariable("y"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks) {
     SubstitutionOfVariablesToValues substitution1;
     SubstitutionOfVariablesToValues substitution2({{"x", false}, {"y", true}});
 
@@ -36,8 +32,7 @@ TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks)
     EXPECT_FALSE(substitution2.isEmpty());
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", false}, {"y", true}});
 
     EXPECT_TRUE(substitution.isVariableFound("x"));
@@ -46,8 +41,7 @@ TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
     EXPECT_FALSE(substitution.isVariableFound("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks) {
     SubstitutionOfVariablesToValues substitution1;
     SubstitutionOfVariablesToValues substitution2({{"x", false}, {"y", true}});
 
@@ -55,8 +49,7 @@ TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks)
     EXPECT_EQ(2U, substitution2.getSize());
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks) {
     SubstitutionOfVariablesToValues substitution({{"x", false}, {"y", true}});
 
     EXPECT_FALSE(substitution.getValueForVariable("x"));
@@ -65,8 +58,7 @@ TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks)
     EXPECT_FALSE(substitution.getValueForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariableTerm)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariableTerm) {
     SubstitutionOfVariablesToValues substitution({{"x", true}});
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("x");
@@ -84,8 +76,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariableTe
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression) {
     SubstitutionOfVariablesToValues substitution({{"x", false}, {"y", true}});
     Expression expression1;
     Expression expression2(createExpressionIfPossible({"x", "&", "y"}));
@@ -99,8 +90,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm) {
     SubstitutionOfVariablesToValues substitution({{"x", false}, {"y", true}});
     Term term1;
     Term term2("x");
@@ -122,8 +112,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm6, verifyTerm6);
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitializerList)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitializerList) {
     SubstitutionOfVariablesToValues substitution;
 
     substitution.putVariablesWithValues({{"x", false}, {"y", true}});
@@ -134,8 +123,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitia
     EXPECT_FALSE(substitution.getValueForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap) {
     SubstitutionOfVariablesToValues substitution;
     VariablesToValuesMap variablesWithValues;
     variablesWithValues.emplace("x", false);
@@ -149,8 +137,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap)
     EXPECT_FALSE(substitution.getValueForVariable("b"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks) {
     SubstitutionOfVariablesToValues substitution;
 
     substitution.putVariableWithValue("x", true);
@@ -159,8 +146,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks)
     EXPECT_FALSE(substitution.getValueForVariable("a"));
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTheLastValue)
-{
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTheLastValue) {
     SubstitutionOfVariablesToValues substitution;
 
     substitution.putVariableWithValue("x", true);
@@ -170,6 +156,6 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTh
     EXPECT_FALSE(substitution.getValueForVariable("a"));
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

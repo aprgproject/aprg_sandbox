@@ -6,8 +6,7 @@
 
 using std::string;
 
-namespace codeReview
-{
+namespace codeReview {
 
 struct CPlusPlusClassTemplateParameter;
 struct CPlusPlusClassTemplateSignature;
@@ -16,8 +15,7 @@ class CPlusPlusClass;
 typedef vector<CPlusPlusClassTemplateParameter> CPlusPlusClassTemplateParameters;
 typedef vector<CPlusPlusClassTemplateSignature> CPlusPlusClassTemplateSignatures;
 
-class CPlusPlusClassTemplateParameter
-{
+class CPlusPlusClassTemplateParameter {
 public:
     CPlusPlusClassTemplateParameter(CPlusPlusType type, string name);
     string getString() const;
@@ -30,8 +28,7 @@ private:
     string m_name;
 };
 
-class CPlusPlusClassTemplateSignature
-{
+class CPlusPlusClassTemplateSignature {
 public:
     void addParameter(CPlusPlusType type, string name);
     string getString() const;
@@ -43,8 +40,7 @@ private:
     CPlusPlusClassTemplateParameters m_templateParameters;
 };
 
-class CPlusPlusClass
-{
+class CPlusPlusClass {
 public:
     explicit CPlusPlusClass();
     explicit CPlusPlusClass(string const& className);
@@ -75,14 +71,14 @@ private:
     CPlusPlusType m_type;
 };
 
-class CPlusPlusTemplateClass
-        : public CPlusPlusClass
-{
+class CPlusPlusTemplateClass : public CPlusPlusClass {
 public:
     explicit CPlusPlusTemplateClass();
-    explicit CPlusPlusTemplateClass(string const& templateClassName, CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
+    explicit CPlusPlusTemplateClass(
+        string const& templateClassName, CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
     void addTemplateInstantiation(CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
-    CPlusPlusType getTemplateClassInstantiationType(CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
+    CPlusPlusType getTemplateClassInstantiationType(
+        CPlusPlusClassTemplateSignature const& cPlusPlusClassTemplateSignature);
     CPlusPlusType& getTypeReference();
     CPlusPlusClassTemplateSignature& getTemplateSignatureReference();
     CPlusPlusClassTemplateSignature& getTemplateSignatureInstantiationReference(int instantiationIndex);
@@ -93,4 +89,4 @@ private:
     CPlusPlusType m_type;
 };
 
-}
+}  // namespace codeReview

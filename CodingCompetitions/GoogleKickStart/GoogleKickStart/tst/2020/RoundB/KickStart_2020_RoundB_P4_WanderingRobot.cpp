@@ -2,6 +2,7 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "KickStart_2020_RoundB_P4_WanderingRobot.hpp"
+
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
@@ -19,8 +20,7 @@ using namespace std;
 #ifndef FOR_SUBMISSION
 using namespace alba;
 #endif
-namespace KickStart_2020_RoundB_P4_WanderingRobot
-{
+namespace KickStart_2020_RoundB_P4_WanderingRobot {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #ifndef my_cout
@@ -30,14 +30,14 @@ namespace KickStart_2020_RoundB_P4_WanderingRobot
 
 vector<long double> logFact(int(3.1e5));
 
-void runTestCase(unsigned int const testCaseNumber)
-{
-    int X, Y; my_cin >> X >> Y;
+void runTestCase(unsigned int const testCaseNumber) {
+    int X, Y;
+    my_cin >> X >> Y;
     int Xlo, Xhi, Ylo, Yhi;
     my_cin >> Xlo >> Ylo >> Xhi >> Yhi;
 
     auto probPath = [&](int r, int c) -> long double {
-        return exp(logFact[r+c] - logFact[r] - logFact[c] - (r+c) * log(2.L));
+        return exp(logFact[r + c] - logFact[r] - logFact[c] - (r + c) * log(2.L));
     };
     // we'll just casework on the first entry
     vector<long double> sumAnds;
@@ -70,22 +70,19 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
 }
 
-void runAllTestCases()
-{
+void runAllTestCases() {
     for (int i = 1; i < int(logFact.size()); i++) {
-        logFact[i] = logFact[i-1] + log((long double)(i));
+        logFact[i] = logFact[i - 1] + log((long double)(i));
     }
 
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
 
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
 
@@ -95,8 +92,6 @@ int main()
 }
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-}
+}  // namespace KickStart_2020_RoundB_P4_WanderingRobot
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
-
-

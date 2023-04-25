@@ -6,24 +6,19 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-AllPartialSumsInKnapsack::AllPartialSumsInKnapsack(Values const& values)
-    : m_inputValues(values)
-{}
+AllPartialSumsInKnapsack::AllPartialSumsInKnapsack(Values const& values) : m_inputValues(values) {}
 
-AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSums() const
-{
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSums() const {
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0U));
-    Booleans isPartialSumPossible(sum+1, false); // zero index is for zero value, sum index is for the sum
+    Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
     isPartialSumPossible[0] = true;
-    for(Value const& inputValue : m_inputValues)
-    {
-        for(Value partialSum=sum; partialSum>0; partialSum--) // reverse traversal so that the changed values wont be changed again in one iteration
+    for (Value const& inputValue : m_inputValues) {
+        for (Value partialSum = sum; partialSum > 0;
+             partialSum--)  // reverse traversal so that the changed values wont be changed again in one iteration
         {
-            if(partialSum >= inputValue && isPartialSumPossible.at(partialSum-inputValue))
-            {
+            if (partialSum >= inputValue && isPartialSumPossible.at(partialSum - inputValue)) {
                 isPartialSumPossible[partialSum] = true;
             }
         }
@@ -31,20 +26,17 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     return getAllPossiblePartialSums(isPartialSumPossible);
 }
 
-AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsBySettingFutureValues() const
-{
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsBySettingFutureValues() const {
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0U));
-    Booleans isPartialSumPossible(sum+1, false); // zero index is for zero value, sum index is for the sum
+    Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
     isPartialSumPossible[0] = true;
-    for(Value const& inputValue : m_inputValues)
-    {
-        for(int partialSum=sum; partialSum>=0; partialSum--) // reverse traversal so that the changed values wont be changed again in one iteration
+    for (Value const& inputValue : m_inputValues) {
+        for (int partialSum = sum; partialSum >= 0;
+             partialSum--)  // reverse traversal so that the changed values wont be changed again in one iteration
         {
-            if(isPartialSumPossible.at(partialSum))
-            {
-                Value possibleNextValue = static_cast<Value>(partialSum)+inputValue;
-                if(possibleNextValue <= sum)
-                {
+            if (isPartialSumPossible.at(partialSum)) {
+                Value possibleNextValue = static_cast<Value>(partialSum) + inputValue;
+                if (possibleNextValue <= sum) {
                     isPartialSumPossible[possibleNextValue] = true;
                 }
             }
@@ -53,8 +45,7 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     return getAllPossiblePartialSums(isPartialSumPossible);
 }
 
-AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsWithSquareRootAlgorithm()
-{
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsWithSquareRootAlgorithm() {
     // Some square root algorithms are based on the following observation:
     // if a positive integer n is represented as a sum of positive integers,
     // such a sum always contains at most O(sqrt(n)) distinct numbers.
@@ -63,35 +54,35 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     // If we choose the numbers 1,2,...,k, the resulting sum is (k*(k+1))/2
     // Thus, the maximum amount of distinct numbers is k = O(sqrt(n)).
 
-    // However, we can make the algorithm more efficient by using the fact that there are at most O(sqrt(n)) distinct weights.
-    // Thus, we can process the weights in groups that consists of similar weights.
-    // We can process each group in O(n) time, which yields an O(sqrt(n))) time algorithm.
-    // The idea is to use an array that records the sums of weights that can be formed using the groups processed so far.
-    // The array contains n elements: element k is 1 if the sum k can be formed and 0 otherwise.
-    // To process a group of weights, we scan the array from left to right
-    // and record the new sums of weights that can be formed using this group and the previous groups.
+    // However, we can make the algorithm more efficient by using the fact that there are at most O(sqrt(n)) distinct
+    // weights. Thus, we can process the weights in groups that consists of similar weights. We can process each group
+    // in O(n) time, which yields an O(sqrt(n))) time algorithm. The idea is to use an array that records the sums of
+    // weights that can be formed using the groups processed so far. The array contains n elements: element k is 1 if
+    // the sum k can be formed and 0 otherwise. To process a group of weights, we scan the array from left to right and
+    // record the new sums of weights that can be formed using this group and the previous groups.
 
-    map<Value, unsigned int> inputValueToCount; // divide into groups of distinct weights and count number of same weights
-    for(Value const inputValue : m_inputValues) // n*log(n)
+    map<Value, unsigned int>
+        inputValueToCount;  // divide into groups of distinct weights and count number of same weights
+    for (Value const inputValue : m_inputValues)  // n*log(n)
     {
         inputValueToCount.emplace(inputValue, 0U);
         inputValueToCount[inputValue]++;
     }
 
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0U));
-    Booleans isPartialSumPossible(sum+1, false); // zero index is for zero value, sum index is for the sum
+    Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
     isPartialSumPossible[0] = true;
 
-    for(auto const& inputValueAndCountPair : inputValueToCount) // sqrt(n) distinct numbers
+    for (auto const& inputValueAndCountPair : inputValueToCount)  // sqrt(n) distinct numbers
     {
         // reverse traversal so that the changed values wont be changed again in one iteration
-        for(int partialSumIndex=sum; partialSumIndex>=0; partialSumIndex--) // O(n) or linear time
+        for (int partialSumIndex = sum; partialSumIndex >= 0; partialSumIndex--)  // O(n) or linear time
         {
-            if(isPartialSumPossible.at(partialSumIndex))
-            {
-                for(unsigned int i=1; i<=inputValueAndCountPair.second; i++) // near constant time
+            if (isPartialSumPossible.at(partialSumIndex)) {
+                for (unsigned int i = 1; i <= inputValueAndCountPair.second; i++)  // near constant time
                 {
-                    isPartialSumPossible[static_cast<Value>(partialSumIndex)+(i*inputValueAndCountPair.first)] = true;
+                    isPartialSumPossible[static_cast<Value>(partialSumIndex) + (i * inputValueAndCountPair.first)] =
+                        true;
                 }
             }
         }
@@ -100,17 +91,16 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
 }
 
 AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSums(
-        Booleans const& isPartialSumPossible) const
-{
+    Booleans const& isPartialSumPossible) const {
     Values result;
-    for(unsigned int partialSumIndex=0; partialSumIndex<isPartialSumPossible.size(); partialSumIndex++) // O(n) or linear time
+    for (unsigned int partialSumIndex = 0; partialSumIndex < isPartialSumPossible.size();
+         partialSumIndex++)  // O(n) or linear time
     {
-        if(isPartialSumPossible.at(partialSumIndex))
-        {
+        if (isPartialSumPossible.at(partialSumIndex)) {
             result.emplace_back(partialSumIndex);
         }
     }
     return result;
 }
 
-}
+}  // namespace alba

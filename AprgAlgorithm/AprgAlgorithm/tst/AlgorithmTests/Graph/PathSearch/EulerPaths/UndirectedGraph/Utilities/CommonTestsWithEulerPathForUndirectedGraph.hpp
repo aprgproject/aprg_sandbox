@@ -2,18 +2,14 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithEulerPathForUndirectedGraph
-{
+namespace CommonTestsWithEulerPathForUndirectedGraph {
 
 template <typename PathSearch, typename Graph>
-void testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices()
-{
+void testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -24,8 +20,7 @@ void testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices()
-{
+void testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -35,8 +30,7 @@ void testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices()
-{
+void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     PathSearch pathSearch(graph);
@@ -45,8 +39,7 @@ void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices()
-{
+void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -56,8 +49,7 @@ void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices()
-{
+void testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -68,8 +60,7 @@ void testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleWorksOnEmptyGraph()
-{
+void testGetEulerCycleWorksOnEmptyGraph() {
     using Path = typename PathSearch::Path;
     Graph graph;
     PathSearch pathSearch(graph);
@@ -80,8 +71,7 @@ void testGetEulerCycleWorksOnEmptyGraph()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices()
-{
+void testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -95,8 +85,7 @@ void testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices()
-{
+void testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -108,8 +97,7 @@ void testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerPathWorksOnEmptyGraph()
-{
+void testGetEulerPathWorksOnEmptyGraph() {
     using Path = typename PathSearch::Path;
     Graph graph;
     PathSearch pathSearch(graph);
@@ -120,8 +108,7 @@ void testGetEulerPathWorksOnEmptyGraph()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices()
-{
+void testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -134,8 +121,7 @@ void testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices()
-{
+void testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices() {
     Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -148,8 +134,7 @@ void testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleAndPathWorksOnExample1()
-{
+void testGetEulerCycleAndPathWorksOnExample1() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(1U, 2U);
@@ -170,8 +155,7 @@ void testGetEulerCycleAndPathWorksOnExample1()
 }
 
 template <typename PathSearch, typename Graph>
-void testGetEulerCycleAndPathWorksOnExample2()
-{
+void testGetEulerCycleAndPathWorksOnExample2() {
     using Path = typename PathSearch::Path;
     Graph graph;
     graph.connect(1U, 2U);
@@ -195,8 +179,8 @@ void testGetEulerCycleAndPathWorksOnExample2()
     EXPECT_EQ(cycleToExpect, cycleToVerify);
 }
 
-}
+}  // namespace CommonTestsWithEulerPathForUndirectedGraph
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

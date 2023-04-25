@@ -5,24 +5,20 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using SubTreeQueryForTest = SubTreeQueryWithPathAccumulator<VertexForTest>;
 using VerticesForTest = SubTreeQueryForTest::Vertices;
 using CountsForTest = SubTreeQueryForTest::Counts;
 SubTreeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
-}
+}  // namespace
 
-TEST(SubTreeQueryWithPathAccumulatorTest, Example1Works)
-{
+TEST(SubTreeQueryWithPathAccumulatorTest, Example1Works) {
     GraphForTest graph;
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
@@ -42,6 +38,6 @@ TEST(SubTreeQueryWithPathAccumulatorTest, Example1Works)
     EXPECT_EQ(12U, subTreeQuery.getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(7U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

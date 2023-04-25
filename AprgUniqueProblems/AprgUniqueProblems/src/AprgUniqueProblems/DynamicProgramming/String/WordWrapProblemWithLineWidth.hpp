@@ -5,18 +5,15 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class WordWrapProblemWithLineWidth
-{
+class WordWrapProblemWithLineWidth {
 public:
     using Index = unsigned int;
     using Cost = unsigned int;
     using Indices = std::vector<Index>;
     using Costs = std::vector<Cost>;
-    struct RecursionDetails
-    {
+    struct RecursionDetails {
         Indices lineLengths;
     };
     using ExtraSpacesGrid = matrix::AlbaMatrix<int>;
@@ -38,7 +35,7 @@ private:
     stringHelper::strings m_words;
 };
 
-}
+}  // namespace alba
 
 // Word Wrap Problem
 
@@ -64,10 +61,9 @@ private:
 // -> The total extra spaces in line 1, line 2 and line 3 are 0, 2 and 3 respectively.
 // -> So optimal value of total cost is 0 + 2*2 + 3*3 = 13
 
-// Please note that the total cost function is not sum of extra spaces, but sum of cubes (or square is also used) of extra spaces.
-// The idea behind this cost function is to balance the spaces among lines.
-// For example, consider the following two arrangement of same set of words:
-// 1) There are 3 lines.
+// Please note that the total cost function is not sum of extra spaces, but sum of cubes (or square is also used) of
+// extra spaces. The idea behind this cost function is to balance the spaces among lines. For example, consider the
+// following two arrangement of same set of words: 1) There are 3 lines.
 // -> One line has 3 extra spaces and all other lines have 0 extra spaces.
 // -> Total extra spaces = 3 + 0 + 0 = 3.
 // -> Total cost = 3*3*3 + 0*0*0 + 0*0*0 = 27.
@@ -75,8 +71,9 @@ private:
 // -> Each of the 3 lines has one extra space.
 // -> Total extra spaces = 1 + 1 + 1 = 3.
 // -> Total cost = 1*1*1 + 1*1*1 + 1*1*1 = 3.
-// Total extra spaces are 3 in both scenarios, but second arrangement should be preferred because extra spaces are balanced in all three lines.
-// The cost function with cubic sum serves the purpose because the value of total cost in second scenario is less.
+// Total extra spaces are 3 in both scenarios, but second arrangement should be preferred because extra spaces are
+// balanced in all three lines. The cost function with cubic sum serves the purpose because the value of total cost in
+// second scenario is less.
 
 // Method 1 (Greedy Solution)
 // The greedy solution is to place as many words as possible in the first line.
@@ -97,16 +94,17 @@ private:
 // -> ddddd
 // Extra spaces in the above 3 lines are 3, 1 and 1 respectively.
 // So total cost is 27 + 1 + 1 = 29.
-// Despite being sub-optimal in some cases, the greedy approach is used by many word processors like MS Word and OpenOffice.org Writer.
+// Despite being sub-optimal in some cases, the greedy approach is used by many word processors like MS Word and
+// OpenOffice.org Writer.
 
 // Method 2 (Dynamic Programming)
 // The following Dynamic approach strictly follows the algorithm given in solution of Cormen book.
 // First we compute costs of all possible lines in a 2D table lc[][].
-// The value lc[i][j] indicates the cost to put words from i to j in a single line where i and j are indexes of words in the input sequences.
-// If a sequence of words from i to j cannot fit in a single line, then lc[i][j] is considered infinite (to avoid it from being a part of the solution).
-// Once we have the lc[][] table constructed, we can calculate total cost using following recursive formula.
-// In the following formula, C[j] is the optimized total cost for arranging words from 1 to j.
-
+// The value lc[i][j] indicates the cost to put words from i to j in a single line where i and j are indexes of words in
+// the input sequences. If a sequence of words from i to j cannot fit in a single line, then lc[i][j] is considered
+// infinite (to avoid it from being a part of the solution). Once we have the lc[][] table constructed, we can calculate
+// total cost using following recursive formula. In the following formula, C[j] is the optimized total cost for
+// arranging words from 1 to j.
 
 // Word Wrap problem (space optimized solution)
 
@@ -129,7 +127,8 @@ private:
 // ---> So optimal value of total cost is 0 + 2*2 = 4.
 
 // Examples:
-// -> Input format: Input will consists of array of integers where each array element represents length of each word of string.
+// -> Input format: Input will consists of array of integers where each array element represents length of each word of
+// string.
 // ---> For example, for string S = "Geeks for Geeks", input array will be arr[] = {5, 3, 5}.
 // -> Output format: Output consists of a series of integers
 // ---> where two consecutive integers represent starting word and ending word of each line.
@@ -160,6 +159,5 @@ private:
 // -> If number of characters are less than k then find cost of current line with these number of characters.
 // -> Compare this cost with minimum cost find so far for this line in dp[i] and update dp[i] and ans[i] accordingly.
 // -> Repeat above procedure for each value of i, 1 <= i <= n.
-// -> The starting and ending words of each line will be at index i and index ans[i], where next value of i for line l+1 is ans[i] + 1.
-
-
+// -> The starting and ending words of each line will be at index i and index ans[i], where next value of i for line l+1
+// is ans[i] + 1.

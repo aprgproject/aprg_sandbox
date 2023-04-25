@@ -3,14 +3,11 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(CreateHelpersTest, CreateExpressionInExpressionWorks)
-{
+TEST(CreateHelpersTest, CreateExpressionInExpressionWorks) {
     Expression expression1(createExpressionIfPossible({false}));
     Expression expression2(createExpressionIfPossible({true}));
 
@@ -23,8 +20,7 @@ TEST(CreateHelpersTest, CreateExpressionInExpressionWorks)
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks)
-{
+TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks) {
     Expression expression1(createExpressionIfPossible({false}));
     Expression expression2(createExpressionIfPossible({true}));
 
@@ -36,8 +32,7 @@ TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks)
     EXPECT_EQ(expression2, expressionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks)
-{
+TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks) {
     Expression expression1(createExpressionIfPossible({false}));
     Expression expression2(createExpressionIfPossible({true}));
 
@@ -48,8 +43,7 @@ TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks)
     EXPECT_EQ(expression2, expressionToVerify2);
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks) {
     Expression expressionToTest(createExpressionIfPossible({"x", "&", "y"}));
 
     EXPECT_EQ(OperatorLevel::And, expressionToTest.getCommonOperatorLevel());
@@ -59,8 +53,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks)
     EXPECT_EQ(Term("y"), getTermConstReferenceFromUniquePointer(termsToVerify.at(1).baseTermPointer));
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression) {
     Expression expression1(createExpressionIfPossible({true}));
     Expression expression2(createExpressionInAnExpression(expression1));
     Expression expression3(createExpressionInAnExpression(expression2));
@@ -87,8 +80,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAEx
     EXPECT_EQ(Constant(true), termToVerify3.getConstantConstReference());
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify) {
     Expression expressionToTest(createExpressionIfPossible({"x", "&", "x"}));
 
     EXPECT_EQ(OperatorLevel::And, expressionToTest.getCommonOperatorLevel());
@@ -98,8 +90,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify)
     EXPECT_EQ(Term("x"), getTermConstReferenceFromUniquePointer(termsToVerify.at(1).baseTermPointer));
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
-{
+TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong) {
     Expression expressionToTest(createExpressionIfPossible({"x", "&", "|", "y"}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -107,8 +98,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWr
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks)
-{
+TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks) {
     Expression expressionToTest(createSimplifiedExpressionIfPossible({true, "&", false}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -117,8 +107,7 @@ TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks)
     EXPECT_EQ(Term(false), getTermConstReferenceFromUniquePointer(termsToVerify.at(0).baseTermPointer));
 }
 
-TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
-{
+TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong) {
     Expression expressionToTest(createSimplifiedExpressionIfPossible({"&", "&", "&"}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -126,8 +115,7 @@ TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOf
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionWrappedTermsWorksWithASingleTerm)
-{
+TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionWrappedTermsWorksWithASingleTerm) {
     WrappedTerms wrappedTerms{Term("x")};
 
     Term termToExpect(createTermWithAndOperationWrappedTerms(wrappedTerms));
@@ -136,12 +124,8 @@ TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionWrappedTermsWorksWit
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionWrappedTermsWorksWithMultipleTerms)
-{
-    WrappedTerms wrappedTerms
-    {Term("x"),
-    Term("y"),
-    Term("z")};
+TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionWrappedTermsWorksWithMultipleTerms) {
+    WrappedTerms wrappedTerms{Term("x"), Term("y"), Term("z")};
 
     Term termToExpect(createTermWithAndOperationWrappedTerms(wrappedTerms));
 
@@ -149,8 +133,7 @@ TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionWrappedTermsWorksWit
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionWrappedTermsWorksWithASingleTerm)
-{
+TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionWrappedTermsWorksWithASingleTerm) {
     WrappedTerms wrappedTerms{Term("x")};
 
     Term termToExpect(createTermWithOrOperationWrappedTerms(wrappedTerms));
@@ -159,12 +142,8 @@ TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionWrappedTermsWorks
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionWrappedTermsWorksWithMultipleTerms)
-{
-    WrappedTerms wrappedTerms
-    {Term("x"),
-    Term("y"),
-    Term("z")};
+TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionWrappedTermsWorksWithMultipleTerms) {
+    WrappedTerms wrappedTerms{Term("x"), Term("y"), Term("z")};
 
     Term termToExpect(createTermWithOrOperationWrappedTerms(wrappedTerms));
 
@@ -172,6 +151,6 @@ TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionWrappedTermsWorks
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

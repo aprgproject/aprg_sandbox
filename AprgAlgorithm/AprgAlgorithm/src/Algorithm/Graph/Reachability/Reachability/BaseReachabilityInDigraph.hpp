@@ -2,22 +2,18 @@
 
 #include <Algorithm/Graph/BaseGraph.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Vertex>
-class BaseReachabilityInDigraph
-{
+class BaseReachabilityInDigraph {
 public:
-
-    virtual ~BaseReachabilityInDigraph() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseReachabilityInDigraph() = default;  // virtual destructor because of virtual functions (vtable exists)
 
     virtual bool isReachable(Vertex const& destinationVertex) const = 0;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

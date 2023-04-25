@@ -2,11 +2,9 @@
 
 #include <BooleanAlgebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
 // Not: ~a
 // Not operators are declared in the class
@@ -45,7 +43,6 @@ Term operator|(Term const& term, Constant const& constant);
 Term operator|(Term const& term, VariableTerm const& variableTerm);
 Term operator|(Term const& term, Expression const& expression);
 
+}  // namespace booleanAlgebra
 
-}
-
-}
+}  // namespace alba

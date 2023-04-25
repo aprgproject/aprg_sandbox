@@ -16,46 +16,26 @@ using namespace std;
 #define ALBA_LARGE_SORTER_TEST_FILE APRG_DIR R"(\AprgAlgorithm\FilesForTests\LargeSorterTest\Test1.txt)"
 #define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(\AprgAlgorithm\FilesForTests\LargeSorterTest\blocks\)"
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-struct TestObject
-{
-    TestObject()
-        : valueInteger{}
-        , valueDouble{}
-        , valueCharacter{}
-        , valueString()
-    {}
+struct TestObject {
+    TestObject() : valueInteger{}, valueDouble{}, valueCharacter{}, valueString() {}
 
     TestObject(
-            int const valueIntegerParameter,
-            double const valueDoubleParameter,
-            char const valueCharacterParameter,
-            string const& valueStringParameter)
-        : valueInteger(valueIntegerParameter)
-        , valueDouble(valueDoubleParameter)
-        , valueCharacter(valueCharacterParameter)
-        , valueString(valueStringParameter)
-    {}
-    bool operator<(TestObject const& testObject) const
-    {
-        return valueInteger < testObject.valueInteger;
-    }
-    bool operator>(TestObject const& testObject) const
-    {
-        return valueInteger > testObject.valueInteger;
-    }
-    bool operator==(TestObject const& testObject) const
-    {
-        return valueInteger == testObject.valueInteger;
-    }
+        int const valueIntegerParameter, double const valueDoubleParameter, char const valueCharacterParameter,
+        string const& valueStringParameter)
+        : valueInteger(valueIntegerParameter),
+          valueDouble(valueDoubleParameter),
+          valueCharacter(valueCharacterParameter),
+          valueString(valueStringParameter) {}
+    bool operator<(TestObject const& testObject) const { return valueInteger < testObject.valueInteger; }
+    bool operator>(TestObject const& testObject) const { return valueInteger > testObject.valueInteger; }
+    bool operator==(TestObject const& testObject) const { return valueInteger == testObject.valueInteger; }
 
-    friend ostream& operator<<(ostream & out, TestObject const& testObject);
-    friend istream& operator>>(istream & in, TestObject& testObject);
+    friend ostream& operator<<(ostream& out, TestObject const& testObject);
+    friend istream& operator>>(istream& in, TestObject& testObject);
 
     int valueInteger;
     double valueDouble;
@@ -63,64 +43,59 @@ struct TestObject
     string valueString;
 };
 
-ostream& operator<<(ostream & out, TestObject const& testObject)
-{
+ostream& operator<<(ostream& out, TestObject const& testObject) {
     out << testObject.valueInteger << "\n";
     out << testObject.valueDouble << "\n";
     out << testObject.valueCharacter << "\n";
     out << testObject.valueString.empty() << "\n";
-    if(!testObject.valueString.empty())
-    {
+    if (!testObject.valueString.empty()) {
         out << testObject.valueString;
     }
     return out;
 }
 
-istream& operator>>(istream & in, TestObject& testObject)
-{
+istream& operator>>(istream& in, TestObject& testObject) {
     bool isEmpty(true);
     in >> testObject.valueInteger;
     in >> testObject.valueDouble;
     in >> testObject.valueCharacter;
     in >> isEmpty;
-    if(!isEmpty)
-    {
+    if (!isEmpty) {
         in >> testObject.valueString;
     }
     return in;
 }
 
-TEST(AlbaLargeSorterTest, ObjectsCanBeSavedAndLoadFromFile)
-{
+TEST(AlbaLargeSorterTest, ObjectsCanBeSavedAndLoadFromFile) {
     ofstream outputTestFile(AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).getFullPath());
-    outputTestFile<<TestObject(0, 0, '0', "")<<"\n";
-    outputTestFile<<TestObject(1, 1.1, 'a', "firstString")<<"\n";
-    outputTestFile<<TestObject(2000, 1.222, 'b', "secondString")<<"\n";
-    outputTestFile<<TestObject(333333, 3.3, 'c', "thirdString")<<"\n";
+    outputTestFile << TestObject(0, 0, '0', "") << "\n";
+    outputTestFile << TestObject(1, 1.1, 'a', "firstString") << "\n";
+    outputTestFile << TestObject(2000, 1.222, 'b', "secondString") << "\n";
+    outputTestFile << TestObject(333333, 3.3, 'c', "thirdString") << "\n";
     outputTestFile.close();
 
     ifstream inputTestFile(AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).getFullPath());
     TestObject testObject;
 
-    inputTestFile>>testObject;
+    inputTestFile >> testObject;
     EXPECT_EQ(0, testObject.valueInteger);
     EXPECT_DOUBLE_EQ(0, testObject.valueDouble);
     EXPECT_EQ('0', testObject.valueCharacter);
     EXPECT_EQ("", testObject.valueString);
 
-    inputTestFile>>testObject;
+    inputTestFile >> testObject;
     EXPECT_EQ(1, testObject.valueInteger);
     EXPECT_DOUBLE_EQ(1.1, testObject.valueDouble);
     EXPECT_EQ('a', testObject.valueCharacter);
     EXPECT_EQ("firstString", testObject.valueString);
 
-    inputTestFile>>testObject;
+    inputTestFile >> testObject;
     EXPECT_EQ(2000, testObject.valueInteger);
     EXPECT_DOUBLE_EQ(1.222, testObject.valueDouble);
     EXPECT_EQ('b', testObject.valueCharacter);
     EXPECT_EQ("secondString", testObject.valueString);
 
-    inputTestFile>>testObject;
+    inputTestFile >> testObject;
     EXPECT_EQ(333333, testObject.valueInteger);
     EXPECT_DOUBLE_EQ(3.3, testObject.valueDouble);
     EXPECT_EQ('c', testObject.valueCharacter);
@@ -129,38 +104,32 @@ TEST(AlbaLargeSorterTest, ObjectsCanBeSavedAndLoadFromFile)
     inputTestFile.close();
 }
 
-TEST(AlbaLargeSorterTest, ConfigurationTest_SuccessfulWhenTheConfigurationIsValid)
-{
+TEST(AlbaLargeSorterTest, ConfigurationTest_SuccessfulWhenTheConfigurationIsValid) {
     AlbaLargeSorterConfiguration configuration(ALBA_LARGE_SORTER_BLOCK_DIR, 100, 1000, 1, 100);
     EXPECT_TRUE(configuration.isConfigurationValid());
 }
 
-TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenTheDirectoryDoesNotExist)
-{
+TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenTheDirectoryDoesNotExist) {
     AlbaLargeSorterConfiguration configuration("io23i4uoiyw4oiy5", 100, 1000, 1, 100);
     EXPECT_FALSE(configuration.isConfigurationValid());
 }
 
-TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenDirectoryPathIsGiven)
-{
+TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenDirectoryPathIsGiven) {
     AlbaLargeSorterConfiguration configuration(ALBA_LARGE_SORTER_TEST_FILE, 100, 1000, 1, 100);
     EXPECT_FALSE(configuration.isConfigurationValid());
 }
 
-TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenMiminumIsZero)
-{
+TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenMiminumIsZero) {
     AlbaLargeSorterConfiguration configuration(ALBA_LARGE_SORTER_TEST_FILE, 0, 1000, 1, 100);
     EXPECT_FALSE(configuration.isConfigurationValid());
 }
 
-TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenMiminumIsGreaterThanMaximum)
-{
+TEST(AlbaLargeSorterTest, ConfigurationTest_FailedWhenMiminumIsGreaterThanMaximum) {
     AlbaLargeSorterConfiguration configuration(ALBA_LARGE_SORTER_TEST_FILE, 100, 99, 1, 100);
     EXPECT_FALSE(configuration.isConfigurationValid());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeAdded)
-{
+TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeAdded) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
@@ -170,8 +139,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeAdded)
     EXPECT_EQ(5U, cache.getContainerReference().size());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated)
-{
+TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
@@ -185,8 +153,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated)
     EXPECT_EQ(5U, cache.getContainerReference().size());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeDeleted)
-{
+TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeDeleted) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
@@ -201,8 +168,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeDeleted)
     EXPECT_TRUE(cache.getContainerReference().empty());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_CacheIsUnchangedByDeletionOfNonExistingObjects)
-{
+TEST(AlbaLargeSorterTest, CacheTest_CacheIsUnchangedByDeletionOfNonExistingObjects) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
@@ -217,8 +183,7 @@ TEST(AlbaLargeSorterTest, CacheTest_CacheIsUnchangedByDeletionOfNonExistingObjec
     EXPECT_EQ(5U, cache.getContainerReference().size());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_EarliestObjectsCanBePop)
-{
+TEST(AlbaLargeSorterTest, CacheTest_EarliestObjectsCanBePop) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
@@ -233,8 +198,7 @@ TEST(AlbaLargeSorterTest, CacheTest_EarliestObjectsCanBePop)
     EXPECT_TRUE(cache.getContainerReference().empty());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_CacheCanBeCleared)
-{
+TEST(AlbaLargeSorterTest, CacheTest_CacheCanBeCleared) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
@@ -245,15 +209,14 @@ TEST(AlbaLargeSorterTest, CacheTest_CacheCanBeCleared)
     EXPECT_TRUE(cache.getContainerReference().empty());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched)
-{
+TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched) {
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
     cache.addBlock(2, 20);
     cache.addBlock(3, 30);
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
-    DataBlockCache<int>::BlockCacheContainer & container(cache.getContainerReference());
+    DataBlockCache<int>::BlockCacheContainer& container(cache.getContainerReference());
     ASSERT_EQ(5U, container.size());
     EXPECT_EQ(50, container[0].m_blockInformation);
     EXPECT_EQ(40, container[1].m_blockInformation);
@@ -262,20 +225,19 @@ TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched)
     EXPECT_EQ(10, container[4].m_blockInformation);
 }
 
-TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterRelease)
-{
+TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterRelease) {
     AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).deleteFile();
 
     DataBlockFileHandler<int> fileHandler;
     fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
     ASSERT_TRUE(fileHandler.isFileStreamOpened());
-    fileHandler.getFileDumpStreamReference()<<1<<"\n";
-    fileHandler.getFileDumpStreamReference()<<2<<"\n";
+    fileHandler.getFileDumpStreamReference() << 1 << "\n";
+    fileHandler.getFileDumpStreamReference() << 2 << "\n";
     fileHandler.releaseFileStream();
     fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
     ASSERT_TRUE(fileHandler.isFileStreamOpened());
-    fileHandler.getFileDumpStreamReference()<<3<<"\n";
-    fileHandler.getFileDumpStreamReference()<<4<<"\n";
+    fileHandler.getFileDumpStreamReference() << 3 << "\n";
+    fileHandler.getFileDumpStreamReference() << 4 << "\n";
     fileHandler.releaseFileStream();
 
     AlbaLocalPathHandler inputPathHandler(ALBA_LARGE_SORTER_TEST_FILE);
@@ -283,47 +245,40 @@ TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterReleas
     int valueFromFile;
     ifstream inputTestFile(inputPathHandler.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-    inputTestFile>>valueFromFile;
+    inputTestFile >> valueFromFile;
     EXPECT_EQ(1, valueFromFile);
-    inputTestFile>>valueFromFile;
+    inputTestFile >> valueFromFile;
     EXPECT_EQ(2, valueFromFile);
-    inputTestFile>>valueFromFile;
+    inputTestFile >> valueFromFile;
     EXPECT_EQ(3, valueFromFile);
-    inputTestFile>>valueFromFile;
+    inputTestFile >> valueFromFile;
     EXPECT_EQ(4, valueFromFile);
 }
 
-TEST(AlbaLargeSorterTest, SorterIsInitiallyEmpty)
-{
+TEST(AlbaLargeSorterTest, SorterIsInitiallyEmpty) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 100, 1000, 1000, 100));
     EXPECT_TRUE(largeSorter.isEmpty());
 }
 
-TEST(AlbaLargeSorterTest, SorterIsNotEmptyWhenElementIsNotAdded)
-{
+TEST(AlbaLargeSorterTest, SorterIsNotEmptyWhenElementIsNotAdded) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 100, 1000, 1000, 100));
     largeSorter.add(1);
     EXPECT_FALSE(largeSorter.isEmpty());
 }
 
-TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreFoundWhenAdded)
-{
+TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreFoundWhenAdded) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 100, 1000, 1000, 100));
-    for(int inputValue=0; inputValue<100; inputValue++)
-    {
+    for (int inputValue = 0; inputValue < 100; inputValue++) {
         largeSorter.add(inputValue);
     }
 
-    int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
-    });
+    int expectedValue = 0;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects(
+        [&expectedValue](int const& actualValue) { EXPECT_EQ(expectedValue++, actualValue); });
     EXPECT_EQ(100, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenAdded)
-{
+TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenAdded) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 10, 100, 100, 100));
     largeSorter.add(8);
     largeSorter.add(4);
@@ -336,67 +291,63 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenAdded)
     largeSorter.add(6);
     largeSorter.add(0);
 
-    int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
-    });
+    int expectedValue = 0;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects(
+        [&expectedValue](int const& actualValue) { EXPECT_EQ(expectedValue++, actualValue); });
     EXPECT_EQ(10, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMemoryIsLimited)
-{
+TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMemoryIsLimited) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
-    for(int inputValue=0; inputValue<10; inputValue++)
-    {
+    for (int inputValue = 0; inputValue < 10; inputValue++) {
         largeSorter.add(inputValue);
     }
 
     int integerInFile;
-    ifstream inputTestFile0(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_1.txt)").getFullPath());
-    ifstream inputTestFile1(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_2.txt)").getFullPath());
-    ifstream inputTestFile2(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_3.txt)").getFullPath());
-    ifstream inputTestFile3(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_4.txt)").getFullPath());
+    ifstream inputTestFile0(
+        AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_1.txt)").getFullPath());
+    ifstream inputTestFile1(
+        AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_2.txt)").getFullPath());
+    ifstream inputTestFile2(
+        AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_3.txt)").getFullPath());
+    ifstream inputTestFile3(
+        AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_4.txt)").getFullPath());
     ASSERT_TRUE(inputTestFile0.is_open());
-    inputTestFile0>>integerInFile;
+    inputTestFile0 >> integerInFile;
     EXPECT_EQ(0, integerInFile);
-    inputTestFile0>>integerInFile;
+    inputTestFile0 >> integerInFile;
     EXPECT_EQ(1, integerInFile);
-    inputTestFile0>>integerInFile;
+    inputTestFile0 >> integerInFile;
     EXPECT_EQ(2, integerInFile);
     ASSERT_TRUE(inputTestFile1.is_open());
-    inputTestFile1>>integerInFile;
+    inputTestFile1 >> integerInFile;
     EXPECT_EQ(3, integerInFile);
-    inputTestFile1>>integerInFile;
+    inputTestFile1 >> integerInFile;
     EXPECT_EQ(4, integerInFile);
-    inputTestFile1>>integerInFile;
+    inputTestFile1 >> integerInFile;
     EXPECT_EQ(5, integerInFile);
     ASSERT_TRUE(inputTestFile2.is_open());
-    inputTestFile2>>integerInFile;
+    inputTestFile2 >> integerInFile;
     EXPECT_EQ(6, integerInFile);
-    inputTestFile2>>integerInFile;
+    inputTestFile2 >> integerInFile;
     EXPECT_EQ(7, integerInFile);
-    inputTestFile2>>integerInFile;
+    inputTestFile2 >> integerInFile;
     EXPECT_EQ(8, integerInFile);
     ASSERT_TRUE(inputTestFile3.is_open());
-    inputTestFile3>>integerInFile;
+    inputTestFile3 >> integerInFile;
     EXPECT_EQ(9, integerInFile);
-    int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
-    });
+    int expectedValue = 0;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects(
+        [&expectedValue](int const& actualValue) { EXPECT_EQ(expectedValue++, actualValue); });
     EXPECT_EQ(10, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
-{
+TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated) {
     AlbaLocalPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
+    for (string const& filePath : listOfFiles) {
         AlbaLocalPathHandler(filePath).deleteFile();
     }
     listOfFiles.clear();
@@ -404,24 +355,20 @@ TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 200));
 
-    for(int inputValue=0; inputValue<200; inputValue++)
-    {
+    for (int inputValue = 0; inputValue < 200; inputValue++) {
         largeSorter.add(inputValue);
     }
 
-    int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
-    });
+    int expectedValue = 0;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects(
+        [&expectedValue](int const& actualValue) { EXPECT_EQ(expectedValue++, actualValue); });
     EXPECT_EQ(200, expectedValue);
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     EXPECT_TRUE(listOfFiles.empty());
     EXPECT_TRUE(listOfDirectories.empty());
 }
 
-TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenBlocksAreCreated)
-{
+TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenBlocksAreCreated) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     largeSorter.add(8);
     largeSorter.add(4);
@@ -434,16 +381,13 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenBlocksAreCreated)
     largeSorter.add(6);
     largeSorter.add(0);
 
-    int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
-    });
+    int expectedValue = 0;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects(
+        [&expectedValue](int const& actualValue) { EXPECT_EQ(expectedValue++, actualValue); });
     EXPECT_EQ(10, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenBlocksAreCreated)
-{
+TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenBlocksAreCreated) {
     AlbaLargeSorter<TestObject> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     largeSorter.add(TestObject(4, 4.04, 'd', "fourthString"));
     largeSorter.add(TestObject(5, 5.05, 'e', "fifthString"));
@@ -461,35 +405,108 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenBlocksAreCreated)
     largeSorter.add(TestObject(3, 3.03, 'c', "thirdString"));
     largeSorter.add(TestObject(11, 11.11, 'k', "eleventhString"));
 
-    int expectedValue=1;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject)
-    {
-        switch(expectedValue)
-        {
-        case 1: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble); EXPECT_EQ('a', testObject.valueCharacter); EXPECT_EQ("firstString", testObject.valueString); break;
-        case 2: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble); EXPECT_EQ('b', testObject.valueCharacter); EXPECT_EQ("secondString", testObject.valueString); break;
-        case 3: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble); EXPECT_EQ('c', testObject.valueCharacter); EXPECT_EQ("thirdString", testObject.valueString); break;
-        case 4: EXPECT_EQ(4, testObject.valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble); EXPECT_EQ('d', testObject.valueCharacter); EXPECT_EQ("fourthString", testObject.valueString); break;
-        case 5: EXPECT_EQ(5, testObject.valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble); EXPECT_EQ('e', testObject.valueCharacter); EXPECT_EQ("fifthString", testObject.valueString); break;
-        case 6: EXPECT_EQ(6, testObject.valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble); EXPECT_EQ('f', testObject.valueCharacter); EXPECT_EQ("sixthString", testObject.valueString); break;
-        case 7: EXPECT_EQ(7, testObject.valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble); EXPECT_EQ('g', testObject.valueCharacter); EXPECT_EQ("seventhString", testObject.valueString); break;
-        case 8: EXPECT_EQ(8, testObject.valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble); EXPECT_EQ('h', testObject.valueCharacter); EXPECT_EQ("eighthString", testObject.valueString); break;
-        case 9: EXPECT_EQ(9, testObject.valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble); EXPECT_EQ('i', testObject.valueCharacter); EXPECT_EQ("ninthString", testObject.valueString); break;
-        case 10: EXPECT_EQ(10, testObject.valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble); EXPECT_EQ('j', testObject.valueCharacter); EXPECT_EQ("tenthString", testObject.valueString); break;
-        case 11: EXPECT_EQ(11, testObject.valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble); EXPECT_EQ('k', testObject.valueCharacter); EXPECT_EQ("eleventhString", testObject.valueString); break;
-        case 12: EXPECT_EQ(12, testObject.valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble); EXPECT_EQ('l', testObject.valueCharacter); EXPECT_EQ("twelvethString", testObject.valueString); break;
-        case 13: EXPECT_EQ(13, testObject.valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble); EXPECT_EQ('m', testObject.valueCharacter); EXPECT_EQ("thirteenthString", testObject.valueString); break;
-        case 14: EXPECT_EQ(14, testObject.valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble); EXPECT_EQ('n', testObject.valueCharacter); EXPECT_EQ("fourteenthString", testObject.valueString); break;
-        case 15: EXPECT_EQ(15, testObject.valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble); EXPECT_EQ('o', testObject.valueCharacter); EXPECT_EQ("fifteenthString", testObject.valueString); break;
-        default: break;
+    int expectedValue = 1;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject) {
+        switch (expectedValue) {
+            case 1:
+                EXPECT_EQ(1, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble);
+                EXPECT_EQ('a', testObject.valueCharacter);
+                EXPECT_EQ("firstString", testObject.valueString);
+                break;
+            case 2:
+                EXPECT_EQ(2, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble);
+                EXPECT_EQ('b', testObject.valueCharacter);
+                EXPECT_EQ("secondString", testObject.valueString);
+                break;
+            case 3:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble);
+                EXPECT_EQ('c', testObject.valueCharacter);
+                EXPECT_EQ("thirdString", testObject.valueString);
+                break;
+            case 4:
+                EXPECT_EQ(4, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble);
+                EXPECT_EQ('d', testObject.valueCharacter);
+                EXPECT_EQ("fourthString", testObject.valueString);
+                break;
+            case 5:
+                EXPECT_EQ(5, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble);
+                EXPECT_EQ('e', testObject.valueCharacter);
+                EXPECT_EQ("fifthString", testObject.valueString);
+                break;
+            case 6:
+                EXPECT_EQ(6, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble);
+                EXPECT_EQ('f', testObject.valueCharacter);
+                EXPECT_EQ("sixthString", testObject.valueString);
+                break;
+            case 7:
+                EXPECT_EQ(7, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble);
+                EXPECT_EQ('g', testObject.valueCharacter);
+                EXPECT_EQ("seventhString", testObject.valueString);
+                break;
+            case 8:
+                EXPECT_EQ(8, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble);
+                EXPECT_EQ('h', testObject.valueCharacter);
+                EXPECT_EQ("eighthString", testObject.valueString);
+                break;
+            case 9:
+                EXPECT_EQ(9, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble);
+                EXPECT_EQ('i', testObject.valueCharacter);
+                EXPECT_EQ("ninthString", testObject.valueString);
+                break;
+            case 10:
+                EXPECT_EQ(10, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble);
+                EXPECT_EQ('j', testObject.valueCharacter);
+                EXPECT_EQ("tenthString", testObject.valueString);
+                break;
+            case 11:
+                EXPECT_EQ(11, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble);
+                EXPECT_EQ('k', testObject.valueCharacter);
+                EXPECT_EQ("eleventhString", testObject.valueString);
+                break;
+            case 12:
+                EXPECT_EQ(12, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble);
+                EXPECT_EQ('l', testObject.valueCharacter);
+                EXPECT_EQ("twelvethString", testObject.valueString);
+                break;
+            case 13:
+                EXPECT_EQ(13, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble);
+                EXPECT_EQ('m', testObject.valueCharacter);
+                EXPECT_EQ("thirteenthString", testObject.valueString);
+                break;
+            case 14:
+                EXPECT_EQ(14, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble);
+                EXPECT_EQ('n', testObject.valueCharacter);
+                EXPECT_EQ("fourteenthString", testObject.valueString);
+                break;
+            case 15:
+                EXPECT_EQ(15, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble);
+                EXPECT_EQ('o', testObject.valueCharacter);
+                EXPECT_EQ("fifteenthString", testObject.valueString);
+                break;
+            default:
+                break;
         }
         expectedValue++;
     });
     EXPECT_EQ(16, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting)
-{
+TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting) {
     AlbaLargeSorter<TestObject> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     largeSorter.add(TestObject(1, 1.01, 'a', "firstString"));
     largeSorter.add(TestObject(2, 5.05, 'e', "fifthString"));
@@ -507,35 +524,108 @@ TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting)
     largeSorter.add(TestObject(1, 4.04, 'd', "fourthString"));
     largeSorter.add(TestObject(3, 14.14, 'n', "fourteenthString"));
 
-    int expectedValue=1;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject)
-    {
-        switch(expectedValue)
-        {
-        case 1: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble); EXPECT_EQ('a', testObject.valueCharacter); EXPECT_EQ("firstString", testObject.valueString); break;
-        case 2: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble); EXPECT_EQ('b', testObject.valueCharacter); EXPECT_EQ("secondString", testObject.valueString); break;
-        case 3: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble); EXPECT_EQ('c', testObject.valueCharacter); EXPECT_EQ("thirdString", testObject.valueString); break;
-        case 4: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble); EXPECT_EQ('d', testObject.valueCharacter); EXPECT_EQ("fourthString", testObject.valueString); break;
-        case 5: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble); EXPECT_EQ('e', testObject.valueCharacter); EXPECT_EQ("fifthString", testObject.valueString); break;
-        case 6: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble); EXPECT_EQ('f', testObject.valueCharacter); EXPECT_EQ("sixthString", testObject.valueString); break;
-        case 7: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble); EXPECT_EQ('g', testObject.valueCharacter); EXPECT_EQ("seventhString", testObject.valueString); break;
-        case 8: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble); EXPECT_EQ('h', testObject.valueCharacter); EXPECT_EQ("eighthString", testObject.valueString); break;
-        case 9: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble); EXPECT_EQ('i', testObject.valueCharacter); EXPECT_EQ("ninthString", testObject.valueString); break;
-        case 10: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble); EXPECT_EQ('j', testObject.valueCharacter); EXPECT_EQ("tenthString", testObject.valueString); break;
-        case 11: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble); EXPECT_EQ('k', testObject.valueCharacter); EXPECT_EQ("eleventhString", testObject.valueString); break;
-        case 12: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble); EXPECT_EQ('l', testObject.valueCharacter); EXPECT_EQ("twelvethString", testObject.valueString); break;
-        case 13: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble); EXPECT_EQ('m', testObject.valueCharacter); EXPECT_EQ("thirteenthString", testObject.valueString); break;
-        case 14: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble); EXPECT_EQ('n', testObject.valueCharacter); EXPECT_EQ("fourteenthString", testObject.valueString); break;
-        case 15: EXPECT_EQ(4, testObject.valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble); EXPECT_EQ('o', testObject.valueCharacter); EXPECT_EQ("fifteenthString", testObject.valueString); break;
-        default: break;
+    int expectedValue = 1;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject) {
+        switch (expectedValue) {
+            case 1:
+                EXPECT_EQ(1, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble);
+                EXPECT_EQ('a', testObject.valueCharacter);
+                EXPECT_EQ("firstString", testObject.valueString);
+                break;
+            case 2:
+                EXPECT_EQ(1, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble);
+                EXPECT_EQ('b', testObject.valueCharacter);
+                EXPECT_EQ("secondString", testObject.valueString);
+                break;
+            case 3:
+                EXPECT_EQ(1, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble);
+                EXPECT_EQ('c', testObject.valueCharacter);
+                EXPECT_EQ("thirdString", testObject.valueString);
+                break;
+            case 4:
+                EXPECT_EQ(1, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble);
+                EXPECT_EQ('d', testObject.valueCharacter);
+                EXPECT_EQ("fourthString", testObject.valueString);
+                break;
+            case 5:
+                EXPECT_EQ(2, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble);
+                EXPECT_EQ('e', testObject.valueCharacter);
+                EXPECT_EQ("fifthString", testObject.valueString);
+                break;
+            case 6:
+                EXPECT_EQ(2, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble);
+                EXPECT_EQ('f', testObject.valueCharacter);
+                EXPECT_EQ("sixthString", testObject.valueString);
+                break;
+            case 7:
+                EXPECT_EQ(2, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble);
+                EXPECT_EQ('g', testObject.valueCharacter);
+                EXPECT_EQ("seventhString", testObject.valueString);
+                break;
+            case 8:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble);
+                EXPECT_EQ('h', testObject.valueCharacter);
+                EXPECT_EQ("eighthString", testObject.valueString);
+                break;
+            case 9:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble);
+                EXPECT_EQ('i', testObject.valueCharacter);
+                EXPECT_EQ("ninthString", testObject.valueString);
+                break;
+            case 10:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble);
+                EXPECT_EQ('j', testObject.valueCharacter);
+                EXPECT_EQ("tenthString", testObject.valueString);
+                break;
+            case 11:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble);
+                EXPECT_EQ('k', testObject.valueCharacter);
+                EXPECT_EQ("eleventhString", testObject.valueString);
+                break;
+            case 12:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble);
+                EXPECT_EQ('l', testObject.valueCharacter);
+                EXPECT_EQ("twelvethString", testObject.valueString);
+                break;
+            case 13:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble);
+                EXPECT_EQ('m', testObject.valueCharacter);
+                EXPECT_EQ("thirteenthString", testObject.valueString);
+                break;
+            case 14:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble);
+                EXPECT_EQ('n', testObject.valueCharacter);
+                EXPECT_EQ("fourteenthString", testObject.valueString);
+                break;
+            case 15:
+                EXPECT_EQ(4, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble);
+                EXPECT_EQ('o', testObject.valueCharacter);
+                EXPECT_EQ("fifteenthString", testObject.valueString);
+                break;
+            default:
+                break;
         }
         expectedValue++;
     });
     EXPECT_EQ(16, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
-{
+TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle) {
     vector<TestObject> objectsToShuffle;
     objectsToShuffle.emplace_back(1, 1.01, 'a', "firstString");
     objectsToShuffle.emplace_back(2, 2.02, 'b', "secondString");
@@ -552,65 +642,137 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
     objectsToShuffle.emplace_back(13, 13.13, 'm', "thirteenthString");
     objectsToShuffle.emplace_back(14, 14.14, 'n', "fourteenthString");
     objectsToShuffle.emplace_back(15, 15.15, 'o', "fifteenthString");
-    shuffle(objectsToShuffle.begin(), objectsToShuffle.end(), default_random_engine(getCurrentDateTime().getMicroSeconds()));
+    shuffle(
+        objectsToShuffle.begin(), objectsToShuffle.end(),
+        default_random_engine(getCurrentDateTime().getMicroSeconds()));
     AlbaLargeSorter<TestObject> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
 
-    for(TestObject const& testObject : objectsToShuffle)
-    {
+    for (TestObject const& testObject : objectsToShuffle) {
         largeSorter.add(testObject);
     }
 
-    int expectedValue=1;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject)
-    {
-        switch(expectedValue)
-        {
-        case 1: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble); EXPECT_EQ('a', testObject.valueCharacter); EXPECT_EQ("firstString", testObject.valueString); break;
-        case 2: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble); EXPECT_EQ('b', testObject.valueCharacter); EXPECT_EQ("secondString", testObject.valueString); break;
-        case 3: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble); EXPECT_EQ('c', testObject.valueCharacter); EXPECT_EQ("thirdString", testObject.valueString); break;
-        case 4: EXPECT_EQ(4, testObject.valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble); EXPECT_EQ('d', testObject.valueCharacter); EXPECT_EQ("fourthString", testObject.valueString); break;
-        case 5: EXPECT_EQ(5, testObject.valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble); EXPECT_EQ('e', testObject.valueCharacter); EXPECT_EQ("fifthString", testObject.valueString); break;
-        case 6: EXPECT_EQ(6, testObject.valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble); EXPECT_EQ('f', testObject.valueCharacter); EXPECT_EQ("sixthString", testObject.valueString); break;
-        case 7: EXPECT_EQ(7, testObject.valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble); EXPECT_EQ('g', testObject.valueCharacter); EXPECT_EQ("seventhString", testObject.valueString); break;
-        case 8: EXPECT_EQ(8, testObject.valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble); EXPECT_EQ('h', testObject.valueCharacter); EXPECT_EQ("eighthString", testObject.valueString); break;
-        case 9: EXPECT_EQ(9, testObject.valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble); EXPECT_EQ('i', testObject.valueCharacter); EXPECT_EQ("ninthString", testObject.valueString); break;
-        case 10: EXPECT_EQ(10, testObject.valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble); EXPECT_EQ('j', testObject.valueCharacter); EXPECT_EQ("tenthString", testObject.valueString); break;
-        case 11: EXPECT_EQ(11, testObject.valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble); EXPECT_EQ('k', testObject.valueCharacter); EXPECT_EQ("eleventhString", testObject.valueString); break;
-        case 12: EXPECT_EQ(12, testObject.valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble); EXPECT_EQ('l', testObject.valueCharacter); EXPECT_EQ("twelvethString", testObject.valueString); break;
-        case 13: EXPECT_EQ(13, testObject.valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble); EXPECT_EQ('m', testObject.valueCharacter); EXPECT_EQ("thirteenthString", testObject.valueString); break;
-        case 14: EXPECT_EQ(14, testObject.valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble); EXPECT_EQ('n', testObject.valueCharacter); EXPECT_EQ("fourteenthString", testObject.valueString); break;
-        case 15: EXPECT_EQ(15, testObject.valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble); EXPECT_EQ('o', testObject.valueCharacter); EXPECT_EQ("fifteenthString", testObject.valueString); break;
-        default: break;
+    int expectedValue = 1;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject) {
+        switch (expectedValue) {
+            case 1:
+                EXPECT_EQ(1, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble);
+                EXPECT_EQ('a', testObject.valueCharacter);
+                EXPECT_EQ("firstString", testObject.valueString);
+                break;
+            case 2:
+                EXPECT_EQ(2, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble);
+                EXPECT_EQ('b', testObject.valueCharacter);
+                EXPECT_EQ("secondString", testObject.valueString);
+                break;
+            case 3:
+                EXPECT_EQ(3, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble);
+                EXPECT_EQ('c', testObject.valueCharacter);
+                EXPECT_EQ("thirdString", testObject.valueString);
+                break;
+            case 4:
+                EXPECT_EQ(4, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble);
+                EXPECT_EQ('d', testObject.valueCharacter);
+                EXPECT_EQ("fourthString", testObject.valueString);
+                break;
+            case 5:
+                EXPECT_EQ(5, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble);
+                EXPECT_EQ('e', testObject.valueCharacter);
+                EXPECT_EQ("fifthString", testObject.valueString);
+                break;
+            case 6:
+                EXPECT_EQ(6, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble);
+                EXPECT_EQ('f', testObject.valueCharacter);
+                EXPECT_EQ("sixthString", testObject.valueString);
+                break;
+            case 7:
+                EXPECT_EQ(7, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble);
+                EXPECT_EQ('g', testObject.valueCharacter);
+                EXPECT_EQ("seventhString", testObject.valueString);
+                break;
+            case 8:
+                EXPECT_EQ(8, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble);
+                EXPECT_EQ('h', testObject.valueCharacter);
+                EXPECT_EQ("eighthString", testObject.valueString);
+                break;
+            case 9:
+                EXPECT_EQ(9, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble);
+                EXPECT_EQ('i', testObject.valueCharacter);
+                EXPECT_EQ("ninthString", testObject.valueString);
+                break;
+            case 10:
+                EXPECT_EQ(10, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble);
+                EXPECT_EQ('j', testObject.valueCharacter);
+                EXPECT_EQ("tenthString", testObject.valueString);
+                break;
+            case 11:
+                EXPECT_EQ(11, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble);
+                EXPECT_EQ('k', testObject.valueCharacter);
+                EXPECT_EQ("eleventhString", testObject.valueString);
+                break;
+            case 12:
+                EXPECT_EQ(12, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble);
+                EXPECT_EQ('l', testObject.valueCharacter);
+                EXPECT_EQ("twelvethString", testObject.valueString);
+                break;
+            case 13:
+                EXPECT_EQ(13, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble);
+                EXPECT_EQ('m', testObject.valueCharacter);
+                EXPECT_EQ("thirteenthString", testObject.valueString);
+                break;
+            case 14:
+                EXPECT_EQ(14, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble);
+                EXPECT_EQ('n', testObject.valueCharacter);
+                EXPECT_EQ("fourteenthString", testObject.valueString);
+                break;
+            case 15:
+                EXPECT_EQ(15, testObject.valueInteger);
+                EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble);
+                EXPECT_EQ('o', testObject.valueCharacter);
+                EXPECT_EQ("fifteenthString", testObject.valueString);
+                break;
+            default:
+                break;
         }
         expectedValue++;
     });
     EXPECT_EQ(16, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams)
-{
+TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams) {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 0, 1, 0, 200));
     vector<int> integersToShuffle;
-    constexpr int NUMBER_OF_INTEGERS=1000;
+    constexpr int NUMBER_OF_INTEGERS = 1000;
     integersToShuffle.reserve(NUMBER_OF_INTEGERS);
-    for(int inputValue=0; inputValue<NUMBER_OF_INTEGERS; inputValue++)
-    {
+    for (int inputValue = 0; inputValue < NUMBER_OF_INTEGERS; inputValue++) {
         integersToShuffle.emplace_back(inputValue);
     }
-    shuffle(integersToShuffle.begin(), integersToShuffle.end(), default_random_engine(getCurrentDateTime().getMicroSeconds()));
-    for(int value : integersToShuffle)
-    {
+    shuffle(
+        integersToShuffle.begin(), integersToShuffle.end(),
+        default_random_engine(getCurrentDateTime().getMicroSeconds()));
+    for (int value : integersToShuffle) {
         largeSorter.add(value);
     }
 
-    int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
-    });
+    int expectedValue = 0;
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects(
+        [&expectedValue](int const& actualValue) { EXPECT_EQ(expectedValue++, actualValue); });
     EXPECT_EQ(1000, expectedValue);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

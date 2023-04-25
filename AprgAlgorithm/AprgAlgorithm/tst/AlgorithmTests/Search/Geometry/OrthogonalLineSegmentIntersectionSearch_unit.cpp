@@ -4,19 +4,15 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using SearchForTest = OrthogonalLineSegmentIntersectionSearch<unsigned int>;
 }
 
-TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksWhenIntersectionIsAtTheMiddle)
-{
+TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksWhenIntersectionIsAtTheMiddle) {
     SearchForTest search;
     search.addHorizontalLine(3, 0, 5);
     search.addVerticalLine(3, 0, 5);
@@ -27,8 +23,7 @@ TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksWhen
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksWhenIntersectionIsAtTheStartAndEnd)
-{
+TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksWhenIntersectionIsAtTheStartAndEnd) {
     SearchForTest search;
     search.addHorizontalLine(3, 0, 5);
     search.addVerticalLine(0, 0, 5);
@@ -40,8 +35,7 @@ TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksWhen
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksOnComplicatedExample)
-{
+TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksOnComplicatedExample) {
     SearchForTest search;
     search.addHorizontalLine(2, 1, 10);
     search.addHorizontalLine(4, 10, 13);
@@ -62,6 +56,6 @@ TEST(OrthogonalLineSegmentIntersectionSearchTest, GetIntersectingPointsWorksOnCo
     EXPECT_EQ(pointsToExpect, pointsToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

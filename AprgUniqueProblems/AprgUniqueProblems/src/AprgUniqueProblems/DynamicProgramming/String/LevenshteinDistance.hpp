@@ -4,11 +4,9 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-class LevenshteinDistance
-{
+class LevenshteinDistance {
 public:
     using Index = unsigned int;
     using Count = unsigned int;
@@ -22,20 +20,22 @@ public:
     Count getLevenshteinDistanceUsingMemoizationDP() const;
     Count getLevenshteinDistanceUsingIterativeDP() const;
     Count getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient() const;
+
 private:
     Count getLevenshteinDistanceUsingNaiveRecursion(Index const index1, Index const index2) const;
-    Count getLevenshteinDistanceUsingMemoizationDP(CountGrid & indexGrid, Index const index1, Index const index2) const;
+    Count getLevenshteinDistanceUsingMemoizationDP(CountGrid& indexGrid, Index const index1, Index const index2) const;
     std::string m_string1;
     std::string m_string2;
 };
 
-}
+}  // namespace alba
 // Note this ia dynamic programming solution
 // -> There is an implementation in AlbaStringHelper and it takes less space
-// ---> (but there is a swapping vector operation in the algorithm (so the last 2 rows in the dynamic programming matrix are maintained))
+// ---> (but there is a swapping vector operation in the algorithm (so the last 2 rows in the dynamic programming matrix
+// are maintained))
 
-// The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
-// The allowed editing operations are as follows:
+// The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string
+// into another string. The allowed editing operations are as follows:
 // -> insert a character (e.g. ABC ! ABCA)
 // -> remove a character (e.g. ABC ! AC)
 // -> modify a character (e.g. ABC ! ADC)
@@ -46,7 +46,6 @@ private:
 // -> distance(a,b) = min(distance(a,b-1)+1, distance(a-1,b)+1, distance(a-1,b-1)+cost(a,b)).
 // ---> distance(a,b) = min("insert part", "remove part", "modify part")
 // ---> Here cost(a,b) = 0 if x[a] = y[b], and otherwise cost(a,b) = 1.
-
 
 // Other discussions:
 // Given two strings str1 and str2 and below operations that can performed on str1.
@@ -88,7 +87,9 @@ private:
 // Since same subproblems are called again, this problem has Overlapping Subproblems property.
 // So Edit Distance problem has both properties (see this and this) of a dynamic programming problem.
 // Like other typical Dynamic Programming(DP) problems,
-// recomputations of same subproblems can be avoided by constructing a temporary array that stores results of subproblems.
+// recomputations of same subproblems can be avoided by constructing a temporary array that stores results of
+// subproblems.
 
 // Applications: There are many practical applications of edit distance algorithm, refer Lucene API for sample.
-// -> Another example, display all the words in a dictionary that are near proximity to a given word incorrectly spelled word.
+// -> Another example, display all the words in a dictionary that are near proximity to a given word incorrectly spelled
+// word.

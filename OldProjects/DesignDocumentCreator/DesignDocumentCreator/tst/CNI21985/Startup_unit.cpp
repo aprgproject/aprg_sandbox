@@ -18,8 +18,7 @@ using namespace MessageFactory;
 using namespace MessageVerifier;
 using namespace StringHelpers;
 
-TEST_F(ModuleTest, TupcStartup)
-{
+TEST_F(ModuleTest, TupcStartup) {
     UmlLogger& umlLogger(getUmlLogger());
     Oam& oam(*static_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam, "OAM")));
     TupcIlm& tupcIlm(*static_cast<TupcIlm*>(getComponentAndActivateAsParticipant(ComponentName::TupcIlm, "TUPC/ILM")));
@@ -47,11 +46,11 @@ TEST_F(ModuleTest, TupcStartup)
     tupcCm.handleOneEvent();
 }
 
-TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
-{
+TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp) {
     UmlLogger& umlLogger(getUmlLogger());
     Oam& oam(*static_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam, "OAM")));
-    TcomToam& tcomToam(*static_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam, "TCOM/TOAM")));
+    TcomToam& tcomToam(
+        *static_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam, "TCOM/TOAM")));
     TupcLom& tupcLom(*static_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom, "TUPC/LOM")));
     TupcTbm& tupcTbm(*static_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
@@ -67,11 +66,11 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
     tupcTbm.handleOneEvent();
 }
 
-TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringHwAvailableOrAddition)
-{
+TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringHwAvailableOrAddition) {
     UmlLogger& umlLogger(getUmlLogger());
     Oam& oam(*static_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam, "OAM")));
-    TcomToam& tcomToam(*static_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam, "TCOM/TOAM")));
+    TcomToam& tcomToam(
+        *static_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam, "TCOM/TOAM")));
     TupcLom& tupcLom(*static_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom, "TUPC/LOM")));
     TupcTbm& tupcTbm(*static_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 

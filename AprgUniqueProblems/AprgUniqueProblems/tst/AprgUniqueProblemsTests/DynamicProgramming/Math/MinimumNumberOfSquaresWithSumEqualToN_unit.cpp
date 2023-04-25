@@ -4,22 +4,20 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnZero)
-{
+TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnZero) {
     MinimumNumberOfSquaresWithSumEqualToN queryForTest(0U);
 
     EXPECT_EQ(0U, queryForTest.getMinimumCountUsingNaiveRecursion());
     EXPECT_EQ(0U, queryForTest.getMinimumCountUsingMemoizationDP());
     EXPECT_EQ(0U, queryForTest.getMinimumCountUsingIterativeDP());
     EXPECT_EQ(0U, queryForTest.getMinimumCountUsingBfs());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingFewestCoins()); // Answer is 1 because we are using the CoinProblem class
+    EXPECT_EQ(
+        1U, queryForTest.getMinimumCountUsingFewestCoins());  // Answer is 1 because we are using the CoinProblem class
 }
 
-TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnOne)
-{
+TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnOne) {
     MinimumNumberOfSquaresWithSumEqualToN queryForTest(1U);
 
     EXPECT_EQ(1U, queryForTest.getMinimumCountUsingNaiveRecursion());
@@ -29,8 +27,7 @@ TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnOne)
     EXPECT_EQ(1U, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
-TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnAnExactSquare)
-{
+TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnAnExactSquare) {
     MinimumNumberOfSquaresWithSumEqualToN queryForTest(100U);
 
     EXPECT_EQ(1U, queryForTest.getMinimumCountUsingNaiveRecursion());
@@ -40,8 +37,7 @@ TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnAnExactSquare)
     EXPECT_EQ(1U, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
-TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample1)
-{
+TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample1) {
     MinimumNumberOfSquaresWithSumEqualToN queryForTest(6U);
 
     EXPECT_EQ(3U, queryForTest.getMinimumCountUsingNaiveRecursion());
@@ -51,8 +47,7 @@ TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample1)
     EXPECT_EQ(3U, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
-TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample2)
-{
+TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample2) {
     MinimumNumberOfSquaresWithSumEqualToN queryForTest(47U);
 
     EXPECT_EQ(4U, queryForTest.getMinimumCountUsingNaiveRecursion());
@@ -62,4 +57,4 @@ TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample2)
     EXPECT_EQ(4U, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
-}
+}  // namespace alba

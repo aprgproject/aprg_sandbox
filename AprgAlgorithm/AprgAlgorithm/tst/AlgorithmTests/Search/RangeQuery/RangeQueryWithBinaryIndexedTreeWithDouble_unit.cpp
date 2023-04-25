@@ -4,31 +4,26 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<double>;
 using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 RangeQueryForTest::AccumulatorFunction multipliesAccumulator = multiplies<>();
 RangeQueryForTest::AccumulatorFunction dividesAccumulator = divides<>();
-}
+}  // namespace
 
-TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
@@ -48,16 +43,14 @@ TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithGeome
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithBinaryIndexedTreeTest, GetSumFrom0ToIndexWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithBinaryIndexedTreeTest, GetSumFrom0ToIndexWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getAccumulatedValueFrom0ToIndex(0U));
 }
 
-TEST(RangeQueryWithBinaryIndexedTreeTest, GetSumFrom0ToIndexWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithBinaryIndexedTreeTest, GetSumFrom0ToIndexWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
@@ -73,8 +66,7 @@ TEST(RangeQueryWithBinaryIndexedTreeTest, GetSumFrom0ToIndexWithGeometricSumWork
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getAccumulatedValueFrom0ToIndex(9U));
 }
 
-TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues)
-{
+TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
@@ -83,8 +75,7 @@ TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithGeometricSumWork
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1)
-{
+TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1) {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
@@ -106,6 +97,6 @@ TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithGeometricSumWork
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

@@ -4,18 +4,13 @@
 
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(MonomialHelpersTest, SegregateMonomialsWithAndWithoutVariable)
-{
+TEST(MonomialHelpersTest, SegregateMonomialsWithAndWithoutVariable) {
     Monomials monomialsToSegregate(
-    {Monomial(1, {{"x", 2}, {"y", 3}}),
-     Monomial(4, {{"y", 5}, {"z", 6}}),
-     Monomial(7, {{"x", 8}, {"z", 9}})});
+        {Monomial(1, {{"x", 2}, {"y", 3}}), Monomial(4, {{"y", 5}, {"z", 6}}), Monomial(7, {{"x", 8}, {"z", 9}})});
 
     Monomials monomialWithVariable;
     Monomials monomialWithoutVariable;
@@ -28,8 +23,7 @@ TEST(MonomialHelpersTest, SegregateMonomialsWithAndWithoutVariable)
     EXPECT_EQ(Monomial(4, {{"y", 5}, {"z", 6}}), monomialWithoutVariable.at(0));
 }
 
-TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms)
-{
+TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms) {
     Terms monomialTerms;
     Terms nonMonomialTerms;
     Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
@@ -42,8 +36,7 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms)
     EXPECT_EQ(termExpression, nonMonomialTerms.at(0));
 }
 
-TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTermsWithDetails)
-{
+TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTermsWithDetails) {
     TermsWithAssociation termsWithAssociation;
     TermsWithDetails monomialTerms;
     TermsWithDetails nonMonomialTerms;
@@ -63,8 +56,7 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTermsWithDet
     EXPECT_EQ(TermAssociationType::Positive, termWithDetails2.association);
 }
 
-TEST(SegregateHelpersTest, SegregatePolynomialAndNonPolynomialsWorks)
-{
+TEST(SegregateHelpersTest, SegregatePolynomialAndNonPolynomialsWorks) {
     Terms polynomialTerms;
     Terms nonPolynomialTerms;
     Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
@@ -77,8 +69,7 @@ TEST(SegregateHelpersTest, SegregatePolynomialAndNonPolynomialsWorks)
     EXPECT_EQ(termExpression, nonPolynomialTerms.at(0));
 }
 
-TEST(SegregateHelpersTest, SegregateNonExpressionsAndExpressionsWorks)
-{
+TEST(SegregateHelpersTest, SegregateNonExpressionsAndExpressionsWorks) {
     TermsWithAssociation termsWithAssociation;
     TermsWithDetails termsWithNonExpressions;
     TermsWithDetails termsWithExpressions;
@@ -86,7 +77,8 @@ TEST(SegregateHelpersTest, SegregateNonExpressionsAndExpressionsWorks)
     termsWithAssociation.putTermWithNegativeAssociation(Term(753));
     termsWithAssociation.putTermWithPositiveAssociation(termExpression);
 
-    segregateNonExpressionsAndExpressions(termsWithAssociation.getTermsWithDetails(), termsWithNonExpressions, termsWithExpressions);
+    segregateNonExpressionsAndExpressions(
+        termsWithAssociation.getTermsWithDetails(), termsWithNonExpressions, termsWithExpressions);
 
     ASSERT_EQ(1U, termsWithNonExpressions.size());
     TermWithDetails const& termWithDetails1(termsWithNonExpressions.at(0));
@@ -98,15 +90,15 @@ TEST(SegregateHelpersTest, SegregateNonExpressionsAndExpressionsWorks)
     EXPECT_EQ(TermAssociationType::Positive, termWithDetails2.association);
 }
 
-TEST(SegregateHelpersTest, SegregateTermsWithPositiveAndNegativeAssociationsWorks)
-{
+TEST(SegregateHelpersTest, SegregateTermsWithPositiveAndNegativeAssociationsWorks) {
     TermsWithAssociation termsWithAssociation;
     TermsWithDetails termsInPositive;
     TermsWithDetails termsInNegative;
     termsWithAssociation.putTermWithNegativeAssociation(Term(753));
     termsWithAssociation.putTermWithPositiveAssociation(Term(159));
 
-    segregateTermsWithPositiveAndNegativeAssociations(termsWithAssociation.getTermsWithDetails(), termsInPositive, termsInNegative);
+    segregateTermsWithPositiveAndNegativeAssociations(
+        termsWithAssociation.getTermsWithDetails(), termsInPositive, termsInNegative);
 
     ASSERT_EQ(1U, termsInPositive.size());
     TermWithDetails const& termWithDetails1(termsInPositive.at(0));
@@ -118,6 +110,6 @@ TEST(SegregateHelpersTest, SegregateTermsWithPositiveAndNegativeAssociationsWork
     EXPECT_EQ(TermAssociationType::Negative, termWithDetails2.association);
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -83,37 +83,25 @@ You *need* to link your code with the libtiff and libtiffxx libraries as well.
    channel per pixel are supported for
    <tt>char,uchar,short,ushort,float</tt> and \c double pixel types.
 **/
-const CImg<T>& save_tiff(std::ostream *tiffOutStream, const unsigned int compression_type=0) const {
-  if (!tiffOutStream->good())
-    {
-      throw CImgArgumentException(_cimg_instance
-                                  "save_tiff(): tiffstream is not good!",
-                                  cimg_instance);
+const CImg<T>& save_tiff(std::ostream* tiffOutStream, const unsigned int compression_type = 0) const {
+    if (!tiffOutStream->good()) {
+        throw CImgArgumentException(_cimg_instance "save_tiff(): tiffstream is not good!", cimg_instance);
     }
 
-  if (is_empty())
-    {
-      throw CImgArgumentException(_cimg_instance
-                                  "Not allowed to write empty images to stream",
-                                  cimg_instance
-                                  );
+    if (is_empty()) {
+        throw CImgArgumentException(_cimg_instance "Not allowed to write empty images to stream", cimg_instance);
     }
 
-  TIFF *tif = TIFFStreamOpen("MemTiff", tiffOutStream);
-  if (tif)
-    {
-      cimg_forZ(*this,z) get_slice(z)._save_tiff(tif,z,z,compression_type,0,0);
-      tiffOutStream->flush();
-      TIFFClose(tif);
-    }
-  else
-    {
-      throw CImgIOException(_cimg_instance
-                            "save_tiff(): Failed to stream for writing.",
-                            cimg_instance);
+    TIFF* tif = TIFFStreamOpen("MemTiff", tiffOutStream);
+    if (tif) {
+        cimg_forZ(*this, z) get_slice(z)._save_tiff(tif, z, z, compression_type, 0, 0);
+        tiffOutStream->flush();
+        TIFFClose(tif);
+    } else {
+        throw CImgIOException(_cimg_instance "save_tiff(): Failed to stream for writing.", cimg_instance);
     }
 
-  return *this;
+    return *this;
 }
 
 //! Load images from a TIFF file.
@@ -123,68 +111,59 @@ const CImg<T>& save_tiff(std::ostream *tiffOutStream, const unsigned int compres
    \param last_frame Index of last image frame to read.
    \param step_frame Step applied between each frame.
 **/
-CImg<T>& load_tiff(std::istream* tiffInStream,
-                   const unsigned int first_frame=0, const unsigned int last_frame=~0U,
-                   const unsigned int step_frame=1)
-{
-  const unsigned int
-    nfirst_frame = first_frame<last_frame?first_frame:last_frame,
-    nstep_frame = step_frame?step_frame:1;
-  unsigned int nlast_frame = first_frame<last_frame?last_frame:first_frame;
+CImg<T>& load_tiff(
+    std::istream* tiffInStream, const unsigned int first_frame = 0, const unsigned int last_frame = ~0U,
+    const unsigned int step_frame = 1) {
+    const unsigned int nfirst_frame = first_frame < last_frame ? first_frame : last_frame,
+                       nstep_frame = step_frame ? step_frame : 1;
+    unsigned int nlast_frame = first_frame < last_frame ? last_frame : first_frame;
 
-  TIFF *tif = TIFFStreamOpen("MemTiff", tiffInStream);
-  if (tif)
-    {
-      unsigned int nb_images = 0;
-      do {
-        ++nb_images;
-      } while (TIFFReadDirectory(tif));
+    TIFF* tif = TIFFStreamOpen("MemTiff", tiffInStream);
+    if (tif) {
+        unsigned int nb_images = 0;
+        do {
+            ++nb_images;
+        } while (TIFFReadDirectory(tif));
 
-      if (nfirst_frame>=nb_images || (nlast_frame!=~0U && nlast_frame>=nb_images))
-        {
-          cimg::warn("load_tiff(): Invalid specified frame range is [%u,%u] (step %u) "
-                     "since stream contains %u image(s).",
-                     nfirst_frame,nlast_frame,nstep_frame,nb_images);
+        if (nfirst_frame >= nb_images || (nlast_frame != ~0U && nlast_frame >= nb_images)) {
+            cimg::warn(
+                "load_tiff(): Invalid specified frame range is [%u,%u] (step %u) "
+                "since stream contains %u image(s).",
+                nfirst_frame, nlast_frame, nstep_frame, nb_images);
         }
 
-      if (nfirst_frame>=nb_images)
-        {
-          return assign();
+        if (nfirst_frame >= nb_images) {
+            return assign();
         }
 
-      if (nlast_frame>=nb_images)
-        {
-          nlast_frame = nb_images - 1;
+        if (nlast_frame >= nb_images) {
+            nlast_frame = nb_images - 1;
         }
-      TIFFSetDirectory(tif,0);
-      CImg<T> frame;
-      for (unsigned int l = nfirst_frame; l<=nlast_frame; l+=nstep_frame) {
-        frame._load_tiff(tif,l,0,0);
-        if (l==nfirst_frame)
-          assign(frame._width,frame._height,1 + (nlast_frame - nfirst_frame)/nstep_frame,frame._spectrum);
-        if (frame._width>_width || frame._height>_height || frame._spectrum>_spectrum)
-          resize(cimg::max(frame._width,_width),cimg::max(frame._height,_height),
-                 -100,cimg::max(frame._spectrum,_spectrum),0);
-        draw_image(0,0,(l - nfirst_frame)/nstep_frame,frame);
-      }
-      TIFFClose(tif);
-    }
-  else
-    {
-      throw CImgIOException(_cimg_instance
-                            "load_tiff(): Failed to read data from stream",
-                            cimg_instance);
+        TIFFSetDirectory(tif, 0);
+        CImg<T> frame;
+        for (unsigned int l = nfirst_frame; l <= nlast_frame; l += nstep_frame) {
+            frame._load_tiff(tif, l, 0, 0);
+            if (l == nfirst_frame)
+                assign(frame._width, frame._height, 1 + (nlast_frame - nfirst_frame) / nstep_frame, frame._spectrum);
+            if (frame._width > _width || frame._height > _height || frame._spectrum > _spectrum)
+                resize(
+                    cimg::max(frame._width, _width), cimg::max(frame._height, _height), -100,
+                    cimg::max(frame._spectrum, _spectrum), 0);
+            draw_image(0, 0, (l - nfirst_frame) / nstep_frame, frame);
+        }
+        TIFFClose(tif);
+    } else {
+        throw CImgIOException(_cimg_instance "load_tiff(): Failed to read data from stream", cimg_instance);
     }
 
-  return *this;
+    return *this;
 }
 
 //! Load a multi-page TIFF file \newinstance.
-static CImg<T> get_load_tiff(std::istream* tiffInStream,
-                             const unsigned int first_frame=0, const unsigned int last_frame=~0U,
-                             const unsigned int step_frame=1)
-{
-  return CImg<T>().load_tiff(tiffInStream,first_frame,last_frame,step_frame);
+static CImg<T> get_load_tiff(
+    std::istream* tiffInStream, const unsigned int first_frame = 0, const unsigned int last_frame = ~0U,
+    const unsigned int step_frame = 1) {
+    return CImg<T>().load_tiff(tiffInStream, first_frame, last_frame, step_frame);
 }
 
 // End of the plug-in

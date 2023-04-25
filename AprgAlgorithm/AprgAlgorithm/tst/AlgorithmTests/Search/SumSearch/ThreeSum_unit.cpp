@@ -4,22 +4,18 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SumSearch = ThreeSum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
 using ThreeValuesForTest = SumSearch::ThreeValues;
-}
+}  // namespace
 
-TEST(ThreeSumTest, GetNonDuplicateThreeValuesWithSumWorksOnExample1)
-{
+TEST(ThreeSumTest, GetNonDuplicateThreeValuesWithSumWorksOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -29,8 +25,7 @@ TEST(ThreeSumTest, GetNonDuplicateThreeValuesWithSumWorksOnExample1)
     EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
 }
 
-TEST(ThreeSumTest, GetPossibleDuplicatedThreeValuesWithSumWorksOnExample1)
-{
+TEST(ThreeSumTest, GetPossibleDuplicatedThreeValuesWithSumWorksOnExample1) {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -40,6 +35,6 @@ TEST(ThreeSumTest, GetPossibleDuplicatedThreeValuesWithSumWorksOnExample1)
     EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

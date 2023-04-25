@@ -19,70 +19,52 @@ using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Factorization;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm)
-{
+bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm) {
     return getNumberOfTerms(supposeToBeComplicatedTerm) > getNumberOfTerms(supposeToBeSimpleTerm);
 }
 
-bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
-{
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm) {
     FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
     firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
 
     return isTermSimpler(term, negatedTerm) || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
-bool isNonEmptyOrNonOperatorType(Term const& term)
-{
+bool isNonEmptyOrNonOperatorType(Term const& term) {
     TermType termType(term.getTermType());
     return TermType::Empty != termType && TermType::Operator != termType;
 }
 
-bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term)
-{
+bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term) {
     TermType termType(term.getTermType());
-    return TermType::Empty != termType
-            && TermType::Operator != termType
-            && TermType::Expression != termType;
+    return TermType::Empty != termType && TermType::Operator != termType && TermType::Expression != termType;
 }
 
-bool isARadicalTerm(Term const& term)
-{
+bool isARadicalTerm(Term const& term) {
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
     return termRaiseToANumber.isRadical();
 }
 
-unsigned int getNumberOfTerms(Term const& term)
-{
+unsigned int getNumberOfTerms(Term const& term) {
     NumberOfTermsRetriever retriever;
     retriever.retrieveFromTerm(term);
     return retriever.getSavedData();
 }
 
-AlbaNumber getConstantFactor(Term const& term)
-{
+AlbaNumber getConstantFactor(Term const& term) {
     AlbaNumber result(1);
-    if(term.isConstant())
-    {
+    if (term.isConstant()) {
         result = term.getConstantValueConstReference();
-    }
-    else if(term.isMonomial())
-    {
+    } else if (term.isMonomial()) {
         result = term.getMonomialConstReference().getConstantConstReference();
-    }
-    else if(term.isPolynomial())
-    {
+    } else if (term.isPolynomial()) {
         Polynomials factors(factorizeCommonMonomial(term.getPolynomialConstReference()));
-        for(Polynomial const& factor : factors)
-        {
-            if(isOneMonomial(factor))
-            {
+        for (Polynomial const& factor : factors) {
+            if (isOneMonomial(factor)) {
                 result *= getFirstMonomial(factor).getConstantConstReference();
             }
         }
@@ -90,62 +72,41 @@ AlbaNumber getConstantFactor(Term const& term)
     return result;
 }
 
-AlbaNumber getDegree(Term const& term)
-{
+AlbaNumber getDegree(Term const& term) {
     AlbaNumber result;
-    if(term.isConstant())
-    {
+    if (term.isConstant()) {
         result = 0;
     }
-    if(term.isVariable())
-    {
+    if (term.isVariable()) {
         result = 1;
-    }
-    else if(term.isMonomial())
-    {
+    } else if (term.isMonomial()) {
         result = getDegree(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
+    } else if (term.isPolynomial()) {
         result = getMaxDegree(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
+    } else if (term.isExpression()) {
         Expression const& expression(term.getExpressionConstReference());
         TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-        if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
-        {
+        if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
             AlbaNumber maxDegree(0);
-            for(TermWithDetails const& termWithDetails : termsWithDetails)
-            {
+            for (TermWithDetails const& termWithDetails : termsWithDetails) {
                 Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
                 maxDegree = max(maxDegree, getDegree(term));
             }
             result = maxDegree;
-        }
-        else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
-        {
+        } else if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {
             AlbaNumber sumDegree(0);
-            for(TermWithDetails const& termWithDetails : termsWithDetails)
-            {
+            for (TermWithDetails const& termWithDetails : termsWithDetails) {
                 Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
                 sumDegree += getDegree(term);
             }
             result = sumDegree;
-        }
-        else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
-        {
+        } else if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()) {
             result = ALBA_NUMBER_POSITIVE_INFINITY;
         }
-    }
-    else if(term.isFunction())
-    {
-        if("ln" == term.getFunctionConstReference().getFunctionName())
-        {
+    } else if (term.isFunction()) {
+        if ("ln" == term.getFunctionConstReference().getFunctionName()) {
             result = ALBA_NUMBER_NEGATIVE_INFINITY;
-        }
-        else
-        {
+        } else {
             result = 0;
         }
     }
@@ -153,95 +114,63 @@ AlbaNumber getDegree(Term const& term)
 }
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
-        AlbaNumbers const& numbers,
-        string const& variableName,
-        Term const& term)
-{
+    AlbaNumbers const& numbers, string const& variableName, Term const& term) {
     AlbaNumberPairs result;
     SubstitutionOfVariablesToValues substitution;
-    for(AlbaNumber const& number : numbers)
-    {
+    for (AlbaNumber const& number : numbers) {
         substitution.putVariableWithValue(variableName, number);
         Term substituteTerm(substitution.performSubstitutionTo(term));
-        if(substituteTerm.isConstant())
-        {
+        if (substituteTerm.isConstant()) {
             result.emplace_back(number, substituteTerm.getConstantValueConstReference());
         }
     }
     return result;
 }
 
-Term getPiAsATerm()
-{
-    return ALBA_NUMBER_PI;
-}
+Term getPiAsATerm() { return ALBA_NUMBER_PI; }
 
-Term getEAsATerm()
-{
-    return ALBA_NUMBER_E;
-}
+Term getEAsATerm() { return ALBA_NUMBER_E; }
 
-Term getPositiveInfinityAsATerm()
-{
-    return ALBA_NUMBER_POSITIVE_INFINITY;
-}
+Term getPositiveInfinityAsATerm() { return ALBA_NUMBER_POSITIVE_INFINITY; }
 
-Term getNegativeInfinityAsATerm()
-{
-    return ALBA_NUMBER_NEGATIVE_INFINITY;
-}
+Term getNegativeInfinityAsATerm() { return ALBA_NUMBER_NEGATIVE_INFINITY; }
 
-Term convertPositiveTermIfNegative(Term const& term)
-{
+Term convertPositiveTermIfNegative(Term const& term) {
     Term result;
-    if(isANegativeTerm(term))
-    {
+    if (isANegativeTerm(term)) {
         result = negateTerm(term);
-    }
-    else
-    {
+    } else {
         result = term;
     }
     return result;
 }
 
-Term negateTerm(Term const& term)
-{
+Term negateTerm(Term const& term) {
     NegationMutator negationMutator;
     Term negatedTerm(term);
     negationMutator.mutateTerm(negatedTerm);
     return negatedTerm;
 }
 
-Term flipTerm(Term const& term)
-{
-    return 1/term;
-}
+Term flipTerm(Term const& term) { return 1 / term; }
 
-Term negateTermIfHasNegativeAssociation(
-        TermWithDetails const& termWithDetails)
-{
+Term negateTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails) {
     Term result(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-    if(termWithDetails.hasNegativeAssociation())
-    {
+    if (termWithDetails.hasNegativeAssociation()) {
         result = negateTerm(result);
     }
     return result;
 }
 
-Term flipTermIfHasNegativeAssociation(
-        TermWithDetails const& termWithDetails)
-{
+Term flipTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails) {
     Term result(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-    if(termWithDetails.hasNegativeAssociation())
-    {
-        result = 1/result;
+    if (termWithDetails.hasNegativeAssociation()) {
+        result = 1 / result;
     }
     return result;
 }
 
-Term invertTerm(Term const& term, string const& variableName)
-{
+Term invertTerm(Term const& term, string const& variableName) {
     string newVariableName(createVariableNameForSubstitution(term));
     Equation equationToIsolate(newVariableName, "=", term);
     IsolationOfOneVariableOnEqualityEquation isolation(equationToIsolate);
@@ -249,14 +178,13 @@ Term invertTerm(Term const& term, string const& variableName)
     return substitution.performSubstitutionTo(isolation.getEquivalentTermByIsolatingAVariable(variableName));
 }
 
-Expression negateExpression(Expression const& expression)
-{
+Expression negateExpression(Expression const& expression) {
     NegationMutator negationMutator;
     Expression negatedExpression(expression);
     negationMutator.mutateExpression(negatedExpression);
     return negatedExpression;
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

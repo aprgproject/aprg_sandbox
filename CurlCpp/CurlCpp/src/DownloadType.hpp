@@ -1,19 +1,11 @@
 #pragma once
 
-namespace curl
-{
+namespace curl {
 
-namespace CurlInterface
-{
+namespace CurlInterface {
 
-enum class DownloadType
-{
-    LowSpeedLimit,
-    MozillaFireFox,
-    PrintDownloadProgress,
-    Ssl
-};
+enum class DownloadType { LowSpeedLimit, MozillaFireFox, PrintDownloadProgress, Ssl };
 
 }
 
-}
+}  // namespace curl

@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace booleanAlgebra
-{
+namespace booleanAlgebra {
 
-TEST(VariableTermTest, VariableTermsAreConstructedCorrectly)
-{
+TEST(VariableTermTest, VariableTermsAreConstructedCorrectly) {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("time");
     VariableTerm variableTerm3("time'");
@@ -27,36 +24,33 @@ TEST(VariableTermTest, VariableTermsAreConstructedCorrectly)
     EXPECT_TRUE(variableTerm4.isNegated());
 }
 
-TEST(VariableTermTest, EqualityOperatorWorks)
-{
+TEST(VariableTermTest, EqualityOperatorWorks) {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("x");
     VariableTerm variable3("power");
     VariableTerm variable4(VariableTerm::createNegatedVariableTerm("x"));
 
-    EXPECT_TRUE(variableTerm1==variableTerm1);
-    EXPECT_FALSE(variableTerm1==variableTerm2);
-    EXPECT_TRUE(variableTerm2==variableTerm2);
-    EXPECT_FALSE(variableTerm2==variable3);
-    EXPECT_FALSE(variableTerm2==variable4);
+    EXPECT_TRUE(variableTerm1 == variableTerm1);
+    EXPECT_FALSE(variableTerm1 == variableTerm2);
+    EXPECT_TRUE(variableTerm2 == variableTerm2);
+    EXPECT_FALSE(variableTerm2 == variable3);
+    EXPECT_FALSE(variableTerm2 == variable4);
 }
 
-TEST(VariableTermTest, NonequalityOperatorWorks)
-{
+TEST(VariableTermTest, NonequalityOperatorWorks) {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("x");
     VariableTerm variable3("power");
     VariableTerm variable4("x'");
 
-    EXPECT_FALSE(variableTerm1!=variableTerm1);
-    EXPECT_TRUE(variableTerm1!=variableTerm2);
-    EXPECT_FALSE(variableTerm2!=variableTerm2);
-    EXPECT_TRUE(variableTerm2!=variable3);
-    EXPECT_TRUE(variableTerm2!=variable4);
+    EXPECT_FALSE(variableTerm1 != variableTerm1);
+    EXPECT_TRUE(variableTerm1 != variableTerm2);
+    EXPECT_FALSE(variableTerm2 != variableTerm2);
+    EXPECT_TRUE(variableTerm2 != variable3);
+    EXPECT_TRUE(variableTerm2 != variable4);
 }
 
-TEST(VariableTermTest, LessThanOperatorWorks)
-{
+TEST(VariableTermTest, LessThanOperatorWorks) {
     EXPECT_FALSE(VariableTerm() < VariableTerm());
     EXPECT_FALSE(VariableTerm("x") < VariableTerm("x"));
     EXPECT_FALSE(VariableTerm("x") < VariableTerm("w"));
@@ -66,14 +60,12 @@ TEST(VariableTermTest, LessThanOperatorWorks)
     EXPECT_TRUE(VariableTerm("x") < VariableTerm("x'"));
 }
 
-TEST(VariableTermTest, NotOperationWorks)
-{
+TEST(VariableTermTest, NotOperationWorks) {
     EXPECT_EQ(VariableTerm("time'"), ~VariableTerm("time"));
     EXPECT_EQ(VariableTerm("time"), ~VariableTerm("time'"));
 }
 
-TEST(VariableTermTest, IsNegatedWorks)
-{
+TEST(VariableTermTest, IsNegatedWorks) {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("time'");
 
@@ -81,8 +73,7 @@ TEST(VariableTermTest, IsNegatedWorks)
     EXPECT_TRUE(variableTerm2.isNegated());
 }
 
-TEST(VariableTermTest, SettingANewVariableTermNameWorks)
-{
+TEST(VariableTermTest, SettingANewVariableTermNameWorks) {
     VariableTerm variableForTest;
     EXPECT_EQ("", variableForTest.getVariableTermName());
 
@@ -90,8 +81,7 @@ TEST(VariableTermTest, SettingANewVariableTermNameWorks)
     EXPECT_EQ("omega", variableForTest.getVariableTermName());
 }
 
-TEST(VariableTermTest, NegateWorks)
-{
+TEST(VariableTermTest, NegateWorks) {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("time");
     VariableTerm variableTerm3("time'");
@@ -105,8 +95,7 @@ TEST(VariableTermTest, NegateWorks)
     EXPECT_EQ(VariableTerm("time"), variableTerm3);
 }
 
-TEST(VariableTermTest, OutputStreamOperatorWorks)
-{
+TEST(VariableTermTest, OutputStreamOperatorWorks) {
     stringstream ss;
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("time");
@@ -116,6 +105,6 @@ TEST(VariableTermTest, OutputStreamOperatorWorks)
     EXPECT_EQ(",time", ss.str());
 }
 
-}
+}  // namespace booleanAlgebra
 
-}
+}  // namespace alba

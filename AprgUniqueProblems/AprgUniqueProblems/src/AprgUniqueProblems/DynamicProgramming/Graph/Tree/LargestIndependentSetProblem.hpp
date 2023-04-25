@@ -3,13 +3,10 @@
 #include <Algorithm/Graph/Tree/ChildrenInTree.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class LargestIndependentSetProblem
-{
+class LargestIndependentSetProblem {
 public:
-
     using Count = unsigned int;
     using Index = unsigned int;
     using Vertex = unsigned int;
@@ -18,7 +15,7 @@ public:
     using ChildrenInTree = algorithm::ChildrenInTree<Vertex>;
     using VertexToCountMap = std::map<Vertex, Count>;
     using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVertices>;
-    static constexpr unsigned int UNUSED_COUNT=std::numeric_limits<unsigned int>::max();
+    static constexpr unsigned int UNUSED_COUNT = std::numeric_limits<unsigned int>::max();
 
     LargestIndependentSetProblem(Graph const& nAryTreeGraph, Vertex const rootOfTree);
 
@@ -28,16 +25,16 @@ public:
 
 private:
     Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;
-    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
-    SetOfVertices getMaximumSetUsingMemoizationDP(VertexToSetOfVerticesMap & vertexToMaximumSetMap, Vertex const vertex) const;
+    Count getMaximumCountUsingMemoizationDP(VertexToCountMap& vertexToCountMap, Vertex const vertex) const;
+    SetOfVertices getMaximumSetUsingMemoizationDP(
+        VertexToSetOfVerticesMap& vertexToMaximumSetMap, Vertex const vertex) const;
 
     Graph m_nAryTreeGraph;
     Vertex m_rootOfTree;
     ChildrenInTree m_childrenInTree;
 };
 
-}
-
+}  // namespace alba
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -46,14 +43,13 @@ private:
 // ---> Get count when vertex is not included (recursively call the count of children)
 // ---> Return the maximum of the two counts
 
-
-
 // Largest Independent Set Problem
 
 // Given a Binary Tree, find size of the Largest Independent Set(LIS) in it.
 // A subset of all tree nodes is an independent set if there is no edge between any two nodes of the subset.
 
-// For example, consider the following binary tree. The largest independent set(LIS) is {10, 40, 60, 70, 80} and size of the LIS is 5.
+// For example, consider the following binary tree. The largest independent set(LIS) is {10, 40, 60, 70, 80} and size of
+// the LIS is 5.
 //       10
 //      |  |
 //    20   30
@@ -79,12 +75,14 @@ private:
 
 // Time complexity of the above naive recursive approach is exponential.
 // It should be noted that the above function computes the same subproblems again and again.
-// For example, LISS of node with value 50 is evaluated for node with values 10 and 20 as 50 is grandchild of 10 and child of 20.
+// For example, LISS of node with value 50 is evaluated for node with values 10 and 20 as 50 is grandchild of 10 and
+// child of 20.
 
 // Since same subproblems are called again, this problem has Overlapping Subproblems property.
 // So LISS problem has both properties (see this and this) of a dynamic programming problem.
 // Like other typical Dynamic Programming(DP) problems,
-// recomputations of same subproblems can be avoided by storing the solutions to subproblems and solving problems in bottom up manner.
+// recomputations of same subproblems can be avoided by storing the solutions to subproblems and solving problems in
+// bottom up manner.
 
 // Following are implementation of Dynamic Programming based solution.
 // In the following solution, an additional field ‘liss’ is added to tree nodes.
@@ -97,6 +95,3 @@ private:
 // -> Extend the solution so that it doesn’t modify the tree structure.
 // 3) The above solution only returns size of LIS, it doesn’t print elements of LIS.
 // -> Extend the solution to print all nodes that are part of LIS.
-
-
-

@@ -2,17 +2,15 @@
 
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba
-{
+namespace alba {
 
-class GridPathSearch
-{
+class GridPathSearch {
 public:
-    // Calculating the number of paths in an nxn grid from the upper-left corner to the lower-right corner such that the path visits each square exactly once.
+    // Calculating the number of paths in an nxn grid from the upper-left corner to the lower-right corner such that the
+    // path visits each square exactly once.
 
     using Grid = matrix::AlbaMatrix<bool>;
-    enum class Movement
-    {
+    enum class Movement {
         Left,
         Right,
         Up,
@@ -37,4 +35,4 @@ private:
     Grid m_grid;
 };
 
-}
+}  // namespace alba

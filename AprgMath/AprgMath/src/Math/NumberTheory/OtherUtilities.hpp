@@ -2,11 +2,9 @@
 
 #include <Math/Types.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace math
-{
+namespace math {
 
 bool isLagrangeTheoremTrue(UnsignedInteger const number);
 bool isZeckendorfTheoremTrue(UnsignedInteger const number);
@@ -17,6 +15,6 @@ UnsignedInteger getNthFibonacciUsingMatrixPowerWithLogarithmicTime(UnsignedInteg
 UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const number);
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number);
 
-}
+}  // namespace math
 
-}
+}  // namespace alba

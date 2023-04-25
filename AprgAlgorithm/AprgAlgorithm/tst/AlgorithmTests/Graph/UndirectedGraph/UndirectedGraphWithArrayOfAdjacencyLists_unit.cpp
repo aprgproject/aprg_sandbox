@@ -7,132 +7,104 @@
 using namespace alba::algorithm::CommonTestsWithUndirectedGraph;
 using namespace alba::stringHelper;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using GraphForTest = UndirectedGraphWithArrayOfAdjacencyLists<unsigned int, 13>;
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetGraphDirectionTypeWorks)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetGraphDirectionTypeWorks) {
     testGetGraphDirectionTypeWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsEmptyWorks)
-{
-    testIsEmptyWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsEmptyWorks) { testIsEmptyWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, HasAnyConnectionWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, HasAnyConnectionWorksWhenEmpty) {
     testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, HasAnyConnectionWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, HasAnyConnectionWorksWhenNotEmpty) {
     testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsConnectedWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsConnectedWorksWhenEmpty) {
     testIsConnectedWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsConnectedWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsConnectedWorksWhenNotEmpty) {
     testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfVerticesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfVerticesWorksWhenEmpty) {
     testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfVerticesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfVerticesWorksWhenNotEmpty) {
     testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfEdgesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfEdgesWorksWhenEmpty) {
     testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfEdgesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfEdgesWorksWhenNotEmpty) {
     testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetAdjacentVerticesAtWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetAdjacentVerticesAtWorksWhenEmpty) {
     testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetAdjacentVerticesAtWorksWhenNotEmpty) {
     testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetVerticesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetVerticesWorksWhenEmpty) {
     testGetVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetVerticesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetVerticesWorksWhenNotEmpty) {
     testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetEdgesWorksWhenEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetEdgesWorksWhenEmpty) {
     testGetEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetEdgesWorksWhenNotEmpty)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetEdgesWorksWhenNotEmpty) {
     testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ConnectWorks)
-{
-    testConnectWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ConnectWorks) { testConnectWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, DisconnectWorks)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, DisconnectWorks) {
     testDisconnectWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ClearWorks)
-{
-    testClearWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ClearWorks) { testClearWithVertexAsUnsignedInt<GraphForTest>(); }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GraphWorksAfterClear)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GraphWorksAfterClear) {
     testGraphWorksAfterClearWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ComplicatedTestWorks)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ComplicatedTestWorks) {
     testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, OutputStreamOperatorWorks)
-{
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, OutputStreamOperatorWorks) {
     GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_EQ("Adjacency Lists: \nAdjacent with vertex 0: {1, 2, } \nAdjacent with vertex 1: {0, } \nAdjacent with vertex 2: {0, } \n", convertToString(graph));
+    EXPECT_EQ(
+        "Adjacency Lists: \nAdjacent with vertex 0: {1, 2, } \nAdjacent with vertex 1: {0, } \nAdjacent with vertex 2: "
+        "{0, } \n",
+        convertToString(graph));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

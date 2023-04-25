@@ -6,14 +6,11 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(EquationTest, EquationsAreConstructedCorrectly)
-{
+TEST(EquationTest, EquationsAreConstructedCorrectly) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
 
@@ -25,8 +22,7 @@ TEST(EquationTest, EquationsAreConstructedCorrectly)
     EXPECT_EQ(Term(8), equation2.getRightHandTerm());
 }
 
-TEST(EquationTest, EqualityOperatorWorks)
-{
+TEST(EquationTest, EqualityOperatorWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
     Equation equation3(7, ">", 8);
@@ -34,17 +30,16 @@ TEST(EquationTest, EqualityOperatorWorks)
     Equation equation5(Monomial(1, {{"x", 1}}), ">", 8);
     Equation equation6(Monomial(1, {{"x", 1}}), ">=", 8);
 
-    EXPECT_TRUE(equation1==equation1);
-    EXPECT_FALSE(equation1==equation2);
-    EXPECT_TRUE(equation2==equation2);
-    EXPECT_TRUE(equation2==equation3);
-    EXPECT_FALSE(equation2==equation4);
-    EXPECT_FALSE(equation2==equation5);
-    EXPECT_FALSE(equation2==equation6);
+    EXPECT_TRUE(equation1 == equation1);
+    EXPECT_FALSE(equation1 == equation2);
+    EXPECT_TRUE(equation2 == equation2);
+    EXPECT_TRUE(equation2 == equation3);
+    EXPECT_FALSE(equation2 == equation4);
+    EXPECT_FALSE(equation2 == equation5);
+    EXPECT_FALSE(equation2 == equation6);
 }
 
-TEST(EquationTest, InequalityOperatorWorks)
-{
+TEST(EquationTest, InequalityOperatorWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
     Equation equation3(7, ">", 8);
@@ -52,17 +47,16 @@ TEST(EquationTest, InequalityOperatorWorks)
     Equation equation5(Monomial(1, {{"x", 1}}), ">", 8);
     Equation equation6(Monomial(1, {{"x", 1}}), ">=", 8);
 
-    EXPECT_FALSE(equation1!=equation1);
-    EXPECT_TRUE(equation1!=equation2);
-    EXPECT_FALSE(equation2!=equation2);
-    EXPECT_FALSE(equation2!=equation3);
-    EXPECT_TRUE(equation2!=equation4);
-    EXPECT_TRUE(equation2!=equation5);
-    EXPECT_TRUE(equation2!=equation6);
+    EXPECT_FALSE(equation1 != equation1);
+    EXPECT_TRUE(equation1 != equation2);
+    EXPECT_FALSE(equation2 != equation2);
+    EXPECT_FALSE(equation2 != equation3);
+    EXPECT_TRUE(equation2 != equation4);
+    EXPECT_TRUE(equation2 != equation5);
+    EXPECT_TRUE(equation2 != equation6);
 }
 
-TEST(EquationTest, LessThanOperatorWorks)
-{
+TEST(EquationTest, LessThanOperatorWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, "<", 17);
     Equation equation3(7, "<", 17);
@@ -73,18 +67,17 @@ TEST(EquationTest, LessThanOperatorWorks)
     Equation equation8(7, "==", 17);
     Equation equation9(7, ">", 17);
 
-    EXPECT_FALSE(equation1<equation1);
-    EXPECT_FALSE(equation2<equation3);
-    EXPECT_FALSE(equation2<equation4);
-    EXPECT_TRUE(equation2<equation5);
-    EXPECT_FALSE(equation2<equation6);
-    EXPECT_TRUE(equation2<equation7);
-    EXPECT_TRUE(equation2<equation8);
-    EXPECT_TRUE(equation2<equation9);
+    EXPECT_FALSE(equation1 < equation1);
+    EXPECT_FALSE(equation2 < equation3);
+    EXPECT_FALSE(equation2 < equation4);
+    EXPECT_TRUE(equation2 < equation5);
+    EXPECT_FALSE(equation2 < equation6);
+    EXPECT_TRUE(equation2 < equation7);
+    EXPECT_TRUE(equation2 < equation8);
+    EXPECT_TRUE(equation2 < equation9);
 }
 
-TEST(EquationTest, IsEmptyWorks)
-{
+TEST(EquationTest, IsEmptyWorks) {
     Equation equation1;
     Equation equation2(7, "=", 8);
 
@@ -92,8 +85,7 @@ TEST(EquationTest, IsEmptyWorks)
     EXPECT_FALSE(equation2.isEmpty());
 }
 
-TEST(EquationTest, IsEquationSatisfiedWorks)
-{
+TEST(EquationTest, IsEquationSatisfiedWorks) {
     Equation equation1(7, "=", 7);
     Equation equation2(7, "=", 8);
 
@@ -101,8 +93,7 @@ TEST(EquationTest, IsEquationSatisfiedWorks)
     EXPECT_FALSE(equation2.isEquationSatisfied());
 }
 
-TEST(EquationTest, GetEquationOperatorWorks)
-{
+TEST(EquationTest, GetEquationOperatorWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
 
@@ -110,8 +101,7 @@ TEST(EquationTest, GetEquationOperatorWorks)
     EXPECT_EQ(EquationOperator(">"), equation2.getEquationOperator());
 }
 
-TEST(EquationTest, GetLeftHandTermWorks)
-{
+TEST(EquationTest, GetLeftHandTermWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
 
@@ -119,8 +109,7 @@ TEST(EquationTest, GetLeftHandTermWorks)
     EXPECT_EQ(Term(7), equation2.getLeftHandTerm());
 }
 
-TEST(EquationTest, GetRightHandTermWorks)
-{
+TEST(EquationTest, GetRightHandTermWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
 
@@ -128,8 +117,7 @@ TEST(EquationTest, GetRightHandTermWorks)
     EXPECT_EQ(Term(8), equation2.getRightHandTerm());
 }
 
-TEST(EquationTest, GetLeftHandTermReferenceWorks)
-{
+TEST(EquationTest, GetLeftHandTermReferenceWorks) {
     Equation equation2(7, ">", 8);
 
     equation2.getLeftHandTermReference() = "a";
@@ -137,8 +125,7 @@ TEST(EquationTest, GetLeftHandTermReferenceWorks)
     EXPECT_EQ(Term("a"), equation2.getLeftHandTerm());
 }
 
-TEST(EquationTest, GetRightHandTermReferenceWorks)
-{
+TEST(EquationTest, GetRightHandTermReferenceWorks) {
     Equation equation2(7, ">", 8);
 
     equation2.getRightHandTermReference() = "b";
@@ -146,8 +133,7 @@ TEST(EquationTest, GetRightHandTermReferenceWorks)
     EXPECT_EQ(Term("b"), equation2.getRightHandTerm());
 }
 
-TEST(EquationTest, SimplifyWorks)
-{
+TEST(EquationTest, SimplifyWorks) {
     Equation equation("x", "<", "y");
 
     equation.simplify();
@@ -157,8 +143,7 @@ TEST(EquationTest, SimplifyWorks)
     EXPECT_EQ(Term(0), equation.getRightHandTerm());
 }
 
-TEST(EquationTest, OutputStreamOperatorWorks)
-{
+TEST(EquationTest, OutputStreamOperatorWorks) {
     Equation equation1(Term(), "=", Term());
     Equation equation2(7, ">", 8);
 
@@ -166,6 +151,6 @@ TEST(EquationTest, OutputStreamOperatorWorks)
     EXPECT_EQ("7 > 8", convertToString(equation2));
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -4,25 +4,21 @@
 
 using namespace std;
 
-namespace Strategy
-{
+namespace Strategy {
 
-TEST(StrategyTest, TestForConcreteStrategyA)
-{
+TEST(StrategyTest, TestForConcreteStrategyA) {
     Context context(make_unique<ConcreteStrategyA>());
     context.contextInterface();
 }
 
-TEST(StrategyTest, TestForConcreteStrategyB)
-{
+TEST(StrategyTest, TestForConcreteStrategyB) {
     Context context(make_unique<ConcreteStrategyB>());
     context.contextInterface();
 }
 
-TEST(StrategyTest, TestForConcreteStrategyC)
-{
+TEST(StrategyTest, TestForConcreteStrategyC) {
     Context context(make_unique<ConcreteStrategyC>());
     context.contextInterface();
 }
 
-}
+}  // namespace Strategy

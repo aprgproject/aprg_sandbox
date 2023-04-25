@@ -4,14 +4,11 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-TEST(ConstantTest, ConstantsAreConstructedCorrectly)
-{
+TEST(ConstantTest, ConstantsAreConstructedCorrectly) {
     Constant constant1;
     Constant constant2(3484);
     Constant constant3(-1561);
@@ -25,44 +22,40 @@ TEST(ConstantTest, ConstantsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(-85.45631, constant5.getNumberConstReference().getDouble());
 }
 
-TEST(ConstantTest, EqualityOperatorWorks)
-{
+TEST(ConstantTest, EqualityOperatorWorks) {
     Constant constant1;
     Constant constant2(3484);
     Constant constant3(-1561);
     Constant constant4(3484);
 
-    EXPECT_TRUE(constant1==constant1);
-    EXPECT_FALSE(constant1==constant2);
-    EXPECT_TRUE(constant2==constant2);
-    EXPECT_FALSE(constant2==constant3);
-    EXPECT_TRUE(constant2==constant4);
+    EXPECT_TRUE(constant1 == constant1);
+    EXPECT_FALSE(constant1 == constant2);
+    EXPECT_TRUE(constant2 == constant2);
+    EXPECT_FALSE(constant2 == constant3);
+    EXPECT_TRUE(constant2 == constant4);
 }
 
-TEST(ConstantTest, InequalityOperatorWorks)
-{
+TEST(ConstantTest, InequalityOperatorWorks) {
     Constant constant1;
     Constant constant2(3484);
     Constant constant3(-1561);
     Constant constant4(3484);
 
-    EXPECT_FALSE(constant1!=constant1);
-    EXPECT_TRUE(constant1!=constant2);
-    EXPECT_FALSE(constant2!=constant2);
-    EXPECT_TRUE(constant2!=constant3);
-    EXPECT_FALSE(constant2!=constant4);
+    EXPECT_FALSE(constant1 != constant1);
+    EXPECT_TRUE(constant1 != constant2);
+    EXPECT_FALSE(constant2 != constant2);
+    EXPECT_TRUE(constant2 != constant3);
+    EXPECT_FALSE(constant2 != constant4);
 }
 
-TEST(ConstantTest, LessThanOperatorWorks)
-{
+TEST(ConstantTest, LessThanOperatorWorks) {
     EXPECT_FALSE(Constant() < Constant());
     EXPECT_FALSE(Constant(34) < Constant(34));
     EXPECT_FALSE(Constant(34) < Constant(33));
     EXPECT_TRUE(Constant(34) < Constant(35));
 }
 
-TEST(ConstantTest, SettingANewNumberWorks)
-{
+TEST(ConstantTest, SettingANewNumberWorks) {
     Constant constant(3484);
     EXPECT_DOUBLE_EQ(3484, constant.getNumberConstReference().getDouble());
 
@@ -70,8 +63,7 @@ TEST(ConstantTest, SettingANewNumberWorks)
     EXPECT_DOUBLE_EQ(4521, constant.getNumberConstReference().getDouble());
 }
 
-TEST(ConstantTest, OutputStreamOperatorWorks)
-{
+TEST(ConstantTest, OutputStreamOperatorWorks) {
     stringstream ss;
     Constant constant1;
     Constant constant2(3484);
@@ -84,6 +76,6 @@ TEST(ConstantTest, OutputStreamOperatorWorks)
     EXPECT_EQ("0,3484,-1561,(-83/8349),-85.4563", ss.str());
 }
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

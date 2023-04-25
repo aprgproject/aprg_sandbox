@@ -4,16 +4,13 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace
-{
-using Distance=LevenshteinDistance::Index;
+namespace {
+using Distance = LevenshteinDistance::Index;
 }
 
-TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1)
-{
+TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1) {
     LevenshteinDistance queryForTest("MOVIE", "LOVE");
 
     EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
@@ -22,8 +19,7 @@ TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1)
     EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
-{
+TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2) {
     LevenshteinDistance queryForTest("This is a statement", "This is not a statement");
 
     EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
@@ -32,4 +28,4 @@ TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
     EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
 }
 
-}
+}  // namespace alba

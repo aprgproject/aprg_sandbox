@@ -7,118 +7,105 @@
 #include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename Index>
-class RegularExpressionPatternMatching
-{
+class RegularExpressionPatternMatching {
 public:
-    using Indexes = std::vector<Index>; // States are indexes
+    using Indexes = std::vector<Index>;  // States are indexes
 
-    RegularExpressionPatternMatching(std::string const& regularExpression)
-        : m_regularExpression(regularExpression)
-    {
+    RegularExpressionPatternMatching(std::string const& regularExpression) : m_regularExpression(regularExpression) {
         initialize();
     }
 
-    bool isAMatch(std::string const& stringToCheck) const
-    {
+    bool isAMatch(std::string const& stringToCheck) const {
         bool isEndReached(false);
-        Indexes nullTransitionStates(getNullTransitionsStates({0})); // start from first index
+        Indexes nullTransitionStates(getNullTransitionsStates({0}));  // start from first index
         Index checkLength(stringToCheck.size());
         Index lengthOfRE(m_regularExpression.size());
-        for(Index checkIndex=0; !isEndReached && checkIndex<checkLength; checkIndex++)
-        {
+        for (Index checkIndex = 0; !isEndReached && checkIndex < checkLength; checkIndex++) {
             Indexes nextStatesFromAMatch;
-            for(Index const nullTransitionState : nullTransitionStates)
-            {
-                if(nullTransitionState < lengthOfRE)
-                {
+            for (Index const nullTransitionState : nullTransitionStates) {
+                if (nullTransitionState < lengthOfRE) {
                     char charInRE(m_regularExpression.at(nullTransitionState));
-                    if(charInRE == stringToCheck.at(checkIndex) || charInRE == '.') // if there is a match
+                    if (charInRE == stringToCheck.at(checkIndex) || charInRE == '.')  // if there is a match
                     {
-                        nextStatesFromAMatch.emplace_back(nullTransitionState + 1); // proceed to next state from nullTransitionState
+                        nextStatesFromAMatch.emplace_back(
+                            nullTransitionState + 1);  // proceed to next state from nullTransitionState
                     }
-                }
-                else if(nullTransitionState == lengthOfRE) // null transition reached the end
+                } else if (nullTransitionState == lengthOfRE)  // null transition reached the end
                 {
                     isEndReached = true;
                     break;
                 }
             }
-            if(!isEndReached)
-            {
+            if (!isEndReached) {
                 nullTransitionStates = getNullTransitionsStates(nextStatesFromAMatch);
             }
         }
-        if(!isEndReached)
-        {
-            // check if any null transition state reached the end (reverse iteration order to be faster, DFS puts higher vertices at the end)
-            isEndReached = std::find(nullTransitionStates.crbegin(), nullTransitionStates.crend(), lengthOfRE) != nullTransitionStates.crend();
+        if (!isEndReached) {
+            // check if any null transition state reached the end (reverse iteration order to be faster, DFS puts higher
+            // vertices at the end)
+            isEndReached = std::find(nullTransitionStates.crbegin(), nullTransitionStates.crend(), lengthOfRE) !=
+                           nullTransitionStates.crend();
         }
         return isEndReached;
     }
 
 private:
-
-    Indexes getNullTransitionsStates(Indexes const statesFromAMatch) const
-    {
+    Indexes getNullTransitionsStates(Indexes const statesFromAMatch) const {
         Indexes result;
         PathSearchUsingDfs<Index> nullTransitionPathSearch(m_nullTransitionsGraph, statesFromAMatch);
-        for(Index const state : m_nullTransitionsGraph.getVertices())
-        {
-            if(nullTransitionPathSearch.hasPathTo(state))
-            {
+        for (Index const state : m_nullTransitionsGraph.getVertices()) {
+            if (nullTransitionPathSearch.hasPathTo(state)) {
                 result.emplace_back(state);
             }
         }
         return result;
     }
 
-    void initialize()
-    {
-        buildNullTransitionsGraph();
-    }
+    void initialize() { buildNullTransitionsGraph(); }
 
-    void buildNullTransitionsGraph()
-    {
+    void buildNullTransitionsGraph() {
         std::stack<Index> operatorIndexes;
         Index lengthOfRE(m_regularExpression.length());
-        for(Index indexOfRE=0; indexOfRE<lengthOfRE; indexOfRE++)
-        {
+        for (Index indexOfRE = 0; indexOfRE < lengthOfRE; indexOfRE++) {
             Index startIndexOfExpression = indexOfRE;
-            if(m_regularExpression.at(indexOfRE) == '(' || m_regularExpression.at(indexOfRE) == '|')
-            {
-                operatorIndexes.push(indexOfRE); // push to stack if '(' or '|'
-            }
-            else if(m_regularExpression.at(indexOfRE) == ')')
-            {
+            if (m_regularExpression.at(indexOfRE) == '(' || m_regularExpression.at(indexOfRE) == '|') {
+                operatorIndexes.push(indexOfRE);  // push to stack if '(' or '|'
+            } else if (m_regularExpression.at(indexOfRE) == ')') {
                 Index operatorIndex(operatorIndexes.top());
                 operatorIndexes.pop();
-                if(m_regularExpression.at(operatorIndex) == '|') // if stack has an or operator
+                if (m_regularExpression.at(operatorIndex) == '|')  // if stack has an or operator
                 {
                     startIndexOfExpression = operatorIndexes.top();
                     operatorIndexes.pop();
-                    m_nullTransitionsGraph.connect(startIndexOfExpression, operatorIndex+1); // add edge to skip the first part of the expression
-                    m_nullTransitionsGraph.connect(operatorIndex, indexOfRE); // add edge to skip the second part of the expression
-                }
-                else // opening parenthesis goes here
+                    m_nullTransitionsGraph.connect(
+                        startIndexOfExpression,
+                        operatorIndex + 1);  // add edge to skip the first part of the expression
+                    m_nullTransitionsGraph.connect(
+                        operatorIndex, indexOfRE);  // add edge to skip the second part of the expression
+                } else                              // opening parenthesis goes here
                 {
                     startIndexOfExpression = operatorIndex;
                 }
             }
-            if(indexOfRE < lengthOfRE-1 && m_regularExpression.at(indexOfRE+1) == '*') // do one character look ahead if its a star
+            if (indexOfRE < lengthOfRE - 1 &&
+                m_regularExpression.at(indexOfRE + 1) == '*')  // do one character look ahead if its a star
             {
-                m_nullTransitionsGraph.connect(startIndexOfExpression, indexOfRE+1); // add edge from first part of an expression to current state
-                m_nullTransitionsGraph.connect(indexOfRE+1, startIndexOfExpression); // add edge from current state going back to first part of an expression
+                m_nullTransitionsGraph.connect(
+                    startIndexOfExpression,
+                    indexOfRE + 1);  // add edge from first part of an expression to current state
+                m_nullTransitionsGraph.connect(
+                    indexOfRE + 1,
+                    startIndexOfExpression);  // add edge from current state going back to first part of an expression
             }
-            if(m_regularExpression.at(indexOfRE) == '(' || m_regularExpression.at(indexOfRE) == '*' || m_regularExpression.at(indexOfRE) == ')')
-            {
-                m_nullTransitionsGraph.connect(indexOfRE, indexOfRE+1); // add edge null transition to next state if its any of these operators
+            if (m_regularExpression.at(indexOfRE) == '(' || m_regularExpression.at(indexOfRE) == '*' ||
+                m_regularExpression.at(indexOfRE) == ')') {
+                m_nullTransitionsGraph.connect(
+                    indexOfRE, indexOfRE + 1);  // add edge null transition to next state if its any of these operators
             }
         }
     }
@@ -191,7 +178,8 @@ private:
 // -> Can be easier to write than read
 // -> Can be difficult to debug
 
-// Bottom line: REs are amazing powerful and expressive, but using them in applications can be amazingly complex and error prone. -> Mark: Thank you!
+// Bottom line: REs are amazing powerful and expressive, but using them in applications can be amazingly complex and
+// error prone. -> Mark: Thank you!
 
 // Duality between REs and DFAs
 
@@ -224,11 +212,11 @@ private:
 // ---> Build NFA from RE
 // ---> Simulate NFA with text as input
 
-
 // NFA
 // -> Regular expression matching NFA
 // ---> RE enclosed in parentheses
-// ---> One state per RE character in the string (start=0, accept=M). Same to KMP where one state represents an index in the string
+// ---> One state per RE character in the string (start=0, accept=M). Same to KMP where one state represents an index in
+// the string
 // ---> Transitions:
 // -----> Epsilon/Null transition (change state, but don't scan text)
 // -----> Match transition (change state, and scan to next text char).
@@ -269,13 +257,15 @@ private:
 // NFA simulation: analysis
 // Proposition: Determining whether an N-character text is recognized
 // by the NFA corresponding to an M-character pattern takes time proportional to MN in worst case.
-// Proof: For each of the N text characters, we iterate through a set of states of size no more than M and run DFS on the graph of null transitions.
+// Proof: For each of the N text characters, we iterate through a set of states of size no more than M and run DFS on
+// the graph of null transitions.
 
 // Building an NFA corresponding to an RE
 // -> [Concatenation]: Add "match transition" edge from state corresponding to characters in the alphabet to next state
 // -> [Parentheses]: Add "epsilon/null transition" edge from parentheses to next state
 // -> [Closure]: Add three "epsilon/null transition" edge for each * operator.
-// ---> There is a need to have current <-> previous transitions to be able to get back as much as want for finding a match.
+// ---> There is a need to have current <-> previous transitions to be able to get back as much as want for finding a
+// match.
 // ---> Single character closure:
 // -----> Add edge from current state going back to previous state
 // -----> Add edge from previous state to current state
@@ -300,11 +290,13 @@ private:
 
 // NFA construction: analysis
 // Proposition: Building the NFA corresponding to an M-character RE takes time and space proportional to M.
-// Proof: For each of the M characters in the RE, we add at most three null transitions and execute at most two stack operations.
+// Proof: For each of the M characters in the RE, we add at most three null transitions and execute at most two stack
+// operations.
 
 // Applications
 // -> GREP: Generalized regular expression print
-// ---> Take a RE as command-line argument and print the lines from standard input having some substring that is matched by the RE.
+// ---> Take a RE as command-line argument and print the lines from standard input having some substring that is matched
+// by the RE.
 // ---> Bottom line: Worst case for grep (proportional to MN) is the same as for brute-force substring search.
 // ---> Typical grep application: crossword puzzles.
 // ---> Industrial-strength grep implementation:
@@ -326,7 +318,8 @@ private:
 // ---> Goal: Print all substring of input that match a RE.
 
 // Algorithmic complexity attacks
-// -> Typical implementions do not guarantee performance (unix, perl, java implementation) -> sometimes it takes exponential time!
+// -> Typical implementions do not guarantee performance (unix, perl, java implementation) -> sometimes it takes
+// exponential time!
 
 // Not so regular expressions
 // -> Back references
@@ -357,6 +350,6 @@ private:
 // ---> Pick the right ones!
 // ---> Solve important practical problems
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

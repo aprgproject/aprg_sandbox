@@ -2,12 +2,10 @@
 
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace AlbaLinuxHelper
-{
-    std::string getErrorMessage(int const localErrnoCopy);
+namespace AlbaLinuxHelper {
+std::string getErrorMessage(int const localErrnoCopy);
 }
 
-}//namespace alba
+}  // namespace alba

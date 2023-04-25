@@ -1,5 +1,4 @@
 #include "KickStart_2020_RoundD_P1_RecordBreaker.hpp"
-
 #include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
@@ -7,57 +6,69 @@
 using namespace alba;
 using namespace std;
 
-namespace KickStart_2020_RoundD_P1_RecordBreaker
-{
+namespace KickStart_2020_RoundD_P1_RecordBreaker {
 
-TEST(KickStart_2020_RoundD_P1_RecordBreakerTest, Test1)
-{
-    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+TEST(KickStart_2020_RoundD_P1_RecordBreakerTest, Test1) {
+    stringstream& inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream& outputStringStream(FakeObjects::getInstance().outputStringStream);
     inputStringStream = stringstream();
     outputStringStream = stringstream();
-    inputStringStream
-            << "4                " "\n"
-            << "8                " "\n"
-            << "1 2 0 7 2 0 2 0  " "\n"
-            << "6                " "\n"
-            << "4 8 15 16 23 42  " "\n"
-            << "9                " "\n"
-            << "3 1 4 1 5 9 2 6 5" "\n"
-            << "6                " "\n"
-            << "9 9 9 9 9 9      " "\n"
-            << endl;
+    inputStringStream << "4                "
+                         "\n"
+                      << "8                "
+                         "\n"
+                      << "1 2 0 7 2 0 2 0  "
+                         "\n"
+                      << "6                "
+                         "\n"
+                      << "4 8 15 16 23 42  "
+                         "\n"
+                      << "9                "
+                         "\n"
+                      << "3 1 4 1 5 9 2 6 5"
+                         "\n"
+                      << "6                "
+                         "\n"
+                      << "9 9 9 9 9 9      "
+                         "\n"
+                      << endl;
 
     main();
 
     EXPECT_EQ(
-                "Case #1: 2" "\n"
-                "Case #2: 1" "\n"
-                "Case #3: 3" "\n"
-                "Case #4: 0" "\n"
-                , outputStringStream.str());
+        "Case #1: 2"
+        "\n"
+        "Case #2: 1"
+        "\n"
+        "Case #3: 3"
+        "\n"
+        "Case #4: 0"
+        "\n",
+        outputStringStream.str());
 }
 
-}
+}  // namespace KickStart_2020_RoundD_P1_RecordBreaker
 
 /*
 Problem
 
-Isyana is given the number of visitors at her local theme park on N consecutive days. The number of visitors on the i-th day is Vi. A day is record breaking if it satisfies both of the following conditions:
+Isyana is given the number of visitors at her local theme park on N consecutive days. The number of visitors on the i-th
+day is Vi. A day is record breaking if it satisfies both of the following conditions:
 
     The number of visitors on the day is strictly larger than the number of visitors on each of the previous days.
-    Either it is the last day, or the number of visitors on the day is strictly larger than the number of visitors on the following day.
+    Either it is the last day, or the number of visitors on the day is strictly larger than the number of visitors on
+the following day.
 
 Note that the very first day could be a record breaking day!
 
 Please help Isyana find out the number of record breaking days.
 Input
 
-The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line containing the integer N. The second line contains N integers. The i-th integer is Vi.
-Output
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case begins with a line
+containing the integer N. The second line contains N integers. The i-th integer is Vi. Output
 
-For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the number of record breaking days.
-Limits
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is
+the number of record breaking days. Limits
 
 Time limit: 20 seconds per test set.
 Memory limit: 1GB.

@@ -7,26 +7,20 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-RttAnalyzer::RttAnalyzer()
-{
-}
+RttAnalyzer::RttAnalyzer() {}
 
-void RttAnalyzer::processFile(std::string const& file)
-{
+void RttAnalyzer::processFile(std::string const& file) {
     AlbaLocalPathHandler pathHandler(file);
     ifstream logStream(pathHandler.getFullPath());
-    pathHandler.input(pathHandler.getDirectory()+pathHandler.getFilenameOnly()+".csv");
+    pathHandler.input(pathHandler.getDirectory() + pathHandler.getFilenameOnly() + ".csv");
     ofstream collectedRttDetails(pathHandler.getFullPath());
 
-    if(logStream.is_open())
-    {
+    if (logStream.is_open()) {
         AlbaFileReader logFileReader(logStream);
 
-        while(logFileReader.isNotFinished())
-        {
+        while (logFileReader.isNotFinished()) {
             string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
             processLine(lineInFile);
         }
@@ -35,27 +29,23 @@ void RttAnalyzer::processFile(std::string const& file)
     saveAllRttDetails(collectedRttDetails);
 }
 
-void RttAnalyzer::processLine(std::string const& line)
-{
+void RttAnalyzer::processLine(std::string const& line) {
     static string dateTime;
-    if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "0x4178"))
-    {
-        dateTime = getStringWithoutStartingAndTrailingWhiteSpace(getStringBeforeThisString(line,"["));
-    }
-    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "PSC") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "(cx8)"))
-    {
+    if (isStringFoundInsideTheOtherStringNotCaseSensitive(line, "0x4178")) {
+        dateTime = getStringWithoutStartingAndTrailingWhiteSpace(getStringBeforeThisString(line, "["));
+    } else if (
+        isStringFoundInsideTheOtherStringNotCaseSensitive(line, "PSC") &&
+        isStringFoundInsideTheOtherStringNotCaseSensitive(line, "(cx8)")) {
         strings titles;
         splitToStrings<SplitStringType::WithoutDelimeters>(titles, line, "|");
         processTitles(titles);
-    }
-    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "SET") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "|"))
-    {
+    } else if (
+        isStringFoundInsideTheOtherStringNotCaseSensitive(line, "SET") &&
+        isStringFoundInsideTheOtherStringNotCaseSensitive(line, "|")) {
         strings values;
         splitToStrings<SplitStringType::WithoutDelimeters>(values, line, "|");
         processValues(dateTime, values);
-    }
-    else if(!isStringFoundInsideTheOtherStringNotCaseSensitive(line, "------"))
-    {
+    } else if (!isStringFoundInsideTheOtherStringNotCaseSensitive(line, "------")) {
         m_cx8IndexOptional.reset();
         m_pnPosIndexOptional.reset();
     }
@@ -69,7 +59,8 @@ void RttAnalyzer::processLine(std::string const& line)
     {
         dateTime = getStringWithoutStartingAndTrailingWhiteSpace(getStringBeforeThisString(line,"["));
     }
-    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "(Cx8)") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "PN Pos"))
+    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "(Cx8)") &&
+isStringFoundInsideTheOtherStringNotCaseSensitive(line, "PN Pos"))
     {
         strings titles;
         splitToStrings<SplitStringType::WithoutDelimeters>(titles, line, "|");
@@ -93,13 +84,10 @@ void RttAnalyzer::processLine(std::string const& line)
 }
 */
 
-void RttAnalyzer::processTitles(strings const& titles)
-{
-    unsigned int index=0;
-    for(string const& title : titles)
-    {
-        if(isStringFoundInsideTheOtherStringNotCaseSensitive(title, "(cx8)") && !m_cx8IndexOptional)
-        {
+void RttAnalyzer::processTitles(strings const& titles) {
+    unsigned int index = 0;
+    for (string const& title : titles) {
+        if (isStringFoundInsideTheOtherStringNotCaseSensitive(title, "(cx8)") && !m_cx8IndexOptional) {
             m_cx8IndexOptional = index;
             break;
         }
@@ -126,16 +114,12 @@ void RttAnalyzer::processTitles(strings const& titles)
 }
 */
 
-void RttAnalyzer::processValues(string const& dateTime, strings const& values)
-{
+void RttAnalyzer::processValues(string const& dateTime, strings const& values) {
     static RttDetails rttDetails;
-    if(m_cx8IndexOptional)
-    {
-        if(m_cx8IndexOptional.value()<values.size())
-        {
+    if (m_cx8IndexOptional) {
+        if (m_cx8IndexOptional.value() < values.size()) {
             unsigned int value = convertStringToNumber<unsigned int>(values[m_cx8IndexOptional.value()]);
-            if(value!=0)
-            {
+            if (value != 0) {
                 rttDetails.multiplePos[0] = value;
                 rttDetails.dateTime = dateTime;
                 m_allRttDetails.emplace_back(rttDetails);
@@ -150,10 +134,11 @@ void RttAnalyzer::processValues(string const& dateTime, strings const& values)
     static RttDetails rttDetails;
     if(m_cx8IndexOptional && m_pnPosIndexOptional)
     {
-        if(m_cx8IndexOptional.getReference()<values.size() && m_pnPosIndexOptional.getReference()<values.size() && m_posNumber<6)
+        if(m_cx8IndexOptional.getReference()<values.size() && m_pnPosIndexOptional.getReference()<values.size() &&
+m_posNumber<6)
         {
-            rttDetails.multiplePos[m_posNumber] = convertStringToNumber<unsigned int>(values[m_cx8IndexOptional.getReference()]);
-            if(m_posNumber==0)
+            rttDetails.multiplePos[m_posNumber] = convertStringToNumber<unsigned
+int>(values[m_cx8IndexOptional.getReference()]); if(m_posNumber==0)
             {
                 rttDetails.pnPos = convertStringToNumber<unsigned int>(values[m_pnPosIndexOptional.getReference()]);
             }
@@ -169,12 +154,10 @@ void RttAnalyzer::processValues(string const& dateTime, strings const& values)
 }
 */
 
-void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
-{
+void RttAnalyzer::saveAllRttDetails(ofstream& collectedRttDetails) const {
     collectedRttDetails << "dateTime,Position(cx8)\n";
 
-    for(RttDetails const& rttDetails : m_allRttDetails)
-    {
+    for (RttDetails const& rttDetails : m_allRttDetails) {
         collectedRttDetails << rttDetails.dateTime << ", " << rttDetails.multiplePos[0] << "\n";
     }
 }
@@ -182,7 +165,8 @@ void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
 /*
 void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
 {
-    collectedRttDetails << "dateTime,pos1,pos2,pos3,pos4,pos5,pos6,pn pos,diffPos1,diffPos2,diffPos3,diffPos4,diffPos5,diffPos6,minDifferencePos,maxDifferencePos\n";
+    collectedRttDetails << "dateTime,pos1,pos2,pos3,pos4,pos5,pos6,pn
+pos,diffPos1,diffPos2,diffPos3,diffPos4,diffPos5,diffPos6,minDifferencePos,maxDifferencePos\n";
 
     for(RttDetails const& rttDetails : m_allRttDetails)
     {
@@ -216,4 +200,4 @@ void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
 }
 */
 
-}
+}  // namespace alba

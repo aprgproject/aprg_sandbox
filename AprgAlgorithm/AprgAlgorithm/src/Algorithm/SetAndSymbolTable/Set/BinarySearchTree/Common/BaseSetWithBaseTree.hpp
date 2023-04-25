@@ -1,44 +1,38 @@
 #pragma once
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
 template <typename BaseTree>
-class BaseSetWithBaseTree : public BaseTree
-{
+class BaseSetWithBaseTree : public BaseTree {
 public:
     using Key = typename BaseTree::Key;
     using Node = typename BaseTree::Node;
     using NodeUniquePointer = typename BaseTree::NodeUniquePointer;
     using TraverseFunction = typename BaseTree::TraverseFunction;
 
-    BaseSetWithBaseTree()
-        : b_root(BaseTree::m_root)
-    {}
+    BaseSetWithBaseTree() : b_root(BaseTree::m_root) {}
 
-    virtual ~BaseSetWithBaseTree() = default; // virtual destructor because of virtual functions (vtable exists)
+    virtual ~BaseSetWithBaseTree() = default;  // virtual destructor because of virtual functions (vtable exists)
 
-    void put(Key const& key) override // overrides in BaseSet
+    void put(Key const& key) override  // overrides in BaseSet
     {
         putStartingOnThisNode(b_root, key);
     }
 
 protected:
-
-    void copyContents(Node & destinationNode, Node const& sourceNode) const override // overrides in BaseTree
+    void copyContents(Node& destinationNode, Node const& sourceNode) const override  // overrides in BaseTree
     {
         destinationNode.key = sourceNode.key;
     }
 
-    virtual void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key) = 0;
+    virtual void putStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) = 0;
 
 private:
-    NodeUniquePointer & b_root;
+    NodeUniquePointer& b_root;
 };
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

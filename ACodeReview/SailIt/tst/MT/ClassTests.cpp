@@ -7,8 +7,7 @@
 using namespace codeReview;
 using namespace std;
 
-TEST_F(ModuleTest, MultiLineClassTest)
-{
+TEST_F(ModuleTest, MultiLineClassTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "class myClass\n";
@@ -38,8 +37,7 @@ TEST_F(ModuleTest, MultiLineClassTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, MultiLineStructTest)
-{
+TEST_F(ModuleTest, MultiLineStructTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "struct myStruct\n";
@@ -69,8 +67,7 @@ TEST_F(ModuleTest, MultiLineStructTest)
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
 
-TEST_F(ModuleTest, ForwardDeclarationTest)
-{
+TEST_F(ModuleTest, ForwardDeclarationTest) {
     ofstream testFile(MT_FILE_READER_TEST_FILE);
     ASSERT_TRUE(testFile.is_open());
     testFile << "class myClass;\n";

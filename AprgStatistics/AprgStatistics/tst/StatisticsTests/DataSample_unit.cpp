@@ -4,11 +4,9 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-TEST(DataSampleTest, DataSampleWithDefaultConstructorIsZero)
-{
+TEST(DataSampleTest, DataSampleWithDefaultConstructorIsZero) {
     DataSample<5> dataSample;
     EXPECT_EQ(0U, dataSample.getValueAt(0));
     EXPECT_EQ(0U, dataSample.getValueAt(1));
@@ -17,8 +15,7 @@ TEST(DataSampleTest, DataSampleWithDefaultConstructorIsZero)
     EXPECT_EQ(0U, dataSample.getValueAt(4));
 }
 
-TEST(DataSampleTest, DataSampleWithInitializerListIsCorrectlyInitialized)
-{
+TEST(DataSampleTest, DataSampleWithInitializerListIsCorrectlyInitialized) {
     DataSample<5> dataSample{10, 20, 30, 40, 50};
     EXPECT_EQ(10U, dataSample.getValueAt(0));
     EXPECT_EQ(20U, dataSample.getValueAt(1));
@@ -27,14 +24,12 @@ TEST(DataSampleTest, DataSampleWithInitializerListIsCorrectlyInitialized)
     EXPECT_EQ(50U, dataSample.getValueAt(4));
 }
 
-TEST(DataSampleTest, SumCanBeCalculated)
-{
+TEST(DataSampleTest, SumCanBeCalculated) {
     DataSample<5> dataSample{10, 20, 30, 40, 50};
     EXPECT_EQ(150U, dataSample.getSum());
 }
 
-TEST(DataSampleTest, IndexCanBeChecked)
-{
+TEST(DataSampleTest, IndexCanBeChecked) {
     DataSample<5> dataSample{10, 20, 30, 40, 50};
     EXPECT_TRUE(dataSample.isIndexValid(0));
     EXPECT_TRUE(dataSample.isIndexValid(1));
@@ -45,15 +40,13 @@ TEST(DataSampleTest, IndexCanBeChecked)
     EXPECT_FALSE(dataSample.isIndexValid(-5));
 }
 
-TEST(DataSampleTest, GetValueAtInvalidIndexReturnsZero)
-{
+TEST(DataSampleTest, GetValueAtInvalidIndexReturnsZero) {
     DataSample<5> dataSample{10, 20, 30, 40, 50};
     EXPECT_EQ(0U, dataSample.getValueAt(5));
     EXPECT_EQ(0U, dataSample.getValueAt(-5));
 }
 
-TEST(DataSampleTest, DataSampleCanBeSet)
-{
+TEST(DataSampleTest, DataSampleCanBeSet) {
     DataSample<5> dataSample{10, 20, 30, 40, 50};
     dataSample.setValueAt(0, 500);
     dataSample.setValueAt(1, 400);
@@ -67,8 +60,7 @@ TEST(DataSampleTest, DataSampleCanBeSet)
     EXPECT_EQ(100U, dataSample.getValueAt(4));
 }
 
-TEST(DataSampleTest, DataSampleCanBeCompared)
-{
+TEST(DataSampleTest, DataSampleCanBeCompared) {
     DataSample<5> dataSample{10, 20, 30, 40, 50};
     DataSample<5> dataSample2{10, 20, 30, 40, 50};
     DataSample<5> dataSample3{10, 20, 25, 40, 50};
@@ -76,11 +68,10 @@ TEST(DataSampleTest, DataSampleCanBeCompared)
     EXPECT_NE(dataSample, dataSample3);
 }
 
-TEST(DataSampleTest, DataSamplesCanBeAddedTogether)
-{
+TEST(DataSampleTest, DataSamplesCanBeAddedTogether) {
     DataSample<5> dataSample1{10, 20, 30, 40, 50};
     DataSample<5> dataSample2{10, 20, 30, 40, 50};
-    DataSample<5> actualResult = dataSample1+dataSample2;
+    DataSample<5> actualResult = dataSample1 + dataSample2;
     EXPECT_EQ(20U, actualResult.getValueAt(0));
     EXPECT_EQ(40U, actualResult.getValueAt(1));
     EXPECT_EQ(60U, actualResult.getValueAt(2));
@@ -88,11 +79,10 @@ TEST(DataSampleTest, DataSamplesCanBeAddedTogether)
     EXPECT_EQ(100U, actualResult.getValueAt(4));
 }
 
-TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue)
-{
+TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue) {
     DataSample<5> dataSample1{10, 20, 30, 40, 50};
     unsigned int singleValue = 1;
-    DataSample<5> actualResult = dataSample1+singleValue;
+    DataSample<5> actualResult = dataSample1 + singleValue;
     EXPECT_EQ(11U, actualResult.getValueAt(0));
     EXPECT_EQ(21U, actualResult.getValueAt(1));
     EXPECT_EQ(31U, actualResult.getValueAt(2));
@@ -100,4 +90,4 @@ TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue)
     EXPECT_EQ(51U, actualResult.getValueAt(4));
 }
 
-}
+}  // namespace alba

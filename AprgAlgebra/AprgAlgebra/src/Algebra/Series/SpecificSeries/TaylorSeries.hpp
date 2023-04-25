@@ -2,14 +2,11 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba {
 
-namespace algebra
-{
+namespace algebra {
 
-class TaylorSeries
-{
+class TaylorSeries {
 public:
     TaylorSeries(Term const& formulaForTaylorSeries, std::string const& variableName);
 
@@ -22,6 +19,6 @@ protected:
     std::string m_variableName;
 };
 
-}
+}  // namespace algebra
 
-}
+}  // namespace alba

@@ -3,14 +3,11 @@
 #include <map>
 #include <string>
 
-namespace alba
-{
+namespace alba {
 
-namespace soosa
-{
+namespace soosa {
 
-class SoosaConfiguration
-{
+class SoosaConfiguration {
 public:
     using BufferMap = std::map<std::string, std::string>;
 
@@ -77,6 +74,6 @@ private:
     BufferMap m_nameToValueStringMapBuffer;
 };
 
-}
+}  // namespace soosa
 
-}
+}  // namespace alba

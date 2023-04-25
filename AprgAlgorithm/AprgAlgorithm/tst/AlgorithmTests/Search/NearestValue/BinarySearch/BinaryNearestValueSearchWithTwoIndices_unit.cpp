@@ -6,83 +6,67 @@
 using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using ValuesForTest = vector<unsigned int>;
 using SearchForTest = BinaryNearestValueSearchWithTwoIndices<ValuesForTest>;
-}
+}  // namespace
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereIsOneValue)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereIsOneValue) {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereAreDuplicateValues) {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereAreMultipleValues) {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenNearestValueIsLower) {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetNearestValueWorksWhenNearestValueIsHigher) {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereIsOneValue) {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues) {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
     EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower) {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher) {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithOneItem)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithOneItem) {
     ValuesForTest sortedValues{6};
     SearchForTest search(sortedValues);
 
@@ -90,8 +74,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueW
     EXPECT_EQ(6U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithTwoItems)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithTwoItems) {
     ValuesForTest sortedValues{6, 97};
     SearchForTest search(sortedValues);
 
@@ -99,8 +82,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueW
     EXPECT_EQ(97U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithFourItems)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithFourItems) {
     ValuesForTest sortedValues{6, 13, 96, 97};
     SearchForTest search(sortedValues);
 
@@ -108,8 +90,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueW
     EXPECT_EQ(97U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithoutGetNearestValue)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithoutGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
@@ -117,8 +98,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueW
     EXPECT_EQ(97U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksAfterGetNearestValue)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksAfterGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
     EXPECT_EQ(33U, search.getNearestValue(34));
@@ -127,8 +107,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueW
     EXPECT_EQ(43U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexWorksWithoutGetNearestValue)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexWorksWithoutGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
@@ -136,8 +115,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexW
     EXPECT_EQ(14U, search.getHigherIndex());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexWorksAfterGetNearestValue)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexWorksAfterGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
     EXPECT_EQ(33U, search.getNearestValue(34));
@@ -146,8 +124,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexW
     EXPECT_EQ(5U, search.getHigherIndex());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(5U, 6U, sortedValues);
 
@@ -158,8 +135,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWh
     EXPECT_EQ(43U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(3U, 5U, sortedValues);
 
@@ -170,8 +146,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWh
     EXPECT_EQ(33U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd)
-{
+TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(1U, 8U, sortedValues);
 
@@ -182,8 +157,9 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWh
     EXPECT_EQ(33U, search.getHigherValue());
 }
 
-TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOddAndValueIsHigher)
-{
+TEST(
+    BinaryNearestValueSearchWithTwoIndicesTest,
+    SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOddAndValueIsHigher) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(1U, 8U, sortedValues);
 
@@ -194,6 +170,6 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWh
     EXPECT_EQ(43U, search.getHigherValue());
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

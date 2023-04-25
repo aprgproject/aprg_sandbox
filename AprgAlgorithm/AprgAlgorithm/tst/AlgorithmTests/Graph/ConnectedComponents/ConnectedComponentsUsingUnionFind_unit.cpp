@@ -6,40 +6,34 @@
 
 using namespace alba::algorithm::CommonTestsWithConnectedComponents;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace
-{
+namespace {
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 using ConnectedComponentsForTest = ConnectedComponentsUsingUnionFind<unsigned int>;
+}  // namespace
+
+TEST(ConnectedComponentsUsingUnionFindTest, GetNumberOfComponentIdsWorksWhenEmpty) {
+    testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<
+        ConnectedComponentsForTest, GraphForTest>();
 }
 
-TEST(ConnectedComponentsUsingUnionFindTest, GetNumberOfComponentIdsWorksWhenEmpty)
-{
-    testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
+TEST(ConnectedComponentsUsingUnionFindTest, GetNumberOfComponentIdsWorksWhenNotEmpty) {
+    testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<
+        ConnectedComponentsForTest, GraphForTest>();
 }
 
-TEST(ConnectedComponentsUsingUnionFindTest, GetNumberOfComponentIdsWorksWhenNotEmpty)
-{
-    testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
-}
-
-TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenEmpty)
-{
+TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenEmpty) {
     testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
-TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenNotEmpty)
-{
+TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenNotEmpty) {
     testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
-TEST(ConnectedComponentsUsingUnionFindTest, GetComponentIdWorks)
-{
+TEST(ConnectedComponentsUsingUnionFindTest, GetComponentIdWorks) {
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -58,6 +52,6 @@ TEST(ConnectedComponentsUsingUnionFindTest, GetComponentIdWorks)
     EXPECT_EQ(3U, connectedComponents.getComponentId(7U));
 }
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba

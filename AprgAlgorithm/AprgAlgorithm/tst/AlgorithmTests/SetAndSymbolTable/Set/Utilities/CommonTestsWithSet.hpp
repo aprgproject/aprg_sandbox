@@ -6,26 +6,21 @@
 
 using namespace std;
 
-namespace alba
-{
+namespace alba {
 
-namespace algorithm
-{
+namespace algorithm {
 
-namespace CommonTestsWithSet
-{
+namespace CommonTestsWithSet {
 
 template <typename Set>
-void testIsEmptyWhenEmptyWithUnsignedIntAndChar()
-{
+void testIsEmptyWhenEmptyWithUnsignedIntAndChar() {
     Set setObject;
 
     EXPECT_TRUE(setObject.isEmpty());
 }
 
 template <typename Set>
-void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar()
-{
+void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(5U);
 
@@ -33,8 +28,7 @@ void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testDoesContainWithUnsignedIntAndChar()
-{
+void testDoesContainWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(5U);
 
@@ -43,16 +37,14 @@ void testDoesContainWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetSizeWhenEmptyWithUnsignedIntAndChar()
-{
+void testGetSizeWhenEmptyWithUnsignedIntAndChar() {
     Set setObject;
 
     EXPECT_EQ(0U, setObject.getSize());
 }
 
 template <typename Set>
-void testGetSizeWhenNotEmptyWithUnsignedIntAndChar()
-{
+void testGetSizeWhenNotEmptyWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(7U);
     setObject.put(5U);
@@ -62,8 +54,7 @@ void testGetSizeWhenNotEmptyWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetWithUnsignedIntAndChar()
-{
+void testGetWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(7U);
@@ -74,8 +65,7 @@ void testGetWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetRankWithUnsignedIntAndChar()
-{
+void testGetRankWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(8U);
     setObject.put(5U);
@@ -92,8 +82,7 @@ void testGetRankWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetMinimumWithUnsignedIntAndChar()
-{
+void testGetMinimumWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(8U);
     setObject.put(5U);
@@ -104,8 +93,7 @@ void testGetMinimumWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetMaximumWithUnsignedIntAndChar()
-{
+void testGetMaximumWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(8U);
     setObject.put(5U);
@@ -116,8 +104,7 @@ void testGetMaximumWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testSelectAtWithUnsignedIntAndChar()
-{
+void testSelectAtWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(8U);
     setObject.put(5U);
@@ -131,8 +118,7 @@ void testSelectAtWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetFloorWithUnsignedIntAndChar()
-{
+void testGetFloorWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(8U);
     setObject.put(5U);
@@ -149,8 +135,7 @@ void testGetFloorWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetCeilingWithUnsignedIntAndChar()
-{
+void testGetCeilingWithUnsignedIntAndChar() {
     Set setObject;
     setObject.put(8U);
     setObject.put(5U);
@@ -167,8 +152,7 @@ void testGetCeilingWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testPutWithUnsignedIntAndChar()
-{
+void testPutWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(7U);
@@ -179,8 +163,7 @@ void testPutWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testDeleteBasedOnKeyWithUnsignedIntAndChar()
-{
+void testDeleteBasedOnKeyWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(7U);
@@ -198,8 +181,7 @@ void testDeleteBasedOnKeyWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testDeleteMinimumWithUnsignedIntAndChar()
-{
+void testDeleteMinimumWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(7U);
@@ -211,8 +193,7 @@ void testDeleteMinimumWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testDeleteMaximumWithUnsignedIntAndChar()
-{
+void testDeleteMaximumWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(7U);
@@ -224,8 +205,7 @@ void testDeleteMaximumWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetKeysWithUnsignedIntAndChar()
-{
+void testGetKeysWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(8U);
@@ -242,8 +222,7 @@ void testGetKeysWithUnsignedIntAndChar()
 }
 
 template <typename Set>
-void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
-{
+void testGetKeysInRangeInclusiveWithUnsignedIntAndChar() {
     using Keys = typename Set::Keys;
     Set setObject;
     setObject.put(8U);
@@ -259,8 +238,8 @@ void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-}
+}  // namespace CommonTestsWithSet
 
-}
+}  // namespace algorithm
 
-}
+}  // namespace alba
