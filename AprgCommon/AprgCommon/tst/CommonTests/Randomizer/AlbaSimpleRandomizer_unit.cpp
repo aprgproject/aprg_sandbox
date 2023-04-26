@@ -25,14 +25,12 @@ TEST(AlbaSimpleRandomizerTest, GetRandomIntegerInUniformDistributionWorks_AsUnif
     constexpr int maximumValue(9);
     int numberOfRandomValues(maximumValue - minimumValue + 1);
     int const iterations(1000);
-    int const allowedDeviation(static_cast<int>(iterations * 0.1));
+    int const allowedDeviation(iterations/10);
     vector<int> hitsForEachValue(static_cast<unsigned long>(numberOfRandomValues), 0);
 
-    for (int i = 0; i < iterations; i++) {
-        int random(randomizer.getRandomIntegerInUniformDistribution(minimumValue, maximumValue));
+    for (int i = 0; i < iterations; i++) {        int random(randomizer.getRandomIntegerInUniformDistribution(minimumValue, maximumValue));
         hitsForEachValue[static_cast<unsigned long>(random)]++;
     }
-
     ASSERT_FALSE(hitsForEachValue.empty());
     auto&& [maxIterator, minIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
     int deviation(*maxIterator - *minIterator);

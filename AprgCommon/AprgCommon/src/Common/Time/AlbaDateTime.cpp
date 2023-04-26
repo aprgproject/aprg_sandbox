@@ -239,52 +239,25 @@ AlbaDateTime AlbaDateTime::executeAddOrSubtract(
 }
 
 bool AlbaDateTime::isLessThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const {
-    bool result(false);
-    if (firstDateTime.m_yearMonthDay < secondDateTime.m_yearMonthDay)
-        result = true;
-    else if (firstDateTime.m_yearMonthDay > secondDateTime.m_yearMonthDay)
-        result = false;
-    else if (firstDateTime.m_hourMinuteSecond < secondDateTime.m_hourMinuteSecond)
-        result = true;
-    else if (firstDateTime.m_hourMinuteSecond > secondDateTime.m_hourMinuteSecond)
-        result = false;
-    else if (firstDateTime.m_microseconds < secondDateTime.m_microseconds)
-        result = true;
-    else if (firstDateTime.m_microseconds > secondDateTime.m_microseconds)
-        result = false;
-    return result;
+    return tie(firstDateTime.m_yearMonthDay, firstDateTime.m_hourMinuteSecond, firstDateTime.m_microseconds) <
+           tie(secondDateTime.m_yearMonthDay, secondDateTime.m_hourMinuteSecond, secondDateTime.m_microseconds);
 }
 
 bool AlbaDateTime::isGreaterThanInMagnitude(
     AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const {
-    bool result(false);
-    if (firstDateTime.m_yearMonthDay < secondDateTime.m_yearMonthDay)
-        result = false;
-    else if (firstDateTime.m_yearMonthDay > secondDateTime.m_yearMonthDay)
-        result = true;
-    else if (firstDateTime.m_hourMinuteSecond < secondDateTime.m_hourMinuteSecond)
-        result = false;
-    else if (firstDateTime.m_hourMinuteSecond > secondDateTime.m_hourMinuteSecond)
-        result = true;
-    else if (firstDateTime.m_microseconds < secondDateTime.m_microseconds)
-        result = false;
-    else if (firstDateTime.m_microseconds > secondDateTime.m_microseconds)
-        result = true;
-    return result;
+    return tie(firstDateTime.m_yearMonthDay, firstDateTime.m_hourMinuteSecond, firstDateTime.m_microseconds) >
+           tie(secondDateTime.m_yearMonthDay, secondDateTime.m_hourMinuteSecond, secondDateTime.m_microseconds);
 }
 
 bool AlbaDateTime::isEqualInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const {
-    return firstDateTime.m_yearMonthDay == secondDateTime.m_yearMonthDay &&
-           firstDateTime.m_hourMinuteSecond == secondDateTime.m_hourMinuteSecond &&
-           firstDateTime.m_microseconds == secondDateTime.m_microseconds;
+    return tie(firstDateTime.m_yearMonthDay, firstDateTime.m_hourMinuteSecond, firstDateTime.m_microseconds) ==
+           tie(secondDateTime.m_yearMonthDay, secondDateTime.m_hourMinuteSecond, secondDateTime.m_microseconds);
 }
 
-AlbaDateTime AlbaDateTime::addDateTimeMagnitude(
-    AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const {
+AlbaDateTime AlbaDateTime::addDateTimeMagnitude(    AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const {
     AlbaDateTime result;
     uint32_t totalDays(
-        firstDateTime.getYearMonthDay().getTotalDays() + secondDateTime.getYearMonthDay().getTotalDays());
-    uint32_t totalSeconds(
+        firstDateTime.getYearMonthDay().getTotalDays() + secondDateTime.getYearMonthDay().getTotalDays());    uint32_t totalSeconds(
         firstDateTime.getHourMinutesSecond().getTotalSeconds() +
         secondDateTime.getHourMinutesSecond().getTotalSeconds());
     uint32_t totalMicroSeconds(firstDateTime.getMicroSeconds() + secondDateTime.getMicroSeconds());

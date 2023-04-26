@@ -20,16 +20,14 @@ int AlbaSimpleRandomizer::getRandomIntegerInUniformDistribution(int const minimu
     // randomValue looks like this:
     // | 0-value possibility | 1-value possibility | ... | RAND_MAX-1 value possibility | RAND_MAX value possibility |
     // randomValue with delta inclusive looks like this:
-    // | minimum value possibility | minimum+1 value possibility | ... | maximum-1 value possibility | maximum value
-    // possibility | so we get the floor to have the final value
+    // | minimum value possibility | minimum+1 value possibility | ... |  maximum value possibility |
+    // so we get the floor to have the final value
 }
 
-double AlbaSimpleRandomizer::getRandomFloatingValueInUniformDistribution(
-    double const minimum, double const maximum) const {
+double AlbaSimpleRandomizer::getRandomFloatingValueInUniformDistribution(    double const minimum, double const maximum) const {
     double delta = maximum - minimum;
     double randomValue = static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-    return minimum + randomValue * delta;
-}
+    return minimum + randomValue * delta;}
 
 }  // namespace alba
 
@@ -45,3 +43,13 @@ double AlbaSimpleRandomizer::getRandomFloatingValueInUniformDistribution(
 
 // The function rand() is not recommended for serious random-number generation needs.
 // It is recommended to use C++11's random number generation facilities to replace rand(). (since C++11)
+
+// Problem: non uniformity on rand() values
+// Problem: Dont use modulo because its slow and might ruin uniformity
+// Problem: encoding in double is losing information
+
+// The implementation above (floating point operations) doesn't guarantee uniformity too.
+// -> Stephan T Lavavej said:
+// ---> A floating-point variation is "Hilariously non-uniform."
+// ---> "It's the pigeonhole principle: if you have 2^32 pigeons,"
+// -----> " you can't put them in [specific size] pigeonholes without having more pigeons in some holes than others."
