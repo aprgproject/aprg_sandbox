@@ -431,21 +431,25 @@ template <typename, typename = void>
 struct HasBegin : std::false_type {};
 template <typename T>
 struct HasBegin<T, std::void_t<decltype(std::declval<T>().begin())>> : std::true_type {};
+// declval adds a reference, this is done to allow types with deleted constructor (see cppreference example)
 
 // HasEnd
-template <typename, typename = void>
-struct HasEnd : std::false_type {};
+template <typename, typename = void>struct HasEnd : std::false_type {};
 template <typename T>
 struct HasEnd<T, std::void_t<decltype(std::declval<T>().end())>> : std::true_type {};
 
+// HasSize
+template <typename, typename = void>
+struct HasSize : std::false_type {};
+template <typename T>
+struct HasSize<T, std::void_t<decltype(std::declval<T>().size())>> : std::true_type {};
+
 template <typename Type>
 constexpr bool isRaiiPointerWithDeference() {
-    return hasElementType<Type>::value && HasDeferenceOperator<Type>::value;
-}
+    return hasElementType<Type>::value && HasDeferenceOperator<Type>::value;}
 template <typename Type>
 constexpr bool isRaiiPointerWithoutDeference() {
-    return hasElementType<Type>::value && !HasDeferenceOperator<Type>::value;
-}
+    return hasElementType<Type>::value && !HasDeferenceOperator<Type>::value;}
 
 template <typename Type>
 constexpr bool hasBeginAndEnd() {
@@ -453,9 +457,18 @@ constexpr bool hasBeginAndEnd() {
 }
 
 template <typename Type>
-constexpr bool hasContainerType() {
-    return HasContainerType<Type>::value;
+constexpr bool hasBeginAndEndAndSize() {
+    return HasBegin<Type>::value && HasEnd<Type>::value && HasSize<Type>::value;
 }
+
+template <typename Type>
+constexpr bool hasBeginAndEndAndWithoutSize() {
+    return HasBegin<Type>::value && HasEnd<Type>::value && !HasSize<Type>::value;
+}
+
+template <typename Type>
+constexpr bool hasContainerType() {
+    return HasContainerType<Type>::value;}
 
 }  // namespace typeHelper
 

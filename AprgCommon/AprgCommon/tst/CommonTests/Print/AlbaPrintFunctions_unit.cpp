@@ -3,14 +3,13 @@
 #include <gtest/gtest.h>
 
 #include <deque>
+#include <forward_list>
 #include <queue>
 #include <sstream>
-#include <stack>
-#include <unordered_map>
+#include <stack>#include <unordered_map>
 #include <unordered_set>
 
 using namespace std;
-
 namespace alba {
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint) {
@@ -176,6 +175,15 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPriorityQueue) {
     printParameterWithName(ssToVerify, "name", adapter);
 
     EXPECT_EQ("name : [{adapter: {size: 3 | 3, 1, 2, }}]", ssToVerify.str());
+}
+
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithForwardList) {
+    stringstream ssToVerify;
+    forward_list<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
+
+    printParameterWithName(ssToVerify, "name", vectorToTest);
+
+    EXPECT_EQ("name : [{500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
 }  // namespace alba
