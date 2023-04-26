@@ -517,15 +517,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> The result often is harder to understand and maintain. 
 ---------> If all this machinery were being used, it would be worth it. But if it isn't, it isn't.
 ---------> The machinery just gets in the way, so get rid of it.
--------> 
 -----> Solution:
 -------> If you have abstract classes that aren't doing much, use "Collapse Hierarchy".
--------> Unnecessary delegation can be removed with "Inline Class".
--------> Methods with unused parameters should be subject to "Remove Parameter".
+-------> Unnecessary delegation can be removed with "Inline Class".-------> Methods with unused parameters should be subject to "Remove Parameter".
 -------> Methods named with odd abstract names should be brought down to earth with "Rename Method".
 -----> Notes:
--------> Speculative generality can be spotted when the only users of a method or class are test cases.
----------> If you find such a method or class, delete it and the test case that exercises it.
+-------> Speculative generality can be spotted when the only users of a method or class are test cases.---------> If you find such a method or class, delete it and the test case that exercises it.
 ---------> If you have a method or class that is a helper for a test case that exercises legitimate functionality, you have to leave it in, of course.
 
 ---> Temporary Field
@@ -574,15 +571,13 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> Inappropriate Intimacy
 -----> Description: 
 -------> Sometimes classes become far too intimate and spend too much time delving in each others'private parts.
--------> Overintimate classes need to be broken up as lovers were in ancient days.
+-------> Overintimate classes need to be broken up like lovers were in ancient days.
 -----> Solution:
 -------> Use "Move Method" and "Move Field" to separate the pieces to reduce the intimacy.
--------> See whether you can arrange a "Change Bidirectional Association to Unidirectional".
--------> If the classes do have common interests, use "Extract Class" to put the commonality in a safe place and make honest classes of them.
+-------> See whether you can arrange a "Change Bidirectional Association to Unidirectional".-------> If the classes do have common interests, use "Extract Class" to put the commonality in a safe place and make honest classes of them.
 ---------> Or use "Hide Delegate" to let another class act as go-between.
 -------> Inheritance often can lead to overintimacy.
----------> Subclasses are always going to know more about their parents than their parents would like them to know.
----------> If it's time to leave home, apply "Replace Delegation with Inheritance".
+---------> Subclasses are always going to know more about their parents than their parents would like them to know.---------> If it's time to leave home, apply "Replace Delegation with Inheritance".
 
 ---> Alternative Classes with Different Interfaces
 -----> Description: 

@@ -1,0 +1,73 @@
+Taken from Andy Bond presentation: (AAAARGH!? Adopting Almost-Always-Auto Reinforces Good Habits!?)
+
+Auto guidelines for variables:
+-> Use "auto&&" for general purpose locals:
+---> Works with l and r values
+---> It extends rvalue lifetime
+---> Works with non-copyable and non-movable types
+-> Use "const auto&" for general purpose immutable locals
+-> Use "auto" when copy or move construction is desired
+-> Use "auto*", "auto&" and "decltype(auto)" are avoided
+
+
+Auto guidelines in functions:
+-> Use "auto" for functions returning locals or rvalues
+---> Type deduced as common type for all return statements
+-> Use "auto &" for class member getters 
+---> const member functions will return reference to const
+-> Use "decltype(auto)" for forwarding functions
+-> Use "auto(...)" -> ... {...} to SFINAE
+
+
+Auto guidelines in lambdas:
+-> Use "auto &&" to name lambdas with local variables.
+-> Use "auto &&" for input parameters
+-> Use "auto &" for output parameters
+-> Use [](...) -> "auto &"{} for lambdas meant to be chained
+-> Use [](...) -> "decltype(auto)"{} for forwarding lambdas
+
+
+Auto application observations:
+-> Added a few reusable deducing functions
+-> Lost of difficulty converting arrays to AAA style
+-> Individual variables/structs are harder to spot at a glance
+-> Explicit types decreased
+-> Deduced types increased
+-> Words increased
+-> Characters increased
+
+
+Benefits of using auto:
+-> guarantees initialization
+-> avoids accidental conversion
+-> avoids accidental slicing
+-> consistent type placement
+-> explicit type dependency
+-> promotes encapsulation
+-> promotes generic code
+-> simplifies iterator usage
+-> use proxy types (std::bitset)
+-> use unspecified types
+
+
+Drawbacks of using auto:
+-> accidental copying
+-> accidental references
+-> algorithm complexity
+-> Incomplete/wrong IDE info
+-> Language arcana
+-> No deleted/defaulted funcs
+-> Not for non-static members
+-> Opacity
+-> Paradigm shift
+-> Searchability
+-> Me: Cognitive complexity, making humans keep track of the type.
+---> Counterpoint: Its actually lowering cognitive complexity because the user does not need to know the type, it makes the type transparent to the user.
+-----> Counterpoint: How are you going to use it? If you dont know what the type is, how can you use this variable.
+
+
+
+
+
+
+

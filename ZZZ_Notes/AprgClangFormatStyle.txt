@@ -1,0 +1,3 @@
+Tool for check clang format style: https://zed0.co.uk/clang-format-configurator/
+
+See aprg/.clang_format for more details
