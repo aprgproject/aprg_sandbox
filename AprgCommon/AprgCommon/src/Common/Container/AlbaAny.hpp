@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Common/Memory/AlbaMemoryBuffer.hpp>
+#include <Common/Types/AlbaTypeHelper.hpp>
 #include <Common/Types/AlbaTypeId.hpp>
 
 #include <cassert>
@@ -17,10 +18,10 @@ public:
 
     template <typename ContentType>
     AlbaAny(ContentType const& content)  // copy constructor for other ContentType
-        : m_savedMemory(std::addressof(content), sizeof(content)),
-          m_typeId(GetTypeId<ContentType>())
-
-    {}
+        : m_savedMemory(std::addressof(content), sizeof(content)), m_typeId(GetTypeId<ContentType>()) {
+        // Herb Sutter: Dont xray objects. Me: It has standard layout so it can be xray-ed.
+        static_assert(typeHelper::hasStandardLayout<ContentType>(), "ObjectType needs to have standard layout.");
+    }
 
     // rule of zero
 
@@ -59,8 +60,8 @@ private:
         return out;
     }
 
-    AlbaMemoryBuffer m_savedMemory;  // void* approach was disregarded because we need to remember the type (which leads
-                                     // to enable RTTI).
+    AlbaMemoryBuffer m_savedMemory;
+    // void* approach was disregarded because we need to remember the type (no RTTI).
     TypeId m_typeId;
 };
 

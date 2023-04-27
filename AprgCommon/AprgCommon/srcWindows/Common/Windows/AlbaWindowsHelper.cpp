@@ -14,7 +14,7 @@ namespace alba {
 
 string AlbaWindowsHelper::getLastFormattedErrorMessage() {
     stringstream lastErrorStream;
-    unsigned int errorCode = GetLastError();
+    auto errorCode = GetLastError();
     lastErrorStream << "No message from windows. Error code: " << errorCode;
     if (errorCode) {
         LPVOID lpMessageBuffer;

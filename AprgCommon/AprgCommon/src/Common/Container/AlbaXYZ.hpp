@@ -32,9 +32,11 @@ public:
     }
 
     AlbaXYZ operator+() const { return *this; }
+
     AlbaXYZ operator-() const { return AlbaXYZ(-m_x, -m_y, -m_z); }
 
-    AlbaXYZ operator+(AlbaXYZ const& secondXyz) const {        return AlbaXYZ(m_x + secondXyz.m_x, m_y + secondXyz.m_y, m_z + secondXyz.m_z);
+    AlbaXYZ operator+(AlbaXYZ const& secondXyz) const {
+        return AlbaXYZ(m_x + secondXyz.m_x, m_y + secondXyz.m_y, m_z + secondXyz.m_z);
     }
 
     AlbaXYZ operator-(AlbaXYZ const& secondXyz) const {

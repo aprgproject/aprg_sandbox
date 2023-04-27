@@ -198,16 +198,15 @@ private:
 static_assert(sizeof(AlbaNumber) == 16, "The size of AlbaNumber should be 16 bytes/128 bits.");
 
 // Source: https://en.cppreference.com/w/cpp/language/user_literal
-// NOTE: The string needs to have a underscore '_' prefix because all letters as prefix are reserved according to the
-// standard.
+// NOTE: The string needs to have a underscore '_' prefix because all letters as prefix are reserved.
 constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(unsigned long long int const value) {
     return AlbaNumber(static_cast<int64_t>(value));
 }
 constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(long double const value) {
     return AlbaNumber(static_cast<double>(value));
 }
-// AlbaNumber operator "" _AS_ALBA_NUMBER(char const value) = delete; // not needed to delete because there is no
-// implicit conversion
+// AlbaNumber operator "" _AS_ALBA_NUMBER(char const value) = delete;
+// not needed to delete because there is no implicit conversion
 
 template <>
 AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();

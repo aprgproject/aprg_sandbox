@@ -2,7 +2,7 @@
 
 #include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/Math/Helpers/PowerHelpers.hpp>
-#include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
+#include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 
 #include <algorithm>
 #include <cstring>
@@ -18,34 +18,30 @@ namespace alba {
 
 namespace stringHelper {
 
-unsigned int generateUniqueId(string const& mainString) {
-    unsigned int uniqueId = 1;
-    uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2) {
-        return (c1 * c2) + 1;
-    });
-    return uniqueId;
+size_t generateUniqueId(string const& mainString) {
+    return accumulate(mainString.begin(), mainString.end(), 1ULL, [](size_t c1, uint8_t c2) { return (c1 * c2) + 1; });
 }
 
-unsigned int getLevenshteinDistance(string const& otherString, string const& basisString) {
+size_t getLevenshteinDistance(string const& otherString, string const& basisString) {
     // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a
     // string into another string. The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
     // -> modify a character (e.g. ABC ! ADC)
 
-    using Counts = vector<unsigned int>;
+    using Counts = vector<size_t>;
 
     vector<Counts> previousAndCurrentCounts(2, Counts(basisString.length() + 1));  // string1 as basis
     Counts& firstPrevious(previousAndCurrentCounts[0]);
     iota(firstPrevious.begin(), firstPrevious.end(), 0);  // first row
 
-    for (unsigned int otherIndex = 1; otherIndex <= otherString.length(); otherIndex++) {
+    for (size_t otherIndex = 1; otherIndex <= otherString.length(); otherIndex++) {
         Counts& previousCounts(previousAndCurrentCounts[(otherIndex - 1) % 2]);
         Counts& currentCounts(previousAndCurrentCounts[otherIndex % 2]);
 
         currentCounts[0] = otherIndex;  // first column
-        for (unsigned int basisIndex = 1; basisIndex <= basisString.length(); basisIndex++) {
-            unsigned int cost = basisString.at(basisIndex - 1) == otherString.at(otherIndex - 1) ? 0 : 1;
+        for (size_t basisIndex = 1; basisIndex <= basisString.length(); basisIndex++) {
+            size_t cost = basisString.at(basisIndex - 1) == otherString.at(otherIndex - 1) ? 0 : 1;
             currentCounts[basisIndex] =
                 min(min(currentCounts.at(basisIndex - 1) + 1, previousCounts.at(basisIndex) + 1),
                     previousCounts.at(basisIndex - 1) + cost);
@@ -56,12 +52,12 @@ unsigned int getLevenshteinDistance(string const& otherString, string const& bas
     return lastCurrent.back();
 }
 
-unsigned int getHammingDistance(string const& string1, string const& string2) {
+size_t getHammingDistance(string const& string1, string const& string2) {
     // The Hamming distance hamming(a,b) between two strings a and b of equal length is the number of positions where
     // the strings differ.
-    unsigned int result(0);
-    unsigned int commonLength = min(string1.length(), string2.length());
-    for (unsigned int i = 0; i < commonLength; i++) {
+    size_t result(0);
+    size_t commonLength = min(string1.length(), string2.length());
+    for (size_t i = 0; i < commonLength; i++) {
         if (string1.at(i) != string2.at(i)) {
             result++;
         }
@@ -69,17 +65,17 @@ unsigned int getHammingDistance(string const& string1, string const& string2) {
     return result;
 }
 
-unsigned int getNumberOfSubStrings(string const& mainString) {
+size_t getNumberOfSubStrings(string const& mainString) {
     // A string of length n has n(n+1)/2 substrings.
 
-    unsigned int n = mainString.length();
+    size_t n = mainString.length();
     return n * (n + 1) / 2;
 }
 
-unsigned int getNumberOfSubsequences(string const& mainString) {
+size_t getNumberOfSubsequences(string const& mainString) {
     // A string of length n has 2^n - 1 subsequences.
 
-    return static_cast<unsigned int>(get2ToThePowerOf(mainString.length()) - 1);
+    return static_cast<size_t>(get2ToThePowerOf(mainString.length()) - 1);
 }
 
 int getRotationValue(string const& mainString, string const& rotation) {
@@ -101,7 +97,7 @@ int getPeriodValue(string const& mainString, string const& period) {
 
     int periodCount(0);
     if (!period.empty()) {
-        for (unsigned int i(0U), j(0U); i < mainString.length(); i++, j++) {
+        for (size_t i(0U), j(0U); i < mainString.length(); i++, j++) {
             if (j == period.length()) {
                 j = 0;
                 periodCount++;
@@ -145,7 +141,7 @@ bool isPalindrome(string const& mainString) {
     bool result(false);
     if (!mainString.empty()) {
         result = true;
-        unsigned int left(0), right(mainString.length() - 1);
+        size_t left(0), right(mainString.length() - 1);
         while (left < right) {
             if (mainString.at(left++) != mainString.at(right--)) {
                 result = false;
@@ -170,8 +166,8 @@ bool isSubsequence(string const& mainString, string const& subsequence) {
     // A string of length n has 2n-1 subsequences.
     // For example, the subsequences of ABCD are A, B, C, D, AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD and ABCD.
 
-    unsigned int j(0U);
-    for (unsigned int i(0U); i < mainString.length() && j < subsequence.length(); i++) {
+    size_t j(0U);
+    for (size_t i(0U); i < mainString.length() && j < subsequence.length(); i++) {
         if (mainString.at(i) == subsequence.at(j)) {
             j++;
         }
@@ -183,8 +179,8 @@ bool isPrefix(string const& mainString, string const& prefix) {
     // A prefix is a substring that starts at the beginning of a string.
     // For example, the prefixes of ABCD are A, AB, ABC and ABCD.
 
-    unsigned int j(0U);
-    for (unsigned int i(0U); i < mainString.length() && j < prefix.length(); i++, j++) {
+    size_t j(0U);
+    for (size_t i(0U); i < mainString.length() && j < prefix.length(); i++, j++) {
         if (mainString.at(i) != prefix.at(j)) {
             break;
         }
@@ -232,9 +228,9 @@ bool isEqualNotCaseSensitive(string const& mainString, string const& string2) {
 }
 
 bool isEqualWithLowestCommonLength(string const& string1, string const& string2) {
-    unsigned int length1 = string1.length();
-    unsigned int length2 = string2.length();
-    unsigned int lowestLength = (length1 > length2) ? length2 : length1;
+    size_t length1 = string1.length();
+    size_t length2 = string2.length();
+    size_t lowestLength = (length1 > length2) ? length2 : length1;
     return string1.substr(0, lowestLength) == string2.substr(0, lowestLength);
 }
 
@@ -248,8 +244,7 @@ bool isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString,
 }
 
 bool isWildcardMatch(
-    string const& mainString, string const& wildcard, unsigned int const mainStringIndex,
-    unsigned int const wildcardIndex) {
+    string const& mainString, string const& wildcard, size_t const mainStringIndex, size_t const wildcardIndex) {
     bool result(false);
     bool isMainStringDone = mainStringIndex >= mainString.size();
     bool isWildcardDone = wildcardIndex >= wildcard.size();
@@ -282,8 +277,8 @@ string getStringWithCapitalLetters(string const& mainString) {
 string getStringWithFirstNonWhiteSpaceCharacterToCapital(string const& mainString) {
     string result;
     result = mainString;
-    unsigned int resultLength = result.length();
-    for (unsigned int i = 0; i < resultLength; ++i) {
+    size_t resultLength = result.length();
+    for (size_t i = 0; i < resultLength; ++i) {
         if (!isWhiteSpace(result[i])) {
             result[i] = static_cast<char>(::toupper(result[i]));
             break;
@@ -301,7 +296,7 @@ string getStringWithLowerCaseLetters(string const& mainString) {
 
 string getStringWithUrlDecodedString(string const& mainString) {
     string result;
-    unsigned int index = 0, length = mainString.length();
+    size_t index = 0, length = mainString.length();
     while (index < length) {
         if (mainString[index] == '%' && (static_cast<int>(index) < static_cast<int>(length) - 2) &&
             isHexDigit(mainString[index + 1]) && isHexDigit(mainString[index + 2])) {
@@ -316,7 +311,7 @@ string getStringWithUrlDecodedString(string const& mainString) {
 
 string getStringThatContainsWhiteSpaceIndention(string const& mainString) {
     string result;
-    unsigned int firstIndexOfNotOfCharacters(mainString.find_first_not_of(WHITESPACE_STRING));
+    size_t firstIndexOfNotOfCharacters(mainString.find_first_not_of(WHITESPACE_STRING));
     if (isNotNpos(static_cast<int>(firstIndexOfNotOfCharacters))) {
         result = mainString.substr(0, firstIndexOfNotOfCharacters);
     }
@@ -325,10 +320,10 @@ string getStringThatContainsWhiteSpaceIndention(string const& mainString) {
 
 string getStringWithoutStartingAndTrailingCharacters(string const& mainString, string const& characters) {
     string result(mainString);
-    unsigned int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
+    size_t firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
     if (isNotNpos(static_cast<int>(firstIndexOfNotOfCharacters))) {
         result.erase(0, firstIndexOfNotOfCharacters);
-        unsigned int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
+        size_t lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if (isNotNpos(static_cast<int>(lastIndexOfOfNotOfCharacters))) {
             result.erase(lastIndexOfOfNotOfCharacters + 1);
         }
@@ -344,7 +339,7 @@ string getStringWithoutStartingAndTrailingWhiteSpace(string const& mainString) {
 
 string getStringWithoutWhiteSpace(string const& mainString) {
     string result;
-    unsigned int index = 0, length = mainString.length();
+    size_t index = 0, length = mainString.length();
     while (index < length) {
         if (!isWhiteSpace(mainString[index])) {
             result += mainString[index];
@@ -356,13 +351,13 @@ string getStringWithoutWhiteSpace(string const& mainString) {
 
 string getStringWithoutRedundantWhiteSpace(string const& mainString) {
     string result;
-    unsigned int index = 0, length = mainString.length();
+    size_t index = 0, length = mainString.length();
     while (index < length) {
-        unsigned int indexNotWhiteSpace = mainString.find_first_not_of(WHITESPACE_STRING, index);
+        size_t indexNotWhiteSpace = mainString.find_first_not_of(WHITESPACE_STRING, index);
         if (isNpos(static_cast<int>(indexNotWhiteSpace))) {
             break;
         }
-        unsigned int indexWhiteSpace = mainString.find_first_of(WHITESPACE_STRING, indexNotWhiteSpace);
+        size_t indexWhiteSpace = mainString.find_first_of(WHITESPACE_STRING, indexNotWhiteSpace);
         index = (isNotNpos(static_cast<int>(indexWhiteSpace))) ? indexWhiteSpace : length;
         result += (!result.empty()) ? " "s : string();
         result += mainString.substr(indexNotWhiteSpace, index - indexNotWhiteSpace);
@@ -371,7 +366,7 @@ string getStringWithoutRedundantWhiteSpace(string const& mainString) {
 }
 
 string getStringWithoutQuotations(string const& mainString) {
-    unsigned int length = mainString.length();
+    size_t length = mainString.length();
     if (length > 2 && mainString[0] == '\"' && mainString[length - 1] == '\"') {
         return mainString.substr(1, length - 2);
     }
@@ -383,27 +378,27 @@ string getStringWithoutCharAtTheStartAndEnd(string const& mainString, char const
 }
 
 string getStringWithoutCharAtTheStart(string const& mainString, char const char1) {
-    unsigned int length = mainString.length();
-    unsigned int start = (mainString[0] == char1) ? 1 : 0;
+    size_t length = mainString.length();
+    size_t start = (mainString[0] == char1) ? 1 : 0;
     return mainString.substr(start, length - start);
 }
 
 string getStringWithoutCharAtTheEnd(string const& mainString, char const char1) {
-    unsigned int length = mainString.length();
-    unsigned int end = (length == 0) ? 0 : (mainString[length - 1] == char1) ? length - 1 : length;
+    size_t length = mainString.length();
+    size_t end = (length == 0) ? 0 : (mainString[length - 1] == char1) ? length - 1 : length;
     return mainString.substr(0, end);
 }
 
 string getStringWithoutOpeningClosingOperators(
     string const& mainString, char const openingOperator, char const closingOperator) {
-    unsigned int length = mainString.length();
-    unsigned int start = (mainString[0] == openingOperator) ? 1 : 0;
-    unsigned int end = (length == 0) ? 0 : (mainString[length - 1] == closingOperator) ? length - 1 : length;
+    size_t length = mainString.length();
+    size_t start = (mainString[0] == openingOperator) ? 1 : 0;
+    size_t end = (length == 0) ? 0 : (mainString[length - 1] == closingOperator) ? length - 1 : length;
     return mainString.substr(start, end - start);
 }
 
 string getLongestCommonPrefix(string const& first, string const& second) {
-    unsigned int i = 0;
+    size_t i = 0;
     for (; i < first.length() && i < second.length(); i++) {
         if (first.at(i) != second.at(i)) {
             break;
@@ -414,45 +409,43 @@ string getLongestCommonPrefix(string const& first, string const& second) {
 
 void copyBeforeStringAndAfterString(
     string const& mainString, string const& stringToSearch, string& beforeString, string& afterString,
-    unsigned int const indexToStartTheSearch) {
+    size_t const indexToStartTheSearch) {
     beforeString.clear();
     afterString.clear();
-    unsigned int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStartTheSearch);
+    size_t firstIndexOfFirstString = mainString.find(stringToSearch, indexToStartTheSearch);
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
-        unsigned int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        size_t lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         beforeString = mainString.substr(0, firstIndexOfFirstString);
         afterString = mainString.substr(lastIndexOfFirstString);
     }
 }
 
-string getStringBeforeThisString(
-    string const& mainString, string const& stringToSearch, unsigned int const indexToStart) {
+string getStringBeforeThisString(string const& mainString, string const& stringToSearch, size_t const indexToStart) {
     string result;
-    unsigned int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
+    size_t firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
         result = mainString.substr(0, firstIndexOfFirstString);
     }
     return result;
 }
 
-string getStringAfterThisString(
-    string const& mainString, string const& stringToSearch, unsigned int const indexToStart) {
+string getStringAfterThisString(string const& mainString, string const& stringToSearch, size_t const indexToStart) {
     string result;
-    unsigned int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
+    size_t firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
-        unsigned int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        size_t lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         result = mainString.substr(lastIndexOfFirstString);
     }
     return result;
 }
 
 string getStringInBetweenTwoStrings(
-    string const& mainString, string const& firstString, string const& secondString, unsigned int const indexToStart) {
+    string const& mainString, string const& firstString, string const& secondString, size_t const indexToStart) {
     string result;
-    unsigned int firstIndexOfFirstString = mainString.find(firstString, indexToStart);
+    size_t firstIndexOfFirstString = mainString.find(firstString, indexToStart);
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
-        unsigned int lastIndexOfFirstString = firstIndexOfFirstString + firstString.length();
-        unsigned int firstIndexOfSecondString = mainString.find(secondString, lastIndexOfFirstString);
+        size_t lastIndexOfFirstString = firstIndexOfFirstString + firstString.length();
+        size_t firstIndexOfSecondString = mainString.find(secondString, lastIndexOfFirstString);
         if (isNotNpos(static_cast<int>(firstIndexOfSecondString))) {
             result = mainString.substr(lastIndexOfFirstString, firstIndexOfSecondString - lastIndexOfFirstString);
         }
@@ -460,21 +453,20 @@ string getStringInBetweenTwoStrings(
     return result;
 }
 
-string getStringBeforeThisCharacters(
-    string const& mainString, string const& characters, unsigned int const indexToStart) {
+string getStringBeforeThisCharacters(string const& mainString, string const& characters, size_t const indexToStart) {
     string result;
-    unsigned int firstIndexOfNotOfCharacters(mainString.find_first_of(characters, indexToStart));
+    size_t firstIndexOfNotOfCharacters(mainString.find_first_of(characters, indexToStart));
     if (isNotNpos(static_cast<int>(firstIndexOfNotOfCharacters))) {
         result = mainString.substr(indexToStart, firstIndexOfNotOfCharacters - indexToStart);
     }
     return result;
 }
 
-string getStringByRepeatingUntilDesiredLength(string const& stringToRepeat, unsigned int desiredLength) {
+string getStringByRepeatingUntilDesiredLength(string const& stringToRepeat, size_t desiredLength) {
     string result;
     if (!stringToRepeat.empty()) {
-        unsigned int stringToRepeatLength = stringToRepeat.length();
-        for (unsigned int index = 0; index <= desiredLength; index += stringToRepeatLength) {
+        size_t stringToRepeatLength = stringToRepeat.length();
+        for (size_t index = 0; index <= desiredLength; index += stringToRepeatLength) {
             result += stringToRepeat;
         }
         result = result.substr(0, desiredLength);
@@ -503,10 +495,10 @@ string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& pa
 
 string getNumberAfterThisString(string const& mainString, string const& stringToSearch) {
     string result;
-    unsigned int firstIndexOfFirstString = mainString.find(stringToSearch);
+    size_t firstIndexOfFirstString = mainString.find(stringToSearch);
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
-        unsigned int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
-        unsigned int lastIndexOfNumber;
+        size_t lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        size_t lastIndexOfNumber;
         for (lastIndexOfNumber = lastIndexOfFirstString; isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber)
             ;
         result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber - lastIndexOfFirstString);
@@ -516,10 +508,10 @@ string getNumberAfterThisString(string const& mainString, string const& stringTo
 
 string getHexNumberAfterThisString(string const& mainString, string const& stringToSearch) {
     string result;
-    unsigned int firstIndexOfFirstString = mainString.find(stringToSearch);
+    size_t firstIndexOfFirstString = mainString.find(stringToSearch);
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
-        unsigned int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
-        unsigned int lastIndexOfNumber(lastIndexOfFirstString);
+        size_t lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        size_t lastIndexOfNumber(lastIndexOfFirstString);
         for (; isHexDigit(mainString[lastIndexOfNumber]); ++lastIndexOfNumber)
             ;
         result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber - lastIndexOfFirstString);
@@ -541,15 +533,14 @@ string constructFileLocator(string const& file, int const lineNumber) {
     return ss.str();
 }
 
-string getRandomAlphaNumericString(unsigned int const length) {
+string getRandomAlphaNumericString(size_t const length) {
     constexpr auto ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    AlbaSimpleRandomizer randomizer;
     int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP)) - 1;
+    AlbaUniformNonDeterministicRandomizer randomizer(0, alphaNumericCharMapIndexMax);
     string result;
     result.reserve(length);
     generate_n(back_inserter(result), length, [&]() {
-        return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(
-            randomizer.getRandomIntegerInUniformDistribution(0, alphaNumericCharMapIndexMax))];
+        return ALPHA_NUMERIC_CHAR_MAP[static_cast<size_t>(randomizer.getRandomValue())];
     });
     return result;
 }
@@ -564,9 +555,9 @@ strings getArgumentsToStringInMain(int const argc, char const* const argv[]) {
 
 bool transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith) {
     bool found = false;
-    unsigned int toReplaceLength = toReplace.length();
-    unsigned int replaceWithLength = replaceWith.length();
-    unsigned int index = mainString.find(toReplace);
+    size_t toReplaceLength = toReplace.length();
+    size_t replaceWithLength = replaceWith.length();
+    size_t index = mainString.find(toReplace);
     while (isNotNpos(static_cast<int>(index))) {
         found = true;
         mainString.replace(index, toReplaceLength, replaceWith);
@@ -577,10 +568,10 @@ bool transformReplaceStringIfFound(string& mainString, string const& toReplace, 
 
 template <SplitStringType splitStringType>
 void splitToStrings(strings& listOfStrings, string const& mainString, string const& delimiters) {
-    unsigned int startingIndexOfFind(0);
-    unsigned int delimiterIndex = mainString.find_first_of(delimiters);
-    unsigned int delimeterLength = 1;
-    unsigned int mainStringLength = mainString.length();
+    size_t startingIndexOfFind(0);
+    size_t delimiterIndex = mainString.find_first_of(delimiters);
+    size_t delimeterLength = 1;
+    size_t mainStringLength = mainString.length();
     while (isNotNpos(static_cast<int>(delimiterIndex))) {
         if (startingIndexOfFind != delimiterIndex) {
             listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex - startingIndexOfFind));
@@ -614,12 +605,12 @@ string combineStrings(strings const& listOfStrings, string const& delimiters) {
     return result;
 }
 
-void splitLinesToAchieveTargetLength(strings& strings, string const& mainString, unsigned int const targetLength) {
-    set<unsigned int> transitionIndexes;
-    unsigned int mainStringLength = mainString.length();
+void splitLinesToAchieveTargetLength(strings& strings, string const& mainString, size_t const targetLength) {
+    set<size_t> transitionIndexes;
+    size_t mainStringLength = mainString.length();
     bool isPreviousCharacterAWhitespace(false);
     transitionIndexes.emplace(0);
-    for (unsigned int i = 0; i < mainStringLength; i++) {
+    for (size_t i = 0; i < mainStringLength; i++) {
         char currentCharacter = mainString[i];
         if (isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter)) {
             transitionIndexes.emplace(i - 1);
@@ -630,13 +621,12 @@ void splitLinesToAchieveTargetLength(strings& strings, string const& mainString,
     }
     transitionIndexes.emplace(mainStringLength);
 
-    unsigned int previousSplittingIndex = 0;
-    for (unsigned int splittingIndex = targetLength; splittingIndex < mainStringLength;
-         splittingIndex += targetLength) {
+    size_t previousSplittingIndex = 0;
+    for (size_t splittingIndex = targetLength; splittingIndex < mainStringLength; splittingIndex += targetLength) {
         char currentCharacter = mainString[splittingIndex];
 
         if (!isWhiteSpace(currentCharacter)) {
-            auto&& [lowerTransitionIndex, upperTransitionIndex] =
+            auto [lowerTransitionIndex, upperTransitionIndex] =
                 containerHelper::getLowerAndUpperValuesForSet(transitionIndexes, splittingIndex);
             ++lowerTransitionIndex;
             int lowerDelta = static_cast<int>(splittingIndex - lowerTransitionIndex);
@@ -667,10 +657,10 @@ void splitLinesToAchieveTargetLength(strings& strings, string const& mainString,
 void splitToStringsUsingASeriesOfDelimeters(
     strings& listOfStrings, string const& mainString, strings const& seriesOfDelimiters) {
     if (!seriesOfDelimiters.empty()) {
-        unsigned int startingIndexOfFind(0);
-        unsigned int mainStringLength = mainString.length();
+        size_t startingIndexOfFind(0);
+        size_t mainStringLength = mainString.length();
         for (string const& delimeter : seriesOfDelimiters) {
-            unsigned int delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
+            size_t delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
             if (isNpos(static_cast<int>(delimiterIndex))) {
                 break;
             }
@@ -686,7 +676,7 @@ void splitToStringsUsingASeriesOfDelimeters(
     }
 }
 
-string getStringWithJustifyAlignment(string const& mainString, unsigned int const targetLength) {
+string getStringWithJustifyAlignment(string const& mainString, size_t const targetLength) {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
@@ -696,11 +686,11 @@ string getStringWithJustifyAlignment(string const& mainString, unsigned int cons
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
         result = noRedundantWhiteSpace;
     } else if (isOneWord(mainString)) {
-        unsigned int noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
-        unsigned int gapLength = (targetLength - noWhiteSpace.length()) / (noRedundantWhiteSpaceLength + 1);
+        size_t noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
+        size_t gapLength = (targetLength - noWhiteSpace.length()) / (noRedundantWhiteSpaceLength + 1);
         string gap(gapLength, ' ');
         result += gap;
-        for (unsigned int i = 0; i < noRedundantWhiteSpaceLength; i++) {
+        for (size_t i = 0; i < noRedundantWhiteSpaceLength; i++) {
             result += noRedundantWhiteSpace[i];
             result += gap;
         }
@@ -708,10 +698,10 @@ string getStringWithJustifyAlignment(string const& mainString, unsigned int cons
     } else {
         strings actualStrings;
         splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, noRedundantWhiteSpace, " ");
-        unsigned int numberOfStrings = actualStrings.size();
-        unsigned int gapLength = (targetLength - noWhiteSpace.length()) / (numberOfStrings - 1);
+        size_t numberOfStrings = actualStrings.size();
+        size_t gapLength = (targetLength - noWhiteSpace.length()) / (numberOfStrings - 1);
         string gap(gapLength, ' ');
-        for (unsigned int i = 0; i < numberOfStrings; i++) {
+        for (size_t i = 0; i < numberOfStrings; i++) {
             result += actualStrings[i];
             if (i < numberOfStrings - 1) {
                 result += gap;
@@ -722,7 +712,7 @@ string getStringWithJustifyAlignment(string const& mainString, unsigned int cons
     return result;
 }
 
-string getStringWithCenterAlignment(string const& mainString, unsigned int const targetLength) {
+string getStringWithCenterAlignment(string const& mainString, size_t const targetLength) {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     if (mainString.empty()) {
@@ -731,7 +721,7 @@ string getStringWithCenterAlignment(string const& mainString, unsigned int const
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
         result = noRedundantWhiteSpace;
     } else {
-        unsigned int gapLength = (targetLength - noRedundantWhiteSpace.length()) / 2;
+        size_t gapLength = (targetLength - noRedundantWhiteSpace.length()) / 2;
         result += string(gapLength, ' ');
         result += noRedundantWhiteSpace;
         result += string(targetLength - result.length(), ' ');
@@ -739,7 +729,7 @@ string getStringWithCenterAlignment(string const& mainString, unsigned int const
     return result;
 }
 
-string getStringWithRightAlignment(string const& mainString, unsigned int const targetLength) {
+string getStringWithRightAlignment(string const& mainString, size_t const targetLength) {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     if (mainString.empty()) {
@@ -748,14 +738,14 @@ string getStringWithRightAlignment(string const& mainString, unsigned int const 
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
         result = noRedundantWhiteSpace;
     } else {
-        unsigned int gapLength = (targetLength - noRedundantWhiteSpace.length());
+        size_t gapLength = (targetLength - noRedundantWhiteSpace.length());
         result += string(gapLength, ' ');
         result += noRedundantWhiteSpace;
     }
     return result;
 }
 
-string getStringWithLeftAlignment(string const& mainString, unsigned int const targetLength) {
+string getStringWithLeftAlignment(string const& mainString, size_t const targetLength) {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     if (mainString.empty()) {
@@ -764,7 +754,7 @@ string getStringWithLeftAlignment(string const& mainString, unsigned int const t
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
         result = noRedundantWhiteSpace;
     } else {
-        unsigned int gapLength = (targetLength - noRedundantWhiteSpace.length());
+        size_t gapLength = (targetLength - noRedundantWhiteSpace.length());
         result += noRedundantWhiteSpace;
         result += string(gapLength, ' ');
     }
@@ -773,7 +763,7 @@ string getStringWithLeftAlignment(string const& mainString, unsigned int const t
 
 string getCorrectPathWithoutUrlParameters(string const& path) {
     string correctPathWithoutUrlParameters(path);
-    unsigned int indexOfQuestionMark = path.find_first_of('?');
+    size_t indexOfQuestionMark = path.find_first_of('?');
     if (isNotNpos(static_cast<int>(indexOfQuestionMark))) {
         correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);
     }
@@ -782,7 +772,7 @@ string getCorrectPathWithoutUrlParameters(string const& path) {
 
 string getUrlParameters(string const& path) {
     string urlParameters;
-    unsigned int indexOfQuestionMark = path.find_first_of('?');
+    size_t indexOfQuestionMark = path.find_first_of('?');
     if (isNotNpos(static_cast<int>(indexOfQuestionMark))) {
         urlParameters = path.substr(indexOfQuestionMark);
     }
@@ -816,9 +806,9 @@ string getCorrectPathWithoutDoublePeriod(string const& mainString, string const&
         string stringToFind(slashCharacterString);
         stringToFind += ".."s;
         stringToFind += slashCharacterString;
-        unsigned int indexOfDoublePeriod = correctPath.find(stringToFind);
+        size_t indexOfDoublePeriod = correctPath.find(stringToFind);
         if (isNotNpos(static_cast<int>(indexOfDoublePeriod))) {
-            unsigned int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod - 1);
+            size_t indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod - 1);
             if (isNotNpos(static_cast<int>(indexOfNearestSlash))) {
                 isDirectoryChanged = true;
                 correctPath.erase(indexOfNearestSlash, indexOfDoublePeriod + 3 - indexOfNearestSlash);
@@ -829,7 +819,7 @@ string getCorrectPathWithoutDoublePeriod(string const& mainString, string const&
 }
 
 string getStringBeforeDoublePeriod(string const& mainString, string const& slashCharacterString) {
-    unsigned int indexOfLastDoublePeriod = mainString.rfind(".."s + slashCharacterString);
+    size_t indexOfLastDoublePeriod = mainString.rfind(".."s + slashCharacterString);
     if (isNotNpos(static_cast<int>(indexOfLastDoublePeriod))) {
         return mainString.substr(indexOfLastDoublePeriod + 3);
     }
@@ -837,10 +827,10 @@ string getStringBeforeDoublePeriod(string const& mainString, string const& slash
 }
 
 string getImmediateDirectoryName(string const& mainString, string const& slashCharacterString) {
-    unsigned int indexLastCharacterToSearch = mainString.length();
+    size_t indexLastCharacterToSearch = mainString.length();
     string result;
     while (result.empty()) {
-        unsigned int indexOfLastSlashString = mainString.find_last_of(slashCharacterString, indexLastCharacterToSearch);
+        size_t indexOfLastSlashString = mainString.find_last_of(slashCharacterString, indexLastCharacterToSearch);
         if (isNpos(static_cast<int>(indexOfLastSlashString))) {
             break;
         }
@@ -915,7 +905,7 @@ void StringConverterWithFormatting::setFillCharacter(char const fillCharacter) {
     m_fillCharacterOptional = fillCharacter;
 }
 
-void StringConverterWithFormatting::setMaximumLength(unsigned int const maximumLength) {
+void StringConverterWithFormatting::setMaximumLength(size_t const maximumLength) {
     m_maximumLengthOptional = maximumLength;
 }
 

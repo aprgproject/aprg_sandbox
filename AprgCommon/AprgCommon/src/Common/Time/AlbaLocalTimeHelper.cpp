@@ -10,7 +10,7 @@ using namespace std::this_thread;
 
 namespace alba {
 
-void sleepFor(unsigned int const milliSeconds) { sleep_for(chrono::milliseconds(milliSeconds)); }
+void sleepFor(size_t const milliSeconds) { sleep_for(chrono::milliseconds(milliSeconds)); }
 
 void sleepUntil(AlbaDateTime const& awakeTime) { sleep_until(convertAlbaDateTimeToSystemTime(awakeTime)); }
 
@@ -21,8 +21,8 @@ LibrarySystemTime getSystemTimeNow() { return system_clock::now(); }
 AlbaDateTime convertSystemTimeToAlbaDateTime(LibrarySystemTime const& inputTime) {
     // No std::chrono::year_month_day yet (its in C++20), so let use time_t
 
-    constexpr unsigned int YEAR_OFFSET = 1900;
-    constexpr unsigned int MONTH_OFFSET = 1;
+    constexpr size_t YEAR_OFFSET = 1900;
+    constexpr size_t MONTH_OFFSET = 1;
 
     time_t currentTimeT = system_clock::to_time_t(inputTime);
     auto localTime = *localtime(&currentTimeT);  // not thread safe

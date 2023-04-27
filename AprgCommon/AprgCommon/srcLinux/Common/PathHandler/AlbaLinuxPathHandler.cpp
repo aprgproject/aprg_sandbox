@@ -68,10 +68,10 @@ AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime() const {
 
 void AlbaLinuxPathHandler::createDirectoriesForNonExisitingDirectories() const {
     string fullPath(getFullPath());
-    unsigned int index = 0, length = static_cast<unsigned int>(fullPath.length());
+    size_t index = 0, length = static_cast<size_t>(fullPath.length());
     while (index < length) {
-        unsigned int indexWithSlashCharacter =
-            static_cast<unsigned int>(fullPath.find_first_of(m_slashCharacterString, index));
+        size_t indexWithSlashCharacter =
+            static_cast<size_t>(fullPath.find_first_of(m_slashCharacterString, index));
         if (isNpos(static_cast<int>(indexWithSlashCharacter))) {
             break;
         }
@@ -156,7 +156,7 @@ bool AlbaLinuxPathHandler::copyToNewFile(string const& newFilePath) {
         writeFileDescriptor = open(newFilePath.c_str(), O_WRONLY | O_CREAT, statBuffer.st_mode);
         if (isFile()) {
             int errorReturnValue = static_cast<int>(sendfile(
-                writeFileDescriptor, readFileDescriptor, &offset, static_cast<unsigned long>(statBuffer.st_size)));
+                writeFileDescriptor, readFileDescriptor, &offset, static_cast<size_t>(statBuffer.st_size)));
             isSuccessful = errorReturnValue != -1;
             if (!isSuccessful) {
                 cout << "Error in AlbaLinuxPathHandler::copyToNewFile() path:[" << getFullPath() << "] newFilePath:["
@@ -225,13 +225,13 @@ void AlbaLinuxPathHandler::findFilesAndDirectoriesUnlimitedDepth(
 }
 
 string AlbaLinuxPathHandler::getCurrentDetectedPath() {
-    constexpr unsigned int MAX_ARGUMENT_LENGTH = 50;
-    constexpr unsigned int MAX_PATH = 1000;
+    constexpr size_t MAX_ARGUMENT_LENGTH = 50;
+    constexpr size_t MAX_PATH = 1000;
     char argument[MAX_ARGUMENT_LENGTH];
     char detectedLocalPath[MAX_PATH];
 
     snprintf(argument, MAX_ARGUMENT_LENGTH, "/proc/%d/exe", getpid());
-    unsigned int length = static_cast<unsigned int>(readlink(argument, detectedLocalPath, MAX_PATH));
+    size_t length = static_cast<size_t>(readlink(argument, detectedLocalPath, MAX_PATH));
     if (length <= 0) {
         length = 1;
     }

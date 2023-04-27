@@ -13,10 +13,10 @@ namespace alba {
 class AlbaFileReader {
 public:
     explicit AlbaFileReader(std::ifstream& stream);
-    explicit AlbaFileReader(std::ifstream& stream, unsigned int const size);
+    explicit AlbaFileReader(std::ifstream& stream, size_t const size);
     bool isNotFinished();
     char getCharacter();
-    char* getCharacters(unsigned int& numberOfCharacters);
+    char* getCharacters(size_t& numberOfCharacters);
     template <typename NumberType>
     NumberType getOneByteData();
     template <typename NumberType>
@@ -31,21 +31,21 @@ public:
     NumberType getFourByteSwappedData();
     template <typename NumberType>
     NumberType getEightByteSwappedData();
-    template <typename NumberType, unsigned int numberOfBytesToRead>
+    template <typename NumberType, size_t numberOfBytesToRead>
     NumberType getData();
-    void saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead);
+    void saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, size_t numberOfBytesToRead);
     std::string getLineAndIgnoreWhiteSpaces();
     std::string getLine();
-    double getCurrentLocation() const;
-    double getFileSize() const;
+    size_t getCurrentLocation() const;
+    size_t getFileSize() const;
     void moveToTheBeginning() const;
-    void moveLocation(unsigned long long const location) const;
-    void setMaxBufferSize(unsigned int const bufferSize);
-    unsigned int getMaxBufferSize() const;
+    void moveLocation(size_t const location) const;
+    void setMaxBufferSize(size_t const bufferSize);
+    size_t getMaxBufferSize() const;
 
 private:
     char* getCharacterBufferPointer();
-    static constexpr unsigned int INITIAL_MAX_BUFFER_SIZE = 10000;
+    static constexpr size_t INITIAL_MAX_BUFFER_SIZE = 10000;
     std::vector<char> m_characterBuffer;
     std::ifstream& m_stream;
 };
@@ -85,11 +85,11 @@ NumberType AlbaFileReader::getEightByteSwappedData() {
     return AlbaBitManipulation<NumberType>::swapForEightBytes(getData<NumberType, 8>());
 }
 
-template <typename NumberType, unsigned int numberOfBytesToRead>
+template <typename NumberType, size_t numberOfBytesToRead>
 NumberType AlbaFileReader::getData() {
     NumberType result(0);
     m_stream.read(getCharacterBufferPointer(), numberOfBytesToRead);
-    unsigned int numberOfCharacters = static_cast<unsigned int>(m_stream.gcount());
+    size_t numberOfCharacters = static_cast<size_t>(m_stream.gcount());
     result = std::accumulate(
         m_characterBuffer.cbegin(), m_characterBuffer.cbegin() + numberOfCharacters, static_cast<NumberType>(0U),
         [&](NumberType partialSum, NumberType newValue) {

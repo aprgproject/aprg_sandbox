@@ -1,7 +1,6 @@
 #include "AlbaUserInterface.hpp"
 
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
 
 #include <iostream>
@@ -27,15 +26,6 @@ string AlbaUserInterface::getFilePathInput() {
         }
     }
 }
-
-template <typename NumberType>
-NumberType AlbaUserInterface::getNumberFromInput() {
-    return convertStringToNumber<NumberType>(getUserInput());
-}
-template int AlbaUserInterface::getNumberFromInput<int>();
-template unsigned int AlbaUserInterface::getNumberFromInput<unsigned int>();
-template float AlbaUserInterface::getNumberFromInput<float>();
-template double AlbaUserInterface::getNumberFromInput<double>();
 
 template <typename NumberType>
 NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(

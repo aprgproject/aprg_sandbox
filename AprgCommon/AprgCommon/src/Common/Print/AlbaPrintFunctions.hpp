@@ -28,9 +28,11 @@ template <typename... UnderlyingTypes, template <typename...> class TemplateType
 std::enable_if_t<typeHelper::hasBeginAndEndAndWithoutSize<TemplateType<UnderlyingTypes...>>(), void> printParameter(
     std::ostream& outputStream, TemplateType<UnderlyingTypes...> const& parameter);
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
-std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(), void> printParameter(    std::ostream& outputStream, TemplateType<UnderlyingTypes...> const& parameter);
+std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(), void> printParameter(
+    std::ostream& outputStream, TemplateType<UnderlyingTypes...> const& parameter);
 
 // printParameterWithName declaration
+
 template <typename ParameterType>
 void printParameterWithName(
     std::ostream& outputStream, std::string const& parameterName, ParameterType const& parameter);
@@ -75,10 +77,12 @@ void printParametersByForEachTraversal(std::ostream& outputStream, ContainerType
 
 template <typename Adapter>
 typename Adapter::container_type const& getUnderlyingContainerForPrinting(
-    Adapter const& adapter)  // copied from parameter to lessen dependencies{
+    Adapter const& adapter)  // copied from parameter to lessen dependencies
+{
     struct AdapterParent : Adapter {
         static typename Adapter::container_type const& get(Adapter const& adapterAsParameter) {
-            return adapterAsParameter.*&AdapterParent::c;        }
+            return adapterAsParameter.*&AdapterParent::c;
+        }
     };
     return AdapterParent::get(adapter);
 }
@@ -129,9 +133,11 @@ std::enable_if_t<typeHelper::hasBeginAndEndAndWithoutSize<TemplateType<Underlyin
     printParametersByForEachTraversal(outputStream, parameter);
     outputStream << "}";
 }
+
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
 std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(), void> printParameter(
-    std::ostream& outputStream, TemplateType<UnderlyingTypes...> const& parameter) {    outputStream << "{adapter: ";
+    std::ostream& outputStream, TemplateType<UnderlyingTypes...> const& parameter) {
+    outputStream << "{adapter: ";
     printParameter(outputStream, getUnderlyingContainerForPrinting(parameter));
     outputStream << "}";
 }

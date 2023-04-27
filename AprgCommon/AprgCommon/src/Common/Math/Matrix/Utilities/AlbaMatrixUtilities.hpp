@@ -25,11 +25,11 @@ bool isZeroMatrix(AlbaMatrix<DataType> const& matrix) {
 
 template <typename DataType>
 bool isIdentityMatrix(AlbaMatrix<DataType> const& matrix) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
     bool isIdentityMatrix(numberOfRows == numberOfColumns);
-    for (unsigned int y = 0; isIdentityMatrix && y < numberOfRows; y++) {
-        for (unsigned int x = 0; isIdentityMatrix && x < numberOfColumns; x++) {
+    for (size_t y = 0; isIdentityMatrix && y < numberOfRows; y++) {
+        for (size_t x = 0; isIdentityMatrix && x < numberOfColumns; x++) {
             if (x == y) {
                 isIdentityMatrix = isIdentityMatrix && matrix.getEntry(x, y) == 1;
             } else {
@@ -56,9 +56,9 @@ bool isSingular(AlbaMatrix<DataType> const& matrix)  // means the its non invert
 }
 
 template <typename DataType>
-AlbaMatrix<DataType> getIdentityMatrix(unsigned int const sideSize) {
+AlbaMatrix<DataType> getIdentityMatrix(size_t const sideSize) {
     AlbaMatrix<DataType> resultMatrix(sideSize, sideSize);
-    for (unsigned int i = 0; i < sideSize; i++) {
+    for (size_t i = 0; i < sideSize; i++) {
         resultMatrix.setEntry(i, i, 1);
     }
     return resultMatrix;
@@ -68,7 +68,7 @@ template <typename DataType>
 AlbaMatrix<DataType> doUnaryOperation(
     AlbaMatrix<DataType> const& inputMatrix, UnaryFunction<DataType> const& unaryFunction) {
     AlbaMatrix<DataType> resultMatrix(inputMatrix.getNumberOfColumns(), inputMatrix.getNumberOfRows());
-    inputMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+    inputMatrix.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {
         resultMatrix.setEntry(x, y, unaryFunction(inputMatrix.getEntry(x, y)));
     });
     return resultMatrix;
@@ -82,7 +82,7 @@ AlbaMatrix<DataType> doBinaryOperationWithSameDimensions(
         (firstMatrix.getNumberOfColumns() == secondMatrix.getNumberOfColumns()) &&
         (firstMatrix.getNumberOfRows() == secondMatrix.getNumberOfRows()));
     AlbaMatrix<DataType> resultMatrix(firstMatrix.getNumberOfColumns(), firstMatrix.getNumberOfRows());
-    firstMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+    firstMatrix.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {
         resultMatrix.setEntry(x, y, binaryFunction(firstMatrix.getEntry(x, y), secondMatrix.getEntry(x, y)));
     });
     return resultMatrix;
@@ -90,7 +90,7 @@ AlbaMatrix<DataType> doBinaryOperationWithSameDimensions(
 
 template <typename DataType>
 void doUnaryAssignmentOperation(AlbaMatrix<DataType>& inputOutputMatrix, UnaryFunction<DataType> const& unaryFunction) {
-    inputOutputMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+    inputOutputMatrix.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {
         inputOutputMatrix.setEntry(x, y, unaryFunction(inputOutputMatrix.getEntry(x, y)));
     });
 }
@@ -102,7 +102,7 @@ void doBinaryAssignmentOperationWithSameDimensions(
     assert(
         (firstMatrix.getNumberOfColumns() == secondMatrix.getNumberOfColumns()) &&
         (firstMatrix.getNumberOfRows() == secondMatrix.getNumberOfRows()));
-    firstMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+    firstMatrix.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {
         firstMatrix.setEntry(x, y, binaryFunction(firstMatrix.getEntry(x, y), secondMatrix.getEntry(x, y)));
     });
 }
@@ -119,9 +119,9 @@ AlbaMatrix<DataType> multiplyMatrices(AlbaMatrix<DataType> const& first, AlbaMat
     ListOfAlbaMatrixData<DataType> rowsOfFirstMatrix, columnsOfSecondMatrix;
     first.retrieveRows(rowsOfFirstMatrix);
     second.retrieveColumns(columnsOfSecondMatrix);
-    unsigned int y = 0;
+    size_t y = 0;
     for (AlbaMatrixData<DataType> const& rowOfFirstMatrix : rowsOfFirstMatrix) {
-        unsigned int x = 0;
+        size_t x = 0;
         for (AlbaMatrixData<DataType> const& columnOfSecondMatrix : columnsOfSecondMatrix) {
             result.setEntry(x, y, multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
             x++;
@@ -132,12 +132,12 @@ AlbaMatrix<DataType> multiplyMatrices(AlbaMatrix<DataType> const& first, AlbaMat
 }
 
 template <typename DataType>
-AlbaMatrix<DataType> getMatrixRaiseToScalarPower(AlbaMatrix<DataType> const& base, unsigned int const scalarExponent) {
+AlbaMatrix<DataType> getMatrixRaiseToScalarPower(AlbaMatrix<DataType> const& base, size_t const scalarExponent) {
     assert(base.getNumberOfColumns() == base.getNumberOfRows());
 
     AlbaMatrix<DataType> result(getIdentityMatrix<DataType>(base.getNumberOfColumns()));
     AlbaMatrix<DataType> newBase(base);
-    unsigned int newExponent(scalarExponent);
+    size_t newExponent(scalarExponent);
     while (newExponent > 0) {
         if (mathHelper::isEven(newExponent)) {
             newBase *= newBase;
@@ -151,17 +151,17 @@ AlbaMatrix<DataType> getMatrixRaiseToScalarPower(AlbaMatrix<DataType> const& bas
 }
 
 template <typename DataType>
-void interchangeRows(AlbaMatrix<DataType>& matrix, unsigned int const y1, unsigned int const y2) {
+void interchangeRows(AlbaMatrix<DataType>& matrix, size_t const y1, size_t const y2) {
     assert((y1 < matrix.getNumberOfRows()) && (y2 < matrix.getNumberOfRows()));
-    for (unsigned int x = 0; x < matrix.getNumberOfColumns(); x++) {
+    for (size_t x = 0; x < matrix.getNumberOfColumns(); x++) {
         std::swap(matrix.getEntryReference(x, y1), matrix.getEntryReference(x, y2));
     }
 }
 
 template <typename DataType>
 void addTwoRowsAndPutSumInAnotherRow(
-    AlbaMatrix<DataType>& matrix, unsigned int const yInput1, unsigned int const yInput2, unsigned int const yOutput) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
+    AlbaMatrix<DataType>& matrix, size_t const yInput1, size_t const yInput2, size_t const yOutput) {
+    size_t numberOfRows(matrix.getNumberOfRows());
     assert((yInput1 < numberOfRows) && (yInput2 < numberOfRows) && (yOutput < numberOfRows));
     traverseWithBinaryOperationForDifferentRows(
         matrix, yInput1, yInput2, yOutput, BinaryFunction<DataType>(std::plus<DataType>()));
@@ -170,21 +170,21 @@ void addTwoRowsAndPutSumInAnotherRow(
 template <typename DataType>
 DataType multiplyEachItemAndGetSum(AlbaMatrixData<DataType> const& first, AlbaMatrixData<DataType> const& second) {
     DataType result{};
-    unsigned int minSize = std::min(first.size(), second.size());
-    for (unsigned int i = 0; i < minSize; i++) {
+    size_t minSize = std::min(first.size(), second.size());
+    for (size_t i = 0; i < minSize; i++) {
         result += first.at(i) * second.at(i);
     }
     return result;
 }
 
 template <typename DataType>
-unsigned int getIndexWithHighestSatisfiedCount(
+size_t getIndexWithHighestSatisfiedCount(
     ListOfAlbaMatrixData<DataType> const& rowsOrColumns, BoolUnaryFunction<DataType> const& condition) {
-    unsigned int i = 0;
-    unsigned int bestIndex = 0;
-    unsigned int highestCount = 0;
+    size_t i = 0;
+    size_t bestIndex = 0;
+    size_t highestCount = 0;
     for (auto const& rowOrColumn : rowsOrColumns) {
-        unsigned int count = std::count_if(rowOrColumn.cbegin(), rowOrColumn.cend(), condition);
+        size_t count = std::count_if(rowOrColumn.cbegin(), rowOrColumn.cend(), condition);
         if (highestCount < count) {
             highestCount = count;
             bestIndex = i;
@@ -196,22 +196,22 @@ unsigned int getIndexWithHighestSatisfiedCount(
 
 template <typename DataType>
 void traverseWithUnaryOperationForDifferentRows(
-    AlbaMatrix<DataType>& matrix, unsigned int const yInput, unsigned int const yOutput,
+    AlbaMatrix<DataType>& matrix, size_t const yInput, size_t const yOutput,
     UnaryFunction<DataType> const& unaryFunction) {
     assert((yInput < matrix.getNumberOfRows()) && (yOutput < matrix.getNumberOfRows()));
-    for (unsigned int x = 0; x < matrix.getNumberOfColumns(); x++) {
+    for (size_t x = 0; x < matrix.getNumberOfColumns(); x++) {
         matrix.setEntry(x, yOutput, unaryFunction(matrix.getEntry(x, yInput)));
     }
 }
 
 template <typename DataType>
 void traverseWithBinaryOperationForDifferentRows(
-    AlbaMatrix<DataType>& matrix, unsigned int const yInput1, unsigned int const yInput2, unsigned int const yOutput,
+    AlbaMatrix<DataType>& matrix, size_t const yInput1, size_t const yInput2, size_t const yOutput,
     BinaryFunction<DataType> const& binaryFunction) {
     assert(
         (yInput1 < matrix.getNumberOfRows()) && (yInput2 < matrix.getNumberOfRows()) &&
         (yOutput < matrix.getNumberOfRows()));
-    for (unsigned int x = 0; x < matrix.getNumberOfColumns(); x++) {
+    for (size_t x = 0; x < matrix.getNumberOfColumns(); x++) {
         matrix.setEntry(x, yOutput, binaryFunction(matrix.getEntry(x, yInput1), matrix.getEntry(x, yInput2)));
     }
 }

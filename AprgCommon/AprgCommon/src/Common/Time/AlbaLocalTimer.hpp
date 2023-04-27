@@ -14,12 +14,12 @@ public:
     void resetTimer();
     void stopTimer();
 
-    unsigned int getElapsedTimeInNanoseconds() const;
-    unsigned int getElapsedTimeInMicroseconds() const;
-    unsigned int getElapsedTimeInMilliseconds() const;
-    unsigned int getElapsedTimeInSeconds() const;
-    unsigned int getElapsedTimeInMinutes() const;
-    unsigned int getElapsedTimeInHours() const;
+    size_t getElapsedTimeInNanoseconds() const;
+    size_t getElapsedTimeInMicroseconds() const;
+    size_t getElapsedTimeInMilliseconds() const;
+    size_t getElapsedTimeInSeconds() const;
+    size_t getElapsedTimeInMinutes() const;
+    size_t getElapsedTimeInHours() const;
     AlbaDateTime getDifferenceAsAlbaDateTime() const;
 
 private:

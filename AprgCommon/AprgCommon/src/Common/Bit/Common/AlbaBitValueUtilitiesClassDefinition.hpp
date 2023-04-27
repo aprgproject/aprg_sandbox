@@ -24,7 +24,7 @@ public:
 
     static constexpr inline bool isPowerOfTwo(DataType const value) { return (value & (value - 1)) == 0; }
 
-    static constexpr inline unsigned int getNumberOfBits() {
+    static constexpr inline size_t getNumberOfBits() {
         // numeric_limits<>::digits + numeric_limits<>::is_signed approach
         // return std::numeric_limits<DataType>::digits + (std::numeric_limits<DataType>::is_signed ? 1 : 0);
 
@@ -35,26 +35,26 @@ public:
 
     static inline constexpr bool isEvenParity(DataType const value) { return BitUtilitiesBuiltIn::isEvenParity(value); }
 
-    static inline constexpr unsigned int getNumberOfOnes(DataType const value) {
+    static inline constexpr size_t getNumberOfOnes(DataType const value) {
         return BitUtilitiesBuiltIn::getNumberOfOnes(value);
     }
 
-    static inline constexpr unsigned int getNumberOfConsecutiveZerosFromMsb(DataType const value) {
+    static inline constexpr size_t getNumberOfConsecutiveZerosFromMsb(DataType const value) {
         return BitUtilitiesBuiltIn::getNumberOfConsecutiveZerosFromMsb(value);
     }
 
-    static inline constexpr unsigned int getNumberOfConsecutiveZerosFromLsb(DataType const value) {
+    static inline constexpr size_t getNumberOfConsecutiveZerosFromLsb(DataType const value) {
         return BitUtilitiesBuiltIn::getNumberOfConsecutiveZerosFromLsb(value);
     }
 
-    static constexpr inline unsigned int getHammingDistance(DataType const value1, DataType const value2) {
+    static constexpr inline size_t getHammingDistance(DataType const value1, DataType const value2) {
         // The Hamming distance hamming(a,b) between two bitstrings a and b of equal length is the number of positions
         // where the bitstrings differ.
 
         return getNumberOfOnes(value1 ^ value2);
     }
 
-    static constexpr inline DataType generateOnesWithNumberOfBits(unsigned int const numberOfOnes) {
+    static constexpr inline DataType generateOnesWithNumberOfBits(size_t const numberOfOnes) {
         return (DataType(1) << numberOfOnes) - 1;
     }
 

@@ -1,4 +1,4 @@
-#include "AlbaSimpleRandomizer.hpp"
+#include "AlbaOldRandomizer.hpp"
 
 #include <Common/Time/AlbaLocalTimeHelper.hpp>
 
@@ -6,13 +6,13 @@ using namespace std;
 
 namespace alba {
 
-AlbaSimpleRandomizer::AlbaSimpleRandomizer() { resetRandomSeed(); }
+AlbaOldRandomizer::AlbaOldRandomizer() { resetRandomSeed(); }
 
-void AlbaSimpleRandomizer::resetRandomSeed() {
+void AlbaOldRandomizer::resetRandomSeed() {
     srand(getCurrentDateTime().getMicroSeconds());  // srand is not thread safe
 }
 
-int AlbaSimpleRandomizer::getRandomIntegerInUniformDistribution(int const minimum, int const maximum) const {
+int AlbaOldRandomizer::getRandomIntegerInUniformDistribution(int const minimum, int const maximum) const {
     int deltaInclusive = maximum - minimum + 1;
     double randomValue = static_cast<double>(rand()) / (static_cast<double>(RAND_MAX) + 1);
     return static_cast<int>(minimum + randomValue * deltaInclusive);  // implicit floor conversion from double to int
@@ -24,10 +24,12 @@ int AlbaSimpleRandomizer::getRandomIntegerInUniformDistribution(int const minimu
     // so we get the floor to have the final value
 }
 
-double AlbaSimpleRandomizer::getRandomFloatingValueInUniformDistribution(    double const minimum, double const maximum) const {
+double AlbaOldRandomizer::getRandomFloatingValueInUniformDistribution(
+    double const minimum, double const maximum) const {
     double delta = maximum - minimum;
     double randomValue = static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-    return minimum + randomValue * delta;}
+    return minimum + randomValue * delta;
+}
 
 }  // namespace alba
 

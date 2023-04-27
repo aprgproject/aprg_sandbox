@@ -9,34 +9,34 @@ namespace alba {
 template <typename DataType>
 bool isEqualForMathVectorDataType(DataType const& value1, DataType const& value2);
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 bool areVectorsPerpendicular(
     AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     return isEqualForMathVectorDataType(getDotProduct(vector1, vector2), DataType(0));
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 bool areVectorsParallel(AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     return isEqualForMathVectorDataType(
         getDotProduct(vector1, vector2), vector1.getMagnitude() * vector2.getMagnitude());
 }
 
 // This is always true.
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 bool isCauchySchwarzInequalitySatisfied(
     AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     return getDotProduct(vector1, vector2) <= vector1.getMagnitude() * vector2.getMagnitude();
 }
 
 // This is always true.
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 bool isTriangleInequalitySatisfied(
     AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     return (vector1 + vector2).getMagnitude() <= vector1.getMagnitude() + vector2.getMagnitude();
 }
 
 // This is always true.
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 bool isDotProductEqualToProductOfMagnitudesWithCosineOfAngle(
     AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     return isEqualForMathVectorDataType(
@@ -44,12 +44,12 @@ bool isDotProductEqualToProductOfMagnitudesWithCosineOfAngle(
                                           cos(getAngleBetweenTwoVectors(vector1, vector2).getRadians())));
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 AlbaMathVector<DataType, SIZE> createZeroVector() {
     return AlbaMathVector<DataType, SIZE>();
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 AlbaMathVector<DataType, SIZE> getUnitVector(AlbaMathVector<DataType, SIZE> const& vector) {
     AlbaMathVector<DataType, SIZE> unitVector(vector);
     DataType magnitude(vector.getMagnitude());
@@ -59,7 +59,7 @@ AlbaMathVector<DataType, SIZE> getUnitVector(AlbaMathVector<DataType, SIZE> cons
     return unitVector;
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 AlbaMathVector<DataType, SIZE> getVectorProjection(
     AlbaMathVector<DataType, SIZE> const& vectorToProjectTo,
     AlbaMathVector<DataType, SIZE> const& vectorToProjectFrom) {
@@ -68,10 +68,10 @@ AlbaMathVector<DataType, SIZE> getVectorProjection(
     return vectorToProjectTo * multiplier;
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 DataType getDotProduct(AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     DataType result(0);
-    for (unsigned int i = 0; i < SIZE; i++) {
+    for (size_t i = 0; i < SIZE; i++) {
         result += vector1.getValueAt(i) * vector2.getValueAt(i);
     }
     return result;
@@ -92,7 +92,7 @@ AlbaMathVector<DataType, 3U> getCrossProduct(
         vector1.getValueAt(0) * vector2.getValueAt(1) - vector1.getValueAt(1) * vector2.getValueAt(0)};
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 AlbaAngle getAngleBetweenTwoVectors(
     AlbaMathVector<DataType, SIZE> const& vector1, AlbaMathVector<DataType, SIZE> const& vector2) {
     // In 2D, in c++ complex number class this is same with arg(v).
@@ -101,7 +101,7 @@ AlbaAngle getAngleBetweenTwoVectors(
         acos(getDotProduct(vector1, vector2) / (vector1.getMagnitude() * vector2.getMagnitude())));
 }
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 DataType getScalarProjection(
     AlbaMathVector<DataType, SIZE> const& vectorToProjectTo,
     AlbaMathVector<DataType, SIZE> const& vectorToProjectFrom) {

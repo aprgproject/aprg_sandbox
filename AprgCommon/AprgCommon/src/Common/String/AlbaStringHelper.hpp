@@ -62,11 +62,11 @@ inline bool isLessThanStringLength(std::string const& mainString, int const inde
     return (index < static_cast<int>(mainString.length()));
 }
 
-unsigned int generateUniqueId(std::string const& mainString);
-unsigned int getLevenshteinDistance(std::string const& otherString, std::string const& basisString);
-unsigned int getHammingDistance(std::string const& string1, std::string const& string2);
-unsigned int getNumberOfSubStrings(std::string const& mainString);
-unsigned int getNumberOfSubsequences(std::string const& mainString);
+size_t generateUniqueId(std::string const& mainString);
+size_t getLevenshteinDistance(std::string const& otherString, std::string const& basisString);
+size_t getHammingDistance(std::string const& string1, std::string const& string2);
+size_t getNumberOfSubStrings(std::string const& mainString);
+size_t getNumberOfSubsequences(std::string const& mainString);
 int getRotationValue(std::string const& mainString, std::string const& rotation);
 int getPeriodValue(std::string const& mainString, std::string const& period);
 
@@ -88,8 +88,8 @@ bool isEqualWithLowestCommonLength(std::string const& string1, std::string const
 bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isWildcardMatch(
-    std::string const& mainString, std::string const& wildcard, unsigned int const mainStringIndex = 0,
-    unsigned int const wildcardIndex = 0);
+    std::string const& mainString, std::string const& wildcard, size_t const mainStringIndex = 0,
+    size_t const wildcardIndex = 0);
 
 // String processing
 
@@ -111,18 +111,18 @@ std::string getStringWithoutOpeningClosingOperators(
 std::string getLongestCommonPrefix(std::string const& first, std::string const& second);
 void copyBeforeStringAndAfterString(
     std::string const& mainString, std::string const& stringToSearch, std::string& beforeString,
-    std::string& afterString, unsigned int const indexToStartTheSearch = 0);
+    std::string& afterString, size_t const indexToStartTheSearch = 0);
 std::string getStringBeforeThisString(
-    std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart = 0);
+    std::string const& mainString, std::string const& stringToSearch, size_t const indexToStart = 0);
 std::string getStringAfterThisString(
-    std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart = 0);
+    std::string const& mainString, std::string const& stringToSearch, size_t const indexToStart = 0);
 std::string getStringInBetweenTwoStrings(
     std::string const& mainString, std::string const& firstString, std::string const& secondString,
-    unsigned int const indexToStart = 0);
+    size_t const indexToStart = 0);
 std::string getStringBeforeThisCharacters(
-    std::string const& mainString, std::string const& characters, unsigned int const indexToStart = 0);
+    std::string const& mainString, std::string const& characters, size_t const indexToStart = 0);
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
-std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength);
+std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, size_t desiredLength);
 std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
 std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
 std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
@@ -130,7 +130,7 @@ std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
 // Utilities
 
 std::string constructFileLocator(std::string const& file, int const lineNumber);
-std::string getRandomAlphaNumericString(unsigned int const length);
+std::string getRandomAlphaNumericString(size_t const length);
 strings getArgumentsToStringInMain(int const argc, char const* const argv[]);
 
 // Find and replace
@@ -144,8 +144,7 @@ enum class SplitStringType { WithDelimeters, WithoutDelimeters };
 template <SplitStringType splitStringType>
 void splitToStrings(strings& listOfStrings, std::string const& mainString, std::string const& delimiters);
 std::string combineStrings(strings const& strings, std::string const& delimiters);
-void splitLinesToAchieveTargetLength(
-    strings& listOfStrings, std::string const& mainString, unsigned int const targetLength);
+void splitLinesToAchieveTargetLength(strings& listOfStrings, std::string const& mainString, size_t const targetLength);
 void splitToStringsUsingASeriesOfDelimeters(
     strings& listOfStrings, std::string const& mainString, strings const& seriesOfDelimiters);
 
@@ -170,10 +169,10 @@ OutputStringType convertToAnotherBasicStringVariant(InputStringType const& input
 
 // Alignments
 
-std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const targetLength);
-std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const targetLength);
-std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const targetLength);
-std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const targetLength);
+std::string getStringWithJustifyAlignment(std::string const& mainString, size_t const targetLength);
+std::string getStringWithCenterAlignment(std::string const& mainString, size_t const targetLength);
+std::string getStringWithRightAlignment(std::string const& mainString, size_t const targetLength);
+std::string getStringWithLeftAlignment(std::string const& mainString, size_t const targetLength);
 
 // PathHelpers
 
@@ -273,7 +272,7 @@ class StringConverterWithFormatting {
 public:
     using IntOptional = std::optional<int>;
     using CharOptional = std::optional<char>;
-    using UnsignedIntOptional = std::optional<unsigned int>;
+    using UnsignedIntOptional = std::optional<size_t>;
 
     StringConverterWithFormatting() = default;
 
@@ -289,14 +288,14 @@ public:
           m_fillCharacterOptional(fillCharacter),
           m_maximumLengthOptional() {}
 
-    StringConverterWithFormatting(unsigned int const maximumLength)
+    StringConverterWithFormatting(size_t const maximumLength)
         : m_precisionOptional(),
           m_fieldWidthOptional(),
           m_fillCharacterOptional(),
           m_maximumLengthOptional(maximumLength) {}
 
     StringConverterWithFormatting(
-        int const precision, int const fieldWidth, char const fillCharacter, unsigned int const maximumLength)
+        int const precision, int const fieldWidth, char const fillCharacter, size_t const maximumLength)
         : m_precisionOptional(precision),
           m_fieldWidthOptional(fieldWidth),
           m_fillCharacterOptional(fillCharacter),
@@ -326,7 +325,7 @@ public:
     void setPrecision(int const precision);
     void setFieldWidth(int const fieldWidth);
     void setFillCharacter(char const fillCharacter);
-    void setMaximumLength(unsigned int const maximumLength);
+    void setMaximumLength(size_t const maximumLength);
 
 private:
     IntOptional m_precisionOptional;

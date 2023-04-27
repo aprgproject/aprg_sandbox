@@ -7,7 +7,7 @@ using namespace std;
 namespace {
 
 struct SampleConfigurationDetails {
-    unsigned int valueToTest;
+    size_t valueToTest;
 };
 
 using SampleConfigurationHolder = alba::AlbaConfigurationHolder<SampleConfigurationDetails>;

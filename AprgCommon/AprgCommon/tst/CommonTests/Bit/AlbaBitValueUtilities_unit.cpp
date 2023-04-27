@@ -83,7 +83,7 @@ TEST(AlbaBitValueUtilitiesTest, GetHammingDistanceWorks) {
 }
 
 TEST(AlbaBitValueUtilitiesTest, GenerationOfOnesWorks) {
-    const unsigned int input = 2;
+    const size_t input = 2;
 
     EXPECT_EQ(0x00000003U, AlbaBitValueUtilities<uint32_t>::generateOnesWithNumberOfBits(input));
 }

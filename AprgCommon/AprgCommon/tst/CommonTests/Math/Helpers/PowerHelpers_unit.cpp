@@ -1,5 +1,5 @@
 #include <Common/Math/Helpers/PowerHelpers.hpp>
-#include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
+#include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 
 #include <gtest/gtest.h>
 
@@ -139,13 +139,11 @@ TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersPerformance
     // Results: ~3.1s
 
     unsigned long long result(0);
-    AlbaSimpleRandomizer randomizer;
     int minValue(1), maxValue(2000);
+    AlbaUniformNonDeterministicRandomizer<unsigned long long> randomizer(minValue, maxValue);
     for (unsigned long long iterations = 1; iterations < 10000000ULL; iterations++) {
-        unsigned long long base =
-            static_cast<unsigned long long>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
-        unsigned long long exponent =
-            static_cast<unsigned long long>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
+        unsigned long long base = randomizer.getRandomValue();
+        unsigned long long exponent = randomizer.getRandomValue();
         result = max(result, getRaiseToPowerForIntegers(base, exponent));
     }
     EXPECT_LT(0ULL, result);
@@ -155,13 +153,11 @@ TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPer
     // Results: ~3.1s
 
     unsigned long long result(0);
-    AlbaSimpleRandomizer randomizer;
     int minValue(1), maxValue(2000);
+    AlbaUniformNonDeterministicRandomizer<unsigned long long> randomizer(minValue, maxValue);
     for (unsigned long long iterations = 1; iterations < 10000000ULL; iterations++) {
-        unsigned long long base =
-            static_cast<unsigned long long>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
-        unsigned long long exponent =
-            static_cast<unsigned long long>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
+        unsigned long long base = randomizer.getRandomValue();
+        unsigned long long exponent = randomizer.getRandomValue();
         result = max(result, getRaiseToPowerForIntegers(base, exponent));
     }
     EXPECT_LT(0ULL, result);

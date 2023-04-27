@@ -18,13 +18,12 @@ void transformToReducedEchelonFormUsingGaussJordanReduction(AlbaMatrix<DataType>
 
 template <typename DataType>
 void multiplyValueInRowAndPutProductInAnotherRow(
-    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput, unsigned int const yInput,
-    unsigned int const yOutput);
+    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput, size_t const yInput, size_t const yOutput);
 
 template <typename DataType>
 void subtractRowsWithMultiplierPutDifferenceInAnotherRow(
-    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput2, unsigned int const yInput1,
-    unsigned int const yInput2, unsigned int const yOutput);
+    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput2, size_t const yInput1, size_t const yInput2,
+    size_t const yOutput);
 
 }  // namespace matrix
 

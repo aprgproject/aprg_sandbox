@@ -21,10 +21,10 @@ TEST(BoolCharacterTest, IsDisplayableCharacterWorks) {
 TEST(IntegerStringTest, GenerateUniqueIdWorks) {
     string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
     string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
-    unsigned int uniqueId1 = generateUniqueId(string1);
-    unsigned int uniqueId2 = generateUniqueId(string2);
-    EXPECT_EQ(552749853U, uniqueId1);
-    EXPECT_EQ(1436619827U, uniqueId2);
+    size_t uniqueId1 = generateUniqueId(string1);
+    size_t uniqueId2 = generateUniqueId(string2);
+    EXPECT_EQ(10144150177413483293ULL, uniqueId1);
+    EXPECT_EQ(14490909308098778163ULL, uniqueId2);
 }
 
 TEST(IntegerStringTest, GetLevenshteinDistanceWorks) {
@@ -310,12 +310,12 @@ TEST(GetStringNumberFromStringTest, GetHexEquivalentOfCharacters) {
 TEST(UtilitiesStringTest, ConstructFileLocator) { EXPECT_FALSE(constructFileLocator(__FILE__, __LINE__).empty()); }
 
 TEST(UtilitiesStringTest, RandomString100Characters) {
-    unsigned int length(100);
+    size_t length(100);
     EXPECT_EQ(length, getRandomAlphaNumericString(length).length());
 }
 
 TEST(UtilitiesStringTest, GetArgumentsToStringInMainWorks) {
-    constexpr unsigned int argc = 3U;
+    constexpr size_t argc = 3U;
     char const* const argv[argc] = {"parameter0", "parameter1", "parameter2"};
     EXPECT_EQ((strings{"parameter0", "parameter1", "parameter2"}), getArgumentsToStringInMain(argc, argv));
 }
@@ -345,8 +345,8 @@ TEST(SplitStringTest, SplitBySpaces) {
     splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, string1, " ");
 
     EXPECT_EQ(expectedStrings.size(), actualStrings.size());
-    unsigned int size = min(expectedStrings.size(), actualStrings.size());
-    for (unsigned int i = 0; i < size; i++) {
+    size_t size = min(expectedStrings.size(), actualStrings.size());
+    for (size_t i = 0; i < size; i++) {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }
@@ -359,8 +359,8 @@ TEST(SplitStringTest, SplitBySpacesWithDelimeters) {
     splitToStrings<SplitStringType::WithDelimeters>(actualStrings, string1, " ");
 
     EXPECT_EQ(expectedStrings.size(), actualStrings.size());
-    unsigned int size = min(expectedStrings.size(), actualStrings.size());
-    for (unsigned int i = 0; i < size; i++) {
+    size_t size = min(expectedStrings.size(), actualStrings.size());
+    for (size_t i = 0; i < size; i++) {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }
@@ -374,8 +374,8 @@ TEST(SplitStringTest, SplitLinesToAchieveTargetLengthWorksWithLargeTargetLength)
     splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
 
     EXPECT_EQ(expectedStrings.size(), actualStrings.size());
-    unsigned int size = min(expectedStrings.size(), actualStrings.size());
-    for (unsigned int i = 0; i < size; i++) {
+    size_t size = min(expectedStrings.size(), actualStrings.size());
+    for (size_t i = 0; i < size; i++) {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }
@@ -389,8 +389,8 @@ TEST(SplitStringTest, SplitLinesToAchieveTargetLengthWorks_LastLineIsIncluded) {
     splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
 
     EXPECT_EQ(expectedStrings.size(), actualStrings.size());
-    unsigned int size = min(expectedStrings.size(), actualStrings.size());
-    for (unsigned int i = 0; i < size; i++) {
+    size_t size = min(expectedStrings.size(), actualStrings.size());
+    for (size_t i = 0; i < size; i++) {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }
@@ -404,8 +404,8 @@ TEST(SplitStringTest, SplitLinesToAchieveTargetLengthCanBeSplitPerCharacter) {
     splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
 
     EXPECT_EQ(expectedStrings.size(), actualStrings.size());
-    unsigned int size = min(expectedStrings.size(), actualStrings.size());
-    for (unsigned int i = 0; i < size; i++) {
+    size_t size = min(expectedStrings.size(), actualStrings.size());
+    for (size_t i = 0; i < size; i++) {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }
@@ -419,8 +419,8 @@ TEST(SplitStringTest, SplitToStringsUsingASeriesOfDelimetersWorks) {
     splitToStringsUsingASeriesOfDelimeters(actualStrings, string1, delimeters);
 
     EXPECT_EQ(expectedStrings.size(), actualStrings.size());
-    unsigned int size = min(expectedStrings.size(), actualStrings.size());
-    for (unsigned int i = 0; i < size; i++) {
+    size_t size = min(expectedStrings.size(), actualStrings.size());
+    for (size_t i = 0; i < size; i++) {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }

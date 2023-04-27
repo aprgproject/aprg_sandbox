@@ -93,7 +93,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit) {
 
     AlbaFileReader fileReader(inputTestFile);
     fileReader.setMaxBufferSize(2000);
-    EXPECT_EQ(5000, fileReader.getFileSize());
+    EXPECT_EQ(5000U, fileReader.getFileSize());
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
@@ -152,7 +152,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters) {
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters = 3U;
+    size_t numberOfCharacters = 3U;
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
@@ -197,7 +197,7 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters = 20000;
+    size_t numberOfCharacters = 20000;
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
@@ -421,7 +421,7 @@ TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer) {
 
     AlbaMemoryBuffer buffer;
     fileReader.saveDataToMemoryBuffer(buffer, 8);
-    unsigned char* reader = reinterpret_cast<unsigned char*>(buffer.getBufferPointer());
+    uint8_t* reader = reinterpret_cast<uint8_t*>(buffer.getBufferPointer());
     EXPECT_EQ(0x01U, reader[0]);
     EXPECT_EQ(0x23U, reader[1]);
     EXPECT_EQ(0x45U, reader[2]);

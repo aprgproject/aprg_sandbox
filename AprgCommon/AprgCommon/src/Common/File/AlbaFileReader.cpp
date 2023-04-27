@@ -14,7 +14,7 @@ AlbaFileReader::AlbaFileReader(ifstream& stream) : m_characterBuffer(), m_stream
     setMaxBufferSize(INITIAL_MAX_BUFFER_SIZE);
 }
 
-AlbaFileReader::AlbaFileReader(ifstream& stream, unsigned int const size) : m_characterBuffer(), m_stream(stream) {
+AlbaFileReader::AlbaFileReader(ifstream& stream, size_t const size) : m_characterBuffer(), m_stream(stream) {
     setMaxBufferSize(size);
 }
 
@@ -29,18 +29,18 @@ char AlbaFileReader::getCharacter() {
     return tempChar;
 }
 
-char* AlbaFileReader::getCharacters(unsigned int& numberOfCharacters) {
-    unsigned int bufferSize = static_cast<unsigned int>(m_characterBuffer.size());
+char* AlbaFileReader::getCharacters(size_t& numberOfCharacters) {
+    size_t bufferSize = m_characterBuffer.size();
     if (bufferSize <= numberOfCharacters) {
         numberOfCharacters = bufferSize - 1;
     }
     m_stream.read(getCharacterBufferPointer(), static_cast<streamsize>(numberOfCharacters));
-    numberOfCharacters = static_cast<unsigned int>(m_stream.gcount());
+    numberOfCharacters = static_cast<size_t>(m_stream.gcount());
     m_characterBuffer[numberOfCharacters] = '\0';
     return getCharacterBufferPointer();
 }
 
-void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead) {
+void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, size_t numberOfBytesToRead) {
     char* writer =
         static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));
     m_stream.read(writer, static_cast<streamsize>(numberOfBytesToRead));
@@ -70,33 +70,28 @@ string AlbaFileReader::getLine() {
     return result;
 }
 
-double AlbaFileReader::getCurrentLocation() const {
-    double location = m_stream.tellg();
-    return location;
-}
+size_t AlbaFileReader::getCurrentLocation() const { return m_stream.tellg(); }
 
-double AlbaFileReader::getFileSize() const {
+size_t AlbaFileReader::getFileSize() const {
     m_stream.seekg(0, std::ifstream::end);
-    double fileSize = m_stream.tellg();
+    size_t fileSize = m_stream.tellg();
     moveToTheBeginning();
     return fileSize;
 }
 
 void AlbaFileReader::moveToTheBeginning() const { m_stream.seekg(0, std::ifstream::beg); }
 
-void AlbaFileReader::moveLocation(unsigned long long const location) const {
-    m_stream.seekg(static_cast<long>(location), std::ifstream::beg);
-}
+void AlbaFileReader::moveLocation(size_t const location) const { m_stream.seekg(location, std::ifstream::beg); }
 
-void AlbaFileReader::setMaxBufferSize(unsigned int const bufferSize) {
+void AlbaFileReader::setMaxBufferSize(size_t const bufferSize) {
     // This is ensuring that buffer always contains one.
     // 1) This is for "front()".
     // 2) This is for null terminator.
     m_characterBuffer.resize(bufferSize + 1);
 }
 
-unsigned int AlbaFileReader::getMaxBufferSize() const {
-    unsigned int bufferSize = static_cast<unsigned int>(m_characterBuffer.size());
+size_t AlbaFileReader::getMaxBufferSize() const {
+    size_t bufferSize = static_cast<size_t>(m_characterBuffer.size());
     if (bufferSize > 0) {
         bufferSize--;
     }

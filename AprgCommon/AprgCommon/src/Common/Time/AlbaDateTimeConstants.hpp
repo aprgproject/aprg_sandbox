@@ -23,28 +23,28 @@ enum Month : uint32_t  // C98 Enum, no scoping needed let the AlbaDateTimeConsta
     December = 12
 };
 
-constexpr unsigned int NUMBER_OF_NANOSECONDS_IN_A_MICROSECOND = 1'000;
+constexpr size_t NUMBER_OF_NANOSECONDS_IN_A_MICROSECOND = 1'000;
 
-constexpr unsigned int NUMBER_OF_MICROSECONDS_IN_A_MILLISECOND = 1'000;
-constexpr unsigned int NUMBER_OF_MICROSECONDS_IN_A_SECOND = 1'000'000;
+constexpr size_t NUMBER_OF_MICROSECONDS_IN_A_MILLISECOND = 1'000;
+constexpr size_t NUMBER_OF_MICROSECONDS_IN_A_SECOND = 1'000'000;
 
-constexpr unsigned int NUMBER_OF_MILLISECONDS_IN_A_SECOND = 1'000;
-constexpr unsigned int NUMBER_OF_MILLISECONDS_IN_A_MINUTE = 60'000;
-constexpr unsigned int NUMBER_OF_MILLISECONDS_IN_AN_HOUR = 3'600'000;
+constexpr size_t NUMBER_OF_MILLISECONDS_IN_A_SECOND = 1'000;
+constexpr size_t NUMBER_OF_MILLISECONDS_IN_A_MINUTE = 60'000;
+constexpr size_t NUMBER_OF_MILLISECONDS_IN_AN_HOUR = 3'600'000;
 
-constexpr unsigned int NUMBER_OF_SECONDS_IN_AN_HOUR = 3'600;
-constexpr unsigned int NUMBER_OF_SECONDS_IN_A_MINUTE = 60;
-constexpr unsigned int NUMBER_OF_SECONDS_IN_A_DAY = 86'400;
+constexpr size_t NUMBER_OF_SECONDS_IN_AN_HOUR = 3'600;
+constexpr size_t NUMBER_OF_SECONDS_IN_A_MINUTE = 60;
+constexpr size_t NUMBER_OF_SECONDS_IN_A_DAY = 86'400;
 
-constexpr unsigned int NUMBER_OF_MINUTES_IN_AN_HOUR = 60;
+constexpr size_t NUMBER_OF_MINUTES_IN_AN_HOUR = 60;
 
-constexpr unsigned int NUMBER_OF_DAYS_IN_NON_LEAP_YEAR = 365;
-constexpr unsigned int NUMBER_OF_DAYS_IN_LEAP_YEAR = 366;
+constexpr size_t NUMBER_OF_DAYS_IN_NON_LEAP_YEAR = 365;
+constexpr size_t NUMBER_OF_DAYS_IN_LEAP_YEAR = 366;
 
 }  // namespace AlbaDateTimeConstants
 
 // enum class version:
-// enum class AlbaDateTimeConstants : unsigned int
+// enum class AlbaDateTimeConstants : size_t
 // {
 //     NUMBER_OF_NANOSECONDS_IN_A_MICROSECOND = 1000,
 //     NUMBER_OF_MICROSECONDS_IN_A_MILLISECOND = 1000,

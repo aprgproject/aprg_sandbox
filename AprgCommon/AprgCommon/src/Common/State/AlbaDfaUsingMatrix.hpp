@@ -9,16 +9,15 @@ class AlbaDfaUsingMatrix {
 public:
     using StateMatrix = matrix::AlbaMatrix<State>;
 
-    AlbaDfaUsingMatrix(unsigned int const maxStateValue, unsigned int const maxInputValue)
+    AlbaDfaUsingMatrix(size_t const maxStateValue, size_t const maxInputValue)
         : m_nextStateMatrix(maxStateValue, maxInputValue) {}
 
     State getNextState(State const currentState, Input const input) const {
-        return m_nextStateMatrix.getEntry(static_cast<unsigned int>(currentState), static_cast<unsigned int>(input));
+        return m_nextStateMatrix.getEntry(static_cast<size_t>(currentState), static_cast<size_t>(input));
     }
 
     void setStateTransition(State const currentState, State const nextState, Input const input) {
-        m_nextStateMatrix.setEntry(
-            static_cast<unsigned int>(currentState), static_cast<unsigned int>(input), nextState);
+        m_nextStateMatrix.setEntry(static_cast<size_t>(currentState), static_cast<size_t>(input), nextState);
     }
 
 private:

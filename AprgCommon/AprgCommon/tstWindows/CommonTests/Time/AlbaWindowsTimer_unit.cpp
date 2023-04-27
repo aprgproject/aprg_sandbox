@@ -13,7 +13,7 @@ TEST(AlbaWindowsTimerTest, DISABLED_StopTimerWorks)
     Sleep(2000);
     timer.stopTimer();
 
-    unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
+    size_t secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(2U, secondsElapsed);
 }
 
@@ -26,7 +26,7 @@ TEST(AlbaWindowsTimerTest, DISABLED_ResetTimerWorks)
     Sleep(2000);
     timer.stopTimer();
 
-    unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
+    size_t secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(2U, secondsElapsed);
 }
 
@@ -36,7 +36,7 @@ TEST(AlbaWindowsTimerTest, DISABLED_GetElapsedTimeInSecondsWorks)
     Sleep(4321);
     timer.stopTimer();
 
-    unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
+    size_t secondsElapsed = timer.getElapsedTimeInSeconds();
 
     EXPECT_EQ(4U, secondsElapsed);
 }
@@ -47,7 +47,7 @@ TEST(AlbaWindowsTimerTest, DISABLED_GetElapsedTimeInMillisecondsWorks) // this i
     Sleep(4321);
     timer.stopTimer();
 
-    unsigned int millisecondsElapsed = timer.getElapsedTimeInMilliseconds();
+    size_t millisecondsElapsed = timer.getElapsedTimeInMilliseconds();
 
     EXPECT_EQ(4321U, millisecondsElapsed);
 }
@@ -58,7 +58,7 @@ TEST(AlbaWindowsTimerTest, DISABLED_GetElapsedTimeInMicrosecondsWorks) // this i
     Sleep(4321);
     timer.stopTimer();
 
-    unsigned int microsecondsElapsed = timer.getElapsedTimeInMicroseconds();
+    size_t microsecondsElapsed = timer.getElapsedTimeInMicroseconds();
 
     EXPECT_EQ(4321000U, microsecondsElapsed);
 }

@@ -10,7 +10,7 @@ namespace alba {
 
 using LibrarySteadyTime = std::chrono::time_point<std::chrono::steady_clock>;
 
-void sleepFor(unsigned int const milliSeconds);
+void sleepFor(size_t const milliSeconds);
 void sleepUntil(AlbaDateTime const& awakeTime);
 
 LibrarySteadyTime getSteadyTimeNow();

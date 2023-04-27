@@ -46,7 +46,7 @@ uint32_t dateTimeHelper::getNumberOfDaysInAMonth(uint32_t const month, uint32_t 
 uint32_t dateTimeHelper::getNumberOfLeapYearsBeforeThisYear(uint32_t const year) {
     uint32_t numberOfLeapYears(0);
     if (year > 0) {
-        unsigned beforeThisYear = year - 1;
+        auto beforeThisYear = year - 1;
         numberOfLeapYears = (beforeThisYear / 4) - (beforeThisYear / 100) + (beforeThisYear / 400) + 1;
     }
     return numberOfLeapYears;

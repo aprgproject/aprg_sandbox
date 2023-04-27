@@ -59,13 +59,13 @@ std::pair<ValueType, ValueType> getLowerAndUpperValuesForNonSet(
 }
 
 template <typename ValueType, typename ContainerType>
-unsigned int countItemsInBetweenForNonSet(
+size_t countItemsInBetweenForNonSet(
     ContainerType const& sortedContainer, ValueType const& value1, ValueType const& value2) {
     // 1D range count
     using ConstIterator = typename ContainerType::const_iterator;
     ConstIterator itLower(std::lower_bound(sortedContainer.cbegin(), sortedContainer.cend(), value1));
     ConstIterator itUpper(std::upper_bound(sortedContainer.cbegin(), sortedContainer.cend(), value2));
-    return static_cast<unsigned int>(std::distance(itLower, itUpper));
+    return static_cast<size_t>(std::distance(itLower, itUpper));
 }
 
 template <typename ValueType, typename ContainerType>
@@ -101,13 +101,12 @@ std::pair<ValueType, ValueType> getLowerAndUpperValuesForSet(
 }
 
 template <typename ValueType, typename ContainerType>
-unsigned int countItemsInBetweenForSet(
-    ContainerType const& setContainer, ValueType const& value1, ValueType const& value2) {
+size_t countItemsInBetweenForSet(ContainerType const& setContainer, ValueType const& value1, ValueType const& value2) {
     // 1D range count
     using ConstIterator = typename ContainerType::const_iterator;
     ConstIterator itLower(setContainer.lower_bound(value1));
     ConstIterator itUpper(setContainer.upper_bound(value2));
-    return static_cast<unsigned int>(std::distance(itLower, itUpper));
+    return static_cast<size_t>(std::distance(itLower, itUpper));
 }
 
 template <typename ValueType, typename ContainerType>
@@ -240,10 +239,12 @@ void saveContentsToStream(
     }
 }
 
-template <typename ValueType, template <typename, typename = std::allocator<ValueType>> class Container>
+template <
+    typename ValueType, template <typename, typename = std::allocator<ValueType>> class Container,
+    typename DisplayType = ValueType>
 void saveContentsInDecimalAndHexadecimalFormat(std::ostream& outputStream, Container<ValueType> const& container) {
     std::string delimeter = getDelimeterBasedOnFormat(StreamFormat::String);
-    std::ostream_iterator<unsigned int> outputIterator(outputStream, delimeter.c_str());
+    std::ostream_iterator<DisplayType> outputIterator(outputStream, delimeter.c_str());
 
     outputStream << "Decimal values: {" << std::dec;
     std::copy(container.cbegin(), container.cend(), outputIterator);
@@ -289,16 +290,19 @@ template <
     class Container>
 void retrieveContentsFromStream(std::istream& inputStream, Container<KeyType, ValueType>& container) {
     // tested on map
-    unsigned int state(0);
+    enum class StreamState { SendFirst, SendSecond };
+
+    StreamState state(StreamState::SendFirst);
     std::pair<KeyType, ValueType> tempPair;
     while (inputStream.good()) {
-        if (0 == state) {
+        if (StreamState::SendFirst == state) {
             inputStream >> tempPair.first;
-        } else if (1 == state) {
+            state = StreamState::SendSecond;
+        } else if (StreamState::SendSecond == state) {
             inputStream >> tempPair.second;
             container.insert(container.end(), tempPair);
+            state = StreamState::SendFirst;
         }
-        state = (state + 1) % 2;
     }
 }
 

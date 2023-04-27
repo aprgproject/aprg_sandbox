@@ -11,13 +11,13 @@ namespace alba {
 template <typename TypeToShadow>
 struct AlbaFundamentalOperationsCounts : public AlbaSingleton<AlbaFundamentalOperationsCounts<TypeToShadow>> {
     struct Counts {
-        unsigned int userConstructionCount;
-        unsigned int defaultConstructionCount;
-        unsigned int destructionCount;
-        unsigned int copyConstructionCount;
-        unsigned int copyAssignmentCount;
-        unsigned int moveConstructionCount;
-        unsigned int moveAssignmentCount;
+        size_t userConstructionCount;
+        size_t defaultConstructionCount;
+        size_t destructionCount;
+        size_t copyConstructionCount;
+        size_t copyAssignmentCount;
+        size_t moveConstructionCount;
+        size_t moveAssignmentCount;
     };
     void resetCounts() { counts = {}; }
     std::string getReport() const {

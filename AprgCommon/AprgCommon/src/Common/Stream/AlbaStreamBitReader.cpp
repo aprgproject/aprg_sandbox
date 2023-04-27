@@ -19,9 +19,9 @@ bool AlbaStreamBitReader::readBoolData() {
 
 char AlbaStreamBitReader::readCharData() { return AlbaStreamBitReader::readBigEndianNumberData<char>(); }
 
-string AlbaStreamBitReader::readStringData(unsigned int const numberOfCharacters) {
+string AlbaStreamBitReader::readStringData(size_t const numberOfCharacters) {
     string result;
-    for (unsigned int i = 0; i < numberOfCharacters; i++) {
+    for (size_t i = 0; i < numberOfCharacters; i++) {
         char c(readCharData());
         if (!m_stream.eof()) {
             result += c;
@@ -47,9 +47,9 @@ string AlbaStreamBitReader::readWholeStreamAsStringData() {
 
 istream& AlbaStreamBitReader::getInputStream() { return m_stream; }
 
-void AlbaStreamBitReader::readIfNeeded(unsigned int const numberOfBitsRequired) {
+void AlbaStreamBitReader::readIfNeeded(size_t const numberOfBitsRequired) {
     if (m_bitBuffer.size() < numberOfBitsRequired) {
-        unsigned int numberOfBytesToRead = static_cast<unsigned int>(
+        size_t numberOfBytesToRead = static_cast<size_t>(
             ceil(static_cast<double>(numberOfBitsRequired - m_bitBuffer.size()) / AlbaBitConstants::BYTE_SIZE_IN_BITS));
         vector<char> characterBuffer(numberOfBytesToRead, {});
         m_stream.read(&(characterBuffer.front()), numberOfBytesToRead);
@@ -67,7 +67,7 @@ void AlbaStreamBitReader::readIfNeeded(unsigned int const numberOfBitsRequired) 
     }
 }
 
-void AlbaStreamBitReader::eraseBitsInBitBuffer(unsigned int const numberOfBitsToErase) {
+void AlbaStreamBitReader::eraseBitsInBitBuffer(size_t const numberOfBitsToErase) {
     m_bitBuffer.erase(m_bitBuffer.begin(), m_bitBuffer.begin() + numberOfBitsToErase);
 }
 

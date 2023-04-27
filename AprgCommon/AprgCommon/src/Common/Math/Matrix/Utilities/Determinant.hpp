@@ -9,7 +9,7 @@ namespace alba {
 namespace matrix {
 
 template <typename DataType>
-unsigned int getIndexWithHighestNumberOfZeros(ListOfAlbaMatrixData<DataType> const& rowsOrColumns) {
+size_t getIndexWithHighestNumberOfZeros(ListOfAlbaMatrixData<DataType> const& rowsOrColumns) {
     BoolUnaryFunction<DataType> equalCondition = [](DataType const& entry) {
         return isEqualForMathMatrixDataType(entry, DataType{});
     };
@@ -17,7 +17,7 @@ unsigned int getIndexWithHighestNumberOfZeros(ListOfAlbaMatrixData<DataType> con
 }
 
 template <typename DataType>
-unsigned int getIndexWithHighestNumberOfNonZeros(ListOfAlbaMatrixData<DataType> const& rowsOrColumns) {
+size_t getIndexWithHighestNumberOfNonZeros(ListOfAlbaMatrixData<DataType> const& rowsOrColumns) {
     BoolUnaryFunction<DataType> nonEqualCondition = [](DataType const& entry) {
         return !isEqualForMathMatrixDataType(entry, DataType{});
     };
@@ -26,8 +26,8 @@ unsigned int getIndexWithHighestNumberOfNonZeros(ListOfAlbaMatrixData<DataType> 
 
 template <typename DataType>
 DataType getDeterminant(AlbaMatrix<DataType> const& matrix) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
     assert(numberOfRows == numberOfColumns);
     DataType determinant{};
     if (numberOfColumns == 1) {
@@ -42,10 +42,9 @@ DataType getDeterminant(AlbaMatrix<DataType> const& matrix) {
 
 template <typename DataType>
 DataType getValueUsingCramerRule(
-    AlbaMatrix<DataType> const& matrix, unsigned int const columnIndex,
-    AlbaMatrixData<DataType> const& newColumnValues) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    AlbaMatrix<DataType> const& matrix, size_t const columnIndex, AlbaMatrixData<DataType> const& newColumnValues) {
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
     assert(numberOfRows == numberOfColumns);
     AlbaMatrix<DataType> matrixWithNewColumn(matrix);
     matrixWithNewColumn.setColumn(columnIndex, newColumnValues);
@@ -53,7 +52,7 @@ DataType getValueUsingCramerRule(
 }
 
 template <typename DataType>
-DataType getValueFromCoFactorExpansion(AlbaMatrix<DataType> const& matrix, unsigned int x, unsigned int y) {
+DataType getValueFromCoFactorExpansion(AlbaMatrix<DataType> const& matrix, size_t x, size_t y) {
     DataType value{};
     DataType entry = matrix.getEntry(x, y);
     if (!isEqualForMathMatrixDataType(entry, 0)) {
@@ -72,17 +71,17 @@ DataType getDeterminantWhenSideIsMoreThan2(AlbaMatrix<DataType> const& matrix) {
     matrix.retrieveRows(rowsAndColumns);
     matrix.retrieveColumns(rowsAndColumns);
 
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    unsigned int bestIndex = getIndexWithHighestNumberOfZeros(rowsAndColumns);
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
+    size_t bestIndex = getIndexWithHighestNumberOfZeros(rowsAndColumns);
     if (bestIndex < numberOfRows) {
-        unsigned int y = bestIndex;
-        for (unsigned int x = 0; x < numberOfColumns; x++) {
+        size_t y = bestIndex;
+        for (size_t x = 0; x < numberOfColumns; x++) {
             determinant += getValueFromCoFactorExpansion(matrix, x, y);
         }
     } else {
-        unsigned int x = bestIndex - numberOfRows;
-        for (unsigned int y = 0; y < numberOfRows; y++) {
+        size_t x = bestIndex - numberOfRows;
+        for (size_t y = 0; y < numberOfRows; y++) {
             determinant += getValueFromCoFactorExpansion(matrix, x, y);
         }
     }
@@ -91,15 +90,15 @@ DataType getDeterminantWhenSideIsMoreThan2(AlbaMatrix<DataType> const& matrix) {
 
 template <typename DataType>
 AlbaMatrix<DataType> getMatrixWithOneColumnAndOneRowRemoved(
-    AlbaMatrix<DataType> const& matrix, unsigned int const columnIndex, unsigned int const rowIndex) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    AlbaMatrix<DataType> const& matrix, size_t const columnIndex, size_t const rowIndex) {
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
     assert((columnIndex < numberOfColumns) && (rowIndex < numberOfRows));
     AlbaMatrix<DataType> result(numberOfColumns - 1, numberOfRows - 1);
-    matrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+    matrix.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {
         if (columnIndex != x && rowIndex != y) {
-            unsigned int newX = (x >= columnIndex) ? x - 1 : x;
-            unsigned int newY = (y >= rowIndex) ? y - 1 : y;
+            size_t newX = (x >= columnIndex) ? x - 1 : x;
+            size_t newY = (y >= rowIndex) ? y - 1 : y;
             result.setEntry(newX, newY, matrix.getEntry(x, y));
         }
     });

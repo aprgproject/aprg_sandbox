@@ -4,7 +4,7 @@
 
 namespace alba {
 
-template <typename UnderlyingType, unsigned int numberOfBits>
+template <typename UnderlyingType, size_t numberOfBits>
 struct AlbaSingleBitField {
     UnderlyingType value : numberOfBits;
 };

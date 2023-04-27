@@ -12,9 +12,9 @@ namespace mathHelper {
 double getCumulativeStandardDistributionApproximation(double const z) { return 0.5 * erfc(-z * pow(0.5, 0.5)); }
 
 double getInverseCumulativeStandardDistributionApproximation(
-    double const probability, unsigned int const numberOfIterations) {
+    double const probability, size_t const numberOfIterations) {
     double lowestZ = -10, highestZ = 10, z(0);
-    for (unsigned int iterationCount = 0; iterationCount < numberOfIterations; iterationCount++) {
+    for (size_t iterationCount = 0; iterationCount < numberOfIterations; iterationCount++) {
         double middleZ = getAverage<double>(lowestZ, highestZ);
         double probabilityLowest = getCumulativeStandardDistributionApproximation(lowestZ);
         double probabilityMiddle = getCumulativeStandardDistributionApproximation(middleZ);

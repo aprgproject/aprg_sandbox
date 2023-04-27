@@ -363,7 +363,7 @@ TEST(AlbaMatrixTest, RetrieveRowsWorks) {
 TEST(AlbaMatrixTest, RetrieveXAndYFromIndexWorks) {
     AlbaMatrix<unsigned int> matrix(14, 6);
 
-    unsigned int x, y;
+    size_t x, y;
     matrix.retrieveXAndYFromIndex(x, y, 43);
 
     EXPECT_EQ(1U, x);

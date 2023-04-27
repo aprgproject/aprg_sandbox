@@ -1,5 +1,5 @@
 #include <Common/Math/Helpers/LogarithmHelpers.hpp>
-#include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
+#include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 
 #include <gtest/gtest.h>
 
@@ -89,13 +89,11 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmPerformanceTest_WithR
     // Results: ~850ms
 
     unsigned int result(0);
-    AlbaSimpleRandomizer randomizer;
     int minValue(2), maxValue(2000);
+    AlbaUniformNonDeterministicRandomizer<unsigned int> randomizer(minValue, maxValue);
     for (unsigned int iterations = 1; iterations < 10000000ULL; iterations++) {
-        unsigned int base =
-            static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
-        unsigned int exponent =
-            static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
+        unsigned int base = randomizer.getRandomValue();
+        unsigned int exponent = randomizer.getRandomValue();
         result = max(result, getLogarithmForIntegers(base, exponent));
     }
     EXPECT_LT(0ULL, result);
@@ -105,13 +103,11 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmForIntegersPerformanc
     // Results: ~790ms
 
     unsigned int result(0);
-    AlbaSimpleRandomizer randomizer;
     int minValue(2), maxValue(2000);
+    AlbaUniformNonDeterministicRandomizer<unsigned int> randomizer(minValue, maxValue);
     for (unsigned int iterations = 1; iterations < 10000000ULL; iterations++) {
-        unsigned int base =
-            static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
-        unsigned int exponent =
-            static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
+        unsigned int base = randomizer.getRandomValue();
+        unsigned int exponent = randomizer.getRandomValue();
         result = max(result, getLogarithmForIntegers(base, exponent));
     }
     EXPECT_LT(0ULL, result);

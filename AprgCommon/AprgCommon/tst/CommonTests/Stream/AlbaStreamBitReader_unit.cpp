@@ -65,8 +65,8 @@ TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks) {
     ss.put(0x04);
     AlbaStreamBitReader reader(ss);
 
-    EXPECT_EQ(0x01020304U, reader.readNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian));
-    EXPECT_EQ(0x04030201U, reader.readNumberData<unsigned int>(AlbaStreamBitEndianType::LittleEndian));
+    EXPECT_EQ(0x01020304U, reader.readNumberData<uint32_t>(AlbaStreamBitEndianType::BigEndian));
+    EXPECT_EQ(0x04030201U, reader.readNumberData<uint32_t>(AlbaStreamBitEndianType::LittleEndian));
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
@@ -78,7 +78,7 @@ TEST(AlbaStreamBitReaderTest, ReadBigEndianNumberDataWorks) {
     ss.put(0x04);
     AlbaStreamBitReader reader(ss);
 
-    EXPECT_EQ(0x01020304U, reader.readBigEndianNumberData<unsigned int>());
+    EXPECT_EQ(0x01020304U, reader.readBigEndianNumberData<uint32_t>());
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
@@ -90,7 +90,7 @@ TEST(AlbaStreamBitReaderTest, ReadLittleEndianNumberDataWorks) {
     ss.put(0x04);
     AlbaStreamBitReader reader(ss);
 
-    EXPECT_EQ(0x04030201U, reader.readLittleEndianNumberData<unsigned int>());
+    EXPECT_EQ(0x04030201U, reader.readLittleEndianNumberData<uint32_t>());
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
 
@@ -102,8 +102,8 @@ TEST(AlbaStreamBitReaderTest, ReadBitsetDataWorks) {
 
     EXPECT_EQ(
         0x00000C48U,
-        static_cast<unsigned int>(reader.readBitsetData<32>(0, 11).to_ulong()));  // swapped due to reversed index
-    EXPECT_FALSE(reader.noRemainingBitsInBuffer());                               // 4Bits remaining
+        static_cast<uint32_t>(reader.readBitsetData<32>(0, 11).to_ulong()));  // swapped due to reversed index
+    EXPECT_FALSE(reader.noRemainingBitsInBuffer());                           // 4Bits remaining
 }
 
 }  // namespace alba

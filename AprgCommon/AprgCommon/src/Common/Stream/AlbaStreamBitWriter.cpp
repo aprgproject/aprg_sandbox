@@ -49,7 +49,7 @@ void AlbaStreamBitWriter::putCharDataToBuffer(char const data) { putBigEndianNum
 
 void AlbaStreamBitWriter::transferBytesAsMuchAsPossibleToStream() {
     if (m_bitBuffer.size() >= 8) {
-        unsigned int i = 0;
+        size_t i = 0;
         for (; i + 8 <= m_bitBuffer.size(); i += 8) {
             bitset<8> byte;
             byte.set(0, m_bitBuffer.at(i + 7));
@@ -68,9 +68,9 @@ void AlbaStreamBitWriter::transferBytesAsMuchAsPossibleToStream() {
 
 void AlbaStreamBitWriter::transferAllToStream() {
     bitset<8> byte;
-    unsigned int i = 0;
+    size_t i = 0;
     for (; i < m_bitBuffer.size(); i++) {
-        unsigned int remainder(i % 8);
+        size_t remainder(i % 8);
         byte.set(7 - remainder, m_bitBuffer.at(remainder));
         if (remainder == 7) {
             m_stream << static_cast<char>(byte.to_ulong());

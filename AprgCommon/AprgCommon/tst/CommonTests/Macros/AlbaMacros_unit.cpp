@@ -10,10 +10,12 @@ TEST(AlbaMacrosTest, StandardPredefinedMacrosWorks) {
     EXPECT_EQ(10, ALBA_MACROS_GET_LINE);
     EXPECT_FALSE(string(ALBA_MACROS_GET_COMPILATION_DATE).empty());
     EXPECT_FALSE(string(ALBA_MACROS_GET_TIME_OF_TRANSLATION).empty());
-    EXPECT_LT(201100, ALBA_MACROS_GET_COMPILER_VERSION);  // it should be above 2011 compiler}
+    EXPECT_LT(201100, ALBA_MACROS_GET_COMPILER_VERSION);  // it should be above 2011 compiler
+}
 
 TEST(AlbaMacrosTest, CompilerSpecificPredefinedMacrosWorks) {
-    EXPECT_EQ("TestBody", string(ALBA_MACROS_GET_FUNCTION));    EXPECT_EQ(
+    EXPECT_EQ("TestBody", string(ALBA_MACROS_GET_FUNCTION));
+    EXPECT_EQ(
         "virtual void alba::AlbaMacrosTest_CompilerSpecificPredefinedMacrosWorks_Test::TestBody()",
         string(ALBA_MACROS_GET_PRETTY_FUNCTION));
     EXPECT_EQ(0, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
@@ -86,9 +88,11 @@ TEST(AlbaMacrosTest, ConcatenateWorks) {
     EXPECT_EQ(123488, ALBA_MACROS_CONCATENATE(1234, __LINE__));
 }
 
-TEST(AlbaMacrosTest, GetNameWithCountWorks) {    unsigned int ALBA_MACROS_GET_NAME_WITH_COUNT(VariablePrefix) = 0xA1BAU;
+TEST(AlbaMacrosTest, GetNameWithCountWorks) {
+    unsigned int ALBA_MACROS_GET_NAME_WITH_COUNT(VariablePrefix) = 0xA1BAU;
     EXPECT_EQ(0xA1BAU, VariablePrefix4);
 }
+
 TEST(AlbaMacrosTest, IntegerTest) {
     EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGUMENTS(1));
     EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGUMENTS(8237, 23458, 28749));

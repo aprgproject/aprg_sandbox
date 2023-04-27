@@ -249,7 +249,7 @@ void AlbaWindowsPathHandler::findFilesAndDirectoriesWithDepth(
 
 string AlbaWindowsPathHandler::getCurrentDetectedPath() {
     string result;
-    constexpr unsigned int MAXIMUM_CHARACTERS_PATH = 1000;
+    constexpr size_t MAXIMUM_CHARACTERS_PATH = 1000;
     WCHAR currentPathFromWindowsWideCharArray[MAXIMUM_CHARACTERS_PATH];
     if (GetModuleFileNameW(NULL, currentPathFromWindowsWideCharArray, MAX_PATH)) {
         result = convertToAnotherBasicStringVariant<wstring, string>(wstring(currentPathFromWindowsWideCharArray));

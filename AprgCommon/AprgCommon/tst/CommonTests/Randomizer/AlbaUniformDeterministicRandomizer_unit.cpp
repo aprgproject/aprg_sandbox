@@ -46,11 +46,11 @@ TEST(AlbaUniformDeterministicRandomizerTest, GetRandomIntegerWorks_AsUniformlyDi
     int numberOfRandomValues(maximumValue - minimumValue + 1);
     int const iterations(1000);
     int const allowedDeviationCount(iterations / 10);
-    vector<int> hitsForEachValue(static_cast<unsigned long>(numberOfRandomValues), 0);
+    vector<int> hitsForEachValue(static_cast<unsigned long long>(numberOfRandomValues), 0);
 
     for (int i = 0; i < iterations; i++) {
         auto randomValue(randomizer.getRandomValue());
-        hitsForEachValue[static_cast<unsigned long>(randomValue)]++;
+        hitsForEachValue[static_cast<unsigned long long>(randomValue)]++;
     }
 
     ASSERT_FALSE(hitsForEachValue.empty());
@@ -97,7 +97,7 @@ TEST(AlbaUniformDeterministicRandomizerTest, GetRandomFloatingValueWorks_AsUnifo
 
     for (int i = 0; i < iterations; i++) {
         auto randomValue(randomizer.getRandomValue());
-        hitsForEachValue[static_cast<unsigned long>(randomValue)]++;
+        hitsForEachValue[static_cast<unsigned long long>(randomValue)]++;
     }
 
     ASSERT_FALSE(hitsForEachValue.empty());

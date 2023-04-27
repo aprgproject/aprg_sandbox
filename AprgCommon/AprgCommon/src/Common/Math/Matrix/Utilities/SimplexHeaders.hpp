@@ -18,14 +18,13 @@ template <typename DataType>
 bool isOptimal(AlbaMatrix<DataType> const& simplexTable);
 
 template <typename DataType>
-unsigned int getPivotingColumnUsingBlandsRule(AlbaMatrix<DataType> const& simplexTable);
+size_t getPivotingColumnUsingBlandsRule(AlbaMatrix<DataType> const& simplexTable);
 
 template <typename DataType>
-unsigned int getPivotingRowUsingMinRatioRule(
-    AlbaMatrix<DataType> const& simplexTable, unsigned int const pivotingColumn);
+size_t getPivotingRowUsingMinRatioRule(AlbaMatrix<DataType> const& simplexTable, size_t const pivotingColumn);
 
 template <typename DataType>
-void pivotAt(AlbaMatrix<DataType>& simplexTable, unsigned int const pivotingColumn, unsigned int const pivotingRow);
+void pivotAt(AlbaMatrix<DataType>& simplexTable, size_t const pivotingColumn, size_t const pivotingRow);
 
 }  // namespace matrix
 

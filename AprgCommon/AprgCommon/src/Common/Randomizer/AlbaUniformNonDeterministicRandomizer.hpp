@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Common/Randomizer/EntropySources/AlbaCombinedEntropySource.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
 #include <cassert>
@@ -8,10 +9,15 @@
 namespace alba {
 
 template <typename ValueType>
-class AlbaUniformNonDeterministicRandomizer {  // non determinism is not guaranteed (see notes)
+class AlbaUniformNonDeterministicRandomizer {
 public:
     static_assert(typeHelper::isArithmeticType<ValueType>(), "Value should be an arithmetic type");
     static_assert(sizeof(ValueType) != 0, "C++ standard does not allow char-types.");
+
+    // Using std::random_device will NOT guarantee non determinism (see notes and tests)
+    // using EntropySeedSource = std::random_device;
+    // using EntropySeedSource = AlbaEntropySourceBasedOnTime; // there might be a random device
+    using EntropySeedSource = AlbaCombinedEntropySource;
 
     // Assumption: Lets use the size of ValueType as basis for a better engine (not proven)
     using RandomEngine = typeHelper::ConditionalType<sizeof(ValueType) <= 4, std::mt19937, std::mt19937_64>;
@@ -21,12 +27,12 @@ public:
         std::uniform_real_distribution<ValueType>>;
 
     AlbaUniformNonDeterministicRandomizer(ValueType const minimum, ValueType const maximum)
-        : m_entropySource(), m_randomEngine(m_entropySource()), m_randomNumberDistribution(minimum, maximum) {}
+        : m_entropySeedSource(), m_randomEngine(m_entropySeedSource()), m_randomNumberDistribution(minimum, maximum) {}
 
     ValueType getRandomValue() { return m_randomNumberDistribution(m_randomEngine); }
 
 private:
-    std::random_device m_entropySource;  // non determinism is not guaranteed (see notes)
+    EntropySeedSource m_entropySeedSource;
     RandomEngine m_randomEngine;
     Distribution m_randomNumberDistribution;
 };

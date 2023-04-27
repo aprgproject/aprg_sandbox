@@ -77,9 +77,9 @@ inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, Numb
     return static_cast<int>(ceil(pow(base, exponent)));
 }
 
-bool isPerfectSquare(AlbaNumber const& value);                                  // pass as const reference
-bool isPerfectCube(AlbaNumber const& value);                                    // pass as const reference
-bool isPerfectNthPower(AlbaNumber const& number, unsigned int const nthPower);  // different implementation
+bool isPerfectSquare(AlbaNumber const& value);                            // pass as const reference
+bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
+bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
 
 }  // namespace mathHelper
 

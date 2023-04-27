@@ -2,9 +2,9 @@
 
 namespace alba {
 
-class AlbaSimpleRandomizer {
+class AlbaOldRandomizer {
 public:
-    AlbaSimpleRandomizer();
+    AlbaOldRandomizer();
     void resetRandomSeed();
     int getRandomIntegerInUniformDistribution(int const minimum, int const maximum) const;
     double getRandomFloatingValueInUniformDistribution(double const minimum, double const maximum) const;

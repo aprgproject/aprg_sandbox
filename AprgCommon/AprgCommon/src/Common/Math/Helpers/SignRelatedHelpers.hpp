@@ -10,22 +10,20 @@ namespace mathHelper {
 
 template <typename NumberType>
 inline NumberType getAbsoluteValue(NumberType const value) {
-    return (value < 0) ? value * -1 : value;
-}
-
-template <>
-inline unsigned int getAbsoluteValue<unsigned int>(unsigned int const value) {
-    return value;
+    if constexpr (typeHelper::isUnsignedType<NumberType>()) {
+        return value;
+    } else {
+        return (value < 0) ? value * -1 : value;
+    }
 }
 
 template <typename NumberType>
 inline NumberType getSign(NumberType const value) {
-    return (value < 0) ? -1 : 1;
-}
-
-template <>
-inline unsigned int getSign<unsigned int>(unsigned int const) {
-    return 1;
+    if constexpr (typeHelper::isUnsignedType<NumberType>()) {
+        return value / value;  // return 1; has warnings
+    } else {
+        return (value < 0) ? -1 : 1;
+    }
 }
 
 template <typename NumberType>

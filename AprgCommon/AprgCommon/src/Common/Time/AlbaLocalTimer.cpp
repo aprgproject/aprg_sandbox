@@ -18,27 +18,27 @@ void AlbaLocalTimer::resetTimer() {
 
 void AlbaLocalTimer::stopTimer() { m_time2 = getSteadyTimeNow(); }
 
-unsigned int AlbaLocalTimer::getElapsedTimeInNanoseconds() const {
+size_t AlbaLocalTimer::getElapsedTimeInNanoseconds() const {
     return duration_cast<std::chrono::nanoseconds>(m_time2 - m_time1).count();
 }
 
-unsigned int AlbaLocalTimer::getElapsedTimeInMicroseconds() const {
+size_t AlbaLocalTimer::getElapsedTimeInMicroseconds() const {
     return duration_cast<std::chrono::microseconds>(m_time2 - m_time1).count();
 }
 
-unsigned int AlbaLocalTimer::getElapsedTimeInMilliseconds() const {
+size_t AlbaLocalTimer::getElapsedTimeInMilliseconds() const {
     return duration_cast<std::chrono::milliseconds>(m_time2 - m_time1).count();
 }
 
-unsigned int AlbaLocalTimer::getElapsedTimeInSeconds() const {
+size_t AlbaLocalTimer::getElapsedTimeInSeconds() const {
     return duration_cast<std::chrono::seconds>(m_time2 - m_time1).count();
 }
 
-unsigned int AlbaLocalTimer::getElapsedTimeInMinutes() const {
+size_t AlbaLocalTimer::getElapsedTimeInMinutes() const {
     return duration_cast<std::chrono::minutes>(m_time2 - m_time1).count();
 }
 
-unsigned int AlbaLocalTimer::getElapsedTimeInHours() const {
+size_t AlbaLocalTimer::getElapsedTimeInHours() const {
     return duration_cast<std::chrono::hours>(m_time2 - m_time1).count();
 }
 

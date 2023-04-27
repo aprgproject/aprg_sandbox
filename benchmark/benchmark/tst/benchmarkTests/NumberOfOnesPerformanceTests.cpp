@@ -3,8 +3,10 @@
 #include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 // Format for asm: "assembly instructions : inputs : outputs : clobbers"
 
 static void escape(void * sinkPointer) // to avoid optimizers deleting code
@@ -72,6 +74,7 @@ static void BM_BaseRun(benchmark::State & state)
         escape(&count);
     }
 }
+
 static void BM_ArrayBasedImplementation(benchmark::State & state)
 {
     // Perform setup here
@@ -86,6 +89,7 @@ static void BM_ArrayBasedImplementation(benchmark::State & state)
         escape(&count);
     }
 }
+
 static void BM_LoopBasedImplementation(benchmark::State & state)
 {
     // Perform setup here
@@ -100,6 +104,7 @@ static void BM_LoopBasedImplementation(benchmark::State & state)
         escape(&count);
     }
 }
+
 static void BM_BuiltinBasedImplementation(benchmark::State & state)
 {
     // Perform setup here
@@ -114,9 +119,11 @@ static void BM_BuiltinBasedImplementation(benchmark::State & state)
         escape(&count);
     }
 }
+
 // Register the function as a benchmark
 BENCHMARK(BM_BaseRun);
-BENCHMARK(BM_ArrayBasedImplementation);BENCHMARK(BM_LoopBasedImplementation);
+BENCHMARK(BM_ArrayBasedImplementation);
+BENCHMARK(BM_LoopBasedImplementation);
 BENCHMARK(BM_BuiltinBasedImplementation);
 
 // Run the benchmark

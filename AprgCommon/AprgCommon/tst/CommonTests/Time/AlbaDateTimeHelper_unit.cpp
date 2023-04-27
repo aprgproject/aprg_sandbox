@@ -249,7 +249,7 @@ TEST(AlbaDateTimeHelperTest, GetTotalSecondsWorks) {
 }
 
 TEST(AlbaDateTimeHelperTest, GetAndRemoveYearsFromNumberOfDaysWorks) {
-    unsigned int totalDays = 0;
+    uint32_t totalDays = 0;
     EXPECT_EQ(0U, getAndRemoveYearsFromNumberOfDays(totalDays));
     EXPECT_EQ(0U, totalDays);
 
@@ -263,7 +263,7 @@ TEST(AlbaDateTimeHelperTest, GetAndRemoveYearsFromNumberOfDaysWorks) {
 }
 
 TEST(AlbaDateTimeHelperTest, GetAndRemoveMonthsFromNumberOfDaysWorks) {
-    unsigned int totalDays = 0;
+    uint32_t totalDays = 0;
     EXPECT_EQ(0U, getAndRemoveMonthsFromNumberOfDays(totalDays, 2016));
     EXPECT_EQ(0U, totalDays);
 
@@ -277,7 +277,7 @@ TEST(AlbaDateTimeHelperTest, GetAndRemoveMonthsFromNumberOfDaysWorks) {
 }
 
 TEST(AlbaDateTimeHelperTest, GetAndRemoveHoursFromNumberOfSecondsWorks) {
-    unsigned int totalSeconds = 0;
+    uint32_t totalSeconds = 0;
     EXPECT_EQ(0U, getAndRemoveHoursFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(0U, totalSeconds);
 
@@ -291,7 +291,7 @@ TEST(AlbaDateTimeHelperTest, GetAndRemoveHoursFromNumberOfSecondsWorks) {
 }
 
 TEST(AlbaDateTimeHelperTest, GetAndRemoveMinutesFromNumberOfSecondsWorks) {
-    unsigned int totalSeconds = 0;
+    uint32_t totalSeconds = 0;
     EXPECT_EQ(0U, getAndRemoveMinutesFromNumberOfSeconds(totalSeconds));
     EXPECT_EQ(0U, totalSeconds);
 
@@ -305,7 +305,7 @@ TEST(AlbaDateTimeHelperTest, GetAndRemoveMinutesFromNumberOfSecondsWorks) {
 }
 
 TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsNoOverflow) {
-    unsigned int days = 0, seconds = 0, microSeconds = 0;
+    uint32_t days = 0, seconds = 0, microSeconds = 0;
     reorganizeOverflowValues(days, seconds, microSeconds);
     EXPECT_EQ(0U, days);
     EXPECT_EQ(0U, seconds);
@@ -313,7 +313,7 @@ TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsNoOverflow) 
 }
 
 TEST(AlbaDateTimeHelperTest, ReorganizeOverflowValuesWorks_IfThereIsOverflow) {
-    unsigned int days = 99999999, seconds = 99999999, microSeconds = 99999999;
+    uint32_t days = 99999999, seconds = 99999999, microSeconds = 99999999;
     reorganizeOverflowValues(days, seconds, microSeconds);
     EXPECT_EQ(100001156U, days);
     EXPECT_EQ(35298U, seconds);

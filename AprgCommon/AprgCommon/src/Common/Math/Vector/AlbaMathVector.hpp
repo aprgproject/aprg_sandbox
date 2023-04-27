@@ -17,7 +17,7 @@ bool isEqualForMathVectorDataType(DataType const& value1, DataType const& value2
 template <typename DataType>
 DataType raiseToPowerForMathVectorDataType(DataType const& value1, DataType const& value2);
 
-template <typename DataType, unsigned int SIZE>
+template <typename DataType, size_t SIZE>
 class AlbaMathVector {
 public:
     using AlbaMathVectorType = AlbaMathVector<DataType, SIZE>;
@@ -28,7 +28,7 @@ public:
     AlbaMathVector(ValuesInArray const& values) : m_values(values) {}
 
     AlbaMathVector(std::initializer_list<DataType> const& values) : m_values{} {
-        unsigned int limit = std::min(SIZE, static_cast<unsigned int>(values.size()));
+        size_t limit = std::min(SIZE, static_cast<size_t>(values.size()));
         std::copy(values.begin(), values.begin() + limit, m_values.begin());
     }
 
@@ -130,9 +130,9 @@ public:
         return *this;
     }
 
-    unsigned int getSize() const { return SIZE; }
+    size_t getSize() const { return SIZE; }
 
-    DataType const& getValueAt(unsigned int const index) const {
+    DataType const& getValueAt(size_t const index) const {
         assert(index < SIZE);
         return m_values.at(index);
     }
@@ -150,7 +150,7 @@ public:
 
     ValuesInArray const& getValues() const { return m_values; }
 
-    DataType& getValueReferenceAt(unsigned int const index) {
+    DataType& getValueReferenceAt(size_t const index) {
         assert(index < SIZE);
         return m_values.at(index);
     }

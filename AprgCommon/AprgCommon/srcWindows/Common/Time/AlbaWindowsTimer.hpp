@@ -16,13 +16,13 @@ public:
     AlbaWindowsTimer();
     void resetTimer();
     void stopTimer();
-    void sleep(unsigned int const milliSeconds);
+    void sleep(size_t const milliSeconds);
 
-    unsigned int getElapsedTimeInMicroseconds() const;
-    unsigned int getElapsedTimeInMilliseconds() const;
-    unsigned int getElapsedTimeInSeconds() const;
-    unsigned int getElapsedTimeInMinutes() const;
-    unsigned int getElapsedTimeInHours() const;
+    size_t getElapsedTimeInMicroseconds() const;
+    size_t getElapsedTimeInMilliseconds() const;
+    size_t getElapsedTimeInSeconds() const;
+    size_t getElapsedTimeInMinutes() const;
+    size_t getElapsedTimeInHours() const;
     AlbaDateTime getDifferenceBetweenTimes() const;
 
 private:

@@ -12,13 +12,13 @@ namespace matrix {
 
 template <typename DataType>
 bool areRowsWithAllZerosInTheBottom(AlbaMatrix<DataType> const& matrix) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
     bool isRowWithNonZeroEncountered(false);
-    for (unsigned int yPlusOne = numberOfRows; yPlusOne > 0; yPlusOne--) {
-        unsigned int y(yPlusOne - 1);
+    for (size_t yPlusOne = numberOfRows; yPlusOne > 0; yPlusOne--) {
+        size_t y(yPlusOne - 1);
         bool isRowWithAllZero(true);
-        for (unsigned int x = 0; x < numberOfColumns; x++) {
+        for (size_t x = 0; x < numberOfColumns; x++) {
             if (isRowWithAllZero && !isEqualForMathMatrixDataType(matrix.getEntry(x, y), DataType(0))) {
                 isRowWithAllZero = false;
                 break;
@@ -37,15 +37,15 @@ bool areRowsWithAllZerosInTheBottom(AlbaMatrix<DataType> const& matrix) {
 
 template <typename DataType>
 bool areLeadingEntriesInReducedRowEchelonForm(AlbaMatrix<DataType> const& matrix) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
     int currentLeadingEntryColumn(-1);
-    for (unsigned int y = 0; y < numberOfRows; y++) {
-        for (unsigned int x = 0; x < numberOfColumns; x++) {
+    for (size_t y = 0; y < numberOfRows; y++) {
+        for (size_t x = 0; x < numberOfColumns; x++) {
             if (isEqualForMathMatrixDataType(matrix.getEntry(x, y), DataType(0))) {
             } else if (isEqualForMathMatrixDataType(matrix.getEntry(x, y), DataType(1))) {
                 if (currentLeadingEntryColumn < static_cast<int>(x)) {
-                    for (unsigned int yZeroCheck = 0; yZeroCheck < numberOfRows; yZeroCheck++) {
+                    for (size_t yZeroCheck = 0; yZeroCheck < numberOfRows; yZeroCheck++) {
                         if (yZeroCheck != y &&
                             !isEqualForMathMatrixDataType(matrix.getEntry(x, yZeroCheck), DataType(0))) {
                             // 4. If a column contains a leading entry of some row, then all other entries in that
@@ -77,17 +77,17 @@ bool isReducedRowEchelonForm(AlbaMatrix<DataType> const& matrix) {
 
 template <typename DataType>
 void transformToReducedEchelonFormUsingGaussJordanReduction(AlbaMatrix<DataType>& matrix) {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    unsigned int yWithLeadingEntry = 0;
-    for (unsigned int x = 0; x < numberOfColumns; x++) {
-        for (unsigned int y = yWithLeadingEntry; y < numberOfRows; y++) {
+    size_t numberOfRows(matrix.getNumberOfRows());
+    size_t numberOfColumns(matrix.getNumberOfColumns());
+    size_t yWithLeadingEntry = 0;
+    for (size_t x = 0; x < numberOfColumns; x++) {
+        for (size_t y = yWithLeadingEntry; y < numberOfRows; y++) {
             if (!isEqualForMathMatrixDataType(matrix.getEntry(x, y), DataType(0))) {
                 interchangeRows(matrix, y, yWithLeadingEntry);
                 multiplyValueInRowAndPutProductInAnotherRow(
                     matrix, static_cast<DataType>(1) / matrix.getEntry(x, yWithLeadingEntry), yWithLeadingEntry,
                     yWithLeadingEntry);
-                for (unsigned int yToZero = 0; yToZero < numberOfRows; yToZero++) {
+                for (size_t yToZero = 0; yToZero < numberOfRows; yToZero++) {
                     if (yToZero != yWithLeadingEntry &&
                         !isEqualForMathMatrixDataType(matrix.getEntry(x, yToZero), DataType(0))) {
                         subtractRowsWithMultiplierPutDifferenceInAnotherRow(
@@ -104,8 +104,7 @@ void transformToReducedEchelonFormUsingGaussJordanReduction(AlbaMatrix<DataType>
 
 template <typename DataType>
 void multiplyValueInRowAndPutProductInAnotherRow(
-    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput, unsigned int const yInput,
-    unsigned int const yOutput) {
+    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput, size_t const yInput, size_t const yOutput) {
     assert((yInput < matrix.getNumberOfRows()) && (yOutput < matrix.getNumberOfRows()));
     traverseWithUnaryOperationForDifferentRows(
         matrix, yInput, yOutput,
@@ -114,8 +113,8 @@ void multiplyValueInRowAndPutProductInAnotherRow(
 
 template <typename DataType>
 void subtractRowsWithMultiplierPutDifferenceInAnotherRow(
-    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput2, unsigned int const yInput1,
-    unsigned int const yInput2, unsigned int const yOutput) {
+    AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput2, size_t const yInput1, size_t const yInput2,
+    size_t const yOutput) {
     assert(
         (yInput1 < matrix.getNumberOfRows()) && (yInput2 < matrix.getNumberOfRows()) &&
         (yOutput < matrix.getNumberOfRows()));

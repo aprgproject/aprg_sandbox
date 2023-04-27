@@ -33,9 +33,11 @@ TEST(AlbaDebugTest, PrintingSingleParametersWorks) {
         "\n",
         s_debugStringStream.str());
 }
+
 TEST(AlbaDebugTest, PrintinPointersWorks) {
     s_debugStringStream.str(string());
-    s_debugStringStream.clear();    unique_ptr<unsigned int> uniquePointer(make_unique<unsigned int>(695));
+    s_debugStringStream.clear();
+    unique_ptr<unsigned int> uniquePointer(make_unique<unsigned int>(695));
     unsigned int const* nullPointer = nullptr;
     unsigned int const* rawPointer = uniquePointer.get();
 
@@ -46,9 +48,11 @@ TEST(AlbaDebugTest, PrintinPointersWorks) {
         "\n",
         s_debugStringStream.str());
 }
+
 TEST(AlbaDebugTest, PrintinContainersWorks) {
     s_debugStringStream.str(string());
-    s_debugStringStream.clear();    vector<unsigned int> container1{454, 6, 512, 315};
+    s_debugStringStream.clear();
+    vector<unsigned int> container1{454, 6, 512, 315};
     map<unsigned int, char> container2{{1U, 'A'}, {5U, 'E'}, {7U, 'G'}, {8U, 'H'}};
 
     ALBA_PRINT2(container1, container2);
@@ -58,9 +62,11 @@ TEST(AlbaDebugTest, PrintinContainersWorks) {
         "\n",
         s_debugStringStream.str());
 }
+
 TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {
     s_debugStringStream.str(string());
-    s_debugStringStream.clear();    unsigned int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
+    s_debugStringStream.clear();
+    unsigned int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
 
     ALBA_PRINT_MANIPULATE_OUTPUT(uppercase);
     ALBA_PRINT_MANIPULATE_OUTPUT(hex);
@@ -72,9 +78,11 @@ TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {
         "\n",
         s_debugStringStream.str());
 }
+
 namespace {
 class SampleClass {
-public:    SampleClass(unsigned int parameter1, unsigned int parameter2)
+public:
+    SampleClass(unsigned int parameter1, unsigned int parameter2)
         : m_parameter1(parameter1), m_parameter2(parameter2) {}
 
     unsigned int getSum() const { return m_parameter1 + m_parameter2; }
@@ -103,4 +111,5 @@ TEST(AlbaDebugTest, DebugClassOutputOperatorsWorks) {
         "\n",
         s_debugStringStream.str());
 }
+
 }  // namespace alba

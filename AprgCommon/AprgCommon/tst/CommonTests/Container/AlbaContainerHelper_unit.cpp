@@ -472,7 +472,7 @@ TEST(ContainerTest, GetStringFromContentsOfMapWorks) {
 TEST(ContainerTest, GetStringFromContentsWithNumberFormatWorks) {
     vector<int> temporaryVector{23, -345, 5324, 1};
     EXPECT_EQ(
-        "Decimal values: {23, 4294966951, 5324, 1, }\nHexadecimal values: {17, fffffea7, 14cc, 1, }\n",
+        "Decimal values: {23, -345, 5324, 1, }\nHexadecimal values: {17, fffffea7, 14cc, 1, }\n",
         getStringInDecimalAndHexadecimalFormat(temporaryVector));
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Common/String/AlbaStringHelper.hpp>
+
 #include <map>
 #include <string>
 
@@ -14,17 +16,25 @@ public:
 
     std::string getUserInput();
     std::string getFilePathInput();
+
+    std::string displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
+        std::string const& question, Choices<std::string> const& choices);
+
     template <typename NumberType>
     NumberType getNumberFromInput();
+
     template <typename NumberType>
     NumberType displayQuestionAndChoicesAndGetNumberAnswer(
         std::string const& question, Choices<NumberType> const& choices);
-    std::string displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
-        std::string const& question, Choices<std::string> const& choices);
 
 private:
     static constexpr int c_bufferSize = 1000;
     char buffer[c_bufferSize];
 };
+
+template <typename NumberType>
+NumberType AlbaUserInterface::getNumberFromInput() {
+    return stringHelper::convertStringToNumber<NumberType>(getUserInput());
+}
 
 }  // namespace alba

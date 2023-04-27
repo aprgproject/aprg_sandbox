@@ -28,12 +28,12 @@ void DisplayTableCell::setText(string const& text) { m_displayText = text; }
 
 void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode) { m_horizontalMode = mode; }
 
-DisplayTableRow::DisplayTableRow(unsigned int const numberOfCells) : m_cells(numberOfCells) {}
+DisplayTableRow::DisplayTableRow(size_t const numberOfCells) : m_cells(numberOfCells) {}
 
-unsigned int DisplayTableRow::getNumberOfColumns() const { return m_cells.size(); }
+size_t DisplayTableRow::getNumberOfColumns() const { return m_cells.size(); }
 
-unsigned int DisplayTableRow::getCharacters() const {
-    return accumulate(m_cells.cbegin(), m_cells.cend(), 0U, [](unsigned int partialSum, DisplayTableCell const& cell) {
+size_t DisplayTableRow::getCharacters() const {
+    return accumulate(m_cells.cbegin(), m_cells.cend(), 0U, [](size_t partialSum, DisplayTableCell const& cell) {
         partialSum += cell.getText().size();
         return partialSum;
     });
@@ -41,13 +41,11 @@ unsigned int DisplayTableRow::getCharacters() const {
 
 Cells const& DisplayTableRow::getCells() const { return m_cells; }
 
-DisplayTableCell const& DisplayTableRow::getCellAt(unsigned int const columnIndex) const {
-    return m_cells.at(columnIndex);
-}
+DisplayTableCell const& DisplayTableRow::getCellAt(size_t const columnIndex) const { return m_cells.at(columnIndex); }
 
 Cells& DisplayTableRow::getCellsReference() { return m_cells; }
 
-DisplayTableCell& DisplayTableRow::getCellReferenceAt(unsigned int const columnIndex) { return m_cells[columnIndex]; }
+DisplayTableCell& DisplayTableRow::getCellReferenceAt(size_t const columnIndex) { return m_cells[columnIndex]; }
 
 void DisplayTableRow::addCell(string const& text) { m_cells.emplace_back(text); }
 
@@ -55,36 +53,36 @@ void DisplayTableRow::addCell(string const& text, DisplayTableCellMode const hor
     m_cells.emplace_back(text, horizontalMode);
 }
 
-DisplayTable::DisplayTable(unsigned int const numberOfColumns, unsigned int const numberOfRows)
+DisplayTable::DisplayTable(size_t const numberOfColumns, size_t const numberOfRows)
     : m_rows(numberOfRows, numberOfColumns) {}
 
-unsigned int DisplayTable::getTotalRows() const { return m_rows.size(); }
+size_t DisplayTable::getTotalRows() const { return m_rows.size(); }
 
-unsigned int DisplayTable::getTotalColumns() const {
-    unsigned int maxColumns = 0;
+size_t DisplayTable::getTotalColumns() const {
+    size_t maxColumns = 0;
     for (DisplayTableRow const& row : m_rows) {
         maxColumns = max(maxColumns, row.getNumberOfColumns());
     }
     return maxColumns;
 }
 
-unsigned int DisplayTable::getMaxCharactersInOneRow() const {
-    unsigned int maxCharacters = 0;
+size_t DisplayTable::getMaxCharactersInOneRow() const {
+    size_t maxCharacters = 0;
     for (DisplayTableRow const& row : m_rows) {
         maxCharacters = max(maxCharacters, row.getCharacters());
     }
     return maxCharacters;
 }
 
-DisplayTableCell const& DisplayTable::getCellAt(unsigned int const columnIndex, unsigned int const rowIndex) const {
+DisplayTableCell const& DisplayTable::getCellAt(size_t const columnIndex, size_t const rowIndex) const {
     return m_rows.at(rowIndex).getCellAt(columnIndex);
 }
 
 DisplayTableRow& DisplayTable::getLastRow() { return m_rows.back(); }
 
-DisplayTableRow& DisplayTable::getRowReferenceAt(unsigned int const rowIndex) { return m_rows[rowIndex]; }
+DisplayTableRow& DisplayTable::getRowReferenceAt(size_t const rowIndex) { return m_rows[rowIndex]; }
 
-DisplayTableCell& DisplayTable::getCellReferenceAt(unsigned int const columnIndex, unsigned int const rowIndex) {
+DisplayTableCell& DisplayTable::getCellReferenceAt(size_t const columnIndex, size_t const rowIndex) {
     return m_rows[rowIndex].getCellReferenceAt(columnIndex);
 }
 
@@ -95,8 +93,7 @@ void DisplayTable::setBorders(string const& horizontalBorder, string const& vert
     m_verticalBorder = verticalBorder;
 }
 
-string DisplayTable::getCellTextWithDesiredLength(
-    DisplayTableCell const& cell, unsigned int const desiredLength) const {
+string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, size_t const desiredLength) const {
     DisplayTableCellMode mode = cell.getHorizontalMode();
     string result;
     switch (mode) {
@@ -116,7 +113,7 @@ string DisplayTable::getCellTextWithDesiredLength(
     return result;
 }
 
-string DisplayTable::getHorizontalBorderLine(unsigned int const totalColumnLength) const {
+string DisplayTable::getHorizontalBorderLine(size_t const totalColumnLength) const {
     string result;
     if (!m_horizontalBorder.empty()) {
         result =
@@ -128,26 +125,26 @@ string DisplayTable::getHorizontalBorderLine(unsigned int const totalColumnLengt
 
 string DisplayTable::getVerticalBorderPoint() const { return m_verticalBorder; }
 
-unsigned int DisplayTable::getVerticalBorderLength() const { return m_verticalBorder.length(); }
+size_t DisplayTable::getVerticalBorderLength() const { return m_verticalBorder.length(); }
 
-unsigned int DisplayTable::getHorizontalBorderLength(unsigned int const totalColumnLength) const {
+size_t DisplayTable::getHorizontalBorderLength(size_t const totalColumnLength) const {
     return ((getTotalColumns() + 1) * getVerticalBorderLength()) + totalColumnLength;
 }
 
 ostream& operator<<(ostream& out, DisplayTable const& displayTable) {
-    vector<unsigned int> calculatedLengthPerColumn(displayTable.getTotalColumns(), 0);
+    vector<size_t> calculatedLengthPerColumn(displayTable.getTotalColumns(), 0);
     for (DisplayTableRow const& row : displayTable.m_rows) {
-        unsigned int column = 0;
+        size_t column = 0;
         for (DisplayTableCell const& cell : row.getCells()) {
             calculatedLengthPerColumn[column] =
-                max(calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
+                max(calculatedLengthPerColumn[column], static_cast<size_t>(cell.getText().size()));
             column++;
         }
     }
 
-    unsigned int totalColumnLength = accumulate(
+    size_t totalColumnLength = accumulate(
         calculatedLengthPerColumn.cbegin(), calculatedLengthPerColumn.cend(), 0U,
-        [](unsigned int partialSum, unsigned int const lengthPerColumn) {
+        [](size_t partialSum, size_t const lengthPerColumn) {
             partialSum += lengthPerColumn;
             return partialSum;
         });
@@ -157,7 +154,7 @@ ostream& operator<<(ostream& out, DisplayTable const& displayTable) {
     out << horizontalLine;
     for (DisplayTableRow const& row : displayTable.m_rows) {
         out << verticalBorderPoint;
-        unsigned int column = 0;
+        size_t column = 0;
         for (DisplayTableCell const& cell : row.getCells()) {
             out << displayTable.getCellTextWithDesiredLength(cell, calculatedLengthPerColumn[column]);
             column++;
