@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(ComplexNumberHelpersTest, CreateNumberFromComplexNumberWorks) {
     AlbaComplexNumber<double> complexNumberWithDouble(3.5, 4.5);
@@ -26,6 +24,4 @@ TEST(ComplexNumberHelpersTest, SaveToComplexNumberDataWorks) {
     EXPECT_FLOAT_EQ(expectedComplexData.imaginaryPart, complexData.imaginaryPart);
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

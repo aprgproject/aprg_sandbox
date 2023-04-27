@@ -5,8 +5,10 @@
 #include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <gsl/gsl_multifit.h>
+
 #include <algorithm>
 #include <iostream>
+
 using namespace alba::matrix;
 using namespace std;
 
@@ -203,9 +205,11 @@ void Modeling::saveRetrievedDataToMatrixRandomly(
         unsigned int randomRow(randomizer.getRandomValue());
         matrixInY.setEntry(0, j, m_retrievedDataForY.getEntry(0, randomRow));
         for (unsigned int i = 0; i < m_retrievedDataForX.getNumberOfColumns(); i++) {
-            matrixInX.setEntry(i, j, m_retrievedDataForX.getEntry(i, randomRow));        }
+            matrixInX.setEntry(i, j, m_retrievedDataForX.getEntry(i, randomRow));
+        }
     }
 }
+
 void Modeling::saveRetrievedDataToMatrix(
     MatrixOfDoubles& matrixInX, MatrixOfDoubles& matrixInY, unsigned int numberOfSamples) {
     matrixInX.clearAndResize(m_retrievedDataForX.getNumberOfColumns(), numberOfSamples);

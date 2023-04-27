@@ -12,10 +12,10 @@ namespace alba {
 
 DisplayTableCell::DisplayTableCell() : m_displayText(), m_horizontalMode(DisplayTableCellMode::center) {}
 
-DisplayTableCell::DisplayTableCell(string const& displayText)
+DisplayTableCell::DisplayTableCell(string_view displayText)
     : m_displayText(displayText), m_horizontalMode(DisplayTableCellMode::center) {}
 
-DisplayTableCell::DisplayTableCell(string const& displayText, DisplayTableCellMode const horizontalMode)
+DisplayTableCell::DisplayTableCell(string_view displayText, DisplayTableCellMode const horizontalMode)
     : m_displayText(displayText), m_horizontalMode(horizontalMode) {}
 
 string DisplayTableCell::getText() const { return m_displayText; }
@@ -24,7 +24,7 @@ DisplayTableCellMode DisplayTableCell::getHorizontalMode() const { return m_hori
 
 string& DisplayTableCell::getTextReference() { return m_displayText; }
 
-void DisplayTableCell::setText(string const& text) { m_displayText = text; }
+void DisplayTableCell::setText(string_view text) { m_displayText = text; }
 
 void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode) { m_horizontalMode = mode; }
 
@@ -47,9 +47,9 @@ Cells& DisplayTableRow::getCellsReference() { return m_cells; }
 
 DisplayTableCell& DisplayTableRow::getCellReferenceAt(size_t const columnIndex) { return m_cells[columnIndex]; }
 
-void DisplayTableRow::addCell(string const& text) { m_cells.emplace_back(text); }
+void DisplayTableRow::addCell(string_view text) { m_cells.emplace_back(text); }
 
-void DisplayTableRow::addCell(string const& text, DisplayTableCellMode const horizontalMode) {
+void DisplayTableRow::addCell(string_view text, DisplayTableCellMode const horizontalMode) {
     m_cells.emplace_back(text, horizontalMode);
 }
 
@@ -88,7 +88,7 @@ DisplayTableCell& DisplayTable::getCellReferenceAt(size_t const columnIndex, siz
 
 void DisplayTable::addRow() { m_rows.emplace_back(); }
 
-void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder) {
+void DisplayTable::setBorders(string_view horizontalBorder, string_view verticalBorder) {
     m_horizontalBorder = horizontalBorder;
     m_verticalBorder = verticalBorder;
 }

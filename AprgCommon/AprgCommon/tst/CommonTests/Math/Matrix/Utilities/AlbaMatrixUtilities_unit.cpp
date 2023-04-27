@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 TEST(AlbaMatrixUtilitiesTest, IsSquareWorks) {
     AlbaMatrix<unsigned int> matrix1(3, 3, {0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -209,6 +207,4 @@ TEST(AlbaMatrixUtilitiesTest, TraverseWithBinaryOperationForDifferentRowsWorks) 
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

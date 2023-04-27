@@ -36,7 +36,7 @@ public:
     double getAngleInRadians() const;
     double getBestAngleInRaiseToPowerInRadians(DataType const exponent) const;
     AlbaComplexNumber<DataType> getConjugate() const;
-    AlbaComplexNumber<DataType> getNthRoot(unsigned int const rootIndex, unsigned int const rootDegree) const;
+    AlbaComplexNumber<DataType> getNthRoot(size_t const rootIndex, size_t const rootDegree) const;
 
 private:
     DataType getRealPartInMultiplication(

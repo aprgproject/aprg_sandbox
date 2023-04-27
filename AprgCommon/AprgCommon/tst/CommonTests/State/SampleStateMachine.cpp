@@ -1,8 +1,6 @@
 #include "SampleStateMachine.hpp"
 
-namespace alba {
-
-namespace FakeStateMachine {
+namespace alba::FakeStateMachine {
 
 SampleStateMachine::SampleStateMachine(State const stateIdentifier) : AlbaBaseStateMachine(stateIdentifier) {}
 
@@ -129,6 +127,4 @@ void SampleStateMachine::processState4(Action const action) {
     }
 }
 
-}  // namespace FakeStateMachine
-
-}  // namespace alba
+}  // namespace alba::FakeStateMachine

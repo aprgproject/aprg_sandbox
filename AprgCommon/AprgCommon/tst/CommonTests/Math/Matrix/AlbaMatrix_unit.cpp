@@ -7,9 +7,7 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedByDefaultConstructor) {
     AlbaMatrix<unsigned int> matrix;
@@ -525,6 +523,4 @@ TEST(AlbaMatrixTest, OutputStreamOperatorWorks) {
     EXPECT_EQ("Matrix output:\n-----\n|1|2|\n-----\n|3|4|\n-----\n|5|6|\n-----\n", convertToString(matrix));
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

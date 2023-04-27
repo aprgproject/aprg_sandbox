@@ -4,9 +4,7 @@
 
 #include <algorithm>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 template <typename NumberType>
 inline NumberType getAbsoluteValue(NumberType const value) {
@@ -56,6 +54,4 @@ inline AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& v
     return maximum - minimum;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

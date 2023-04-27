@@ -18,14 +18,14 @@ public:
     std::string getFilePathInput();
 
     std::string displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
-        std::string const& question, Choices<std::string> const& choices);
+        std::string_view question, Choices<std::string> const& choices);
 
     template <typename NumberType>
     NumberType getNumberFromInput();
 
     template <typename NumberType>
     NumberType displayQuestionAndChoicesAndGetNumberAnswer(
-        std::string const& question, Choices<NumberType> const& choices);
+        std::string_view question, Choices<NumberType> const& choices);
 
 private:
     static constexpr int c_bufferSize = 1000;

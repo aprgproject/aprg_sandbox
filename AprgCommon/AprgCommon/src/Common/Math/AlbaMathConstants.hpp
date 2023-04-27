@@ -3,9 +3,7 @@
 #include <cmath>
 #include <limits>
 
-namespace alba {
-
-namespace AlbaMathConstants {
+namespace alba::AlbaMathConstants {
 
 constexpr double POSITIVE_INFINITY_DOUBLE_VALUE = static_cast<double>(INFINITY);
 constexpr double NEGATIVE_INFINITY_DOUBLE_VALUE = static_cast<double>(-INFINITY);
@@ -28,6 +26,4 @@ constexpr double E_DOUBLE_VALUE = 2.7182818284590452354;
 // -> template <typename ConstType>
 // -> constexpr ConstType PI_DOUBLE_VALUE(3.14159265358979323846);
 
-}  // namespace AlbaMathConstants
-
-}  // namespace alba
+}  // namespace alba::AlbaMathConstants

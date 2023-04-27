@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(ConversionHelpersTest, ConvertRadiansToDegreesWorks) {
     EXPECT_DOUBLE_EQ(180, convertRadiansToDegrees(getPi()));
@@ -19,6 +17,4 @@ TEST(ConversionHelpersTest, ConvertDegreesToRadiansWorks) {
     EXPECT_DOUBLE_EQ(17.191493132144146, convertDegreesToRadians(985));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

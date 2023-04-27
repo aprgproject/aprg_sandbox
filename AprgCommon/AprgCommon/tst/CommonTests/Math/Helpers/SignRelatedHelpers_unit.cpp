@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(SignRelatedHelpersTest, GetAbsoluteValueWorksForPrimitiveTypes) {
     EXPECT_EQ(1, getAbsoluteValue(1));
@@ -55,6 +53,4 @@ TEST(SignRelatedHelpersTest, GetPositiveDeltaForAlbaNumberWorks) {
     EXPECT_EQ(AlbaNumber(4.444), getPositiveDelta(AlbaNumber(5.678), AlbaNumber(1.234)));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

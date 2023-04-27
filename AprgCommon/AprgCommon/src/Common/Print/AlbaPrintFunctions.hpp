@@ -11,6 +11,7 @@ namespace alba {
 // printParameter declaration
 
 void printParameter(std::ostream& outputStream, std::string const& parameter);
+void printParameter(std::ostream& outputStream, char const* const parameter);
 
 template <typename ParameterType>
 void printParameter(std::ostream& outputStream, ParameterType const& parameter);
@@ -34,21 +35,20 @@ std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(
 // printParameterWithName declaration
 
 template <typename ParameterType>
-void printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, ParameterType const& parameter);
+void printParameterWithName(std::ostream& outputStream, std::string_view parameterName, ParameterType const& parameter);
 template <typename ParameterPointerType>
 void printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, ParameterPointerType* parameterPointer);
+    std::ostream& outputStream, std::string_view parameterName, ParameterPointerType* parameterPointer);
 template <>
-void printParameterWithName(std::ostream& outputStream, std::string const&, char const* const parameter);
+void printParameterWithName(std::ostream& outputStream, std::string_view, char const* const parameter);
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
-std::enable_if_t<typeHelper::isRaiiPointerWithDeference<TemplateType<UnderlyingTypes...>>(), void>
+std::enable_if_t<typeHelper::isRaiiPointerWithDereference<TemplateType<UnderlyingTypes...>>(), void>
 printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter);
+    std::ostream& outputStream, std::string_view parameterName, TemplateType<UnderlyingTypes...> const& parameter);
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
-std::enable_if_t<typeHelper::isRaiiPointerWithoutDeference<TemplateType<UnderlyingTypes...>>(), void>
+std::enable_if_t<typeHelper::isRaiiPointerWithoutDereference<TemplateType<UnderlyingTypes...>>(), void>
 printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter);
+    std::ostream& outputStream, std::string_view parameterName, TemplateType<UnderlyingTypes...> const& parameter);
 
 // Utilities
 
@@ -146,7 +146,7 @@ std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(
 
 template <typename ParameterType>
 void printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, ParameterType const& parameter) {
+    std::ostream& outputStream, std::string_view parameterName, ParameterType const& parameter) {
     outputStream << parameterName << " : [";
     printParameter(outputStream, parameter);
     outputStream << "]";
@@ -154,7 +154,7 @@ void printParameterWithName(
 
 template <typename ParameterPointerType>
 void printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, ParameterPointerType* parameterPointer) {
+    std::ostream& outputStream, std::string_view parameterName, ParameterPointerType* parameterPointer) {
     if (parameterPointer == nullptr) {
         outputStream << parameterName << " : [nullptr]";
     } else {
@@ -164,20 +164,17 @@ void printParameterWithName(
     }
 }
 
-template <>
-void printParameterWithName(std::ostream& outputStream, std::string const&, char const* const parameter);
-
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
-std::enable_if_t<typeHelper::isRaiiPointerWithDeference<TemplateType<UnderlyingTypes...>>(), void>
+std::enable_if_t<typeHelper::isRaiiPointerWithDereference<TemplateType<UnderlyingTypes...>>(), void>
 printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter) {
+    std::ostream& outputStream, std::string_view parameterName, TemplateType<UnderlyingTypes...> const& parameter) {
     printParameterWithName(outputStream, parameterName, parameter.get());
 }
 
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
-std::enable_if_t<typeHelper::isRaiiPointerWithoutDeference<TemplateType<UnderlyingTypes...>>(), void>
+std::enable_if_t<typeHelper::isRaiiPointerWithoutDereference<TemplateType<UnderlyingTypes...>>(), void>
 printParameterWithName(
-    std::ostream& outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter) {
+    std::ostream& outputStream, std::string_view parameterName, TemplateType<UnderlyingTypes...> const& parameter) {
     outputStream << parameterName << " has use count: [" << parameter.use_count() << "]";
 }
 

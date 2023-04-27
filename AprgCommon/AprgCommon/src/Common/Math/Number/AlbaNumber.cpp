@@ -389,14 +389,14 @@ AlbaNumber::FractionData AlbaNumber::getFractionData() const {
         result.denominator = 1U;
     } else if (m_type == Type::Double) {
         // this is costly avoid this
-        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue(m_data.doubleData));
+        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue<uint32_t>(m_data.doubleData));
         result.denominator = bestFractionDetails.denominator;
         result.numerator = bestFractionDetails.sign * static_cast<int32_t>(bestFractionDetails.numerator);
     } else if (m_type == Type::Fraction) {
         result = m_data.fractionData;
     } else if (m_type == Type::ComplexNumber) {
         double doubleValue = createComplexFloat(m_data.complexNumberData).getModulusWithSignOfRealPart();
-        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue(doubleValue));
+        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue<uint32_t>(doubleValue));
         result.denominator = bestFractionDetails.denominator;
         result.numerator = bestFractionDetails.sign * static_cast<int32_t>(bestFractionDetails.numerator);
     }

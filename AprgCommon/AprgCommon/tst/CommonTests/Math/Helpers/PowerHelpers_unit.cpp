@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(PowerHelpersTest, IsPowerOfTwoForUnsignedIntWorks) {
     EXPECT_TRUE(isPowerOfTwo(0U));
@@ -163,6 +161,4 @@ TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPer
     EXPECT_LT(0ULL, result);
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

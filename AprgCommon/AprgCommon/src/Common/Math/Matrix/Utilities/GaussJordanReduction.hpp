@@ -6,9 +6,7 @@
 
 #include <cassert>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 bool areRowsWithAllZerosInTheBottom(AlbaMatrix<DataType> const& matrix) {
@@ -124,6 +122,4 @@ void subtractRowsWithMultiplierPutDifferenceInAnotherRow(
             [&](DataType const& input1, DataType const& input2) { return input1 - (input2 * multiplierForInput2); }));
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

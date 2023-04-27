@@ -2,9 +2,11 @@
 #include <CrnccIdMapping.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(SampleTest, DISABLED_PerformanceAccessTestWithRandomValues) {
     constexpr unsigned int initialSize = 2500;
     constexpr unsigned int accessIterations = 1000000;
@@ -24,6 +26,7 @@ TEST(SampleTest, DISABLED_PerformanceAccessTestWithRandomValues) {
         TNbccId nbccIdAccess = getNbccIdFromCrnccId(crnccIdAccess);
     }
 }
+
 TEST(SampleTest, DISABLED_PerformanceAddTestWithRandomValues) {
     constexpr unsigned int initialSize = 1000000;
 
@@ -35,6 +38,7 @@ TEST(SampleTest, DISABLED_PerformanceAddTestWithRandomValues) {
         TNbccId nbccId = nbccIdRandomizer.getRandomValue();
         crnccIds.emplace_back(crnccId);
         setCrnccIdMapping(crnccId, nbccId);
-    }}
+    }
+}
 
 }  // namespace alba

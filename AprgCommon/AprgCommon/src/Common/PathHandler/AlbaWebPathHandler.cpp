@@ -10,9 +10,7 @@ using namespace std;
 
 namespace alba {
 
-AlbaWebPathHandler::AlbaWebPathHandler(string const& path) : AlbaPathHandler("/"), m_hasProtocol(false) {
-    setPath(path);
-}
+AlbaWebPathHandler::AlbaWebPathHandler(string_view path) : AlbaPathHandler("/"), m_hasProtocol(false) { setPath(path); }
 
 void AlbaWebPathHandler::clear() {
     AlbaPathHandler::clear();
@@ -39,16 +37,16 @@ string AlbaWebPathHandler::getProtocol() const {
     return protocol;
 }
 
-void AlbaWebPathHandler::gotoLink(string const& newPath) {
+void AlbaWebPathHandler::gotoLink(string_view newPath) {
     AlbaWebPathHandler newPathHandler(newPath);
     if (newPathHandler.hasProtocol()) {
         input(newPath);
     } else {
-        input(getDirectory() + newPath);
+        input(getDirectory() + string(newPath));
     }
 }
 
-void AlbaWebPathHandler::setProtocolWithSymbols(string const& protocolWithSymbols) {
+void AlbaWebPathHandler::setProtocolWithSymbols(string_view protocolWithSymbols) {
     m_protocolWithSymbols = protocolWithSymbols;
     int index = static_cast<int>(protocolWithSymbols.find_first_of(R"(:/\)"));
     if (isNotNpos(index) && protocolWithSymbols[static_cast<string::size_type>(index)] == ':') {
@@ -56,9 +54,9 @@ void AlbaWebPathHandler::setProtocolWithSymbols(string const& protocolWithSymbol
     }
 }
 
-void AlbaWebPathHandler::save(string const& path) { setPath(path); }
+void AlbaWebPathHandler::save(string_view path) { setPath(path); }
 
-void AlbaWebPathHandler::setPath(string const& path) {
+void AlbaWebPathHandler::setPath(string_view path) {
     string protocolWithSymbols;
     string pathAfterProtocol;
     splitPathToBeforeAndAfterProtocol(path, protocolWithSymbols, pathAfterProtocol);
@@ -73,7 +71,7 @@ void AlbaWebPathHandler::setPath(string const& path) {
 }
 
 void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(
-    string const& path, string& protocolWithSymbols, string& pathAfterProtocol) {
+    string_view path, string& protocolWithSymbols, string& pathAfterProtocol) {
     int indexBeforeProtocol = static_cast<int>(path.find("://"));
     int indexBeforeSlash = static_cast<int>(path.find_first_of(m_slashCharacterString));
     if (isNotNpos(indexBeforeProtocol) && isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash) {
@@ -85,6 +83,6 @@ void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(
     }
 }
 
-void AlbaWebPathHandler::setUrlParameters(string const& urlParameters) { m_urlParameters = urlParameters; }
+void AlbaWebPathHandler::setUrlParameters(string_view urlParameters) { m_urlParameters = urlParameters; }
 
 }  // namespace alba

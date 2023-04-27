@@ -6,9 +6,7 @@
 using namespace alba::AlbaMathConstants;
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormWorksWithIntAndUnsignedInt) {
     int32_t numerator1 = 0;
@@ -113,57 +111,55 @@ TEST(FractionHelpersTest, ChangeFractionToSimplestFormForSignedWorks) {
 }
 
 TEST(FractionHelpersTest, GetBestFractionDetailsForDoubleValueWorks) {
-    FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));
+    auto fractionDetails1(getBestFractionDetailsForDoubleValue<unsigned int>(0));
     EXPECT_EQ(1, fractionDetails1.sign);
     EXPECT_EQ(0U, fractionDetails1.numerator);
     EXPECT_EQ(1U, fractionDetails1.denominator);
 
-    FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));
+    auto fractionDetails2(getBestFractionDetailsForDoubleValue<unsigned int>(1));
     EXPECT_EQ(1, fractionDetails2.sign);
     EXPECT_EQ(1U, fractionDetails2.numerator);
     EXPECT_EQ(1U, fractionDetails2.denominator);
 
-    FractionDetails fractionDetails3(getBestFractionDetailsForDoubleValue(-1));
+    auto fractionDetails3(getBestFractionDetailsForDoubleValue<unsigned int>(-1));
     EXPECT_EQ(-1, fractionDetails3.sign);
     EXPECT_EQ(1U, fractionDetails3.numerator);
     EXPECT_EQ(1U, fractionDetails3.denominator);
 
-    FractionDetails fractionDetails4(getBestFractionDetailsForDoubleValue(-234));
+    auto fractionDetails4(getBestFractionDetailsForDoubleValue<unsigned int>(-234));
     EXPECT_EQ(-1, fractionDetails4.sign);
     EXPECT_EQ(234U, fractionDetails4.numerator);
     EXPECT_EQ(1U, fractionDetails4.denominator);
 
-    FractionDetails fractionDetails5(getBestFractionDetailsForDoubleValue(0.3333333333333333333));
+    auto fractionDetails5(getBestFractionDetailsForDoubleValue<unsigned int>(0.3333333333333333333));
     EXPECT_EQ(1, fractionDetails5.sign);
     EXPECT_EQ(1U, fractionDetails5.numerator);
     EXPECT_EQ(3U, fractionDetails5.denominator);
 
-    FractionDetails fractionDetails6(getBestFractionDetailsForDoubleValue(-78.787878787878787878));
+    auto fractionDetails6(getBestFractionDetailsForDoubleValue<unsigned int>(-78.787878787878787878));
     EXPECT_EQ(-1, fractionDetails6.sign);
     EXPECT_EQ(2600U, fractionDetails6.numerator);
     EXPECT_EQ(33U, fractionDetails6.denominator);
 
-    FractionDetails fractionDetails7(getBestFractionDetailsForDoubleValue(2.236067977499789696409));
+    auto fractionDetails7(getBestFractionDetailsForDoubleValue<unsigned int>(2.236067977499789696409));
     EXPECT_EQ(1, fractionDetails7.sign);
     EXPECT_EQ(2446376235U, fractionDetails7.numerator);
     EXPECT_EQ(1094052712U, fractionDetails7.denominator);
 
-    FractionDetails fractionDetails8(getBestFractionDetailsForDoubleValue(POSITIVE_INFINITY_DOUBLE_VALUE));
+    auto fractionDetails8(getBestFractionDetailsForDoubleValue<unsigned int>(POSITIVE_INFINITY_DOUBLE_VALUE));
     EXPECT_EQ(1, fractionDetails8.sign);
     EXPECT_EQ(1U, fractionDetails8.numerator);
     EXPECT_EQ(0U, fractionDetails8.denominator);
 
-    FractionDetails fractionDetails9(getBestFractionDetailsForDoubleValue(NEGATIVE_INFINITY_DOUBLE_VALUE));
+    auto fractionDetails9(getBestFractionDetailsForDoubleValue<unsigned int>(NEGATIVE_INFINITY_DOUBLE_VALUE));
     EXPECT_EQ(-1, fractionDetails9.sign);
     EXPECT_EQ(1U, fractionDetails9.numerator);
     EXPECT_EQ(0U, fractionDetails9.denominator);
 
-    FractionDetails fractionDetails10(getBestFractionDetailsForDoubleValue(NAN_DOUBLE_VALUE));
+    auto fractionDetails10(getBestFractionDetailsForDoubleValue<unsigned int>(NAN_DOUBLE_VALUE));
     EXPECT_EQ(1, fractionDetails10.sign);
     EXPECT_EQ(0U, fractionDetails10.numerator);
     EXPECT_EQ(1U, fractionDetails10.denominator);
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

@@ -4,9 +4,11 @@
 #include <PidSimulatorConfiguration.hpp>
 
 #include <vector>
+
 namespace alba {
 
-class PidSimulator {public:
+class PidSimulator {
+public:
     PidSimulator(stringHelper::strings const& argumentsInMain);
 
     double calculatePid(double const input, double const target);

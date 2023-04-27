@@ -6,9 +6,7 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 TEST(AlbaSparseMatrixTest, MatrixConstructor_AlbaSparseMatrixCanBeCreatedByDefaultConstructor) {
     AlbaSparseMatrix<unsigned int> matrix;
@@ -278,6 +276,4 @@ TEST(AlbaSparseMatrixTest, TransposeWorks) {
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

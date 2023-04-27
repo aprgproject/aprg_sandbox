@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 TEST(DeterminantTest, GetIndexWithHighestNumberOfZerosWorks) {
     ListOfAlbaMatrixData<unsigned int> rowsAndColumns{{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
@@ -70,6 +68,4 @@ TEST(AlbaMatrixUtilitiesTest, GetMatrixWithOneColumnAndOneRowRemovedWorks) {
     EXPECT_EQ(expectedMatrix, resultMatrix);
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

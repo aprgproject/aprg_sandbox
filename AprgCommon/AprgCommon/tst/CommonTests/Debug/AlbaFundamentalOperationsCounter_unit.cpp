@@ -8,8 +8,8 @@ using namespace std;
 
 namespace alba {
 
-namespace original  // make an original namespace to avoid collision
-{
+namespace original {
+
 class SampleClass {
 public:
     SampleClass() : m_dataPointer() {}

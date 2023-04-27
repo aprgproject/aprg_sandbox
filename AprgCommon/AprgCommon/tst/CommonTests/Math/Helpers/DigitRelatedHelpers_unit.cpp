@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(DigitRelatedHelpersTest, GetNumberOfDigitsOnBaseWorks) {
     EXPECT_EQ(4U, getNumberOfDigitsOnBase<unsigned int>(10, 1000));
@@ -35,6 +33,4 @@ TEST(DigitRelatedHelpersTest, AreNumberOfDigitsOnTheIntegerLimitWorks) {
     EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit<int>(11));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

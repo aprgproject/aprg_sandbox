@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(StatisticsHelpersTest, GetCumulativeStandardDistributionApproximationWorks) {
     // comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
@@ -25,6 +23,4 @@ TEST(StatisticsHelpersTest, GetInverseCumulativeStandardDistributionApproximatio
     EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(3.3036, 20));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

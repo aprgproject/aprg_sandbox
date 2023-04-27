@@ -11,9 +11,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 bool isEqualForMathMatrixDataType(DataType const& value1, DataType const& value2);
@@ -217,6 +215,4 @@ private:
     MatrixData m_matrixData;
 };
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

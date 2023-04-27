@@ -26,7 +26,7 @@ TEST(AlbaCombinedEntropySourceTest, DISABLED_OperatorWorks_AsNonDeterministic) {
 TEST(AlbaCombinedEntropySourceTest, EntropyIsNotZero) {
     AlbaCombinedEntropySource source;
 
-    EXPECT_NE(0, source.operator()());
+    EXPECT_NE(0U, source.operator()());
 }
 
 }  // namespace alba

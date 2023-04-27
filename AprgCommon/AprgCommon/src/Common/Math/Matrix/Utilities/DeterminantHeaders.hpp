@@ -2,9 +2,7 @@
 
 #include <Common/Math/Matrix/AlbaMatrixDataTypes.hpp>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 size_t getIndexWithHighestNumberOfZeros(ListOfAlbaMatrixData<DataType> const& rowsAndColumns);
@@ -29,6 +27,4 @@ template <typename DataType>
 AlbaMatrix<DataType> getMatrixWithOneColumnAndOneRowRemoved(
     AlbaMatrix<DataType> const& matrix, size_t const columnIndex, size_t const rowIndex);
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

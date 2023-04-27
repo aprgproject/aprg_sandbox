@@ -2,8 +2,8 @@
 
 using namespace std;
 
-namespace alba {
-namespace mathHelper {
+namespace alba::mathHelper {
+
 template <typename NumberType>
 AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& complexNumber) {
     return AlbaNumber::createComplexNumber(complexNumber.getRealPart(), complexNumber.getImaginaryPart());
@@ -15,6 +15,4 @@ void saveToComplexNumberData(AlbaNumber::ComplexNumberData& data, AlbaComplexNum
     data.imaginaryPart = number.getImaginaryPart();
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

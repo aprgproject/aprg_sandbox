@@ -16,7 +16,7 @@ using namespace std;
 
 namespace alba {
 
-AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path) : AlbaPathHandler(R"(\)") { setPath(path); }
+AlbaWindowsPathHandler::AlbaWindowsPathHandler(string_view path) : AlbaPathHandler(R"(\)") { setPath(path); }
 
 AlbaWindowsPathHandler AlbaWindowsPathHandler::createPathHandlerForDetectedPath() {
     return AlbaWindowsPathHandler(getCurrentDetectedPath());
@@ -122,7 +122,7 @@ void AlbaWindowsPathHandler::deleteFilesInDirectory() {
     set<string> listOfFiles;
     set<string> listOfDirectories;
     findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    for (string const& file : listOfFiles) {
+    for (auto&& file : listOfFiles) {
         AlbaWindowsPathHandler(file).deleteFile();
     }
     reInput();
@@ -132,7 +132,7 @@ void AlbaWindowsPathHandler::deleteInnerFilesAndDirectories() {
     set<string> listOfFiles;
     set<string> listOfDirectories;
     findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    for (string const& file : listOfFiles) {
+    for (auto&& file : listOfFiles) {
         AlbaWindowsPathHandler(file).deleteFile();
     }
     set<string>::reverse_iterator reverseIterator;
@@ -148,12 +148,12 @@ void AlbaWindowsPathHandler::deleteDirectoryWithFilesAndDirectories() {
     reInput();
 }
 
-bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath) {
+bool AlbaWindowsPathHandler::copyToNewFile(string_view newFilePath) {
     bool isSuccessful(false);
     if (isFile()) {
         isSuccessful = (bool)CopyFileW(
             convertToAnotherBasicStringVariant<string, wstring>(getFullPath()).c_str(),
-            convertToAnotherBasicStringVariant<string, wstring>(newFilePath).c_str(), 0);
+            convertToAnotherBasicStringVariant<string_view, wstring>(newFilePath).c_str(), 0);
         if (!isSuccessful) {
             cout << "Error in AlbaWindowsPathHandler::copyToNewFile() path:[" << getFullPath() << "] newFilePath:["
                  << newFilePath << "]\n";
@@ -165,10 +165,10 @@ bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath) {
     return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::renameFile(string const& newFileName) {
+bool AlbaWindowsPathHandler::renameFile(string_view newFileName) {
     bool isSuccessful(false);
     if (isFile()) {
-        string newPath(m_directory + newFileName);
+        string newPath(m_directory + string(newFileName));
         isSuccessful = (bool)MoveFileW(
             convertToAnotherBasicStringVariant<string, wstring>(getFullPath()).c_str(),
             convertToAnotherBasicStringVariant<string, wstring>(newPath).c_str());
@@ -183,12 +183,12 @@ bool AlbaWindowsPathHandler::renameFile(string const& newFileName) {
     return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName) {
+bool AlbaWindowsPathHandler::renameImmediateDirectory(string_view newDirectoryName) {
     bool isSuccessful(false);
     if (isDirectory()) {
         AlbaWindowsPathHandler newPathHandler(getFullPath());
         newPathHandler.goUp();
-        newPathHandler.input(newPathHandler.getDirectory() + m_slashCharacterString + newDirectoryName);
+        newPathHandler.input(newPathHandler.getDirectory() + m_slashCharacterString + string(newDirectoryName));
         isSuccessful = (bool)MoveFileW(
             convertToAnotherBasicStringVariant<string, wstring>(getFullPath()).c_str(),
             convertToAnotherBasicStringVariant<string, wstring>(newPathHandler.getFullPath()).c_str());
@@ -204,23 +204,23 @@ bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectory
 }
 
 void AlbaWindowsPathHandler::findFilesAndDirectoriesOneDepth(
-    string const& wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories) const {
+    string_view wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories) const {
     findFilesAndDirectoriesWithDepth(m_directory, wildCardSearch, listOfFiles, listOfDirectories, 1);
 }
 
 void AlbaWindowsPathHandler::findFilesAndDirectoriesMultipleDepth(
-    string const& wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories, int depth) const {
+    string_view wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories, int depth) const {
     findFilesAndDirectoriesWithDepth(m_directory, wildCardSearch, listOfFiles, listOfDirectories, depth);
 }
 
 void AlbaWindowsPathHandler::findFilesAndDirectoriesUnlimitedDepth(
-    string const& wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories) const {
+    string_view wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories) const {
     findFilesAndDirectoriesWithDepth(m_directory, wildCardSearch, listOfFiles, listOfDirectories, -1);
 }
 
 void AlbaWindowsPathHandler::findFilesAndDirectoriesWithDepth(
-    string const& currentDirectory, string const& wildCardSearch, set<string>& listOfFiles,
-    set<string>& listOfDirectories, int depth) const {
+    string_view currentDirectory, string_view wildCardSearch, set<string>& listOfFiles, set<string>& listOfDirectories,
+    int depth) const {
     HANDLE hFind;
     WIN32_FIND_DATAW data;
 
@@ -229,18 +229,19 @@ void AlbaWindowsPathHandler::findFilesAndDirectoriesWithDepth(
     }
     depth -= (depth > 0) ? 1 : 0;
 
-    hFind = FindFirstFileW(
-        convertToAnotherBasicStringVariant<string, wstring>(string(currentDirectory + wildCardSearch)).c_str(), &data);
+    string currentDirectoryString(currentDirectory);
+    string searchString = currentDirectoryString + string(wildCardSearch);
+    hFind = FindFirstFileW(convertToAnotherBasicStringVariant<string, wstring>(searchString).c_str(), &data);
     bool bContinue(hFind != INVALID_HANDLE_VALUE);
     while (bContinue) {
         string fileOrDirectoryName(convertToAnotherBasicStringVariant<wstring, string>(wstring(data.cFileName)));
         if (!isPeriodOrDoublePeriod(fileOrDirectoryName)) {
             if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                string newDirectory(currentDirectory + fileOrDirectoryName + '\\');
+                string newDirectory(currentDirectoryString + fileOrDirectoryName + '\\');
                 listOfDirectories.emplace(newDirectory);
                 findFilesAndDirectoriesWithDepth(newDirectory, wildCardSearch, listOfFiles, listOfDirectories, depth);
             } else {
-                listOfFiles.emplace(currentDirectory + fileOrDirectoryName);
+                listOfFiles.emplace(currentDirectoryString + fileOrDirectoryName);
             }
         }
         bContinue = FindNextFileW(hFind, &data);
@@ -260,9 +261,9 @@ string AlbaWindowsPathHandler::getCurrentDetectedPath() {
     return result;
 }
 
-void AlbaWindowsPathHandler::save(string const& path) { setPath(path); }
+void AlbaWindowsPathHandler::save(string_view path) { setPath(path); }
 
-void AlbaWindowsPathHandler::setPath(string const& path) {
+void AlbaWindowsPathHandler::setPath(string_view path) {
     string correctPath(getCorrectPathWithoutDoublePeriod(
         getCorrectPathWithReplacedSlashCharacters(path, m_slashCharacterString), m_slashCharacterString));
     if (isSlashNeededAtTheEnd(correctPath, path)) {
@@ -284,17 +285,17 @@ void AlbaWindowsPathHandler::setDriveOrRoot() {
     m_relativePath = m_driveOrRoot.empty();
 }
 
-bool AlbaWindowsPathHandler::canBeLocated(string const& fullPath) const {
-    DWORD attributes = GetFileAttributesW(convertToAnotherBasicStringVariant<string, wstring>(fullPath).c_str());
+bool AlbaWindowsPathHandler::canBeLocated(string_view fullPath) const {
+    DWORD attributes = GetFileAttributesW(convertToAnotherBasicStringVariant<string_view, wstring>(fullPath).c_str());
     return INVALID_FILE_ATTRIBUTES != attributes;
 }
 
-bool AlbaWindowsPathHandler::isSlashNeededAtTheEnd(string const& correctedPath, string const& originalPath) const {
+bool AlbaWindowsPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, string_view originalPath) const {
     bool result(false);
     bool isCorrectPathLastCharacterNotASlash(correctedPath[correctedPath.length() - 1] != m_slashCharacterString[0]);
     if (isCorrectPathLastCharacterNotASlash) {
         DWORD attributes =
-            GetFileAttributesW(convertToAnotherBasicStringVariant<string, wstring>(correctedPath).c_str());
+            GetFileAttributesW(convertToAnotherBasicStringVariant<string_view, wstring>(correctedPath).c_str());
         bool isFoundInWindows(INVALID_FILE_ATTRIBUTES != attributes);
         if (isFoundInWindows) {
             bool isDirectoryInWindows(attributes & FILE_ATTRIBUTE_DIRECTORY);

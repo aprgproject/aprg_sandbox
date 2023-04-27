@@ -9,9 +9,7 @@
 #include <sstream>
 #include <string>
 
-namespace alba {
-
-namespace containerHelper {
+namespace alba::containerHelper {
 
 enum class StreamFormat { String, File };
 
@@ -355,6 +353,4 @@ std::string getStringInDecimalAndHexadecimalFormat(Container<ValueType> const& c
     return oss.str();
 }
 
-}  // namespace containerHelper
-
-}  // namespace alba
+}  // namespace alba::containerHelper

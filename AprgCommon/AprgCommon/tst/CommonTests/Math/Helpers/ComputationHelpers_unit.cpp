@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(ComputationHelpersTest, GetAverageOfTwoNumbersWorksForPrimitiveTypes) {
     EXPECT_EQ(0, getAverage(-10, 10));
@@ -101,6 +99,4 @@ TEST(ComputationHelpersTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInput
     EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots.at(1));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

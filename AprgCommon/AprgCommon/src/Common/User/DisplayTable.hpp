@@ -12,8 +12,8 @@ enum class DisplayTableRowMode { align, justify };
 class DisplayTableCell {
 public:
     DisplayTableCell();
-    DisplayTableCell(std::string const& displayText);
-    DisplayTableCell(std::string const& displayText, DisplayTableCellMode const horizontalMode);
+    DisplayTableCell(std::string_view displayText);
+    DisplayTableCell(std::string_view displayText, DisplayTableCellMode const horizontalMode);
 
     // rule of zero
 
@@ -21,7 +21,7 @@ public:
     DisplayTableCellMode getHorizontalMode() const;
 
     std::string& getTextReference();
-    void setText(std::string const& text);
+    void setText(std::string_view text);
     void setHorizontalMode(DisplayTableCellMode const mode);
 
 private:
@@ -45,8 +45,8 @@ public:
 
     Cells& getCellsReference();
     DisplayTableCell& getCellReferenceAt(size_t const columnIndex);
-    void addCell(std::string const& text);
-    void addCell(std::string const& text, DisplayTableCellMode const horizontalMode);
+    void addCell(std::string_view text);
+    void addCell(std::string_view text, DisplayTableCellMode const horizontalMode);
 
 private:
     Cells m_cells;
@@ -68,7 +68,7 @@ public:
     DisplayTableRow& getRowReferenceAt(size_t const rowIndex);
     DisplayTableCell& getCellReferenceAt(size_t const columnIndex, size_t const rowIndex);
     void addRow();
-    void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
+    void setBorders(std::string_view horizontalBorder, std::string_view verticalBorder);
 
 private:
     std::string getCellTextWithDesiredLength(DisplayTableCell const& cell, size_t const desiredLength) const;

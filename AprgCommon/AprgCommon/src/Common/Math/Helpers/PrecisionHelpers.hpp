@@ -5,9 +5,7 @@
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 template <typename NumberType>
 inline bool isAlmostEqual(NumberType const value1, NumberType const value2) {
@@ -92,9 +90,7 @@ inline double getFractionalPartInDouble(double const doubleValue) {
 
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value);
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper
 
 // Floating point formats:
 //              |           Number of Bits           |                    Other Details                    |

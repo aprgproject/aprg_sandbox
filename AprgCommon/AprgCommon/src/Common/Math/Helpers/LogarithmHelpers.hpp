@@ -1,12 +1,11 @@
 #pragma once
 
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 #include <cmath>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 inline double getLogarithm(double const base, double const inputForLogarithm) {
     // change of base formula
@@ -62,9 +61,39 @@ NumberType getCeilOfLogarithmForIntegers(NumberType const base, NumberType const
     return getLogarithmForIntegers(base, (inputForLogarithm * base) - 1);
 }
 
-unsigned int getIterativeLogarithm(double const base, double const inputForLogarithm);
-int getSuperLogarithm(double const base, double const inputForLogarithm);
+template <typename IntegerType>
+IntegerType getIterativeLogarithm(double const base, double const inputForLogarithm) {
+    static_assert(typeHelper::isIntegralType<IntegerType>(), "IntegerType must be an integer");
 
-}  // namespace mathHelper
+    // The iterated logarithm of n, written log* n (usually read "log star"),
+    // is the number of times the logarithm function must be iteratively applied
+    // before the result is less than or equal to 1.
 
-}  // namespace alba
+    IntegerType count(0);
+    double currentLogarithm = getLogarithm(base, inputForLogarithm);
+    while (currentLogarithm >= 0 && !isAlmostEqual(currentLogarithm, 1.0)) {
+        count++;
+        currentLogarithm = getLogarithm(base, currentLogarithm);
+    }
+    return count;
+}
+
+template <typename IntegerType>
+IntegerType getSuperLogarithm(double const base, double const inputForLogarithm) {
+    static_assert(typeHelper::isIntegralType<IntegerType>(), "IntegerType must be an integer");
+    static_assert(typeHelper::isSignedType<IntegerType>(), "IntegerType must be a signed type");
+
+    // In mathematics, the super-logarithm is one of the two inverse functions of tetration.
+    // On the positive real numbers, the continuous super-logarithm (inverse tetration) is essentially equivalent
+    // However, on the negative real numbers, log-star is 0, whereas the superlogarithm = -1
+
+    int result(0);
+    if (inputForLogarithm >= 0) {
+        result = getIterativeLogarithm<IntegerType>(base, inputForLogarithm);
+    } else {
+        result = -1;
+    }
+    return result;
+}
+
+}  // namespace alba::mathHelper

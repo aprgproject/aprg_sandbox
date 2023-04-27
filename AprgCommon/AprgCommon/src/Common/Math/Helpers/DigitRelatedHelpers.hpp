@@ -5,9 +5,7 @@
 
 #include <limits>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 template <typename NumberType>
 size_t getNumberOfDigitsOnBase(NumberType const base, NumberType const value) {
@@ -35,6 +33,4 @@ inline bool areNumberOfDigitsOnTheIntegerLimit(size_t const digits) {
     return digits >= std::numeric_limits<NumberType>::digits10;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

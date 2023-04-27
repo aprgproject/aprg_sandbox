@@ -172,13 +172,13 @@ template double AlbaComplexNumber<double>::getAngleInRadians() const;
 template <typename DataType>
 double AlbaComplexNumber<DataType>::getBestAngleInRaiseToPowerInRadians(DataType const exponent) const {
     double angleWithoutPi(getAngleInRadians() / getPi());
-    FractionDetails exponentFraction(getBestFractionDetailsForDoubleValue(static_cast<double>(exponent)));
-    constexpr unsigned int MINIMUM_ROOTS = 100;
-    unsigned int numberRootsToProcess = min(MINIMUM_ROOTS, exponentFraction.denominator);
+    FractionDetails exponentFraction(getBestFractionDetailsForDoubleValue<size_t>(static_cast<double>(exponent)));
+    constexpr size_t MINIMUM_ROOTS = 100;
+    size_t numberRootsToProcess = min(MINIMUM_ROOTS, exponentFraction.denominator);
 
     bool isFirst(true);
     double bestAngleWithoutPi(0), minDeltaFromNearestInteger(1);
-    for (unsigned int rootIndex = 0; rootIndex < numberRootsToProcess; rootIndex++) {
+    for (size_t rootIndex = 0; rootIndex < numberRootsToProcess; rootIndex++) {
         double possibleAngleWithoutPi = (angleWithoutPi + 2 * rootIndex) * exponent;
         double deltaFromNearestInteger = getPositiveDelta(possibleAngleWithoutPi, round(possibleAngleWithoutPi));
         if (isFirst || deltaFromNearestInteger < minDeltaFromNearestInteger) {
@@ -205,7 +205,7 @@ template AlbaComplexNumber<double> AlbaComplexNumber<double>::getConjugate() con
 
 template <typename DataType>
 AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::getNthRoot(
-    unsigned int const rootIndex, unsigned int const rootDegree) const {
+    size_t const rootIndex, size_t const rootDegree) const {
     assert(rootIndex < rootDegree);
     double modulusPart = pow(static_cast<double>(getModulus()), static_cast<double>(1) / rootDegree);
     double angleToBeUsed = (getAngleInRadians() + getPi() * 2 * rootIndex) / rootDegree;
@@ -214,9 +214,9 @@ AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::getNthRoot(
     return AlbaComplexNumber<DataType>(static_cast<DataType>(realPart), static_cast<DataType>(imaginaryPart));
 }
 template AlbaComplexNumber<float> AlbaComplexNumber<float>::getNthRoot(
-    unsigned int const rootIndex, unsigned int const rootDegree) const;
+    size_t const rootIndex, size_t const rootDegree) const;
 template AlbaComplexNumber<double> AlbaComplexNumber<double>::getNthRoot(
-    unsigned int const rootIndex, unsigned int const rootDegree) const;
+    size_t const rootIndex, size_t const rootDegree) const;
 
 template <typename DataType>
 DataType AlbaComplexNumber<DataType>::getRealPartInMultiplication(

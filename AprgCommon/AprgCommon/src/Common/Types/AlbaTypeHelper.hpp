@@ -2,9 +2,7 @@
 
 #include <type_traits>
 
-namespace alba {
-
-namespace typeHelper {
+namespace alba::typeHelper {
 
 // Source: https://en.cppreference.com/w/cpp/header/type_traits
 // NOTE: Value returning meta functions or "TemplateName_v" are not used in this file to make it more readable.
@@ -420,11 +418,11 @@ struct HasContainerType : std::false_type {};
 template <typename T>
 struct HasContainerType<T, std::void_t<typename T::container_type>> : std::true_type {};
 
-// HasDeferenceOperator
+// HasDereferenceOperator
 template <typename, typename = void>
-struct HasDeferenceOperator : std::false_type {};
+struct HasDereferenceOperator : std::false_type {};
 template <typename T>
-struct HasDeferenceOperator<T, std::void_t<decltype(*std::declval<T>())>> : std::true_type {};
+struct HasDereferenceOperator<T, std::void_t<decltype(*std::declval<T>())>> : std::true_type {};
 
 // HasBegin
 template <typename, typename = void>
@@ -446,12 +444,12 @@ template <typename T>
 struct HasSize<T, std::void_t<decltype(std::declval<T>().size())>> : std::true_type {};
 
 template <typename Type>
-constexpr bool isRaiiPointerWithDeference() {
-    return hasElementType<Type>::value && HasDeferenceOperator<Type>::value;
+constexpr bool isRaiiPointerWithDereference() {
+    return hasElementType<Type>::value && HasDereferenceOperator<Type>::value;
 }
 template <typename Type>
-constexpr bool isRaiiPointerWithoutDeference() {
-    return hasElementType<Type>::value && !HasDeferenceOperator<Type>::value;
+constexpr bool isRaiiPointerWithoutDereference() {
+    return hasElementType<Type>::value && !HasDereferenceOperator<Type>::value;
 }
 
 template <typename Type>
@@ -474,6 +472,4 @@ constexpr bool hasContainerType() {
     return HasContainerType<Type>::value;
 }
 
-}  // namespace typeHelper
-
-}  // namespace alba
+}  // namespace alba::typeHelper

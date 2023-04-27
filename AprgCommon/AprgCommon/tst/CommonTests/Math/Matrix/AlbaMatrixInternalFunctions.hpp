@@ -1,7 +1,7 @@
 #pragma once
 
-namespace alba {
-namespace matrix {
+namespace alba::matrix {
+
 // Template declaration
 
 template <typename DataType>
@@ -18,6 +18,4 @@ bool isEqualForMathMatrixDataType(int const& value1, int const& value2);
 template <>
 bool isEqualForMathMatrixDataType(double const& value1, double const& value2);
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

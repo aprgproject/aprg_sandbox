@@ -61,6 +61,7 @@ template <size_t SIZE>
 void simplifyForTermVector(MathVectorOfTerms<SIZE>& termVector);
 
 }  // namespace VectorUtilities
+
 }  // namespace algebra
 
 }  // namespace alba

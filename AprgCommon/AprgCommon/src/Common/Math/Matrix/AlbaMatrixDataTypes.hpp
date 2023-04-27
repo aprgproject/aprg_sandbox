@@ -3,8 +3,8 @@
 #include <functional>
 #include <vector>
 
-namespace alba {
-namespace matrix {
+namespace alba::matrix {
+
 template <typename DataType>
 using AlbaMatrixData = std::vector<DataType>;
 template <typename DataType>
@@ -18,6 +18,4 @@ using BinaryFunction = std::function<DataType(DataType const&, DataType const&)>
 template <typename DataType>
 class AlbaMatrix;
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

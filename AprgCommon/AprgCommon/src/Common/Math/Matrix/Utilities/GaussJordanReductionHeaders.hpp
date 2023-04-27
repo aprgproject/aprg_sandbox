@@ -2,9 +2,7 @@
 
 #include <Common/Math/Matrix/AlbaMatrixDataTypes.hpp>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 bool areRowsWithAllZerosInTheBottom(AlbaMatrix<DataType> const& matrix);
@@ -25,6 +23,4 @@ void subtractRowsWithMultiplierPutDifferenceInAnotherRow(
     AlbaMatrix<DataType>& matrix, DataType const& multiplierForInput2, size_t const yInput1, size_t const yInput2,
     size_t const yOutput);
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

@@ -6,9 +6,7 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 template <typename NumberType>
 NumberType getNumberOfPossibilities(NumberType const numberOfPossibilitiesPerTime, NumberType const numberOfTimes) {
@@ -131,6 +129,4 @@ typename std::make_signed<NumberType>::type getStirlingNumberOfTheSecondKind(Num
     return sum;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

@@ -2,10 +2,8 @@
 
 #include <string>
 
-namespace alba {
+namespace alba::AlbaLinuxHelper {
 
-namespace AlbaLinuxHelper {
 std::string getErrorMessage(int const localErrnoCopy);
-}
 
-}  // namespace alba
+}  // namespace alba::AlbaLinuxHelper

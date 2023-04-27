@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(FactorAndMulitplesHelpersTest, IsPrimeWorks) {
     EXPECT_FALSE(isPrime(0U));
@@ -198,6 +196,4 @@ TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleForAlbaNumberWorks) {
         AlbaNumber(3), getLeastCommonMultiple(AlbaNumber::createFraction(3, 2), AlbaNumber::createFraction(1, 3)));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

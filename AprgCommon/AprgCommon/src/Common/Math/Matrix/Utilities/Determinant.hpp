@@ -4,9 +4,7 @@
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 size_t getIndexWithHighestNumberOfZeros(ListOfAlbaMatrixData<DataType> const& rowsOrColumns) {
@@ -105,6 +103,4 @@ AlbaMatrix<DataType> getMatrixWithOneColumnAndOneRowRemoved(
     return result;
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

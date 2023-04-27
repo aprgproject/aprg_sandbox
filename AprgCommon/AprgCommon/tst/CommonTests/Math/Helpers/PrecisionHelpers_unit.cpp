@@ -8,9 +8,7 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(PrecisionHelpersTest, IntegerTypesCanBeConsideredEqual) {
     EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
@@ -244,6 +242,4 @@ TEST(PrecisionHelpersTest, ConvertIfInfinityToNearestFiniteValueWorks) {
         -1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(ALBA_NUMBER_NEGATIVE_INFINITY).getDouble());
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

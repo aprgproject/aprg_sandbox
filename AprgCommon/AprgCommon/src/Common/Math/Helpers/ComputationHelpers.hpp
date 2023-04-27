@@ -4,9 +4,7 @@
 
 #include <cmath>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 enum class RootType {
     RealRootsOnly,
@@ -62,6 +60,4 @@ inline AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2)
 
 AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

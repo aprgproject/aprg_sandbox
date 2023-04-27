@@ -26,7 +26,7 @@ TEST(AlbaEntropySourceBasedOnTimeTest, DISABLED_OperatorWorks_AsNonDeterministic
 TEST(AlbaEntropySourceBasedOnTimeTest, EntropyIsNotZero) {
     AlbaEntropySourceBasedOnTime source;
 
-    EXPECT_NE(0, source.operator()());
+    EXPECT_NE(0U, source.operator()());
 }
 
 }  // namespace alba

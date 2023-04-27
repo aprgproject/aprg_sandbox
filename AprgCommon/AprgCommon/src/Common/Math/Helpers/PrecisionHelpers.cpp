@@ -2,9 +2,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 // isAlmostEqual
 // Commented out: This implementation is not practical when value is equal to zero
@@ -26,6 +24,4 @@ AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value) {
     return result;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

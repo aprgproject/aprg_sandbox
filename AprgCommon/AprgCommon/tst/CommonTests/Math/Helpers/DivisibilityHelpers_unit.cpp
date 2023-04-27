@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(DivisibilityHelpersTest, IsDivisibleWorks) {
     EXPECT_FALSE(isDivisible(0U, 0U));
@@ -32,6 +30,4 @@ TEST(DivisibilityHelpersTest, IsOddWorks) {
     EXPECT_TRUE(isOdd(255U));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

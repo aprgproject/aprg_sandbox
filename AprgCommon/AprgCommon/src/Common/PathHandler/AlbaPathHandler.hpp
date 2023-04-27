@@ -8,14 +8,14 @@ enum class PathType { Empty, Directory, File };
 
 class AlbaPathHandler {
 public:
-    explicit AlbaPathHandler(std::string const& slashCharacterString);
-    explicit AlbaPathHandler(std::string const& path, std::string const& slashCharacterString);
+    explicit AlbaPathHandler(std::string_view slashCharacterString);
+    explicit AlbaPathHandler(std::string_view path, std::string_view slashCharacterString);
     virtual ~AlbaPathHandler() = default;  // virtual destructor because of virtual functions (vtable exists)
 
     virtual void clear();
     virtual std::string getFullPath() const;
     virtual std::string getDirectory() const;
-    void input(std::string const& path);
+    void input(std::string_view path);
     void reInput();
     void goUp();
     std::string getImmediateDirectoryName() const;
@@ -28,10 +28,10 @@ public:
     bool isEmpty() const;
 
 protected:
-    virtual void save(std::string const& path);
-    void setPath(std::string const& path);  // non virtual because used by constructor
-    void setExtensionFromPath(std::string const& path);
-    void setDirectoryAndFileFromPath(std::string const& path);
+    virtual void save(std::string_view path);
+    void setPath(std::string_view path);  // non virtual because used by constructor
+    void setExtensionFromPath(std::string_view path);
+    void setDirectoryAndFileFromPath(std::string_view path);
     void setFileType();
     PathType m_pathType;
     std::string m_slashCharacterString;

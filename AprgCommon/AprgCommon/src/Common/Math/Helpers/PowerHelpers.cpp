@@ -2,9 +2,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 bool isPerfectSquare(AlbaNumber const& value) { return isPerfectNthPower(value, 2); }
 
@@ -25,6 +23,4 @@ bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower) {
     return result;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

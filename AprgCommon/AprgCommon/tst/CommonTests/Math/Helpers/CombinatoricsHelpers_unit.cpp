@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 TEST(CombinatoricsHelpersTest, GetNumberOfPossibilitiesWorks) {
     EXPECT_EQ(1U, getNumberOfPossibilities(0U, 0U));
@@ -61,6 +59,4 @@ TEST(CombinatoricsHelpersTest, GetStirlingNumberOfTheSecondKindWorks) {
     EXPECT_EQ(344, getStirlingNumberOfTheSecondKind(10U, 10U));
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

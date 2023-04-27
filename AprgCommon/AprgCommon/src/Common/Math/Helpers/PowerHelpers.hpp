@@ -6,9 +6,7 @@
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 // dependent definitions
 template <typename NumberType>
@@ -81,6 +79,4 @@ bool isPerfectSquare(AlbaNumber const& value);                            // pas
 bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

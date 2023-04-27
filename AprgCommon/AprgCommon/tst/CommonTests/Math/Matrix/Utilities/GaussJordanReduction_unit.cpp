@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 TEST(GaussJordanReductionTest, AreRowsWithAllZerosInTheBottomWorks) {
     AlbaMatrix<unsigned int> matrix1(3, 3, {1, 2, 3, 0, 0, 0, 0, 0, 0});
@@ -103,6 +101,4 @@ TEST(GaussJordanReductionTest, SubtractRowsWithMultiplierPutDifferenceInAnotherR
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

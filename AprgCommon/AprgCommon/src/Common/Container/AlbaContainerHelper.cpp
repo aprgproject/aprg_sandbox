@@ -2,9 +2,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace containerHelper {
+namespace alba::containerHelper {
 
 string getDelimeterBasedOnFormat(StreamFormat const streamFormat) {
     if (StreamFormat::File == streamFormat) {
@@ -14,6 +12,4 @@ string getDelimeterBasedOnFormat(StreamFormat const streamFormat) {
     }
 }
 
-}  // namespace containerHelper
-
-}  // namespace alba
+}  // namespace alba::containerHelper

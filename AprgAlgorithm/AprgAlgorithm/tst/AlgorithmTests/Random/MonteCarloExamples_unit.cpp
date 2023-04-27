@@ -3,9 +3,11 @@
 #include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace algorithm {
 
 TEST(MonteCarloTest, VerifyingMatrixExample) {
@@ -18,9 +20,11 @@ TEST(MonteCarloTest, VerifyingMatrixExample) {
     AlbaUniformNonDeterministicRandomizer<unsigned int> randomizer(1, 10);
     MatrixForTest a(3, 2, {1, 2, 3, 4, 5, 6});
     MatrixForTest b(4, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
-    MatrixForTest c(4, 2, {38, 44, 50, 56, 83, 98, 113, 128});    MatrixForTest x;
+    MatrixForTest c(4, 2, {38, 44, 50, 56, 83, 98, 113, 128});
+    MatrixForTest x;
 
     bool isEqual(false);
+
     MonteCarloAlgorithm verifyingMatrixAlgorithm = [&]() {
         // It turns out that we can solve the problem using a Monte Carlo algorithm whose time complexity is only O(n2).
         // The idea is simple: we choose a random vector X of n elements, and calculate the matrices ABX and CX.
@@ -35,9 +39,11 @@ TEST(MonteCarloTest, VerifyingMatrixExample) {
             x.setEntry(0, i, randomizer.getRandomValue());
         }
         MatrixForTest bx = b * x;
-        MatrixForTest abx = a * bx;        MatrixForTest cx = c * x;
+        MatrixForTest abx = a * bx;
+        MatrixForTest cx = c * x;
         return abx == cx;
     };
+
     performAMonteCarloAlgorithm(verifyingMatrixAlgorithm);
 
     EXPECT_TRUE(isEqual == isEqual);  // just to check something

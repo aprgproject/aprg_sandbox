@@ -3,9 +3,7 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/Math/Matrix/Utilities/SimplexHeaders.hpp>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 AlbaMatrix<DataType> constructSimplexTableWithLessThanConstraints(
@@ -152,6 +150,8 @@ void pivotAt(AlbaMatrix<DataType>& simplexTable, size_t const pivotingColumn, si
     simplexTable.setEntry(pivotingColumn, pivotingRow, 1);
 }
 
+}  // namespace alba::matrix
+
 // Simplex algorithm:
 //-> Developed shortly after WWII in response to logistical problems including the Berlin airlift
 //-> Ranked as one of the top 10 scientific algorithms of 20th century
@@ -205,7 +205,3 @@ void pivotAt(AlbaMatrix<DataType>& simplexTable, size_t const pivotingColumn, si
 
 // Modeling languages: Simplify task of modeling problem as LP
 // -> AMPL, AIMMS 3
-
-}  // namespace matrix
-
-}  // namespace alba

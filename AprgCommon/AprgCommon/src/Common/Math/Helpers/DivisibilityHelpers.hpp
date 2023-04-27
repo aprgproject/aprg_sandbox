@@ -2,9 +2,7 @@
 
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 template <typename NumberType>
 inline bool isDivisible(NumberType const dividend, NumberType const divisor) {
@@ -26,6 +24,8 @@ inline bool isOdd(NumberType const number) {
 
     return static_cast<bool>(number % 2);
 }
+
+}  // namespace alba::mathHelper
 
 // Even or odd discussion:
 // -> Bitwise operators might be better because almost all processors supports bitwise operations to take one
@@ -86,7 +86,3 @@ inline bool isOdd(NumberType const number) {
 // negative or zero, regardless of the implementation's representation of signed integers.
 // The bitwise-and version is not.
 // Yes, I realise two's complement is somewhat ubiquitous, so this is not really an issue.
-
-}  // namespace mathHelper
-
-}  // namespace alba

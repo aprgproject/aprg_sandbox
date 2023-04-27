@@ -2,9 +2,7 @@
 
 #include <cstdint>
 
-namespace alba {
-
-namespace dateTimeHelper {
+namespace alba::dateTimeHelper {
 
 // make to constexpr functions? nah, im too lazy
 
@@ -28,6 +26,4 @@ uint32_t getAndRemoveMinutesFromNumberOfSeconds(uint32_t& remainingSeconds);
 void reorganizeOverflowValues(uint32_t& totalDays, uint32_t& totalSeconds, uint32_t& totalMicroSeconds);
 void reorganizeUnderflowValues(int32_t& totalDays, int32_t& totalSeconds, int32_t& totalMicroSeconds);
 
-}  // namespace dateTimeHelper
-
-}  // namespace alba
+}  // namespace alba::dateTimeHelper

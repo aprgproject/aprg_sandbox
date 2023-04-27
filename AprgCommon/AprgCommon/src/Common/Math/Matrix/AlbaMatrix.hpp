@@ -13,8 +13,8 @@
 #include <functional>
 #include <sstream>
 
-namespace alba {
-namespace matrix {
+namespace alba::matrix {
+
 // constexpr functions:
 
 template <typename DataType>
@@ -327,6 +327,4 @@ private:
     MatrixData m_matrixData;
 };
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

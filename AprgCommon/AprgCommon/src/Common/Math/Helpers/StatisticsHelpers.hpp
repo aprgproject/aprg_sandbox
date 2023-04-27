@@ -2,13 +2,9 @@
 
 #include <cstddef>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 double getCumulativeStandardDistributionApproximation(double const z);
 double getInverseCumulativeStandardDistributionApproximation(double const p, size_t const numberOfIterations);
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

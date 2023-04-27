@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 TEST(SimplexTest, ConstructSimplexTableWorks) {
     AlbaMatrix<double> constraintsCoefficients(4, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
@@ -108,6 +106,4 @@ TEST(SimplexTest, PivotAtWorks) {
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

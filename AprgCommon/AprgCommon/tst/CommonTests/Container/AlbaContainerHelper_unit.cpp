@@ -14,9 +14,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace containerHelper {
+namespace alba::containerHelper {
 
 TEST(ContainerTest, GetDelimeterBasedOnFormatWorks) {
     EXPECT_EQ(", ", getDelimeterBasedOnFormat(StreamFormat::String));
@@ -476,6 +474,4 @@ TEST(ContainerTest, GetStringFromContentsWithNumberFormatWorks) {
         getStringInDecimalAndHexadecimalFormat(temporaryVector));
 }
 
-}  // namespace containerHelper
-
-}  // namespace alba
+}  // namespace alba::containerHelper

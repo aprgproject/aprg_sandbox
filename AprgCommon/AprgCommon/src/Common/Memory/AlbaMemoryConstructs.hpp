@@ -2,7 +2,7 @@
 // Source: https://en.cppreference.com/w/cpp/types/size_t
 // Construct: std::size_t
 //
-// std::size_t is the unsigned integer type of the result of the sizeof operator as well as the sizeof... operator and
+// std::size_t is the Unsigned Integer Type of the result of the sizeof operator as well as the sizeof... operator and
 // the alignof operator (since C++11).
 //
 // Notes:
@@ -12,7 +12,7 @@
 // any non-member pointer, in which case it is synonymous with std::uintptr_t.
 // ->
 // -> std::size_t is commonly used for array indexing and loop counting.
-// -> Programs that use other types, such as unsigned int, for array indexing may fail on, e.g. 64-bit systems when the
+// -> Programs that use other types, such as Unsigned Int, for array indexing may fail on, e.g. 64-bit systems when the
 // index exceeds UINT_MAX or if it relies on 32-bit modular arithmetic.
 // -> When indexing C++ containers, such as std::string, std::vector, etc, the appropriate type is the member typedef
 // size_type provided by such containers. It is usually defined as a synonym for std::size_t.

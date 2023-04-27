@@ -4,6 +4,7 @@
 #include <Common/Types/AlbaTypeHelper.hpp>
 
 namespace alba {
+
 #ifdef __has_builtin  // you could also use __has_include as well
 #define INLINE_WITHOUT_BUILT_IN
 #define INLINE_WITH_BUILT_IN inline

@@ -65,7 +65,8 @@ void retrieveWithAndWithoutOtherCoordinates(
 template <size_t SIZE>
 bool isContinuousAt(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value) {
-    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;    Values const& values(termVector.getValues());
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
+    Values const& values(termVector.getValues());
     return std::all_of(values.cbegin(), values.cend(), [&](Term const& term) {
         return isContinuousAt(term, variableName, value, LimitAtAValueApproachType::BothSides);
     });
@@ -74,7 +75,8 @@ bool isContinuousAt(
 template <size_t SIZE>
 bool isDifferentiableAt(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value) {
-    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;    Values const& values(termVector.getValues());
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
+    Values const& values(termVector.getValues());
     return std::all_of(values.cbegin(), values.cend(), [&](Term const& term) {
         return isDifferentiableAt(term, variableName, value);
     });
@@ -99,21 +101,24 @@ Term getLengthOfArc(MathVectorOfTerms<SIZE> const& termVector, std::string const
 template <size_t SIZE>
 Term getLengthOfArcFromStartToEnd(
     MathVectorOfTerms<SIZE> const& termVector, DetailsForDefiniteIntegralWithTerms const& integralDetails) {
-    return evaluateTermsAndGetDifference(        getLengthOfArc(termVector, integralDetails.variableName), integralDetails.variableName,
+    return evaluateTermsAndGetDifference(
+        getLengthOfArc(termVector, integralDetails.variableName), integralDetails.variableName,
         integralDetails.lowerEnd, integralDetails.higherEnd);
 }
 
 template <size_t SIZE>
 Term getCurvature(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName) {
     MathVectorOfTerms<SIZE> curvatureVector(getCurvatureVector(termVector, variableName));
-    Term result(curvatureVector.getMagnitude());    simplifyForTermInVector(result);
+    Term result(curvatureVector.getMagnitude());
+    simplifyForTermInVector(result);
     return result;
 }
 
 template <size_t SIZE>
 Term getTermThatYieldsToThisGradient(
     MathVectorOfTerms<SIZE> const& gradient, ArrayOfStrings<SIZE> const& coordinateVariables,
-    bool& isExactDifferential) {    Term result;
+    bool& isExactDifferential) {
+    Term result;
     bool isFirst(true);
     isExactDifferential = true;
     Term partForComparison;
@@ -122,10 +127,12 @@ Term getTermThatYieldsToThisGradient(
     for (size_t i = 0; isExactDifferential && i < SIZE; i++) {
         std::string const& coordinateVariableName(coordinateVariables.at(i));
         Term termWithOtherCoordinates, termWithoutOtherCoordinates;
-        retrieveWithAndWithoutOtherCoordinates(            termWithOtherCoordinates, termWithoutOtherCoordinates, gradient.getValueAt(i), coordinateVariableName,
+        retrieveWithAndWithoutOtherCoordinates(
+            termWithOtherCoordinates, termWithoutOtherCoordinates, gradient.getValueAt(i), coordinateVariableName,
             allCoordinates);
         processedCoordinates.emplace_back(coordinateVariableName);
-        Integration integration(coordinateVariableName);        if (isFirst) {
+        Integration integration(coordinateVariableName);
+        if (isFirst) {
             partForComparison = integration.integrate(termWithOtherCoordinates);
             isFirst = false;
         } else {
@@ -162,14 +169,16 @@ Term getPotentialFunctionForVectorFieldGradient(
 template <size_t SIZE>
 Term getDivergence(MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables) {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> del(getDel<SIZE>(termVector, coordinateVariables));    Values const& values(del.getValues());
+    MathVectorOfTerms<SIZE> del(getDel<SIZE>(termVector, coordinateVariables));
+    Values const& values(del.getValues());
     return std::accumulate(values.cbegin(), values.cend(), Term(0), std::plus<Term>());
 }
 
 template <size_t SIZE>
 Term getLaplaceTerm(MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables) {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> del(getDoubleDel<SIZE>(termVector, coordinateVariables));    Values const& values(del.getValues());
+    MathVectorOfTerms<SIZE> del(getDoubleDel<SIZE>(termVector, coordinateVariables));
+    Values const& values(del.getValues());
     return std::accumulate(values.cbegin(), values.cend(), Term(0), std::plus<Term>());
 }
 
@@ -189,7 +198,8 @@ Term getLineIntegral(
     for (size_t i = 0; i < SIZE; i++) {
         linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
     }
-    MathVectorOfTerms<SIZE> differentiatedLinePath(differentiate(linePath, linePathIntegralDetails.variableName));    Term termIntegrate(getDotProduct(linePathInVectorField, differentiatedLinePath));
+    MathVectorOfTerms<SIZE> differentiatedLinePath(differentiate(linePath, linePathIntegralDetails.variableName));
+    Term termIntegrate(getDotProduct(linePathInVectorField, differentiatedLinePath));
     Integration integration(linePathIntegralDetails.variableName);
     return integration.integrateAtDefiniteTerms(
         termIntegrate, linePathIntegralDetails.lowerEnd, linePathIntegralDetails.higherEnd);
@@ -198,7 +208,8 @@ Term getLineIntegral(
 template <size_t SIZE>
 Term getLineIntegralIndependentOfPath(
     MathVectorOfTerms<SIZE> const& vectorField, ArrayOfStrings<SIZE> const& coordinateVariables,
-    MathVectorOfNumbers<SIZE> const& lowerValues, MathVectorOfNumbers<SIZE> const& higherValues) {    bool isConservative(false);
+    MathVectorOfNumbers<SIZE> const& lowerValues, MathVectorOfNumbers<SIZE> const& higherValues) {
+    bool isConservative(false);
     Term potential(getPotentialFunctionForVectorFieldGradient<SIZE>(vectorField, coordinateVariables, isConservative));
 
     Term result;
@@ -208,7 +219,8 @@ Term getLineIntegralIndependentOfPath(
         for (size_t i = 0; i < SIZE; i++) {
             substitutionForLowerValues.putVariableWithValue(coordinateVariables.at(i), lowerValues.getValueAt(i));
             substitutionForHigherValues.putVariableWithValue(coordinateVariables.at(i), higherValues.getValueAt(i));
-        }        result = substitutionForHigherValues.performSubstitutionTo(potential) -
+        }
+        result = substitutionForHigherValues.performSubstitutionTo(potential) -
                  substitutionForLowerValues.performSubstitutionTo(potential);
     }
     return result;
@@ -217,20 +229,24 @@ Term getLineIntegralIndependentOfPath(
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getLimit(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach) {
-    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;    MathVectorOfTerms<SIZE> result;
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
+    MathVectorOfTerms<SIZE> result;
     Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term) {
-        return getLimit(term, variableName, valueToApproach);    });
+        return getLimit(term, variableName, valueToApproach);
+    });
     return result;
 }
 
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName) {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> result;    Differentiation differentiation(variableName);
+    MathVectorOfTerms<SIZE> result;
+    Differentiation differentiation(variableName);
     Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term) {
-        return differentiation.differentiate(term);    });
+        return differentiation.differentiate(term);
+    });
     return result;
 }
 
@@ -239,7 +255,8 @@ MathVectorOfTerms<SIZE> differentiateMultipleTimes(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, size_t const numberOfTimes) {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
     MathVectorOfTerms<SIZE> result;
-    Differentiation differentiation(variableName);    Values const& values(termVector.getValues());
+    Differentiation differentiation(variableName);
+    Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term) {
         return differentiation.differentiateMultipleTimes(term, numberOfTimes);
     });
@@ -249,17 +266,20 @@ MathVectorOfTerms<SIZE> differentiateMultipleTimes(
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName) {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> result;    Integration integration(variableName);
+    MathVectorOfTerms<SIZE> result;
+    Integration integration(variableName);
     Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term) {
-        return integration.integrate(term);    });
+        return integration.integrate(term);
+    });
     return result;
 }
 
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getUnitTangentVector(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName) {
-    MathVectorOfTerms<SIZE> result(differentiate(termVector, variableName));    result /= result.getMagnitude();
+    MathVectorOfTerms<SIZE> result(differentiate(termVector, variableName));
+    result /= result.getMagnitude();
     simplifyForTermVector(result);
     return result;
 }
@@ -267,7 +287,8 @@ MathVectorOfTerms<SIZE> getUnitTangentVector(
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getUnitNormalVector(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName) {
-    MathVectorOfTerms<SIZE> result(differentiate(getUnitTangentVector(termVector, variableName), variableName));    result /= result.getMagnitude();
+    MathVectorOfTerms<SIZE> result(differentiate(getUnitTangentVector(termVector, variableName), variableName));
+    result /= result.getMagnitude();
     simplifyForTermVector(result);
     return result;
 }
@@ -275,7 +296,8 @@ MathVectorOfTerms<SIZE> getUnitNormalVector(
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName) {
     MathVectorOfTerms<SIZE> derivativeOfTermVector(differentiate(termVector, variableName));
-    MathVectorOfTerms<SIZE> result(differentiate(getUnitTangentVector(termVector, variableName), variableName));    result /= derivativeOfTermVector.getMagnitude();
+    MathVectorOfTerms<SIZE> result(differentiate(getUnitTangentVector(termVector, variableName), variableName));
+    result /= derivativeOfTermVector.getMagnitude();
     simplifyForTermVector(result);
     return result;
 }
@@ -313,10 +335,12 @@ MathVectorOfTerms<SIZE> getDoubleDel(
 template <size_t SIZE>
 void simplifyForTermVector(MathVectorOfTerms<SIZE>& termVector) {
     for (Term& term : termVector.getValuesReference()) {
-        simplifyForTermInVector(term);    }
+        simplifyForTermInVector(term);
+    }
 }
 
 }  // namespace VectorUtilities
+
 }  // namespace algebra
 
 }  // namespace alba

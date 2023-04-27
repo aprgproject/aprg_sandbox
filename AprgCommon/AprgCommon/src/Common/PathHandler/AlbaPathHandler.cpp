@@ -9,10 +9,10 @@ using namespace std;
 
 namespace alba {
 
-AlbaPathHandler::AlbaPathHandler(string const& slashCharacterString)
+AlbaPathHandler::AlbaPathHandler(string_view slashCharacterString)
     : m_pathType(PathType::Empty), m_slashCharacterString(slashCharacterString) {}
 
-AlbaPathHandler::AlbaPathHandler(string const& path, string const& slashCharacterString)
+AlbaPathHandler::AlbaPathHandler(string_view path, string_view slashCharacterString)
     : m_pathType(PathType::Empty), m_slashCharacterString(slashCharacterString) {
     setPath(path);
 }
@@ -28,7 +28,7 @@ string AlbaPathHandler::getFullPath() const { return m_directory + m_file; }
 
 string AlbaPathHandler::getDirectory() const { return m_directory; }
 
-void AlbaPathHandler::input(string const& path) {
+void AlbaPathHandler::input(string_view path) {
     clear();
     save(path);
 }
@@ -71,23 +71,23 @@ bool AlbaPathHandler::isFile() const { return m_pathType == PathType::File; }
 
 bool AlbaPathHandler::isEmpty() const { return m_pathType == PathType::Empty; }
 
-void AlbaPathHandler::save(string const& path) { setPath(path); }
+void AlbaPathHandler::save(string_view path) { setPath(path); }
 
-void AlbaPathHandler::setPath(string const& path) {
+void AlbaPathHandler::setPath(string_view path) {
     string correctPath(getCorrectPathWithReplacedSlashCharacters(path, m_slashCharacterString));
     setExtensionFromPath(correctPath);
     setDirectoryAndFileFromPath(correctPath);
     setFileType();
 }
 
-void AlbaPathHandler::setExtensionFromPath(string const& path) {
+void AlbaPathHandler::setExtensionFromPath(string_view path) {
     int indexOfSlashOrPeriod = static_cast<int>(path.find_last_of(m_slashCharacterString + "."));
     if (isNotNpos(indexOfSlashOrPeriod) && path[static_cast<string::size_type>(indexOfSlashOrPeriod)] == '.') {
         m_extension = path.substr(static_cast<string::size_type>(indexOfSlashOrPeriod) + 1);
     }
 }
 
-void AlbaPathHandler::setDirectoryAndFileFromPath(string const& path) {
+void AlbaPathHandler::setDirectoryAndFileFromPath(string_view path) {
     int indexOfSlash = static_cast<int>(path.find_last_of(m_slashCharacterString));
     if (isNotNpos(indexOfSlash)) {
         m_directory = path.substr(0, static_cast<string::size_type>(indexOfSlash) + 1);

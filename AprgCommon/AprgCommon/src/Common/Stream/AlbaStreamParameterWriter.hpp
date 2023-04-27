@@ -14,6 +14,7 @@ public:
 
     // rule of zero
 
+    void writeData(std::string_view data) const;
     template <typename TypeToWrite>
     void writeData(TypeToWrite const& data) const;
     template <typename TypeToWrite>
@@ -25,6 +26,7 @@ public:
     void flush();
 
 private:
+    void writeStringViewData(std::string_view data) const;
     std::ostream& m_stream;
 };
 

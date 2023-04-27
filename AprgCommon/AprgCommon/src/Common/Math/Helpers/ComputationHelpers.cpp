@@ -4,9 +4,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c) {
     AlbaNumbers result;
@@ -26,6 +24,4 @@ AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, Alba
     return result;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

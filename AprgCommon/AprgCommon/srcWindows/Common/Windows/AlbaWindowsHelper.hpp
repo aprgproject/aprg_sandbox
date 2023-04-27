@@ -2,10 +2,8 @@
 
 #include <string>
 
-namespace alba {
+namespace alba::AlbaWindowsHelper {
 
-namespace AlbaWindowsHelper {
 std::string getLastFormattedErrorMessage();
-}
 
-}  // namespace alba
+}  // namespace alba::AlbaWindowsHelper

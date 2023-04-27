@@ -5,9 +5,7 @@
 #include <functional>
 #include <vector>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 // there shoulde be an implementation when used
 template <typename DataType>
@@ -68,6 +66,4 @@ void traverseWithBinaryOperationForDifferentRows(
     AlbaMatrix<DataType>& matrix, size_t const yInput1, size_t const yInput2, size_t const yOutput,
     BinaryFunction<DataType> const& binaryFunction);
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

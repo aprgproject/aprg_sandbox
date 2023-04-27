@@ -2,8 +2,8 @@
 
 #include <Common/State/AlbaBaseStateMachine.hpp>
 
-namespace alba {
-namespace FakeStateMachine {
+namespace alba::FakeStateMachine {
+
 enum class State { StateWithNoValue, State1, State2, State3, State4 };
 
 enum class Action { InitializeTo1, Increase, Decrease, NoAction, MultiplyBy2 };
@@ -24,6 +24,4 @@ private:
     void processState4(Action const action);
 };
 
-}  // namespace FakeStateMachine
-
-}  // namespace alba
+}  // namespace alba::FakeStateMachine

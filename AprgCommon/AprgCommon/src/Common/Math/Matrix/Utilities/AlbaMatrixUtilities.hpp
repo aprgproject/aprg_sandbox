@@ -6,9 +6,7 @@
 #include <algorithm>
 #include <cassert>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 bool isSquare(AlbaMatrix<DataType> const& matrix) {
@@ -216,6 +214,4 @@ void traverseWithBinaryOperationForDifferentRows(
     }
 }
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

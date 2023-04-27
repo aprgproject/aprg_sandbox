@@ -2,9 +2,7 @@
 
 #include <Common/Math/Matrix/AlbaMatrixDataTypes.hpp>
 
-namespace alba {
-
-namespace matrix {
+namespace alba::matrix {
 
 template <typename DataType>
 AlbaMatrix<DataType> constructSimplexTableWithLessThanConstraints(
@@ -26,6 +24,4 @@ size_t getPivotingRowUsingMinRatioRule(AlbaMatrix<DataType> const& simplexTable,
 template <typename DataType>
 void pivotAt(AlbaMatrix<DataType>& simplexTable, size_t const pivotingColumn, size_t const pivotingRow);
 
-}  // namespace matrix
-
-}  // namespace alba
+}  // namespace alba::matrix

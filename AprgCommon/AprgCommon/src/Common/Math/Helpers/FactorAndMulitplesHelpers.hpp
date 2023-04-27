@@ -7,9 +7,7 @@
 
 #include <numeric>
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 template <typename NumberType>
 bool isPrime(NumberType const number) {
@@ -187,6 +185,4 @@ AlbaNumber getGreatestCommonFactor(
 AlbaNumber getLeastCommonMultiple(
     AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper

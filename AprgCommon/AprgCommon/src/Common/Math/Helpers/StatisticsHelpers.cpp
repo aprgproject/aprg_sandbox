@@ -5,9 +5,7 @@
 
 using namespace std;
 
-namespace alba {
-
-namespace mathHelper {
+namespace alba::mathHelper {
 
 double getCumulativeStandardDistributionApproximation(double const z) { return 0.5 * erfc(-z * pow(0.5, 0.5)); }
 
@@ -39,6 +37,4 @@ double getInverseCumulativeStandardDistributionApproximation(
     return z;
 }
 
-}  // namespace mathHelper
-
-}  // namespace alba
+}  // namespace alba::mathHelper
