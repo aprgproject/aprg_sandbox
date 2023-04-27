@@ -1,13 +1,11 @@
 #pragma once
 
 #include <Algorithm/UnionFind/WeightedQuickUnionWithArray.hpp>
-#include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
+#include <Common/Randomizer/AlbaUniformNonDeterministicRandomizer.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
-
 #include <string>
 #include <vector>
-
 using namespace alba::stringHelper;
 
 namespace alba {
@@ -18,19 +16,13 @@ template <unsigned int DIMENSION>
 class MonteCarloSimulationOfPerculation {
 public:
     MonteCarloSimulationOfPerculation()
-        : m_sites{}  // all are blocked
-          ,
-          m_unionFindOfIndexes(),
-          m_numberOfOpenSites(0U),
-          m_randomizer() {}
+        : m_sites{}, m_unionFindOfIndexes(), m_numberOfOpenSites(0U), m_randomizer(0, getDimensionsSquared() - 1) {}
 
     bool isPercolated() const {
-        return m_unionFindOfIndexes.isConnected(getVirtualTopIndex(), getVirtualBottomIndex());
-    }
+        return m_unionFindOfIndexes.isConnected(getVirtualTopIndex(), getVirtualBottomIndex());    }
 
     double getPercolationProbability() const {
-        return static_cast<double>(m_numberOfOpenSites) / getDimensionsSquared();
-    }
+        return static_cast<double>(m_numberOfOpenSites) / getDimensionsSquared();    }
 
     std::string getSitesToDisplay() const {
         DisplayTable displayTable;
@@ -53,16 +45,13 @@ public:
 
     void addOpenSite() {
         while (true) {
-            unsigned int newOpenSiteIndex(
-                m_randomizer.getRandomIntegerInUniformDistribution(0, getDimensionsSquared() - 1));
+            unsigned int newOpenSiteIndex(m_randomizer.getRandomValue());
             if (!isSiteOpen(newOpenSiteIndex)) {
                 m_sites[newOpenSiteIndex] = true;
-                connectNeighboringSitesAt(newOpenSiteIndex);
-                connectToVirtualTopOrBottomIfNeeded(newOpenSiteIndex);
+                connectNeighboringSitesAt(newOpenSiteIndex);                connectToVirtualTopOrBottomIfNeeded(newOpenSiteIndex);
                 m_numberOfOpenSites++;
                 break;
-            }
-        }
+            }        }
     }
 
 private:
@@ -121,9 +110,8 @@ private:
     WeightedQuickUnionWithArray<unsigned int, getDimensionsSquared() + 2>
         m_unionFindOfIndexes;  //+2 because of virtual top site and bottom site
     unsigned int m_numberOfOpenSites;
-    AlbaSimpleRandomizer m_randomizer;
+    AlbaUniformNonDeterministicRandomizer<unsigned int> m_randomizer;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba

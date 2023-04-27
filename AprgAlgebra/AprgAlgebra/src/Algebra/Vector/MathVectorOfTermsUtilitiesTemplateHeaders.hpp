@@ -12,56 +12,55 @@ namespace algebra {
 
 namespace VectorUtilities {
 
-template <unsigned int SIZE>
+template <size_t SIZE>
 bool isContinuousAt(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
-template <unsigned int SIZE>
+template <size_t SIZE>
 bool isDifferentiableAt(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
-template <unsigned int SIZE>
+template <size_t SIZE>
 bool areOriginalAndDerivativeVectorsOrthogonal(MathVectorOfTerms<SIZE> const& termVector);
-template <unsigned int SIZE>
+template <size_t SIZE>
 Term getLengthOfArcDerivative(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 Term getLengthOfArc(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 Term getLengthOfArcFromStartToEnd(
     MathVectorOfTerms<SIZE> const& termVector, DetailsForDefiniteIntegralWithTerms const& integralDetails);
-template <unsigned int SIZE>
+template <size_t SIZE>
 Term getCurvature(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 Term getTermThatYieldsToThisGradient(
     MathVectorOfTerms<SIZE> const& gradient, ArrayOfStrings<SIZE> const& coordinateVariables,
     bool& isExactDifferential);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getLimit(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getUnitTangentVector(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getUnitNormalVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getGradient(Term const& term, ArrayOfStrings<SIZE> const& coordinateVariables);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getDel(
     MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables);
-template <unsigned int SIZE>
+template <size_t SIZE>
 MathVectorOfTerms<SIZE> getDoubleDel(
     MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables);
 
 // utilities function
-template <unsigned int SIZE>
+template <size_t SIZE>
 void simplifyForTermVector(MathVectorOfTerms<SIZE>& termVector);
 
 }  // namespace VectorUtilities
-
 }  // namespace algebra
 
 }  // namespace alba

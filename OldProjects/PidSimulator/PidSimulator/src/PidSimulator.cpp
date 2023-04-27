@@ -25,15 +25,13 @@ PidSimulator::PidSimulator(stringHelper::strings const& argumentsInMain)
       m_xGridInterval(0),
       m_yGridInterval(0),
       m_inputSample(),
-      m_randomizer() {}
+      m_randomizer(0, static_cast<int>(m_conf.amplitudeOfInputDemand)) {}
 
 double PidSimulator::calculatePid(double const input, double const target) {
     // https://en.wikipedia.org/wiki/PID_controller
-
     static double integral = 0;
     static double derivative = 0;
     static double lastError = 0;
-
     double error = target - input;
     double pwm = 0;
 
@@ -116,20 +114,15 @@ void PidSimulator::generateStepDownForInput() {
 }
 
 void PidSimulator::generateRandomForInput() {
-    m_randomizer.resetRandomSeed();
     for (unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInputDemand; j++) {
         for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputDemandInOnePeriod; i++) {
-            m_inputSample.emplace_back(
-                m_randomizer.getRandomIntegerInUniformDistribution(0, static_cast<int>(m_conf.amplitudeOfInputDemand)) +
-                m_conf.addedOffsetOfInputDemand);
+            m_inputSample.emplace_back(m_randomizer.getRandomValue() + m_conf.addedOffsetOfInputDemand);
         }
     }
 }
-
 double PidSimulator::computeFromMachsModel(
     double const inputDemandSample, double const psuedoMaxTxPower, double& adjustedDemand) {
-    double result(0);
-    if ("MachsModel1" == m_conf.machsModelType) {
+    double result(0);    if ("MachsModel1" == m_conf.machsModelType) {
         result = computeFromMachsModel1(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
     } else if ("MachsModel2" == m_conf.machsModelType) {
         result = computeFromMachsModel2(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
