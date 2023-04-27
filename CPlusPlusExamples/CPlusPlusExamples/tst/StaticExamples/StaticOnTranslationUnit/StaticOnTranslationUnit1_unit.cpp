@@ -8,19 +8,17 @@ namespace alba {
 
 namespace StaticOnTranslationUnits {
 
-int integer = 300;  // extern(external linkage) by default
-extern int
-    externInteger;  // explicitly extern(external linkage), only a declaration (incomplete type) and not a definition
-extern const int externConstInteger;  // explicitly extern(external linkage), only a declaration (incomplete type) and
-                                      // not a definition
+int integer = 300;         // extern(external linkage) by default
+extern int externInteger;  // explicitly extern(external linkage),
+// only a declaration (incomplete type) and not a definition
+extern const int externConstInteger;  // explicitly extern(external linkage),
+// only a declaration (incomplete type) and not a definition
 
 int externInteger = 400;             // definition (complete type)
 const int externConstInteger = 500;  // definition (complete type)
-
 int freeFunction() { return 1; }
 
 int staticFreeFunction() { return 1; }
-
 // Utilities for tests
 TranslationUnitValues getValuesInTranslationUnit1() {
     return TranslationUnitValues{constInteger, staticInteger, integer, externInteger, externConstInteger};

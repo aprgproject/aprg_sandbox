@@ -10,36 +10,39 @@ constexpr int constInteger = 100;              // implicity inline (external lin
 inline int inlineIntegerWithDefinition = 200;  // explicitly inline(external linkage)
 inline int inlineIntegerWithDeclaration;       // explicitly inline(external linkage)
 extern inline int externInlineInteger;         // extern so declaration only (incomplete type)
-inline std::string inlineString{"700"};        // explicitly inline(external linkage)
+static inline int staticInlineInteger = 700;   // static overrides inline so it has internal linkage
+inline std::string inlineString{"800"};        // explicitly inline(external linkage)
 
 // same goes for functions (but there are no free const functions)
-constexpr int freeFunction()  // implicity inline (external linkage)
-{
+constexpr int freeFunction()  // implicity inline (external linkage){
     return 1;
 }
 inline int inlineFreeFunction();  // explicitly inline (external linkage)
+// -> Note: Don't do this in production code.
+// ---> Its better to have the definition in the header as well.
+// ---> This is to avoid different definitions of the function (undefined behavior)
+// ---> This is to guarantee that its defined in every translation unit and have same address (otherwise its ill formed)
+// ---> Its nightmare to maintain multiple definitions of the function and make sure its the same
 
 struct SampleClassWithInline {
-    SampleClassWithInline& operator=(SampleClassWithInline const&) =
-        delete;  // implicitly inline (can appear in more than one translation unit)
+    SampleClassWithInline& operator=(SampleClassWithInline const&) = delete;  // implicitly inline
+    // (can appear in more than one translation unit)
+
     static constexpr int constIntegerInClass = 1000;  // implicity inline (external linkage)
 };
-
 // Utilities for tests
 
-struct TranslationUnitValues {
-    int constInteger;
+struct TranslationUnitValues {    int constInteger;
     int inlineIntegerWithDefinition;
     int inlineIntegerWithDeclaration;
     int inlineIntegerAtTranslationUnit;
     int nonInlineAtTranslationUnit;
     int externInlineInteger;
+    int staticInlineInteger;
     std::string inlineString;
 };
-
 TranslationUnitValues getValuesInTranslationUnit1();
 TranslationUnitValues getValuesInTranslationUnit2();
-
 }  // namespace InlineOnTranslationUnits
 
 }  // namespace alba
@@ -70,24 +73,22 @@ TranslationUnitValues getValuesInTranslationUnit2();
 // Explanation
 
 // -> An inline function or inline variable (since C++17) has the following properties:
-// ---> The definition of an inline function or variable (since C++17) must be reachable in the translation unit where
-// it is accessed
+// ---> The definition of an inline function or variable (since C++17)
+// -----> must be reachable in the translation unit where it is accessed
 // -----> (not necessarily before the point of access).
-// ---> An inline function or variable (since C++17) with external linkage (e.g. not declared static) has the following
-// additional properties:
+// ---> An inline function or variable (since C++17) with external linkage (e.g. not declared static)
+// ---> has the following additional properties:
 // -----> There may be more than one definition of an inline function or variable (since C++17) in the program
 // -------> as long as each definition appears in a different translation unit
 // -------> and (for non-static inline functions and variables (since C++17)) all definitions are identical.
 // -------> For example, an inline function or an inline variable (since C++17) may be defined in a header file that is
 // #include'd in multiple source files.
-// -----> It must be declared inline in every translation unit.
+// -----> It must be declared inline in every translation unit. (It will be ILL FORMED other wise)
 // -----> It has the same address in every translation unit.
 
-// -> In an inline function,
-// ---> Function-local static objects in all function definitions are shared across all translation units
+// -> In an inline function,// ---> Function-local static objects in all function definitions are shared across all translation units
 // -----> (they all refer to the same object defined in one translation unit)
 // ---> Types defined in all function definitions are also the same in all translation units.
-
 // -> Inline const variables at namespace scope have external linkage by default (unlike the non-inline non-volatile
 // const-qualified variables) (since C++17)
 
@@ -131,9 +132,12 @@ TranslationUnitValues getValuesInTranslationUnit2();
 
 // Other discussions:
 // -> Inline expansion might be performed regardless of the inline declaration of a function.
-// -> Inline functions and variables (with external linkage) may be defined multiple times in the same program, but not
-// compilation unit.
+// -> Inline functions and variables (with external linkage) may be defined multiple times in the same program,
+// ---> but not compilation unit.
 // -> Inline function and variables must be defined in every compilation unit where they are used and declared inline.
 // -> All definitions must be identical. Different definitions result in undefined behavior.
 // -> constexpr implies inline
 // -> inline functions and variables with external linkage share all the same address (exists only once in practice).
+// -> N4606: "An inline function or variable shall be defined in every translation unit
+// ---> in which it is odr-used outside of a discarded statment"
+// ---> N4606 3.2 basic.def.odr /4
