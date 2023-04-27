@@ -1,0 +1,15 @@
+
+Old assembly instructions by Chandler (use DoNotOptimize or ClobberMemory)
+
+// Format for asm: "assembly instructions : inputs : outputs : clobbers"
+
+static void escape(void* sinkPointer)  // to avoid optimizers deleting code
+{
+    asm volatile("" : : "g"(sinkPointer) : "memory");
+}
+
+static void clobber()  // to avoid optimizers deleting code
+{
+    asm volatile("" : : : "memory");  // tells compiler that memory is changed
+}
+

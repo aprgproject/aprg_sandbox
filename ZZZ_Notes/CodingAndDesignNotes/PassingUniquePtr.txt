@@ -1,0 +1,89 @@
+Interesting read about std::move not moving anything: https://medium.com/@dhaneshvb/c-pitfalls-std-move-is-not-moving-anything-c9c073422b83
+
+From: https://stackoverflow.com/questions/8114276/how-do-i-pass-a-unique-ptr-argument-to-a-constructor-or-a-function/8114913
+
+NOTE: THIS IS NOT ALIGNED WITH THE ISO CPP GUIDLINES!
+
+Here are the possible ways to take a unique pointer as an argument, as well as their associated meaning.
+(A) By Value
+
+Base(std::unique_ptr<Base> n)
+  : next(std::move(n)) {}
+
+In order for the user to call this, they must do one of the following:
+
+Base newBase(std::move(nextBase));
+Base fromTemp(std::unique_ptr<Base>(new Base(...));
+
+To take a unique pointer by value means that you are transferring ownership of the pointer to the function/object/etc in question. After newBase is constructed, nextBase is guaranteed to be empty. You don't own the object, and you don't even have a pointer to it anymore. It's gone.
+
+This is ensured because we take the parameter by value. std::move doesn't actually move anything; it's just a fancy cast. std::move(nextBase) returns a Base&& that is an r-value reference to nextBase. That's all it does.
+
+Because Base::Base(std::unique_ptr<Base> n) takes its argument by value rather than by r-value reference, C++ will automatically construct a temporary for us. It creates a std::unique_ptr<Base> from the Base&& that we gave the function via std::move(nextBase). It is the construction of this temporary that actually moves the value from nextBase into the function argument n.
+(B) By non-const l-value reference
+
+Base(std::unique_ptr<Base> &n)
+  : next(std::move(n)) {}
+
+This has to be called on an actual l-value (a named variable). It cannot be called with a temporary like this:
+
+Base newBase(std::unique_ptr<Base>(new Base)); //Illegal in this case.
+
+The meaning of this is the same as the meaning of any other use of non-const references: the function may or may not claim ownership of the pointer. Given this code:
+
+Base newBase(nextBase);
+
+There is no guarantee that nextBase is empty. It may be empty; it may not. It really depends on what Base::Base(std::unique_ptr<Base> &n) wants to do. Because of that, it's not very evident just from the function signature what's going to happen; you have to read the implementation (or associated documentation).
+
+Because of that, I wouldn't suggest this as an interface.
+(C) By const l-value reference
+
+Base(std::unique_ptr<Base> const &n);
+
+I don't show an implementation, because you cannot move from a const&. By passing a const&, you are saying that the function can access the Base via the pointer, but it cannot store it anywhere. It cannot claim ownership of it.
+
+This can be useful. Not necessarily for your specific case, but it's always good to be able to hand someone a pointer and know that they cannot (without breaking rules of C++, like no casting away const) claim ownership of it. They can't store it. They can pass it to others, but those others have to abide by the same rules.
+(D) By r-value reference
+
+Base(std::unique_ptr<Base> &&n)
+  : next(std::move(n)) {}
+
+This is more or less identical to the "by non-const l-value reference" case. The differences are two things.
+
+    You can pass a temporary:
+
+    Base newBase(std::unique_ptr<Base>(new Base)); //legal now..
+
+    You must use std::move when passing non-temporary arguments.
+
+The latter is really the problem. If you see this line:
+
+Base newBase(std::move(nextBase));
+
+You have a reasonable expectation that, after this line completes, nextBase should be empty. It should have been moved from. After all, you have that std::move sitting there, telling you that movement has occurred.
+
+The problem is that it hasn't. It is not guaranteed to have been moved from. It may have been moved from, but you will only know by looking at the source code. You cannot tell just from the function signature.
+Recommendations
+
+    (A) By Value: If you mean for a function to claim ownership of a unique_ptr, take it by value.
+    (C) By const l-value reference: If you mean for a function to simply use the unique_ptr for the duration of that function's execution, take it by const&. Alternatively, pass a & or const& to the actual type pointed to, rather than using a unique_ptr.
+    (D) By r-value reference: If a function may or may not claim ownership (depending on internal code paths), then take it by &&. But I strongly advise against doing this whenever possible.
+
+How to manipulate unique_ptr
+
+You cannot copy a unique_ptr. You can only move it. The proper way to do this is with the std::move standard library function.
+
+If you take a unique_ptr by value, you can move from it freely. But movement doesn't actually happen because of std::move. Take the following statement:
+
+std::unique_ptr<Base> newPtr(std::move(oldPtr));
+
+This is really two statements:
+
+std::unique_ptr<Base> &&temporary = std::move(oldPtr);
+std::unique_ptr<Base> newPtr(temporary);
+
+(note: The above code does not technically compile, since non-temporary r-value references are not actually r-values. It is here for demo purposes only).
+
+The temporary is just an r-value reference to oldPtr. It is in the constructor of newPtr where the movement happens. unique_ptr's move constructor (a constructor that takes a && to itself) is what does the actual movement.
+
+If you have a unique_ptr value and you want to store it somewhere, you must use std::move to do the storage.

@@ -1,0 +1,418 @@
+
+Notes about performance from Chandler Carruth's talks
+-> "Efficiency with Algorithms, Performance with Data Structures"
+-> "Tuning C++- Benchmarks, and CPUs, and Compilers! Oh My!"
+-> "High Performance Code 201- Hybrid Data Structures"
+-> "Going Nowhere Faster"
+-> "Spectre- Secrets, Side-Channels, Sandboxes, and Security"
+-> “There Are No Zero-cost Abstractions”
+
+
+Performance is important in software
+-> "Software is getting slower more rapidly than hardware becomes faster" - Nikolas Wirth
+-> "Algorithm + Data Structures = Programs"
+---> Book by Nikolas Wirth, which predicted performance in software
+-> Even more relevant today
+---> Iphone/Smartphones: Made mobile a first-class citizen on computing
+-----> Charging phones frequently is a problem
+-----> "Raise to sleep"
+-------> The most reliable way of conserving power is turning it off as rapidly and as frequently as possible.
+-------> We want to make code faster in order to save battery life.
+---> Google Data Centers
+-----> Turning electricity into heat
+-----> When steam vents has water vapor, it means the data center is at peak efficiency.
+---> From a phone to a data center: Power dominates, Compute/watt dominates
+
+-> Raw speed isn't everything
+---> After all, Java is faster than C++.
+---> In terms of throughput in a long running system...
+---> For specific applications...
+---> On a well tuned JVM...
+---> With near-optimal Garbage Collector strategy selected...
+
+-> C++ doesn't give you performance, it gives you control over performance.
+---> When you have a performance problem in C++, the means to fix it are direct and available and not ruin software.
+---> Not so easy on Java.
+
+-> High level thesis:
+---> Efficiency through Algorithms.
+---> Performance through Data Structures.
+
+-> Efficiency: How much work is required by a task?
+---> Improving efficiency involves doing less work
+---> An efficient program is one which does the minimum (that were aware of) amount of work to accomplish a given task.
+
+-> Performance: How quickly a program does its work?
+---> Improving performance involves doing work faster
+---> But there is no such thing as "performant", not even a word in the English language
+-----> There is essentially no point at which a program cannot do work any faster... until you hit Bremermann's limit...
+---> What does it mean to improve the performance of software?
+-----> The software is going to run on a specific, real machine.
+-----> There is some theoretical limit on how quickly it can do work
+---> Performance: Lightning up all the transistors.
+
+-> All comes back to watts
+---> Every circuit not used on a processor is wasting power
+---> Dont reduce this to the absurd - it clearly doesn't make sense to use more parts of the CPU without improving performance!
+-----> "Well I can light up all the transistors buddy."
+
+-> Algorithms
+---> Complexity theory and analysis
+---> Common across higher level languages
+---> Very well understood by most (I hope)
+---> Improving algorithm efficiench requires finding a different way of solving the problem.
+
+-> Substring searching
+---> Initially you might have a basic O(n^2) algorithm
+---> Next, we have Knuth-Morris-Pratt(a table to skip)
+---> Finally, we have Boyer-Moore (use the end of the needle)
+---> Note: It all centers around doing less work.
+
+-> Do less work by not wasting effort
+---> Code gets slower and slower everytime and profiling it does not reveal any bottle necks (it just slow all over the place)
+---> Doing less works means avoid systemic problems
+---> Systemic minor efficiency problems is generally the problem (nothing to do with algorithms just mistakes)
+---> Common problems:
+-----> Not reserving on a vector and expected size is handled.
+-----> Calling reserve in a loop.
+-----> Accessing a map/unsigned map multiple times instead of getting a reference or the value.
+
+-> Always do less work!
+---> Always do this things: 
+-----> Not some of the time
+-----> Not after a profile discovers a problem
+-------> You wont find a profile that points to this problems (especially if there are all over the place)
+-----> This things dont actually make you code worse and instead improve on readability
+-----> Is this a microoptimization? Its really not, its not making the code complex or less readable, because we are doing less work (it simplifies the code instead).
+
+-> Design APIs to help!
+---> Allowing the users of your API to do less work
+-----> Two way street:
+-------> (1) Design of the API
+-------> (2) Usage of the API
+
+-> Performance and data structures
+---> Discontiguous data structures are the root all performance evil.
+-----> Just say no to linked list
+
+-> Modern CPUs are too faster
+---> 1E9 cycles per second
+---> 12+ cores per socket
+---> 3+ execution ports per core
+---> 36E9 cycles per second
+---> Most of the time spent waiting for data
+
+-> CPUs have a hierarchical cache system
+---> We can have 36 operations in a single cycles
+---> And it takes 100 cycles to get a byte of memory into the processor
+---> The only way to solve this is to get the data on this higher caches.
+-----> Contiguous data helps with cache locality.
+
+-> std::list
+---> Doubly-linked list
+---> Each node separately allocated
+---> All traversal operations chase pointer to tally new memory
+---> In most cases, every step is a cache miss
+---> Only use this when you rarely traverse the list but very frequently update the list.
+
+-> Just use std::vector
+
+-> How about stacks? queue? maps?
+---> Just use std::vector. Really.
+---> Its is already a perfectly good stack.
+---> If the queue can have a total upper bound and/or is short lived,
+-----> consider using a vector with an index into the gront
+-----> Grow the vector forever chase the tail with the index
+---> Would be a deque be easier?
+-----> If the standard had a good deque it would.
+-----> Unfortunately the standard deque is one of the worst data structures i've seen.
+-----> The particular requirements in the API make implementing a deque horrible.
+
+-> Using std::map is an exercise in slowing down code
+---> You think link-list is bad? map is worse
+---> I have no code that use std::map.
+-----> I dont think there are real problems it solves effectively.
+---> Its just a linked list, oriented as a binary tree
+---> All the downside of linked list
+---> Insertion and removal are also partial traversals
+---> Even with hinting, every rebalancing is a traversal
+---> But you can use std::unordered_map, right?
+---> Just use std::vector. Really.
+-----> Just use bin search
+
+-> Unordered map will save us right?
+---> No
+
+-> std::unordered_map
+---> Essentially required to implemented with buckets of key-value pairs for each hash entry.
+---> These buckets are... you guessed it... linked lists.
+---> You essentially always have some pointer chasing.
+
+-> A good hash table design
+---> No buckets! Use open addressing into a table of the key value-pairs
+---> Table stored as contiguous range of memory
+---> Use local probing on collisions to find an open slot in the same cache line (usually)
+---> Keep both key and values small
+---> Maximizes the cache locality even when handling a collision
+---> Difference between this and std::unordered_map is massize(10x in magnitude)
+
+-> So:
+---> Efficiency: Algorithms
+---> Performance: Data structures
+---> Except that this is all a lie
+-----> They're tightly coupled, see Wirth's book
+-------> You have to keep both factors in mind to balance between them
+-----> Algorithms can also influence the data access pattern regardless of the data structure used
+-----> Sometimes worse is better: bubble sort and cuckoo hashing
+-------> Bubble sort is best on small data sets
+-------> Cuckoo hashing (just rehash when theres a collision)
+---------> Theoretically better (constant amortized time)
+---------> Slower in practice because cache locality is not guaranteed (cache misses happen more often)
+
+-> Conclusion
+---> Both efficiency and performance matter, today more than every
+---> C++ helps you control them
+---> Attend to your algorithms!
+---> Develop pervasive habits of using APIs in a way that avoid wasted work
+---> Use contiguous dense, cache-oriented data structure
+---> Have fun writing crazy fast C++ code.
+
+
+-> Performance matters because of energy
+
+-> What C++ code should you tune?
+---> Measure first, tune what matters
+
+-> Macro Benchmarking
+---> Isolate geneation of load
+---> Throughput (QPS, etc) and latency
+---> Long tail latency: 90%ile, 99%ile
+---> Measure production (monitoring) the same way you benchmark!
+
+-> Micro Benchmarking
+
+-> Vectors and sets and maps, oh my!
+---> These are LLVM internal data structures
+---> SmallVector
+-----> Optimized vectors (small size optimization), no heap allocation use internal buffers instead
+-----> Why not std::vector?
+-------> Because when vector is moved/reallocated there is no iterator invalidation.
+---> SmallDenseSet
+-----> Small size optimized sets
+-----> open addressing
+-----> array of buckets (flat in memory)
+-----> quadratic probing
+-----> traits object with hash value, tombstone value
+
+-> Why no just use allocators?
+---> Howard Hinnant: Stop using custom containers!
+---> Can have subtle bugs
+
+-> Small-size optimization is best when the values are small!
+---> Give large objects address identity
+---> Create a vector of unique_ptr to a large object
+-----> Why not use a list or forward_list?
+-------> List has two pointers (one for next, one for previous)
+-------> Traversing the list cannot speculate the next jump (in modern processors)
+---------> Processors cannot predict what memory you are going to reference next
+---------> In a vector of unique_ptr, its clear what memory you are going to process next
+---------> In a list, you cannot find the next memory you are going to access without access the current node
+-----------> Cache misses are frequent
+---> Slab allocators (allocate a whole page), helps to guarantee cache locality
+
+-> If pointers are too large, use an index
+
+-> Next aggressive pack the bits
+---> last four bits in adress are essential
+
+-> Lastly, use bitfields everywhere
+
+-> Sometimes, you really need an ordering
+---> vector set (hash) map (hash) have no ordering
+---> where possible sort vectors
+---> What if there's no intrinsic ordering?
+---> SmallSetVector
+-----> Duplicate data on set and vector
+-----> and when you want to iterate, just use the vector
+---> SmallSetMap
+-----> Duplicate data on map and vector
+-----> and when you want to iterate, just use the vector
+
+
+-> You only care about performance that you benchmark!
+---> So you have a loop in a benchmark...
+---> Its probably still the data
+-----> Watch Mike Acton's Talk "use data oriented design"
+-----> See my talk about profiling, but use counters to trak cache miss rates
+-----> Use tools like efficiency sanitizer to optimize data structures
+
+-> Lets try using performance counters.
+---> Live demo
+-----> perf stat
+-------> check for "stalled cycles"
+-----> perf list
+-------> list all commands on perf
+-------> check for command for cache
+
+-> What about small, tight loops?
+---> Live demo
+-----> perf record
+-----> perf report
+
+-> Modern processors are highly speculative
+---> More stalls but faster execution is possible (because move is already executed)
+
+-> What tools can we use to help with this?
+---> Awesome: Intel architecture code analyzer
+
+Hopefullly this at least serves a basis for understanding loop performance!
+
+
+-> Spectre 
+
+-> Background and Terminology
+---> Vulnerability: Any mechanism that can be used to make a system fail to function correctly.
+---> Gadget: A specific pattern or construct within code that is a component of (or used by) a vulnerability.
+
+-> Information leak: Heartbleed
+-> Side channel
+-> Speculative Execution
+
+-> Spectre: Misspeculative execution + leak thru side channel
+
+-> Simple rule for information leaks:
+---> Nothing to steal or no one to steal -> nothing to secure
+---> Do you run untrusted code in the address space with confidential information?
+---> Does an attacker potentially have access to the executable?
+---> Does any untrusted code run on the same physical machine
+---> How many bits need to be leaked to be valuable?
+---> Bandwidth becomes key
+-----> How long is the window in which the data is available? How long is it valuable once leaked?
+-----> How variable is the NetSpectre-tyle timing? How low is the latency from attacker code to victim system?
+-----> How many attackable systems have the same confidential data, allowing parallelizing the attack?
+-----> NetSpectre is all about bandwidth based risk/value/complexity tradeoff.
+-----> Do you run untrusted code on the same physical core?
+
+-> Isolate secret data from risky code
+---> Sandbox untrusted code (or code handling untrusted input) from data/OS/HW barrier (process boundary for example)
+---> Effective against essentially all known vulnerabilities
+---> Only realistic mitigation for v4 (SSB)
+---> Also protects against non-spectre side channel attacks like heart bleed
+---> Every browser mosing to this model via site-(or  origin-) isolation
+
+-> Future Mitigation Work
+---> Cheaper OS/hardware sandbox protections
+---> Move crypto system to ephemeral keys
+---> Solve Spectre v1 in hardware
+
+-> Conclusion
+---> Spectre: Misspeculative execution + leak thru side channel
+---> New active area for research -> ongoing influx of vulnerabilities
+---> Have a threat model, because we can't afford to mitigate everything
+---> Tailor mitigations to each applications risk and performance
+---> Convince CPU vendors to make these problems go away
+
+
+-> There are no Zero-Cost Abstractions
+---> I was wrong. There are no zero cost abstractions
+---> Imagining that there are (zero-cost abstractions) is causing us problems.
+
+-> Abstraction in C++ code
+---> Simple and fundamental abstractions
+-----> Functions
+-----> Loops
+-----> Memory
+---> Normal, common abstractions level
+-----> Type
+---> Our more powerful abstractions in C++ 
+-----> Templates
+-----> Meta programming
+-----> if constexpr
+---> Most powerful:
+-----> Code generation
+
+-> What do we mean by "cost"?
+-----> Abstraction have runtime, build time, and human costs
+-------> Runtime 
+---------> If you use too many abstractions, everything slows down, your whole program feels lagging
+-------> Build time
+---------> Not just about compiling 
+---------> But linking as well
+---------> Also loading as well
+
+-> Why cant abstractions be zero-cost?
+---> We are doing work on the abstraction, its doing some work on our behalf
+-----> Energy is required, and we can't just make energy go away
+
+-> Three stories of surprising abstraction costs
+
+-> (First story) So, protocol buffers
+---> The "cause of" and "solution" to all of Googles problems.
+---> Unfortunately they have some problems.
+---> They are code generators, which is the biggest hammer on our abstraction toolbox.
+---> Common joke: What is job? Ahh just move protocol buffers around
+---> These can be expensive: 
+-----> They are dynamic objects so they are heap allocated
+-----> To avoid fragmentation, you put aggregation on them
+-----> We reuse them as much as possible
+-----> They are immutable, so we might copy them when generating a response
+---> So Arena-Based allocation may optimize it
+-----> Problem is these protocol buffers predate C++11
+-----> A lot of the moves are generated using swap 
+-----> So when doing arena-based allocation, we implemented arena based swaps
+-------> Arena based swap need to check several things (which can be expensive)
+-----> Incremental change is needed because we are very big code base.
+-----> Unfortunately, COMPILES TIMES are affected
+-------> When this was tested before roll out -> runtimes have near zero cost, but compile times were not tested
+-------> Builds would routinely hit a 15 minute compile timeout! (just compiling one CPP file)
+-----> Compile timeout with arenas forces two choices:
+-------> (1) Keep compiling
+-------> (2) Improve performance
+-----> Modules fix this, right?
+-------> Narrator: They don't
+-----> We've moved abstraction costs from run time to compile time.
+-------> That doesn't make it zero cost! It just means the cost is paid somewhere else
+-------> Compile & build time are non-zero costs!
+-------> We have been put in a position where we have to make a choice between improving runtime performance or not building our software
+
+-> (Second story) Lets talk about std::unique_ptr
+-----> Surely std::unique_ptr has the same runtime cost as a raw pointer
+-------> Narrator: It doesn't
+-------> I believe it a year ago. But there can be overhead such as exceptions, rvalue/lvalue semantics cleanup
+-----> But we can and will fix this right?
+-------> Narrator: Probably not. 
+-------> This can be solved with "destructive move" semantics (not in the language)
+---------> It guides the compiler to know that its lifetime ends in that function.
+-----> Just don't pass unique_ptr in functions
+-------> But this is an ABI change
+-----> This is general problem with objects and methods
+
+-> (Third story) Surely extracting a function is zero cost?
+---> Narrator: It isnt.
+---> Once upon a time, I sent a code review to Manuel Klimek.
+-----> It was to hard to read.
+-------> Comment: Extract each small piece of functionality into a helper function, give it a good name
+-------> Comment: Break your algorithm into phases
+-------> Comment: Build a type to model the specific data youre passing 
+-----> Over extracted the code, and much more harder to read
+---> Each abstraction must provide more benefit than cost
+
+-> How do you use abstractions safely?
+---> Simpler abstractions - dont use a type when a function would do
+---> Think about where you want to pay the inevitable cost (compile time or runtime?)
+---> Work to reduce that cost as much as possible.
+---> Measure the cost in multiple dimenstions (really important to measure to make sure that our assumptions hold)
+---> Especially if you expect that dimension to be zero
+---> Ensure that in the end the benefit provided outweighs the cost
+
+-> Remember, abstractions aren't bad...
+---> Abstractions are like fire
+-----> Fire is a good thing, fire is the basis of civilization
+-----> Fire can also burn, and abstraction comes with cost
+-----> First is good, but also bad
+-----> Abstractions are good, but also bad
+
+
+
+
+

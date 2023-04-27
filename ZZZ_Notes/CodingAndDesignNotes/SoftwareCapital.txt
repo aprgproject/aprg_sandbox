@@ -1,0 +1,302 @@
+
+Taken from David Sankel's "Building Software Capital- How to write the highest quality code and why"
+
+The mythical man month
+-> Book by Frederick Books
+-> Developers need a lot communication 
+---> The productivity does not scale (as number of developers increases) because of this
+---> Its often commented that the ideal size is what two pizzas can feed
+
+Goal: Improve Time to Market
+-> Optimize team size
+-> Hire top developers
+-> ?
+
+-> What about reuse?
+---> In reality, components are not made for reuse (many factors: like in a hurry, hacks, responsibilities are split)
+---> In reality, when SW becomes unmaintainable Developers asks for rewrite.
+---> In reality, as software is being develop the amount of technical debt increases.
+
+-> Unchecked technical debt
+---> Grows exponentially
+---> Increase s time to add new features
+---> Eventually cost of adding feature supersedes cost of rewrite.
+---> The greedy algorithm does not win in the long run!
+-----> Titus Winters: There is never a story of rushing things and bypassing tests yields to a successful endeavor.
+
+-> Debt approach or No Debt Approach
+---> Some situations it might be acceptable for the Debt approach
+-----> Demos, (startup hehe)
+---> No Debt Approach is the way to go for software sustainability
+
+-> Software capital
+---> Software capital is the opposite of technical debt.
+
+-> Technical Debt vs Software Capital
+-------------------------------------------------------
+| Technical Debt           | Software Capital         | 
+-------------------------------------------------------
+| Easy to create           | Hard to create           | 
+| Cheap                    | Expensive                |
+| Reused "by the gun"      | Volunratily Reused       | 
+| Narrow focus             | Wide focus               | 
+| Ugly                     | Beautiful                | 
+| Incomplete               | Complete                 |
+| Increases time to market | Decreases time to market |
+-------------------------------------------------------
+
+-> std::vector is an example of software capital
+
+-> Software Capital
+---> Useful
+---> Clean
+---> Complete
+---> Reliable
+---> General
+---> Documented
+---> Bug-free
+---> Efficient
+---> Reusable
+
+-> Software Capital
+---> Dean Zarras coined tem in 1996 in Software Capital - Achievement and Leverage
+-----> Defined as "the cumulative technology that can be re-deployed to new situations"
+-----> Opposite of Technical Debt 
+-----> Pays dividents instead of cost interest
+
+-> Building Software Capital
+---> The most common components/modules on your software should be built for software capital.
+-----> This mean lowest parts on your dependency chain (the modules with the highest dependencies)
+
+-> Okay, but how do we build software capital?
+
+-> Principal 1: Code Reviews.
+---> Get an outside opinion
+-----> You kid is adorable, but before entering her in a beauty pageant, ask an outside opinion first.
+-----> How do we see our children vs. how we see others'
+-----> Is that interface really intuitive?
+-----> One code review will provide 90% of the feedback of a dozen
+
+-> Code Reviews: Find bugs
+---> Hidden bugs are unaccounted-for technical debt.
+---> Closer we are to creating the bug, the cheaper it is to fix.
+
+-> Code Reviews: Standards and Socialization
+---> Do the best every where
+-----> Interaction creates the standards
+-----> Intense knowledge transfer
+
+-> Code Reviews: Accountability
+---> Documentation?
+---> Is this unit tested enough?
+---> Standards?
+---> Now two people are responsible for this code.
+
+-> Code Review Tips
+---> Choose anyone on the team
+---> One round of feedback is usually enough
+---> Works extremely well with those who love to learn
+---> Tooling can help, but email works
+---> "Did you consider..." language
+
+-> Principal 2: Standards.
+---> Why?
+---> Reduced Variance -> Improved productivity
+---> Professionalism 
+---> Consistent improves ability to navigate code
+---> Makes tooling possible
+---> What the standard is does not matter as much as having a standard.
+
+-> Standards: What goes in?
+---> Formatting
+---> Idioms
+---> Documentation requirements
+---> Organization
+---> Best Practice
+
+-> Standards: Tooling is a must
+---> Use clang-format and remove formatting as a code-review concern
+---> Retrofit old code with new standards whenever feasible
+-----> The "code base" is a thing that can be operated on.
+-----> Use clang as library to refactor your code
+---> clang-tidy to detect and fix certain violations
+-----> Example: Header guards and include order
+-----> add common violations
+
+-> Standards: What criteria?
+---> Objective criteria always trumps subjective.
+-----> "I think this looks cooler." vs "The reason why we should do this is because..."
+-----> Objective arguments wins over subjective argument.
+---> Concentration on reuse. Who is going to reuse this?
+-----> Familiarity helps reuse. Put criteria that have consistency and familiarity. 
+---> Don't waste time on trivialities
+-----> Cutoff those discusssions, they can go on forever.
+
+-> Principal 3: Unit testing.
+---> Why?
+---> Kill bugs before they cause problems
+---> Future proofing against new bugs
+---> Give improession of dependability
+---> Safe refactoring
+
+-> Unit testing: Common Excuses
+---> This is GUI code
+-----> With a Modularized GUI, you can test the pieces
+---> This depends on disk/network/etc
+-----> Use dependency injection
+---> I already know the code is correct
+-----> We need to be flagged when someone breaks it.
+---> I need to ship this thing.
+-----> Code needs unit tests to get past code review.
+
+-> Unit testing: Design for testability
+---> Test-driven design.
+
+-> Unit testing: Tooling
+---> Continuuous integration 
+---> Try server (server that does the tests)
+
+-> Principal 4: Contracts
+---> Contracts are like documentation on steriods
+---> What is a car?
+-----> A car is generally known notion without not really identifying the details
+ 
+-> Contracts: What are they?
+---> Precise and complete specification of guaranteed user-visible behavior
+---> Exclude implementnation details
+---> The "what" and not the "how"
+---> An example:
+-----> void sort(std::vector<int> & intVector);
+-----> Put the specified 'intVector' in order from lowest to highest.
+-----> Or, Put the specified 'intVector' in order from lowest to highest. The algorithm runs in O(n log n) time using O(n) space.
+
+-> Contracts: Guarantees
+---> More guarantees imply more usecases.
+---> Fewer guarantees imply more implementation flexibility. 
+---> Its a tradeoff.
+---> Just like in real life: If you break a contract, the "guarantee system" becomes invalid -> ergo undefined behavior.
+
+-> Contracts: Code as documentation
+---> The code is the documentation doesn't work for large projects
+---> When you have whole nested dependency chain of modules, you have to check all the way to the bottom to know what they are doing.
+-----> Me: I dont agree with this
+-------> The modules should be split enough so it clear responsibility for each
+-------> The names (function/module) should be sufficient enough to give context on what they are doing
+
+-> Contracts: Why Contracts?
+---> Enables objective way to define a bug: Bugs are boken contracts.
+---> Allows for tiers of abstraction which saves time
+---> Enables within-contract improvements to code that is highly reused
+---> Provides guidelines for what to unit-test
+---> Makes bad interfaces stand out.
+
+-> Contracts: Contract specifications
+---> Return the square root of the specified number.
+-----> The behavior is undefined unless number > 0
+---> Consistent
+-----> Use a schema
+-----> Code reviews
+---> Convenient
+-----> In the header
+-----> Separate inline functions
+-----> Human reable -> No legalese or markup
+
+-> Contracts: BDE Contract Specifications
+---> Bloomberg
+---> Part of BDE coding standards
+---> https://github.com/bloomberg/bde/wiki/CodingStandards.pdf
+---> Creative Commons License
+---> Copy-paste-modify for your company
+
+-> Principal 5: Good Interfaces
+---> Art form
+---> General in the right ways
+-----> Templates can be too much and people can't use it (example boost)
+---> Simple contracts
+---> Manageable pieces
+---> Built on recognizable patterns
+---> Naming is important
+---> Math can be a guide to good interfaces!
+-----> If you learn to used math to guide your designs, that tends to help a lot.
+
+-> Good Interfaces: Three levels
+---> Component 
+---> .h/.cpp combo
+---> Package 
+-----> Library
+-----> Executable
+---> Package Group
+-----> Collection of packages
+
+-> Good Interfaces: Logical Organization
+---> A class's member functions are only those that require private access
+---> Other useful functions go in corresponding utility component.
+
+-> Good Interfaces: Multiple classes in same component
+---> Circular dependencies
+---> Friends should stick together
+---> Use <component>_<piece> as the name for each such class
+
+-> Good Interfaces: Rules for organization
+---> Generally one class per component
+---> Component consists of a single header and '.cpp' file
+---> Packages consists of logically related components with similar dependencies
+---> No circular dependencies between components
+---> No circular dependencies between packages
+---> No circular dependencies between package groups
+
+-> Whats the big-picture for your company?
+---> Read "Large-Scale C++ Software Design" by John Lakos
+
+-> Principal 6: Innovation
+---> C++11
+-----> Smart pointers
+-----> R-value semantics
+-----> Lambda functions
+---> C++17
+-----> Optional
+-----> Variant
+-----> ...
+
+-> Innovation: The innovation tax
+---> New stuff is great but
+-----> It almost always adds complexity.
+-----> Innovation is the cause for code rot.
+-------> What looks good in the 90s might actually 
+-----> If you dont pay your taxes, you'll incur technical debt.
+
+-> Paying the innovation tax
+---> Training 
+-----> Conferences
+-----> Books 
+-----> Code reviews
+---> Modernizing the code base
+-----> A priority
+-----> Autormation can help a lot
+
+-> Principal 7: Infrastructure
+---> Version control
+---> Continuous integration
+---> Build system
+---> Core libraries
+---> Standards
+---> Sweeping codebase changes
+---> Small Change = Big impact
+
+-> Infrastructure: Owning the big picture
+---> This is not an easy task
+---> Highest level of technical expertise required
+---> Not a job for the intern
+---> Do it right
+---> Not easy to sell the benefits
+
+-> Software Capital
+---> The real value fo your organization
+---> Key to sustainable competitive advantage.
+
+
+
+
+
+
+

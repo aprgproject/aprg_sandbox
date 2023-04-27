@@ -224,19 +224,18 @@ SSH key related:
 ---> C:\Users\detectivemark7\.ssh
 
 -> Note about the keys:
----> ~/.ssh/id_ed25519    // This is the private key (don't share this with anyone).
+---> ~/.ssh/id_ed25519       // This is the private key (don't share this with anyone).
 ---> ~/.ssh/id_ed25519.pub   // This is the public key
+---> ~/.ssh/puttyKey.ppk     // This is the putty key that tortoiseGit uses (generated from id_ed25519 using Putty Key Generator)
 
 -> Copy SSH public key:
 ---> clip < ~/.ssh/id_ed25519.pub
 
 
 
-
 GIT underneath:
 
--> Git uses this constructs:
----> "tree" stands for folder
+-> Git uses this constructs:---> "tree" stands for folder
 ---> "blob" stands for a file
 ---> "commit" contains information about a commit
 -----> parents: array of commits
