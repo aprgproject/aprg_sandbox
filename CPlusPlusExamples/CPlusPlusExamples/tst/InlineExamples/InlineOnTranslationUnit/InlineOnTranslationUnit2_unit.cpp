@@ -14,9 +14,11 @@ inline int inlineIntegerAtTranslationUnit = 420;  // different definition (resul
 // 'alba::InlineOnTranslationUnits::nonInlineAtTranslationUnit'
 inline int externInlineInteger =
     620;  // definition (complete type), different definition (results in undefined behavior)
+
 int inlineFreeFunction()  // different definition (results in undefined behavior)
 {
-    // inline int sampleVariable=100; // Error: inline declaration of 'sampleVariable' not allowed in block scope    return 2;
+    // inline int sampleVariable=100; // Error: inline declaration of 'sampleVariable' not allowed in block scope
+    return 2;
 }
 
 // Utilities for tests
@@ -31,6 +33,7 @@ TranslationUnitValues getValuesInTranslationUnit2() {
         staticInlineInteger,
         inlineString};
 }
+
 TEST(InlineOnTranslationUnit2Test, DISABLED_VariableValuesAreCorrect)  // Flaky test
 {
     EXPECT_EQ(100, constInteger);
@@ -44,6 +47,7 @@ TEST(InlineOnTranslationUnit2Test, DISABLED_VariableValuesAreCorrect)  // Flaky 
     EXPECT_EQ("800", inlineString);
     EXPECT_EQ(1000, SampleClassWithInline::constIntegerInClass);
 }
+
 TEST(InlineOnTranslationUnit2Test, VariableValuesCanBeChanged) {
     // constInteger = 101; // Const cannot change
     inlineIntegerWithDefinition = 201;
@@ -63,7 +67,8 @@ TEST(InlineOnTranslationUnit2Test, VariableValuesCanBeChanged) {
     EXPECT_EQ("801", inlineString);
 }
 
-TEST(InlineOnTranslationUnit2Test, VariableValuesAreChangedAndReflectedOnOtherTranslationUnit) {    // constInteger = 103; // Const cannot change
+TEST(InlineOnTranslationUnit2Test, VariableValuesAreChangedAndReflectedOnOtherTranslationUnit) {
+    // constInteger = 103; // Const cannot change
     inlineIntegerWithDefinition = 203;
     inlineIntegerWithDeclaration = 303;
     inlineIntegerAtTranslationUnit = 413;
@@ -74,7 +79,8 @@ TEST(InlineOnTranslationUnit2Test, VariableValuesAreChangedAndReflectedOnOtherTr
     inlineString = "803";
 
     TranslationUnitValues otherTranslationUnitValues(getValuesInTranslationUnit1());
-    EXPECT_EQ(100, otherTranslationUnitValues.constInteger);    EXPECT_EQ(203, otherTranslationUnitValues.inlineIntegerWithDefinition);
+    EXPECT_EQ(100, otherTranslationUnitValues.constInteger);
+    EXPECT_EQ(203, otherTranslationUnitValues.inlineIntegerWithDefinition);
     EXPECT_EQ(303, otherTranslationUnitValues.inlineIntegerWithDeclaration);
     EXPECT_EQ(413, otherTranslationUnitValues.inlineIntegerAtTranslationUnit);
     EXPECT_EQ(500, otherTranslationUnitValues.nonInlineAtTranslationUnit);
@@ -83,10 +89,12 @@ TEST(InlineOnTranslationUnit2Test, VariableValuesAreChangedAndReflectedOnOtherTr
     EXPECT_EQ("803", otherTranslationUnitValues.inlineString);
 }
 
-TEST(InlineOnTranslationUnit2Test, FunctionReturnValuesAreCorrect) {    EXPECT_EQ(1, freeFunction());
+TEST(InlineOnTranslationUnit2Test, FunctionReturnValuesAreCorrect) {
+    EXPECT_EQ(1, freeFunction());
     // EXPECT_EQ(1, inlineFreeFunction()); // Undefined behavior really but in this case in takes the implementation
     // from TranslationUnit1
 }
+
 }  // namespace InlineOnTranslationUnits
 
 }  // namespace alba

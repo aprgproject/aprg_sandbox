@@ -1,0 +1,487 @@
+
+Taken from Mike Acton's "Data-Oriented Design and C++" presentation
+Taken from Stoyan Nikolov “OOP Is Dead, Long Live Data-oriented Design”
+
+-> What does an "Engine" team do?
+---> Runtime systems
+-----> Rendering
+-----> Animation and gestures
+-----> Streaming
+-----> Cinematics
+-----> VFX
+-----> Post-FX
+-----> Navigation
+-----> Localization
+-----> Many many more!
+---> Development tools
+-----> Level creation
+-----> Lighting
+-----> Material editing
+-----> VFX creation
+-----> Animation/state machine editing
+-----> Visual Scripting
+-----> Scene paiting
+-----> Cinematics creation
+-----> Many many more!
+
+-> Whats important to us?
+---> Hard deadlines
+-----> Time to market
+-----> A lot of money/investing is riding on this.
+-----> Theres no missing this.
+---> Soft realtime perfomrance requirements (Soft=16ms or 33ms space)
+---> Usability
+-----> Easy and quick to use
+---- Performance
+-----> A lot of leeway to do a lot of things, if the engine performance is good
+-----> Peformance is key
+---> Maintenance
+-----> Multiple games in flight
+-----> We have to continue to ship out products
+---> Debugability
+-----> Hard ship days: Need to make sure we can solve problem quickly
+-----> Being to reason about what had gone wrong is crucial to us.
+
+-> Whats languages to do we use
+---> C
+---> C++ -> 70%
+---> ASM ->  most preferred
+---> Perl
+---> Javascript
+---> C#
+---> Not all are used by the game itself but used in the development cycle.
+---> Pixel shaders, vertex shaders, geometry shaders, compute shaders/
+
+-> How are games like the Mars rovers?
+---> Exceptions 
+-----> Its avoided and turned off
+-----> if there is third-party library that uses exceptions, its isolated
+---> Templates
+-----> There is no hard rule, but its avoided.
+-----> Most of the time its a poor use, and its slows things down
+-----> When developing at scale, templates slows compile times.
+---> Iostream
+-----> Cout is used for debugging and tty (TTY stands for TeleTYpewriter)
+-----> We generally don't use them.
+---> Multiple inheritance 
+-----> This is not allowed out right
+-----> This is just dumb
+---> Operator overloading 
+-----> There is no hard rule, but its avoided.
+-----> Its super obvious what you are doing, we tend to let it go.
+-----> Anything significantly more complicated heavily frown on (gets rejected).
+---> RTTI
+-----> This is off the table.
+---> No STL
+-----> STL doesn't solve problems we wanna solve.
+---> Custom allocators
+-----> Lots
+-----> Dont use the general dynamic of heap management
+-----> Divided into a set of heirarchies
+---> Custom debugging tools
+-----> A lot of tools that use this
+
+-> Data-Oriented Design Principles
+---> The purpose of all programs, and all parts of those programs, is to transform data from one form to another.
+---> If you don't understand the data, then you dont understand the problem.
+---> Conversely, understand the problem better by understanding the data.
+---> Different problems require different solutions.
+---> If you a different data, you have a different problem.
+---> If you don't understand the cost of solving the problem, then you don't understand the problem.
+---> If you dont understand the hardware, then you can't reason about the cost of solving the problem.
+---> Everything is a data problem. Including usability, maintenance, debug-ability, etc. Everything. (Its not a code problem.)
+---> Solving problems you probably don't have creates more problem you definitely do.
+-----> Avoid adding problems to the space you dont have.
+-----> And you know what problems you have because you analyzed the data.
+---> Latency and throughput are only the same in sequential systems.
+---> Rule of thumb: Where there is one, there are many. Try looking on the time axis
+-----> Time as resource.
+---> Rule of thumb: The more context you have, the better you can make the solution. Dont throw away data you need.
+---> Rule of thumb: NUMA extends to I/O and pre-built data all the way back through time to original source creation.
+-----> NUMA: Non uniform memory access
+-----> Pipeline view on data and don't look at one individual set of data, but data process in parallel and over time.
+---> Software does not run in a magic fairy aether powered by the fevered dreams of CS PhDs.
+---> Reason must prevail
+-----> If you what you are doing is unreasonable or imaginary then it has to go.
+
+-> Is data-oriented even a thing...?
+---> ... certainly not new ideas.
+---> ... more of a reminder of first principles.
+---> ... but it is a response to the culture of C++
+---> ... and the Three Big Lies it has engendered 
+
+-> Lies
+---> Software is a platform
+---> Code designed around model of the world
+---> Code is more important than data
+
+-> Lie #1: Software is a platform
+---> Hardware is the platform 
+-----> Different hardware, different solutions
+-----> "6502 x86 solution" is different from "ARM cell solution" and its different from "PPC ATI 5870 solution"
+---> Reality is not a hack you're forced to deal with to solve your abstract theoretical problem.
+-----> Reality is the actual problem.
+
+-> Lie #2: Code designed around model of the world
+---> From object oriented space
+---> Hiding data is implicit in world modeling 
+-----> bad because it confuses two problems:
+-------> (1) Maintenance (allow changes to access)
+-------> (2) Understanding properties of data (Critical for solving problems)
+---------> What is data? How big is it? How does it work? Whats in there?
+---------> Data is the most important thing we need know before we can actually solve problems
+-------> Confusing/Confounding this two things potentiall at the cost of a slightly better maintenance, we have now made are problems very very difficult to solve.
+--> World modeling implies some relationship to real data or transforms
+----> but... in real life "classes" are fundamentally similar
+------> A chair is a chair
+----> In terms of data transformations, "classes" are only superficially similar...
+------> chair, physics chair, static chair, breakable chair, -> How similar are these really? Nothing at all!
+--------> But because they tend to share world modeling similarities, they aught to be connected somehow.
+--> World modeling leads to monolithic, unrelated, data structures and transforms.
+--> World modeling tries to idealize the problem.
+----> but you can't make a problem simpler than it is. 
+--> World modeling is the equivalent of self-help books for pgramming
+----> Engineer/Solve by analogy
+----> Engineer/Solve by story telling.
+----> Instead, engineer/solve the problem directly.
+
+-> Lie #3: Code is more important than data.
+---> Reminds me of Linus Torvalds quote: "Bad programmers worry about the code. Good programmers worry about data structures and their relationships."
+---> When the vast majority of the time and code is not the real issue, the code is a minor issue in all the things that we work with.
+-----> The data is real problem.
+-----> We are here honestly to talk about the code.
+-----> So much development time and brain power talking about the code.
+-----> Only purpose of any code is to transofrm data
+---> Programmer is fundamentally responsible for the data, not the code.
+-----> Programmer's job is NOT to write code;
+-----> Programmer's job is to solve (data transformation) problems.
+-------> And to make sure that the transformation happens correctly, fast, and in a maintanable way. 
+-------> The code is just the tool we use for the transformation.
+-----> Writing the code is not your job, your job is to solve data transformation problems.
+-----> Solving the problem is the job.
+---> Only write code that has direct provable value.
+-----> Example: Code the that transform data in meaningful way.
+-----> Understand the data to understand the problem.
+-----> Which means: There is no ideal abstract solution to the problem.
+-----> You can't "future proof"
+-------> This is a trap that some people fall in.
+-------> "I can make a code and it will last forever" - This is a lie.
+-------> Across all imaginary systems that could ever happen in the future.
+---------> This is simply not possible.
+---------> There is a finite range that you have not accounted for.
+-------> We are not gonna take an engine that is developed on different architecture several years ago and apply it to a new architecture (the problem has fundamentally changed)
+
+-> What problems do these lies cause?
+---> Poor performance
+---> Poor concurrency
+---> Poor optimizability
+---> Poor stability
+---> Poor testability
+---> =(
+---> So we build-up all these infrastructure on top, all because of problems we introduced ourselves.
+---> Solve for transforming the data you have, given the constraints of the platform (and nothing else)
+
+-> A simple example
+---> Dictionary lookup ("key" to "value")
+-----> If your thinking about the code first, typical mental model is a table like structure.
+-------> In the mental model of the programmer, its associated together as a key-value pair.
+-----> The reality is that they are not associated together 
+-------> The most common operations if we analyzed it is the search on the key.
+-------> What is the statistical change of getting the "value"
+---------> Pretty low, most of the time we are not getting value.
+-------> Most of the time we are gonna be iterating thru the keys.
+-------> Thats what the data tells us, thats what the problem is actually is.
+-------> And this two things ("key","value") are not actually associated with each other.
+-----> This scales toward the worst case!
+-------> As you add more keys and more values, it gets less performant per pair.
+-------> You are loading "values" into DCache when its actually not needed (and throwing it away because vast majority of the time you are not needing it at all).
+-------> You are wasting the bandwidth of your machine.
+-------> You are doing things that are unnecessary because of your mental model.
+---> The realilty this is more the actual process is like. 
+-----> Better solution
+-------> Have a container of "keys" and separately have a container of "values"
+-------> Find the "key" and get the "key-index"
+-------> From that use the "key-index" to get the value
+-----> This is faster majority of the time.
+-----> Cache is loaded w/ most likely needed (the next key)
+-----> Although getting "value" would result to a cache miss (its statistically the rare case)
+
+-> Solve for the most common case first, NOT the most generic!
+
+-> Can't the compiler do it?
+---> Add more complexity to the language? No!
+---> Compiler can olnly solve 1-10% of the problem space.
+-----> The vast majority of problems are things the compiler can't reason about.
+---> The compiler is a tool, not a magic wand!
+-----> Compiler cannot solve the most significant problems.
+
+-> The battle of North Bridge!
+-----> Access to main memory is too slow!
+
+-> Analyze your memory hierarchy
+-----> Identify which cache is too slow or the most painful.
+
+-> Today's subject: 
+---> The 90% of the problem space we need to solve that the compiler cannot.
+---> And how e can help it with the 10% that it can.
+
+-> Simple, obvious things to look for + Back of the envelope calculations = Substantial wins.
+---> Anyone who wants to say quote on "Premature optimization" can leave right now. That is most abused quote.
+
+-> L2 cache misses/frame (Don't waste them)
+---> Analyze the assembly to check how much memory loads are wasted on cache
+---> Check the cache lines
+-----> Using cache line to capacity ~ 10x speedup
+-------> Used. Still not necessarily as efficiently as possible.
+---> In addition:
+-----> (1) Code is maintainable
+-----> (2) Code is debuggable
+-----> (3) Code can reason about the cost of change
+-----> Ignoring inconvenient facts is not engineering. Its dogma.
+---> Some common examples:
+-----> "bool"s in structs
+-------> Extremely low information density.
+-------> How big is your cache line?
+-------> Whats the most commonly accessed data?
+-----> "bools" and last minute decision making
+-------> Don't re-read member values or re call functions when you already have the data.
+-------> Hoise all loop-invariant reads and branches. Even super obvious ones that should already be in registers.
+-------> Applies to any member fields especially (not particular to bools)
+-----> Extreme low information density
+-------> What is the information density for a "parameter" over time?
+---------> Calculate percentage waste 
+-------> Make sure memory can be rearranged
+-------> Dont limit the ABI
+-------> Dont limit unused reads
+-------> Extra padding
+-----> Over generalization
+-------> Complex constructors tend to imply that:
+---------> Reads are unmanaged (one at a time)
+---------> Unnecessary reads/writes in desctrutors
+---------> Unmanaged icache (virtuals)
+-----------> Unmanaged reads/writes
+---------> Unnecessarily complex state machines
+-----------> Rule of thumb: Store each state type separately, Store same state together (no state value needed)
+-----> Undefined or under-defined constraints
+-------> Imply more (wasted) reads because pretending you dont know what it could be.
+-----------> Rule of thumb: The best code is code that doesn;t need to exist at all. Do it offline. Do it once. (precompiled string hashes)
+-----> Oversolving (computing too much)
+-------> Compiler doesn't have enough context to know how to simplify your problems for you.
+-------> Premultiply matrices
+
+-> Fixing it
+---> Step 1: Organize
+---> Step 2: Triage
+---> Step 3: Reduce waste
+
+-> Good news
+---> Most problems are easy to see.
+-----> Side effect of solved the 90% well, the compiler can solve the 10% better
+-----> Organized data makes maintenance debugging and concurrency much easier
+
+-> Bad news
+---> Good programming is hard.
+---> Bad programming is easy.
+
+-> Truths 
+---> Hardware is the platform
+---> Design around the data, not an idealized world
+---> Your main responsibility is to transform the data, solve that first, not the code design.
+
+-> Back to C++
+---> Good: Enough tools to reason about most important part of the problem (memory/data)
+---> Bad: A culture that thinks that ignoring the real problem is a good thing.
+---> While were on the subject... 
+-----> Design patterns from the POV of Christer Ericson (Director of Technology)
+-----> "Design patterns are spoonfeed material for brainless programmers incapable of independent thought, 
+-------> who will be resolved to producing code as mediocre as the design patterns they use to create it." 
+
+
+
+
+-> What is so wrong with OOP?
+
+-> OOP marries data with operations
+---> its not a happy marriage
+-----> You end up with really large objects with unrelated data that you poke in different parts of your software.
+-----> Accessing a large object is polluting your cache from other data that is not going to be used.
+---> Heterogeneous data is brought together by a "logical" black box object
+---> The object is used in vastly different contexts
+---> Hides state all over the place
+-----> Can increase the complexity of your code
+-----> Hidden booleans can hinder performance if put in the wrong places
+-------> Booleans tend to be used on conditions which can result on cache misses.
+-------> Branch predictor might not work well on this case.
+---> Impact on:
+-----> Performance
+-----> Scalability
+-----> Modifiability
+-----> Testability
+
+-> Data-oriented design takes a different approach
+---> It puts the data first.
+---> OOP separates entities by its logical purposes (responsibilities).
+---> Data-oriented design separates data according to its usage.
+-----> Focus is on transforming the data, so data is grouped according to its transformation.
+
+-> Data-oriented design - the gist
+---> Separates data from logic
+-----> Structs and functions live independent lives
+-----> Data is regarded as information that has to be transformed
+-----> Stop polluting your cache!
+-----> Keep the logic simple!
+-----> Discourages coupling between systems!
+---> The logic embraces the data
+-----> Does not try to hide it.
+-----> Leads to functions that work on arrays
+---> Reorganizes data according to its usage
+-----> "If we aren't going to use a piece of information why pack it together?"
+---> Avoids "hidden state"
+-----> No virtual calls
+-------> There is no need for them
+---> Promotes deep domain knowledge.
+-----> You cannot separate well your data and build a good system if you dont know the data and you dont know the problem you are solving
+-------> Example: Get statistics on common cases so you can make it faster.
+---> References at the end for more detail.
+
+-> Avoiding branches
+---> Keep lists per-boolean "flag"
+-----> Similar tp database tables - sometimes called that way in DoD literature
+---> Separate Active and Inactive entities
+-----> Existence based predication
+-----> One array for active, one array for inactive entities.
+-----> Active are currently running
+-------> But can be stopped from API
+-----> Inactive are finished
+-------> But can state from API
+---> Avoid "if(isActive)"!
+---> Tough to do for each bool, prioritize according to branch predictor chance.
+
+-> Analogous concepts between OOP and DoD
+------------------------------------------------------------------------------
+| OOP | DoD |                                                                |
+------------------------------------------------------------------------------
+| Inheritance                        | Templated struct (static polymophism) |
+| References                         | Read-only deuplicates                 |
+| dynamic allocation of huge objects | vectors per property                  |
+| boolean flags for state            | different vectors according to state  |
+| inheritance for interfaces         | interface with id handles             |
+| output one value per object        | output a table of values              |
+------------------------------------------------------------------------------
+
+-> Key points in data oriented design
+---> Keep data flat
+-----> Maximise cache usage
+-----> No RTTI
+-----> Amortized dynamic allocations
+-----> Some read-only duplication improves perofmance and readability
+---> Existence-based predication
+-----> Reduce branching
+-----> Apply the same operation on a whole table
+---> Id-based handles
+-----> No pointers
+-----> Allow us to rearrage internal memory
+---> Table-based output
+-----> No external dependencies
+-----> Easy to reason about the flow
+
+-> Scalability
+---> Issues multithreading in OOP
+-----> Collections getting modified during iteration
+-----> Even delegates
+-----> Marking nodes for re-style
+---> Solutions for the OOP case
+-----> Carefully re-work each data dependency
+---> Issues multithreading DoD animations
+-----> Moving states to inactive (table modification from multiple threads)
+-----> Building list of modified nodes (vector push_back across multiple threads)
+---> Solutions in the DoD case
+-----> Each task/job/thread keeps a private table of modified nodes & new inactive entities
+-----> Join merges the tables
+-----> Classic fork-join
+
+-> Testability analysis
+---> The OOP case
+-----> Needs mocking the main input
+-----> Needs mocking at least a dozen classes
+-----> Needs building a complete mock DOM tree - to test the "needs re-style from animation logic"
+-----> Combinatorial explosion of internal state and code-paths
+-----> Asserting correct state is difficult - multiple output points
+---> The DoD case
+-----> Needs mocking the input
+-----> Needs mocking a list of Nodes
+-----> Controller is self contained
+-----> Asserting correct state is easy - walk over the output tables and check
+
+
+-> Modifiability analysis
+---> OOP
+-----> Very tough to change base classes
+-------> Very hard to reason about the consequences
+-----> Data tends to "harden"
+-------> Hassle to move fields around becomes too big
+-------> Nonoptimal data layouts stick around
+---------> Needs refactoring effort (that never happens)
+-----> Shared object lifetime management issues
+-------> Hidden and often fragile order of destruction
+-----> Easy to do "quick" changes
+---> DoD
+-----> Change input/output -> requires change in System "before"/"after" in pipelines
+-----> Implementation changes - local
+-------> Can experiment with data layout
+-------> Handles mitigate potential lifetime issues
+-----> "quick" changes are hard to do
+
+---> Downsides of DoD
+-----> Correct data separation can be hard
+-------> Especially before you know the problem very well
+-----> Existence-based predication is not always feasible (or easy)
+-------> Think adding a bool to a class VS moving data across arrays
+-------> Too many booleans is a symptom - think again about the problem
+-----> "Quick" modifications can be tough
+-------> OOP allows to "just add" a member, accessor, call
+-------> More discipline is needed to keep the benefits of DoD
+-----> You might have to unlearn a thing or two
+-------> The beginning is tough
+-----> The language is not always your friend
+
+-> What too keep from OOP?
+---> Sometimes we have no choice
+-----> Third party libraries
+-----> IDL requirements
+---> Simple structs with simple methods are perfectly fine
+---> Polymorphism & interfaces have to be kept under control
+-----> Client facing APIs
+-----> Component high-level interface
+-----> IMO more convernient that C function pointer structs
+---> Remember - C++ has great facilities for static polymorphism
+---> Can be done through templates
+---> Or simply include the right "impl" according to platform/build options.
+
+-> Changes in C++ to better support DOD
+---> Allow ne memory layschemes for object arrays
+-----> Structures of arrays (SOA) / Array of structures (AOS)
+-----> Components layout, preserving classic C++ object access semantics
+-------> kinda doable now, but requires a lot of custom code
+---------> We do it to awesome effect, but soooooo tough
+-----> Alas tough to get in core
+---> Ranges look really exciting
+---> Relax requirements for unordered_map/unordered_Set (or define new ones)
+-----> Internal linked list does too many allocations & potential cache misses
+-----> Standard hashmap/set with open addressing
+-------> Currently the standard uses buckets
+
+-> Object oriented programming is not a silver bullet ...
+---> ... neither is data oriented design
+---> ... use your best judgement, please.
+
+-> Keep your templates in implementation files.
+---> A template explosion results in
+-----> Increased building time
+-----> Increases binary -> increases instructions -> increased cache misses
+---> Link time optimization can help
+---> 
+---> 
+---> 
+---> 
+

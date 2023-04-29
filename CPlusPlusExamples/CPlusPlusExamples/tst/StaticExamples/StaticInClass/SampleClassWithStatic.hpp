@@ -13,9 +13,11 @@ struct SampleClassWithStatic {
     static inline int staticInlinedData = 400;  // C++17, this saves the hassle of defining static data
     static inline std::string staticInlinedString = "500";
     // mutable static int staticMutableData; // Static data members cannot be mutable.
+
     int nonStaticFunctionWithClassDeclaration();
 
     static int staticFunctionWithClassDeclaration();
+
     int nonStaticFunctionWithClassDefinition() { return nonStaticData; }
 
     static int staticFunctionWithClassDefinition() {
@@ -25,9 +27,11 @@ struct SampleClassWithStatic {
 
         return staticData;
     }
+
     // static int staticFunctionWithConst() const; // Static member functions cannot be const.
     // static virtual int staticFunctionWithConst(); // Static member functions cannot be const.
-    // static int staticFunctionWithConst() volatile; // Static member functions cannot be const.    // static int staticFunctionWithConst() &; // Static member functions cannot be ref-qualified.
+    // static int staticFunctionWithConst() volatile; // Static member functions cannot be const.
+    // static int staticFunctionWithConst() &; // Static member functions cannot be ref-qualified.
     // static int staticFunctionWithConst() &&; // Static member functions cannot be ref-qualified.
 };
 

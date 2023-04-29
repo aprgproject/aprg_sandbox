@@ -30,9 +30,11 @@ TranslationUnitValues getValuesInTranslationUnit1() {
         staticInlineInteger,
         inlineString};
 }
+
 TEST(InlineOnTranslationUnit1Test, DISABLED_VariableValuesAreCorrect)  // Flaky test
 {
-    EXPECT_EQ(100, constInteger);    EXPECT_EQ(200, inlineIntegerWithDefinition);
+    EXPECT_EQ(100, constInteger);
+    EXPECT_EQ(200, inlineIntegerWithDefinition);
     EXPECT_EQ(0, inlineIntegerWithDeclaration);
     EXPECT_EQ(410, inlineIntegerAtTranslationUnit);
     EXPECT_EQ(500, nonInlineAtTranslationUnit);
@@ -41,9 +43,11 @@ TEST(InlineOnTranslationUnit1Test, DISABLED_VariableValuesAreCorrect)  // Flaky 
     EXPECT_EQ("800", inlineString);
     EXPECT_EQ(1000, SampleClassWithInline::constIntegerInClass);
 }
+
 TEST(InlineOnTranslationUnit1Test, VariableValuesCanBeChanged) {
     // constInteger = 101; // Const cannot change
-    inlineIntegerWithDefinition = 201;    inlineIntegerWithDeclaration = 301;
+    inlineIntegerWithDefinition = 201;
+    inlineIntegerWithDeclaration = 301;
     inlineIntegerAtTranslationUnit = 411;
     nonInlineAtTranslationUnit = 501;
     externInlineInteger = 611;
@@ -51,7 +55,8 @@ TEST(InlineOnTranslationUnit1Test, VariableValuesCanBeChanged) {
     inlineString = "801";
 
     EXPECT_EQ(100, constInteger);
-    EXPECT_EQ(201, inlineIntegerWithDefinition);    EXPECT_EQ(301, inlineIntegerWithDeclaration);
+    EXPECT_EQ(201, inlineIntegerWithDefinition);
+    EXPECT_EQ(301, inlineIntegerWithDeclaration);
     EXPECT_EQ(411, inlineIntegerAtTranslationUnit);
     EXPECT_EQ(501, nonInlineAtTranslationUnit);
     EXPECT_EQ(611, externInlineInteger);
@@ -59,7 +64,8 @@ TEST(InlineOnTranslationUnit1Test, VariableValuesCanBeChanged) {
     EXPECT_EQ("801", inlineString);
 }
 
-TEST(InlineOnTranslationUnit1Test, VariableValuesAreChangedAndReflectedOnOtherTranslationUnit) {    // constInteger = 102; // Const cannot change
+TEST(InlineOnTranslationUnit1Test, VariableValuesAreChangedAndReflectedOnOtherTranslationUnit) {
+    // constInteger = 102; // Const cannot change
     inlineIntegerWithDefinition = 202;
     inlineIntegerWithDeclaration = 302;
     inlineIntegerAtTranslationUnit = 412;
@@ -80,9 +86,11 @@ TEST(InlineOnTranslationUnit1Test, VariableValuesAreChangedAndReflectedOnOtherTr
     EXPECT_EQ("802", otherTranslationUnitValues.inlineString);
 }
 
-TEST(InlineOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {    EXPECT_EQ(1, freeFunction());
+TEST(InlineOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {
+    EXPECT_EQ(1, freeFunction());
     EXPECT_EQ(1, inlineFreeFunction());
 }
+
 }  // namespace InlineOnTranslationUnits
 
 }  // namespace alba

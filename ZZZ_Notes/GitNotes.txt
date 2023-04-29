@@ -233,9 +233,11 @@ SSH key related:
 
 
 
+
 GIT underneath:
 
--> Git uses this constructs:---> "tree" stands for folder
+-> Git uses this constructs:
+---> "tree" stands for folder
 ---> "blob" stands for a file
 ---> "commit" contains information about a commit
 -----> parents: array of commits

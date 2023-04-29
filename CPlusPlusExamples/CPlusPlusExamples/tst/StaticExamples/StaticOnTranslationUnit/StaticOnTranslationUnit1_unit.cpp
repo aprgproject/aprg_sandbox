@@ -16,9 +16,11 @@ extern const int externConstInteger;  // explicitly extern(external linkage),
 
 int externInteger = 400;             // definition (complete type)
 const int externConstInteger = 500;  // definition (complete type)
+
 int freeFunction() { return 1; }
 
 int staticFreeFunction() { return 1; }
+
 // Utilities for tests
 TranslationUnitValues getValuesInTranslationUnit1() {
     return TranslationUnitValues{constInteger, staticInteger, integer, externInteger, externConstInteger};
