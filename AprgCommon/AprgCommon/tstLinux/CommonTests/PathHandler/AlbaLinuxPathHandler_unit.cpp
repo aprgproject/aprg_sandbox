@@ -275,22 +275,20 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryOneDe
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectory);
     ASSERT_EQ(5U, listOfFiles.size());
-    auto itFiles = listOfFiles.begin();
+    auto itFiles = begin(listOfFiles);
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File1.log)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File3)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File4.mp3)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File5.avi)"), *(itFiles++));
     ASSERT_EQ(6U, listOfDirectory.size());
-    auto itDirectories = listOfDirectory.begin();
+    auto itDirectories = begin(listOfDirectory);
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
+    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/)"), *(itDirectories++));    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/)"), *(itDirectories++));
 }
-
 TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMultipleDepthTwo) {
     AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)");
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
@@ -300,15 +298,13 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMulti
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectory, 2);
     ASSERT_EQ(10U, listOfFiles.size());
-    auto itFiles = listOfFiles.begin();
+    auto itFiles = begin(listOfFiles);
     EXPECT_EQ(
         convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/File1.log)"), *(itFiles++));
-    EXPECT_EQ(
-        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
+    EXPECT_EQ(        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/File3)"), *(itFiles++));
     EXPECT_EQ(
-        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));
-    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));    EXPECT_EQ(
         convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/File5.avi)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File1.log)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File2.txt)"), *(itFiles++));
@@ -316,15 +312,13 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryMulti
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File4.mp3)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File5.avi)"), *(itFiles++));
     ASSERT_EQ(7U, listOfDirectory.size());
-    auto itDirectories = listOfDirectory.begin();
+    auto itDirectories = begin(listOfDirectory);
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
+    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/)"), *(itDirectories++));    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/)"), *(itDirectories++));
-    EXPECT_EQ(
-        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
+    EXPECT_EQ(        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
 }
 
 TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepth) {
@@ -336,15 +330,13 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlim
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);
     ASSERT_EQ(11U, listOfFiles.size());
-    auto itFiles = listOfFiles.begin();
+    auto itFiles = begin(listOfFiles);
     EXPECT_EQ(
         convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/File1.log)"), *(itFiles++));
-    EXPECT_EQ(
-        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
+    EXPECT_EQ(        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/File2.txt)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/File3)"), *(itFiles++));
     EXPECT_EQ(
-        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));
-    EXPECT_EQ(
+        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/File4.mp3)"), *(itFiles++));    EXPECT_EQ(
         convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/File5.avi)"), *(itFiles++));
     EXPECT_EQ(
         convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/File6.jpg)"),
@@ -355,15 +347,13 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlim
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File4.mp3)"), *(itFiles++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File5.avi)"), *(itFiles++));
     ASSERT_EQ(7U, listOfDirectory.size());
-    auto itDirectories = listOfDirectory.begin();
+    auto itDirectories = begin(listOfDirectory);
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR1/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR2/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/)"), *(itDirectories++));
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
+    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR3/)"), *(itDirectories++));    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR4/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR5/)"), *(itDirectories++));
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/)"), *(itDirectories++));
-    EXPECT_EQ(
-        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
+    EXPECT_EQ(        convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/DIR6/SUBDIR1/)"), *(itDirectories++));
 }
 
 TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWithWildCard) {
@@ -375,14 +365,12 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectory_FindFileAndDirectoryUnlim
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.log", listOfFiles, listOfDirectory);
     ASSERT_EQ(1U, listOfFiles.size());
-    auto itFiles = listOfFiles.begin();
+    auto itFiles = begin(listOfFiles);
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/File1.log)"), *(itFiles++));
     ASSERT_EQ(0U, listOfDirectory.size());
 }
-
 TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsNotExisting) {
     AlbaLinuxPathHandler pathHandler("This path does not exist");
-
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     ASSERT_FALSE(pathHandler.isFoundInLocalSystem());
     EXPECT_DOUBLE_EQ(0, pathHandler.getFileSizeEstimate());

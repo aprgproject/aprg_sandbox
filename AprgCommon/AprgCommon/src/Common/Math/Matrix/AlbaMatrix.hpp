@@ -209,15 +209,13 @@ public:
 
     void setEntries(MatrixData const& dataSampleValues) {
         size_t limit = std::min(m_matrixData.size(), dataSampleValues.size());
-        std::copy(dataSampleValues.begin(), dataSampleValues.begin() + limit, m_matrixData.begin());
+        std::copy(begin(dataSampleValues), begin(dataSampleValues) + limit, begin(m_matrixData));
     }
 
-    void setColumn(size_t const columnIndex, MatrixData const& dataSampleValues) {
-        size_t limit = std::min(m_numberOfRows, static_cast<size_t>(dataSampleValues.size()));
+    void setColumn(size_t const columnIndex, MatrixData const& dataSampleValues) {        size_t limit = std::min(m_numberOfRows, static_cast<size_t>(dataSampleValues.size()));
         for (size_t y = 0; y < limit; y++) {
             setEntry(columnIndex, y, dataSampleValues.at(y));
-        }
-    }
+        }    }
 
     void setRow(size_t const rowIndex, MatrixData const& dataSampleValues) {
         size_t limit = std::min(m_numberOfColumns, static_cast<size_t>(dataSampleValues.size()));
@@ -304,14 +302,12 @@ private:
         if (m_matrixData.size() != targetSize) {
             size_t originalSize = m_matrixData.size();
             m_matrixData.resize(targetSize);
-            std::fill(m_matrixData.begin() + originalSize, m_matrixData.end(), DataType{});
+            std::fill(begin(m_matrixData) + originalSize, end(m_matrixData), DataType{});
         }
     }
-
     friend std::ostream& operator<<(std::ostream& out, AlbaMatrix<DataType> const& matrix) {
         DisplayTable table;
-        table.setBorders("-", "|");
-        for (size_t y = 0; y < matrix.m_numberOfRows; y++) {
+        table.setBorders("-", "|");        for (size_t y = 0; y < matrix.m_numberOfRows; y++) {
             table.addRow();
             for (size_t x = 0; x < matrix.m_numberOfColumns; x++) {
                 table.getLastRow().addCell(alba::stringHelper::convertToString(matrix.getEntryConstReference(x, y)));

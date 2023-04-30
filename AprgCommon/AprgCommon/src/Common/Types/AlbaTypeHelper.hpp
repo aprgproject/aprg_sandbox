@@ -383,16 +383,14 @@ constexpr std::size_t getDimensions() {
 }
 
 template <typename Array>
-using RemoveOneDimension = typename std::remove_extent<Array>::type;
+using GetTypeByRemovingOneDimension = typename std::remove_extent<Array>::type;
 
 template <typename Array>
-using RemoveAllDimensions = typename std::remove_all_extents<Array>::type;
+using GetTypeByRemovingRemovingAllDimensions = typename std::remove_all_extents<Array>::type;
 
 // Conditional types
-
 template <bool condition, typename TypeIfTrue, typename TypeIfFalse>
 using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
-
 // Walter E Brown technique
 
 // IsPointer

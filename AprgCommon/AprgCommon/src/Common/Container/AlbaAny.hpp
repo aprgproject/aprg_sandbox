@@ -9,16 +9,14 @@
 
 namespace alba {
 
-// class [[deprecated("Use std::any instead! (needs c++17)")]] AlbaAny // lets remove [[deprecated]] to avoid
-// unnecessary warnings
+// class [[deprecated("Use std::any instead! (needs c++17)")]] AlbaAny
+// lets remove [[deprecated]] to avoid unnecessary warnings
 class AlbaAny {
     // This requires copy constructor and default constructor on ContentType
-public:
-    AlbaAny() : m_savedMemory(), m_typeId(EMPTY_TYPE_ID) {}
+public:    AlbaAny() : m_savedMemory(), m_typeId(EMPTY_TYPE_ID) {}
 
     template <typename ContentType>
-    AlbaAny(ContentType const& content)  // copy constructor for other ContentType
-        : m_savedMemory(std::addressof(content), sizeof(content)), m_typeId(GetTypeId<ContentType>()) {
+    AlbaAny(ContentType const& content)  // copy constructor for other ContentType        : m_savedMemory(std::addressof(content), sizeof(content)), m_typeId(GetTypeId<ContentType>()) {
         // Herb Sutter: Dont xray objects. Me: It has standard layout so it can be xray-ed.
         static_assert(typeHelper::hasStandardLayout<ContentType>(), "ObjectType needs to have standard layout.");
     }
