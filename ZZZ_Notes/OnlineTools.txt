@@ -1,0 +1,62 @@
+Taken from: [https://thamara.dev/posts/online-tools-for-cpp-developers/]
+
+
+Link: https://godbolt.org/
+Name: Compiler Explorer (Godbolt)
+Compiler Explorer is an interactive compiler explorer website. 
+With a huge list of compilers and languages supported, you can see what’s the assembly of the code you are writing in real-time. 
+Different tools and visualizations are available and the UI is very customizable.
+Although the focus of Compiler Explorer was (and I think it still is) to convert code into the assembly, it also has the support for execution. 
+In this talk on CppCon 2019 from Matt Godbolt, creator of the Compiler Explorer, he presents the history of Compiler Explorer, some of the newer features (at that time), and some of the behind the scenes.
+
+
+Link: https://quick-bench.com/
+Name: Quick C++ Benchmark
+Quick Bench is an online benchmarking tool intended to quickly and simply compare the performance of two or more code snippets. 
+It does support different compilers (with many versions available), C++ from 11 to 20 (really!), different optimization levels, and other customizations.
+Not only it’s super easy to set up the benchmark, but it will also create a chart with the comparison of the snippets. 
+And if you are into it, you can still check the assembly, and see what are the instructions that are making your code slower.
+
+
+Link: https://perfbench.com/
+Name: Perf Bench
+If Quick Bench didn’t sound right to you, maybe Perf Bench will make it. 
+Similar to the previous item, Perf Bench it’s an online C++ code profiler. 
+It lets you write and benchmark C++ online and see latencies on charts, comparing performance between different versions of the code.
+What I really like about this tool is that it allows to nest different scopes of profilers and specify the number of loops for each profiler.
+Honestly, most of the time this is a bit overkill to my use, but on specific occasions, it’s exactly what I need.
+
+
+Link: http://cpp.sh/
+Name: C++ shell
+C++ shell as the name suggests is an online C++ compiler shell. 
+It’s much simpler than the items that are to come in this list, but it gets the job done. 
+If you want to quickly check something and see the output, it will be enough for you. It does support C++ 98, 11, and 14 and some warnings and optimization levels, but that’s it.
+This is usually my go-to whenever I want to test some small code to see if it’s behaving as I wanted and I’m not interested in anything fancier.
+
+
+Link: https://www.onlinegdb.com/
+Name: Online GDB
+Online GDB is like the improved version of the C++ shell. 
+It’s also an online compiler, but it also has a built-in feature for debugging using GDB. 
+You can compile, run and debug code, not only it supports C++ (including C++ 11 to 17), it also works with languages such as Python, Rust, and many others.
+
+
+Link: https://cppinsights.io/
+Name: Cpp Insights
+Cpp Insights is a clang-based tool that does a source-to-source transformation. 
+Its goal is to make things visible which normally, and intentionally, happen behind the scenes. 
+As they say: It’s about the magic the compiler does for us to make things work.
+You’ll be able to see what the compiler actually sees, removing a lot of the syntax sugar we are used to. 
+You can check out the talk from Andreas Fertig on NDC Oslo 2017 where he talks about these hidden costs of the language’s features, and Cpp Insights is all about that!
+
+
+Link: https://www.learncpp.com/
+Name: Learn CPP
+Before everything, this first tip is meant for those that are still learning or want to learn C++. 
+Learn Cpp is a free website devoted to teaching you how to program in C++. 
+Whether you’ve had any prior programming experience or not, the tutorials on this site will walk you through all the steps to write, compile, and debug your C++ programs, all with plenty of examples.
+When someones come to me questioning what they could do to become C++ developers, Learn Cpp is my first suggestion. 
+It approaches from the very basic syntax and constructions, passing through data types and inheritance, up to more complex topics and even updates on newer versions of C++.
+
+

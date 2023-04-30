@@ -1,0 +1,2044 @@
+
+Taken from [https://en.cppreference.com/w/cpp/algorithm] 
+
+
+ 
+-> C++ Algorithm library
+---> The algorithms library defines functions for a variety of purposes (e.g. searching, sorting, counting, manipulating) that operate on ranges of elements. 
+---> Note that a range is defined as [first, last) where last refers to the element past the last element to inspect or modify.
+
+-> Constrained algorithms (since C++20)
+---> C++20 provides constrained versions of most algorithms in the namespace std::ranges. 
+---> In these algorithms, a range can be specified as either an iterator-sentinel pair or as a single range argument, and projections and pointer-to-member callables are supported. 
+---> Additionally, the return types of most algorithms have been changed to return all potentially useful information computed during the execution of the algorithm.
+-----> std::vector<int> v = {7, 1, 4, 0, -1};
+-----> std::ranges::sort(v); // constrained algorithm
+
+-> Execution policies (since C++17)
+---> Defined in header <execution>
+---> Defined in namespace std::execution
+---> Most algorithms have overloads that accept execution policies. 
+---> The standard library algorithms support several execution policies, and the library provides corresponding execution policy types and objects. 
+---> Users may select an execution policy statically by invoking a parallel algorithm with an execution policy object of the corresponding type.
+---> Standard library implementations (but not the users) may define additional execution policies as an extension. 
+---> The semantics of parallel algorithms invoked with an execution policy object of implementation-defined type is implementation-defined.
+---> Parallel version of algorithms (except for std::for_each and std::for_each_n) are allowed to make arbitrary copies of elements from ranges, 
+-----> as long as both std::is_trivially_copy_constructible_v<T> and std::is_trivially_destructible_v<T> are true, where T is the type of elements.
+---> Execution policy types (class):
+-----> sequenced_policy (C++17)
+-----> parallel_policy (C++17)
+-----> parallel_unsequenced_policy (C++17)
+-----> unsequenced_policy(C++20)
+---> global execution policy objects (constant):
+-----> Defined in namespace std
+-----> seq (C++17)
+-----> par (C++17)
+-----> par_unseq (C++17)
+-----> unseq (C++20)
+---> is_execution_policy (class template) (C++17)
+-----> test whether a class represents an execution policy
+
+
+
+-> List of algorithms(non ranges):
+---> Non-modifying sequence operations:
+-----> all_of
+-----> any_of
+-----> none_of
+-------> checks if a predicate is true for all, any or none of the elements in a range
+-----> for_each
+-------> applies a function to a range of elements
+-----> for_each_n
+-------> applies a function object to the first n elements of a sequence
+-----> count
+-----> count_if
+-------> returns the number of elements satisfying specific criteria
+-----> mismatch
+-------> finds the first position where two ranges differ
+-----> find
+-----> find_if
+-----> find_if_not
+-------> finds the first element satisfying specific criteria
+-----> find_end 
+-------> finds the last sequence of elements in a certain range
+-----> find_first_of
+-------> searches for any one of a set of elements
+-----> adjacent_find
+-------> finds the first two adjacent items that are equal (or satisfy a given predicate)
+-----> search
+-------> searches for a range of elements
+-----> search_n
+-------> searches a range for a number of consecutive copies of an element
+---> Modifying sequence operations
+-----> copy
+-----> copy_if
+-------> copies a range of elements to a new location
+-----> copy_n
+-------> copies a number of elements to a new location
+-----> copy_backward
+-------> copies a range of elements in backwards order
+-----> move
+-------> moves a range of elements to a new location
+-----> move_backward
+-------> moves a range of elements to a new location in backwards order
+-----> fill
+-------> copy-assigns the given value to every element in a range
+-----> fill_n
+-------> copy-assigns the given value to N elements in a range
+-----> transform
+-------> applies a function to a range of elements, storing results in a destination range
+-----> generate
+-------> assigns the results of successive function calls to every element in a range
+-----> generate_n
+-------> assigns the results of successive function calls to N elements in a range
+-----> remove
+-----> remove_if
+-------> removes elements satisfying specific criteria
+-----> remove_copy
+-----> remove_copy_if
+-------> copies a range of elements omitting those that satisfy specific criteria
+-----> replace
+-----> replace_if
+-------> replaces all values satisfying specific criteria with another value
+-----> replace_copy
+-----> replace_copy_if
+-------> copies a range, replacing elements satisfying specific criteria with another value
+-----> swap
+-------> swaps the values of two objects
+-----> swap_ranges
+-------> swaps two ranges of elements
+-----> iter_swap
+-------> swaps the elements pointed to by two iterators
+-----> reverse
+-------> reverses the order of elements in a range
+-----> reverse_copy
+-------> creates a copy of a range that is reversed
+-----> rotate
+-------> rotates the order of elements in a range
+-----> rotate_copy
+-------> copies and rotate a range of elements
+-----> shift_left
+-----> shift_right
+-------> shifts elements in a range
+-----> random_shuffle (until C++17)
+-----> shuffle
+-------> randomly re-orders elements in a range
+-----> sample
+-------> selects n random elements from a sequence
+-----> unique
+-------> removes consecutive duplicate elements in a range
+-----> unique_copy 
+-------> creates a copy of some range of elements that contains no consecutive duplicates
+---> Partitioning operations
+-----> is_partitioned
+-------> determines if the range is partitioned by the given predicate
+-----> partition
+-------> divides a range of elements into two groups
+-----> partition_copy
+-------> copies a range dividing the elements into two groups
+-----> stable_partition
+-------> divides elements into two groups while preserving their relative order
+-----> partition_point
+-------> locates the partition point of a partitioned range
+---> Sorting operations
+-----> is_sorted
+-------> checks whether a range is sorted into ascending order
+-----> is_sorted_until
+-------> finds the largest sorted subrange
+-----> sort
+-------> sorts a range into ascending order
+-----> partial_sort
+-------> sorts the first N elements of a range
+-----> partial_sort_copy
+-------> copies and partially sorts a range of elements
+-----> stable_sort
+-------> sorts a range of elements while preserving order between equal elements
+-----> nth_element
+-------> partially sorts the given range making sure that it is partitioned by the given element
+---> Binary search operations (on sorted ranges)
+-----> lower_bound
+-------> returns an iterator to the first element not less than the given value
+-----> upper_bound
+-------> returns an iterator to the first element greater than a certain value
+-----> binary_search
+-------> determines if an element exists in a certain range
+-----> equal_range
+-------> returns range of elements matching a specific key
+---> Other operations on sorted ranges
+-----> merge
+-------> merges two sorted ranges
+-----> inplace_merge
+-------> merges two ordered ranges in-place
+---> Set operations (on sorted ranges)
+-----> includes
+-------> returns true if one sequence is a subsequence of another
+-----> set_difference
+-------> computes the difference between two sets
+-----> set_intersection
+-------> computes the intersection of two sets
+-----> set_symmetric_difference
+-------> computes the symmetric difference between two sets
+-----> set_union
+-------> computes the union of two sets
+---> Heap operations
+-----> is_heap
+-------> checks if the given range is a max heap
+-----> is_heap_until
+-------> finds the largest subrange that is a max heap
+-----> make_heap
+-------> creates a max heap out of a range of elements
+-----> push_heap
+-------> adds an element to a max heap
+-----> pop_heap
+-------> removes the largest element from a max heap
+-----> sort_heap
+-------> turns a max heap into a range of elements sorted in ascending order
+---> Minimum/maximum operations
+-----> max
+-------> returns the greater of the given values
+-----> max_element
+-------> returns the largest element in a range
+-----> min
+-------> returns the smaller of the given values
+-----> min_element
+-------> returns the smallest element in a range
+-----> minmax
+-------> returns the smaller and larger of two elements
+-----> minmax_element
+-------> returns the smallest and the largest elements in a range
+-----> clamp
+-------> clamps a value between a pair of boundary values
+---> Comparison operations
+-----> equal
+-------> determines if two sets of elements are the same
+-----> lexicographical_compare
+-------> returns true if one range is lexicographically less than another
+-----> lexicographical_compare_three_way
+-------> compares two ranges using three-way comparison
+---> Permutation operations
+-----> is_permutation
+-------> determines if a sequence is a permutation of another sequence
+-----> next_permutation
+-------> generates the next greater lexicographic permutation of a range of elements
+-----> prev_permutation
+-------> generates the next smaller lexicographic permutation of a range of elements
+---> Numeric operations
+-----> iota
+-------> fills a range with successive increments of the starting value
+-----> accumulate
+-------> sums up a range of elements
+-----> inner_product
+-------> computes the inner product of two ranges of elements
+-----> adjacent_difference
+-------> computes the differences between adjacent elements in a range
+-----> partial_sum
+-------> computes the partial sum of a range of elements
+-----> reduce
+-------> similar to std::accumulate, except out of order
+-----> exclusive_scan
+-------> similar to std::partial_sum, excludes the ith input element from the ith sum
+-----> inclusive_scan
+-------> similar to std::partial_sum, includes the ith input element in the ith sum
+-----> transform_reduce
+-------> applies an invocable, then reduces out of order
+-----> transform_exclusive_scan
+-------> applies an invocable, then calculates exclusive scan
+-----> transform_inclusive_scan
+-------> applies an invocable, then calculates inclusive scan
+---> Operations on uninitialized memory
+-----> uninitialized_copy
+-------> copies a range of objects to an uninitialized area of memory
+-----> uninitialized_copy_n
+-------> copies a number of objects to an uninitialized area of memory
+-----> uninitialized_fill
+-------> copies an object to an uninitialized area of memory, defined by a range
+-----> uninitialized_fill_n
+-------> copies an object to an uninitialized area of memory, defined by a start and a count
+-----> uninitialized_move
+-------> moves a range of objects to an uninitialized area of memory
+-----> uninitialized_move_n
+-------> moves a number of objects to an uninitialized area of memory
+-----> uninitialized_default_construct
+-------> constructs objects by default-initialization in an uninitialized area of memory, defined by a range
+-----> uninitialized_default_construct_n
+-------> constructs objects by default-initialization in an uninitialized area of memory, defined by a start and a count
+-----> uninitialized_value_construct
+-------> constructs objects by value-initialization in an uninitialized area of memory, defined by a range
+-----> uninitialized_value_construct_n
+-------> constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count
+-----> destroy
+-------> destroys a range of objects
+-----> destroy_n(function template)
+-------> destroys a number of objects in a range
+-----> destroy_at
+-------> destroys an object at a given address
+-----> construct_at
+-------> creates an object at a given address
+---> C library
+-----> qsort (function)
+-------> sorts a range of elements with unspecified type
+-----> bsearch (function)
+-------> searches an array for an element of unspecified type
+
+
+
+-> List of algorithms(ranges):
+---> Non-modifying sequence operations:
+-----> ranges::all_of (C++20) (niebloid)
+-----> ranges::any_of (C++20) (niebloid)
+-----> ranges::none_of (C++20) (niebloid)
+-------> checks if a predicate is true for all, any or none of the elements in a range
+-----> ranges::for_each (C++20) (niebloid)
+-------> applies a function to a range of elements
+-----> ranges::for_each_n (C++20) (niebloid)
+-------> applies a function object to the first n elements of a sequence
+-----> ranges::count (C++20) (niebloid)
+-----> ranges::count_if (C++20) (niebloid)
+-------> returns the number of elements satisfying specific criteria
+-----> ranges::mismatch (C++20) (niebloid)
+-------> finds the first position where two ranges differ
+-----> ranges::find (C++20) (niebloid)
+-----> ranges::find_if (C++20) (niebloid)
+-----> ranges::find_if_not (C++20) (niebloid)
+-------> finds the first element satisfying specific criteria
+-----> ranges::find_end  (C++20) (niebloid)
+-------> finds the last sequence of elements in a certain range
+-----> ranges::find_first_of (C++20) (niebloid)
+-------> searches for any one of a set of elements
+-----> ranges::adjacent_find (C++20) (niebloid)
+-------> finds the first two adjacent items that are equal (or satisfy a given predicate)
+-----> ranges::search (C++20) (niebloid)
+-------> searches for a range of elements
+-----> ranges::search_n (C++20) (niebloid)
+-------> searches for a number consecutive copies of an element in a range
+-----> ranges::starts_with (C++23) (niebloid)
+-------> checks whether a range starts with another range
+-----> ranges::ends_with (C++23) (niebloid)
+-------> checks whether a range ends with another range
+---> Modifying sequence operations
+-----> ranges::copy (C++20) (niebloid)
+-----> ranges::copy_if (C++20) (niebloid)
+-------> copies a range of elements to a new location
+-----> ranges::copy_n (C++20) (niebloid)
+-------> copies a number of elements to a new location
+-----> ranges::copy_backward (C++20) (niebloid)
+-------> copies a range of elements in backwards order
+-----> ranges::move (C++20) (niebloid)
+-------> moves a range of elements to a new location
+-----> ranges::move_backward (C++20) (niebloid)
+-------> moves a range of elements to a new location in backwards order
+-----> ranges::fill (C++20) (niebloid)
+-------> assigns a range of elements a certain value
+-----> ranges::fill_n (C++20) (niebloid)
+-------> assigns a value to a number of elements
+-----> ranges::transform (C++20) (niebloid)
+-------> applies a function to a range of elements
+-----> ranges::generate (C++20) (niebloid)
+-------> saves the result of a function in a range
+-----> ranges::generate_n (C++20) (niebloid)
+-------> saves the result of N applications of a function
+-----> ranges::remove (C++20) (niebloid)
+-----> ranges::remove_if (C++20) (niebloid)
+-------> removes elements satisfying specific criteria
+-----> ranges::remove_copy (C++20) (niebloid)
+-----> ranges::remove_copy_if (C++20) (niebloid)
+-------> copies a range of elements omitting those that satisfy specific criteria
+-----> ranges::replace (C++20) (niebloid)
+-----> ranges::replace_if (C++20) (niebloid)
+-------> replaces all values satisfying specific criteria with another value
+-----> ranges::replace_copy (C++20) (niebloid)
+-----> ranges::replace_copy_if (C++20) (niebloid)
+-------> copies a range, replacing elements satisfying specific criteria with another value
+-----> ranges::swap_ranges (C++20) (niebloid)
+-------> swaps two ranges of elements
+-----> ranges::reverse (C++20) (niebloid)
+-------> reverses the order of elements in a range
+-----> ranges::reverse_copy (C++20) (niebloid)
+-------> creates a copy of a range that is reversed
+-----> ranges::rotate (C++20) (niebloid)
+-------> rotates the order of elements in a range
+-----> ranges::rotate_copy (C++20) (niebloid)
+-------> copies and rotate a range of elements
+-----> ranges::shuffle (C++20) (niebloid)
+-------> randomly re-orders elements in a range
+-----> ranges::sample (C++20) (niebloid)
+-------> selects n random elements from a sequence
+-----> ranges::unique (C++20) (niebloid)
+-------> removes consecutive duplicate elements in a range
+-----> ranges::unique_copy (C++20) (niebloid)
+-------> creates a copy of some range of elements that contains no consecutive duplicates
+---> Partitioning operations
+-----> ranges::is_partitioned (C++20) (niebloid)
+-------> determines if the range is partitioned by the given predicate
+-----> ranges::partition (C++20) (niebloid)
+-------> divides a range of elements into two groups
+-----> ranges::partition_copy (C++20) (niebloid)
+-------> copies a range dividing the elements into two groups
+-----> ranges::stable_partition (C++20) (niebloid)
+-------> divides elements into two groups while preserving their relative order
+-----> ranges::partition_point (C++20) (niebloid)
+-------> locates the partition point of a partitioned range
+---> Sorting operations
+-----> ranges::is_sorted (C++20) (niebloid)
+-------> checks whether a range is sorted into ascending order
+-----> ranges::is_sorted_until (C++20) (niebloid)
+-------> finds the largest sorted subrange
+-----> ranges::sort (C++20) (niebloid)
+-------> sorts a range into ascending order
+-----> ranges::partial_sort (C++20) (niebloid)
+-------> sorts the first N elements of a range
+-----> ranges::partial_sort_copy (C++20) (niebloid)
+-------> copies and partially sorts a range of elements
+-----> ranges::stable_sort (C++20) (niebloid)
+-------> sorts a range of elements while preserving order between equal elements
+-----> ranges::nth_element (C++20) (niebloid)
+-------> partially sorts the given range making sure that it is partitioned by the given element
+---> Binary search operations (on sorted ranges)
+-----> ranges::lower_bound (C++20) (niebloid)
+-------> returns an iterator to the first element not less than the given value
+-----> ranges::upper_bound (C++20) (niebloid)
+-------> returns an iterator to the first element greater than a certain value
+-----> ranges::binary_search (C++20) (niebloid)
+-------> determines if an element exists in a certain range
+-----> ranges::equal_range (C++20) (niebloid)
+-------> returns range of elements matching a specific key
+---> Other operations on sorted ranges
+-----> ranges::merge (C++20) (niebloid)
+-------> merges two sorted ranges
+-----> ranges::inplace_merge (C++20)
+-------> merges two ordered ranges in-place
+---> Set operations (on sorted ranges)
+-----> ranges::includes (C++20) (niebloid)
+-------> returns true if one sequence is a subsequence of another
+-----> ranges::set_difference (C++20) (niebloid)
+-------> computes the difference between two sets
+-----> ranges::set_intersection (C++20) (niebloid)
+-------> computes the intersection of two sets
+-----> ranges::set_symmetric_difference (C++20) (niebloid)
+-------> computes the symmetric difference between two sets
+-----> ranges::set_union (C++20) (niebloid)
+-------> computes the union of two sets
+---> Heap operations
+-----> ranges::is_heap (C++20) (niebloid)
+-------> checks if the given range is a max heap
+-----> ranges::is_heap_until (C++20) (niebloid)
+-------> finds the largest subrange that is a max heap
+-----> ranges::make_heap (C++20) (niebloid)
+-------> creates a max heap out of a range of elements
+-----> ranges::push_heap (C++20) (niebloid)
+-------> adds an element to a max heap
+-----> ranges::pop_heap (C++20) (niebloid)
+-------> removes the largest element from a max heap
+-----> ranges::sort_heap (C++20) (niebloid)
+-------> turns a max heap into a range of elements sorted in ascending order
+---> Minimum/maximum operations
+-----> ranges::max (C++20) (niebloid)
+-------> returns the greater of the given values
+-----> ranges::max_element (C++20) (niebloid)
+-------> returns the largest element in a range
+-----> ranges::min (C++20) (niebloid)
+-------> returns the smaller of the given values
+-----> ranges::min_element (C++20) (niebloid)
+-------> returns the smallest element in a range
+-----> ranges::minmax (C++20) (niebloid)
+-------> returns the smaller and larger of two elements
+-----> ranges::minmax_element (C++20) (niebloid)
+-------> returns the smallest and the largest elements in a range
+-----> ranges::clamp (C++20) (niebloid)
+-------> clamps a value between a pair of boundary values
+---> Comparison operations
+-----> ranges::equal (C++20) (niebloid)
+-------> determines if two sets of elements are the same
+-----> ranges::lexicographical_compare (C++20) (niebloid)
+-------> returns true if one range is lexicographically less than another
+---> Permutation operations
+-----> ranges::is_permutation (C++20) (niebloid)
+-------> determines if a sequence is a permutation of another sequence
+-----> ranges::next_permutation (C++20) (niebloid)
+-------> generates the next greater lexicographic permutation of a range of elements
+-----> ranges::prev_permutation (C++20) (niebloid)
+-------> generates the next smaller lexicographic permutation of a range of elements
+---> Operations on uninitialized memory
+-----> ranges::uninitialized_copy (C++20) (niebloid)
+-------> copies a range of objects to an uninitialized area of memory
+-----> ranges::uninitialized_copy_n (C++20)(niebloid)
+-------> copies a number of objects to an uninitialized area of memory
+-----> ranges::uninitialized_fill (C++20) (niebloid)
+-------> copies an object to an uninitialized area of memory, defined by a range
+-----> ranges::uninitialized_fill_n (C++20) (niebloid)
+-------> copies an object to an uninitialized area of memory, defined by a start and a count
+-----> ranges::uninitialized_move (C++20) (niebloid)
+-------> moves a range of objects to an uninitialized area of memory
+-----> ranges::uninitialized_move_n (C++20) (niebloid)
+-------> moves a number of objects to an uninitialized area of memory
+-----> ranges::uninitialized_default_construct (C++20) (niebloid)
+-------> constructs objects by default-initialization in an uninitialized area of memory, defined by a range
+-----> ranges::uninitialized_default_construct_n (C++20) (niebloid)
+-------> constructs objects by default-initialization in an uninitialized area of memory, defined by a start and count
+-----> ranges::uninitialized_value_construct (C++20) (niebloid)
+-------> constructs objects by value-initialization in an uninitialized area of memory, defined by a range
+-----> ranges::uninitialized_value_construct_n (C++20) (niebloid)
+-------> constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count
+-----> ranges::destroy (C++20) (niebloid)
+-------> destroys a range of objects
+-----> ranges::destroy_n (C++20) (niebloid)
+-------> destroys a number of objects in a range
+-----> ranges::destroy_at (C++20) (niebloid)
+-------> destroys an object at a given address
+-----> ranges::construct_at (C++20) (niebloid)
+-------> creates an object at a given address
+
+
+
+
+-> Comprehensive list of algorithms(non ranges):
+
+
+
+---> Non-modifying sequence operations:
+
+
+-----> all_of, any_of, none_of
+-------> Tags: <algorithm> (C++11) (function template)
+-------> Description:  
+---------> Checks if a predicate is true for all, any or none of the elements in a range
+---------> (all_of) Checks if unary predicate p returns true for all elements in the range [first, last).
+---------> (any_of) Checks if unary predicate p returns true for at least one element in the range [first, last).
+---------> (none_of) Checks if unary predicate p returns true for no elements in the range [first, last).
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v(10, 2);
+    std::partial_sum(v.cbegin(), v.cend(), v.begin());
+    std::cout << "Among the numbers: ";
+    std::copy(v.cbegin(), v.cend(), std::ostream_iterator<int>(std::cout, " "));
+    std::cout << '\n';
+ 
+    if (std::all_of(v.cbegin(), v.cend(), [](int i){ return i % 2 == 0; })) {
+        std::cout << "All numbers are even\n";
+    }
+    if (std::none_of(v.cbegin(), v.cend(), std::bind(std::modulus<>(), 
+                                                     std::placeholders::_1, 2))) {
+        std::cout << "None of them are odd\n";
+    }
+    struct DivisibleBy
+    {
+        const int d;
+        DivisibleBy(int n) : d(n) {}
+        bool operator()(int n) const { return n % d == 0; }
+    };
+ 
+    if (std::any_of(v.cbegin(), v.cend(), DivisibleBy(7))) {
+        std::cout << "At least one number is divisible by 7\n";
+    }
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+Among the numbers: 2 4 6 8 10 12 14 16 18 20 
+All numbers are even
+None of them are odd
+At least one number is divisible by 7
+----------------------------------------------------------------------------------
+
+
+
+-----> for_each
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Applies a function to a range of elements
+---------> Applies the given function object f to the result of dereferencing every iterator in the range [first, last).
+-------> Code:
+----------------------------------------------------------------------------------
+struct Sum
+{
+    void operator()(int n) { sum += n; }
+    int sum{0};
+};
+int main()
+{
+    std::vector<int> nums{3, 4, 2, 8, 15, 267};
+ 
+    auto print = [](const int& n) { std::cout << " " << n; };
+ 
+    std::cout << "before:";
+    std::for_each(nums.cbegin(), nums.cend(), print);
+    std::cout << '\n';
+ 
+    std::for_each(nums.begin(), nums.end(), [](int &n){ n++; });
+ 
+    // calls Sum::operator() for each number
+    Sum s = std::for_each(nums.begin(), nums.end(), Sum());
+ 
+    std::cout << "after: ";
+    std::for_each(nums.cbegin(), nums.cend(), print);
+    std::cout << '\n';
+    std::cout << "sum: " << s.sum << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+before: 3 4 2 8 15 267
+after:  4 5 3 9 16 268
+sum: 305
+----------------------------------------------------------------------------------
+
+
+
+-----> for_each_n 
+-------> Tags: <algorithm> (C++17) (function template)
+-------> Description:  
+---------> Applies a function object to the first n elements of a sequence
+---------> Applies the given function object f to the result of dereferencing every iterator in the range [first, first + n).
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> ns{1, 2, 3, 4, 5};
+    for (auto n: ns) std::cout << n << ", ";
+    std::cout << '\n';
+    std::for_each_n(ns.begin(), 3, [](auto& n){ n *= 2; });
+    for (auto n: ns) std::cout << n << ", ";
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+1, 2, 3, 4, 5, 
+2, 4, 6, 4, 5,
+----------------------------------------------------------------------------------
+
+
+
+-----> count, count_if
+-------> Tags: <algorithm> (C++11) (function template) 
+-------> Description:  
+---------> Returns the number of elements satisfying specific criteria  
+---------> Returns the number of elements in the range [first, last) satisfying specific criteria. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    constexpr std::array v = { 1, 2, 3, 4, 4, 3, 7, 8, 9, 10 };
+    std::cout << "v: ";
+    std::copy(v.cbegin(), v.cend(), std::ostream_iterator<int>(std::cout, " "));
+    std::cout << '\n';
+ 
+    // determine how many integers match a target value.
+    for (const int target: {3, 4, 5}) {
+        const int num_items = std::count(v.cbegin(), v.cend(), target);
+        std::cout << "number: " << target << ", count: " << num_items << '\n';
+    }
+ 
+    // use a lambda expression to count elements divisible by 4.
+    int count_div4 = std::count_if(v.begin(), v.end(), [](int i){return i % 4 == 0;});
+    std::cout << "numbers divisible by four: " << count_div4 << '\n';
+ 
+    // A simplified version of `distance` with O(N) complexity:
+    auto distance = [](auto first, auto last) {
+        return std::count_if(first, last, [](auto){return true;});
+    };
+    static_assert(distance(v.begin(), v.end()) == 10);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+v: 1 2 3 4 4 3 7 8 9 10 
+number: 3, count: 2
+number: 4, count: 2
+number: 5, count: 0
+numbers divisible by four: 3
+----------------------------------------------------------------------------------
+
+
+
+-----> mismatch
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Finds the first position where two ranges differ
+---------> Returns the first mismatching pair of elements from two ranges: one defined by [first1, last1) and another defined by [first2,last2). 
+---------> If last2 is not provided (overloads (1-4)), it denotes first2 + (last1 - first1). 
+-------> Code:
+----------------------------------------------------------------------------------
+std::string mirror_ends(const std::string& in)
+{
+    return std::string(in.begin(),
+                       std::mismatch(in.begin(), in.end(), in.rbegin()).first);
+}
+ 
+int main()
+{
+    std::cout << mirror_ends("abXYZba") << '\n'
+              << mirror_ends("abca") << '\n'
+              << mirror_ends("aba") << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+ab
+a
+aba
+----------------------------------------------------------------------------------
+
+
+
+-----> find, find_if, find_if_not
+-------> Tags: <algorithm> (C++11) (function template)
+-------> Description:  
+---------> Finds the first element satisfying specific criteria
+---------> Returns an iterator to the first element in the range [first, last) that satisfies specific criteria.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v{1, 2, 3, 4};
+    int n1 = 3;
+    int n2 = 5;
+    auto is_even = [](int i){ return i%2 == 0; };
+ 
+    auto result1 = std::find(begin(v), end(v), n1);
+    auto result2 = std::find(begin(v), end(v), n2);
+    auto result3 = std::find_if(begin(v), end(v), is_even);
+ 
+    (result1 != std::end(v))
+        ? std::cout << "v contains " << n1 << '\n'
+        : std::cout << "v does not contain " << n1 << '\n';
+ 
+    (result2 != std::end(v))
+        ? std::cout << "v contains " << n2 << '\n'
+        : std::cout << "v does not contain " << n2 << '\n';
+ 
+    (result3 != std::end(v))
+        ? std::cout << "v contains an even number: " << *result3 << '\n'
+        : std::cout << "v does not contain even numbers\n";
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+v contains 3
+v does not contain 5
+v contains an even number: 2
+----------------------------------------------------------------------------------
+
+
+
+-----> find_end 
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Finds the last sequence of elements in a certain range
+---------> Searches for the last occurrence of the sequence [s_first, s_last) in the range [first, last). 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v{1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4};
+    std::vector<int>::iterator result;
+ 
+    auto check = [&] {
+        result == v.end()
+            ? std::cout << "sequence not found\n"
+            : std::cout << "last occurrence is at: "
+                        << std::distance(v.begin(), result) << "\n";
+    };
+ 
+    std::vector<int> t1{1, 2, 3};
+    result = std::find_end(v.begin(), v.end(), t1.begin(), t1.end());
+    check();
+ 
+    std::vector<int> t2{4, 5, 6};
+    result = std::find_end(v.begin(), v.end(), t2.begin(), t2.end());
+    check();
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+last occurrence is at: 8
+sequence not found
+----------------------------------------------------------------------------------
+
+
+
+-----> find_first_of
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Searches for any one of a set of elements  
+---------> Searches the range [first, last) for any of the elements in the range [s_first, s_last).
+-------> Code:
+----------------------------------------------------------------------------------
+auto print_sequence = [](auto const id, auto const& seq) {
+    std::cout << id << "{ ";
+    for (int i{}; auto const& e : seq)
+        std::cout << (i++ ? ", " : "") << e;
+    std::cout << " }\n";
+};
+int main()
+{
+    const std::vector<int> v{0, 2, 3, 25, 5};
+    const auto t1 = {3, 19, 10, 2};
+    const auto t2 = {1, 6, 7, 9};
+ 
+    auto find_any_of = [](const auto& v, const auto& t) {
+        const auto result = std::find_first_of(v.begin(), v.end(),
+                                               t.begin(), t.end());
+        if (result == v.end()) {
+            std::cout << "No elements of v are equal to any element of ";
+            print_sequence("t = ", t);
+        } else {
+            std::cout << "Found a match (" << *result << ") at position "
+                      << std::distance(v.begin(), result);
+            print_sequence(", where t = ", t);
+        }
+    };
+ 
+    print_sequence("v = ", v);
+    find_any_of(v, t1);
+    find_any_of(v, t2);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+v = { 0, 2, 3, 25, 5 }
+Found a match (2) at position 1, where t = { 3, 19, 10, 2 }
+No elements of v are equal to any element of t = { 1, 6, 7, 9 }
+---------------------------------------------------------------------------------- 
+
+
+
+-----> adjacent_find
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Finds the first two adjacent items that are equal (or satisfy a given predicate)
+---------> Searches the range [first, last) for two consecutive equal elements. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v1{0, 1, 2, 3, 40, 40, 41, 41, 5};
+ 
+    auto i1 = std::adjacent_find(v1.begin(), v1.end());
+ 
+    if (i1 == v1.end()) {
+        std::cout << "No matching adjacent elements\n";
+    } else {
+        std::cout << "The first adjacent pair of equal elements is at "
+                  << std::distance(v1.begin(), i1) << ", *i1 = "
+                  << *i1 << '\n';
+    }
+ 
+    auto i2 = std::adjacent_find(v1.begin(), v1.end(), std::greater<int>());
+    if (i2 == v1.end()) {
+        std::cout << "The entire vector is sorted in ascending order\n";
+    } else {
+        std::cout << "The last element in the non-decreasing subsequence is at "
+                  << std::distance(v1.begin(), i2) << ", *i2 = " << *i2 << '\n';
+    }
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+The first adjacent pair of equal elements is at 4, *i1 = 40
+The last element in the non-decreasing subsequence is at 7, *i2 = 41
+----------------------------------------------------------------------------------
+
+
+
+-----> search
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Searches for a range of elements
+---------> Searches for the first occurrence of the sequence of elements [s_first, s_last) in the range [first, last).
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string str = "why waste time learning, when ignorance is instantaneous?";
+    // str.find() can be used as well
+    std::cout << std::boolalpha << contains(str, "learning") << '\n'   // true
+                                << contains(str, "lemming")  << '\n';  // false
+ 
+    std::vector<char> vec(str.begin(), str.end());
+    std::cout << contains(vec, "learning") << '\n'   // true
+              << contains(vec, "leaning")  << '\n';  // false
+ 
+    // The C++17 overload demo:
+    constexpr std::string_view haystack =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+        "do eiusmod tempor incididunt ut labore et dolore magna aliqua";
+    const std::string needle {"pisci"};
+ 
+    if (auto it = std::search(haystack.begin(), haystack.end(),
+                      std::boyer_moore_searcher(needle.begin(), needle.end()));
+        it != haystack.end())
+    {
+        std::cout << "The string " << quoted(needle, '\'') << " found at offset "
+                  << it - haystack.begin() << '\n';
+    } else {
+        std::cout << "The string " << std::quoted(needle) << " not found\n";
+    }
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+true
+false
+true
+false
+The string 'pisci' found at offset 43
+----------------------------------------------------------------------------------
+
+
+
+-----> search_n
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Searches a range for a number of consecutive copies of an element
+---------> Searches the range [first, last) for the first sequence of count identical elements, each equal to the given value. 
+-------> Code:
+----------------------------------------------------------------------------------
+template <class Container, class Size, class T>
+bool consecutive_values(const Container& c, Size count, const T& v)
+{
+  return std::search_n(std::begin(c),std::end(c),count,v) != std::end(c);
+}
+int main()
+{
+   const char sequence[] = "1001010100010101001010101";
+ 
+   std::cout << std::boolalpha;
+   std::cout << "Has 4 consecutive zeros: "
+             << consecutive_values(sequence,4,'0') << '\n';
+   std::cout << "Has 3 consecutive zeros: "
+             << consecutive_values(sequence,3,'0') << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+Has 4 consecutive zeros: false
+Has 3 consecutive zeros: true
+----------------------------------------------------------------------------------
+
+
+
+
+---> Modifying sequence operations
+
+
+
+-----> copy, copy_if
+-------> Tags: <algorithm> (C++11) (function template)
+-------> Description:  
+---------> Copies a range of elements to a new location
+---------> Copies the elements in the range, defined by [first, last), to another range beginning at d_first. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> from_vector(10);
+    std::iota(from_vector.begin(), from_vector.end(), 0);
+ 
+    std::vector<int> to_vector;
+    std::copy(from_vector.begin(), from_vector.end(),
+              std::back_inserter(to_vector));
+// or, alternatively,
+//  std::vector<int> to_vector(from_vector.size());
+//  std::copy(from_vector.begin(), from_vector.end(), to_vector.begin());
+// either way is equivalent to
+//  std::vector<int> to_vector = from_vector;
+ 
+    std::cout << "to_vector contains: ";
+ 
+    std::copy(to_vector.begin(), to_vector.end(),
+              std::ostream_iterator<int>(std::cout, " "));
+    std::cout << '\n';
+ 
+    std::cout << "odd numbers in to_vector are: ";
+ 
+    std::copy_if(to_vector.begin(), to_vector.end(),
+                 std::ostream_iterator<int>(std::cout, " "),
+                 [](int x) { return x % 2 != 0; });
+    std::cout << '\n';
+ 
+    std::cout << "to_vector contains these multiples of 3:\n";
+ 
+    to_vector.clear();
+    std::copy_if(from_vector.begin(), from_vector.end(),
+                 std::back_inserter(to_vector),
+                 [](int x) { return x % 3 == 0; });
+ 
+    for (int x : to_vector)
+        std::cout << x << ' ';
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+to_vector contains: 0 1 2 3 4 5 6 7 8 9
+odd numbers in to_vector are: 1 3 5 7 9
+to_vector contains these multiples of 3:
+0 3 6 9
+----------------------------------------------------------------------------------
+
+
+
+-----> copy_n
+-------> Tags: <algorithm> (C++11) (function template)
+-------> Description:  
+---------> Copies a number of elements to a new location
+---------> Copies exactly count values from the range beginning at first to the range beginning at result.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string in = "1234567890";
+    std::string out;
+ 
+    std::copy_n(in.begin(), 4, std::back_inserter(out));
+    std::cout << out << '\n';
+ 
+    std::vector<int> v_in(128);
+    std::iota(v_in.begin(), v_in.end(), 1);
+    std::vector<int> v_out(v_in.size());
+ 
+    std::copy_n(v_in.cbegin(), 100, v_out.begin());
+    std::cout << std::accumulate(v_out.begin(), v_out.end(), 0) << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+1234
+5050
+----------------------------------------------------------------------------------
+
+
+ 
+-----> copy_backward
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Copies a range of elements in backwards order
+---------> Copies the elements from the range, defined by [first, last), to another range ending at d_last.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> from_vector;
+    for (int i = 0; i < 10; i++) {
+        from_vector.push_back(i);
+    }
+ 
+    std::vector<int> to_vector(15);
+ 
+    std::copy_backward(from_vector.begin(), from_vector.end(), to_vector.end());
+ 
+    std::cout << "to_vector contains: ";
+    for (auto i: to_vector) {
+        std::cout << i << " ";
+    }
+ }
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+to_vector contains: 0 0 0 0 0 0 1 2 3 4 5 6 7 8 9
+----------------------------------------------------------------------------------
+
+
+
+-----> move 
+-------> Tags: <algorithm> (C++11) (function template)
+-------> Description:  
+---------> Moves a range of elements to a new location
+---------> Moves the elements in the range [first, last), to another range beginning at d_first, starting from first and proceeding to last - 1.
+-------> Code:
+----------------------------------------------------------------------------------
+void f(int n)
+{
+    std::this_thread::sleep_for(std::chrono::seconds(n));
+    std::cout << "thread " << n << " ended" << std::endl;
+}
+int main() 
+{
+    std::vector<std::thread> v;
+    v.emplace_back(f, 1);
+    v.emplace_back(f, 2);
+    v.emplace_back(f, 3);
+    std::list<std::thread> l;
+ 
+    // copy() would not compile, because std::thread is noncopyable
+    std::move(v.begin(), v.end(), std::back_inserter(l)); 
+    for (auto& t : l) t.join();
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+thread 1 ended
+thread 2 ended
+thread 3 ended
+----------------------------------------------------------------------------------
+
+
+
+-----> move_backward
+-------> Tags: <algorithm> (C++11) (function template)
+-------> Description:  
+---------> Moves a range of elements to a new location in backwards order
+---------> Moves the elements from the range [first, last), to another range ending at d_last.
+-------> Code:
+----------------------------------------------------------------------------------
+using container = std::vector<std::string>;
+void print(std::string_view comment, const container& src, const container& dst = {})
+{
+    auto prn = [](std::string_view name, const container& cont) {
+        std::cout << name;
+        for (const auto &s: cont) { std::cout << (s.empty() ? "∙" : s.data()) << ' '; }
+        std::cout << '\n';
+    };
+    std::cout << comment << '\n';
+    prn("src: ", src);
+    if (dst.empty()) return;
+    prn("dst: ", dst);
+}
+int main()
+{
+    container src{"foo", "bar", "baz"};
+    container dst{"qux", "quux", "quuz", "corge"};
+    print("Non-overlapping case; before move_backward:", src, dst);
+    std::move_backward(src.begin(), src.end(), dst.end());
+    print("After:", src, dst);
+ 
+    src = {"snap", "crackle", "pop", "lock", "drop"};
+    print("Overlapping case; before move_backward:", src);
+    std::move_backward(src.begin(), std::next(src.begin(), 3), src.end());
+    print("After:", src);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+Non-overlapping case; before move_backward:
+src: foo bar baz 
+dst: qux quux quuz corge 
+After:
+src: ∙ ∙ ∙ 
+dst: qux foo bar baz 
+Overlapping case; before move_backward:
+src: snap crackle pop lock drop 
+After:
+src: ∙ ∙ snap crackle pop
+----------------------------------------------------------------------------------
+
+
+
+-----> fill
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Copy-assigns the given value to every element in a range
+---------> Assigns the given value to the elements in the range [first, last).
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+ 
+    std::fill(v.begin(), v.end(), -1);
+ 
+    for (auto elem : v) {
+        std::cout << elem << " ";
+    }
+    std::cout << "\n";
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+----------------------------------------------------------------------------------
+
+
+
+-----> fill_n
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Copy-assigns the given value to N elements in a range  
+---------> Assigns the given value to the first count elements in the range beginning at first if count > 0. Does nothing otherwise.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+ 
+    std::fill_n(v1.begin(), 5, -1);
+ 
+    std::copy(begin(v1), end(v1), std::ostream_iterator<int>(std::cout, " "));
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+-1 -1 -1 -1 -1 5 6 7 8 9
+----------------------------------------------------------------------------------
+
+
+
+-----> transform
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Applies a function to a range of elements, storing results in a destination range
+---------> std::transform applies the given function to a range and stores the result in another range, keeping the original elements order and beginning at d_first. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string s("hello");
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) -> unsigned char { return std::toupper(c); });
+ 
+    std::vector<std::size_t> ordinals;
+    std::transform(s.begin(), s.end(), std::back_inserter(ordinals),
+                   [](unsigned char c) -> std::size_t { return c; });
+ 
+    std::cout << s << ':';
+    for (auto ord : ordinals) {
+       std::cout << ' ' << ord;
+    }
+ 
+    std::transform(ordinals.cbegin(), ordinals.cend(), ordinals.cbegin(),
+                   ordinals.begin(), std::plus<>{});
+ 
+    std::cout << '\n';
+    for (auto ord : ordinals) {
+       std::cout << ord << ' ';
+    }
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+HELLO: 72 69 76 76 79
+144 138 152 152 158
+----------------------------------------------------------------------------------
+
+
+
+-----> generate
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Assigns the results of successive function calls to every element in a range
+---------> Assigns each element in range [first, last) a value generated by the given function object g.
+-------> Code:
+----------------------------------------------------------------------------------
+int f()
+{ 
+    static int i;
+    return ++i;
+}
+int main()
+{
+    std::vector<int> v(5);
+    auto print = [&] {
+        for (std::cout << "v: "; auto iv: v)
+            std::cout << iv << " ";
+        std::cout << "\n";
+    };
+ 
+    std::generate(v.begin(), v.end(), f);
+    print();
+ 
+    // Initialize with default values 0,1,2,3,4 from a lambda function
+    // Equivalent to std::iota(v.begin(), v.end(), 0);
+    std::generate(v.begin(), v.end(), [n = 0] () mutable { return n++; });
+    print();
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+v: 1 2 3 4 5
+v: 0 1 2 3 4
+----------------------------------------------------------------------------------
+
+
+
+-----> generate_n
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Assigns the results of successive function calls to N elements in a range
+---------> Assigns values, generated by given function object g, to the first count elements in the range beginning at first, if count>0. Does nothing otherwise.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::mt19937 rng; // default constructed, seeded with fixed seed
+    std::generate_n(std::ostream_iterator<std::mt19937::result_type>(std::cout, " "),
+                    5, std::ref(rng));
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+3499211612 581869302 3890346734 3586334585 545404204
+----------------------------------------------------------------------------------
+
+
+
+-----> remove, remove_if
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Removes elements satisfying specific criteria
+---------> Removes all elements satisfying specific criteria from the range [first, last) and returns a past-the-end iterator for the new end of the range. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string str1 = "Text with some   spaces";
+ 
+    auto noSpaceEnd = std::remove(str1.begin(), str1.end(), ' ');
+ 
+    // The spaces are removed from the string only logically.
+    // Note, we use view, the original string is still not shrunk:
+    std::cout << std::string_view(str1.begin(), noSpaceEnd) 
+              << " size: " << str1.size() << '\n';
+ 
+    str1.erase(noSpaceEnd, str1.end());
+ 
+    // The spaces are removed from the string physically.
+    std::cout << str1 << " size: " << str1.size() << '\n';
+ 
+    std::string str2 = "Text\n with\tsome \t  whitespaces\n\n";
+    str2.erase(std::remove_if(str2.begin(), 
+                              str2.end(),
+                              [](unsigned char x){return std::isspace(x);}),
+               str2.end());
+    std::cout << str2 << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+Textwithsomespaces size: 23
+Textwithsomespaces size: 18
+Textwithsomewhitespaces
+----------------------------------------------------------------------------------
+
+
+
+-----> remove_copy, remove_copy_if
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Copies a range of elements omitting those that satisfy specific criteria
+---------> Copies elements from the range [first, last), to another range beginning at d_first, omitting the elements which satisfy specific criteria. 
+---------> Source and destination ranges cannot overlap. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string str = "#Return #Value #Optimization";
+    std::cout << "before: " << std::quoted(str) << "\n";
+ 
+    std::cout << "after:  \"";
+    std::remove_copy(str.begin(), str.end(),
+                     std::ostream_iterator<char>(std::cout), '#');
+    std::cout << "\"\n";
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+before: "#Return #Value #Optimization"
+after:  "Return Value Optimization"
+----------------------------------------------------------------------------------
+
+
+
+-----> replace, replace_if
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Replaces all values satisfying specific criteria with another value
+---------> Replaces all elements satisfying specific criteria with new_value in the range [first, last). 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::array<int, 10> s{5, 7, 4, 2, 8, 6, 1, 9, 0, 3};
+ 
+    std::replace(s.begin(), s.end(), 8, 88);
+ 
+    for (int a : s) {
+        std::cout << a << " ";
+    }
+    std::cout << '\n';
+ 
+    std::replace_if(s.begin(), s.end(), 
+                    std::bind(std::less<int>(), std::placeholders::_1, 5), 55);
+    for (int a : s) {
+        std::cout << a << " ";
+    }
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+5 7 4 2 88 6 1 9 0 3
+5 7 55 55 88 6 55 9 55 55
+----------------------------------------------------------------------------------
+
+
+
+-----> replace_copy, replace_copy_if
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Copies a range, replacing elements satisfying specific criteria with another value
+---------> Copies the elements from the range [first, last) to another range beginning at d_first replacing all elements satisfying specific criteria with new_value. 
+---------> The source and destination ranges cannot overlap. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v{5, 7, 4, 2, 8, 6, 1, 9, 0, 3};
+    std::replace_copy_if(v.begin(), v.end(),
+                         std::ostream_iterator<int>(std::cout, " "),
+                         [](int n){return n > 5;}, 99);
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+5 99 4 2 99 99 1 99 0 3
+----------------------------------------------------------------------------------
+
+
+
+-----> swap
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Swaps the values of two objects
+---------> Exchanges the given values. 
+-------> Code:
+----------------------------------------------------------------------------------
+namespace Ns {
+class A {
+    int id{};
+ 
+    friend void swap(A& lhs, A& rhs) {
+        std::cout << "swap(" << lhs << ", " << rhs << ")\n";
+        std::swap(lhs.id, rhs.id);
+    }
+ 
+    friend std::ostream& operator<< (std::ostream& os, A const& a) {
+        return os << "A::id=" << a.id;
+    }
+ 
+public:
+    A(int i) : id{i} { }
+    A(A const&) = delete;
+    A& operator = (A const&) = delete;
+};
+}
+int main()
+{
+    int a = 5, b = 3;
+    std::cout << a << ' ' << b << '\n';
+    std::swap(a,b);
+    std::cout << a << ' ' << b << '\n';
+ 
+    Ns::A p{6}, q{9};
+    std::cout << p << ' ' << q << '\n';
+//  std::swap(p, q);  // error, type requirements are not satisfied
+    swap(p, q);  // OK, ADL finds the appropriate friend `swap`
+    std::cout << p << ' ' << q << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+5 3
+3 5
+A::id=6 A::id=9
+swap(A::id=6, A::id=9)
+A::id=9 A::id=6
+----------------------------------------------------------------------------------
+
+
+
+-----> swap_ranges
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Swaps two ranges of elements
+---------> Exchanges elements between range [first1, last1) and another range starting at first2.
+-------> Code:
+----------------------------------------------------------------------------------
+auto print = [](auto comment, auto const& seq) {
+    std::cout << comment;
+    for (const auto& e : seq) { std::cout << e << ' '; }
+    std::cout << '\n';
+};
+int main()
+{
+    std::vector<char> v = {'a', 'b', 'c', 'd', 'e'};
+    std::list<char> l = {'1', '2', '3', '4', '5'};
+ 
+    print("Before swap_ranges:\n" "v: ", v);
+    print("l: ", l);
+ 
+    std::swap_ranges(v.begin(), v.begin()+3, l.begin());
+ 
+    print("After swap_ranges:\n" "v: ", v);
+    print("l: ", l);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+Before swap_ranges:
+v: a b c d e 
+l: 1 2 3 4 5 
+After swap_ranges:
+v: 1 2 3 d e 
+l: a b c 4 5
+----------------------------------------------------------------------------------
+
+
+
+-----> iter_swap
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Swaps the elements pointed to by two iterators
+---------> Swaps the values of the elements the given iterators are pointing to. 
+-------> Code:
+----------------------------------------------------------------------------------
+template<class ForwardIt>
+void selection_sort(ForwardIt begin, ForwardIt end)
+{
+    for (ForwardIt i = begin; i != end; ++i)
+        std::iter_swap(i, std::min_element(i, end));
+}
+int main()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(-9, +9);
+    std::vector<int> v;
+    std::generate_n(back_inserter(v), 20, bind(dist, gen));
+ 
+    std::cout << "Before sort: " << std::showpos;
+    for(auto e : v) std::cout << e << ' ';
+ 
+    selection_sort(v.begin(), v.end());
+ 
+    std::cout << "\nAfter sort : ";
+    for(auto e : v) std::cout << e << ' ';
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+Before sort: -9 -3 +2 -8 +0 -1 +8 -4 -5 +1 -4 -5 +4 -9 -8 -6 -6 +8 -4 -6 
+After sort : -9 -9 -8 -8 -6 -6 -6 -5 -5 -4 -4 -4 -3 -1 +0 +1 +2 +4 +8 +8
+----------------------------------------------------------------------------------
+
+
+
+-----> reverse
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Reverses the order of elements in a range
+---------> Reverses the order of the elements in the range [first, last).
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v{1, 2, 3};
+    std::reverse(v.begin(), v.end());
+    for(auto e : v) std::cout << e;
+    std::cout << '\n';
+ 
+    int a[] = {4, 5, 6, 7};
+    std::reverse(std::begin(a), std::end(a));
+    for(auto e : a) std::cout << e;
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+321
+7654
+----------------------------------------------------------------------------------
+
+
+
+-----> reverse_copy
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Creates a copy of a range that is reversed
+---------> Copies the elements from the range [first, last) to another range beginning at d_first in such a way that the elements in the new range are in reverse order. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    auto print = [](std::vector<int> const& v) { 
+        for (const auto& value : v)
+            std::cout << value << ' ';
+        std::cout << '\t';
+    };
+ 
+    std::vector<int> v({1,2,3});
+    print(v);
+ 
+    std::vector<int> destination(3);
+    std::reverse_copy(std::begin(v), std::end(v), std::begin(destination));
+    print(destination);
+ 
+    std::reverse_copy(std::rbegin(v), std::rend(v), std::begin(destination));
+    print(destination);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+1 2 3   3 2 1   1 2 3
+----------------------------------------------------------------------------------
+
+
+
+-----> rotate
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Rotates the order of elements in a range
+---------> Performs a left rotation on a range of elements.
+-------> Code:
+----------------------------------------------------------------------------------
+auto print = [](auto const& remark, auto const& v) {
+    std::cout << remark;
+    for (int n: v)
+        std::cout << n << ' ';
+    std::cout << '\n';
+};
+int main()
+{
+    std::vector<int> v{2, 4, 2, 0, 5, 10, 7, 3, 7, 1};
+ 
+    print("before sort:\t\t", v);
+ 
+    // insertion sort
+    for (auto i = v.begin(); i != v.end(); ++i) {
+        std::rotate(std::upper_bound(v.begin(), i, *i), i, i+1);
+    }
+ 
+    print("after sort:\t\t", v);
+ 
+    // simple rotation to the left
+    std::rotate(v.begin(), v.begin() + 1, v.end());
+ 
+    print("simple rotate left:\t", v);
+ 
+    // simple rotation to the right
+    std::rotate(v.rbegin(), v.rbegin() + 1, v.rend());
+ 
+    print("simple rotate right:\t", v);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+before sort:            2 4 2 0 5 10 7 3 7 1 
+after sort:             0 1 2 2 3 4 5 7 7 10 
+simple rotate left:     1 2 2 3 4 5 7 7 10 0 
+simple rotate right:    0 1 2 2 3 4 5 7 7 10
+----------------------------------------------------------------------------------
+
+
+
+-----> rotate_copy
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Copies and rotate a range of elements
+---------> Copies the elements from the range [first, last), to another range beginning at d_first in such a way, 
+---------> that the element *(n_first) becomes the first element of the new range and *(n_first - 1) becomes the last element.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> src = {1, 2, 3, 4, 5}; 
+    std::vector<int> dest(src.size());                                          
+    auto pivot = std::find(src.begin(), src.end(), 3); 
+ 
+    std::rotate_copy(src.begin(), pivot, src.end(), dest.begin());
+    for (int i : dest) {
+        std::cout << i << ' ';
+    }   
+    std::cout << '\n';
+ 
+    // copy the rotation result directly to the std::cout
+    pivot = std::find(dest.begin(), dest.end(), 1);
+    std::rotate_copy(dest.begin(), pivot, dest.end(),
+                     std::ostream_iterator<int>(std::cout, " "));
+    std::cout << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+3 4 5 1 2 
+1 2 3 4 5
+----------------------------------------------------------------------------------
+
+
+
+-----> shift_left, shift_right
+-------> Tags: <algorithm> (C++20) (function template)
+-------> Description:  
+---------> Shifts elements in a range
+---------> Shifts the elements in the range [first, last) by n positions. 
+-------> Code:
+----------------------------------------------------------------------------------
+struct S {
+    int value{0};
+    bool specified_state{true};
+ 
+    S(int v = 0) : value{v} {}
+    S(S const& rhs) = default;
+    S(S&& rhs) { *this = std::move(rhs); }
+    S& operator=(S const& rhs) = default;
+    S& operator=(S&& rhs) {
+        if (this != &rhs) {
+            value = rhs.value;
+            specified_state = rhs.specified_state;
+            rhs.specified_state = false;
+        }
+        return *this;
+    }
+};
+ 
+template <typename T>
+std::ostream& operator<< (std::ostream& os, std::vector<T> const& v) {
+    for (const auto& s : v) {
+        if constexpr (std::is_same<std::remove_cv_t<T>, S>{})
+            s.specified_state ? os << s.value << ' ' : os << "? ";
+        else if constexpr (std::is_same<std::remove_cv_t<T>, std::string>{})
+            os << std::setw(3) << quoted(s) << ' ';
+        else
+            os << s << ' ';
+    }
+    return os;
+}
+ 
+int main()
+{
+    std::cout << std::left;
+ 
+    std::vector<S>            a{1, 2, 3, 4, 5, 6, 7};
+    std::vector<int>          b{1, 2, 3, 4, 5, 6, 7};
+    std::vector<std::string>  c{"α", "β", "γ", "δ", "ε", "ζ", "η"};
+    std::cout << a << "  " << b << "  " << c << '\n';
+ 
+    std::shift_left(begin(a), end(a), 3);
+    std::shift_left(begin(b), end(b), 3);
+    std::shift_left(begin(c), end(c), 3);
+    std::cout << a << "  " << b << "  " << c << '\n';
+ 
+    std::shift_right(begin(a), end(a), 2);
+    std::shift_right(begin(b), end(b), 2);
+    std::shift_right(begin(c), end(c), 2);
+    std::cout << a << "  " << b << "  " << c << '\n';
+ 
+    std::shift_left(begin(a), end(a), 8);  // has no effect: n >= last - first
+    std::shift_left(begin(b), end(b), 8);  // ditto
+    std::shift_left(begin(c), end(c), 8);  // ditto
+    std::cout << a << "  " << b << "  " << c << '\n';
+ 
+//  std::shift_left(begin(a), end(a),-3);  // UB, e.g. segfault.)
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+1 2 3 4 5 6 7   1 2 3 4 5 6 7   "α" "β" "γ" "δ" "ε" "ζ" "η"
+4 5 6 7 ? ? ?   4 5 6 7 5 6 7   "δ" "ε" "ζ" "η" ""  ""  ""
+? ? 4 5 6 7 ?   4 5 4 5 6 7 5   ""  ""  "δ" "ε" "ζ" "η" ""
+? ? 4 5 6 7 ?   4 5 4 5 6 7 5   ""  ""  "δ" "ε" "ζ" "η" ""
+----------------------------------------------------------------------------------
+
+
+
+-----> random_shuffle, shuffle
+-------> Tags: <algorithm> (until C++17 for random_shuffle) C++11 for shuffle) (function template)
+-------> Description:  
+---------> Randomly re-orders elements in a range
+---------> Reorders the elements in the given range [first, last) such that each possible permutation of those elements has equal probability of appearance. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::vector<int> v = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+ 
+    std::random_device rd;
+    std::mt19937 g(rd());
+ 
+    std::shuffle(v.begin(), v.end(), g);
+ 
+    std::copy(v.begin(), v.end(), std::ostream_iterator<int>(std::cout, " "));
+    std::cout << "\n";
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+8 6 10 4 2 3 7 1 9 5
+----------------------------------------------------------------------------------
+
+
+
+-----> sample
+-------> Tags: <algorithm> (C++17) (function template)
+-------> Description:  
+---------> Selects n random elements from a sequence
+---------> Selects n elements from the sequence [first; last) (without replacement) such that each possible sample has equal probability of appearance,
+---------> and writes those selected elements into the output iterator out.
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string in = "hgfedcba", out;
+    std::sample(in.begin(), in.end(), std::back_inserter(out),
+                5, std::mt19937{std::random_device{}()});
+    std::cout << "five random letters out of " << in << " : " << out << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+five random letters out of hgfedcba: gfcba
+----------------------------------------------------------------------------------
+
+
+
+-----> unique
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Removes consecutive duplicate elements in a range
+---------> Eliminates all except the first element from every consecutive group of equivalent elements from the range [first, last)
+---------> and returns a past-the-end iterator for the new logical end of the range. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    // a vector containing several duplicate elements
+    std::vector<int> v{1,2,1,1,3,3,3,4,5,4};
+    auto print = [&] (int id) {
+        std::cout << "@" << id << ": ";
+        for (int i : v)
+            std::cout << i << ' ';
+        std::cout << '\n';
+    };
+    print(1);
+ 
+    // remove consecutive (adjacent) duplicates
+    auto last = std::unique(v.begin(), v.end());
+    // v now holds {1 2 1 3 4 5 4 x x x}, where 'x' is indeterminate
+    v.erase(last, v.end());
+    print(2);
+ 
+    // sort followed by unique, to remove all duplicates
+    std::sort(v.begin(), v.end()); // {1 1 2 3 4 4 5}
+    print(3);
+ 
+    last = std::unique(v.begin(), v.end());
+    // v now holds {1 2 3 4 5 x x}, where 'x' is indeterminate
+    v.erase(last, v.end());
+    print(4);
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+@1: 1 2 1 1 3 3 3 4 5 4 
+@2: 1 2 1 3 4 5 4 
+@3: 1 1 2 3 4 4 5 
+@4: 1 2 3 4 5
+----------------------------------------------------------------------------------
+
+
+
+-----> unique_copy
+-------> Tags: <algorithm> (function template)
+-------> Description:  
+---------> Creates a copy of some range of elements that contains no consecutive duplicates
+---------> Copies the elements from the range [first, last), to another range beginning at d_first in such a way that there are no consecutive equal elements.
+---------> Only the first element of each group of equal elements is copied. 
+-------> Code:
+----------------------------------------------------------------------------------
+int main()
+{
+    std::string s1 = "The      string    with many       spaces!";
+    std::cout << "before: " << s1 << '\n';
+ 
+    std::string s2;
+    std::unique_copy(s1.begin(), s1.end(), std::back_inserter(s2),
+                     [](char c1, char c2){ return c1 == ' ' && c2 == ' '; });
+ 
+    std::cout << "after:  " << s2 << '\n';
+}
+----------------------------------------------------------------------------------
+-------> Output:
+----------------------------------------------------------------------------------
+before: The      string    with many       spaces!
+after:  The string with many spaces!
+----------------------------------------------------------------------------------
+
+
+
+---> Partitioning operations
+
+
+
+-----> Defined in header <algorithm>
+-----> is_partitioned (C++11) (function template)
+-------> determines if the range is partitioned by the given predicate
+-----> partition (function template)
+-------> divides a range of elements into two groups
+-----> partition_copy (C++11) (function template)
+-------> copies a range dividing the elements into two groups
+-----> stable_partition (function template)
+-------> divides elements into two groups while preserving their relative order
+-----> partition_point (C++11) (function template)
+-------> locates the partition point of a partitioned range
+---> Sorting operations
+-----> Defined in header <algorithm>
+-----> is_sorted (C++11) (function template)
+-------> checks whether a range is sorted into ascending order
+-----> is_sorted_until (C++11) (function template)
+-------> finds the largest sorted subrange
+-----> sort (function template)
+-------> sorts a range into ascending order
+-----> partial_sort (function template)
+-------> sorts the first N elements of a range
+-----> partial_sort_copy (function template)
+-------> copies and partially sorts a range of elements
+-----> stable_sort (function template)
+-------> sorts a range of elements while preserving order between equal elements
+-----> nth_element (function template)
+-------> partially sorts the given range making sure that it is partitioned by the given element
+---> Binary search operations (on sorted ranges)
+-----> Defined in header <algorithm>
+-----> lower_bound (function template)
+-------> returns an iterator to the first element not less than the given value
+-----> upper_bound (function template)
+-------> returns an iterator to the first element greater than a certain value
+-----> binary_search (function template)
+-------> determines if an element exists in a certain range
+-----> equal_range (function template)
+-------> returns range of elements matching a specific key
+---> Other operations on sorted ranges
+-----> Defined in header <algorithm>
+-----> merge (function template)
+-------> merges two sorted ranges
+-----> inplace_merge (function template)
+-------> merges two ordered ranges in-place
+---> Set operations (on sorted ranges)
+-----> Defined in header <algorithm>
+-----> includes (function template)
+-------> returns true if one sequence is a subsequence of another
+-----> set_difference (function template)
+-------> computes the difference between two sets
+-----> set_intersection (function template)
+-------> computes the intersection of two sets
+-----> set_symmetric_difference (function template)
+-------> computes the symmetric difference between two sets
+-----> set_union (function template)
+-------> computes the union of two sets
+---> Heap operations
+-----> Defined in header <algorithm>
+-----> is_heap (C++11) (function template)
+-------> checks if the given range is a max heap
+-----> is_heap_until (C++11) (function template)
+-------> finds the largest subrange that is a max heap
+-----> make_heap (function template)
+-------> creates a max heap out of a range of elements
+-----> push_heap (function template)
+-------> adds an element to a max heap
+-----> pop_heap (function template)
+-------> removes the largest element from a max heap
+-----> sort_heap (function template)
+-------> turns a max heap into a range of elements sorted in ascending order
+---> Minimum/maximum operations
+-----> Defined in header <algorithm>
+-----> max (function template)
+-------> returns the greater of the given values
+-----> max_element (function template)
+-------> returns the largest element in a range
+-----> min (function template)
+-------> returns the smaller of the given values
+-----> min_element (function template)
+-------> returns the smallest element in a range
+-----> minmax (C++11) (function template)
+-------> returns the smaller and larger of two elements
+-----> minmax_element (C++11) (function template)
+-------> returns the smallest and the largest elements in a range
+-----> clamp (C++17) (function template)
+-------> clamps a value between a pair of boundary values
+---> Comparison operations
+-----> Defined in header <algorithm>
+-----> equal (function template)
+-------> determines if two sets of elements are the same
+-----> lexicographical_compare (function template)
+-------> returns true if one range is lexicographically less than another
+-----> lexicographical_compare_three_way (C++20) (function template)
+-------> compares two ranges using three-way comparison
+---> Permutation operations
+-----> Defined in header <numeric>
+-----> is_permutation (C++11) (function template)
+-------> determines if a sequence is a permutation of another sequence
+-----> next_permutation (function template)
+-------> generates the next greater lexicographic permutation of a range of elements
+-----> prev_permutation (function template)
+-------> generates the next smaller lexicographic permutation of a range of elements
+---> Numeric operations
+-----> Defined in header <numeric>
+-----> iota (C++11) (function template)
+-------> fills a range with successive increments of the starting value
+-----> accumulate (function template)
+-------> sums up a range of elements
+-----> inner_product (function template)
+-------> computes the inner product of two ranges of elements
+-----> adjacent_difference (function template)
+-------> computes the differences between adjacent elements in a range
+-----> partial_sum (function template)
+-------> computes the partial sum of a range of elements
+-----> reduce (C++17) (function template)
+-------> similar to std::accumulate, except out of order
+-----> exclusive_scan (C++17) (function template)
+-------> similar to std::partial_sum, excludes the ith input element from the ith sum
+-----> inclusive_scan (C++17) (function template)
+-------> similar to std::partial_sum, includes the ith input element in the ith sum
+-----> transform_reduce (C++17) (function template)
+-------> applies an invocable, then reduces out of order
+-----> transform_exclusive_scan (C++17) (function template)
+-------> applies an invocable, then calculates exclusive scan
+-----> transform_inclusive_scan (C++17) (function template)
+-------> applies an invocable, then calculates inclusive scan
+---> Operations on uninitialized memory
+-----> Defined in header <memory>
+-----> uninitialized_copy (function template)
+-------> copies a range of objects to an uninitialized area of memory
+-----> uninitialized_copy_n (C++11) (function template)
+-------> copies a number of objects to an uninitialized area of memory
+-----> uninitialized_fill (function template)
+-------> copies an object to an uninitialized area of memory, defined by a range
+-----> uninitialized_fill_n (function template)
+-------> copies an object to an uninitialized area of memory, defined by a start and a count
+-----> uninitialized_move (C++17) (function template)
+-------> moves a range of objects to an uninitialized area of memory
+-----> uninitialized_move_n (C++17) (function template)
+-------> moves a number of objects to an uninitialized area of memory
+-----> uninitialized_default_construct (C++17) (function template)
+-------> constructs objects by default-initialization in an uninitialized area of memory, defined by a range
+-----> uninitialized_default_construct_n (C++17) (function template)
+-------> constructs objects by default-initialization in an uninitialized area of memory, defined by a start and a count
+-----> uninitialized_value_construct (C++17) (function template)
+-------> constructs objects by value-initialization in an uninitialized area of memory, defined by a range
+-----> uninitialized_value_construct_n (C++17) (function template)
+-------> constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count
+-----> destroy (C++17) (function template)
+-------> destroys a range of objects
+-----> destroy_n (C++17)(function template)
+-------> destroys a number of objects in a range
+-----> destroy_at (C++17) (function template)
+-------> destroys an object at a given address
+-----> construct_at (C++20) (function template)
+-------> creates an object at a given address
+---> C library
+-----> Defined in header <cstdlib>
+-----> qsort (function)
+-------> sorts a range of elements with unspecified type
+-----> bsearch (function)
+-------> searches an array for an element of unspecified type
+
+
+
+
+
+
