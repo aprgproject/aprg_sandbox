@@ -3,25 +3,22 @@
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <algorithm>
-#include <fstream>
+#include <algorithm>#include <fstream>
 #include <iostream>
 
-using namespace alba::mathHelper;
-using namespace alba::stringHelper;
+using namespace alba::mathHelper;using namespace alba::stringHelper;
 using namespace std;
 
 namespace {
-constexpr int NUMBER_OF_WINNERS_TO_SHOW = 10;
+constexpr int NUMBER_OF_WINNERS_TO_SHOW = 15;
 constexpr int NUMBER_OF_WINNERS_PER_LINE = 5;
 constexpr auto INDENTION = " | ";
-
 enum class RacePlaceType { Unknown, SingleRace, DualRaceFirstPlace, DualRaceSecondPlace };
 
 }  // namespace
-
 namespace alba {
 
 bool operator<(PossibleWinner const& w1, PossibleWinner const& w2) { return w1.discrepancy < w2.discrepancy; }
@@ -32,34 +29,28 @@ void MonsterRaceAnalyzer::showNextPossibleWinners(RaceConfiguration const& curre
     BestWinners singleRaceWinners;
     BestWinners dualRaceFirstWinners;
     BestWinners dualRaceSecondWinners;
-    BestWinners singleRaceWinnersForCross;
-    BestWinners dualRaceFirstWinnersForCross;
-    BestWinners dualRaceSecondWinnersForCross;
+    RaceConfiguration bestSingleRace;
+    RaceConfiguration bestDualRaceFirst;
+    RaceConfiguration bestDualRaceSecond;
 
-    retrieveBestWinners(singleRaceWinners, singleRaceWinnersForCross, m_singleRace, currentConfiguration);
-    retrieveBestWinners(dualRaceFirstWinners, dualRaceFirstWinnersForCross, m_dualRaceFirstPlace, currentConfiguration);
-    retrieveBestWinners(
-        dualRaceSecondWinners, dualRaceSecondWinnersForCross, m_dualRaceSecondPlace, currentConfiguration);
+    retrieveBestWinners(bestSingleRace, singleRaceWinners, m_singleRace, currentConfiguration);
+    retrieveBestWinners(bestDualRaceFirst, dualRaceFirstWinners, m_dualRaceFirstPlace, currentConfiguration);
+    retrieveBestWinners(bestDualRaceSecond, dualRaceSecondWinners, m_dualRaceSecondPlace, currentConfiguration);
 
     cout << "\n" << INDENTION << "Single race winners:\n";
+    showBestConfiguration(bestSingleRace, currentConfiguration);
     showWinners(singleRaceWinners);
-    cout << "\n" << INDENTION << "Single race winners for cross discrepancy:\n";
-    showWinners(singleRaceWinnersForCross);
     cout << "\n" << INDENTION << "Dual race first winners:\n";
+    showBestConfiguration(bestDualRaceFirst, currentConfiguration);
     showWinners(dualRaceFirstWinners);
-    cout << "\n" << INDENTION << "Dual race first winners for cross discrepancy:\n";
-    showWinners(dualRaceFirstWinnersForCross);
     cout << "\n" << INDENTION << "Dual race second winners:\n";
+    showBestConfiguration(bestDualRaceSecond, currentConfiguration);
     showWinners(dualRaceSecondWinners);
-    cout << "\n" << INDENTION << "Dual race second winners for cross discrepancy:\n";
-    showWinners(dualRaceSecondWinnersForCross);
     cout << "\n";
 }
-
 void MonsterRaceAnalyzer::readPreviousRaceDatabase() {
     AlbaLocalPathHandler filePathHandler(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MonsterRacingDatabase.txt)");
-    ifstream fileStream(filePathHandler.getFullPath());
-    AlbaFileReader fileReader(fileStream);
+    ifstream fileStream(filePathHandler.getFullPath());    AlbaFileReader fileReader(fileStream);
     PreviousRace previousRace{};
     RacePlaceType racePlaceType{RacePlaceType::Unknown};
     while (fileReader.isNotFinished()) {
@@ -100,27 +91,26 @@ void MonsterRaceAnalyzer::readPreviousRaceDatabase() {
     }
 }
 void MonsterRaceAnalyzer::retrieveBestWinners(
-    BestWinners& queueOfWinners, BestWinners& queueOfWinnersForCross, PreviousRaces const& previousRaces,
+    RaceConfiguration& bestConfiguration, BestWinners& queueOfWinners, PreviousRaces const& previousRaces,
     RaceConfiguration const& currentConfiguration) const {
+    int lowestDiscrepancy = INT_MAX;
     for (auto const& race : previousRaces) {
-        queueOfWinners.emplace(
-            PossibleWinner{race.winner, getDiscrepancy(race.raceConfiguration, currentConfiguration)});
-        queueOfWinnersForCross.emplace(
-            PossibleWinner{race.winner, getCrossDiscrepancy(race.raceConfiguration, currentConfiguration)});
+        int discrepancy = getDiscrepancy(race.raceConfiguration, currentConfiguration);
+
+        queueOfWinners.emplace(PossibleWinner{race.winner, discrepancy});
 
         if (queueOfWinners.size() > NUMBER_OF_WINNERS_TO_SHOW) {
             queueOfWinners.pop();
         }
-        if (queueOfWinnersForCross.size() > NUMBER_OF_WINNERS_TO_SHOW) {
-            queueOfWinnersForCross.pop();
+        if (discrepancy < lowestDiscrepancy) {
+            lowestDiscrepancy = discrepancy;
+            bestConfiguration = race.raceConfiguration;
         }
     }
 }
-
 void MonsterRaceAnalyzer::showWinners(BestWinners& queueOfWinners) const {
     vector<PossibleWinner> winnersToDisplay;
-    winnersToDisplay.reserve(NUMBER_OF_WINNERS_TO_SHOW);
-    while (!queueOfWinners.empty()) {
+    winnersToDisplay.reserve(NUMBER_OF_WINNERS_TO_SHOW);    while (!queueOfWinners.empty()) {
         winnersToDisplay.emplace_back(queueOfWinners.top());
         queueOfWinners.pop();
     }
@@ -128,12 +118,45 @@ void MonsterRaceAnalyzer::showWinners(BestWinners& queueOfWinners) const {
 
     int count = 1;
     for (auto const& nextPossibleWinner : winnersToDisplay) {
-        cout << INDENTION << "Winner:[" << nextPossibleWinner.winner << "] Discrepancy:["
-             << nextPossibleWinner.discrepancy << "]";
+        cout << INDENTION << "Winner:[";
+        cout << nextPossibleWinner.winner;
+        cout << "] Discrepancy:[";
+        cout << setfill(' ') << setw(3) << nextPossibleWinner.discrepancy;
+        cout << "]";
         if (count++ % NUMBER_OF_WINNERS_PER_LINE == 0) {
             cout << "\n";
         }
     }
+}
+
+void MonsterRaceAnalyzer::showBestConfiguration(
+    RaceConfiguration const& bestConfiguration, RaceConfiguration const& currentConfiguration) const {
+    cout << INDENTION << "Current configuration       | luck: ";
+    for (auto const value : currentConfiguration.luck) {
+        cout << setfill(' ') << setw(2) << value << ", ";
+    }
+    cout << "hp: ";
+    for (auto const value : currentConfiguration.hp) {
+        cout << setfill(' ') << setw(2) << value << ", ";
+    }
+    cout << "sum: ";
+    for (int i = 0; i < NUMBER_OF_MONSTERS; i++) {
+        cout << setfill(' ') << setw(3) << currentConfiguration.luck[i] + currentConfiguration.hp[i] << ", ";
+    }
+    cout << "\n";
+    cout << INDENTION << "Best previous configuration | luck: ";
+    for (auto const value : bestConfiguration.luck) {
+        cout << setfill(' ') << setw(2) << value << ", ";
+    }
+    cout << "hp: ";
+    for (auto const value : bestConfiguration.hp) {
+        cout << setfill(' ') << setw(2) << value << ", ";
+    }
+    cout << "sum: ";
+    for (int i = 0; i < NUMBER_OF_MONSTERS; i++) {
+        cout << setfill(' ') << setw(3) << bestConfiguration.luck[i] + bestConfiguration.hp[i] << ", ";
+    }
+    cout << "\n";
 }
 
 int MonsterRaceAnalyzer::getDiscrepancy(RaceConfiguration const& r1, RaceConfiguration const& r2) const {
@@ -141,17 +164,9 @@ int MonsterRaceAnalyzer::getDiscrepancy(RaceConfiguration const& r1, RaceConfigu
     for (int i = 0; i < NUMBER_OF_MONSTERS; i++) {
         result += getAbsoluteValue(r1.luck[i] - r2.luck[i]);
         result += getAbsoluteValue(r1.hp[i] - r2.hp[i]);
+        // result += (r1.luck[i] - r2.luck[i]) * (r1.luck[i] - r2.luck[i]);
+        // result += (r1.hp[i] - r2.hp[i]) * (r1.hp[i] - r2.hp[i]);
     }
     return result;
 }
-
-int MonsterRaceAnalyzer::getCrossDiscrepancy(RaceConfiguration const& r1, RaceConfiguration const& r2) const {
-    int result = 0;
-    for (int i = 0; i < NUMBER_OF_MONSTERS; i++) {
-        result += getAbsoluteValue(r1.luck[i] - r2.hp[i]);
-        result += getAbsoluteValue(r1.hp[i] - r2.luck[i]);
-    }
-    return result;
-}
-
 }  // namespace alba

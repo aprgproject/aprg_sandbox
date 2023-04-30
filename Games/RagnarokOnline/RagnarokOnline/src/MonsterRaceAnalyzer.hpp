@@ -35,16 +35,15 @@ public:
 
 private:
     void retrieveBestWinners(
-        BestWinners& queueOfWinners, BestWinners& queueOfWinnersForCross, PreviousRaces const& previousRaces,
+        RaceConfiguration& bestConfiguration, BestWinners& queueOfWinners, PreviousRaces const& previousRaces,
         RaceConfiguration const& currentConfiguration) const;
     void showWinners(BestWinners& queueOfWinners) const;
+    void showBestConfiguration(
+        RaceConfiguration const& bestConfiguration, RaceConfiguration const& currentConfiguration) const;
     int getDiscrepancy(RaceConfiguration const& r1, RaceConfiguration const& r2) const;
-    int getCrossDiscrepancy(RaceConfiguration const& r1, RaceConfiguration const& r2) const;
 
     void readPreviousRaceDatabase();
-    PreviousRaces m_singleRace;
-    PreviousRaces m_dualRaceFirstPlace;
+    PreviousRaces m_singleRace;    PreviousRaces m_dualRaceFirstPlace;
     PreviousRaces m_dualRaceSecondPlace;
 };
-
 }  // namespace alba
