@@ -27,15 +27,42 @@ int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
 }  // namespace ProgressCounters
 
-TEST(SampleTest, CountFromMsbValue) {
+TEST(SampleTest, CountNumberOfLinesOnFiles) {
+    ListOfPaths files;
+    ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(F:\Branches\ControlPlane\wbts1\tcom\C_Application\SC_TCOM)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    size_t lineCount = 0;
+    for (string const& file : files) {
+        AlbaLocalPathHandler filePathHandler(file);
+        if ((filePathHandler.getExtension() == "cpp" || filePathHandler.getExtension() == "hpp" ||
+             filePathHandler.getExtension() == "c" || filePathHandler.getExtension() == "h") &&
+            !stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getDirectory(), "CImg") &&
+            !stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getDirectory(), "curl") &&
+            !stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getDirectory(), "zlib128")) {
+            ifstream fileStream(filePathHandler.getFullPath());
+            AlbaFileReader fileReader(fileStream);
+            while (fileReader.isNotFinished()) {
+                fileReader.getLine();
+                lineCount++;
+            }
+            string fileToDisplay = stringHelper::getStringAfterThisString(file, R"(\SC_TCOM\)");
+            cout << "File:[" << fileToDisplay << "] LineCount:[" << lineCount << "]\n";
+        }
+        if (lineCount > 1'000'000) {
+            break;
+        }
+    }
+}
+
+/*TEST(SampleTest, CountFromMsbValue) {
     vector<pair<int, int>> container{{3, 3}, {5, 5}};
     auto itRight = upper_bound(
-        container.cbegin(), container.cend(), 1,
-        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
+        container.cbegin(), container.cend(), 1,        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
     auto itLeft = prev(itRight, 1);
     if (itLeft != container.cend()) {
-        ALBA_PRINT1(*itLeft);
-    } else {
+        ALBA_PRINT1(*itLeft);    } else {
         ALBA_PRINT1("itLeft is end");
     }
     if (itRight != container.cend()) {
@@ -45,15 +72,13 @@ TEST(SampleTest, CountFromMsbValue) {
     }
 }
 
-/*TEST(SampleTest, CountFromMsbValue) {
+TEST(SampleTest, CountFromMsbValue) {
     cout << "{";
     for (unsigned int value = 0; value < 256; value++) {
-        unsigned int countFromMsb = 0;
-        unsigned int valueForMsbBitCount(value);
+        unsigned int countFromMsb = 0;        unsigned int valueForMsbBitCount(value);
         for (unsigned int bitIndex = 0; bitIndex < 8; bitIndex++) {
             if (valueForMsbBitCount & 1) {
-                break;
-            }
+                break;            }
             countFromMsb++;
             valueForMsbBitCount >>= 1;
         }
