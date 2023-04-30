@@ -1,0 +1,93 @@
+
+Taken from Walter Brown's lecture "Communicating via Diagnostics- Observations and Tips for Authors"
+
+"Many folks make little distinction between correct code and code that has not yet failed." - Lawrence A. Crowl.
+
+-> In Raymond Chen's blog
+---> He cites a tool's diagnostic message, including:
+-----> "Error error: ?????????????????"
+-----> What??? What is this?
+-----> "I guess the tool doesn't know what went wrong either." - Raymond Chen
+-----> But not wonderful as feedback to a user, right?
+-----> His proposed replacement text:
+-------> "Error error: ¯\_(ツ)_/¯"
+-------> Its more entertaining to throw up your hands, ...
+-------> But it's still not great as communication to/for a user.
+
+-> Not a good diagnostic:
+---> "Backup failed: Success"
+-----> Huh?
+
+-> Diagnostics arise from errors -  but whats an error?
+---> An error is any failure that prevents a function f from fulfilling its contract (succeeding) when called.
+---> A "precondition" (requirement) failure arises
+-----> A f's point of call...
+-----> When f's caller fails to meet f's operational requirements.
+---> A "postcondition" (promised results) failure arises:
+-----> When f can't produce a valid return value, or...
+-----> When f can't establish any other for its postconditions.
+---> An "invariant" (consistency) failure arises.
+-----> When f is (partly or solely) responsible to guarantee that some relationship holds, but...
+-----> f can't establish (or reestablish) that relationship.
+
+-> Not a good diagnostic:
+---> "Failed to find body part in database."
+-----> Maybe its a good thing?
+---> "Error 503: Backend is unhealthy"
+-----> Maybe this one is not such a good thing?
+
+-> Advice re-classic on assert() macro:
+---> Use asserts on things you are sure can't go wrong
+-----> Use assert() to verify basic run-time assumptions:
+-------> assert(false and "Cant get here!");
+-------> assert(p!=nullptr and "Pointer p must be non-null!")
+-------> Note: "and" can be use in assert.
+---> Use proper error handling (exceptions) when you can check for things that can go wrong
+-----> Don't use an assert() for predictable run-time errors.
+-----> Failure because of bad code is not an error; its a bug! FIX IT!
+
+-> Advice on re-error-checking
+---> Check for programming errosr early and often:
+-----> This matters because software cost comes almost entirely from the errors.
+-----> So be sure to report errors in a suitably dramatic way.
+---> Errors get more expensive to fix as the development process progresses:
+-----> An error that the programmer catches ...
+-----> Is far cheaper than one the QA tester finds, which ...
+-----> Is far, far cheaper than the one your largest customer calls to complain about.
+
+-> About messages
+---> All to often, we find diagnostic messages in the form of a "Terse, baffling remark used by programmers to place blame on users for the program's shortcomings."
+---> On the other hand, One plotting program I know of has the most obsequious error messages ever programmed
+"This humble and worthless program
+is devastated to report to you
+that I can not accept you scale value of 1000
+because the base and thoughtless programmer who wrote me
+has restricted the value of this variable to between 1 and 100."
+- Steve Oualline, 2003
+
+-> Guidelines for diagnostic messages
+---> (1) Be explicit that something has gone wrong:
+-----> Users are lost when they make mistakes with no feedback.
+-----> Be specific in describing the exact problem
+-------> Avoid vague generalities or geneic messages: "Syntax Error"
+-----> Don't make your users think
+-------> Let them know exactly where the error was and why it happened.
+---> (2) Use human-readable, comprehensible language:
+-----> Avoid abbr's and codes ("type 2 error", 404)
+-----> Use polite and grammatically correct phrasing.
+-----> Neither blame users nor imply they are stupid or doing something wrong ("illegal command")
+-------> "Decades ago, there was a lady bought a PC that said "illegal command" and she thought she was going to be arrested." - Walter E. Brown
+-----> Be affirmative ("input is not unconfusing")
+-------> What? There was a double negative there.
+---> (3) Avoid inconsistencies:
+-----> Put logic puzzles elsewhere ("Error: success")
+-----> Ensure users can acknowledge on request ("Keyboard not found; press F1 to continue")
+---> (4) Above all, be help fulfilling 
+-----> Give users clear expectations; tell them how to address the problem ("Your email could not be sent").
+-----> Use error messages as an educational resource to impart a small amount of knowledge to users.
+-----> Provide constructive advice.
+---> Me: Should clear and consise (short)
+-----> People dont want to read a lot of things.
+
+
+

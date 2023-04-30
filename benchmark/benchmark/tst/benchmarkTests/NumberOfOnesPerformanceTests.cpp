@@ -90,9 +90,11 @@ static void BM_BuiltinBasedImplementation(benchmark::State& state) {
         benchmark::ClobberMemory();  // is it not needed?
     }
 }
+
 // Register the function as a benchmark
 BENCHMARK(BM_BaseRun);
-BENCHMARK(BM_ArrayBasedImplementation);BENCHMARK(BM_LoopBasedImplementation);
+BENCHMARK(BM_ArrayBasedImplementation);
+BENCHMARK(BM_LoopBasedImplementation);
 BENCHMARK(BM_BuiltinBasedImplementation);
 
 // Run the benchmark

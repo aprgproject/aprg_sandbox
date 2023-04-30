@@ -41,7 +41,8 @@ BENCHMARK_FUNCTION(
     uint64_t, BitUtilitiesBuiltIn::BitUtilitiesWithoutBuiltIn::isEvenParity, U64_WithoutBuiltin_isEvenParity);
 BENCHMARK_FUNCTION(uint8_t, BitUtilitiesBuiltIn::BitUtilitiesWithBuiltIn::isEvenParity, U8_WithBuiltin_isEvenParity);
 BENCHMARK_FUNCTION(uint16_t, BitUtilitiesBuiltIn::BitUtilitiesWithBuiltIn::isEvenParity, U16_WithBuiltin_isEvenParity);
-BENCHMARK_FUNCTION(uint32_t, BitUtilitiesBuiltIn::BitUtilitiesWithBuiltIn::isEvenParity, U32_WithBuiltin_isEvenParity);BENCHMARK_FUNCTION(uint64_t, BitUtilitiesBuiltIn::BitUtilitiesWithBuiltIn::isEvenParity, U64_WithBuiltin_isEvenParity);
+BENCHMARK_FUNCTION(uint32_t, BitUtilitiesBuiltIn::BitUtilitiesWithBuiltIn::isEvenParity, U32_WithBuiltin_isEvenParity);
+BENCHMARK_FUNCTION(uint64_t, BitUtilitiesBuiltIn::BitUtilitiesWithBuiltIn::isEvenParity, U64_WithBuiltin_isEvenParity);
 BENCHMARK_FUNCTION(uint8_t, BitUtilitiesBuiltIn::isEvenParity, U8_Default_isEvenParity);
 BENCHMARK_FUNCTION(uint16_t, BitUtilitiesBuiltIn::isEvenParity, U16_Default_isEvenParity);
 BENCHMARK_FUNCTION(uint32_t, BitUtilitiesBuiltIn::isEvenParity, U32_Default_isEvenParity);

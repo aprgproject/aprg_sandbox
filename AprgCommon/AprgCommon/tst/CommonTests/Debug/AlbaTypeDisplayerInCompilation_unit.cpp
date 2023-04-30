@@ -1,6 +1,7 @@
 /*#include <Common/Debug/AlbaTypeDisplayerInCompilation.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
@@ -79,7 +80,8 @@ TEST(AlbaTypeDisplayerInCompilationTest, DisplayTypeInTemplateByPointerWorks) {
 TEST(AlbaTypeDisplayerInCompilationTest, DisplayThisTypeWorksUsingAutoByValue) {
     auto autoWithLValue = lValue;
     auto autoWithLValueConst = lValueConst;
-    auto autoWithLValueReference = lValueReference;    auto autoWithLValueConstReference = lValueConstReference;
+    auto autoWithLValueReference = lValueReference;
+    auto autoWithLValueConstReference = lValueConstReference;
     auto autoWithRValue = R_VALUE;
     auto autoWithIntPointer = intPointer;
     auto autoWithIntConstPointer = intConstPointer;
@@ -203,7 +205,8 @@ TEST(AlbaTypeDisplayerInCompilationTest, DisplayThisTypeWorksUsingDecltypeByExpr
 TEST(AlbaTypeDisplayerInCompilationTest, DisplayThisTypeWorksUsingDecltypeAuto) {
     decltype(auto) autoWithLValue = lValue;
     decltype(auto) autoWithLValueConst = lValueConst;
-    decltype(auto) autoWithLValueReference = lValueReference;    decltype(auto) autoWithLValueConstReference = lValueConstReference;
+    decltype(auto) autoWithLValueReference = lValueReference;
+    decltype(auto) autoWithLValueConstReference = lValueConstReference;
     decltype(auto) autoWithRValue = R_VALUE;
     decltype(auto) autoWithIntPointer = intPointer;
     decltype(auto) autoWithIntConstPointer = intConstPointer;

@@ -23,9 +23,11 @@ namespace alba {
 
 template <typename TypeToDisplay>
 class DisplayThisType;
+
 template <typename TypeInTemplate>
 void displayTypeInTemplateByValue(TypeInTemplate parameter) {
-    DisplayThisType<TypeInTemplate> objectWithTypeInTemplate;    DisplayThisType<decltype(parameter)> objectWithParameterType;
+    DisplayThisType<TypeInTemplate> objectWithTypeInTemplate;
+    DisplayThisType<decltype(parameter)> objectWithParameterType;
 }
 
 template <typename TypeInTemplate>
@@ -45,9 +47,11 @@ void displayTypeInTemplateByUniversalReference(TypeInTemplate&& parameter) {
     DisplayThisType<TypeInTemplate> objectWithTypeInTemplate;
     DisplayThisType<decltype(parameter)> objectWithParameterType;
 }
+
 template <typename TypeInTemplate>
 void displayTypeInTemplateByPointer(TypeInTemplate* parameter) {
-    DisplayThisType<TypeInTemplate> objectWithTypeInTemplate;    DisplayThisType<decltype(parameter)> objectWithParameterType;
+    DisplayThisType<TypeInTemplate> objectWithTypeInTemplate;
+    DisplayThisType<decltype(parameter)> objectWithParameterType;
 }
 
 }  // namespace alba

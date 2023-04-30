@@ -1,0 +1,44 @@
+
+This is taken from the book: [Antipatterns - Refactoring Software, Architectures, and Projects in Crisis]
+
+-> Root causes are mistakes in software development that result in failed projects, cost overruns, schedule slips, and unfulfilled business needs.
+-> Avoid this sins of a programmer/developer:
+---> Haste
+-----> Hasty decisions lead to compromises in software quality. 
+---> Apathy
+-----> Apathy is not caring about solving known problems. 
+---> Narrow−Mindedness
+-----> Narrow−mindedness is the refusal to practice solutions that are otherwise widely known to be effective.
+---> Sloth
+-----> Sloth is the “healthy sign” of a lazy developer or manager, who makes poor decisions based upon an “easy answer”.
+---> Avarice
+-----> Greed can take many forms, but it leads to inappropriate software development decisions.
+-----> Architectural avarice means the modeling of excessive details, which results in excessive complexity due to insufficient abstraction.
+---> Ignorance
+-----> Ignorance is intellectual sloth. 
+-----> It’s the result of failing to seek understanding. 
+---> Pride
+-----> The sin of pride is the not−invented−here syndrome.
+-----> Often, developers unnecessarily invent new designs when knowledge from preexisting systems, products, and standards are readily applied through architecture mining.
+
+
+
+Taken from "12 Rules for Life: An Antidote to Chaos"
+
+-> "Stand up straight with your shoulders back."
+---> This is to open yourself up to the world.  You're not in a defensive crouch of a prey animal, and that is the circuitry that's governing posture.
+---> When communicating yourself via presentation or just day to day conversations. Be sure you are not in a defensive stance. Be alert but not necessarily combative.
+-> "Treat yourself like you are someone you are responsible for helping."
+-> "Make friends with people who want the best for you."
+-> "Compare yourself to who you were yesterday, not to who someone else is today."
+-> "Do not let your children do anything that makes you dislike them."
+-> "Set your house in perfect order before you criticize the world."
+-> "Pursue what is meaningful (not what is expedient)."
+-> "Tell the truth — or, at least, don’t lie."
+-> "Assume that the person you are listening to might know something you don’t."
+-> "Be precise in your speech."
+-> "Do not bother children when they are skate-boarding."
+-> "Pet a cat when you encounter one on the street."
+
+
+

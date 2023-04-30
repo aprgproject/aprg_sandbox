@@ -11,10 +11,12 @@ namespace alba {
 namespace FunctionNotOnTheCurrentNamespaceStillWorks {
 namespace A {
 struct DL {
-    double x;};
+    double x;
+};
 void f1(DL) {}
 template <int I>
-void f2(DL) {}template <int I>
+void f2(DL) {}
+template <int I>
 void f3(DL) {}
 }  // namespace A
 
@@ -35,4 +37,5 @@ TEST(ArgumentDependentLookupExamplesTest, FunctionNotOnTheCurrentNamespaceStillW
 }  // namespace FunctionNotOnTheCurrentNamespaceStillWorks
 
 }  // namespace alba
+
 // Notes:

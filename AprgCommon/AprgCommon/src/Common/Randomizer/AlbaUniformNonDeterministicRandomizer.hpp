@@ -35,10 +35,12 @@ public:
 
 private:
     EntropySeedSource m_entropySeedSource;
-    RandomEngine m_randomEngine;    Distribution m_randomNumberDistribution;
+    RandomEngine m_randomEngine;
+    Distribution m_randomNumberDistribution;
 };
 
 }  // namespace alba
+
 // Notes:
 
 // On std::random_device:

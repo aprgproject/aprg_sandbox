@@ -156,10 +156,12 @@ bool AlbaLinuxPathHandler::copyToNewFile(string_view newFilePath) {
         writeFileDescriptor = open(newFilePath.data(), O_WRONLY | O_CREAT, statBuffer.st_mode);
         if (isFile()) {
             int errorReturnValue = static_cast<int>(sendfile(
-                writeFileDescriptor, readFileDescriptor, &offset, static_cast<size_t>(statBuffer.st_size)));            isSuccessful = errorReturnValue != -1;
+                writeFileDescriptor, readFileDescriptor, &offset, static_cast<size_t>(statBuffer.st_size)));
+            isSuccessful = errorReturnValue != -1;
             if (!isSuccessful) {
                 cout << "Error in AlbaLinuxPathHandler::copyToNewFile() path:[" << getFullPath() << "] newFilePath:["
-                     << newFilePath << "] 'sendfile' error value:[" << errorReturnValue << "]\n";            } else {
+                     << newFilePath << "] 'sendfile' error value:[" << errorReturnValue << "]\n";
+            } else {
                 reInput();
             }
         }
@@ -178,10 +180,12 @@ bool AlbaLinuxPathHandler::renameFile(string_view newFileName) {
         string newPath(m_directory + string(newFileName));
         int errorReturnValue = rename(getFullPath().c_str(), newPath.c_str());
         isSuccessful = errorReturnValue == 0;
-        if (!isSuccessful) {            cout << "Error in AlbaLinuxPathHandler::renameFile() path:[" << getFullPath() << "] newFileName:["
+        if (!isSuccessful) {
+            cout << "Error in AlbaLinuxPathHandler::renameFile() path:[" << getFullPath() << "] newFileName:["
                  << newFileName << "] 'rename' error value:[" << errorReturnValue << "]\n";
         } else {
-            input(newPath);        }
+            input(newPath);
+        }
     }
     return isSuccessful;
 }
@@ -194,10 +198,12 @@ bool AlbaLinuxPathHandler::renameImmediateDirectory(string_view newDirectoryName
         newPathHandler.input(newPathHandler.getDirectory() + m_slashCharacterString + string(newDirectoryName));
         int errorReturnValue = rename(getFullPath().c_str(), newPathHandler.getFullPath().c_str());
         isSuccessful = errorReturnValue == 0;
-        if (!isSuccessful) {            cout << "Error in AlbaLinuxPathHandler::renameImmediateDirectory() path:[" << getFullPath()
+        if (!isSuccessful) {
+            cout << "Error in AlbaLinuxPathHandler::renameImmediateDirectory() path:[" << getFullPath()
                  << "] newDirectoryName:[" << newDirectoryName << "] 'rename' error value:[" << errorReturnValue
                  << "]\n";
-        } else {            input(newPathHandler.getFullPath());
+        } else {
+            input(newPathHandler.getFullPath());
         }
     }
     return isSuccessful;
@@ -262,10 +268,12 @@ void AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth(
     directoryStream = opendir(currentDirectory.data());
     if (directoryStream != nullptr) {
         loopAllFilesAndDirectoriesInDirectoryStream(
-            directoryStream, currentDirectory, wildCardSearch, listOfFiles, listOfDirectories, depth);    } else {
+            directoryStream, currentDirectory, wildCardSearch, listOfFiles, listOfDirectories, depth);
+    } else {
         cout << "Error in AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth() currentDirectory:["
              << currentDirectory << "] 'opendir' errno value:[" << errno << "] error message:["
-             << getErrorMessage(errno) << "]\n";    }
+             << getErrorMessage(errno) << "]\n";
+    }
     closedir(directoryStream);
 }
 
@@ -285,10 +293,12 @@ void AlbaLinuxPathHandler::loopAllFilesAndDirectoriesInDirectoryStream(
                 string fullFileOrDirectoryName(string(currentDirectory) + immediateFileOrDirectoryName);
                 if (isPathADirectory(fullFileOrDirectoryName)) {
                     string fullFileOrDirectoryNameWithSlash(fullFileOrDirectoryName + "/");
-                    listOfDirectories.emplace(fullFileOrDirectoryNameWithSlash);                    findFilesAndDirectoriesWithDepth(
+                    listOfDirectories.emplace(fullFileOrDirectoryNameWithSlash);
+                    findFilesAndDirectoriesWithDepth(
                         fullFileOrDirectoryNameWithSlash, wildCardSearch, listOfFiles, listOfDirectories, depth);
                 } else {
-                    listOfFiles.emplace(fullFileOrDirectoryName);                }
+                    listOfFiles.emplace(fullFileOrDirectoryName);
+                }
             }
         } else {
             cout << "Error in AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth() currentDirectory:["
@@ -305,20 +315,24 @@ bool AlbaLinuxPathHandler::isPathADirectory(string_view fileOrDirectoryName) con
         if (0 == stat(fileOrDirectoryName.data(), &statBuffer)) {
             result = S_ISDIR(statBuffer.st_mode);
         } else {
-            cout << "Error in AlbaLinuxPathHandler::isPathADirectory() path:[" << getFullPath()                 << "] 'stat' errno value:[" << errno << "] error message:[" << getErrorMessage(errno) << "]\n";
+            cout << "Error in AlbaLinuxPathHandler::isPathADirectory() path:[" << getFullPath()
+                 << "] 'stat' errno value:[" << errno << "] error message:[" << getErrorMessage(errno) << "]\n";
         }
     }
-    return result;}
+    return result;
+}
 
 bool AlbaLinuxPathHandler::canBeLocated(string_view fullPath) const {
     struct stat statBuffer {};
     return stat(fullPath.data(), &statBuffer) == 0;
 }
 
-bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, string_view originalPath) const {    bool result = false;
+bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, string_view originalPath) const {
+    bool result = false;
     bool isCorrectPathLastCharacterNotASlash(correctedPath[correctedPath.length() - 1] != m_slashCharacterString[0]);
     if (isCorrectPathLastCharacterNotASlash) {
-        if (canBeLocated(correctedPath)) {            if (isPathADirectory(correctedPath)) {
+        if (canBeLocated(correctedPath)) {
+            if (isPathADirectory(correctedPath)) {
                 result = true;
             }
         } else {

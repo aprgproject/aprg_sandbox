@@ -1,0 +1,130 @@
+
+Taken from Walter E. Brown's lecture "Whitespace <= Comments << Code"
+
+-> How are important comments really?
+---> More important than whitespace?
+---> Less important than code?
+---> Pretty much everyone agrees that comments much less important than the code.
+---> Some people thinks that its on a par with whitespace
+---> Some people thinks that its a little more important than whitespace
+
+-> An opinion
+---> [Commenting] is one of those topics thats briefly mentioned in an introductory programming class and rarely or never again discussed [in a later class].
+---> Someone should really bring it up with more experienced programmers.
+-----> Name withheld by request
+
+-> A commenting classic
+---> A famously bad comment style:
+i = i + 1; /* Add one to i */
+---> There are worse ways to do it:
+/*
+*
+*         Add one to i
+*
+*/
+---> "Don't laugh now, wait until you see it in real life." - Rob Pike
+
+-> Excuses
+---> "I dont have time now to think about the comments."
+---> "I'll put in the comments later."
+---> "We dont have time for code reviews here."
+-----> Like comments are only for code reviews ;)
+---> Programmers are always in a hurry:
+-----> No time for planning or for thinking.
+-----> Let's start coding NOW!
+---> But imagine a builder saying: "I have no time for blue prints, were just going to start nailing lumber for your house."
+
+
+-> How do we make things better?
+---> Primum non nocere (First, do no harm)
+---> Like with doctors
+---> Much of the skill in writing good comments is in knowing when NOT to write them.
+---> A comment has zero (or negative!) value if its wrong
+-----> I provides misinformation and distract us, over and over.
+-----> Its a subtle, constant drag on our thinking.
+-------> It nags and distract us.
+-----> It affects our thinking with a piece of code.
+-----> Yet it often survives ina way that wrong code couldn't.
+---> Even a correct comment may be useless or distracting:
+-----> When it parrots what the code already says.
+-----> When its quickly outdated/obsolete/stale.
+-------> BEWARE of comments that can be OBSOLETE!
+-----> When its phrased impolitely or ungrammatically.
+---> A comment adding no value is waste: REMOVE or REWRITE!
+
+-> Does that really help?
+---> Yes, it really does help, much more than seems obvious.
+---> "Here, the code is clear enough that I dont need comments, but the comments are so unclear I'm glad the code is there to explain them." - Remy Porter
+---> "Don't be afraid to discard work you know isn't up to standard. Don't save junk, just because it took you a long time to write it." - David Eddings
+---> Do the math: Once you excise the "junk", the average quality improves instantly!
+---> Me: "Smaller is faster. We want to process less information on our minds, useless and duplicate comments just slows us down."
+
+-> Each comment should add value
+---> Express as much as you can via code.
+-----> CODE FIRST!
+-----> After that, anything you still want to express...
+-----> May be a plausible candidate for a useful comment.
+---> Name it, don't explain it.
+-----> Rename rather than explain a poor name.
+-----> Introduce assertions instead of commenting assumptions.
+-----> Don't comment sections of long functions; do extract smaller functions whose names capture the former sections' intent.
+-----> Rewrite bad code; don't comment it! 
+// This is bad, I know -,- 
+-----> "A common fallacy is to assume that authors of incomprehensible code will somehow be able to express themselves lucidly anc clearly in comments." - Kevlin Henney
+
+-> When does comment add value?
+---> These are REAL EXAMPLES in PRODUCTION CODE!
+---> Please avoid prayers in our code:
+auto leapyears = new Array{1900, 1904, 1908 ...  2052, 2056, 2060};
+// Please GOD let this be enough!
+---> Please remove apologies:
+// Dear future me. Please forgive me.
+---> Please remove laments:
+// I have to find a better job.
+---> Please remove artworks:
+// ¯\_(ツ)_/¯
+---> Please remove Suess-like poetry:
+// Replaces with spaces the braces incases
+// where braces in places cause stasis.
+---> Please remove comments useful only every 75 years:
+// Halley's comment
+---> Pop-culture references:
+long long ago; // in a galaxy far far away
+---> Your name and todays date
+-----> This isnt a school
+-----> Version control tools already record such information.
+
+-> In brief:
+---> We ourselves are always the first:
+-----> We are the first beneficiaries of our goode comments.
+-----> We are the first victims of our bad comments.
+---> "If the code and the comments disagree, then both are probably wrong." - Norm Schryer
+---> The most useful comment is the comment that does not have to be written!
+---> "You should only need comments when you need to warn readers about [some kludge], just as on a road there are only arrow on parts with unexpectedly sharp curves." - Paul Graham
+
+
+-> Recommended reading
+---> Eric Steven Raymond:
+-----> The Cathedral and the Bazaar (2000).
+---> Jeff Atwood:
+-----> Coding without Comments (2008).
+---> Jose M. Aguilar
+-----> 13 Consejos para comentar tu codigo (2007).
+---> Kevlin Henney
+-----> Comment only What the Code Cannot Say (2009).
+---> Rob Pike:
+-----> Notes on Programming in C (1989).
+---> Robert C Martin: 
+-----> Clean Code (2008).
+
+
+
+
+
+-> Me, about this comment:
+double ACCELERATION_FROM_PLANETX = 23.426141441; 
+// This value from acceleration is from NASA initial data.
+// According to the statement release, this value is highly inaccurate and would likely change as we observe planet X in the future.
+static_assert(__DATE__ > "Dec 10 2022", "This is harmless compilation failure to remind you that a final value is needed for this constant or update the date to be checked again in the future.");
+
+
