@@ -106,4 +106,20 @@ TEST(AlbaUniformDeterministicRandomizerTest, GetRandomFloatingValueWorks_AsUnifo
     EXPECT_LT(deviationCount, allowedDeviationCount);
 }
 
+TEST(AlbaUniformDeterministicRandomizerTest, SetRandomSeedWorks) {
+    constexpr int minimumValue(0);
+    constexpr int maximumValue(9);
+    constexpr double customSeed(10);
+    IntegerRandomizerForTest randomizer(minimumValue, maximumValue, customSeed);
+
+    constexpr int newCustomSeed(42);
+    randomizer.setRandomSeed(newCustomSeed);
+
+    for (int i = 0; i < 1000; i++) {
+        auto randomValue(randomizer.getRandomValue());
+        ASSERT_GE(randomValue, minimumValue);
+        ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
 }  // namespace alba

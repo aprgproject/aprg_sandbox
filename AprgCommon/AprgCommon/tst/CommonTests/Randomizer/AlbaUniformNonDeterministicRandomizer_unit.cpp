@@ -113,4 +113,18 @@ TEST(AlbaUniformNonDeterministicRandomizerTest, GetRandomFloatingValueWorks_AsUn
     EXPECT_LT(deviationCount, allowedDeviationCount);
 }
 
+TEST(AlbaUniformNonDeterministicRandomizerTest, ResetRandomSeedWorks) {
+    constexpr int minimumValue(0);
+    constexpr int maximumValue(9);
+    IntegerRandomizerForTest randomizer(minimumValue, maximumValue);
+
+    randomizer.resetRandomSeed();
+
+    for (int i = 0; i < 1000; i++) {
+        auto randomValue(randomizer.getRandomValue());
+        ASSERT_GE(randomValue, minimumValue);
+        ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
 }  // namespace alba

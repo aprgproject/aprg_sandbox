@@ -4,9 +4,8 @@
 
 namespace alba {
 
-template <typename UnderlyingType, size_t numberOfBits>
+template <typename UnderlyingType, std::size_t numberOfBits>
 struct AlbaSingleBitField {
     UnderlyingType value : numberOfBits;
 };
-
 }  // namespace alba

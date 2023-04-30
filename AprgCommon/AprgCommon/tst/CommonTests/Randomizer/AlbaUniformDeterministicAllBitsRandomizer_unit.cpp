@@ -46,6 +46,22 @@ TEST(AlbaUniformDeterministicAllBitsRandomizerTest, GetRandomFloatingValueWorks_
     }
 }
 
+TEST(AlbaUniformDeterministicAllBitsRandomizerTest, SetRandomSeedWorks) {
+    constexpr long long minimumValue(static_cast<long long>(numeric_limits<int>::min()));
+    constexpr long long maximumValue(static_cast<long long>(numeric_limits<int>::max()));
+    constexpr double customSeed(10);
+    IntegerRandomizerForTest randomizer(customSeed);
+
+    constexpr int newCustomSeed(42);
+    randomizer.setRandomSeed(newCustomSeed);
+
+    for (int i = 0; i < 1000; i++) {
+        long long randomValue(static_cast<long long>(randomizer.getRandomValue()));
+        ASSERT_GE(randomValue, minimumValue);
+        ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
 // Dont test if uniformly distributed because its too large just trust the C++ implementation
 
 }  // namespace alba

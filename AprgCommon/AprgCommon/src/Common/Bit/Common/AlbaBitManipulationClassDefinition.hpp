@@ -112,50 +112,45 @@ public:
     static constexpr inline DataType rotateBitToTheLeft(ArgumentType const value) {
         static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
 
-        constexpr size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        constexpr std::size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
         static_assert(shiftValue != 0, "rotateBitToTheLeft: shiftValue is zero, so there should be nothing to do");
         static_assert(
             NUMBER_OF_BITS > shiftValue, "rotateBitToTheLeft: sizeof(DataType) size is greater than shift value");
-
         return rotateBitToTheLeftWithShiftValue(value, shiftValue);
     }
-
     template <auto shiftValue, typename ArgumentType>
     static constexpr inline DataType rotateBitToTheRight(ArgumentType const value) {
         static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
 
-        constexpr size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        constexpr std::size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
         static_assert(shiftValue != 0, "rotateBitToTheRight: shiftValue is zero, so there should be nothing to do");
         static_assert(
             NUMBER_OF_BITS > shiftValue, "rotateBitToTheRight: sizeof(DataType) size is greater than shift value");
-
         return rotateBitToTheRightWithShiftValue(value, shiftValue);
     }
 
     template <typename ArgumentType>
     static constexpr inline DataType rotateBitToTheLeftWithShiftValue(
-        ArgumentType const value, size_t const shiftValue) {
+        ArgumentType const value, std::size_t const shiftValue) {
         static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
 
-        constexpr size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        constexpr std::size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
         DataType newValue = static_cast<DataType>(value);
         return (newValue << shiftValue) | (newValue >> (NUMBER_OF_BITS - shiftValue));
     }
 
     template <typename ArgumentType>
     static constexpr inline DataType rotateBitToTheRightWithShiftValue(
-        ArgumentType const value, size_t const shiftValue) {
+        ArgumentType const value, std::size_t const shiftValue) {
         static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
 
-        constexpr size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        constexpr std::size_t NUMBER_OF_BITS = sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
         DataType newValue = static_cast<DataType>(value);
 
-        return (newValue >> shiftValue) | (newValue << (NUMBER_OF_BITS - shiftValue));
-    }
+        return (newValue >> shiftValue) | (newValue << (NUMBER_OF_BITS - shiftValue));    }
 
     template <auto position>
-    static constexpr inline uint8_t getByteAt(DataType const value) {
-        static_assert(sizeof(DataType) > position, "getByteAt: position is greater than DataType size");
+    static constexpr inline uint8_t getByteAt(DataType const value) {        static_assert(sizeof(DataType) > position, "getByteAt: position is greater than DataType size");
 
         return static_cast<uint8_t>(shiftBytesToTheRight<position>(value));
     }
