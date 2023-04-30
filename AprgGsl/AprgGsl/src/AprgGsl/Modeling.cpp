@@ -258,14 +258,13 @@ void Modeling::calculateCoefficientsUsingLeastSquares() {
     }
 
     gsl_multifit_linear_free(work);
+
     gsl_matrix_free(calculatedCovariance);
     gsl_vector_free(calculatedCoefficients);
-    gsl_vector_free(yModelingData);
-    gsl_matrix_free(xModelingData);
+    gsl_vector_free(yModelingData);    gsl_matrix_free(xModelingData);
 }
 
-unsigned int Modeling::getIndex(unsigned int const i, unsigned int const j, unsigned int const numberOfColumns) const {
-    return (j * numberOfColumns) + i;
+unsigned int Modeling::getIndex(unsigned int const i, unsigned int const j, unsigned int const numberOfColumns) const {    return (j * numberOfColumns) + i;
 }
 
 }  // namespace alba
