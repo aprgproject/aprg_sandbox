@@ -10,41 +10,39 @@ TEST(RagnarokOnlineMonsterUpdateTest, DISABLED_RetrieveMonsterDataFromRmsWebPage
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.retrieveMonsterDataFromRmsWebpages(
-        R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\RMS\MonsterDatabaseTraversal\)");
 
-    ragnarokOnline.saveMonsterIdToMonsterMapToFile(R"(C:\Users\detectivemark7\Desktop\RO\MonsterIdToMonsterMap.txt)");
+    ragnarokOnline.saveMonsterIdToMonsterMapToFile(
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MonsterIdToMonsterMap.txt)");
 }
 
 TEST(RagnarokOnlineMonsterTest, ReadMonsterIdToMonsterMapFromFileWorks) {
     RagnarokOnline ragnarokOnline;
 
-    ragnarokOnline.readMonsterIdToMonsterMapFromFile(R"(C:\Users\detectivemark7\Desktop\RO\MonsterIdToMonsterMap.txt)");
+    ragnarokOnline.readMonsterIdToMonsterMapFromFile(
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MonsterIdToMonsterMap.txt)");
 
     EXPECT_EQ(1238U, ragnarokOnline.getMonsterIdToMonsterMap().size());
 }
-
 TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPagesWorks) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.retrieveMonsterDataFromRmsWebpages(
-        R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\RMS\MonsterDatabaseTraversal\)");
 
     EXPECT_EQ(1238U, ragnarokOnline.getMonsterIdToMonsterMap().size());
 }
-
 TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPageWorksWithExample1) {
     RagnarokOnline ragnarokOnline;
 
     ragnarokOnline.retrieveMonsterDataFromRmsWebPage(
-        R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\monsterWithLetter_a_pageNumber_1.html)");
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\RMS\MonsterDatabaseTraversal\monsterWithLetter_a_pageNumber_1.html)");
 
     MonsterIdToMonsterMap const& monsterIdToMonsterMap(ragnarokOnline.getMonsterIdToMonsterMap());
     ASSERT_EQ(10U, monsterIdToMonsterMap.size());
-
     Monster const& monster1(monsterIdToMonsterMap.at(1713U));
     EXPECT_EQ(1713U, monster1.monsterId);
-    EXPECT_EQ("Acidus", monster1.name);
-    EXPECT_EQ(51112U, monster1.hp);
+    EXPECT_EQ("Acidus", monster1.name);    EXPECT_EQ(51112U, monster1.hp);
     EXPECT_EQ(80U, monster1.level);
     EXPECT_EQ("Dragon", monster1.race);
     EXPECT_EQ("Holy 2", monster1.property);
