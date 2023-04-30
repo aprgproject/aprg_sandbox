@@ -1,14 +1,49 @@
+Taken from Conor Hoekstra's lecture "Algorithm Intuition"
+
+----------------------------------------------------------------------------------------
+| Algorithm                 | Indexes | Accumulator           | Reduce /  | Default OP |
+|                           | viewed  |                       | Transform |            |
+----------------------------------------------------------------------------------------
+| accumulate / reduce       | 1       | Yes                   | Reduce    | plus{}     |
+|                           |         | (init = specified)    |           |            |
+----------------------------------------------------------------------------------------
+| inner_product /           | 1       | Yes                   | Reduce    | plus{}     |
+| transform_reduce          |         | (init = specified)    |           | mult{}     |
+----------------------------------------------------------------------------------------
+| partial_sum /             | 1       | Yes                   | Transform | plus{}     |
+| inclusive_scan            |         | (init = FirstElement) |           |            |
+----------------------------------------------------------------------------------------
+| exclusive_scan            | 1       | Yes                   | Transform | plus{}     |
+|                           |         | (init = specified)    |           |            |
+----------------------------------------------------------------------------------------
+| [adjacent_transform] /    | 2       | No                    | Transform |            |
+| adjacent_difference       |         |                       |           | minus{}    |
+----------------------------------------------------------------------------------------
+| [adjacent_inclusive_scan] | 2       | No                    | Transform |            |
+|                           |         |                       |           |            |
+----------------------------------------------------------------------------------------
+| [adjacent_reduce]         | 2       | Yes                   | Reduce    |            |
+----------------------------------------------------------------------------------------
+| adjacent_find             | 2       | No                    | Transform | equal_to   |
+----------------------------------------------------------------------------------------
+| transform                 | 1*      | No                    | Transform |            |
+----------------------------------------------------------------------------------------
+| find                      | 1       | No                    | Reduce    |            |
+----------------------------------------------------------------------------------------
+| iota                      | N/A     | N/A                   | Transform |            |
+----------------------------------------------------------------------------------------
+
+*The algorithms wrapped in [] does not exisr in standard library but might be in the future (or it can be implemented).
+
+
 
 Taken from [https://en.cppreference.com/w/cpp/algorithm]
 
 
-
--> C++ Algorithm library
----> The algorithms library defines functions for a variety of purposes (e.g. searching, sorting, counting, manipulating) that operate on ranges of elements.
+-> C++ Algorithm library---> The algorithms library defines functions for a variety of purposes (e.g. searching, sorting, counting, manipulating) that operate on ranges of elements.
 ---> Note that a range is defined as [first, last) where last refers to the element past the last element to inspect or modify.
 
--> Constrained algorithms (since C++20)
----> C++20 provides constrained versions of most algorithms in the namespace std::ranges.
+-> Constrained algorithms (since C++20)---> C++20 provides constrained versions of most algorithms in the namespace std::ranges.
 ---> In these algorithms, a range can be specified as either an iterator-sentinel pair or as a single range argument, and projections and pointer-to-member callables are supported.
 ---> Additionally, the return types of most algorithms have been changed to return all potentially useful information computed during the execution of the algorithm.
 -----> std::vector<int> v = {7, 1, 4, 0, -1};
