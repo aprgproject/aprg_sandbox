@@ -8,15 +8,13 @@ using namespace std;
 
 namespace alba {
 
-namespace TestFunctionNotOnTheCurrentNamespace {
+namespace FunctionNotOnTheCurrentNamespaceStillWorks {
 namespace A {
 struct DL {
-    double x;
-};
+    double x;};
 void f1(DL) {}
 template <int I>
-void f2(DL) {}
-template <int I>
+void f2(DL) {}template <int I>
 void f3(DL) {}
 }  // namespace A
 
@@ -34,8 +32,7 @@ TEST(ArgumentDependentLookupExamplesTest, FunctionNotOnTheCurrentNamespaceStillW
     f3<0>(A::DL{3.14});  // compiles even though f3 is in a different namespace and does not match (just let the
                          // compiler know f3 is a template).
 }
-}  // namespace TestFunctionNotOnTheCurrentNamespace
+}  // namespace FunctionNotOnTheCurrentNamespaceStillWorks
 
 }  // namespace alba
-
 // Notes:
