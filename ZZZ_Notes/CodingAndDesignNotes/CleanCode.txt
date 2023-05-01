@@ -1,0 +1,626 @@
+
+-> The Last Programming Language
+
+---> Better hardware now, what have we done with it?
+---> Plenty of languages, have we seen it all?
+
+---> Organize languages in Syntax
+-----> Infix, postfix, and prefix
+--------> Smalltalk prefix
+--------> Lisp prefix
+--------> Forth programming language
+-----> COBOL
+-------> An attempt a natural language
+-------> Worst idea ever
+-------> We would like our code to be readable, we dont want to force sentence structure and english grammar into our code.
+-----> Fortran (formula translator)
+-------> Make programming more mathematical
+-------> I didnt succeed
+-----> Prolog
+-------> logical programming
+-------> Program using logic gates
+
+---> Semantics paradigm
+-----> Modular paradigm
+-------> Discipline imposed filesize or program/module length
+-----> Structure (structure means control structure)
+-------> Discipline imposed upon direct access of control (Discipline imposed upon goto)
+---------> Remember Djikstra paper on "Goto considered harmful"
+---------> C is almost structural language (goto is not used)
+---------> Pascal
+-----> OO
+-------> Discipline imposed upon indirect access of control (Disciplined imposed upon pointer to functions)
+---------> Do pointer to functions without dealing with pointers to functions (hidden using vtable)
+---------> This has a huge benefit: Source code dependencies opposed the flow of control
+-----------> In most structure languages: Flow of control points to the same direction as code dependencies
+-------> OO is really about polymorphism
+-----> Functional
+-------> Discipline imposed upon assignment
+---------> We cannot assign values to variables (we can initialize variables)
+-------> Important now because of multicore problem
+
+---> Graphical languages
+-----> It does not work.
+-----> There something about when code is saved as text.
+
+---> New languages now are based on old languages
+-----> Closure is based on Lisp
+-----> Functional programming languages now are based 50 years ago
+-------> The hot new thing are 50 years old.
+
+---> Unifying into one language
+-----> C is like the defacto standard
+-------> Ruby, C++, Java are based from this
+
+---> Hybrid languages
+-----> When a language belongs to all semantic classes, it doesnt belong to any of them.
+-------> Paradigms are all about restrictions
+
+---> Simplicity of syntax
+-----> We should focus on semantic issues instead of language issues.
+-----> Enough with the language lawyers.
+
+---> Garbage collection?
+-----> We dont like memory leaks anymore.
+
+---> We want it to be textual language.
+
+---> We want it to behomoiconic
+-----> Manipulate themselves while its running. 
+-----> The code is the data and the data is the code. 
+
+
+
+
+-> Clean code
+
+---> Does clean code matter?
+------> The company killed by code. 
+--------> Huge mess in code. 
+-----> The productivity trap
+--------> Fast at first
+--------> Mess causes to be speed to be crawl
+--------> Major redesign is needed
+--------> But based on old code, but old code changes, so new code must change (its a circular race)
+
+---> Code rot
+------> Rigidity
+---------> A rigid system is a system on which a single change or enhancement forces you to make dozen changes of within the body of the system.
+---------> It gotten so tangled that you change one thing, you have to make multiple changes on different parts of the program.
+---------> This make estimating the effort really difficult.
+-----------> You dont know how many modules really need to be changed.
+------> Fragility
+---------> Fragile systems are system that break on many difference places when youre changing just one place.
+---------> Problems occur that are not directly related to the changes made.
+---------> This make estimating the effort really difficult. 
+-----------> Because problems become unpredictable.
+---------> When system is fragile, managers and users noticed. 
+-----------> They see malfunctions that are supposed to work and this make them really nervous.
+-----------> This make it seems that the system is unreliable.
+------> Inseparable. 
+---------> An inseparable system is system based on modules that cannot be separated and be reused on other purposes.
+---------> We try to make a system that can be reused.
+------------> This often fails because system designers often fails to enforce module boundaries.
+------> Opacity
+---------> Opaque code is code that does not communicate the authors intent.
+---------> Its hard to read, hard to understand and hard to change.
+
+---> Going fast
+------> Deadlines and pressure from managers are just excuses, its programmers that make bad code.
+------> Its the mess that slows us down. You know this already, you know you have impeded by bad code.
+------> "The only way to go fast is to go well."
+------> Everybody thinks that you can go fast by rushing but this is an illusion
+--------> You can't rush to code by going fast. 
+--------> Its faster on the short term but there is a long term cost.
+------> Clean code has no short term cost, and you cannot go faster by rushing your code.
+
+---> Sushi chefs
+------> Watch a master sushi chefs prepare sushi.
+------> The chefs move quickly, he know exactly where his knives and ingredients are, every motion is well practiced.
+------> When he gives you food, look at his work space (its spotless).
+--------> Hes been cleaning the whole time he was working.
+--------> This is the only way he can go fast.
+
+---> What is clean code?
+-----> Bjarne Stroustrup: I like my code to elegant and efficient.
+-------> Elegant code means it tells a lot in a few words
+-------> Efficient code runs quickly with taking a few cycles.
+-----> Grady Brooch: Clean code should be simple and correct. Clean code should read like well written prose.
+-------> Can code read like well written prose? The short answer is "yes". The long answer is "almost".
+-----> Michael Feathers: Clean code looks like it was written by someone who cares.
+-------> Thats a lovely thought, but we all seen code that looks like nobody cares. 
+-----> Ward Cunningham (inventor of wikis): You know you are reading clean code when each routine you read is pretty much what you expect.
+
+---> The "Boy Scout" rule
+-----> Sir Robert Baden-Powell, the founder of the Boy Scouts, told scouts to "try to leave this world a little better than you found it" in his last message.
+-------> If every programmer did this, the code would just keep getting better and better. 
+
+
+
+
+---> Naming
+
+-----> Reveal your intent
+-------> Every name should reveal intent, if you need a comment for this then its not a good name.
+-------> Variable names form a compilable comment that explains the authors intent. 
+----------> There was a time long ago, that doing this is considered wasteful of CPU cycles and memory. 
+-------------> This concerns are badly misplaced the true cost of software is in maintenance.
+
+-----> Describe the problem
+-------> Names that describe implementation details does not express intent.
+-------> They talk about the code as it is and why it was written that way but they dont talk about the problem being solved.
+
+-----> Whenever you have to digest the code to understand the name, the name pretty much failed to communicate.
+-----> Remember, names are not for your convenience, they are your primary tools for communicating intent.
+-------> Communicating intent should always be your first priority, its even more important than making sure the code works.
+---------> Always choose names that communicate your intent.
+
+-----> Avoid disinformation
+--------> Have you ever seen a name in code that didn't mean what its said? 
+----------> Thats disinformation, and to disinformation, to say something that you didn't mean is one of the sins that a programmer can commit.
+
+-----> A name should say what it means and means what its said.
+--------> You should NOT tolerate any drifts of meaning in your name.
+--------> If a meaning of a function, class, or variable change, then you should change the name.
+
+-----> Pronouncable names
+--------> Code is going to be discussed, dont make your readers invent things on how to pronounce them.
+
+-----> Dont use prefixes for types of the variable.
+--------> This isn't the 90s anymore
+--------> IDEs are powerful enought to determine the type.
+
+-----> Parts of speech
+--------> Classes and variables should be nouns (or noun phrase).
+----------> Avoid noise words like: Manager, Processor, Data, or Info
+------------> This words just relay: "I dont know what to call this."
+----------> Variables hold instances of classes so they should be nouns too.
+----------> Boolean variables should be like predicates ("isEmpty", isTerminated)
+--------> Functions should be verbs.
+----------> Boolean function should be like predicates as well ("isEmpty", isTerminated)
+----------> Dont use nouns for accessors like (firstName, fuelRate) instead include the word "get" (getFirstName, getFuelRate)
+--------> Enums tend to be state or object descriptors so they are often adjectives.
+-----> Remember Grady Brooch: Clean code should be simple and correct. Clean code should read like well written prose.
+--------> One of the ways we can do this, is to use the appropriate part of speech for our variables, classes and functions.
+
+-----> The scope length rule.
+--------> For Variables:
+----------> There should be a relationship of length of the name and length of its scope.
+----------> The longer the scope of the variable, the longer the name of the variable.
+----------> Short names should be done on short scopes.
+-------------> Initials as variable names can be done on short scopes
+----------> Long names should be done on long scopes.
+--------> For Functions or Classes:
+----------> The relationship should be the the OPPOSITE.
+----------> The longer the scope of the variable, the shorter the name of the variable.
+----------> Short names should be done on long scopes (more general function/class).
+------------> Public functions should have short names because there are called in several places.
+------------> Functions that are called in many places and have big long scopes should have nice short convenient names.
+----------> Long names should be done on short scopes (more specific function/class).
+------------> Private functions should have long names because they are only called in short scope so its not that inconvenient.
+
+-----> Recap
+--------> Choose your names thoughtfully
+--------> Communicate your intent
+--------> Avoid disinformation
+--------> Pronounceable Names
+--------> Avoid Encodings
+--------> Choose parts for speech well
+--------> The scope rule.
+
+-----> Remember, Martin Fouler quote: "Any fool can write code a computer can understand, but it takes a good programmer to write code a human can understand."
+
+
+
+
+
+---> Functions
+
+-----> Write small, well named functions
+-------> Large functions are where classes go to hide (if you want to find classes in your application, check your large functions)
+-------> In order to have functions that do one thing, you need to write small functions -> this is where "extract till you drop" comes in.
+
+-----> Functions structure
+-------> Function signature should be small, the fewer the arguments the better.
+-------> There should be careful consideration of types passed to each function.
+-------> The organization should be self evident.
+
+-----> Why does switch and if statement cause harm to software structure?
+-----> Assignment statements were also considered harmful.
+-------> My software problems can be avoided by significantly by constraining state changing operations and side effects.
+-----> Checks, validation, exception handling can also ruin readability.
+-----> Goto considered harmful by Edgar Djikstra
+
+-----> Arguments
+-------> We should treat every function argument as liability not an asset.
+---------> Function arguments are hard to read, hard to understand, each one can confuse or confound, each one can break your flow when reading the code (causing a double take).
+-------> Three function arguments max
+---------> Zero is best
+---------> One is okay
+---------> Ill do three sometimes, but its bordering on sloppy.
+------------> Once you get to three, its hard to remember the order or the thing they do.
+------------> We dont want our readers to do double takes.
+------------> Why are they not an object?
+-------> How about constructors? Same rule on function arguments.
+---------> Consider doing the "named constructor idiom" or creational design patterns (builder, factory, prototype)
+ 
+-----> No boolean arguments
+-------> When you add a boolean argument, you are declaring that function does two things: It does one thing for the true case, and one thing for the false case.
+-------> Write two functions instead, one for the true case and one for the false case.
+-------> A boolean hanging out as function argument can cause confusion -> Why does it mean if its true? What does it mean when its false?
+-------> If having one boolean argument is a problem? Having two booleans will cause a double take indeed.
+
+-----> Output arguments
+-------> I dislike output arguments because people just dont expect data to be coming out of an argument (it causes a double take).
+
+-----> The null defense
+-------> Passing nulls to functions is as bad as passing a boolean to a function.
+---------> It might actually be worse because its not obvious that there are two cases for the function 
+-----------> Theres a behaviour for the null case and another for the non-null case
+-----------> Don't use null as a pseudo boolean.
+-------> Avoid defensive programming.
+---------> Defensive programming means that you dont trust your team or your unit tests.
+---------> In public APIs, its sensible to have checks because who knows what the user will be passing to the functions.
+---------> For code written by team, theres no reason for defensive programming.
+---------> A good offense, is a good suite of tests.
+
+-----> The step down rule.
+-------> Before we have the scissors rule (C++ rule)
+----------> Have public (usually at the top) and private (usually at the bottom) parts of your class separated so you can take a scissor and cut the public part and give it to your users/testers.
+-------> The step down rule -> important stuff go at the top, details go to the bottom.
+---------> Benefit 1: You can cut off what you dont need, and you would still have the important stuff.
+---------> Benefit 2: Readers can have one pass/scroll to your code, and they would have the general idea first, and they would have more details as they scroll through the bottom.
+---------> The public methods should be at the top because they tell you what you can do with the class.
+---------> All the private/intermediate/utility functions should be place down (lower to where are used).
+---------> If possible, ALL the functions references should point down.
+------------> This would also show how important the function is depending on the level on where its placed on the class.
+-------> Step down rule by Uncle Bob
+1) Private Variables
+2) Public Methods
+3) Private Methods 1
+4) Private Methods 2
+5) Private Methods 3
+---------> We go from "abstract" to "detailed" as we go through the steps.
+
+-----> Switch statements
+-------> Why do we hate switch statements? Because its not OO.
+-------> Why its not OO?
+---------> Each case of a switch statement will most like depend on an external module.
+-----------> Source code dependency will have same direction as flow of control
+-----------> The is contrary to the OO style where the source code dependency is on an opposite direction as the flow of control (this is using interfaces and polymorphism)
+---------> When there are many switch statements, and there are many external modules for each case, there will be many dependencies (we call this the fanout problem)
+-----------> Need to invert source code dependency using interfaces and polymorphism.
+-----> You should be able to divide your program to two part application partition and main(framework) partition.
+-------> Dependency injection
+---------> In software engineering, dependency injection is a technique in which an object receives other objects that it depends on, called dependencies. 
+-------> Switch statements should be on the framework partition not on the application partition.
+-----> A system that is independently pluggable is also idependently develop-able.
+-------> A switch statement that ruins the pluggability of modules, also ruins its development.
+
+-----> Functional programming
+-------> Write a program without any assignment statements (however, you can initialize a variable).
+-------> Instead of setting values to bunch of variables, you pass to values as arguments into functions.
+-------> Instead of looping over a set of variables, you recurse to a set of function arguments.
+-------> Benefit: You functions are a true mathematical function -> they always return the same value back (no state is saved)
+-------> Benefit: There are no side effects.
+
+-----> Side effects
+-------> When a function changes a variable that outlives the function call (for example changing state of a private variable), then it has side effects.
+-------> This makes programs difficult to understand and a persistent source of errors.
+-------> This often comes in pairs: set/get, open/close, and new/delete (now you know i call this a persistent source of errors)
+-------> I causes Temporal Coupling: These functions must called in order (open must be called before close). -> Note: this is before RAII.
+-------> Extract coupled methods so that we can have one function with no visible changes in state: This is called "passing a block" -> RAII has this approach.
+
+-----> Command Query Separation
+-------> Commands changes the state.
+---------> Functions that change state should NOT return values.
+-------> Queries just return information and does not change the state.
+---------> Functions that return values should NOT change state.
+-------> Benefit: Its easy to recognize if the function has side effects.
+---------> By checking the function signature you could tell if its a command or a query.
+
+-----> Tell dont ask
+-------> Tell objects what to do, and not to ask objects what their state is.
+-------> We dont want to make decisions on the objects behalf, the object can decide for itself.
+---------> This is aligned with SRP (this is the object responsibility and not other objects)
+-------> Avoid "Train Wrecks"
+---------> Train Wreaks are long chains of queries.
+---------> .getX().getY().getZ().doSomething 
+---------> They are called train wreaks because they look like box cars.
+-------> Biological systems such as cells follow the "Tell dont ask" rule.
+
+-----> The Law of Demeter
+-------> Its a bad idea for single functions to know the entire navigation pattern of the system.
+-------> You may call methods of objects that are:
+----------> passed as arguments
+----------> created locally
+----------> instance variables
+----------> globals
+-------> You may NOT call methods of objects that are:
+----------> returned from a previous method call
+-------> Following this rule is hard, its been called as the "suggestion of demeter"
+-------> From Wikipedia: The Law of Demeter (LoD) or principle of least knowledge is a design guideline for developing software, particularly object-oriented programs. 
+In its general form, the LoD is a specific case of loose coupling. 
+The guideline was proposed by Ian Holland at Northeastern University towards the end of 1987,[1] and can be succinctly summarized in each of the following ways:[2]
+---> Each unit should have only limited knowledge about other units: only units "closely" related to the current unit.
+---> Each unit should only talk to its friends; don't talk to strangers.
+---> Only talk to your immediate friends.
+
+-----> Structured programming 
+-------> Structured programming says that all algorithm must be composed of sequence, selection and iteration.
+---------> Sequence is the arrangement of two blocks in time.
+---------> Selection is just a boolean expression the split the flow control into mulitple path ways. (Each has block, one gets executed, then blocks get rejoined, and finallyexit)
+---------> Iteration is the repeated execution of a block until some boolean expression is satisfied.
+---------> Djisktra showed by just following this rules you can prove the your program is correct.
+-----------> A provable system is an understandable system.
+---------> All codes that follow this will have a single entry at the start and single exit when done.
+
+-----> Early returns
+-------> Does single entry single exit rule mean that you cant have multiple return for a function? 
+---------> No not at all. So there is no violation of structure.
+-------> Midloop returns that make the code have indirect exit condition are avoided.
+-------> Continue is okay
+-------> Break are avoided because they can cause an indirect exit condition.
+
+-----> Error handling
+-------> Error handling is important but if its obscure logic its wrong. - Michael Feathers
+-------> Prefer exceptions.
+-------> Null is a value, consider is a return for your functions.
+-------> try-block should comes first for readability
+
+
+
+---> Form
+
+-----> Comments
+-----> Coding standards
+-------> This should also be visible on the code itself.
+-------> It should be implicit in our code and written in separate document.
+-------> Documenting everything in comments yields to code clutter. When comments are too frequent in our code we tend to ignore them (even the ones we shouldnt ignore). 
+
+-----> Comments should be rare
+-------> Our eyes tend to flint over comments in search of real code.
+---------> Some IDEs color comments as light grey so it would be easier to the eyes (and it would be easier to miss them).
+-------> "The boy who cried wolf."
+-------> Comments should be reserved on those special cases were programmers attention is really neccessary.
+-------> Comments should be reserved on cases that the programmer will be relieved with the comment because the comment is there.
+-------> The code itself should be able to explain its purpose.
+---------> Whenever there are multiple representations of a program, the possibility of discrepancy exists.
+---------> If the code itself is in error, artistic flowcharts and comprehensive comments are to no avail.
+---------> Only by reading the code, can programmer know what the program does.
+
+-----> Comments are failures
+-------> It should be the goal of every programmer, to write code that expresses its intent so well that it doesnt need comments.
+---------> If we adhere to this goal, then every comment we write is a failure.
+-------> Some languages (like assembly languages) arent expressive at all.
+---------> Comments to this languages are absolutely essential.
+---------> Some languages (Pascal, Fortran and even C) are so syntactily challenged that they might need comments as well.
+-------> When cycle times are long and memory is in short supply, then its really difficult to be expressive.
+---------> The resource constraints dominate the structure of the code.
+-------> But modern languages (Java, Ruby, C#, and C++) are remarkably expressive.
+---------> The have syntactic sugar that we can use to express our intent.
+---------> Nowadays, processors are fast and memory is cheap.
+---------> There is no excuse to make the code as expressive as possible.
+---------> So in modern languages, every comment is a failure.
+
+-----> Comments are lies
+-------> Comments tend to be clutter and they tend to be lies.
+-------> Its really difficult for comments to remain truthful.
+-------> Over time, the comments degrade to misinformation and lies.
+---------> You might think this is discipline problem:
+-----------> But comments don't just rot because programmers tend be lazy, comments also rot because they tend to be non-local.
+-----------> If you fix/change something in some module of the code, how do you know that you didnt just invalidated some comment in other modules?
+-----------> So they become lies than do more harm than good.
+
+-----> Good comments
+-------> Legal comments 
+---------> No choice, put it on the top of the file.
+-------> Informative comments
+---------> Useful in regex expressions and sql commands.
+-------> Clarifications and explanation of intent
+---------> It means you have failed to express your intent in the code, but its better to write a comment than to leave it unexplained.
+-------> Warnings of consequences
+---------> Comments can be used to warn that there are bad things to come (of course a good function name can do the same). 
+-------> TODO comments
+---------> I thought this were examples of good comments. :D
+-------> Public API documentation
+---------> The best public API documentation, is the documentation that you dont have to write.
+
+-----> Bad comments
+-------> Mumbling 
+---------> Dont talk to yourself in the comments.
+---------> Dont rant in the code.
+---------> Dont talk about your life situation.
+---------> Just shut up and code.
+-------> Redundant explanations 
+---------> When you write a comment make sure it adds something new.
+---------> Dont tell me the algorithm if the algorithm is pretty clear from the code.
+---------> Dont tell me what the variable holds when its pretty clear from the name of the variable.
+---------> Remember the DRY principle: Dont Repeat Yourself. (not even in the comment)
+-------> Mandated redundancy
+---------> If you have a tool that mandate redundancy through comments, then turn it off.
+-------> Journal comments
+---------> You do have a version control system right? Then use it.
+---------> Also delete old journal comments.
+-------> Noise comments
+-------> Big banner comments.
+---------> This is a great way to make sure that the words inside it are NEVER read.  
+---------> Nothing says "IGNORE ME" more than a big banner comment.
+-------> Closing brace comments
+---------> There used long ago, but nowadays are IDEs are too good to show blocks of code and ensure the opening and closing pairs are complete.
+-------> Attributions
+---------> The version control system will remembers this you dont have to put your name on everything. 
+-------> HTML code in comments
+---------> Might be used by tools.
+---------> This ruins the documentation in the code so don't use them.
+-------> Non local information.
+---------> This will rot quickly.
+---------> There is no way for someone that is modifying that code to know that this needs to be updated.
+---------> If you write a comment, make sure that its next to something it describes.
+-------> Commented out code
+---------> DELETE THEM because they are NOT VALID.
+---------> Every time I see a commented out code, I delete them on the spot.
+---------> Your version control system will remember it anyway.
+
+-----> Explanatory structures
+-------> Make your code read like well written prose, by choosing the correct part of speech to your names.
+-------> And composing readable sentences in your code.
+
+-----> Formatting
+-------> Its important in my opinion.
+-------> When someone looks at your code, you want them to see that its done by professionals. 
+---------> And the first thing they will see is the formatting.
+---------> We want our readers to be impressed by the attention to detail, struck by how orderly it is, convinced that professionals were at work.
+-------> Formatting is about communication, and communication is first order of business to the programmer. 
+---------> Remember, getting your code to communicate is even more important than getting your code to work.
+-------> White space discipline is important.
+
+-----> File size
+-------> Big projects does not imply big files.
+-------> As in everthing else in software, "smaller is better", keep your filesizes small.
+
+-----> Vertical formatting
+-------> Blank lines should be consistent.
+-------> Variables that are used together should be together (no blank lines between them)
+-------> The general rule is pretty simple, things are related to each other should be vertically close to each other.
+---------> The distance between them is a measure on how closely related they are.
+
+-----> Horizontal formatting
+-------> How long should a line of code be? I have a simple rule for this you never have to scroll right to see it.
+-------> Horizontal scroll bars are demon spawn, manage your line lengths so you dont have to deal with them.
+
+-----> Indentation
+-------> I dont care what indentation style you use.
+-------> I dont care if you use tabs or spaces. Use spaces.
+-------> I dont care if your indent is 2,4,8 characters wide. Use 2.
+-------> I dont care where you put your braces. Use the K&R style.
+From wikipedia:
+The K&R style (Kernighan & Ritchie Style), and the closely related "one true brace style" in hacker jargon[5][6] (abbreviated as 1TBS[7]), are commonly used in C, C++, and other curly brace programming languages. It was the style used in the original Unix kernel, Kernighan and Ritchie's book The C Programming Language, as well as Kernighan and Plauger's book The Elements of Programming Style.
+When following K&R, each function has its opening brace at the next line on the same indentation level as its header, the statements within the braces are indented, and the closing brace at the end is on the same indentation level as the header of the function at a line of its own.
+Multi-line blocks inside a function, however, have their opening braces at the same line as their respective control statements; closing braces remain in a line of their own, unless followed by a keyword else or while. Such non-aligned braces are nicknamed "Egyptian braces" (or "Egyptian brackets") for their resemblance to arms in some fanciful poses of ancient Egyptians.[8][9][10] In K&R, single-line blocks do not have braces. 
+-------> The most important thing is that everyone on the team uses the exact same style.
+-------> The code should look like the team wrote it, I shouldnt be able to tell which specific person wrote it.
+
+-----> Class vs Data structure
+-------> Data structure have public variables (POD, Plain Old Data).
+-------> Classes have private variables and public methods.
+-------> We use classes and objects when its types that are likely to be added.
+---------> Adding a new type, does not break independent deployability (because of polymorphism)
+-------> We use structures and switch statements when its methods that are likely to be added.
+---------> Adding a new method, does not break independent deployability (because it just adding a new function with a switch statement for each type)
+-------> Notice how these two schemes are the opposite of each other. 
+---------> Classes protect us from new types but exposes us to new methods.
+---------> Data structures protect us from new methods but exposes us to new types.
+---------> Is there anyway to get protection from both (new methods and new types)?
+-----------> This is called "The Expression Problem"
+
+-----> Boundaries
+-------> Normally one part is abstract and another is concrete. 
+-------> You want all the parts of the concrete side to be pointing on the abstract side.
+
+-----> The impedance mismatch
+-------> Relational database vs object oriented design.
+-------> Database have data structures not objects.
+
+
+
+
+---> TDD
+
+-----> Fear and code rot
+-------> As design rots, it becomes rigid, fragile, inseparable and opaque
+-------> Why do we allow this rot to persist? Why not fix it by cleaning the code?
+---------> Because if we clean it, we might break something.
+---------> We dont clean it because we're afraid.
+---------> If you touch it youll break it, and if you break it, it will become yours.
+---------> Leave it in the system -> rot into chaos.
+---------> This rot slows us down (quagmire).
+---------> As uncertainty of the code base goes, so does our estimates. 
+
+-------> Dedicated/concerted effort to clean it
+---------> At first, our bosses might be inclined to support this (because of improvement of productivity).
+-----------> And we promise them that is we clean the code, we will go faster and our estimates will shrink.
+---------> We hand a partially cleaned system to QA.
+-----------> Once QA got a hold of it, then will detect new defects that our testing could have not found.
+-----------> The list of new defects are so long and we dont know how long to fix it. -> Desperately, we revert to a pre-cleaned state.
+-----------> Because of this the team doesnt want to do cleanup again.
+
+-----> Eliminating fear
+-------> We can't clean code until we eliminate the fear of change.
+-------> What if we have a suite of tests that is so comprehensive that no bugs can escape it?
+-------> What if that suite of tests can execute in a matter of minutes?
+-------> What if every programmer can run that suite of test by just clicking a button or just typing a command?
+-------> What if that suite of tests can never be out of date with the system?
+-------> If this suite of tests pass, we ship the code.
+-------> When you have a long list of defects? That could only mean that the development team has been behaving unprofessionally.
+-------> How to keep the list of defects short? By keeping a comprehensive test-suite that has very high coverage.
+-------> Its really hard for a defect to get through in that kind of defense.
+---------> The point is were not afraid to clean it.
+
+-----> The real world
+-------> How do you create a comprehensive suite of tests?
+
+-----> Uncle Bobs Three Laws:
+-------> Write NO production code except to pass a failing test.
+---------> How can you tests if you dont know what your testing?
+-------> Write only enough of a test to demonstrate a failure.
+---------> You're not allowed to write more of a unit test if its already failing (and not compiling is failure).
+-------> Write only enough production code to pass the test.
+---------> You're not allowed to write production code that is sufficient to pass the currently failing test.
+
+-----> Debugging time
+-------> In just a minute ago, every tests were passing.
+---------> How much debugging do you think you would do if everything worked just a minute ago?
+---------> Imagine if you dont have to debug all the time.
+---------> Its hard to spend a lot of time debugging something that worked a minute ago.
+-----------> Just type ctrl-z
+---------> Dont spend your time debugging, you should spend your time coding.
+
+-----> Design documents
+-------> The tests are the low level design documents.
+---------> They are written in language that we understand.
+---------> They are utterly unabiguous.
+---------> They are so formal that they execute.
+---------> They can't get out of sync with the application code.
+---------> They are the perfect kind of low level design document.
+-------> You wanna know how to create an object? -> There are tests for that.
+-------> You wanna know how use an API function? -> There are tests for that.
+
+-----> Decoupling
+--------> When you write your tests first, you have to design your production code to be accessible from the test.
+--------> Since you haven't written the production code, that tests have tremendous influence on the design of the code.
+----------> Writing tests first makes the production code testable.
+--------> Another word for testable is decoupled
+----------> Writing tests first makes have you have a decoupled system. You get a better design simply by writing your tests first.
+
+-----> Courage to change
+--------> The tests eliminates the fear.
+--------> The tests allowed you to clean the code. The tests stops the code from rotting.
+
+------> Why are Design and Architecture considered to be so important?
+--------> Why are there so many books written on these topics?
+--------> Why is so much effort applied to getting design and architecture right?
+--------> We want the structure of the system to be flexible, scalable, and maintanable. 
+--------> When there is a new feature, we want the design to be flexible enough to allow those changes without breaking anything.
+--------> Good designs do make system more flexible and maintainable. 
+--------> But nothing makes a system more flexible that suite of tests because these tests eliminates fear.
+----------> If I give a perfectly designed system with no tests, you'll be afraid to clean/improve it. 
+------------> Overtime, it will gradually degrade and rot.
+----------> If I give a terribly designed system but a comprehensive suite of tests, you'll be not be afraid to clean it.
+------------> Overtime, it will gradually get better and better.
+--------> Bottom line: If you want a flexible system? Get or create a suite of tests that you trust.
+
+-----> Trust
+-------> How much trust you say? 
+---------> I want you to think about those tests that they are your parachutes that youre gonna jump from an airplane with.
+---------> Changing a working system is very risky, its a lot like jumping on an airplane.
+---------> You better have a good parachute.
+-------> If you write your code after the tests, then you never trust that test suite.
+---------> Testing after the fact is boring. You already know the code works because you tested it manually. 
+-----------> Not neccessary part of making your code to work (you already know it works, you tested it manually), so it feels like make-work and it feels like waste.
+-------------> That means youre gonna take shortcuts with it, youre gonna take shortcuts with your parachute.
+-----------> There are some portions of the code that is difficult to write test for.
+-------------> You tested them manually so you know they work and therefore you dont think its worth to write a unit test.
+-------------> So your test suite has holes, and youre not gonna jump on an airplane if you parachute has holes.
+
+
