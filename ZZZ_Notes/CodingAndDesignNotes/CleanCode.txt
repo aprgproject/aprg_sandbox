@@ -623,4 +623,126 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------------> You tested them manually so you know they work and therefore you dont think its worth to write a unit test.
 -------------> So your test suite has holes, and youre not gonna jump on an airplane if you parachute has holes.
 
+-----> Red Green Refactor
+-------> Red: Write only enough of a test to demonstrate a failure.
+-------> Green: Write NO production code except to pass a failing test.
+-------> Refactor
+
+-----> Notes on TDD:
+-------> We dont usually write tests that we know will pass on the current code.
+-------> We refactor tests as well. We treat the tests just as though its production code. We dont treat tests as though they are second class citizens.
+
+
+-----> Answering the objections
+-------> Tests are code, by following TDD you are writing more code that normal. Therefore, TDD must slow you down.
+---------> TDD makes you fast because you spend less time debugging, and youre working on a cleaner code base (TDD allows you to clean your code).
+---------> If you wanna go fast, practice TDD.
+---------> My answer: Youre gonna write that tests anyway because its needed prove that your code is working. Otherwise, youre shipping untested code.
+-------> Managers dont allow to practice TDD.
+---------> TDD is a personal practice. Permission is not required.
+---------> Tell your boss you practice TDD in order to go fast.
+---------> You are the SW expert, and he should mind his own business.
+-------> Refactoring is rework. It will be better to write the code correctly the first time.
+---------> If you know that, you have to tell me because I will be really interested.
+---------> Meanwhile, every creative effort in the planet is done iteratively.
+-----------> Portrait painters dont paint the perfect portrait the first time.
+-----------> Songwriters dont compose the perfect song the first time.
+-----------> Journalists dont write the perfect article the first time.
+-----------> So programmers dont write the perfect program the first time either.
+-------> Who tests the tests?
+---------> Two streams of code: the tests and the production code. 
+---------> The tests test the production code.
+---------> And the production code tests the tests.
+-------> Single change in production code causes many hundreds of tests to break.
+---------> This happens when tests are poorly designed. 
+---------> Design your tests well, and when you discover better design, then refactor your tests.
+---------> Tests are just as important as production code, treat your tests as you treat your production code. Dont allow them to become a mess..
+-------> Tests can prove the presence of bugs, but tests cannot prove the absense of bugs. A suite of tests cannot prove the program is correct.
+---------> Our goal is not to prove that SW correct (thats infeasible). Our goal is create a parachute that eliminates the fear of making change.
+---------> We may never achieve a 100%, but 99.99% is pretty damn good.
+-------> TDD is a dogma and discipline. It encourages people to follow rules instead of using their minds and thinking.
+---------> That's true. Disciplines are premade decisions. The reason we follow discipline is that we dont keep making those decisions again and again.
+---------> This is both a strength and a weakness. In the heat of battle, we want to able to fall back to our training move effectively and efficiently (without constant questioning).
+---------> However, from time to time its worth while to take a step back and evaluating your dogmas and discipline. You might make subtle or significant changes.
+---------> Either way its both appropriate and necessary.
+-------> Its the test that matter. Not when we write them.
+---------> BALDERDASH! If you write test at the end, theyre not going to be complete and your not going to trust them.
+---------> Its simple human nature. Humans consider things that comes first as more important that things at the end. Thats why there are the end (even worse, they are treated as optional).
+---------> When you write test first, you trust those tests. Because every line of production code is tested.
+---------> Tests comes first because they are more important than the production code. The tests are what makes the production code flexible. Without those tests the production code rots.
+-------> Theres a lot of code already written and they dont have a suite of tests.
+---------> This is hard because legacy code tends to be not testable. 
+-----------> In order to test it, you need to a make series of decoupling design changes.
+---------> Catch 22 scenario: In order to write tests, you need to refactor. But you can't refactor (with no fear) without tests.
+---------> "Working with legacy code" book by Michael Feathers.
+-----------> Find some part of the legacy code the you can test without making big changes.
+-----------> Then use those tests to extend the design changes more safely.
+---------> New features on the legacy codes are oppurtunities to write tests.
+-----------> TDD approach on new codes.
+-----------> Prefer to write new modules rather than modifying old untested code.
+---------> My answer: One approach: Focus of fixing and writing new tests on problematic parts of your code (code that has previously a lot of bugs to maximize the impact of the refactoring).
+---------> My answer: Another approach: Write a wrapper to test legacy code and confirm how its working on the legacy code and migrate those tests and behavior on new codes.
+-------> How do you test GUI?
+---------> For the most part, you dont.
+---------> Formatting of the GUI, its hard to test (its often untestable).
+----------> However, this only applies to the last thin outer layer of the GUI where all the formatting stuff is.
+-----------> There is code one layer back that you can/should test.
+-----------> The content of the screen can be tested, even if the final format cannot.
+-------> How do you test database?
+---------> For the most part, you dont.
+---------> They are a black box component, which we are not responsible for testing.
+---------> What you want to test is that your schema and queries works as intended.
+-------> Some programmers complain that testing is not part of their job description. They are programmers, they assert and not testers.
+---------> They need to grow up.
+-------> TDD is too hard.
+---------> They need to grow up.
+
+
+-----> Discipline and professionalism
+-------> Uncle Bob: TDD is a prerequisite of professional behavior.
+---------> Strong statement, affected some feeling of some friends of Uncle Bob
+-------> Double Entry Bookkeeping
+---------> SW is a sensitive discipline. There are single bits of a binary application, that when set the wrong way its crash the system hard.
+---------> Very few systems are that sensitive. 
+-----------> If you go out to a bridge and remove a few bolts that bridge wont probably not collapse right away.
+-----------> If you remove a single nail in a house, it wont cause for it to fall down.  
+-----------> Accounting is also sensitive. One digit error can cause the whole company to fall down and send the executives to jail.
+-------------> How do accountants deal with that sensistivity? 
+---------------> 700 years ago they developed double entry bookkeeping. And this practice is still in use today.
+-----------------> Very simple approach: Two entries for every transaction, one for the credit side, one for the debit side.
+-----------------> They follow separate mathematical paths, and until they combine on final subtraction the balance sheet. That subtraction should yield a zero.
+---------> TDD is double entry bookkeeping
+-----------> Everything is said twice (one on the test side, one on the production code side)
+-----------> They follow very different pathways.
+-----------> And they meet at a successful execution (a green bar).
+
+
+-----> QA should not find nothing
+-------> If QA did found something, the development should be shocked and guarantee that it should never happen again.
+-------> You dont ship code, you dont know works.
+-------> To ensure the QA doesnt find anything, practice the three ways of TDD.
+
+
+-----> 100% code coverage.
+-------> How much of your code should be covered by tests? Should it 80% or 50%? 
+---------> Frankly the question is absurd. Whats the point of covering any less than a 100%.
+-------> After all, if you only cover 80% of your code, you dont know if 20% works. Theres no way thats acceptable.
+---------> Can you realistically cover 100% of your code with tests?
+-----------> Probably not, but that doesn't a lower goal is acceptable. This shouldn't mean that you should push as hard as possible to get to it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

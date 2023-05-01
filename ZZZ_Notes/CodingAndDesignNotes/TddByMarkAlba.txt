@@ -1,0 +1,220 @@
+
+Test Driven Development!
+Topic Outline
+-> What is TDD?
+-> What are the benefits of TDD?
+-> A motivating example
+-> The legacy bug problem
+-> TDD and documentation
+-> Additional notes on TDD
+
+What is TDD?
+-> Its a programming practice.
+-> Tests are written before code
+-> Namely:
+---> Write a test that fails
+---> Write code to make the test pass
+---> Refactor
+Mechanics of TDD
+-> Always start with a failing test
+-> Quickly write the simplest code needed to pass the test
+-> Refactor (Remove duplications etc.)
+-> Repeat as needed to meet requirements
+-> Test everything that could possibly break
+Common approach: The heartbeat of TDD
+The three states (Red, Green, Refactor)
+-> Red - Write a test that fails
+-> Green - Make it pass
+-> Refactor - Remove duplication
+-> Repeat
+The three states (Red, Green, Refactor)
+Refactoring
+-> Change the code without changing it’s external behavior.
+-> Example:
+X = a*b + a*c
+X = a*(b+c)
+-> Same result but the expression is simplified.
+-> Refactoring efforts needs to be checked if changing the code will have some other effects, otherwise its not refactoring it’s a code change.
+
+A motivating example
+TDD vs unit testing
+-> Testing is not enough, code coverage is not guaranteed
+-> Tests written after the code-under-test tend to be much more tightly-coupled to it.
+-> Writing the tests first, gives opportunity to think about the interface to exposed
+
+
+What are the benefits for TDD for developers?
+-> Simplest code possible (Only code what you need)
+-> Ruthless refactoring (Constantly remove duplication)
+-> Code coverage (the safety net, the parachute)
+-> Eliminate recurring bugs
+-> Code is proven to meet requirements
+-> TDD let's you specify both expected interface and behavior
+What are the benefits for TDD for business?
+-> Ensuring near 100% code coverage
+-> Ensuring near zero defects
+-> Competitive advantage (Code Quality)
+-> Tests are part of documentation
+-> Document the knowledge through tests
+-> Makes code more maintainable
+
+The legacy bug problem
+-> Same approach in TDD:
+---> Write a test to expose the bug
+---> Write code needed to fix it
+---> Refactor
+
+The legacy code problem
+-> Well sometimes it works. 
+What to do when an expecting failing test actually passed?
+The problem with overtesting
+-> Brittle
+-> Most of the time spent is on testing and not actually introducing content in the code
+-> Longer time to run
+-> More on this on the second lecture
+
+
+Simplest code possible
+-> How the prevent introducing new code without a failing test covering it?
+-> Make things Modular as possible:
+---> Extract functions till you drop
+---> Functions should be extracted to a point until its doing one thing.
+-> Needed tests will be more apparent
+TDD and Clean Code vs. Documentation
+-> One documentation for all scenarios
+-> Use cases can be translated to tests
+-> Actual SW behavior is written in the code
+-> Documentation is not always up to date
+-> Tests will run thousands of times 
+---> Ensuring that every version of the program meets its expectations (code reviews)
+-> Documents are read at most N times 
+-> One common source of behavior (no duplicated effort)
+Additional notes on TDD
+
+-> Never write a single line of code unless you have a failing automated test.
+-> Getting software to work is only half of the job.
+-> As the tests get more specific, the code gets more generic.
+-> TDD is not just a Black Box testing approach
+-> Quick iterations are needed for TDD
+-> Act locally. Think globally (refactoring phase)
+
+Other opinions about TDD
+TDD is hard
+---> TDD is not hard, in fact TDD forces to deal on one simple test at a time.
+---> This forces you to deal with one problem at a time making the problem easier.
+TDD is a discipline
+---> It’s a programming practice. It can be off putting for some developers because they need to think firstly on how to test it, rather than how to code it.
+---> We are doing TDD because we want to do it.
+TDD takes too long
+---> TDD enables you to write the simplest code with the simplest tests. 
+---> Thus, the time needed for it should be the right amount of time (zero waste).
+TDD does not work
+---> As long as the code is testable then it should work.
+
+
+
+Convincing people to do TDD
+-> Threatening does not work
+-> Blaming when bugs occur does not work
+-> Begging does not work
+-> Discrimination does not work
+-> Instead ask these questions: If your are not doing TDD? How are you going to guarantee that this piece of software is 100 % tested? Have you checked/tested all scenarios? Is this test needed? Why? Is this test not needed? Why? Are over-testing or under-testing it? Is this code covered in the tests? Show me where? Are we overthinking this?
+-> Make the people realize this point: 
+Is the additional effort in checking the codes and tests if its complete and ready more than the effort of just doing TDD?
+Convincing people to do TDD
+-> The approach on the previous slide does not work as well.
+-> New approach: Produce a guide!
+-> More on this on the next presentation.
+
+
+
+
+
+
+TDD - A dual personality approach
+
+
+A dual personality approach in TDD
+Disclaimer
+-> The approach to be discussed here is experimental. It can subject to peer reviews and criticism for improvement. Some of topics here you might disagree, but this is how I do things :)
+- Mark 
+
+
+The testing problem
+-> Over testing:
+---> Test duplication
+---> Harder to maintain
+---> Longer time to run
+-> Under testing:
+---> Undefined behavior in SW
+---> BUGS!
+---> Recurring bugs!
+-> How do we find the sweet spot?
+
+Are we developers?
+-> Is TDD a development practice?
+-> Or is TDD a testing practice?
+-> Why can’t both be true?
+
+The problem with the three states cycle
+-> TDD in its essence writing the tests first before the code (and not the three states cycle).
+-> Three state cycle is not always applicable
+-> How about if you are on the green state (coding) and the failing test is wrong? Do we go back a state? 
+-> How about if an additional test is needed in a different class, but we are currently developing this one?
+-> How about if an additional test is needed to ensure that this refactoring idea will not break anything?
+-> How about if there is nothing to refactor? Do we keep polling in this state?
+-> Its not a cycle anymore.
+
+A more general approach
+-> A dual personality approach (You are a tester and a developer).
+---> As a tester:
+-> Tester responsible on tests
+-> Design tests based on the scenarios suggested by the developer
+-> Write simple tests (and fix tests if needed)
+---> As a developer
+-> Developer responsible for code
+-> Correct the code base on the failing test
+-> Refactor
+-> Think on the next functionality to be added (thinking about code design), then suggest to tester about scenarios for the next test
+
+The best of both worlds
+---> As a tester:
+-> You're thinking on how the program should be used. What should it look like externally.
+---> As a developer
+-> You're thinking on how the program should be implemented. What should it look like internally.
+
+An anime metaphor
+-> Rurouni Kenshin: Kenshin Himura vs Battosai the manslayer
+-> Premise: A swordsman struggles to protect his friends with his vow not to kill.
+
+Our vow: Not to let develop untested code (not to kill)
+If we overtest and let the testing persona dominate (pacifist not be able to protect this friends), we develop slower than expected. 
+If we undertest and we will forsake our vow (not to kill vow is forsaken)
+-> Unlike in the anime, its really easy in TDD.
+
+I thought TDD prevents undertesting and overtesting. Why do we have this problem?
+-> In higher level of tests (such as module test) where TDD can be applied as well. There are overlapping of testing and between module test and unit test.
+
+The ridiculous hat
+-> Since there are only 2 states, a normal hat is fine (Cap and without cap)
+-> Though, its not necessary.
+-> Look at the file!
+-> No more unnecessary props
+
+Ruthless refactoring is gone
+-> The assurance that the code is always refactored are gone.
+-> Intermediary refactoring steps are gone.
+-> IMHO, developer should decide when to refactor not the process.
+
+Are higher tests still necessary?
+-> Yes, of course.
+-> Developers can make mistakes and can  have misunderstandings.
+-> Other testing levels have different purposes
+
+Top-level TDD
+-> CodeTestTimeTable 
+---> A way to experience TDD without performing TDD
+---> A way of sneakily way to make people do TDD (Convincing people to do TDD)
+
+Lets do it!
+- Lets do a random problem.
