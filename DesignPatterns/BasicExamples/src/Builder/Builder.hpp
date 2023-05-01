@@ -83,15 +83,13 @@ private:
 
 }  // namespace Builder
 
-// Bridge discussion:
+// Builder discussion:
 
 // ONE LINE NOTE:
-// -> Create objects using an ABSTRACT/CHANGING BUILDER, building it STEP BY STEP, and DIRECTING it with CONSISTENT
-// build steps
+// -> Create objects using an ABSTRACT/CHANGING BUILDER, building it STEP BY STEP, and DIRECTING it with CONSISTENT// build steps
 
 // Intent:
-// Builder pattern has creational purpose and separates the construction of a complex object
-// from its representation so that the same construction process can create different representations.
+// Builder pattern has creational purpose and separates the construction of a complex object// from its representation so that the same construction process can create different representations.
 // It is object pattern, ie. relationships can be changed at run-time and are more dynamic.
 // Often is used for building composite structures but constructing objects requires more domain knowledge of the client
 // than using a Factory.

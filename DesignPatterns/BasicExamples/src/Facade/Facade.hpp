@@ -85,32 +85,29 @@ private:
 // -> Facades help layer a system and the dependencies between objects.
 // ---> They can eliminate complex or cricular dependencies.
 // ---> This can be an important consequence when the client and the subsystem are implemented independently.
-// -> Reducing compliation dependencies is vital in large software systems.
+// -> Reducing compilation dependencies is vital in large software systems.
 // ---> You want to save time by minimizing recompilation when subsystem classes change.
 // ---> This pattern can also limit the recompilation needed for a small change in an important subsystem.
-// ---> This pattern can also simplify porting systems to other platforms.
-// -> It doesnt prevent applications from using subsystem classes if they need to.
+// ---> This pattern can also simplify porting systems to other platforms.// -> It doesnt prevent applications from using subsystem classes if they need to.
 // ---> Thus you can choose between ease of use and generality.
 
 // Implementation:
 // -> Reducing client-subsystem coupling.
 // ---> The coupling can be reduced more by making Facade an abstract class and have concrete classes with different
 // implementations.
-// ---> Then, the clients can communicate with the subsystem throught the interface of the abstract Facade class.
+// ---> Then, the clients can communicate with the subsystem through the interface of the abstract Facade class.
 // ---> This abstract coupling keeps clients from knowing which implementation of a subsystem is used.
 // -> Public versus private subsystem classes.
 // ---> A class encapsulate state and and operations and a subsystem encapsulate classes.
 // ---> Since we can have public and private interface of a class, we can also do it for subsystems.
 // -----> The public interface consists of classes that all clients can access.
-// -----> Tge pprivate instace is just ofr susbsytem externders.
+// -----> The private interface is just for subsystem extenders.
 
 // Related Patterns
-// -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem
-// independent way.
+// -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem// independent way.
 // -> [AbstractFactory] can also be used as an alternative to Facade to hide platform specific classes.
 // -> [Mediator] is similar to Facade in that it abstract functionality of existing classes.
-// ---> However, Mediator purpose is abstract arbitiary communication between colleague objects,
-// ---> often centralizing functionality that doesn't belong in any one of them.
+// ---> However, Mediator purpose is abstract arbitiary communication between colleague objects,// ---> often centralizing functionality that doesn't belong in any one of them.
 // ---> A Mediator colleages are aware of and communicate with the meditator instead of communicating with each other
 // directly.
 // ---> In contrast a [Facade] merely abstracts the interface to subsystem objects to make them easier to use.
