@@ -22,6 +22,7 @@ This is taken from the book: [Antipatterns - Refactoring Software, Architectures
 -----> Often, developers unnecessarily invent new designs when knowledge from preexisting systems, products, and standards are readily applied through architecture mining.
 
 
+
 Taken from "12 Rules for Life: An Antidote to Chaos"
 
 -> "Stand up straight with your shoulders back."
@@ -31,10 +32,12 @@ Taken from "12 Rules for Life: An Antidote to Chaos"
 ---> 
 -> "Make friends with people who want the best for you."
 -> "Compare yourself to who you were yesterday, not to who someone else is today."
--> "Do not let your children do anything that makes you dislike them."-> "Set your house in perfect order before you criticize the world."
+-> "Do not let your children do anything that makes you dislike them."
+-> "Set your house in perfect order before you criticize the world."
 -> "Pursue what is meaningful (not what is expedient)."
 -> "Tell the truth — or, at least, don’t lie."
--> "Assume that the person you are listening to might know something you don’t."-> "Be precise in your speech."
+-> "Assume that the person you are listening to might know something you don’t."
+-> "Be precise in your speech."
 -> "Do not bother children when they are skate-boarding."
 -> "Pet a cat when you encounter one on the street."
 

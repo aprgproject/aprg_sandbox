@@ -389,8 +389,10 @@ template <typename Array>
 using GetTypeByRemovingRemovingAllDimensions = typename std::remove_all_extents<Array>::type;
 
 // Conditional types
+
 template <bool condition, typename TypeIfTrue, typename TypeIfFalse>
 using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
+
 // Walter E Brown technique
 
 // IsPointer

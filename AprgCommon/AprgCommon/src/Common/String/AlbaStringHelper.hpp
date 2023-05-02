@@ -8,9 +8,11 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 namespace alba::stringHelper {
 
-using strings = std::vector<std::string>;using StringViews = std::vector<std::string_view>;
+using strings = std::vector<std::string>;
+using StringViews = std::vector<std::string_view>;
 using StringPair = std::pair<std::string, std::string>;
 using StringPairs = std::vector<StringPair>;
 

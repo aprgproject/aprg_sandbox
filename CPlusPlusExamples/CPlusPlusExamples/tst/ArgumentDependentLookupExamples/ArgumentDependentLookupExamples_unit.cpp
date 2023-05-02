@@ -7,9 +7,11 @@ using namespace std;
 // Taken from Arthur O Dwyer's lecture ("ADT Puzzler")
 
 namespace alba {
+
 namespace FunctionNotOnTheCurrentNamespaceStillWorks {
 namespace A {
-struct DL {    double x;
+struct DL {
+    double x;
 };
 void f1(DL) {}
 template <int I>

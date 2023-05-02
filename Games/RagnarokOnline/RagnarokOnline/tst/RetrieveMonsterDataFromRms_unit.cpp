@@ -24,6 +24,7 @@ TEST(RagnarokOnlineMonsterTest, ReadMonsterIdToMonsterMapFromFileWorks) {
 
     EXPECT_EQ(1238U, ragnarokOnline.getMonsterIdToMonsterMap().size());
 }
+
 TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPagesWorks) {
     RagnarokOnline ragnarokOnline;
 
@@ -32,6 +33,7 @@ TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPagesWorks) {
 
     EXPECT_EQ(1238U, ragnarokOnline.getMonsterIdToMonsterMap().size());
 }
+
 TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPageWorksWithExample1) {
     RagnarokOnline ragnarokOnline;
 
@@ -40,9 +42,11 @@ TEST(RagnarokOnlineMonsterTest, RetrieveMonsterDataFromRmsWebPageWorksWithExampl
 
     MonsterIdToMonsterMap const& monsterIdToMonsterMap(ragnarokOnline.getMonsterIdToMonsterMap());
     ASSERT_EQ(10U, monsterIdToMonsterMap.size());
+
     Monster const& monster1(monsterIdToMonsterMap.at(1713U));
     EXPECT_EQ(1713U, monster1.monsterId);
-    EXPECT_EQ("Acidus", monster1.name);    EXPECT_EQ(51112U, monster1.hp);
+    EXPECT_EQ("Acidus", monster1.name);
+    EXPECT_EQ(51112U, monster1.hp);
     EXPECT_EQ(80U, monster1.level);
     EXPECT_EQ("Dragon", monster1.race);
     EXPECT_EQ("Holy 2", monster1.property);

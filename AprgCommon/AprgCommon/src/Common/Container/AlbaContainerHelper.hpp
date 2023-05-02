@@ -262,14 +262,16 @@ void retrieveContentsFromStream(std::istream& inputStream, Container<ValueType, 
     std::copy(inputIterator, inputIteratorEnd, begin(container));
 }
 
-template <typename ValueType, template <typename, typename = std::allocator<ValueType>> class Container>void retrieveContentsFromStream(std::istream& inputStream, Container<ValueType>& container) {
+template <typename ValueType, template <typename, typename = std::allocator<ValueType>> class Container>
+void retrieveContentsFromStream(std::istream& inputStream, Container<ValueType>& container) {
     // tested on vector
     std::istream_iterator<ValueType> inputIterator(inputStream);
     std::istream_iterator<ValueType> inputIteratorEnd;
     std::copy(inputIterator, inputIteratorEnd, std::inserter(container, end(container)));
 }
 
-template <    typename ValueType,
+template <
+    typename ValueType,
     template <typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
 void retrieveContentsFromStream(std::istream& inputStream, Container<ValueType>& container) {
     // tested on set
@@ -278,10 +280,12 @@ void retrieveContentsFromStream(std::istream& inputStream, Container<ValueType>&
     std::copy(inputIterator, inputIteratorEnd, std::inserter(container, end(container)));
 }
 
-template <    typename KeyType, typename ValueType,
+template <
+    typename KeyType, typename ValueType,
     template <
         typename, typename, typename = std::less<KeyType>,
-        typename = std::allocator<std::pair<KeyType const, ValueType>>>    class Container>
+        typename = std::allocator<std::pair<KeyType const, ValueType>>>
+    class Container>
 void retrieveContentsFromStream(std::istream& inputStream, Container<KeyType, ValueType>& container) {
     // tested on map
     enum class StreamState { SendFirst, SendSecond };
@@ -297,10 +301,12 @@ void retrieveContentsFromStream(std::istream& inputStream, Container<KeyType, Va
             container.insert(end(container), tempPair);
             state = StreamState::SendFirst;
         }
-    }}
+    }
+}
 
 // GetStringFromContents
-template <typename ValueType, std::size_t SIZE, template <typename, std::size_t> class Container>std::string getStringFromContents(Container<ValueType, SIZE> const& container) {
+template <typename ValueType, std::size_t SIZE, template <typename, std::size_t> class Container>
+std::string getStringFromContents(Container<ValueType, SIZE> const& container) {
     // tested on array
     std::ostringstream oss;
     saveContentsToStream(oss, container, StreamFormat::String);

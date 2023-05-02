@@ -4,7 +4,7 @@ Summary:
 -> AbstractFactory: Create FAMILIES of objects using an ABSTRACT/CHANGING factory
 -> Adapter: ADAPT a MISMATCHED interface into a matched interface using a class inheritance or object composition
 -> Bridge: BRIDGE several IMPLEMENTATIONS (or responsibilities) into one class
--> Bridge: Create objects using an ABSTRACT/CHANGING BUILDER, building it STEP BY STEP, and DIRECTING it with CONSISTENT build steps
+-> Builder: Create objects using an ABSTRACT/CHANGING BUILDER, building it STEP BY STEP, and DIRECTING it with CONSISTENT build steps
 -> Chain of Responsibility: Have a CHAIN of handlers (with subclassing) that can process a request and ANY handler is RESPONSIBLE on consuming the request
 -> Command: Encapsulate a REQUEST into a "command object" that can INVOKE different operations (such as execute/undo)
 -> Composite: Provide an object that CAN be an "individual object" or a "composite object", and they are treated UNIFORMLY
@@ -203,7 +203,7 @@ Related Patterns
 
 
 
-Bridge discussion:
+Builder discussion:
 
 ONE LINE NOTE:
 -> Create objects using an ABSTRACT/CHANGING BUILDER, building it STEP BY STEP, and DIRECTING it with CONSISTENT build steps
@@ -557,7 +557,7 @@ Consequences:
 -> Facades help layer a system and the dependencies between objects.
 ---> They can eliminate complex or cricular dependencies.
 ---> This can be an important consequence when the client and the subsystem are implemented independently.
--> Reducing compliation dependencies is vital in large software systems.
+-> Reducing compilation dependencies is vital in large software systems.
 ---> You want to save time by minimizing recompilation when subsystem classes change.
 ---> This pattern can also limit the recompilation needed for a small change in an important subsystem.
 ---> This pattern can also simplify porting systems to other platforms.
@@ -573,7 +573,7 @@ Implementation:
 ---> A class encapsulate state and and operations and a subsystem encapsulate classes.
 ---> Since we can have public and private interface of a class, we can also do it for subsystems.
 -----> The public interface consists of classes that all clients can access.
------> Tge pprivate instace is just ofr susbsytem externders.
+-----> The private interface is just for subsystem extenders.
 
 Related Patterns
 -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem independent way.

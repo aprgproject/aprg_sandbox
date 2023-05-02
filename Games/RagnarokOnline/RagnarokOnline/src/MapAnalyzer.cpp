@@ -27,9 +27,11 @@ void MapAnalyzer::initialize() {
     m_ragnarokOnline.buildItemNameToItemId();
     m_ragnarokOnline.buildMonsterNameToMonsterId();
 }
+
 void MapAnalyzer::analyze() {
     for (auto const& mapNameToRoMap : m_ragnarokOnline.getMapNameToRoMap()) {
-        MapAnalyzerData mapAnalyzerData{};        mapAnalyzerData.mapName = mapNameToRoMap.first;
+        MapAnalyzerData mapAnalyzerData{};
+        mapAnalyzerData.mapName = mapNameToRoMap.first;
         struct MonsterData {
             unsigned int spawnCount;
             double potentialZeny;
@@ -120,10 +122,12 @@ void MapAnalyzer::analyze() {
     // printPotentialZenyFromMonster("Succubus");
     // printPotentialZenyFromMonster("Violy");
 
-    // printPotentialZenyFromMonster("Anolian");    // printPotentialZenyFromMonster("Drainliar");
+    // printPotentialZenyFromMonster("Anolian");
+    // printPotentialZenyFromMonster("Drainliar");
     // printPotentialZenyFromMonster("Gargoyle");
 
-    // printPotentialZenyFromMonster("Kraben");    // printPotentialZenyFromMonster("Tamruan");
+    // printPotentialZenyFromMonster("Kraben");
+    // printPotentialZenyFromMonster("Tamruan");
     // printPotentialZenyFromMonster("Whisper");
 
     // printPotentialZenyFromMonster("Evil Cloud Hermit / Taoist Hermit");
@@ -141,10 +145,12 @@ void MapAnalyzer::analyze() {
     printPotentialZenyFromMonster("Injustice");
 }
 
-void MapAnalyzer::sortData() {    sort(
+void MapAnalyzer::sortData() {
+    sort(
         m_mapsAnalyzerData.begin(), m_mapsAnalyzerData.end(),
         [](MapAnalyzerData const& first, MapAnalyzerData const& second) {
-            if (first.zenyPotential == second.zenyPotential) {                if (first.zenyPotential == second.zenyPotential) {
+            if (first.zenyPotential == second.zenyPotential) {
+                if (first.zenyPotential == second.zenyPotential) {
                     if (first.annoyanceHp == second.annoyanceHp) {
                         return first.mobCount > second.mobCount;
                     } else {

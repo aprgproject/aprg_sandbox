@@ -20,10 +20,12 @@ size_t generateUniqueId(string_view mainString) {
     return accumulate(begin(mainString), end(mainString), 1ULL, [](size_t c1, uint8_t c2) { return (c1 * c2) + 1; });
 }
 
-size_t getLevenshteinDistance(string_view otherString, string_view basisString) {    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a
+size_t getLevenshteinDistance(string_view otherString, string_view basisString) {
+    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a
     // string into another string. The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
-    // -> remove a character (e.g. ABC ! AC)    // -> modify a character (e.g. ABC ! ADC)
+    // -> remove a character (e.g. ABC ! AC)
+    // -> modify a character (e.g. ABC ! ADC)
 
     using Counts = vector<size_t>;
 
@@ -32,10 +34,12 @@ size_t getLevenshteinDistance(string_view otherString, string_view basisString) 
     iota(begin(firstPrevious), end(firstPrevious), 0);  // first row
 
     for (size_t otherIndex = 1; otherIndex <= otherString.length(); otherIndex++) {
-        Counts& previousCounts(previousAndCurrentCounts[(otherIndex - 1) % 2]);        Counts& currentCounts(previousAndCurrentCounts[otherIndex % 2]);
+        Counts& previousCounts(previousAndCurrentCounts[(otherIndex - 1) % 2]);
+        Counts& currentCounts(previousAndCurrentCounts[otherIndex % 2]);
 
         currentCounts[0] = otherIndex;  // first column
-        for (size_t basisIndex = 1; basisIndex <= basisString.length(); basisIndex++) {            size_t cost = basisString.at(basisIndex - 1) == otherString.at(otherIndex - 1) ? 0 : 1;
+        for (size_t basisIndex = 1; basisIndex <= basisString.length(); basisIndex++) {
+            size_t cost = basisString.at(basisIndex - 1) == otherString.at(otherIndex - 1) ? 0 : 1;
             currentCounts[basisIndex] =
                 min(min(currentCounts.at(basisIndex - 1) + 1, previousCounts.at(basisIndex) + 1),
                     previousCounts.at(basisIndex - 1) + cost);
@@ -118,10 +122,12 @@ bool isNewline(string_view mainString) {
     return all_of(begin(mainString), end(mainString), [](char const character) { return isNewline(character); });
 }
 
-bool isIdentifier(string_view mainString) {    bool isIdentifier(false);
+bool isIdentifier(string_view mainString) {
+    bool isIdentifier(false);
     if (!mainString.empty()) {
         char firstCharacter = mainString[0];
-        isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);    }
+        isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
+    }
     return isIdentifier;
 }
 
@@ -130,10 +136,12 @@ bool isOneWord(string_view mainString) {
            none_of(begin(mainString), end(mainString), [](char const character) { return isWhiteSpace(character); });
 }
 
-bool isPalindrome(string_view mainString) {    bool result(false);
+bool isPalindrome(string_view mainString) {
+    bool result(false);
     if (!mainString.empty()) {
         result = true;
-        size_t left(0), right(mainString.length() - 1);        while (left < right) {
+        size_t left(0), right(mainString.length() - 1);
+        while (left < right) {
             if (mainString.at(left++) != mainString.at(right--)) {
                 result = false;
                 break;
@@ -264,9 +272,11 @@ string getStringWithCapitalLetters(string_view mainString) {
     transform(begin(mainString), end(mainString), begin(result), ::toupper);
     return result;
 }
+
 string getStringWithFirstNonWhiteSpaceCharacterToCapital(string_view mainString) {
     string result;
-    result = mainString;    size_t resultLength = result.length();
+    result = mainString;
+    size_t resultLength = result.length();
     for (size_t i = 0; i < resultLength; ++i) {
         if (!isWhiteSpace(result[i])) {
             result[i] = static_cast<char>(::toupper(result[i]));
@@ -282,9 +292,11 @@ string getStringWithLowerCaseLetters(string_view mainString) {
     transform(begin(mainString), end(mainString), begin(result), ::tolower);
     return result;
 }
+
 string getStringWithUrlDecodedString(string_view mainString) {
     string result;
-    size_t index = 0, length = mainString.length();    while (index < length) {
+    size_t index = 0, length = mainString.length();
+    while (index < length) {
         if (mainString[index] == '%' && (static_cast<int>(index) < static_cast<int>(length) - 2) &&
             isHexDigit(mainString[index + 1]) && isHexDigit(mainString[index + 2])) {
             result += convertHexStringToNumber<char>(mainString.substr(index + 1, 2));

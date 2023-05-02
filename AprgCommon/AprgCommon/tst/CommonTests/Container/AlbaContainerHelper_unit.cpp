@@ -163,10 +163,12 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorksOnMultiMap) {
     MultimapIterator firstIterator = begin(sampleMap);
     MultimapIterator secondIterator = firstIterator;
     secondIterator++;
-    MultimapIterator thirdIterator = secondIterator;    thirdIterator++;
+    MultimapIterator thirdIterator = secondIterator;
+    thirdIterator++;
     MultimapIterator fourthIterator = thirdIterator;
     fourthIterator++;
-    MultimapIterator fifthIterator = fourthIterator;    fifthIterator++;
+    MultimapIterator fifthIterator = fourthIterator;
+    fifthIterator++;
     MultimapIterator sixthIterator = fifthIterator;
     sixthIterator++;
     PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0U));
@@ -197,10 +199,12 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap) {
     MultimapIterator firstIterator = begin(sampleMap);
     MultimapIterator secondIterator = firstIterator;
     secondIterator++;
-    MultimapIterator thirdIterator = secondIterator;    thirdIterator++;
+    MultimapIterator thirdIterator = secondIterator;
+    thirdIterator++;
     MultimapIterator fourthIterator = thirdIterator;
     fourthIterator++;
-    MultimapIterator fifthIterator = fourthIterator;    fifthIterator++;
+    MultimapIterator fifthIterator = fourthIterator;
+    fifthIterator++;
     MultimapIterator sixthIterator = fifthIterator;
     sixthIterator++;
     PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0U));
@@ -369,10 +373,12 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAVectorOfIntegersFromFile)
     auto it = begin(temporaryArray);
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
-    EXPECT_EQ(-43735, *(it++));    EXPECT_EQ(23234, *(it++));
+    EXPECT_EQ(-43735, *(it++));
+    EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile) {    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile) {
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     vector<int> temporaryVector;
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile << "18723\n";
@@ -389,10 +395,12 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile)
     auto it = begin(temporaryVector);
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
-    EXPECT_EQ(-43735, *(it++));    EXPECT_EQ(23234, *(it++));
+    EXPECT_EQ(-43735, *(it++));
+    EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile) {    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile) {
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     set<int> temporarySet;
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile << "18723\n";
@@ -409,10 +417,12 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile) { 
     auto it = begin(temporarySet);
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(-608, *(it++));
-    EXPECT_EQ(18723, *(it++));    EXPECT_EQ(23234, *(it++));
+    EXPECT_EQ(18723, *(it++));
+    EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile) {    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile) {
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     map<int, int> temporaryMap;
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile << "1\n";
@@ -429,9 +439,11 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile) { 
     auto it = begin(temporaryMap);
     EXPECT_EQ(1, it->first);
     EXPECT_EQ(2, it->second);
-    it++;    EXPECT_EQ(3, it->first);
+    it++;
+    EXPECT_EQ(3, it->first);
     EXPECT_EQ(4, it->second);
 }
+
 TEST(ContainerTest, GetStringFromContentsOfArrayWorks) {
     array<int, 4> temporaryArray{23, -345, 5324, 1};
     EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContents(temporaryArray));

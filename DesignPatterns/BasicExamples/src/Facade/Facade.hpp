@@ -88,7 +88,8 @@ private:
 // -> Reducing compilation dependencies is vital in large software systems.
 // ---> You want to save time by minimizing recompilation when subsystem classes change.
 // ---> This pattern can also limit the recompilation needed for a small change in an important subsystem.
-// ---> This pattern can also simplify porting systems to other platforms.// -> It doesnt prevent applications from using subsystem classes if they need to.
+// ---> This pattern can also simplify porting systems to other platforms.
+// -> It doesnt prevent applications from using subsystem classes if they need to.
 // ---> Thus you can choose between ease of use and generality.
 
 // Implementation:
@@ -104,10 +105,12 @@ private:
 // -----> The private interface is just for subsystem extenders.
 
 // Related Patterns
-// -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem// independent way.
+// -> [AbstractFactory] can be used with Facade to provide an interface for creating subsystem objects in a subsystem
+// independent way.
 // -> [AbstractFactory] can also be used as an alternative to Facade to hide platform specific classes.
 // -> [Mediator] is similar to Facade in that it abstract functionality of existing classes.
-// ---> However, Mediator purpose is abstract arbitiary communication between colleague objects,// ---> often centralizing functionality that doesn't belong in any one of them.
+// ---> However, Mediator purpose is abstract arbitiary communication between colleague objects,
+// ---> often centralizing functionality that doesn't belong in any one of them.
 // ---> A Mediator colleages are aware of and communicate with the meditator instead of communicating with each other
 // directly.
 // ---> In contrast a [Facade] merely abstracts the interface to subsystem objects to make them easier to use.

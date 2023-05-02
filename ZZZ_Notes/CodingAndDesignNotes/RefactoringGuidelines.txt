@@ -548,6 +548,7 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> which the client then asks for yet another object, 
 ---------> which the client then asks for yet another another object, 
 ---------> and so on.
+-------> Uncle Bob: "This is called a trainwreck."
 -------> You may see these as a long line of getThis methods, or as a sequence of temps.
 -------> Navigating this way means the client is coupled to the structure of the navigation. 
 -------> Any change to the intermediate relationships causes the client to have to change.
@@ -572,7 +573,7 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 
 ---> Inappropriate Intimacy
 -----> Description: 
--------> Sometimes classes become far too intimate and spend too much time delving in each others'private parts.
+-------> Sometimes classes become far too intimate and spend too much time delving in each others' private parts.
 -------> Overintimate classes need to be broken up like lovers were in ancient days.
 -----> Solution:
 -------> Use "Move Method" and "Move Field" to separate the pieces to reduce the intimacy.
@@ -1103,7 +1104,7 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----> Solution:
 -------> Create a new class that contains these extra methods. Make this extension class a subclass or a wrapper of the original.
 -----> Motivation:
--------> Authors of classes sadly are not omniscient, and they fail to provi de useful methods for you.
+-------> Authors of classes sadly are not omniscient, and they fail to provide useful methods for you.
 ---------> If you can modify the source, often the best thing is to add that method.
 ---------> However, you often cannot modify the source. If you need one or two methods, you can use "Introduce Foreign Method".
 -------> Once you get beyond a couple of these methods, however, they get out of hand.

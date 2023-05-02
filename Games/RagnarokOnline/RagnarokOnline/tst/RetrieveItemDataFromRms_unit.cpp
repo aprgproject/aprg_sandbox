@@ -22,6 +22,7 @@ TEST(RagnarokOnlineItemTest, ReadItemIdToItemMapFromFileWorks) {
 
     EXPECT_EQ(6225U, ragnarokOnline.getItemIdToItemMap().size());
 }
+
 TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPagesWorks) {
     RagnarokOnline ragnarokOnline;
 
@@ -30,6 +31,7 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPagesWorks) {
 
     EXPECT_EQ(6225U, ragnarokOnline.getItemIdToItemMap().size());
 }
+
 TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1) {
     RagnarokOnline ragnarokOnline;
 
@@ -38,9 +40,11 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1) {
 
     ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());
     ASSERT_EQ(12U, itemIdToItemMap.size());
+
     Item const& item1(itemIdToItemMap.at(4140U));
     EXPECT_EQ(4140U, item1.itemId);
-    EXPECT_EQ("Abysmal Knight Card", item1.name);    EXPECT_EQ("Card", item1.type);
+    EXPECT_EQ("Abysmal Knight Card", item1.name);
+    EXPECT_EQ("Card", item1.type);
     EXPECT_EQ("Weapon Card", item1.itemClass);
     EXPECT_EQ(20U, item1.buyingPrice);
     EXPECT_EQ(10U, item1.sellingPrice);
@@ -328,9 +332,11 @@ TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2) {
 
     ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());
     ASSERT_EQ(12U, itemIdToItemMap.size());
+
     Item const& item1(itemIdToItemMap.at(912U));
     EXPECT_EQ(912U, item1.itemId);
-    EXPECT_EQ("Zargon", item1.name);    EXPECT_EQ("Miscellaneous", item1.type);
+    EXPECT_EQ("Zargon", item1.name);
+    EXPECT_EQ("Miscellaneous", item1.type);
     EXPECT_EQ("n/a", item1.itemClass);
     EXPECT_EQ(480U, item1.buyingPrice);
     EXPECT_EQ(240U, item1.sellingPrice);

@@ -102,9 +102,11 @@ template <typename ContentType>
 class AlbaOptional<ContentType&> {
 public:
     //#warning Please make sure that object still exists in the life time of an optional reference object
+
     AlbaOptional() : m_hasContent(false), m_contentPointer(nullptr) {}
 
-    AlbaOptional(ContentType& content)        : m_hasContent(true),
+    AlbaOptional(ContentType& content)
+        : m_hasContent(true),
           m_contentPointer(std::addressof(content))  // std::addressof should be used because & might be overloaded
     {}
 

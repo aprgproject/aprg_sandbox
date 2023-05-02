@@ -43,7 +43,9 @@ private:
     int getDiscrepancy(RaceConfiguration const& r1, RaceConfiguration const& r2) const;
 
     void readPreviousRaceDatabase();
-    PreviousRaces m_singleRace;    PreviousRaces m_dualRaceFirstPlace;
+    PreviousRaces m_singleRace;
+    PreviousRaces m_dualRaceFirstPlace;
     PreviousRaces m_dualRaceSecondPlace;
 };
+
 }  // namespace alba

@@ -15,4 +15,5 @@ string getErrorMessage(int const localErrnoCopy) {
     auto str = strerror_r(localErrnoCopy, begin(characterBuffer), MAX_ERROR_CHAR_STRING);
     return string(str);
 }
+
 }  // namespace alba

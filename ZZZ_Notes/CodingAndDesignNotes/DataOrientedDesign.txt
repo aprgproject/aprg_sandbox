@@ -130,7 +130,7 @@ Taken from Stoyan Nikolov “OOP Is Dead, Long Live Data-oriented Design”
 -------> (2) Understanding properties of data (Critical for solving problems)
 ---------> What is data? How big is it? How does it work? Whats in there?
 ---------> Data is the most important thing we need know before we can actually solve problems
--------> Confusing/Confounding this two things potentiall at the cost of a slightly better maintenance, we have now made are problems very very difficult to solve.
+-------> Confusing/Confounding this two things potentially at the cost of a slightly better maintenance, we have now made are problems very very difficult to solve.
 --> World modeling implies some relationship to real data or transforms
 ----> but... in real life "classes" are fundamentally similar
 ------> A chair is a chair
@@ -140,7 +140,7 @@ Taken from Stoyan Nikolov “OOP Is Dead, Long Live Data-oriented Design”
 --> World modeling leads to monolithic, unrelated, data structures and transforms.
 --> World modeling tries to idealize the problem.
 ----> but you can't make a problem simpler than it is. 
---> World modeling is the equivalent of self-help books for pgramming
+--> World modeling is the equivalent of self-help books for programming
 ----> Engineer/Solve by analogy
 ----> Engineer/Solve by story telling.
 ----> Instead, engineer/solve the problem directly.
@@ -151,7 +151,7 @@ Taken from Stoyan Nikolov “OOP Is Dead, Long Live Data-oriented Design”
 -----> The data is real problem.
 -----> We are here honestly to talk about the code.
 -----> So much development time and brain power talking about the code.
------> Only purpose of any code is to transofrm data
+-----> Only purpose of any code is to transform data
 ---> Programmer is fundamentally responsible for the data, not the code.
 -----> Programmer's job is NOT to write code;
 -----> Programmer's job is to solve (data transformation) problems.

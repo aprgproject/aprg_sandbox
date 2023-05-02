@@ -37,9 +37,11 @@ void* AlbaMemoryBuffer::resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(s
     return begin(m_buffer).base() + oldSize;
 }
 
-void AlbaMemoryBuffer::addData(void const* sourcePointer, size_t const additionalSize) {    void* destinationVoidPointer = resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(additionalSize);
+void AlbaMemoryBuffer::addData(void const* sourcePointer, size_t const additionalSize) {
+    void* destinationVoidPointer = resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(additionalSize);
     memcpy(destinationVoidPointer, sourcePointer, additionalSize);
 }
+
 std::ostream& operator<<(std::ostream& out, AlbaMemoryBuffer const& memoryBuffer) {
     containerHelper::saveContentsInDecimalAndHexadecimalFormat<uint8_t, std::vector, size_t>(
         out, memoryBuffer.m_buffer);

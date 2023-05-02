@@ -59,10 +59,12 @@ TEST(SampleTest, CountNumberOfLinesOnFiles) {
 /*TEST(SampleTest, CountFromMsbValue) {
     vector<pair<int, int>> container{{3, 3}, {5, 5}};
     auto itRight = upper_bound(
-        container.cbegin(), container.cend(), 1,        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
+        container.cbegin(), container.cend(), 1,
+        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
     auto itLeft = prev(itRight, 1);
     if (itLeft != container.cend()) {
-        ALBA_PRINT1(*itLeft);    } else {
+        ALBA_PRINT1(*itLeft);
+    } else {
         ALBA_PRINT1("itLeft is end");
     }
     if (itRight != container.cend()) {
@@ -75,10 +77,12 @@ TEST(SampleTest, CountNumberOfLinesOnFiles) {
 TEST(SampleTest, CountFromMsbValue) {
     cout << "{";
     for (unsigned int value = 0; value < 256; value++) {
-        unsigned int countFromMsb = 0;        unsigned int valueForMsbBitCount(value);
+        unsigned int countFromMsb = 0;
+        unsigned int valueForMsbBitCount(value);
         for (unsigned int bitIndex = 0; bitIndex < 8; bitIndex++) {
             if (valueForMsbBitCount & 1) {
-                break;            }
+                break;
+            }
             countFromMsb++;
             valueForMsbBitCount >>= 1;
         }

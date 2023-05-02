@@ -3,9 +3,11 @@
 #include <gtest/gtest.h>
 
 #include <iostream>
+
 using namespace std;
 
 // Taken from Ben Saks's lecture ("Back to Basics- Understanding Value Categories")
+
 namespace alba {
 
 namespace RValueAssignmentCannotWork {
@@ -38,9 +40,11 @@ TEST(ValueCategoriesExamplesTest, LValuesAndRValuesBindToDifferentFunctions) {
 }  // namespace alba
 
 // Notes:
+
 // -> Value Categories
 // ---> Value categories aren't really language features.
-// ---> Rather, they're semantic properties of expression.// ---> Understanding them provides valuable insights into:
+// ---> Rather, they're semantic properties of expression.
+// ---> Understanding them provides valuable insights into:
 // -----> helps understand how the compiler thinks
 // -----> built-in and user defined operators
 // -----> reference types

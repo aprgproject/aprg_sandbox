@@ -151,7 +151,7 @@
 -------> They talk about the code as it is and why it was written that way but they dont talk about the problem being solved.
 
 -----> Whenever you have to digest the code to understand the name, the name pretty much failed to communicate.
------> Remember, names are not for your convenience, they are your primary tools for communicating intent.
+-------> Remember, names are not for your convenience, they are your primary tools for communicating intent.
 -------> Communicating intent should always be your first priority, its even more important than making sure the code works.
 ---------> Always choose names that communicate your intent.
 
@@ -168,7 +168,7 @@
 
 -----> Dont use prefixes for types of the variable.
 --------> This isn't the 90s anymore
---------> IDEs are powerful enought to determine the type.
+--------> IDEs are powerful enough to determine the type.
 
 -----> Parts of speech
 --------> Classes and variables should be nouns (or noun phrase).
@@ -213,7 +213,6 @@
 
 
 
-
 ---> Functions
 
 -----> Write small, well named functions
@@ -237,7 +236,7 @@
 -------> Three function arguments max
 ---------> Zero is best
 ---------> One is okay
----------> Ill do three sometimes, but its bordering on sloppy.
+---------> I'll do three sometimes, but its bordering on sloppy.
 ------------> Once you get to three, its hard to remember the order or the thing they do.
 ------------> We dont want our readers to do double takes.
 ------------> Why are they not an object?
@@ -308,7 +307,7 @@
 -------> When a function changes a variable that outlives the function call (for example changing state of a private variable), then it has side effects.
 -------> This makes programs difficult to understand and a persistent source of errors.
 -------> This often comes in pairs: set/get, open/close, and new/delete (now you know i call this a persistent source of errors)
--------> I causes Temporal Coupling: These functions must called in order (open must be called before close). -> Note: this is before RAII.
+-------> It causes Temporal Coupling: These functions must called in order (open must be called before close). -> Note: this is before RAII.
 -------> Extract coupled methods so that we can have one function with no visible changes in state: This is called "passing a block" -> RAII has this approach.
 
 -----> Command Query Separation
@@ -532,7 +531,7 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> Why do we allow this rot to persist? Why not fix it by cleaning the code?
 ---------> Because if we clean it, we might break something.
 ---------> We dont clean it because we're afraid.
----------> If you touch it youll break it, and if you break it, it will become yours.
+---------> If you touch it you'll break it, and if you break it, it will become yours.
 ---------> Leave it in the system -> rot into chaos.
 ---------> This rot slows us down (quagmire).
 ---------> As uncertainty of the code base goes, so does our estimates. 
@@ -632,12 +631,11 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> We dont usually write tests that we know will pass on the current code.
 -------> We refactor tests as well. We treat the tests just as though its production code. We dont treat tests as though they are second class citizens.
 
-
 -----> Answering the objections
 -------> Tests are code, by following TDD you are writing more code that normal. Therefore, TDD must slow you down.
 ---------> TDD makes you fast because you spend less time debugging, and youre working on a cleaner code base (TDD allows you to clean your code).
 ---------> If you wanna go fast, practice TDD.
----------> My answer: Youre gonna write that tests anyway because its needed prove that your code is working. Otherwise, youre shipping untested code.
+---------> My answer: Youre gonna write that tests anyway because its needed prove that your code is working. Otherwise, you're shipping untested code.
 -------> Managers dont allow to practice TDD.
 ---------> TDD is a personal practice. Permission is not required.
 ---------> Tell your boss you practice TDD in order to go fast.
@@ -697,7 +695,6 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> TDD is too hard.
 ---------> They need to grow up.
 
-
 -----> Discipline and professionalism
 -------> Uncle Bob: TDD is a prerequisite of professional behavior.
 ---------> Strong statement, affected some feeling of some friends of Uncle Bob
@@ -716,33 +713,987 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -----------> They follow very different pathways.
 -----------> And they meet at a successful execution (a green bar).
 
-
 -----> QA should not find nothing
 -------> If QA did found something, the development should be shocked and guarantee that it should never happen again.
--------> You dont ship code, you dont know works.
+-------> You don't ship code that you don't know works.
 -------> To ensure the QA doesnt find anything, practice the three ways of TDD.
-
 
 -----> 100% code coverage.
 -------> How much of your code should be covered by tests? Should it 80% or 50%? 
 ---------> Frankly the question is absurd. Whats the point of covering any less than a 100%.
 -------> After all, if you only cover 80% of your code, you dont know if 20% works. Theres no way thats acceptable.
 ---------> Can you realistically cover 100% of your code with tests?
------------> Probably not, but that doesn't a lower goal is acceptable. This shouldn't mean that you should push as hard as possible to get to it.
+-----------> Probably not, but that doesn't mean a lower goal is acceptable. This shouldn't mean that you should push as hard as possible to get to it.
+
+
+
+
+---> Architecture
+
+-----> Architecture is not just the foundation, Architecture is the whole enchilada
+-------> It includes the grand shape of the system, tiniest low level design.
+-------> It includes the most abstract of the module interfaces, and the most concrete of the method implementation.
+-------> Programmers are all architects in one form or another. And architects who dont code, are not really architects at all.
+-------> Architecture is the shape the system takes in order to meet its use cases. And in order to remain flexible and maintainable.
+
+-----> Architecture exposes usage
+-------> Imagine the architecture of a library, it would scream library at you (its readily apparent that its a library).
+-------> Imagine the architecture of a church, it would scream church at you (its readily apparent that its a church).
+-------> Thats what a good architecture is. A good architecture screams use cases.
+-------> When you see Model View Controller as the architecture, its hiding the use cases and exposing the delivery mechanism.
+-------> We dont want the use cases coupled to the delivery mechanism.
+-------> We want the separation of the use cases and delivery mechanism to be very strong. 
+-------> So strong in fact, that they can be deployed independently of each other. 
+-------> We want the decision about the UI, the database, the framework, the service layers and tools to be completely independent about the use cases.
+---------> The use cases should stand alone.
+-------> A good architecture exposes usage and shows intent.
+
+-----> Deferring decisions
+-------> Thats one of the primary goals of good architecture. A good architecture allows you to postpone decisions.
+-------> A good architect knows how to keep options open for as LONG AS POSSIBLE.
+-------> A good architecture maximizes the decisions NOT made.
+-------> A good architecture is not about tools and frameworks. A good architecture allows you defer those decisions.
+---------> How do you defer those decisions? You design a structure the decouples from them and makes them irrelevant.
+---------> How do you decouple from tools, frameworks and databases? You focus your architecture on the use cases and not on the software environment.
+
+-----> Separation of value
+-------> How about if the entire value of the system is actually in the user interface?
+---------> All the business value is really in how the system is delivered and not what the system does (example CRUD (create read update delete) system).
+---------> Seperation of entities (the use cases, the UI, the database and the tools), helps the business makes decisions (cost value analysis). 
+
+-----> Use cases
+-------> Use cases for an accounting system thats deployed on the web should scream accounting system at you (not a web system).
+---------> The users should interact with the system in a "delivery independent way".
+---------> We describe how the user interacts with the system WITHOUT using web related words (like link, button, click or page). 
+-----------> We should use words that dont imply a delivery mechanism.
+---------> Ivar Jacobson's book (Object Oriented Software Engineering, A use case driven approach).
+-----------> Jacobson idea was that the development of software should be driven by this "delivery independent use cases".
+-----------> Its the use cases that form the central organizing principles and the abstraction on how the system is built.
+-------> When you look at the architecture of a use case driven system, you use the use cases not the delivery mechanism.
+---------> What you see is the intent of the system.
+-------> A use case is nothing more (and nothing less) than a formal description on how the user interacts with the system in order to achieve a specific goal.
+---------> Writing Effective Use Cases by Alistair Cockburn is a good book on use cases
+---------> User Stories Applied by Mike Cohn is a good book on user stories
+
+-----> Boundary
+-------> Boundary means the barrier between the abstract classes to concrete classes.
+
+-----> Partitioning
+-------> In Jacobson' book he recognized that there are three fundamental kinds of objects.
+---------> Entities/Entity objects: Business objects
+-----------> Entities have application independent business rules.
+-----------> The methods on entity objects perform functions that are valid on any of the applications that the entity object can be used in.
+-----------> All the code on entities should not contain code that would be specific to any of the application (application specific codes should go to the interactor object)
+---------> Interactors/controls/Interactor objects: Use case objects
+-----------> Interactions have application dependent business rules.
+-----------> Use cases are application specific business rules.
+---------> Boundaries/Boundary objects: User interface objects
+-----------> Boundary objects isolate the use cases from the delivery mechanism.
+-----------> It should be that the business rules (both the application specific and the application agnostic) are strongly decoupled from the delivery mechanism.
+-----------> The delivery mechanism should hang off the side like an appendix.
+-------> This then is how we partition the system:
+---------> We describe the behavior of the system in terms of use cases.
+---------> We capture the application specific behavior of those use cases into interactor objects.
+---------> We capture the application agnostic behavior of those use cases into entity objects controlled by those interactors.
+---------> Then we hang the UI into the side like a big appendix using boundary objects that communicate to the interactors.
+-----------> The thing about appendix is that it should be easy to remove or excise so were careful to isolate those in our system.
+
+-----> Isolation
+-------> To keep a strong isolation, we need strictly control those source code dependencies so that cross the boundary in just one direction.
+-------> Lets say the delivery mechanism is the web.
+---------> The web server, the web framework, all the web trappings (URL, routing, html) should live on the delivery side of the boundary.
+---------> The MVC (model view controller) lives on the delivery side of the boundary.
+-------> Isolation makes it easy to test as well.
+
+-----> Database
+-------> Needs to be isolated as well.
+-------> Needs a gateway/boundary that translate commands from interactor object to database API.
+
+-----> Who is the architect?
+-------> Architects who dont code quickly become irrelevant.
+-------> Architects who make high level designs and dont code them, never lie on the beds that they make for the developers.
+-------> If you are an architect and want to be effective in that role, then you should writ e code.
+
+
+
+
+---> SOLID principles
+
+-----> The source code is the design.
+-------> "What is software design?" by Jack Reeves 
+---------> What do engineers produce? Engineers produce documents that specifies how to build products.
+-----------> Architects and building engineers produce blue prints and building diagrams.
+-----------> Electronic engineers produce circuit diagrams and cmos layouts. 
+-----------> Mechanical engineers produce mechanical drawings and documents that how to build machines. 
+-----------> What do software engineers produce? The answer is obvious. Its the source code.
+-------------> Isn't the source code the product? No, its not. The running program is the product or the final executable is the product.
+-----------> The cost of building in software is cheap compared to other disciplines. However, the cost of designing in software is high.
+-------------> The cost structure is inverted. The cost of design is high and the cost of building is cheap.
+-------------> So this means that the strategy of building software should be different than the cost of building a house.
+-------------> If building a house is cheap, the strategy would be is to build the house immediately and just change it later on according to your liking.
+---------------> Its easy to evolve a system to something that works. 
+---------------> Unfortunately, its also easy to make it hard to modify, hard to maintain and unstable. This is called a "big ball of mud".
+---------------> How to avoid this? Clean code and TDD.
+---------------> The problem is in order to clean our designs, we should be able to recognize that its going bad.
+-----------------> We need to know what bad designs smell like.
+
+-----> Design smells
+-------> It might start fresh, but a sequence of bad decisions that are motivated by carelessness, fear and false expediency. 
+-------> Rigidity
+---------> A system is rigid when its that hard to change.
+---------> Its hard to change when the cost of making a change is high.
+---------> Lets say that each change requires you three hours to build and test. -> This system is rigid.
+---------> Long build times are sometimes because of coupling. -> This means that the developers have been careless.
+-----------> This is especially true in C++ when the build times is proportional to the number coupled modules squared. 
+---------> When small changes causes large rebuilds its a symptom of high coupling.
+---------> Therefore one of our design goals is to manage our dependencies between modules. 
+-----------> To ensure that if one module is changed the other becomes unaffected.
+-------> Fragility
+---------> A system is fragile when one module causes other modules to misbehave.
+---------> Imagine a car system, that system would be fragile if you fix a bug on the radio, it affected the electronic windows.
+---------> This kind of long distance behavioral dependencies, are very scary. Especially to managers and customers, who view them as indications of significant incompetence.
+---------> After all, if every time the developers fix a bug or add a new feature, something completely unrelated breaks or crashes, the only conclusion is the developers dont know what theyre doing.
+---------> The more this happens, the more uneasy managers and customers become. In the end, they may even freeze development.
+-------> Immobility
+---------> A system is immobile when its internal components cannot easily be extracted and reused in new environments.
+---------> Immobility is caused by couplings and dependencies of modules of the system.
+---------> For example, a login module that uses a specific database with a specific schema. That login module cannot be used any where else.
+---------> The strategy for avoiding immobility, you need to decouple the central abstractions of application (the database, the UI, and the frameworks).
+-------> Viscosity
+---------> A system is viscous when neccessary actions (building, testing, check-in, check-out, and merge) are difficult and take a long time to execute.
+---------> The cause is always the same, irresponsible tolerance. Developers tolerate conditions they know to be bad and do nothing to correct them.
+---------> The cause of this is coupling.
+---------> The solution is to decouple the modules and manage the dependencies that remain.
+-------> Needless complexity
+---------> A real common issue on SW design discussions is how to deal with the future. 
+---------> Should we design today's requirements only? or should we take the long view and anticipate all the future requirements? Should we put hook in for future extensions or not?
+---------> Systems that carry a lot of anticipatory design is needless complex.
+-----------> Each hook, each extension point is another weight added to the system that the developers must carry in the present.
+---------> This normally happens if your afraid to change the design or code that you need to put hooks in order accomodate changes from the future.
+-----------> If on the other hand, you have a suite of tests, then you wont be afraid of changes from the future.
+-----------> You dont have to litter it with a whole bunch of anticipatory elements.
+-----------> Your design will be simpler, easy to maintain and they dont have to be complex.
+
+-----> What is OO? 
+-------> OO is to invert key dependencies using dynamic polymorphism (dependency inversion).
+-------> Flow of control is opposed to the source code dependency.
+-------> Its often said that OO is about modeling the real world. Theres truth to this, but its not really limited to OO.
+-------> Its often said that OO is inheritance, encapsulation and polymorphism.
+---------> You can uses these concepts to write code that rots as well as other programs not written in OO.
+---------> Inheritance, encapsulation and polymorphism are mechanism within OO but theyre not its essential quality.
+-------> OO is really about dependency management.
+
+-----> Dependency management principles
+-------> SOLID (these principle talk about the relationships and operations between classes)
+---------> The single responsibility principle
+---------> The open closed principle
+---------> The liskov substitution principle
+---------> The interface segregation principle
+---------> The dependency inversion principle
+-------> Component cohesion principles
+---------> The release-reuse equivalency principle.
+---------> The common closure principle.
+---------> The common reuse principle.
+-------> Component coupling principles
+---------> The Acyclic Dependencies Principle
+---------> The Stable Dependencies Principle
+---------> The Stable Abstraction Principle
+
+
+
+
+---> Single Responsibility Principle (SRP)
+
+-----> The principle states that: "The module should have one and only one reason to change. One and only one responsiblity."
+
+-----> Responsibility
+-------> The best modules are ones that has one responsibility.
+-------> Its about users.
+---------> The responsiblities that it talks about are responsibilities that are classes and functions have to those users (specifically users who request changes to the SW).
+---------> So a responsibility can be viewed as a source of change. Because the entities served by that responsibility will certainly request changes on the future.
+---------> So the responsibilities that the SRP is talking about are responsibilities that your software have to all the different set of people that it serves.
+-------> Its about roles.
+---------> When users play certain roles, we call them actors. Responsibilities are tied to actors not to individuals.
+---------> Whenever the needs of an actor change, the functions that serves that actor will also have to change.
+---------> So a responsibility is a family functions thatwes serves one particular actor.
+---------> Whenever the needs of an actor change, it becomes a source of change for that family of functions.
+---------> The actor for a responsibility is the single point of change for that responsibility.
+
+-----> The two values of software
+-------> The user usually expects value from the software that we make them (either to save them money or make them money).
+-------> Often they pay us money, in exchange for that value.
+-------> SECONDARY VALUE: BEHAVIOR
+---------> If the software does what the users need without bugs, crashes or delays. Then the secondary value is high.
+---------> This secondary value of software is achieved when the current software meets current needs of the current user.
+---------> But the needs of the users change (they change frequently), so the behavior of software gets out of sync with the current needs and secondary value of software WANES.
+-------> PRIMARY VALUE: SOFT (ability to change based on the current and future needs of its users)
+---------> Imagine a system that meets the current needs but its really hard to change.
+-----------> Secondary value is really high, but the primary value is low.
+-----------> Profits are high initially, but once changing the software becomes expensive the profits rapidly decreases.
+---------> Imagine a system that has a high primary value, but a low secondary value.
+-----------> Such systems are dissapointing to the users at first, because it doesn't satisfies they're needs right away.
+-----------> But because the primarily value is high and the system is flexible, the users gets more and more satisfied over time, because more and more of their needs are met.
+-----------> And so at the end, profitability increases.
+-----------> Sustainable profitability is therefore tied to the primary value of software (thats why its primary).
+---------> In short, if the software is easy to change its good for business. If the software is hard to change, its bad for business.
+-----------> Therefore its the first responsibility of software developers to keep the primary value of software high.
+---------> Perhaps you thought your job was to get the software to work, of course it is, but thats just your secondary job.
+-----------> Your primary job was to give the software its structure that makes it easy to change.
+-----------> If you dont do that, then everything else you do will be in vain.
+
+-----> Function
+-------> Where does the secondary value of software comes from? What is it that meets the needs of the users? 
+---------> It is of course the responsibilities that we mentioned previously.
+---------> Those responsibilities are families of functions that serves the needs of particular actors.
+-------> As programmers, we allocate the responsibilities to modules, by writing the corresponding functions into those modules. 
+---------> And its in this allocation of function to modules that much of the primary value of software is achieved.
+---------> We can make our software much more easier to maintain and enhance by carefully choosing which modules to put our functions in.
+
+-----> CM collision
+-------> Multiple people working on the same module because of a shared responsibility of the module will reduce the primary value of software.
+
+-----> Fan out
+-------> When there are multiple responsibilities put on to a module, each of these responsibilities needs to use other classes on the system.
+---------> This means that this module will have a huge fan out and that fan out makes the module sensitive to changes in the lower parts of the system.
+-------> In general, its always a good idea to restrict the fan out of a class, and one way to do that is to minimize the responsibility in that class.
+
+-----> Colocation is coupling
+-------> When changing a module in languages like Java and C++, any code that calls that module is going to be recompiled and redeployed (this applies to header changes in C++).
+---------> Even if they dont use the changes in that module.
+---------> This means that this module is coupled with other modules.
+---------> The colocation of responsibilities couples the modules.
+
+-----> Encroaching fragility.
+-------> Once two responsibilities are coupled by accident, other couplings tend to accumulate over time.
+-------> Developers starts to share resources between the two responsibilities simply because they appear on the same module. 
+-------> Sharing a responsibility is bad because responsibilities changes at different times for different reasons.
+---------> Any coincidences are likely to be short lived.
+---------> Any shared responsiblity are most likely to be diverged at some point.
+-------> Changing a module with shared responsibilities can also break its other responsibilities.
+---------> So now the system is beginning the exhibits the symptoms of fragility.
+---------> Remember how managers and users react to fragility
+-----------> When a small change on one part of the system affects and breaks other parts of the system, they draw the same conclusion: The SW developers dont know what they're doing.
+
+-----> Single responsibility principle
+-------> The principle states that: "The module should have one and only one reason to change. One and only one responsiblity."
+-------> We gather together the change that changes for the same reasons and we separate the change that changes for different reasons.
+---------> When we design a system, we are careful to design who the actors are.
+-----------> Then we define the responsibilities that serves those actors and allocate those responsibilities to modules, such that each module should have one and only one responsibility.
+-------------> This means that:
+---------------> We do not mix SQL and HTML on the same module.
+---------------> We do not put business rules into JSPs(Java Server Pages).
+---------------> We do not implement business rules with store procedures. 
+---------------> We do not mix strings and message s with business rules.
+---------------> We do not mix access and control code with business rules.
+-----------> We keep all this responsibilities separate from each other.
+-------------> We dont put them on the same function, the same class, or the same source file.
+-------------> We do this because these responsibilities at different times for different reasons and for the benefit of different actors.
+---------> Boundaries must be kept 
+-----------> Application code should be separate with UI code, database code, and delivery mechanism code, etc.
+-----------> Why? Because of SRP.
+---------> When we keep our responsibilities separate, we can change them with minimum impact.
+-----------> We structure our software such that those responsibilities can be plug-ins for the rest of the application.
+-----------> You cannot have plug-ins unless you're separated.
+---------> Conformance to SRP occurs in many different levels in the code. 
+-----------> Sometimes it causes us to pull code apart into different source files.
+-----------> Sometimes it causes us to pull classes and functions apart into sub functions and inner classes.
+-----------> Sometimes it causes us to pull whole components apart.
+-----------> But in every case, the goal is separate responsiblities and to create physical locations in the code, where single responsibilities exists.
+-----------> Those physical locations maybe functions, classes, source files, modules, or even higher level structures.
+-------------> As we climb this ladder from the small to the large, will be merging small responsibilities into larger ones.
+---------------> Responsiblities that we keep in separate functions will be merged into single classes.
+---------------> Responsiblities that we keep in separate classes will be merged into single modules.
+---------------> And so on.
+
+-----> Welcome to engineering
+-------> Welcome to the world of perpetual tradeoffs, perfect solutions are for mathematicians and fiction writers.
+-------> The rest of us that lives on the real world, we are stuck managing a plethora of mutually exclusive forces.
+-------> Software is art and a craft but its also an engineering discipline.
 
 
 
 
 
+---> Open close principle (OCP)
+
+-----> The principle states that: "A software module should be opened for extension but closed for modification."
+
+-----> Book: Bertrand Meyer's "Object Oriented Software Construction"
+-------> In this book, the concept of Open-Close Principle was discussed. 
+-------> The principle states that: "A software module should be opened for extension but closed for modification."
+---------> What the hell that this mean? It sounds like an oxymoron. How can something be both open and close?
+-----------> "Opened for extension": It should be very simple to change the behavior of that module.
+-----------> "Close for modification": The source code should not change.
+
+-----> This principle can be done by abstraction and inversion.
+-------> First, insert an abstract interface between modules.
+-------> This cause to invert the dependencies, so that modules dont depend on each other.
+-------> Instead, modules depend on the new abstraction.
+-------> And thats how you conform to the open close principle. 
+---------> Whenever you have a module with behavior you would like to extend without modifying it, 
+---------> seperate the extensible behavior behind an abstract interface and turn dependencies around.
+
+-----> Implications
+-------> Think about what this means, if you can truly design a system that follows the "open close principle", it mean new feature only results to new code (and not modifying old codes).
+-------> Thats quite a thought isn't it, if the old code doesn't ever get to be modified then it cannot rot.
+---------> You can write the modules once(nice and clean) and never worrying about messing them up.
+-------> It also make sense from the customer point of view, when they think about adding a new feature, they are thinking about adding it and not thinking about modifying anything.
+---------> They find it strange that we need to modify a bunch of code in order to have a new feature.
+---------> Code that conforms to the Open Close Principle also conforms to the way customers think about software.
+
+-----> Is this possible?
+-------> Theoretically yes, but its hard very hard.
+---------> So hard in fact that, often its not practical.
+-------> The problem of "main".
+---------> "Main" should be separated from the rest of the application, by moving it across the boundary and causing all the dependencies that cross that boundary to point away from "main".
+-----------> If you follow this, "Main" cannot conform to the "Open close principle" because its responsible for loading resources, strategies and factories to the application.
+-----------> Dependency injection frameworks only moves the problem and not solve it.
+-------> The crystal ball problem.
+---------> This makes it certain that we cannot fully conform to the "Open close principle".
+-----------> That this mean that we should give up to the "Open close principle" entirely? 
+-------------> It maybe difficult to entire systems to conform to OCP, but its not at all difficult to get functions, classes, and small components to conform
+---------> It turns out the difficulty to conform to the open close principle is a matter of size.
+-----------> Small things like functions, classes and small components can conform very easily.
+-----------> Its in large systems that we start getting into trouble.
+
+-----> The Lie
+-------> Things that you dont know or dont anticipate can still yield to modifying some source code.
+-------> The open close principle works on things that you know is gonna happen.
+-------> Its easy to design abstractions that protect you from future changes if you what those changes are going to be.
+---------> But there is not crystal ball to help us with that.
+-------> This is the dirty little secret about object oriented design and the open close principle that people dont like to talk about.
+---------> It only protects you from change if you can predict the future.
+
+-----> Two solutions
+-------> There are two major approaches to eliminate the need for a crystal ball.
+-------> Big Design Up Front (BDUF)
+---------> The first is to think really hard.
+-----------> You carefully consider the customer and the problem domain.
+-----------> You create a domain model that anticipates the customer needs and desires.
+-----------> You adorn that domain model with abstractions that isolate the components, making them open for extension but close for modification.
+-----------> You continue this until you thought of everything that could possibly change.
+---------> The problem with BDUF is that it creates large complex designs littered with abstractions which for the most part aren't necessary.
+-----------> As useful and powerful as abstractions are, they are also expensive. 
+-------------> They produce indirections, they disconnect that we think are connected.
+-------------> They make it hard to follow from cause to effect. 
+-------------> Me: They are also have a huge performance penalty due to cache misses.
+-----------> When we need these abstractions, the cost are bearable. But when its not currently needed, then the cost can be overwhelming.
+---------> And remember, customer have the uncanny ability to change the one thing that you forgot to protect yourself from.
+-----------> And when they do, changing an over engineered design is a lot harder than changing a simple design.
+-------> Agile Design
+---------> This is both pragmatic and reactive.
+---------> The best way to demonstrate this is through a metaphor.
+-----------> Imagine you're a part of squad of soldiers pinned down by enemy fire.
+-----------> Youre hunkered down in fox hole with your buddies while bullets zip by over your head.
+-----------> If you focus your fire to the enemy, you could probably win the battle.
+-----------> The problem is you dont know where the enemy is. You dont know the direction hes firing from. If stand around to find him, he will cut you down before you can focus your aim. 
+-----------> So the sergeant makes a executive decision, he says "Johnson stand up" *Johnson gets hit* and now you know the direction of the bullets.
+---------> Agile design is like that, you do the simplest thing you possibly can, you get it out in front of the customer, and then you will get shot with change requests. 
+-----------> And then you know what kind of change requests are likely.
+-----------> One of the best predictors of change are past changes. 
+-------------> Once you know that something is likely to change, you can protect yourself from that kind of change in the future. 
+-----------> Agile designers deliver something simple every week or so. 
+-------------> And when customers make changes, those agile designers refactor the code adding the abstractions that make that kind of change easy to make in the future.
+-------------> Thus the system becomes open for extension but closed for future modification.
+-------> Agile Design in Practice
+---------> Of course in practice, we live somewhere between this two extremes. 
+---------> We avoid "big design up front", but we also avoid "no design up front".
+---------> Theyre is real value of thinking through the system, and creating a decoupled domain model up front. 
+-----------> But we err on the side of the small and the simple.
+-----------> Our goal is to establish the basic shape of system and not think through every little detail.
+-----------> If you overthink the problem, you create a lot of unnecessary abstractions that are very expensive to maintain.
+---------> There are also real value of delivering early and often and refactoring based on changes the customers made.
+-----------> In fact this where the open close principle really shines.
+-----------> But doing this without a simple domain model, will often leave you with a undirected chaotic structure.
+
+-----> Reprise
+-------> If you follow this guidelines, you will be able to create systems that are very flexible, robust, and more.
+---------> However this engineering and not magic, there is no way to perfectly conform to the open close principle, you just can't think of everything.
+-----------> Eventually the customer will think of some change that will force major modifications through out the structure of the entire system.
+-----------> Your goal is not to completely eliminate the pain of change thats just not feasible, your goal is minimize that pain.
+-----------> Remeber the open close principle is the moral center of system architecture and while moral perfection will not be attainable, its certainly worth striving for.
 
 
 
 
+---> The Liskov Substitution Principle (LSP)
+
+-----> In short, the principle states that: "Subtypes can be used as their parent types without any side effects."
+
+-----> Type theory
+-------> "Begriffsschrift : A formal language for pure thought modeled on arithmetic." by  Gottlob Frege
+-------> Not only mathematics can be described by Frege in his formulation, he can virtually describe anything.
+-------> Bertrand Russel discovered some problem on Frege's formulation: Russel Paradox
+---------> Does the set of all sets that dont contain themselves contain itself?
+
+-----> Types
+-------> Frege introduces the notion of types (types that can be operated by functions).
+-------> The loop in Russel Paradox can be avoided by having a hierarchical order for types.
+-------> Kurt Godel's quote:
+By the theory of simple types I mean the doctrine which says that the objects of thought (or, in another interpretation, the symbolic expressions) are divided into types, namely: individuals, properties of individuals, relations between individuals, properties of such relations, etc.
+---------> Thats sounds like classes and objects in an OOP language.
+-------> Fortran was immediately designed after.
+---------> Fortran had a rudimentary type system.
+-------> Algol have a type system from its humble beginnings. And this is the proginator of the pascal, modula and even C++.
+-------> In short, the type system of modern languages can trace their origins back to the type theory of Frege, Russel and Godel.
+
+-----> What is a type?
+-------> It does matter whats inside a type.
+-------> All that matters are operations performed in that type.
+-------> A type is usually just a bag of operations.
+-------> Do you care what the floating point representation of a floating number is? Or you just care that 1.0/2.0 = 0.5.
+-------> There might be data within a type, but the structure and its existence behind that data is hidden behind its operations.
+-------> And that of course is what a class is, and data within is hidden behind its methods.
+
+-----> Subtypes
+-------> A subtype relationship is a asymmetric hierarchical relationship.
+-------> It was in simula-67 that a notion of subtype really has taken its form.
+---------> It was in this programming language, that classes and subtypes appeared in the form that we recognize today.
+---------> The C++ inheritance scheme (and all those that derived from it) can be traced directly back by this language.
+
+-----> Liskov and subtype
+-------> Barbara Liskov provided a formal definition.
+-------> According to Barbara Liskov: 
+---------> "What is wanted here is something like the following substitution property: If for each object o1 of type S there is an object o2 of type T such that for all programs P defined in terms of T, the behavior of P is unchanged when o1 is substituted for o2 then S is a subtype of T."
+-------> In short, the principle states that: "Subtypes can be used as their parent types without any side effects."
+---------> Jim Coplien's book ("Advanced C++ Programming Styles and Idioms"): coined the phrase "Liskov substitution principle".
+
+-----> Duck Typing
+-------> "Whenever I see a bird that walks like a duck and quacks like a duck and swims like a duck. I call that bird a duck!"
+-------> A type is a bag of methods, and since a subtype is a type, its too is a bag of methods.
+-------> Since it should substitutable, then it should have the same method that its parent has.
+---------> Even if they have different implementations.
+
+-----> Refused bequest
+-------> This is mentioned on Martin Fowler's book: [Refactoring: Improving the Design of Existing Code]
+-------> This happens when the Liskov substitution principle is violated.
+-------> Most languages would likely yield an exception.
+-------> This occurs when method of a subtype does something that the client of the super type does not expect. 
+---------> For example, the derive class might throw an exception that the users of the base class dont expect.
+---------> Or, the derive class might cause a side effect that the users of the base class dont expect.
+
+-----> The representative rule.
+-------> Rule: Representatives do not share the relationships of the things they represent.
+-------> Example: A square is a rectangle, so square is a subtype of a rectangle. Should square have getLength/setLength,getWidth/setWidth or getSides/setSides.
+-------> According to LSP, a square should have getLength/setLength,getWidth/setWidth. 
+---------> We can implement this as setting the sides of the square with setLength and setWidth.
+---------> But this becomes problematic, should the programmer expect that setting the length might change the width?
+---------> Its a rectangle, so the height and width should not interfere with one another.
+-----------> If you set the width of a rectangle the height does not change.
+-----------> But if you use a square, the width can change the height.
+-----------> What happens when a function does something you dont expect? This is called undefined behavior.
+----------> This violates the expection of the callers.
+-------> The latent OCP violation.
+---------> Putting an if statement to check if its really a square is an Open Close Principle violation.
+---------> Every "Refused Bequest", every violation of the Liskov Substitution Principle is a latent violation of the Open Close Principle.
+---------> Remember when OCP is violated, the software becomes rigid and fragile.
+-------> Solution
+---------> (1) How about we invert the inheritance? What do we call the side of a rectangle? Should it be other side?
+---------> (2) How about we make this classes immutable? The names are still not appropriate. And there is still additional redundant memory used by square.
+---------> (3) Best way to deal this problem is to make square and rectangle totally different unrelated types.
+-----------> Isn't a square a rectangle? Mathematically it is. But our representation in the code does not fit the subtype relationship.
+---------> So while geometrically a square is a rectangle, the software representative of those objects dont share the subtype relationship.
+---------> Me: This is the problem when your coding around the model of the world.
+-------> Consider Integers
+---------> Every integer is a real number.
+---------> Every real number is a complex number.
+---------> But every complex number holds two real number inside it.
+---------> How do you code this? It becomes non-sensical because its involves recursive definitions (just like Russels paradox).
+---------> This is an example that its perfect sense of the real world but makes no sense in the computer.
+---------> Why because that integer class is not actually an integer its just a representation.
+-------> Consider Lists
+---------> If S is a subtype of T, then a list of S is not a subtype of T.
+---------> For example, a list of circles cannot be used as a list of shapes.
+-----------> Why because if we allow it then a square might be put on the list of circle (since its treated as a list of shapes).
+---------> Remember the Principle of representatives.
+-------> Principle of representatives
+---------> The representative of things do not share the relationship of the things themselves. 
+-------> This principle can be generalized further:
+---------> If S is a subtype of T, then generic class P of S is not automatically a subtype of the generic class P of T.
+
+-----> How do you know if youre violating the LSP? 
+-----> How can you be sure that youre not setting yourself up for a "Refused Bequest" (and the horrible OSP violation that follows from it)?
+-----> Here are some simple heuretics that you can follow that you can find helpful:
+-------> (1) If the base class does something the derived class must do it too. And must do it in a way that does not violate the expectation of the callers.
+---------> This means that you cannot take expected behaviors away from a subtype, a subtype can do more than its parent type, but it can never do less.
+---------> This means that if you a derived class that has denegerate (empty) functions in it. Then you possibly got a LSP violation.
+-----------> Especially if those functions are implemented in the base class.
+-----------> Not all degenerative implementation are a violation. So dont make this a hard and fast rule. But you should all be suspicious whenever you see a degenerative implementation.
+-------------> Exception to this is when all the methods in the class are "empty". Then it follows the "Null Object Pattern" and is NOT a violation of the LSP.
+-------> (2) A derived function is written to unconditionally throw an exception, this is always almost a violation of LSP.
+---------> This is because the author of the derived function clearly doesn't want you to call it.
+---------> How would you know that youre not supposed to call the derived function when all you have is the base class.
+-------> (3) If "instanceof" statement can also indicate a violation of LSP.
+---------> This isn't always a violation, there are sometimes good reason to check the type of an object, but its very suspicious.
+---------> When is it safe to check the type of an instance? There is only one rule. You are allowed to check the type of an instance, if already know what type it is.
+---------> Why would we bother to check the type if we already know it? Only if the compiler has forgotten it.
+
+-----> Statics vs Dynamics
+-------> Inheritance is the strongest relationship that can exist between two types.
+---------> When you derived from a class, you inherit everything in that class.
+---------> The design smell of rigidity is caused by an unrestrained accumulation of dependencies.
+-----------> Therefore, inheritance breeds rigidity.
+-------> What this means is the relationship that gives us flexibility, also makes us rigid.
+---------> This means the flexible solutions to OCP (dependency inversion), also gives us rigidity.
+-------> This isn't the case for dynamic languages like Ruby, Python or Smalltalk.
+---------> Because they dont rely on inheritance for subtyping.
+---------> This mean they can create flexible structures without causing rigidity.
+---------> By dynamic languages have a problem of failing at runtime what Java/C++ can catch in compile time.
+-----------> This is why Java/C++ are considered to be typesafe.
+-----------> If you make a type error in Java, the program wont compile.
+-----------> If you make a type error in Ruby, the program crashes.
+-----------> Thats a huge difference and its proven to be significant disincentive for using dynamic languages.
+-----------> TDD can help. If you dont have type checker (compiler), you need to have a test for it.
+-------------> If unit test protect you from type errors, why do you need a language the imposes rigidity on you.
+---------------> This is how the rebirth of dynamic type languages began.
+
+-----> Design by contract
+-------> A type-safe compiler do not find all the type errors.
+---------> They only find the type errors that can be found through static analysis.
+-------> Every type has a certain invariance (which are statement that always be true). 
+---------> Every function in class can be surrounded by preconditions and postconditions.
+---------> Preconditions are statements (can be boolean expressions) that must be true before a function can be called.
+---------> Preconditions are statements (can be boolean expressions) that must be true when a function returns.
+---------> Now its must be clear that if you carefully express your pre and post conditions.
+-----------> Then you will providing the precisely functions necessary to do dynamic type checking.
+-------> If you encounter a problem on runtime, it will be discovered easily by your pre and post conditions and can be pinpointed for you so you can fix it.
+---------> Eiffel language has this concept.
+-------> If there is no TDD, then Design by Contract might have taken hold.
+---------> TDD is a more general solution to the problem.
+---------> Nowadays its TDD and NOT Design by Contract are the primary means of preventing dynamic type errors.
+
+-----> The modem problem.
+-------> Check the lecture its quite lengthy but informative.
 
 
 
 
+---> The Interface Segregation Principle (ISP)
 
+-----> The principle states that: "Don't depend on things, you dont need."
+
+-----> Interface
+-------> Inheritance while its the strongest of the physical couplings, its also the weakest of the logical couplings.
+---------> Interfaces are weak logical couplings.
+-------> Switch class example (with light, fan, TV, and blender) 
+---------> Common interface for light, fan, TV, and blender
+---------> Switch with common interface can be deployed separately, and the other are the concrete light, fan, TV, and blender classes.
+---------> Whats the name of the common interface? TurnOnAble, Activatable, SwitchAble. SwitchAble sounds like the best name.
+-----------> The name also presents the coupling of the Switch class and SwitchAble class.
+-------> What is an interface?
+---------> An interface is nothing more than an abstract class with abstract methods in it. 
+---------> Why do we need a special syntax for that? 
+-----------> In C++ its just abstract class. So why then in Java and C# however they have special syntax element with its own grammar? Whats that for?
+-------------> Multiple inheritance problem.
+-------------> In Java and C#, interfaces can be multiply inherited while classes cannot. This is to avoid the diamond problem.
+
+-----> Fat classes
+-------> These are classes that have lots and lots of methods.
+-------> These can be problematic because of longer build times, and something is changed all the dependent modules need to be recompiled.
+-------> These classes normally have a lot of smaller subsystems on it.
+---------> And these subsystems need to manage a lot data, you cannot split the subsystems because all the data needs to be managed in one place.
+---------> So the job class have a lots of fan in, this creates major bottleneck for the project.
+-------> Another problem is the coupling involved in fat classes can be so severe that it can be difficult to take clients and put them into separate components (DLLs and JAR files).
+---------> And then independently deploy them.
+-------> Solution
+---------> When faced with a fat class, we isolate that fat class from its clients by creating interfaces that those clients can use.
+---------> Since interface are more logically coupled to the clients that call them, than to the classes that implement them, 
+-----------> we make sure that those interfaces only contain the methods that the client wishes to call.
+---------> And then we multiply inherit those interfaces into the original fat class.
+---------> By doing this, changes made to the function signatures of certain clients will not cause the other clients to change (recompilation avoided).
+---------> This means that we can place to clients into separate components (DLLs and JAR files) and deploy them separately.
+-----------> When components can be deployed separately that means it can be developed separately (keeps the development team from interfering with each other).
+-------> Photocopier Job software example of a fat clases
+---------> Check the lecture its quite lengthy but informative.
+-------> In WCDMA CP, you could have done this on Environment class that is used on multiple files.
+---------> You can have written an interface (base class) on MessageFactory, MessageHandler, ETC to avoid recompilation.
+
+-----> Physical structure
+-------> The goal of the ISP is to prevent that backwards coupling by ensuring that you dont depend on methods you dont call.
+-------> This can be put simply: "Don't depend on things, you dont need. Otherwise, you can create coupling that make your SW rigid and fragile."
+-------> Its main that should create the concrete instances. Its main that should create all the interactors. 
+---------> Main should take those interactors and pass them all through the boundary into the application. Use Dependency Injection if you have to.
+
+-----> "The need to know."
+-------> On the surface of it, the ISP seems to be about static typing.
+---------> The proof of this, is that in dynamically type languages like Python or Ruby, the strange reverse dependencies in Java and C++, simply don't exist.
+---------> No interface exist on Python or Ruby, no abstract class needs to be created.
+---------> Interface on dynamically type languages are already segregated.
+-------> So does that mean that principle doesn't apply on Python or Ruby?
+---------> It applies all right, just not in the glaring way in Java/C++.
+-------> The principle states that: "Don't depend on things, you dont need."
+---------> Dont leak your abstractions all over your users, dont force them to do things they dont need.
+-----------> It is ultimate arrogance of library designers, that they force you to use strong physical coupling like inheritance.
+-----------> They ask you to derive from their base classes, or they ask you to create instance of their concrete classes.
+-----------> They force ugly dependencies on you, they violate the ISP, by foisting their needs upon you.
+-------> Final lesson: 
+---------> Dont force your users to depend on things they dont need.
+-----------> This includes modules, people or tests. Dont force them to know more than they need to know.
+-----------> The ISP is all about the need to know.
+-----------> "Loose lips sink ships, and leaky abstractions create distractions."
+-----------> Keep your abstractions private, dispense knowledge only to those that need to know, play your cards close to your chest. And be wary of systems that blab too much details.
+
+
+
+
+---> The Dependency Inversion Principle (DIP)
+
+-----> The principle states that: "High level policies should not depend on low level details, but low level details should depend on high level policies".
+
+-----> What is dependency?
+-------> Two dependencies that we are going to consider: Runtime dependencies and compile time dependencies
+-------> Runtime Dependency
+---------> When the flow of control leaves one module and enters another, there's a runtime dependency between those two modules.
+---------> When one module access the variables inside another module, there's a runtime dependency there.
+---------> A Runtime Dependency exists whenever two modules interact at runtime.
+-------> Compile Time Dependency
+---------> When a name is defined in one module, and it appears in another module, then that module has source code or compile-time dependency on the defining module.
+---------> In Statically Type Languages (C,C++,C#,Java), compile time/source code dependency come at a significant cost.
+---------> You cannot simply compile one module, in order to compile that module, you must first compile all the other dependent modules of it. (Not necessary true for C++)
+-------> Nowadays, computers are fast enough that compile time is seldom an issue.
+-------> But deployment can be an issue, if a source code change causes a lot of recompiles, we might to redeploy a lot binary modules.
+-------> More importantly, in an environment where there are many teams, it is neccessary to independently develop the code as components. 
+-------> For if one team makes a source code change, that causes other teams to recompile and redeploy their source code, then there will be confusion and chaos.
+-------> And so we carefully design the source code dependencies across team boundaries to minimize the impact between teams.
+
+-----> Structured design
+-------> Top down methodology
+---------> (1) You start with main, and then you design the subroutines that main should call, and then you design the subroutines that those subroutines should call.
+---------> (2) And continue to explode the tree downwards until you have specified every subroutine in the system.
+---------> (3) And then you write the code.
+---------> Today of course, we do things differently (at least I hope we do).
+---------> The dependency structure is interesting. The source code dependency is the same with the runtime dependency.
+---------> When source code dependencies are like this, we have a tough time keeping those dependencies crossing team boundaries.
+---------> We need to find for some way so that the runtime dependency structure is different from the source code dependency structure.
+-----------> We dont want them to look the same.
+
+-----> Dependency inversion
+-------> How can we break the correspondence between the compile time and the runtime dependency structures? 
+---------> Simple, we use polymorphism.
+---------> You can create an interface (abstract class) between the modules that is dependent with each other.
+---------> Now, although there still a runtime dependency between the two modules, it doesn't have the corresponding compile time/source code dependency.
+---------> Both modules will have compile time/source code dependencies only on the interface.
+---------> This is dependency inversion.
+-------> Dependencies are inverted, whenever the source code dependencies opposed the direction of the flow of control.
+-------> The principle states that: "High level policies should not depend on low level details, but low level details should depend on high level policies".
+
+-----> Plugins
+-------> Inverting dependencies is the means we create boundaries between software modules.
+-------> Whenever we want boundaries to exist, we carefully choose which dependencies to invert against the flow of control.
+---------> This is so that all the dependencies point in the same direction across the boundary.
+-------> Boundaries like this are the way that we create plugins.
+-------> A plugin is a module that is anonymous called by another module.
+---------> The caller has no idea who or what hes calling.
+-------> The way you create an independently deployable and developable architecture is to compose it out of plugins.
+---------> That means you divide the system with boundaries and then invert the dependencies that cross those boundaries.
+-------> A good application architecture is a plugin architecture
+---------> And a plugin architecture is achieved through careful use of the dependency inversion principle.
+
+-----> Architectural implications
+-------> The formal definition of the DIP: "High level policies should not depend on low level details, but low level details should depend on high level policies".
+---------> Modules that contain high level policy (such use cases) should not depend on modules that contain low level details (such as databases and web formatting).
+
+-----> A reusable framework
+-------> The common problem when creating a reusable framework for one application, is that the framework tends to be tailored made for that application.
+---------> When using that framework for creating another application, you will find out that its NOT reusable at all.
+---------> Better to create a reusable framework when there are multiple applications, so you can determine the common parts definitively. 
+---------> Building a reusable framework is hard, if you dont build it in parallel with more than one application that reuses it, you most certainly fail.
+
+-----> The inversion
+-------> It should be that the applications have dependencies on the framework, but the framework has no dependencies back on the applications.
+-------> The high level policies of the framework have no knowledge or any source code dependencies on the low level details of the applications.
+-------> This is when the phrase "dependency inversion" first to occur.
+
+-----> Independent Developability
+-------> The beauty of this kind of framework, is that the developers can work on applications independently and just use the common framework.
+
+-----> Dependence inversion examples
+-------> The ROM telephone example.
+-------> The IO Driver example.
+-------> The Furnace example.
+
+-----> YAGNI
+-------> YAGNI: "You ain't gonna need it."
+---------> Applies to class diagrams as well (because it contains short term decisions, that going to be out of date)
+
+
+
+---> Now that you know this principles, how do you use them?
+-----> Are they laws? Rules? or are they more like Guidelines?
+-----> Each principle illuminates a particular SW design issue.
+-----> Each principle gives you the context for making a decision.
+-----> You dont have to decide in favor of the principle.
+-------> However, you should know you are ignoring it.
+-------> You should know what principle you're ignoring.
+-------> You should make the decision to ignore it.
+
+
+
+
+---> SOLID Components
+
+-----> What is a component?
+-------> A component is nothing more than a independently deployable library. (DLL, JAR, GEM file)
+-------> Independently deployable means that a change in one doesnt cause other to be recompiled of redeployed.
+-----> Subroutine libraries are independently deployable.
+-------> I can change the application without recompiling or redeploying the subroutine library.
+-----> Framework libraries too are independently deployable.
+-----> The reason for the "independent deployability" is the one way relationship.
+-------> Applications depend on framework/subroutine libraries, but framework/subroutine libraries do not depend on the application.
+-----> The advantage of components is independence.
+-------> Wouldn't it be nice if we can make a change to our system and recompile and redeploy one DLL or one JAR file instead recompiling the whole system?
+---------> Indeed, you should be able to hot swap those components without bringing the system down.
+-------> Wouldn't it be nice if the teams on your organization could work on their components independently without interfering with each other?
+-----> You should aim to have your components have the maximum amount of independence.
+
+-----> Noun Verb Analysis of User Requirments.
+-------> Noun: Candidate objects in our designs
+-------> Verb: Functions/Methods in our designs
+
+-----> Coffee Maker example
+
+-----> Elements of good component design:
+-------> Interchangeability and independent deployability
+-------> The physical separation of high level policy from low level detail.
+
+-----> What are the rules? How do you know what classes go in an component? 
+-----> How do you know how to manage the dependencies of those components?
+-----> What principles of design you should use?
+-------> The three principles of Component Cohesion
+-------> The three principles of Component Coupling
+
+
+
+
+---> Component Cohesion
+
+-----> High level policy should be kept ignorant of low level detail.
+-------> The components that contain detail depend on the components the contain policy.
+
+-----> Three components of component cohesion:
+-------> Release Reuse Equivalency Principle
+-------> Common Closure Principle
+-------> Common Reuse Principle
+
+-----> Cohesion
+-------> Recap: What is a component?
+---------> A component is nothing more than a independently deployable library. Ready to run. They are deployable as part of a running system.
+-------> What inside a component? What are the pieces its made of? What are forces that binds the pieces together into independently deployable unit?
+-------> The pieces are functions.
+-------> The forces that bind those functions are called cohesion.
+-------> Classes are just the first layer of cohesions for functions.
+---------> Those functions that deal with common data elements are grouped together into classes.
+
+-----> False Cohesion
+-------> Classes can be cohesive too, sometimes they belong together, sometimes they dont.
+-------> It is this force of class cohesion that we will use to define our components.
+-------> Subsystem error
+---------> The fact that a group of classes work together to achieve a certain goal is not neccesarily a good reason to bind them together in a single component.
+-----------> For example: A class that formats the report does not belong in the same component with the class the calculates the value of the report.
+-----------> It is unlikely that the classes that query the data, should be combined together in the same component that used the queried data.
+---------> In short, you should put classes together in the same component just because it feels right. Feeling has nothing to do with it, instead look at the architecture and dependencies.
+-------> Another common error that developers make is to bundle whole inheritance hierarchies together in a single component.
+---------> Remember that dependencies are inverted across inheritance relationships.
+-----------> The Flow of Control opposes the Source Code Dependency.
+---------> Base classes and their derivatives are often packaged into separate components. 
+-------> There many others forces of false cohesion that we could study.
+-------> Suffice to say that if you fall prey to these, your components will become too tightly coupled.
+---------> You know this has happened if you find it difficult to independently deploy them.
+-------> The goal of good component structure is be able to change one component without having to redeploy any of the others.
+---------> The goal is independent deployability.
+
+-----> The release reuse equivalence principle. (RRP)
+-------> The principle states that: "A component needs to be large enough to justify the cost of managing a release cycle."
+-------> Lets say I've got a component and I want you to use it.
+---------> What do you want from me?
+-----------> I want the component itself delivered in a convenient package.
+-----------> Testsuite of the component 
+-----------> Documentation
+-----------> Support (If there's a bug, there support so that it can be fixed. Im gonna maintain this, not you.)
+-----------> I dont want to change anything that I depend upon. I dont want you to change my codes just because you change yours.
+-------------> I've got lots of users. I can't really guarantee that those changes wont affect you.
+-------------> What if I give you a warning in advance before I make this changes?
+-------------> What if you try the new version and see if it works?
+-------------> What if I maintain the old version and give you time to migrate to the new version?
+-------------> What if I let you forked the code branch?
+---------------> You will manage lot of release cycles, release numbers and lifetimes.
+---------> This is the point of the release reuse equivalence principle. 
+-----------> The granular of reuse is the granular of release.
+-----------> You can't reuse a component unless its author manage it thru a release cycle.
+-------------> But managing a release cycle is expensive, the more components a team has the more time they spend administrating the release cycle and the less time they have for code.
+-------> The principle states that: "A component needs to be large enough to justify the cost of managing a release cycle."
+---------> You rather manage a few strategic components rather than hundreds.
+---------> You dont want your component saddled hundred with these. What you want is a few strategic components not a plethora of little tiny ones.
+---------> Every component deserves to be managed by a release cycle. That makes the component the granular of reuse and granular of release.
+
+-----> The common closure principle (CCP)
+-------> The principle states that: "The classes the we group together into components should be closed against the same kind of changes."
+-------> What goes into a component? What are the partitioning rules? How do we know what classes to group together? What classes to keep apart?
+-------> If the requirements change, how many components should change? 
+---------> There should be only ONE component that should change per layer.
+---------> Is this attainable? Hard to attain in practice, but that doesn't mean that we should target less.
+-------> The principle states that: "The classes the we group together into components should be closed against the same kind of changes."
+-------> The principle states that: "We gather together classes that change for the same reasons, we separate classes that change for different reasons."
+---------> The reasons here are the same reasons in SRP
+---------> Its a restatement of the interface segregation principle. 
+-----------> In the case of the ISP, we were talking about grouping function into classes.
+-----------> In this case of the common closure principle, we were talking about grouping classes into components.
+-------> "Closure" means that all the classes in the components are closed against the same kind of changes.
+---------> The classes within the component are closed to all but their prime responsibility.
+---------> They are closed to the needs of every other actor.
+---------> Each component in a layer serves a particular actor, so when that actor request a change, only one component per layer will have to be changed.
+
+-----> The common reuse principle (CRP)
+-------> The principle states that: "You should group classes that are used together, separate classes that arent use together."
+-------> Similar to ISP
+-------> Imagine you have a SINGLE common class in your component that is used by another component.
+---------> If OTHER parts of the orginal components changed (not the common class), it will trigger recompilation and retesting of the other component.
+---------> A lot of recompilation and retesting for no good reason.
+---------> This isn't ideal, we dont want to make busy work on consumers of our component.
+-------> If this principle is not followed, components have too much knowledge which affects their deployability and independence.
+-------> The principle states that: "You should group classes that are used together, separate classes that arent use together."
+---------> Construct your component so that when you use that component, you use all the classes within that component
+---------> This is similar to ISP. 
+---------> The ISP: "Avoid creating classes that depend upon methods they dont call." 
+---------> The principle states that: "Avoid making components that depend upon classes they dont use." 
+---------> Loose abstractions, sink applications
+-------> We should limit the constituents of our component to those classes that are used together.
+
+-----> The tension diagram
+-------> Its a triangle
+---------> Vertices are the component principles
+-----------> The release reuse equivalence principle (RRP)
+-----------> The common closure principle (CCP)
+-----------> The common reuse principle (CRP)
+---------> Edges:
+-----------> CRP <- "components affected by many responsibilities" ->  RRP
+-----------> RRP <- "components are needlessly affected" ->  CCP
+-----------> CRP <- "components that are reusable" ->  CCP
+-------> You cannot satify all these principles at the same time.
+---------> You must choose the ones that are important to you.
+---------> You must choose your position in the triangle.
+-----------> The position in the triangle is function how mature your project is.
+-----------> The emphasis of the project which is more towards reuse and less towards developability.
+-------> Early project you might use CRP and CCP, as the project matures it move more and more towards RRP. 
+-------> The component partitioning that you use today might be different on the future.
+---------> This depends on project maturity.
+
+
+---> Component Coupling
+
+-----> The Acyclic Dependencies Principle
+-------> The principle states that: "A software system is composed of components and the dependencies between those components must not form a cycle."
+-------> The morning after syndrome: You work all night, only to find out in the next morning that your stuff is broken again because some code you depend on was changed.
+---------> This is caused by large teams with inappropriate development processes.
+---------> There have been two treatment options in this condition.
+-----------> (1) The weekly build: On friday, let the devs get together and integrate. Usually friday is not enough and you get to work on a saturday. Not fun.
+-------------> As teams grow and system get larger, friday is usually not sufficient. Then it turns to a biweekly build, and then it turns into a monthly build.
+-----------> (2) Follow the Acyclic Dependencies Principle
+-------> The principle states that: "A software system is composed of components and the dependencies between those components must not form a cycle."
+---------> If you start a component and follow the dependencies, you must not wind up at that original component.
+---------> The result of this is the dependency structure of the components forms a directed acyclic graph (DAG).
+---------> Quick check: Draw the component graph like a tree, and make sure all the arrows point downwards.
+-------> Why would cycles cause problems?
+---------> Following a DAG, when one component updates its code, its only affecting its adjacent dependent components in the system.
+-----------> Following a release process, the dependent components can localize the impact and dont affect other components in the system.
+-----------> Following a release process, the component can continue working on a new release in parallel, while the dependent components migrate to the current one.
+-----------> Each release will travel up the diagram like a wave, requiring careful project management.
+---------> If its not a DAG, there can be a scenario that several components are dependent with each other in a cycle.
+-----------> This causes many developers from all components to work together to have one working release (weekly build).
+-----------> Unintended dependencies are possible just because its part of the cycle (transitive dependencies).
+-----------> There is also no valid build order for the system.
+-------> Two Solutions:
+---------> (1) Split the component into smaller components (with the dependencies) to remove the cycle.
+---------> (2) Use the dependency inversion principle. Invert the dependencies to remove the cycle.
+
+-----> The Stable Dependencies Principle
+-------> The principle states that: "A component should only depend on other components than are more stable than it is."
+-------> Which you rather depend upon? A component that is stable or not stable?
+---------> Stable, of course. But Why?
+-------> What is stability?
+---------> Is a standing pen stable?
+-----------> Its not stable because it could fall at any moment.
+-----------> Its not unstable too because since its not falling over.
+-----------> However, the standing pen is considered not very stable. This is because it does take a lot of work to upset it.
+---------> Something that is hard to change is stable, and something that is easy to change is instable.
+-------> Which you rather depend upon? Something hard to change (stable) or something easy to change (instable)?
+---------> Since you want stability, you want something that is hard to change.
+---------> Economics to change: "When someone changes you depend upon, make sure it hurts them more than it hurts you."
+-------> The principle states that: "A component should only depend on other components than are more stable than it is."
+---------> Or to put in a different way: "All the dependencies of a component architecture, should be pointing in the direction of increasing stability."
+-------> How do you know if its stable?
+---------> A component can be hard to change because its badly written, complicated and large.
+---------> The more other components that depend on the component (incoming dependencies), the more stable it is.
+-----------> If youre going to modify it in anyway, you have to check all the other components that depend upon it to see if something was broken.
+-----------> Thats something that is hard to do, and that means its hard to change, which makes it stable.
+-----------> Its considered an "adult", because its independent and stable.
+---------> The more the component depends on other components (outgoing dependencies), the more instable it is.
+-----------> The dependencies might force this component to change, which makes is suceptible/easy to change, which makes it instable.
+-----------> Its considered an "teenager", because its dependent and instable.
+-------> Do you really want to make a component that instable? Isn't that bogus?
+---------> On the contrary, we want certain components to be instable.
+---------> In these components we will put the code that we expect will change frequently.
+---------> Anything you put in a stable component will be hard to change, so if you want something change frequently put it in a instable component.
+-------> Once you put an instable component dependent to a stable component, it will be hard to change.
+---------> "It is the perversity of software that someone else can completely ruin the maintenance characteristics of your component simply by mentioning its name."
+-------> When you follow this principle, you will ensure that components that you planned on being easy to change, will remain easy to change.
+-------> All instable components should depend on stable components. 
+-------> All the dependency arrows should be pointing on stability (careful on the arrow direction, it should have the same direction as interface arrows).
+-------> Solution to problems:
+---------> Similar to how to fix a cycle in a dependency graph.
+---------> (1) Split the component into smaller components (with the dependencies) to split the dependencies.
+---------> (2) Use the dependency inversion principle to invert the dependencies.
+
+-----> The I Metric
+-------> How do we know which components are stable than others?
+---------> ME: Check the arrow directions in your diagram, it should have the same direction as interface arrows
+---------> Count the fan-in dependencies (afferent couplings (ca)) and count the fan-out dependencies (efferent couplings (ce))
+---------> Instability = number of fan-out dependencies / (number of fan-in dependencies + number of fan-out dependencies)
+---------> I = ce / (ca + ce)
+---------> I=0, means its very stable.
+---------> I=1, means its very instable.
+-------> The Stable Dependencies Principle can also be stated as:
+---------> The component that is the source of the dependency should have a higher I metric than the component that is the target of the dependency.
+---------> All the dependency arrows should be pointing on decreasing I (careful on the arrow direction, it should have the same direction as interface arrows).
+
+-----> The Stable Abstractions Principle
+-------> The principle states that: "The more stable the component is, the more abstracted it should be."
+-------> All the stable components at the bottom will be really hard to change. Is that good?
+---------> Not its not good. In fact its very bad. This makes our system inflexible.
+---------> We can do something about it. The fact that module is hard to change, does not mean its hard to extend.
+-----------> So follow the Open Close Principle to make it easy to extend.
+-----------> So use abstractions to conform to the open close principle (check the discussion above for details).
+-------> The principle states that: "The more stable the component is, the more abstracted it should be."
+-------> The concrete stuff should go at the top of the dependency diagram and the more abstracted stuff should go at the bottom.
+---------> Concrete stuffs are instable and easy to change
+---------> Abstracted stuff are stable and hard to change (dont always change so much)
+-------> We can find the abstractness of a component by taking the ratio of the number of classes on it.
+---------> Abstractness (A) = Abstract classes / Total classes
+---------> ME: We should be careful that abstract classes here mean that they are used for boundary interface for components.
+-------> How do we know that your components are as abstract as they are stable?
+---------> It should be that A + I = 1
+---------> Consider what it means when A+I is not equal to 1
+-----------> (1) It either means that theres a whole bunch of concrete classes which lots of incoming dependencies
+-----------> (2) Or a whole bunch of abstract classes with no incoming dependencies.
+-----------> In either case, its a violation of the dependency inversion principle.
+-------------> So A + I = 1, is a numeric indication on how well your component structure adheres to the dependency inversion principle.
+
+-----> Distance
+-------> If we graph the two values on cartesian plane with x as I and y as A (I,A), we can see interesting points.
+---------> As we get nearer to top left corner (0,1), we get nearer to adults (stable and abstract).
+---------> As we get nearer to bottom right corner (1,0), we get nearer to teenagers (instable and concrete).
+---------> As we get nearer to top right corner (1,1), we get nearer to "zone of uselessness" (instable and abstract).
+---------> As we get nearer to bottom left corner (0,0), we get nearer to "zone of pain" (stable and concrete).
+---------> We should target the line A+I=1 (the main sequence line) because: 
+-----------> We need to keep our components as far away of the "zone of uselessness" and "zone of pain".
+-----------> We need conform to the dependency inversion principle as much as possible.
+-------> The distance metric can be computed as such:
+---------> D = |A+I-1|
+---------> D=0, is on the main sequence line.
+---------> D=1, is farthest you can go on the main sequence line.
+---------> This ia single numeric indicator of the dependency inversion principle.
+-------> These metrics can help analyze system if youre not familiar with it. 
+---------> These metrics can point you to the right direction is something is rotting.
 
 
 

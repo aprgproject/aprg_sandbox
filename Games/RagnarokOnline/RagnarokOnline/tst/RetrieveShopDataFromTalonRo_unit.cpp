@@ -49,6 +49,7 @@ TEST(RagnarokOnlineShopTest, ReadBuyingShopItemsWorks) {
 
     EXPECT_EQ(45U, ragnarokOnline.getBuyingItemShops().size());
 }
+
 TEST(RagnarokOnlineShopTest, ReadSellingShopItemsWorks) {
     RagnarokOnline ragnarokOnline;
 
@@ -56,6 +57,7 @@ TEST(RagnarokOnlineShopTest, ReadSellingShopItemsWorks) {
 
     EXPECT_EQ(1697U, ragnarokOnline.getSellingItemShops().size());
 }
+
 TEST(RagnarokOnlineShopTest, RetrieveBuyingShopDataFromTalonRoWebpagesWorks) {
     RagnarokOnline ragnarokOnline;
 
@@ -64,6 +66,7 @@ TEST(RagnarokOnlineShopTest, RetrieveBuyingShopDataFromTalonRoWebpagesWorks) {
 
     EXPECT_EQ(45U, ragnarokOnline.getBuyingItemShops().size());
 }
+
 TEST(RagnarokOnlineShopTest, RetrieveSellingShopDataFromTalonRoWebpagesWorks) {
     RagnarokOnline ragnarokOnline;
 
@@ -72,6 +75,7 @@ TEST(RagnarokOnlineShopTest, RetrieveSellingShopDataFromTalonRoWebpagesWorks) {
 
     EXPECT_EQ(1697U, ragnarokOnline.getSellingItemShops().size());
 }
+
 TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithBuyingShopTypeExample1) {
     RagnarokOnline ragnarokOnline;
 
@@ -80,9 +84,11 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithBuyingShopTyp
 
     ItemNameToShopItemDetailMap const& shopItems(ragnarokOnline.getBuyingItemShops());
     ASSERT_EQ(13U, shopItems.size());
+
     ShopItemDetail const& shopItemDetail1(shopItems.at("Aloe"));
     EXPECT_EQ("Aloe", shopItemDetail1.itemName);
-    EXPECT_DOUBLE_EQ(9000, shopItemDetail1.averagePrice);    EXPECT_EQ(23U, shopItemDetail1.totalNumber);
+    EXPECT_DOUBLE_EQ(9000, shopItemDetail1.averagePrice);
+    EXPECT_EQ(23U, shopItemDetail1.totalNumber);
 
     ShopItemDetail const& shopItemDetail2(shopItems.at("Aloe Leaflet"));
     EXPECT_EQ("Aloe Leaflet", shopItemDetail2.itemName);
@@ -153,9 +159,11 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTy
 
     ItemNameToShopItemDetailMap const& shopItems(ragnarokOnline.getSellingItemShops());
     ASSERT_EQ(2U, shopItems.size());
+
     ShopItemDetail const& shopItemDetail1(shopItems.at("Cross Shield [1]"));
     EXPECT_EQ("Cross Shield [1]", shopItemDetail1.itemName);
-    EXPECT_DOUBLE_EQ(222078.29166666671517, shopItemDetail1.averagePrice);    EXPECT_EQ(24U, shopItemDetail1.totalNumber);
+    EXPECT_DOUBLE_EQ(222078.29166666671517, shopItemDetail1.averagePrice);
+    EXPECT_EQ(24U, shopItemDetail1.totalNumber);
 
     ShopItemDetail const& shopItemDetail2(shopItems.at("Crown Parrots [1]"));
     EXPECT_EQ("Crown Parrots [1]", shopItemDetail2.itemName);
@@ -171,9 +179,11 @@ TEST(RagnarokOnlineShopTest, RetrieveShopDataFromTalonRoWebPageWithSellingShopTy
 
     ItemNameToShopItemDetailMap const& shopItems(ragnarokOnline.getSellingItemShops());
     ASSERT_EQ(10U, shopItems.size());
+
     ShopItemDetail const& shopItemDetail1(shopItems.at("Book of the Dead [2]"));
     EXPECT_EQ("Book of the Dead [2]", shopItemDetail1.itemName);
-    EXPECT_DOUBLE_EQ(4000000, shopItemDetail1.averagePrice);    EXPECT_EQ(1U, shopItemDetail1.totalNumber);
+    EXPECT_DOUBLE_EQ(4000000, shopItemDetail1.averagePrice);
+    EXPECT_EQ(1U, shopItemDetail1.totalNumber);
 
     ShopItemDetail const& shopItemDetail2(shopItems.at("Boots [1]"));
     EXPECT_EQ("Boots [1]", shopItemDetail2.itemName);
