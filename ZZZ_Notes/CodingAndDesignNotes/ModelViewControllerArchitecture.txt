@@ -1,0 +1,141 @@
+ME: Models are like entities, Views are like boundary objects (views presenters), Controller are for Interactors
+
+
+
+
+https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
+
+Model–view–controller
+From Wikipedia, the free encyclopedia
+Jump to navigation
+Jump to search
+Diagram of interactions within one possible take on the MVC pattern
+
+Model–view–controller (MVC) is a software design pattern[1] commonly used for developing user interfaces that divide the related program logic into three interconnected elements. This is done to separate internal representations of information from the ways information is presented to and accepted from the user.[2][3]
+
+Traditionally used for desktop graphical user interfaces (GUIs), this pattern became popular for designing web applications.[4] Popular programming languages have MVC frameworks that facilitate implementation of the pattern.
+Contents
+
+    1 History
+    2 Components
+    3 Motivation
+    4 Use in web applications
+    5 See also
+    6 References
+    7 Bibliography
+
+History
+
+One of the seminal insights in the early development of graphical user interfaces, MVC became one of the first approaches to describe and implement software constructs in terms of their responsibilities.[5]
+
+Trygve Reenskaug created MVC while working on Smalltalk-79 as a visiting scientist at the Xerox Palo Alto Research Center (PARC) in the late 1970s.[6][7][8]: 330  He wanted a pattern that could be used to structure any program where users interact with a large, convoluted data set. His design initially had four parts: Model, View, Thing, and Editor. After discussing it with the other Smalltalk developers, he and the rest of the group settled on Model, View, and Controller instead.[6]
+
+In their final design, a Model represents some part of the program purely and intuitively. A View is a visual representation of a Model, retrieving data from the Model to display to the user and passing requests back and forth between the user and the Model. A Controller is an organizational part of the user interface that lays out and coordinates multiple Views on the screen, and which receives user input and sends the appropriate messages to its underlying Views. This design also includes an Editor as a specialized kind of Controller used to modify a particular View, and which is created through that View.[6]
+
+Smalltalk-80 supports a version of MVC that evolved from this one.[6] It provides abstract View and Controller classes as well as various concrete subclasses of each that represent different generic widgets. In this scheme, a View represents some way of displaying information to the user, and a Controller represents some way for the user to interact with a View. A View is also coupled to a model object, but the structure of that object is left up to the application programmer. The Smalltalk-80 environment also includes an "MVC Inspector," a development tool for viewing the structure of a given model, view, and controller side-by-side. [9]
+
+In 1988, an article in The Journal of Object Technology (JOT) by two ex-PARC employees presented MVC as a general "programming paradigm and methodology" for Smalltalk-80 developers. However, their scheme differed from both Reenskaug et al.'s and that presented by the Smalltalk-80 reference books. They defined a view as covering any graphical concern, with a controller being a more abstract, generally invisible object that receives user input and interacts with one or many views and only one model.[10]
+
+The MVC pattern subsequently evolved,[11] giving rise to variants such as hierarchical model–view–controller (HMVC), model–view–adapter (MVA), model–view–presenter (MVP), model–view–viewmodel (MVVM), and others that adapted MVC to different contexts.
+
+The use of the MVC pattern in web applications grew after the introduction of NeXT's WebObjects in 1996, which was originally written in Objective-C (that borrowed heavily from Smalltalk) and helped enforce MVC principles. Later, the MVC pattern became popular with Java developers when WebObjects was ported to Java. Later frameworks for Java, such as Spring (released in October 2002), continued the strong bond between Java and MVC.
+
+In 2003, Martin Fowler published Patterns of Enterprise Application Architecture, which presented MVC as a pattern where an "input controller" receieves a request, sends the appropriate messages to a model object, takes a response from the model object, and passes the response to the appropriate view for display.[8]: 56  This is close to the approach taken by the Ruby on Rails framework (August 2004), which has the client send requests to the server via an in-browser view, where they are handled by a controller, which then communicates with the appropriate model objects.[12] The Django framework (July 2005, for Python) put forward a similar "MTV" take on the pattern, in which a view retrieves data from models and passes it to templates for display.[13] Both Rails and Django debuted with a strong emphasis on rapid deployment, which increased MVC's popularity outside the traditional enterprise environment in which it has long been popular.
+Components
+
+Model
+    The central component of the pattern. It is the application's dynamic data structure, independent of the user interface.[14] It directly manages the data, logic and rules of the application.
+View
+    Any representation of information such as a chart, diagram or table. Multiple views of the same information are possible, such as a bar chart for management and a tabular view for accountants.
+Controller
+    Accepts input and converts it to commands for the model or view.[15]
+
+In addition to dividing the application into these components, the model–view–controller design defines the interactions between them.[16]
+
+    The model is responsible for managing the data of the application. It receives user input from the controller.
+    The view renders presentation of the model in a particular format.
+    The controller responds to the user input and performs interactions on the data model objects. The controller receives the input, optionally validates it and then passes the input to the model.
+
+As with other software patterns, MVC expresses the "core of the solution" to a problem while allowing it to be adapted for each system.[17] Particular MVC designs can vary significantly from the traditional description here.[18]
+Motivation
+
+As Alan Kay wrote in 2003 the original motivation behind the MVC was to allow creation of a graphical interface for any object.[19] That was outlined in detail in Richard Pawson's book called "Naked Objects".[19]
+Use in web applications
+
+Although originally developed for desktop computing, MVC has been widely adopted as a design for World Wide Web applications in major programming languages. Several web frameworks have been created that enforce the pattern. These software frameworks vary in their interpretations, mainly in the way that the MVC responsibilities are divided between the client and server.[20]
+
+Some web MVC frameworks take a thin client approach that places almost the entire model, view and controller logic on the server. In this approach, the client sends either hyperlink requests or form submissions to the controller and then receives a complete and updated web page (or other document) from the view; the model exists entirely on the server.[20] 
+
+
+
+
+
+
+https://developer.mozilla.org/en-US/docs/Glossary/MVC
+
+MVC
+
+MVC (Model-View-Controller) is a pattern in software design commonly used to implement user interfaces, data, and controlling logic. It emphasizes a separation between the software's business logic and display. This "separation of concerns" provides for a better division of labor and improved maintenance. Some other design patterns are based on MVC, such as MVVM (Model-View-Viewmodel), MVP (Model-View-Presenter), and MVW (Model-View-Whatever).
+
+The three parts of the MVC software-design pattern can be described as follows:
+
+    Model: Manages data and business logic.
+    View: Handles layout and display.
+    Controller: Routes commands to the model and view parts.
+
+Model View Controller example
+
+Imagine a simple shopping list app. All we want is a list of the name, quantity and price of each item we need to buy this week. Below we'll describe how we could implement some of this functionality using MVC.
+
+Diagram to show the different parts of the mvc architecture.
+The Model
+
+The model defines what data the app should contain. If the state of this data changes, then the model will usually notify the view (so the display can change as needed) and sometimes the controller (if different logic is needed to control the updated view).
+
+Going back to our shopping list app, the model would specify what data the list items should contain — item, price, etc. — and what list items are already present.
+The View
+
+The view defines how the app's data should be displayed.
+
+In our shopping list app, the view would define how the list is presented to the user, and receive the data to display from the model.
+The Controller
+
+The controller contains logic that updates the model and/or view in response to input from the users of the app.
+
+So for example, our shopping list could have input forms and buttons that allow us to add or delete items. These actions require the model to be updated, so the input is sent to the controller, which then manipulates the model as appropriate, which then sends updated data to the view.
+
+You might however also want to just update the view to display the data in a different format, e.g., change the item order to alphabetical, or lowest to highest price. In this case the controller could handle this directly without needing to update the model.
+MVC on the web
+
+As a web developer, this pattern will probably be quite familiar even if you've never consciously used it before. Your data model is probably contained in some kind of database (be it a traditional server-side database like MySQL, or a client-side solution such as IndexedDB [en-US].) Your app's controlling code is probably written in HTML/JavaScript, and your user interface is probably written using HTML/CSS/whatever else you like. This sounds very much like MVC, but MVC makes these components follow a more rigid pattern.
+
+In the early days of the Web, MVC architecture was mostly implemented on the server-side, with the client requesting updates via forms or links, and receiving updated views back to display in the browser. However, these days, more of the logic is pushed to the client with the advent of client-side data stores, and XMLHttpRequest allowing partial page updates as required.
+
+Web frameworks such as AngularJS and Ember.js all implement an MVC architecture, albeit in slightly different ways.
+
+
+
+
+
+
+https://medium.com/@joespinelli_6190/mvc-model-view-controller-ef878e2fd6f5
+
+MVC Overview
+Image result for model view controller
+
+MVC is a design pattern used to help build frameworks for applications. It is made up of three sections called the Model, View and Controller. MVC was reportedly invented by Trygve Reenskaug in the 1970's. He came up with this design as a way to describe software constructs in terms of their responsibilities and implement them effectively. It’s a popular design and is used by all types of programming languages such as Java, C#, Ruby and PHP. In this post I will go into each section and talk about what you, as a developer, should know about and include in each one. As I explain each part of the MVC model I will connect it to an analogy of a restaurant. Think of the MVC pattern as a restaurant with the Models being the cooks, Views being the customers, and Controllers being the waiters.
+1. The Model(the cooks):
+
+The model represents the data and logic of the app. A model can have a to-one and to-many relationships to other models. This is where the data is manipulated and/or saved. If any data changes, then the model will usually notify the view and sometimes the controller if different logic is needed to control the updated view. In connection with the analogy this would be the cooks. Taking meals from the waiter (the controller) and preparing meals for the customers (the view). So this would be taking data from the controller and providing the data for the view.
+The Model aka Gordon Ramsay(the cook)
+2. The View(the customers):
+
+The view is the only part of the app the user interacts with directly. It is attached to the model and in turn displays the model’s data. It may also update the model by sending appropriate messages to it as long as it matches up with the terminology in the model. That means the view will have to know the attributes of the model it represents. With our analogy the view would be the customer. The customer places orders and receives food through the waiter but has no direct contact with the cook. This would be the user requesting certain data and the view displaying it for them however they asked for it.
+The View aka the customer
+3. The Controller(the waiter):
+
+The controller is the go-between for models and views. It relays data from browser to app and from app to browser. It provides users with forms and menus for inputing information. The controller receives users input and translates it, and then passes those inputs on to one or more of the views. It interprets all user actions and goes between model and view to connect them. In a restaurant a waiter taking requests from customer to cook and taking meals from cook back to customer. Without the waiter there would be no connection between the customer and cook. This would be the user requesting a certain webpage and the controller receiving the user’s request and running code based on those requests through models. Then finally responding to the user by rendering the requested view file to display the requested webpage.
+The Controller aka the waiter
+Summary of MVC
+
+An important point to remember is: The model represents the data, and does nothing else. The model does NOT depend on the controller or the view. To conclude, using the MVC pattern correctly can help you as a developer maintain and update your application with ease. On top of that it ensures a smooth and easy to follow user experience. Although it takes time, understanding why MVC works and how to properly follow it will pay off big time when creating future applications. I hope this post was helpful and if you have any questions please leave a comment!
