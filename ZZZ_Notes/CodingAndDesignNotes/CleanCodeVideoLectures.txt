@@ -1,12 +1,13 @@
 
+Note: This is taken from Robert Martin Video lectures.
+
+
 -> The Last Programming Language
 
----> Better hardware now, what have we done with it?
----> Plenty of languages, have we seen it all?
+---> Better hardware now, what have we done with it?---> Plenty of languages, have we seen it all?
 
 ---> Organize languages in Syntax
------> Infix, postfix, and prefix
---------> Smalltalk prefix
+-----> Infix, postfix, and prefix--------> Smalltalk prefix
 --------> Lisp prefix
 --------> Forth programming language
 -----> COBOL
@@ -27,15 +28,13 @@
 -------> Discipline imposed upon direct access of control (Discipline imposed upon goto)
 ---------> Remember Djikstra paper on "Goto considered harmful"
 ---------> C is almost structural language (goto is not used)
----------> Pascal
+---------> Pascal is an example
 -----> OO
 -------> Discipline imposed upon indirect access of control (Disciplined imposed upon pointer to functions)
----------> Do pointer to functions without dealing with pointers to functions (hidden using vtable)
----------> This has a huge benefit: Source code dependencies opposed the flow of control
+---------> Do pointer to functions without dealing with pointers to functions (hidden using vtable)---------> This has a huge benefit: Source code dependencies opposed the flow of control
 -----------> In most structure languages: Flow of control points to the same direction as code dependencies
 -------> OO is really about polymorphism
------> Functional
--------> Discipline imposed upon assignment
+-----> Functional-------> Discipline imposed upon assignment
 ---------> We cannot assign values to variables (we can initialize variables)
 -------> Important now because of multicore problem
 
@@ -597,16 +596,13 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 --------> The tests allowed you to clean the code. The tests stops the code from rotting.
 
 ------> Why are Design and Architecture considered to be so important?
---------> Why are there so many books written on these topics?
---------> Why is so much effort applied to getting design and architecture right?
+--------> Why are there so many books written on these topics? Why is so much effort applied to getting design and architecture right?
 --------> We want the structure of the system to be flexible, scalable, and maintanable. 
 --------> When there is a new feature, we want the design to be flexible enough to allow those changes without breaking anything.
---------> Good designs do make system more flexible and maintainable. 
---------> But nothing makes a system more flexible that suite of tests because these tests eliminates fear.
+--------> Good designs do make system more flexible and maintainable. --------> But nothing makes a system more flexible that suite of tests because these tests eliminates fear.
 ----------> If I give a perfectly designed system with no tests, you'll be afraid to clean/improve it. 
 ------------> Overtime, it will gradually degrade and rot.
-----------> If I give a terribly designed system but a comprehensive suite of tests, you'll be not be afraid to clean it.
-------------> Overtime, it will gradually get better and better.
+----------> If I give a terribly designed system but a comprehensive suite of tests, you'll be not be afraid to clean it.------------> Overtime, it will gradually get better and better.
 --------> Bottom line: If you want a flexible system? Get or create a suite of tests that you trust.
 
 -----> Trust
@@ -654,21 +650,19 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> Single change in production code causes many hundreds of tests to break.
 ---------> This happens when tests are poorly designed. 
 ---------> Design your tests well, and when you discover better design, then refactor your tests.
----------> Tests are just as important as production code, treat your tests as you treat your production code. Dont allow them to become a mess..
+---------> Tests are just as important as production code, treat your tests as you treat your production code. Dont allow them to become a mess.
 -------> Tests can prove the presence of bugs, but tests cannot prove the absense of bugs. A suite of tests cannot prove the program is correct.
 ---------> Our goal is not to prove that SW correct (thats infeasible). Our goal is create a parachute that eliminates the fear of making change.
 ---------> We may never achieve a 100%, but 99.99% is pretty damn good.
 -------> TDD is a dogma and discipline. It encourages people to follow rules instead of using their minds and thinking.
----------> That's true. Disciplines are premade decisions. The reason we follow discipline is that we dont keep making those decisions again and again.
----------> This is both a strength and a weakness. In the heat of battle, we want to able to fall back to our training move effectively and efficiently (without constant questioning).
+---------> Disciplines are premade decisions. The reason we follow discipline is that we dont keep making those decisions again and again. This is both a strength and a weakness. 
+---------> In the heat of battle, we want to able to fall back to our training move effectively and efficiently (without constant questioning).
 ---------> However, from time to time its worth while to take a step back and evaluating your dogmas and discipline. You might make subtle or significant changes.
 ---------> Either way its both appropriate and necessary.
--------> Its the test that matter. Not when we write them.
----------> BALDERDASH! If you write test at the end, theyre not going to be complete and your not going to trust them.
+-------> Its the test that matter. Not when we write them.---------> BALDERDASH! If you write test at the end, theyre not going to be complete and your not going to trust them.
 ---------> Its simple human nature. Humans consider things that comes first as more important that things at the end. Thats why there are the end (even worse, they are treated as optional).
 ---------> When you write test first, you trust those tests. Because every line of production code is tested.
----------> Tests comes first because they are more important than the production code. The tests are what makes the production code flexible. Without those tests the production code rots.
--------> Theres a lot of code already written and they dont have a suite of tests.
+---------> Tests comes first because they are more important than the production code. The tests are what makes the production code flexible. Without those tests the production code rots.-------> Theres a lot of code already written and they dont have a suite of tests.
 ---------> This is hard because legacy code tends to be not testable. 
 -----------> In order to test it, you need to a make series of decoupling design changes.
 ---------> Catch 22 scenario: In order to write tests, you need to refactor. But you can't refactor (with no fear) without tests.
@@ -779,14 +773,19 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> Boundary means the barrier between the abstract classes to concrete classes.
 
 -----> Partitioning
+-------> ME: Business rules
+---------> ME: Business rules are a set of instructions that determine how a process is performed. 
+---------> ME: Business rules define specific instructions or constraints on how certain day-to-day actions should be performed. 
+---------> ME: For example, business rules can include:
+-----------> A decision-making approval structure for invoice processing where only certain managers can sign off on invoices totaling a specific amount
+-----------> Calculations in which a formula may be used to calculate revenue or expenses
+-----------> Policies where an organization requires its employees to work with a preferred list of vendors
 -------> In Jacobson' book he recognized that there are three fundamental kinds of objects.
 ---------> Entities/Entity objects: Business objects
------------> Entities have application independent business rules.
------------> The methods on entity objects perform functions that are valid on any of the applications that the entity object can be used in.
+-----------> Entities have application independent business rules.-----------> The methods on entity objects perform functions that are valid on any of the applications that the entity object can be used in.
 -----------> All the code on entities should not contain code that would be specific to any of the application (application specific codes should go to the interactor object)
 ---------> Interactors/controls/Interactor objects: Use case objects
------------> Interactions have application dependent business rules.
------------> Use cases are application specific business rules.
+-----------> Interactions have application dependent business rules.-----------> Use cases are application specific business rules.
 ---------> Boundaries/Boundary objects: User interface objects
 -----------> Boundary objects isolate the use cases from the delivery mechanism.
 -----------> It should be that the business rules (both the application specific and the application agnostic) are strongly decoupled from the delivery mechanism.
@@ -1051,15 +1050,13 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> The crystal ball problem.
 ---------> This makes it certain that we cannot fully conform to the "Open close principle".
 -----------> That this mean that we should give up to the "Open close principle" entirely? 
--------------> It maybe difficult to entire systems to conform to OCP, but its not at all difficult to get functions, classes, and small components to conform
+-------------> It maybe difficult to entire systems to conform to OCP, but its not at all difficult to get functions, classes, and small components to conform.
 ---------> It turns out the difficulty to conform to the open close principle is a matter of size.
 -----------> Small things like functions, classes and small components can conform very easily.
 -----------> Its in large systems that we start getting into trouble.
-
 -----> The Lie
 -------> Things that you dont know or dont anticipate can still yield to modifying some source code.
--------> The open close principle works on things that you know is gonna happen.
--------> Its easy to design abstractions that protect you from future changes if you what those changes are going to be.
+-------> The open close principle works on things that you know is gonna happen.-------> Its easy to design abstractions that protect you from future changes if you what those changes are going to be.
 ---------> But there is not crystal ball to help us with that.
 -------> This is the dirty little secret about object oriented design and the open close principle that people dont like to talk about.
 ---------> It only protects you from change if you can predict the future.
@@ -1209,18 +1206,16 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -------> Principle of representatives
 ---------> The representative of things do not share the relationship of the things themselves. 
 -------> This principle can be generalized further:
----------> If S is a subtype of T, then generic class P of S is not automatically a subtype of the generic class P of T.
+---------> If S is a subtype of T, then generic class P of S is NOT automatically a subtype of the generic class P of T.
 
 -----> How do you know if youre violating the LSP? 
------> How can you be sure that youre not setting yourself up for a "Refused Bequest" (and the horrible OSP violation that follows from it)?
+-----> How can you be sure that youre not setting yourself up for a "Refused Bequest" (and the horrible OCP violation that follows from it)?
 -----> Here are some simple heuretics that you can follow that you can find helpful:
 -------> (1) If the base class does something the derived class must do it too. And must do it in a way that does not violate the expectation of the callers.
----------> This means that you cannot take expected behaviors away from a subtype, a subtype can do more than its parent type, but it can never do less.
----------> This means that if you a derived class that has denegerate (empty) functions in it. Then you possibly got a LSP violation.
+---------> This means that you cannot take expected behaviors away from a subtype, a subtype can do more than its parent type, but it can never do less.---------> This means that if you a derived class that has denegerate (empty) functions in it. Then you possibly got a LSP violation.
 -----------> Especially if those functions are implemented in the base class.
 -----------> Not all degenerative implementation are a violation. So dont make this a hard and fast rule. But you should all be suspicious whenever you see a degenerative implementation.
--------------> Exception to this is when all the methods in the class are "empty". Then it follows the "Null Object Pattern" and is NOT a violation of the LSP.
--------> (2) A derived function is written to unconditionally throw an exception, this is always almost a violation of LSP.
+-------------> Exception to this is when all the methods in the class are "empty". Then it follows the "Null Object Pattern" and is NOT a violation of the LSP.-------> (2) A derived function is written to unconditionally throw an exception, this is always almost a violation of LSP.
 ---------> This is because the author of the derived function clearly doesn't want you to call it.
 ---------> How would you know that youre not supposed to call the derived function when all you have is the base class.
 -------> (3) If "instanceof" statement can also indicate a violation of LSP.
@@ -1502,15 +1497,14 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -------> The goal of good component structure is be able to change one component without having to redeploy any of the others.
 ---------> The goal is independent deployability.
 
------> The release reuse equivalence principle. (RRP)
+-----> The release reuse equivalence principle. (RREP)
+-------> ME: Reuse here means COMPONENT REUSE not CODE REUSE.
 -------> The principle states that: "A component needs to be large enough to justify the cost of managing a release cycle."
 -------> Lets say I've got a component and I want you to use it.
----------> What do you want from me?
------------> I want the component itself delivered in a convenient package.
+---------> What do you want from me?-----------> I want the component itself delivered in a convenient package.
 -----------> Testsuite of the component 
 -----------> Documentation
------------> Support (If there's a bug, there support so that it can be fixed. Im gonna maintain this, not you.)
------------> I dont want to change anything that I depend upon. I dont want you to change my codes just because you change yours.
+-----------> Support (If there's a bug, there support so that it can be fixed. Im gonna maintain this, not you.)-----------> I dont want to change anything that I depend upon. I dont want you to change my codes just because you change yours.
 -------------> I've got lots of users. I can't really guarantee that those changes wont affect you.
 -------------> What if I give you a warning in advance before I make this changes?
 -------------> What if you try the new version and see if it works?
@@ -1527,22 +1521,21 @@ By the theory of simple types I mean the doctrine which says that the objects of
 ---------> Every component deserves to be managed by a release cycle. That makes the component the granular of reuse and granular of release.
 
 -----> The common closure principle (CCP)
+-------> The principle states that: "Gather into components those classes that change for the same reasons and at the same times.
+---------> Separate into different components those classes that change at different times and for different reasons."
 -------> The principle states that: "The classes the we group together into components should be closed against the same kind of changes."
 -------> What goes into a component? What are the partitioning rules? How do we know what classes to group together? What classes to keep apart?
--------> If the requirements change, how many components should change? 
----------> There should be only ONE component that should change per layer.
+-------> If the requirements change, how many components should change? ---------> There should be only ONE component that should change per layer.
 ---------> Is this attainable? Hard to attain in practice, but that doesn't mean that we should target less.
 -------> The principle states that: "The classes the we group together into components should be closed against the same kind of changes."
 -------> The principle states that: "We gather together classes that change for the same reasons, we separate classes that change for different reasons."
 ---------> The reasons here are the same reasons in SRP
----------> Its a restatement of the interface segregation principle. 
+---------> Its also a restatement of the interface segregation principle. 
 -----------> In the case of the ISP, we were talking about grouping function into classes.
 -----------> In this case of the common closure principle, we were talking about grouping classes into components.
--------> "Closure" means that all the classes in the components are closed against the same kind of changes.
----------> The classes within the component are closed to all but their prime responsibility.
+-------> "Closure" means that all the classes in the components are closed against the same kind of changes.---------> The classes within the component are closed to all but their prime responsibility.
 ---------> They are closed to the needs of every other actor.
 ---------> Each component in a layer serves a particular actor, so when that actor request a change, only one component per layer will have to be changed.
-
 -----> The common reuse principle (CRP)
 -------> The principle states that: "You should group classes that are used together, separate classes that arent use together."
 -------> Similar to ISP
@@ -1562,27 +1555,25 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -----> The tension diagram
 -------> Its a triangle
 ---------> Vertices are the component principles
------------> The release reuse equivalence principle (RRP)
+-----------> The release reuse equivalence principle (RREP)
 -----------> The common closure principle (CCP)
 -----------> The common reuse principle (CRP)
 ---------> Edges:
------------> CRP <- "components affected by many responsibilities" ->  RRP
------------> RRP <- "components are needlessly affected" ->  CCP
------------> CRP <- "components that are reusable" ->  CCP
+-----------> RREP <- this is disregarding CCP, too many uneeded releases, a component is affected by many responsibilities ->  CRP
+-----------> RREP <- this is disregarding CRP, too many components change, many components are needlessly affected -> CCP
+-----------> CRP <- this is disregarding RREP, hard to reuse/release, components that are not reusable/releasable ->  CCP
 -------> You cannot satify all these principles at the same time.
 ---------> You must choose the ones that are important to you.
 ---------> You must choose your position in the triangle.
 -----------> The position in the triangle is function how mature your project is.
 -----------> The emphasis of the project which is more towards reuse and less towards developability.
--------> Early project you might use CRP and CCP, as the project matures it move more and more towards RRP. 
+-------> Early project you might use CRP and CCP, as the project matures it move more and more towards RREP. 
 -------> The component partitioning that you use today might be different on the future.
 ---------> This depends on project maturity.
 
-
 ---> Component Coupling
 
------> The Acyclic Dependencies Principle
--------> The principle states that: "A software system is composed of components and the dependencies between those components must not form a cycle."
+-----> The Acyclic Dependencies Principle-------> The principle states that: "A software system is composed of components and the dependencies between those components must not form a cycle."
 -------> The morning after syndrome: You work all night, only to find out in the next morning that your stuff is broken again because some code you depend on was changed.
 ---------> This is caused by large teams with inappropriate development processes.
 ---------> There have been two treatment options in this condition.

@@ -105,13 +105,12 @@ Taken from Titus Winters and Hyrum Wright's talk on "All your tests are terrible
 -------> These are tests that fail if anyone refactors those classes.
 ---------> Mocks typically heavily depend on the signatures of the mock functions
 -------> The law of implicit interfaces ("Hyrum's law", https://www.hyrumslaw.com/)
+---------> ME: This looks like something similar in probabilities. In an experiment with lots of trials (large numbers), rare events becomes common.
 ---------> If you have enough users, you're gonna start seeing this.
 ---------> The law states that: "Given an implementation and explicit interface (published interface), sooner of later they will start depending upon the implicit guarantees of the implementation."
------------> They start to depend be speed, memory consumption, filename and line number, or API call ordering.
------------> Pretty soon you will have enough people using your system that the implementation becomes the implicit interface.
+-----------> They start to depend be speed, memory consumption, filename and line number, or API call ordering.-----------> Pretty soon you will have enough people using your system that the implementation becomes the implicit interface.
 -------------> There is nothing you can change without breaking somebody.
 -------------> Somebody will scream if you change any part of the implementation, this is bad world to be in, unless you've gone deaf to the screams.
-
 -> Recap
 ---> (0) Write tests
 ---> (1) Write correct tests: tests what you wanted to test

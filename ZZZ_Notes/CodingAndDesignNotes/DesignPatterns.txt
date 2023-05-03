@@ -9,17 +9,15 @@ Summary:
 -> Command: Encapsulate a REQUEST into a "command object" that can INVOKE different operations (such as execute/undo)
 -> Composite: Provide an object that CAN be an "individual object" or a "composite object", and they are treated UNIFORMLY
 -> Decorator: DECORATE (or attach) additional RESPONSIBILITIES into an object in runtime.
--> Façade > Provide a FACADE (or unified interface) for MULTIPLE components in a SUBSYSTEM
+-> Façade: Provide a FACADE (or unified interface) for MULTIPLE components in a SUBSYSTEM
 -> FactoryMethod: Provide a "factory method" for creating objects and let polymorphism and subclassing support DIFFERENT VERSIONS of the "factory method".
--> Flyweight: Provide a "flyweight object" that can have SHARED data (extrinsic state) or SEPARATED data (intrinsic state)
+-> Flyweight: Provide a "flyweight object" that SEPARATES INTRINSIC/NON-CONTEXT data (can be shared and saved in object) and EXTRINSIC/CONTEXT data (can be removed and be sent to object instead)
 -> Interpreter: Provide a class (with subclasses) that can be INTERPRETED differently depending on the CONTEXT.
 -> Iterator: Provide a "iterator object" that can ITERATE and ACCESS elements on an AGGREGATE without EXPOSING its underlying representation.
--> Mediator: MEDIATE communications between different colleagues to decouple, simplify, abstract, centralize the way of communication.
--> Memento: Provide a "memento object" that SAVES the STATE of an "originator object" so that it can be RESTORED later.
+-> Mediator: MEDIATE communications between different colleagues to decouple, simplify, abstract, centralize the way of communication.-> Memento: Provide a "memento object" that SAVES the STATE of an "originator object" so that it can be RESTORED later.
 -> NullObject: Create a NULL OBJECT to HANDLE special NULL or EMPTY cases with polymorphism.
 -> Observer: Have Observers OBSERVE a Subject/Observable so that when something is changed, the Observers are NOTIFIED and UPDATED AUTOMATICALLY
--> Prototype: Create objects by CLONING or copying PROTOTYPE objects that can be set in runtime.
--> Proxy: Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real object
+-> Prototype: Create objects by CLONING or copying PROTOTYPE objects that can be set in runtime.-> Proxy: Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real object
 -> Singleton: Ensure a class only has SINGLE instance, and provide a global point of access to it.
 -> State: Implement a common ABSTRACT STATE INTERFACE and implement different STATE SPECIFIC BEHAVIORS by having STATE SUBCLASSES
 -> Strategy: Implement a common ABSTRACT STRATEGY INTERFACE and implement different strategies or FAMILIES OF ALGORITHMS by subclassing so that it can be changed in runtime.
@@ -650,19 +648,18 @@ Factory Method doesn't require such an operation.
 Flyweight discussion:
 
 ONE LINE NOTE:
--> Provide a "flyweight object" that can have SHARED data (extrinsic state) or SEPARATED data (intrinsic state)
+-> Provide a "flyweight object" that SEPARATES INTRINSIC/NON-CONTEXT data (saved in object) and EXTRINSIC/CONTEXT data (sent to object)
 
 Intent:
 Flyweight pattern has has structural purpose, applies to objects and uses sharing to support large numbers of fine-grained objects efficiently.
 The pattern can be used to reduce memory usage when you need to create a large number of similar objects.
+Instead of storing the whole data on the object, separate intrinsic and extrinsic data to lessen memory usage.
 
 When to use (applicability):
--> when one instance of a class can be used to provide many "virtual instances"
--> when all of the following are true
+-> when one instance of a class can be used to provide many "virtual instances"-> when all of the following are true
 --> an application uses a large number of objects
 --> storage costs are high because of the sheer quantity of objects
---> most object state can be made extrinsic
---> many groups of objects may be replaced by relatively few shared objects once extrinsic state is removed
+--> most object state can be made extrinsic--> many groups of objects may be replaced by relatively few shared objects once extrinsic state is removed
 --> the application doesn't depend on object identity
 
 Consequences:
