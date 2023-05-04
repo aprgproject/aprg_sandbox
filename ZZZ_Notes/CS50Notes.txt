@@ -77,14 +77,16 @@ Shell and scripting
 ---> mv
 ---> cp
 ---> touch - create an empty file
+---> which - lets you know the location of application
+---> chmod - change permissions. chmod +x hello.sh
+
+-> CTRL+L - lets you clear your screen
 
 -> Shell provides you more than commands
----> You can invoke any program in your computer
----> Command line tools exist for pretty much anything you may want.
+---> You can invoke any program in your computer---> Command line tools exist for pretty much anything you may want.
 ---> More efficient than their GUI counterparts.
 
--> Shell provides an interactive programming language (often referred to as scripting)
----> A lot of different shells that have different languages.
+-> Shell provides an interactive programming language (often referred to as scripting)---> A lot of different shells that have different languages.
 -----> Examples: sh, bash (born again shell), csh (c shell, looks like c language), fish, zsh, ksh
 
 -> Shell programming is useful tool
@@ -173,20 +175,25 @@ Shell and scripting
 ---> Newlines are generally stored as carriage return, which forces the cursor at the back of the line.
 
 -> Globbing
----> "*" lets you match any string of characters
+---> "*" lets you match any string of characters that are files/directories in the current directory
 -----> "ls *" will list all files/directories 
+-----> "echo b/c/*.txt" will display all txt files in "b/c" path
 ---> "?" lets you match any single character
 -----> "ls ???" will list any files/directories with 3 characters
----> "{}" lets you match a set of characters
+---> "{}" lets you match two conditions
 -----> "ls {b,r}*" will list any files/directories that starts with a "b" or "r"
+-----> this expands to "ls b* r*"
+-------> note that "mv aaa(.txt)" -> expands to "mv aaa aaa.txt" -> which renames aaa to aaa.txt
+-----> "touch {a,b}{a,b}.txt" lets create 4 empty files
+-------> aa.txt, ab.txt, ba.txt, bb.txt
+---> "**" lets you match any path
+-----> "echo **/*.txt" will display all txt files in all paths in the current directory
 
 -> Globbing examples with loop statement
----> for f in a*; do if [ -d "$f" ]; then echo dir $f; fi; done
------> This loops for any files/directories that starts with "a"
+---> for f in a*; do if [ -d "$f" ]; then echo dir $f; fi; done-----> This loops for any files/directories that starts with "a"
 ---> for f in foo/*.txt; do if [ -d "$f" ]; then echo dir $f; fi; done
 -----> This loops for any ".txt" file that starts with inside the directory "foo"
----> for f in foo/*.txt; do if [ -d "$f" ]; then echo dir $f; fi; done
------> This loops for any ".txt" file that starts with inside the directory "foo"
+---> for f in foo/*.txt; do if [ -d "$f" ]; then echo dir $f; fi; done-----> This loops for any ".txt" file that starts with inside the directory "foo"
 
 -> Problem with white spaces
 ---> When no argument is given $1 to $9 expands to nothing (not a null string)
@@ -216,14 +223,13 @@ Shell and scripting
 -------> So its not depedent on your input anymore, but rather the output of preceeding program
 
 -> cat command
+---> This command just prints its input.
 ---> This command just reads from stdin and writes to stdout
 
--> ">" means to write the output stream into a file
----> cat > file.txt
+-> ">" means to write the output stream into a file---> cat > file.txt
 -----> This writes to file with the output of cat. 
 
--> "<" means to read a file and put to stdin
----> cat < file.txt
+-> "<" means to read a file and put to stdin---> cat < file.txt
 -----> This reads from file as the input of cat. 
 
 -> Example: cat < in.txt > out.txt
@@ -274,33 +280,41 @@ Shell and scripting
 ---------> It has a job number of 1 and process id of 19436
 ---> The command "jobs" list all the jobs started with &
 ---> The command "fg" can run it in the foreground.
+-----> For example: "fg"
+-------> Puts the most recent process to the foreground
 -----> For example: "fg %1"
 -------> Puts the process with job number 1 to the foreground
----> The command "bg" can run it in the background.
------> For example: "bg %1"
+---> The command "bg" can run it in the background.-----> For example: "bg %1"
 -------> Puts the process with job number 1 to the background
 ---> CTRL+Z stops the current process and put in the background
------> You need to run bg to start it again.
----> Note: If you close the shell, you are also closing all the background jobs.
+-----> You need to run bg to start it again.---> Note: If you close the shell, you are also closing all the background jobs.
 ---> The command "disown" will let the background processes continue on even if shell is closed
 -----> For example: "disown %1"
 -------> The process with job number 1 will continue to run even if shell is closed.
 
+-> Tail follow example:
+---> Create file count.sh that has this line (this will count to 1000 per second):
+-----> "for i in $(seq 1 1000); do echo hello; sleep 1; done"
+---> Run count.sh in the background and put its output to a file
+-----> "./count.sh > count.log &"
+---> Use tail to display the latest values
+-----> "tail -f count.log"
+-----> -f means follow and this continuously prints the lines in the file
+
 -> Processes commands
 ---> ps 
------> lists the running process from the current user of the machine
----> ps -A
+-----> lists the running process from the current user of the machine---> ps -A
 -----> lists the running process from all users on the machine
 ---> pgrep -af server
 -----> list all the running process with word "server" on it 
+---> pstree
+-----> lists the running process in a tree
 ---> kill
 -----> sends a signal to a process
----> pkill 
------> sends a signal to process the matches the pgrep
+---> pkill -----> sends a signal to process the matches the pgrep
 -----> These are similar: 
 -------> pkill server
--------> kill &(pgrep server)
----> kill -l
+-------> kill &(pgrep server)---> kill -l
 -----> lists all the signals that kill can send
 -------> default is SIGKILL(9), which tells the process to exit right now
 ---> kill -s TERM 20156
@@ -322,8 +336,31 @@ Shell and scripting
 
 
 
+Command line environment
 
-
-
-
+-> Aliases
+---> Create an alias for a command.
+---> You can do this:
+-----> alias l2="ls -l"
+-----> l2
+---> You can shorten git status:
+-----> alias gs="git status"
+-----> gs
+---> You can know what is being aliased using "which" command:
+-----> which l2
+---> Aliases can be compounded:
+-----> alias l3="l2 -a"
+---> Aliases can be overwritten, for example its completely legal to do this:
+-----> alias ls=l3
+-------> ls expands to l3, l3 expands to "l2 -a", l2 expands to the command "ls -l"
+---> You can call the non-aliased command using back slash:
+-----> \ls
+---> You can call the non-aliased function using "command":
+-----> command ls
+---> You can remove the alias by using "unalias"
+-----> unalias ls
+---> Note: Aliases needs to be done everytime a new command line session is started
+-----> You can add it to .bashrc or .bash_profile.
+-----> It might be a good idea to use source:
+-------> source ~/.aliases
 
