@@ -111,6 +111,7 @@ Taken from Titus Winters and Hyrum Wright's talk on "All your tests are terrible
 -----------> They start to depend be speed, memory consumption, filename and line number, or API call ordering.-----------> Pretty soon you will have enough people using your system that the implementation becomes the implicit interface.
 -------------> There is nothing you can change without breaking somebody.
 -------------> Somebody will scream if you change any part of the implementation, this is bad world to be in, unless you've gone deaf to the screams.
+
 -> Recap
 ---> (0) Write tests
 ---> (1) Write correct tests: tests what you wanted to test
@@ -149,7 +150,88 @@ Taken from Titus Winters and Hyrum Wright's talk on "All your tests are terrible
 
 
 
+From CleanCode:
 
+---> F.I.R.S.T.
+-----> Clean tests follow five other rules that form the above acronym:
+-------> Fast
+---------> Fast Tests should be fast. 
+---------> They should run quickly. 
+---------> When tests run slow, you won’t want to run them frequently. 
+---------> If you don’t run them frequently, you won’t find problems early enough to fix them easily. 
+---------> You won’t feel as free to clean up the code. 
+---------> Eventually the code will begin to rot.
+-------> Independent
+---------> Independent Tests should not depend on each other. 
+---------> One test should not set up the conditions for the next test. 
+---------> You should be able to run each test independently and run the tests in any order you like. 
+---------> When tests depend on each other, then the first one to fail causes a cascade of downstream failures, making diagnosis difficult and hiding downstream defects.
+-------> Repeatable
+---------> Repeatable Tests should be repeatable in any environment. 
+---------> You should be able to run the tests in the production environment, in the QA environment, and on your laptop while riding home on the train without a network. 
+---------> If your tests aren’t repeatable in any environment, then you’ll always have an excuse for why they fail. 
+---------> You’ll also find yourself unable to run the tests when the environment isn’t available.
+-------> Self-Validating
+---------> The tests should have a boolean output. 
+---------> Either they pass or fail. 
+---------> You should not have to read through a log file to tell whether the tests pass. 
+---------> You should not have to manually compare two different text files to see whether the tests pass. 
+---------> If the tests aren’t self-validating, then failure can become subjective and running the tests can require a long manual evaluation.
+-------> Timely 
+---------> The tests need to be written in a timely fashion. 
+---------> Unit tests should be written just before the production code that makes them pass. 
+---------> If you write tests after the production code, then you may find the production code to be hard to test. 
+---------> You may decide that some production code is too hard to test. 
+---------> You may not design the production code to be testable.
 
+From CleanCode(SmellsAnd Heuristics):
 
+---> Tests
+
+-----> T1: Insufficient Tests
+-------> How many tests should be in a test suite? 
+---------> Unfortunately, the metric many programmers use is “That seems like enough.” 
+---------> A test suite should test everything that could possibly break.
+---------> The tests are insufficient so long as there are conditions 
+---------> that have not been explored by the tests or calculations that have not been validated.
+
+-----> T2: Use a Coverage Tool!
+-------> Coverage tools reports gaps in your testing strategy. 
+---------> They make it easy to find modules, classes, and functions that are insufficiently tested. 
+---------> Most IDEs give you a visual indication, marking lines that are covered in green and those that are uncovered in red. 
+---------> This makes it quick and easy to find if or catch statements whose bodies haven’t been checked.
+
+-----> T3: Don’t Skip Trivial Tests
+-------> They are easy to write and their documentary value is higher than the cost to produce them.
+
+-----> T4: An Ignored Test Is a Question about an Ambiguity
+-------> Sometimes we are uncertain about a behavioral detail because the requirements are unclear. 
+---------> We can express our question about the requirements as a test that is commented out, or as a test that annotated with @Ignore. 
+---------> Which you choose depends upon whether the ambiguity is about something that would compile or not.
+
+-----> T5: Test Boundary Conditions
+-------> Take special care to test boundary conditions. 
+---------> We often get the middle of an algorithm right but misjudge the boundaries.
+
+-----> T6: Exhaustively Test Near Bugs
+-------> Bugs tend to congregate. 
+---------> When you find a bug in a function, it is wise to do an exhaustive test of that function. 
+---------> You’ll probably find that the bug was not alone.
+
+-----> T7: Patterns of Failure Are Revealing
+-------> Sometimes you can diagnose a problem by finding patterns in the way the test cases fail.
+---------> This is another argument for making the test cases as complete as possible. 
+---------> Complete test cases, ordered in a reasonable way, expose patterns.
+-------> As a simple example, suppose you noticed that all tests with an input larger than five characters failed? 
+---------> Or what if any test that passed a negative number into the second argument of a function failed? 
+---------> Sometimes just seeing the pattern of red and green on the test report is enough to spark the “Aha!” that leads to the solution. 
+---------> Look back at page 267 to see an interesting example of this in the SerialDate example.
+
+-----> T8: Test Coverage Patterns Can Be Revealing
+-------> Looking at the code that is or is not executed by the passing tests gives clues to why the failing tests fail.
+
+-----> T9: Tests Should Be Fast
+-------> A slow test is a test that won’t get run. 
+---------> When things get tight, it’s the slow tests that will be dropped from the suite. 
+---------> So do what you must to keep your tests fast.
 

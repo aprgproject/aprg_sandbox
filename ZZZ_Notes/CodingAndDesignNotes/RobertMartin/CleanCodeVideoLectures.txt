@@ -7,7 +7,8 @@ Note: This is taken from Robert Martin Video lectures.
 ---> Better hardware now, what have we done with it?---> Plenty of languages, have we seen it all?
 
 ---> Organize languages in Syntax
------> Infix, postfix, and prefix--------> Smalltalk prefix
+-----> Infix, postfix, and prefix
+--------> Smalltalk prefix
 --------> Lisp prefix
 --------> Forth programming language
 -----> COBOL
@@ -34,7 +35,8 @@ Note: This is taken from Robert Martin Video lectures.
 ---------> Do pointer to functions without dealing with pointers to functions (hidden using vtable)---------> This has a huge benefit: Source code dependencies opposed the flow of control
 -----------> In most structure languages: Flow of control points to the same direction as code dependencies
 -------> OO is really about polymorphism
------> Functional-------> Discipline imposed upon assignment
+-----> Functional
+-------> Discipline imposed upon assignment
 ---------> We cannot assign values to variables (we can initialize variables)
 -------> Important now because of multicore problem
 
@@ -602,7 +604,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 --------> Good designs do make system more flexible and maintainable. --------> But nothing makes a system more flexible that suite of tests because these tests eliminates fear.
 ----------> If I give a perfectly designed system with no tests, you'll be afraid to clean/improve it. 
 ------------> Overtime, it will gradually degrade and rot.
-----------> If I give a terribly designed system but a comprehensive suite of tests, you'll be not be afraid to clean it.------------> Overtime, it will gradually get better and better.
+----------> If I give a terribly designed system but a comprehensive suite of tests, you'll be not be afraid to clean it.
+------------> Overtime, it will gradually get better and better.
 --------> Bottom line: If you want a flexible system? Get or create a suite of tests that you trust.
 
 -----> Trust
@@ -662,7 +665,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -------> Its the test that matter. Not when we write them.---------> BALDERDASH! If you write test at the end, theyre not going to be complete and your not going to trust them.
 ---------> Its simple human nature. Humans consider things that comes first as more important that things at the end. Thats why there are the end (even worse, they are treated as optional).
 ---------> When you write test first, you trust those tests. Because every line of production code is tested.
----------> Tests comes first because they are more important than the production code. The tests are what makes the production code flexible. Without those tests the production code rots.-------> Theres a lot of code already written and they dont have a suite of tests.
+---------> Tests comes first because they are more important than the production code. The tests are what makes the production code flexible. Without those tests the production code rots.
+-------> Theres a lot of code already written and they dont have a suite of tests.
 ---------> This is hard because legacy code tends to be not testable. 
 -----------> In order to test it, you need to a make series of decoupling design changes.
 ---------> Catch 22 scenario: In order to write tests, you need to refactor. But you can't refactor (with no fear) without tests.
@@ -785,7 +789,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -----------> Entities have application independent business rules.-----------> The methods on entity objects perform functions that are valid on any of the applications that the entity object can be used in.
 -----------> All the code on entities should not contain code that would be specific to any of the application (application specific codes should go to the interactor object)
 ---------> Interactors/controls/Interactor objects: Use case objects
------------> Interactions have application dependent business rules.-----------> Use cases are application specific business rules.
+-----------> Interactions have application dependent business rules.
+-----------> Use cases are application specific business rules.
 ---------> Boundaries/Boundary objects: User interface objects
 -----------> Boundary objects isolate the use cases from the delivery mechanism.
 -----------> It should be that the business rules (both the application specific and the application agnostic) are strongly decoupled from the delivery mechanism.
@@ -1056,7 +1061,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -----------> Its in large systems that we start getting into trouble.
 -----> The Lie
 -------> Things that you dont know or dont anticipate can still yield to modifying some source code.
--------> The open close principle works on things that you know is gonna happen.-------> Its easy to design abstractions that protect you from future changes if you what those changes are going to be.
+-------> The open close principle works on things that you know is gonna happen.
+-------> Its easy to design abstractions that protect you from future changes if you what those changes are going to be.
 ---------> But there is not crystal ball to help us with that.
 -------> This is the dirty little secret about object oriented design and the open close principle that people dont like to talk about.
 ---------> It only protects you from change if you can predict the future.
@@ -1215,7 +1221,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 ---------> This means that you cannot take expected behaviors away from a subtype, a subtype can do more than its parent type, but it can never do less.---------> This means that if you a derived class that has denegerate (empty) functions in it. Then you possibly got a LSP violation.
 -----------> Especially if those functions are implemented in the base class.
 -----------> Not all degenerative implementation are a violation. So dont make this a hard and fast rule. But you should all be suspicious whenever you see a degenerative implementation.
--------------> Exception to this is when all the methods in the class are "empty". Then it follows the "Null Object Pattern" and is NOT a violation of the LSP.-------> (2) A derived function is written to unconditionally throw an exception, this is always almost a violation of LSP.
+-------------> Exception to this is when all the methods in the class are "empty". Then it follows the "Null Object Pattern" and is NOT a violation of the LSP.
+-------> (2) A derived function is written to unconditionally throw an exception, this is always almost a violation of LSP.
 ---------> This is because the author of the derived function clearly doesn't want you to call it.
 ---------> How would you know that youre not supposed to call the derived function when all you have is the base class.
 -------> (3) If "instanceof" statement can also indicate a violation of LSP.
@@ -1504,7 +1511,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 ---------> What do you want from me?-----------> I want the component itself delivered in a convenient package.
 -----------> Testsuite of the component 
 -----------> Documentation
------------> Support (If there's a bug, there support so that it can be fixed. Im gonna maintain this, not you.)-----------> I dont want to change anything that I depend upon. I dont want you to change my codes just because you change yours.
+-----------> Support (If there's a bug, there support so that it can be fixed. Im gonna maintain this, not you.)
+-----------> I dont want to change anything that I depend upon. I dont want you to change my codes just because you change yours.
 -------------> I've got lots of users. I can't really guarantee that those changes wont affect you.
 -------------> What if I give you a warning in advance before I make this changes?
 -------------> What if you try the new version and see if it works?
@@ -1536,12 +1544,13 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -------> "Closure" means that all the classes in the components are closed against the same kind of changes.---------> The classes within the component are closed to all but their prime responsibility.
 ---------> They are closed to the needs of every other actor.
 ---------> Each component in a layer serves a particular actor, so when that actor request a change, only one component per layer will have to be changed.
+
 -----> The common reuse principle (CRP)
--------> The principle states that: "You should group classes that are used together, separate classes that arent use together."
+-------> The principle states that: "You should group classes that are used together, separate classes that arent use together.
+-------> ME: EXAMPLE: MESSAGES/MESSAGE_FACTORY/MESSAGE_HANDLER ON FRAMEWORK (THIS CLASSES SHOULD BE ON THE SAME COMPONENT)
 -------> Similar to ISP
 -------> Imagine you have a SINGLE common class in your component that is used by another component.
----------> If OTHER parts of the orginal components changed (not the common class), it will trigger recompilation and retesting of the other component.
----------> A lot of recompilation and retesting for no good reason.
+---------> If OTHER parts of the orginal components changed (not the common class), it will trigger recompilation and retesting of the other component.---------> A lot of recompilation and retesting for no good reason.
 ---------> This isn't ideal, we dont want to make busy work on consumers of our component.
 -------> If this principle is not followed, components have too much knowledge which affects their deployability and independence.
 -------> The principle states that: "You should group classes that are used together, separate classes that arent use together."
@@ -1573,7 +1582,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 
 ---> Component Coupling
 
------> The Acyclic Dependencies Principle-------> The principle states that: "A software system is composed of components and the dependencies between those components must not form a cycle."
+-----> The Acyclic Dependencies Principle
+-------> The principle states that: "A software system is composed of components and the dependencies between those components must not form a cycle."
 -------> The morning after syndrome: You work all night, only to find out in the next morning that your stuff is broken again because some code you depend on was changed.
 ---------> This is caused by large teams with inappropriate development processes.
 ---------> There have been two treatment options in this condition.

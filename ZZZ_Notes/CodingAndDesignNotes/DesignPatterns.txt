@@ -17,7 +17,8 @@ Summary:
 -> Mediator: MEDIATE communications between different colleagues to decouple, simplify, abstract, centralize the way of communication.-> Memento: Provide a "memento object" that SAVES the STATE of an "originator object" so that it can be RESTORED later.
 -> NullObject: Create a NULL OBJECT to HANDLE special NULL or EMPTY cases with polymorphism.
 -> Observer: Have Observers OBSERVE a Subject/Observable so that when something is changed, the Observers are NOTIFIED and UPDATED AUTOMATICALLY
--> Prototype: Create objects by CLONING or copying PROTOTYPE objects that can be set in runtime.-> Proxy: Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real object
+-> Prototype: Create objects by CLONING or copying PROTOTYPE objects that can be set in runtime.
+-> Proxy: Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real object
 -> Singleton: Ensure a class only has SINGLE instance, and provide a global point of access to it.
 -> State: Implement a common ABSTRACT STATE INTERFACE and implement different STATE SPECIFIC BEHAVIORS by having STATE SUBCLASSES
 -> Strategy: Implement a common ABSTRACT STRATEGY INTERFACE and implement different strategies or FAMILIES OF ALGORITHMS by subclassing so that it can be changed in runtime.
@@ -659,7 +660,8 @@ When to use (applicability):
 -> when one instance of a class can be used to provide many "virtual instances"-> when all of the following are true
 --> an application uses a large number of objects
 --> storage costs are high because of the sheer quantity of objects
---> most object state can be made extrinsic--> many groups of objects may be replaced by relatively few shared objects once extrinsic state is removed
+--> most object state can be made extrinsic
+--> many groups of objects may be replaced by relatively few shared objects once extrinsic state is removed
 --> the application doesn't depend on object identity
 
 Consequences:
