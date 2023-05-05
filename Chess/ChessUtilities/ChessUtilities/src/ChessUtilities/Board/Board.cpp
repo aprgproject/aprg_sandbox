@@ -50,21 +50,27 @@ bool Board::hasOnlyOneMovePossibleToThisDestination(Coordinate const& destinatio
     Piece piece(getPieceAt(destination));
     unsigned int numberOfMoves(0U);
     numberOfMoves += getDiagonalMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    numberOfMoves += getStraightMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    numberOfMoves += getKnightMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    numberOfMoves += getKingMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    if (piece.isEmpty()) {
-        numberOfMoves += getPawnReverseMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    } else {
-        numberOfMoves += getPawnReverseCapturesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
+    if (numberOfMoves <= 1U) {
+        numberOfMoves += getStraightMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
+    }
+    if (numberOfMoves <= 1U) {
+        numberOfMoves += getKnightMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
+    }
+    if (numberOfMoves <= 1U) {
+        numberOfMoves += getKingMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
+    }
+    if (numberOfMoves <= 1U) {
+        if (piece.isEmpty()) {
+            numberOfMoves += getPawnReverseMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
+        } else {
+            numberOfMoves += getPawnReverseCapturesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
+        }
     }
     return numberOfMoves == 1U;
 }
-
 bool Board::canBeCaptured(Coordinate const& destination) const {
     Piece piece(getPieceAt(destination));
-    bool result(false);
-    if (!piece.isEmpty()) {
+    bool result(false);    if (!piece.isEmpty()) {
         PieceColor oppositeColor(getOppositeColor(piece.getColor()));
         result = getDiagonalMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
                  getStraightMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
@@ -97,24 +103,13 @@ Piece Board::getPieceAt(Coordinate const& coordinate) const {
     return result;
 }
 
-Coordinate Board::getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const {
-    Coordinate result{};
-    if (letterNumber.size() == 2) {
-        char letter = tolower(letterNumber.at(0));
-        char number = letterNumber.at(1);
-        if (isLetter(letter) && isNumber(number) && 'a' <= letter && letter <= 'h' && '1' <= number && number <= '8') {
-            unsigned int numberValue = number - '0';
-            if (Orientation::BlackUpWhiteDown == m_orientation) {
-                result = Coordinate(letter - 'a', 8U - numberValue);
-            } else if (Orientation::WhiteUpBlackDown == m_orientation) {
-                result = Coordinate(7 - (letter - 'a'), numberValue - 1);
-            }
-        }
-    }
+Moves Board::getPossibleMoves(Coordinate const& start) const {
+    Moves result;
+    retrievePossibleMovesBasedFromPieceType(result, start);
     return result;
 }
 
-Move Board::getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const {
+Move Board::getMoveFromTwoLetterNumberNotation(string const& twoLetterNumber) const {
     Move result{};
     if (twoLetterNumber.size() == 4 || twoLetterNumber.size() == 5)  // 5 is for promotion
     {
@@ -125,54 +120,77 @@ Move Board::getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumbe
     return result;
 }
 
-Moves Board::getPossibleMoves(Coordinate const& start) const {
-    Moves result;
-    retrievePossibleMovesBasedFromPieceType(result, start);
+Coordinate Board::getCoordinateFromLetterNumberNotation(string const& letterNumber) const {
+    Coordinate result{};
+    if (letterNumber.size() == 2) {
+        char letter = tolower(letterNumber.at(0));        char number = letterNumber.at(1);
+        if (isLetter(letter) && isNumber(number) && 'a' <= letter && letter <= 'h' && '1' <= number && number <= '8') {
+            unsigned int numberValue = number - '0';
+            if (Orientation::BlackUpWhiteDown == m_orientation) {                result = Coordinate(letter - 'a', 8U - numberValue);
+            } else if (Orientation::WhiteUpBlackDown == m_orientation) {
+                result = Coordinate(7 - (letter - 'a'), numberValue - 1);
+            }
+        }
+    }
     return result;
 }
 
-std::string Board::getFenString() const {
+string Board::getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const {
     string result;
-    CoordinateDataType start = 0, end = 7;
-    if (Orientation::WhiteUpBlackDown == m_orientation) {
-        start = 7;
-        end = 0;
+    if (Orientation::BlackUpWhiteDown == m_orientation) {
+        result = string{static_cast<char>('a' + coordinate.getX()), static_cast<char>('1' + 7 - coordinate.getY())};
+    } else if (Orientation::WhiteUpBlackDown == m_orientation) {
+        result = string{static_cast<char>('a' + 7 - coordinate.getX()), static_cast<char>('1' + coordinate.getY())};
     }
-    AlbaValueRange<CoordinateDataType> rankRange(start, end, 1);
-    rankRange.traverse([&](CoordinateDataType const rank) {
+    return result;
+}
+
+string Board::getReadableStringForMove(Move const& move) const {
+    stringstream ss;
+    ss << getPieceAt(move.first).getType() << " " << getLetterNumberNotationStringFromCoordinate(move.first) << "->"
+       << getLetterNumberNotationStringFromCoordinate(move.second);
+    return ss.str();
+}
+
+string Board::getFenString() const {
+    stringstream resultStream;
+    CoordinateDataType start = (Orientation::BlackUpWhiteDown == m_orientation)   ? 0
+                               : (Orientation::WhiteUpBlackDown == m_orientation) ? 7
+                                                                                  : 0;
+    CoordinateDataType end = (Orientation::BlackUpWhiteDown == m_orientation)   ? 7
+                             : (Orientation::WhiteUpBlackDown == m_orientation) ? 0
+                                                                                : 0;
+    AlbaValueRange<CoordinateDataType> yRange(start, end, 1);
+    yRange.traverse([&](CoordinateDataType const y) {
         unsigned int emptyCellsInRank = 0;
-        stringstream ssFenInRank;
-        AlbaValueRange<CoordinateDataType> fileRange(start, end, 1);
-        fileRange.traverse([&](CoordinateDataType const file) {
-            Coordinate coordinate(file, rank);
+        AlbaValueRange<CoordinateDataType> xRange(start, end, 1);
+        xRange.traverse([&](CoordinateDataType const x) {
+            Coordinate coordinate(x, y);
             Piece piece(getPieceAt(coordinate));
             if (piece.isEmpty()) {
                 emptyCellsInRank++;
             } else {
                 if (emptyCellsInRank != 0) {
-                    ssFenInRank << emptyCellsInRank;
+                    resultStream << emptyCellsInRank;
                 }
-                ssFenInRank << piece.getCharacter();
+                resultStream << piece.getCharacter();
                 emptyCellsInRank = 0;
             }
         });
         if (emptyCellsInRank != 0) {
-            ssFenInRank << emptyCellsInRank;
+            resultStream << emptyCellsInRank;
         }
-        result += ssFenInRank.str();
-        if (rank != end) {
-            result += "/";
+        if (y != end) {
+            resultStream << "/";
         }
     });
-    return result;
+    return resultStream.str();
 }
 
-string Board::getCastlingFenString() const {
-    string result;
+string Board::getCastlingFenString() const {    string result;
     if (Board::Orientation::BlackUpWhiteDown == m_orientation) {
         Piece pieceAtWhiteKing(getPieceAt(Coordinate(4, 7)));
-        Piece pieceAtWhiteRookOnKingSide(getPieceAt(Coordinate(7, 7)));
-        Piece pieceAtWhiteRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
+        Piece pieceAtWhiteRookOnKingSide(getPieceAt(Coordinate(7, 7)));        Piece pieceAtWhiteRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
         Piece pieceAtBlackKing(getPieceAt(Coordinate(4, 0)));
         Piece pieceAtBlackRookOnKingSide(getPieceAt(Coordinate(7, 0)));
         Piece pieceAtBlackRookOnQueenSide(getPieceAt(Coordinate(0, 0)));
@@ -325,75 +343,53 @@ bool Board::isPossibleKingCastlingMove(Move const& move) const {
 }
 
 bool Board::isAPawnMove(Move const& move) const {
-    bool result(false);
     Piece piece(getPieceAt(move.first));
-    Coordinate delta = move.second - move.first;
-    for (Coordinate const& pawnDelta : getPossiblePawnMovesDeltaCoordinates(move.first, piece.getColor())) {
-        if (delta == pawnDelta) {
-            result = true;
-            break;
-        }
-    }
-    return result;
+    Coordinate moveDelta = move.second - move.first;
+    Coordinates possiblePawnMoveDeltas(getPossiblePawnMovesDeltaCoordinates(move.first, piece.getColor()));
+    return any_of(
+        possiblePawnMoveDeltas.cbegin(), possiblePawnMoveDeltas.cend(),
+        [&moveDelta](Coordinate const& possiblePawnDelta) { return moveDelta == possiblePawnDelta; });
 }
 
 bool Board::isAPawnCapture(Move const& move) const {
-    bool result(false);
     Piece piece(getPieceAt(move.first));
-    Coordinate delta = move.second - move.first;
-    for (Coordinate const& pawnDelta : getPossiblePawnCapturesDeltaCoordinates(piece.getColor())) {
-        if (delta == pawnDelta) {
-            result = true;
-            break;
-        }
-    }
-    return result;
+    Coordinate moveDelta = move.second - move.first;
+    Coordinates possiblePawnCaptureDeltas(getPossiblePawnCapturesDeltaCoordinates(piece.getColor()));
+    return any_of(
+        possiblePawnCaptureDeltas.cbegin(), possiblePawnCaptureDeltas.cend(),
+        [&moveDelta](Coordinate const& possiblePawnDelta) { return moveDelta == possiblePawnDelta; });
 }
 
 bool Board::isADiagonalMove(Move const& move) const {
-    Coordinate delta = move.second - move.first;
-    return getAbsoluteValue(delta.getX()) == getAbsoluteValue(delta.getY());
+    Coordinate moveDelta = move.second - move.first;
+    return getAbsoluteValue(moveDelta.getX()) == getAbsoluteValue(moveDelta.getY());
 }
 
 bool Board::isAStraightMove(Move const& move) const {
-    Coordinate delta = move.second - move.first;
-    return (delta.getX() == 0 && delta.getY() != 0) || (delta.getX() != 0 && delta.getY() == 0);
+    Coordinate moveDelta = move.second - move.first;
+    return (moveDelta.getX() == 0 && moveDelta.getY() != 0) || (moveDelta.getX() != 0 && moveDelta.getY() == 0);
 }
 
 bool Board::isAnLMove(Move const& move) const {
-    bool result(false);
-    Coordinate delta = move.second - move.first;
-    for (Coordinate const& lDelta : getLDeltaCoordinates()) {
-        if (delta == lDelta) {
-            result = true;
-            break;
-        }
-    }
-    return result;
+    Coordinate moveDelta = move.second - move.first;
+    Coordinates lDeltas(getLDeltaCoordinates());
+    return any_of(
+        lDeltas.cbegin(), lDeltas.cend(), [&moveDelta](Coordinate const& lDelta) { return moveDelta == lDelta; });
 }
 
 bool Board::isAOneStepMove(Move const& move) const {
-    bool result(false);
-    Coordinate delta = move.second - move.first;
-    for (Coordinate const& oneStepDelta : getOneStepDeltaCoordinates()) {
-        if (delta == oneStepDelta) {
-            result = true;
-            break;
-        }
-    }
-    return result;
+    Coordinate moveDelta = move.second - move.first;
+    return moveDelta.getX() >= -1 && moveDelta.getX() <= 1 && moveDelta.getY() >= -1 && moveDelta.getY() <= 1;
 }
 
 bool Board::doesMoveHasNoBlockingPieceInBetween(Move const& move) const {
-    Coordinate delta = move.second - move.first;
-    Coordinate oneIncrementDelta(getOneIncrementData(delta.getX()), getOneIncrementData(delta.getY()));
+    Coordinate moveDelta = move.second - move.first;
+    Coordinate oneIncrementDelta(getOneIncrementData(moveDelta.getX()), getOneIncrementData(moveDelta.getY()));
     Coordinate inBetween = move.first + oneIncrementDelta;
     while (isCoordinateOnBoard(inBetween) && move.second != inBetween && getPieceAt(inBetween).isEmpty()) {
-        inBetween += oneIncrementDelta;
-    }
+        inBetween += oneIncrementDelta;    }
     return inBetween == move.second;
 }
-
 unsigned int Board::getDiagonalMovesPossibleToThisDestination(
     Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
     unsigned int numberOfMoves(0U);
@@ -697,19 +693,20 @@ MovePairs Board::getPossibleCastlingKingAndRookMovePairs(PieceColor const color)
 MovePair Board::getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatShouldMatch) const {
     MovePair result{};
     Piece pieceAtKing(getPieceAt(kingMoveThatShouldMatch.first));
-    for (MovePair const& kingAndRookMovePair : getPossibleCastlingKingAndRookMovePairs(pieceAtKing.getColor())) {
-        if (kingAndRookMovePair.first == kingMoveThatShouldMatch) {
-            result = kingAndRookMovePair;
-            break;
-        }
+    MovePairs kingAndRookMovePairs(getPossibleCastlingKingAndRookMovePairs(pieceAtKing.getColor()));
+    auto it = find_if(
+        kingAndRookMovePairs.cbegin(), kingAndRookMovePairs.cend(),
+        [&kingMoveThatShouldMatch](MovePair const& kingAndRookMovePair) {
+            return kingAndRookMovePair.first == kingMoveThatShouldMatch;
+        });
+    if (it != kingAndRookMovePairs.cend()) {
+        result = *it;
     }
     return result;
 }
-
 void Board::retrievePossibleMovesBasedFromPieceType(Moves& result, Coordinate const& start) const {
     Piece piece(getPieceAt(start));
-    switch (piece.getType()) {
-        case PieceType::Pawn: {
+    switch (piece.getType()) {        case PieceType::Pawn: {
             retrievePossiblePawnMoves(result, start);
             break;
         }

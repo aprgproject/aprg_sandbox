@@ -88,21 +88,19 @@ bool ChessEngineControllerWithUci::waitTillReadyAndReturnIfResetWasPerformed() {
     m_waitingForReadyOkay = true;
 
     bool shouldReset(false);
-    unsigned int count(0U);
+    unsigned int countWith100ms(0U);
     while (m_waitingForReadyOkay) {
-        if (count > 10)  // 1 second elapsed so engine is stuck, lets reset
-        {
+        if (countWith100ms > 10) {
+            // greater than 1 second elapsed so engine is stuck, lets reset
             shouldReset = true;
             break;
         }
-        count++;
+        countWith100ms++;
         sleepFor(100);
     }
-
     if (shouldReset) {
         log("Engine is stuck, resetting engine");
-        resetEngine();
-    }
+        resetEngine();    }
 
     return shouldReset;
 }
@@ -155,19 +153,17 @@ void ChessEngineControllerWithUci::changeState(ControllerState const state) {
 
 void ChessEngineControllerWithUci::proceedToIdleStateAndProcessPendingCommands() {
     changeState(ControllerState::Idle);
-    bool hasGoOnPendingCommand(false);
-    while (!m_pendingCommands.empty() && !hasGoOnPendingCommand) {
+    bool hasGoCommandOnPending(false);
+    while (!m_pendingCommands.empty() && !hasGoCommandOnPending) {
         Command pendingCommand(m_pendingCommands.front());
         m_pendingCommands.pop_front();
-        hasGoOnPendingCommand = CommandType::Go == pendingCommand.commandType;
+        hasGoCommandOnPending = CommandType::Go == pendingCommand.commandType;
         send(pendingCommand);
     }
 }
-
 void ChessEngineControllerWithUci::log(string const& logString) {
     if (m_logFileStreamOptional) {
-        m_logFileStreamOptional.value() << logString << "\n";
-    }
+        m_logFileStreamOptional.value() << logString << "\n";    }
 }
 
 void ChessEngineControllerWithUci::forceSend(string const& commandString) {

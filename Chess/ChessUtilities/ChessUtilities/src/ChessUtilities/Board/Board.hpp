@@ -38,16 +38,16 @@ public:
     Orientation getOrientation() const;
     PieceMatrix const& getPieceMatrix() const;
     Piece getPieceAt(Coordinate const& coordinate) const;
-    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
-    Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
     Moves getPossibleMoves(Coordinate const& start) const;
+    Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
+    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
+    std::string getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const;
+    std::string getReadableStringForMove(Move const& move) const;
     std::string getFenString() const;
     std::string getCastlingFenString() const;
-
     void setOrientation(Orientation const orientation);
     void setPieceAt(Coordinate const& coordinate, Piece const& piece);
     void move(Move const& move);
-
 private:
     bool isEndEmptyOrHaveDifferentColors(Move const& move) const;
     bool isPossibleMoveBasedFromPieceType(Move const& move) const;
