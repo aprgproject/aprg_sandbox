@@ -596,18 +596,16 @@ Item RagnarokOnline::getItem(string const& fixedItemName) const {
         if (it2 != m_itemIdToItemMap.cend()) {
             result = it2->second;
         } else {
-            cout << "ITEM ID NOT FOUND! [" << it1->second << "]\n";
+            // cout << "ITEM ID NOT FOUND! [" << it1->second << "]\n";
         }
     } else {
-        cout << "ITEM NAME NOT FOUND! [" << fixedItemName << "]\n";
+        // cout << "ITEM NAME NOT FOUND! [" << fixedItemName << "]\n";
     }
     return result;
 }
-
 Monster RagnarokOnline::getMonster(string const& monsterName) const {
     Monster result{};
-    auto it1 = m_monsterNameToMonsterIdMap.find(monsterName);
-    if (it1 != m_monsterNameToMonsterIdMap.cend()) {
+    auto it1 = m_monsterNameToMonsterIdMap.find(monsterName);    if (it1 != m_monsterNameToMonsterIdMap.cend()) {
         auto it2 = m_monsterIdToMonsterMap.find(it1->second);
         if (it2 != m_monsterIdToMonsterMap.cend()) {
             result = it2->second;
