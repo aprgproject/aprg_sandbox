@@ -74,10 +74,10 @@ TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsComputer
     verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
 }
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg) {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\LichessDotOrg.bmp)");
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessVersus) {
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(
         inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
@@ -86,11 +86,11 @@ TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg) {
     verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
 }
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg_CircleChoicesAreNotPawns) {
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessVersus_CircleChoicesAreNotPawns) {
     AlbaLocalPathHandler inputFile(
-        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\ChoiceCirclesAreNotPawns.bmp)");
+        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\ChoiceCirclesAreNotPawns.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(
         inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));

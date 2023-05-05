@@ -224,10 +224,22 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComUserVs
     printChessBitValuesWithBlackUpWhiteDown(retriever, inputSnippet);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessDotOrg) {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\LichessDotOrg.bmp)");
+TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessVersus) {
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    BitmapSnippet inputSnippet(
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    ChessPieceRetriever retriever(configuration);
+
+    printChessBitValuesWithBlackUpWhiteDown(retriever, inputSnippet);
+}
+
+TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_LichessStream) {
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
+
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessStream);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(
         inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
@@ -248,10 +260,12 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComUserV
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsUser);
-    Bitmap inputBitmap(inputFile.getFullPath());    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
+    Bitmap inputBitmap(inputFile.getFullPath());
+    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
     BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
     ChessPieceRetriever retriever(configuration);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
@@ -288,10 +302,12 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComUserV
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsComputer);
-    Bitmap inputBitmap(inputFile.getFullPath());    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
+    Bitmap inputBitmap(inputFile.getFullPath());
+    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
     BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
     ChessPieceRetriever retriever(configuration);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
@@ -316,21 +332,64 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComUserV
     outputBitmapForBlack.setSnippetWriteToFile(outputSnippetForBlack);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessDotOrg) {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\LichessDotOrg.bmp)");
+TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessVersus) {
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
     AlbaLocalPathHandler outputFileForWhite(APRG_DIR
-                                            R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\White.bmp)");
+                                            R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\White.bmp)");
     AlbaLocalPathHandler outputFileForBlack(APRG_DIR
-                                            R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\Black.bmp)");
+                                            R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\Black.bmp)");
     AlbaLocalPathHandler blankFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\Blank.bmp)");
     blankFile.copyToNewFile(outputFileForWhite.getFullPath());
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
-    Bitmap inputBitmap(inputFile.getFullPath());    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
     BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
+    BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
+    ChessPieceRetriever retriever(configuration);
+    PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
+    PointToSetOfPiecesMap blackPointsToUniquePiecesMap;
+    BitmapXY deltaChessBoard = configuration.getBottomRightCorner() - configuration.getTopLeftCorner();
+
+    checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
+        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, inputSnippet);
+
+    writeBottomRightBorder(outputSnippetForWhite, deltaChessBoard);
+    writeBottomRightBorder(outputSnippetForBlack, deltaChessBoard);
+    for (auto const& whitePointsAndUniquePiecesPair : whitePointsToUniquePiecesMap) {
+        outputSnippetForWhite.setPixelAt(
+            whitePointsAndUniquePiecesPair.first, getLabelColor(whitePointsAndUniquePiecesPair.second));
+    }
+    for (auto const& blackPointsAndUniquePiecesPair : blackPointsToUniquePiecesMap) {
+        outputSnippetForBlack.setPixelAt(
+            blackPointsAndUniquePiecesPair.first, getLabelColor(blackPointsAndUniquePiecesPair.second));
+    }
+
+    outputBitmapForWhite.setSnippetWriteToFile(outputSnippetForWhite);
+    outputBitmapForBlack.setSnippetWriteToFile(outputSnippetForBlack);
+}
+
+TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessStream) {
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\LichessStream.bmp)");
+    AlbaLocalPathHandler outputFileForWhite(APRG_DIR
+                                            R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\White.bmp)");
+    AlbaLocalPathHandler outputFileForBlack(APRG_DIR
+                                            R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\Black.bmp)");
+    AlbaLocalPathHandler blankFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\Blank.bmp)");
+    blankFile.copyToNewFile(outputFileForWhite.getFullPath());
+    blankFile.copyToNewFile(outputFileForBlack.getFullPath());
+
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
+    Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
+    BitmapSnippet inputSnippet(
+        inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
     ChessPieceRetriever retriever(configuration);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;

@@ -54,7 +54,7 @@ public:
 private:
     void initialize(ChessPeekConfigurationType const type);
     void initializeConverterToChessDotCom();
-    void initializeConverterToLichessDotOrg();
+    void initializeConverterToLichessVersus();
 
     bool isBitValueAsserted(
         AprgBitmap::BitmapSnippet const& chessBoardSnippet, CheckDetail const& checkDetail,

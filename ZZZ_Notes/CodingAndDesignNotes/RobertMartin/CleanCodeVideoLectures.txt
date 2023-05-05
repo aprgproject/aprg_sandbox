@@ -4,7 +4,8 @@ Note: This is taken from Robert Martin Video lectures.
 
 -> The Last Programming Language
 
----> Better hardware now, what have we done with it?---> Plenty of languages, have we seen it all?
+---> Better hardware now, what have we done with it?
+---> Plenty of languages, have we seen it all?
 
 ---> Organize languages in Syntax
 -----> Infix, postfix, and prefix
@@ -32,7 +33,8 @@ Note: This is taken from Robert Martin Video lectures.
 ---------> Pascal is an example
 -----> OO
 -------> Discipline imposed upon indirect access of control (Disciplined imposed upon pointer to functions)
----------> Do pointer to functions without dealing with pointers to functions (hidden using vtable)---------> This has a huge benefit: Source code dependencies opposed the flow of control
+---------> Do pointer to functions without dealing with pointers to functions (hidden using vtable)
+---------> This has a huge benefit: Source code dependencies opposed the flow of control
 -----------> In most structure languages: Flow of control points to the same direction as code dependencies
 -------> OO is really about polymorphism
 -----> Functional
@@ -601,7 +603,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 --------> Why are there so many books written on these topics? Why is so much effort applied to getting design and architecture right?
 --------> We want the structure of the system to be flexible, scalable, and maintanable. 
 --------> When there is a new feature, we want the design to be flexible enough to allow those changes without breaking anything.
---------> Good designs do make system more flexible and maintainable. --------> But nothing makes a system more flexible that suite of tests because these tests eliminates fear.
+--------> Good designs do make system more flexible and maintainable. 
+--------> But nothing makes a system more flexible that suite of tests because these tests eliminates fear.
 ----------> If I give a perfectly designed system with no tests, you'll be afraid to clean/improve it. 
 ------------> Overtime, it will gradually degrade and rot.
 ----------> If I give a terribly designed system but a comprehensive suite of tests, you'll be not be afraid to clean it.
@@ -662,7 +665,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 ---------> In the heat of battle, we want to able to fall back to our training move effectively and efficiently (without constant questioning).
 ---------> However, from time to time its worth while to take a step back and evaluating your dogmas and discipline. You might make subtle or significant changes.
 ---------> Either way its both appropriate and necessary.
--------> Its the test that matter. Not when we write them.---------> BALDERDASH! If you write test at the end, theyre not going to be complete and your not going to trust them.
+-------> Its the test that matter. Not when we write them.
+---------> BALDERDASH! If you write test at the end, theyre not going to be complete and your not going to trust them.
 ---------> Its simple human nature. Humans consider things that comes first as more important that things at the end. Thats why there are the end (even worse, they are treated as optional).
 ---------> When you write test first, you trust those tests. Because every line of production code is tested.
 ---------> Tests comes first because they are more important than the production code. The tests are what makes the production code flexible. Without those tests the production code rots.
@@ -786,7 +790,8 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 -----------> Policies where an organization requires its employees to work with a preferred list of vendors
 -------> In Jacobson' book he recognized that there are three fundamental kinds of objects.
 ---------> Entities/Entity objects: Business objects
------------> Entities have application independent business rules.-----------> The methods on entity objects perform functions that are valid on any of the applications that the entity object can be used in.
+-----------> Entities have application independent business rules.
+-----------> The methods on entity objects perform functions that are valid on any of the applications that the entity object can be used in.
 -----------> All the code on entities should not contain code that would be specific to any of the application (application specific codes should go to the interactor object)
 ---------> Interactors/controls/Interactor objects: Use case objects
 -----------> Interactions have application dependent business rules.
@@ -1059,6 +1064,7 @@ Multi-line blocks inside a function, however, have their opening braces at the s
 ---------> It turns out the difficulty to conform to the open close principle is a matter of size.
 -----------> Small things like functions, classes and small components can conform very easily.
 -----------> Its in large systems that we start getting into trouble.
+
 -----> The Lie
 -------> Things that you dont know or dont anticipate can still yield to modifying some source code.
 -------> The open close principle works on things that you know is gonna happen.
@@ -1218,7 +1224,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -----> How can you be sure that youre not setting yourself up for a "Refused Bequest" (and the horrible OCP violation that follows from it)?
 -----> Here are some simple heuretics that you can follow that you can find helpful:
 -------> (1) If the base class does something the derived class must do it too. And must do it in a way that does not violate the expectation of the callers.
----------> This means that you cannot take expected behaviors away from a subtype, a subtype can do more than its parent type, but it can never do less.---------> This means that if you a derived class that has denegerate (empty) functions in it. Then you possibly got a LSP violation.
+---------> This means that you cannot take expected behaviors away from a subtype, a subtype can do more than its parent type, but it can never do less.
+---------> This means that if you a derived class that has denegerate (empty) functions in it. Then you possibly got a LSP violation.
 -----------> Especially if those functions are implemented in the base class.
 -----------> Not all degenerative implementation are a violation. So dont make this a hard and fast rule. But you should all be suspicious whenever you see a degenerative implementation.
 -------------> Exception to this is when all the methods in the class are "empty". Then it follows the "Null Object Pattern" and is NOT a violation of the LSP.
@@ -1508,7 +1515,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -------> ME: Reuse here means COMPONENT REUSE not CODE REUSE.
 -------> The principle states that: "A component needs to be large enough to justify the cost of managing a release cycle."
 -------> Lets say I've got a component and I want you to use it.
----------> What do you want from me?-----------> I want the component itself delivered in a convenient package.
+---------> What do you want from me?
+-----------> I want the component itself delivered in a convenient package.
 -----------> Testsuite of the component 
 -----------> Documentation
 -----------> Support (If there's a bug, there support so that it can be fixed. Im gonna maintain this, not you.)
@@ -1533,7 +1541,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 ---------> Separate into different components those classes that change at different times and for different reasons."
 -------> The principle states that: "The classes the we group together into components should be closed against the same kind of changes."
 -------> What goes into a component? What are the partitioning rules? How do we know what classes to group together? What classes to keep apart?
--------> If the requirements change, how many components should change? ---------> There should be only ONE component that should change per layer.
+-------> If the requirements change, how many components should change? 
+---------> There should be only ONE component that should change per layer.
 ---------> Is this attainable? Hard to attain in practice, but that doesn't mean that we should target less.
 -------> The principle states that: "The classes the we group together into components should be closed against the same kind of changes."
 -------> The principle states that: "We gather together classes that change for the same reasons, we separate classes that change for different reasons."
@@ -1541,7 +1550,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 ---------> Its also a restatement of the interface segregation principle. 
 -----------> In the case of the ISP, we were talking about grouping function into classes.
 -----------> In this case of the common closure principle, we were talking about grouping classes into components.
--------> "Closure" means that all the classes in the components are closed against the same kind of changes.---------> The classes within the component are closed to all but their prime responsibility.
+-------> "Closure" means that all the classes in the components are closed against the same kind of changes.
+---------> The classes within the component are closed to all but their prime responsibility.
 ---------> They are closed to the needs of every other actor.
 ---------> Each component in a layer serves a particular actor, so when that actor request a change, only one component per layer will have to be changed.
 
@@ -1550,7 +1560,8 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -------> ME: EXAMPLE: MESSAGES/MESSAGE_FACTORY/MESSAGE_HANDLER ON FRAMEWORK (THIS CLASSES SHOULD BE ON THE SAME COMPONENT)
 -------> Similar to ISP
 -------> Imagine you have a SINGLE common class in your component that is used by another component.
----------> If OTHER parts of the orginal components changed (not the common class), it will trigger recompilation and retesting of the other component.---------> A lot of recompilation and retesting for no good reason.
+---------> If OTHER parts of the orginal components changed (not the common class), it will trigger recompilation and retesting of the other component.
+---------> A lot of recompilation and retesting for no good reason.
 ---------> This isn't ideal, we dont want to make busy work on consumers of our component.
 -------> If this principle is not followed, components have too much knowledge which affects their deployability and independence.
 -------> The principle states that: "You should group classes that are used together, separate classes that arent use together."
@@ -1579,6 +1590,7 @@ By the theory of simple types I mean the doctrine which says that the objects of
 -------> Early project you might use CRP and CCP, as the project matures it move more and more towards RREP. 
 -------> The component partitioning that you use today might be different on the future.
 ---------> This depends on project maturity.
+
 
 ---> Component Coupling
 

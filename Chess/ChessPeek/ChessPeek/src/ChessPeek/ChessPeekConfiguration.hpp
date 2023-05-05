@@ -27,7 +27,8 @@ private:
     void initializeCommonParameters();
     void initializeChessDotComUserVsUser();
     void initializeChessDotComUserVsComputer();
-    void initializeLichessDotOrg();
+    void initializeLichessVersus();
+    void initializeLichessStream();
 
     ChessPeekConfigurationType m_type;
     std::string m_chessEnginePath;

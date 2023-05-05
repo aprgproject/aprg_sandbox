@@ -42,18 +42,27 @@ void ChessPeekConfiguration::initialize() {
     switch (m_type) {
         case ChessPeekConfigurationType::ChessDotComUserVsUser: {
             initializeChessDotComUserVsUser();
+            break;
         }
         case ChessPeekConfigurationType::ChessDotComUserVsComputer: {
             initializeChessDotComUserVsComputer();
+            break;
         }
-        case ChessPeekConfigurationType::LichessDotOrg: {
-            initializeLichessDotOrg();
+        case ChessPeekConfigurationType::LichessVersus: {
+            initializeLichessVersus();
+            break;
+        }
+        case ChessPeekConfigurationType::LichessStream: {
+            initializeLichessStream();
+            break;
         }
     }
 }
+
 void ChessPeekConfiguration::initializeCommonParameters() {
-    m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish13.exe)";
+    m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish15.exe)";
     m_uciOptionNamesAndValuePairs = {{"Contempt", "100"}};
+
     // m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)";
 
     m_screenShotPath = APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)";
@@ -73,9 +82,16 @@ void ChessPeekConfiguration::initializeChessDotComUserVsComputer() {
     m_blackColorLimit = 0.40;
 }
 
-void ChessPeekConfiguration::initializeLichessDotOrg() {
+void ChessPeekConfiguration::initializeLichessVersus() {
     m_topLeftCorner = BitmapXY(2491, 145);
     m_bottomRightCorner = BitmapXY(3242, 896);
+    m_whiteColorLimit = 0.91;
+    m_blackColorLimit = 0.30;
+}
+
+void ChessPeekConfiguration::initializeLichessStream() {
+    m_topLeftCorner = BitmapXY(2501, 159);
+    m_bottomRightCorner = BitmapXY(3236, 894);
     m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.30;
 }

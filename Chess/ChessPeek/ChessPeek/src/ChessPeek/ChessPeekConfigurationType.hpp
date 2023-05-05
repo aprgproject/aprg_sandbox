@@ -9,8 +9,10 @@ namespace chess {
 enum class ChessPeekConfigurationType {
     ChessDotComUserVsUser,
     ChessDotComUserVsComputer,
-    LichessDotOrg
+    LichessVersus,
+    LichessStream
 };
 
 }
+
 }  // namespace alba

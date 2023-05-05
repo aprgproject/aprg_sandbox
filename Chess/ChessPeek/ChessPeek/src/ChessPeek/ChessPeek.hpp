@@ -8,6 +8,7 @@
 #include <ChessUtilities/ChessEngineHandler.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Time/AlbaLocalTimer.hpp>
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <cstdint>
@@ -30,6 +31,9 @@ public:
         std::string bestMove;
         stringHelper::strings currentlySearchingMoves;
         stringHelper::strings pvMovesInBestLine;
+
+        bool operator==(PeekCalculationDetails const& other) const;
+        bool operator!=(PeekCalculationDetails const& other) const;
     };
 
     ChessPeek();
@@ -48,14 +52,21 @@ private:
     bool doCorrectKingsExist() const;
     bool isPlayerKingAndOpponentKingValid() const;
     bool isOpponentKingOnCheck() const;
+    bool isPlayerToMove() const;
+    bool isPlayerToMoveInLichessVersus() const;
 
     void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet& snippet);
-    void updatePlayerSideAndOrientation(unsigned int const pieceCount);
-    void setOrientationDependingOnPlayerColor(PieceColor const newColor);
+    void updatePlayerColorAndOrientation(unsigned int const pieceCount);
+    void updatePlayerColorIfLichessStream();
+    void updatePlayerColorAndOrientationBasedOnPositionsOfTheKings(unsigned int const pieceCount);
+    void setPlayerColorAndResetEngineIfNeeded(PieceColor const newColor);
+    void setOrientationDependingOnBelowColor(PieceColor const belowColor);
     void setKingDetailsIfPossible(Coordinate const& chessCoordinate, Piece const& chessPiece);
 
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
-    void checkCalculationDetailsFromEngine();
+    void displayCalculationDetailsBasedFromTimer();
+    void displayCalculationDetailsIfNotDisplayedYet();
+    void printCalculationDetailsFromEngine();
 
     Moves getCurrentMoves(std::string const& bestMoveToDisplay) const;
     Moves getFutureMoves() const;
@@ -77,6 +88,8 @@ private:
     ChessEngineHandler m_chessEngineHandler;
     ChessEngineControllerWithUci m_chessEngineController;
     AlbaLocalUserAutomation m_userAutomation;
+    AprgBitmap::Bitmap m_bitmap;
+    AlbaLocalTimer m_displayTimer;
     PeekCalculationDetails m_savedCalculationDetails;
     Board m_chessBoard;
     PieceColor m_playerColor;
@@ -84,6 +97,7 @@ private:
     Coordinate m_opponentKingCoordinate;
     unsigned int m_numberOfDetectedKings;
     bool m_isEngineNewlyReseted;
+    bool m_hasUnDisplayedCalculationDetails;
 };
 
 }  // namespace chess

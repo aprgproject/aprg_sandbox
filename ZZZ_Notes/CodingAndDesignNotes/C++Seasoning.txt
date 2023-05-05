@@ -42,7 +42,8 @@ Goal 2: No raw synchronization primitives
 -----------> s_latency = 1 / (1−p+(p/s))
 -----------> "s_latency" is the theoretical speedup of the execution of the whole task;
 -----------> "s" is the speedup of the part of the task that benefits from improved system resources;
------------> "p" is the proportion of execution time that the part benefiting from improved resources originally occupied.---------> Furthermore,
+-----------> "p" is the proportion of execution time that the part benefiting from improved resources originally occupied.
+---------> Furthermore,
 -----------> s_latency(s) ≤ 1/(1−p) 
 -----------> lim s→∞: s_latency(s) = 1/(1−p)
 -----------> shows that the theoretical speedup of the execution of the whole task increases with the improvement of the resources of the system and that regardless of the magnitude of the improvement, the theoretical speedup is always limited by the part of the task that cannot benefit from the improvement.
@@ -55,7 +56,8 @@ Goal 2: No raw synchronization primitives
 -----------> But in reality there are penalties on using concurrency.
 ---------> Amdahl's law applies only to the cases where the problem size is fixed. 
 -----------> In practice, as more computing resources become available, they tend to get used on larger problems (larger datasets), 
------------> and the time spent in the parallelizable part often grows much faster than the inherently serial work. -----------> In this case, Gustafson's law gives a less pessimistic and more realistic assessment of the parallel performance.
+-----------> and the time spent in the parallelizable part often grows much faster than the inherently serial work. 
+-----------> In this case, Gustafson's law gives a less pessimistic and more realistic assessment of the parallel performance.
 -------> If you want build a systems that scale (scale with number of processors), you are going to avoid synchronization like the plague
 ---> A task is a unit of work (a function) which is executed asynchronously
 -----> Tasks are scheduled on ahtread pool to optimize machine utilization

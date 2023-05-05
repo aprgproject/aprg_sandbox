@@ -14,7 +14,8 @@ Summary:
 -> Flyweight: Provide a "flyweight object" that SEPARATES INTRINSIC/NON-CONTEXT data (can be shared and saved in object) and EXTRINSIC/CONTEXT data (can be removed and be sent to object instead)
 -> Interpreter: Provide a class (with subclasses) that can be INTERPRETED differently depending on the CONTEXT.
 -> Iterator: Provide a "iterator object" that can ITERATE and ACCESS elements on an AGGREGATE without EXPOSING its underlying representation.
--> Mediator: MEDIATE communications between different colleagues to decouple, simplify, abstract, centralize the way of communication.-> Memento: Provide a "memento object" that SAVES the STATE of an "originator object" so that it can be RESTORED later.
+-> Mediator: MEDIATE communications between different colleagues to decouple, simplify, abstract, centralize the way of communication.
+-> Memento: Provide a "memento object" that SAVES the STATE of an "originator object" so that it can be RESTORED later.
 -> NullObject: Create a NULL OBJECT to HANDLE special NULL or EMPTY cases with polymorphism.
 -> Observer: Have Observers OBSERVE a Subject/Observable so that when something is changed, the Observers are NOTIFIED and UPDATED AUTOMATICALLY
 -> Prototype: Create objects by CLONING or copying PROTOTYPE objects that can be set in runtime.
@@ -657,7 +658,8 @@ The pattern can be used to reduce memory usage when you need to create a large n
 Instead of storing the whole data on the object, separate intrinsic and extrinsic data to lessen memory usage.
 
 When to use (applicability):
--> when one instance of a class can be used to provide many "virtual instances"-> when all of the following are true
+-> when one instance of a class can be used to provide many "virtual instances"
+-> when all of the following are true
 --> an application uses a large number of objects
 --> storage costs are high because of the sheer quantity of objects
 --> most object state can be made extrinsic

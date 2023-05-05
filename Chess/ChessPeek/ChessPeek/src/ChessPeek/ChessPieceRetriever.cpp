@@ -72,18 +72,27 @@ void ChessPieceRetriever::initialize(ChessPeekConfigurationType const type) {
     switch (type) {
         case ChessPeekConfigurationType::ChessDotComUserVsUser: {
             initializeConverterToChessDotCom();
+            break;
         }
         case ChessPeekConfigurationType::ChessDotComUserVsComputer: {
-            initializeConverterToChessDotCom();
+            initializeConverterToChessDotCom();  // same with chess.com (use this as approximation)
+            break;
         }
-        case ChessPeekConfigurationType::LichessDotOrg: {
-            initializeConverterToLichessDotOrg();
+        case ChessPeekConfigurationType::LichessVersus: {
+            initializeConverterToLichessVersus();
+            break;
+        }
+        case ChessPeekConfigurationType::LichessStream: {
+            initializeConverterToLichessVersus();  // same with lichess.org (use this as approximation)
+            break;
         }
     }
 }
+
 void ChessPieceRetriever::initializeConverterToChessDotCom() {
     m_checkMaxPoint = BitmapXY(102, 102);
-    m_checkDetails =        CheckDetails{{{17, 34}, WhiteOrBlack::White}, {{20, 40}, WhiteOrBlack::White}, {{21, 54}, WhiteOrBlack::White},
+    m_checkDetails =
+        CheckDetails{{{17, 34}, WhiteOrBlack::White}, {{20, 40}, WhiteOrBlack::White}, {{21, 54}, WhiteOrBlack::White},
                      {{25, 47}, WhiteOrBlack::White}, {{28, 42}, WhiteOrBlack::White}, {{31, 25}, WhiteOrBlack::White},
                      {{31, 52}, WhiteOrBlack::White}, {{32, 35}, WhiteOrBlack::White}, {{33, 47}, WhiteOrBlack::White},
                      {{34, 29}, WhiteOrBlack::White}, {{35, 39}, WhiteOrBlack::White}, {{39, 60}, WhiteOrBlack::White},
@@ -132,7 +141,7 @@ void ChessPieceRetriever::initializeConverterToChessDotCom() {
         0B0000000000000000000000000000000011110111110111111111100010101110;
 }
 
-void ChessPieceRetriever::initializeConverterToLichessDotOrg() {
+void ChessPieceRetriever::initializeConverterToLichessVersus() {
     m_checkMaxPoint = BitmapXY(93, 93);
     m_checkDetails =
         CheckDetails{{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White},

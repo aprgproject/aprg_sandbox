@@ -193,6 +193,7 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 ---------> function, separation of components, and data management.
 
 
+
 ---> Chapter 4 Structured Programming
 
 -----> Edsger Wybe Dijkstra was born in Rotterdam in 1930. 
@@ -513,7 +514,8 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 -------> One of the most common compromises in regard to immutability is to segregate the application, 
 ---------> or the services within the application, into mutable and immutable components. 
 ---------> The immutable components perform their tasks in a purely functional way, without using any mutable variables. 
----------> The immutable components communicate with one or more other components that are not purely functional, and allow for the state of variables to be mutated.-------> Since mutating state exposes those components to all the problems of concurrency, 
+---------> The immutable components communicate with one or more other components that are not purely functional, and allow for the state of variables to be mutated.
+-------> Since mutating state exposes those components to all the problems of concurrency, 
 ---------> it is common practice to use some kind of transactional memory to protect the mutable variables from concurrent updates and race conditions.
 -------> Transactional memory simply treats variables in memory the same way a database treats records on disk.
 ---------> It protects those variables with a transaction - or retry-based scheme.
@@ -1054,7 +1056,8 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 ---------> Just as the SRP says that a class should NOT contain multiples reasons to change, 
 ---------> so the Common Closure Principle (CCP) says that a component should not have multiple reasons to change.
 -------> For most applications, maintainability is more important than reusability. 
----------> If the code in an application must change, you would rather that all of the changes occur in one component, rather than being distributed across many components.---------> If changes are confined to a single component, then we need to redeploy only the one changed component. 
+---------> If the code in an application must change, you would rather that all of the changes occur in one component, rather than being distributed across many components.
+---------> If changes are confined to a single component, then we need to redeploy only the one changed component. 
 ---------> Other components that don’t depend on the changed component do not need to be revalidated or redeployed.
 -------> The CCP prompts us to gather together in one place all the classes that are likely to change for the same reasons. 
 ---------> If two classes are so tightly bound, either physically or conceptually, that they always change together, then they belong in the same component. 
@@ -1082,7 +1085,8 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 -------> ME: EXAMPLE: MESSAGES/MESSAGE_FACTORY/MESSAGE_HANDLER ON FRAMEWORK (THIS CLASSES SHOULD BE ON THE SAME COMPONENT)
 -------> Classes are seldom reused in isolation. 
 ---------> More typically, reusable classes collaborate with other classes that are part of the reusable abstraction. 
----------> The CRP states that these classes belong together in the same component. ---------> In such a component we would expect to see classes that have lots of dependencies on each other.
+---------> The CRP states that these classes belong together in the same component. 
+---------> In such a component we would expect to see classes that have lots of dependencies on each other.
 -------> A simple example might be a container class and its associated iterators. 
 ---------> These classes are reused together because they are tightly coupled to each other. 
 ---------> Thus they ought to be in the same component.
@@ -1099,6 +1103,7 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 ---------> Otherwise, we will be redeploying more components than is necessary, and wasting significant effort.
 -------> Therefore the CRP tells us more about which classes shouldn’t be together than about which classes should be together. 
 ---------> The CRP says that classes that are not tightly bound to each other should not be in the same component.
+
 -----> RELATION TO ISP
 -------> The CRP is the generic version of the ISP. 
 ---------> The ISP advises us not to depend on classes that have methods we don’t use. 
@@ -2521,7 +2526,8 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 -----> Conclusion
 -------> Business rules are the reason a software system exists. 
 ---------> They are the core functionality. 
----------> They carry the code that makes, or saves, money. ---------> They are the family jewels.
+---------> They carry the code that makes, or saves, money. 
+---------> They are the family jewels.
 -------> The business rules should remain pristine, unsullied by baser concerns such as the user interface or database used. 
 ---------> Ideally, the code that represents the business rules should be the heart of the system, with lesser concerns being plugged in to them. 
 ---------> The business rules should be the most independent and reusable code in the system.
@@ -3525,6 +3531,7 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 ---------> A clean embedded architecture is good for your product’s long-term health.
 
 
+
 -> PART VI Details
 
 
@@ -4190,3 +4197,4 @@ Note: This is taken from Robert Martin Book [Clean Architecture A Craftsman's Gu
 ---------> Also think about using your compiler to help you enforce your chosen architectural style, 
 ---------> and watch out for coupling in other areas, such as data models. 
 ---------> The devil is in the implementation details.
+
