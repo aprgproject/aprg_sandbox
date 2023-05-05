@@ -68,9 +68,11 @@ bool Board::hasOnlyOneMovePossibleToThisDestination(Coordinate const& destinatio
     }
     return numberOfMoves == 1U;
 }
+
 bool Board::canBeCaptured(Coordinate const& destination) const {
     Piece piece(getPieceAt(destination));
-    bool result(false);    if (!piece.isEmpty()) {
+    bool result(false);
+    if (!piece.isEmpty()) {
         PieceColor oppositeColor(getOppositeColor(piece.getColor()));
         result = getDiagonalMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
                  getStraightMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
@@ -123,10 +125,12 @@ Move Board::getMoveFromTwoLetterNumberNotation(string const& twoLetterNumber) co
 Coordinate Board::getCoordinateFromLetterNumberNotation(string const& letterNumber) const {
     Coordinate result{};
     if (letterNumber.size() == 2) {
-        char letter = tolower(letterNumber.at(0));        char number = letterNumber.at(1);
+        char letter = tolower(letterNumber.at(0));
+        char number = letterNumber.at(1);
         if (isLetter(letter) && isNumber(number) && 'a' <= letter && letter <= 'h' && '1' <= number && number <= '8') {
             unsigned int numberValue = number - '0';
-            if (Orientation::BlackUpWhiteDown == m_orientation) {                result = Coordinate(letter - 'a', 8U - numberValue);
+            if (Orientation::BlackUpWhiteDown == m_orientation) {
+                result = Coordinate(letter - 'a', 8U - numberValue);
             } else if (Orientation::WhiteUpBlackDown == m_orientation) {
                 result = Coordinate(7 - (letter - 'a'), numberValue - 1);
             }
@@ -187,10 +191,12 @@ string Board::getFenString() const {
     return resultStream.str();
 }
 
-string Board::getCastlingFenString() const {    string result;
+string Board::getCastlingFenString() const {
+    string result;
     if (Board::Orientation::BlackUpWhiteDown == m_orientation) {
         Piece pieceAtWhiteKing(getPieceAt(Coordinate(4, 7)));
-        Piece pieceAtWhiteRookOnKingSide(getPieceAt(Coordinate(7, 7)));        Piece pieceAtWhiteRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
+        Piece pieceAtWhiteRookOnKingSide(getPieceAt(Coordinate(7, 7)));
+        Piece pieceAtWhiteRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
         Piece pieceAtBlackKing(getPieceAt(Coordinate(4, 0)));
         Piece pieceAtBlackRookOnKingSide(getPieceAt(Coordinate(7, 0)));
         Piece pieceAtBlackRookOnQueenSide(getPieceAt(Coordinate(0, 0)));
@@ -387,9 +393,11 @@ bool Board::doesMoveHasNoBlockingPieceInBetween(Move const& move) const {
     Coordinate oneIncrementDelta(getOneIncrementData(moveDelta.getX()), getOneIncrementData(moveDelta.getY()));
     Coordinate inBetween = move.first + oneIncrementDelta;
     while (isCoordinateOnBoard(inBetween) && move.second != inBetween && getPieceAt(inBetween).isEmpty()) {
-        inBetween += oneIncrementDelta;    }
+        inBetween += oneIncrementDelta;
+    }
     return inBetween == move.second;
 }
+
 unsigned int Board::getDiagonalMovesPossibleToThisDestination(
     Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
     unsigned int numberOfMoves(0U);
@@ -704,9 +712,11 @@ MovePair Board::getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatS
     }
     return result;
 }
+
 void Board::retrievePossibleMovesBasedFromPieceType(Moves& result, Coordinate const& start) const {
     Piece piece(getPieceAt(start));
-    switch (piece.getType()) {        case PieceType::Pawn: {
+    switch (piece.getType()) {
+        case PieceType::Pawn: {
             retrievePossiblePawnMoves(result, start);
             break;
         }

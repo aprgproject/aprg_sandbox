@@ -25,8 +25,10 @@ TEST(ChessPeekTest, DISABLED_RunOneIterationWorks) {
 
 TEST(ChessPeekTest, DISABLED_SaveBitmapOnScreenWorks) {
     ChessPeek chessPeek;
+
     chessPeek.saveBitmapOnScreen();
 }
+
 TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks) {
     ChessPeek chessPeek;
 
@@ -43,9 +45,9 @@ TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks) {
 TEST(ChessPeekTest, DISABLED_CalculationDetailsAreFilteredByTimer) {
     ChessPeek chessPeek;
     ChessPeek::EngineCalculationDetails details1{}, details2{}, details3{};
-    details1.depth = 1;
-    details2.depth = 2;
-    details3.depth = 3;
+    details1.depthInPlies = 1;
+    details2.depthInPlies = 2;
+    details3.depthInPlies = 3;
 
     Sleep(500);
     chessPeek.calculationMonitoringCallBackForEngine(details1);
@@ -53,20 +55,21 @@ TEST(ChessPeekTest, DISABLED_CalculationDetailsAreFilteredByTimer) {
     chessPeek.calculationMonitoringCallBackForEngine(details3);
 }
 
-TEST(ChessPeekTest, DISABLED_CalculationDetailsSavedAndCanBeDisplayedLater) {
-    ChessPeek chessPeek;
-    ChessPeek::EngineCalculationDetails details1{}, details2{}, details3{};
-    details1.depth = 1;
-    details2.depth = 2;
-    details3.depth = 3;
+// TEST(ChessPeekTest, DISABLED_CalculationDetailsSavedAndCanBeDisplayedLater) {
+//    ChessPeek chessPeek;
+//    ChessPeek::EngineCalculationDetails details1{}, details2{}, details3{};
+//    details1.depthInPlies = 1;
+//    details2.depthInPlies = 2;
+//    details3.depthInPlies = 3;
 
-    Sleep(500);
-    chessPeek.calculationMonitoringCallBackForEngine(details1);
-    chessPeek.calculationMonitoringCallBackForEngine(details2);
-    chessPeek.calculationMonitoringCallBackForEngine(details3);
-    Sleep(500);
-    chessPeek.displayCalculationDetailsIfNotDisplayedYet();
-}
+//    Sleep(500);
+//    chessPeek.calculationMonitoringCallBackForEngine(details1);
+//    chessPeek.calculationMonitoringCallBackForEngine(details2);
+//    chessPeek.calculationMonitoringCallBackForEngine(details3);
+//    Sleep(500);
+//    chessPeek.displayCalculationDetailsIfNotDisplayedYet();
+//}
 
 }  // namespace chess
+
 }  // namespace alba

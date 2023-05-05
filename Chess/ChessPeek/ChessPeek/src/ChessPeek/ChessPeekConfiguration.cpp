@@ -61,10 +61,8 @@ void ChessPeekConfiguration::initialize() {
 
 void ChessPeekConfiguration::initializeCommonParameters() {
     m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish15.exe)";
-    m_uciOptionNamesAndValuePairs = {{"Contempt", "100"}};
-
     // m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)";
-
+    m_uciOptionNamesAndValuePairs = {{"MultiPV", "10"}};  // 10 moves
     m_screenShotPath = APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)";
 }
 
@@ -74,9 +72,11 @@ void ChessPeekConfiguration::initializeChessDotComUserVsUser() {
     m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.40;
 }
+
 void ChessPeekConfiguration::initializeChessDotComUserVsComputer() {
     m_topLeftCorner = BitmapXY(2215, 151);
-    m_bottomRightCorner = BitmapXY(3022, 958);    m_whiteColorLimit = 0.91;
+    m_bottomRightCorner = BitmapXY(3022, 958);
+    m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.40;
 }
 

@@ -1,17 +1,14 @@
 #pragma once
 
 #include <Bitmap/Bitmap.hpp>
+#include <ChessPeek/ChessPeekCalculationDetails.hpp>
 #include <ChessPeek/ChessPeekConfiguration.hpp>
 #include <ChessPeek/ChessPieceRetriever.hpp>
 #include <ChessUtilities/Board/Board.hpp>
 #include <ChessUtilities/ChessEngineControllerWithUci.hpp>
 #include <ChessUtilities/ChessEngineHandler.hpp>
-#include <Common/Math/Matrix/AlbaMatrix.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Time/AlbaLocalTimer.hpp>
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
-
-#include <cstdint>
 
 namespace alba {
 
@@ -21,19 +18,13 @@ class ChessPeek {
 public:
     using ChessCellBitValueMatrix = matrix::AlbaMatrix<uint64_t>;
     using EngineCalculationDetails = CalculationDetails;
-    using BoardAndMovePair = std::pair<Board, Move>;
-    using BoardAndMovePairs = std::vector<BoardAndMovePair>;
 
-    struct PeekCalculationDetails {
-        unsigned int depth;
-        int scoreInCentipawns;
-        unsigned int mateInNumberOfMoves;
-        std::string bestMove;
-        stringHelper::strings currentlySearchingMoves;
-        stringHelper::strings pvMovesInBestLine;
-
-        bool operator==(PeekCalculationDetails const& other) const;
-        bool operator!=(PeekCalculationDetails const& other) const;
+    struct ChessBoardDetails {
+        unsigned int m_pieceCount;
+        unsigned int numberOfWhiteKings;
+        unsigned int numberOfBlackKings;
+        Coordinate whiteKingCoordinate;
+        Coordinate blackKingCoordinate;
     };
 
     ChessPeek();
@@ -46,66 +37,47 @@ public:
     void startEngineAnalysisOfNewPosition();
     void calculationMonitoringCallBackForEngine(EngineCalculationDetails const& engineCalculationDetails);
 
-#ifndef APRG_TEST_MODE_ON
 private:
-#endif
+    void initialize();
 
-    bool didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const;
-    bool canAnalyzeBoard() const;
-    bool doCorrectKingsExist() const;    bool isPlayerKingAndOpponentKingValid() const;
-    bool isOpponentKingOnCheck() const;
-    bool isPlayerToMove() const;
-    bool isPlayerToMoveInLichessVersus() const;
-    void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet& snippet);
-    void updatePlayerColorAndOrientation(unsigned int const pieceCount);
+    void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet const& snippet);
+    void saveChessBoardAndItsDetails(AprgBitmap::BitmapSnippet const& snippet);
+    void updatePlayerColorAndOrientation();
     void updatePlayerColorIfLichessStream();
-    void updatePlayerColorAndOrientationBasedOnPositionsOfTheKings(unsigned int const pieceCount);
+    void updatePlayerColorAndOrientationBasedOnPositionsOfTheKings();
     void setPlayerColorAndResetEngineIfNeeded(PieceColor const newColor);
     void setOrientationDependingOnBelowColor(PieceColor const belowColor);
     void setKingDetailsIfPossible(Coordinate const& chessCoordinate, Piece const& chessPiece);
-
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
+
     void displayCalculationDetailsBasedFromTimer();
     void displayCalculationDetailsIfNotDisplayedYet();
-    void printCalculationDetailsFromEngine();
+    void printCalculationDetails();
 
-    Moves getCurrentMoves() const;
-    Moves getFutureMoves() const;
-    std::string getBestMoveString() const;
+    bool shouldAnalyzeBoard(Board::PieceMatrix const& previousPieceMatrix) const;
+    bool didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const;
+    bool canAnalyzeBoard() const;
+    bool areKingsValid() const;
+    bool isOpponentsKingOnCheck() const;
+    bool isPlayerToMove() const;
+    bool isPlayerToMoveInLichessVersus() const;
+    Coordinate getOpponentsKingCoordinate() const;
 
-    void printCalculationDetails(Moves const& currentMoves, Moves const& futureMoves) const;
-    void printMoveTables(Moves const& currentMoves, Moves const& futureMoves) const;
-    void putSeparators(DisplayTable& displayTable) const;
-    void putCurrentMovesTable(Moves const& currentMoves) const;
-    void printFutureMovesTable(Moves const& futureMoves) const;
-    void putCurrentMovesOnDisplayTable(
-        DisplayTable& displayTable, Moves const& currentMoves, unsigned int const numberOfMoves) const;
-    void putFutureMovesAndBoardsOnDisplayTable(
-        DisplayTable& displayTable, Moves const& futureMoves, unsigned int const numberOfMoves) const;
-    void putSeparatorsOnDisplayTable(
-        DisplayTable& displayTable, unsigned int const numberOfColumns, unsigned int const numberOfRows) const;
-    void putChessBoardOnDisplayTable(
-        DisplayTable& displayTable, Board const& temporaryBoard, unsigned int const xOffset) const;
-    std::string getChessCellForDisplay(
-        Piece const& piece, unsigned int const moveNumberStart, bool const canPreMove) const;
-    unsigned int getNumberOfColumnsOfDisplayTable(unsigned int const numberOfChessBoards) const;
-    void initialize();
-
-    ChessPeekConfiguration m_configuration;    ChessPieceRetriever m_pieceRetriever;
+    ChessPeekConfiguration m_configuration;
+    ChessPieceRetriever m_pieceRetriever;
     ChessEngineHandler m_chessEngineHandler;
     ChessEngineControllerWithUci m_chessEngineController;
     AlbaLocalUserAutomation m_userAutomation;
     AprgBitmap::Bitmap m_bitmap;
     AlbaLocalTimer m_displayTimer;
-    PeekCalculationDetails m_savedCalculationDetails;
+    ChessPeekCalculationDetails m_calculationDetails;
     Board m_chessBoard;
+    ChessBoardDetails m_chessBoardDetails;
     PieceColor m_playerColor;
-    Coordinate m_playerKingCoordinate;
-    Coordinate m_opponentKingCoordinate;
-    unsigned int m_numberOfDetectedKings;
     bool m_isEngineNewlyReseted;
-    bool m_hasPendingCalculationDetailsToDisplay;
+    bool m_hasPendingPrintAction;
 };
 
 }  // namespace chess
+
 }  // namespace alba

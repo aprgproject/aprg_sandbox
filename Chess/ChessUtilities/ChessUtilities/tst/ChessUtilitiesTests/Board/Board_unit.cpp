@@ -200,10 +200,12 @@ TEST(BoardTest, GetReadableStringForMoveWorks) {
 
 TEST(BoardTest, GetFenStringWorks) {
     Board board1(Board::Orientation::BlackUpWhiteDown);
-    Board board2(Board::Orientation::WhiteUpBlackDown);    Board board3(
+    Board board2(Board::Orientation::WhiteUpBlackDown);
+    Board board3(
         Board::Orientation::BlackUpWhiteDown,
         {0, 0, 0, 14, 13, 0, 0, 0, 12, 10, 11, 0, 0, 11, 10, 12, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1,
-         9, 9, 0, 0,  9,  9, 0, 0, 0,  0,  9,  9, 0, 0,  9,  9,  4, 2, 3, 0, 0, 3, 2, 4, 0, 0, 0, 6, 5, 0, 0, 0});    Board board4(
+         9, 9, 0, 0,  9,  9, 0, 0, 0,  0,  9,  9, 0, 0,  9,  9,  4, 2, 3, 0, 0, 3, 2, 4, 0, 0, 0, 6, 5, 0, 0, 0});
+    Board board4(
         Board::Orientation::WhiteUpBlackDown,
         {4, 0, 3, 6,  5, 3, 0, 4, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 2, 0, 0, 2, 0, 0, 0,  0,  0,  1,  0,  0,  0, 0,
          0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 9, 9, 9, 9, 0, 9, 9, 9, 12, 10, 11, 14, 13, 11, 0, 12});
@@ -227,6 +229,7 @@ TEST(BoardTest, MoveWorksForWhitePawnMovingTwoSpaces) {
     Board board(Board::Orientation::BlackUpWhiteDown);
 
     board.move(Move{{2, 6}, {2, 4}});
+
     Board::PieceMatrix expectedMatrix(8U, 8U, {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0,
                                                0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                0,  0,  0,  0,  1,  1,  0,  1,  1, 1, 1, 1, 4, 2, 3, 5, 6, 3, 2, 4});
@@ -236,9 +239,11 @@ TEST(BoardTest, MoveWorksForWhitePawnMovingTwoSpaces) {
 TEST(BoardTest, MoveWorksForWhiteRookCapturingABlackPawn) {
     Board board(
         Board::Orientation::BlackUpWhiteDown,
-        {12, 10, 0, 0, 0, 0, 0, 0, 9, 11, 0, 0,  0, 9, 9, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 3, 0, 0, 0,         0,  0,  1, 0, 0, 0, 0, 0, 0, 0,  1, 12, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 4, 6, 0});
+        {12, 10, 0, 0, 0, 0, 0, 0, 9, 11, 0, 0,  0, 9, 9, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 3, 0, 0, 0,
+         0,  0,  1, 0, 0, 0, 0, 0, 0, 0,  1, 12, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 4, 6, 0});
 
     board.move(Move{{5, 7}, {5, 1}});
+
     Board::PieceMatrix expectedMatrix(
         8U, 8U, {12, 10, 0, 0, 0, 0, 0, 0, 9, 11, 0, 0,  0, 4, 9, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 3, 0, 0, 0,
                  0,  0,  1, 0, 0, 0, 0, 0, 0, 0,  1, 12, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 0, 6, 0});
@@ -261,10 +266,12 @@ TEST(BoardTest, MoveWorksForWhitePawnCapturingABlackBishop) {
 
 TEST(BoardTest, MoveWorksWithCastling) {
     Board board(
-        Board::Orientation::BlackUpWhiteDown,        {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        Board::Orientation::BlackUpWhiteDown,
+        {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
          0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 6, 3, 2, 4});
 
     board.move(Move{{4, 7}, {2, 7}});
+
     Board::PieceMatrix expectedMatrix(8U, 8U, {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0,
                                                0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                0,  0,  0,  0,  1,  1,  1,  1,  1, 1, 1, 1, 0, 0, 6, 4, 0, 3, 2, 4});
