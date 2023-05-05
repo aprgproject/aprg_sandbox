@@ -6,8 +6,11 @@ namespace alba {
 
 namespace chess {
 
-enum class ChessPeekConfigurationType { ChessDotComUserVsUser, ChessDotComUserVsComputer, LichessDotOrg };
+enum class ChessPeekConfigurationType {
+    ChessDotComUserVsUser,
+    ChessDotComUserVsComputer,
+    LichessDotOrg
+};
 
 }
-
 }  // namespace alba

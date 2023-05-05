@@ -69,18 +69,21 @@ void ChessPieceRetriever::setLogFile(string const& logFilePath) {
 }
 
 void ChessPieceRetriever::initialize(ChessPeekConfigurationType const type) {
-    if (ChessPeekConfigurationType::ChessDotComUserVsUser == type ||
-        ChessPeekConfigurationType::ChessDotComUserVsComputer == type) {
-        initializeConverterToChessDotCom();
-    } else if (ChessPeekConfigurationType::LichessDotOrg == type) {
-        initializeConverterToLichessDotOrg();
+    switch (type) {
+        case ChessPeekConfigurationType::ChessDotComUserVsUser: {
+            initializeConverterToChessDotCom();
+        }
+        case ChessPeekConfigurationType::ChessDotComUserVsComputer: {
+            initializeConverterToChessDotCom();
+        }
+        case ChessPeekConfigurationType::LichessDotOrg: {
+            initializeConverterToLichessDotOrg();
+        }
     }
 }
-
 void ChessPieceRetriever::initializeConverterToChessDotCom() {
     m_checkMaxPoint = BitmapXY(102, 102);
-    m_checkDetails =
-        CheckDetails{{{17, 34}, WhiteOrBlack::White}, {{20, 40}, WhiteOrBlack::White}, {{21, 54}, WhiteOrBlack::White},
+    m_checkDetails =        CheckDetails{{{17, 34}, WhiteOrBlack::White}, {{20, 40}, WhiteOrBlack::White}, {{21, 54}, WhiteOrBlack::White},
                      {{25, 47}, WhiteOrBlack::White}, {{28, 42}, WhiteOrBlack::White}, {{31, 25}, WhiteOrBlack::White},
                      {{31, 52}, WhiteOrBlack::White}, {{32, 35}, WhiteOrBlack::White}, {{33, 47}, WhiteOrBlack::White},
                      {{34, 29}, WhiteOrBlack::White}, {{35, 39}, WhiteOrBlack::White}, {{39, 60}, WhiteOrBlack::White},
