@@ -34,14 +34,13 @@ public:
     ChessEngineControllerWithUci(
         ChessEngineHandler& engineHandler, stringHelper::StringPairs const& uciOptionNamesAndValuePairs = {});
 
+    void initializeController();
     void resetToNewGame();
     void setupStartPosition();
-    void setupMoves(std::string const& moves);
-    void setupFenString(std::string const& fenString);
+    void setupMoves(std::string const& moves);    void setupFenString(std::string const& fenString);
     void go();
     void goWithPonder();
-    void goWithDepth(unsigned int const depth);
-    void goInfinite();
+    void goWithDepth(unsigned int const depth);    void goInfinite();
     bool waitTillReadyAndReturnIfResetWasPerformed();
     void stop();
 
@@ -49,24 +48,21 @@ public:
     void setLogFile(std::string const& logFilePath);
 
 private:
-    void initialize();
     void resetEngine();
 
-    // clear functions
-    void clearData();
+    // clear functions    void clearData();
     void clearCalculationDetails();
 
     // state functions
     void changeState(ControllerState const state);
     void proceedToIdleStateAndProcessPendingCommands();
+    void processPendingCommands();
 
     // log functions
     void log(std::string const& logString);
-
     // send functions
     void forceSend(std::string const& commandString);
-    void sendStopIfCalculating();
-    void sendUciAndUciOptions();
+    void sendStopIfCalculating();    void sendUciAndUciOptions();
     void sendUci();
     void sendStop();
     void sendUciOptions();
@@ -74,20 +70,18 @@ private:
     void send(Command const& command);
 
     // process functions
-    void processInWaitingForReadyOkay(std::string const& stringFromEngine);
     void processAStringFromEngine(std::string const& stringFromEngine);
     void processInWaitingForUciOkay(std::string const& stringToProcess);
     void processInCalculating(std::string const& stringToProcess);
 
     std::string constructUciOptionCommand(std::string const& name, std::string const& value);
+    void putStringProcessingFunctionAsCallBack();
 
     ChessEngineHandler& m_engineHandler;
-    stringHelper::StringPairs m_uciOptionNamesAndValuePairs;
-    std::optional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
+    stringHelper::StringPairs m_uciOptionNamesAndValuePairs;    std::optional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
     std::optional<std::ofstream> m_logFileStreamOptional;
     ControllerState m_state;
-    bool m_waitingForReadyOkay;
-    CalculationDetails m_currentCalculationDetails;
+    bool m_waitingForReadyOkay;    CalculationDetails m_currentCalculationDetails;
     std::deque<Command> m_pendingCommands;
 };
 

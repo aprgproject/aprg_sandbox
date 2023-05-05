@@ -18,7 +18,8 @@ using Move = std::pair<Coordinate, Coordinate>;
 using Moves = std::vector<Move>;
 using MovePair = std::pair<Move, Move>;
 using MovePairs = std::vector<MovePair>;
+using MoveAndScorePair = std::pair<Move, int>;
+using MoveAndScorePairs = std::vector<MoveAndScorePair>;
 
 }  // namespace chess
-
 }  // namespace alba

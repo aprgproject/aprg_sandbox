@@ -11,98 +11,135 @@ namespace alba {
 
 namespace chess {
 
+constexpr int ARTIFICIAL_MATE_SCORE = 999999;
+
 namespace {
-
-enum class TokenState {
-    Idle,
-    OneValueHeaderFound,
-    InPv,
+struct InfoDetails {
+    unsigned int multipv;
+    int scoreInCentipawns;
+    int mate;
+    strings pvMoves;
+    StringPairs nameAndValuePairs;
 };
 
-struct TokenProcessingData {
-    TokenState state;
-    string headerToken;
-    strings pvMovesInBestLine;
-    string currentMove;
-    string currentMoveNumber;
-};
+bool shouldSkipTheEntireInfo(string const& token) {
+    static const strings tokens{"currmove"};
 
-bool isOneHeaderToken(string const& token) {
-    static const strings oneHeaderTokens{"depth", "seldepth", "selectiveDepth", "time",           "nodes",    "nps",
-                                         "cp",    "mate",     "currmove",       "currmovenumber", "bestmove", "ponder"};
-
-    return find(oneHeaderTokens.cbegin(), oneHeaderTokens.cend(), token) != oneHeaderTokens.cend();
+    return find(tokens.cbegin(), tokens.cend(), token) != tokens.cend();
 }
 
-void processToken(CalculationDetails& calculationDetails, TokenProcessingData& data, string const& token) {
-    if (TokenState::OneValueHeaderFound == data.state) {
-        if ("depth" == data.headerToken) {
-            calculationDetails.depth = convertStringToNumber<unsigned int>(token);
-        } else if ("seldepth" == data.headerToken || "selectiveDepth" == data.headerToken) {
-            calculationDetails.selectiveDepth = convertStringToNumber<unsigned int>(token);
-        } else if ("time" == data.headerToken) {
-            calculationDetails.time = convertStringToNumber<unsigned int>(token);
-        } else if ("nodes" == data.headerToken) {
-            calculationDetails.nodes = convertStringToNumber<unsigned int>(token);
-        } else if ("nps" == data.headerToken) {
-            calculationDetails.nodesPerSecond = convertStringToNumber<unsigned int>(token);
-        } else if ("cp" == data.headerToken) {
-            calculationDetails.scoreInCentipawns = convertStringToNumber<int>(token);
-        } else if ("mate" == data.headerToken) {
-            calculationDetails.mateInNumberOfMoves = convertStringToNumber<unsigned int>(token);
-        } else if ("currmove" == data.headerToken) {
-            data.currentMove = token;
-        } else if ("currmovenumber" == data.headerToken) {
-            data.currentMoveNumber = token;
-        } else if ("bestmove" == data.headerToken) {
-            calculationDetails.bestMove = token;
-        } else if ("ponder" == data.headerToken) {
-            calculationDetails.ponderMove = token;
-        }
+bool shouldBeSavedInBestLine(string const& token) {
+    static const strings tokens{"depth", "seldepth"};
 
-        if (!data.currentMove.empty() && !data.currentMoveNumber.empty()) {
-            unsigned int index = convertStringToNumber<unsigned int>(data.currentMoveNumber) - 1;
-            if (index < 100) {
-                if (index >= calculationDetails.currentlySearchingMoves.size()) {
-                    calculationDetails.currentlySearchingMoves.resize(index + 1);
-                }
-                calculationDetails.currentlySearchingMoves[index] = data.currentMove;
+    return find(tokens.cbegin(), tokens.cend(), token) != tokens.cend();
+}
+
+void retrieveInfoDetailsFromInfoTokens(InfoDetails& infoDetails, strings const& tokens) {
+    for (unsigned int i = 1; i < tokens.size(); i++) {
+        string const& token(tokens.at(i));
+        if (shouldSkipTheEntireInfo(token)) {
+            break;
+        } else if (shouldBeSavedInBestLine(token)) {
+            infoDetails.nameAndValuePairs.emplace_back(token, tokens.at(++i));
+        } else if ("multipv" == token) {
+            infoDetails.multipv = convertStringToNumber<unsigned int>(tokens.at(++i));
+        } else if ("cp" == token) {
+            infoDetails.scoreInCentipawns = convertStringToNumber<int>(tokens.at(++i));
+        } else if ("mate" == token) {
+            infoDetails.mate = convertStringToNumber<int>(tokens.at(++i));
+        } else if ("pv" == token) {
+            i++;  // skip "pv"
+            for (; i < tokens.size(); i++) {
+                infoDetails.pvMoves.emplace_back(tokens.at(i));
             }
-            data.currentMove.clear();
-            data.currentMoveNumber.clear();
         }
+    }
+}
 
-        data.state = TokenState::Idle;
-    } else if (TokenState::InPv == data.state) {
-        data.pvMovesInBestLine.emplace_back(token);
-    } else if (isOneHeaderToken(token)) {
-        data.state = TokenState::OneValueHeaderFound;
-        data.headerToken = token;
-    } else if ("pv" == token) {
-        data.state = TokenState::InPv;
+void saveCalculationDetailsOnBestLine(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
+    for (StringPair const& nameAndValuePair : infoDetails.nameAndValuePairs) {
+        if (nameAndValuePair.first == "depth") {
+            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
+        } else if (nameAndValuePair.first == "seldepth") {
+            calculationDetails.selectiveDepthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
+        }
+    }
+    calculationDetails.pvMovesInBestLine = infoDetails.pvMoves;
+}
+
+int getArtificialScore(InfoDetails const& infoDetails) {
+    int result{};
+    if (infoDetails.mate == 0) {
+        result = infoDetails.scoreInCentipawns;
+    } else if (infoDetails.mate > 0) {
+        result = ARTIFICIAL_MATE_SCORE;
+    } else {
+        result = ARTIFICIAL_MATE_SCORE * -1;
+    }
+    return result;
+}
+
+void saveSearchingMoveAndScoreAndMateWithValidMultiPV(
+    CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
+    if (!infoDetails.pvMoves.empty()) {
+        calculationDetails.numberOfMovesTillMate = infoDetails.mate;
+
+        auto size = calculationDetails.searchingMoveAndScorePairs.size();
+        auto possibleNewSize = infoDetails.multipv;
+        auto index = infoDetails.multipv - 1;
+        auto move = infoDetails.pvMoves.front();
+        auto artificialScore = getArtificialScore(infoDetails);
+        if (possibleNewSize == size + 1) {
+            calculationDetails.searchingMoveAndScorePairs.emplace_back(move, artificialScore);
+        } else if (possibleNewSize > size) {
+            calculationDetails.searchingMoveAndScorePairs.resize(possibleNewSize);
+            calculationDetails.searchingMoveAndScorePairs[index] = {move, artificialScore};
+        } else {
+            calculationDetails.searchingMoveAndScorePairs[index] = {move, artificialScore};
+        }
+    }
+}
+
+void processInfoTokens(CalculationDetails& calculationDetails, strings const& infoTokens) {
+    InfoDetails infoDetails{};
+    retrieveInfoDetailsFromInfoTokens(infoDetails, infoTokens);
+
+    if (!infoDetails.pvMoves.empty()) {
+        if (infoDetails.multipv == 1) {
+            // best line (because multipv is 1)
+            saveCalculationDetailsOnBestLine(calculationDetails, infoDetails);
+            saveSearchingMoveAndScoreAndMateWithValidMultiPV(calculationDetails, infoDetails);
+        } else if (infoDetails.multipv > 1) {
+            // other lines
+            saveSearchingMoveAndScoreAndMateWithValidMultiPV(calculationDetails, infoDetails);
+        }
+    }
+}
+
+void processBestMoveTokens(CalculationDetails& calculationDetails, strings const& tokens) {
+    for (unsigned int i = 0; i < tokens.size(); i++) {
+        string const& token(tokens.at(i));
+        if (token == "bestmove") {
+            calculationDetails.bestMove = tokens.at(++i);
+        } else if (token == "ponder") {
+            calculationDetails.possibleResponseMove = tokens.at(++i);
+        }
     }
 }
 }  // namespace
-
 void retrieveCalculationDetailsOnStringFromEngine(
     CalculationDetails& calculationDetails, string const& stringFromEngine) {
-    strings tokens;
-    splitToStrings<SplitStringType::WithoutDelimeters>(
+    strings tokens;    splitToStrings<SplitStringType::WithoutDelimeters>(
         tokens, getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine), " ");
 
     if (!tokens.empty()) {
-        if ("info" == tokens.front() || "bestmove" == tokens.front()) {
-            TokenProcessingData tokenProcessingData{};
-            for (string const& token : tokens) {
-                processToken(calculationDetails, tokenProcessingData, token);
-            }
-            if (!tokenProcessingData.pvMovesInBestLine.empty()) {
-                calculationDetails.pvMovesInBestLine = tokenProcessingData.pvMovesInBestLine;
-            }
+        if ("info" == tokens.front()) {
+            processInfoTokens(calculationDetails, tokens);
+        } else if ("bestmove" == tokens.front()) {
+            processBestMoveTokens(calculationDetails, tokens);
         }
     }
 }
-
 }  // namespace chess
 
 }  // namespace alba
