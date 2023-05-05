@@ -11,23 +11,21 @@ namespace alba {
 namespace AprgBitmap {
 
 enum class CompressedMethodType {
-    BI_RGB,
-    BI_RLE8,
-    BI_RLE4,
-    BI_BITFIELDS,
-    BI_JPEG,
-    BI_PNG,
-    BI_ALPHABITFIELDS,
-    BI_CMYK,
-    BI_CMYKRLE8,
-    BI_CMYKRLE4,
+    RGB,
+    RLE8,
+    RLE4,
+    BITFIELDS,
+    JPEG,
+    PNG,
+    ALPHABITFIELDS,
+    CMYK,
+    CMYKRLE8,
+    CMYKRLE4,
     Unknown
 };
-
 class BitmapConfiguration {
 public:
-    BitmapConfiguration();
-    bool isValid() const;
+    BitmapConfiguration();    bool isValid() const;
     bool isSignatureValid() const;
     bool isHeaderValid() const;
     bool isNumberOfColorPlanesValid() const;

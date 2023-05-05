@@ -53,15 +53,13 @@ bool BitmapConfiguration::isNumberOfBitsPerPixelValid() const {
 }
 
 bool BitmapConfiguration::isCompressedMethodSupported() const {
-    return (m_compressionMethodType == CompressedMethodType::BI_RGB);
+    return (m_compressionMethodType == CompressedMethodType::RGB);
 }
 
-bool BitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const {
-    return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
+bool BitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const {    return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
 }
 
-bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const {
-    return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
+bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const {    return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
 }
 
 CompressedMethodType BitmapConfiguration::getCompressedMethodType() const { return m_compressionMethodType; }
@@ -262,42 +260,40 @@ CompressedMethodType BitmapConfiguration::determineCompressedMethodType(uint32_t
     CompressedMethodType compressedMethodType;
     switch (compressedMethodValue) {
         case 0:
-            compressedMethodType = CompressedMethodType::BI_RGB;
+            compressedMethodType = CompressedMethodType::RGB;
             break;
         case 1:
-            compressedMethodType = CompressedMethodType::BI_RLE8;
+            compressedMethodType = CompressedMethodType::RLE8;
             break;
         case 2:
-            compressedMethodType = CompressedMethodType::BI_RLE4;
+            compressedMethodType = CompressedMethodType::RLE4;
             break;
         case 3:
-            compressedMethodType = CompressedMethodType::BI_BITFIELDS;
+            compressedMethodType = CompressedMethodType::BITFIELDS;
             break;
         case 4:
-            compressedMethodType = CompressedMethodType::BI_JPEG;
+            compressedMethodType = CompressedMethodType::JPEG;
             break;
         case 5:
-            compressedMethodType = CompressedMethodType::BI_PNG;
+            compressedMethodType = CompressedMethodType::PNG;
             break;
         case 6:
-            compressedMethodType = CompressedMethodType::BI_ALPHABITFIELDS;
+            compressedMethodType = CompressedMethodType::ALPHABITFIELDS;
             break;
         case 11:
-            compressedMethodType = CompressedMethodType::BI_CMYK;
+            compressedMethodType = CompressedMethodType::CMYK;
             break;
         case 12:
-            compressedMethodType = CompressedMethodType::BI_CMYKRLE8;
+            compressedMethodType = CompressedMethodType::CMYKRLE8;
             break;
         case 13:
-            compressedMethodType = CompressedMethodType::BI_CMYKRLE4;
+            compressedMethodType = CompressedMethodType::CMYKRLE4;
             break;
         default:
-            compressedMethodType = CompressedMethodType::Unknown;
-            break;
+            compressedMethodType = CompressedMethodType::Unknown;            break;
     }
     return compressedMethodType;
 }
-
 bool areBitmapConfigurationsCompatibleForChangingPixelData(
     BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2) {
     return configuration1.getNumberOfBitsPerPixel() == configuration2.getNumberOfBitsPerPixel() &&
