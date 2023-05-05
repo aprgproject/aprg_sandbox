@@ -1,19 +1,16 @@
 #include "AlbaWindowsUserAutomation.hpp"
 
+#include <Common/Macros/AlbaMacros.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Windows/AlbaWindowsHelper.hpp>
 
-#include <windows.h>
-
 #include <cctype>
 #include <fstream>
 #include <iostream>
-
 using namespace std;
 
 namespace alba {
-
 bool AlbaWindowsUserAutomation::isLetterPressed(char const letter) const {
     // https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getasynckeystate
     // If the function succeeds, the return value specifies whether the key was pressed since the last call to
@@ -192,14 +189,13 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(string const& c
     cout << "ClassName:[" << classNameTemp << "]\n";
 
     HWND windowHandle = FindWindowEx(nullptr, nullptr, className.c_str(), nullptr);
+    cout << "Error in " << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
     cout << AlbaWindowsHelper::getLastFormattedErrorMessage() << "\n";
     setForegroundWindowWithWindowHandle(windowHandle);
 }
-
 void AlbaWindowsUserAutomation::setForegroundWindowWithWindowName(string const& windowName) const {
     HWND windowHandle = FindWindowEx(nullptr, nullptr, nullptr, windowName.c_str());
-    setForegroundWindowWithWindowHandle(windowHandle);
-}
+    setForegroundWindowWithWindowHandle(windowHandle);}
 
 void AlbaWindowsUserAutomation::sleepWithRealisticDelay() const { Sleep(REALISTIC_DELAY_IN_MILLISECONDS); }
 
@@ -296,15 +292,13 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
         );
     }
     if (!isSuccessful) {
-        cout << "Error in AlbaWindowsUserAutomation::setActiveWindow()\n";
+        cout << "Error in " << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
         cout << AlbaWindowsHelper::getLastFormattedErrorMessage() << "\n";
     }
 }
-
 void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const {
     INPUT input;
-    memset(&input, 0, sizeof(INPUT));
-    inputFunction(input);
+    memset(&input, 0, sizeof(INPUT));    inputFunction(input);
     SendInput(1, &input, sizeof(INPUT));
 }
 
