@@ -69,14 +69,14 @@ public:
     DisplayTableCell& getCellReferenceAt(size_t const columnIndex, size_t const rowIndex);
     void addRow();
     void setBorders(std::string_view horizontalBorder, std::string_view verticalBorder);
+    void setHorizontalBorder(std::string_view horizontalBorder);
+    void setVerticalBorder(std::string_view verticalBorder);
 
 private:
-    std::string getCellTextWithDesiredLength(DisplayTableCell const& cell, size_t const desiredLength) const;
-    std::string getHorizontalBorderLine(size_t const length) const;
+    std::string getCellTextWithDesiredLength(DisplayTableCell const& cell, size_t const desiredLength) const;    std::string getHorizontalBorderLine(size_t const length) const;
     std::string getVerticalBorderPoint() const;
     size_t getVerticalBorderLength() const;
     size_t getHorizontalBorderLength(size_t const totalColumnLength) const;
-
     friend std::ostream& operator<<(std::ostream& out, DisplayTable const& displayTable);
 
     std::string m_horizontalBorder;
