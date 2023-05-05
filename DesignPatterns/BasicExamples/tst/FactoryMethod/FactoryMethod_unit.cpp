@@ -7,13 +7,12 @@ using namespace std;
 namespace FactoryMethod {
 
 TEST(FactoryMethodTest, Test1) {
-    unique_ptr<Creator> creator(make_unique<ConcreteCreator>());
-
-    std::unique_ptr<Product> product1 = creator->createProductA();
+    unique_ptr<Creator> creatorA(make_unique<ConcreteCreatorA>());
+    std::unique_ptr<Product> product1 = creatorA->createProduct();
     std::cout << "Product: " << product1->getName() << "\n";
 
-    std::unique_ptr<Product> product2 = creator->createProductB();
+    unique_ptr<Creator> creatorB(make_unique<ConcreteCreatorB>());
+    std::unique_ptr<Product> product2 = creatorB->createProduct();
     std::cout << "Product: " << product2->getName() << "\n";
 }
-
 }  // namespace FactoryMethod

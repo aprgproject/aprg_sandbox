@@ -37,15 +37,13 @@ public:
     // ...
 
 private:
-    std::unique_ptr<RealSubject> m_subject;
+    std::unique_ptr<Subject> m_subject;
 };
 
 }  // namespace Proxy
-
 // Proxy discussion:
 
-// ONE LINE NOTE:
-// -> Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real
+// ONE LINE NOTE:// -> Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real
 // object
 
 // Intent:

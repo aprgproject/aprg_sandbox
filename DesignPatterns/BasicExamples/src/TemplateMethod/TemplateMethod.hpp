@@ -9,28 +9,24 @@ class AbstractClass {
 public:
     virtual ~AbstractClass() = default;
 
-    void templateMethod()  // should be NOT "virtual" or should be marked as "final"
+    void templateMethod()  // should NOT be "virtual" or should be marked as "final"
     {
         // ...
-        primitiveOperation1();
-        // ...
+        primitiveOperation1();        // ...
         primitiveOperation2();
         // ...
-        hookOperation();
-        // ...
+        hookOperation();        // ...
     }
 
 protected:  // This ensures how primitive operations are used only by the templateMethod.
     virtual void primitiveOperation1() = 0;  // abstract operations MUST be overridden
     virtual void primitiveOperation2() = 0;
-    virtual void hookOperation() {}  // hooks MAY be overriden (can be empty an implementation)
+    virtual void hookOperation() {}  // hooks MAY be overriden (can be empty)
     // ...
 };
-
 // Concrete Class
 // implements the primitive operations to carry out specific steps  of the algorithm,
 // there may be many Concrete classes, each implementing the full set of the required operation
-
 class ConcreteClass : public AbstractClass {
     void primitiveOperation1() override {
         std::cout << "Primitive operation 1\n";
@@ -53,14 +49,14 @@ class ConcreteClass : public AbstractClass {
 
 // Template Method discussion:
 
+// It has nothing to do with C++ templates and generics!
+
 // ONE LINE NOTE:
 // -> Provide a "template method" with KNOWN STEPS and allow polymorphism and subclassing to support DIFFERENT VERSION
 // of the STEPS.
-
 // Intent:
 // Template method defines the skeleton of an algorithm in an operation, deferring some steps to subclasses.
-// It lets subclasses redefine certain steps of an algorithm  without changing the algorithm's structure.
-// The pattern has behavioral purpose and applies to the classes.
+// It lets subclasses redefine certain steps of an algorithm  without changing the algorithm's structure.// The pattern has behavioral purpose and applies to the classes.
 
 // When to use (applicability):
 // -> to implement the invariant parts of an algorithm once and leave it up to subclasses to implement the behavior that
