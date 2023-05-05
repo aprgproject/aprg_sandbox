@@ -1,18 +1,10 @@
 #pragma once
 
-#include <Bitmap/CommonTypes.hpp>
-
 namespace alba {
 
 namespace chess {
 
-enum class ChessPeekConfigurationType {
-    ChessDotComUserVsUser,
-    ChessDotComUserVsComputer,
-    LichessVersus,
-    LichessStream
-};
+enum class ChessPeekConfigurationType { ChessDotComVersus, ChessDotComPuzzle, LichessVersus, LichessStream };
 
 }
-
 }  // namespace alba
