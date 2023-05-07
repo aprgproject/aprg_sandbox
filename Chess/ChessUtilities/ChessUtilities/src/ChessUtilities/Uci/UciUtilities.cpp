@@ -127,9 +127,11 @@ void processBestMoveTokens(CalculationDetails& calculationDetails, strings const
     }
 }
 }  // namespace
+
 void retrieveCalculationDetailsOnStringFromEngine(
     CalculationDetails& calculationDetails, string const& stringFromEngine) {
-    strings tokens;    splitToStrings<SplitStringType::WithoutDelimeters>(
+    strings tokens;
+    splitToStrings<SplitStringType::WithoutDelimeters>(
         tokens, getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine), " ");
 
     if (!tokens.empty()) {
@@ -140,6 +142,7 @@ void retrieveCalculationDetailsOnStringFromEngine(
         }
     }
 }
+
 }  // namespace chess
 
 }  // namespace alba

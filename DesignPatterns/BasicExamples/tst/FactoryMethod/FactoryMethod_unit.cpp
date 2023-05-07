@@ -15,4 +15,5 @@ TEST(FactoryMethodTest, Test1) {
     std::unique_ptr<Product> product2 = creatorB->createProduct();
     std::cout << "Product: " << product2->getName() << "\n";
 }
+
 }  // namespace FactoryMethod

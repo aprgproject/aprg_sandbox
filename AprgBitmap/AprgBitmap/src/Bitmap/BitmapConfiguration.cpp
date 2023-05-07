@@ -56,10 +56,12 @@ bool BitmapConfiguration::isCompressedMethodSupported() const {
     return (m_compressionMethodType == CompressedMethodType::RGB);
 }
 
-bool BitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const {    return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
+bool BitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const {
+    return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
 }
 
-bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const {    return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
+bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const {
+    return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
 }
 
 CompressedMethodType BitmapConfiguration::getCompressedMethodType() const { return m_compressionMethodType; }
@@ -290,10 +292,12 @@ CompressedMethodType BitmapConfiguration::determineCompressedMethodType(uint32_t
             compressedMethodType = CompressedMethodType::CMYKRLE4;
             break;
         default:
-            compressedMethodType = CompressedMethodType::Unknown;            break;
+            compressedMethodType = CompressedMethodType::Unknown;
+            break;
     }
     return compressedMethodType;
 }
+
 bool areBitmapConfigurationsCompatibleForChangingPixelData(
     BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2) {
     return configuration1.getNumberOfBitsPerPixel() == configuration2.getNumberOfBitsPerPixel() &&

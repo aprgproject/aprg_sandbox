@@ -19,10 +19,12 @@ public:
         if (m_successorPointer != nullptr) {
             m_successorPointer->handleRequest();
         }
-    }    // ...
+    }
+    // ...
 
 private:
-    std::unique_ptr<Handler> m_successorPointer;};
+    std::unique_ptr<Handler> m_successorPointer;
+};
 
 // Concrete Handlers
 // handle requests they are responsible for

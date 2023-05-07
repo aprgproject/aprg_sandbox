@@ -7,9 +7,9 @@ namespace alba {
 namespace chess {
 
 bool ChessPeekCalculationDetails::operator==(ChessPeekCalculationDetails const& other) const {
-    return depthInPlies == other.depthInPlies && numberOfMovesTillMate == other.numberOfMovesTillMate &&
-           bestMove == other.bestMove && searchingMoveAndScorePairs == other.searchingMoveAndScorePairs &&
-           pvMovesInBestLine == other.pvMovesInBestLine;
+    return depthInPlies == other.depthInPlies && mateScore == other.mateScore && bestMove == other.bestMove &&
+           searchingMoveAndScorePairs == other.searchingMoveAndScorePairs && scoreInPvLine == other.scoreInPvLine &&
+           pvHalfMovesInMonitoredLine == other.pvHalfMovesInMonitoredLine;
 }
 
 bool ChessPeekCalculationDetails::operator!=(ChessPeekCalculationDetails const& other) const {

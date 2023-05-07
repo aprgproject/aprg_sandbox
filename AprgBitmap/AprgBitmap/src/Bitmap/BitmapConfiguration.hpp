@@ -23,9 +23,11 @@ enum class CompressedMethodType {
     CMYKRLE4,
     Unknown
 };
+
 class BitmapConfiguration {
 public:
-    BitmapConfiguration();    bool isValid() const;
+    BitmapConfiguration();
+    bool isValid() const;
     bool isSignatureValid() const;
     bool isHeaderValid() const;
     bool isNumberOfColorPlanesValid() const;

@@ -25,8 +25,10 @@ TEST(ChessPeekTest, DISABLED_RunOneIterationWorks) {
 
 TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks) {
     ChessPeek chessPeek;
+
     chessPeek.checkScreenAndSaveDetails();
 }
+
 TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks) {
     ChessPeek chessPeek;
 

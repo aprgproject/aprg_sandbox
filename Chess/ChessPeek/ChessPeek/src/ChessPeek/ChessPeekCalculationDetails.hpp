@@ -8,10 +8,11 @@ namespace chess {
 
 struct ChessPeekCalculationDetails {
     unsigned int depthInPlies;
-    int numberOfMovesTillMate;
+    int mateScore;
     std::string bestMove;
     StringAndIntPairs searchingMoveAndScorePairs;
-    stringHelper::strings pvMovesInBestLine;
+    int scoreInPvLine;
+    stringHelper::strings pvHalfMovesInMonitoredLine;
 
     bool operator==(ChessPeekCalculationDetails const& other) const;
     bool operator!=(ChessPeekCalculationDetails const& other) const;

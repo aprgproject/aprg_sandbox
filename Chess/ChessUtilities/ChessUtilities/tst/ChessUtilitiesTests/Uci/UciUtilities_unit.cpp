@@ -64,7 +64,8 @@ TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoEx
     EXPECT_TRUE(actualDetails.possibleResponseMove.empty());
 }
 
-TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoExample4) {    CalculationDetails actualDetails{};
+TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoExample4) {
+    CalculationDetails actualDetails{};
 
     retrieveCalculationDetailsOnStringFromEngine(actualDetails, "info depth 23 currmove f8a3 currmovenumber 1");
     retrieveCalculationDetailsOnStringFromEngine(actualDetails, "info depth 23 currmove c7c5 currmovenumber 2");
@@ -79,7 +80,8 @@ TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoEx
     EXPECT_TRUE(actualDetails.possibleResponseMove.empty());
 }
 
-TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnBestMoveExample1) {    CalculationDetails actualDetails{};
+TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnBestMoveExample1) {
+    CalculationDetails actualDetails{};
 
     retrieveCalculationDetailsOnStringFromEngine(actualDetails, "bestmove b4c2 ponder e1d1");
 
@@ -92,10 +94,12 @@ TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnBestMo
     EXPECT_EQ("e1d1", actualDetails.possibleResponseMove);
 }
 
-TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksWithIgnoringStringsWithInvalidStart) {    CalculationDetails actualDetails{};
+TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksWithIgnoringStringsWithInvalidStart) {
+    CalculationDetails actualDetails{};
 
     retrieveCalculationDetailsOnStringFromEngine(
-        actualDetails, "NOTVALIDSTART info depth 23 currmove f8a3 currmovenumber 1");    retrieveCalculationDetailsOnStringFromEngine(
+        actualDetails, "NOTVALIDSTART info depth 23 currmove f8a3 currmovenumber 1");
+    retrieveCalculationDetailsOnStringFromEngine(
         actualDetails,
         "NOT VALID START info depth 179 seldepth 2 multipv 1 score mate 1 nodes 5200 nps 57777 tbhits 0 time 90 pv "
         "b2d2");
@@ -112,4 +116,5 @@ TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksWithIgno
 }
 
 }  // namespace chess
+
 }  // namespace alba

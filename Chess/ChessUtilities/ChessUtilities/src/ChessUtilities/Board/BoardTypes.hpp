@@ -22,4 +22,5 @@ using MoveAndScorePair = std::pair<Move, int>;
 using MoveAndScorePairs = std::vector<MoveAndScorePair>;
 
 }  // namespace chess
+
 }  // namespace alba

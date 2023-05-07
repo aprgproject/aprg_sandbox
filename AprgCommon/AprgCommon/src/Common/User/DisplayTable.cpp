@@ -99,10 +99,12 @@ void DisplayTable::setVerticalBorder(std::string_view verticalBorder) { m_vertic
 
 string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, size_t const desiredLength) const {
     DisplayTableCellMode mode = cell.getHorizontalMode();
-    string result;    switch (mode) {
+    string result;
+    switch (mode) {
         case DisplayTableCellMode::justify:
             result = getStringWithJustifyAlignment(cell.getText(), desiredLength);
-            break;        case DisplayTableCellMode::center:
+            break;
+        case DisplayTableCellMode::center:
             result = getStringWithCenterAlignment(cell.getText(), desiredLength);
             break;
         case DisplayTableCellMode::right:

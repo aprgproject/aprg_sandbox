@@ -1,96 +1,109 @@
-/*#include <ChessPeek/ChessPieceRetriever.hpp>
+#include <Bitmap/Bitmap.hpp>
+#include <ChessPeek/ChessPieceRetriever.hpp>
+#include <ChessPeek/Utilities.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::AprgBitmap;
+using namespace alba::chess;
 using namespace std;
+
 namespace alba {
 
 namespace chess {
 
 namespace {
-void verifyGetChessCellPieceForBlackUpWhiteDown(
-    ChessPieceRetriever const& retriever, BitmapSnippet const& inputSnippet) {
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 0U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 1U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 2U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 3U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 4U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 5U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 6U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(inputSnippet, 7U, 6U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteRook), retriever.getChessCellPiece(inputSnippet, 0U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteRook), retriever.getChessCellPiece(inputSnippet, 7U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteKnight), retriever.getChessCellPiece(inputSnippet, 1U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteKnight), retriever.getChessCellPiece(inputSnippet, 6U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteBishop), retriever.getChessCellPiece(inputSnippet, 2U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteBishop), retriever.getChessCellPiece(inputSnippet, 5U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteQueen), retriever.getChessCellPiece(inputSnippet, 3U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::WhiteKing), retriever.getChessCellPiece(inputSnippet, 4U, 7U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 0U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 1U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 2U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 3U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 4U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 5U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 6U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(inputSnippet, 7U, 1U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackRook), retriever.getChessCellPiece(inputSnippet, 0U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackRook), retriever.getChessCellPiece(inputSnippet, 7U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackKnight), retriever.getChessCellPiece(inputSnippet, 1U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackKnight), retriever.getChessCellPiece(inputSnippet, 6U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackBishop), retriever.getChessCellPiece(inputSnippet, 2U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackBishop), retriever.getChessCellPiece(inputSnippet, 5U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackQueen), retriever.getChessCellPiece(inputSnippet, 3U, 0U));
-    EXPECT_EQ(Piece(PieceColorAndType::BlackKing), retriever.getChessCellPiece(inputSnippet, 4U, 0U));
+void verifyGetChessCellPieceForBlackUpWhiteDown(ChessPieceRetriever const& retriever) {
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(0U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(1U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(2U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(3U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(4U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(5U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(6U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), retriever.getChessCellPiece(7U, 6U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteRook), retriever.getChessCellPiece(0U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteRook), retriever.getChessCellPiece(7U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteKnight), retriever.getChessCellPiece(1U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteKnight), retriever.getChessCellPiece(6U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteBishop), retriever.getChessCellPiece(2U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteBishop), retriever.getChessCellPiece(5U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteQueen), retriever.getChessCellPiece(3U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::WhiteKing), retriever.getChessCellPiece(4U, 7U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(0U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(1U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(2U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(3U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(4U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(5U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(6U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackPawn), retriever.getChessCellPiece(7U, 1U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackRook), retriever.getChessCellPiece(0U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackRook), retriever.getChessCellPiece(7U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackKnight), retriever.getChessCellPiece(1U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackKnight), retriever.getChessCellPiece(6U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackBishop), retriever.getChessCellPiece(2U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackBishop), retriever.getChessCellPiece(5U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackQueen), retriever.getChessCellPiece(3U, 0U));
+    EXPECT_EQ(Piece(PieceColorAndType::BlackKing), retriever.getChessCellPiece(4U, 0U));
 }
 }  // namespace
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsUser) {
-    AlbaLocalPathHandler inputFile(
-        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\ChessDotComUserVsUser.bmp)");
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComVersus) {
+    AlbaLocalPathHandler inputFile(APRG_DIR
+                                   R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComVersus\ChessDotComVersus.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsUser);
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getBoardTopLeft(), configuration.getBoardBottomRight()));
-    ChessPieceRetriever retriever(configuration);
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
+        convertToBitmapXY(configuration.getTopLeftOfBoard()),
+        convertToBitmapXY(configuration.getBottomRightOfBoard())));
+    ChessPieceRetriever retriever(configuration, inputSnippet);
 
-    verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);}
+    verifyGetChessCellPieceForBlackUpWhiteDown(retriever);
+}
 
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsComputer) {
-    AlbaLocalPathHandler inputFile(        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsComputer\ChessDotComUserVsComputer.bmp)");
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComPuzzle) {
+    AlbaLocalPathHandler inputFile(APRG_DIR
+                                   R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComPuzzle\ChessDotComPuzzle.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsComputer);
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComPuzzle);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getBoardTopLeft(), configuration.getBoardBottomRight()));
-    ChessPieceRetriever retriever(configuration);
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
+        convertToBitmapXY(configuration.getTopLeftOfBoard()),
+        convertToBitmapXY(configuration.getBottomRightOfBoard())));
+    ChessPieceRetriever retriever(configuration, inputSnippet);
 
-    verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);}
+    verifyGetChessCellPieceForBlackUpWhiteDown(retriever);
+}
 
 TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessVersus) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
-    Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getBoardTopLeft(), configuration.getBoardBottomRight()));
-    ChessPieceRetriever retriever(configuration);
-
-    verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);}
-
-TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessVersus_CircleChoicesAreNotPawns) {
-    AlbaLocalPathHandler inputFile(        APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\ChoiceCirclesAreNotPawns.bmp)");
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
-    BitmapSnippet inputSnippet(
-        inputBitmap.getSnippetReadFromFile(configuration.getBoardTopLeft(), configuration.getBoardBottomRight()));
-    ChessPieceRetriever retriever(configuration);
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
+        convertToBitmapXY(configuration.getTopLeftOfBoard()),
+        convertToBitmapXY(configuration.getBottomRightOfBoard())));
+    ChessPieceRetriever retriever(configuration, inputSnippet);
 
-    EXPECT_EQ(Piece(PieceColorAndType::Empty), retriever.getChessCellPiece(inputSnippet, 0U, 1U));}
+    verifyGetChessCellPieceForBlackUpWhiteDown(retriever);
+}
+
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessStream) {
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\LichessStream.bmp)");
+
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessStream);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
+        convertToBitmapXY(configuration.getTopLeftOfBoard()),
+        convertToBitmapXY(configuration.getBottomRightOfBoard())));
+    ChessPieceRetriever retriever(configuration, inputSnippet);
+
+    verifyGetChessCellPieceForBlackUpWhiteDown(retriever);
+}
 
 }  // namespace chess
 
 }  // namespace alba
-*/

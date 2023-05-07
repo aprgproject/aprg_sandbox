@@ -3,9 +3,11 @@
 using namespace std;
 
 namespace alba {
+
 namespace chess {
 
-ChessPeekConfiguration::ChessPeekConfiguration(ChessPeekConfigurationType const type)    : m_type(type),
+ChessPeekConfiguration::ChessPeekConfiguration(ChessPeekConfigurationType const type)
+    : m_type(type),
       m_chessEnginePath(),
       m_screenShotPath(),
       m_uciOptionNamesAndValuePairs(),
@@ -13,25 +15,40 @@ ChessPeekConfiguration::ChessPeekConfiguration(ChessPeekConfigurationType const 
       m_boardBottomRight{},
       m_whiteColorLimit{},
       m_blackColorLimit{} {
-    initialize();}
+    initialize();
+}
 
 ChessPeekConfigurationType ChessPeekConfiguration::getType() const { return m_type; }
+
 string const& ChessPeekConfiguration::getChessEnginePath() const { return m_chessEnginePath; }
 
 string const& ChessPeekConfiguration::getScreenShotPath() const { return m_screenShotPath; }
 
-XY ChessPeekConfiguration::getBoardTopLeft() const { return m_boardTopLeft; }
+XY ChessPeekConfiguration::getTopLeftOfBoard() const { return m_boardTopLeft; }
 
-XY ChessPeekConfiguration::getBoardBottomRight() const { return m_boardBottomRight; }
+XY ChessPeekConfiguration::getBottomRightOfBoard() const { return m_boardBottomRight; }
 
 double ChessPeekConfiguration::getWhiteColorLimit() const { return m_whiteColorLimit; }
+
 double ChessPeekConfiguration::getBlackColorLimit() const { return m_blackColorLimit; }
 
-stringHelper::StringPairs const& ChessPeekConfiguration::getUciOptionNamesAndValuePairs() const {    return m_uciOptionNamesAndValuePairs;
+stringHelper::StringPairs const& ChessPeekConfiguration::getUciOptionNamesAndValuePairs() const {
+    return m_uciOptionNamesAndValuePairs;
 }
 
 void ChessPeekConfiguration::initialize() {
     initializeCommonParameters();
+    initializeSpecificParameters();
+}
+
+void ChessPeekConfiguration::initializeCommonParameters() {
+    m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish15.exe)";
+    // m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)";
+    m_uciOptionNamesAndValuePairs = {{"MultiPV", "10"}};  // 10 moves
+    m_screenShotPath = APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)";
+}
+
+void ChessPeekConfiguration::initializeSpecificParameters() {
     switch (m_type) {
         case ChessPeekConfigurationType::ChessDotComVersus: {
             initializeChessDotComVersus();
@@ -41,20 +58,15 @@ void ChessPeekConfiguration::initialize() {
             initializeChessDotComPuzzle();
             break;
         }
-        case ChessPeekConfigurationType::LichessVersus: {            initializeLichessVersus();
+        case ChessPeekConfigurationType::LichessVersus: {
+            initializeLichessVersus();
             break;
         }
-        case ChessPeekConfigurationType::LichessStream: {            initializeLichessStream();
+        case ChessPeekConfigurationType::LichessStream: {
+            initializeLichessStream();
             break;
         }
     }
-}
-
-void ChessPeekConfiguration::initializeCommonParameters() {
-    m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish15.exe)";
-    // m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)";
-    m_uciOptionNamesAndValuePairs = {{"MultiPV", "10"}};  // 10 moves
-    m_screenShotPath = APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)";
 }
 
 void ChessPeekConfiguration::initializeChessDotComVersus() {
@@ -84,6 +96,7 @@ void ChessPeekConfiguration::initializeLichessStream() {
     m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.30;
 }
+
 }  // namespace chess
 
 }  // namespace alba

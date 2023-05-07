@@ -1,12 +1,21 @@
-#include "ColorUtilities.hpp"
+#include "Utilities.hpp"
 
 #include <Common/Bit/AlbaBitManipulation.hpp>
 
+using namespace alba::AprgBitmap;
 using namespace std;
 
 namespace alba {
 
 namespace chess {
+
+XY convertToXY(BitmapXY const& bitmapXY) {
+    return {static_cast<int>(bitmapXY.getX()), static_cast<int>(bitmapXY.getY())};
+}
+
+BitmapXY convertToBitmapXY(XY const& xy) {
+    return {static_cast<unsigned int>(xy.getX()), static_cast<unsigned int>(xy.getY())};
+}
 
 double calculateColorIntensityDecimal(uint32_t const color) {
     return (((double)extractRed(color) + extractGreen(color) + extractBlue(color)) / 0xFF) / 3;

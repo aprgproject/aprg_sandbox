@@ -5,27 +5,32 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 namespace alba {
+
 namespace chess {
 
-class ChessPeekConfiguration {public:
+class ChessPeekConfiguration {
+public:
     ChessPeekConfiguration() = delete;
     ChessPeekConfiguration(ChessPeekConfigurationType const type);
 
     ChessPeekConfigurationType getType() const;
     std::string const& getChessEnginePath() const;
     std::string const& getScreenShotPath() const;
-    XY getBoardTopLeft() const;
-    XY getBoardBottomRight() const;
+    XY getTopLeftOfBoard() const;
+    XY getBottomRightOfBoard() const;
     double getWhiteColorLimit() const;
     double getBlackColorLimit() const;
     stringHelper::StringPairs const& getUciOptionNamesAndValuePairs() const;
+
 private:
     void initialize();
     void initializeCommonParameters();
+    void initializeSpecificParameters();
     void initializeChessDotComVersus();
     void initializeChessDotComPuzzle();
     void initializeLichessVersus();
     void initializeLichessStream();
+
     ChessPeekConfigurationType m_type;
     std::string m_chessEnginePath;
     std::string m_screenShotPath;
@@ -35,6 +40,7 @@ private:
     double m_whiteColorLimit;
     double m_blackColorLimit;
 };
+
 }  // namespace chess
 
 }  // namespace alba

@@ -41,9 +41,11 @@ private:
 };
 
 }  // namespace Proxy
+
 // Proxy discussion:
 
-// ONE LINE NOTE:// -> Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real
+// ONE LINE NOTE:
+// -> Provide a "proxy object" that LOOKS like a real object but its a PLACEHOLDER ONLY to control ACCESS to the real
 // object
 
 // Intent:

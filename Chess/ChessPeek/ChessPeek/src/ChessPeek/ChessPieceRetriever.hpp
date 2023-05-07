@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Bitmap/BitmapSnippet.hpp>
 #include <ChessPeek/ChessPeekConfiguration.hpp>
 #include <ChessPeek/CommonTypes.hpp>
 #include <ChessUtilities/Board/BoardTypes.hpp>
@@ -8,11 +9,10 @@
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <ScreenMonitoring/AlbaLocalScreenMonitoring.hpp>
 
-#include <array>
-#include <bitset>#include <cstdint>
-#include <fstream>
+#include <bitset>
+#include <cstdint>
 #include <functional>
-#include <map>#include <optional>
+#include <map>
 
 namespace alba {
 
@@ -25,14 +25,17 @@ public:
         XY pointOffset;
         WhiteOrBlack condition;
     };
-    using BitSet64 = std::bitset<64>;    using Count = unsigned int;
+    using BitSet64 = std::bitset<64>;
+    using Count = unsigned int;
     using PieceToChessCellBitValueMap = std::map<PieceColorAndType, uint64_t>;
     using BitValueUtilities = AlbaBitValueUtilities<uint64_t>;
-    using PieceColorAndTypes = std::vector<PieceColorAndType>;    using CheckDetails = std::vector<CheckDetail>;
+    using PieceColorAndTypes = std::vector<PieceColorAndType>;
+    using CheckDetails = std::vector<CheckDetail>;
     using BoolFunction = std::function<bool(double const)>;
 
     ChessPieceRetriever() = delete;
     ChessPieceRetriever(ChessPeekConfiguration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring);
+    ChessPieceRetriever(ChessPeekConfiguration const& configuration, AprgBitmap::BitmapSnippet const& bitmapSnippet);
 
     Piece getChessCellPiece(int const xIndex, int const yIndex) const;
     BitSet64 getChessCellBitValue(int const xIndex, int const yIndex) const;
@@ -41,11 +44,13 @@ public:
     void retrieveBlackOffsetPoints(XYs& coordinates, int const xIndex, int const yIndex) const;
 
 private:
-    void initialize(ChessPeekConfigurationType const type);    void initializeConverterToChessDotCom();
+    void initialize(ChessPeekConfigurationType const type);
+    void initializeConverterToChessDotCom();
     void initializeConverterToLichessVersus();
 
     bool isBitValueAsserted(
         CheckDetail const& checkDetail, XY const& chessCellTopLeft, XY const& chessCellBottomRight) const;
+    uint32_t getColorAt(int const x, int const y) const;
 
     PieceColorAndType getBestPieceFromChessCellBitValue(uint64_t const chessCellBitValue) const;
     PieceColorAndTypes getBestFitPiecesFromChessCellBitValue(uint64_t const chessCellBitValue) const;
@@ -56,11 +61,13 @@ private:
         XYs& coordinates, int const xIndex, int const yIndex, BoolFunction const& condition) const;
 
     ChessPeekConfiguration const& m_configuration;
-    AlbaLocalScreenMonitoring const& m_screenMonitoring;
+    AlbaLocalScreenMonitoring const* const m_screenMonitoringPtr;
+    AprgBitmap::BitmapSnippet const* const m_bitmapSnippetPtr;
     XY m_checkMaxPoint;
     CheckDetails m_checkDetails;
     PieceToChessCellBitValueMap m_piecesToChessCellBitValuesMap;
 };
 
 }  // namespace chess
+
 }  // namespace alba

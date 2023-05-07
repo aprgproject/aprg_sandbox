@@ -32,10 +32,12 @@ void ChessEngineControllerWithUci::initializeController() { sendUciAndUciOptions
 
 void ChessEngineControllerWithUci::resetToNewGame() {
     log("Resetting to a new game");
-    sendStopIfCalculating();    send(CommandType::Position, "ucinewgame");
+    sendStopIfCalculating();
+    send(CommandType::Position, "ucinewgame");
 }
 
-void ChessEngineControllerWithUci::setupStartPosition() {    log("Setting start position");
+void ChessEngineControllerWithUci::setupStartPosition() {
+    log("Setting start position");
     sendStopIfCalculating();
     send(CommandType::Position, "position startpos");
 }
@@ -125,9 +127,11 @@ void ChessEngineControllerWithUci::setLogFile(string const& logFilePath) {
 
 void ChessEngineControllerWithUci::resetEngine() {
     log("Resetting engine");
-    clearData();    m_engineHandler.reset();
+    clearData();
+    m_engineHandler.reset();
     sendUciAndUciOptions();
 }
+
 void ChessEngineControllerWithUci::clearData() {
     changeState(ControllerState::Initializing);
     m_waitingForReadyOkay = false;
@@ -153,10 +157,12 @@ void ChessEngineControllerWithUci::proceedToIdleStateAndProcessPendingCommands()
 void ChessEngineControllerWithUci::processPendingCommands() {
     bool hasGoCommandOnPending(false);
     while (!m_pendingCommands.empty() && !hasGoCommandOnPending) {
-        Command pendingCommand(m_pendingCommands.front());        m_pendingCommands.pop_front();
+        Command pendingCommand(m_pendingCommands.front());
+        m_pendingCommands.pop_front();
         hasGoCommandOnPending = CommandType::Go == pendingCommand.commandType;
         send(pendingCommand);
-    }}
+    }
+}
 
 void ChessEngineControllerWithUci::log(string const& logString) {
     if (m_logFileStreamOptional) {
@@ -164,9 +170,11 @@ void ChessEngineControllerWithUci::log(string const& logString) {
         m_logFileStreamOptional.value().flush();
     }
 }
+
 void ChessEngineControllerWithUci::forceSend(string const& commandString) {
     m_engineHandler.sendStringToEngine(commandString);
 }
+
 void ChessEngineControllerWithUci::sendStopIfCalculating() {
     if (ControllerState::Calculating == m_state) {
         sendStop();
@@ -211,7 +219,8 @@ void ChessEngineControllerWithUci::send(Command const& command) {
             log(string("Since ControllerState::WaitingForUciOkay adding pending command: ") + command.commandString);
             m_pendingCommands.emplace_back(command);
             break;
-        }        case ControllerState::Calculating: {
+        }
+        case ControllerState::Calculating: {
             if (CommandType::Stop == command.commandType) {
                 m_engineHandler.sendStringToEngine(command.commandString);
                 changeState(ControllerState::Idle);
@@ -219,10 +228,12 @@ void ChessEngineControllerWithUci::send(Command const& command) {
                 log(string("Since ControllerState::Calculating adding pending command: ") + command.commandString);
                 m_pendingCommands.emplace_back(command);
             }
-            break;        }
+            break;
+        }
         case ControllerState::Idle: {
             if (CommandType::Go == command.commandType) {
-                clearCalculationDetails();                changeState(ControllerState::Calculating);
+                clearCalculationDetails();
+                changeState(ControllerState::Calculating);
             }
             m_engineHandler.sendStringToEngine(command.commandString);
             break;
@@ -245,7 +256,8 @@ void ChessEngineControllerWithUci::processAStringFromEngine(string const& string
                 processInCalculating(stringToProcess);
                 break;
             }
-            default: {                // idle and and other states are ignored
+            default: {
+                // idle and and other states are ignored
                 break;
             }
         }
@@ -262,10 +274,12 @@ void ChessEngineControllerWithUci::processInCalculating(string const& stringToPr
     retrieveCalculationDetailsOnStringFromEngine(m_currentCalculationDetails, stringToProcess);
 
     if (!m_currentCalculationDetails.bestMove.empty()) {
-        proceedToIdleStateAndProcessPendingCommands();    }
+        proceedToIdleStateAndProcessPendingCommands();
+    }
 
     if (m_additionalStepsInCalculationMonitoring) {
-        m_additionalStepsInCalculationMonitoring.value()(m_currentCalculationDetails);    }
+        m_additionalStepsInCalculationMonitoring.value()(m_currentCalculationDetails);
+    }
 }
 
 string ChessEngineControllerWithUci::constructUciOptionCommand(string const& name, string const& value) {
@@ -282,10 +296,12 @@ string getEnumString(ChessEngineControllerWithUci::ControllerState const state) 
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Initializing, "Initializing")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(
             ChessEngineControllerWithUci::ControllerState::WaitingForUciOkay, "WaitingForUciOkay")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Idle, "Idle")        ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Calculating, "Calculating")
+        ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Idle, "Idle")
+        ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Calculating, "Calculating")
         default:
             return "default";
-    }}
+    }
+}
 
 ostream& operator<<(ostream& out, ChessEngineControllerWithUci::ControllerState const state) {
     out << getEnumString(state);

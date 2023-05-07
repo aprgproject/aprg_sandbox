@@ -43,6 +43,7 @@ public:
     virtual std::unique_ptr<Product> createProduct() const = 0;
     // ...
 };
+
 // Concrete Creator
 // implements factory method that is responsible for creating
 // one or more concrete products ie. it is class that has
@@ -59,9 +60,11 @@ public:
     std::unique_ptr<Product> createProduct() const override { return std::make_unique<ConcreteProductB>(); }
     // ...
 };
+
 }  // namespace FactoryMethod
 
 // FactoryMethod discussion:
+
 // ONE LINE NOTE:
 // -> Provide a "factory method" for creating objects and let polymorphism and subclassing support DIFFERENT VERSIONS of
 // the "factory method".
