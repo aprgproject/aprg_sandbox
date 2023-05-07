@@ -32,14 +32,13 @@ public:
 private:
     void initializeEngine();
     void shutdownEngine();
+    void shutdownLogging();
     void log(LogType const logtype, std::string const& logString);
     std::string getLogHeader(LogType const logtype) const;
-    std::string m_enginePath;
-    std::mutex m_readMutex;
+    std::string m_enginePath;    std::mutex m_readMutex;
     STARTUPINFO m_startupInfo;
     PROCESS_INFORMATION m_processInfo;
-    HANDLE m_engineMonitoringThread;
-    DWORD m_threadId;
+    HANDLE m_engineMonitoringThread;    DWORD m_threadId;
     HANDLE m_inputStreamOnEngineThread, m_outputStreamOnEngineThread;
     HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;
     std::optional<std::ofstream> m_logFileStreamOptional;

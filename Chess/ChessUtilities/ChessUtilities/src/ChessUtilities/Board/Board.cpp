@@ -34,71 +34,63 @@ Board::Board(Orientation const& orientation, InitializerList const& initializerL
 
 bool Board::isEmptyAt(Coordinate const& coordinate) const { return getPieceAt(coordinate).isEmpty(); }
 
-bool Board::isPossibleMove(Move const& move) const { return isPossibleMoveBasedFromPieceType(move); }
+bool Board::isACaptureMove(Move const& move) const { return !isEmptyAt(move.second); }
 
-bool Board::isAMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const {
-    Piece piece(getPieceAt(destination));
-    return getDiagonalMovesPossibleToThisDestination(destination, color, 1U) == 1U ||
-           getStraightMovesPossibleToThisDestination(destination, color, 1U) == 1U ||
-           getKnightMovesPossibleToThisDestination(destination, color, 1U) == 1U ||
-           getKingMovesPossibleToThisDestination(destination, color, 1U) == 1U ||
-           (piece.isEmpty() && getPawnReverseMovesPossibleToThisDestination(destination, color, 1U) == 1U) ||
-           (!piece.isEmpty() && getPawnReverseCapturesPossibleToThisDestination(destination, color, 1U) == 1U);
+bool Board::isAPromotionMove(Move const& move) const {
+    return PieceType::Pawn == getPieceAt(move.first).getType() &&
+           (move.second.getY() == 0 || move.second.getY() == 7) && isAPossibleMove(move);
 }
 
-bool Board::hasOnlyOneMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const {
-    Piece piece(getPieceAt(destination));
-    unsigned int numberOfMoves(0U);
-    numberOfMoves += getDiagonalMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    if (numberOfMoves <= 1U) {
-        numberOfMoves += getStraightMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    }
-    if (numberOfMoves <= 1U) {
-        numberOfMoves += getKnightMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    }
-    if (numberOfMoves <= 1U) {
-        numberOfMoves += getKingMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-    }
-    if (numberOfMoves <= 1U) {
-        if (piece.isEmpty()) {
-            numberOfMoves += getPawnReverseMovesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-        } else {
-            numberOfMoves += getPawnReverseCapturesPossibleToThisDestination(destination, color, 2U - numberOfMoves);
-        }
-    }
-    return numberOfMoves == 1U;
+bool Board::isACastlingMove(Move const& move) const {
+    MovePair kingAndRookCastlingMovePair(getMatchingCastlingKingAndRookMovePair(move));
+    return kingAndRookCastlingMovePair.first == move;
 }
+
+bool Board::isAPossibleMove(Move const& move) const { return isPossibleMoveBasedFromPieceType(move); }
 
 bool Board::canBeCaptured(Coordinate const& destination) const {
     Piece piece(getPieceAt(destination));
     bool result(false);
     if (!piece.isEmpty()) {
         PieceColor oppositeColor(getOppositeColor(piece.getColor()));
-        result = getDiagonalMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
-                 getStraightMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
-                 getKnightMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
-                 getKingMovesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U ||
-                 getPawnReverseCapturesPossibleToThisDestination(destination, oppositeColor, 1U) == 1U;
+        result = getDiagonalMovesPossibleToThisDestination(destination, oppositeColor, 1) >= 1 ||
+                 getStraightMovesPossibleToThisDestination(destination, oppositeColor, 1) >= 1 ||
+                 getKnightMovesPossibleToThisDestination(destination, oppositeColor, 1) >= 1 ||
+                 getKingMovesPossibleToThisDestination(destination, oppositeColor, 1) >= 1 ||
+                 getPawnReverseCapturesPossibleToThisDestination(destination, oppositeColor, 1) >= 1;
     }
     return result;
 }
 
-bool Board::isPromotionMove(Move const& move) const {
-    return PieceType::Pawn == getPieceAt(move.first).getType() &&
-           (move.second.getY() == 0 || move.second.getY() == 7) && isPossibleMove(move);
+bool Board::areAnyMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const {
+    Piece piece(getPieceAt(destination));
+    return getDiagonalMovesPossibleToThisDestination(destination, color, 1) >= 1 ||
+           getStraightMovesPossibleToThisDestination(destination, color, 1) >= 1 ||
+           getKnightMovesPossibleToThisDestination(destination, color, 1) >= 1 ||
+           getKingMovesPossibleToThisDestination(destination, color, 1) >= 1 ||
+           (piece.isEmpty() && getPawnReverseMovesPossibleToThisDestination(destination, color, 1) >= 1) ||
+           (!piece.isEmpty() && getPawnReverseCapturesPossibleToThisDestination(destination, color, 1) >= 1);
 }
 
-bool Board::isCastlingMove(Move const& move) const {
-    MovePair kingAndRookCastlingMovePair(getMatchingCastlingKingAndRookMovePair(move));
-    return kingAndRookCastlingMovePair.first == move;
+bool Board::hasOnlyOneMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const {
+    Piece piece(getPieceAt(destination));
+    int numberOfMoves(0);
+    numberOfMoves += getDiagonalMovesPossibleToThisDestination(destination, color, 2 - numberOfMoves);
+    numberOfMoves += getStraightMovesPossibleToThisDestination(destination, color, 2 - numberOfMoves);
+    numberOfMoves += getKnightMovesPossibleToThisDestination(destination, color, 2 - numberOfMoves);
+    numberOfMoves += getKingMovesPossibleToThisDestination(destination, color, 2 - numberOfMoves);
+    if (piece.isEmpty()) {
+        numberOfMoves += getPawnReverseMovesPossibleToThisDestination(destination, color, 2 - numberOfMoves);
+    } else {
+        numberOfMoves += getPawnReverseCapturesPossibleToThisDestination(destination, color, 2 - numberOfMoves);
+    }
+    return numberOfMoves == 1;
 }
 
 Board::Orientation Board::getOrientation() const { return m_orientation; }
-
 Board::PieceMatrix const& Board::getPieceMatrix() const { return m_pieceMatrix; }
 
-Piece Board::getPieceAt(Coordinate const& coordinate) const {
-    Piece result;
+Piece Board::getPieceAt(Coordinate const& coordinate) const {    Piece result;
     if ((isCoordinateOnBoard(coordinate))) {
         result = m_pieceMatrix.getEntry(coordinate.getX(), coordinate.getY());
     }
@@ -255,15 +247,13 @@ void Board::setPieceAt(Coordinate const& coordinate, Piece const& piece) {
 }
 
 void Board::move(Move const& move) {
-    if (isPossibleMove(move)) {
+    if (isAPossibleMove(move)) {
         MovePair kingAndRookCastlingMovePair(getMatchingCastlingKingAndRookMovePair(move));
         if (kingAndRookCastlingMovePair.first == move) {
-            changePieceMatrixWithMove(kingAndRookCastlingMovePair.first);
-            changePieceMatrixWithMove(kingAndRookCastlingMovePair.second);
+            changePieceMatrixWithMove(kingAndRookCastlingMovePair.first);            changePieceMatrixWithMove(kingAndRookCastlingMovePair.second);
         } else {
             changePieceMatrixWithMove(move);
-        }
-    }
+        }    }
 }
 
 bool Board::isEndEmptyOrHaveDifferentColors(Move const& move) const {
@@ -399,17 +389,15 @@ bool Board::doesMoveHasNoBlockingPieceInBetween(Move const& move) const {
 }
 
 unsigned int Board::getDiagonalMovesPossibleToThisDestination(
-    Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
-    unsigned int numberOfMoves(0U);
-    if (maximumCount > 0U) {
+    Coordinate const& destination, PieceColor const color, int const maximumCount) const {
+    int numberOfMoves(0);
+    if (maximumCount > 0) {
         for (Coordinate const& deltaCoordinate : getDiagonalIncrementDeltaCoordinates()) {
             Coordinate runningCoordinate = destination + deltaCoordinate;
-            while (isCoordinateOnBoard(runningCoordinate)) {
-                Piece piece(getPieceAt(runningCoordinate));
+            while (isCoordinateOnBoard(runningCoordinate)) {                Piece piece(getPieceAt(runningCoordinate));
                 if (!piece.isEmpty()) {
                     if (color == piece.getColor() &&
-                        (PieceType::Bishop == piece.getType() || PieceType::Queen == piece.getType())) {
-                        numberOfMoves++;
+                        (PieceType::Bishop == piece.getType() || PieceType::Queen == piece.getType())) {                        numberOfMoves++;
                     }
                     break;
                 }
@@ -424,17 +412,15 @@ unsigned int Board::getDiagonalMovesPossibleToThisDestination(
 }
 
 unsigned int Board::getStraightMovesPossibleToThisDestination(
-    Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
-    unsigned int numberOfMoves(0U);
-    if (maximumCount > 0U) {
+    Coordinate const& destination, PieceColor const color, int const maximumCount) const {
+    int numberOfMoves(0);
+    if (maximumCount > 0) {
         for (Coordinate const& deltaCoordinate : getStraightIncrementDeltaCoordinates()) {
             Coordinate runningCoordinate = destination + deltaCoordinate;
-            while (isCoordinateOnBoard(runningCoordinate)) {
-                Piece piece(getPieceAt(runningCoordinate));
+            while (isCoordinateOnBoard(runningCoordinate)) {                Piece piece(getPieceAt(runningCoordinate));
                 if (!piece.isEmpty()) {
                     if (color == piece.getColor() &&
-                        (PieceType::Rook == piece.getType() || PieceType::Queen == piece.getType())) {
-                        numberOfMoves++;
+                        (PieceType::Rook == piece.getType() || PieceType::Queen == piece.getType())) {                        numberOfMoves++;
                     }
                     break;
                 }
@@ -449,68 +435,60 @@ unsigned int Board::getStraightMovesPossibleToThisDestination(
 }
 
 unsigned int Board::getKnightMovesPossibleToThisDestination(
-    Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
-    unsigned int numberOfMoves(0U);
-    if (maximumCount > 0U) {
+    Coordinate const& destination, PieceColor const color, int const maximumCount) const {
+    int numberOfMoves(0);
+    if (maximumCount > 0) {
         for (Coordinate const& deltaCoordinate : getLDeltaCoordinates()) {
             Piece piece(getPieceAt(destination + deltaCoordinate));
-            if (color == piece.getColor() && PieceType::Knight == piece.getType()) {
-                numberOfMoves++;
+            if (color == piece.getColor() && PieceType::Knight == piece.getType()) {                numberOfMoves++;
                 if (numberOfMoves >= maximumCount) {
                     break;
-                }
-            }
+                }            }
         }
     }
     return numberOfMoves;
 }
 
 unsigned int Board::getKingMovesPossibleToThisDestination(
-    Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
-    unsigned int numberOfMoves(0U);
-    if (maximumCount > 0U) {
+    Coordinate const& destination, PieceColor const color, int const maximumCount) const {
+    int numberOfMoves(0);
+    if (maximumCount > 0) {
         for (Coordinate const& deltaCoordinate : getOneStepDeltaCoordinates()) {
             Piece piece(getPieceAt(destination + deltaCoordinate));
-            if (color == piece.getColor() && PieceType::King == piece.getType()) {
-                numberOfMoves++;
+            if (color == piece.getColor() && PieceType::King == piece.getType()) {                numberOfMoves++;
                 if (numberOfMoves >= maximumCount) {
                     break;
-                }
-            }
+                }            }
         }
     }
     return numberOfMoves;
 }
 
 unsigned int Board::getPawnReverseMovesPossibleToThisDestination(
-    Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
-    unsigned int numberOfMoves(0U);
-    if (maximumCount > 0U) {
+    Coordinate const& destination, PieceColor const color, int const maximumCount) const {
+    int numberOfMoves(0);
+    if (maximumCount > 0) {
         for (Coordinate const& deltaCoordinate : getPossiblePawnReverseMovesDeltaCoordinates(destination, color)) {
             Piece piece(getPieceAt(destination + deltaCoordinate));
-            if (color == piece.getColor() && PieceType::Pawn == piece.getType()) {
-                numberOfMoves++;
+            if (color == piece.getColor() && PieceType::Pawn == piece.getType()) {                numberOfMoves++;
                 if (numberOfMoves >= maximumCount) {
                     break;
-                }
-            }
+                }            }
         }
     }
     return numberOfMoves;
 }
 
 unsigned int Board::getPawnReverseCapturesPossibleToThisDestination(
-    Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const {
-    unsigned int numberOfMoves(0U);
-    if (maximumCount > 0U) {
+    Coordinate const& destination, PieceColor const color, int const maximumCount) const {
+    int numberOfMoves(0);
+    if (maximumCount > 0) {
         for (Coordinate const& deltaCoordinate : getPossiblePawnReverseCapturesDeltaCoordinates(color)) {
             Piece piece(getPieceAt(destination + deltaCoordinate));
-            if (color == piece.getColor() && PieceType::Pawn == piece.getType()) {
-                numberOfMoves++;
+            if (color == piece.getColor() && PieceType::Pawn == piece.getType()) {                numberOfMoves++;
                 if (numberOfMoves >= maximumCount) {
                     break;
-                }
-            }
+                }            }
         }
     }
     return numberOfMoves;
@@ -537,41 +515,42 @@ Coordinates Board::getOneStepDeltaCoordinates() const {
 }
 
 Coordinates Board::getPossiblePawnMovesDeltaCoordinates(Coordinate const& start, PieceColor const color) const {
-    Coordinates result;
     if (Board::Orientation::BlackUpWhiteDown == m_orientation) {
         if (PieceColor::White == color) {
-            result.emplace_back(0, -1);
             if (6 == start.getY()) {
-                result.emplace_back(0, -2);
+                return Coordinates{{0, -1}, {0, -2}};
+            } else {
+                return Coordinates{{0, -1}};
             }
         } else if (PieceColor::Black == color) {
-            result.emplace_back(0, 1);
             if (1 == start.getY()) {
-                result.emplace_back(0, 2);
+                return Coordinates{{0, 1}, {0, 2}};
+            } else {
+                return Coordinates{{0, 1}};
             }
         }
     } else if (Board::Orientation::WhiteUpBlackDown == m_orientation) {
         if (PieceColor::White == color) {
-            result.emplace_back(0, 1);
             if (1 == start.getY()) {
-                result.emplace_back(0, 2);
+                return Coordinates{{0, 1}, {0, 2}};
+            } else {
+                return Coordinates{{0, 1}};
             }
         } else if (PieceColor::Black == color) {
-            result.emplace_back(0, -1);
             if (6 == start.getY()) {
-                result.emplace_back(0, -2);
+                return Coordinates{{0, -1}, {0, -2}};
+            } else {
+                return Coordinates{{0, -1}};
             }
         }
     }
-    return result;
+    return {};
 }
 
-Coordinates Board::getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const {
-    Coordinates result;
+Coordinates Board::getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const {    Coordinates result;
     if (Board::Orientation::BlackUpWhiteDown == m_orientation) {
         if (PieceColor::White == color) {
-            result.emplace_back(0, 1);
-            if (4 == end.getY()) {
+            result.emplace_back(0, 1);            if (4 == end.getY()) {
                 result.emplace_back(0, 2);
             }
         } else if (PieceColor::Black == color) {

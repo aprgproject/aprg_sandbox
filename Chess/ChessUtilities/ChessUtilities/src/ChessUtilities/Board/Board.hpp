@@ -28,20 +28,20 @@ public:
     Board(Orientation const& orientation, InitializerList const& initializerList);
 
     bool isEmptyAt(Coordinate const& coordinate) const;
-    bool isPossibleMove(Move const& move) const;
-    bool isAMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const;
-    bool hasOnlyOneMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const;
+    bool isACaptureMove(Move const& move) const;
+    bool isAPromotionMove(Move const& move) const;
+    bool isACastlingMove(Move const& move) const;
+    bool isAPossibleMove(Move const& move) const;
     bool canBeCaptured(Coordinate const& destination) const;
-    bool isPromotionMove(Move const& move) const;
-    bool isCastlingMove(Move const& move) const;
+    bool areAnyMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const;
+    bool hasOnlyOneMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const;
+    bool hasOnlyOneLegalMoveToAvoidCheck();
 
     Orientation getOrientation() const;
-    PieceMatrix const& getPieceMatrix() const;
-    Piece getPieceAt(Coordinate const& coordinate) const;
+    PieceMatrix const& getPieceMatrix() const;    Piece getPieceAt(Coordinate const& coordinate) const;
     Moves getPossibleMoves(Coordinate const& start) const;
     Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
-    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
-    std::string getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const;
+    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;    std::string getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const;
     std::string getReadableStringForMove(Move const& move) const;
     std::string getFenString() const;
     std::string getCastlingFenString() const;
@@ -69,25 +69,23 @@ private:
     bool isAOneStepMove(Move const& move) const;
     bool doesMoveHasNoBlockingPieceInBetween(Move const& move) const;
     unsigned int getDiagonalMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
     unsigned int getStraightMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
     unsigned int getKnightMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
     unsigned int getKingMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, unsigned int const maximumCount) const;
+        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
     unsigned int getPawnReverseMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const;
+        Coordinate const& destination, PieceColor const color, int const maximumCount) const;
     unsigned int getPawnReverseCapturesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const color, unsigned int const maximumCount) const;
+        Coordinate const& destination, PieceColor const color, int const maximumCount) const;
     CoordinateDataType getOneIncrementData(CoordinateDataType const coordinateDataType) const;
     Coordinates getLDeltaCoordinates() const;
-    Coordinates getDiagonalIncrementDeltaCoordinates() const;
-    Coordinates getStraightIncrementDeltaCoordinates() const;
+    Coordinates getDiagonalIncrementDeltaCoordinates() const;    Coordinates getStraightIncrementDeltaCoordinates() const;
     Coordinates getOneStepDeltaCoordinates() const;
     Coordinates getPossiblePawnMovesDeltaCoordinates(Coordinate const& start, PieceColor const color) const;
-    Coordinates getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const;
-    Coordinates getPossiblePawnCapturesDeltaCoordinates(PieceColor const color) const;
+    Coordinates getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const;    Coordinates getPossiblePawnCapturesDeltaCoordinates(PieceColor const color) const;
     Coordinates getPossiblePawnReverseCapturesDeltaCoordinates(PieceColor const color) const;
     MovePairs getPossibleCastlingKingAndRookMovePairs(PieceColor const color) const;
     MovePair getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatShouldMatch) const;

@@ -53,37 +53,34 @@ TEST(BoardTest, CanBeCapturedWorksOnExample2) {
     EXPECT_FALSE(board.canBeCaptured(Coordinate{0, 0}));
 }
 
-TEST(BoardTest, IsPossibleMoveWorks) {
+TEST(BoardTest, IsAPossibleMoveWorks) {
     Board board(Board::Orientation::BlackUpWhiteDown);
     Move possibleMove1{{3, 6}, {3, 5}};
     Move possibleMove2{{3, 6}, {3, 4}};
     Move notPossibleMove1{{3, 6}, {3, 3}};
     Move notPossibleMove2{{3, 6}, {3, 2}};
 
-    EXPECT_TRUE(board.isPossibleMove(possibleMove1));
-    EXPECT_TRUE(board.isPossibleMove(possibleMove2));
-    EXPECT_FALSE(board.isPossibleMove(notPossibleMove1));
-    EXPECT_FALSE(board.isPossibleMove(notPossibleMove2));
+    EXPECT_TRUE(board.isAPossibleMove(possibleMove1));
+    EXPECT_TRUE(board.isAPossibleMove(possibleMove2));
+    EXPECT_FALSE(board.isAPossibleMove(notPossibleMove1));
+    EXPECT_FALSE(board.isAPossibleMove(notPossibleMove2));
 }
 
-TEST(BoardTest, IsPromotionMoveWorks) {
+TEST(BoardTest, IsAPromotionMoveWorks) {
     Board board(Board::Orientation::BlackUpWhiteDown, {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
                                                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-
     Move promotionMove{{1, 1}, {1, 0}};
     Move nonPromotionMove{{2, 2}, {2, 1}};
 
-    EXPECT_TRUE(board.isPromotionMove(promotionMove));
-    EXPECT_FALSE(board.isPromotionMove(nonPromotionMove));
+    EXPECT_TRUE(board.isAPromotionMove(promotionMove));
+    EXPECT_FALSE(board.isAPromotionMove(nonPromotionMove));
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithPawn) {
-    Board board1(Board::Orientation::BlackUpWhiteDown);
+TEST(BoardTest, GetPossibleMovesWorksWithPawn) {    Board board1(Board::Orientation::BlackUpWhiteDown);
     Board board2(Board::Orientation::WhiteUpBlackDown);
 
-    Moves moves1(board1.getPossibleMoves(Coordinate(3, 6)));
-    Moves moves2(board2.getPossibleMoves(Coordinate(5, 1)));
+    Moves moves1(board1.getPossibleMoves(Coordinate(3, 6)));    Moves moves2(board2.getPossibleMoves(Coordinate(5, 1)));
 
     Moves expectedMoves1{{{3, 6}, {3, 5}}, {{3, 6}, {3, 4}}};
     Moves expectedMoves2{{{5, 1}, {5, 2}}, {{5, 1}, {5, 3}}};
