@@ -10,22 +10,59 @@ namespace alba {
 
 namespace chess {
 
-bool isCoordinateOnBoard(Coordinate const& coordinate) {
+bool isCoordinateWithinTheBoard(Coordinate const& coordinate) {
     auto x(coordinate.getX());
     auto y(coordinate.getY());
     return (x >= 0 && x <= 7) && (y >= 0 && y <= 7);
 }
 
-bool isValidMove(Move const& move) {
-    return move.first != move.second && isCoordinateOnBoard(move.first) && isCoordinateOnBoard(move.second);
+bool isInUpperHalf(Coordinate const& coordinate) { return coordinate.getY() <= 3; }
+
+bool isInLowerHalf(Coordinate const& coordinate) { return coordinate.getY() >= 4; }
+
+bool isMoveWithinTheBoard(Move const& move) {
+    return move.first != move.second && isCoordinateWithinTheBoard(move.first) &&
+           isCoordinateWithinTheBoard(move.second);
 }
 
-PieceColor getOppositeColor(PieceColor const pieceColor) {
-    PieceColor result{};
+int getValueOfPieceType(PieceType const pieceType) {
+    int result{};
+    switch (pieceType) {
+        case PieceType::Pawn: {
+            result = 1;
+            break;
+        }
+        case PieceType::Knight: {
+            result = 3;
+            break;
+        }
+        case PieceType::Bishop: {
+            result = 3;
+            break;
+        }
+        case PieceType::Rook: {
+            result = 5;
+            break;
+        }
+        case PieceType::Queen: {
+            result = 9;
+            break;
+        }
+        case PieceType::King: {
+            result = 0;
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    return result;
+}
+
+PieceColor getOppositeColor(PieceColor const pieceColor) {    PieceColor result{};
     if (PieceColor::White == pieceColor) {
         result = PieceColor::Black;
-    } else if (PieceColor::Black == pieceColor) {
-        result = PieceColor::White;
+    } else if (PieceColor::Black == pieceColor) {        result = PieceColor::White;
     }
     return result;
 }

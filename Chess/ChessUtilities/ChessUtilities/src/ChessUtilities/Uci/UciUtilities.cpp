@@ -59,14 +59,13 @@ void retrieveInfoDetailsFromInfoTokens(InfoDetails& infoDetails, strings const& 
 }
 
 void saveCommonDetailsOnBestLine(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
+    calculationDetails.mateScore = infoDetails.mateScore;
     for (StringPair const& nameAndValuePair : infoDetails.nameAndValuePairs) {
         if (nameAndValuePair.first == "depth") {
-            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
-        } else if (nameAndValuePair.first == "seldepth") {
+            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);        } else if (nameAndValuePair.first == "seldepth") {
             calculationDetails.selectiveDepthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
         }
-    }
-}
+    }}
 
 int getArtificialScore(InfoDetails const& infoDetails) {
     int result{};
@@ -98,47 +97,42 @@ void saveSearchingMoveAndScorePairsWithValidMultiPV(
 }
 
 void savePvLineWithBestLine(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
-    calculationDetails.scoreInPvLine = infoDetails.scoreInCentipawns;
+    calculationDetails.scoreInPvLine = getArtificialScore(infoDetails);
     calculationDetails.pvHalfMovesInMonitoredLine = infoDetails.pvHalfMoves;
 }
 
-void savePvLineToHaveNearEqualLine(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
+/*void savePvLineToHaveNearEqualLine(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
     if (getAbsoluteValue(infoDetails.scoreInCentipawns) < getAbsoluteValue(calculationDetails.scoreInPvLine)) {
-        calculationDetails.scoreInPvLine = infoDetails.scoreInCentipawns;
+        calculationDetails.scoreInPvLine = getArtificialScore(infoDetails);
         calculationDetails.pvHalfMovesInMonitoredLine = infoDetails.pvHalfMoves;
     }
-}
+}*/
 
 void savePvDetailsWithValidMultiPV(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
     if (!infoDetails.pvHalfMoves.empty()) {
-        calculationDetails.mateScore = infoDetails.mateScore;
         saveSearchingMoveAndScorePairsWithValidMultiPV(calculationDetails, infoDetails);
-        savePvLineToHaveNearEqualLine(calculationDetails, infoDetails);
     }
 }
 
 void processInfoTokens(CalculationDetails& calculationDetails, strings const& infoTokens) {
     InfoDetails infoDetails{};
     retrieveInfoDetailsFromInfoTokens(infoDetails, infoTokens);
-
     if (!infoDetails.pvHalfMoves.empty()) {
         if (infoDetails.multipv == 1) {
             // best line (because multipv is 1)
             saveCommonDetailsOnBestLine(calculationDetails, infoDetails);
             savePvDetailsWithValidMultiPV(calculationDetails, infoDetails);
-            savePvLineWithBestLine(calculationDetails, infoDetails);  // dont remove this
+            savePvLineWithBestLine(calculationDetails, infoDetails);  // you dont have to remove this for near equal
         } else if (infoDetails.multipv > 1) {
             // other lines
             savePvDetailsWithValidMultiPV(calculationDetails, infoDetails);
-            savePvLineToHaveNearEqualLine(calculationDetails, infoDetails);  // enable or disable
+            // savePvLineToHaveNearEqualLine(calculationDetails, infoDetails);  // enable or disable
         }
     }
 }
-
 void processBestMoveTokens(CalculationDetails& calculationDetails, strings const& tokens) {
     for (unsigned int i = 0; i < tokens.size(); i++) {
-        string const& token(tokens.at(i));
-        if (token == "bestmove") {
+        string const& token(tokens.at(i));        if (token == "bestmove") {
             calculationDetails.bestMove = tokens.at(++i);
         } else if (token == "ponder") {
             calculationDetails.possibleResponseMove = tokens.at(++i);
