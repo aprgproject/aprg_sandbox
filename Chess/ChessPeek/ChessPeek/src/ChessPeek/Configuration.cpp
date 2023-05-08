@@ -63,28 +63,27 @@ void Configuration::initializeCommonParameters() {
     // option name UCI_Elo type spin default 1350 min 1350 max 2850
     // option name UCI_ShowWDL type check default false
     // option name SyzygyPath type string default <empty>
-    //  option name SyzygyProbeDepth type spin default 1 min 1 max 100
+    // option name SyzygyProbeDepth type spin default 1 min 1 max 100
     // option name Syzygy50MoveRule type check default true
     // option name SyzygyProbeLimit type spin default 7 min 0 max 7
-    // option name Use NNUE type check default true
-    // option name EvalFile type string default nn-6877cd24400e.nnue
+    // option name Use NNUE type check default true    // option name EvalFile type string default nn-6877cd24400e.nnue
     // uciok
 
     m_uciOptionNamesAndValuePairs = {
-        {"Threads", "4"},               // set equal to number of cores to have optimized performance
-        {"MultiPV", "15"},              // number of moves to search
-        {"Slow Mover", "1000"},         // max value, let engine think for max time
-        {"UCI_LimitStrength", "true"},  // limit the strength to be more like a human
-        {"UCI_Elo", "1350"},            // limit the strength to be more like a human
-        {"Skill Level", "1"}};          // limit the strength to be more like a human
+        {"Threads", "4"},         // set equal to number of cores to have optimized performance
+        {"MultiPV", "15"},        // number of moves to search
+        {"Slow Mover", "1000"}};  // max value, let engine think for max time
+
+    // Stockfish still thinking too long so this parameters have no impact:
+    // {"UCI_LimitStrength", "true"},  // limit the strength to be more like a human
+    // {"UCI_Elo", "1350"},            // limit the strength to be more like a human
+    // {"Skill Level", "1"}};          // limit the strength to be more like a human
 }
 
-void Configuration::initializeSpecificParameters() {
-    switch (m_type) {
+void Configuration::initializeSpecificParameters() {    switch (m_type) {
         case Type::ChessDotComVersus: {
             initializeChessDotComVersus();
-            break;
-        }
+            break;        }
         case Type::ChessDotComPuzzle: {
             initializeChessDotComPuzzle();
             break;

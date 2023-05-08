@@ -10,41 +10,43 @@ namespace chess {
 
 namespace ChessPeek {
 
-SequenceOfMovesAnalyzer::SequenceOfMovesAnalyzer(Board const& board) : m_board(board), m_analyzerData{} {}
+SequenceOfMovesAnalyzer::SequenceOfMovesAnalyzer(Board const& board) : m_data{} { m_data.savedBoard = board; }
 
 void SequenceOfMovesAnalyzer::checkMove(Move const& halfMove) {
     if (isMoveWithinTheBoard(halfMove)) {
-        m_analyzerData.previousMove = m_analyzerData.savedMove;
-        m_analyzerData.previousPiece = m_analyzerData.savedPiece;
-        m_analyzerData.savedMove = halfMove;
-        m_analyzerData.savedPiece = m_board.getPieceAt(halfMove.first);
+        m_data.previousMove = m_data.savedMove;
+        m_data.savedMove = halfMove;
     }
 }
 
 void SequenceOfMovesAnalyzer::commitMove() {
-    m_analyzerData.previouslyHadOnlyOnePossibleMoveToThisDestination = m_board.hasOnlyOneMovePossibleToThisDestination(
-        m_analyzerData.savedMove.second, m_analyzerData.savedPiece.getColor());
-    m_board.move(m_analyzerData.savedMove);
+    m_data.previousBoard = m_data.savedBoard;
+    m_data.savedBoard.move(m_data.savedMove);
 }
 
-bool SequenceOfMovesAnalyzer::canPreMove() const { return canPreMoveBecauseOnlyOnePossibleMoveBeforeCapture(); }
+bool SequenceOfMovesAnalyzer::canPreMove() const { return canPreMoveBecauseOfRecapture(); }
 
-Piece SequenceOfMovesAnalyzer::getSavedPiece() const { return m_analyzerData.savedPiece; }
+Piece SequenceOfMovesAnalyzer::getPieceFromMove() const { return m_data.savedBoard.getPieceAt(m_data.savedMove.first); }
 
-Board const& SequenceOfMovesAnalyzer::getCurrentBoard() const { return m_board; }
+Board const& SequenceOfMovesAnalyzer::getCurrentBoard() const { return m_data.savedBoard; }
 
-bool SequenceOfMovesAnalyzer::canPreMoveBecauseOnlyOnePossibleMoveBeforeCapture() const {
-    return m_analyzerData.previouslyHadOnlyOnePossibleMoveToThisDestination &&
-           previousAndCurrentMoveHasSameDestination();
+bool SequenceOfMovesAnalyzer::canPreMoveBecauseOfRecapture() const {
+    return isARecapture() && didPreviousMoveHadOnlyOneWayToCapture();
 }
 
-bool SequenceOfMovesAnalyzer::previousAndCurrentMoveHasSameDestination() const {
-    // its a ongoing capture
-    return m_analyzerData.savedMove.second == m_analyzerData.previousMove.second;
+bool SequenceOfMovesAnalyzer::didPreviousMoveHadOnlyOneWayToCapture() const {
+    Piece previousPiece = m_data.previousBoard.getPieceAt(m_data.previousMove.first);
+    return m_data.previousBoard.hasOnlyOneMovePossibleToThisDestination(
+        m_data.previousMove.second, previousPiece.getColor());
+}
+
+bool SequenceOfMovesAnalyzer::isARecapture() const {
+    return m_data.previousMove.second == m_data.savedMove.second &&
+           m_data.previousBoard.isACaptureMove(m_data.previousMove) &&
+           m_data.savedBoard.isACaptureMove(m_data.savedMove);
 }
 
 }  // namespace ChessPeek
-
 }  // namespace chess
 
 }  // namespace alba
