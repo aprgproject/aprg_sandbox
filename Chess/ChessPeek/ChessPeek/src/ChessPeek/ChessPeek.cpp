@@ -34,15 +34,13 @@ void trackKeyPress() {
 }
 
 ChessPeek::ChessPeek()
-    : m_configuration(ChessPeekConfigurationType::ChessDotComVersus),
+    : m_configuration(ChessPeekConfigurationType::LichessVersus),
       m_screenMonitoring(),
       m_pieceRetriever(m_configuration, m_screenMonitoring),
-      m_chessEngineHandler(m_configuration.getChessEnginePath()),
-      m_chessEngineController(m_chessEngineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
+      m_chessEngineHandler(m_configuration.getChessEnginePath()),      m_chessEngineController(m_chessEngineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
       m_chessBoard(Board::Orientation::BlackUpWhiteDown, {}),
       m_chessBoardDetails{},
-      m_playerColor(PieceColor::White),
-      m_isEngineNewlyReseted(true),
+      m_playerColor(PieceColor::White),      m_isEngineNewlyReseted(true),
       m_hasPendingPrintAction(false) {
     initialize();
 }

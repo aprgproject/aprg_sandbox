@@ -9,29 +9,22 @@ namespace chess {
 ChessPeekConfiguration::ChessPeekConfiguration(ChessPeekConfigurationType const type)
     : m_type(type),
       m_chessEnginePath(),
-      m_screenShotPath(),
       m_uciOptionNamesAndValuePairs(),
       m_boardTopLeft{},
-      m_boardBottomRight{},
-      m_whiteColorLimit{},
+      m_boardBottomRight{},      m_whiteColorLimit{},
       m_blackColorLimit{} {
     initialize();
 }
-
 ChessPeekConfigurationType ChessPeekConfiguration::getType() const { return m_type; }
 
 string const& ChessPeekConfiguration::getChessEnginePath() const { return m_chessEnginePath; }
 
-string const& ChessPeekConfiguration::getScreenShotPath() const { return m_screenShotPath; }
-
 XY ChessPeekConfiguration::getTopLeftOfBoard() const { return m_boardTopLeft; }
 
 XY ChessPeekConfiguration::getBottomRightOfBoard() const { return m_boardBottomRight; }
-
 double ChessPeekConfiguration::getWhiteColorLimit() const { return m_whiteColorLimit; }
 
 double ChessPeekConfiguration::getBlackColorLimit() const { return m_blackColorLimit; }
-
 stringHelper::StringPairs const& ChessPeekConfiguration::getUciOptionNamesAndValuePairs() const {
     return m_uciOptionNamesAndValuePairs;
 }
@@ -44,16 +37,14 @@ void ChessPeekConfiguration::initialize() {
 void ChessPeekConfiguration::initializeCommonParameters() {
     m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish15.exe)";
     // m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)";
-    m_uciOptionNamesAndValuePairs = {{"MultiPV", "15"}};  // 10 moves
-    m_screenShotPath = APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)";
+
+    m_uciOptionNamesAndValuePairs = {{"MultiPV", "20"}};  // number of moves to search
 }
 
-void ChessPeekConfiguration::initializeSpecificParameters() {
-    switch (m_type) {
+void ChessPeekConfiguration::initializeSpecificParameters() {    switch (m_type) {
         case ChessPeekConfigurationType::ChessDotComVersus: {
             initializeChessDotComVersus();
-            break;
-        }
+            break;        }
         case ChessPeekConfigurationType::ChessDotComPuzzle: {
             initializeChessDotComPuzzle();
             break;
