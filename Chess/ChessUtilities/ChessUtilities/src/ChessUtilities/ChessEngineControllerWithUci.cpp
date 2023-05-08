@@ -28,14 +28,21 @@ ChessEngineControllerWithUci::ChessEngineControllerWithUci(
     putStringProcessingFunctionAsCallBack();
 }
 
-void ChessEngineControllerWithUci::initializeController() { sendUciAndUciOptions(); }
+void ChessEngineControllerWithUci::initialize() { sendUciAndUciOptions(); }
 
-void ChessEngineControllerWithUci::resetToNewGame() {
-    log("Resetting to a new game");
-    sendStopIfCalculating();
-    send(CommandType::Position, "ucinewgame");
+void ChessEngineControllerWithUci::quit() { sendQuit(); }
+
+void ChessEngineControllerWithUci::resetEngine() {
+    log("Resetting engine");
+    resetData();
+    m_engineHandler.reset();
+    sendUciAndUciOptions();
 }
 
+void ChessEngineControllerWithUci::resetToNewGame() {
+    log("Resetting to a new game");    sendStopIfCalculating();
+    send(CommandType::Position, "ucinewgame");
+}
 void ChessEngineControllerWithUci::setupStartPosition() {
     log("Setting start position");
     sendStopIfCalculating();
@@ -125,22 +132,13 @@ void ChessEngineControllerWithUci::setLogFile(string const& logFilePath) {
     }
 }
 
-void ChessEngineControllerWithUci::resetEngine() {
-    log("Resetting engine");
-    clearData();
-    m_engineHandler.reset();
-    sendUciAndUciOptions();
-}
-
-void ChessEngineControllerWithUci::clearData() {
+void ChessEngineControllerWithUci::resetData() {
     changeState(ControllerState::Initializing);
     m_waitingForReadyOkay = false;
-    m_currentCalculationDetails = {};
-    m_pendingCommands.clear();
+    m_currentCalculationDetails = {};    m_pendingCommands.clear();
 }
 
 void ChessEngineControllerWithUci::clearCalculationDetails() { m_currentCalculationDetails = CalculationDetails{}; }
-
 void ChessEngineControllerWithUci::changeState(ControllerState const state) {
     if (m_logFileStreamOptional) {
         m_logFileStreamOptional.value() << "Changing state from " << getEnumString(m_state) << " to "
@@ -171,8 +169,24 @@ void ChessEngineControllerWithUci::log(string const& logString) {
     }
 }
 
-void ChessEngineControllerWithUci::forceSend(string const& commandString) {
-    m_engineHandler.sendStringToEngine(commandString);
+void ChessEngineControllerWithUci::sendUci() { send(CommandType::Uci, "uci"); }
+
+void ChessEngineControllerWithUci::sendQuit() {
+    forceSend("quit");
+    changeState(ControllerState::Quitted);
+}
+
+void ChessEngineControllerWithUci::sendStop() { send(CommandType::Stop, "stop"); }
+
+void ChessEngineControllerWithUci::sendUciAndUciOptions() {
+    sendUci();
+    sendUciOptions();
+}
+
+void ChessEngineControllerWithUci::sendUciOptions() {
+    for (StringPair const& namesAndValuePair : m_uciOptionNamesAndValuePairs) {
+        send(CommandType::UciOption, constructUciOptionCommand(namesAndValuePair.first, namesAndValuePair.second));
+    }
 }
 
 void ChessEngineControllerWithUci::sendStopIfCalculating() {
@@ -181,28 +195,11 @@ void ChessEngineControllerWithUci::sendStopIfCalculating() {
     }
 }
 
-void ChessEngineControllerWithUci::sendUciAndUciOptions() {
-    sendUci();
-    sendUciOptions();
-}
-
-void ChessEngineControllerWithUci::sendUci() { send(CommandType::Uci, "uci"); }
-
-void ChessEngineControllerWithUci::sendStop() { send(CommandType::Stop, "stop"); }
-
-void ChessEngineControllerWithUci::sendUciOptions() {
-    for (StringPair const& namesAndValuePair : m_uciOptionNamesAndValuePairs) {
-        send(CommandType::UciOption, constructUciOptionCommand(namesAndValuePair.first, namesAndValuePair.second));
-    }
-}
-
 void ChessEngineControllerWithUci::send(CommandType const& commandType, string const& commandString) {
     send(Command{commandType, commandString});
 }
-
 void ChessEngineControllerWithUci::send(Command const& command) {
     log(string("Sending command: ") + command.commandString);
-
     // all the logic are here lol
     switch (m_state) {
         case ControllerState::Initializing: {
@@ -238,17 +235,23 @@ void ChessEngineControllerWithUci::send(Command const& command) {
             m_engineHandler.sendStringToEngine(command.commandString);
             break;
         }
+        case ControllerState::Quitted: {
+            // ignore
+            break;
+        }
     }
+}
+
+void ChessEngineControllerWithUci::forceSend(string const& commandString) {
+    m_engineHandler.sendStringToEngine(commandString);
 }
 
 void ChessEngineControllerWithUci::processAStringFromEngine(string const& stringFromEngine) {
     string stringToProcess(getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine));
-    if (m_waitingForReadyOkay && "readyok" == stringToProcess) {
-        log("Ready okay received");
+    if (m_waitingForReadyOkay && "readyok" == stringToProcess) {        log("Ready okay received");
         m_waitingForReadyOkay = false;
     } else {
-        switch (m_state) {
-            case ControllerState::WaitingForUciOkay: {
+        switch (m_state) {            case ControllerState::WaitingForUciOkay: {
                 processInWaitingForUciOkay(stringToProcess);
                 break;
             }

@@ -36,21 +36,28 @@ DWORD WINAPI engineMonitoringCallbackFunction(LPVOID lpParam) {
 }
 }  // namespace
 
-ChessEngineHandler::ChessEngineHandler(string const& enginePath) : m_enginePath(enginePath) { initializeEngine(); }
-
-ChessEngineHandler::~ChessEngineHandler() {
-    shutdownEngine();
-    shutdownLogging();
-}
-
-void ChessEngineHandler::reset() {
-    log(LogType::HandlerStatus, "Resetting engine");
-    shutdownEngine();
+ChessEngineHandler::ChessEngineHandler(string const& enginePath)
+    : m_enginePath(enginePath),
+      m_readMutex(),
+      m_startupInfo{},
+      m_processInfo{},
+      m_engineMonitoringThread{},
+      m_threadId{},
+      m_inputStreamOnEngineThread{},
+      m_outputStreamOnEngineThread{},
+      m_inputStreamOnHandler{},
+      m_outputStreamOnHandler{} {
     initializeEngine();
 }
 
-void ChessEngineHandler::sendStringToEngine(string const& stringToEngine) {
-    unsigned long bytesWritten(0U);
+ChessEngineHandler::~ChessEngineHandler() { shutdownEngine(); }
+
+void ChessEngineHandler::reset() {
+    log(LogType::HandlerStatus, "Resetting engine");
+    shutdownEngine();    initializeEngine();
+}
+
+void ChessEngineHandler::sendStringToEngine(string const& stringToEngine) {    unsigned long bytesWritten(0U);
     string stringToWrite(stringToEngine);
     stringToWrite += "\n";
     long remainingLength = stringToWrite.length();
@@ -82,15 +89,13 @@ void ChessEngineHandler::startMonitoringEngineOutput() {
     unsigned long bytesAvailable;  // bytes available
     char buffer[MAX_BUFFER_SIZE];
     string stringBuffer;
-    while (1) {
+    while (true) {
         PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);
         if (bytesAvailable > 0) {
-            ReadFile(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, &bytesRead, NULL);
-            stringBuffer.reserve(stringBuffer.size() + bytesRead);
+            ReadFile(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, &bytesRead, NULL);            stringBuffer.reserve(stringBuffer.size() + bytesRead);
             copy(begin(buffer), begin(buffer) + bytesRead, back_inserter(stringBuffer));
 
-            unsigned int currentIndex(0U);
-            bool shouldContinue(true);
+            unsigned int currentIndex(0U);            bool shouldContinue(true);
             while (shouldContinue) {
                 unsigned int startIndex = currentIndex;
                 unsigned int newLineIndex = stringBuffer.find_first_of("\r\n", startIndex);
@@ -169,30 +174,21 @@ void ChessEngineHandler::initializeEngine() {
 }
 
 void ChessEngineHandler::shutdownEngine() {
-    sendStringToEngine("quit\n");
+    sendStringToEngine("quit");
     WaitForSingleObject(m_engineMonitoringThread, 1);
     CloseHandle(m_engineMonitoringThread);
-    TerminateProcess(m_processInfo.hProcess, 0);
-    CloseHandle(m_inputStreamOnEngineThread);
+    TerminateProcess(m_processInfo.hProcess, 0);    CloseHandle(m_inputStreamOnEngineThread);
     CloseHandle(m_outputStreamOnEngineThread);
     CloseHandle(m_inputStreamOnHandler);
     CloseHandle(m_outputStreamOnHandler);
 }
 
-void ChessEngineHandler::shutdownLogging() {
-    if (m_logFileStreamOptional) {
-        m_logFileStreamOptional->close();
-    }
-}
-
 void ChessEngineHandler::log(LogType const logtype, string const& logString) {
     if (m_logFileStreamOptional) {
-        m_logFileStreamOptional.value() << getLogHeader(logtype) << logString << "\n";
-        m_logFileStreamOptional.value().flush();
+        m_logFileStreamOptional.value() << getLogHeader(logtype) << logString << "\n";        m_logFileStreamOptional.value().flush();
     }
 #ifdef APRG_TEST_MODE_ON
-    // cout << getLogHeader(logtype) << logString << "\n";
-#else
+    // cout << getLogHeader(logtype) << logString << "\n";#else
     if (LogType::FromEngine == logtype) {
         cout << logString << "\n";
     }

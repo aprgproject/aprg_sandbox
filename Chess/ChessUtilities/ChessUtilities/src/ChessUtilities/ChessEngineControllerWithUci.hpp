@@ -14,15 +14,13 @@ namespace chess {
 
 class ChessEngineControllerWithUci {
 public:
-    enum class ControllerState { Initializing, WaitingForUciOkay, Calculating, Idle };
+    enum class ControllerState { Initializing, WaitingForUciOkay, Calculating, Idle, Quitted };
 
     enum class CommandType {
-        Uci,
-        UciOption,
+        Uci,        UciOption,
         Position,
         Go,
-        Stop,
-    };
+        Stop,    };
 
     struct Command {
         CommandType commandType;
@@ -34,15 +32,16 @@ public:
     ChessEngineControllerWithUci(
         ChessEngineHandler& engineHandler, stringHelper::StringPairs const& uciOptionNamesAndValuePairs = {});
 
-    void initializeController();
+    void initialize();
+    void quit();
+    void resetEngine();
+
     void resetToNewGame();
     void setupStartPosition();
-    void setupMoves(std::string const& moves);
-    void setupFenString(std::string const& fenString);
+    void setupMoves(std::string const& moves);    void setupFenString(std::string const& fenString);
     void go();
     void goWithPonder();
-    void goWithDepth(unsigned int const depth);
-    void goInfinite();
+    void goWithDepth(unsigned int const depth);    void goInfinite();
     bool waitTillReadyAndReturnIfResetWasPerformed();
     void stop();
 
@@ -50,37 +49,32 @@ public:
     void setLogFile(std::string const& logFilePath);
 
 private:
-    void resetEngine();
-
     // clear functions
-    void clearData();
+    void resetData();
     void clearCalculationDetails();
 
-    // state functions
-    void changeState(ControllerState const state);
+    // state functions    void changeState(ControllerState const state);
     void proceedToIdleStateAndProcessPendingCommands();
     void processPendingCommands();
-
     // log functions
     void log(std::string const& logString);
 
     // send functions
-    void forceSend(std::string const& commandString);
-    void sendStopIfCalculating();
-    void sendUciAndUciOptions();
     void sendUci();
+    void sendQuit();
     void sendStop();
+    void sendUciAndUciOptions();
     void sendUciOptions();
+    void sendStopIfCalculating();
     void send(CommandType const& commandType, std::string const& commandString);
     void send(Command const& command);
+    void forceSend(std::string const& commandString);
 
     // process functions
-    void processAStringFromEngine(std::string const& stringFromEngine);
-    void processInWaitingForUciOkay(std::string const& stringToProcess);
+    void processAStringFromEngine(std::string const& stringFromEngine);    void processInWaitingForUciOkay(std::string const& stringToProcess);
     void processInCalculating(std::string const& stringToProcess);
 
-    std::string constructUciOptionCommand(std::string const& name, std::string const& value);
-    void putStringProcessingFunctionAsCallBack();
+    std::string constructUciOptionCommand(std::string const& name, std::string const& value);    void putStringProcessingFunctionAsCallBack();
 
     ChessEngineHandler& m_engineHandler;
     stringHelper::StringPairs m_uciOptionNamesAndValuePairs;
