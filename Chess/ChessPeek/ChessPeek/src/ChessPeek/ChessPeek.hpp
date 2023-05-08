@@ -26,10 +26,12 @@ public:
         unsigned int blackCountInLowerHalf;
         unsigned int numberOfWhiteKings;
         unsigned int numberOfBlackKings;
-        Coordinate whiteKingCoordinate;        Coordinate blackKingCoordinate;
+        Coordinate whiteKingCoordinate;
+        Coordinate blackKingCoordinate;
     };
 
     ChessPeek();
+
     void runForever();
     void runOneIteration();
 
@@ -51,19 +53,23 @@ private:
     void setOrientationDependingOnLowerHalfColor(PieceColor const lowerHalfColor);
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
 
-    void displayCalculationDetailsBasedFromTimer();    void displayCalculationDetailsIfNotDisplayedYet();
+    void displayCalculationDetailsBasedFromTimer();
+    void displayCalculationDetailsIfNotDisplayedYet();
     void printCalculationDetails();
 
-    bool shouldAnalyzeBoard(Board::PieceMatrix const& previousPieceMatrix) const;    bool didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const;
+    bool shouldAnalyzeBoard(Board::PieceMatrix const& previousPieceMatrix) const;
+    bool didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const;
     bool canAnalyzeBoard() const;
     bool areKingsValid() const;
     bool isOpponentsKingOnCheck() const;
     Coordinate getOpponentsKingCoordinate() const;
 
-    ChessPeekConfiguration m_configuration;    AlbaLocalScreenMonitoring m_screenMonitoring;
+    ChessPeekConfiguration m_configuration;
+    AlbaLocalScreenMonitoring m_screenMonitoring;
     ChessPieceRetriever m_pieceRetriever;
     ChessEngineHandler m_chessEngineHandler;
-    ChessEngineControllerWithUci m_chessEngineController;    AlbaLocalTimer m_displayTimer;
+    ChessEngineControllerWithUci m_chessEngineController;
+    AlbaLocalTimer m_displayTimer;
     ChessPeekCalculationDetails m_calculationDetails;
     Board m_chessBoard;
     ChessBoardDetails m_chessBoardDetails;

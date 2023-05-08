@@ -70,6 +70,7 @@ TEST(BoardTest, IsAPromotionMoveWorks) {
     Board board(Board::Orientation::BlackUpWhiteDown, {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
                                                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+
     Move promotionMove{{1, 1}, {1, 0}};
     Move nonPromotionMove{{2, 2}, {2, 1}};
 
@@ -77,10 +78,12 @@ TEST(BoardTest, IsAPromotionMoveWorks) {
     EXPECT_FALSE(board.isAPromotionMove(nonPromotionMove));
 }
 
-TEST(BoardTest, GetPossibleMovesWorksWithPawn) {    Board board1(Board::Orientation::BlackUpWhiteDown);
+TEST(BoardTest, GetPossibleMovesWorksWithPawn) {
+    Board board1(Board::Orientation::BlackUpWhiteDown);
     Board board2(Board::Orientation::WhiteUpBlackDown);
 
-    Moves moves1(board1.getPossibleMoves(Coordinate(3, 6)));    Moves moves2(board2.getPossibleMoves(Coordinate(5, 1)));
+    Moves moves1(board1.getPossibleMoves(Coordinate(3, 6)));
+    Moves moves2(board2.getPossibleMoves(Coordinate(5, 1)));
 
     Moves expectedMoves1{{{3, 6}, {3, 5}}, {{3, 6}, {3, 4}}};
     Moves expectedMoves2{{{5, 1}, {5, 2}}, {{5, 1}, {5, 3}}};

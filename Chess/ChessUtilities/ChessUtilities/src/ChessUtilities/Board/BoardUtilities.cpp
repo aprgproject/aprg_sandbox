@@ -117,9 +117,11 @@ Moves getSequenceOfMoves(Board const& board1, Board const& board2) {
             if ((piece1 == piece2 && board1.isAPossibleMove(moveFrom1To2)) || board1.isAPromotionMove(moveFrom1To2)) {
                 possibleMoves.emplace_back(moveFrom1To2);
             }
-        }    }
+        }
+    }
     return possibleMoves;
 }
+
 }  // namespace chess
 
 }  // namespace alba

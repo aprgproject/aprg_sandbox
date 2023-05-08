@@ -25,9 +25,11 @@ struct CalculationDetails {
     std::string possibleResponseMove;                  // move that engine is pondering after best move
 };
 
-// Ply explanation:// Source: https://en.wikipedia.org/wiki/Ply_(game_theory)
+// Ply explanation:
+// Source: https://en.wikipedia.org/wiki/Ply_(game_theory)
 // For example, in standard chess terminology, one move consists of a turn by each player; therefore a ply in chess is a
 // half-move. Thus, after 20 moves in a chess game, 40 plies have been completed—20 by white and 20 by black.
+
 }  // namespace chess
 
 }  // namespace alba

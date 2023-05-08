@@ -8,9 +8,11 @@
 using namespace alba::mathHelper;
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba {
 
 namespace chess {
+
 constexpr int ARTIFICIAL_MATE_SCORE = 999999;
 
 namespace {
@@ -21,8 +23,10 @@ struct InfoDetails {
     strings pvHalfMoves;
     StringPairs nameAndValuePairs;
 };
+
 bool shouldSkipTheEntireInfo(string const& token) {
     static const strings tokens{"currmove"};
+
     return find(tokens.cbegin(), tokens.cend(), token) != tokens.cend();
 }
 
@@ -57,7 +61,8 @@ void retrieveInfoDetailsFromInfoTokens(InfoDetails& infoDetails, strings const& 
 void saveCommonDetailsOnBestLine(CalculationDetails& calculationDetails, InfoDetails const& infoDetails) {
     for (StringPair const& nameAndValuePair : infoDetails.nameAndValuePairs) {
         if (nameAndValuePair.first == "depth") {
-            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);        } else if (nameAndValuePair.first == "seldepth") {
+            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
+        } else if (nameAndValuePair.first == "seldepth") {
             calculationDetails.selectiveDepthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
         }
     }
@@ -70,7 +75,8 @@ int getArtificialScore(InfoDetails const& infoDetails) {
     } else if (infoDetails.mateScore > 0) {
         result = ARTIFICIAL_MATE_SCORE;
     } else {
-        result = ARTIFICIAL_MATE_SCORE * -1;    }
+        result = ARTIFICIAL_MATE_SCORE * -1;
+    }
     return result;
 }
 
@@ -110,6 +116,7 @@ void savePvDetailsWithValidMultiPV(CalculationDetails& calculationDetails, InfoD
         savePvLineToHaveNearEqualLine(calculationDetails, infoDetails);
     }
 }
+
 void processInfoTokens(CalculationDetails& calculationDetails, strings const& infoTokens) {
     InfoDetails infoDetails{};
     retrieveInfoDetailsFromInfoTokens(infoDetails, infoTokens);
@@ -127,9 +134,11 @@ void processInfoTokens(CalculationDetails& calculationDetails, strings const& in
         }
     }
 }
+
 void processBestMoveTokens(CalculationDetails& calculationDetails, strings const& tokens) {
     for (unsigned int i = 0; i < tokens.size(); i++) {
-        string const& token(tokens.at(i));        if (token == "bestmove") {
+        string const& token(tokens.at(i));
+        if (token == "bestmove") {
             calculationDetails.bestMove = tokens.at(++i);
         } else if (token == "ponder") {
             calculationDetails.possibleResponseMove = tokens.at(++i);

@@ -38,10 +38,12 @@ public:
     bool hasOnlyOneLegalMoveToAvoidCheck();
 
     Orientation getOrientation() const;
-    PieceMatrix const& getPieceMatrix() const;    Piece getPieceAt(Coordinate const& coordinate) const;
+    PieceMatrix const& getPieceMatrix() const;
+    Piece getPieceAt(Coordinate const& coordinate) const;
     Moves getPossibleMoves(Coordinate const& start) const;
     Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
-    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;    std::string getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const;
+    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
+    std::string getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const;
     std::string getReadableStringForMove(Move const& move) const;
     std::string getFenString() const;
     std::string getCastlingFenString() const;
@@ -82,10 +84,12 @@ private:
         Coordinate const& destination, PieceColor const color, int const maximumCount) const;
     CoordinateDataType getOneIncrementData(CoordinateDataType const coordinateDataType) const;
     Coordinates getLDeltaCoordinates() const;
-    Coordinates getDiagonalIncrementDeltaCoordinates() const;    Coordinates getStraightIncrementDeltaCoordinates() const;
+    Coordinates getDiagonalIncrementDeltaCoordinates() const;
+    Coordinates getStraightIncrementDeltaCoordinates() const;
     Coordinates getOneStepDeltaCoordinates() const;
     Coordinates getPossiblePawnMovesDeltaCoordinates(Coordinate const& start, PieceColor const color) const;
-    Coordinates getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const;    Coordinates getPossiblePawnCapturesDeltaCoordinates(PieceColor const color) const;
+    Coordinates getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const;
+    Coordinates getPossiblePawnCapturesDeltaCoordinates(PieceColor const color) const;
     Coordinates getPossiblePawnReverseCapturesDeltaCoordinates(PieceColor const color) const;
     MovePairs getPossibleCastlingKingAndRookMovePairs(PieceColor const color) const;
     MovePair getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatShouldMatch) const;
