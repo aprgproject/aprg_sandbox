@@ -1,4 +1,4 @@
-#include <ChessPeek/LineOfMovesAnalyzer.hpp>
+#include <ChessPeek/SequenceOfMovesAnalyzer.hpp>
 
 #include <gtest/gtest.h>
 
@@ -10,9 +10,11 @@ namespace alba {
 
 namespace chess {
 
-TEST(LineOfMovesAnalyzerTest, CheckMoveAndCommitMoveWorks) {
+namespace ChessPeek {
+
+TEST(SequenceOfMovesAnalyzerTest, CheckMoveAndCommitMoveWorks) {
     Board board(Board::Orientation::BlackUpWhiteDown);
-    LineOfMovesAnalyzer analyzer(board);
+    SequenceOfMovesAnalyzer analyzer(board);
 
     analyzer.checkMove({{3, 6}, {3, 4}});
     EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), analyzer.getSavedPiece());
@@ -24,9 +26,9 @@ TEST(LineOfMovesAnalyzerTest, CheckMoveAndCommitMoveWorks) {
     EXPECT_EQ(expectedMatrix, analyzer.getCurrentBoard().getPieceMatrix());
 }
 
-TEST(LineOfMovesAnalyzerTest, CanPreMoveWorksOnCapture) {
+TEST(SequenceOfMovesAnalyzerTest, CanPreMoveWorksOnCapture) {
     Board board(Board::Orientation::BlackUpWhiteDown);
-    LineOfMovesAnalyzer analyzer(board);
+    SequenceOfMovesAnalyzer analyzer(board);
     analyzer.checkMove({{3, 6}, {3, 4}});
     analyzer.commitMove();
     analyzer.checkMove({{4, 1}, {4, 3}});
@@ -35,6 +37,8 @@ TEST(LineOfMovesAnalyzerTest, CanPreMoveWorksOnCapture) {
     analyzer.checkMove({{3, 4}, {4, 3}});
     EXPECT_TRUE(analyzer.canPreMove());
 }
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

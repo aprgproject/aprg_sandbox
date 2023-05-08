@@ -6,7 +6,9 @@ namespace alba {
 
 namespace chess {
 
-struct ChessPeekCalculationDetails {
+namespace ChessPeek {
+
+struct CalculationDetails {
     unsigned int depthInPlies;
     int mateScore;
     std::string bestMove;
@@ -14,9 +16,11 @@ struct ChessPeekCalculationDetails {
     int scoreInPvLine;
     stringHelper::strings pvHalfMovesInMonitoredLine;
 
-    bool operator==(ChessPeekCalculationDetails const& other) const;
-    bool operator!=(ChessPeekCalculationDetails const& other) const;
+    bool operator==(CalculationDetails const& other) const;
+    bool operator!=(CalculationDetails const& other) const;
 };
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

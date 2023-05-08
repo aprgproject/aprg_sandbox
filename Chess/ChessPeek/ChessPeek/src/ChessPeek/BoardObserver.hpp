@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Bitmap/BitmapSnippet.hpp>
-#include <ChessPeek/ChessPeekConfiguration.hpp>
 #include <ChessPeek/CommonTypes.hpp>
+#include <ChessPeek/Configuration.hpp>
 #include <ChessUtilities/Board/BoardTypes.hpp>
 #include <ChessUtilities/Board/Piece.hpp>
 #include <Common/Bit/AlbaBitManipulation.hpp>
@@ -18,7 +18,9 @@ namespace alba {
 
 namespace chess {
 
-class ChessPieceRetriever {
+namespace ChessPeek {
+
+class BoardObserver {
 public:
     enum class WhiteOrBlack { White, Black };
     struct CheckDetail {
@@ -33,18 +35,18 @@ public:
     using CheckDetails = std::vector<CheckDetail>;
     using BoolFunction = std::function<bool(double const)>;
 
-    ChessPieceRetriever() = delete;
-    ChessPieceRetriever(ChessPeekConfiguration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring);
-    ChessPieceRetriever(ChessPeekConfiguration const& configuration, AprgBitmap::BitmapSnippet const& bitmapSnippet);
+    BoardObserver() = delete;
+    BoardObserver(Configuration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring);
+    BoardObserver(Configuration const& configuration, AprgBitmap::BitmapSnippet const& bitmapSnippet);
 
-    Piece getChessCellPiece(int const xIndex, int const yIndex) const;
-    BitSet64 getChessCellBitValue(int const xIndex, int const yIndex) const;
+    Piece getPieceFromCell(int const xIndex, int const yIndex) const;
+    BitSet64 getBitValueFromCell(int const xIndex, int const yIndex) const;
 
     void retrieveWhiteOffsetPoints(XYs& coordinates, int const xIndex, int const yIndex) const;
     void retrieveBlackOffsetPoints(XYs& coordinates, int const xIndex, int const yIndex) const;
 
 private:
-    void initialize(ChessPeekConfigurationType const type);
+    void initialize(Configuration::Type const type);
     void initializeConverterToChessDotCom();
     void initializeConverterToLichessVersus();
 
@@ -60,13 +62,15 @@ private:
     void retrieveOffsetPointsWithCondition(
         XYs& coordinates, int const xIndex, int const yIndex, BoolFunction const& condition) const;
 
-    ChessPeekConfiguration const& m_configuration;
+    Configuration const& m_configuration;
     AlbaLocalScreenMonitoring const* const m_screenMonitoringPtr;
     AprgBitmap::BitmapSnippet const* const m_bitmapSnippetPtr;
     XY m_checkMaxPoint;
     CheckDetails m_checkDetails;
     PieceToChessCellBitValueMap m_piecesToChessCellBitValuesMap;
 };
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

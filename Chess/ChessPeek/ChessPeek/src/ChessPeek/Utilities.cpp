@@ -9,6 +9,8 @@ namespace alba {
 
 namespace chess {
 
+namespace ChessPeek {
+
 XY convertToXY(BitmapXY const& bitmapXY) {
     return {static_cast<int>(bitmapXY.getX()), static_cast<int>(bitmapXY.getY())};
 }
@@ -26,6 +28,8 @@ uint8_t extractRed(uint32_t const color) { return (AlbaBitManipulation<uint32_t>
 uint8_t extractGreen(uint32_t const color) { return (AlbaBitManipulation<uint32_t>::getByteAt<1>(color)); }
 
 uint8_t extractBlue(uint32_t const color) { return (AlbaBitManipulation<uint32_t>::getByteAt<0>(color)); }
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

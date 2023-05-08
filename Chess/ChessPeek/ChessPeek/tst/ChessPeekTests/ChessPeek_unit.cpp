@@ -10,6 +10,8 @@ namespace alba {
 
 namespace chess {
 
+namespace ChessPeek {
+
 TEST(ChessPeekTest, RunForeverWorks) {
     ChessPeek chessPeek;
 
@@ -32,7 +34,7 @@ TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks) {
 TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks) {
     ChessPeek chessPeek;
 
-    chessPeek.startEngineAnalysisOfNewPosition();
+    chessPeek.startEngineAnalysis();
     Sleep(10000);
 }
 
@@ -63,6 +65,8 @@ TEST(ChessPeekTest, DISABLED_CalculationDetailsAreFilteredByTimer) {
 //    Sleep(500);
 //    chessPeek.displayCalculationDetailsIfNotDisplayedYet();
 //}
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <ChessPeek/ChessPeekCalculationDetails.hpp>
-#include <ChessPeek/ChessPeekConfiguration.hpp>
-#include <ChessPeek/ChessPieceRetriever.hpp>
-#include <ChessUtilities/Board/Board.hpp>
+#include <ChessPeek/CalculationDetails.hpp>
+#include <ChessPeek/Configuration.hpp>
+#include <ChessPeek/DetailsFromTheScreen.hpp>
+#include <ChessPeek/DetailsOnTheEngine.hpp>
 #include <ChessUtilities/ChessEngineControllerWithUci.hpp>
 #include <ChessUtilities/ChessEngineHandler.hpp>
 #include <Common/Time/AlbaLocalTimer.hpp>
@@ -13,22 +13,12 @@ namespace alba {
 
 namespace chess {
 
+namespace ChessPeek {
+
 class ChessPeek {
 public:
     using ChessCellBitValueMatrix = matrix::AlbaMatrix<uint64_t>;
-    using EngineCalculationDetails = CalculationDetails;
-
-    struct ChessBoardDetails {
-        unsigned int pieceCount;
-        unsigned int whiteCountInUpperHalf;
-        unsigned int blackCountInUpperHalf;
-        unsigned int whiteCountInLowerHalf;
-        unsigned int blackCountInLowerHalf;
-        unsigned int numberOfWhiteKings;
-        unsigned int numberOfBlackKings;
-        Coordinate whiteKingCoordinate;
-        Coordinate blackKingCoordinate;
-    };
+    using EngineCalculationDetails = chess::CalculationDetails;
 
     ChessPeek();
 
@@ -36,47 +26,33 @@ public:
     void runOneIteration();
 
     void checkScreenAndSaveDetails();
-    void startEngineAnalysisOfNewPosition();
+    void startEngineAnalysis();
     void calculationMonitoringCallBackForEngine(EngineCalculationDetails const& engineCalculationDetails);
 
 private:
-    void initialize();
+    bool shouldAnalyzeBoard() const;
+    bool didBoardFromScreenChange() const;
 
-    void saveChessBoardAndItsDetails();
-    void setChessBoardCountDetails(Coordinate const& chessCoordinate, Piece const& chessPiece);
-    void setChessBoardKingDetailsIfNeeded(Coordinate const& chessCoordinate, Piece const& chessPiece);
-    void updatePlayerColorAndOrientation();
-    void updatePlayerColorIfChessDotComPuzzle();
-    void updatePlayerColorIfLichessStream();
-    void updatePlayerColorAndOrientationFromChessBoardDetails();
-    void setPlayerColorAndResetEngineIfNeeded(PieceColor const newColor);
-    void setOrientationDependingOnLowerHalfColor(PieceColor const lowerHalfColor);
+    void initialize();
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
 
-    void displayCalculationDetailsBasedFromTimer();
-    void displayCalculationDetailsIfNotDisplayedYet();
+    void printCalculationDetailsWithFiltering();
+    void printCalculationDetailsIfPending();
     void printCalculationDetails();
 
-    bool shouldAnalyzeBoard(Board::PieceMatrix const& previousPieceMatrix) const;
-    bool didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const;
-    bool canAnalyzeBoard() const;
-    bool areKingsValid() const;
-    bool isOpponentsKingOnCheck() const;
-    Coordinate getOpponentsKingCoordinate() const;
-
-    ChessPeekConfiguration m_configuration;
+    Configuration m_configuration;
     AlbaLocalScreenMonitoring m_screenMonitoring;
-    ChessPieceRetriever m_pieceRetriever;
-    ChessEngineHandler m_chessEngineHandler;
-    ChessEngineControllerWithUci m_chessEngineController;
-    AlbaLocalTimer m_displayTimer;
-    ChessPeekCalculationDetails m_calculationDetails;
-    Board m_chessBoard;
-    ChessBoardDetails m_chessBoardDetails;
-    PieceColor m_playerColor;
+    ChessEngineHandler m_engineHandler;
+    ChessEngineControllerWithUci m_engineController;
+    AlbaLocalTimer m_printFilteringTimer;
+    DetailsFromTheScreen m_detailsFromTheScreen;
+    DetailsOnTheEngine m_detailsOnTheEngine;
+    CalculationDetails m_calculationDetails;
     bool m_isEngineNewlyReseted;
     bool m_hasPendingPrintAction;
 };
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

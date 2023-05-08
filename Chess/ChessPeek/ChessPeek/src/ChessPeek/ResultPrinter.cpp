@@ -1,18 +1,21 @@
-#include "ChessPeekPrintHelper.hpp"
+#include "ResultPrinter.hpp"
 
-#include <ChessPeek/LineOfMovesAnalyzer.hpp>
+#include <ChessPeek/SequenceOfMovesAnalyzer.hpp>
 #include <ChessUtilities/Board/BoardUtilities.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
+
 #include <iostream>
 
-using namespace alba::mathHelper;using namespace alba::stringHelper;
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace {
-constexpr int MINIMUM_ACCEPTABLE_SCORE_IN_TEXT = -200;
+constexpr int MINIMUM_ACCEPTABLE_DELTA_SCORE_FROM_BEST_MOVE = 100;
+constexpr int MINIMUM_ACCEPTABLE_SCORE = -300;
 constexpr unsigned int MIN_NUMBER_OF_MOVES_IN_TEXT = 5U;
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT = 15U;
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TABLE = 5U;
@@ -24,11 +27,12 @@ namespace alba {
 
 namespace chess {
 
-ChessPeekPrintHelper::ChessPeekPrintHelper(
-    PieceColor const& playerColor, ChessPeekCalculationDetails const& calculationDetails, Board const& board)
-    : m_playerColor(playerColor), m_calculationDetails(calculationDetails), m_chessBoard(board) {}
+namespace ChessPeek {
 
-void ChessPeekPrintHelper::print() {
+ResultPrinter::ResultPrinter(DetailsOnTheEngine const& detailsOnTheEngine, CalculationDetails const& calculationDetails)
+    : m_detailsOnTheEngine(detailsOnTheEngine), m_calculationDetails(calculationDetails) {}
+
+void ResultPrinter::print() {
     MoveAndScorePairs moveAndScorePairs(getCurrentMoveAndScorePairs());
     Moves futureHalfMoves(getFutureHalfMoves());
     printCalculationDetails(moveAndScorePairs, futureHalfMoves);
@@ -37,18 +41,19 @@ void ChessPeekPrintHelper::print() {
     cout.flush();
 }
 
-void ChessPeekPrintHelper::printCalculationDetails(
+void ResultPrinter::printCalculationDetails(
     MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
-    cout << "Player: " << m_playerColor << ", Depth: " << m_calculationDetails.depthInPlies
+    cout << "Player: " << m_detailsOnTheEngine.getPlayerColor() << ", Depth: " << m_calculationDetails.depthInPlies
          << ", Mate score: " << m_calculationDetails.mateScore << "\n";
     cout << "Current moves: ";
     for (MoveAndScorePair const& moveAndScorePair : moveAndScorePairs) {
-        cout << m_chessBoard.getReadableStringForMove(moveAndScorePair.first) << " ["
+        cout << m_detailsOnTheEngine.getBoard().getReadableStringForMove(moveAndScorePair.first) << " ["
              << static_cast<double>(moveAndScorePair.second) / 100 << "], ";
     }
     cout << "\n";
 
-    Board updatedBoard(m_chessBoard);
+    Board const& boardOnTheEngine(m_detailsOnTheEngine.getBoard());
+    Board updatedBoard(boardOnTheEngine);
     cout << "Monitored PV: ";
     for (Move const& futureHalfMove : futureHalfMoves) {
         Piece piece = updatedBoard.getPieceAt(futureHalfMove.first);
@@ -63,16 +68,15 @@ void ChessPeekPrintHelper::printCalculationDetails(
 
     if (!m_calculationDetails.bestMove.empty()) {
         cout << "Best move: "
-             << m_chessBoard.getReadableStringForMove(
-                    m_chessBoard.getMoveFromTwoLetterNumberNotation(m_calculationDetails.bestMove))
+             << boardOnTheEngine.getReadableStringForMove(
+                    boardOnTheEngine.getMoveFromTwoLetterNumberNotation(m_calculationDetails.bestMove))
              << "\n";
     }
 
     cout << "\n";
 }
 
-void ChessPeekPrintHelper::printMoveTables(
-    MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
+void ResultPrinter::printMoveTables(MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
     if (!moveAndScorePairs.empty()) {
         putCurrentMoves(moveAndScorePairs);
     }
@@ -81,7 +85,7 @@ void ChessPeekPrintHelper::printMoveTables(
     }
 }
 
-void ChessPeekPrintHelper::putCurrentMoves(MoveAndScorePairs const& moveAndScorePairs) const {
+void ResultPrinter::putCurrentMoves(MoveAndScorePairs const& moveAndScorePairs) const {
     printHorizontalBorderLine();
     printScoresHeader(moveAndScorePairs, 0);
     putCurrentMovesTable(moveAndScorePairs, 0);
@@ -91,7 +95,7 @@ void ChessPeekPrintHelper::putCurrentMoves(MoveAndScorePairs const& moveAndScore
     putCurrentMovesTable(moveAndScorePairs, 10);
 }
 
-void ChessPeekPrintHelper::putCurrentMovesTable(
+void ResultPrinter::putCurrentMovesTable(
     MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
     constexpr unsigned int numberOfBoardDisplayRows = 8U;
     if (startIndex < moveAndScorePairs.size()) {
@@ -102,7 +106,7 @@ void ChessPeekPrintHelper::putCurrentMovesTable(
         boardsDisplayTable.setVerticalBorder("|");
         putSeparatorsOnDisplayTable(boardsDisplayTable, NEXT_OFFSET_OF_DISPLAY_TABLE);
         for (unsigned int xOffset = 0; xOffset < numberOfBoardDisplayColumns; xOffset += NEXT_OFFSET_OF_DISPLAY_TABLE) {
-            putChessBoardOnDisplayTable(boardsDisplayTable, m_chessBoard, xOffset);
+            putChessBoardOnDisplayTable(boardsDisplayTable, m_detailsOnTheEngine.getBoard(), xOffset);
         }
         putCurrentMovesOnDisplayTable(boardsDisplayTable, moveAndScorePairs, startIndex, numberOfMovesToDisplay);
         cout << boardsDisplayTable;
@@ -110,25 +114,26 @@ void ChessPeekPrintHelper::putCurrentMovesTable(
     }
 }
 
-void ChessPeekPrintHelper::putCurrentMovesOnDisplayTable(
+void ResultPrinter::putCurrentMovesOnDisplayTable(
     DisplayTable& boardsDisplayTable, MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex,
     unsigned int const numberOfMovesToDisplay) const {
     unsigned int xOffset = 0U;
     for (unsigned int moveIndex = 0; moveIndex < numberOfMovesToDisplay; moveIndex++) {
         Move const& currentMove(moveAndScorePairs.at(startIndex + moveIndex).first);
-        putMoveOnChessBoardCellsInDisplayTable(boardsDisplayTable, m_chessBoard, currentMove, xOffset, 1U, false);
+        putMoveOnChessBoardCellsInDisplayTable(
+            boardsDisplayTable, m_detailsOnTheEngine.getBoard(), currentMove, xOffset, 1U, false);
         xOffset += NEXT_OFFSET_OF_DISPLAY_TABLE;
     }
 }
 
-void ChessPeekPrintHelper::printFutureHalfMoves(Moves const& futureHalfMoves) const {
+void ResultPrinter::printFutureHalfMoves(Moves const& futureHalfMoves) const {
     printScoreAndMoveNumbersHeader();
     printHorizontalBorderLine();
     printFutureHalfMovesTable(futureHalfMoves);
     printHorizontalBorderLine();
 }
 
-void ChessPeekPrintHelper::printFutureHalfMovesTable(Moves const& futureHalfMoves) const {
+void ResultPrinter::printFutureHalfMovesTable(Moves const& futureHalfMoves) const {
     constexpr unsigned int numberOfRows = 8U;
     unsigned int numberOfMovesToDisplay =
         min(MAX_NUMBER_OF_MOVES_IN_TABLE, static_cast<unsigned int>((futureHalfMoves.size() + 1U) / 2U));
@@ -141,15 +146,15 @@ void ChessPeekPrintHelper::printFutureHalfMovesTable(Moves const& futureHalfMove
     cout << boardsDisplayTable;
 }
 
-void ChessPeekPrintHelper::putFutureHalfMovesAndBoardsOnDisplayTable(
+void ResultPrinter::putFutureHalfMovesAndBoardsOnDisplayTable(
     DisplayTable& boardsDisplayTable, Moves const& futureHalfMoves, unsigned int const numberOfMovesToDisplay) const {
-    LineOfMovesAnalyzer analyzer(m_chessBoard);
+    SequenceOfMovesAnalyzer analyzer(m_detailsOnTheEngine.getBoard());
     unsigned int movesDisplayed = 0U;
     unsigned int xOffset = 0U;
 
     for (Move const& futureHalfMove : futureHalfMoves) {
         analyzer.checkMove(futureHalfMove);
-        if (analyzer.getSavedPiece().getColor() == m_playerColor) {
+        if (analyzer.getSavedPiece().getColor() == m_detailsOnTheEngine.getPlayerColor()) {
             bool canPreMove = analyzer.canPreMove();
 
             putChessBoardOnDisplayTable(boardsDisplayTable, analyzer.getCurrentBoard(), xOffset);
@@ -167,8 +172,7 @@ void ChessPeekPrintHelper::putFutureHalfMovesAndBoardsOnDisplayTable(
     }
 }
 
-void ChessPeekPrintHelper::printScoresHeader(
-    MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
+void ResultPrinter::printScoresHeader(MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
     if (startIndex < moveAndScorePairs.size()) {
         unsigned int numberOfMovesToDisplay =
             min(MAX_NUMBER_OF_MOVES_IN_TABLE, static_cast<unsigned int>(moveAndScorePairs.size() - startIndex));
@@ -189,20 +193,19 @@ void ChessPeekPrintHelper::printScoresHeader(
     }
 }
 
-void ChessPeekPrintHelper::printScoreAndMoveNumbersHeader() const {
+void ResultPrinter::printScoreAndMoveNumbersHeader() const {
     cout << "|   ";
     cout << setfill(' ') << setw(9) << static_cast<double>(m_calculationDetails.scoreInPvLine) / 100;
     cout << " -> 1st move       |     |           2nd move            |     |           3rd move            |     |   "
             "        4th move            |     |           5th move            |\n";
 }
 
-void ChessPeekPrintHelper::printHorizontalBorderLine() const {
+void ResultPrinter::printHorizontalBorderLine() const {
     cout << "----------------------------------------------------------------------------------------------------------"
             "-------------------------------------------------------------------------------\n";
 }
 
-void ChessPeekPrintHelper::putSeparatorsOnDisplayTable(
-    DisplayTable& boardsDisplayTable, unsigned int const offset) const {
+void ResultPrinter::putSeparatorsOnDisplayTable(DisplayTable& boardsDisplayTable, unsigned int const offset) const {
     unsigned int const numberOfColumns = boardsDisplayTable.getTotalColumns(),
                        numberOfRows = boardsDisplayTable.getTotalRows();
     for (unsigned int j = 0; j < numberOfRows; j++) {
@@ -212,7 +215,7 @@ void ChessPeekPrintHelper::putSeparatorsOnDisplayTable(
     }
 }
 
-void ChessPeekPrintHelper::putChessBoardOnDisplayTable(
+void ResultPrinter::putChessBoardOnDisplayTable(
     DisplayTable& boardsDisplayTable, Board const& chessBoard, unsigned int const xOffset) const {
     constexpr CoordinateDataType chessBoardDimension = 8U;
     for (CoordinateDataType y = 0; y < chessBoardDimension; y++) {
@@ -224,7 +227,7 @@ void ChessPeekPrintHelper::putChessBoardOnDisplayTable(
     }
 }
 
-void ChessPeekPrintHelper::putMoveOnChessBoardCellsInDisplayTable(
+void ResultPrinter::putMoveOnChessBoardCellsInDisplayTable(
     DisplayTable& boardsDisplayTable, Board const& chessBoard, Move const& move, unsigned int const xOffset,
     unsigned int const moveNumberToDisplay, bool canPreMove) const {
     Piece piece(chessBoard.getPieceAt(move.first));
@@ -234,7 +237,7 @@ void ChessPeekPrintHelper::putMoveOnChessBoardCellsInDisplayTable(
         .setText(getChessBoardCellForDisplay(piece, moveNumberToDisplay + 1, canPreMove));
 }
 
-string ChessPeekPrintHelper::getChessBoardCellForDisplay(
+string ResultPrinter::getChessBoardCellForDisplay(
     Piece const& piece, unsigned int const moveNumber, bool const canPreMove) const {
     string result(3, ' ');
     if (moveNumber != 0) {
@@ -250,16 +253,17 @@ string ChessPeekPrintHelper::getChessBoardCellForDisplay(
     return result;
 }
 
-MoveAndScorePairs ChessPeekPrintHelper::getCurrentMoveAndScorePairs() const {
+MoveAndScorePairs ResultPrinter::getCurrentMoveAndScorePairs() const {
     MoveAndScorePairs result;
+    Board const& boardOnTheEngine(m_detailsOnTheEngine.getBoard());
     for (StringAndIntPair const& searchingMoveAndScorePair : m_calculationDetails.searchingMoveAndScorePairs) {
         if (result.size() >= MIN_NUMBER_OF_MOVES_IN_TEXT &&
-            searchingMoveAndScorePair.second <= MINIMUM_ACCEPTABLE_SCORE_IN_TEXT) {
+            searchingMoveAndScorePair.second <= MINIMUM_ACCEPTABLE_SCORE) {
             break;
         }
 
-        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(searchingMoveAndScorePair.first));
-        if (isMoveWithinTheBoard(move) && m_chessBoard.isAPossibleMove(move)) {
+        Move move(boardOnTheEngine.getMoveFromTwoLetterNumberNotation(searchingMoveAndScorePair.first));
+        if (isMoveWithinTheBoard(move) && boardOnTheEngine.isAPossibleMove(move)) {
             result.emplace_back(move, searchingMoveAndScorePair.second);
         }
     }
@@ -269,9 +273,11 @@ MoveAndScorePairs ChessPeekPrintHelper::getCurrentMoveAndScorePairs() const {
     }
     return result;
 }
-Moves ChessPeekPrintHelper::getFutureHalfMoves() const {
+
+Moves ResultPrinter::getFutureHalfMoves() const {
     Moves result;
-    strings const& pvHalfMovesStrings(m_calculationDetails.pvHalfMovesInMonitoredLine);    Board updatedBoard(m_chessBoard);
+    strings const& pvHalfMovesStrings(m_calculationDetails.pvHalfMovesInMonitoredLine);
+    Board updatedBoard(m_detailsOnTheEngine.getBoard());
     bool isFirst = true;
     PieceColor previousColor{};
     for (string const& pvHalfMoveString : pvHalfMovesStrings) {
@@ -301,9 +307,9 @@ Moves ChessPeekPrintHelper::getFutureHalfMoves() const {
     return result;
 }
 
-void ChessPeekPrintHelper::sortSoThatHumanlyMovesAreAtTheStart(MoveAndScorePairs& moveAndScoreToBeSorted) const {
+void ResultPrinter::sortSoThatHumanlyMovesAreAtTheStart(MoveAndScorePairs& moveAndScoreToBeSorted) const {
     if (!moveAndScoreToBeSorted.empty()) {
-        // skip best move
+        Board const& boardOnTheEngine(m_detailsOnTheEngine.getBoard());
         stable_sort(
             moveAndScoreToBeSorted.begin(), moveAndScoreToBeSorted.end(),
             [&](MoveAndScorePair const& pair1, MoveAndScorePair const& pair2) {
@@ -315,8 +321,8 @@ void ChessPeekPrintHelper::sortSoThatHumanlyMovesAreAtTheStart(MoveAndScorePairs
                     int yMoveForwardCount1 = move1.first.getY() - move1.second.getY();
                     int yMoveForwardCount2 = move2.first.getY() - move2.second.getY();
                     if (yMoveForwardCount1 == yMoveForwardCount2) {
-                        int pieceTypeValue1 = getValueOfPieceType(m_chessBoard.getPieceAt(move1.first).getType());
-                        int pieceTypeValue2 = getValueOfPieceType(m_chessBoard.getPieceAt(move2.first).getType());
+                        int pieceTypeValue1 = getValueOfPieceType(boardOnTheEngine.getPieceAt(move1.first).getType());
+                        int pieceTypeValue2 = getValueOfPieceType(boardOnTheEngine.getPieceAt(move2.first).getType());
                         if (pieceTypeValue1 == pieceTypeValue2) {
                             int xDelta1 = getPositiveDelta(move1.first.getX(), move1.second.getX());
                             int xDelta2 = getPositiveDelta(move2.first.getX(), move2.second.getX());
@@ -330,24 +336,27 @@ void ChessPeekPrintHelper::sortSoThatHumanlyMovesAreAtTheStart(MoveAndScorePairs
             });
     }
 }
-unsigned int ChessPeekPrintHelper::getNumberOfColumnsOfScoreDisplayTable(unsigned int const numberOfChessBoards) const {
+
+unsigned int ResultPrinter::getNumberOfColumnsOfScoreDisplayTable(unsigned int const numberOfChessBoards) const {
     return numberOfChessBoards == 0 ? 0U : numberOfChessBoards * 2 - 1;
 }
-unsigned int ChessPeekPrintHelper::getNumberOfColumnsOfBoardDisplayTable(unsigned int const numberOfChessBoards) const {
+
+unsigned int ResultPrinter::getNumberOfColumnsOfBoardDisplayTable(unsigned int const numberOfChessBoards) const {
     return numberOfChessBoards == 0 ? 0U : numberOfChessBoards * 8U + numberOfChessBoards - 1;
 }
 
-int ChessPeekPrintHelper::getAcceptableScore(int const scoreInCentipawns) const {
+int ResultPrinter::getAcceptableScore(int const scoreInCentipawns) const {
     int result{};
-    if (scoreInCentipawns > -300) {
-        result = 1;  // acceptable (can still win)
+    int deltaFromBestMove = m_calculationDetails.scoreInPvLine - scoreInCentipawns;
+    if (deltaFromBestMove < MINIMUM_ACCEPTABLE_DELTA_SCORE_FROM_BEST_MOVE) {
+        result = 1;  // acceptable (move still makes sense)
     } else {
-        result = 0;  // not acceptable (losing)
+        result = 0;  // not acceptable (move does not make sense)
     }
     return result;
 }
 
-int ChessPeekPrintHelper::getScoreLevel(int const scoreInCentipawns) const {
+int ResultPrinter::getScoreLevel(int const scoreInCentipawns) const {
     int result{};
     if (scoreInCentipawns >= 9999.99) {
         result = 5;  // mate
@@ -364,6 +373,9 @@ int ChessPeekPrintHelper::getScoreLevel(int const scoreInCentipawns) const {
     }
     return result;
 }
+
+}  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

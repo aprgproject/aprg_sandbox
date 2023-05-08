@@ -6,7 +6,9 @@ namespace alba {
 
 namespace chess {
 
-class LineOfMovesAnalyzer {
+namespace ChessPeek {
+
+class SequenceOfMovesAnalyzer {
 public:
     struct AnalyzerData {
         Move previousMove;
@@ -16,7 +18,7 @@ public:
         bool previouslyHadOnlyOnePossibleMoveToThisDestination;
     };
 
-    LineOfMovesAnalyzer(Board const& board);
+    SequenceOfMovesAnalyzer(Board const& board);
 
     void checkMove(Move const& halfMove);
     void commitMove();
@@ -31,6 +33,8 @@ private:
     Board m_board;
     AnalyzerData m_analyzerData;
 };
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

@@ -1,20 +1,21 @@
 #pragma once
 
-#include <ChessPeek/ChessPeekCalculationDetails.hpp>
-#include <ChessUtilities/Board/Board.hpp>
+#include <ChessPeek/CalculationDetails.hpp>
+#include <ChessPeek/DetailsOnTheEngine.hpp>
 
 namespace alba {
 
 namespace chess {
 
-class ChessPeekPrintHelper {
+namespace ChessPeek {
+
+class ResultPrinter {
 public:
     using BoardAndMovePair = std::pair<Board, Move>;
     using BoardAndMovePairs = std::vector<BoardAndMovePair>;
 
-    ChessPeekPrintHelper() = delete;
-    ChessPeekPrintHelper(
-        PieceColor const& playerColor, ChessPeekCalculationDetails const& calculationDetails, Board const& board);
+    ResultPrinter() = delete;
+    ResultPrinter(DetailsOnTheEngine const& detailsOnTheEngine, CalculationDetails const& calculationDetails);
 
     void print();
 
@@ -55,9 +56,12 @@ private:
     int getAcceptableScore(int const scoreInCentipawns) const;
     int getScoreLevel(int const scoreInCentipawns) const;
 
-    PieceColor const& m_playerColor;    ChessPeekCalculationDetails const& m_calculationDetails;
-    Board const& m_chessBoard;
+    DetailsOnTheEngine const& m_detailsOnTheEngine;
+    CalculationDetails const& m_calculationDetails;
 };
+
+}  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

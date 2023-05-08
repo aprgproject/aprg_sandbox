@@ -1,5 +1,5 @@
 #include <Bitmap/Bitmap.hpp>
-#include <ChessPeek/ChessPieceRetriever.hpp>
+#include <ChessPeek/BoardObserver.hpp>
 #include <ChessPeek/Utilities.hpp>
 #include <Common/Math/Helpers/DigitRelatedHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
@@ -14,6 +14,8 @@ namespace alba {
 
 namespace chess {
 
+namespace ChessPeek {
+
 namespace {
 using SetOfPieces = std::set<PieceColorAndType>;
 using PointToSetOfPiecesMap = std::map<XY, SetOfPieces>;
@@ -21,16 +23,16 @@ using PointToSetOfPiecesMap = std::map<XY, SetOfPieces>;
 void writeBottomRightBorder(BitmapSnippet& outputSnippet, XY const& deltaChessBoard) {
     XY cellBottomRightCorner(deltaChessBoard / 8U);
     for (int x = 0; x < cellBottomRightCorner.getX(); x++) {
-        outputSnippet.setPixelAt({x, cellBottomRightCorner.getY()}, 0x000000);
+        outputSnippet.setPixelAt(convertToBitmapXY({x, cellBottomRightCorner.getY()}), 0U);
     }
     for (int y = 0; y < cellBottomRightCorner.getY(); y++) {
-        outputSnippet.setPixelAt({cellBottomRightCorner.getY(), y}, 0x000000);
+        outputSnippet.setPixelAt(convertToBitmapXY({cellBottomRightCorner.getY(), y}), 0U);
     }
 }
 
 void checkChessCellForWhiteAndBlackPoints(
     PointToSetOfPiecesMap& whitePointsToUniquePiecesMap, PointToSetOfPiecesMap& blackPointsToUniquePiecesMap,
-    ChessPieceRetriever const& retriever, PieceColorAndType const piece, unsigned int const xIndex,
+    BoardObserver const& retriever, PieceColorAndType const piece, unsigned int const xIndex,
     unsigned int const yIndex) {
     XYs whitePoints, blackPoints;
     retriever.retrieveWhiteOffsetPoints(whitePoints, xIndex, yIndex);
@@ -46,7 +48,7 @@ void checkChessCellForWhiteAndBlackPoints(
 
 void checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
     PointToSetOfPiecesMap& whitePointsToUniquePiecesMap, PointToSetOfPiecesMap& blackPointsToUniquePiecesMap,
-    ChessPieceRetriever const& retriever, BitmapSnippet const& inputSnippet) {
+    BoardObserver const& retriever) {
     checkChessCellForWhiteAndBlackPoints(
         whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, PieceColorAndType::BlackKnight, 1U, 0U);
     checkChessCellForWhiteAndBlackPoints(
@@ -113,39 +115,39 @@ void checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
         whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, PieceColorAndType::WhiteKnight, 6U, 7U);
 }
 
-void printChessBitValuesWithBlackUpWhiteDown(ChessPieceRetriever const& retriever) {
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(0U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(1U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(2U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(3U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(4U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(5U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(6U, 6U).to_string() << "]\n";
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(7U, 6U).to_string() << "]\n";
-    cout << "White rook:   [" << retriever.getChessCellBitValue(0U, 7U).to_string() << "]\n";
-    cout << "White rook:   [" << retriever.getChessCellBitValue(7U, 7U).to_string() << "]\n";
-    cout << "White knight: [" << retriever.getChessCellBitValue(1U, 7U).to_string() << "]\n";
-    cout << "White knight: [" << retriever.getChessCellBitValue(6U, 7U).to_string() << "]\n";
-    cout << "White bishop: [" << retriever.getChessCellBitValue(2U, 7U).to_string() << "]\n";
-    cout << "White bishop: [" << retriever.getChessCellBitValue(5U, 7U).to_string() << "]\n";
-    cout << "White queen:  [" << retriever.getChessCellBitValue(3U, 7U).to_string() << "]\n";
-    cout << "White king:   [" << retriever.getChessCellBitValue(4U, 7U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(0U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(1U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(2U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(3U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(4U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(5U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(6U, 1U).to_string() << "]\n";
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(7U, 1U).to_string() << "]\n";
-    cout << "Black rook:   [" << retriever.getChessCellBitValue(0U, 0U).to_string() << "]\n";
-    cout << "Black rook:   [" << retriever.getChessCellBitValue(7U, 0U).to_string() << "]\n";
-    cout << "Black knight: [" << retriever.getChessCellBitValue(1U, 0U).to_string() << "]\n";
-    cout << "Black knight: [" << retriever.getChessCellBitValue(6U, 0U).to_string() << "]\n";
-    cout << "Black bishop: [" << retriever.getChessCellBitValue(2U, 0U).to_string() << "]\n";
-    cout << "Black bishop: [" << retriever.getChessCellBitValue(5U, 0U).to_string() << "]\n";
-    cout << "Black queen:  [" << retriever.getChessCellBitValue(3U, 0U).to_string() << "]\n";
-    cout << "Black king:   [" << retriever.getChessCellBitValue(4U, 0U).to_string() << "]\n";
+void printChessBitValuesWithBlackUpWhiteDown(BoardObserver const& retriever) {
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(0U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(1U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(2U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(3U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(4U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(5U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(6U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getBitValueFromCell(7U, 6U).to_string() << "]\n";
+    cout << "White rook:   [" << retriever.getBitValueFromCell(0U, 7U).to_string() << "]\n";
+    cout << "White rook:   [" << retriever.getBitValueFromCell(7U, 7U).to_string() << "]\n";
+    cout << "White knight: [" << retriever.getBitValueFromCell(1U, 7U).to_string() << "]\n";
+    cout << "White knight: [" << retriever.getBitValueFromCell(6U, 7U).to_string() << "]\n";
+    cout << "White bishop: [" << retriever.getBitValueFromCell(2U, 7U).to_string() << "]\n";
+    cout << "White bishop: [" << retriever.getBitValueFromCell(5U, 7U).to_string() << "]\n";
+    cout << "White queen:  [" << retriever.getBitValueFromCell(3U, 7U).to_string() << "]\n";
+    cout << "White king:   [" << retriever.getBitValueFromCell(4U, 7U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(0U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(1U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(2U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(3U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(4U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(5U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(6U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getBitValueFromCell(7U, 1U).to_string() << "]\n";
+    cout << "Black rook:   [" << retriever.getBitValueFromCell(0U, 0U).to_string() << "]\n";
+    cout << "Black rook:   [" << retriever.getBitValueFromCell(7U, 0U).to_string() << "]\n";
+    cout << "Black knight: [" << retriever.getBitValueFromCell(1U, 0U).to_string() << "]\n";
+    cout << "Black knight: [" << retriever.getBitValueFromCell(6U, 0U).to_string() << "]\n";
+    cout << "Black bishop: [" << retriever.getBitValueFromCell(2U, 0U).to_string() << "]\n";
+    cout << "Black bishop: [" << retriever.getBitValueFromCell(5U, 0U).to_string() << "]\n";
+    cout << "Black queen:  [" << retriever.getBitValueFromCell(3U, 0U).to_string() << "]\n";
+    cout << "Black king:   [" << retriever.getBitValueFromCell(4U, 0U).to_string() << "]\n";
 }
 
 unsigned int getLabelBasedOnSetOfPieces(SetOfPieces const& setOfPieces) {
@@ -172,12 +174,12 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComVersus
     AlbaLocalPathHandler inputFile(APRG_DIR
                                    R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComVersus\ChessDotComVersus.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComVersus);
+    Configuration configuration(Configuration::Type::ChessDotComVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
         convertToBitmapXY(configuration.getTopLeftOfBoard()),
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
 
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
@@ -186,12 +188,12 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComPuzzle
     AlbaLocalPathHandler inputFile(APRG_DIR
                                    R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComPuzzle\ChessDotComPuzzle.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComPuzzle);
+    Configuration configuration(Configuration::Type::ChessDotComPuzzle);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
         convertToBitmapXY(configuration.getTopLeftOfBoard()),
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
 
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
@@ -199,12 +201,12 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComPuzzle
 TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessVersus) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
+    Configuration configuration(Configuration::Type::LichessVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
         convertToBitmapXY(configuration.getTopLeftOfBoard()),
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
 
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
@@ -212,12 +214,12 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessVersus) {
 TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_LichessStream) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\LichessStream.bmp)");
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessStream);
+    Configuration configuration(Configuration::Type::LichessStream);
     Bitmap inputBitmap(inputFile.getFullPath());
     BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(
         convertToBitmapXY(configuration.getTopLeftOfBoard()),
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
 
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
@@ -233,7 +235,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComVersu
     blankFile.copyToNewFile(outputFileForWhite.getFullPath());
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComVersus);
+    Configuration configuration(Configuration::Type::ChessDotComVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
@@ -242,13 +244,13 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComVersu
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
     BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
     PointToSetOfPiecesMap blackPointsToUniquePiecesMap;
     XY deltaChessBoard = configuration.getBottomRightOfBoard() - configuration.getTopLeftOfBoard();
 
     checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
-        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, inputSnippet);
+        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever);
 
     writeBottomRightBorder(outputSnippetForWhite, deltaChessBoard);
     writeBottomRightBorder(outputSnippetForBlack, deltaChessBoard);
@@ -278,7 +280,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComPuzzl
     blankFile.copyToNewFile(outputFileForWhite.getFullPath());
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComPuzzle);
+    Configuration configuration(Configuration::Type::ChessDotComPuzzle);
     Bitmap inputBitmap(inputFile.getFullPath());
     Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
@@ -287,13 +289,13 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComPuzzl
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
     BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
     PointToSetOfPiecesMap blackPointsToUniquePiecesMap;
     XY deltaChessBoard = configuration.getBottomRightOfBoard() - configuration.getTopLeftOfBoard();
 
     checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
-        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, inputSnippet);
+        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever);
 
     writeBottomRightBorder(outputSnippetForWhite, deltaChessBoard);
     writeBottomRightBorder(outputSnippetForBlack, deltaChessBoard);
@@ -322,7 +324,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessVersus) {
     blankFile.copyToNewFile(outputFileForWhite.getFullPath());
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
+    Configuration configuration(Configuration::Type::LichessVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
@@ -331,13 +333,13 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessVersus) {
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
     BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
     PointToSetOfPiecesMap blackPointsToUniquePiecesMap;
     XY deltaChessBoard = configuration.getBottomRightOfBoard() - configuration.getTopLeftOfBoard();
 
     checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
-        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, inputSnippet);
+        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever);
 
     writeBottomRightBorder(outputSnippetForWhite, deltaChessBoard);
     writeBottomRightBorder(outputSnippetForBlack, deltaChessBoard);
@@ -366,7 +368,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessStream) {
     blankFile.copyToNewFile(outputFileForWhite.getFullPath());
     blankFile.copyToNewFile(outputFileForBlack.getFullPath());
 
-    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessVersus);
+    Configuration configuration(Configuration::Type::LichessVersus);
     Bitmap inputBitmap(inputFile.getFullPath());
     Bitmap outputBitmapForWhite(outputFileForWhite.getFullPath());
     Bitmap outputBitmapForBlack(outputFileForBlack.getFullPath());
@@ -375,13 +377,13 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessStream) {
         convertToBitmapXY(configuration.getBottomRightOfBoard())));
     BitmapSnippet outputSnippetForWhite(outputBitmapForWhite.getSnippetReadFromFileWholeBitmap());
     BitmapSnippet outputSnippetForBlack(outputBitmapForBlack.getSnippetReadFromFileWholeBitmap());
-    ChessPieceRetriever retriever(configuration, inputSnippet);
+    BoardObserver retriever(configuration, inputSnippet);
     PointToSetOfPiecesMap whitePointsToUniquePiecesMap;
     PointToSetOfPiecesMap blackPointsToUniquePiecesMap;
     XY deltaChessBoard = configuration.getBottomRightOfBoard() - configuration.getTopLeftOfBoard();
 
     checkChessCellsForWhiteAndBlackPointsBlackUpWhiteDown(
-        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever, inputSnippet);
+        whitePointsToUniquePiecesMap, blackPointsToUniquePiecesMap, retriever);
 
     writeBottomRightBorder(outputSnippetForWhite, deltaChessBoard);
     writeBottomRightBorder(outputSnippetForBlack, deltaChessBoard);
@@ -399,6 +401,8 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessStream) {
     outputBitmapForWhite.setSnippetWriteToFile(outputSnippetForWhite);
     outputBitmapForBlack.setSnippetWriteToFile(outputSnippetForBlack);
 }
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

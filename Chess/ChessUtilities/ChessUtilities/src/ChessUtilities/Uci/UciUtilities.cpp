@@ -62,10 +62,12 @@ void saveCommonDetailsOnBestLine(CalculationDetails& calculationDetails, InfoDet
     calculationDetails.mateScore = infoDetails.mateScore;
     for (StringPair const& nameAndValuePair : infoDetails.nameAndValuePairs) {
         if (nameAndValuePair.first == "depth") {
-            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);        } else if (nameAndValuePair.first == "seldepth") {
+            calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
+        } else if (nameAndValuePair.first == "seldepth") {
             calculationDetails.selectiveDepthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
         }
-    }}
+    }
+}
 
 int getArtificialScore(InfoDetails const& infoDetails) {
     int result{};
@@ -130,9 +132,11 @@ void processInfoTokens(CalculationDetails& calculationDetails, strings const& in
         }
     }
 }
+
 void processBestMoveTokens(CalculationDetails& calculationDetails, strings const& tokens) {
     for (unsigned int i = 0; i < tokens.size(); i++) {
-        string const& token(tokens.at(i));        if (token == "bestmove") {
+        string const& token(tokens.at(i));
+        if (token == "bestmove") {
             calculationDetails.bestMove = tokens.at(++i);
         } else if (token == "ponder") {
             calculationDetails.possibleResponseMove = tokens.at(++i);

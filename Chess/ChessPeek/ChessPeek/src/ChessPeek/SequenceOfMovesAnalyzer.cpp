@@ -1,4 +1,4 @@
-#include "LineOfMovesAnalyzer.hpp"
+#include "SequenceOfMovesAnalyzer.hpp"
 
 #include <ChessUtilities/Board/BoardUtilities.hpp>
 
@@ -8,9 +8,11 @@ namespace alba {
 
 namespace chess {
 
-LineOfMovesAnalyzer::LineOfMovesAnalyzer(Board const& board) : m_board(board), m_analyzerData{} {}
+namespace ChessPeek {
 
-void LineOfMovesAnalyzer::checkMove(Move const& halfMove) {
+SequenceOfMovesAnalyzer::SequenceOfMovesAnalyzer(Board const& board) : m_board(board), m_analyzerData{} {}
+
+void SequenceOfMovesAnalyzer::checkMove(Move const& halfMove) {
     if (isMoveWithinTheBoard(halfMove)) {
         m_analyzerData.previousMove = m_analyzerData.savedMove;
         m_analyzerData.previousPiece = m_analyzerData.savedPiece;
@@ -19,27 +21,29 @@ void LineOfMovesAnalyzer::checkMove(Move const& halfMove) {
     }
 }
 
-void LineOfMovesAnalyzer::commitMove() {
+void SequenceOfMovesAnalyzer::commitMove() {
     m_analyzerData.previouslyHadOnlyOnePossibleMoveToThisDestination = m_board.hasOnlyOneMovePossibleToThisDestination(
         m_analyzerData.savedMove.second, m_analyzerData.savedPiece.getColor());
     m_board.move(m_analyzerData.savedMove);
 }
 
-bool LineOfMovesAnalyzer::canPreMove() const { return canPreMoveBecauseOnlyOnePossibleMoveBeforeCapture(); }
+bool SequenceOfMovesAnalyzer::canPreMove() const { return canPreMoveBecauseOnlyOnePossibleMoveBeforeCapture(); }
 
-Piece LineOfMovesAnalyzer::getSavedPiece() const { return m_analyzerData.savedPiece; }
+Piece SequenceOfMovesAnalyzer::getSavedPiece() const { return m_analyzerData.savedPiece; }
 
-Board const& LineOfMovesAnalyzer::getCurrentBoard() const { return m_board; }
+Board const& SequenceOfMovesAnalyzer::getCurrentBoard() const { return m_board; }
 
-bool LineOfMovesAnalyzer::canPreMoveBecauseOnlyOnePossibleMoveBeforeCapture() const {
+bool SequenceOfMovesAnalyzer::canPreMoveBecauseOnlyOnePossibleMoveBeforeCapture() const {
     return m_analyzerData.previouslyHadOnlyOnePossibleMoveToThisDestination &&
            previousAndCurrentMoveHasSameDestination();
 }
 
-bool LineOfMovesAnalyzer::previousAndCurrentMoveHasSameDestination() const {
+bool SequenceOfMovesAnalyzer::previousAndCurrentMoveHasSameDestination() const {
     // its a ongoing capture
     return m_analyzerData.savedMove.second == m_analyzerData.previousMove.second;
 }
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

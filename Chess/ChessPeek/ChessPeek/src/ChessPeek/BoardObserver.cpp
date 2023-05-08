@@ -1,4 +1,4 @@
-#include "ChessPieceRetriever.hpp"
+#include "BoardObserver.hpp"
 
 #include <ChessPeek/Utilities.hpp>
 #include <ChessUtilities/Board/BoardUtilities.hpp>
@@ -12,23 +12,23 @@ namespace alba {
 
 namespace chess {
 
-ChessPieceRetriever::ChessPieceRetriever(
-    ChessPeekConfiguration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring)
+namespace ChessPeek {
+
+BoardObserver::BoardObserver(Configuration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring)
     : m_configuration(configuration), m_screenMonitoringPtr(&screenMonitoring), m_bitmapSnippetPtr(nullptr) {
     initialize(configuration.getType());
 }
 
-ChessPieceRetriever::ChessPieceRetriever(
-    ChessPeekConfiguration const& configuration, BitmapSnippet const& bitmapSnippet)
+BoardObserver::BoardObserver(Configuration const& configuration, BitmapSnippet const& bitmapSnippet)
     : m_configuration(configuration), m_screenMonitoringPtr(nullptr), m_bitmapSnippetPtr(&bitmapSnippet) {
     initialize(configuration.getType());
 }
 
-Piece ChessPieceRetriever::getChessCellPiece(int const xIndex, int const yIndex) const {
-    return Piece(getBestPieceFromChessCellBitValue(getChessCellBitValue(xIndex, yIndex).to_ullong()));
+Piece BoardObserver::getPieceFromCell(int const xIndex, int const yIndex) const {
+    return Piece(getBestPieceFromChessCellBitValue(getBitValueFromCell(xIndex, yIndex).to_ullong()));
 }
 
-ChessPieceRetriever::BitSet64 ChessPieceRetriever::getChessCellBitValue(int const xIndex, int const yIndex) const {
+BoardObserver::BitSet64 BoardObserver::getBitValueFromCell(int const xIndex, int const yIndex) const {
     XY chessCellTopLeft, chessCellBottomRight;
     retrieveChessCellTopLeftAndBottomRight(chessCellTopLeft, chessCellBottomRight, xIndex, yIndex);
 
@@ -46,40 +46,40 @@ ChessPieceRetriever::BitSet64 ChessPieceRetriever::getChessCellBitValue(int cons
     return result;
 }
 
-void ChessPieceRetriever::retrieveWhiteOffsetPoints(XYs& bitmapXYs, int const xIndex, int const yIndex) const {
+void BoardObserver::retrieveWhiteOffsetPoints(XYs& bitmapXYs, int const xIndex, int const yIndex) const {
     retrieveOffsetPointsWithCondition(bitmapXYs, xIndex, yIndex, [&](double const colorIntensity) {
         return colorIntensity > m_configuration.getWhiteColorLimit();
     });
 }
 
-void ChessPieceRetriever::retrieveBlackOffsetPoints(XYs& bitmapXYs, int const xIndex, int const yIndex) const {
+void BoardObserver::retrieveBlackOffsetPoints(XYs& bitmapXYs, int const xIndex, int const yIndex) const {
     retrieveOffsetPointsWithCondition(bitmapXYs, xIndex, yIndex, [&](double const colorIntensity) {
         return colorIntensity < m_configuration.getBlackColorLimit();
     });
 }
 
-void ChessPieceRetriever::initialize(ChessPeekConfigurationType const type) {
+void BoardObserver::initialize(Configuration::Type const type) {
     switch (type) {
-        case ChessPeekConfigurationType::ChessDotComVersus: {
+        case Configuration::Type::ChessDotComVersus: {
             initializeConverterToChessDotCom();
             break;
         }
-        case ChessPeekConfigurationType::ChessDotComPuzzle: {
+        case Configuration::Type::ChessDotComPuzzle: {
             initializeConverterToChessDotCom();  // same with chess.com (use this as approximation)
             break;
         }
-        case ChessPeekConfigurationType::LichessVersus: {
+        case Configuration::Type::LichessVersus: {
             initializeConverterToLichessVersus();
             break;
         }
-        case ChessPeekConfigurationType::LichessStream: {
+        case Configuration::Type::LichessStream: {
             initializeConverterToLichessVersus();  // same with lichess.org (use this as approximation)
             break;
         }
     }
 }
 
-void ChessPieceRetriever::initializeConverterToChessDotCom() {
+void BoardObserver::initializeConverterToChessDotCom() {
     m_checkMaxPoint = XY(102, 102);
     m_checkDetails =
         CheckDetails{{{17, 34}, WhiteOrBlack::White}, {{20, 40}, WhiteOrBlack::White}, {{21, 54}, WhiteOrBlack::White},
@@ -131,7 +131,7 @@ void ChessPieceRetriever::initializeConverterToChessDotCom() {
         0B0000000000000000000000000000000011110111110111111111100010101110;
 }
 
-void ChessPieceRetriever::initializeConverterToLichessVersus() {
+void BoardObserver::initializeConverterToLichessVersus() {
     m_checkMaxPoint = XY(93, 93);
     m_checkDetails =
         CheckDetails{{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White},
@@ -183,7 +183,7 @@ void ChessPieceRetriever::initializeConverterToLichessVersus() {
         0B0000000000000001000000001000000000001100100111011111000110000000;
 }
 
-bool ChessPieceRetriever::isBitValueAsserted(
+bool BoardObserver::isBitValueAsserted(
     CheckDetail const& checkDetail, XY const& chessCellTopLeft, XY const& chessCellBottomRight) const {
     static const XYs aroundOffsets{XY(0, -1), XY(0, 1), XY(-1, 0), XY(1, 0)};
 
@@ -223,7 +223,7 @@ bool ChessPieceRetriever::isBitValueAsserted(
     return result;
 }
 
-uint32_t ChessPieceRetriever::getColorAt(int const x, int const y) const {
+uint32_t BoardObserver::getColorAt(int const x, int const y) const {
     uint32_t result{};
     if (m_screenMonitoringPtr) {
         result = m_screenMonitoringPtr->getColorAt(x, y);
@@ -233,7 +233,7 @@ uint32_t ChessPieceRetriever::getColorAt(int const x, int const y) const {
     return result;
 }
 
-PieceColorAndType ChessPieceRetriever::getBestPieceFromChessCellBitValue(uint64_t const chessCellBitValue) const {
+PieceColorAndType BoardObserver::getBestPieceFromChessCellBitValue(uint64_t const chessCellBitValue) const {
     PieceColorAndTypes bestFitPieces(getBestFitPiecesFromChessCellBitValue(chessCellBitValue));
 
     PieceColorAndType result{};
@@ -253,7 +253,7 @@ PieceColorAndType ChessPieceRetriever::getBestPieceFromChessCellBitValue(uint64_
     return result;
 }
 
-ChessPieceRetriever::PieceColorAndTypes ChessPieceRetriever::getBestFitPiecesFromChessCellBitValue(
+BoardObserver::PieceColorAndTypes BoardObserver::getBestFitPiecesFromChessCellBitValue(
     uint64_t const chessCellBitValue) const {
     PieceColorAndTypes result;
     Count minimumDifferenceCount(65U);
@@ -273,7 +273,7 @@ ChessPieceRetriever::PieceColorAndTypes ChessPieceRetriever::getBestFitPiecesFro
     return result;
 }
 
-void ChessPieceRetriever::retrieveChessCellTopLeftAndBottomRight(
+void BoardObserver::retrieveChessCellTopLeftAndBottomRight(
     XY& chessCellTopLeft, XY& chessCellBottomRight, int const xIndex, int const yIndex) const {
     double startX = m_configuration.getTopLeftOfBoard().getX();
     double startY = m_configuration.getTopLeftOfBoard().getY();
@@ -288,7 +288,7 @@ void ChessPieceRetriever::retrieveChessCellTopLeftAndBottomRight(
            static_cast<int>(round(startY + deltaY * (yIndex + 1)))};
 }
 
-void ChessPieceRetriever::retrieveOffsetPointsWithCondition(
+void BoardObserver::retrieveOffsetPointsWithCondition(
     XYs& bitmapXYs, int const xIndex, int const yIndex, BoolFunction const& condition) const {
     double startX = m_configuration.getTopLeftOfBoard().getX();
     double startY = m_configuration.getTopLeftOfBoard().getY();
@@ -313,6 +313,8 @@ void ChessPieceRetriever::retrieveOffsetPointsWithCondition(
         }
     }
 }
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 

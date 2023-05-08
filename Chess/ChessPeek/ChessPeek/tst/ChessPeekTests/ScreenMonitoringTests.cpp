@@ -13,6 +13,8 @@ namespace alba {
 
 namespace chess {
 
+namespace ChessPeek {
+
 TEST(ScreenMonitoringTest, ScreenCaptureCanBeSavedAsBitmap) {
     AlbaLocalScreenMonitoring screenMonitoring;
     screenMonitoring.capturePixelsFromScreen();
@@ -31,6 +33,8 @@ TEST(ScreenMonitoringTest, ScreenCaptureCanBeSavedAsBitmap) {
 
     outputBitmap.setSnippetWriteToFile(outputSnippet);
 }
+
+}  // namespace ChessPeek
 
 }  // namespace chess
 
