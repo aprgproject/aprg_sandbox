@@ -13,14 +13,14 @@ using namespace alba::stringHelper;
 using namespace std;
 
 namespace {
-constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT = 10U;
+constexpr int MINIMUM_ACCEPTABLE_SCORE_IN_TEXT = -200;
+constexpr unsigned int MIN_NUMBER_OF_MOVES_IN_TEXT = 5U;
+constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT = 15U;
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TABLE = 5U;
 constexpr unsigned int NEXT_OFFSET_OF_DISPLAY_TABLE = 9U;
-constexpr char SEPARATOR[] = "     ";
-}  // namespace
+constexpr char SEPARATOR[] = "     ";}  // namespace
 
 namespace alba {
-
 namespace chess {
 
 ChessPeekPrintHelper::ChessPeekPrintHelper(
@@ -40,38 +40,36 @@ void ChessPeekPrintHelper::printCalculationDetails(
     MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
     cout << "Player: " << m_playerColor << ", Depth: " << m_calculationDetails.depthInPlies
          << ", Mate score: " << m_calculationDetails.mateScore << "\n";
-    cout << "Searching moves: ";
+    cout << "Current moves: ";
     for (MoveAndScorePair const& moveAndScorePair : moveAndScorePairs) {
         cout << m_chessBoard.getReadableStringForMove(moveAndScorePair.first) << " ["
-             << static_cast<double>(moveAndScorePair.second) / 100 << "], ";
-    }
+             << static_cast<double>(moveAndScorePair.second) / 100 << "], ";    }
     cout << "\n";
 
     Board updatedBoard(m_chessBoard);
-    cout << "PV of best line: ";
+    cout << "Monitored PV: ";
     for (Move const& futureHalfMove : futureHalfMoves) {
         Piece piece = updatedBoard.getPieceAt(futureHalfMove.first);
-        cout << updatedBoard.getReadableStringForMove(futureHalfMove);
-        if (!piece.isEmpty()) {
+        cout << updatedBoard.getReadableStringForMove(futureHalfMove);        if (!piece.isEmpty()) {
             cout << " [by " << piece.getColor() << "]";
         }
         cout << ", ";
         updatedBoard.move(futureHalfMove);
     }
     cout << "\n";
+
     if (!m_calculationDetails.bestMove.empty()) {
         cout << "Best move: "
              << m_chessBoard.getReadableStringForMove(
                     m_chessBoard.getMoveFromTwoLetterNumberNotation(m_calculationDetails.bestMove))
              << "\n";
     }
+
     cout << "\n";
 }
-
 void ChessPeekPrintHelper::printMoveTables(
     MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
-    if (!moveAndScorePairs.empty()) {
-        putCurrentMoves(moveAndScorePairs);
+    if (!moveAndScorePairs.empty()) {        putCurrentMoves(moveAndScorePairs);
     }
     if (!futureHalfMoves.empty()) {
         printFutureHalfMoves(futureHalfMoves);
@@ -84,14 +82,14 @@ void ChessPeekPrintHelper::putCurrentMoves(MoveAndScorePairs const& moveAndScore
     putCurrentMovesTable(moveAndScorePairs, 0);
     printScoresHeader(moveAndScorePairs, 5);
     putCurrentMovesTable(moveAndScorePairs, 5);
+    printScoresHeader(moveAndScorePairs, 10);
+    putCurrentMovesTable(moveAndScorePairs, 10);
 }
 
-void ChessPeekPrintHelper::putCurrentMovesTable(
-    MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
+void ChessPeekPrintHelper::putCurrentMovesTable(    MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
     constexpr unsigned int numberOfBoardDisplayRows = 8U;
     if (startIndex < moveAndScorePairs.size()) {
-        unsigned int numberOfMovesToDisplay =
-            min(MAX_NUMBER_OF_MOVES_IN_TABLE, static_cast<unsigned int>(moveAndScorePairs.size() - startIndex));
+        unsigned int numberOfMovesToDisplay =            min(MAX_NUMBER_OF_MOVES_IN_TABLE, static_cast<unsigned int>(moveAndScorePairs.size() - startIndex));
         unsigned int numberOfBoardDisplayColumns = getNumberOfColumnsOfBoardDisplayTable(numberOfMovesToDisplay);
         DisplayTable boardsDisplayTable(numberOfBoardDisplayColumns, numberOfBoardDisplayRows);
         boardsDisplayTable.setVerticalBorder("|");
@@ -174,18 +172,16 @@ void ChessPeekPrintHelper::printScoresHeader(
             } else {
                 cout << SEPARATOR;
             }
-            cout << "|           ";
+            cout << "|          ";
             cout << setfill(' ') << setw(9)
                  << static_cast<double>(moveAndScorePairs.at(startIndex + moveIndex).second) / 100;
-            cout << "           |";
+            cout << "            |";
         }
         cout << "\n";
-        printHorizontalBorderLine();
-    }
+        printHorizontalBorderLine();    }
 }
 
-void ChessPeekPrintHelper::printScoreAndMoveNumbersHeader() const {
-    cout << "|   ";
+void ChessPeekPrintHelper::printScoreAndMoveNumbersHeader() const {    cout << "|   ";
     cout << setfill(' ') << setw(9) << static_cast<double>(m_calculationDetails.scoreInPvLine) / 100;
     cout << " -> 1st move       |     |           2nd move            |     |           3rd move            |     |   "
             "        4th move            |     |           5th move            |\n";
@@ -248,34 +244,37 @@ string ChessPeekPrintHelper::getChessBoardCellForDisplay(
 MoveAndScorePairs ChessPeekPrintHelper::getCurrentMoveAndScorePairs() const {
     MoveAndScorePairs result;
     for (StringAndIntPair const& searchingMoveAndScorePair : m_calculationDetails.searchingMoveAndScorePairs) {
+        if (result.size() >= MIN_NUMBER_OF_MOVES_IN_TEXT &&
+            searchingMoveAndScorePair.second <= MINIMUM_ACCEPTABLE_SCORE_IN_TEXT) {
+            break;
+        }
+
         Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(searchingMoveAndScorePair.first));
-        if (isValidMove(move)) {
+        if (isMoveWithinTheBoard(move) && m_chessBoard.isAPossibleMove(move)) {
             result.emplace_back(move, searchingMoveAndScorePair.second);
         }
+
         if (result.size() >= MAX_NUMBER_OF_MOVES_IN_TEXT) {
             break;
         }
     }
+    sortNonBestMovesWithMoreHumanlyMovesFirst(result);
     return result;
 }
-
 Moves ChessPeekPrintHelper::getFutureHalfMoves() const {
     Moves result;
-    strings const& pvHalfMovesStrings(m_calculationDetails.pvHalfMovesInMonitoredLine);
-    Board updatedBoard(m_chessBoard);
+    strings const& pvHalfMovesStrings(m_calculationDetails.pvHalfMovesInMonitoredLine);    Board updatedBoard(m_chessBoard);
     bool isFirst = true;
     PieceColor previousColor{};
     for (string const& pvHalfMoveString : pvHalfMovesStrings) {
         Move move(updatedBoard.getMoveFromTwoLetterNumberNotation(pvHalfMoveString));
-        if (isValidMove(move)) {
+        if (isMoveWithinTheBoard(move) && updatedBoard.isAPossibleMove(move)) {
             Piece piece = updatedBoard.getPieceAt(move.first);
             if (piece.isEmpty()) {
-                break;  // piece needs to be valid
-            } else {
+                break;  // piece needs to be valid            } else {
                 if (!isFirst && previousColor == piece.getColor()) {
                     break;  // colors needs to be alternating
-                }
-                previousColor = piece.getColor();
+                }                previousColor = piece.getColor();
             }
             result.emplace_back(move);
             updatedBoard.move(move);
@@ -292,12 +291,48 @@ Moves ChessPeekPrintHelper::getFutureHalfMoves() const {
     return result;
 }
 
+void ChessPeekPrintHelper::sortNonBestMovesWithMoreHumanlyMovesFirst(MoveAndScorePairs& moveAndScoreToBeSorted) const {
+    if (!moveAndScoreToBeSorted.empty()) {
+        // skip best move
+        stable_sort(
+            moveAndScoreToBeSorted.begin() + 1, moveAndScoreToBeSorted.end(),
+            [&](MoveAndScorePair const& pair1, MoveAndScorePair const& pair2) {
+                int scoreLevel1 = getScoreLevel(pair1.second);
+                int scoreLevel2 = getScoreLevel(pair2.second);
+                if (scoreLevel1 == scoreLevel2) {
+                    int yMoveForwardCount1 = pair1.first.first.getY() - pair1.first.second.getY();
+                    int yMoveForwardCount2 = pair2.first.first.getY() - pair2.first.second.getY();
+                    if (yMoveForwardCount1 == yMoveForwardCount2) {
+                        int pieceTypeScore1 = getScoreOfPieceType(m_chessBoard.getPieceAt(pair1.first.first).getType());
+                        int pieceTypeScore2 = getScoreOfPieceType(m_chessBoard.getPieceAt(pair1.first.first).getType());
+                        return pieceTypeScore1 > pieceTypeScore2;  // higher pieces are prioritized
+                    }
+                    return yMoveForwardCount1 > yMoveForwardCount2;  // offensive moves are prioritized
+                }
+                return scoreLevel1 > scoreLevel2;  // score level matter
+            });
+    }
+}
+
 unsigned int ChessPeekPrintHelper::getNumberOfColumnsOfScoreDisplayTable(unsigned int const numberOfChessBoards) const {
     return numberOfChessBoards == 0 ? 0U : numberOfChessBoards * 2 - 1;
 }
-
 unsigned int ChessPeekPrintHelper::getNumberOfColumnsOfBoardDisplayTable(unsigned int const numberOfChessBoards) const {
     return numberOfChessBoards == 0 ? 0U : numberOfChessBoards * 8U + numberOfChessBoards - 1;
+}
+
+int ChessPeekPrintHelper::getScoreLevel(int const scoreInCentipawns) const {
+    int result{};
+    if (scoreInCentipawns >= 200) {
+        result = 3;  // clearly winning
+    } else if (scoreInCentipawns > 0) {
+        result = 2;  // has advantage
+    } else if (scoreInCentipawns > 200) {
+        result = 1;  // has opponent advantage
+    } else {
+        result = 0;  // clearly losing
+    }
+    return result;
 }
 
 }  // namespace chess

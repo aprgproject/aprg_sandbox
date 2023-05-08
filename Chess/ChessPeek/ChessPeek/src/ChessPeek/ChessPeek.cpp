@@ -34,15 +34,13 @@ void trackKeyPress() {
 }
 
 ChessPeek::ChessPeek()
-    : m_configuration(ChessPeekConfigurationType::ChessDotComVersus),
+    : m_configuration(ChessPeekConfigurationType::LichessVersus),
       m_screenMonitoring(),
       m_pieceRetriever(m_configuration, m_screenMonitoring),
-      m_chessEngineHandler(m_configuration.getChessEnginePath()),
-      m_chessEngineController(m_chessEngineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
+      m_chessEngineHandler(m_configuration.getChessEnginePath()),      m_chessEngineController(m_chessEngineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
       m_chessBoard(Board::Orientation::BlackUpWhiteDown, {}),
       m_chessBoardDetails{},
-      m_playerColor(PieceColor::White),
-      m_isEngineNewlyReseted(true),
+      m_playerColor(PieceColor::White),      m_isEngineNewlyReseted(true),
       m_hasPendingPrintAction(false) {
     initialize();
 }
@@ -109,9 +107,38 @@ void ChessPeek::saveChessBoardAndItsDetails() {
             Coordinate chessCoordinate(i, j);
             m_chessBoard.setPieceAt(chessCoordinate, chessPiece);
             if (!chessPiece.isEmpty()) {
-                setKingDetailsIfPossible(chessCoordinate, chessPiece);
-                m_chessBoardDetails.m_pieceCount++;
+                setChessBoardCountDetails(chessCoordinate, chessPiece);
+                setChessBoardKingDetailsIfNeeded(chessCoordinate, chessPiece);
             }
+        }
+    }
+}
+
+void ChessPeek::setChessBoardCountDetails(Coordinate const& chessCoordinate, Piece const& chessPiece) {
+    m_chessBoardDetails.pieceCount++;
+    if (chessCoordinate.getY() <= 3) {
+        if (PieceColor::White == chessPiece.getColor()) {
+            m_chessBoardDetails.whiteCountInUpperHalf++;
+        } else if (PieceColor::Black == chessPiece.getColor()) {
+            m_chessBoardDetails.blackCountInUpperHalf++;
+        }
+    } else {
+        if (PieceColor::White == chessPiece.getColor()) {
+            m_chessBoardDetails.whiteCountInLowerHalf++;
+        } else if (PieceColor::Black == chessPiece.getColor()) {
+            m_chessBoardDetails.blackCountInLowerHalf++;
+        }
+    }
+}
+
+void ChessPeek::setChessBoardKingDetailsIfNeeded(Coordinate const& chessCoordinate, Piece const& chessPiece) {
+    if (PieceType::King == chessPiece.getType()) {
+        if (PieceColor::White == chessPiece.getColor()) {
+            m_chessBoardDetails.numberOfWhiteKings++;
+            m_chessBoardDetails.whiteKingCoordinate = chessCoordinate;
+        } else {
+            m_chessBoardDetails.numberOfBlackKings++;
+            m_chessBoardDetails.blackKingCoordinate = chessCoordinate;
         }
     }
 }
@@ -122,25 +149,23 @@ void ChessPeek::updatePlayerColorAndOrientation() {
     } else if (m_configuration.getType() == ChessPeekConfigurationType::LichessStream) {
         updatePlayerColorIfLichessStream();
     } else {
-        updatePlayerColorAndOrientationBasedOnPositionsOfTheKings();
+        updatePlayerColorAndOrientationFromChessBoardDetails();
     }
 }
 
 void ChessPeek::updatePlayerColorIfChessDotComPuzzle() {
     auto intensity = calculateColorIntensityDecimal(m_screenMonitoring.getColorAt(3337, 137));
     if (intensity < m_configuration.getBlackColorLimit()) {
-        setOrientationDependingOnBelowColor(PieceColor::Black);
+        setOrientationDependingOnLowerHalfColor(PieceColor::Black);
         setPlayerColorAndResetEngineIfNeeded(PieceColor::Black);
     } else if (intensity > m_configuration.getWhiteColorLimit()) {
-        setOrientationDependingOnBelowColor(PieceColor::White);
+        setOrientationDependingOnLowerHalfColor(PieceColor::White);
         setPlayerColorAndResetEngineIfNeeded(PieceColor::White);
     }
 }
-
 void ChessPeek::updatePlayerColorIfLichessStream() {
     constexpr auto xForWhiteSection = 3387, xForBlackSection = 3553;
-    constexpr auto lastMovePixelColor = 0x2A4053U, rgbMask = 0xFFFFFFU;
-    for (auto yCoordinate = 897; yCoordinate >= 199; yCoordinate -= 1) {
+    constexpr auto lastMovePixelColor = 0x2A4053U, rgbMask = 0xFFFFFFU;    for (auto yCoordinate = 897; yCoordinate >= 199; yCoordinate -= 1) {
         auto pixelColorInWhiteSection = m_screenMonitoring.getColorAt(xForWhiteSection, yCoordinate) & rgbMask;
         auto pixelColorInBlackSection = m_screenMonitoring.getColorAt(xForBlackSection, yCoordinate) & rgbMask;
         if (lastMovePixelColor == pixelColorInWhiteSection) {
@@ -153,62 +178,50 @@ void ChessPeek::updatePlayerColorIfLichessStream() {
     }
 }
 
-void ChessPeek::updatePlayerColorAndOrientationBasedOnPositionsOfTheKings() {
-    if (m_chessBoardDetails.m_pieceCount >= 24U) {
-        optional<PieceColor> kingColorAtTheBottomOptional;
-        if (m_chessBoardDetails.whiteKingCoordinate.getY() == 7U) {
-            kingColorAtTheBottomOptional = PieceColor::White;  // bottom row has a white king
-        } else if (m_chessBoardDetails.blackKingCoordinate.getY() == 7U) {
-            kingColorAtTheBottomOptional = PieceColor::Black;  // bottom row has a black king
-        } else if (m_chessBoardDetails.whiteKingCoordinate.getY() == 0U) {
-            kingColorAtTheBottomOptional = PieceColor::Black;  // top row has a white king
-        } else if (m_chessBoardDetails.blackKingCoordinate.getY() == 0U) {
-            kingColorAtTheBottomOptional = PieceColor::White;  // top row has a black king
+void ChessPeek::updatePlayerColorAndOrientationFromChessBoardDetails() {
+    constexpr unsigned int MIN_PIECE_COUNT_TO_CONSIDER = 12U;
+    if (m_chessBoardDetails.pieceCount >= MIN_PIECE_COUNT_TO_CONSIDER) {
+        optional<PieceColor> lowerHalfColorOptional;
+        if (m_chessBoardDetails.whiteCountInLowerHalf > m_chessBoardDetails.blackCountInLowerHalf &&
+            m_chessBoardDetails.blackCountInUpperHalf > m_chessBoardDetails.whiteCountInUpperHalf &&
+            isInLowerHalf(m_chessBoardDetails.whiteKingCoordinate) &&
+            isInUpperHalf(m_chessBoardDetails.blackKingCoordinate)) {
+            lowerHalfColorOptional = PieceColor::White;
+        } else if (
+            m_chessBoardDetails.blackCountInLowerHalf > m_chessBoardDetails.whiteCountInLowerHalf &&
+            m_chessBoardDetails.whiteCountInUpperHalf > m_chessBoardDetails.blackCountInUpperHalf &&
+            isInLowerHalf(m_chessBoardDetails.blackKingCoordinate) &&
+            isInUpperHalf(m_chessBoardDetails.whiteKingCoordinate)) {
+            lowerHalfColorOptional = PieceColor::Black;
         }
 
-        if (kingColorAtTheBottomOptional) {
-            setOrientationDependingOnBelowColor(kingColorAtTheBottomOptional.value());
-            setPlayerColorAndResetEngineIfNeeded(kingColorAtTheBottomOptional.value());
+        if (lowerHalfColorOptional) {
+            setOrientationDependingOnLowerHalfColor(lowerHalfColorOptional.value());
+            setPlayerColorAndResetEngineIfNeeded(lowerHalfColorOptional.value());
         }
     }
 }
-
 void ChessPeek::setPlayerColorAndResetEngineIfNeeded(PieceColor const newColor) {
     if (m_playerColor != newColor) {
-        m_playerColor = newColor;
-        m_chessEngineController.resetToNewGame();
+        m_playerColor = newColor;        m_chessEngineController.resetToNewGame();
         m_isEngineNewlyReseted = true;
     }
 }
 
-void ChessPeek::setOrientationDependingOnBelowColor(PieceColor const belowColor) {
-    if (PieceColor::White == belowColor) {
+void ChessPeek::setOrientationDependingOnLowerHalfColor(PieceColor const lowerHalfColor) {
+    if (PieceColor::White == lowerHalfColor) {
         m_chessBoard.setOrientation(Board::Orientation::BlackUpWhiteDown);
-    } else if (PieceColor::Black == belowColor) {
+    } else if (PieceColor::Black == lowerHalfColor) {
         m_chessBoard.setOrientation(Board::Orientation::WhiteUpBlackDown);
-    }
-}
-
-void ChessPeek::setKingDetailsIfPossible(Coordinate const& chessCoordinate, Piece const& chessPiece) {
-    if (PieceType::King == chessPiece.getType()) {
-        if (PieceColor::White == chessPiece.getColor()) {
-            m_chessBoardDetails.numberOfWhiteKings++;
-            m_chessBoardDetails.whiteKingCoordinate = chessCoordinate;
-        } else {
-            m_chessBoardDetails.numberOfBlackKings++;
-            m_chessBoardDetails.blackKingCoordinate = chessCoordinate;
-        }
     }
 }
 
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails) {
     m_calculationDetails.depthInPlies = engineCalculationDetails.depthInPlies;
-    m_calculationDetails.mateScore = engineCalculationDetails.mateScore;
-    if (!engineCalculationDetails.bestMove.empty()) {
+    m_calculationDetails.mateScore = engineCalculationDetails.mateScore;    if (!engineCalculationDetails.bestMove.empty()) {
         m_calculationDetails.bestMove = engineCalculationDetails.bestMove;
     }
-    if (!engineCalculationDetails.searchingMoveAndScorePairs.empty()) {
-        m_calculationDetails.searchingMoveAndScorePairs = engineCalculationDetails.searchingMoveAndScorePairs;
+    if (!engineCalculationDetails.searchingMoveAndScorePairs.empty()) {        m_calculationDetails.searchingMoveAndScorePairs = engineCalculationDetails.searchingMoveAndScorePairs;
     }
     m_calculationDetails.scoreInPvLine = engineCalculationDetails.scoreInPvLine;
     if (!engineCalculationDetails.pvHalfMovesInMonitoredLine.empty()) {
@@ -247,60 +260,25 @@ void ChessPeek::printCalculationDetails() {
 }
 
 bool ChessPeek::shouldAnalyzeBoard(Board::PieceMatrix const& previousPieceMatrix) const {
-    return canAnalyzeBoard() && (m_isEngineNewlyReseted || didBoardChange(previousPieceMatrix)) && isPlayerToMove();
+    return canAnalyzeBoard() && (m_isEngineNewlyReseted || didBoardChange(previousPieceMatrix));
 }
 
-bool ChessPeek::didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const {
-    return previousPieceMatrix != m_chessBoard.getPieceMatrix();
+bool ChessPeek::didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const {    return previousPieceMatrix != m_chessBoard.getPieceMatrix();
 }
 
 bool ChessPeek::canAnalyzeBoard() const { return areKingsValid() && !isOpponentsKingOnCheck(); }
-
 bool ChessPeek::areKingsValid() const {
     return m_chessBoardDetails.numberOfWhiteKings == 1 && m_chessBoardDetails.numberOfBlackKings == 1;
 }
 
 bool ChessPeek::isOpponentsKingOnCheck() const { return m_chessBoard.canBeCaptured(getOpponentsKingCoordinate()); }
 
-bool ChessPeek::isPlayerToMove() const {
-    if (m_configuration.getType() == ChessPeekConfigurationType::LichessVersus) {
-        return isPlayerToMoveInLichessVersus();
-    } else {
-        return true;
-    }
-}
-
-bool ChessPeek::isPlayerToMoveInLichessVersus() const {
-    bool result(true);
-    constexpr auto xForWhiteSection = 3406, xForBlackSection = 3565;
-    constexpr auto lastMoveColor = 0x293A49U, rgbMask = 0xFFFFFFU;
-    for (auto yCoordinate = 500; yCoordinate >= 397; yCoordinate -= 1) {
-        auto colorOfMoveInWhiteSection = m_screenMonitoring.getColorAt(xForWhiteSection, yCoordinate) & rgbMask;
-        auto colorOfMoveInBlackSection = m_screenMonitoring.getColorAt(xForBlackSection, yCoordinate) & rgbMask;
-        if (lastMoveColor == colorOfMoveInWhiteSection) {
-            if (m_playerColor == PieceColor::White) {
-                result = false;
-            }
-            break;
-        } else if (lastMoveColor == colorOfMoveInBlackSection) {
-            if (m_playerColor == PieceColor::Black) {
-                result = false;
-            }
-            break;
-        }
-    }
-
-    return result;
-}
-
 Coordinate ChessPeek::getOpponentsKingCoordinate() const {
     Coordinate result = {};
-    if (m_playerColor == PieceColor::White) {
-        result = m_chessBoardDetails.blackKingCoordinate;
+    if (m_playerColor == PieceColor::White) {        result = m_chessBoardDetails.blackKingCoordinate;
     } else if (m_playerColor == PieceColor::Black) {
         result = m_chessBoardDetails.whiteKingCoordinate;
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace chess
