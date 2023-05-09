@@ -25,10 +25,10 @@ std::string getEnumString(PieceColor const pieceColor);
 std::string getEnumString(PieceType const pieceType);
 std::string getEnumString(PieceColorAndType const pieceColorAndType);
 
+char convertToFenCharacter(PieceType const pieceType, PieceColor const pieceColor);
 std::string constructFenString(
     Board const& board, PieceColor const colorToMove, std::string const& castlingAvailability,
     std::string const& enPassantTarget, unsigned int const halfMoveClock, unsigned int const fullMoveNumber);
-
 }  // namespace chess
 
 }  // namespace alba

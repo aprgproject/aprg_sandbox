@@ -121,17 +121,56 @@ std::string getEnumString(PieceColorAndType const pieceColorAndType) {
     }
 }
 
+char convertToFenCharacter(PieceType const pieceType, PieceColor const pieceColor) {
+    // Source: https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
+    char result{};
+    switch (pieceType) {
+        case PieceType::Empty: {
+            result = ' ';
+            break;
+        }
+        case PieceType::Pawn: {
+            result = 'p';
+            break;
+        }
+        case PieceType::Knight: {
+            result = 'n';
+            break;
+        }
+        case PieceType::Bishop: {
+            result = 'b';
+            break;
+        }
+        case PieceType::Rook: {
+            result = 'r';
+            break;
+        }
+        case PieceType::Queen: {
+            result = 'q';
+            break;
+        }
+        case PieceType::King: {
+            result = 'k';
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    result = (PieceColor::White == pieceColor) ? toupper(result) : result;
+    return result;
+}
+
 string constructFenString(
     Board const& board, PieceColor const colorToMove, string const& castlingAvailability, string const& enPassantTarget,
     unsigned int const halfMoveClock, unsigned int const fullMoveNumber) {
+    // Source: https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
     stringstream ss;
     ss << board.getNotationPartOfFenString() << " ";
-    if (PieceColor::White == colorToMove) {
-        ss << "w ";
+    if (PieceColor::White == colorToMove) {        ss << "w ";
     } else if (PieceColor::Black == colorToMove) {
         ss << "b ";
-    }
-    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
+    }    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
     return ss.str();
 }
 

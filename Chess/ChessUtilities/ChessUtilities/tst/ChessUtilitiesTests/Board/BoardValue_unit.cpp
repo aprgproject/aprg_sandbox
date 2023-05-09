@@ -20,6 +20,27 @@ TEST(BoardValueTest, ConstructionWorks) {
     EXPECT_EQ(0xC9C9141400000000U, data.at(3));
 }
 
+TEST(BoardValueTest, DifferentOrientationsHasSameValueWorks) {
+    Board board1(BoardOrientation::BlackUpWhiteDown);
+    Board board2(BoardOrientation::WhiteUpBlackDown);
+    BoardValue boardValue1(board1);
+    BoardValue boardValue2(board2);
+
+    EXPECT_EQ(boardValue1, boardValue2);
+}
+
+TEST(BoardValueTest, DifferentOrientationsHasSameValueWorksEvenAfterMove) {
+    Board board1(BoardOrientation::BlackUpWhiteDown);
+    Board board2(BoardOrientation::WhiteUpBlackDown);
+    BoardValue boardValue1(board1);
+    BoardValue boardValue2(board2);
+
+    board1.move(board1.getMoveUsingAlgebraicNotation("d4", PieceColor::White));
+    board2.move(board2.getMoveUsingAlgebraicNotation("d4", PieceColor::White));
+
+    EXPECT_EQ(boardValue1, boardValue2);
+}
+
 }  // namespace chess
 
 }  // namespace alba
