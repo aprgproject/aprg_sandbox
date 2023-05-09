@@ -17,35 +17,32 @@ public:
         int scoreInCentipawns;
         int mateScore;
         stringHelper::strings pvHalfMoves;
-        stringHelper::StringPairs nameAndValuePairs;
+        stringHelper::StringPairs commonParameterNameAndValue;
     };
 
     static constexpr int ARTIFICIAL_MATE_SCORE = 999999;
-    static constexpr int NUMBER_OF_MOST_COMMON_MOVES = 10;
+    static constexpr int NUMBER_OF_STEPS_IN_MOST_COMMON_MOVES = 10;
 
     UciInterpreter(CalculationDetails& calculationDetails);
-
     void clear();
     void updateCalculationDetails(std::string const& stringFromEngine);
-
 private:
     void processInfoTokens(stringHelper::strings const& infoTokens);
     void processBestMoveTokens(stringHelper::strings const& tokens);
 
-    void saveInfoDetailsFromInfoTokens(InfoDetails& infoDetails, stringHelper::strings const& tokens);
-    void saveCommonDetailsOnBestLine(InfoDetails const& infoDetails);
+    InfoDetails createInfoDetailsFromInfoTokens(stringHelper::strings const& tokens);
+    void saveCommonParametersOfBestLine(InfoDetails const& infoDetails);
     void saveCurrentMovesAndScoresWithValidMultiPV(InfoDetails const& infoDetails);
     void saveBestLineInMonitoredVariation(InfoDetails const& infoDetails);
     void saveMostCommonMovesWithValidMultiPV(InfoDetails const& infoDetails);
 
     int getArtificialScore(InfoDetails const& infoDetails);
     bool shouldSkipTheEntireInfo(std::string const& token);
-    bool shouldBeSavedInBestLine(std::string const& token);
+    bool isACommonParameter(std::string const& token);
 
     CalculationDetails& m_calculationDetails;
-    std::array<std::unordered_map<std::string, int>, NUMBER_OF_MOST_COMMON_MOVES> m_movesAndCountsOfEachStep;
+    std::array<std::unordered_map<std::string, int>, NUMBER_OF_STEPS_IN_MOST_COMMON_MOVES> m_movesAndCountsOfEachStep;
 };
 
 }  // namespace chess
-
 }  // namespace alba

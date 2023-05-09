@@ -31,64 +31,60 @@ void UciInterpreter::updateCalculationDetails(string const& stringFromEngine) {
 void UciInterpreter::clear() { m_movesAndCountsOfEachStep = {}; }
 
 void UciInterpreter::processInfoTokens(strings const& infoTokens) {
-    InfoDetails infoDetails{};
-    saveInfoDetailsFromInfoTokens(infoDetails, infoTokens);
+    InfoDetails infoDetails(createInfoDetailsFromInfoTokens(infoTokens));
     if (!infoDetails.pvHalfMoves.empty()) {
         if (infoDetails.multipv == 1) {  // best line (because multipv is 1)
-            saveCommonDetailsOnBestLine(infoDetails);
+            saveCommonParametersOfBestLine(infoDetails);
             saveBestLineInMonitoredVariation(infoDetails);
         }
-        if (infoDetails.multipv >= 1) {  // valid PV
-            saveCurrentMovesAndScoresWithValidMultiPV(infoDetails);
+        if (infoDetails.multipv >= 1) {  // valid PV            saveCurrentMovesAndScoresWithValidMultiPV(infoDetails);
             saveMostCommonMovesWithValidMultiPV(infoDetails);
         }
     }
 }
 
 void UciInterpreter::processBestMoveTokens(strings const& tokens) {
-    for (unsigned int i = 0; i < tokens.size(); i++) {
+    for (int i = 0; i < static_cast<int>(tokens.size()); i++) {
         string const& token(tokens.at(i));
         if (token == "bestmove") {
-            m_calculationDetails.bestMove = tokens.at(++i);
-        } else if (token == "ponder") {
+            m_calculationDetails.bestMove = tokens.at(++i);        } else if (token == "ponder") {
             m_calculationDetails.responseMoveToPonder = tokens.at(++i);
         }
     }
 }
 
-void UciInterpreter::saveInfoDetailsFromInfoTokens(InfoDetails& infoDetails, strings const& tokens) {
-    for (unsigned int i = 1; i < tokens.size(); i++) {
+UciInterpreter::InfoDetails UciInterpreter::createInfoDetailsFromInfoTokens(strings const& tokens) {
+    InfoDetails infoDetails{};
+    for (int i = 1; i < static_cast<int>(tokens.size()); i++) {
         string const& token(tokens.at(i));
         if (shouldSkipTheEntireInfo(token)) {
             break;
-        } else if (shouldBeSavedInBestLine(token)) {
-            infoDetails.nameAndValuePairs.emplace_back(token, tokens.at(++i));
+        } else if (isACommonParameter(token)) {
+            infoDetails.commonParameterNameAndValue.emplace_back(token, tokens.at(++i));
         } else if ("multipv" == token) {
             infoDetails.multipv = convertStringToNumber<unsigned int>(tokens.at(++i));
-        } else if ("cp" == token) {
-            infoDetails.scoreInCentipawns = convertStringToNumber<int>(tokens.at(++i));
+        } else if ("cp" == token) {            infoDetails.scoreInCentipawns = convertStringToNumber<int>(tokens.at(++i));
         } else if ("mate" == token) {
             infoDetails.mateScore = convertStringToNumber<int>(tokens.at(++i));
         } else if ("pv" == token) {
             i++;  // skip "pv"
-            for (; i < tokens.size(); i++) {
+            for (; i < static_cast<int>(tokens.size()); i++) {
                 infoDetails.pvHalfMoves.emplace_back(tokens.at(i));
             }
         }
     }
+    return infoDetails;
 }
 
-void UciInterpreter::saveCommonDetailsOnBestLine(InfoDetails const& infoDetails) {
+void UciInterpreter::saveCommonParametersOfBestLine(InfoDetails const& infoDetails) {
     m_calculationDetails.mateScore = infoDetails.mateScore;
-    for (StringPair const& nameAndValuePair : infoDetails.nameAndValuePairs) {
+    for (StringPair const& nameAndValuePair : infoDetails.commonParameterNameAndValue) {
         if (nameAndValuePair.first == "depth") {
             m_calculationDetails.depthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
-        } else if (nameAndValuePair.first == "seldepth") {
-            m_calculationDetails.selectiveDepthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
+        } else if (nameAndValuePair.first == "seldepth") {            m_calculationDetails.selectiveDepthInPlies = convertStringToNumber<unsigned int>(nameAndValuePair.second);
         }
     }
 }
-
 void UciInterpreter::saveBestLineInMonitoredVariation(InfoDetails const& infoDetails) {
     m_calculationDetails.scoreInMonitoredVariation = getArtificialScore(infoDetails);
     m_calculationDetails.monitoredVariation = infoDetails.pvHalfMoves;
@@ -113,32 +109,29 @@ void UciInterpreter::saveCurrentMovesAndScoresWithValidMultiPV(InfoDetails const
 }
 
 void UciInterpreter::saveMostCommonMovesWithValidMultiPV(InfoDetails const& infoDetails) {
-    auto outputSize = min(static_cast<int>(infoDetails.pvHalfMoves.size()), NUMBER_OF_MOST_COMMON_MOVES);
+    auto numberOfSteps = min(static_cast<int>(infoDetails.pvHalfMoves.size()), NUMBER_OF_STEPS_IN_MOST_COMMON_MOVES);
     if (infoDetails.multipv == 1) {
-        m_calculationDetails.commonMovesAndCountsOfEachStep.resize(outputSize);
-        for (int i = 0; i < outputSize; i++) {
+        m_calculationDetails.commonMovesAndCountsOfEachStep.resize(numberOfSteps);
+        for (int i = 0; i < numberOfSteps; i++) {
             auto const& movesAndCountsOfOneStep(m_movesAndCountsOfEachStep[i]);
             auto itMaxCount = max_element(
-                movesAndCountsOfOneStep.cbegin(), movesAndCountsOfOneStep.cend(),
-                [](auto const& commonMoveAndCountPair1, auto const& commonMoveAndCountPair2) {
+                movesAndCountsOfOneStep.cbegin(), movesAndCountsOfOneStep.cend(),                [](auto const& commonMoveAndCountPair1, auto const& commonMoveAndCountPair2) {
                     return commonMoveAndCountPair1.second < commonMoveAndCountPair2.second;
                 });
-            if (itMaxCount != movesAndCountsOfOneStep.cend()) {
-                m_calculationDetails.commonMovesAndCountsOfEachStep[i] = {itMaxCount->first, itMaxCount->second};
+            if (itMaxCount != movesAndCountsOfOneStep.cend()) {                m_calculationDetails.commonMovesAndCountsOfEachStep[i] = {itMaxCount->first, itMaxCount->second};
             }
         }
         m_movesAndCountsOfEachStep = {};
     }
-    for (int i = 0; i < outputSize; i++) {
-        m_movesAndCountsOfEachStep[i].try_emplace(infoDetails.pvHalfMoves[i], 0);
-        m_movesAndCountsOfEachStep[i][infoDetails.pvHalfMoves[i]]++;
+    for (int stepIndex = 0; stepIndex < numberOfSteps; stepIndex++) {
+        string move(infoDetails.pvHalfMoves.at(stepIndex));
+        m_movesAndCountsOfEachStep[stepIndex].try_emplace(move, 0);
+        m_movesAndCountsOfEachStep[stepIndex][move]++;
     }
 }
-
 int UciInterpreter::getArtificialScore(InfoDetails const& infoDetails) {
     int result{};
-    if (infoDetails.mateScore == 0) {
-        result = infoDetails.scoreInCentipawns;
+    if (infoDetails.mateScore == 0) {        result = infoDetails.scoreInCentipawns;
     } else if (infoDetails.mateScore > 0) {
         result = ARTIFICIAL_MATE_SCORE;
     } else {
@@ -153,12 +146,10 @@ bool UciInterpreter::shouldSkipTheEntireInfo(string const& token) {
     return find(tokens.cbegin(), tokens.cend(), token) != tokens.cend();
 }
 
-bool UciInterpreter::shouldBeSavedInBestLine(string const& token) {
+bool UciInterpreter::isACommonParameter(string const& token) {
     static const strings tokens{"depth", "seldepth"};
 
-    return find(tokens.cbegin(), tokens.cend(), token) != tokens.cend();
-}
+    return find(tokens.cbegin(), tokens.cend(), token) != tokens.cend();}
 
 }  // namespace chess
-
 }  // namespace alba
