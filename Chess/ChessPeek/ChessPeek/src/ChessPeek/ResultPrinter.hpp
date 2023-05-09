@@ -70,10 +70,12 @@ private:
     int getCommonalityCount(Move const& move, Board const& engineBoard, int const index) const;
     std::string getCellForDisplay(
         Piece const& piece, unsigned int const moveNumber, std::optional<char> const& firstChar) const;
-    std::optional<char> getFirstCharOfCell(bool const isCertainPreMove, bool isPossiblePreMove) const;    unsigned int getNumberOfColumnsOfGrid(unsigned int const numberOfBoards) const;
+    std::optional<char> getFirstCharOfCell(bool const isCertainPreMove, bool isPossiblePreMove) const;
+    unsigned int getNumberOfColumnsOfGrid(unsigned int const numberOfBoards) const;
 
     BoardWithContext const& m_engineBoardWithContext;
-    CalculationDetails const& m_calculationDetails;};
+    CalculationDetails const& m_calculationDetails;
+};
 
 }  // namespace ChessPeek
 

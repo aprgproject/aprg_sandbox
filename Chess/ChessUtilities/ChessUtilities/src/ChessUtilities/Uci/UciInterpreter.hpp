@@ -3,9 +3,6 @@
 #include <ChessUtilities/Engine/CalculationDetails.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <array>
-#include <unordered_map>
-
 namespace alba {
 
 namespace chess {
@@ -13,36 +10,31 @@ namespace chess {
 class UciInterpreter {
 public:
     struct InfoDetails {
-        unsigned int multipv;
-        int scoreInCentipawns;
-        int mateScore;
-        stringHelper::strings pvHalfMoves;
         stringHelper::StringPairs commonParameterNameAndValue;
+        unsigned int multipv;
+        stringHelper::strings pvHalfMoves;
+        int scoreInCentipawns;
+        int mateValue;  // number of mate moves, can be negative if player is about to be mated
     };
 
-    static constexpr int ARTIFICIAL_MATE_SCORE = 999999;
-    static constexpr int NUMBER_OF_STEPS_IN_MOST_COMMON_MOVES = 10;
-
     UciInterpreter(CalculationDetails& calculationDetails);
-    void clear();
+
     void updateCalculationDetails(std::string const& stringFromEngine);
+
 private:
     void processInfoTokens(stringHelper::strings const& infoTokens);
     void processBestMoveTokens(stringHelper::strings const& tokens);
 
     InfoDetails createInfoDetailsFromInfoTokens(stringHelper::strings const& tokens);
     void saveCommonParametersOfBestLine(InfoDetails const& infoDetails);
-    void saveCurrentMovesAndScoresWithValidMultiPV(InfoDetails const& infoDetails);
-    void saveBestLineInMonitoredVariation(InfoDetails const& infoDetails);
-    void saveMostCommonMovesWithValidMultiPV(InfoDetails const& infoDetails);
+    void saveVariation(InfoDetails const& infoDetails);
 
-    int getArtificialScore(InfoDetails const& infoDetails);
     bool shouldSkipTheEntireInfo(std::string const& token);
     bool isACommonParameter(std::string const& token);
 
     CalculationDetails& m_calculationDetails;
-    std::array<std::unordered_map<std::string, int>, NUMBER_OF_STEPS_IN_MOST_COMMON_MOVES> m_movesAndCountsOfEachStep;
 };
 
 }  // namespace chess
+
 }  // namespace alba

@@ -304,10 +304,12 @@ public:
     std::string convertToString(AnyType const& object) const {
         std::stringstream temporaryStream;
         if (m_precisionOptional) {
-            temporaryStream.precision(m_precisionOptional.value());        }
+            temporaryStream.precision(m_precisionOptional.value());
+        }
         if (m_fillCharacterOptional) {
             temporaryStream << std::setfill(m_fillCharacterOptional.value());
-        }        if (m_fieldWidthOptional) {
+        }
+        if (m_fieldWidthOptional) {
             temporaryStream << std::setw(m_fieldWidthOptional.value());
         }
         temporaryStream << object;
@@ -318,9 +320,11 @@ public:
         }
     }
 
-    void setPrecision(int const precision);    void setFieldWidth(int const fieldWidth);
+    void setPrecision(int const precision);
+    void setFieldWidth(int const fieldWidth);
     void setFillCharacter(char const fillCharacter);
     void setMaximumLength(size_t const maximumLength);
+
 private:
     IntOptional m_precisionOptional;
     IntOptional m_fieldWidthOptional;

@@ -4,8 +4,10 @@
 #include <Common/Macros/AlbaMacros.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Time/AlbaLocalTimeHelper.hpp>
+
 #include <iostream>
 #include <sstream>
+
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -26,9 +28,11 @@ ChessEngineControllerWithUci::ChessEngineControllerWithUci(
       m_pendingCommands() {
     putStringProcessingFunctionAsCallBack();
 }
+
 void ChessEngineControllerWithUci::initialize() { sendUciAndUciOptions(); }
 
 void ChessEngineControllerWithUci::quit() { sendQuit(); }
+
 void ChessEngineControllerWithUci::resetEngine() {
     log("Resetting engine");
     resetData();
@@ -138,16 +142,15 @@ void ChessEngineControllerWithUci::resetData() {
     m_pendingCommands.clear();
 }
 
-void ChessEngineControllerWithUci::clearCalculationDetails() {
-    m_calculationDetails = {};
-    m_uciInterpreter.clear();
-}
+void ChessEngineControllerWithUci::clearCalculationDetails() { m_calculationDetails = {}; }
 
 void ChessEngineControllerWithUci::changeState(ControllerState const state) {
-    if (m_logFileStreamOptional) {        m_logFileStreamOptional.value() << "Changing state from " << getEnumString(m_state) << " to "
+    if (m_logFileStreamOptional) {
+        m_logFileStreamOptional.value() << "Changing state from " << getEnumString(m_state) << " to "
                                         << getEnumString(state) << "\n";
     }
-    m_state = state;}
+    m_state = state;
+}
 
 void ChessEngineControllerWithUci::proceedToIdleStateAndProcessPendingCommands() {
     changeState(ControllerState::Idle);
@@ -290,9 +293,11 @@ void ChessEngineControllerWithUci::processInCalculating(string const& stringToPr
         m_additionalStepsInCalculationMonitoring.value()(m_calculationDetails);
     }
 }
+
 string ChessEngineControllerWithUci::constructUciOptionCommand(string const& name, string const& value) {
     return "setoption name " + name + " value " + value;
 }
+
 void ChessEngineControllerWithUci::putStringProcessingFunctionAsCallBack() {
     m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine(
         [&](string const& stringFromEngine) { processAStringFromEngine(stringFromEngine); });

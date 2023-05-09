@@ -30,6 +30,7 @@ Common commands:
 
 -> Track changes:
 ---> git status
+
 -> Check changes:
 ---> check changes from current commit
 -----> git diff
@@ -52,7 +53,8 @@ Common commands:
 ---> git log --patch // shows the diff of each commit
 
 -> Commit to local repository:
----> git commit -m "Message title test" -m "Message description text"-----> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
+---> git commit -m "Message title test" -m "Message description text"
+-----> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
 -----> If multiple -m options are given, their values are concatenated as separate paragraphs.
 -----> NOTE: if there is no message, it will fail the commit
 ---> git commit -am "Message title test" -m "Message description text"
@@ -71,9 +73,11 @@ Common commands:
 -----> Note: this is equivalent to "git push" if upstream is set
 
 -> pull changes from remote repository:
----> git pull   // works without any arguments if upstream is set---> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to pull
+---> git pull   // works without any arguments if upstream is set
+---> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to pull
 ---> git pull --set-upstream origin master   // "--set-upstream" sets the upstream to origin we don't have to type "origin master" in the future
 -----> git pull = git fetch + git merge
+
 -> fetch changes from remote repository and track it to GIT but dont change any files in local directory
 ---> git fetch
 -----> only gets the changes from remote repository, but doesn't change local files
@@ -88,17 +92,20 @@ Common commands:
 -----> (2) Change were the current branch points
 ---> undo staging (git add was already used, and we need to undo "git add")
 -----> git reset   // undo staging for all changes
------> git reset FileName   // undo staging for one file-------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
+-----> git reset FileName   // undo staging for one file
+-------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
 ---> undo a commit (git commit was already used, and we need to undo "git commit")
 -----> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. 
 -------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
 ---> place HEAD to a specific commit (git commit were used multiple times, and we need to undo several "git commits)
 -----> get the unique hash of the commit
 -------> git log
------> use the unique hash of the commit in git reset-------> git reset HashOfTheCommit
+-----> use the unique hash of the commit in git reset
+-------> git reset HashOfTheCommit
 ---------> NOTE: The changes still exists we just let git point to a commit. Do "git status" to check.
 -----> undo changes and reflect it on the files
--------> git reset --hard---------> NOTE: The "--hard" option means that the changes are also removed. Do "git status" to check.
+-------> git reset --hard
+---------> NOTE: The "--hard" option means that the changes are also removed. Do "git status" to check.
 ---> undo a git merge
 -----> git merge --abort
 
@@ -126,6 +133,7 @@ Common commands:
 -> apply diffs:
 ---> git apply --check --verbose DiffName.diff
 ---> git apply --verbose DiffName.diff
+
 -> get diff from a commit:
 ---> git format-patch -1 <commit hash value>
 
@@ -149,9 +157,11 @@ Common commands:
 
 
 Less common commands:
+
 -> Set name and email 
 ---> git config --global user.email "detectivemark7@gmail.com"
 ---> git config --global user.name "detectivemark7"
+
 -> Clone:
 ---> git clone git@github.com:detectivemark7/aprg.git
 ---> git clone --shallow URL    // --shallow means avoid getting the whole version history and get just the latest snapshot (useful for big repositories)
@@ -218,7 +228,8 @@ Less common commands:
 -------> Note: The diff use for this can actually be found using this: git diff master^..BranchName (carat mean the last fork of the line (see Carat vs Tilde section))
 -----> git merge --verbose BranchName
 -------> useful to merge a feature branch to master (for pushing changes to remote master)
--------> useful to merge a master to a feature branch (for keeping up with remote master)---------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), 
+-------> useful to merge a master to a feature branch (for keeping up with remote master)
+---------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), 
 ---------> then use git add for the conflicted files
 ---------> then use git merge --continue (or use git commit to apply the changes).
 -----> git merge --abort
@@ -228,17 +239,20 @@ Less common commands:
 ---> push a specified branch to a remote repository (creating this specified branch in the remote repository) 
 -----> git push -u origin FakeFeatureBranch   // you can use --set-upstream as well
 -------> this commits a FakeFeatureBranch to remote repository, then we can merge this branch to the master branch of the remote repository using a remote tool(GitHub, generate a pull request)
----> checkout to a specific version of the current branch:-----> git checkout b32d6f740504
+---> checkout to a specific version of the current branch:
+-----> git checkout b32d6f740504
 -------> Puts HEAD reference in a "detached HEAD state". The HEAD is not the latest commit of the branch anymore.
 ---> checkout to a specific version of a specific branch:
 -----> git checkout BranchName b32d6f740504 (this also switch the current branch)
+
 -> prints detail of a git object (see "GIT underneath")
 ---> git cat-file -p 42fb7a2    // prints details about an object, notice that only first 6 digits of the hash string of an object can be used as argument
 ---> git cat-file -p 42fb7a21b52dd0f6026a0d9d434129db61acb4bf2    // prints details about an object, notice that all 40 digits of an object can be used as argument
 
 -> Forking
 ---> Can be done on remote repository (github)
----> Copy a separate repository and make it your own-----> Useful to capture a separate repository at specific time (useful to copy external sources)
+---> Copy a separate repository and make it your own
+-----> Useful to capture a separate repository at specific time (useful to copy external sources)
 -------> Can send changes or make a contribution on the external sources (generate a pull request)
 
 
@@ -275,8 +289,10 @@ Carat vs Tilde (specifying revisions):
 
 
 SSH key related:
+
 -> SSH key guide:
 ---> https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
 -> Generating a new SSH key: 
 ---> ssh-keygen -t ed25519 -C "detectivemark7@gmail.com"
 
@@ -325,9 +341,11 @@ GIT underneath:
 
 -> objects are immutable (because hash string is derived from the contents of the object)
 -> git has a "staging area" which tells what changes should be included in the next snapshot we take
+
 -> commands explanation
 -> git init
----> creates the git contents (but still empty)-> git add
+---> creates the git contents (but still empty)
+-> git add
 ---> adds a change in the staging area
 -> git commit
 ---> creates a object(commit) and adds it in the DB
@@ -347,7 +365,9 @@ GIT underneath:
 ---> You can still commits in this state, but they will just be stored in git with no easy names to remember it by.
 
 
+
 Other interesting topics:
+
 -> Git is highly configurable
 ---> use git config
 ---> edit ".gitconfig" manually

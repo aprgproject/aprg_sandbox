@@ -73,10 +73,12 @@ void BoardWithContext::updateBoardDetails() {
         for (int i = 0; i < 8; i++) {
             Coordinate coordinate(i, j);
             Piece piece(m_board.getPieceAt(coordinate));
-            if (piece.getType() == PieceType::King) {                if (piece.getColor() == PieceColor::White) {
+            if (piece.getType() == PieceType::King) {
+                if (piece.getColor() == PieceColor::White) {
                     m_boardDetails.whiteKingCoordinate = coordinate;
                 } else if (piece.getColor() == PieceColor::Black) {
-                    m_boardDetails.blackKingCoordinate = coordinate;                }
+                    m_boardDetails.blackKingCoordinate = coordinate;
+                }
             }
         }
     }

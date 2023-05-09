@@ -20,9 +20,11 @@ constexpr unsigned int MIN_NUMBER_OF_MOVES_IN_TEXT_REPORT = 5U;
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT = 10U;
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_GRID = 5U;
 constexpr unsigned int NEXT_OFFSET_OF_GRID = 9U;
-constexpr char SEPARATOR[] = "     ";}  // namespace
+constexpr char SEPARATOR[] = "     ";
+}  // namespace
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -92,10 +94,12 @@ void ResultPrinter::printCurrentMovesGrid(CurrentMoveDetails const& currentMoveD
     printARowOfCurrentMoves(currentMoveDetails, 5);
 }
 
-void ResultPrinter::printARowOfCurrentMoves(    CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex) const {
+void ResultPrinter::printARowOfCurrentMoves(
+    CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex) const {
     constexpr unsigned int numberOfBoardDisplayRows = 8U;
     if (startIndex < currentMoveDetails.size()) {
-        unsigned int rowSize =            min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(currentMoveDetails.size() - startIndex));
+        unsigned int rowSize =
+            min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(currentMoveDetails.size() - startIndex));
         unsigned int numberOfBoardDisplayColumns = getNumberOfColumnsOfGrid(rowSize);
         DisplayTable grid(numberOfBoardDisplayColumns, numberOfBoardDisplayRows);
         grid.setVerticalBorder("|");
@@ -148,10 +152,12 @@ void ResultPrinter::setFutureMovesOnGrid(
     int preMoveThreshold = 5;
     bool isUnSurePreMove = false;
 
-    for (FutureMoveDetail const& futureMoveDetail : futureMoveDetails) {        analyzer.analyzeMove(futureMoveDetail.halfMove);
+    for (FutureMoveDetail const& futureMoveDetail : futureMoveDetails) {
+        analyzer.analyzeMove(futureMoveDetail.halfMove);
         if (analyzer.getCurrentMoveColor() == m_engineBoardWithContext.getPlayerColor()) {
             bool isSurePreMove = analyzer.canPreMove();
             optional<char> firstChar = getFirstCharOfCell(isSurePreMove, isUnSurePreMove);
+
             setBoardOnGrid(grid, analyzer.getCurrentBoard(), xOffset);
             setMoveOnGrid(
                 grid, analyzer.getCurrentBoard(), futureMoveDetail.halfMove, xOffset, movesDisplayed + 1, firstChar);
@@ -165,10 +171,12 @@ void ResultPrinter::setFutureMovesOnGrid(
             isUnSurePreMove = preMoveThreshold <= futureMoveDetail.commonalityCount;
         }
         analyzer.commitMove();
-    }}
+    }
+}
 
 void ResultPrinter::printScoresHeader(
-    CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex) const {    if (startIndex < currentMoveDetails.size()) {
+    CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex) const {
+    if (startIndex < currentMoveDetails.size()) {
         unsigned int rowSize =
             min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(currentMoveDetails.size() - startIndex));
         bool isFirst = true;
@@ -252,9 +260,11 @@ ResultPrinter::CurrentMoveDetails ResultPrinter::getCurrentMoveDetails() const {
     }
     return result;
 }
+
 ResultPrinter::FutureMoveDetails ResultPrinter::getFutureMoveDetails() const {
     FutureMoveDetails result;
-    strings const& pvHalfMovesStrings(m_calculationDetails.monitoredVariation);    Board updatedBoard(m_engineBoardWithContext.getBoard());
+    strings const& pvHalfMovesStrings(m_calculationDetails.monitoredVariation);
+    Board updatedBoard(m_engineBoardWithContext.getBoard());
     PieceColor previousColor{};
     int index = 0;
     for (string const& pvHalfMoveString : pvHalfMovesStrings) {
@@ -262,7 +272,8 @@ ResultPrinter::FutureMoveDetails ResultPrinter::getFutureMoveDetails() const {
         if (updatedBoard.isAPossibleMove(move)) {
             Piece piece = updatedBoard.getPieceAt(move.first);
             if (index == 0 || areOpposingColors(previousColor, piece.getColor())) {
-                result.emplace_back(FutureMoveDetail{move, getCommonalityCount(move, updatedBoard, index)});                if (result.size() >= MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT) {
+                result.emplace_back(FutureMoveDetail{move, getCommonalityCount(move, updatedBoard, index)});
+                if (result.size() >= MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT) {
                     break;
                 }
                 updatedBoard.move(move);
@@ -271,7 +282,8 @@ ResultPrinter::FutureMoveDetails ResultPrinter::getFutureMoveDetails() const {
                 break;  // colors need to alternating
             }
         } else {
-            break;  // retain only line with valid moves        }
+            break;  // retain only line with valid moves
+        }
         index++;
     }
     return result;
@@ -340,10 +352,12 @@ int ResultPrinter::getScoreLevel(int const scoreInCentipawns) const {
         return -1 * positiveDeltaFromBestMove / LEVEL_DISTANCE;
 
         // The formula works like this, for example we have this scores: 300 201 200 199 100 0 -100
-        // The best one is 300.        // The value for each score respectively:
+        // The best one is 300.
+        // The value for each score respectively:
         // -> For  300: -1*(300-300)/100 =   -1/100 =  0
         // -> For  201: -1*(300-201)/100 =  -99/100 =  0
-        // -> For  200: -1*(300-200)/100 = -100/100 = -1        // -> For  199: -1*(300-199)/100 = -101/100 = -1
+        // -> For  200: -1*(300-200)/100 = -100/100 = -1
+        // -> For  199: -1*(300-199)/100 = -101/100 = -1
         // -> For  100: -1*(300-100)/100 = -200/100 = -2
         // -> For    0: -1*(300-0)/100   = -300/100 = -3
         // -> For -100: -1*(300+100)/100 = -400/100 = -4
@@ -372,10 +386,12 @@ int ResultPrinter::getCommonalityCount(Move const& move, Board const& engineBoar
         if (move == engineBoard.getMoveFromTwoLetterNumberNotation(commonMoveAndCount.first)) {
             count = commonMoveAndCount.second;
         }
-    }    return count;
+    }
+    return count;
 }
 
-string ResultPrinter::getCellForDisplay(    Piece const& piece, unsigned int const moveNumber, optional<char> const& firstChar) const {
+string ResultPrinter::getCellForDisplay(
+    Piece const& piece, unsigned int const moveNumber, optional<char> const& firstChar) const {
     string result(3, ' ');
     if (moveNumber != 0) {
         char moveNumberCharacter = '0' + static_cast<char>(moveNumber);

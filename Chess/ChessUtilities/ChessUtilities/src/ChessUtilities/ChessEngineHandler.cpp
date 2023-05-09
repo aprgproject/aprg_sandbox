@@ -188,10 +188,12 @@ void ChessEngineHandler::shutdownEngine() {
     CloseHandle(m_inputStreamOnHandler);
 }
 
-void ChessEngineHandler::log(LogType const logtype, string const& logString) {    if (m_logFileStreamOptional) {
+void ChessEngineHandler::log(LogType const logtype, string const& logString) {
+    if (m_logFileStreamOptional) {
         m_logFileStreamOptional.value() << getLogHeader(logtype) << logString << "\n";
         m_logFileStreamOptional.value().flush();
-    }#ifdef APRG_TEST_MODE_ON
+    }
+#ifdef APRG_TEST_MODE_ON
     // cout << getLogHeader(logtype) << logString << "\n";
 #else
     if (LogType::FromEngine == logtype) {

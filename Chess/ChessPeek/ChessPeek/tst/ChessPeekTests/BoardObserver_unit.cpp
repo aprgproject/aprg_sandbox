@@ -6,7 +6,6 @@
 #include <gtest/gtest.h>
 
 using namespace alba::AprgBitmap;
-using namespace alba::chess;
 using namespace std;
 
 namespace alba {
