@@ -47,6 +47,7 @@ bool SequenceOfMovesAnalyzer::isARecapture() const {
 }
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

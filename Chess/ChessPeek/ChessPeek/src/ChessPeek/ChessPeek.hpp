@@ -36,9 +36,11 @@ private:
 
     void initialize();
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
+
     void printCalculationDetailsWithFiltering();
     void printCalculationDetailsIfPending();
     void printCalculationDetails();
+
     Configuration m_configuration;
     AlbaLocalScreenMonitoring m_screenMonitoring;
     ChessEngineHandler m_engineHandler;
@@ -50,7 +52,9 @@ private:
     bool m_engineWasJustReset;
     bool m_hasPendingPrintAction;
 };
+
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

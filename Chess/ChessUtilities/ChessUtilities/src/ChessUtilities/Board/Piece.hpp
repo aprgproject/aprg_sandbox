@@ -12,7 +12,7 @@ namespace alba {
 
 namespace chess {
 
-struct Piece {
+class Piece {
 public:
     static PieceColor extractColor(uint8_t const value);
     static PieceType extractType(uint8_t const value);

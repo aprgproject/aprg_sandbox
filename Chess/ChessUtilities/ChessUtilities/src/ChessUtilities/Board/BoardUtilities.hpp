@@ -25,8 +25,6 @@ std::string constructFenString(
     Board const& board, PieceColor const colorToMove, std::string const& castlingAvailability,
     std::string const& enPassantTarget, unsigned int const halfMoveClock, unsigned int const fullMoveNumber);
 
-Moves getSequenceOfMoves(Board const& board1, Board const& board2);
-
 }  // namespace chess
 
 }  // namespace alba

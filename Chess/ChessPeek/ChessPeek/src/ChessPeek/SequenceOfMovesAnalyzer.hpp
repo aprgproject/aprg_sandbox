@@ -18,6 +18,7 @@ public:
     };
 
     SequenceOfMovesAnalyzer(Board const& board);
+
     void checkMove(Move const& halfMove);
     void commitMove();
 
@@ -33,6 +34,7 @@ private:
 };
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

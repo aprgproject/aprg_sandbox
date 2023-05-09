@@ -118,45 +118,11 @@ string constructFenString(
     ss << board.getNotationPartOfFenString() << " ";
     if (PieceColor::White == colorToMove) {
         ss << "w ";
-    } else if (PieceColor::Black == colorToMove) {        ss << "b ";
+    } else if (PieceColor::Black == colorToMove) {
+        ss << "b ";
     }
     ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
-    return ss.str();}
-
-Moves getSequenceOfMoves(Board const& board1, Board const& board2) {
-    // this is difficult
-    Coordinates coordinatesWithPiecesInDifference1;
-    Coordinates coordinatesWithPiecesInDifference2;
-    for (CoordinateDataType x = 0; x < 8; x++) {
-        for (CoordinateDataType y = 0; y < 8; y++) {
-            Coordinate coordinate(x, y);
-            Piece piece1(board1.getPieceAt(coordinate));
-            Piece piece2(board2.getPieceAt(coordinate));
-            if (piece1 != piece2) {
-                if (board1.isEmptyAt(coordinate)) {
-                    coordinatesWithPiecesInDifference1.emplace_back(coordinate);
-                }
-                if (board2.isEmptyAt(coordinate)) {
-                    coordinatesWithPiecesInDifference2.emplace_back(coordinate);
-                }
-            }
-        }
-    }
-
-    Moves possibleMoves;
-    for (unsigned int i = 0; i < coordinatesWithPiecesInDifference1.size(); i++) {
-        Coordinate const& coordinate1(coordinatesWithPiecesInDifference1.at(i));
-        Piece piece1(board1.getPieceAt(coordinate1));
-        for (unsigned int j = 0; j < coordinatesWithPiecesInDifference2.size(); j++) {
-            Coordinate const& coordinate2(coordinatesWithPiecesInDifference2.at(i));
-            Piece piece2(board2.getPieceAt(coordinate2));
-            Move moveFrom1To2(coordinate1, coordinate2);
-            if ((piece1 == piece2 && board1.isAPossibleMove(moveFrom1To2)) || board1.isAPromotionMove(moveFrom1To2)) {
-                possibleMoves.emplace_back(moveFrom1To2);
-            }
-        }
-    }
-    return possibleMoves;
+    return ss.str();
 }
 
 }  // namespace chess

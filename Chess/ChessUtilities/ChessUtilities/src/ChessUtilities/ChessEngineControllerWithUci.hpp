@@ -17,10 +17,12 @@ public:
     enum class ControllerState { Initializing, WaitingForUciOkay, Calculating, Idle, Quitted };
 
     enum class CommandType {
-        Uci,        UciOption,
+        Uci,
+        UciOption,
         Position,
         Go,
-        Stop,    };
+        Stop,
+    };
 
     struct Command {
         CommandType commandType;
@@ -38,10 +40,12 @@ public:
 
     void resetToNewGame();
     void setupStartPosition();
-    void setupMoves(std::string const& moves);    void setupFenString(std::string const& fenString);
+    void setupMoves(std::string const& moves);
+    void setupFenString(std::string const& fenString);
     void go();
     void goWithPonder();
-    void goWithDepth(unsigned int const depth);    void goInfinite();
+    void goWithDepth(unsigned int const depth);
+    void goInfinite();
     bool waitTillReadyAndReturnIfResetWasPerformed();
     void stop();
 
@@ -53,9 +57,11 @@ private:
     void resetData();
     void clearCalculationDetails();
 
-    // state functions    void changeState(ControllerState const state);
+    // state functions
+    void changeState(ControllerState const state);
     void proceedToIdleStateAndProcessPendingCommands();
     void processPendingCommands();
+
     // log functions
     void log(std::string const& logString);
 
@@ -71,10 +77,12 @@ private:
     void forceSend(std::string const& commandString);
 
     // process functions
-    void processAStringFromEngine(std::string const& stringFromEngine);    void processInWaitingForUciOkay(std::string const& stringToProcess);
+    void processAStringFromEngine(std::string const& stringFromEngine);
+    void processInWaitingForUciOkay(std::string const& stringToProcess);
     void processInCalculating(std::string const& stringToProcess);
 
-    std::string constructUciOptionCommand(std::string const& name, std::string const& value);    void putStringProcessingFunctionAsCallBack();
+    std::string constructUciOptionCommand(std::string const& name, std::string const& value);
+    void putStringProcessingFunctionAsCallBack();
 
     ChessEngineHandler& m_engineHandler;
     stringHelper::StringPairs m_uciOptionNamesAndValuePairs;

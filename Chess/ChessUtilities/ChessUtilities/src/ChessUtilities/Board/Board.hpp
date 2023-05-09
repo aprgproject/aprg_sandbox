@@ -22,6 +22,12 @@ public:
     using PieceValue = uint16_t;
     using InitializerList = std::initializer_list<Piece>;
     using PieceMatrix = matrix::AlbaMatrix<Piece>;
+    struct DeltaRange {
+        CoordinateDataType interval;
+        CoordinateDataType invalidDelta;
+    };
+
+    static constexpr unsigned int MAX_NUMBER_OF_MOVES = std::numeric_limits<unsigned int>::max();
 
     Board();
     Board(Orientation const& orientation);
@@ -30,30 +36,91 @@ public:
     bool operator==(Board const& other) const;
     bool operator!=(Board const& other) const;
 
-    bool isEmptyAt(Coordinate const& coordinate) const;
-    bool isACaptureMove(Move const& move) const;
-    bool isAPromotionMove(Move const& move) const;    bool isACastlingMove(Move const& move) const;
-    bool isAPossibleMove(Move const& move) const;
-    bool canBeCaptured(Coordinate const& destination) const;
-    bool areAnyMovesPossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const;    bool hasOnlyOneMovePossibleToThisDestination(Coordinate const& destination, PieceColor const& color) const;
-    bool hasOnlyOneLegalMoveToAvoidCheck();
-
     Orientation getOrientation() const;
     PieceMatrix const& getPieceMatrix() const;
-    Piece getPieceAt(Coordinate const& coordinate) const;
-    Moves getPossibleMoves(Coordinate const& start) const;
+
+    Moves getMovesFromThis(Coordinate const& startpoint) const;
+    Moves getMovesToThis(
+        Coordinate const& endpoint, PieceColor const& colorOfPieceToMove,
+        unsigned int const maxSize = MAX_NUMBER_OF_MOVES) const;
+
     Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
+    Piece getPieceAt(Coordinate const& coordinate) const;
     Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
+
     std::string getLetterNumberNotationStringFromCoordinate(Coordinate const& coordinate) const;
     std::string getReadableStringForMove(Move const& move) const;
     std::string getNotationPartOfFenString() const;
     std::string getCastlingPartOfFenString() const;
 
+    bool isEmptyAt(Coordinate const& coordinate) const;
+    bool isACaptureMove(Move const& move) const;
+    bool isAPromotionMove(Move const& move) const;
+    bool isACastlingMove(Move const& move) const;
+    bool isAPossibleMove(Move const& move) const;
+    bool canBeCaptured(Coordinate const& endpoint) const;
+    bool areThereAnyMovesToThis(Coordinate const& endpoint, PieceColor const& colorOfPieceToMove) const;
+    bool hasOnlyOneMoveToThis(Coordinate const& endpoint, PieceColor const& colorOfPieceToMove) const;
+
     void setOrientation(Orientation const orientation);
-    void setPieceAt(Coordinate const& coordinate, Piece const& piece);    void move(Move const& move);
+    void setPieceAt(Coordinate const& coordinate, Piece const& piece);
+    void move(Move const& move);
 
 private:
-    bool isEndEmptyOrHaveDifferentColors(Move const& move) const;    bool isPossibleMoveBasedFromPieceType(Move const& move) const;
+    PieceMatrix::MatrixData getInitialValues(Orientation const& inputType) const;
+
+    void retrieveMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrievePawnMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveKnightMovesThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveBishopMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveRookMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveQueenMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveKingMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrievePawnNonCapturesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrievePawnCapturesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveDiagonalMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveStraightMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveKingOneStepMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveKingCastlingMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveCastlingMovesFromThis(Moves& result, Coordinate const& startpoint) const;
+    void retrieveMovesFromThisByIncrementingDelta(
+        Moves& result, Coordinate const& startpoint, Coordinate const& delta) const;
+
+    void retrieveMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+    void retrievePawnReverseNonCapturesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+    void retrievePawnReverseCapturesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+    void retrieveKnightMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+    void retrieveDiagonalMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+    void retrieveStraightMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+    void retrieveKingOneStepMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const colorOfPieceToMove,
+        unsigned int const maxSize) const;
+
+    MovePairs getCastlingKingAndRookMovePairs(PieceColor const color) const;
+    MovePair getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatShouldMatch) const;
+    Coordinates getLDeltaCoordinates() const;
+    Coordinates getDiagonalIncrementDeltaCoordinates() const;
+    Coordinates getStraightIncrementDeltaCoordinates() const;
+    Coordinates getOneStepDeltaCoordinates() const;
+    DeltaRange getPawnNonCaptureDeltaRange(Coordinate const& startpoint, PieceColor const color) const;
+    DeltaRange getPawnReverseNonCaptureDeltaRange(Coordinate const& endpoint, PieceColor const color) const;
+    Coordinates getPawnCapturesDeltaCoordinates(PieceColor const color) const;
+    Coordinates getPawnReverseCapturesDeltaCoordinates(PieceColor const color) const;
+    CoordinateDataType getOneIncrementData(CoordinateDataType const coordinateDataType) const;
+
+    bool isPossibleMoveBasedFromPieceType(Move const& move) const;
     bool isPossiblePawnMove(Move const& move) const;
     bool isPossibleKnightMove(Move const& move) const;
     bool isPossibleBishopMove(Move const& move) const;
@@ -62,50 +129,16 @@ private:
     bool isPossibleKingMove(Move const& move) const;
     bool isPossibleOneKingMove(Move const& move) const;
     bool isPossibleKingCastlingMove(Move const& kingMove) const;
-    bool isAPawnMove(Move const& move) const;
+    bool isAPawnNonCaptureMove(Move const& move) const;
     bool isAPawnCapture(Move const& move) const;
     bool isADiagonalMove(Move const& move) const;
     bool isAStraightMove(Move const& move) const;
     bool isAnLMove(Move const& move) const;
     bool isAOneStepMove(Move const& move) const;
-    bool doesMoveHasNoBlockingPieceInBetween(Move const& move) const;
-    unsigned int getDiagonalMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
-    unsigned int getStraightMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
-    unsigned int getKnightMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
-    unsigned int getKingMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const oppositeColor, int const maximumCount) const;
-    unsigned int getPawnReverseMovesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const color, int const maximumCount) const;
-    unsigned int getPawnReverseCapturesPossibleToThisDestination(
-        Coordinate const& destination, PieceColor const color, int const maximumCount) const;
-    CoordinateDataType getOneIncrementData(CoordinateDataType const coordinateDataType) const;
-    Coordinates getLDeltaCoordinates() const;
-    Coordinates getDiagonalIncrementDeltaCoordinates() const;
-    Coordinates getStraightIncrementDeltaCoordinates() const;
-    Coordinates getOneStepDeltaCoordinates() const;
-    Coordinates getPossiblePawnMovesDeltaCoordinates(Coordinate const& start, PieceColor const color) const;
-    Coordinates getPossiblePawnReverseMovesDeltaCoordinates(Coordinate const& end, PieceColor const color) const;
-    Coordinates getPossiblePawnCapturesDeltaCoordinates(PieceColor const color) const;
-    Coordinates getPossiblePawnReverseCapturesDeltaCoordinates(PieceColor const color) const;
-    MovePairs getPossibleCastlingKingAndRookMovePairs(PieceColor const color) const;
-    MovePair getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatShouldMatch) const;
-    void retrievePossibleMovesBasedFromPieceType(Moves& result, Coordinate const& start) const;
-    void retrievePossiblePawnMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleKnightMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleBishopMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleRookMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleQueenMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleKingMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleOneKingMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleKingCastlingMoves(Moves& result, Coordinate const& start) const;
-    void retrievePossibleCastlingMoves(MovePairs& kingAndRookMoves, PieceColor const color) const;
-    void retrievePossibleMovesByIncrements(Moves& result, Coordinate const& source, Coordinate const& increment) const;
-    void addMoveToListOfMoves(Moves& moves, Move const& move) const;
+    bool isCastlingValid(Move const& kingMove, Move const& rookMove) const;
+    bool isEndpointEmptyOrHaveDifferentColors(Move const& move) const;
+    bool isThereNoBlockingPieceInBetweenTheMove(Move const& move) const;
 
-    PieceMatrix::MatrixData getInitialValues(Orientation const& inputType) const;
     void changePieceMatrixWithMove(Move const& move);
 
     Orientation m_orientation;

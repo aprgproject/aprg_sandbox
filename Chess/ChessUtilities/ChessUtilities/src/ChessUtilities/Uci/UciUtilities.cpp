@@ -13,8 +13,6 @@ namespace alba {
 
 namespace chess {
 
-constexpr int ARTIFICIAL_MATE_SCORE = 999999;
-
 namespace {
 struct InfoDetails {
     unsigned int multipv;

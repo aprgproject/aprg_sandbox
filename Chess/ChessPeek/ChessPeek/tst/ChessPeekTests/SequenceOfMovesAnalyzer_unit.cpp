@@ -20,7 +20,8 @@ TEST(SequenceOfMovesAnalyzerTest, CheckMoveAndCommitMoveWorks) {
     EXPECT_EQ(Piece(PieceColorAndType::WhitePawn), analyzer.getPieceFromMove());
 
     Board::PieceMatrix expectedMatrix(8U, 8U, {12, 10, 11, 13, 14, 11, 10, 12, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0,
-                                               0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,                                               0,  0,  0,  0,  1,  1,  1,  0,  1, 1, 1, 1, 4, 2, 3, 5, 6, 3, 2, 4});
+                                               0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                                               0,  0,  0,  0,  1,  1,  1,  0,  1, 1, 1, 1, 4, 2, 3, 5, 6, 3, 2, 4});
     analyzer.commitMove();
     EXPECT_EQ(expectedMatrix, analyzer.getCurrentBoard().getPieceMatrix());
 }
@@ -38,7 +39,9 @@ TEST(SequenceOfMovesAnalyzerTest, CanPreMoveWorksOnRecapture) {
     analyzer.checkMove({{3, 0}, {3, 3}});
     EXPECT_TRUE(analyzer.canPreMove());
 }
+
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

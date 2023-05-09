@@ -15,6 +15,7 @@ bool shouldStillRun = true;  // USE ESCAPE KEY TO CLEANLY SHUTDOWN
 }
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -48,8 +49,10 @@ void ChessPeek::runForever() {
     }
     trackKeyPressThread.join();
 }
+
 void ChessPeek::runOneIteration() {
     printCalculationDetailsIfPending();
+
     checkScreenAndSaveDetails();
     if (shouldAnalyzeBoard()) {
         startEngineAnalysis();
@@ -65,6 +68,7 @@ void ChessPeek::startEngineAnalysis() {
     if (didPlayerChange()) {
         m_engineController.resetToNewGame();
     }
+
     m_detailsOnTheEngine.save(m_detailsFromTheScreen.getPlayerColor(), m_detailsFromTheScreen.getBoard());
 
     m_engineController.setupFenString(m_detailsOnTheEngine.getFenString());
@@ -75,9 +79,11 @@ void ChessPeek::startEngineAnalysis() {
         m_engineWasJustReset = true;
     }
 }
+
 void ChessPeek::calculationMonitoringCallBackForEngine(EngineCalculationDetails const& calculationDetails) {
     CalculationDetails previousCalculationDetails = m_calculationDetails;
-    saveCalculationDetails(calculationDetails);    if (previousCalculationDetails != m_calculationDetails) {
+    saveCalculationDetails(calculationDetails);
+    if (previousCalculationDetails != m_calculationDetails) {
         printCalculationDetailsWithFiltering();
     }
 }
@@ -96,10 +102,12 @@ void ChessPeek::initialize() {
     // m_engineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");  // for debugging
     // m_engineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");  // for debugging
 
-    m_engineController.setAdditionalStepsInCalculationMonitoring(        [&](EngineCalculationDetails const& engineCalculationDetails) {
+    m_engineController.setAdditionalStepsInCalculationMonitoring(
+        [&](EngineCalculationDetails const& engineCalculationDetails) {
             calculationMonitoringCallBackForEngine(engineCalculationDetails);
         });
-    m_engineController.initialize();}
+    m_engineController.initialize();
+}
 
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails) {
     m_calculationDetails.depthInPlies = engineCalculationDetails.depthInPlies;
@@ -138,10 +146,12 @@ void ChessPeek::printCalculationDetails() {
     if (!currentlyPrinting) {
         m_hasPendingPrintAction = false;
         currentlyPrinting = true;
-        ResultPrinter(m_detailsOnTheEngine, m_calculationDetails).print();        currentlyPrinting = false;
+        ResultPrinter(m_detailsOnTheEngine, m_calculationDetails).print();
+        currentlyPrinting = false;
     } else {
         m_hasPendingPrintAction = true;
-    }}
+    }
+}
 
 }  // namespace ChessPeek
 

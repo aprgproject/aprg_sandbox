@@ -66,7 +66,8 @@ void Configuration::initializeCommonParameters() {
     // option name SyzygyProbeDepth type spin default 1 min 1 max 100
     // option name Syzygy50MoveRule type check default true
     // option name SyzygyProbeLimit type spin default 7 min 0 max 7
-    // option name Use NNUE type check default true    // option name EvalFile type string default nn-6877cd24400e.nnue
+    // option name Use NNUE type check default true
+    // option name EvalFile type string default nn-6877cd24400e.nnue
     // uciok
 
     m_uciOptionNamesAndValuePairs = {
@@ -80,10 +81,12 @@ void Configuration::initializeCommonParameters() {
     // {"Skill Level", "1"}};          // limit the strength to be more like a human
 }
 
-void Configuration::initializeSpecificParameters() {    switch (m_type) {
+void Configuration::initializeSpecificParameters() {
+    switch (m_type) {
         case Type::ChessDotComVersus: {
             initializeChessDotComVersus();
-            break;        }
+            break;
+        }
         case Type::ChessDotComPuzzle: {
             initializeChessDotComPuzzle();
             break;

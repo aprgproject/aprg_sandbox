@@ -24,9 +24,11 @@ string DetailsOnTheEngine::getFenString() const {
     return constructFenString(m_board, m_playerColor, m_board.getCastlingPartOfFenString(), "-", 0, 1);
 }
 
-void DetailsOnTheEngine::save(PieceColor const& playerColor, Board const& board) {    m_playerColor = playerColor;
+void DetailsOnTheEngine::save(PieceColor const& playerColor, Board const& board) {
+    m_playerColor = playerColor;
     m_board = board;
 }
+
 }  // namespace ChessPeek
 
 }  // namespace chess
