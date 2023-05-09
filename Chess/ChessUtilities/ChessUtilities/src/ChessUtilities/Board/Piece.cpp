@@ -8,14 +8,18 @@ namespace alba {
 
 namespace chess {
 
-PieceColor Piece::extractColor(uint8_t const value) { return static_cast<PieceColor>(value >> 3 & 0B1); }
+PieceColor Piece::extractColor(uint8_t const value) {
+    if (PieceType::Empty == extractType(value)) {
+        return PieceColor::Unknown;
+    } else {
+        return static_cast<PieceColor>((value >> 3 & 0B1) | 0B10);  // put 0B10 to avoid unknown
+    }
+}
 
 PieceType Piece::extractType(uint8_t const value) { return static_cast<PieceType>(value & 0B111); }
-
 PieceColorAndType Piece::extractColorAndType(uint8_t const value) {
     return static_cast<PieceColorAndType>(value & 0B1111);
 }
-
 uint8_t Piece::getValueFromColorAndType(PieceColorAndType const pieceColorAndType) {
     return static_cast<uint8_t>(pieceColorAndType) & 0B1111;
 }

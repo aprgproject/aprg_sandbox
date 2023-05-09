@@ -179,21 +179,19 @@ void ChessEngineHandler::initializeEngine() {
 
 void ChessEngineHandler::shutdownEngine() {
     sendStringToEngine("quit\n");
-    WaitForSingleObject(m_engineMonitoringThread, 1);
+    // WaitForSingleObject(m_engineMonitoringThread, INFINITE); // not needed
     CloseHandle(m_engineMonitoringThread);
     TerminateProcess(m_processInfo.hProcess, 0);
-    CloseHandle(m_inputStreamOnEngineThread);
     CloseHandle(m_outputStreamOnEngineThread);
-    CloseHandle(m_inputStreamOnHandler);
     CloseHandle(m_outputStreamOnHandler);
+    CloseHandle(m_inputStreamOnEngineThread);
+    CloseHandle(m_inputStreamOnHandler);
 }
 
-void ChessEngineHandler::log(LogType const logtype, string const& logString) {
-    if (m_logFileStreamOptional) {
+void ChessEngineHandler::log(LogType const logtype, string const& logString) {    if (m_logFileStreamOptional) {
         m_logFileStreamOptional.value() << getLogHeader(logtype) << logString << "\n";
         m_logFileStreamOptional.value().flush();
-    }
-#ifdef APRG_TEST_MODE_ON
+    }#ifdef APRG_TEST_MODE_ON
     // cout << getLogHeader(logtype) << logString << "\n";
 #else
     if (LogType::FromEngine == logtype) {

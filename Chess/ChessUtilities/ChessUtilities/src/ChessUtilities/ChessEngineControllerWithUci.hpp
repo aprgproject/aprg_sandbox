@@ -2,14 +2,13 @@
 
 #include <ChessUtilities/ChessEngineHandler.hpp>
 #include <ChessUtilities/Engine/CalculationDetails.hpp>
+#include <ChessUtilities/Uci/UciInterpreter.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <deque>
-#include <fstream>
+#include <deque>#include <fstream>
 #include <string>
 
 namespace alba {
-
 namespace chess {
 
 class ChessEngineControllerWithUci {
@@ -90,13 +89,12 @@ private:
     std::optional<std::ofstream> m_logFileStreamOptional;
     ControllerState m_state;
     bool m_waitingForReadyOkay;
-    CalculationDetails m_currentCalculationDetails;
+    CalculationDetails m_calculationDetails;
+    UciInterpreter m_uciInterpreter;
     std::deque<Command> m_pendingCommands;
 };
-
 std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);
 std::ostream& operator<<(std::ostream& out, ChessEngineControllerWithUci::ControllerState const state);
-
 }  // namespace chess
 
 }  // namespace alba

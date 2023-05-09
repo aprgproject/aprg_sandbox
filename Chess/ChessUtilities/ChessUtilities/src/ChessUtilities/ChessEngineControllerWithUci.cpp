@@ -1,13 +1,11 @@
 #include "ChessEngineControllerWithUci.hpp"
 
-#include <ChessUtilities/Uci/UciUtilities.hpp>
+#include <ChessUtilities/Uci/UciInterpreter.hpp>
 #include <Common/Macros/AlbaMacros.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Time/AlbaLocalTimeHelper.hpp>
-
 #include <iostream>
 #include <sstream>
-
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -23,15 +21,14 @@ ChessEngineControllerWithUci::ChessEngineControllerWithUci(
       m_logFileStreamOptional(),
       m_state(ControllerState::Initializing),
       m_waitingForReadyOkay(false),
-      m_currentCalculationDetails{},
+      m_calculationDetails{},
+      m_uciInterpreter(m_calculationDetails),
       m_pendingCommands() {
     putStringProcessingFunctionAsCallBack();
 }
-
 void ChessEngineControllerWithUci::initialize() { sendUciAndUciOptions(); }
 
 void ChessEngineControllerWithUci::quit() { sendQuit(); }
-
 void ChessEngineControllerWithUci::resetEngine() {
     log("Resetting engine");
     resetData();
@@ -137,19 +134,20 @@ void ChessEngineControllerWithUci::setLogFile(string const& logFilePath) {
 void ChessEngineControllerWithUci::resetData() {
     changeState(ControllerState::Initializing);
     m_waitingForReadyOkay = false;
-    m_currentCalculationDetails = {};
+    clearCalculationDetails();
     m_pendingCommands.clear();
 }
 
-void ChessEngineControllerWithUci::clearCalculationDetails() { m_currentCalculationDetails = CalculationDetails{}; }
+void ChessEngineControllerWithUci::clearCalculationDetails() {
+    m_calculationDetails = {};
+    m_uciInterpreter.clear();
+}
 
 void ChessEngineControllerWithUci::changeState(ControllerState const state) {
-    if (m_logFileStreamOptional) {
-        m_logFileStreamOptional.value() << "Changing state from " << getEnumString(m_state) << " to "
+    if (m_logFileStreamOptional) {        m_logFileStreamOptional.value() << "Changing state from " << getEnumString(m_state) << " to "
                                         << getEnumString(state) << "\n";
     }
-    m_state = state;
-}
+    m_state = state;}
 
 void ChessEngineControllerWithUci::proceedToIdleStateAndProcessPendingCommands() {
     changeState(ControllerState::Idle);
@@ -282,21 +280,19 @@ void ChessEngineControllerWithUci::processInWaitingForUciOkay(string const& stri
 }
 
 void ChessEngineControllerWithUci::processInCalculating(string const& stringToProcess) {
-    retrieveCalculationDetailsOnStringFromEngine(m_currentCalculationDetails, stringToProcess);
+    m_uciInterpreter.updateCalculationDetails(stringToProcess);
 
-    if (!m_currentCalculationDetails.bestMove.empty()) {
+    if (!m_calculationDetails.bestMove.empty()) {
         proceedToIdleStateAndProcessPendingCommands();
     }
 
     if (m_additionalStepsInCalculationMonitoring) {
-        m_additionalStepsInCalculationMonitoring.value()(m_currentCalculationDetails);
+        m_additionalStepsInCalculationMonitoring.value()(m_calculationDetails);
     }
 }
-
 string ChessEngineControllerWithUci::constructUciOptionCommand(string const& name, string const& value) {
     return "setoption name " + name + " value " + value;
 }
-
 void ChessEngineControllerWithUci::putStringProcessingFunctionAsCallBack() {
     m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine(
         [&](string const& stringFromEngine) { processAStringFromEngine(stringFromEngine); });
