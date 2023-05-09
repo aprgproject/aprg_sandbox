@@ -10,14 +10,16 @@ namespace alba {
 
 namespace chess {
 
+bool isAToH(char const c) { return 'a' <= c && c <= 'h'; }
+
+bool is1To8(char const c) { return '1' <= c && c <= '8'; }
+
 bool isCoordinateWithinTheBoard(Coordinate const& coordinate) {
     auto x(coordinate.getX());
-    auto y(coordinate.getY());
-    return (x >= 0 && x <= 7) && (y >= 0 && y <= 7);
+    auto y(coordinate.getY());    return (x >= 0 && x <= 7) && (y >= 0 && y <= 7);
 }
 
 bool isInUpperHalf(Coordinate const& coordinate) { return coordinate.getY() <= 3; }
-
 bool isInLowerHalf(Coordinate const& coordinate) { return coordinate.getY() >= 4; }
 
 bool areCoordinatesValid(Move const& move) {
