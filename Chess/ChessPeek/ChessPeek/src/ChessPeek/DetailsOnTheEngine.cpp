@@ -3,6 +3,7 @@
 using namespace std;
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -14,6 +15,7 @@ BoardWithContext const& DetailsOnTheEngine::getBoardWithContext() const { return
 void DetailsOnTheEngine::save(BoardWithContext const& boardWithContext) { m_boardWithContext = boardWithContext; }
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

@@ -1,5 +1,8 @@
 #include "Configuration.hpp"
 
+#include <ChessUtilities/Engine/EngineConstants.hpp>
+
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba {
@@ -70,9 +73,10 @@ void Configuration::initializeCommonParameters() {
     // option name EvalFile type string default nn-6877cd24400e.nnue
     // uciok
 
+    StringConverterWithFormatting converter;
     m_uciOptionNamesAndValuePairs = {
-        {"Threads", "4"},         // set equal to number of cores to have optimized performance
-        {"MultiPV", "15"},        // number of moves to search
+        {"Threads", converter.convertToString(EngineConstants::NUMBER_OF_THREADS)},
+        {"MultiPV", converter.convertToString(EngineConstants::NUMBER_OF_VARIATIONS)},
         {"Slow Mover", "1000"}};  // max value, let engine think for max time
 
     // Stockfish still thinking too long so this parameters have no impact:

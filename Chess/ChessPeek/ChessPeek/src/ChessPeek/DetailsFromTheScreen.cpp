@@ -89,9 +89,11 @@ void DetailsFromTheScreen::saveBoardUpperHalfLowerHalfDetails(Coordinate const& 
         }
     }
 }
+
 void DetailsFromTheScreen::savePlayerColorAndOrientation() {
     if (m_configuration.getType() == Configuration::Type::ChessDotComPuzzle) {
-        savePlayerColorIfChessDotComPuzzle();    } else if (m_configuration.getType() == Configuration::Type::LichessStream) {
+        savePlayerColorIfChessDotComPuzzle();
+    } else if (m_configuration.getType() == Configuration::Type::LichessStream) {
         savePlayerColorIfLichessStream();
     } else {
         savePlayerColorAndOrientationFromBoardDetails();
@@ -108,9 +110,11 @@ void DetailsFromTheScreen::savePlayerColorIfChessDotComPuzzle() {
         savePlayerColor(PieceColor::White);
     }
 }
+
 void DetailsFromTheScreen::savePlayerColorIfLichessStream() {
     constexpr auto xForWhiteSection = 3387, xForBlackSection = 3553;
-    constexpr auto lastMovePixelColor = 0x2A4053U, rgbMask = 0xFFFFFFU;    for (auto yCoordinate = 897; yCoordinate >= 199; yCoordinate -= 1) {
+    constexpr auto lastMovePixelColor = 0x2A4053U, rgbMask = 0xFFFFFFU;
+    for (auto yCoordinate = 897; yCoordinate >= 199; yCoordinate -= 1) {
         auto pixelColorInWhiteSection = m_screenMonitoring.getColorAt(xForWhiteSection, yCoordinate) & rgbMask;
         auto pixelColorInBlackSection = m_screenMonitoring.getColorAt(xForBlackSection, yCoordinate) & rgbMask;
         if (lastMovePixelColor == pixelColorInWhiteSection) {
@@ -158,6 +162,7 @@ void DetailsFromTheScreen::savePlayerColor(PieceColor const playerColor) { m_sav
 void DetailsFromTheScreen::saveOrientation(Board::Orientation const orientation) { m_savedOrientation = orientation; }
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

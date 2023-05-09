@@ -12,9 +12,10 @@ struct CalculationDetails {
     unsigned int depthInPlies;
     int mateScore;
     std::string bestMove;
-    StringAndIntPairs searchingMoveAndScorePairs;
-    int scoreInPvLine;
-    stringHelper::strings pvHalfMovesInMonitoredLine;
+    StringAndIntPairs currentMovesAndScores;
+    int scoreInMonitoredVariation;
+    stringHelper::strings monitoredVariation;
+    StringAndIntPairs commonMovesAndCountsOfEachStep;
 
     bool operator==(CalculationDetails const& other) const;
     bool operator!=(CalculationDetails const& other) const;

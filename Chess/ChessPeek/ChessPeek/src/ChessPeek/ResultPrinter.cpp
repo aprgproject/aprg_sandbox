@@ -2,12 +2,14 @@
 
 #include <ChessPeek/SequenceOfMovesAnalyzer.hpp>
 #include <ChessUtilities/Board/BoardUtilities.hpp>
-#include <ChessUtilities/Uci/UciUtilities.hpp>
+#include <ChessUtilities/Uci/UciInterpreter.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
-#include <Common/String/AlbaStringHelper.hpp>#include <Common/User/DisplayTable.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Common/User/DisplayTable.hpp>
 
 #include <iostream>
+
 using namespace alba::mathHelper;
 using namespace alba::stringHelper;
 using namespace std;
@@ -16,10 +18,11 @@ namespace {
 constexpr int MINIMUM_ACCEPTABLE_SCORE = -300;
 constexpr unsigned int MIN_NUMBER_OF_MOVES_IN_TEXT_REPORT = 5U;
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT = 15U;
-constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_DISPLAY_TABLE = 5U;
-constexpr unsigned int NEXT_OFFSET_OF_DISPLAY_TABLE = 9U;
+constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_GRID = 5U;
+constexpr unsigned int NEXT_OFFSET_OF_GRID = 9U;
 constexpr char SEPARATOR[] = "     ";
 }  // namespace
+
 namespace alba {
 
 namespace chess {
@@ -30,32 +33,36 @@ ResultPrinter::ResultPrinter(BoardWithContext const& engineBoard, CalculationDet
     : m_engineBoardWithContext(engineBoard), m_calculationDetails(calculationDetails) {}
 
 void ResultPrinter::print() {
-    MoveAndScorePairs moveAndScorePairs(getCurrentMoveAndScorePairs());    Moves futureHalfMoves(getFutureHalfMoves());
-    printCalculationDetails(moveAndScorePairs, futureHalfMoves);
-    printMoveTables(moveAndScorePairs, futureHalfMoves);
-    cout << "\n\n";    cout.flush();
+    CurrentMoveDetails currentMoveDetails(getCurrentMoveDetails());
+    FutureMoveDetails futureMoveDetails(getFutureMoveDetails());
+    printCalculationDetails(currentMoveDetails, futureMoveDetails);
+    printMovesGrid(currentMoveDetails, futureMoveDetails);
+    cout << "\n\n";
+    cout.flush();
 }
 
 void ResultPrinter::printCalculationDetails(
-    MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
+    CurrentMoveDetails const& currentMoveDetails, FutureMoveDetails const& futureMoveDetails) const {
+    Board const& engineBoard(m_engineBoardWithContext.getBoard());
+
     cout << "Player: " << m_engineBoardWithContext.getPlayerColor() << ", Depth: " << m_calculationDetails.depthInPlies
          << ", Mate score: " << m_calculationDetails.mateScore << "\n";
     cout << "Current moves: ";
-    for (MoveAndScorePair const& moveAndScorePair : moveAndScorePairs) {
-        cout << m_engineBoardWithContext.getBoard().getReadableStringForMove(moveAndScorePair.first) << " ["
-             << static_cast<double>(moveAndScorePair.second) / 100 << "], ";
+    for (CurrentMoveDetail const& currentMove : currentMoveDetails) {
+        cout << engineBoard.getReadableStringForMove(currentMove.move) << " ["
+             << static_cast<double>(currentMove.score) / 100 << "], ";
     }
     cout << "\n";
 
-    Board const& engineBoard(m_engineBoardWithContext.getBoard());
     Board updatedBoard(engineBoard);
-    cout << "Monitored PV: ";
-    for (Move const& futureHalfMove : futureHalfMoves) {
-        Piece piece = updatedBoard.getPieceAt(futureHalfMove.first);        cout << updatedBoard.getReadableStringForMove(futureHalfMove);
-        if (!piece.isEmpty()) {
-            cout << " [by " << piece.getColor() << "]";
-        }        cout << ", ";
-        updatedBoard.move(futureHalfMove);
+    cout << "Monitored variation: ";
+    for (FutureMoveDetail const& futureMoveDetail : futureMoveDetails) {
+        Piece piece = updatedBoard.getPieceAt(futureMoveDetail.halfMove.first);
+        cout << updatedBoard.getReadableStringForMove(futureMoveDetail.halfMove);
+        cout << " by: [" << piece.getColor() << "]";
+        cout << " count: [" << futureMoveDetail.commonalityCount << "]";
+        cout << ", ";
+        updatedBoard.move(futureMoveDetail.halfMove);
     }
     cout << "\n";
 
@@ -65,108 +72,126 @@ void ResultPrinter::printCalculationDetails(
                     engineBoard.getMoveFromTwoLetterNumberNotation(m_calculationDetails.bestMove))
              << "\n";
     }
+
     cout << "\n";
 }
-void ResultPrinter::printMoveTables(MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const {
-    if (!moveAndScorePairs.empty()) {
-        putCurrentMoves(moveAndScorePairs);
+
+void ResultPrinter::printMovesGrid(
+    CurrentMoveDetails const& currentMoveDetails, FutureMoveDetails const& futureMoveDetails) const {
+    if (!currentMoveDetails.empty()) {
+        printCurrentMovesGrid(currentMoveDetails);
     }
-    if (!futureHalfMoves.empty()) {
-        printFutureHalfMoves(futureHalfMoves);
+    if (!futureMoveDetails.empty()) {
+        printFutureMovesGrid(futureMoveDetails);
     }
 }
 
-void ResultPrinter::putCurrentMoves(MoveAndScorePairs const& moveAndScorePairs) const {
+void ResultPrinter::printCurrentMovesGrid(CurrentMoveDetails const& currentMoveDetails) const {
     printHorizontalBorderLine();
-    printScoresHeader(moveAndScorePairs, 0);
-    putCurrentMovesTable(moveAndScorePairs, 0);
-    printScoresHeader(moveAndScorePairs, 5);
-    putCurrentMovesTable(moveAndScorePairs, 5);
-    printScoresHeader(moveAndScorePairs, 10);
-    putCurrentMovesTable(moveAndScorePairs, 10);
+    printScoresHeader(currentMoveDetails, 0);
+    printARowOfCurrentMoves(currentMoveDetails, 0);
+    printScoresHeader(currentMoveDetails, 5);
+    printARowOfCurrentMoves(currentMoveDetails, 5);
+    printScoresHeader(currentMoveDetails, 10);
+    printARowOfCurrentMoves(currentMoveDetails, 10);
 }
 
-void ResultPrinter::putCurrentMovesTable(
-    MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
+void ResultPrinter::printARowOfCurrentMoves(
+    CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex) const {
     constexpr unsigned int numberOfBoardDisplayRows = 8U;
-    if (startIndex < moveAndScorePairs.size()) {
-        unsigned int numberOfMovesToDisplay =
-            min(MAX_NUMBER_OF_MOVES_IN_DISPLAY_TABLE, static_cast<unsigned int>(moveAndScorePairs.size() - startIndex));
-        unsigned int numberOfBoardDisplayColumns = getNumberOfColumnsOfBoardDisplayTable(numberOfMovesToDisplay);
-        DisplayTable boardsDisplayTable(numberOfBoardDisplayColumns, numberOfBoardDisplayRows);
-        boardsDisplayTable.setVerticalBorder("|");
-        putSeparatorsOnDisplayTable(boardsDisplayTable, NEXT_OFFSET_OF_DISPLAY_TABLE);
-        for (unsigned int xOffset = 0; xOffset < numberOfBoardDisplayColumns; xOffset += NEXT_OFFSET_OF_DISPLAY_TABLE) {
-            putChessBoardOnDisplayTable(boardsDisplayTable, m_engineBoardWithContext.getBoard(), xOffset);
+    if (startIndex < currentMoveDetails.size()) {
+        unsigned int rowSize =
+            min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(currentMoveDetails.size() - startIndex));
+        unsigned int numberOfBoardDisplayColumns = getNumberOfColumnsOfGrid(rowSize);
+        DisplayTable grid(numberOfBoardDisplayColumns, numberOfBoardDisplayRows);
+        grid.setVerticalBorder("|");
+        setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
+        for (unsigned int xOffset = 0; xOffset < numberOfBoardDisplayColumns; xOffset += NEXT_OFFSET_OF_GRID) {
+            setBoardOnGrid(grid, m_engineBoardWithContext.getBoard(), xOffset);
         }
-        putCurrentMovesOnDisplayTable(boardsDisplayTable, moveAndScorePairs, startIndex, numberOfMovesToDisplay);
-        cout << boardsDisplayTable;        printHorizontalBorderLine();
+        setCurrentMovesOnGrid(grid, currentMoveDetails, startIndex, rowSize);
+        cout << grid;
+        printHorizontalBorderLine();
     }
 }
-void ResultPrinter::putCurrentMovesOnDisplayTable(
-    DisplayTable& boardsDisplayTable, MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex,
-    unsigned int const numberOfMovesToDisplay) const {
+
+void ResultPrinter::setCurrentMovesOnGrid(
+    DisplayTable& grid, CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex,
+    unsigned int const rowSize) const {
     unsigned int xOffset = 0U;
-    for (unsigned int moveIndex = 0; moveIndex < numberOfMovesToDisplay; moveIndex++) {
-        Move const& currentMove(moveAndScorePairs.at(startIndex + moveIndex).first);
-        putMoveOnChessBoardCellsInDisplayTable(
-            boardsDisplayTable, m_engineBoardWithContext.getBoard(), currentMove, xOffset, 1U, false);
-        xOffset += NEXT_OFFSET_OF_DISPLAY_TABLE;
+    for (unsigned int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
+        Move const& currentMove(currentMoveDetails.at(startIndex + moveIndex).move);
+        setMoveOnGrid(grid, m_engineBoardWithContext.getBoard(), currentMove, xOffset, 1U, optional<char>());
+        xOffset += NEXT_OFFSET_OF_GRID;
     }
 }
-void ResultPrinter::printFutureHalfMoves(Moves const& futureHalfMoves) const {
+
+void ResultPrinter::printFutureMovesGrid(FutureMoveDetails const& futureMoveDetails) const {
     printScoreAndMoveNumbersHeader();
-    printHorizontalBorderLine();    printFutureHalfMovesTable(futureHalfMoves);
+    printHorizontalBorderLine();
+    printARowOfFutureMoves(futureMoveDetails);
     printHorizontalBorderLine();
 }
 
-void ResultPrinter::printFutureHalfMovesTable(Moves const& futureHalfMoves) const {
+void ResultPrinter::printARowOfFutureMoves(FutureMoveDetails const& futureMoveDetails) const {
     constexpr unsigned int numberOfRows = 8U;
-    unsigned int numberOfMovesToDisplay =
-        min(MAX_NUMBER_OF_MOVES_IN_DISPLAY_TABLE, static_cast<unsigned int>((futureHalfMoves.size() + 1U) / 2U));
-    unsigned int numberOfColumns = getNumberOfColumnsOfBoardDisplayTable(numberOfMovesToDisplay);
+    unsigned int rowSize =
+        min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>((futureMoveDetails.size() + 1U) / 2U));
+    unsigned int numberOfColumns = getNumberOfColumnsOfGrid(rowSize);
 
-    DisplayTable boardsDisplayTable(numberOfColumns, numberOfRows);    boardsDisplayTable.setVerticalBorder("|");
-    putSeparatorsOnDisplayTable(boardsDisplayTable, NEXT_OFFSET_OF_DISPLAY_TABLE);
-    putFutureHalfMovesAndBoardsOnDisplayTable(boardsDisplayTable, futureHalfMoves, numberOfMovesToDisplay);
-    cout << boardsDisplayTable;}
+    DisplayTable grid(numberOfColumns, numberOfRows);
+    grid.setVerticalBorder("|");
+    setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
+    setFutureMovesOnGrid(grid, futureMoveDetails, rowSize);
+    cout << grid;
+}
 
-void ResultPrinter::putFutureHalfMovesAndBoardsOnDisplayTable(
-    DisplayTable& boardsDisplayTable, Moves const& futureHalfMoves, unsigned int const numberOfMovesToDisplay) const {
+void ResultPrinter::setFutureMovesOnGrid(
+    DisplayTable& grid, FutureMoveDetails const& futureMoveDetails, unsigned int const rowSize) const {
     SequenceOfMovesAnalyzer analyzer(m_engineBoardWithContext);
     unsigned int movesDisplayed = 0U;
     unsigned int xOffset = 0U;
+    double preMoveThreshold = 0.60;
+    bool isUnSurePreMove = false;
 
-    for (Move const& futureHalfMove : futureHalfMoves) {
-        analyzer.analyzeMove(futureHalfMove);
+    for (FutureMoveDetail const& futureMoveDetail : futureMoveDetails) {
+        analyzer.analyzeMove(futureMoveDetail.halfMove);
         if (analyzer.getCurrentMoveColor() == m_engineBoardWithContext.getPlayerColor()) {
-            bool canPreMove = analyzer.canPreMove();
+            bool isSurePreMove = analyzer.canPreMove();
+            optional<char> firstChar = getFirstCharOfCell(isSurePreMove, isUnSurePreMove);
 
-            putChessBoardOnDisplayTable(boardsDisplayTable, analyzer.getCurrentBoard(), xOffset);            putMoveOnChessBoardCellsInDisplayTable(
-                boardsDisplayTable, analyzer.getCurrentBoard(), futureHalfMove, xOffset, movesDisplayed + 1,
-                canPreMove);
-            xOffset += NEXT_OFFSET_OF_DISPLAY_TABLE;
+            setBoardOnGrid(grid, analyzer.getCurrentBoard(), xOffset);
+            setMoveOnGrid(
+                grid, analyzer.getCurrentBoard(), futureMoveDetail.halfMove, xOffset, movesDisplayed + 1, firstChar);
+
+            xOffset += NEXT_OFFSET_OF_GRID;
             movesDisplayed++;
-            if (movesDisplayed >= numberOfMovesToDisplay) {
+            if (movesDisplayed >= rowSize) {
                 break;
             }
+        } else {
+            isUnSurePreMove = preMoveThreshold <= static_cast<double>(futureMoveDetail.commonalityCount) /
+                                                      m_calculationDetails.currentMovesAndScores.size();
         }
         analyzer.commitMove();
     }
 }
 
-void ResultPrinter::printScoresHeader(MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const {
-    if (startIndex < moveAndScorePairs.size()) {
-        unsigned int numberOfMovesToDisplay =
-            min(MAX_NUMBER_OF_MOVES_IN_DISPLAY_TABLE, static_cast<unsigned int>(moveAndScorePairs.size() - startIndex));
+void ResultPrinter::printScoresHeader(
+    CurrentMoveDetails const& currentMoveDetails, unsigned int const startIndex) const {
+    if (startIndex < currentMoveDetails.size()) {
+        unsigned int rowSize =
+            min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(currentMoveDetails.size() - startIndex));
         bool isFirst = true;
-        for (unsigned int moveIndex = 0; moveIndex < numberOfMovesToDisplay; moveIndex++) {
-            if (isFirst) {                isFirst = false;
+        for (unsigned int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
+            if (isFirst) {
+                isFirst = false;
             } else {
                 cout << SEPARATOR;
-            }            cout << "|          ";
+            }
+            cout << "|          ";
             cout << setfill(' ') << setw(9)
-                 << static_cast<double>(moveAndScorePairs.at(startIndex + moveIndex).second) / 100;
+                 << static_cast<double>(currentMoveDetails.at(startIndex + moveIndex).score) / 100;
             cout << "            |";
         }
         cout << "\n";
@@ -176,7 +201,7 @@ void ResultPrinter::printScoresHeader(MoveAndScorePairs const& moveAndScorePairs
 
 void ResultPrinter::printScoreAndMoveNumbersHeader() const {
     cout << "|   ";
-    cout << setfill(' ') << setw(9) << static_cast<double>(m_calculationDetails.scoreInPvLine) / 100;
+    cout << setfill(' ') << setw(9) << static_cast<double>(m_calculationDetails.scoreInMonitoredVariation) / 100;
     cout << " -> 1st move       |     |           2nd move            |     |           3rd move            |     |   "
             "        4th move            |     |           5th move            |\n";
 }
@@ -186,127 +211,105 @@ void ResultPrinter::printHorizontalBorderLine() const {
             "-------------------------------------------------------------------------------\n";
 }
 
-void ResultPrinter::putSeparatorsOnDisplayTable(DisplayTable& boardsDisplayTable, unsigned int const offset) const {
-    unsigned int const numberOfColumns = boardsDisplayTable.getTotalColumns(),
-                       numberOfRows = boardsDisplayTable.getTotalRows();
+void ResultPrinter::setSeparatorsOnGrid(DisplayTable& grid, unsigned int const xOffset) const {
+    unsigned int const numberOfColumns = grid.getTotalColumns(), numberOfRows = grid.getTotalRows();
     for (unsigned int j = 0; j < numberOfRows; j++) {
-        for (unsigned int separatorIndex = offset - 1; separatorIndex < numberOfColumns; separatorIndex += offset) {
-            boardsDisplayTable.getCellReferenceAt(separatorIndex, j).setText(SEPARATOR);
+        for (unsigned int separatorIndex = xOffset - 1; separatorIndex < numberOfColumns; separatorIndex += xOffset) {
+            grid.getCellReferenceAt(separatorIndex, j).setText(SEPARATOR);
         }
     }
 }
 
-void ResultPrinter::putChessBoardOnDisplayTable(
-    DisplayTable& boardsDisplayTable, Board const& chessBoard, unsigned int const xOffset) const {
-    constexpr CoordinateDataType chessBoardDimension = 8U;
-    for (CoordinateDataType y = 0; y < chessBoardDimension; y++) {
-        for (CoordinateDataType x = 0; x < chessBoardDimension; x++) {
-            Piece piece(chessBoard.getPieceAt(Coordinate(x, y)));
-            boardsDisplayTable.getCellReferenceAt(x + xOffset, y)
-                .setText(getChessBoardCellForDisplay(piece, 0U, false));
+void ResultPrinter::setBoardOnGrid(DisplayTable& grid, Board const& board, unsigned int const xOffset) const {
+    constexpr CoordinateDataType boardDimension = 8U;
+    for (CoordinateDataType y = 0; y < boardDimension; y++) {
+        for (CoordinateDataType x = 0; x < boardDimension; x++) {
+            Piece piece(board.getPieceAt(Coordinate(x, y)));
+            grid.getCellReferenceAt(x + xOffset, y).setText(getCellForDisplay(piece, 0U, optional<char>()));
         }
     }
 }
 
-void ResultPrinter::putMoveOnChessBoardCellsInDisplayTable(
-    DisplayTable& boardsDisplayTable, Board const& chessBoard, Move const& move, unsigned int const xOffset,
-    unsigned int const moveNumberToDisplay, bool canPreMove) const {
-    Piece piece(chessBoard.getPieceAt(move.first));
-    boardsDisplayTable.getCellReferenceAt(move.first.getX() + xOffset, move.first.getY())
-        .setText(getChessBoardCellForDisplay(piece, moveNumberToDisplay, canPreMove));
-    boardsDisplayTable.getCellReferenceAt(move.second.getX() + xOffset, move.second.getY())
-        .setText(getChessBoardCellForDisplay(piece, moveNumberToDisplay + 1, canPreMove));
+void ResultPrinter::setMoveOnGrid(
+    DisplayTable& grid, Board const& board, Move const& move, unsigned int const xOffset, unsigned int const moveNumber,
+    optional<char> const& firstChar) const {
+    Piece piece(board.getPieceAt(move.first));
+    grid.getCellReferenceAt(move.first.getX() + xOffset, move.first.getY())
+        .setText(getCellForDisplay(piece, moveNumber, firstChar));
+    grid.getCellReferenceAt(move.second.getX() + xOffset, move.second.getY())
+        .setText(getCellForDisplay(piece, moveNumber + 1, firstChar));
 }
 
-string ResultPrinter::getChessBoardCellForDisplay(
-    Piece const& piece, unsigned int const moveNumber, bool const canPreMove) const {
-    string result(3, ' ');
-    if (moveNumber != 0) {
-        char moveNumberCharacter = '0' + static_cast<char>(moveNumber);
-        if (canPreMove) {
-            result[0] = '*';
-        } else {
-            result[0] = moveNumberCharacter;
-        }
-        result[2] = moveNumberCharacter;
-    }
-    result[1] = piece.getCharacter();
-    return result;
-}
-
-MoveAndScorePairs ResultPrinter::getCurrentMoveAndScorePairs() const {
-    MoveAndScorePairs result;
+ResultPrinter::CurrentMoveDetails ResultPrinter::getCurrentMoveDetails() const {
+    CurrentMoveDetails result;
     Board const& engineBoard(m_engineBoardWithContext.getBoard());
-    for (StringAndIntPair const& searchingMoveAndScorePair : m_calculationDetails.searchingMoveAndScorePairs) {
+    for (StringAndIntPair const& currentMoveAndScorePair : m_calculationDetails.currentMovesAndScores) {
         if (result.size() >= MIN_NUMBER_OF_MOVES_IN_TEXT_REPORT &&
-            searchingMoveAndScorePair.second <= MINIMUM_ACCEPTABLE_SCORE) {
+            currentMoveAndScorePair.second <= MINIMUM_ACCEPTABLE_SCORE) {
             break;
         }
 
-        Move move(engineBoard.getMoveFromTwoLetterNumberNotation(searchingMoveAndScorePair.first));
+        Move move(engineBoard.getMoveFromTwoLetterNumberNotation(currentMoveAndScorePair.first));
         if (isMoveWithinTheBoard(move) && engineBoard.isAPossibleMove(move)) {
-            result.emplace_back(move, searchingMoveAndScorePair.second);
+            result.emplace_back(CurrentMoveDetail{move, currentMoveAndScorePair.second});
+            if (result.size() >= MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT) {
+                break;
+            }
         }
     }
     sortSoThatMoreHumanMovesArePrioritized(result);
-    if (result.size() > MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT) {
-        result.resize(MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT);
-    }
     return result;
 }
-Moves ResultPrinter::getFutureHalfMoves() const {
-    Moves result;
-    strings const& pvHalfMovesStrings(m_calculationDetails.pvHalfMovesInMonitoredLine);
+
+ResultPrinter::FutureMoveDetails ResultPrinter::getFutureMoveDetails() const {
+    FutureMoveDetails result;
+    strings const& pvHalfMovesStrings(m_calculationDetails.monitoredVariation);
     Board updatedBoard(m_engineBoardWithContext.getBoard());
-    bool isFirst = true;
     PieceColor previousColor{};
-    for (string const& pvHalfMoveString : pvHalfMovesStrings) {        Move move(updatedBoard.getMoveFromTwoLetterNumberNotation(pvHalfMoveString));
+    int index = 0;
+    for (string const& pvHalfMoveString : pvHalfMovesStrings) {
+        Move move(updatedBoard.getMoveFromTwoLetterNumberNotation(pvHalfMoveString));
         if (isMoveWithinTheBoard(move) && updatedBoard.isAPossibleMove(move)) {
             Piece piece = updatedBoard.getPieceAt(move.first);
-            if (piece.isEmpty()) {
-                break;  // piece needs to be valid
-            } else {
-                if (isFirst) {
-                    isFirst = false;
-                } else if (!areOpposingColors(previousColor, piece.getColor())) {
-                    break;  // colors need to be alternating
+            if (index == 0 || areOpposingColors(previousColor, piece.getColor())) {
+                result.emplace_back(FutureMoveDetail{move, getCommonalityCount(move, updatedBoard, index)});
+                if (result.size() >= MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT) {
+                    break;
                 }
+                updatedBoard.move(move);
                 previousColor = piece.getColor();
+            } else {
+                break;
             }
-            result.emplace_back(move);
-            updatedBoard.move(move);
-
         } else {
             break;  // retain only line with valid moves
         }
-        if (result.size() >= MAX_NUMBER_OF_MOVES_IN_TEXT_REPORT) {
-            break;
-        }
+        index++;
     }
     return result;
 }
 
-void ResultPrinter::sortSoThatMoreHumanMovesArePrioritized(MoveAndScorePairs& moveAndScoreToBeSorted) const {
-    if (!moveAndScoreToBeSorted.empty()) {
+void ResultPrinter::sortSoThatMoreHumanMovesArePrioritized(CurrentMoveDetails& currentMoveDetails) const {
+    if (!currentMoveDetails.empty()) {
         Board const& engineBoard(m_engineBoardWithContext.getBoard());
         Coordinate opponentsKingCoordinate = m_engineBoardWithContext.getOpponentsKingCoordinate();
         stable_sort(
-            moveAndScoreToBeSorted.begin(), moveAndScoreToBeSorted.end(),
-            [&](MoveAndScorePair const& pair1, MoveAndScorePair const& pair2) {
-                int scoreLevel1 = getScoreLevel(pair1.second);
-                int scoreLevel2 = getScoreLevel(pair2.second);
+            currentMoveDetails.begin(), currentMoveDetails.end(),
+            [&](CurrentMoveDetail const& detail1, CurrentMoveDetail const& detail2) {
+                int scoreLevel1 = getScoreLevel(detail1.score);
+                int scoreLevel2 = getScoreLevel(detail2.score);
                 if (scoreLevel1 == scoreLevel2) {
-                    Move const& move1(pair1.first);
-                    Move const& move2(pair2.first);
+                    Move const& move1(detail1.move);
+                    Move const& move2(detail2.move);
                     int distanceToKing1 = getDistanceToOpponentsKing(move1, opponentsKingCoordinate);
                     int distanceToKing2 = getDistanceToOpponentsKing(move2, opponentsKingCoordinate);
                     if (distanceToKing1 == distanceToKing2) {
-                        int yForwardDelta1 = getForwardScore(move1);
-                        int yForwardDelta2 = getForwardScore(move2);
-                        if (yForwardDelta1 == yForwardDelta2) {
+                        int yForwardCount1 = getForwardCount(move1);
+                        int yForwardCount2 = getForwardCount(move2);
+                        if (yForwardCount1 == yForwardCount2) {
                             return getPieceValue(move1, engineBoard) > getPieceValue(move2, engineBoard);
                         }
-                        return yForwardDelta1 > yForwardDelta2;  // offensive moves are first
+                        return yForwardCount1 > yForwardCount2;  // offensive moves are first
                     }
                     return distanceToKing1 < distanceToKing2;  // moves nearest to king are first
                 }
@@ -317,13 +320,13 @@ void ResultPrinter::sortSoThatMoreHumanMovesArePrioritized(MoveAndScorePairs& mo
 
 int ResultPrinter::getScoreLevel(int const scoreInCentipawns) const {
     int result{};
-    if (scoreInCentipawns >= ARTIFICIAL_MATE_SCORE) {
+    if (scoreInCentipawns >= UciInterpreter::ARTIFICIAL_MATE_SCORE) {
         result = 0;  // put mate as same level as best move (this is to be human and have an imperfect record on mates)
-    } else if (scoreInCentipawns <= -ARTIFICIAL_MATE_SCORE) {
-        result = -ARTIFICIAL_MATE_SCORE;  // avoid to be mated as much as possible
+    } else if (scoreInCentipawns <= -UciInterpreter::ARTIFICIAL_MATE_SCORE) {
+        result = -UciInterpreter::ARTIFICIAL_MATE_SCORE;  // avoid to be mated as much as possible
     } else {
         constexpr int ONE_PAWN_SCORE = 100;
-        int positiveDeltaFromBestMove = m_calculationDetails.scoreInPvLine - scoreInCentipawns;
+        int positiveDeltaFromBestMove = m_calculationDetails.scoreInMonitoredVariation - scoreInCentipawns;
         result = -1 * positiveDeltaFromBestMove / ONE_PAWN_SCORE;
 
         // The formula works like this, for example we have this scores: 300 201 200 199 100 0 -100
@@ -348,21 +351,55 @@ int ResultPrinter::getDistanceToOpponentsKing(Move const& move, Coordinate oppon
         round(pow(deltaToKing.getX() * deltaToKing.getX() + deltaToKing.getY() * deltaToKing.getY(), 0.5)));
 }
 
-int ResultPrinter::getForwardScore(Move const& move) const { return move.first.getY() - move.second.getY(); }
+int ResultPrinter::getForwardCount(Move const& move) const { return move.first.getY() - move.second.getY(); }
 
 int ResultPrinter::getPieceValue(Move const& move, Board const& engineBoard) const {
     return getValueOfPieceType(engineBoard.getPieceAt(move.first).getType());
 }
 
-unsigned int ResultPrinter::getNumberOfColumnsOfScoreDisplayTable(unsigned int const numberOfChessBoards) const {
-    return numberOfChessBoards == 0 ? 0U : numberOfChessBoards * 2 - 1;
+int ResultPrinter::getCommonalityCount(Move const& move, Board const& board, int const index) const {
+    int count{};
+    if (index < static_cast<int>(m_calculationDetails.commonMovesAndCountsOfEachStep.size())) {
+        StringAndIntPair commonMoveAndCount = m_calculationDetails.commonMovesAndCountsOfEachStep.at(index);
+        if (move == board.getMoveFromTwoLetterNumberNotation(commonMoveAndCount.first)) {
+            count = commonMoveAndCount.second;
+        }
+    }
+    return count;
 }
 
-unsigned int ResultPrinter::getNumberOfColumnsOfBoardDisplayTable(unsigned int const numberOfChessBoards) const {
-    return numberOfChessBoards == 0 ? 0U : numberOfChessBoards * 8U + numberOfChessBoards - 1;
+string ResultPrinter::getCellForDisplay(
+    Piece const& piece, unsigned int const moveNumber, optional<char> const& firstChar) const {
+    string result(3, ' ');
+    if (moveNumber != 0) {
+        char moveNumberCharacter = '0' + static_cast<char>(moveNumber);
+        if (firstChar) {
+            result[0] = firstChar.value();
+        } else {
+            result[0] = moveNumberCharacter;
+        }
+        result[2] = moveNumberCharacter;
+    }
+    result[1] = piece.getCharacter();
+    return result;
+}
+
+optional<char> ResultPrinter::getFirstCharOfCell(bool const isSurePreMove, bool isUnsurePreMove) const {
+    optional<char> result;
+    if (isSurePreMove) {
+        result = '*';
+    } else if (isUnsurePreMove) {
+        result = '~';
+    }
+    return result;
+}
+
+unsigned int ResultPrinter::getNumberOfColumnsOfGrid(unsigned int const numberOfBoards) const {
+    return numberOfBoards == 0 ? 0U : numberOfBoards * 8U + numberOfBoards - 1;
 }
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

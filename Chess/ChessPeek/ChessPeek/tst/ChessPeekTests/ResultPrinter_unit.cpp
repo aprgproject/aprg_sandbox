@@ -16,10 +16,12 @@ TEST(ResultPrinterTest, PrintWorks) {
     BoardWithContext boardWithContext(PieceColor::White, Board(Board::Orientation::BlackUpWhiteDown));
     CalculationDetails calculationDetails{};
     calculationDetails.depthInPlies = 21;
-    calculationDetails.searchingMoveAndScorePairs = {{"d2d4", 39},   {"e2e4", 44},   {"c2c4", 39},  {"g2g3", 35},                                                     {"g1f3", 35},   {"e2e3", 21},   {"e2e3", 21},  {"c2c3", 8},
+    calculationDetails.currentMovesAndScores = {{"d2d4", 39},   {"e2e4", 44},   {"c2c4", 39},  {"g2g3", 35},
+                                                     {"g1f3", 35},   {"e2e3", 21},   {"e2e3", 21},  {"c2c3", 8},
                                                      {"c2c3", 8},    {"b1c3", 0},    {"b1c3", 0},   {"b2b3", -100},
                                                      {"b2b3", -100}, {"a2a3", -200}, {"a2a3", -200}};
-    calculationDetails.scoreInPvLine = 11;    calculationDetails.pvHalfMovesInMonitoredLine = {"d2d4", "g8f6", "c2c4", "g7g6", "g1f3", "f8g7", "b1c3", "d7d5",
+    calculationDetails.scoreInMonitoredVariation = 11;
+    calculationDetails.monitoredVariation = {"d2d4", "g8f6", "c2c4", "g7g6", "g1f3", "f8g7", "b1c3", "d7d5",
                                                      "c4d5", "f6d5", "e2e4", "d5c3", "b2c3", "c7c5", "c1e3", "d8a5",
                                                      "e3d2", "e8g8", "f1e2", "c8g4", "e1g1", "f8d8", "d1c2", "g4f3"};
     calculationDetails.bestMove = "d2d4";
@@ -27,7 +29,9 @@ TEST(ResultPrinterTest, PrintWorks) {
 
     printHelper.print();
 }
+
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

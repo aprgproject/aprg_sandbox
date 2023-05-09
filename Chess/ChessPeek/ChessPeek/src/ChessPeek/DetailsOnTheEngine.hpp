@@ -3,9 +3,11 @@
 #include <ChessPeek/BoardWithContext.hpp>
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
+
 class DetailsOnTheEngine {
 public:
     DetailsOnTheEngine();
@@ -19,6 +21,7 @@ private:
 };
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

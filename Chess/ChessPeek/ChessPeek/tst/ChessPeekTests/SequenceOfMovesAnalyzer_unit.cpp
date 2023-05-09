@@ -76,7 +76,9 @@ TEST(SequenceOfMovesAnalyzerTest, CanPreMoveWorksOnCheckWithOneWayToBlock) {
     analyzer.analyzeMove({{7, 7}, {7, 5}});
     EXPECT_TRUE(analyzer.canPreMove());
 }
+
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba
