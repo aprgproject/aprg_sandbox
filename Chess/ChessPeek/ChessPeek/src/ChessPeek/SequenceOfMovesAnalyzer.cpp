@@ -1,53 +1,87 @@
 #include "SequenceOfMovesAnalyzer.hpp"
 
+#include <ChessPeek/BoardWithContext.hpp>
 #include <ChessUtilities/Board/BoardUtilities.hpp>
 
 using namespace std;
-
 namespace alba {
 
 namespace chess {
 
 namespace ChessPeek {
 
-SequenceOfMovesAnalyzer::SequenceOfMovesAnalyzer(Board const& board) : m_data{} { m_data.savedBoard = board; }
+SequenceOfMovesAnalyzer::SequenceOfMovesAnalyzer(BoardWithContext const& boardWithContext)
+    : m_state(State::NoMove), m_current{boardWithContext, {}}, m_previous{} {}
 
-void SequenceOfMovesAnalyzer::checkMove(Move const& halfMove) {
+void SequenceOfMovesAnalyzer::analyzeMove(Move const& halfMove) {
     if (isMoveWithinTheBoard(halfMove)) {
-        m_data.previousMove = m_data.savedMove;
-        m_data.savedMove = halfMove;
+        m_previous.move = m_current.move;
+        m_current.move = halfMove;
+        PieceColor playerColor = m_current.boardWithContext.getBoard().getPieceAt(m_current.move.first).getColor();
+        m_current.boardWithContext.setPlayerColor(playerColor);
+        m_state = State::AnalyzingMove;
     }
 }
 
 void SequenceOfMovesAnalyzer::commitMove() {
-    m_data.previousBoard = m_data.savedBoard;
-    m_data.savedBoard.move(m_data.savedMove);
+    m_previous.boardWithContext = m_current.boardWithContext;
+    m_current.boardWithContext.move(m_current.move);
+    m_state = State::Moved;
 }
 
-bool SequenceOfMovesAnalyzer::canPreMove() const { return canPreMoveBecauseOfRecapture(); }
+bool SequenceOfMovesAnalyzer::canPreMove() const {
+    bool result(false);
+    if (State::AnalyzingMove == m_state && isPreviousColorOpposite()) {
+        result = canPreMoveBecauseOfRecapture() || canPreMoveBecauseOfCheck();
+    }
+    return result;
+}
 
-Piece SequenceOfMovesAnalyzer::getPieceFromMove() const { return m_data.savedBoard.getPieceAt(m_data.savedMove.first); }
+SequenceOfMovesAnalyzer::State SequenceOfMovesAnalyzer::getState() const { return m_state; }
 
-Board const& SequenceOfMovesAnalyzer::getCurrentBoard() const { return m_data.savedBoard; }
+Board const& SequenceOfMovesAnalyzer::getCurrentBoard() const { return m_current.boardWithContext.getBoard(); }
+
+PieceColor SequenceOfMovesAnalyzer::getCurrentMoveColor() const { return m_current.boardWithContext.getPlayerColor(); }
+
+bool SequenceOfMovesAnalyzer::isPreviousColorOpposite() const {
+    return areOpposingColors(m_current.boardWithContext.getPlayerColor(), m_previous.boardWithContext.getPlayerColor());
+}
 
 bool SequenceOfMovesAnalyzer::canPreMoveBecauseOfRecapture() const {
     return isARecapture() && didPreviousMoveHadOnlyOneWayToCapture();
 }
 
+bool SequenceOfMovesAnalyzer::canPreMoveBecauseOfCheck() const {
+    BoardWithContext const& currentContext(m_current.boardWithContext);
+    BoardWithContext const& previousContext(m_previous.boardWithContext);
+
+    if (previousContext.isPlayersKingOnCheck()) {
+        Coordinate kingCoordinate = previousContext.getPlayerKingCoordinate();
+        Board const& analysisBoard(previousContext.getBoard());
+        Moves attacksOnKing = analysisBoard.getAttacksToThis(kingCoordinate, currentContext.getPlayerColor());
+        auto numberOfKingEscapes = analysisBoard.getMovesFromThis(kingCoordinate, 2).size();
+        auto numberOfBlocks = analysisBoard.getNumberOfWaysToBlockAttacks(attacksOnKing, 2);
+        auto numberOfLegalMoves = numberOfKingEscapes + numberOfBlocks;
+        return numberOfLegalMoves == 1;
+    }
+    return false;
+}
+
 bool SequenceOfMovesAnalyzer::didPreviousMoveHadOnlyOneWayToCapture() const {
-    Piece previousPiece = m_data.previousBoard.getPieceAt(m_data.previousMove.first);
-    return m_data.previousBoard.hasOnlyOneMovePossibleToThisDestination(
-        m_data.previousMove.second, previousPiece.getColor());
+    Board const& previousBoard(m_previous.boardWithContext.getBoard());
+    return previousBoard.hasOnlyOneMoveToThis(
+        m_previous.move.second, previousBoard.getPieceAt(m_previous.move.first).getColor());
 }
 
 bool SequenceOfMovesAnalyzer::isARecapture() const {
-    return m_data.previousMove.second == m_data.savedMove.second &&
-           m_data.previousBoard.isACaptureMove(m_data.previousMove) &&
-           m_data.savedBoard.isACaptureMove(m_data.savedMove);
+    Board const& previousBoard(m_previous.boardWithContext.getBoard());
+    Board const& currentBoard(m_current.boardWithContext.getBoard());
+
+    return m_previous.move.second == m_current.move.second && previousBoard.isACaptureMove(m_previous.move) &&
+           currentBoard.isACaptureMove(m_current.move);
 }
 
 }  // namespace ChessPeek
-
 }  // namespace chess
 
 }  // namespace alba

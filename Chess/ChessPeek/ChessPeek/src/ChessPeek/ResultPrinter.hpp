@@ -1,28 +1,24 @@
 #pragma once
 
+#include <ChessPeek/BoardWithContext.hpp>
 #include <ChessPeek/CalculationDetails.hpp>
-#include <ChessPeek/DetailsOnTheEngine.hpp>
 
 namespace alba {
-
 namespace chess {
 
 namespace ChessPeek {
-
 class ResultPrinter {
 public:
     using BoardAndMovePair = std::pair<Board, Move>;
     using BoardAndMovePairs = std::vector<BoardAndMovePair>;
 
     ResultPrinter() = delete;
-    ResultPrinter(DetailsOnTheEngine const& detailsOnTheEngine, CalculationDetails const& calculationDetails);
+    ResultPrinter(BoardWithContext const& engineBoard, CalculationDetails const& calculationDetails);
 
     void print();
-
 private:
     void printCalculationDetails(MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const;
     void printMoveTables(MoveAndScorePairs const& moveAndScorePairs, Moves const& futureHalfMoves) const;
-
     void putCurrentMoves(MoveAndScorePairs const& moveAndScorePairs) const;
     void putCurrentMovesTable(MoveAndScorePairs const& moveAndScorePairs, unsigned int const startIndex) const;
     void putCurrentMovesOnDisplayTable(
@@ -49,19 +45,20 @@ private:
         Piece const& piece, unsigned int const moveNumberStart, bool const canPreMove) const;
     MoveAndScorePairs getCurrentMoveAndScorePairs() const;
     Moves getFutureHalfMoves() const;
-    void sortSoThatHumanlyMovesAreAtTheStart(MoveAndScorePairs& moveAndScoreToBeSorted) const;
+    void sortSoThatMoreHumanMovesArePrioritized(MoveAndScorePairs& moveAndScoreToBeSorted) const;
+
+    int getScoreLevel(int const scoreInCentipawns) const;
+    int getDistanceToOpponentsKing(Move const& move, Coordinate opponentsKingCoordinate) const;
+    int getForwardScore(Move const& move) const;
+    int getPieceValue(Move const& move, Board const& engineBoard) const;
 
     unsigned int getNumberOfColumnsOfScoreDisplayTable(unsigned int const numberOfChessBoards) const;
     unsigned int getNumberOfColumnsOfBoardDisplayTable(unsigned int const numberOfChessBoards) const;
-    int getAcceptableScore(int const scoreInCentipawns) const;
-    int getScoreLevel(int const scoreInCentipawns) const;
 
-    DetailsOnTheEngine const& m_detailsOnTheEngine;
+    BoardWithContext const& m_engineBoardWithContext;
     CalculationDetails const& m_calculationDetails;
 };
-
 }  // namespace ChessPeek
 
 }  // namespace chess
-
 }  // namespace alba

@@ -69,17 +69,15 @@ void ChessPeek::startEngineAnalysis() {
         m_engineController.resetToNewGame();
     }
 
-    m_detailsOnTheEngine.save(m_detailsFromTheScreen.getPlayerColor(), m_detailsFromTheScreen.getBoard());
+    m_detailsOnTheEngine.save(m_detailsFromTheScreen.getBoardWithContext());
 
-    m_engineController.setupFenString(m_detailsOnTheEngine.getFenString());
+    m_engineController.setupFenString(m_detailsOnTheEngine.getBoardWithContext().getFenString());
     if (!m_engineController.waitTillReadyAndReturnIfResetWasPerformed()) {
         m_engineController.goWithPonder();
-        m_engineWasJustReset = false;
-    } else {
+        m_engineWasJustReset = false;    } else {
         m_engineWasJustReset = true;
     }
 }
-
 void ChessPeek::calculationMonitoringCallBackForEngine(EngineCalculationDetails const& calculationDetails) {
     CalculationDetails previousCalculationDetails = m_calculationDetails;
     saveCalculationDetails(calculationDetails);
@@ -88,24 +86,12 @@ void ChessPeek::calculationMonitoringCallBackForEngine(EngineCalculationDetails 
     }
 }
 
-bool ChessPeek::shouldAnalyzeBoard() const {
-    return m_detailsFromTheScreen.canAnalyzeBoard() && (m_engineWasJustReset || didBoardChange());
-}
-
-bool ChessPeek::didPlayerChange() const {
-    return m_detailsFromTheScreen.getPlayerColor() != m_detailsOnTheEngine.getPlayerColor();
-}
-
-bool ChessPeek::didBoardChange() const { return m_detailsFromTheScreen.getBoard() != m_detailsOnTheEngine.getBoard(); }
-
 void ChessPeek::initialize() {
     // m_engineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");  // for debugging
     // m_engineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");  // for debugging
-
     m_engineController.setAdditionalStepsInCalculationMonitoring(
         [&](EngineCalculationDetails const& engineCalculationDetails) {
-            calculationMonitoringCallBackForEngine(engineCalculationDetails);
-        });
+            calculationMonitoringCallBackForEngine(engineCalculationDetails);        });
     m_engineController.initialize();
 }
 
@@ -146,15 +132,28 @@ void ChessPeek::printCalculationDetails() {
     if (!currentlyPrinting) {
         m_hasPendingPrintAction = false;
         currentlyPrinting = true;
-        ResultPrinter(m_detailsOnTheEngine, m_calculationDetails).print();
+        ResultPrinter(m_detailsOnTheEngine.getBoardWithContext(), m_calculationDetails).print();
         currentlyPrinting = false;
     } else {
         m_hasPendingPrintAction = true;
     }
 }
 
+bool ChessPeek::shouldAnalyzeBoard() const {
+    return m_detailsFromTheScreen.canAnalyzeBoard() && (m_engineWasJustReset || didBoardChange());
+}
+
+bool ChessPeek::didPlayerChange() const {
+    return m_detailsFromTheScreen.getBoardWithContext().getPlayerColor() !=
+           m_detailsOnTheEngine.getBoardWithContext().getPlayerColor();
+}
+
+bool ChessPeek::didBoardChange() const {
+    return m_detailsFromTheScreen.getBoardWithContext().getBoard() !=
+           m_detailsOnTheEngine.getBoardWithContext().getBoard();
+}
+
 }  // namespace ChessPeek
 
 }  // namespace chess
-
 }  // namespace alba
