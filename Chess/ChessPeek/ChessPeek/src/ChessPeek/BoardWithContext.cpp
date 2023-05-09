@@ -69,16 +69,14 @@ void BoardWithContext::move(Move const& move) {
 
 void BoardWithContext::updateBoardDetails() {
     m_boardDetails = {};
-    for (unsigned int j = 0; j < 8; j++) {
-        for (unsigned int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < 8; i++) {
             Coordinate coordinate(i, j);
             Piece piece(m_board.getPieceAt(coordinate));
-            if (piece.getType() == PieceType::King) {
-                if (piece.getColor() == PieceColor::White) {
+            if (piece.getType() == PieceType::King) {                if (piece.getColor() == PieceColor::White) {
                     m_boardDetails.whiteKingCoordinate = coordinate;
                 } else if (piece.getColor() == PieceColor::Black) {
-                    m_boardDetails.blackKingCoordinate = coordinate;
-                }
+                    m_boardDetails.blackKingCoordinate = coordinate;                }
             }
         }
     }

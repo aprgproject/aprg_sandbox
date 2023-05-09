@@ -36,15 +36,13 @@ private:
     Board getBoardAndSaveDetails();
     void saveBoardDetails(Coordinate const& coordinate, Piece const& piece);
     void saveBoardKingDetails(Coordinate const& coordinate, Piece const& piece);
-    void saveBoardUpperHalfLowerHalfDetails(Coordinate const& coordinate, Piece const& piece);
+    void saveBoardUpperHalfAndLowerHalfDetails(Coordinate const& coordinate, Piece const& piece);
     void savePlayerColorAndOrientation();
     void savePlayerColorIfChessDotComPuzzle();
-    void savePlayerColorIfLichessStream();
-    void savePlayerColorAndOrientationFromBoardDetails();
+    void savePlayerColorIfLichessStream();    void savePlayerColorAndOrientationFromBoardDetails();
     void saveOrientationOnLowerHalfColor(PieceColor const lowerHalfColor);
 
-    void savePlayerColor(PieceColor const newColor);
-    void saveOrientation(Board::Orientation const orientation);
+    void savePlayerColor(PieceColor const newColor);    void saveOrientation(Board::Orientation const orientation);
 
     Configuration const& m_configuration;
     AlbaLocalScreenMonitoring const& m_screenMonitoring;
