@@ -170,7 +170,7 @@ uint32_t getLabelColor(SetOfPieces const& setOfPieces) {
 
 }  // namespace
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComVersus) {
+TEST(BoardObserverPreparationTest, DISABLED_CheckChessBitValue_ForChessDotComVersus) {
     AlbaLocalPathHandler inputFile(APRG_DIR
                                    R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComVersus\ChessDotComVersus.bmp)");
 
@@ -184,7 +184,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComVersus
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComPuzzle) {
+TEST(BoardObserverPreparationTest, DISABLED_CheckChessBitValue_ForChessDotComPuzzle) {
     AlbaLocalPathHandler inputFile(APRG_DIR
                                    R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComPuzzle\ChessDotComPuzzle.bmp)");
 
@@ -198,7 +198,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComPuzzle
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessVersus) {
+TEST(BoardObserverPreparationTest, DISABLED_CheckChessBitValue_ForLichessVersus) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
 
     Configuration configuration(Configuration::Type::LichessVersus);
@@ -211,7 +211,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessVersus) {
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_LichessStream) {
+TEST(BoardObserverPreparationTest, DISABLED_CheckChessBitValue_LichessStream) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\LichessStream.bmp)");
 
     Configuration configuration(Configuration::Type::LichessStream);
@@ -224,7 +224,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_LichessStream) {
     printChessBitValuesWithBlackUpWhiteDown(retriever);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComVersus) {
+TEST(BoardObserverPreparationTest, DISABLED_FindImportantPoints_ForChessDotComVersus) {
     AlbaLocalPathHandler inputFile(APRG_DIR
                                    R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComVersus\ChessDotComVersus.bmp)");
     AlbaLocalPathHandler outputFileForWhite(APRG_DIR
@@ -269,7 +269,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComVersu
     outputBitmapForBlack.setSnippetWriteToFile(outputSnippetForBlack);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComPuzzle) {
+TEST(BoardObserverPreparationTest, DISABLED_FindImportantPoints_ForChessDotComPuzzle) {
     AlbaLocalPathHandler inputFile(APRG_DIR
                                    R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComPuzzle\ChessDotComPuzzle.bmp)");
     AlbaLocalPathHandler outputFileForWhite(APRG_DIR
@@ -314,7 +314,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComPuzzl
     outputBitmapForBlack.setSnippetWriteToFile(outputSnippetForBlack);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessVersus) {
+TEST(BoardObserverPreparationTest, DISABLED_FindImportantPoints_ForLichessVersus) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\LichessVersus.bmp)");
     AlbaLocalPathHandler outputFileForWhite(APRG_DIR
                                             R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessVersus\White.bmp)");
@@ -358,7 +358,7 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessVersus) {
     outputBitmapForBlack.setSnippetWriteToFile(outputSnippetForBlack);
 }
 
-TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForLichessStream) {
+TEST(BoardObserverPreparationTest, DISABLED_FindImportantPoints_ForLichessStream) {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\LichessStream.bmp)");
     AlbaLocalPathHandler outputFileForWhite(APRG_DIR
                                             R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessStream\White.bmp)");

@@ -151,15 +151,15 @@ void DetailsFromTheScreen::savePlayerColorAndOrientationFromBoardDetails() {
 
 void DetailsFromTheScreen::saveOrientationOnLowerHalfColor(PieceColor const lowerHalfColor) {
     if (PieceColor::White == lowerHalfColor) {
-        saveOrientation(Board::Orientation::BlackUpWhiteDown);
+        saveOrientation(BoardOrientation::BlackUpWhiteDown);
     } else if (PieceColor::Black == lowerHalfColor) {
-        saveOrientation(Board::Orientation::WhiteUpBlackDown);
+        saveOrientation(BoardOrientation::WhiteUpBlackDown);
     }
 }
 
 void DetailsFromTheScreen::savePlayerColor(PieceColor const playerColor) { m_savedPlayerColor = playerColor; }
 
-void DetailsFromTheScreen::saveOrientation(Board::Orientation const orientation) { m_savedOrientation = orientation; }
+void DetailsFromTheScreen::saveOrientation(BoardOrientation const orientation) { m_savedOrientation = orientation; }
 
 }  // namespace ChessPeek
 

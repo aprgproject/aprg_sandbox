@@ -2,8 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 using namespace std;
 
 namespace alba {
@@ -12,7 +10,7 @@ namespace chess {
 
 namespace ChessPeek {
 
-TEST(ChessPeekTest, RunForeverWorks) {
+TEST(ChessPeekTest, DISABLED_RunForeverWorks) {
     ChessPeek chessPeek;
 
     chessPeek.runForever();
@@ -34,7 +32,7 @@ TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks) {
 TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks) {
     ChessPeek chessPeek;
 
-    chessPeek.startEngineAnalysis();
+    chessPeek.startEngineAnalysisWithBoardFromScreen();
     Sleep(10000);
 }
 

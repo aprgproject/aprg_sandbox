@@ -26,7 +26,7 @@ public:
     void runOneIteration();
 
     void checkScreenAndSaveDetails();
-    void startEngineAnalysis();
+    void startEngineAnalysisWithBoardFromScreen();
     void calculationMonitoringCallBackForEngine(EngineCalculationDetails const& engineCalculationDetails);
 
 private:
@@ -36,6 +36,8 @@ private:
     void printCalculationDetailsWithFiltering();
     void printCalculationDetailsIfPending();
     void printCalculationDetails();
+
+    Move getPerformedMove() const;
 
     bool shouldAnalyzeBoard() const;
     bool didPlayerChange() const;

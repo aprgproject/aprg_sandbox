@@ -44,7 +44,7 @@ void Configuration::initialize() {
 }
 
 void Configuration::initializeCommonParameters() {
-    m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Files\stockfish15.exe)";
+    m_chessEnginePath = APRG_DIR R"(\Chess\ChessPeek\Engines\stockfish15.exe)";
 
     // Stockfish UCI parameters
     // uci

@@ -9,9 +9,11 @@
 #include <optional>
 
 namespace alba {
+
 namespace matrix {
 template <>
-bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess::Piece const& value2);}
+bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess::Piece const& value2);
+}
 
 namespace chess {
 
@@ -46,7 +48,8 @@ public:
     BoardOrientation getOrientation() const;
     PieceMatrix const& getPieceMatrix() const;
 
-    Moves getMovesFromThis(Coordinate const& startpoint, int const maxSize = MAX_NUMBER_OF_MOVES) const;    Moves getMovesToThis(
+    Moves getMovesFromThis(Coordinate const& startpoint, int const maxSize = MAX_NUMBER_OF_MOVES) const;
+    Moves getMovesToThis(
         Coordinate const& endpoint, PieceColor const& moveColor, int const maxSize = MAX_NUMBER_OF_MOVES) const;
     Moves getAttacksToThis(
         Coordinate const& endpoint, PieceColor const& moveColor, int const maxSize = MAX_NUMBER_OF_MOVES) const;
@@ -60,9 +63,11 @@ public:
     std::string getReadableStringOfMove(Move const& move) const;
     std::string getNotationPartOfFenString() const;
     std::string getCastlingPartOfFenString() const;
+
     bool isEmptyAt(Coordinate const& coordinate) const;
     bool isACaptureMove(Move const& move) const;
-    bool isAPromotionMove(Move const& move) const;    bool isACastlingMove(Move const& move) const;
+    bool isAPromotionMove(Move const& move) const;
+    bool isACastlingMove(Move const& move) const;
     bool isAPossibleMove(Move const& move) const;
     bool canBeCaptured(Coordinate const& endpoint) const;
     bool areThereAnyMovesToThis(Coordinate const& endpoint, PieceColor const& moveColor) const;
@@ -78,10 +83,12 @@ private:
     PieceMatrix::MatrixData getInitialValues(BoardOrientation const& inputType) const;
 
     void retrieveMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
-    void retrievePawnMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;    void retrieveKnightMovesThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
+    void retrievePawnMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
+    void retrieveKnightMovesThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrieveBishopMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrieveRookMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
-    void retrieveQueenMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;    void retrieveKingMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
+    void retrieveQueenMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
+    void retrieveKingMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrievePawnNonCapturesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrievePawnCapturesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrieveDiagonalMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
@@ -110,7 +117,8 @@ private:
         Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
     void retrieveKnightMovesToThis(
         Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
-    void retrieveDiagonalMovesToThis(        Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
+    void retrieveDiagonalMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
     void retrieveStraightMovesToThis(
         Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
     void retrieveKingOneStepMovesToThis(
@@ -127,7 +135,8 @@ private:
     Move getNonCastleMoveUsingAlgebraicNotation(std::string const& text, PieceColor const moveColor) const;
     Coordinates getLDeltaCoordinates() const;
     Coordinates getDiagonalIncrementDeltaCoordinates() const;
-    Coordinates getStraightIncrementDeltaCoordinates() const;    Coordinates getOneStepDeltaCoordinates() const;
+    Coordinates getStraightIncrementDeltaCoordinates() const;
+    Coordinates getOneStepDeltaCoordinates() const;
     DeltaRange getPawnNonCaptureDeltaRange(Coordinate const& startpoint, PieceColor const moveColor) const;
     DeltaRange getPawnReverseNonCaptureDeltaRange(Coordinate const& endpoint, PieceColor const moveColor) const;
     Coordinates getPawnCapturesDeltaCoordinates(PieceColor const moveColor) const;
@@ -142,9 +151,11 @@ private:
     int getNumberOfWaysToBlockPath(
         Coordinate const& startpoint, Coordinate const& endpoint, PieceColor const blockingPieceColor,
         int const maxSize) const;
+
     bool isPossibleMoveBasedFromPieceType(Move const& move) const;
     bool isPossiblePawnMove(Move const& move) const;
-    bool isPossibleKnightMove(Move const& move) const;    bool isPossibleBishopMove(Move const& move) const;
+    bool isPossibleKnightMove(Move const& move) const;
+    bool isPossibleBishopMove(Move const& move) const;
     bool isPossibleRookMove(Move const& move) const;
     bool isPossibleQueenMove(Move const& move) const;
     bool isPossibleKingMove(Move const& move) const;
@@ -168,6 +179,7 @@ private:
     BoardOrientation m_orientation;
     PieceMatrix m_pieceMatrix;
 };
+
 }  // namespace chess
 
 }  // namespace alba

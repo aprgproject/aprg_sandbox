@@ -44,14 +44,14 @@ private:
     void saveOrientationOnLowerHalfColor(PieceColor const lowerHalfColor);
 
     void savePlayerColor(PieceColor const newColor);
-    void saveOrientation(Board::Orientation const orientation);
+    void saveOrientation(BoardOrientation const orientation);
 
     Configuration const& m_configuration;
     AlbaLocalScreenMonitoring const& m_screenMonitoring;
     BoardObserver m_boardObserver;
     BoardWithContext m_boardWithContext;
     PieceColor m_savedPlayerColor;
-    Board::Orientation m_savedOrientation;
+    BoardOrientation m_savedOrientation;
     CountOfPieces m_countOfPieces;
 };
 

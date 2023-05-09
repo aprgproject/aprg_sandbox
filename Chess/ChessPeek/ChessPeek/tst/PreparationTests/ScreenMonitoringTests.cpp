@@ -4,8 +4,6 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 using namespace alba::AprgBitmap;
 using namespace std;
 
@@ -15,7 +13,7 @@ namespace chess {
 
 namespace ChessPeek {
 
-TEST(ScreenMonitoringTest, ScreenCaptureCanBeSavedAsBitmap) {
+TEST(ScreenMonitoringTest, DISABLED_ScreenCaptureCanBeSavedAsBitmap) {
     AlbaLocalScreenMonitoring screenMonitoring;
     screenMonitoring.capturePixelsFromScreen();
 

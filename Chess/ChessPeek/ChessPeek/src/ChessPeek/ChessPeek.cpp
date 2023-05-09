@@ -1,11 +1,9 @@
 #include "ChessPeek.hpp"
 
 #include <ChessPeek/ResultPrinter.hpp>
-#include <ChessPeek/Utilities.hpp>
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <atomic>
-#include <optional>
 #include <thread>
 
 using namespace std;
@@ -23,7 +21,7 @@ namespace ChessPeek {
 void trackKeyPress() {
     AlbaLocalUserAutomation userAutomation;
     while (shouldStillRun) {
-        shouldStillRun = !userAutomation.isLetterPressed(VK_ESCAPE);
+        shouldStillRun = !userAutomation.isKeyPressed(VK_ESCAPE);
         Sleep(100);
     }
 }
@@ -55,7 +53,7 @@ void ChessPeek::runOneIteration() {
 
     checkScreenAndSaveDetails();
     if (shouldAnalyzeBoard()) {
-        startEngineAnalysis();
+        startEngineAnalysisWithBoardFromScreen();
     }
 }
 
@@ -64,7 +62,7 @@ void ChessPeek::checkScreenAndSaveDetails() {
     m_detailsFromTheScreen.saveDetailsFromTheScreen();
 }
 
-void ChessPeek::startEngineAnalysis() {
+void ChessPeek::startEngineAnalysisWithBoardFromScreen() {
     if (didPlayerChange()) {
         m_engineController.resetToNewGame();
     }
@@ -109,10 +107,12 @@ void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCal
     }
 }
 
-void ChessPeek::printCalculationDetailsWithFiltering() {    constexpr auto MINIMUM_MILLISECONDS_FOR_EACH_PRINT = 200;
+void ChessPeek::printCalculationDetailsWithFiltering() {
+    constexpr auto MINIMUM_MILLISECONDS_FOR_EACH_PRINT = 200;
     m_printFilteringTimer.stopTimer();
     if (m_printFilteringTimer.getElapsedTimeInMilliseconds() > MINIMUM_MILLISECONDS_FOR_EACH_PRINT) {
-        printCalculationDetails();        m_printFilteringTimer.resetTimer();
+        printCalculationDetails();
+        m_printFilteringTimer.resetTimer();
     } else {
         m_hasPendingPrintAction = true;
     }
@@ -134,6 +134,40 @@ void ChessPeek::printCalculationDetails() {
     } else {
         m_hasPendingPrintAction = true;
     }
+}
+
+Move ChessPeek::getPerformedMove() const {
+    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
+    Move result{};
+    Board const& oldBoard(m_detailsOnTheEngine.getBoardWithContext().getBoard());
+    Board const& newBoard(m_detailsFromTheScreen.getBoardWithContext().getBoard());
+
+    Coordinates changedCoordinates;
+    for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < 8; i++) {
+            Coordinate coordinate(i, j);
+            Piece oldPiece(oldBoard.getPieceAt(coordinate));
+            Piece newPiece(newBoard.getPieceAt(coordinate));
+            if (oldPiece != newPiece) {
+                changedCoordinates.emplace_back(coordinate);
+                if (changedCoordinates.size() > 4) {
+                    break;
+                }
+            }
+        }
+    }
+    if (changedCoordinates.size() == 2) {
+        Coordinate coordinate1(changedCoordinates.front());
+        Coordinate coordinate2(changedCoordinates.back());
+        bool isPossibleMove1 = oldBoard.isAPossibleMove({coordinate1, coordinate2});
+        bool isPossibleMove2 = oldBoard.isAPossibleMove({coordinate2, coordinate1});
+        if (isPossibleMove1 && !isPossibleMove2) {
+            result = {coordinate1, coordinate2};
+        } else if (!isPossibleMove1 && isPossibleMove2) {
+            result = {coordinate2, coordinate1};
+        }
+    }
+    return result;
 }
 
 bool ChessPeek::shouldAnalyzeBoard() const {
