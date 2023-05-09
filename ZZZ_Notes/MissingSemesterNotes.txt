@@ -789,6 +789,614 @@ Editors
 
 
 
+Dotfiles
+
+-> Intro
+---> A lot of command-line programs are configurable using Dotfiles
+---> The reason they are called Dotfiles because they have a dot in the name (make sense lol).
+---> Dotfiles are hidden by default
+-----> This was actually a bug on "ls" implementation (dotfiles have a conflict on folders("." and "..")).
+---> Different tools are configured in different ways, you need to read that tools documentation to edit dotfiles.
+
+-> Examples of Dotfiles:
+---> .vimrc (vim is configurable using vimscript)
+---> .gitconfig (not a program but just a file format where you can set different values)
+---> .bashrc
+---> .emacs
+---> .vim
+
+-> Advice: Avoid directly copying other peoples Dotfiles/configuration
+---> You should set your configuration that suits your needs not other people.
+
+-> Goals on handling Dotfiles
+---> Easy to install
+-----> Example: You should be able to just checkout a git repo, run a single script and you're good to go.
+---> Portability
+-----> Configuration should be one and be same everywhere so you can synchronize back and forth. 
+---> Track changes your on configuration
+-----> Keep it under version control (git for example).
+
+-> How do achieve this different things?
+---> (1) Have a single folder that have your configuration.
+---> (2) Have this folder on version control (git public repo is recommended)
+---> (3) Have a single script setup so when you run that script
+---> Note: Dont make your home folder (where all the configuration files are located) a git repository
+-----> Bad idea because other files are in there, not just configuration files.
+
+-> Some commands to get you started:
+---> mkdir dotfiles
+---> cd dotfiles
+---> git init
+---> touch bashrc // Just an example
+---> // Edit configuration file
+---> // You can use copy: cp bashrc ~/.bashrc, but use symbolic links instead.
+---> ln -s /tmp/dotfiles/bashrc ~/.bashrc   // create symbolic link
+---> ll ~/.bashrc // list and show the links on the current directory
+---> // You can also create an install script (filename: install):
+---> // touch install
+---> // chmod +x install
+Bash install script (filename: install):
+-> #!/usr/bin/env bash
+-> BASEDIR=$(dirname $0)
+-> cd $BASEDIR
+-> 
+-> ln -s ${PWD}/bashrc ~/.bashrc || true
+-> ln -s ${PWD}/vimrc ~/.vimrc || true
+-> ...
+---> NOTE: There are better script than this.
+
+-> Portability
+---> There are slight diferrences in different machines.
+-----> (1) Add conditionals on the Dotfiles itself if its programmable
+-------> You have to make sure on how to get the details about the environment as well
+-----> (2) Keep common parameters on a dotfile and create a new files for specific parameters and use them depending on the machine.
+-------> Example: ".gitconfig" to keep common files, ".gitconfig_local" for local customizations
 
 
 
+Backups
+
+-> There are two kinds of people in the world. People who do backups and people who will do backups.
+---> It just a matter of time to do backups.
+-----> Your drive can fail.
+-----> Your laptop can be stolen.
+-----> rm -rf *
+
+-> 3-2-1 rule on backups
+---> 3 copies, on 2 mediums, and at least 1 is offsite.
+-----> You dont want to put all your eggs in the same basket.
+-----> Examples: Weekly backups, needs to be separate hard drive or stored in servers
+
+-> 3-2-1:
+---> 3 Copies of Data – Maintain three copies of data — the original, and at least two copies.
+---> 2 Different Media – Use two different media types for storage. 
+-----> This can help reduce any impact that may be attributable to one specific storage media type. 
+-----> It’s your decision as to which storage medium will contain the original data and which will contain any of the additional copies.
+-----> Consider the cost of media as well
+---> 1 Copy Offsite – Keep one copy offsite to prevent the possibility of data loss due to a site-specific failure (house burns down, zombie apocalypse etc).
+
+-> Test your backups are working
+---> Its not enough that the script finished. Possible problems:
+-----> You dont have correct permissions on the server youre copying to.
+---> Infamous story is about the film "Toy story 2", someone deleted the film and its almost lost because the backups werent working.
+-----> Backups werent working and it was just lucky that someone copied the data, so it was still saved.
+
+-> Mirroring is not a backup
+---> If youre just synching your data somewhere else then its not a back up. 
+---> Two disks that mirror each other is not a backup.
+---> If you accidentally delete stuff on one, since its synching its deleted on the other one as well.
+
+-> Deduplication
+---> Deduplication refers to a method of eliminating a dataset's redundant data. 
+---> Use symlinks or hard links to reduce cost
+
+-> Encryption
+---> Sometimes sensitive info are stored so you need to secure your data.
+
+---> Example of good backups:
+-----> Waybackmachine: https://archive.org/web/
+-----> Tarsnap: https://www.tarsnap.com/
+-----> Borgbackup: https://www.borgbackup.org/
+-----> Restic: https://restic.net/
+
+
+
+Automation
+
+-> Suppose you want to run a program at specific time or date or periodically (every min or every hour)
+---> Use cron
+-----> The cron command-line utility is a job scheduler on Unix-like operating systems. 
+-----> Users who set up and maintain software environments use cron to schedule jobs, also known as cron jobs, to run periodically at fixed times, dates, or intervals.
+---> Use watch
+-----> The watch command is a built-in Linux utility used for running user-defined commands at regular intervals. 
+-----> It temporarily clears all the terminal content and displays the output of the attached command, along with the current system date and time.
+-----> By default, the watch command updates the output every two seconds. Press Ctrl+C to exit out of the command output.
+-----> Simple usage: watch -n [interval in seconds] [command]
+---> Use anacron
+-----> cron will be not work any more if the machine is turned off
+-----> anacron is a computer program that performs periodic command scheduling, which is traditionally done by cron, but without assuming that the system is running continuously. 
+
+-> To know where crontab is:
+---> ps aux | grep cron
+
+
+
+
+Machine Introspection
+
+-> Sometimes youre computer misbehaves and sometimes something goes wrong and more often than not you wanna know why.
+-> Here is bunch of tools to let know what when wrong, what currently is going wrong and prevent it as being as wrong in the future.
+
+-> First you need privileges.
+
+---> Kernel will not you look the OS state.
+---> Need to be root or be part of a group (with access) in the system.
+
+---> "sudo" command lets you run as the root user
+-----> Example:
+-------> whoami (output is your account name)
+-------> sudo whoami (output is root)
+
+---> "visudo" command lets you update the sudoers file
+-----> NOTE: It will check if its syntactically correct before you save it
+
+---> "su" command lets you run a new prompt as a new user (if no parameters, then by default its root)
+-----> sudo su (lets you run a new prompt as root)
+
+
+-> Logs and commands to check
+
+---> Folder: /var/log 
+-----> This has tons of logs
+-----> exa /var/log (exa is improved file lister better than ls)
+-----> "Xorg" -> logs when X fails
+-----> "private" -> logs for user application failures (example: web servers failures)
+
+---> dmesg
+-----> This command shows kernel logs
+-----> It shows you all the kernel logs since boot
+
+---> journalctl 
+-----> This command shows system logs
+-----> -u flag gives you all the messages given by this user
+-------> journalctl -u systemd-logind
+---------> shows you the log of systemd-logind since the beginning of time
+-----> -b flag gives you all the message since the last boot (give it a negative number and it will show logs of based on how many previous boots)
+-----> -n[NUMBER] flag gives the last NUMBER lines
+-----> NOTE: Be careful of piping journalctl sometimes its crops long text to "..."
+
+---> top
+-----> This command shows you the processes running on the machine
+-----> It show how much memory and cpu the processes are using.
+
+---> htop 
+-----> This is better than top because it has a nicer output
+-----> It has more graphical representation of things
+-----> It shows you the tree of processes (it helps determining which one is subprocess or what)
+-------> pstree shows a better output/graph
+---------> -p flag shows you the process id 
+-----> -t shows process in a tree
+
+---> dstat
+-----> This monitors different subsystems on the machine.
+-----> This includes network traffic, disk traffic, number interrupts on CPU, context switches, the number of processes, CPU utilization etc.
+-----> NOTE: Useful when running a program and it looks that its not making progress, open dstat to check whats happening on your machine
+
+---> df
+-----> This useful when looking at disk space
+-----> This shows you for all the filesystems you have on your machine: how much space is used? how much space is available? where is it mounted? etc
+-----> -h flag shows you in readable numbers (uses M for megabyte and G for giga byte) because by default its in bytes
+
+---> du
+-----> This shows you disk usage for particular files.
+-----> du *
+--------> This shows you usage of files in the current directory
+-----> du -h *
+--------> This shows you usage of files in the current directory in readable number format (uses M for megabyte and G for giga byte)
+-----> du -hs *
+--------> This shows you a summary
+
+---> dust
+-----> Similar to du, this shows you disk usage for particular files in a tree.
+
+---> ss
+-----> This great for networking
+-----> This shows you different connections on your machine.
+-----> This shows you all open sockets.
+-----> ss -t
+-------> This shows you TCP connections.
+-----> ss -tl
+-------> This shows you listening ports in TCP as well.
+-----> ss -tlp
+-------> This shows you what programs are listening in TCP in my machine.
+-----> ss -tlpn
+-------> This shows you the actual port number where there are listening.
+
+
+-> Print the last few messages and dont close (useful for debugging)
+---> journalctl -f 
+-----> f stands for follow
+---> dmesg -w 
+-----> w stands for wait
+---> for other logs use tail
+-----> tail -f [LOG_COMMAND]
+-------> f stands for follow
+-------> Example: tail -f Xorg.0.log
+---> you can also use less
+-----> less +F [LOG_COMMAND]
+-------> Example: less +F Xorg.0.log
+
+
+-> Configuration
+
+---> ip
+-----> This command is really handy on networking.
+-----> ip help
+-------> This shows help contents.
+-------> This includes grammar on sub commands instead.
+-------> Example: ip help addr
+-------> However, man pages may provide better explanations.
+-----> ip addr
+-------> This shows you all the interfaces you have.
+-------> "lo" prefix are for loopback, "e" prefix are for ethernet, "w" prefix are for wifi.
+-------> This also shows you the IPv4 (under inet) and IPv6 (under inet 6) addresses
+-----> ip route
+-------> This shows you how your machine is going to communicate.
+-------> This also shows you the ipaddress of your router
+
+---> ping
+-----> This sends small packets and waits for responses
+-----> Example: "ping google.com" "ping 1.1.1.1"
+-----> You can try to ping the ipaddress of your router as well (can be found out using ip route).
+
+---> If you have ip issues, you can check /etc/resolv.conf
+-----> cat /etc/resolv.conf
+-------> This shows you the name server you are using.
+
+---> iptables
+-----> This is firewall that uses kernel rules to filter internet traffic.  
+-----> It lets you set rules that if packets look a certain way, or from this IP, etc.
+
+---> wireguard
+-----> vpn
+-----> needs to install
+
+---> systemd
+-----> This is useful for configuring/running services
+-----> systemd is the system deamon and it manages your system
+-----> For every service on your machine, there is a service file.
+-------> This maybe under /usr/lib/systemd/system
+-------> You can check the file. Example: vim /usr/lib/systemd/system/vboxweb.service
+----------> You can see configuration on how that service is run and shutdown.
+-----> systemctl
+-------> systemctl status
+---------> This shows you all the services that are currently running.
+-------> To manage services:
+---------> systemctl start [UNIT_FILE]
+---------> systemctl stop [UNIT_FILE]
+---------> systemctl restart [UNIT_FILE]
+---------> systemctl enable [UNIT_FILE]
+-----------> It will no longer be started on boot.
+---------> systemctl disable [UNIT_FILE]
+-----------> It will be started on boot.
+---------> NOTE: You can use journalctl to investigate if theres a problem in the service (why its not starting?)
+-----> systemd-analyze
+-------> This shows you how long your boot took.
+-------> systemd-analyze blame
+---------> This shows you how long does each thing in your boot took.
+
+
+-> Searching
+---> find
+-----> find -iname [STRING]
+---> mlocate is a package that is installed on most systems
+-----> sudo updatedb
+-------> This will create an index on your entire filesystem for searching
+-----> locate [STRING]
+-------> This will show you all the files in your machine that contains the string [STRING] in the path
+-----> locate [STRING] | fzf
+-------> This can help interactively search.
+-----> locate is better than find becaused its indexed
+
+
+-> Hardware information
+
+---> dmidecode
+-----> This parses all the firmware on your machine and tells you what different things are.
+-----> This tells you what hardware you are running and all the capabilities that they support.
+-----> This probably not that useful unless you are checking firmware upgrades and youre  curious about what CPU you are running. 
+---> lstopo
+-----> This shows you the entire physical layout of your CPU (including all caches).
+-----> This pretty useful when doing performance debugging.
+---> hwloc-bind
+-----> This lets you run a program on only specific cores.
+
+
+-> OS/Kernel folders
+---> /sys/ and /proc/ are special parts of the filesystem that are managed by the kernel
+---> This contain not real files but just meta information that kernel exposes.
+---> /sys/
+-----> Example:
+-------> cd /sys/cla/bac/intel_backlight
+-------> echo 500 | sudo tee  brightness
+---------> This change the brightness of your laptop.
+-----> There tons of things you can do here like change queuing behavior in the kernel, disable safety features like vslr, you can break your system here as well.
+---> /proc/
+-----> This contains information about the processes.
+-----> Example:
+-------> cd /proc/6905/
+-------> ls -la
+-------> cat cwd (shows current working directory) 
+-------> cat cmdline (shows command used when its was run) 
+---> /boot/
+-----> Two important files vmlinuz-linux and initramfs-linux.img.
+-------> These are like the boot images for linux.
+
+
+-> links [URL]
+---> This command is like a text web browser that lets you surf the web.
+
+
+
+
+Program introspectation
+
+-> Debugging a program
+---> printf style debugging
+-----> excellent debugging technique but sometimes its not good enough
+---> debugger is a more powerful tool
+-----> lets you halt when it reaches a certain line in the code
+-----> lets you poke whats in memory
+-----> lets you execute the program one line of code at a time
+
+
+-> Debuggers
+
+---> GDB (GNU debugger)
+-----> NOTE: GDB works for c-style languages (like C++, objective C, GO, Rust)
+-----> NOTE: GDB will work actually on any executable binary but it needs debug symbols to be able to map it into source code 
+-----> Compile with -g flag to include debug symbols:
+-------> gcc -g -o example example.c 
+-----> Invoke gdb with the program:
+-------> gdb example
+-----> Run the program (within gdb):
+-------> run
+-----> Insert breakpoint (within gdb):
+-------> b [NAME_OF_FUNCTION]
+-------> b [FILE_NAME]:[LINE_NUMBER]
+-------> After running when breakpoint is reached, the program halts and gdb console is again available.
+-------> NOTE: You call a function when the program halts because of breakpoint (you call printf like functions to print variables).
+-------> NOTE: You print the value of the variable when the program halts because of breakpoint 
+---------> print [NAME_OF_VARIABLE]
+-----> Show current breakpoints:
+-------> info breakpoints
+-----> Continue execution (usually done when program halts due to breakpoint)
+-------> continue
+-----> Execute one line and step into function calls
+-------> step
+-----> Execute one line and skips function calls
+-------> next
+-----> Step out of the function
+-------> finish
+-----> Display values at every line executed
+-------> display [COMMAND]
+-----> Stop execution whenever the program reads from this value
+-------> rwatch [EXPRESSION]
+-------> Example: rwatch numbers[3]
+-------> NOTE: The names used in [EXPRESSION] just needs to be in the current scope where the GDB is running.
+-------> NOTE: Underneath, this is implemented thru hardware support that watches memory addresses.
+-----> Show stack trace
+-------> bt
+-----> Setup GDB to be more informative and interactive
+-------> layout
+-------> layout regs (to show registers as well)
+-----> Step to one line of assembly code
+-------> si
+
+---> RR (Debugger that lets you go back)
+-----> Has rstep and previous
+-----> Very useful when the issue is hard to reproduce and you need to know what happened before
+
+---> pdb (python debugger)
+-----> Insert this line in the code:
+-------> import pdb; pdb.set_trace()
+-----> This opens a hybrid GDB like prompt and similar to a python shell
+-------> You can write python code in the prompt and it will execute as if its the next line to where its stopped.
+-----> ipdb also exists for interactive python
+
+---> Graphical user interfaces for debuggers also exists in web browsers
+
+
+-> System calls
+
+---> strace
+-----> Very useful when doing systems programming
+-----> Basically, this runs a program, then for every system call that program makes, it will print the what system call it is and what arguments were given to it
+-----> Example: strace echo hi
+
+
+-> Profiling
+
+---> Another problem for programs is its performance.
+---> You are able to investigate why and where its slow.
+
+---> time
+-----> Gives you basic information about how long its executed
+-----> Gives you information on how much time its spent running on user space vs how much time its running on system calls.
+
+---> perf
+-----> See PerformanceNotes.txt(on notes) or Chandler Carruths lecture as well
+-----> Record first:
+-------> Example: perf record ag -c 'x' . 
+-----> Show the results:
+-------> perf report
+-------> perf stat [COMMAND]
+-----> What about small, tight loops?
+-------> perf record
+-------> perf report
+-----> Performance counters
+-------> perf stat
+---------> check for "stalled cycles"
+-------> perf list
+---------> list all commands on perf
+---------> check for command for cache
+
+---> flamegraphs
+-----> Its a really nice profiling graphs.
+
+
+
+-> Package and Dependency Management
+
+---> When people write libraries and packages they generally put them on common repository so that people can access them.
+---> In python, where people put them is the python package index.
+---> In rust, where people put them is crates.io
+---> So its pretty language specific, but in general the communities agree on some place to put all the libraries that are written for a certain language.
+
+---> Versioning
+-----> Normally its just an consecutive numbers, but we can do better than that.
+-----> Git hash commit id can also work, but it does NOT convey any more information.
+-----> There is also semantic versioning.
+-------> Normally the format is: [MAJOR_VERSION].[MINOR_VERSION].[PATCH_VERSION]
+---------> Example: 10.2.4
+-------> PATCH_VERSION is incremented on:
+---------> If you fix a bug and you're not changing the behavior of anything else, then PATCH_VERSION is incremented.
+-----------> So you can use the a new release even if the PATCH_VERSION is increased because there is no new behavior introduced.
+-----------> So for example, Version 10.2.5 still works with 10.2.4.
+-------> MINOR_VERSION is incremented on:
+---------> If you introduce a new feature and youre still making it backwards compatible, then MINOR_VERSION is incremented.
+-----------> For example, you introduce a new function/API but you do not change any of the old function/API.
+-----------> So for example, Version 10.3.0 still works with 10.2.4.
+-------> MAJOR_VERSION is incremented on:
+---------> If you introduce a change that is not backwards compatible, then MAJOR_VERSION is incremented.
+-----------> So for example, Version 11.0.0 will NOT work with 10.2.4.
+
+---> Cryptographic hashes also work on requiring the exact same version with the exact same binaries
+-----> This is prevent attacks from other people.
+-----> This is also called "Lock files"
+-----> This is also enables several repositories to host the binaries (and not trust just one), because you can check if the hash is the same.
+
+---> Constraints
+-----> Minimum minor version
+-------> Example: >= 1.2 and < 2.0
+-----> Minimum patch version
+-------> >= 3.5.4 and < 4.0 
+-------> Example: This useful if you need a critical bug fixed.
+-----> Exact version
+-------> Example: == 1.4.3
+-------> This useful if your software relies on some specific behavior on that version.
+-------> Or maybe you just dont trust the dependencies to adhere to semantic versioning.
+
+---> Dependency resolution algorithms
+-----> This is complicated because the dependencies might rely on other dependencies that already has dependency.
+-----> You can also make this problem computationally hard (this is similar to SAT/satifiability problem).
+-----> So take note of this when specifying your constraints on versioning of your software.
+-------> You dont want to be unecessarily strict on your versioning because it might cause problems somewhere else.
+
+---> Virtual environments
+-----> This useful when the conflict on the dependencies cannot be resolved (you need two set of versions for one dependency)
+-----> This useful for maintaining several sets of dependencies for maintaining different projects.
+-----> NOTE: Rust typically doesnt have this problem because it uses static libaries on its application (so when its run, its not relying on dynamic libaries on the system)
+
+---> Vendoring
+-----> Very different approach to dependency management 
+-----> Basically, you take all the codes from other dependencies and build everything with your project.
+-----> There are some benefits on doing this:
+-------> Youre not depending on package repositories anymore.
+-------> Youre not relying on dependency resolution anymore.
+-------> Its always the same code/behavior everytime.
+-----> But there is not sustainable on every project because it will yield to a lot of binary duplications on several applications.
+-----> NOTE: This is Google's approach on building its application because the dont want to rely on package repositories and dont want to deal with problems in versioning.
+
+
+
+-> OS customizations
+
+---> Keyboard remapping
+-----> Youre keyboard has useless keys that are not used all the time.
+-------> You should remap them to make them do useful things.
+
+---> Cusomizing hidden OS settings (not shown in the UI of the settings in the OS)
+-----> MacOS has the "defaults" command
+ 
+---> Window management
+-----> Tiling window management
+-------> This sets your windows so that it shows whats needed on you application.
+-------> You can bind keys to this as well (so that it will be faster).
+-------> MacOS has hammerspoon
+
+---> Check the reddit thread "unixp*rn"
+-----> It has screenshots of really cool setups that other people uses.
+
+
+
+-> Remote machines
+
+---> To connect:
+-----> ssh [NAME]@[IP_ADDRESS OR HOST_NAME]
+---> SSH Information are saved in the hidden folder ".ssh".
+---> Generating keys
+-----> ssh-keygen -t rsa -b 4096
+---> Copying keys to the server
+-----> ssh-copy-id foobar@172.16.174.149
+---> Copying folders to server
+-----> scp -r folder1 foobar@172.16.174.149:folder2
+-----> rsync -avP folder1 foobar@172.16.174.149:folder2
+-----> rsync is better than scp 
+-------> scp just copies all the files, while rsync copies only what changed (minimizing the traffic)
+-------> rsync has also the capability to resume if the connection drops
+-------> https://stackoverflow.com/questions/20244585/how-does-scp-differ-from-rsync
+---> Running processes that wont close if the users logs out
+-----> nohup sleep &
+-----> nohup is a POSIX command which means "no hang up". 
+-----> Its purpose is to execute a command such that it ignores the HUP (hangup) signal and therefore does not stop when the user logs out. 
+---> Managing windows inside the terminal
+-----> screen
+-----> tmux
+---> Port forwarding
+-----> Can be local port forwarding or remote port forwarding
+-----> ssh -L 9999:locahost:8888 foobar@172.16.174.149
+-------> Forwarding port 9999 to port 8888
+---> Graphics forwarding (similar to remote desktop connection)
+-----> ssh -X foobar@172.16.174.149
+-----> you can run firefox on this and the graphics of the firefox window in the server will be forwarded to you
+---> Handle disconnections better than ssh
+-----> mosh foobar@172.16.174.149
+-----> NOTE: mosh does not work on port forwarding and graphics forwarding
+---> Save configuration of the connection to host (so you dont have to specify all the time)
+-----> vim .ssh/config
+-----> ssh vm (vm is the host name)
+---> Mounting a remote folder to a local folder
+-----> sshfs vm:Downloads Downloads
+---> Proxy jump
+-----> edit ssh config file
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+---> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+add objdump 
+add top
+demangle
