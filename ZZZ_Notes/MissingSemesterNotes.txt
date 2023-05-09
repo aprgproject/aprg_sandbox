@@ -1,0 +1,794 @@
+Virtual Machines
+
+-> What are VMs?
+---> Simulated computers
+---> Lets you run an entire OS and bunch of software thats isolates your host environment
+---> Its configurable. So you can set your how much resources can be used in the VM.
+
+-> Usage of VMs
+---> You can use it to experiment with the OS and new software without any risks.
+---> You can use it for applications that run in a specific operating system.
+---> You can use it for buggy and malicious software without any risks.
+-----> VMs can give pretty good isolation to the host environment
+
+-> One example of a VM is the "Virtual Box"
+
+-> Snapshots
+---> One cool thing you can do with VMs is the "snapshot".
+---> "Snapshot" are captured data of the entire machine state (everything from the disk, the memory and what is in CPU registers)
+---> Since the entire VM is simulated you can freeze it and collect data of its state.
+---> Useful if you want to do something that is really dangerous and you dont want to break anything.
+-----> For example: Manually delete you boot disk. You can undo by loading again a previous snapshot.
+
+-> Guest addons
+---> Makes it easier to communicate with the host machine.
+-----> Examples:
+-------> Clipboard usage
+-------> Drag files in and out of the VMs with the host machine
+
+-> How are they implemented?
+---> It simulation of the various HW (memory/disk).
+---> It has big interpreter that simulates CPU instructions.
+---> Modern hardware have actual support for this kind of stuffs.
+-----> VMs can be pretty efficient.
+-------> There are exceptions like in games using the video card.
+
+
+
+Containers
+
+-> This is the solution if you have to isolate environments, and they look the same, and you want to share as much as possible (operating system is shared).
+---> Instead of using multiple VMs, use multiple containers to reduce redundant work (boot time, operating system resources)
+-----> In multiple VMs, we have different instances of the OS and simulated HW.
+-----> This has faster/better performance, but has weaker isolation to each containers.
+
+-> Heavily used by:
+---> Github
+-----> Sending GIT commands to the website typically uses a container.
+---> Amazon
+-----> Saves time because less setup time (no more OS boot time), instead of having minutes to load, you have seconds to load.
+---> Automated testing
+
+-> Containers can only be executed in a machine that has a similar configuration.
+---> If you want to run a windows container on a linux machine, you need to run these containers in a VM.
+
+-> Examples:
+---> Docker
+---> RKT/Rocket
+---> LXC/Linux container stack
+---> Amazon fire crackers
+---> Used on hosting website (having a base container with its dependencies setup hastens the deployment of a website)
+
+-> Underneath
+---> Its just like running the application but there are jail/fences to make it think that its running alone.  
+-----> APIs called to the operating system are hacked so that we can make the application isolated to the rest of the system.
+
+
+
+Shell and scripting
+
+-> Shell is really efficient textual interface to your computer.
+---> You can do almost anything in the shell.
+
+-> Common shortcuts:
+---> CTRL+L - lets you clear your screen
+---> CTRL+R - autocomplete based on bash history
+---> CTRL+A - jumps to the start of the current line
+---> CTRL+E - jumps to the end of the current line
+
+-> Common commands
+---> mkdir
+---> cd
+---> ls
+---> mv
+---> cp
+---> touch - create an empty file
+---> which - lets you know the location of application
+---> chmod - change permissions. chmod +x hello.sh
+
+-> Shell provides you more than commands
+---> You can invoke any program in your computer
+---> Command line tools exist for pretty much anything you may want.
+---> More efficient than their GUI counterparts.
+
+-> Shell provides an interactive programming language (often referred to as scripting)
+---> A lot of different shells that have different languages.
+-----> Examples: sh, bash (born again shell), csh (c shell, looks like c language), fish, zsh, ksh
+
+-> Shell programming is useful tool
+---> You can write commands in the command line.
+---> You can also stick this commands into a file.
+-----> Create a .sh file
+-----> At the top of the file, add this: "#!/bin/sh" or "#!/bin/bash"
+-------> This is known as a hash bang line.
+-------> This feeds the entire contents of the file to the program mentioned in the hash bang line.
+-------> Also works in python: "#!/usr/bin/python"
+
+-> Loops
+---> for i in $(seq 1 5); do echo hello; done
+-----> This reads: For i in list (1 to 5); 
+-----> Note: New lines are semicolon and semicolons are new lines (they are interchangable)
+-----> Note: Bash has no curly brackets, it usually instead have unique keyword for starting and ending a block ("do" and "done" in this case)
+-----> Note: The list is actually just space separated.
+-------> All the command "seq 1 5" does is to just print 1 to 5
+-------> So this for command is just gonna assign i for every space separated value on the list.
+
+-> Program substitution
+---> Note: This part "$( )" is also known as program substitution.
+-----> Basically what it does is just run whatever command is inside the parenthesis, and the output of the command is replaced where "$( )" is.
+-----> So this means that this loop "for i in $(seq 1 5);" is the same as "for i in 1 2 3 4 5;"
+-------> So what bash does is:
+---------> Put 1 2 3 4 5 (with white space) in the loop command
+---------> Assign i for each of the value
+---------> Run the body of the loop (after do keyword)
+
+-> Path variable
+---> In the previous example, echo is just a program
+-----> In fact run: "which echo" -> and it will print the location of echo command ("/usr/bin/echo")
+---> All the commands that dont need the absolute directory (like echo), are found using the variable called $PATH 
+---> $PATH is colon separated list of directories where your shell looks for programs.
+
+-> Another loop example
+---> for f in $(ls); do echo $f; done
+-----> This prints all files/directories listed in the directory.
+
+-> Variable
+---> For loop assignment works: "for f in $(ls)"
+---> Setting a value also works: foo=bar
+-----> echo $foo -> this prints -> bar
+-----> Note that bash is really picky about the syntax so this will not work: "foo = bar"
+-------> This means run the program "foo", with the first argument "=", and the second argument "bar"
+
+-> Special variables:
+---> $0 is the name of the current program
+---> $1 to $9 are the arguments given to the program
+---> $# is the number of arguments
+---> $$ is the Process ID of the current shell 
+---> $? is the current exit code
+---> $! is the Process ID of the last run process
+
+-> Loop example with if statement
+---> for f in $(ls); do if test -d $f; then echo dir $f; fi; done
+-----> This prints only the directories listed in the directory.
+-----> This follows the form: if CONDITION; then BODY; fi
+-----> Every program you run in the command line will exit with an exit code
+-------> $? has the current exit code
+-------> In general, every non zero exit code is a failure and zero means success.
+-----> The if statement just runs the command in the CONDITION, and if the exit code is zero it will run the BODY.
+-----> The "test" command has applications (strings, integers, file) and in general it just test the condition and exit with an exit code depending on its usage.
+-------> Check the manual for "test" for more information
+---> "elif" and "else" are also some keywords you can use
+
+-> Open and close square brackets ([])
+---> Open square bracket program is just the same with the test command (check manual of test)
+---> Close square bracket is just an argument to opern square bracket program on your machine.
+---> Open square bracket program requires that the last argument of the program is a close square bracket
+---> You can do this(equivalent to the previous example): for f in $(ls); do if [ -d $f ]; then echo dir $f; fi; done
+---> Open square bracket is just a program on your machine.
+-----> In fact run: "which [" -> and it will print the location of echo command ("/usr/bin/[")
+
+-> Problem with white spaces
+---> This loop is problematic: "for f in $(ls)", because if something is named with a whitespace it will in different entries.
+-----> Having a folder with a name "My Documents" will have two separate entries: "My" and "Documents"
+---> This is really big source of bugs in bash.
+---> You can fix this problem by wrapping it in quotations and using globbing
+-----> Original: for f in $(ls); do if [ -d $f ]; then echo dir $f; fi; done
+-----> Fixed: for f in *; do if [ -d "$f" ]; then echo dir $f; fi; done
+-------> Notice you need to wrap it in quotations on the parameter given in the "[" program ("[" only expects one filename)
+-------> Notice globbing is used in the loop assingment
+
+-> Problem with new lines 
+---> Newlines are generally stored as carriage return, which forces the cursor at the back of the line.
+
+-> Globbing
+---> "*" lets you match any string of characters that are files/directories in the current directory
+-----> "ls *" will list all files/directories 
+-----> "echo b/c/*.txt" will display all txt files in "b/c" path
+---> "?" lets you match any single character
+-----> "ls ???" will list any files/directories with 3 characters
+---> "{}" lets you match two conditions
+-----> "ls {b,r}*" will list any files/directories that starts with a "b" or "r"
+-----> this expands to "ls b* r*"
+-------> note that "mv aaa(.txt)" -> expands to "mv aaa aaa.txt" -> which renames aaa to aaa.txt
+-----> "touch {a,b}{a,b}.txt" lets create 4 empty files
+-------> aa.txt, ab.txt, ba.txt, bb.txt
+---> "**" lets you match any path
+-----> "echo **/*.txt" will display all txt files in all paths in the current directory
+
+-> Globbing examples with loop statement
+---> for f in a*; do if [ -d "$f" ]; then echo dir $f; fi; done
+-----> This loops for any files/directories that starts with "a"
+---> for f in foo/*.txt; do if [ -d "$f" ]; then echo dir $f; fi; done
+-----> This loops for any ".txt" file that starts with inside the directory "foo"
+---> for f in foo/*.txt; do if [ -d "$f" ]; then echo dir $f; fi; done
+-----> This loops for any ".txt" file that starts with inside the directory "foo"
+
+-> Problem with white spaces
+---> When no argument is given $1 to $9 expands to nothing (not a null string)
+-----> This causes a lot of bash script errors.
+-----> Example: if [ $1 = "bar" ]
+-------> If there is no argument, this expands to: if [  = "bar" ]
+---------> This flags an error if run.
+-------> Common hack is: if [ x$1 = "xbar" ]
+-------> Or use this bash fix ("[[", "]]") : if [[ $1 = "xbar" ]]
+---------> Cannot be used in "sh"
+
+-> Composability
+---> The shell is powerful because it lets compose multiple programs.
+---> You can chain multiple programs together.
+---> The character for doing this is pipe "|"
+-----> For example: "a | b" this means:
+-------> Run "a"
+-------> Run "b"
+-------> Send all the output of "a" as input to "b"
+-------> Print the output of "b"
+---> All processes you launch has basically 3 streams
+-----> input stream or stdin
+-----> output stream or stdout
+-----> error stream or stderr
+-----> For example: "a | b" also means:
+-------> Change stdout of "a" to be equal to stdin of "b" 
+-------> So its not depedent on your input anymore, but rather the output of preceeding program
+
+-> cat command
+---> This command just prints its input.
+---> This command just reads from stdin and writes to stdout
+
+-> ">" means to write the output stream into a file
+---> cat > file.txt
+-----> This writes to file with the output of cat. 
+
+-> "<" means to read a file and put to stdin
+---> cat < file.txt
+-----> This reads from file as the input of cat. 
+
+-> Example: cat < in.txt > out.txt
+---> This reads from in.txt and writes to out.txt
+---> This is basically copy.
+
+-> "2>"
+---> Redirects stderr
+
+-> "&>" 
+---> Redirects everything
+
+-> grep examples:
+---> ls | grep o
+-----> This display every file/directory with an "o" in it.
+---> ls | grep [REGEX EXPRESSION]
+-----> This display every file/directory that satisfies the regex expression
+---> journalctrl -b | grep -i kernel | tail -n5
+-----> This displays the last file lines of boot log with the word "kernel" on it.
+
+-> sendmail examples:
+---> who | sendmail -t me@example.com
+-----> This sends an email containing the current users of the machine.
+
+-> (;) lets you combine outputs
+---> (who; ps aux) | grep jon | head -n 5
+-----> This shows the current users of the machine and the process report containing the word "jon" and just shows the first 5 lines.
+
+-> Process substitution
+---> Lets you want to find the difference between the boot logs.
+-----> You can do this:
+-------> journalctl -b -1 > LastBoot.txt
+-------> journalctl -b -2 > SecondToTheLastBoot.txt
+-------> diff -u LastBoot.txt SecondToTheLastBoot.txt
+-----> Better way is:
+-------> diff -u <(journalctl -b -1) <(journalctl -b -2)
+---------> diff needs 2 file names
+---------> bash starts both journalctl commands and creates sort of temporary files for the result of each
+---------> The output of both "<(journalctl -b -1)" and "<(journalctl -b -2)" are the file names of the temporary files
+-----------> In fact this command prints the filenames: echo <(journalctl -b -1) <(journalctl -b -2)
+---> NOTE: journalctl shows OS activity
+
+-> Running things on the background
+---> The ampersand "&" suffix tells bash to run it in the background
+-----> For example: "./server &"
+-------> Runs the server in the background
+-----> The output of this contains the job number and the process id.
+-------> For example: "[1] 19436"
+---------> It has a job number of 1 and process id of 19436
+---> The command "jobs" list all the jobs started with &
+---> The command "fg" can run it in the foreground.
+-----> For example: "fg"
+-------> Puts the most recent process to the foreground
+-----> For example: "fg %1"
+-------> Puts the process with job number 1 to the foreground
+---> The command "bg" can run it in the background.
+-----> For example: "bg %1"
+-------> Puts the process with job number 1 to the background
+---> CTRL+Z stops the current process and put in the background
+-----> You need to run bg to start it again.
+---> Note: If you close the shell, you are also closing all the background jobs.
+---> The command "disown" will let the background processes continue on even if shell is closed
+-----> For example: "disown %1"
+-------> The process with job number 1 will continue to run even if shell is closed.
+
+-> Tail follow example:
+---> Create file count.sh that has this line (this will count to 1000 per second):
+-----> "for i in $(seq 1 1000); do echo hello; sleep 1; done"
+---> Run count.sh in the background and put its output to a file
+-----> "./count.sh > count.log &"
+---> Use tail to display the latest values
+-----> "tail -f count.log"
+-----> -f means follow and this continuously prints the lines in the file
+
+-> Processes commands
+---> ps 
+-----> lists the running process from the current user of the machine
+---> ps -A
+-----> lists the running process from all users on the machine
+---> pgrep -af server
+-----> list all the running process with word "server" on it 
+---> pstree
+-----> lists the running process in a tree
+---> kill
+-----> sends a signal to a process
+---> pkill 
+-----> sends a signal to process the matches the pgrep
+-----> These are similar: 
+-------> pkill server
+-------> kill &(pgrep server)
+---> kill -l
+-----> lists all the signals that kill can send
+-------> default is SIGKILL(9), which tells the process to exit right now
+---> kill -s TERM 20156
+-----> tells process with pid 20156 to exit politely
+-----> SIGTERM tells the process to exit, equivalent to CTRL+C
+-----> SIGKILL tells the kernel to forcefully exit the process, equivalent to CTRL+\
+
+-> Common meanings of flags
+---> Note: You can combine flags:
+-----> "-v -v" is equivalent to "-vv"
+---> "-h" or "--help" shows help contents of the command (short version of the man page)
+---> "-v" or "--verbose" shows verbose output
+---> "-vv" shows more verbose output (pass multiple -v for more verbose output)
+---> "-V" or "--version" shows the version
+---> "-a" or "--all" means all
+---> "-f" or "--forced" means forced
+---> "--" means after this you should not interpret arguments as a flag
+-----> If you want to create "-a" file, instead of "touch -a", do "touch -- -a"
+
+
+
+Command line environment
+
+-> Aliases
+---> Create an alias for a command.
+---> You can do this:
+-----> alias l2="ls -l"
+-----> l2
+---> You can shorten git status:
+-----> alias gs="git status"
+-----> gs
+---> You can know what is being aliased using "which" command:
+-----> which l2
+---> Aliases can be compounded:
+-----> alias l3="l2 -a"
+---> Aliases can be overwritten, for example its completely legal to do this:
+-----> alias ls=l3
+-------> ls expands to l3, l3 expands to "l2 -a", l2 expands to the command "ls -l"
+---> You can call the non-aliased command using back slash:
+-----> \ls
+---> You can call the non-aliased function using "command":
+-----> command ls
+---> You can remove the alias by using "unalias"
+-----> unalias ls
+---> Note: Aliases needs to be done everytime a new command line session is started
+-----> You can add it to .bashrc or .bash_profile.
+-----> It might be a good idea to use source:
+-------> source ~/.aliases
+
+-> Autocomplete works
+
+-> You customize the font, the color, of the terminals.
+
+-> tmux command
+---> terminal multiplexer
+---> Check the configuration file .tmux.conf at home directory
+---> This is very handy for checking server and client. Both are running in parallel and you can check the status for each one.
+
+-> autojump command
+---> helps you jump to a path based from history
+
+-> ranger command
+---> ranger is a console file manager with VI key bindings. 
+
+-> bat
+---> similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) 
+
+-> find command
+---> find . -name
+---> find is very verbose
+-----> fd command is much more helpful
+
+-> rg command
+---> regrep
+---> search for a string in a file
+
+-> fzf command
+---> grep on the go
+---> ps aux | fzf
+-----> this lets you grep in real time
+
+-> trash command
+---> lets delete a file and move to trash
+
+-> aunpack command
+---> instead of knowing the commands on tar, use this command and it will figure it out
+
+-> rsync command
+---> lets you copy files
+---> Rsync is a fast and extraordinarily versatile file copying tool.
+---> Rsync is widely used for backups and mirroring and as an improved copy command for everyday use. 
+
+
+
+Data wrangling
+
+-> Data wrangling means you want to transform a bunch of text (usually you want less text).
+---> grep and | are examples of data wrangling
+
+-> ssh tsp journalctl > tsp.log
+---> just for demo (in case network cuts out)
+---> you can also just pipe it directly
+-----> ssh tsp journalctl | [insert command]
+
+-> cat tsp.log | grep sshd | "Disconnected from"
+---> shows disconnected users
+---> but needs to remove other "crap" from the line
+-----> you can use "sed"
+
+-> sed
+---> streaming editor that lets give commands to edit a line of text
+
+-> tail
+---> lets you output the last few lines
+
+-> head
+---> lets you output the first few lines
+
+-> cat tsp.log | grep sshd | "Disconnected from" | sed 's/.*Disconnected from //' | tail -n5
+---> "s" in the sed command means substitute
+-----> substitute the pattern on the between the first and second slash with the contents between the second and third slash
+-------> /[pattern to match]/[text to replace]/
+-------> The pattern can be a regular expression.
+---> This means substitute any string characters before and including "Disconnected from" with nothing.
+
+-> Regular expression quick reference:
+---> "." means any single character
+---> "*" means zero or more preceeding pattern
+---> "+" means one or more preceeding pattern
+---> "?" means zero or one
+---> "[]" means any of the specified characters 
+-----> "[abc]" means "a" or "b" or "c"
+-----> "[0-9]" means 0 to 9 (ranges can be used as well)
+-----> "[^ ]" means any character that is not a space
+---> "|" means or condition
+-----> "(P1|P2)" means any string of characters that match pattern 1 or pattern 2
+---> "^" means start of line
+---> "$" means end of line
+---> ".*" means zero or more of any character
+
+
+-> NOTE: Regular expressions are greedy by default. This match as much possible with the pattern used.
+
+-> NOTE: You need to put a black slash when you are using special character when substitute in sed.
+---> sed 's/a*+|(c|d)//'
+-----> Needs to be transformed to: 
+-------> sed 's/a\*\+\|\(c\|d\)//'
+-----> Or you can use -E: 
+-------> sed -E 's/a*+|(c|d)//'
+
+-> NOTE: Regular expressions are greedy by default. This match as much possible with the pattern used.
+---> You can use perl with sed as alternative.
+
+-> cat tsp.log | grep sshd | "Disconnected from" | sed -E 's/.*Disconnected from (invalid |authenticating )?user//' 
+---> This matches more with the given pattern.
+---> The username is now first in the output.
+
+-> cat tsp.log | grep sshd | "Disconnected from" | sed -E 's/.*Disconnected from (invalid |authenticating )?user .+ [^ ]+ port [0-9]+( \[preauth\])?$//' 
+---> This matches more with the given pattern.
+---> This will result in blank lines, you need to get the user part(see next example)
+---> "[^ ]" means any character that is not a space (check regular expression quick reference)
+
+-> cat tsp.log | grep sshd | "Disconnected from" | sed 's/.*Disconnected from (invalid |authenticating )?user .+ [^ ]+ port [0-9]+( \[preauth\])?$//' 
+---> This will result in blank lines, you need to get the user name part(see next example)
+---> "[^ ]" means any character that is not a space (check regular expression quick reference)
+
+-> cat tsp.log | grep sshd | "Disconnected from" | sed -E's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' 
+---> "\2" means the second capture group
+------> any pattern that is enclosed with parenthesis is a capture group (saved by the engine)
+------> parentheses were wrapped in "(.+)" to capture it
+------> by putting "\2" between the second slash and third slash in sed, we can replace the whole line with the username part
+---> If we have a username "Disconnected from", since we have an exact regex of the line, it needs to match the whole line, so "Disconnected from" username will still be in the output.
+
+-> NOTE: Email regex
+---> https://emailregex.com/
+---> This is aligned with the RFC (its noted on the site which version).
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+---> removed the redundant grep commands
+---> "-e" lets you add multiple expressions on the sed, each expression just needs to be prefixed with "-e"
+---> "'/Disconnected from/!d'" means dont delete the line with "Disconnected from"
+
+-> wc
+---> lets you output the word count
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log  | wc -l
+---> gives the number of usernames
+---> "wc -l" prints only new line counts
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log | sort | uniq | wc -l
+---> gives the number of unique usernames
+---> "sort" will sort lines
+---> "uniq" will only give unique lines in sorted list
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log | sort | uniq -c | sort -n -k1,1 -r
+---> gives number of occurrences and unique usernames, with the most frequent usernames at the beginning
+---> "sort -n -k1,1 -r"
+-----> "-n" means sort by numerical order
+-----> "-k" means sort only on given fields 
+-------> "-k1,1" means sort only starting from the first column field until the first column field (so sort only on the first column field)
+-------> example: "-k1,3" means sort on the first three columns
+-------> example: "-k3,3" means sort on the third column
+-----> "-r" means reverse sort (put the highest number of occurrences first)
+-------> you can also pipe it to "tac", which prints in reverse order
+---> "uniq -c" outputs both the number of occurrences and the name
+
+-> awk
+---> another stream editor per line (similar to sed)
+---> you want sometimes to use awk instead of sed because awk knows about fields
+---> line oriented
+---> every command of awk has a optional [PATTERN] followed by a {BLOCK}
+-----> If this pattern matches then execute the code on this block.
+---> special variables:
+-----> $0 is the entire line
+-----> $1 is the first field
+-----> $2 is the second field
+---> by default, awk will split by whitespace  
+-----> you can also use the -F flag
+-------> "awk -F," means split by comma (useful for csv files)
+-------> "awk -F$'\t'" means split by tab
+---> awk is a programming language
+
+-> paste
+---> takes inputs as lines and paste them together
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $2}' | paste -sd,
+---> this generates a comma separated list of usernames, as sorted with the most frequent usernames at the beginning
+---> "awk '{print $2}'" get only the second field (the username)
+---> "paste -sd," means list them as comma separated
+-----> "-d" "--delimiters=LIST"
+-------> reuse characters from LIST instead of TABs
+-----> "-s" "--serial"
+-------> paste one file at a time instead of in parallel
+
+-> ps aux |  awk '$1 ~ /root/ && $2 > 2000 {print $9}' 
+---> this prints the time of processes that has user "root" with process id greater than 2000
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk 'BEGIN {rows = 0} $1 != 1 && $2 ~ /^c/ {rows += $1} END {print rows}' | paste -sd+ | bc -l
+---> this gives the number usernames that are used more than once that starts with the letter c
+------> "$1 != 1" means that the username is used more than once (occurrence is not one)
+------> $2 ~ /^c/ means start with the letter c
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+ | bc -l
+---> instead of using "wc -l", this adds the number of occurrences (by listing the occurrences with plus as delimeter and adding them in a calculator)
+
+-> echo "2*($(sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+))" | bc -l
+---> this multiplies the total number of occurences to two
+---> NOTE: This uses process substitution.
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'
+---> this pipes the number of occurrences to R, and then prints a summary of the data
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | gnuplot -p -e 'set boxwidth 0.5; plot "-" using 1:xtic(2) with boxes'
+---> this pipes the number of occurrences and usernames to gnuplot, and then shows a box plot of it
+
+-> rustup
+---> manages your rust installations
+
+-> rustup toolchain
+---> shows rust installations
+
+-> xargs
+---> lets convert the input as arguments to a command
+---> echo "hello" | xargs echo 
+-----> this lets you pass "hello" as an argument to echo
+
+-> rustup toolchain list | grep nightly | grep -vE 'nightly-x86' | sed 's/-x86.*//' | xargs rustup toolchain uninstall
+---> lets you delete all rust toolchain that match the regex pattern (so you dont have to call it one by one)
+ 
+-> cat /usr/share/dict/words
+---> contains a list of words 
+
+-> rustup has this installation guideline:
+---> Run the following in your terminal: curl https://sh.rustup.rs -sSf |sh
+-----> Dont do this! This is downloading a script on the internet and running it to your shell.
+
+-> pup
+---> input an html to it and it can give certain details
+
+-> curl -s https:// news.ycombinator.com/ | pup 'table table tr:nth-last-of-type(n+2) td.title a'
+---> get a link from a table using curl and pup
+
+-> jq
+---> jq is tool for operating json files 
+
+
+
+
+Editors
+
+-> vim
+---> vim vs emacs (very heated topic)
+---> More info on: https://en.wikipedia.org/wiki/Editor_war
+---> Powerful text editor
+
+-> Learning materials
+---> vimtutor
+-----> probably already installed in your pc if it has vim
+-----> http://www2.geog.ucl.ac.uk/~plewis/teaching/unix/vimtutor
+-----> The approximate time required to complete the tutor is 25-30 minutes, depending upon how much time is spent with experimentation.
+---> vimadventures
+-----> https://vim-adventures.com
+
+-> nano
+---> simple to use
+---> its great to use when you dont to use anything else
+---> its great when you dont have anything else to use and just have to create a small change
+---> its not great to use when you want to create complicated programs (no great support to change anything densy)
+
+-> vim is a modal editor
+---> We typically dont write essays when we code. We just peruse the code and change some line and peruse again and change line again. 
+---> So in Vim, there is a concept of modes. The entire tool can be in different modes designed to create this kind of things.
+---> There is a mode of inserting text, but there is a mode of viewing the file, and manipulating the file in different ways.
+---> "Normal mode" is just viewing the file and manipulating the file in different ways.
+
+-> vim is programmable
+---> vim can be programmed using vimscript
+-----> you can customize a lot of aspects of this tool by writing in vimscript
+-----> you change the configuration and write programs and plugins
+---> the interface is also like a programming language
+-----> the way you move the cursor around and make changes to a file also is through a sequence of commands (usually thru key strokes)
+-----> the commands are composable
+-------> you can combine "movement commands" and "editing commands" to create a "compound command"
+-------> Example: you can combine the command "to go forward by a word" with the command "to change something" means you can "replace the word"
+
+-> we dont want to use the mouse to navigate
+---> its imprecise and very slow
+---> we just use the keyboard
+---> the editor should work on the speed you think
+
+-> Modes:
+---> shown the at the bottom-left of vim
+---> if nothing is shown then you are in normal mode
+---> Keystrokes:
+-----> 'esc' takes you back to "normal mode"
+-----> 'i' takes you to "insert mode"
+-------> you can type in text
+-----> 'v' takes you to "visual mode"
+-------> you can select a bunch of text
+-----> 'V' takes you to "visual line mode"
+-------> you can select a block of text by lines
+-----> 'ctrl+v' takes you to "visual block mode"
+-------> you can select a block of text
+
+-> X-commands (in normal mode)
+---> if youre in normal mode, you press colon (you can see that cursor jump down to the bottom-left)
+---> Basic X-commands:
+-----> ':q' means quit
+-----> ':w' means write (means save the file)
+-----> ':wq' means write then quit
+-------> ':x' means write then quit as well (save so much time by avoid one character lol)
+-----> ':e' means edit
+-------> if you give it a name, you can edit that file (vim can have many buffers open)
+-----> ':ls' means list the buffers open
+-------> it will show you the files you have open
+-----> ':bn' means go to the next buffer
+-----> ':h' means help 
+-------> ":help write" shows the help contents of the write command
+-------> ":help w" shows the help contents of the "w" keystoke (move words forward)
+
+-> Moving around the file (in normal mode)
+---> You can disable the arrow keys when using vim to avoid bad habits.
+-----> vim ~/.vimrc
+-------> ".vimrc" is the configuration file
+-------> put these lines on the file:
+----------> nnoremap <Left> :echoe "Use h" <CR>
+----------> nnoremap <Right> :echoe "Use l" <CR>
+----------> nnoremap <Up> :echoe "Use k" <CR>
+----------> nnoremap <Down> :echoe "Use j" <CR>
+---> Keystrokes:
+-----> 'w' move forward by words (beginning of word)
+-----> 'b' move backward by words (beginning of word)
+-----> 'e' move forward by words (end of the word)
+-----> '0' moves at the start of the line
+-----> '$' moves at the end of the line
+-----> '^' moves at the start of the nonwhitespace character of the line
+-----> 'H' goes to the top of the screen 
+-----> 'M' goes to the middle of the screen 
+-----> 'L' goes to the bottom of the screen  
+-----> 'ctrl+d' goes down by a page 
+-----> 'ctrl+u' goes up by a page 
+-----> 'gg' moves at the beginning of the file
+-----> 'G' moves at the end of the file
+-----> ':[linenumber]' can get you to the exact line number of the file
+-----> '%' move to the corresponding item (for example in a parenthesis block, it will go the start of the parenthesis)
+-----> 'f' and then 'character' means find (search forward) the first occurrence of that character
+-----> 'F' and then 'character' means find (search backward) the first occurrence of that character
+-----> 't' and then 'character' means jump to (search forward) the first occurrence of that character (one character before the searched character)
+-----> 'T' and then 'character' means jump to (search backward) the first occurrence of that character (one character before the searched character)
+---> Composability of keystrokes:
+-----> '5' then 'j' means go down 5 times
+-----> '3' then 'w' means move forward by 3 words
+
+-> Searching (in normal mode):
+---> Type in '/' and the cursor moves at the bottom-left of the screen and you can regex search to the next occurence of the regex hit
+-----> 'n' mean next occurence (this is after performing the regex search)
+
+-> Modifying the file (goes into insert mode)
+---> 'i' for insert
+---> 'a' for append
+
+-> Selecting a block of text (visual mode)
+---> You can still use the movement keystrokes you can use in normal mode.
+
+-> Deleting text
+---> Can be composed with movement keystrokes:
+-----> 'd' then 'e' means delete to the end of the word
+-----> 'd' then '$' means delete to the end of the line
+-----> 'd' then '0' means delete to the start of the line
+-----> 'd' then '^' means delete until the non white space character at the start of the line
+-----> 'd' then '3' then 'j' means delete three lines down
+-----> 'd' then '3' then 'w' means delete the next three words
+-----> 'd' then 'l' means delete one thing to the right
+-----> 'x' means delete the character on the cursor
+---> note: this also can be done in the visual modes
+
+-> Changing text (goes into insert mode)
+---> Can be composed with movement keystrokes:
+-----> 'c' then '3' then 'w' means delete the next three words and then go to insert mode
+---> Substitute:
+-----> 's' means delete the character on the cursor and go to insert mode
+--------> equivalent to 'd' then 'l' then 'i'
+---> Flip the case:
+-----> '~' means flip the case the character on the cursor and move to the right
+--------> '3' then '~' changes 3 characters
+---> note: this also can be done in the visual modes
+
+-> undo and redo
+---> 'u' to undo
+---> 'r' to redo
+
+-> ".vimrc"
+---> can configure tons of things (syntax highlighting, backspace usage etc)
+---> look for inspiration from other people in github
+
+-> Search and replace
+---> ':%s/foo/bar/g' this means regex search for "foo" replace with "bar" globally in the file
+-----> http://vim.wikia.com/wiki/Search_and_replace
+-----> "\1" means the replace with the captured text in the parenthesis (similar to sed)
+
+-> Split windows
+---> ':sp' means split to multiple windows of the same file
+-----> what if you want to see the top line of text and bottom line of text at the same time
+
+-> Macros
+---> 'q' then 'any letter' and it will record a macro under that letter
+---> '@' then 'any letter' replays the macro
+---> Example: You can change an xml file into a json file.
+
+
+
+
+
+
+

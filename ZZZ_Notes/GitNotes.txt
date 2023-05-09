@@ -21,49 +21,59 @@ Common commands:
 ---> git add *.html  // all html files
 ---> git add :/   // adds all files under this directory
 
--> Unstage or remove a file one by one that is tracked by git (remove file from staging area):
+-> Unstage and remove a file one by one that is tracked by git (remove file from staging area):
 ---> git rm FileName1 FileName2
 ---> git rm --cached FileName1 FileName2
+-----> Use this when you dont want to delete the file on disk, just in the staging area.
 -----> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
+-------> From git docs: "--cached" Use this option to unstage and remove paths only from the index. Working tree files, whether modified or not, will be left alone.
 
 -> Track changes:
 ---> git status
-
 -> Check changes:
 ---> check changes from current commit
 -----> git diff
 -----> git diff FileName   // for one file
 ---> check changes from staging area
------> git diff --cached
+-----> "git diff --cached" "git diff -- staged"
+-------> --staged is a synonym of --cached
+---> check the changes from a range of commits
+-----> git diff HashStringOfTheOldestCommit..HashStringOfTheNewestCommit
+-----> git diff HashStringOfTheOldestCommit.. // (if end of ".." is blank then it means use HEAD as end)
+---> show changes with colors
+-----> git diff --color-words
 
 -> Check all commits:
 ---> git log
 -----> by default, git log shows you a flatten version of the version history
 ---> git log --all --graph --decorate   // shows the changes in a graph
----> git log --all --graph --decorate --oneline   // shows the changes in a graph with less detail
+---> git log --all --graph --decorate --oneline   // shows the changes in a graph with less 
+---> git log --oneline // shows a list of commits, each line shows hash string id of the commit and the commit message
+---> git log --patch // shows the diff of each commit
 
 -> Commit to local repository:
----> git commit -m "Message title test" -m "Message description text"
------> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
+---> git commit -m "Message title test" -m "Message description text"-----> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
 -----> If multiple -m options are given, their values are concatenated as separate paragraphs.
 -----> NOTE: if there is no message, it will fail the commit
 ---> git commit -am "Message title test" -m "Message description text"
 -----> The option "-a or -all" will commit all MODIFIED files (no need to git add, works for MODIFIED files ONLY)
 ---> git commit -F ../CommitMessageFile.txt    // This is use a text file for the commit message
 -----> The option "-F <file> or --file=<file>" will take the commit message from the given file. Use - to read the message from the standard input.
+---> git commit --amend
+-----> Amend the current commit with this change. Basically undo the current commit, then redo it with this change.
 
 -> push changes to remote repository:
 ---> git push   // works without any arguments if upstream is set
 ---> git push origin master   // origin is reserved word the stands for the git remote repository, master is the branch we have to push
 ---> git push -u origin master   // "-u" is "--set-upstream" sets the upstream to origin so we don't have to type "origin master" in the future
 ---> git push origin HEAD:refs/for/BranchName   // This is for using a reference
+---> git push origin master HEAD // This just sets the remotes/origin/master to point to HEAD
+-----> Note: this is equivalent to "git push" if upstream is set
 
 -> pull changes from remote repository:
----> git pull   // works without any arguments if upstream is set
----> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to pull
+---> git pull   // works without any arguments if upstream is set---> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to pull
 ---> git pull --set-upstream origin master   // "--set-upstream" sets the upstream to origin we don't have to type "origin master" in the future
 -----> git pull = git fetch + git merge
-
 -> fetch changes from remote repository and track it to GIT but dont change any files in local directory
 ---> git fetch
 -----> only gets the changes from remote repository, but doesn't change local files
@@ -73,22 +83,22 @@ Common commands:
 -----> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
 
 -> undoing changes
+---> Note: reset has two meanings:
+-----> (1) Undo/remove a staged change
+-----> (2) Change were the current branch points
 ---> undo staging (git add was already used, and we need to undo "git add")
 -----> git reset   // undo staging for all changes
------> git reset FileName   // undo staging for one file
--------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
+-----> git reset FileName   // undo staging for one file-------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
 ---> undo a commit (git commit was already used, and we need to undo "git commit")
 -----> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. 
 -------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
----> go to a specific commit (git commit were used multiple times, and we need to undo several "git commits)
+---> place HEAD to a specific commit (git commit were used multiple times, and we need to undo several "git commits)
 -----> get the unique hash of the commit
 -------> git log
------> use the unique hash of the commit in git reset
--------> git reset HashOfTheCommit
+-----> use the unique hash of the commit in git reset-------> git reset HashOfTheCommit
 ---------> NOTE: The changes still exists we just let git point to a commit. Do "git status" to check.
 -----> undo changes and reflect it on the files
--------> git reset --hard
----------> NOTE: The "--hard" option means that the changes are also removed. Do "git status" to check.
+-------> git reset --hard---------> NOTE: The "--hard" option means that the changes are also removed. Do "git status" to check.
 ---> undo a git merge
 -----> git merge --abort
 
@@ -109,34 +119,39 @@ Common commands:
 ---> remove directories (forced)
 -----> git clean -fd
 
+-> show changes (useful after git blame)
+---> git show HashStringOfTheCommit
+---> git show HEAD // shows the latest commit on the current branch
+
 -> apply diffs:
 ---> git apply --check --verbose DiffName.diff
 ---> git apply --verbose DiffName.diff
-
 -> get diff from a commit:
 ---> git format-patch -1 <commit hash value>
 
 -> blame
----> git blame FileName
+---> git blame FileName 
 
--> show changes (useful after git blame)
----> git show HashStringOfTheCommit
+-> revert
+---> git revert HashStringOfTheCommit 
+-----> creates a new commit that revert the changes of a previous commit (it commits it directly no need for "git commit")
+---> The command "revert" is also good when you have ten commits and a-three ago you messed one little thing up. 
+-----> "git revert HEAD~3" will commit the opposite of that commit on top. You have undone it.
 
--> stash
----> git stash
------> save the changes in git and revert the local files to latest commit
----> git stash pop
------> revert back the local files with the changes
+-> Check commit IDs / HashStringOfTheCommit
+---> git rev-parse HEAD
+---> git rev-parse master
+---> git rev-parse remotes/origin/master
 
-
+-> shows changes in a window
+---> gitk -all
+-----> separate application
 
 
 Less common commands:
-
 -> Set name and email 
 ---> git config --global user.email "detectivemark7@gmail.com"
 ---> git config --global user.name "detectivemark7"
-
 -> Clone:
 ---> git clone git@github.com:detectivemark7/aprg.git
 ---> git clone --shallow URL    // --shallow means avoid getting the whole version history and get just the latest snapshot (useful for big repositories)
@@ -159,64 +174,109 @@ Less common commands:
 -> Check what is the connected remote repository of this local repository:
 ---> git remote -v
 
+-> Change history/log of the commits
+---> git rebase -i HEAD~6..HEAD~1
+-----> The command "rebase" takes sequence of commits, undo all of them, and redo them in a different way
+-----> "-i" just means interactive 
+-------> Interactive mode shows you a list of commands to change. Just check/follow the rules on the description to do what you want.
+-------> "fixup" command is interesting because its delete the entry of the commit but the changes are still there
+-------> "squash" (like "fixup" but keeps the commit message) is also interesting if you just need the overall change and not the partial commits
+---------> When working on opensource project, it might be best to "squash" your commits so that the maintainers dont need to check partial commits.
+-----> HEAD~6..HEAD~1 means the last six commits excluding the last one
+-------> HEAD~6 means the last six commits (if end of ".." is blank then it means use HEAD as end)
+---> git rebase --continue
+-----> to apply the changes of the history/log
+
+-> stash
+---> git stash
+-----> save the changes in git and revert the local files to latest commit
+---> git stash pop
+-----> revert back the local files with the changes
+
 -> For local branches (for feature branches or hot fix branches):
 ---> To view branches: 
------> git branch
+-----> git branch 
 -------> outputs the local branches available currently
 -------> * represents that its currently on that branch
 -----> git branch -vv    // Very verbose (shows origin branch details as well)
 ---> create a new branch: 
------> git branch BranchName (this does not switch the current branch)
------> git checkout -b BranchName (this also switch the current branch)
+-----> git branch BranchName // this does not switch the current branch
+-----> git checkout -b BranchName // this also switch the current branch
 ---> delete a branch: 
 -----> git branch -d BranchName
 ---> switch branches: 
 -----> git checkout BranchName
 -----> git checkout master
+-----> git checkout - // switch to previous branch
 ---> remotely git checkout can also be used to discard changes in the working directory
 -----> git checkout FileName ...
 ---> before merging, check what is the diff of the specified branch with respect to the current branch
 -----> git diff BranchName
 ---> merge diff of the specified branch to the current branch
+-----> Note: You can also use "git mergetool"
 -----> git merge BranchName
+-------> Note: The diff use for this can actually be found using this: git diff master^..BranchName (carat mean the last fork of the line (see Carat vs Tilde section))
 -----> git merge --verbose BranchName
 -------> useful to merge a feature branch to master (for pushing changes to remote master)
--------> useful to merge a master to a feature branch (for keeping up with remote master)
----------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), 
+-------> useful to merge a master to a feature branch (for keeping up with remote master)---------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), 
 ---------> then use git add for the conflicted files
 ---------> then use git merge --continue (or use git commit to apply the changes).
 -----> git merge --abort
 -------> undo the previous git merge
 -----> git merge --continue
 -------> after fixing the conflicts
----> push a specified branch to a remote repository (creating this specified branch in the remote repository)
+---> push a specified branch to a remote repository (creating this specified branch in the remote repository) 
 -----> git push -u origin FakeFeatureBranch   // you can use --set-upstream as well
 -------> this commits a FakeFeatureBranch to remote repository, then we can merge this branch to the master branch of the remote repository using a remote tool(GitHub, generate a pull request)
----> checkout to a specific version of the current branch:
------> git checkout b32d6f740504
+---> checkout to a specific version of the current branch:-----> git checkout b32d6f740504
 -------> Puts HEAD reference in a "detached HEAD state". The HEAD is not the latest commit of the branch anymore.
 ---> checkout to a specific version of a specific branch:
 -----> git checkout BranchName b32d6f740504 (this also switch the current branch)
-
 -> prints detail of a git object (see "GIT underneath")
 ---> git cat-file -p 42fb7a2    // prints details about an object, notice that only first 6 digits of the hash string of an object can be used as argument
 ---> git cat-file -p 42fb7a21b52dd0f6026a0d9d434129db61acb4bf2    // prints details about an object, notice that all 40 digits of an object can be used as argument
 
-
 -> Forking
 ---> Can be done on remote repository (github)
----> Copy a separate repository and make it your own
------> Useful to capture a separate repository at specific time (useful to copy external sources)
+---> Copy a separate repository and make it your own-----> Useful to capture a separate repository at specific time (useful to copy external sources)
 -------> Can send changes or make a contribution on the external sources (generate a pull request)
+
+
+Carat vs Tilde (specifying revisions):
+-> Source: https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git/2222920#2222920
+
+-> Rules of thumb
+---> Use ~ most of the time — to go back a number of generations, usually what you want
+---> Use ^ on merge commits — because they have two or more (immediate) parents
+
+-> Mnemonics:
+---> Tilde ~ is almost linear in appearance and wants to go backward in a straight line
+---> Caret ^ suggests an interesting segment of a tree or a fork in the road
+
+-> Tilde
+---> The “Specifying Revisions” section of the git rev-parse documentation defines ~ as
+-----> <rev>~<n>, e.g. master~3
+-----> A suffix ~<n> to a revision parameter means the commit object that is the nth generation ancestor of the named commit object, following only the first parents. 
+-----> For example, <rev>~3 is equivalent to <rev>^^^ which is equivalent to <rev>^1^1^1 …
+---> You can get to parents of any commit, not just HEAD. 
+---> You can also move back through generations: for example, master~2 means the grandparent of the tip of the master branch, favoring the first parent on merge commits.
+
+-> Caret
+---> Git history is nonlinear: a directed acyclic graph (DAG) or tree. 
+-----> For a commit with only one parent, rev~ and rev^ mean the same thing. 
+-----> The caret selector becomes useful with merge commits because each one is the child of two or more parents — and strains language borrowed from biology.
+---> HEAD^ means the first immediate parent of the tip of the current branch. HEAD^ is short for HEAD^1, and you can also address HEAD^2 and so on as appropriate. The same section of the git rev-parse documentation defines it as
+-----> <rev>^, e.g. HEAD^, v1.5.1^0
+-----> A suffix ^ to a revision parameter means the first parent of that commit object. 
+-----> ^<n> means the nth parent ([e.g.] <rev>^ is equivalent to <rev>^1). 
+-----> As a special rule, <rev>^0 means the commit itself and is used when <rev> is the object name of a tag object that refers to a commit object.
 
 
 
 
 SSH key related:
-
 -> SSH key guide:
 ---> https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-
 -> Generating a new SSH key: 
 ---> ssh-keygen -t ed25519 -C "detectivemark7@gmail.com"
 
@@ -261,14 +321,13 @@ GIT underneath:
 -----> HEAD is a human readable name of the current commit or the current snapshot of the current branch
 -----> master is a human readable name of latest commit of a the first/default branch
 -----> origin is human readable name for the git remote repository (not necessarily on the web but the common repository for other collaborators)
+-----> NOTE: remember a branch is really just a name that points to a commit (intially it points to empty commit)
 
 -> objects are immutable (because hash string is derived from the contents of the object)
 -> git has a "staging area" which tells what changes should be included in the next snapshot we take
-
 -> commands explanation
 -> git init
----> creates the git contents (but still empty)
--> git add
+---> creates the git contents (but still empty)-> git add
 ---> adds a change in the staging area
 -> git commit
 ---> creates a object(commit) and adds it in the DB
@@ -282,11 +341,13 @@ GIT underneath:
 
 -> In merge, "Fast forward" means it just moved from commit to commit in the DAG (no merge happened)
 
-
+-> NOTE: Remember about the message: "You care in 'detached HEAD' state." 
+---> It just means there are no names that refers to where we currently at.
+---> If you make commits in this state, no name is gonna be pointing on those commits.
+---> You can still commits in this state, but they will just be stored in git with no easy names to remember it by.
 
 
 Other interesting topics:
-
 -> Git is highly configurable
 ---> use git config
 ---> edit ".gitconfig" manually
