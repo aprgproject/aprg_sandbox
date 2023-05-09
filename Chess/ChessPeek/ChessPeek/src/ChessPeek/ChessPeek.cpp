@@ -101,28 +101,18 @@ void ChessPeek::initialize() {
 
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails) {
     m_calculationDetails.depthInPlies = engineCalculationDetails.depthInPlies;
-    m_calculationDetails.mateScore = engineCalculationDetails.mateScore;
+    if (!engineCalculationDetails.variations.empty()) {
+        m_calculationDetails.variations = engineCalculationDetails.variations;
+    }
     if (!engineCalculationDetails.bestMove.empty()) {
         m_calculationDetails.bestMove = engineCalculationDetails.bestMove;
     }
-    if (!engineCalculationDetails.currentMovesAndScores.empty()) {
-        m_calculationDetails.currentMovesAndScores = engineCalculationDetails.currentMovesAndScores;
-    }
-    m_calculationDetails.scoreInMonitoredVariation = engineCalculationDetails.scoreInMonitoredVariation;
-    if (!engineCalculationDetails.monitoredVariation.empty()) {
-        m_calculationDetails.monitoredVariation = engineCalculationDetails.monitoredVariation;
-    }
-    if (!engineCalculationDetails.commonMovesAndCountsOfEachStep.empty()) {
-        m_calculationDetails.commonMovesAndCountsOfEachStep = engineCalculationDetails.commonMovesAndCountsOfEachStep;
-    }
 }
 
-void ChessPeek::printCalculationDetailsWithFiltering() {
-    constexpr auto MINIMUM_MILLISECONDS_FOR_EACH_PRINT = 200;
+void ChessPeek::printCalculationDetailsWithFiltering() {    constexpr auto MINIMUM_MILLISECONDS_FOR_EACH_PRINT = 200;
     m_printFilteringTimer.stopTimer();
     if (m_printFilteringTimer.getElapsedTimeInMilliseconds() > MINIMUM_MILLISECONDS_FOR_EACH_PRINT) {
-        printCalculationDetails();
-        m_printFilteringTimer.resetTimer();
+        printCalculationDetails();        m_printFilteringTimer.resetTimer();
     } else {
         m_hasPendingPrintAction = true;
     }
