@@ -46,10 +46,25 @@ void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, size_t num
     m_stream.read(writer, static_cast<streamsize>(numberOfBytesToRead));
 }
 
+void AlbaFileReader::skipLine() {
+    if (!m_stream.eof()) {
+        m_stream.clear();
+        m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
+    }
+}
+
+string AlbaFileReader::getLine() {    string result;
+    if (!m_stream.eof()) {
+        m_stream.clear();
+        m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
+        result = string(getCharacterBufferPointer());
+    }
+    return result;
+}
+
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces() {
     string result;
-    while (!m_stream.eof()) {
-        m_stream.clear();
+    while (!m_stream.eof()) {        m_stream.clear();
         m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
         string stringFromBuffer(getCharacterBufferPointer());
         result = getStringWithoutStartingAndTrailingWhiteSpace(stringFromBuffer);
@@ -60,24 +75,12 @@ string AlbaFileReader::getLineAndIgnoreWhiteSpaces() {
     return result;
 }
 
-string AlbaFileReader::getLine() {
-    string result;
-    if (!m_stream.eof()) {
-        m_stream.clear();
-        m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
-        result = string(getCharacterBufferPointer());
-    }
-    return result;
-}
-
 size_t AlbaFileReader::getCurrentLocation() const { return m_stream.tellg(); }
 
-size_t AlbaFileReader::getFileSize() const {
-    m_stream.seekg(0, std::ifstream::end);
+size_t AlbaFileReader::getFileSize() const {    m_stream.seekg(0, std::ifstream::end);
     size_t fileSize = m_stream.tellg();
     moveToTheBeginning();
-    return fileSize;
-}
+    return fileSize;}
 
 void AlbaFileReader::moveToTheBeginning() const { m_stream.seekg(0, std::ifstream::beg); }
 
