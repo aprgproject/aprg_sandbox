@@ -28,19 +28,17 @@ void trackKeyPress() {
 
 ChessPeek::ChessPeek()
     : m_configuration(Configuration::Type::ChessDotComVersus),
-      m_screenMonitoring(),
       m_engineHandler(m_configuration.getChessEnginePath()),
       m_engineController(m_engineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
-      m_detailsFromTheScreen(m_configuration, m_screenMonitoring),
+      m_detailsFromTheScreen(m_configuration),
       m_detailsOnTheEngine(),
+      m_book(),
       m_calculationDetails{},
       m_engineWasJustReset(true),
-      m_hasPendingPrintAction(false) {
-    initialize();
+      m_hasPendingPrintAction(false) {    initialize();
 }
 
-void ChessPeek::runForever() {
-    thread trackKeyPressThread(trackKeyPress);
+void ChessPeek::runForever() {    thread trackKeyPressThread(trackKeyPress);
     while (shouldStillRun) {
         runOneIteration();
         Sleep(1);
@@ -57,18 +55,13 @@ void ChessPeek::runOneIteration() {
     }
 }
 
-void ChessPeek::checkScreenAndSaveDetails() {
-    m_screenMonitoring.capturePixelsFromScreen();
-    m_detailsFromTheScreen.saveDetailsFromTheScreen();
-}
+void ChessPeek::checkScreenAndSaveDetails() { m_detailsFromTheScreen.saveDetailsFromTheScreen(); }
 
 void ChessPeek::startEngineAnalysisWithBoardFromScreen() {
-    if (didPlayerChange()) {
-        m_engineController.resetToNewGame();
+    if (didPlayerChange()) {        m_engineController.resetToNewGame();
     }
 
     m_detailsOnTheEngine.save(m_detailsFromTheScreen.getBoardWithContext());
-
     m_engineController.setupFenString(m_detailsOnTheEngine.getBoardWithContext().getFenString());
     if (!m_engineController.waitTillReadyAndReturnIfResetWasPerformed()) {
         m_engineController.goWithPonder();
@@ -90,13 +83,12 @@ void ChessPeek::initialize() {
     // m_engineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");  // for debugging
     // m_engineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");  // for debugging
 
+    m_book.loadDatabaseFrom(APRG_DIR R"(\Chess\ChessPeek\Database\ChessDotComBookDatabase.txt)");
     m_engineController.setAdditionalStepsInCalculationMonitoring(
         [&](EngineCalculationDetails const& engineCalculationDetails) {
-            calculationMonitoringCallBackForEngine(engineCalculationDetails);
-        });
+            calculationMonitoringCallBackForEngine(engineCalculationDetails);        });
     m_engineController.initialize();
 }
-
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails) {
     m_calculationDetails.depthInPlies = engineCalculationDetails.depthInPlies;
     if (!engineCalculationDetails.variations.empty()) {
@@ -129,15 +121,13 @@ void ChessPeek::printCalculationDetails() {
     if (!currentlyPrinting) {
         m_hasPendingPrintAction = false;
         currentlyPrinting = true;
-        ResultPrinter(m_detailsOnTheEngine.getBoardWithContext(), m_calculationDetails).print();
+        ResultPrinter(m_calculationDetails, m_detailsOnTheEngine.getBoardWithContext(), m_book).print();
         currentlyPrinting = false;
     } else {
-        m_hasPendingPrintAction = true;
-    }
+        m_hasPendingPrintAction = true;    }
 }
 
-Move ChessPeek::getPerformedMove() const {
-    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
+Move ChessPeek::getPerformedMove() const {    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
     Move result{};
     Board const& oldBoard(m_detailsOnTheEngine.getBoardWithContext().getBoard());
     Board const& newBoard(m_detailsFromTheScreen.getBoardWithContext().getBoard());

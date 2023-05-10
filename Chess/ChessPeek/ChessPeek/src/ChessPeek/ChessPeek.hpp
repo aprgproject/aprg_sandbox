@@ -1,30 +1,25 @@
 #pragma once
 
+#include <ChessPeek/Book.hpp>
 #include <ChessPeek/CalculationDetails.hpp>
 #include <ChessPeek/Configuration.hpp>
-#include <ChessPeek/DetailsFromTheScreen.hpp>
-#include <ChessPeek/DetailsOnTheEngine.hpp>
+#include <ChessPeek/DetailsFromTheScreen.hpp>#include <ChessPeek/DetailsOnTheEngine.hpp>
 #include <ChessUtilities/ChessEngineControllerWithUci.hpp>
 #include <ChessUtilities/ChessEngineHandler.hpp>
 #include <Common/Time/AlbaLocalTimer.hpp>
-#include <ScreenMonitoring/AlbaLocalScreenMonitoring.hpp>
 
 namespace alba {
-
 namespace chess {
 
 namespace ChessPeek {
 
 class ChessPeek {
 public:
-    using ChessCellBitValueMatrix = matrix::AlbaMatrix<uint64_t>;
     using EngineCalculationDetails = chess::CalculationDetails;
 
     ChessPeek();
-
     void runForever();
     void runOneIteration();
-
     void checkScreenAndSaveDetails();
     void startEngineAnalysisWithBoardFromScreen();
     void calculationMonitoringCallBackForEngine(EngineCalculationDetails const& engineCalculationDetails);
@@ -44,19 +39,17 @@ private:
     bool didBoardChange() const;
 
     Configuration m_configuration;
-    AlbaLocalScreenMonitoring m_screenMonitoring;
     ChessEngineHandler m_engineHandler;
     ChessEngineControllerWithUci m_engineController;
     AlbaLocalTimer m_printFilteringTimer;
     DetailsFromTheScreen m_detailsFromTheScreen;
     DetailsOnTheEngine m_detailsOnTheEngine;
+    Book m_book;
     CalculationDetails m_calculationDetails;
     bool m_engineWasJustReset;
-    bool m_hasPendingPrintAction;
-};
+    bool m_hasPendingPrintAction;};
 
 }  // namespace ChessPeek
-
 }  // namespace chess
 
 }  // namespace alba

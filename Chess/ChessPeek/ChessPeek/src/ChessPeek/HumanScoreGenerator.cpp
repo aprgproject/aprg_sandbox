@@ -36,23 +36,23 @@ uint32_t HumanScoreGenerator::getScoreLevelPart(MoveDetail const& moveDetail) co
 
 uint32_t HumanScoreGenerator::getMoveTypePart(Move const& move) const {
     Board const& board(m_boardWithContext.getBoard());
-    PieceType pieceAtStart = board.getPieceAt(move.first).getType();
-    PieceType pieceAtEnd = board.getPieceAt(move.second).getType();
-    if (isSameValueExchange(pieceAtStart, pieceAtEnd)) {
-        return 0;  // avoid same value exchanges
+    Piece pieceAtStart = board.getPieceAt(move.first);
+    Piece pieceAtEnd = board.getPieceAt(move.second);
+    if (isExchangeSacrifice(pieceAtStart, pieceAtEnd, move)) {
+        return 1;  // avoid same exchanges sacrifice
+    } else if (isSameValueExchange(pieceAtStart, pieceAtEnd, move)) {
+        return 2;  // avoid same value exchanges
     } else if (isDevelopingMove(pieceAtStart, move)) {
-        return 3;  // prioritize developing moves
+        return 5;  // prioritize developing moves
     } else if (isCheck(pieceAtEnd)) {
-        return 2;  // prioritize checks to be human
+        return 4;  // prioritize checks to be human
     } else {
-        return 1;
+        return 3;
     }
 }
-
 uint32_t HumanScoreGenerator::getDistanceToKingPart(Move const& move) const {
     Coordinate delta = m_boardWithContext.getOpponentsKingCoordinate() - move.second;
-    constexpr int MAX_DISTANCE_SQUARED_IN_BOARD = 98;
-    int reverseDistance = MAX_DISTANCE_SQUARED_IN_BOARD - (delta.getX() * delta.getX() + delta.getY() * delta.getY());
+    constexpr int MAX_DISTANCE_SQUARED_IN_BOARD = 98;    int reverseDistance = MAX_DISTANCE_SQUARED_IN_BOARD - (delta.getX() * delta.getX() + delta.getY() * delta.getY());
     return static_cast<uint32_t>(reverseDistance) & 0xFF;
 }
 
@@ -94,20 +94,37 @@ uint32_t HumanScoreGenerator::getHumanScoreOfPiece(PieceType const pieceType) co
     return result;
 }
 
-bool HumanScoreGenerator::isSameValueExchange(PieceType const pieceAtStart, PieceType const pieceAtEnd) const {
-    return getValueOfPieceType(pieceAtStart) == getValueOfPieceType(pieceAtEnd);
+bool HumanScoreGenerator::isSameValueExchange(
+    Piece const pieceAtStart, Piece const pieceAtEnd, Move const& move) const {
+    if (!pieceAtStart.isEmpty() && !pieceAtEnd.isEmpty() &&
+        getValueOfPieceType(pieceAtStart.getType()) == getValueOfPieceType(pieceAtEnd.getType())) {
+        Board boardWithExchange(m_boardWithContext.getBoard());
+        boardWithExchange.move(move);
+        return boardWithExchange.canBeCaptured(move.second);
+    }
+    return false;
 }
 
-bool HumanScoreGenerator::isDevelopingMove(PieceType const pieceAtStart, Move const& move) const {
+bool HumanScoreGenerator::isExchangeSacrifice(
+    Piece const pieceAtStart, Piece const pieceAtEnd, Move const& move) const {
+    if (!pieceAtStart.isEmpty() && !pieceAtEnd.isEmpty() &&
+        getValueOfPieceType(pieceAtStart.getType()) > getValueOfPieceType(pieceAtEnd.getType())) {
+        Board boardWithExchange(m_boardWithContext.getBoard());
+        boardWithExchange.move(move);
+        return boardWithExchange.canBeCaptured(move.second);
+    }
+    return false;
+}
+
+bool HumanScoreGenerator::isDevelopingMove(Piece const pieceAtStart, Move const& move) const {
     // Note the y axis is reversed so it should be first minus second
-    return PieceType::Pawn != pieceAtStart && PieceType::King != pieceAtStart && move.first.getY() >= 3 &&
-           move.first.getY() > move.second.getY();
+    return PieceType::Pawn != pieceAtStart.getType() && PieceType::King != pieceAtStart.getType() &&
+           move.first.getY() >= 5 && move.first.getY() > move.second.getY();
 }
 
-bool HumanScoreGenerator::isCheck(PieceType const pieceAtEnd) const { return PieceType::King == pieceAtEnd; }
+bool HumanScoreGenerator::isCheck(Piece const pieceAtEnd) const { return PieceType::King == pieceAtEnd.getType(); }
 
 }  // namespace ChessPeek
-
 }  // namespace chess
 
 }  // namespace alba

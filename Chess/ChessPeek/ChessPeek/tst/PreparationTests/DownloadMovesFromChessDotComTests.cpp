@@ -1,18 +1,19 @@
+#include <ChessPeek/DetailsFromTheScreen.hpp>
 #include <ChessUtilities/Board/Board.hpp>
 #include <ChessUtilities/Board/BoardUtilities.hpp>
+#include <ChessUtilities/Board/StreamOperators.hpp>
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/PathHandler/AlbaWebPathHandler.hpp>
 #include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+#include <ScreenMonitoring/AlbaLocalScreenMonitoring.hpp>
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <gtest/gtest.h>
-
 #include <algorithm>
 #include <ostream>
-#include <thread>
-#include <vector>
+#include <thread>#include <vector>
 
 using namespace alba::stringHelper;
 using namespace std;
@@ -25,16 +26,14 @@ namespace alba {
 
 namespace chess {
 
-namespace DownloadMovesFromChessDotCom {
+namespace ChessPeek {
 
-void trackKeyPress() {
+void trackKeyPressForDownloadMovesFromChessDotCom() {
     AlbaLocalUserAutomation userAutomation;
     while (shouldStillRun) {
-        shouldStillRun = !userAutomation.isKeyPressed(VK_NUMLOCK);
-        Sleep(100);
+        shouldStillRun = !userAutomation.isKeyPressed(VK_NUMLOCK);        Sleep(100);
     }
 }
-
 struct Paths {
     string url;
     string htmlFile;
@@ -105,53 +104,69 @@ void gotoWebPage(string const& url) {
 }
 
 bool performMovesAndReturnIfValid(strings const& line) {
-    MousePosition topLeft(2245, 101);
-    MousePosition bottomRight(3124, 980);
+    Configuration configuration(Configuration::Type::ChessDotComExplorer);
+    DetailsFromTheScreen detailsFromScreen(configuration);
     AlbaLocalUserAutomation userAutomation;
 
-    Board board(BoardOrientation::BlackUpWhiteDown);
+    MousePosition topLeft(2245, 101);
+    MousePosition bottomRight(3124, 980);
+    Board updatedBoard(BoardOrientation::BlackUpWhiteDown);
     PieceColor currentColor = PieceColor::White;
     double deltaX = (bottomRight.getX() - topLeft.getX()) / 8;
     double deltaY = (bottomRight.getY() - topLeft.getY()) / 8;
     for (string const& moveString : line) {
-        Move move = board.getMoveUsingAlgebraicNotation(moveString, currentColor);
+        if (!shouldStillRun) {
+            exit(0);
+        }
+        Move move = updatedBoard.getMoveUsingAlgebraicNotation(moveString, currentColor);
         if (areCoordinatesValid(move)) {
             int startX = round(topLeft.getX() + (move.first.getX() + 0.5) * deltaX);
-            int startY = round(topLeft.getY() + (move.first.getY() + 0.5) * deltaY);
-            int endX = round(topLeft.getX() + (move.second.getX() + 0.5) * deltaX);
+            int startY = round(topLeft.getY() + (move.first.getY() + 0.5) * deltaY);            int endX = round(topLeft.getX() + (move.second.getX() + 0.5) * deltaX);
             int endY = round(topLeft.getY() + (move.second.getY() + 0.5) * deltaY);
 
-            userAutomation.setMousePosition(MousePosition(startX, startY));
-            userAutomation.pressLeftButtonOnMouse();
+            userAutomation.setMousePosition(MousePosition(startX, startY));            userAutomation.pressLeftButtonOnMouse();
             userAutomation.sleep(500);
             userAutomation.setMousePosition(MousePosition(endX, endY));
             userAutomation.sleep(500);
             userAutomation.releaseLeftButtonOnMouse();
             userAutomation.sleep(1000);
 
-            board.move(move);
+            updatedBoard.move(move);
             currentColor = getOppositeColor(currentColor);
+
+            detailsFromScreen.saveDetailsFromTheScreen();
+            Board const& boardFromScreen(detailsFromScreen.getBoardWithContext().getBoard());
+            if (boardFromScreen != updatedBoard) {
+                cout << "Move does not match on the screen. Move: [" << moveString;
+                cout << "] translated to: [" << move << "]" << endl;
+                cout << "Expected board:" << endl;
+                cout << updatedBoard << endl;
+                cout << "Board on the screen:" << endl;
+                cout << boardFromScreen << endl;
+                return false;
+            }
         } else {
-            cout << "Invalid move found: [" << moveString << "] translated to: [";
-            printParameter(cout, move);
-            cout << "]" << endl;
+            cout << "Invalid move found: [" << moveString;
+            cout << "] translated to: [" << move << "]" << endl;
             return false;
         }
     }
+
     return true;
 }
 
 void deleteWebPageUntilItsDeleted(string const& htmlFile) {
     AlbaLocalPathHandler htmlFileHandler(htmlFile);
     while (htmlFileHandler.isFoundInLocalSystem()) {
+        if (!shouldStillRun) {
+            exit(0);
+        }
         htmlFileHandler.deleteFile();
         Sleep(100);
-        htmlFileHandler.reInput();
-        if (htmlFileHandler.isFoundInLocalSystem()) {
+        htmlFileHandler.reInput();        if (htmlFileHandler.isFoundInLocalSystem()) {
             cout << "File still not deleted. Deleting again. File: [" << htmlFile << "]" << endl;
         }
-    }
-}
+    }}
 
 void saveWebPage(string const& htmlFile) {
     AlbaLocalUserAutomation userAutomation;
@@ -185,14 +200,15 @@ void typeEnter() {
 void saveWebPageUntilItsDeleted(string const& htmlFile) {
     AlbaLocalPathHandler htmlFileHandler(htmlFile);
     while (!htmlFileHandler.isFoundInLocalSystem()) {
+        if (!shouldStillRun) {
+            exit(0);
+        }
         saveWebPage(htmlFile);
         clickWindow();
-        typeEnter();
-        Sleep(1000);
+        typeEnter();        Sleep(1000);
         htmlFileHandler.reInput();
         if (!htmlFileHandler.isFoundInLocalSystem()) {
-            cout << "File still doesnt exist. Saving web page again. File: [" << htmlFile << "]" << endl;
-        }
+            cout << "File still doesnt exist. Saving web page again. File: [" << htmlFile << "]" << endl;        }
     }
 }
 
@@ -226,14 +242,15 @@ string removeHtmlTags(string const& mainString) {
     string withTags = mainString;
     int firstIndexOfFirstString = withTags.find("<", 0);
     while (isNotNpos(firstIndexOfFirstString)) {
+        if (!shouldStillRun) {
+            exit(0);
+        }
         int lastIndexOfFirstString = firstIndexOfFirstString + 1;
         int firstIndexOfSecondString = withTags.find(">", lastIndexOfFirstString);
-        if (isNotNpos(firstIndexOfSecondString)) {
-            int lastIndexOfSecondString = firstIndexOfSecondString + 1;
+        if (isNotNpos(firstIndexOfSecondString)) {            int lastIndexOfSecondString = firstIndexOfSecondString + 1;
             withoutTags += withTags.substr(0, firstIndexOfFirstString);
             withTags = withTags.substr(lastIndexOfSecondString);
-            firstIndexOfFirstString = withTags.find("<", 0);
-        } else {
+            firstIndexOfFirstString = withTags.find("<", 0);        } else {
             break;
         }
     }
@@ -247,22 +264,25 @@ bool readHtmlFileIfValid(WebPageInfo& pageInfo, string const& htmlFile) {
     fileReader.setMaxBufferSize(100000);
 
     while (fileReader.isNotFinished()) {
+        if (!shouldStillRun) {
+            exit(0);
+        }
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
         int index = line.find(R"("eco-classifier-component sidebar-game-opening")");
-        if (isNotNpos(index)) {
-            result = true;
+        if (isNotNpos(index)) {            result = true;
             int previousIndex{};
             pageInfo.nameOfLine =
                 getStringInBetween(line, R"(<span class="eco-classifier-label"><!----> <span>)", R"(</span>)", index);
             do {
+                if (!shouldStillRun) {
+                    exit(0);
+                }
                 previousIndex = index;
                 MoveInfo moveInfo{};
-                moveInfo.nextMove = getStringInBetween(line, R"(<span class="move-san-san">)", R"(</span>)", index);
-                if (moveInfo.nextMove.empty()) {
+                moveInfo.nextMove = getStringInBetween(line, R"(<span class="move-san-san">)", R"(</span>)", index);                if (moveInfo.nextMove.empty()) {
                     string prefix =
                         getStringInBetween(line, R"(<span class="move-san-figurine icon-font-chess )", R"(-)", index);
-                    string suffix =
-                        getStringInBetween(line, R"(<span class="move-san-afterfigurine">)", R"(</span>)", index);
+                    string suffix =                        getStringInBetween(line, R"(<span class="move-san-afterfigurine">)", R"(</span>)", index);
                     moveInfo.nextMove = getOneCharPiece(prefix) + suffix;
                 }
                 moveInfo.numberOfGames = removeHtmlTags(
@@ -310,15 +330,13 @@ bool readHtmlFileIfValid(WebPageInfo& pageInfo, string const& htmlFile) {
     return result;
 }
 
-void saveOutputToDataFile(strings const& currentLine, WebPageInfo const& pageInfo, string const& dataFile) {
+void savePageInfoToDataFile(strings const& currentLine, WebPageInfo const& pageInfo, string const& dataFile) {
     ofstream outStream(dataFile, ofstream::app);
     outStream << "Line: [";
-    for (string const& move : currentLine) {
-        outStream << move << ",";
+    for (string const& move : currentLine) {        outStream << move << ",";
     }
     outStream << "]\n";
-    outStream << "NameOfLine: [" << pageInfo.nameOfLine << "]\n";
-    outStream << "NumberOfNextMoves: [" << pageInfo.moveInfos.size() << "]\n";
+    outStream << "NameOfLine: [" << pageInfo.nameOfLine << "]\n";    outStream << "NumberOfNextMoves: [" << pageInfo.moveInfos.size() << "]\n";
     for (MoveInfo const& moveInfo : pageInfo.moveInfos) {
         outStream << "NextMove: [" << moveInfo.nextMove << "]\n";
         outStream << "NumberOfGames: [" << moveInfo.numberOfGames << "]\n";
@@ -347,29 +365,28 @@ strings getLineOfMoves(string const& lineFile, int const lineNumber) {
     AlbaFileReader fileReader(inStream);
     int i = 1;
     while (fileReader.isNotFinished()) {
+        if (!shouldStillRun) {
+            exit(0);
+        }
         if (i < lineNumber) {
             fileReader.skipLine();
-            i++;
-        } else if (i == lineNumber) {
+            i++;        } else if (i == lineNumber) {
             string lineString = fileReader.getLineAndIgnoreWhiteSpaces();
             splitToStrings<SplitStringType::WithoutDelimeters>(result, lineString, ",");
-            break;
-        } else {
+            break;        } else {
             break;
         }
     }
     return result;
 }
 
-void addNewLinesOfMoves(string const& lineFile, strings const& currentLine, WebPageInfo const& pageInfo) {
+void saveNewLinesOfMoves(strings const& currentLine, WebPageInfo const& pageInfo, string const& lineFile) {
     ofstream outStream(lineFile, ofstream::app);
     strings lineOfMoves(currentLine);
-    for (MoveInfo const& moveInfo : pageInfo.moveInfos) {
-        lineOfMoves.emplace_back(moveInfo.nextMove);
+    for (MoveInfo const& moveInfo : pageInfo.moveInfos) {        lineOfMoves.emplace_back(moveInfo.nextMove);
 
         ostream_iterator<string> outputIterator(outStream, ",");
-        copy(lineOfMoves.cbegin(), lineOfMoves.cend(), outputIterator);
-        outStream << "\n";
+        copy(lineOfMoves.cbegin(), lineOfMoves.cend(), outputIterator);        outStream << "\n";
 
         lineOfMoves.pop_back();
     }
@@ -380,36 +397,36 @@ void doOnePage(strings const& currentLine, Paths const& paths) {
 
     bool isProcessed(false);
     while (!isProcessed) {
+        if (!shouldStillRun) {
+            exit(0);
+        }
         clickWindow();
         clickReset();
         isProcessed = performMovesAndReturnIfValid(currentLine);
         if (!isProcessed) {
-            cout << "Invalid move in line. Trying to all the process again." << endl;
+            cout << "Problem in performing moves. Trying to do all the process again." << endl;
             continue;
         }
-        deleteWebPageUntilItsDeleted(paths.htmlFile);
-        saveWebPageUntilItsDeleted(paths.htmlFile);
+        deleteWebPageUntilItsDeleted(paths.htmlFile);        saveWebPageUntilItsDeleted(paths.htmlFile);
 
         isProcessed = readHtmlFileIfValid(pageInfo, paths.htmlFile);
         if (!isProcessed) {
-            cout << "File is not valid. Trying to all the process again. File: [" << paths.htmlFile << "]" << endl;
+            cout << "File is not valid. Trying to do all the process again. File: [" << paths.htmlFile << "]" << endl;
         }
     }
 
-    saveOutputToDataFile(currentLine, pageInfo, paths.dataFile);
-    addNewLinesOfMoves(paths.linesFile, currentLine, pageInfo);
+    savePageInfoToDataFile(currentLine, pageInfo, paths.dataFile);
+    saveNewLinesOfMoves(currentLine, pageInfo, paths.linesFile);
 }
 
 void doAllPagesRecursively(Paths const& paths) {
-    thread trackKeyPressThread(trackKeyPress);
+    thread trackKeyPressForDownloadMovesFromChessDotComThread(trackKeyPressForDownloadMovesFromChessDotCom);
 
     clickWindow();
     gotoWebPage(paths.url);
-
     int lineNumber = getLineNumber(paths.lineNumberFile);
     strings currentLine = getLineOfMoves(paths.linesFile, lineNumber);
-    bool isFirst(true);
-    while (shouldStillRun && (isFirst || !currentLine.empty())) {
+    bool isFirst(true);    while (shouldStillRun && (isFirst || !currentLine.empty())) {
         cout << "lineNumber: [" << lineNumber << "] currentLine:[";
         printParameter(cout, currentLine);
         cout << "]" << endl;
@@ -419,20 +436,15 @@ void doAllPagesRecursively(Paths const& paths) {
         lineNumber++;
         setLineNumber(paths.lineNumberFile, lineNumber);
         currentLine = getLineOfMoves(paths.linesFile, lineNumber);
-
-        cout << "shouldStillRun: [" << shouldStillRun << "] isFirst:[" << isFirst << "] !currentLine.empty():["
-             << !currentLine.empty() << "]" << endl;
     }
 
-    trackKeyPressThread.join();
+    trackKeyPressForDownloadMovesFromChessDotComThread.join();
 }
 
-TEST(DownloadMovesFromChessDotComTest, DISABLED_DoAllPagesRecursivelyWorks) {
-    // To reinitialize:
+TEST(DownloadMovesFromChessDotComTest, DISABLED_DoAllPagesRecursivelyWorks) {    // To reinitialize:
     // ChessDotComMoves should be deleted or empty
     // ChessDotComLines should be deleted or empty
     // ChessDotComLineNumber has to contain 0
-
     AlbaWebPathHandler explorerUrl(R"(https://www.chess.com/explorer)");
     AlbaLocalPathHandler tempHtmlFile(APRG_DIR R"(\Chess\ChessPeek\Files\ChessDotComAutomation\temp.html)");
     AlbaLocalPathHandler dataFile(APRG_DIR
@@ -446,8 +458,7 @@ TEST(DownloadMovesFromChessDotComTest, DISABLED_DoAllPagesRecursivelyWorks) {
         lineNumberFile.getFullPath()});
 }
 
-}  // namespace DownloadMovesFromChessDotCom
+}  // namespace ChessPeek
 
 }  // namespace chess
-
 }  // namespace alba

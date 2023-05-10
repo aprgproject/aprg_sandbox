@@ -30,16 +30,15 @@ private:
     uint32_t getPiecePart(Move const& move) const;
     uint32_t getHumanScoreOfPiece(PieceType const pieceType) const;
 
-    bool isSameValueExchange(PieceType const pieceAtStart, PieceType const pieceAtEnd) const;
-    bool isDevelopingMove(PieceType const pieceAtStart, Move const& move) const;
-    bool isCheck(PieceType const pieceAtEnd) const;
+    bool isSameValueExchange(Piece const pieceAtStart, Piece const pieceAtEnd, Move const& move) const;
+    bool isExchangeSacrifice(Piece const pieceAtStart, Piece const pieceAtEnd, Move const& move) const;
+    bool isDevelopingMove(Piece const pieceAtStart, Move const& move) const;
+    bool isCheck(Piece const pieceAtEnd) const;
 
     BoardWithContext const& m_boardWithContext;
-    int m_bestScore;
-    int m_worstScore;
+    int m_bestScore;    int m_worstScore;
     int m_maxScoreLevel;
 };
-
 }  // namespace ChessPeek
 
 }  // namespace chess

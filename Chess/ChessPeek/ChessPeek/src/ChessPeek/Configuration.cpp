@@ -95,14 +95,16 @@ void Configuration::initializeSpecificParameters() {
             initializeChessDotComPuzzle();
             break;
         }
+        case Type::ChessDotComExplorer: {
+            initializeChessDotComExplorer();
+            break;
+        }
         case Type::LichessVersus: {
             initializeLichessVersus();
-            break;
-        }
+            break;        }
         case Type::LichessStream: {
             initializeLichessStream();
-            break;
-        }
+            break;        }
     }
 }
 
@@ -120,13 +122,18 @@ void Configuration::initializeChessDotComPuzzle() {
     m_blackColorLimit = 0.40;
 }
 
-void Configuration::initializeLichessVersus() {
-    m_boardTopLeft = XY(2488, 145);
-    m_boardBottomRight = XY(3239, 896);
+void Configuration::initializeChessDotComExplorer() {
+    m_boardTopLeft = XY(2225, 101);
+    m_boardBottomRight = XY(3144, 1020);
     m_whiteColorLimit = 0.91;
-    m_blackColorLimit = 0.30;
+    m_blackColorLimit = 0.40;
 }
 
+void Configuration::initializeLichessVersus() {
+    m_boardTopLeft = XY(2488, 145);
+    m_boardBottomRight = XY(3239, 896);    m_whiteColorLimit = 0.91;
+    m_blackColorLimit = 0.30;
+}
 void Configuration::initializeLichessStream() {
     m_boardTopLeft = XY(2498, 159);
     m_boardBottomRight = XY(3233, 894);
