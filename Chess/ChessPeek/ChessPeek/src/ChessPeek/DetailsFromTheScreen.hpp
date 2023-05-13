@@ -17,7 +17,8 @@ public:
         unsigned int pieceCount;        unsigned int whiteCountInUpperHalf;
         unsigned int blackCountInUpperHalf;
         unsigned int whiteCountInLowerHalf;
-        unsigned int blackCountInLowerHalf;        unsigned int numberOfWhiteKings;
+        unsigned int blackCountInLowerHalf;
+        unsigned int numberOfWhiteKings;
         unsigned int numberOfBlackKings;
         Coordinate whiteKingCoordinate;
         Coordinate blackKingCoordinate;
@@ -51,6 +52,7 @@ private:
     PieceColor m_savedPlayerColor;    BoardOrientation m_savedOrientation;
     CountOfPieces m_countOfPieces;
 };
+
 }  // namespace ChessPeek
 
 }  // namespace chess

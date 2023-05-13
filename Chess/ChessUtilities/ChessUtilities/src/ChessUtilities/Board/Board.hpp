@@ -22,7 +22,8 @@ public:
     enum class CastleType { NotACastle, KingSideCastle, QueenSideCastle };
     struct DeltaRange {
         CoordinateDataType interval;
-        CoordinateDataType invalidDelta;    };
+        CoordinateDataType invalidDelta;
+    };
 
     struct NotationDetailsOfMove {
         PieceType pieceType;
@@ -43,6 +44,7 @@ public:
     Moves getMovesToThis(        Coordinate const& endpoint, PieceColor const& moveColor, int const maxSize = MAX_NUMBER_OF_MOVES) const;
     Moves getAttacksToThis(
         Coordinate const& endpoint, PieceColor const& moveColor, int const maxSize = MAX_NUMBER_OF_MOVES) const;
+
     Move getMoveUsingUciNotation(std::string const& text) const;
     Move getMoveUsingAlgebraicNotation(std::string const& text, PieceColor const moveColor) const;
     Coordinate getCoordinateFromAlgebraicNotation(std::string const& text) const;
@@ -75,7 +77,8 @@ private:
     void retrievePawnMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;    void retrieveKnightMovesThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrieveBishopMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrieveRookMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
-    void retrieveQueenMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;    void retrieveKingMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
+    void retrieveQueenMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
+    void retrieveKingMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrievePawnNonCapturesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrievePawnCapturesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
     void retrieveDiagonalMovesFromThis(Moves& result, Coordinate const& startpoint, int const maxSize) const;
@@ -98,7 +101,8 @@ private:
     void retrievePawnReverseCapturesToThis(        Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
     void retrieveAllNonPawnMovesToThis(
         Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
-    void retrieveKnightMovesToThis(        Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
+    void retrieveKnightMovesToThis(
+        Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
     void retrieveDiagonalMovesToThis(
         Moves& result, Coordinate const& endpoint, PieceColor const moveColor, int const maxSize) const;
     void retrieveStraightMovesToThis(
@@ -142,7 +146,8 @@ private:
     bool isPossibleKnightMove(Move const& move) const;    bool isPossibleBishopMove(Move const& move) const;
     bool isPossibleRookMove(Move const& move) const;
     bool isPossibleQueenMove(Move const& move) const;
-    bool isPossibleKingMove(Move const& move) const;    bool isPossibleOneKingMove(Move const& move) const;
+    bool isPossibleKingMove(Move const& move) const;
+    bool isPossibleOneKingMove(Move const& move) const;
     bool isPossibleKingCastlingMove(Move const& kingMove) const;
     bool isAPawnNonCaptureMove(Move const& move) const;
     bool isAPawnCapture(Move const& move) const;

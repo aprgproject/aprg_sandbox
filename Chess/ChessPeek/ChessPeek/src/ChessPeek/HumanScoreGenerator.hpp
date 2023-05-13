@@ -39,6 +39,7 @@ private:
     int m_bestScore;    int m_worstScore;
     int m_maxScoreLevel;
 };
+
 }  // namespace ChessPeek
 
 }  // namespace chess

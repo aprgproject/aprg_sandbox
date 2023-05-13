@@ -6,7 +6,8 @@
 #include <Common/String/AlbaStringHelper.hpp>
 #include <gtest/gtest.h>
 
-using namespace alba::stringHelper;using namespace std;
+using namespace alba::stringHelper;
+using namespace std;
 
 namespace alba {
 
@@ -24,7 +25,8 @@ TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
     ifstream inStream(chessDotComDataFromSite.getFullPath());    AlbaFileReader fileReader(inStream);
 
     Book book;
-    while (fileReader.isNotFinished()) {        string line = getStringInBetweenTwoStrings(fileReader.getLineAndIgnoreWhiteSpaces(), "Line: [", "]");
+    while (fileReader.isNotFinished()) {
+        string line = getStringInBetweenTwoStrings(fileReader.getLineAndIgnoreWhiteSpaces(), "Line: [", "]");
         strings initialMoveStrings;
         splitToStrings<SplitStringType::WithoutDelimeters>(initialMoveStrings, line, ",");
         string nameOfLine =

@@ -9,6 +9,7 @@
 namespace alba {
 
 // printParameter declaration
+
 void printParameter(std::ostream& outputStream, std::string const& parameter);
 void printParameter(std::ostream& outputStream, char const* const parameter);
 
@@ -21,7 +22,8 @@ void printParameter(std::ostream& outputStream, std::pair<UnderlyingTypes...> co
 template <typename... UnderlyingTypes>void printParameter(std::ostream& outputStream, std::tuple<UnderlyingTypes...> const& parameter);
 template <typename ValueType, size_t SIZE, template <typename, size_t> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<ValueType, SIZE>>(), void> printParameter(
-    std::ostream& outputStream, TemplateType<ValueType, SIZE> const& parameter);template <typename... UnderlyingTypes, template <typename...> class TemplateType>
+    std::ostream& outputStream, TemplateType<ValueType, SIZE> const& parameter);
+template <typename... UnderlyingTypes, template <typename...> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEndAndSize<TemplateType<UnderlyingTypes...>>(), void> printParameter(
     std::ostream& outputStream, TemplateType<UnderlyingTypes...> const& parameter);
 template <typename... UnderlyingTypes, template <typename...> class TemplateType>
@@ -107,7 +109,8 @@ void printParameter(std::ostream& outputStream, std::pair<UnderlyingTypes...> co
     outputStream << "(";    printParameter(outputStream, parameter.first);
     outputStream << ", ";
     printParameter(outputStream, parameter.second);
-    outputStream << ")";}
+    outputStream << ")";
+}
 
 template <typename... UnderlyingTypes>
 void printParameter(std::ostream& outputStream, std::tuple<UnderlyingTypes...> const& parameter) {

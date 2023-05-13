@@ -11,6 +11,7 @@
 #include <unordered_set>
 
 using namespace std;
+
 namespace alba {
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint) {
@@ -28,6 +29,7 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPointer) {
     printParameterWithName(ssToVerify, "name", &integerToTest);
     EXPECT_EQ("*name : [500]", ssToVerify.str());
 }
+
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithCharacterLiteral) {
     stringstream ssToVerify;
 
@@ -170,7 +172,8 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPriorityQueue) {
     adapter.push(3U);
     printParameterWithName(ssToVerify, "name", adapter);
 
-    EXPECT_EQ("name : [{adapter: {size: 3 | 3, 1, 2, }}]", ssToVerify.str());}
+    EXPECT_EQ("name : [{adapter: {size: 3 | 3, 1, 2, }}]", ssToVerify.str());
+}
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithForwardList) {
     stringstream ssToVerify;
@@ -179,4 +182,5 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithForwardList) {
     printParameterWithName(ssToVerify, "name", vectorToTest);
     EXPECT_EQ("name : [{500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
+
 }  // namespace alba

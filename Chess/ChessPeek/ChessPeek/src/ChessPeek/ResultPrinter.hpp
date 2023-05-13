@@ -105,4 +105,5 @@ private:
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

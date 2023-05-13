@@ -10,7 +10,8 @@
 namespace alba {
 namespace chess {
 
-class Piece {public:
+class Piece {
+public:
     static PieceColor extractColor(uint8_t const value);
     static PieceType extractType(uint8_t const value);
     static PieceColorAndType extractColorAndType(uint8_t const value);
@@ -21,6 +22,7 @@ class Piece {public:
     Piece(Piece const&) = default;    Piece(uint8_t const underlyingValue);
     Piece(PieceColorAndType const colorAndType);
     Piece(PieceColor const color, PieceType const type);
+
     bool operator==(Piece const& piece) const;
     bool operator!=(Piece const& piece) const;
     bool isEmpty() const;

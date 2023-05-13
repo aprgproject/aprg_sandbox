@@ -7,6 +7,7 @@ using namespace std;
 namespace alba {
 
 namespace chess {
+
 PieceColor Piece::extractColor(uint8_t const value) {
     if (PieceType::Empty == extractType(value)) {
         return PieceColor::Unknown;
@@ -35,6 +36,7 @@ Piece::Piece(uint8_t const underlyingValue) : m_underlyingValue(underlyingValue)
 Piece::Piece(PieceColorAndType const colorAndType) : m_underlyingValue(getValueFromColorAndType(colorAndType)) {}
 
 Piece::Piece(PieceColor const color, PieceType const type) : m_underlyingValue(getValueFromColorAndType(color, type)) {}
+
 bool Piece::operator==(Piece const& piece) const { return m_underlyingValue == piece.m_underlyingValue; }
 
 bool Piece::operator!=(Piece const& piece) const { return !operator==(piece); }

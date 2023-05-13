@@ -38,7 +38,8 @@ ChessPeek::ChessPeek()
       m_hasPendingPrintAction(false) {    initialize();
 }
 
-void ChessPeek::runForever() {    thread trackKeyPressThread(trackKeyPress);
+void ChessPeek::runForever() {
+    thread trackKeyPressThread(trackKeyPress);
     while (shouldStillRun) {
         runOneIteration();
         Sleep(1);
@@ -62,6 +63,7 @@ void ChessPeek::startEngineAnalysisWithBoardFromScreen() {
     }
 
     m_detailsOnTheEngine.save(m_detailsFromTheScreen.getBoardWithContext());
+
     m_engineController.setupFenString(m_detailsOnTheEngine.getBoardWithContext().getFenString());
     if (!m_engineController.waitTillReadyAndReturnIfResetWasPerformed()) {
         m_engineController.goWithPonder();
@@ -89,6 +91,7 @@ void ChessPeek::initialize() {
             calculationMonitoringCallBackForEngine(engineCalculationDetails);        });
     m_engineController.initialize();
 }
+
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails) {
     m_calculationDetails.depthInPlies = engineCalculationDetails.depthInPlies;
     if (!engineCalculationDetails.variations.empty()) {
@@ -127,7 +130,8 @@ void ChessPeek::printCalculationDetails() {
         m_hasPendingPrintAction = true;    }
 }
 
-Move ChessPeek::getPerformedMove() const {    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
+Move ChessPeek::getPerformedMove() const {
+    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
     Move result{};
     Board const& oldBoard(m_detailsOnTheEngine.getBoardWithContext().getBoard());
     Board const& newBoard(m_detailsFromTheScreen.getBoardWithContext().getBoard());

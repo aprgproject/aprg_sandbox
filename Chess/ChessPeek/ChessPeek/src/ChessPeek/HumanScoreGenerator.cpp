@@ -52,7 +52,8 @@ uint32_t HumanScoreGenerator::getMoveTypePart(Move const& move) const {
 }
 uint32_t HumanScoreGenerator::getDistanceToKingPart(Move const& move) const {
     Coordinate delta = m_boardWithContext.getOpponentsKingCoordinate() - move.second;
-    constexpr int MAX_DISTANCE_SQUARED_IN_BOARD = 98;    int reverseDistance = MAX_DISTANCE_SQUARED_IN_BOARD - (delta.getX() * delta.getX() + delta.getY() * delta.getY());
+    constexpr int MAX_DISTANCE_SQUARED_IN_BOARD = 98;
+    int reverseDistance = MAX_DISTANCE_SQUARED_IN_BOARD - (delta.getX() * delta.getX() + delta.getY() * delta.getY());
     return static_cast<uint32_t>(reverseDistance) & 0xFF;
 }
 

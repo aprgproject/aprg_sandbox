@@ -19,7 +19,8 @@ DetailsFromTheScreen::DetailsFromTheScreen(Configuration const& configuration)
       m_savedPlayerColor{},      m_savedOrientation{},
       m_countOfPieces{} {}
 
-bool DetailsFromTheScreen::canAnalyzeBoard() const {    return areKingsValid() && !m_boardWithContext.isOpponentsKingOnCheck();
+bool DetailsFromTheScreen::canAnalyzeBoard() const {
+    return areKingsValid() && !m_boardWithContext.isOpponentsKingOnCheck();
 }
 
 BoardWithContext const& DetailsFromTheScreen::getBoardWithContext() const { return m_boardWithContext; }
@@ -32,6 +33,7 @@ void DetailsFromTheScreen::saveDetailsFromTheScreen() {
 
     m_boardWithContext.save(m_savedPlayerColor, temporaryBoard);
 }
+
 bool DetailsFromTheScreen::areKingsValid() const {
     return m_countOfPieces.numberOfWhiteKings == 1 && m_countOfPieces.numberOfBlackKings == 1;
 }
@@ -46,7 +48,8 @@ Board DetailsFromTheScreen::getBoardAndSaveDetails() {
             board.setPieceAt(coordinate, piece);            if (!piece.isEmpty()) {
                 saveBoardDetails(coordinate, piece);
             }
-        }    }
+        }
+    }
     return board;
 }
 
@@ -96,6 +99,7 @@ void DetailsFromTheScreen::savePlayerColorAndOrientation() {
         savePlayerColorAndOrientationFromBoardDetails();
     }
 }
+
 void DetailsFromTheScreen::savePlayerColorIfChessDotComPuzzle() {
     auto intensity = calculateColorIntensityDecimal(m_screenMonitoring.getColorAt(3337, 137));
     if (intensity < m_configuration.getBlackColorLimit()) {

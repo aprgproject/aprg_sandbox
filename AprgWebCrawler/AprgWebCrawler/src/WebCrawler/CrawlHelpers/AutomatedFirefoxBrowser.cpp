@@ -123,4 +123,5 @@ void AutomatedFirefoxBrowser::focusOnLocationBar() const { pressControlAndLetter
 void AutomatedFirefoxBrowser::triggerSave() const { pressControlAndLetter('S'); }
 
 void AutomatedFirefoxBrowser::triggerPaste() const { pressControlAndLetter('V'); }
+
 }  // namespace aprgWebCrawler

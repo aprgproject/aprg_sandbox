@@ -28,7 +28,8 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_DeleteThisTestDontGoToSleepSetMouse
         MousePosition position{x, x};        userAutomation.setMousePosition(position);
         userAutomation.sleep(10000);
         if (x == 290) {
-            x = 0;        }
+            x = 0;
+        }
     }
 }
 
@@ -52,7 +53,8 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressDownAndUpSmallLetterTest) {
 TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeSmallLetterTest) {    AlbaWindowsUserAutomation userAutomation;
     for (char c = 'a'; c <= 'z'; c++) {
         userAutomation.typeCharacter(c);
-    }}
+    }
+}
 
 TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeCapitalLetterTest) {
     AlbaWindowsUserAutomation userAutomation;
@@ -92,7 +94,8 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest) {
     while (1) {        char letter = 'q';
         bool isPressed = userAutomation.isLetterPressed(letter);
         cout << "letter: " << letter << " isPressed: " << isPressed << "\n";
-        if (isPressed) {            break;
+        if (isPressed) {
+            break;
         }
         Sleep(100);
     }

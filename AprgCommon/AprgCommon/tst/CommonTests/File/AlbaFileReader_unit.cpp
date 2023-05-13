@@ -13,7 +13,8 @@ namespace alba {
 void writeTextWithSpaces(ofstream& testFile) {
     testFile << "1         \n";
     testFile << "12        \n";
-    testFile << "123       \n";    testFile << "1234      \n";
+    testFile << "123       \n";
+    testFile << "1234      \n";
     testFile << "12345     \n";
     testFile << "123456    \n";
     testFile << "1234567   \n";
@@ -23,7 +24,8 @@ void writeTextWithSpaces(ofstream& testFile) {
     testFile << "abcdefghijklmnopqrstuvwxyz                \n";
     testFile << "\n";
     testFile << "    \n";
-    testFile << "        \n";    testFile << "            \n";
+    testFile << "        \n";
+    testFile << "            \n";
     testFile << "                \n";
     testFile << "                \n";
     testFile << "         \n";
@@ -127,7 +129,8 @@ TEST(AlbaFileReaderTest, GetLineAndIgnoreWhiteSpacesWorksUsingVariousCharacters)
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("1", fileReader.getLineAndIgnoreWhiteSpaces());
     EXPECT_EQ("12", fileReader.getLineAndIgnoreWhiteSpaces());
     EXPECT_EQ("123", fileReader.getLineAndIgnoreWhiteSpaces());
@@ -152,7 +155,8 @@ TEST(AlbaFileReaderTest, ReadLineWithSizeLimit) {
     ASSERT_TRUE(inputTestFile.is_open());
     AlbaFileReader fileReader(inputTestFile);
     fileReader.setMaxBufferSize(2000);
-    EXPECT_EQ(5000U, fileReader.getFileSize());    ASSERT_TRUE(inputTestFile.good());
+    EXPECT_EQ(5000U, fileReader.getFileSize());
+    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(2000U, fileReader.getLineAndIgnoreWhiteSpaces().length());
@@ -168,7 +172,8 @@ TEST(AlbaFileReaderTest, ReadSingleCharacterFromBinaryFile) {
     ASSERT_TRUE(testFile.is_open());    testFile << "123!@# \t\n";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
@@ -200,7 +205,8 @@ TEST(AlbaFileReaderTest, ReadMultipleCharacters) {
     ASSERT_TRUE(testFile.is_open());    testFile << "123!@# \t\n";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
@@ -242,7 +248,8 @@ TEST(AlbaFileReaderTest, RequestToReadMultipleCharactersThatIsTheBeyondBufferSiz
     ASSERT_TRUE(testFile.is_open());    testFile << "12345";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     fileReader.setMaxBufferSize(3);
@@ -268,7 +275,8 @@ TEST(AlbaFileReaderTest, ReadOneByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -301,7 +309,8 @@ TEST(AlbaFileReaderTest, ReadTwoByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -328,7 +337,8 @@ TEST(AlbaFileReaderTest, ReadFourByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -351,7 +361,8 @@ TEST(AlbaFileReaderTest, ReadEightByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -372,7 +383,8 @@ TEST(AlbaFileReaderTest, ReadSwappedTwoByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -399,7 +411,8 @@ TEST(AlbaFileReaderTest, ReadSwappedFourByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -422,7 +435,8 @@ TEST(AlbaFileReaderTest, ReadSwappedEightByteNumbers) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -443,7 +457,8 @@ TEST(AlbaFileReaderTest, FileContentsCanBeSavedInMemoryBuffer) {
     ASSERT_TRUE(testFile.is_open());    testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 

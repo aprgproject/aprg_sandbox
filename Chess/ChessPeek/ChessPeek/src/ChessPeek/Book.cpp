@@ -34,7 +34,8 @@ void Book::saveDatabaseTo(std::string const& path) const {
             outStream << moveDetails.move << "\n";            outStream << moveDetails.numberOfGames << "\n";
             outStream << moveDetails.whiteWinPercentage << "\n";
             outStream << moveDetails.drawPercentage << "\n";
-            outStream << moveDetails.blackWinPercentage << "\n";        }
+            outStream << moveDetails.blackWinPercentage << "\n";
+        }
     }
 }
 
@@ -83,4 +84,5 @@ void Book::loadDatabaseFrom(std::string const& path) {    ifstream inStream(path
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

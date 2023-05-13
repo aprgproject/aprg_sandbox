@@ -20,6 +20,7 @@ public:
     ChessPeek();
     void runForever();
     void runOneIteration();
+
     void checkScreenAndSaveDetails();
     void startEngineAnalysisWithBoardFromScreen();
     void calculationMonitoringCallBackForEngine(EngineCalculationDetails const& engineCalculationDetails);
@@ -50,6 +51,7 @@ private:
     bool m_hasPendingPrintAction;};
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

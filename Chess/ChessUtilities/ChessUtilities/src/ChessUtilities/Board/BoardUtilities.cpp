@@ -170,7 +170,8 @@ string constructFenString(
     if (PieceColor::White == colorToMove) {        ss << "w ";
     } else if (PieceColor::Black == colorToMove) {
         ss << "b ";
-    }    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
+    }
+    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
     return ss.str();
 }
 
