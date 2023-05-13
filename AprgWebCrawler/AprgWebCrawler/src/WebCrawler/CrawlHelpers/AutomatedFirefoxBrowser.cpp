@@ -104,25 +104,23 @@ void AutomatedFirefoxBrowser::readConfigurationFile() {
 }
 
 void AutomatedFirefoxBrowser::pressControlAndLetter(unsigned int const letter) const {
-    m_userAutomation.pressDownKey(VK_CONTROL);
-    m_userAutomation.pressDownKey(letter);
+    m_userAutomation.pressKey(VK_CONTROL);
+    m_userAutomation.pressKey(letter);
     m_userAutomation.sleepWithRealisticDelay();
-    m_userAutomation.pressUpKey(letter);
-    m_userAutomation.pressUpKey(VK_CONTROL);
+    m_userAutomation.releaseKey(letter);
+    m_userAutomation.releaseKey(VK_CONTROL);
 }
 
 void AutomatedFirefoxBrowser::pressAltAndLetter(unsigned int const letter) const {
-    m_userAutomation.pressDownKey(VK_MENU);
-    m_userAutomation.pressDownKey(letter);
+    m_userAutomation.pressKey(VK_MENU);
+    m_userAutomation.pressKey(letter);
     m_userAutomation.sleepWithRealisticDelay();
-    m_userAutomation.pressUpKey(letter);
-    m_userAutomation.pressUpKey(VK_MENU);
+    m_userAutomation.releaseKey(letter);
+    m_userAutomation.releaseKey(VK_MENU);
 }
 
 void AutomatedFirefoxBrowser::focusOnLocationBar() const { pressControlAndLetter('L'); }
-
 void AutomatedFirefoxBrowser::triggerSave() const { pressControlAndLetter('S'); }
 
 void AutomatedFirefoxBrowser::triggerPaste() const { pressControlAndLetter('V'); }
-
 }  // namespace aprgWebCrawler
