@@ -14,25 +14,28 @@ using MousePosition = AlbaXY<int>;
 class AlbaWindowsUserAutomation {
 public:
     typedef std::function<void(INPUT&)> InputFunction;
+    bool isKeyPressed(int const key) const;
     bool isLetterPressed(char const letter) const;
     MousePosition getMousePosition() const;
     void setMousePosition(MousePosition const& position) const;
+    void pressLeftButtonOnMouse() const;
+    void releaseLeftButtonOnMouse() const;
     void doLeftClick() const;
     void doDoubleLeftClick() const;
     void doLeftClickAt(MousePosition const& position) const;
     void doDoubleLeftClickAt(MousePosition const& position) const;
+    void pressRightButtonOnMouse() const;
+    void releaseRightButtonOnMouse() const;
     void doRightClick() const;
     void doRightClickAt(MousePosition const& position) const;
-    void pressDownKey(unsigned int const key) const;
-    void pressUpKey(unsigned int const key) const;
+    void pressKey(unsigned int const key) const;
+    void releaseKey(unsigned int const key) const;
     void typeKey(unsigned int const key) const;
     void typeCharacter(char const character) const;
-    void typeString(std::string const& stringToType) const;
-    void typeControlAndLetterSimultaneously(unsigned int const letter) const;
+    void typeString(std::string const& stringToType) const;    void typeControlAndLetterSimultaneously(unsigned int const letter) const;
     std::string getClassNameOfForegroundWindow() const;
     void setForegroundWindowWithClassName(std::string const& className) const;
-    void setForegroundWindowWithWindowName(std::string const& windowName) const;
-    void sleepWithRealisticDelay() const;
+    void setForegroundWindowWithWindowName(std::string const& windowName) const;    void sleepWithRealisticDelay() const;
     void sleep(unsigned int const milliseconds) const;
 
     void saveBitmapOnScreen(
@@ -47,7 +50,7 @@ private:
     void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;
     void doOperation(InputFunction const& inputFunction) const;
     void doOperationWithRealisticDelay(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const;
-    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS = 1000;
+    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS = 100;
 };
 
 }  // namespace alba

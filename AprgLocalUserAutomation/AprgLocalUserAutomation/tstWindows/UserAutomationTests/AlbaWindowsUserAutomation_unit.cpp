@@ -22,18 +22,13 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition) {
     }
 }
 
-TEST(
-    AlbaWindowsUserAutomationTest,
-    DISABLED_DeleteThisTestDontGoToSleepSetMouseTest)  // DISABLED_DeleteThisTestDontGoToSleepSetMouseTest)
-{
+TEST(AlbaWindowsUserAutomationTest, DISABLED_DeleteThisTestDontGoToSleepSetMouseTest) {
     AlbaWindowsUserAutomation userAutomation;
     for (int x = 0; x < 300; x += 10) {
-        MousePosition position{x, x};
-        userAutomation.setMousePosition(position);
+        MousePosition position{x, x};        userAutomation.setMousePosition(position);
         userAutomation.sleep(10000);
         if (x == 290) {
-            x = 0;
-        }
+            x = 0;        }
     }
 }
 
@@ -48,18 +43,16 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SetMouseTest) {
 TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressDownAndUpSmallLetterTest) {
 #define VK_CONTROL 0x11
     AlbaWindowsUserAutomation userAutomation;
-    userAutomation.pressDownKey(VK_CONTROL);
-    userAutomation.pressDownKey('A');
-    userAutomation.pressUpKey(VK_CONTROL);
-    userAutomation.pressUpKey('A');
+    userAutomation.pressKey(VK_CONTROL);
+    userAutomation.pressKey('A');
+    userAutomation.releaseKey(VK_CONTROL);
+    userAutomation.releaseKey('A');
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeSmallLetterTest) {
-    AlbaWindowsUserAutomation userAutomation;
+TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeSmallLetterTest) {    AlbaWindowsUserAutomation userAutomation;
     for (char c = 'a'; c <= 'z'; c++) {
         userAutomation.typeCharacter(c);
-    }
-}
+    }}
 
 TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeCapitalLetterTest) {
     AlbaWindowsUserAutomation userAutomation;
@@ -81,14 +74,25 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeString) {
     // userAutomation.typeString(R"(`~!@#$%^&*()_+-=[]\{}|;':",./<>?)");
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest) {
+TEST(AlbaWindowsUserAutomationTest, DISABLED_IsKeyPressedTest) {
     AlbaWindowsUserAutomation userAutomation;
     while (1) {
-        char letter = 'q';
-        bool isPressed = userAutomation.isLetterPressed(letter);
-        cout << "letter: " << letter << " isPressed: " << isPressed << "\n";
+        auto key = VK_CONTROL;
+        bool isPressed = userAutomation.isKeyPressed(key);
+        cout << " isPressed: " << isPressed << "\n";
         if (isPressed) {
             break;
+        }
+        Sleep(100);
+    }
+}
+
+TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest) {
+    AlbaWindowsUserAutomation userAutomation;
+    while (1) {        char letter = 'q';
+        bool isPressed = userAutomation.isLetterPressed(letter);
+        cout << "letter: " << letter << " isPressed: " << isPressed << "\n";
+        if (isPressed) {            break;
         }
         Sleep(100);
     }
