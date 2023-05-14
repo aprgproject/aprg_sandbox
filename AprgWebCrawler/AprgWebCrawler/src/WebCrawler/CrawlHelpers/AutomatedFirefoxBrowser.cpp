@@ -120,8 +120,8 @@ void AutomatedFirefoxBrowser::pressAltAndLetter(unsigned int const letter) const
 }
 
 void AutomatedFirefoxBrowser::focusOnLocationBar() const { pressControlAndLetter('L'); }
+
 void AutomatedFirefoxBrowser::triggerSave() const { pressControlAndLetter('S'); }
 
 void AutomatedFirefoxBrowser::triggerPaste() const { pressControlAndLetter('V'); }
-
 }  // namespace aprgWebCrawler

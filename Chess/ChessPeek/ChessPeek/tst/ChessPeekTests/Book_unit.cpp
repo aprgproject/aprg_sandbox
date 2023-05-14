@@ -13,10 +13,9 @@ namespace ChessPeek {
 TEST(BookTest, GetSizeWorks) {
     Book book;
     Board board(BoardOrientation::BlackUpWhiteDown);
-    Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, {}};
+    Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, {}, {}};
 
     EXPECT_EQ(0U, book.getSize());
-
     book.addLine(board, lineDetail);
     EXPECT_EQ(1U, book.getSize());
 }
@@ -24,10 +23,9 @@ TEST(BookTest, GetSizeWorks) {
 TEST(BookTest, GetLineWorks) {
     Book book;
     Board board(BoardOrientation::BlackUpWhiteDown);
-    Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, {}};
+    Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, {}, {}};
 
     EXPECT_FALSE(book.getLine(board));
-
     book.addLine(board, lineDetail);
 
     auto actualLineDetailOptional(book.getLine(board));
@@ -35,10 +33,10 @@ TEST(BookTest, GetLineWorks) {
     auto const& actualLineDetail(actualLineDetailOptional.value());
     EXPECT_EQ("LineForTesting", actualLineDetail.nameOfLine);
     EXPECT_EQ(PieceColor::White, actualLineDetail.colorToMove);
+    EXPECT_EQ(0, actualLineDetail.totalNumberOfGames);
 }
 
-TEST(BookTest, ClearWorks) {
-    Book book;
+TEST(BookTest, ClearWorks) {    Book book;
     Board board(BoardOrientation::BlackUpWhiteDown);
     Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, 100, {}};
 

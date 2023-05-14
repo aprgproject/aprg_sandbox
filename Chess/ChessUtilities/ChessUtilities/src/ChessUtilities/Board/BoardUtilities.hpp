@@ -29,6 +29,7 @@ char convertToFenCharacter(PieceType const pieceType, PieceColor const pieceColo
 std::string constructFenString(
     Board const& board, PieceColor const colorToMove, std::string const& castlingAvailability,
     std::string const& enPassantTarget, unsigned int const halfMoveClock, unsigned int const fullMoveNumber);
+
 }  // namespace chess
 
 }  // namespace alba

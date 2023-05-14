@@ -7,10 +7,10 @@
 #include <Common/User/DisplayTable.hpp>
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
-
 class ResultPrinter {
 public:
     enum class MoveType { BookMove, CalculatedMove };
@@ -93,17 +93,14 @@ private:
     std::optional<char> getFirstCharOfCell(bool const isCertainPreMove, bool isPossiblePreMove) const;
     unsigned int getNumberOfColumnsOfGrid(unsigned int const numberOfBoards) const;
 
-    void saveNameOfLine(std::string const& nameOfLine);
-
-    static std::string s_nameOfLine;
     CalculationDetails const& m_calculationDetails;
     BoardWithContext const& m_engineBoardWithContext;
     Book const& m_book;
     int m_bestScore;
     int m_worstScore;
 };
+
 }  // namespace ChessPeek
 
 }  // namespace chess
-
 }  // namespace alba

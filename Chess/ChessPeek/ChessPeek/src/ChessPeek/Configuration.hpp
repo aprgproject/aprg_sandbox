@@ -15,10 +15,10 @@ public:
 
     Configuration() = delete;
     Configuration(Type const type);
+
     Type getType() const;
     std::string const& getChessEnginePath() const;
-    std::string const& getScreenShotPath() const;
-    XY getTopLeftOfBoard() const;
+    std::string const& getScreenShotPath() const;    XY getTopLeftOfBoard() const;
     XY getBottomRightOfBoard() const;
     double getWhiteColorLimit() const;
     double getBlackColorLimit() const;
@@ -33,10 +33,10 @@ private:
     void initializeChessDotComExplorer();
     void initializeLichessVersus();
     void initializeLichessStream();
+
     Type m_type;
     std::string m_chessEnginePath;
-    stringHelper::StringPairs m_uciOptionNamesAndValuePairs;
-    XY m_boardTopLeft;
+    stringHelper::StringPairs m_uciOptionNamesAndValuePairs;    XY m_boardTopLeft;
     XY m_boardBottomRight;
     double m_whiteColorLimit;
     double m_blackColorLimit;

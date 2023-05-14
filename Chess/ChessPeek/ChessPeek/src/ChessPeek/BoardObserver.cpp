@@ -74,11 +74,11 @@ void BoardObserver::initialize(Configuration::Type const type) {
         }
         case Configuration::Type::LichessVersus: {
             initializeConverterToLichessVersus();
-            break;        }
-        case Configuration::Type::LichessStream: {
-            initializeConverterToLichessVersus();  // same with lichess.org (use this as approximation)
             break;
         }
+        case Configuration::Type::LichessStream: {
+            initializeConverterToLichessVersus();  // same with lichess.org (use this as approximation)
+            break;        }
     }
 }
 

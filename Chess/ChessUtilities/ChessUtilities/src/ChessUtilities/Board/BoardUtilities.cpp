@@ -167,11 +167,11 @@ string constructFenString(
     // Source: https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
     stringstream ss;
     ss << board.getNotationPartOfFenString() << " ";
-    if (PieceColor::White == colorToMove) {        ss << "w ";
+    if (PieceColor::White == colorToMove) {
+        ss << "w ";
     } else if (PieceColor::Black == colorToMove) {
         ss << "b ";
-    }
-    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
+    }    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
     return ss.str();
 }
 

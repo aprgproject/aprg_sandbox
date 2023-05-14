@@ -4,10 +4,10 @@
 #include <Common/File/AlbaFileReader.hpp>
 
 #include <fstream>
+
 using namespace std;
 
 namespace alba {
-
 namespace chess {
 
 namespace ChessPeek {
@@ -22,23 +22,20 @@ Book::LineDetailOptional Book::getLine(Board const& board) const {
     }
     return result;
 }
+
 void Book::saveDatabaseTo(std::string const& path) const {
     ofstream outStream(path);
-    for (auto const& pairValue : m_boardToLineDetail) {
-        outStream << pairValue.first << "\n";
+    for (auto const& pairValue : m_boardToLineDetail) {        outStream << pairValue.first << "\n";
         outStream << pairValue.second.nameOfLine << "\n";
         outStream << static_cast<int>(pairValue.second.colorToMove) << "\n";
         outStream << pairValue.second.totalNumberOfGames << "\n";
         outStream << pairValue.second.nextMoves.size() << "\n";
         for (auto const& moveDetails : pairValue.second.nextMoves) {
-            outStream << moveDetails.move << "\n";            outStream << moveDetails.numberOfGames << "\n";
-            outStream << moveDetails.whiteWinPercentage << "\n";
-            outStream << moveDetails.drawPercentage << "\n";
-            outStream << moveDetails.blackWinPercentage << "\n";
+            outStream << moveDetails.move << "\n";
+            outStream << moveDetails.winPercentage << "\n";
         }
     }
 }
-
 void Book::clear() { m_boardToLineDetail.clear(); }
 
 void Book::addLine(Board const& board, LineDetail const& lineDetail) {
@@ -54,11 +51,11 @@ void Book::addLine(Board const& board, LineDetail const& lineDetail) {
     }
 }
 
-void Book::loadDatabaseFrom(std::string const& path) {    ifstream inStream(path);
+void Book::loadDatabaseFrom(std::string const& path) {
+    ifstream inStream(path);
     AlbaFileReader fileReader(inStream);
     while (inStream.good()) {
-        BoardValue boardValue;
-        int colorToMove{};
+        BoardValue boardValue;        int colorToMove{};
         LineDetail lineDetail;
         int moveSize{};
         inStream >> boardValue;
@@ -70,19 +67,15 @@ void Book::loadDatabaseFrom(std::string const& path) {    ifstream inStream(path
         for (int i = 0; i < moveSize; i++) {
             MoveDetail moveDetail;
             moveDetail.move = fileReader.getLineAndIgnoreWhiteSpaces();
-            inStream >> moveDetail.numberOfGames;
-            inStream >> moveDetail.whiteWinPercentage;
-            inStream >> moveDetail.drawPercentage;
-            inStream >> moveDetail.blackWinPercentage;
+            inStream >> moveDetail.winPercentage;
             lineDetail.nextMoves.emplace_back(moveDetail);
         }
-        if (!boardValue.isZero()) {
-            m_boardToLineDetail[boardValue] = lineDetail;
+        if (!boardValue.isZero()) {            m_boardToLineDetail[boardValue] = lineDetail;
         }
     }
 }
+
 }  // namespace ChessPeek
 
 }  // namespace chess
-
 }  // namespace alba

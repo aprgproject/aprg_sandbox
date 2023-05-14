@@ -24,8 +24,8 @@ TEST(ResultPrinterTest, PrintWorks) {
 
     printHelper.print();
 }
+
 }  // namespace ChessPeek
 
 }  // namespace chess
-
 }  // namespace alba

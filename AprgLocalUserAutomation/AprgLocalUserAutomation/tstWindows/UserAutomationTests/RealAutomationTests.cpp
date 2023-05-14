@@ -189,11 +189,11 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files) {
                     userAutomation.releaseKey(VK_CONTROL);
                     userAutomation.sleep(2000);
 
-                    // type enter key multiple times                    userAutomation.sleep(1000);
+                    // type enter key multiple times
+                    userAutomation.sleep(1000);
                     userAutomation.typeKey(VK_RETURN);  // save
                     userAutomation.sleep(1000);
-                    userAutomation.typeKey('Y');  // yes to replace
-                    userAutomation.sleep(1000);
+                    userAutomation.typeKey('Y');  // yes to replace                    userAutomation.sleep(1000);
                     userAutomation.doDoubleLeftClickAt(MousePosition(1074, 687));  // click ok
                     userAutomation.typeKey(VK_RIGHT);                              // type right to avoid stop button
 
