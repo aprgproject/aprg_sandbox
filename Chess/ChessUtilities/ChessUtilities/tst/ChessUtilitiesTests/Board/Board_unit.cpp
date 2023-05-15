@@ -777,6 +777,7 @@ TEST(BoardTest, GetExchangeValueAtWorksOnExample4) {
 TEST(BoardTest, GetCoordinateFromAlgebraicNotationWorks) {
     Board boardWithBW(BoardOrientation::BlackUpWhiteDown);
     Board boardWithWB(BoardOrientation::WhiteUpBlackDown);
+
     Coordinate coordinate1(boardWithBW.getCoordinateFromAlgebraicNotation("c2"));
     Coordinate coordinate2(boardWithWB.getCoordinateFromAlgebraicNotation("c2"));
 

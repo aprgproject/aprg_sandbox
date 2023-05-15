@@ -31,9 +31,11 @@ public:
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 90;
 
     HumanScoreGenerator(BoardWithContext const& boardWithContext, int const bestScore, int const worstScore);
+
     uint32_t getHumanScore(MoveDetail const& moveDetail) const;
 
-private:    uint32_t getScoreLevelPart(MoveDetail const& moveDetail) const;
+private:
+    uint32_t getScoreLevelPart(MoveDetail const& moveDetail) const;
     uint32_t getHangingPieceValuePart(Move const& move) const;
     uint32_t getMoveTypePart(Move const& move) const;
     uint32_t getDistanceToKingPart(Move const& move) const;

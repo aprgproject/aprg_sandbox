@@ -10,7 +10,8 @@
 #include <numeric>
 #include <sstream>
 
-using namespace alba::mathHelper;using namespace alba::stringHelper;
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba {
@@ -87,6 +88,7 @@ Move Board::getMoveUsingAlgebraicNotation(string const& text, PieceColor const m
     }
     return result;
 }
+
 Coordinate Board::getCoordinateFromAlgebraicNotation(string const& text) const {
     Coordinate result{};
     if (text.size() == 2) {
@@ -96,7 +98,8 @@ Coordinate Board::getCoordinateFromAlgebraicNotation(string const& text) const {
             result = getCorrectCoordinateFromAlgebraicNotation(letterChar - 'a', numberChar - '1');
         }
     }
-    return result;}
+    return result;
+}
 
 Piece Board::getPieceAt(Coordinate const& coordinate) const {
     Piece result;
@@ -191,7 +194,8 @@ int Board::getTotalHangingPieceValue(PieceColor const pieceColor) const {
 
 string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {
     string result;
-    if (BoardOrientation::BlackUpWhiteDown == m_orientation) {        result = string{static_cast<char>('a' + coordinate.getX()), static_cast<char>('1' + 7 - coordinate.getY())};
+    if (BoardOrientation::BlackUpWhiteDown == m_orientation) {
+        result = string{static_cast<char>('a' + coordinate.getX()), static_cast<char>('1' + 7 - coordinate.getY())};
     } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {
         result = string{static_cast<char>('a' + 7 - coordinate.getX()), static_cast<char>('1' + coordinate.getY())};
     }
@@ -859,7 +863,8 @@ Board::NotationDetailsOfMove Board::determineNotationDetailsOfMove(string const&
     for (auto it = textInAlgebraicNotation.crbegin(); it != textInAlgebraicNotation.crend();) {
         char c = *it;
         switch (state) {
-            case State::LastY: {                if (is1To8(c)) {
+            case State::LastY: {
+                if (is1To8(c)) {
                     result.lastY = getYInCorrectOrientation(c - '1');
                     state = State::LastX;
                 }
@@ -925,7 +930,8 @@ Board::NotationDetailsOfMove Board::determineNotationDetailsOfMove(string const&
                 it = textInAlgebraicNotation.crend();
                 break;
             }
-        }    }
+        }
+    }
     if (result.pieceType == PieceType::Empty) {
         result.pieceType = PieceType::Pawn;
     }
@@ -1008,7 +1014,8 @@ MovePair Board::getMatchingCastlingKingAndRookMovePair(Move const& kingMoveThatS
 Move Board::getCastleMove(CastleType const castleType, PieceColor const moveColor) const {
     Move result{};
     CoordinateDataType rookMoveDistance = CastleType::KingSideCastle == castleType    ? 2
-                                          : CastleType::QueenSideCastle == castleType ? 3                                                                                      : 0;
+                                          : CastleType::QueenSideCastle == castleType ? 3
+                                                                                      : 0;
     MovePairs castlingPairs(getCastlingKingAndRookMovePairs(moveColor));
     for (MovePair const& castlingPair : castlingPairs) {
         Move const& kingMove(castlingPair.first);
@@ -1026,7 +1033,8 @@ Move Board::getNonCastleMoveWithAlgebraicNotation(
     NotationDetailsOfMove details(determineNotationDetailsOfMove(textInAlgebraicNotation));
     if (details.lastX && details.lastY) {
         // last are prioritized because its reversed
-        Coordinate endpoint(details.lastX.value(), details.lastY.value());        if (details.firstX && details.firstY) {
+        Coordinate endpoint(details.lastX.value(), details.lastY.value());
+        if (details.firstX && details.firstY) {
             Move candidateMove{{details.firstX.value(), details.firstY.value()}, endpoint};
             if (isAPossibleMove(candidateMove)) {
                 result = candidateMove;
@@ -1199,7 +1207,8 @@ Coordinate Board::getCorrectCoordinateFromAlgebraicNotation(
     CoordinateDataType const x, CoordinateDataType const y) const {
     Coordinate result{};
     if (BoardOrientation::BlackUpWhiteDown == m_orientation) {
-        result = Coordinate(x, reverse(y));    } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {
+        result = Coordinate(x, reverse(y));
+    } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {
         result = Coordinate(reverse(x), y);
     }
     return result;
@@ -1238,6 +1247,7 @@ Board::CastleType Board::getCastleTypeWithAlgebraicNotation(string const& textIn
 }
 
 int Board::getGridIndex(int x, int y) const { return (y * CHESS_SIDE_SIZE) + x; }
+
 int Board::getNumberOfWaysToBlockPath(
     Coordinate const& startpoint, Coordinate const& endpoint, PieceColor const blockingPieceColor,
     int const maxSize) const {
@@ -1429,7 +1439,8 @@ void Board::updateAttackDefendCount(
 
 void Board::changePieceGridWithMove(Move const& move) {
     setPieceAt(move.second, getPieceAt(move.first));
-    setPieceAt(move.first, {});}
+    setPieceAt(move.first, {});
+}
 
 #undef CHESS_UTILITIES_BOARD_QUICK_BREAK_IN_LOOP_IF_MAX_SIZE_IS_REACHED
 #undef CHESS_UTILITIES_BOARD_QUICK_RETURN_IF_MAX_SIZE_IS_REACHED

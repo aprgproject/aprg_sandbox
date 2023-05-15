@@ -8,9 +8,11 @@
 #include <Common/User/DisplayTable.hpp>
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
+
 class ResultPrinter {
 public:
     enum class MoveType { BookMove, CalculatedMove };
@@ -47,9 +49,11 @@ public:
 
     ResultPrinter() = delete;
     ResultPrinter(CalculationDetails const& calculationDetails, BoardWithContext const& engineBoard, Book const& book);
+
     void print();
 
-private:    void initialize();
+private:
+    void initialize();
     void saveBestAndWorstScores();
 
     BookMoves getNextMovesFromBook() const;
@@ -62,7 +66,8 @@ private:    void initialize();
     void humanizeMoves(NextMoves& nextMoves) const;
     void sortForMoreHumanMoves(NextMoves& nextMoves) const;
     void removeTooManyPawnMoves(NextMoves& nextMoves) const;
-    NextMove createNextMove(Move const& move, Variation const& variation, HumanScoreGenerator const& scorer) const;    MovesSequence getMovesSequenceFromNextMove(NextMove const& nextMove) const;
+    NextMove createNextMove(Move const& move, Variation const& variation, HumanScoreGenerator const& scorer) const;
+    MovesSequence getMovesSequenceFromNextMove(NextMove const& nextMove) const;
     MovesSequence getMovesSequenceFromBestLine() const;
     void includeMovesSequenceFromVariation(MovesSequence& result, Variation const& variation) const;
 
@@ -106,10 +111,12 @@ private:    void initialize();
     int getRowSizeForFullMoves(int const numberOfFullMoves) const;
 
     CalculationDetails const& m_calculationDetails;
-    BoardWithContext const& m_engineBoardWithContext;    Book const& m_book;
+    BoardWithContext const& m_engineBoardWithContext;
+    Book const& m_book;
     int m_bestScore;
     int m_worstScore;
 };
+
 }  // namespace ChessPeek
 
 }  // namespace chess

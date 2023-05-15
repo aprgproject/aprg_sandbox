@@ -10,6 +10,7 @@
 #include <vector>
 
 namespace alba {
+
 namespace chess {
 
 struct Board {
@@ -40,6 +41,7 @@ public:
     Board();
     Board(BoardOrientation const& orientation);
     Board(BoardOrientation const& orientation, PieceGrid const& pieceGrid);
+
     bool operator==(Board const& other) const;
     bool operator!=(Board const& other) const;
 
@@ -60,7 +62,8 @@ public:
     int getTotalHangingPieceValue(PieceColor const pieceColor) const;
 
     std::string getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const;
-    std::string getReadableStringOfMove(Move const& move) const;    std::string getNotationPartOfFenString() const;
+    std::string getReadableStringOfMove(Move const& move) const;
+    std::string getNotationPartOfFenString() const;
     std::string getCastlingPartOfFenString() const;
 
     bool isEmptyAt(Coordinate const& coordinate) const;
@@ -138,7 +141,8 @@ private:
     Move getNonCastleMoveWithAlgebraicNotation(std::string const& text, PieceColor const moveColor) const;
     Coordinates getLDeltaCoordinates() const;
     Coordinates getDiagonalIncrementDeltaCoordinates() const;
-    Coordinates getStraightIncrementDeltaCoordinates() const;    Coordinates getOneStepDeltaCoordinates() const;
+    Coordinates getStraightIncrementDeltaCoordinates() const;
+    Coordinates getOneStepDeltaCoordinates() const;
     DeltaRange getPawnNonCaptureDeltaRange(Coordinate const& startpoint, PieceColor const moveColor) const;
     DeltaRange getPawnReverseNonCaptureDeltaRange(Coordinate const& endpoint, PieceColor const moveColor) const;
     Coordinates getPawnCapturesDeltaCoordinates(PieceColor const moveColor) const;
@@ -152,7 +156,8 @@ private:
     CastleType getCastleTypeWithAlgebraicNotation(std::string const& textInAlgebraicNotation) const;
     int getGridIndex(int const x, int const y) const;
     int getNumberOfWaysToBlockPath(
-        Coordinate const& startpoint, Coordinate const& endpoint, PieceColor const blockingPieceColor,        int const maxSize) const;
+        Coordinate const& startpoint, Coordinate const& endpoint, PieceColor const blockingPieceColor,
+        int const maxSize) const;
 
     bool isPieceEmptyOrHasOpposingColors(Piece const& piece, PieceColor const color) const;
     bool isPieceNonEmptyAndHasOpposingColors(Piece const& piece, PieceColor const color) const;
@@ -183,7 +188,8 @@ private:
         PieceColor oppositeColor) const;
     void changePieceGridWithMove(Move const& move);
 
-    BoardOrientation m_orientation;    PieceGrid m_pieceGrid;
+    BoardOrientation m_orientation;
+    PieceGrid m_pieceGrid;
 };
 
 }  // namespace chess
