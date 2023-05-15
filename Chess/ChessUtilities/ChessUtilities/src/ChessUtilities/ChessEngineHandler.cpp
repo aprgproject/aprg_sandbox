@@ -193,21 +193,15 @@ void ChessEngineHandler::log(LogType const logtype, string const& logString) {
         m_logFileStreamOptional.value() << getLogHeader(logtype) << logString << "\n";
         m_logFileStreamOptional.value().flush();
     }
-#ifdef APRG_TEST_MODE_ON
-    // cout << getLogHeader(logtype) << logString << "\n";
-#else
     if (LogType::FromEngine == logtype) {
         cout << logString << "\n";
     }
-#endif
 }
 
-string ChessEngineHandler::getLogHeader(LogType const logtype) const {
-    string result;
+string ChessEngineHandler::getLogHeader(LogType const logtype) const {    string result;
     switch (logtype) {
         case LogType::FromEngine: {
-            result = "From engine: ";
-            break;
+            result = "From engine: ";            break;
         }
         case LogType::ToEngine: {
             result = "To engine: ";
