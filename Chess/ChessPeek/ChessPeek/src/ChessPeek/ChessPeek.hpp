@@ -14,6 +14,7 @@ namespace alba {
 namespace chess {
 
 namespace ChessPeek {
+
 class ChessPeek {
 public:
     using EngineCalculationDetails = chess::CalculationDetails;
@@ -22,6 +23,7 @@ public:
 
     void runForever();
     void runOneIteration();
+
     void checkScreenAndSaveDetails();
     void startEngineAnalysisWithBoardFromScreen();
     void calculationMonitoringCallBackForEngine(EngineCalculationDetails const& engineCalculationDetails);
@@ -54,6 +56,7 @@ private:
 };
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

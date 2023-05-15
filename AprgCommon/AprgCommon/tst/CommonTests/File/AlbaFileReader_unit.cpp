@@ -42,7 +42,8 @@ TEST(AlbaFileReaderTest, ConstructorsWorks) {
 
     AlbaFileReader fileReader1(inputTestFile);
     EXPECT_EQ(10000U, fileReader1.getMaxBufferSize());
-    AlbaFileReader fileReader2(inputTestFile, 200);    EXPECT_EQ(200U, fileReader2.getMaxBufferSize());
+    AlbaFileReader fileReader2(inputTestFile, 200);
+    EXPECT_EQ(200U, fileReader2.getMaxBufferSize());
 }
 
 TEST(AlbaFileReaderTest, SetAndGetBufferSizeWorks) {
@@ -52,7 +53,8 @@ TEST(AlbaFileReaderTest, SetAndGetBufferSizeWorks) {
 
     AlbaFileReader fileReader(inputTestFile);
     EXPECT_EQ(10000U, fileReader.getMaxBufferSize());
-    fileReader.setMaxBufferSize(200);    EXPECT_EQ(200U, fileReader.getMaxBufferSize());
+    fileReader.setMaxBufferSize(200);
+    EXPECT_EQ(200U, fileReader.getMaxBufferSize());
 }
 
 TEST(AlbaFileReaderTest, SkipLineWorksUsingVariousCharacters) {
@@ -129,7 +131,8 @@ TEST(AlbaFileReaderTest, GetLineAndIgnoreWhiteSpacesWorksUsingVariousCharacters)
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());    ASSERT_FALSE(inputTestFile.eof());
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("1", fileReader.getLineAndIgnoreWhiteSpaces());
     EXPECT_EQ("12", fileReader.getLineAndIgnoreWhiteSpaces());
@@ -156,7 +159,8 @@ TEST(AlbaFileReaderTest, ReadLineWithSizeLimit) {
 
     AlbaFileReader fileReader(inputTestFile);
     fileReader.setMaxBufferSize(2000);
-    EXPECT_EQ(5000U, fileReader.getFileSize());    ASSERT_TRUE(inputTestFile.good());
+    EXPECT_EQ(5000U, fileReader.getFileSize());
+    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(2000U, fileReader.getLineAndIgnoreWhiteSpaces().length());
@@ -173,7 +177,8 @@ TEST(AlbaFileReaderTest, ReadSingleCharacterFromBinaryFile) {
     testFile << "123!@# \t\n";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
@@ -206,7 +211,8 @@ TEST(AlbaFileReaderTest, ReadMultipleCharacters) {
     testFile << "123!@# \t\n";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
@@ -249,7 +255,8 @@ TEST(AlbaFileReaderTest, RequestToReadMultipleCharactersThatIsTheBeyondBufferSiz
     testFile << "12345";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     fileReader.setMaxBufferSize(3);
@@ -276,7 +283,8 @@ TEST(AlbaFileReaderTest, ReadOneByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -310,7 +318,8 @@ TEST(AlbaFileReaderTest, ReadTwoByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -338,7 +347,8 @@ TEST(AlbaFileReaderTest, ReadFourByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -362,7 +372,8 @@ TEST(AlbaFileReaderTest, ReadEightByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -384,7 +395,8 @@ TEST(AlbaFileReaderTest, ReadSwappedTwoByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -412,7 +424,8 @@ TEST(AlbaFileReaderTest, ReadSwappedFourByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -436,7 +449,8 @@ TEST(AlbaFileReaderTest, ReadSwappedEightByteNumbers) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 
@@ -458,7 +472,8 @@ TEST(AlbaFileReaderTest, FileContentsCanBeSavedInMemoryBuffer) {
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
-    testFile.put(0x67);    testFile.put(static_cast<char>(0xA1));
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();
 

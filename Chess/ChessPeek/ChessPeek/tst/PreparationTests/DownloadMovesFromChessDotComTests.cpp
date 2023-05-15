@@ -14,7 +14,8 @@
 
 #include <algorithm>
 #include <ostream>
-#include <thread>#include <vector>
+#include <thread>
+#include <vector>
 
 using namespace alba::stringHelper;
 using namespace std;
@@ -36,6 +37,7 @@ void trackKeyPressForDownloadMovesFromChessDotCom() {
         userAutomation.sleep(100);
     }
 }
+
 struct Paths {
     string url;
     string htmlFile;
@@ -105,7 +107,8 @@ void gotoWebPage(string const& url) {
     userAutomation.sleep(500);
 }
 
-bool performMovesAndReturnIfValid(strings const& line) {    Configuration configuration(Configuration::Type::ChessDotComExplorer);
+bool performMovesAndReturnIfValid(strings const& line) {
+    Configuration configuration(Configuration::Type::ChessDotComExplorer);
     DetailsFromTheScreen detailsFromScreen(configuration);
     AlbaLocalUserAutomation userAutomation;
 
@@ -136,6 +139,7 @@ bool performMovesAndReturnIfValid(strings const& line) {    Configuration config
 
             updatedBoard.move(move);
             currentColor = getOppositeColor(currentColor);
+
             detailsFromScreen.saveDetailsFromTheScreen();
             Board const& boardFromScreen(detailsFromScreen.getBoardWithContext().getBoard());
             if (boardFromScreen != updatedBoard) {
@@ -169,7 +173,8 @@ void deleteWebPageUntilItsDeleted(string const& htmlFile) {
         if (htmlFileHandler.isFoundInLocalSystem()) {
             cout << "File still not deleted. Deleting again. File: [" << htmlFile << "]" << endl;
         }
-    }}
+    }
+}
 
 void saveWebPage(string const& htmlFile) {
     AlbaLocalUserAutomation userAutomation;
@@ -185,7 +190,8 @@ void saveWebPage(string const& htmlFile) {
     userAutomation.sleep(500);
 
     userAutomation.pressKey(VK_CONTROL);
-    userAutomation.pressKey('V');    userAutomation.sleepWithRealisticDelay();
+    userAutomation.pressKey('V');
+    userAutomation.sleepWithRealisticDelay();
 
     userAutomation.releaseKey(VK_CONTROL);
     userAutomation.releaseKey('V');
@@ -211,7 +217,8 @@ void saveWebPageUntilItsDeleted(string const& htmlFile) {
         Sleep(500);
         htmlFileHandler.reInput();
         if (!htmlFileHandler.isFoundInLocalSystem()) {
-            cout << "File still doesnt exist. Saving web page again. File: [" << htmlFile << "]" << endl;        }
+            cout << "File still doesnt exist. Saving web page again. File: [" << htmlFile << "]" << endl;
+        }
     }
 }
 
@@ -254,7 +261,8 @@ string removeHtmlTags(string const& mainString) {
             int lastIndexOfSecondString = firstIndexOfSecondString + 1;
             withoutTags += withTags.substr(0, firstIndexOfFirstString);
             withTags = withTags.substr(lastIndexOfSecondString);
-            firstIndexOfFirstString = withTags.find("<", 0);        } else {
+            firstIndexOfFirstString = withTags.find("<", 0);
+        } else {
             break;
         }
     }
@@ -277,7 +285,8 @@ bool readHtmlFileIfValid(WebPageInfo& pageInfo, string const& htmlFile) {
             result = true;
             int previousIndex{};
             pageInfo.nameOfLine =
-                getStringInBetween(line, R"(<span class="eco-classifier-label"><!----> <span>)", R"(</span>)", index);            do {
+                getStringInBetween(line, R"(<span class="eco-classifier-label"><!----> <span>)", R"(</span>)", index);
+            do {
                 if (!shouldStillRun) {
                     exit(0);
                 }
@@ -287,7 +296,8 @@ bool readHtmlFileIfValid(WebPageInfo& pageInfo, string const& htmlFile) {
                 if (moveInfo.nextMove.empty()) {
                     string prefix =
                         getStringInBetween(line, R"(<span class="move-san-figurine icon-font-chess )", R"(-)", index);
-                    string suffix =                        getStringInBetween(line, R"(<span class="move-san-afterfigurine">)", R"(</span>)", index);
+                    string suffix =
+                        getStringInBetween(line, R"(<span class="move-san-afterfigurine">)", R"(</span>)", index);
                     moveInfo.nextMove = getOneCharPiece(prefix) + suffix;
                 }
                 moveInfo.numberOfGames = removeHtmlTags(
@@ -342,7 +352,8 @@ void savePageInfoToDataFile(strings const& currentLine, WebPageInfo const& pageI
         outStream << move << ",";
     }
     outStream << "]\n";
-    outStream << "NameOfLine: [" << pageInfo.nameOfLine << "]\n";    outStream << "NumberOfNextMoves: [" << pageInfo.moveInfos.size() << "]\n";
+    outStream << "NameOfLine: [" << pageInfo.nameOfLine << "]\n";
+    outStream << "NumberOfNextMoves: [" << pageInfo.moveInfos.size() << "]\n";
     for (MoveInfo const& moveInfo : pageInfo.moveInfos) {
         outStream << "NextMove: [" << moveInfo.nextMove << "]\n";
         outStream << "NumberOfGames: [" << moveInfo.numberOfGames << "]\n";
@@ -380,7 +391,8 @@ strings getLineOfMoves(string const& lineFile, int const lineNumber) {
         } else if (i == lineNumber) {
             string lineString = fileReader.getLineAndIgnoreWhiteSpaces();
             splitToStrings<SplitStringType::WithoutDelimeters>(result, lineString, ",");
-            break;        } else {
+            break;
+        } else {
             break;
         }
     }
@@ -394,7 +406,8 @@ void saveNewLinesOfMoves(strings const& currentLine, WebPageInfo const& pageInfo
         lineOfMoves.emplace_back(moveInfo.nextMove);
 
         ostream_iterator<string> outputIterator(outStream, ",");
-        copy(lineOfMoves.cbegin(), lineOfMoves.cend(), outputIterator);        outStream << "\n";
+        copy(lineOfMoves.cbegin(), lineOfMoves.cend(), outputIterator);
+        outStream << "\n";
 
         lineOfMoves.pop_back();
     }
@@ -419,7 +432,8 @@ void doOnePage(strings const& currentLine, Paths const& paths) {
         saveWebPageUntilItsDeleted(paths.htmlFile);
 
         isProcessed = readHtmlFileIfValid(pageInfo, paths.htmlFile);
-        if (!isProcessed) {            cout << "File is not valid. Trying to do all the process again. File: [" << paths.htmlFile << "]" << endl;
+        if (!isProcessed) {
+            cout << "File is not valid. Trying to do all the process again. File: [" << paths.htmlFile << "]" << endl;
         }
     }
 
@@ -435,7 +449,8 @@ void doAllPagesRecursively(Paths const& paths) {
 
     int lineNumber = getLineNumber(paths.lineNumberFile);
     strings currentLine = getLineOfMoves(paths.linesFile, lineNumber);
-    bool isFirst(true);    while (shouldStillRun && (isFirst || !currentLine.empty())) {
+    bool isFirst(true);
+    while (shouldStillRun && (isFirst || !currentLine.empty())) {
         cout << "lineNumber: [" << lineNumber << "] currentLine:[";
         printParameter(cout, currentLine);
         cout << "]" << endl;
@@ -455,6 +470,7 @@ TEST(DownloadMovesFromChessDotComTest, DoAllPagesRecursivelyWorks) {
     // ChessDotComMoves should be deleted or empty
     // ChessDotComLines should be deleted or empty
     // ChessDotComLineNumber has to contain 0
+
     AlbaWebPathHandler explorerUrl(R"(https://www.chess.com/explorer)");
     AlbaLocalPathHandler tempHtmlFile(APRG_DIR R"(\Chess\ChessPeek\Files\ChessDotComAutomation\temp.html)");
     AlbaLocalPathHandler dataFile(APRG_DIR

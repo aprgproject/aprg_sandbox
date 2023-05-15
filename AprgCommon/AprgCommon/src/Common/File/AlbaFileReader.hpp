@@ -44,6 +44,7 @@ public:
     void moveLocation(size_t const location) const;
     void setMaxBufferSize(size_t const bufferSize);
     size_t getMaxBufferSize() const;
+
 private:
     char* getCharacterBufferPointer();
     static constexpr size_t INITIAL_MAX_BUFFER_SIZE = 10000;

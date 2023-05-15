@@ -20,6 +20,8 @@ std::ostream& operator<<(std::ostream& out, Board const& board);
 std::ostream& operator<<(std::ostream& out, BoardValue const& boardValue);
 std::istream& operator>>(std::istream& in, BoardValue& boardValue);
 
+void printHexValuesInBoard(std::ostream& out, Board const& board);
+
 }  // namespace chess
 
 }  // namespace alba

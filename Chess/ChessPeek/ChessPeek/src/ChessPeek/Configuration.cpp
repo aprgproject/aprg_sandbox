@@ -105,7 +105,8 @@ void Configuration::initializeSpecificParameters() {
         }
         case Type::LichessStream: {
             initializeLichessStream();
-            break;        }
+            break;
+        }
     }
 }
 
@@ -136,6 +137,7 @@ void Configuration::initializeLichessVersus() {
     m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.30;
 }
+
 void Configuration::initializeLichessStream() {
     m_boardTopLeft = XY(2498, 159);
     m_boardBottomRight = XY(3233, 894);

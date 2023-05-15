@@ -32,6 +32,7 @@ MousePosition AlbaWindowsUserAutomation::getMousePosition() const {
     GetCursorPos(&mouse);
     return MousePosition(mouse.x, mouse.y);
 }
+
 void AlbaWindowsUserAutomation::setMousePosition(MousePosition const& position) const {
     long screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
     long screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
@@ -66,7 +67,8 @@ void AlbaWindowsUserAutomation::doLeftClick() const {
         input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
     });
     doOperationWithRealisticDelay([](INPUT& input) {
-        input.type = INPUT_MOUSE;        input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+        input.type = INPUT_MOUSE;
+        input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
     });
 }
 
@@ -118,7 +120,8 @@ void AlbaWindowsUserAutomation::doRightClick() const {
     doOperationWithRealisticDelay([](INPUT& input) {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
-    });    doOperationWithRealisticDelay([](INPUT& input) {
+    });
+    doOperationWithRealisticDelay([](INPUT& input) {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
     });
@@ -136,7 +139,8 @@ void AlbaWindowsUserAutomation::pressKey(unsigned int const key) const {
         input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
         input.ki.wVk = (WORD)key;
-        input.ki.dwFlags = 0;    });
+        input.ki.dwFlags = 0;
+    });
 }
 
 void AlbaWindowsUserAutomation::releaseKey(unsigned int const key) const {
@@ -146,7 +150,8 @@ void AlbaWindowsUserAutomation::releaseKey(unsigned int const key) const {
         input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
         input.ki.wVk = (WORD)key;
-        input.ki.dwFlags = KEYEVENTF_KEYUP;    });
+        input.ki.dwFlags = KEYEVENTF_KEYUP;
+    });
 }
 
 void AlbaWindowsUserAutomation::typeKey(unsigned int const key) const {
@@ -205,7 +210,8 @@ string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const {
     int const LENGTH = 1000;
     char className[LENGTH];
     GetClassName(GetForegroundWindow(), className, LENGTH);
-    return string(className);}
+    return string(className);
+}
 
 void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(string const& className) const {
     Sleep(2000);

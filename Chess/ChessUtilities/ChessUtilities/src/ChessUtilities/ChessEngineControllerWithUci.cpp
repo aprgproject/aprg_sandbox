@@ -11,6 +11,7 @@ using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba {
+
 namespace chess {
 
 ChessEngineControllerWithUci::ChessEngineControllerWithUci(
@@ -133,7 +134,8 @@ void ChessEngineControllerWithUci::resetData() {
     changeState(ControllerState::Initializing);
     m_waitingForReadyOkay = false;
     clearCalculationDetails();
-    m_pendingCommands.clear();}
+    m_pendingCommands.clear();
+}
 
 void ChessEngineControllerWithUci::clearCalculationDetails() { m_calculationDetails = {}; }
 
@@ -298,7 +300,8 @@ string ChessEngineControllerWithUci::getEnumString(ControllerState const state) 
             ChessEngineControllerWithUci::ControllerState::WaitingForUciOkay, "WaitingForUciOkay")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Idle, "Idle")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(ChessEngineControllerWithUci::ControllerState::Calculating, "Calculating")
-        default:            return "default";
+        default:
+            return "default";
     }
 }
 

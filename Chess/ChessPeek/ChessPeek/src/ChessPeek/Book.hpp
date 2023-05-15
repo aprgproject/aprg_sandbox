@@ -21,6 +21,7 @@ public:
     };
 
     using MoveDetails = std::vector<MoveDetail>;
+
     struct LineDetail {
         std::string nameOfLine;
         PieceColor colorToMove;
@@ -36,6 +37,7 @@ public:
     void clear();
     void addLine(Board const& board, LineDetail const& lineDetail);
     void loadDatabaseFrom(std::string const& path);
+
 private:
     std::map<BoardValue, LineDetail> m_boardToLineDetail;
 };

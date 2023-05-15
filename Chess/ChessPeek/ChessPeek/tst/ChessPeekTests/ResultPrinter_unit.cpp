@@ -28,4 +28,5 @@ TEST(ResultPrinterTest, PrintWorks) {
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

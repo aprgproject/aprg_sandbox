@@ -16,6 +16,7 @@ TEST(BookTest, GetSizeWorks) {
     Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, {}, {}};
 
     EXPECT_EQ(0U, book.getSize());
+
     book.addLine(board, lineDetail);
     EXPECT_EQ(1U, book.getSize());
 }
@@ -26,6 +27,7 @@ TEST(BookTest, GetLineWorks) {
     Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, {}, {}};
 
     EXPECT_FALSE(book.getLine(board));
+
     book.addLine(board, lineDetail);
 
     auto actualLineDetailOptional(book.getLine(board));
@@ -36,7 +38,8 @@ TEST(BookTest, GetLineWorks) {
     EXPECT_EQ(0, actualLineDetail.totalNumberOfGames);
 }
 
-TEST(BookTest, ClearWorks) {    Book book;
+TEST(BookTest, ClearWorks) {
+    Book book;
     Board board(BoardOrientation::BlackUpWhiteDown);
     Book::LineDetail lineDetail{"LineForTesting", PieceColor::White, 100, {}};
 

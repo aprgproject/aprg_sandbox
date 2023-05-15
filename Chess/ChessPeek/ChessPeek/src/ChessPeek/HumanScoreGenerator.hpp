@@ -24,6 +24,7 @@ public:
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 40;
 
     HumanScoreGenerator(BoardWithContext const& boardWithContext, int const bestScore, int const worstScore);
+
     uint32_t getHumanScore(MoveDetail const& moveDetail) const;
 
 private:
@@ -46,6 +47,7 @@ private:
     int m_worstScore;
     int m_maxScoreLevel;
 };
+
 }  // namespace ChessPeek
 
 }  // namespace chess

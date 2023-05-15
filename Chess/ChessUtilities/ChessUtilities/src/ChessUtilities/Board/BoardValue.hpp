@@ -31,6 +31,7 @@ private:
     void saveBoardToData(Board const& board);
     Data m_data;
 };
+
 bool operator<(BoardValue const& bv1, BoardValue const& bv2);
 bool operator==(BoardValue const& bv1, BoardValue const& bv2);
 

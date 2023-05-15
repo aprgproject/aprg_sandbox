@@ -11,6 +11,7 @@ namespace alba {
 namespace chess {
 
 namespace ChessPeek {
+
 class ResultPrinter {
 public:
     enum class MoveType { BookMove, CalculatedMove };
@@ -103,4 +104,5 @@ private:
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

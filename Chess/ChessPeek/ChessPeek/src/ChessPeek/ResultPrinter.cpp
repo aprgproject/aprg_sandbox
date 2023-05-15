@@ -10,6 +10,7 @@
 using namespace alba::mathHelper;
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace {
 constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT = 10U;
 constexpr unsigned int MAX_NUMBER_OF_BOOK_MOVES = 5U;
@@ -36,7 +37,8 @@ namespace ChessPeek {
 
 ResultPrinter::ResultPrinter(
     CalculationDetails const& calculationDetails, BoardWithContext const& engineBoard, Book const& book)
-    : m_calculationDetails(calculationDetails),      m_engineBoardWithContext(engineBoard),
+    : m_calculationDetails(calculationDetails),
+      m_engineBoardWithContext(engineBoard),
       m_book(book),
       m_bestScore(),
       m_worstScore() {
@@ -66,7 +68,8 @@ void ResultPrinter::saveBestAndWorstScores() {
         auto itPair = minmax_element(
             variations.cbegin(), variations.cend(), [](Variation const& variation1, Variation const& variation2) {
                 return variation1.scoreInCentipawns < variation2.scoreInCentipawns;
-            });        m_bestScore = itPair.second->scoreInCentipawns;
+            });
+        m_bestScore = itPair.second->scoreInCentipawns;
         m_worstScore = itPair.first->scoreInCentipawns;
     }
 }
@@ -84,7 +87,8 @@ void ResultPrinter::includeBookMoves(BookMoves& bookMoves) const {
         saveNameOfLine(lineDetail.nameOfLine);
         Board const& engineBoard(m_engineBoardWithContext.getBoard());
         for (Book::MoveDetail const& bookMoveDetail : lineDetail.nextMoves) {
-            Move move(engineBoard.getMoveUsingAlgebraicNotation(                bookMoveDetail.move, m_engineBoardWithContext.getPlayerColor()));
+            Move move(engineBoard.getMoveUsingAlgebraicNotation(
+                bookMoveDetail.move, m_engineBoardWithContext.getPlayerColor()));
             bookMoves.emplace_back(createBookMove(move, lineDetail, bookMoveDetail));
             if (bookMoves.size() > MAX_NUMBER_OF_BOOK_MOVES) {
                 break;
@@ -98,7 +102,8 @@ ResultPrinter::BookMove ResultPrinter::createBookMove(
     return BookMove{move, getNameOfBookMove(move, lineDetail), bookMoveDetail.winPercentage};
 }
 
-string ResultPrinter::getNameOfBookMove(Move const& move, Book::LineDetail const& lineDetail) const {    string result;
+string ResultPrinter::getNameOfBookMove(Move const& move, Book::LineDetail const& lineDetail) const {
+    string result;
     Board nextBoard(m_engineBoardWithContext.getBoard());
     nextBoard.move(move);
     auto lineDetailOptional = m_book.getLine(nextBoard);
@@ -296,7 +301,8 @@ void ResultPrinter::printARowOfNextMoves(GenericMoves const& genericMoves, unsig
         setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
         Board const& engineBoard(m_engineBoardWithContext.getBoard());
         for (unsigned int xOffset = 0; xOffset < numberOfBoardDisplayColumns; xOffset += NEXT_OFFSET_OF_GRID) {
-            setBoardOnGrid(grid, engineBoard, xOffset);        }
+            setBoardOnGrid(grid, engineBoard, xOffset);
+        }
         setNextMovesOnGrid(grid, genericMoves, startIndex, rowSize);
         cout << grid;
     }
@@ -368,7 +374,8 @@ void ResultPrinter::setMovesSequenceOnGrid(
             if (movesDisplayed >= rowSize) {
                 break;
             }
-        }        analyzer.commitMove();
+        }
+        analyzer.commitMove();
     }
 }
 
@@ -380,7 +387,8 @@ void ResultPrinter::printMovesSequenceHeader(MovesSequence const& movesSequence)
 
 void ResultPrinter::printHorizontalBorderLine() const {
     cout << "----------------------------------------------------------------------------------------------------------"
-            "-------------------------------------------------------------------------------\n";}
+            "-------------------------------------------------------------------------------\n";
+}
 
 void ResultPrinter::setSeparatorsOnGrid(DisplayTable& grid, unsigned int const xOffset) const {
     unsigned int const numberOfColumns = grid.getTotalColumns(), numberOfRows = grid.getTotalRows();
@@ -417,7 +425,8 @@ string ResultPrinter::getDisplayableString(NextMove const& nextMove, int const d
         // ss << hex << uppercase << nextMove.humanScore << dec;  // for debugging
         ss << static_cast<double>(nextMove.engineScore) / 100;
     } else {
-        ss << "Mate: " << nextMove.mateValue;    }
+        ss << "Mate: " << nextMove.mateValue;
+    }
     return getStringWithCenterAlignment(ss.str(), desiredLength);
 }
 
@@ -442,7 +451,8 @@ string ResultPrinter::getCellForDisplay(
     Piece const& piece, unsigned int const moveNumber, optional<char> const& firstChar) const {
     string result(3, ' ');
     if (moveNumber != 0) {
-        char moveNumberCharacter = '0' + static_cast<char>(moveNumber);        if (firstChar) {
+        char moveNumberCharacter = '0' + static_cast<char>(moveNumber);
+        if (firstChar) {
             result[0] = firstChar.value();
         } else {
             result[0] = moveNumberCharacter;
@@ -455,7 +465,8 @@ string ResultPrinter::getCellForDisplay(
 
 optional<char> ResultPrinter::getFirstCharOfCell(bool const isSurePreMove, bool isUnsurePreMove) const {
     optional<char> result;
-    if (isSurePreMove) {        result = '*';
+    if (isSurePreMove) {
+        result = '*';
     } else if (isUnsurePreMove) {
         result = '~';
     }

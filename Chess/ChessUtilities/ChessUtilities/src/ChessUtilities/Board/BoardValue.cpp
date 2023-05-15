@@ -7,6 +7,7 @@ using namespace std;
 namespace alba {
 
 namespace chess {
+
 // Basis:
 //     00 01 02 03 04 05 06 07
 //    -------------------------
@@ -50,7 +51,8 @@ BoardValue::Data const& BoardValue::getData() const { return m_data; }
 
 Coordinate BoardValue::getCorrectCoordinate(
     Board const& board, CoordinateDataType const x, CoordinateDataType const y) {
-    if (BoardOrientation::BlackUpWhiteDown == board.getOrientation()) {        return Coordinate(x, y);
+    if (BoardOrientation::BlackUpWhiteDown == board.getOrientation()) {
+        return Coordinate(x, y);
     } else if (BoardOrientation::WhiteUpBlackDown == board.getOrientation()) {
         return Coordinate(7 - x, 7 - y);
     } else {
@@ -65,7 +67,8 @@ void BoardValue::saveBoardToData(Board const& board) {
         Coordinate c02 = getCorrectCoordinate(board, coordinates.at(i + 1).first, coordinates.at(i + 1).second);
         Coordinate c03 = getCorrectCoordinate(board, coordinates.at(i + 2).first, coordinates.at(i + 2).second);
         Coordinate c04 = getCorrectCoordinate(board, coordinates.at(i + 3).first, coordinates.at(i + 3).second);
-        Coordinate c05 = getCorrectCoordinate(board, coordinates.at(i + 4).first, coordinates.at(i + 4).second);        Coordinate c06 = getCorrectCoordinate(board, coordinates.at(i + 5).first, coordinates.at(i + 5).second);
+        Coordinate c05 = getCorrectCoordinate(board, coordinates.at(i + 4).first, coordinates.at(i + 4).second);
+        Coordinate c06 = getCorrectCoordinate(board, coordinates.at(i + 5).first, coordinates.at(i + 5).second);
         Coordinate c07 = getCorrectCoordinate(board, coordinates.at(i + 6).first, coordinates.at(i + 6).second);
         Coordinate c08 = getCorrectCoordinate(board, coordinates.at(i + 7).first, coordinates.at(i + 7).second);
         Coordinate c09 = getCorrectCoordinate(board, coordinates.at(i + 8).first, coordinates.at(i + 8).second);
@@ -98,7 +101,8 @@ void BoardValue::saveBoardToData(Board const& board) {
     }
 }
 
-bool operator<(BoardValue const& bv1, BoardValue const& bv2) {    for (int i = 0; i < BoardValue::SIZE_OF_DATA; i++) {
+bool operator<(BoardValue const& bv1, BoardValue const& bv2) {
+    for (int i = 0; i < BoardValue::SIZE_OF_DATA; i++) {
         if (bv1.m_data.at(i) != bv2.m_data.at(i)) {
             return bv1.m_data.at(i) < bv2.m_data.at(i);
         }

@@ -90,7 +90,8 @@ private:
     stringHelper::StringPairs m_uciOptionNamesAndValuePairs;
     std::optional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
     std::optional<std::ofstream> m_logFileStreamOptional;
-    ControllerState m_state;    bool m_waitingForReadyOkay;
+    ControllerState m_state;
+    bool m_waitingForReadyOkay;
     CalculationDetails m_calculationDetails;
     UciInterpreter m_uciInterpreter;
     std::deque<Command> m_pendingCommands;

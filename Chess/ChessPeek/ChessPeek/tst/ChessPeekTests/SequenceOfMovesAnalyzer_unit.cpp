@@ -30,7 +30,8 @@ TEST(SequenceOfMovesAnalyzerTest, CanPreMoveWorksOnRecapture) {
     BoardWithContext boardWithContext(PieceColor::White, BoardOrientation::BlackUpWhiteDown);
     SequenceOfMovesAnalyzer analyzer(boardWithContext);
     analyzer.analyzeMove({{4, 6}, {4, 4}});
-    analyzer.commitMove();    analyzer.analyzeMove({{3, 1}, {3, 3}});
+    analyzer.commitMove();
+    analyzer.analyzeMove({{3, 1}, {3, 3}});
     analyzer.commitMove();
     analyzer.analyzeMove({{4, 4}, {3, 3}});
     analyzer.commitMove();

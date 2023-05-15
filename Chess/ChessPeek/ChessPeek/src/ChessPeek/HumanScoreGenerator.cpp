@@ -74,7 +74,8 @@ uint32_t HumanScoreGenerator::getMoveTypePart(Move const& move) const {
 
 uint32_t HumanScoreGenerator::getDistanceToKingPart(Move const& move) const {
     Coordinate delta = m_boardWithContext.getOpponentsKingCoordinate() - move.second;
-    constexpr int MAX_DISTANCE_SQUARED_IN_BOARD = 98;    int reverseDistance = MAX_DISTANCE_SQUARED_IN_BOARD - (delta.getX() * delta.getX() + delta.getY() * delta.getY());
+    constexpr int MAX_DISTANCE_SQUARED_IN_BOARD = 98;
+    int reverseDistance = MAX_DISTANCE_SQUARED_IN_BOARD - (delta.getX() * delta.getX() + delta.getY() * delta.getY());
     return static_cast<uint32_t>(reverseDistance) & 0xFF;
 }
 
@@ -139,7 +140,8 @@ bool HumanScoreGenerator::isSameValueExchange(Piece const pieceAtStart, Piece co
            getValueOfPieceType(pieceAtStart.getType()) == getValueOfPieceType(pieceAtEnd.getType());
 }
 
-bool HumanScoreGenerator::isDevelopingMove(Piece const pieceAtStart, Move const& move) const {    // Note the y axis is reversed so it should be first minus second
+bool HumanScoreGenerator::isDevelopingMove(Piece const pieceAtStart, Move const& move) const {
+    // Note the y axis is reversed so it should be first minus second
     return PieceType::Pawn != pieceAtStart.getType() && PieceType::King != pieceAtStart.getType() &&
            move.first.getY() >= 5 && move.first.getY() > move.second.getY();
 }

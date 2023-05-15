@@ -36,7 +36,8 @@ public:
     void typeControlAndLetterSimultaneously(unsigned int const letter) const;
     std::string getClassNameOfForegroundWindow() const;
     void setForegroundWindowWithClassName(std::string const& className) const;
-    void setForegroundWindowWithWindowName(std::string const& windowName) const;    void sleepWithRealisticDelay() const;
+    void setForegroundWindowWithWindowName(std::string const& windowName) const;
+    void sleepWithRealisticDelay() const;
     void sleep(unsigned int const milliseconds) const;
 
     void saveBitmapOnScreen(

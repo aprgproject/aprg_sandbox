@@ -15,6 +15,7 @@ bool shouldStillRun = true;  // USE ESCAPE KEY TO CLEANLY SHUTDOWN
 }  // namespace
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -31,7 +32,8 @@ ChessPeek::ChessPeek()
     : m_configuration(Configuration::Type::LichessVersus),
       m_engineHandler(m_configuration.getChessEnginePath()),
       m_engineController(m_engineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
-      m_detailsFromTheScreen(m_configuration),      m_detailsOnTheEngine(),
+      m_detailsFromTheScreen(m_configuration),
+      m_detailsOnTheEngine(),
       m_book(),
       m_calculationDetails{},
       m_engineWasJustReset(true),
@@ -39,7 +41,8 @@ ChessPeek::ChessPeek()
     initialize();
 }
 
-void ChessPeek::runForever() {    thread trackKeyPressThread(trackKeyPress);
+void ChessPeek::runForever() {
+    thread trackKeyPressThread(trackKeyPress);
     while (shouldStillRun) {
         runOneIteration();
         Sleep(1);
@@ -64,6 +67,7 @@ void ChessPeek::startEngineAnalysisWithBoardFromScreen() {
     }
 
     m_detailsOnTheEngine.save(m_detailsFromTheScreen.getBoardWithContext());
+
     m_engineController.setupFenString(m_detailsOnTheEngine.getBoardWithContext().getFenString());
     if (!m_engineController.waitTillReadyAndReturnIfResetWasPerformed()) {
         m_engineController.goWithPonder();
@@ -109,6 +113,7 @@ void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCal
         currentlyCopying = false;
     }
 }
+
 void ChessPeek::printCalculationDetailsWithFiltering() {
     constexpr auto MINIMUM_MILLISECONDS_FOR_EACH_PRINT = 200;
     m_printFilteringTimer.stopTimer();
@@ -137,7 +142,8 @@ void ChessPeek::printCalculationDetails() {
     }
 }
 
-Move ChessPeek::getPerformedMove() const {    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
+Move ChessPeek::getPerformedMove() const {
+    // this is a bad idea, still cant detect if the pieces are moved manually (by a human)
     Move result{};
     Board const& oldBoard(m_detailsOnTheEngine.getBoardWithContext().getBoard());
     Board const& newBoard(m_detailsFromTheScreen.getBoardWithContext().getBoard());

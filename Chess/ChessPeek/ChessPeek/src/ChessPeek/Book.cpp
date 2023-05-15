@@ -8,6 +8,7 @@
 using namespace std;
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -25,7 +26,8 @@ Book::LineDetailOptional Book::getLine(Board const& board) const {
 
 void Book::saveDatabaseTo(std::string const& path) const {
     ofstream outStream(path);
-    for (auto const& pairValue : m_boardToLineDetail) {        outStream << pairValue.first << "\n";
+    for (auto const& pairValue : m_boardToLineDetail) {
+        outStream << pairValue.first << "\n";
         outStream << pairValue.second.nameOfLine << "\n";
         outStream << static_cast<int>(pairValue.second.colorToMove) << "\n";
         outStream << pairValue.second.totalNumberOfGames << "\n";
@@ -36,6 +38,7 @@ void Book::saveDatabaseTo(std::string const& path) const {
         }
     }
 }
+
 void Book::clear() { m_boardToLineDetail.clear(); }
 
 void Book::addLine(Board const& board, LineDetail const& lineDetail) {
@@ -55,7 +58,8 @@ void Book::loadDatabaseFrom(std::string const& path) {
     ifstream inStream(path);
     AlbaFileReader fileReader(inStream);
     while (inStream.good()) {
-        BoardValue boardValue;        int colorToMove{};
+        BoardValue boardValue;
+        int colorToMove{};
         LineDetail lineDetail;
         int moveSize{};
         inStream >> boardValue;
@@ -70,7 +74,8 @@ void Book::loadDatabaseFrom(std::string const& path) {
             inStream >> moveDetail.winPercentage;
             lineDetail.nextMoves.emplace_back(moveDetail);
         }
-        if (!boardValue.isZero()) {            m_boardToLineDetail[boardValue] = lineDetail;
+        if (!boardValue.isZero()) {
+            m_boardToLineDetail[boardValue] = lineDetail;
         }
     }
 }
@@ -78,4 +83,5 @@ void Book::loadDatabaseFrom(std::string const& path) {
 }  // namespace ChessPeek
 
 }  // namespace chess
+
 }  // namespace alba

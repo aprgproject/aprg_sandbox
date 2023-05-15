@@ -57,7 +57,8 @@ string AlbaFileReader::getLine() {
     string result;
     if (!m_stream.eof()) {
         m_stream.clear();
-        m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));        result = string(getCharacterBufferPointer());
+        m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
+        result = string(getCharacterBufferPointer());
     }
     return result;
 }
@@ -82,7 +83,8 @@ size_t AlbaFileReader::getFileSize() const {
     m_stream.seekg(0, std::ifstream::end);
     size_t fileSize = m_stream.tellg();
     moveToTheBeginning();
-    return fileSize;}
+    return fileSize;
+}
 
 void AlbaFileReader::moveToTheBeginning() const { m_stream.seekg(0, std::ifstream::beg); }
 

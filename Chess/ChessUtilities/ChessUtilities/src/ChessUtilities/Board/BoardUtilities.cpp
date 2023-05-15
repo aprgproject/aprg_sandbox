@@ -78,21 +78,19 @@ int getValueOfPieceType(PieceType const pieceType) {
     return result;
 }
 
-std::string getEnumString(PieceColor const pieceColor) {
+string getEnumString(PieceColor const pieceColor) {
     switch (pieceColor) {
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColor::Unknown, "Unknown")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColor::White, "White")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColor::Black, "Black")
+        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColor::White, "White")        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColor::Black, "Black")
         default:
             return "default";
     }
 }
 
-std::string getEnumString(PieceType const pieceType) {
+string getEnumString(PieceType const pieceType) {
     switch (pieceType) {
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Empty, "Empty")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Pawn, "Pawn")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Knight, "Knight")
+        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Pawn, "Pawn")        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Knight, "Knight")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Bishop, "Bishop")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Rook, "Rook")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceType::Queen, "Queen")
@@ -101,11 +99,11 @@ std::string getEnumString(PieceType const pieceType) {
             return "default";
     }
 }
-std::string getEnumString(PieceColorAndType const pieceColorAndType) {
+
+string getEnumString(PieceColorAndType const pieceColorAndType) {
     switch (pieceColorAndType) {
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::Empty, "Empty")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhitePawn, "WhitePawn")
-        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteKnight, "WhiteKnight")
+        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhitePawn, "WhitePawn")        ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteKnight, "WhiteKnight")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteBishop, "WhiteBishop")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteRook, "WhiteRook")
         ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteQueen, "WhiteQueen")
@@ -171,7 +169,8 @@ string constructFenString(
         ss << "w ";
     } else if (PieceColor::Black == colorToMove) {
         ss << "b ";
-    }    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
+    }
+    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
     return ss.str();
 }
 

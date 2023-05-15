@@ -7,7 +7,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::stringHelper;using namespace std;
+using namespace alba::stringHelper;
+using namespace std;
 
 namespace alba {
 
@@ -26,7 +27,8 @@ TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
     AlbaFileReader fileReader(inStream);
 
     Book book;
-    while (fileReader.isNotFinished()) {        string line = getStringInBetweenTwoStrings(fileReader.getLineAndIgnoreWhiteSpaces(), "Line: [", "]");
+    while (fileReader.isNotFinished()) {
+        string line = getStringInBetweenTwoStrings(fileReader.getLineAndIgnoreWhiteSpaces(), "Line: [", "]");
         strings initialMoveStrings;
         splitToStrings<SplitStringType::WithoutDelimeters>(initialMoveStrings, line, ",");
         string nameOfLine =
@@ -59,7 +61,8 @@ TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
             Book::MoveDetail moveDetail{nextMove, winPercentageForColor};
             if (nextMove.empty()) {
                 cout << "The numberOfNextMoves is in correct on site details. Please check." << endl;
-                cout << "line: " << line << endl;                cout << "nameOfLine: " << nameOfLine << endl;
+                cout << "line: " << line << endl;
+                cout << "nameOfLine: " << nameOfLine << endl;
                 cout << "numberOfNextMoves: " << numberOfNextMoves << endl;
             }
             lineDetail.nextMoves.emplace_back(moveDetail);
@@ -76,6 +79,7 @@ TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
     ASSERT_EQ(2046U, book.getSize());  // update this before writing to database
     book.saveDatabaseTo(chessDotComBookDatabase.getFullPath());
 }
+
 TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithStartingPosition) {
     AlbaLocalPathHandler chessDotComBookDatabase(APRG_DIR CHESS_PEEK_CHESS_DOT_COM_BOOK_DATABASE);
     AlbaLocalPathHandler chessDotComDataFromSite(APRG_DIR CHESS_PEEK_CHESS_DOT_COM_DATA_FROM_SITE);

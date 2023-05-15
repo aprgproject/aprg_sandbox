@@ -13,7 +13,8 @@ namespace ChessPeek {
 TEST(ChessPeekTest, RunForeverWorks) {
     ChessPeek chessPeek;
 
-    chessPeek.runForever();}
+    chessPeek.runForever();
+}
 
 TEST(ChessPeekTest, DISABLED_RunOneIterationWorks) {
     ChessPeek chessPeek;
