@@ -16,19 +16,24 @@ public:
         int mate;
     };
 
+    // good until 2200
     // static constexpr int SCORE_LEVEL_DISTANCE = 90;   // reached 2300
-    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_WINNING = 90;
+    /*static constexpr int SCORE_LEVEL_DISTANCE_WHEN_WINNING = 90;
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_BETTER = 190;
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_EQUAL = 290;
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_WORSE = 140;
-    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 40;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 40;*/
+
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_WINNING = 90;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_BETTER = 40;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_EQUAL = 90;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_WORSE = 40;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 90;
 
     HumanScoreGenerator(BoardWithContext const& boardWithContext, int const bestScore, int const worstScore);
-
     uint32_t getHumanScore(MoveDetail const& moveDetail) const;
 
-private:
-    uint32_t getScoreLevelPart(MoveDetail const& moveDetail) const;
+private:    uint32_t getScoreLevelPart(MoveDetail const& moveDetail) const;
     uint32_t getHangingPieceValuePart(Move const& move) const;
     uint32_t getMoveTypePart(Move const& move) const;
     uint32_t getDistanceToKingPart(Move const& move) const;

@@ -1,5 +1,17 @@
-#include <SimplestDesignToCopyForLibrariesAndPrograms.hpp>
+#include <ChessPeek/ChessPeek.hpp>
+
+#include <iostream>
 
 using namespace alba;
+using namespace alba::chess::ChessPeek;
+using namespace std;
 
-int main() { return 0; }
+int main() {
+    ChessPeek chessPeek;
+
+    cout << "Running chess peek." << endl;
+    chessPeek.runForever();
+
+    return 0;
+
+}  // namespace alba::chess::ChessPeek

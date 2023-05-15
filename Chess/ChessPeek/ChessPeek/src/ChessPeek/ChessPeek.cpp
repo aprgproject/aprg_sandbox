@@ -1,25 +1,25 @@
 #include "ChessPeek.hpp"
 
+#include <ChessPeek/DatabaseDefinitions.hpp>
 #include <ChessPeek/ResultPrinter.hpp>
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
-
 #include <atomic>
 #include <thread>
 
 using namespace std;
 
 namespace {
+
 static atomic_bool currentlyCopying = false;
 static atomic_bool currentlyPrinting = false;
 bool shouldStillRun = true;  // USE ESCAPE KEY TO CLEANLY SHUTDOWN
+
 }  // namespace
 
 namespace alba {
-
 namespace chess {
 
 namespace ChessPeek {
-
 void trackKeyPress() {
     AlbaLocalUserAutomation userAutomation;
     while (shouldStillRun) {
@@ -29,15 +29,13 @@ void trackKeyPress() {
 }
 
 ChessPeek::ChessPeek()
-    : m_configuration(Configuration::Type::LichessVersus),
+    : m_configuration(Configuration::Type::ChessDotComVersus),
       m_engineHandler(m_configuration.getChessEnginePath()),
       m_engineController(m_engineHandler, m_configuration.getUciOptionNamesAndValuePairs()),
-      m_detailsFromTheScreen(m_configuration),
-      m_detailsOnTheEngine(),
+      m_detailsFromTheScreen(m_configuration),      m_detailsOnTheEngine(),
       m_book(),
       m_calculationDetails{},
-      m_engineWasJustReset(true),
-      m_hasPendingPrintAction(false) {
+      m_engineWasJustReset(true),      m_hasPendingPrintAction(false) {
     initialize();
 }
 
@@ -89,14 +87,12 @@ void ChessPeek::initialize() {
     // m_engineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");  // for debugging
     // m_engineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");  // for debugging
 
-    m_book.loadDatabaseFrom(APRG_DIR R"(\Chess\ChessPeek\Database\ChessDotComBookDatabase.txt)");
+    m_book.loadDatabaseFrom(APRG_DIR CHESS_PEEK_CHESS_DOT_COM_BOOK_DATABASE);
     m_engineController.setAdditionalStepsInCalculationMonitoring(
         [&](EngineCalculationDetails const& engineCalculationDetails) {
-            calculationMonitoringCallBackForEngine(engineCalculationDetails);
-        });
+            calculationMonitoringCallBackForEngine(engineCalculationDetails);        });
     m_engineController.initialize();
 }
-
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails) {
     if (!currentlyCopying) {
         currentlyCopying = true;

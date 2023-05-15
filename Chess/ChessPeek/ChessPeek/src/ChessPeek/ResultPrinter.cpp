@@ -3,28 +3,25 @@
 #include <ChessPeek/SequenceOfMovesAnalyzer.hpp>
 #include <ChessUtilities/Board/BoardUtilities.hpp>
 #include <ChessUtilities/Board/StreamOperators.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 
+#include <iomanip>
 #include <iostream>
 
-using namespace alba::mathHelper;
-using namespace alba::stringHelper;
+using namespace alba::mathHelper;using namespace alba::stringHelper;
 using namespace std;
 
 namespace {
-constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_TEXT = 10U;
-constexpr unsigned int MAX_NUMBER_OF_BOOK_MOVES = 5U;
-constexpr unsigned int MAX_NUMBER_OF_MOVES_IN_GRID = 5U;
-constexpr unsigned int NEXT_OFFSET_OF_GRID = 9U;
-constexpr unsigned int DESIRED_HEADER_LENGTH = 31;
+constexpr int MAX_NUMBER_OF_MOVES_FOR_PRINTING = 10;
+constexpr int MAX_NUMBER_OF_BOOK_MOVES = 5;
+constexpr int MAX_NUMBER_OF_MOVES_IN_A_ROW = 5;
+constexpr int NEXT_OFFSET_OF_GRID = 9;
+constexpr int DESIRED_HEADER_LENGTH = 31;
 constexpr char SEPARATOR[] = "     ";
 
 static string s_nameOfLine;
-
 void saveNameOfLine(string const& nameOfLine) {
     if (!nameOfLine.empty()) {
-        s_nameOfLine = nameOfLine;
-    }
+        s_nameOfLine = nameOfLine;    }
 }
 
 }  // namespace
@@ -46,24 +43,25 @@ ResultPrinter::ResultPrinter(
 }
 
 void ResultPrinter::print() {
-    NextMoves calculatedMoves(getNextMovesFromCalculation());
-    BookMoves bookMoves(getNextMovesFromBook());
-    MovesSequence bestMoveLine(getMovesSequenceFromBestLine());
-    MovesSequence mostHumanMoveLine{};
-    if (!calculatedMoves.empty()) {
-        // calculatedMoves is sorted in most human order (so we get the first one)
-        mostHumanMoveLine = getMovesSequenceFromNextMove(calculatedMoves.front());
+    MovesToPrint movesToPrint;
+    movesToPrint.bookMoves = getNextMovesFromBook();
+    movesToPrint.calculatedMoves = getNextMovesFromCalculation();
+    movesToPrint.mostHumanMoves = movesToPrint.calculatedMoves;
+    humanizeMoves(movesToPrint.mostHumanMoves);
+    movesToPrint.bestLine = getMovesSequenceFromBestLine();
+
+    if (!movesToPrint.mostHumanMoves.empty()) {
+        movesToPrint.mostHumanLine = getMovesSequenceFromNextMove(movesToPrint.mostHumanMoves.front());
     }
-    printCalculationDetails(calculatedMoves, bestMoveLine);
-    printMovesGrids(bookMoves, mostHumanMoveLine, calculatedMoves, bestMoveLine);
+
+    printCalculationDetails(movesToPrint);
+    printMovesGrids(movesToPrint);
     cout << "\n\n";
     cout.flush();
 }
-
 void ResultPrinter::initialize() { saveBestAndWorstScores(); }
 
-void ResultPrinter::saveBestAndWorstScores() {
-    Variations const& variations(m_calculationDetails.variations);
+void ResultPrinter::saveBestAndWorstScores() {    Variations const& variations(m_calculationDetails.variations);
     if (!variations.empty()) {
         auto itPair = minmax_element(
             variations.cbegin(), variations.cend(), [](Variation const& variation1, Variation const& variation2) {
@@ -119,35 +117,33 @@ string ResultPrinter::getNameOfBookMove(Move const& move, Book::LineDetail const
 ResultPrinter::NextMoves ResultPrinter::getNextMovesFromCalculation() const {
     NextMoves result;
     includeNextMovesFromCalculation(result);
-    sortForMoreHumanMoves(result);
-    removeTooManyPawnMoves(result);
     return result;
 }
-
 void ResultPrinter::includeNextMovesFromCalculation(NextMoves& nextMoves) const {
     HumanScoreGenerator scorer(m_engineBoardWithContext, m_bestScore, m_worstScore);
-    Board const& engineBoard(m_engineBoardWithContext.getBoard());
-    for (Variation const& variation : m_calculationDetails.variations) {
+    Board const& engineBoard(m_engineBoardWithContext.getBoard());    for (Variation const& variation : m_calculationDetails.variations) {
         if (!variation.halfMoves.empty()) {
             Move move(engineBoard.getMoveUsingUciNotation(variation.halfMoves.front()));
             if (engineBoard.isAPossibleMove(move)) {
                 nextMoves.emplace_back(createNextMove(move, variation, scorer));
-                if (nextMoves.size() > MAX_NUMBER_OF_MOVES_IN_TEXT) {
+                if (nextMoves.size() > MAX_NUMBER_OF_MOVES_FOR_PRINTING) {
                     break;
                 }
-            }
-        }
+            }        }
     }
+}
+
+void ResultPrinter::humanizeMoves(NextMoves& nextMoves) const {
+    sortForMoreHumanMoves(nextMoves);
+    removeTooManyPawnMoves(nextMoves);
 }
 
 void ResultPrinter::sortForMoreHumanMoves(NextMoves& nextMoves) const {
     if (!nextMoves.empty()) {
-        stable_sort(nextMoves.begin(), nextMoves.end(), [&](NextMove const& detail1, NextMove const& detail2) {
-            return detail1.humanScore > detail2.humanScore;
+        stable_sort(nextMoves.begin(), nextMoves.end(), [&](NextMove const& detail1, NextMove const& detail2) {            return detail1.humanScore > detail2.humanScore;
         });
     }
 }
-
 void ResultPrinter::removeTooManyPawnMoves(NextMoves& nextMoves) const {
     constexpr int MAX_NUMBER_OF_PAWN_MOVES = 2;
     int numberOfPawnMoves = 0;
@@ -220,28 +216,26 @@ void ResultPrinter::includeMovesSequenceFromVariation(MovesSequence& result, Var
     }
 }
 
-void ResultPrinter::printCalculationDetails(NextMoves const& nextMoves, MovesSequence const& movesSequence) const {
+void ResultPrinter::printCalculationDetails(MovesToPrint const& movesToPrint) const {
     Board const& engineBoard(m_engineBoardWithContext.getBoard());
 
     cout << "Player: " << m_engineBoardWithContext.getPlayerColor() << ", Depth: " << m_calculationDetails.depthInPlies
          << "\n";
-    cout << "Current moves: ";
-    for (NextMove const& moveDetail : nextMoves) {
-        cout << engineBoard.getReadableStringOfMove(moveDetail.move) << " [" << getDisplayableString(moveDetail, 0)
+    cout << "Calculated moves: ";
+    for (NextMove const& moveDetail : movesToPrint.calculatedMoves) {
+        cout << engineBoard.getReadableStringOfMove(moveDetail.move) << " [" << getDisplayableString(moveDetail)
              << "], ";
     }
     cout << "\n";
 
     Board updatedBoard(engineBoard);
-    cout << "Monitored variation: ";
-    for (Move const& halfMove : movesSequence.halfMoves) {
+    cout << "Best variation: ";
+    for (Move const& halfMove : movesToPrint.bestLine.halfMoves) {
         Piece piece = updatedBoard.getPieceAt(halfMove.first);
         cout << updatedBoard.getReadableStringOfMove(halfMove);
-        cout << " by " << piece.getColor() << ", ";
-        updatedBoard.move(halfMove);
+        cout << " by " << piece.getColor() << ", ";        updatedBoard.move(halfMove);
     }
     cout << "\n";
-
     if (!m_calculationDetails.bestMove.empty()) {
         cout << "Best move: "
              << engineBoard.getReadableStringOfMove(engineBoard.getMoveUsingUciNotation(m_calculationDetails.bestMove))
@@ -255,230 +249,311 @@ void ResultPrinter::printCalculationDetails(NextMoves const& nextMoves, MovesSeq
     cout << "\n";
 }
 
-void ResultPrinter::printMovesGrids(
-    BookMoves const& bookMoves, MovesSequence const& mostHumanMoveLine, NextMoves const& calculatedMoves,
-    MovesSequence const& bestMoveLine) const {
-    // top row
-    if (!bookMoves.empty()) {
+void ResultPrinter::printMovesGrids(MovesToPrint const& movesToPrint) const {
+    bool isSomethingPrinted(false);
+    if (!movesToPrint.mostHumanLine.halfMoves.empty()) {
         printHorizontalBorderLine();
-        printNextMovesHeader(bookMoves, 0);
+        printHeadersForMostHumanLine(movesToPrint.mostHumanLine);
         printHorizontalBorderLine();
-        printARowOfNextMoves(bookMoves, 0);
-    } else if (!mostHumanMoveLine.halfMoves.empty()) {
-        printHorizontalBorderLine();
-        printMovesSequenceHeader(mostHumanMoveLine);
-        printHorizontalBorderLine();
-        printARowOfMovesSequence(mostHumanMoveLine);
+        printARowOfMovesSequence(movesToPrint.mostHumanLine);
+        isSomethingPrinted = true;
     }
 
-    // middle row
-    if (!calculatedMoves.empty()) {
+    if (!movesToPrint.mostHumanMoves.empty()) {
         printHorizontalBorderLine();
-        printNextMovesHeader(calculatedMoves, 0);
+        printHeadersForMostHumanMoves(movesToPrint.mostHumanMoves, 0);
         printHorizontalBorderLine();
-        printARowOfNextMoves(calculatedMoves, 0);
+        printARowOfNextMoves(movesToPrint.mostHumanMoves, 0);
+        isSomethingPrinted = true;
     }
 
-    // bottom row
-    if (!bestMoveLine.halfMoves.empty()) {
+    if (!movesToPrint.bookMoves.empty()) {
         printHorizontalBorderLine();
-        printMovesSequenceHeader(bestMoveLine);
+        printHeadersForBookMoves(movesToPrint.bookMoves);
         printHorizontalBorderLine();
-        printARowOfMovesSequence(bestMoveLine);
+        printARowOfNextMoves(movesToPrint.bookMoves, 0);
+        isSomethingPrinted = true;
+    } else if (!movesToPrint.bestLine.halfMoves.empty()) {
+        printHorizontalBorderLine();
+        printHeadersForBestLine(movesToPrint.bestLine);
+        printHorizontalBorderLine();
+        printARowOfMovesSequence(movesToPrint.bestLine);
+        isSomethingPrinted = true;
+    }
+
+    if (isSomethingPrinted) {
         printHorizontalBorderLine();
     }
+
+    /*if (movesToPrint.calculatedMoves.size() > 3) {
+        printHorizontalBorderLine();
+        printHeadersFor4thTo8thBestMoves(movesToPrint.calculatedMoves, 3);
+        printHorizontalBorderLine();
+        printARowOfNextMoves(movesToPrint.calculatedMoves, 3);
+        printHorizontalBorderLine();
+    }*/
 }
 
 template <typename GenericMoves>
-void ResultPrinter::printARowOfNextMoves(GenericMoves const& genericMoves, unsigned int const startIndex) const {
-    constexpr unsigned int numberOfBoardDisplayRows = 8U;
-    if (startIndex < genericMoves.size()) {
-        unsigned int rowSize =
-            min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(genericMoves.size() - startIndex));
-        unsigned int numberOfBoardDisplayColumns = getNumberOfColumnsOfGrid(rowSize);
-        DisplayTable grid(numberOfBoardDisplayColumns, numberOfBoardDisplayRows);
+void ResultPrinter::printARowOfNextMoves(GenericMoves const& genericMoves, int const startIndex) const {
+    if (startIndex < static_cast<int>(genericMoves.size())) {
+        int rowSize = getRowSizeForFullMoves(static_cast<int>(genericMoves.size()) - startIndex);
+        int numberOfBoardDisplayColumns = getNumberOfColumnsOfGrid(rowSize);
+        DisplayTable grid(numberOfBoardDisplayColumns, Board::CHESS_SIDE_SIZE);
         grid.setVerticalBorder("|");
         setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
         Board const& engineBoard(m_engineBoardWithContext.getBoard());
-        for (unsigned int xOffset = 0; xOffset < numberOfBoardDisplayColumns; xOffset += NEXT_OFFSET_OF_GRID) {
+        for (int xOffset = 0; xOffset < numberOfBoardDisplayColumns; xOffset += NEXT_OFFSET_OF_GRID) {
             setBoardOnGrid(grid, engineBoard, xOffset);
         }
-        setNextMovesOnGrid(grid, genericMoves, startIndex, rowSize);
-        cout << grid;
+        setNextMovesOnGrid(grid, genericMoves, startIndex, rowSize);        cout << grid;
     }
 }
 
 template <typename GenericMoves>
 void ResultPrinter::setNextMovesOnGrid(
-    DisplayTable& grid, GenericMoves const& genericMoves, unsigned int const startIndex,
-    unsigned int const rowSize) const {
-    unsigned int xOffset = 0U;
+    DisplayTable& grid, GenericMoves const& genericMoves, int const startIndex, int const rowSize) const {
+    int xOffset = 0;
     Board const& engineBoard(m_engineBoardWithContext.getBoard());
-    for (unsigned int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
+    for (int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
         Move const& nextMove(genericMoves.at(startIndex + moveIndex).move);
-        setMoveOnGrid(grid, engineBoard, nextMove, xOffset, 1U, optional<char>());
+        setMoveOnGrid(grid, engineBoard, nextMove, xOffset, 1, optional<char>());
         xOffset += NEXT_OFFSET_OF_GRID;
     }
 }
 
-template <typename GenericMoves>
-void ResultPrinter::printNextMovesHeader(GenericMoves const& genericMoves, unsigned int const startIndex) const {
-    if (startIndex < genericMoves.size()) {
-        unsigned int rowSize =
-            min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>(genericMoves.size() - startIndex));
+void ResultPrinter::printARowOfMovesSequence(MovesSequence const& movesSequence) const {
+    int rowSize = getRowSizeForHalfMoves(movesSequence.halfMoves.size());
+    int numberOfColumns = getNumberOfColumnsOfGrid(rowSize);
+    DisplayTable grid(numberOfColumns, Board::CHESS_SIDE_SIZE);
+    grid.setVerticalBorder("|");
+    setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
+    setMovesSequenceOnGrid(grid, movesSequence, Board::CHESS_SIDE_SIZE);
+    cout << grid;
+}
+
+void ResultPrinter::setMovesSequenceOnGrid(
+    DisplayTable& grid, MovesSequence const& movesSequence, int const rowSize) const {
+    SequenceOfMovesAnalyzer analyzer(m_engineBoardWithContext);
+    Board const& analyzerBoard(analyzer.getCurrentBoard());
+    int numberOfBoardDisplayColumns = static_cast<int>(grid.getTotalColumns());
+    int movesDisplayed = 0;
+    int xOffset = 0;
+    bool isUnSurePreMove = false;
+
+    for (Move const& halfMove : movesSequence.halfMoves) {
+        if (xOffset < numberOfBoardDisplayColumns) {
+            analyzer.analyzeMove(halfMove);
+            if (analyzer.getCurrentMoveColor() == m_engineBoardWithContext.getPlayerColor()) {
+                optional<char> firstChar = getFirstCharOfABoardCell(analyzer.canPreMove(), isUnSurePreMove);
+
+                setBoardOnGrid(grid, analyzerBoard, xOffset);
+                setMoveOnGrid(grid, analyzerBoard, halfMove, xOffset, movesDisplayed + 1, firstChar);
+
+                xOffset += NEXT_OFFSET_OF_GRID;
+                movesDisplayed++;
+                if (movesDisplayed >= rowSize) {
+                    break;
+                }
+            }
+            analyzer.commitMove();
+        } else {
+            break;
+        }
+    }
+}
+
+void ResultPrinter::printHeadersForMostHumanMoves(NextMoves const& nextMoves, int const startIndex) const {
+    int rowSize = getRowSizeForFullMoves(static_cast<int>(nextMoves.size()) - startIndex);
+    strings prefixes = getNextMovesString(nextMoves, startIndex);
+    strings suffixes{
+        " -> 1st most human move", " -> 2nd most human move", " -> 3rd most human move", " -> 4th most human move",
+        " -> 5th most human move"};
+    prefixes.resize(min(static_cast<int>(prefixes.size()), rowSize));
+    suffixes.resize(min(static_cast<int>(suffixes.size()), rowSize));
+    printHeaders(prefixes, suffixes);
+}
+
+void ResultPrinter::printHeadersFor4thTo8thBestMoves(NextMoves const& nextMoves, int const startIndex) const {
+    int rowSize = getRowSizeForFullMoves(static_cast<int>(nextMoves.size()) - startIndex);
+    strings prefixes = getNextMovesString(nextMoves, startIndex);
+    strings suffixes{
+        " -> 4th best move", " -> 5th best move", " -> 6th best move", " -> 7th best move", " -> 8th best move"};
+    prefixes.resize(min(static_cast<int>(prefixes.size()), rowSize));
+    suffixes.resize(min(static_cast<int>(suffixes.size()), rowSize));
+    printHeaders(prefixes, suffixes);
+}
+
+void ResultPrinter::printHeadersForBookMoves(BookMoves const& bookMoves) const {
+    strings prefixes = getBookMovesString(bookMoves);
+    strings suffixes;
+    printHeaders(prefixes, suffixes);
+}
+
+void ResultPrinter::printHeadersForBestLine(MovesSequence const& movesSequence) const {
+    int rowSize = getRowSizeForHalfMoves(movesSequence.halfMoves.size());
+    strings prefixes{getDisplayableString(movesSequence)};
+    strings suffixes{
+        " -> best line move 1", "best line move 2", "best line move 3", "best line move 4", "best line move 5"};
+    prefixes.resize(min(static_cast<int>(prefixes.size()), rowSize));
+    suffixes.resize(min(static_cast<int>(suffixes.size()), rowSize));
+    printHeaders(prefixes, suffixes);
+}
+
+void ResultPrinter::printHeadersForMostHumanLine(MovesSequence const& movesSequence) const {
+    int rowSize = getRowSizeForHalfMoves(movesSequence.halfMoves.size());
+    strings prefixes{getDisplayableString(movesSequence)};
+    strings suffixes{
+        " -> most human line move 1", "most human line move 2", "most human line move 3", "most human line move 4",
+        "most human line move 5"};
+    prefixes.resize(min(static_cast<int>(prefixes.size()), rowSize));
+    suffixes.resize(min(static_cast<int>(suffixes.size()), rowSize));
+    printHeaders(prefixes, suffixes);
+}
+
+void ResultPrinter::printHeaders(strings const& prefixes, strings const& suffixes) const {
+    if (!prefixes.empty() || !suffixes.empty()) {
+        int rowSize = static_cast<int>(max(prefixes.size(), suffixes.size()));
         bool isFirst = true;
-        for (unsigned int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
+        for (int i = 0; i < rowSize; i++) {
             if (isFirst) {
                 isFirst = false;
             } else {
                 cout << SEPARATOR;
             }
-            auto const& genericMove(genericMoves.at(startIndex + moveIndex));
-            cout << "|" << getDisplayableString(genericMove, DESIRED_HEADER_LENGTH) << "|";
+            string headerString;
+            if (i < static_cast<int>(prefixes.size())) {
+                headerString += prefixes.at(i);
+            }
+            if (i < static_cast<int>(suffixes.size())) {
+                headerString += suffixes.at(i);
+            }
+            cout << "|" << formatToHeaderString(headerString) << "|";
         }
         cout << "\n";
     }
 }
 
-void ResultPrinter::printARowOfMovesSequence(MovesSequence const& movesSequence) const {
-    constexpr unsigned int numberOfRows = 8U;
-    unsigned int rowSize =
-        min(MAX_NUMBER_OF_MOVES_IN_GRID, static_cast<unsigned int>((movesSequence.halfMoves.size() + 1U) / 2U));
-    unsigned int numberOfColumns = getNumberOfColumnsOfGrid(rowSize);
-
-    DisplayTable grid(numberOfColumns, numberOfRows);
-    grid.setVerticalBorder("|");
-    setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
-    setMovesSequenceOnGrid(grid, movesSequence, rowSize);
-    cout << grid;
-}
-
-void ResultPrinter::setMovesSequenceOnGrid(
-    DisplayTable& grid, MovesSequence const& movesSequence, unsigned int const rowSize) const {
-    SequenceOfMovesAnalyzer analyzer(m_engineBoardWithContext);
-    Board const& analyzerBoard(analyzer.getCurrentBoard());
-    unsigned int movesDisplayed = 0U;
-    unsigned int xOffset = 0U;
-    bool isUnSurePreMove = false;
-
-    for (Move const& halfMove : movesSequence.halfMoves) {
-        analyzer.analyzeMove(halfMove);
-        if (analyzer.getCurrentMoveColor() == m_engineBoardWithContext.getPlayerColor()) {
-            optional<char> firstChar = getFirstCharOfCell(analyzer.canPreMove(), isUnSurePreMove);
-
-            setBoardOnGrid(grid, analyzerBoard, xOffset);
-            setMoveOnGrid(grid, analyzerBoard, halfMove, xOffset, movesDisplayed + 1, firstChar);
-
-            xOffset += NEXT_OFFSET_OF_GRID;
-            movesDisplayed++;
-            if (movesDisplayed >= rowSize) {
-                break;
-            }
-        }
-        analyzer.commitMove();
-    }
-}
-
-void ResultPrinter::printMovesSequenceHeader(MovesSequence const& movesSequence) const {
-    cout << "|" << getMovesSequenceFirstMoveHeader(movesSequence.engineScore, movesSequence.mateValue);
-    cout << "|     |           2nd move            |     |           3rd move            "
-            "|     |           4th move            |     |           5th move            |\n";
-}
-
-void ResultPrinter::printHorizontalBorderLine() const {
-    cout << "----------------------------------------------------------------------------------------------------------"
+void ResultPrinter::printHorizontalBorderLine() const {    cout << "----------------------------------------------------------------------------------------------------------"
             "-------------------------------------------------------------------------------\n";
 }
 
-void ResultPrinter::setSeparatorsOnGrid(DisplayTable& grid, unsigned int const xOffset) const {
-    unsigned int const numberOfColumns = grid.getTotalColumns(), numberOfRows = grid.getTotalRows();
-    for (unsigned int j = 0; j < numberOfRows; j++) {
-        for (unsigned int separatorIndex = xOffset - 1; separatorIndex < numberOfColumns; separatorIndex += xOffset) {
+void ResultPrinter::setSeparatorsOnGrid(DisplayTable& grid, int const xOffset) const {
+    int const numberOfColumns = grid.getTotalColumns(), numberOfRows = grid.getTotalRows();
+    for (int j = 0; j < numberOfRows; j++) {
+        for (int separatorIndex = xOffset - 1; separatorIndex < numberOfColumns; separatorIndex += xOffset) {
             grid.getCellReferenceAt(separatorIndex, j).setText(SEPARATOR);
         }
     }
 }
 
-void ResultPrinter::setBoardOnGrid(DisplayTable& grid, Board const& board, unsigned int const xOffset) const {
-    constexpr CoordinateDataType boardDimension = 8U;
-    for (CoordinateDataType y = 0; y < boardDimension; y++) {
-        for (CoordinateDataType x = 0; x < boardDimension; x++) {
+void ResultPrinter::setBoardOnGrid(DisplayTable& grid, Board const& board, int const xOffset) const {
+    for (CoordinateDataType y = 0; y < Board::CHESS_SIDE_SIZE; y++) {
+        for (CoordinateDataType x = 0; x < Board::CHESS_SIDE_SIZE; x++) {
             Piece piece(board.getPieceAt(Coordinate(x, y)));
-            grid.getCellReferenceAt(x + xOffset, y).setText(getCellForDisplay(piece, 0U, optional<char>()));
+            grid.getCellReferenceAt(x + xOffset, y)
+                .setText(getDisplayableStringForABoardCell(piece, 0, optional<char>()));
         }
     }
 }
 
 void ResultPrinter::setMoveOnGrid(
-    DisplayTable& grid, Board const& board, Move const& move, unsigned int const xOffset, unsigned int const moveNumber,
+    DisplayTable& grid, Board const& board, Move const& move, int const xOffset, int const moveNumber,
     optional<char> const& firstChar) const {
     Piece piece(board.getPieceAt(move.first));
     grid.getCellReferenceAt(move.first.getX() + xOffset, move.first.getY())
-        .setText(getCellForDisplay(piece, moveNumber, firstChar));
+        .setText(getDisplayableStringForABoardCell(piece, moveNumber, firstChar));
     grid.getCellReferenceAt(move.second.getX() + xOffset, move.second.getY())
-        .setText(getCellForDisplay(piece, moveNumber + 1, firstChar));
+        .setText(getDisplayableStringForABoardCell(piece, moveNumber + 1, firstChar));
 }
 
-string ResultPrinter::getDisplayableString(NextMove const& nextMove, int const desiredLength) const {
-    stringstream ss;
-    if (nextMove.mateValue == 0) {
-        // ss << hex << uppercase << nextMove.humanScore << dec;  // for debugging
-        ss << static_cast<double>(nextMove.engineScore) / 100;
-    } else {
-        ss << "Mate: " << nextMove.mateValue;
-    }
-    return getStringWithCenterAlignment(ss.str(), desiredLength);
+string ResultPrinter::getDisplayableString(NextMove const& nextMove) const {
+    return getDisplayableString(nextMove.engineScore, nextMove.mateValue);
 }
 
-string ResultPrinter::getDisplayableString(BookMove const& bookMove, int const desiredLength) const {
+string ResultPrinter::getDisplayableString(BookMove const& bookMove) const {
     stringstream ss;
     ss << "(" << bookMove.winningPercentageInBook << "%) " << bookMove.nameOfLineInBook;
-    return getStringWithCenterAlignment(ss.str(), desiredLength).substr(0, desiredLength);
+    return ss.str();
 }
 
-string ResultPrinter::getMovesSequenceFirstMoveHeader(int const score, int const mate) const {
-    stringstream ss;
-    if (mate == 0) {
-        ss << static_cast<double>(score) / 100;
-    } else {
-        ss << "Mate: " << mate;
+strings ResultPrinter::getNextMovesString(NextMoves const& nextMoves, int const startIndex) const {
+    strings result;
+    if (startIndex < static_cast<int>(nextMoves.size())) {
+        int rowSize = min(MAX_NUMBER_OF_MOVES_IN_A_ROW, static_cast<int>(nextMoves.size() - startIndex));
+        for (int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
+            auto const& nextMove(nextMoves.at(startIndex + moveIndex));
+            result.emplace_back(formatToHeaderString(getDisplayableString(nextMove)));
+        }
     }
-    ss << " -> 1st move";
-    return getStringWithCenterAlignment(ss.str(), DESIRED_HEADER_LENGTH);
+    return result;
 }
 
-string ResultPrinter::getCellForDisplay(
-    Piece const& piece, unsigned int const moveNumber, optional<char> const& firstChar) const {
+strings ResultPrinter::getBookMovesString(BookMoves const& bookMoves) const {
+    strings result;
+    int rowSize = min(MAX_NUMBER_OF_MOVES_IN_A_ROW, static_cast<int>(bookMoves.size()));
+    for (int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
+        auto const& bookMove(bookMoves.at(moveIndex));
+        result.emplace_back(formatToHeaderString(getDisplayableString(bookMove)));
+    }
+    return result;
+}
+
+string ResultPrinter::getDisplayableString(MovesSequence const& movesSequence) const {
+    return getDisplayableString(movesSequence.engineScore, movesSequence.mateValue);
+}
+
+string ResultPrinter::getDisplayableString(int const score, int const mateValue) const {
+    stringstream ss;
+    if (mateValue == 0) {
+        // ss << hex << uppercase << nextMove.humanScore << dec;  // for debugging
+        ss << fixed << setprecision(2) << setfill('0') << static_cast<double>(score) / 100;
+    } else {
+        ss << "Mate: " << mateValue;
+    }
+    return ss.str();
+}
+
+string ResultPrinter::formatToHeaderString(string const& content) const {
+    return getStringWithCenterAlignment(content, DESIRED_HEADER_LENGTH).substr(0, DESIRED_HEADER_LENGTH);
+}
+
+string ResultPrinter::getDisplayableStringForABoardCell(
+    Piece const& piece, int const moveNumber, optional<char> const& firstChar) const {
     string result(3, ' ');
     if (moveNumber != 0) {
-        char moveNumberCharacter = '0' + static_cast<char>(moveNumber);
-        if (firstChar) {
+        char moveNumberCharacter = '0' + static_cast<char>(moveNumber);        if (firstChar) {
             result[0] = firstChar.value();
         } else {
-            result[0] = moveNumberCharacter;
-        }
+            result[0] = moveNumberCharacter;        }
         result[2] = moveNumberCharacter;
     }
     result[1] = piece.getFenCharacter();
     return result;
 }
 
-optional<char> ResultPrinter::getFirstCharOfCell(bool const isSurePreMove, bool isUnsurePreMove) const {
+optional<char> ResultPrinter::getFirstCharOfABoardCell(bool const isSurePreMove, bool isUnsurePreMove) const {
     optional<char> result;
     if (isSurePreMove) {
-        result = '*';
-    } else if (isUnsurePreMove) {
+        result = '*';    } else if (isUnsurePreMove) {
         result = '~';
     }
     return result;
 }
 
-unsigned int ResultPrinter::getNumberOfColumnsOfGrid(unsigned int const numberOfBoards) const {
-    return numberOfBoards == 0 ? 0U : numberOfBoards * 8U + numberOfBoards - 1;
+int ResultPrinter::getNumberOfColumnsOfGrid(int const numberOfBoards) const {
+    return numberOfBoards == 0 ? 0 : (numberOfBoards * Board::CHESS_SIDE_SIZE) + numberOfBoards - 1;
+}
+
+int ResultPrinter::getRowSizeForHalfMoves(int const numberOfHalfMoves) const {
+    return min(MAX_NUMBER_OF_MOVES_IN_A_ROW, static_cast<int>((numberOfHalfMoves + 1) / 2));
+}
+
+int ResultPrinter::getRowSizeForFullMoves(int const numberOfFullMoves) const {
+    return min(MAX_NUMBER_OF_MOVES_IN_A_ROW, static_cast<int>(numberOfFullMoves));
 }
 
 }  // namespace ChessPeek
-
 }  // namespace chess
 
 }  // namespace alba
