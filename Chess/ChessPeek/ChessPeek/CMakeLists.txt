@@ -10,9 +10,11 @@ set(TEST_MODE "ON")
 
 #Locate APRG Directory first because its used on other cmakes
 include(${CHESS_PEEK_DIR}/cmake/LocateAprgDirectory.cmake)
+
 #Assign common flags, definitions and macros
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
+
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)

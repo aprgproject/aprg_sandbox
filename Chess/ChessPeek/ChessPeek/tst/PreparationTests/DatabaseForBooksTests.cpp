@@ -13,9 +13,11 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba {
 
 namespace chess {
+
 namespace ChessPeek {
 
 TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
@@ -89,9 +91,11 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithStartingPosition) {
 
     auto resultWithBUWD(book.getLine(boardWithBUWD));
     auto resultWithWUBD(book.getLine(boardWithWUBD));
+
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithBUWD(resultWithBUWD.value());
-    EXPECT_EQ("Starting Position", lineDetailsWithBUWD.nameOfLine);    EXPECT_EQ(PieceColor::White, lineDetailsWithBUWD.colorToMove);
+    EXPECT_EQ("Starting Position", lineDetailsWithBUWD.nameOfLine);
+    EXPECT_EQ(PieceColor::White, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
 
     ASSERT_TRUE(resultWithBUWD);
@@ -122,9 +126,11 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithE4) {
     cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("King's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());
+    EXPECT_EQ("King's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::Black, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
+
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("King's Pawn Opening", lineDetailsWithWUBD.nameOfLine);
@@ -153,9 +159,11 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithD4) {
     cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("Queen's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());
+    EXPECT_EQ("Queen's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::Black, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
+
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("Queen's Pawn Opening", lineDetailsWithWUBD.nameOfLine);
@@ -184,9 +192,11 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithC4) {
     cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("English Opening", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());
+    EXPECT_EQ("English Opening", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::Black, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
+
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("English Opening", lineDetailsWithWUBD.nameOfLine);
@@ -217,9 +227,11 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithSicilianDefense) {
     cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("Sicilian Defense", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());
+    EXPECT_EQ("Sicilian Defense", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::White, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(27U, lineDetailsWithBUWD.nextMoves.size());
+
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("Sicilian Defense", lineDetailsWithWUBD.nameOfLine);
