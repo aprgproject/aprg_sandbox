@@ -640,61 +640,7 @@ TEST(BoardTest, GetPieceAtWorks) {
     EXPECT_EQ(Piece(PieceColorAndType::Empty), boardWithWB.getPieceAt({4, 4}));
 }
 
-TEST(BoardTest, GetTotalHangingPieceValueWorks) {
-    Board boardWithBW(BoardOrientation::BlackUpWhiteDown);
-    Board boardWithWB(BoardOrientation::WhiteUpBlackDown);
-
-    EXPECT_EQ(0, boardWithBW.getTotalHangingPieceValue(PieceColor::White));
-    EXPECT_EQ(0, boardWithBW.getTotalHangingPieceValue(PieceColor::Black));
-    EXPECT_EQ(0, boardWithWB.getTotalHangingPieceValue(PieceColor::White));
-    EXPECT_EQ(0, boardWithWB.getTotalHangingPieceValue(PieceColor::Black));
-}
-
-TEST(BoardTest, GetTotalHangingPieceValueWorksOnExample1) {
-    Board board(
-        BoardOrientation::BlackUpWhiteDown,
-        {0x0, 0x0, 0x0, 0xE, 0xD, 0x0, 0x0, 0x0, 0xC, 0xA, 0xB, 0x0, 0x0, 0xB, 0xA, 0xC, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0,
-         0x1, 0x0, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x9, 0x9, 0x0, 0x0, 0x9, 0x9, 0x0, 0x0, 0x0, 0x0, 0x9, 0x9,
-         0x0, 0x0, 0x9, 0x9, 0x4, 0x2, 0x3, 0x0, 0x0, 0x3, 0x2, 0x4, 0x0, 0x0, 0x0, 0x6, 0x5, 0x0, 0x0, 0x0});
-
-    EXPECT_EQ(19, board.getTotalHangingPieceValue(PieceColor::White));
-    EXPECT_EQ(19, board.getTotalHangingPieceValue(PieceColor::Black));
-}
-
-TEST(BoardTest, GetTotalHangingPieceValueWorksOnExample2) {
-    Board board(
-        BoardOrientation::WhiteUpBlackDown,
-        {0x0, 0x4, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0,
-         0x0, 0x0, 0x0, 0xB, 0x0, 0x9, 0x1, 0x1, 0x5, 0x2, 0x9, 0x0, 0x0, 0x0, 0x9, 0x9, 0x0, 0x0, 0xC, 0x0, 0x9, 0x0,
-         0x0, 0x0, 0x9, 0x0, 0x0, 0x9, 0x0, 0x3, 0x0, 0x0, 0xD, 0x9, 0x0, 0x0, 0x0, 0x0, 0xC, 0xE, 0x0, 0x0});
-
-    EXPECT_EQ(12, board.getTotalHangingPieceValue(PieceColor::White));
-    EXPECT_EQ(6, board.getTotalHangingPieceValue(PieceColor::Black));
-}
-
-TEST(BoardTest, GetTotalHangingPieceValueWorksOnExample3) {
-    Board board(
-        BoardOrientation::WhiteUpBlackDown,
-        {0x0, 0x4, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0,
-         0x0, 0x0, 0x0, 0xB, 0x0, 0x9, 0x1, 0x1, 0x5, 0x2, 0x9, 0x0, 0x0, 0x0, 0x9, 0x9, 0x0, 0x0, 0xC, 0x0, 0x9, 0x0,
-         0xD, 0x0, 0x9, 0x0, 0x0, 0x9, 0x0, 0x3, 0x0, 0x0, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0xC, 0xE, 0x0, 0x0});
-
-    EXPECT_EQ(12, board.getTotalHangingPieceValue(PieceColor::White));
-    EXPECT_EQ(14, board.getTotalHangingPieceValue(PieceColor::Black));
-}
-
-TEST(BoardTest, GetTotalHangingPieceValueWorksOnExample4) {
-    Board board(
-        BoardOrientation::WhiteUpBlackDown,
-        {0x0, 0x4, 0x0, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0xC, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0,
-         0x0, 0x0, 0x0, 0xB, 0x0, 0x9, 0x1, 0x0, 0x5, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xC, 0x0, 0x9, 0x0,
-         0x0, 0xD, 0x0, 0x0, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE, 0x0, 0x0});
-
-    EXPECT_EQ(1, board.getTotalHangingPieceValue(PieceColor::White));
-    EXPECT_EQ(0, board.getTotalHangingPieceValue(PieceColor::Black));
-}
-
-TEST(BoardTest, GetExchangeValueAtWorksOnExample1) {
+TEST(BoardTest, GetExchangeAtWorksOnExample1) {
     Board board(
         BoardOrientation::BlackUpWhiteDown,
         {0x0, 0x0, 0x0, 0xE, 0xD, 0x0, 0x0, 0x0, 0xC, 0xA, 0xB, 0x0, 0x0, 0xB, 0xA, 0xC, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0,
@@ -702,32 +648,32 @@ TEST(BoardTest, GetExchangeValueAtWorksOnExample1) {
          0x0, 0x0, 0x9, 0x9, 0x4, 0x2, 0x3, 0x0, 0x0, 0x3, 0x2, 0x4, 0x0, 0x0, 0x0, 0x6, 0x5, 0x0, 0x0, 0x0});
 
     // White pieces
-    EXPECT_EQ(0, board.getExchangeValueAt({0, 2}));
-    EXPECT_EQ(0, board.getExchangeValueAt({2, 2}));
-    EXPECT_EQ(0, board.getExchangeValueAt({4, 2}));
-    EXPECT_EQ(0, board.getExchangeValueAt({6, 2}));
-    EXPECT_EQ(-1, board.getExchangeValueAt({5, 3}));
-    EXPECT_EQ(-1, board.getExchangeValueAt({7, 3}));
-    EXPECT_EQ(-2, board.getExchangeValueAt({1, 6}));
-    EXPECT_EQ(-2, board.getExchangeValueAt({2, 6}));
-    EXPECT_EQ(-2, board.getExchangeValueAt({5, 6}));
-    EXPECT_EQ(-2, board.getExchangeValueAt({6, 6}));
-    EXPECT_EQ(-5, board.getExchangeValueAt({7, 6}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({0, 2}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({2, 2}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({4, 2}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({6, 2}));
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({5, 3}));
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({7, 3}));
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({1, 6}));
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({2, 6}));
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({5, 6}));
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({6, 6}));
+    EXPECT_EQ(Exchange(-5, 1), board.getExchangeAt({7, 6}));
 
     // Black pieces
-    EXPECT_EQ(0, board.getExchangeValueAt({2, 5}));
-    EXPECT_EQ(0, board.getExchangeValueAt({3, 5}));
-    EXPECT_EQ(0, board.getExchangeValueAt({6, 5}));
-    EXPECT_EQ(-1, board.getExchangeValueAt({7, 5}));
-    EXPECT_EQ(-1, board.getExchangeValueAt({0, 4}));
-    EXPECT_EQ(-1, board.getExchangeValueAt({4, 4}));
-    EXPECT_EQ(-3, board.getExchangeValueAt({1, 1}));
-    EXPECT_EQ(-3, board.getExchangeValueAt({5, 1}));
-    EXPECT_EQ(-5, board.getExchangeValueAt({0, 1}));
-    EXPECT_EQ(-5, board.getExchangeValueAt({7, 1}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({2, 5}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({3, 5}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({6, 5}));
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({7, 5}));
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({0, 4}));
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({4, 4}));
+    EXPECT_EQ(Exchange(-3, 1), board.getExchangeAt({1, 1}));
+    EXPECT_EQ(Exchange(-3, 1), board.getExchangeAt({5, 1}));
+    EXPECT_EQ(Exchange(-5, 1), board.getExchangeAt({0, 1}));
+    EXPECT_EQ(Exchange(-5, 1), board.getExchangeAt({7, 1}));
 }
 
-TEST(BoardTest, GetExchangeValueAtWorksOnExample2) {
+TEST(BoardTest, GetExchangeAtWorksOnExample2) {
     Board board(
         BoardOrientation::WhiteUpBlackDown,
         {0x0, 0x4, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0,
@@ -735,15 +681,15 @@ TEST(BoardTest, GetExchangeValueAtWorksOnExample2) {
          0x0, 0x0, 0x9, 0x0, 0x0, 0x9, 0x0, 0x3, 0x0, 0x0, 0xD, 0x9, 0x0, 0x0, 0x0, 0x0, 0xC, 0xE, 0x0, 0x0});
 
     // White pieces
-    EXPECT_EQ(-9, board.getExchangeValueAt({6, 3}));
-    EXPECT_EQ(-3, board.getExchangeValueAt({3, 6}));
+    EXPECT_EQ(Exchange(-9, 1), board.getExchangeAt({6, 3}));
+    EXPECT_EQ(Exchange(-3, 1), board.getExchangeAt({3, 6}));
 
     // Black pieces
-    EXPECT_EQ(-1, board.getExchangeValueAt({5, 4}));
-    EXPECT_EQ(-2, board.getExchangeValueAt({4, 7}));
+    EXPECT_EQ(Exchange(-1, 3), board.getExchangeAt({5, 4}));
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({4, 7}));
 }
 
-TEST(BoardTest, GetExchangeValueAtWorksOnExample3) {
+TEST(BoardTest, GetExchangeAtWorksOnExample3) {
     Board board(
         BoardOrientation::WhiteUpBlackDown,
         {0x0, 0x4, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0,
@@ -751,16 +697,16 @@ TEST(BoardTest, GetExchangeValueAtWorksOnExample3) {
          0xD, 0x0, 0x9, 0x0, 0x0, 0x9, 0x0, 0x3, 0x0, 0x0, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0xC, 0xE, 0x0, 0x0});
 
     // White pieces
-    EXPECT_EQ(-9, board.getExchangeValueAt({6, 3}));
-    EXPECT_EQ(-3, board.getExchangeValueAt({3, 6}));
+    EXPECT_EQ(Exchange(-9, 1), board.getExchangeAt({6, 3}));
+    EXPECT_EQ(Exchange(-3, 1), board.getExchangeAt({3, 6}));
 
     // Black pieces
-    EXPECT_EQ(0, board.getExchangeValueAt({5, 4}));
-    EXPECT_EQ(-6, board.getExchangeValueAt({4, 5}));
-    EXPECT_EQ(-2, board.getExchangeValueAt({4, 7}));
+    EXPECT_EQ(Exchange(0, 2), board.getExchangeAt({5, 4}));
+    EXPECT_EQ(Exchange(-6, 2), board.getExchangeAt({4, 5}));
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({4, 7}));
 }
 
-TEST(BoardTest, GetExchangeValueAtWorksOnExample4) {
+TEST(BoardTest, GetExchangeAtWorksOnExample4) {
     Board board(
         BoardOrientation::WhiteUpBlackDown,
         {0x0, 0x4, 0x0, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0xC, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0,
@@ -768,18 +714,30 @@ TEST(BoardTest, GetExchangeValueAtWorksOnExample4) {
          0x0, 0xD, 0x0, 0x0, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0x0, 0x9, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE, 0x0, 0x0});
 
     // White pieces
-    EXPECT_EQ(-1, board.getExchangeValueAt({2, 1}));
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({2, 1}));
 
     // Black pieces
-    EXPECT_EQ(0, board.getExchangeValueAt({5, 1}));
+    EXPECT_EQ(Exchange(0, 0), board.getExchangeAt({5, 1}));
 }
 
-TEST(BoardTest, GetCoordinateFromAlgebraicNotationWorks) {
-    Board boardWithBW(BoardOrientation::BlackUpWhiteDown);
+TEST(BoardTest, GetExchangeAtWorksOnExample5) {
+    Board board(
+        BoardOrientation::BlackUpWhiteDown,
+        {0xC, 0x0, 0x0, 0x0, 0xE, 0x0, 0x0, 0xC, 0x0, 0xB, 0xD, 0xA, 0x0, 0x9, 0x9, 0x0, 0x9, 0xB, 0x0, 0x9, 0x9, 0x0,
+         0x0, 0x9, 0x0, 0x9, 0x0, 0x0, 0x0, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x3, 0x0, 0x2, 0x1, 0x5,
+         0x0, 0x0, 0x0, 0x0, 0x1, 0x1, 0x0, 0x0, 0x0, 0x1, 0x1, 0x1, 0x0, 0x0, 0x0, 0x4, 0x4, 0x0, 0x6, 0x0});
+
+    // White pieces
+    EXPECT_EQ(Exchange(-1, 1), board.getExchangeAt({6, 1}));
+
+    // Black pieces
+    EXPECT_EQ(Exchange(-2, 2), board.getExchangeAt({5, 3}));
+}
+
+TEST(BoardTest, GetCoordinateFromAlgebraicNotationWorks) {    Board boardWithBW(BoardOrientation::BlackUpWhiteDown);
     Board boardWithWB(BoardOrientation::WhiteUpBlackDown);
 
-    Coordinate coordinate1(boardWithBW.getCoordinateFromAlgebraicNotation("c2"));
-    Coordinate coordinate2(boardWithWB.getCoordinateFromAlgebraicNotation("c2"));
+    Coordinate coordinate1(boardWithBW.getCoordinateFromAlgebraicNotation("c2"));    Coordinate coordinate2(boardWithWB.getCoordinateFromAlgebraicNotation("c2"));
 
     EXPECT_EQ((Coordinate{2, 6}), coordinate1);
     EXPECT_EQ((Coordinate{5, 1}), coordinate2);

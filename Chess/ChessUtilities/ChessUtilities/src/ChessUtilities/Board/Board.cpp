@@ -109,15 +109,13 @@ Piece Board::getPieceAt(Coordinate const& coordinate) const {
     return result;
 }
 
-int Board::getExchangeValueAt(Coordinate const& coordinate) const {
+Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
     enum class ExchangeState { Defended, Attacked };
     constexpr int PAWN_INDEX = 0, KNIGHT_INDEX = 1, BISHOP_INDEX = 2, ROOK_INDEX = 3, QUEEN_INDEX = 4, KING_INDEX = 5,
-                  SIZE = 6;
-    vector<int> pieceValue{1, 3, 3, 5, 9, 0};
+                  SIZE = 6;    vector<int> pieceValue{1, 3, 3, 5, 9, 0};
     AttackDefendCounts counts(6, AttackDefendCount{});
     retrievePawnAttackDefendCountToThis(counts[PAWN_INDEX], coordinate);
-    retrieveKnightAttackDefendCountToThis(counts[KNIGHT_INDEX], coordinate);
-    retrieveDiagonalAttackDefendCountToThis(counts[BISHOP_INDEX], counts[QUEEN_INDEX], coordinate);
+    retrieveKnightAttackDefendCountToThis(counts[KNIGHT_INDEX], coordinate);    retrieveDiagonalAttackDefendCountToThis(counts[BISHOP_INDEX], counts[QUEEN_INDEX], coordinate);
     retrieveStraightAttackDefendCountToThis(counts[ROOK_INDEX], counts[QUEEN_INDEX], coordinate);
     retrieveKingOneStepAttackDefendCountToThis(counts[KING_INDEX], coordinate);
 
@@ -126,38 +124,38 @@ int Board::getExchangeValueAt(Coordinate const& coordinate) const {
         totalCount.attack += count.attack;
         totalCount.defend += count.defend;
     }
-
     Piece pieceToCapture(getPieceAt(coordinate));
     int pendingPieceValue = getValueOfPieceType(pieceToCapture.getType());
     int exchangeValue = 0;
+    int exchangeCount = 0;
     ExchangeState exchangeState{ExchangeState::Defended};
-    for (int ai = 0, di = 0; ai < SIZE && di < SIZE;) {
+    for (int ai = 0, di = 0; totalCount.attack + totalCount.defend > 0 && ai < SIZE && di < SIZE;) {
         if ((ai == KING_INDEX && totalCount.defend > 0) || (di == KING_INDEX && totalCount.attack > 0)) {
-            // king cant counter capture so break loop
-            break;
-        } else if (counts.at(ai).attack > 0 && counts.at(di).defend > 0 && pieceValue.at(ai) == pieceValue.at(di)) {
+            break;  // king cant counter capture so break loop
+        } else if (
+            counts.at(ai).attack > 0 && counts.at(di).defend > 0 && pieceValue.at(ai) == pieceValue.at(di) &&
+            pendingPieceValue == pieceValue.at(ai) && exchangeValue == 0) {
             int sameCount = min(counts.at(ai).attack, counts.at(di).defend);
             counts[ai].attack -= sameCount;
             counts[di].defend -= sameCount;
             totalCount.attack -= sameCount;
             totalCount.defend -= sameCount;
+            exchangeCount += 2 * sameCount;
         } else if (ExchangeState::Defended == exchangeState) {
             if (counts.at(ai).attack > 0) {
-                exchangeState = ExchangeState::Attacked;
-                if ((totalCount.defend > 0 && pendingPieceValue + exchangeValue - pieceValue.at(ai) >= 0) ||
+                exchangeState = ExchangeState::Attacked;                if ((totalCount.defend > 0 && pendingPieceValue + exchangeValue - pieceValue.at(ai) >= 0) ||
                     (totalCount.defend == 0 && pendingPieceValue + exchangeValue >= 0)) {
                     exchangeValue -= pendingPieceValue;
                     pendingPieceValue = pieceValue.at(ai);
                     counts[ai].attack--;
                     totalCount.attack--;
+                    exchangeCount++;
                 } else {
                     break;  // opponent dont want to exchange
-                }
-            } else if (counts.at(ai).attack == 0) {
+                }            } else if (counts.at(ai).attack == 0) {
                 ai++;
             }
-        } else if (ExchangeState::Attacked == exchangeState) {
-            if (counts.at(di).defend > 0) {
+        } else if (ExchangeState::Attacked == exchangeState) {            if (counts.at(di).defend > 0) {
                 exchangeState = ExchangeState::Defended;
                 if ((totalCount.attack > 0 && pendingPieceValue - exchangeValue - pieceValue.at(di) >= 0) ||
                     (totalCount.attack == 0 && pendingPieceValue - exchangeValue >= 0)) {
@@ -165,39 +163,23 @@ int Board::getExchangeValueAt(Coordinate const& coordinate) const {
                     pendingPieceValue = pieceValue.at(di);
                     counts[di].defend--;
                     totalCount.defend--;
+                    exchangeCount++;
                 } else {
                     break;  // player dont want to exchange
-                }
-            } else if (counts.at(di).defend == 0) {
+                }            } else if (counts.at(di).defend == 0) {
                 di++;
             }
         } else {
             break;
         }
     }
-    return exchangeValue;
+    return Exchange(exchangeValue, exchangeCount);
 }
 
-int Board::getTotalHangingPieceValue(PieceColor const pieceColor) const {
-    int gridIndex = -1;
-    return accumulate(m_pieceGrid.cbegin(), m_pieceGrid.cend(), 0, [&](int const partialResult, Piece const& piece) {
-        gridIndex++;
-        if (pieceColor == piece.getColor()) {
-            int exchangeValue(getExchangeValueAt(getCoordinateFromGridIndex(gridIndex)));
-            if (exchangeValue < 0) {
-                return partialResult + getValueOfPieceType(piece.getType());
-            }
-        }
-        return partialResult;
-    });
-}
-
-string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {
-    string result;
+string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {    string result;
     if (BoardOrientation::BlackUpWhiteDown == m_orientation) {
         result = string{static_cast<char>('a' + coordinate.getX()), static_cast<char>('1' + 7 - coordinate.getY())};
-    } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {
-        result = string{static_cast<char>('a' + 7 - coordinate.getX()), static_cast<char>('1' + coordinate.getY())};
+    } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {        result = string{static_cast<char>('a' + 7 - coordinate.getX()), static_cast<char>('1' + coordinate.getY())};
     }
     return result;
 }
