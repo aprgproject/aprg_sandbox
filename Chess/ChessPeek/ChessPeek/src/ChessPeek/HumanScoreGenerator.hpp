@@ -25,17 +25,15 @@ public:
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 40;*/
 
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_WINNING = 90;
-    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_BETTER = 40;
-    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_EQUAL = 90;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_BETTER = 290;  // needs blunders to be human
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_EQUAL = 190;            // needs blunders to be human
     static constexpr int SCORE_LEVEL_DISTANCE_WHEN_SLIGHTLY_WORSE = 40;
-    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 90;
+    static constexpr int SCORE_LEVEL_DISTANCE_WHEN_LOSING = 90;  // just accept that your losing
 
     HumanScoreGenerator(BoardWithContext const& boardWithContext, int const bestScore, int const worstScore);
-
     uint32_t getHumanScore(MoveDetail const& moveDetail) const;
 
-private:
-    uint32_t getScoreLevelPart(MoveDetail const& moveDetail) const;
+private:    uint32_t getScoreLevelPart(MoveDetail const& moveDetail) const;
     uint32_t getHangingPieceValuePart(Move const& move) const;
     uint32_t getMoveTypePart(Move const& move) const;
     uint32_t getDistanceToKingPart(Move const& move) const;

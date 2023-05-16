@@ -5,16 +5,17 @@
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Time/AlbaLocalTimer.hpp>
 
 #include <gtest/gtest.h>
 
+#include <iostream>
+
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba {
 
 namespace chess {
-
 namespace ChessPeek {
 
 TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
@@ -75,25 +76,22 @@ TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
 
     // NOTE: Adjust MIN_NUMBER_OF_GAMES to keep the book size (under 10000 maybe?)
     // Also, the LoadingDatabaseWorks tests below needs to be under 100 ms.
-    ASSERT_EQ(3716U, book.getSize());  // update this before writing to database
+    ASSERT_EQ(5066U, book.getSize());  // update this before writing to database
     book.saveDatabaseTo(chessDotComBookDatabase.getFullPath());
 }
 
 TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithStartingPosition) {
     AlbaLocalPathHandler chessDotComBookDatabase(APRG_DIR CHESS_PEEK_CHESS_DOT_COM_BOOK_DATABASE);
     Book book;
-    book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
     Board boardWithBUWD(BoardOrientation::BlackUpWhiteDown);
     Board boardWithWUBD(BoardOrientation::WhiteUpBlackDown);
-
     book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
+
     auto resultWithBUWD(book.getLine(boardWithBUWD));
     auto resultWithWUBD(book.getLine(boardWithWUBD));
-
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithBUWD(resultWithBUWD.value());
-    EXPECT_EQ("Starting Position", lineDetailsWithBUWD.nameOfLine);
-    EXPECT_EQ(PieceColor::White, lineDetailsWithBUWD.colorToMove);
+    EXPECT_EQ("Starting Position", lineDetailsWithBUWD.nameOfLine);    EXPECT_EQ(PieceColor::White, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
 
     ASSERT_TRUE(resultWithBUWD);
@@ -110,17 +108,23 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithE4) {
     Board boardWithWUBD(BoardOrientation::WhiteUpBlackDown);
     boardWithBUWD.move(boardWithBUWD.getMoveUsingAlgebraicNotation("e4", PieceColor::White));
     boardWithWUBD.move(boardWithWUBD.getMoveUsingAlgebraicNotation("e4", PieceColor::White));
-
     book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
+    AlbaLocalTimer timer;
+
+    timer.resetTimer();
     auto resultWithBUWD(book.getLine(boardWithBUWD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
+
+    timer.resetTimer();
     auto resultWithWUBD(book.getLine(boardWithWUBD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());
-    EXPECT_EQ("King's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("King's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::Black, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
-
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("King's Pawn Opening", lineDetailsWithWUBD.nameOfLine);
@@ -135,17 +139,23 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithD4) {
     Board boardWithWUBD(BoardOrientation::WhiteUpBlackDown);
     boardWithBUWD.move(boardWithBUWD.getMoveUsingAlgebraicNotation("d4", PieceColor::White));
     boardWithWUBD.move(boardWithWUBD.getMoveUsingAlgebraicNotation("d4", PieceColor::White));
-
     book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
+    AlbaLocalTimer timer;
+
+    timer.resetTimer();
     auto resultWithBUWD(book.getLine(boardWithBUWD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
+
+    timer.resetTimer();
     auto resultWithWUBD(book.getLine(boardWithWUBD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());
-    EXPECT_EQ("Queen's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("Queen's Pawn Opening", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::Black, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
-
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("Queen's Pawn Opening", lineDetailsWithWUBD.nameOfLine);
@@ -160,17 +170,23 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithC4) {
     Board boardWithWUBD(BoardOrientation::WhiteUpBlackDown);
     boardWithBUWD.move(boardWithBUWD.getMoveUsingAlgebraicNotation("c4", PieceColor::White));
     boardWithWUBD.move(boardWithWUBD.getMoveUsingAlgebraicNotation("c4", PieceColor::White));
-
     book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
+    AlbaLocalTimer timer;
+
+    timer.resetTimer();
     auto resultWithBUWD(book.getLine(boardWithBUWD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
+
+    timer.resetTimer();
     auto resultWithWUBD(book.getLine(boardWithWUBD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());
-    EXPECT_EQ("English Opening", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("English Opening", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::Black, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(20U, lineDetailsWithBUWD.nextMoves.size());
-
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("English Opening", lineDetailsWithWUBD.nameOfLine);
@@ -187,17 +203,23 @@ TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithSicilianDefense) {
     boardWithBUWD.move(boardWithBUWD.getMoveUsingAlgebraicNotation("c5", PieceColor::Black));
     boardWithWUBD.move(boardWithWUBD.getMoveUsingAlgebraicNotation("e4", PieceColor::White));
     boardWithWUBD.move(boardWithWUBD.getMoveUsingAlgebraicNotation("c5", PieceColor::Black));
-
     book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
+    AlbaLocalTimer timer;
+
+    timer.resetTimer();
     auto resultWithBUWD(book.getLine(boardWithBUWD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
+
+    timer.resetTimer();
     auto resultWithWUBD(book.getLine(boardWithWUBD));
+    timer.stopTimer();
+    cout << "Elapsed time for getLine: [" << timer.getElapsedTimeInMicroseconds() << " us]" << endl;
 
     ASSERT_TRUE(resultWithBUWD);
-    auto lineDetailsWithBUWD(resultWithBUWD.value());
-    EXPECT_EQ("Sicilian Defense", lineDetailsWithBUWD.nameOfLine);
+    auto lineDetailsWithBUWD(resultWithBUWD.value());    EXPECT_EQ("Sicilian Defense", lineDetailsWithBUWD.nameOfLine);
     EXPECT_EQ(PieceColor::White, lineDetailsWithBUWD.colorToMove);
     EXPECT_EQ(27U, lineDetailsWithBUWD.nextMoves.size());
-
     ASSERT_TRUE(resultWithWUBD);
     auto lineDetailsWithWUBD(resultWithWUBD.value());
     EXPECT_EQ("Sicilian Defense", lineDetailsWithWUBD.nameOfLine);
