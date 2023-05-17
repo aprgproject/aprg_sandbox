@@ -13,27 +13,19 @@ using namespace std;
 
 namespace {
 constexpr int MAX_NUMBER_OF_MOVES_FOR_PRINTING = 10;
-constexpr int MAX_NUMBER_OF_BOARDS_IN_A_ROW = 5;  // make it 2 if bullet (for less boards and quicker responses)
+constexpr int MAX_NUMBER_OF_BOARDS_IN_A_ROW = 3;  // make it 2 if bullet (for less boards and quicker responses)
 constexpr int NEXT_OFFSET_OF_GRID = 9;
 constexpr int DESIRED_HEADER_LENGTH = 31;
 constexpr char SEPARATOR[] = "     ";
 
 static string s_nameOfLine;
 
-void saveNameOfLine(string const& nameOfLine) {
-    if (!nameOfLine.empty()) {
-        s_nameOfLine = nameOfLine;
-    }
-}
-
 }  // namespace
 
 namespace alba {
-
 namespace chess {
 
 namespace ChessPeek {
-
 ResultPrinter::ResultPrinter(
     CalculationDetails const& calculationDetails, BoardWithContext const& engineBoard, Book const& book)
     : m_calculationDetails(calculationDetails),
@@ -324,23 +316,23 @@ void ResultPrinter::fillMovesFromBook(BookMoves& bookMoves) const {
     auto lineDetailOptional = m_book.getLine(m_engineBoardWithContext.getBoard());
     if (lineDetailOptional && lineDetailOptional.value().colorToMove == m_engineBoardWithContext.getPlayerColor()) {
         Book::LineDetail const& lineDetail(lineDetailOptional.value());
-        saveNameOfLine(lineDetail.nameOfLine);
-        Board const& engineBoard(m_engineBoardWithContext.getBoard());
-        for (Book::MoveDetail const& bookMoveDetail : lineDetail.nextMoves) {
-            Move move(engineBoard.getMoveUsingAlgebraicNotation(
-                bookMoveDetail.move, m_engineBoardWithContext.getPlayerColor()));
-            bookMoves.emplace_back(createBookMove(move, lineDetail, bookMoveDetail));
-            if (bookMoves.size() > MAX_NUMBER_OF_BOARDS_IN_A_ROW) {
-                break;
-            }
-        };
+        if (!lineDetail.nameOfLine.empty()) {
+            s_nameOfLine = lineDetail.nameOfLine;
+            Board const& engineBoard(m_engineBoardWithContext.getBoard());
+            for (Book::MoveDetail const& bookMoveDetail : lineDetail.nextMoves) {
+                Move move(engineBoard.getMoveUsingAlgebraicNotation(
+                    bookMoveDetail.move, m_engineBoardWithContext.getPlayerColor()));
+                bookMoves.emplace_back(createBookMove(move, lineDetail, bookMoveDetail));
+                if (bookMoves.size() > MAX_NUMBER_OF_BOARDS_IN_A_ROW) {
+                    break;
+                }
+            };
+        }
     }
 }
-
 ResultPrinter::BookMove ResultPrinter::createBookMove(
     Move const& move, Book::LineDetail const& lineDetail, Book::MoveDetail const& bookMoveDetail) const {
-    return BookMove{move, getNameOfBookMove(move, lineDetail), bookMoveDetail.winPercentage};
-}
+    return BookMove{move, getNameOfBookMove(move, lineDetail), bookMoveDetail.winPercentage};}
 
 string ResultPrinter::getNameOfBookMove(Move const& move, Book::LineDetail const& lineDetail) const {
     string result;
@@ -493,15 +485,14 @@ string ResultPrinter::getDisplayableString(MovesSequence const& movesSequence) c
     return getDisplayableString(movesSequence.mateValue, movesSequence.engineScore, movesSequence.humanScore);
 }
 
-string ResultPrinter::getDisplayableString(int const mateValue, int const engineScore, int const humanScore) const {
+string ResultPrinter::getDisplayableString(
+    int const mateValue, int const engineScore, HumanScoreGenerator::Score const humanScore) const {
     stringstream ss;
     if (mateValue == 0) {
-        ss << fixed << setprecision(2) << setfill('0') << static_cast<double>(engineScore) / 100;
-    } else {
+        ss << fixed << setprecision(2) << setfill('0') << static_cast<double>(engineScore) / 100;    } else {
         ss << "Mate: " << mateValue;
     }
-    ss << " (" << hex << uppercase << humanScore << dec << ")";
-    return ss.str();
+    ss << " (" << hex << uppercase << humanScore << dec << ")";    return ss.str();
 }
 
 string ResultPrinter::getDisplayableString(int const mateValue, int const engineScore) const {
