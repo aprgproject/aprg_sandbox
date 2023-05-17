@@ -26,6 +26,7 @@ namespace alba {
 namespace chess {
 
 namespace ChessPeek {
+
 ResultPrinter::ResultPrinter(
     CalculationDetails const& calculationDetails, BoardWithContext const& engineBoard, Book const& book)
     : m_calculationDetails(calculationDetails),
@@ -332,7 +333,8 @@ void ResultPrinter::fillMovesFromBook(BookMoves& bookMoves) const {
 }
 ResultPrinter::BookMove ResultPrinter::createBookMove(
     Move const& move, Book::LineDetail const& lineDetail, Book::MoveDetail const& bookMoveDetail) const {
-    return BookMove{move, getNameOfBookMove(move, lineDetail), bookMoveDetail.winPercentage};}
+    return BookMove{move, getNameOfBookMove(move, lineDetail), bookMoveDetail.winPercentage};
+}
 
 string ResultPrinter::getNameOfBookMove(Move const& move, Book::LineDetail const& lineDetail) const {
     string result;
@@ -492,7 +494,8 @@ string ResultPrinter::getDisplayableString(
         ss << fixed << setprecision(2) << setfill('0') << static_cast<double>(engineScore) / 100;    } else {
         ss << "Mate: " << mateValue;
     }
-    ss << " (" << hex << uppercase << humanScore << dec << ")";    return ss.str();
+    ss << " (" << hex << uppercase << humanScore << dec << ")";
+    return ss.str();
 }
 
 string ResultPrinter::getDisplayableString(int const mateValue, int const engineScore) const {

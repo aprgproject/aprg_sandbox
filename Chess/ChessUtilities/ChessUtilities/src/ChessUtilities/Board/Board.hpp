@@ -8,6 +8,7 @@
 #include <functional>
 #include <optional>
 #include <vector>
+
 namespace alba {
 
 namespace chess {
@@ -63,7 +64,8 @@ public:
     std::string getReadableStringOfMove(Move const& move) const;    std::string getNotationPartOfFenString() const;
     std::string getCastlingPartOfFenString() const;
 
-    bool isEmptyAt(Coordinate const& coordinate) const;    bool isACaptureMove(Move const& move) const;
+    bool isEmptyAt(Coordinate const& coordinate) const;
+    bool isACaptureMove(Move const& move) const;
     bool isAPromotionMove(Move const& move) const;
     bool isACastlingMove(Move const& move) const;
     bool isAPossibleMove(Move const& move) const;

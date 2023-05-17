@@ -737,7 +737,8 @@ TEST(BoardTest, GetExchangeAtWorksOnExample5) {
 TEST(BoardTest, GetCoordinateFromAlgebraicNotationWorks) {    Board boardWithBW(BoardOrientation::BlackUpWhiteDown);
     Board boardWithWB(BoardOrientation::WhiteUpBlackDown);
 
-    Coordinate coordinate1(boardWithBW.getCoordinateFromAlgebraicNotation("c2"));    Coordinate coordinate2(boardWithWB.getCoordinateFromAlgebraicNotation("c2"));
+    Coordinate coordinate1(boardWithBW.getCoordinateFromAlgebraicNotation("c2"));
+    Coordinate coordinate2(boardWithWB.getCoordinateFromAlgebraicNotation("c2"));
 
     EXPECT_EQ((Coordinate{2, 6}), coordinate1);
     EXPECT_EQ((Coordinate{5, 1}), coordinate2);

@@ -43,6 +43,7 @@ ostream& operator<<(ostream& out, Move const& move) {
     out << move.second.getY();
     return out;
 }
+
 istream& operator>>(istream& in, Move& move) {
     int firstX, firstY, secondX, secondY;
     in >> firstX;

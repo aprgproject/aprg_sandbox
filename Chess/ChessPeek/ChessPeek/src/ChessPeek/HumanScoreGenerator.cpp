@@ -7,6 +7,7 @@
 using namespace alba::mathHelper;using namespace std;
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -80,7 +81,8 @@ HumanScoreGenerator::Score HumanScoreGenerator::getMoveTypePart(Move const& move
     Piece pieceAtEnd = board.getPieceAt(move.second);    if (isSameValueExchange(pieceAtStart, pieceAtEnd)) {
         return 0;  // avoid same value exchanges
     } else if (isCastlingMove(pieceAtStart, move)) {
-        return 4;  // prioritize checks to be castling    } else if (isDevelopingMove(pieceAtStart, move)) {
+        return 4;  // prioritize checks to be castling
+    } else if (isDevelopingMove(pieceAtStart, move)) {
         return 3;  // prioritize developing moves
     } else if (isCheck(pieceAtEnd)) {
         return 2;  // prioritize checks to be human
@@ -105,7 +107,8 @@ HumanScoreGenerator::Score HumanScoreGenerator::getHumanScoreOfPiece(PieceType c
         case PieceType::Pawn: {            result = 2;
             break;
         }
-        case PieceType::Knight: {            result = 3;
+        case PieceType::Knight: {
+            result = 3;
             break;
         }
         case PieceType::Bishop: {
@@ -166,6 +169,7 @@ bool HumanScoreGenerator::isDevelopingMove(Piece const pieceAtStart, Move const&
 bool HumanScoreGenerator::isCastlingMove(Piece const pieceAtStart, Move const& move) const {
     return PieceType::King == pieceAtStart.getType() && getPositiveDelta(move.first.getX(), move.second.getX()) == 2;
 }
+
 bool HumanScoreGenerator::isCheck(Piece const pieceAtEnd) const { return PieceType::King == pieceAtEnd.getType(); }
 
 }  // namespace ChessPeek

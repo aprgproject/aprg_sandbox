@@ -96,6 +96,7 @@ TEST(UciInterpreterTest, UpdateCalculationDetailsWorksOnInfoExample4) {
     interpreter.updateCalculationDetails("info depth 23 currmove f8a3 currmovenumber 1");
     interpreter.updateCalculationDetails("info depth 23 currmove c7c5 currmovenumber 2");
     interpreter.updateCalculationDetails("info depth 23 currmove d7d6 currmovenumber 3");
+
     Variations expectedVariations;
     EXPECT_EQ(0U, actualDetails.depthInPlies);
     EXPECT_EQ(0U, actualDetails.selectiveDepthInPlies);
@@ -109,7 +110,8 @@ TEST(UciInterpreterTest, UpdateCalculationDetailsWorksOnBestMoveExample1) {
     UciInterpreter interpreter(actualDetails);
     interpreter.updateCalculationDetails("bestmove b4c2 ponder e1d1");
 
-    EXPECT_EQ(0U, actualDetails.depthInPlies);    EXPECT_EQ(0U, actualDetails.selectiveDepthInPlies);
+    EXPECT_EQ(0U, actualDetails.depthInPlies);
+    EXPECT_EQ(0U, actualDetails.selectiveDepthInPlies);
     EXPECT_TRUE(actualDetails.variations.empty());
     EXPECT_EQ("b4c2", actualDetails.bestMove);
     EXPECT_EQ("e1d1", actualDetails.responseMoveToPonder);
@@ -120,7 +122,8 @@ TEST(UciInterpreterTest, UpdateCalculationDetailsWorksWithIgnoringStringsWithInv
     UciInterpreter interpreter(actualDetails);
     interpreter.updateCalculationDetails("NOTVALIDSTART info depth 23 currmove f8a3 currmovenumber 1");
     interpreter.updateCalculationDetails(
-        "NOT VALID START info depth 179 seldepth 2 multipv 1 score mate 1 time 90 pv b2d2");    interpreter.updateCalculationDetails("INVALIDSTART bestmove b4c2 ponder e1d1");
+        "NOT VALID START info depth 179 seldepth 2 multipv 1 score mate 1 time 90 pv b2d2");
+    interpreter.updateCalculationDetails("INVALIDSTART bestmove b4c2 ponder e1d1");
 
     // unchanged
     EXPECT_EQ(0U, actualDetails.depthInPlies);

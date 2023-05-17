@@ -115,7 +115,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
                   SIZE = 6;    vector<int> pieceValue{1, 3, 3, 5, 9, 0};
     AttackDefendCounts counts(6, AttackDefendCount{});
     retrievePawnAttackDefendCountToThis(counts[PAWN_INDEX], coordinate);
-    retrieveKnightAttackDefendCountToThis(counts[KNIGHT_INDEX], coordinate);    retrieveDiagonalAttackDefendCountToThis(counts[BISHOP_INDEX], counts[QUEEN_INDEX], coordinate);
+    retrieveKnightAttackDefendCountToThis(counts[KNIGHT_INDEX], coordinate);
+    retrieveDiagonalAttackDefendCountToThis(counts[BISHOP_INDEX], counts[QUEEN_INDEX], coordinate);
     retrieveStraightAttackDefendCountToThis(counts[ROOK_INDEX], counts[QUEEN_INDEX], coordinate);
     retrieveKingOneStepAttackDefendCountToThis(counts[KING_INDEX], coordinate);
 
@@ -155,7 +156,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
                 }            } else if (counts.at(ai).attack == 0) {
                 ai++;
             }
-        } else if (ExchangeState::Attacked == exchangeState) {            if (counts.at(di).defend > 0) {
+        } else if (ExchangeState::Attacked == exchangeState) {
+            if (counts.at(di).defend > 0) {
                 exchangeState = ExchangeState::Defended;
                 if ((totalCount.attack > 0 && pendingPieceValue - exchangeValue - pieceValue.at(di) >= 0) ||
                     (totalCount.attack == 0 && pendingPieceValue - exchangeValue >= 0)) {
@@ -179,7 +181,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
 string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {    string result;
     if (BoardOrientation::BlackUpWhiteDown == m_orientation) {
         result = string{static_cast<char>('a' + coordinate.getX()), static_cast<char>('1' + 7 - coordinate.getY())};
-    } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {        result = string{static_cast<char>('a' + 7 - coordinate.getX()), static_cast<char>('1' + coordinate.getY())};
+    } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {
+        result = string{static_cast<char>('a' + 7 - coordinate.getX()), static_cast<char>('1' + coordinate.getY())};
     }
     return result;
 }

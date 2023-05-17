@@ -13,7 +13,8 @@ struct Variation {
 };
 using Variations = std::vector<Variation>;
 
-struct CalculationDetails {    unsigned int depthInPlies;           // search depth in plies
+struct CalculationDetails {
+    unsigned int depthInPlies;           // search depth in plies
     unsigned int selectiveDepthInPlies;  // selective search depth in plies
     // Some programs also report a selective search depth beside the nominal search depth, most often much greater than
     // the nominal search depth. Some programs determine the highest distance to the root at any node, others only at

@@ -66,7 +66,8 @@ private:
     int getScoreLevelDistance() const;
     bool isACaptureMove(Piece const pieceAtStart, Piece const pieceAtEnd) const;
     bool isSameValueExchange(Piece const pieceAtStart, Piece const pieceAtEnd) const;
-    bool isDevelopingMove(Piece const pieceAtStart, Move const& move) const;    bool isCastlingMove(Piece const pieceAtStart, Move const& move) const;
+    bool isDevelopingMove(Piece const pieceAtStart, Move const& move) const;
+    bool isCastlingMove(Piece const pieceAtStart, Move const& move) const;
     bool isCheck(Piece const pieceAtEnd) const;
 
     BoardWithContext const& m_boardWithContext;

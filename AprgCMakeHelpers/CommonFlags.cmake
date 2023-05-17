@@ -190,14 +190,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -> This is the GCC flag for static analysis.
 # -> This option enables an static analysis of program flow which looks for “interesting” interprocedural paths through the code, and issues warnings for problems found on them.
 # -> This analysis is much more expensive than other GCC warnings.
-# -> Enabling this option effectively enables the following warnings: 
+# -> NOTE: This is only available for versions above GCC-10
 
 # Peformance Optimization Flags
-# Flag: "-O0"
-# -> Optimization Level 0 (No optimization, default)# -> Better for debugging builds during development, since it provides faster compile-time.
+# Flag: "-O0"# -> Optimization Level 0 (No optimization, default)# -> Better for debugging builds during development, since it provides faster compile-time.
 # Flag: "-O1"
 # -> Optimization Level 1
-# Flag: "-O2"# -> Optimization Level 2
+# Flag: "-O2"
+# -> Optimization Level 2
 # -> Enables (-O1); inline small functions;
 # Flag: "-O3"
 # -> Optimization Level 3 (Most aggressive optimization, Highest level of optmization and speed)
@@ -231,6 +231,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -> The guards are initialized when a function is entered and then checked when the function exits.
 # -> If a guard check fails, an error message is printed and the program exits.
 # -> Only variables that are actually allocated on the stack are considered, optimized away variables or variables allocated in registers don’t count.
+
 # Flag:  -fomit-frame-pointer
 # -> This flag (-fno-omit-frame-pointer) is used for performance testing (particularly linux perf tool) to save the information of the function call stack.
 # -> Don't keep the frame pointer in a register for functions that don't need one. 
@@ -441,7 +442,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # To get a reasonable performance add -O1 or higher. To get nicer stack traces in error messages add -fno-omit-frame-pointer.# Note: Clang 3.1 release uses another flag syntax.
 
 # Using LeakSanitizer
-# LeakSanitizer is ENABLED BY DEFAULT in ASAN builds of x86_64 Linux, and can be enabled with ASAN_OPTIONS=detect_leaks=1 on x86_64 OS X.# LSan lies dormant until the very end of the process, at which point there is an extra leak detection phase.
+# LeakSanitizer is ENABLED BY DEFAULT in ASAN builds of x86_64 Linux, and can be enabled with ASAN_OPTIONS=detect_leaks=1 on x86_64 OS X.
+# LSan lies dormant until the very end of the process, at which point there is an extra leak detection phase.
 # In performance-critical scenarios, LSan can also be used without ASan instrumentation.
 # Stand-alone mode
 # If you just need leak detection, and don't want to bear the ASan slowdown, you can build with -fsanitize=leak instead of -fsanitize=address.
