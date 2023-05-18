@@ -868,14 +868,41 @@ TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithOverPrecision) 
     EXPECT_EQ("(8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
 }
 
-TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithLessFieldWidth) {
+TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithFloatOutputType) {
     StringConverterWithFormatting converter;
     converter.setPrecision(15);
-    converter.setFieldWidth(3);
 
+    converter.setFloatOutputType(StringConverterWithFormatting::FloatOutputType::Default);
     EXPECT_EQ("12345", converter.convertToString(12345));
     EXPECT_EQ("12345.6789", converter.convertToString(12345.6789));
     EXPECT_EQ("-67890.1111", converter.convertToString(-67890.1111));
+    EXPECT_EQ("(8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
+
+    converter.setFloatOutputType(StringConverterWithFormatting::FloatOutputType::Fixed);
+    EXPECT_EQ("12345", converter.convertToString(12345));
+    EXPECT_EQ("12345.678900000000795", converter.convertToString(12345.6789));
+    EXPECT_EQ("-67890.111099999994622", converter.convertToString(-67890.1111));
+    EXPECT_EQ("(8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
+
+    converter.setFloatOutputType(StringConverterWithFormatting::FloatOutputType::HexFloat);
+    EXPECT_EQ("12345", converter.convertToString(12345));
+    EXPECT_EQ("0xc.0e6b7318fc508p+10", converter.convertToString(12345.6789));
+    EXPECT_EQ("-0x8.4990e38865948p+13", converter.convertToString(-67890.1111));
+    EXPECT_EQ("(8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
+
+    converter.setFloatOutputType(StringConverterWithFormatting::FloatOutputType::Scientific);
+    EXPECT_EQ("12345", converter.convertToString(12345));
+    EXPECT_EQ("1.234567890000000e+04", converter.convertToString(12345.6789));
+    EXPECT_EQ("-6.789011109999999e+04", converter.convertToString(-67890.1111));
+    EXPECT_EQ("(8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
+}
+
+TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithLessFieldWidth) {
+    StringConverterWithFormatting converter;
+    converter.setPrecision(15);    converter.setFieldWidth(3);
+
+    EXPECT_EQ("12345", converter.convertToString(12345));
+    EXPECT_EQ("12345.6789", converter.convertToString(12345.6789));    EXPECT_EQ("-67890.1111", converter.convertToString(-67890.1111));
     EXPECT_EQ("  (8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
 }
 
@@ -900,6 +927,13 @@ TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithFillCharacter) 
     EXPECT_EQ("0000012345.6789", converter.convertToString(12345.6789));
     EXPECT_EQ("0000-67890.1111", converter.convertToString(-67890.1111));
     EXPECT_EQ("00000000000000(8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
+}
+
+TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithMaximumLength) {
+    StringConverterWithFormatting converter;
+    converter.setMaximumLength(5);
+
+    EXPECT_EQ("12345", converter.convertToString(1234567890));
 }
 
 }  // namespace alba

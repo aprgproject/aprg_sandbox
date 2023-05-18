@@ -269,67 +269,107 @@ inline std::string convertToString(AnyType const& object) {
 
 class StringConverterWithFormatting {
 public:
+    enum class FloatOutputType { Fixed, Scientific, HexFloat, Default };
+    // ┌──────────┬────────────┬──────────────────────────┐
+    // │  number  │   iomanip  │      representation      │
+    // ├──────────┼────────────┼──────────────────────────┤
+    // │ 0.0      │ fixed      │ 0.000000                 │
+    // │ 0.0      │ scientific │ 0.000000e+00             │
+    // │ 0.0      │ hexfloat   │ 0x0p+0                   │
+    // │ 0.0      │ default    │ 0                        │
+    // ├──────────┼────────────┼──────────────────────────┤
+    // │ 0.01     │ fixed      │ 0.010000                 │
+    // │ 0.01     │ scientific │ 1.000000e-02             │
+    // │ 0.01     │ hexfloat   │ 0x1.47ae147ae147bp-7     │
+    // │ 0.01     │ default    │ 0.01                     │
+    // ├──────────┼────────────┼──────────────────────────┤
+    // │ 0.00001  │ fixed      │ 0.000010                 │
+    // │ 0.00001  │ scientific │ 1.000000e-05             │
+    // │ 0.00001  │ hexfloat   │ 0x1.4f8b588e368f1p-17    │
+    // │ 0.00001  │ default    │ 1e-05                    │
+    // └──────────┴────────────┴──────────────────────────┘
+
     using IntOptional = std::optional<int>;
     using CharOptional = std::optional<char>;
     using UnsignedIntOptional = std::optional<size_t>;
+    using FloatOutputTypeOptional = std::optional<FloatOutputType>;
 
     StringConverterWithFormatting() = default;
-
     StringConverterWithFormatting(int const precision)
         : m_precisionOptional(precision),
           m_fieldWidthOptional(),
           m_fillCharacterOptional(),
-          m_maximumLengthOptional() {}
+          m_maximumLengthOptional(),
+          m_floatOutputTypeOptional() {}
 
     StringConverterWithFormatting(int const fieldWidth, char const fillCharacter)
         : m_precisionOptional(),
           m_fieldWidthOptional(fieldWidth),
           m_fillCharacterOptional(fillCharacter),
-          m_maximumLengthOptional() {}
+          m_maximumLengthOptional(),
+          m_floatOutputTypeOptional() {}
 
     StringConverterWithFormatting(size_t const maximumLength)
         : m_precisionOptional(),
           m_fieldWidthOptional(),
           m_fillCharacterOptional(),
-          m_maximumLengthOptional(maximumLength) {}
+          m_maximumLengthOptional(maximumLength),
+          m_floatOutputTypeOptional() {}
 
     StringConverterWithFormatting(
         int const precision, int const fieldWidth, char const fillCharacter, size_t const maximumLength)
         : m_precisionOptional(precision),
           m_fieldWidthOptional(fieldWidth),
           m_fillCharacterOptional(fillCharacter),
-          m_maximumLengthOptional(maximumLength) {}
+          m_maximumLengthOptional(maximumLength),
+          m_floatOutputTypeOptional() {}
 
     template <typename AnyType>
     std::string convertToString(AnyType const& object) const {
         std::stringstream temporaryStream;
         if (m_precisionOptional) {
-            temporaryStream.precision(m_precisionOptional.value());
+            temporaryStream << std::setprecision(m_precisionOptional.value());
         }
         if (m_fillCharacterOptional) {
-            temporaryStream << std::setfill(m_fillCharacterOptional.value());
-        }
+            temporaryStream << std::setfill(m_fillCharacterOptional.value());        }
         if (m_fieldWidthOptional) {
             temporaryStream << std::setw(m_fieldWidthOptional.value());
         }
+        if (m_floatOutputTypeOptional) {
+            switch (m_floatOutputTypeOptional.value()) {
+                case FloatOutputType::Fixed:
+                    temporaryStream << std::fixed;
+                    break;
+                case FloatOutputType::Scientific:
+                    temporaryStream << std::scientific;
+                    break;
+                case FloatOutputType::HexFloat:
+                    temporaryStream << std::hexfloat;
+                    break;
+                case FloatOutputType::Default:
+                    temporaryStream << std::defaultfloat;
+                    break;
+            }
+        }
         temporaryStream << object;
         if (m_maximumLengthOptional) {
-            return temporaryStream.str().substr(m_maximumLengthOptional.value());
+            return temporaryStream.str().substr(0, m_maximumLengthOptional.value());
         } else {
             return temporaryStream.str();
-        }
-    }
+        }    }
 
     void setPrecision(int const precision);
     void setFieldWidth(int const fieldWidth);
     void setFillCharacter(char const fillCharacter);
     void setMaximumLength(size_t const maximumLength);
+    void setFloatOutputType(FloatOutputType const floatOutputType);
 
 private:
     IntOptional m_precisionOptional;
     IntOptional m_fieldWidthOptional;
     CharOptional m_fillCharacterOptional;
     UnsignedIntOptional m_maximumLengthOptional;
+    FloatOutputTypeOptional m_floatOutputTypeOptional;
 };
 
 }  // namespace alba::stringHelper

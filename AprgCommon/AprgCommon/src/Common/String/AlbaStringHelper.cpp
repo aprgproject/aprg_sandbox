@@ -909,4 +909,8 @@ void StringConverterWithFormatting::setMaximumLength(size_t const maximumLength)
     m_maximumLengthOptional = maximumLength;
 }
 
+void StringConverterWithFormatting::setFloatOutputType(FloatOutputType const floatOutputType) {
+    m_floatOutputTypeOptional = floatOutputType;
+}
+
 }  // namespace alba::stringHelper
