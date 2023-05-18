@@ -1,10 +1,11 @@
+For Git and Vim check other more dedicated notes.
+
+
 Virtual Machines
 
--> What are VMs?
----> Simulated computers
+-> What are VMs?---> Simulated computers
 ---> Lets you run an entire OS and bunch of software thats isolates your host environment
 ---> Its configurable. So you can set your how much resources can be used in the VM.
-
 -> Usage of VMs
 ---> You can use it to experiment with the OS and new software without any risks.
 ---> You can use it for applications that run in a specific operating system.
@@ -75,25 +76,92 @@ Shell and scripting
 ---> CTRL+R - autocomplete based on bash history
 ---> CTRL+A - jumps to the start of the current line
 ---> CTRL+E - jumps to the end of the current line
+---> CTRL+R - backwards search for previous command (just keep hitting CTRL-R till you find the what your looking for)
 
 -> Common commands
 ---> mkdir
 ---> cd
 ---> ls
+-----> ls -R
+-----> ls -la
 ---> mv
 ---> cp
+---> date - shows you the date and time
 ---> touch - create an empty file
 ---> which - lets you know the location of application
 ---> chmod - change permissions. chmod +x hello.sh
+---> echo - prints the arguments that you give it
+---> pwd - prints "present working directory"
+-----> Arguments are separated by white space, you can use quotations to group them together with whitespace
+---> find - find strings in your directory
+-----> find . -name src - type d (searches directory with name src) 
+-----> find . -path '**/test/*.py' - type f (searches python scripts in next sub directory test)
+-----> find . -mtime -1 (searches files that has been modified in the last day)
+-----> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
+---> grep - lets you find strings inside files
+-----> grep foobar mcd.sh (greps "foobar" string on mcd.sh)
+-----> grep -R foobar (recursive search in the current directory)
+---> less - is a pager (to view output in pages, and not let the output just scroll down to your screen)
+---> trash - lets delete a file and move to trash
+---> ts - adds a timestamp in front of every input line
+---> cmp - compares two files
+---> comm - finds common lines in two files 
+---> diff - finds difference in two files (you might want to run with -u8)
+---> watch - rerun a command every 2 seconds
+---> file - figures out what is the type of file (png, pdf)
+---> ncdu - figure out whats using all your disk space
+---> column - format input into columns
+
+-> Less common commands
+---> exa - better than ls
+---> bat - similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) 
+---> tldr - similar to man but less verbose and straight to the point
+---> tree - similar to ls but graphical output
+---> broot - similar to ls but graphical output has interactive search as well
+---> nnn - similar to windows explorer but in terminal
+---> fd - similar to find but can use regex
+---> locate - similar to find but builds an index so it can be faster
+-----> use updatedb to update the index
+---> rg or ripgrep - same as grep but has more functionality and nicer output (fast as well as grep with minimal performance penalty)
+-----> rg "import requests" -t py -C 5 ~/scratch (search "import request" that has python type in scratch folder and print 5 lines below and above it)
+-----> rg "import requests" -t py -C 5 --stats ~/scratch (it will print the stats as well)
+-----> rg -u --files-without-match "^#\!" -t sh (search all files (including hidden files for -u) that dont match the shebang line)
+-----> NOTE: This is similar to "ack ag"
+---> fzf - interactively grep or grep on the go
+-----> ps aux | fzf
+-------> this lets you grep processes in real time
+---> history - shows history of all commands
+-----> history 1 (prints everything since the beginning)
+-----> history 1 | grep convert
+---> ranger command - ranger is a console file manager with VI key bindings. 
+-----> autojump - helps you jump to a path based from history
+-----> xdg-open - opens a file with the "correct program" (as determined by your OS)
+-----> aunpack command - instead of knowing the commands on tar, use this command and it will figure it out
+---> rsync command - lets you copy files more efficiently
+-----> Rsync is a fast and extraordinarily versatile file copying tool.
+-----> Rsync is widely used for backups and mirroring and as an improved copy command for everyday use. 
+---> pv - pipe viewer gives you stats on data going through a pipe
+---> cal - a tiny calendar
+---> xsel/xclip - copy and paste from system clipboard
+---> rlwrap - adds history and ctrl support to REPLs (Read–eval–print loop) that dont already have them
 
 -> Shell provides you more than commands
----> You can invoke any program in your computer
----> Command line tools exist for pretty much anything you may want.
+---> You can invoke any program in your computer---> Command line tools exist for pretty much anything you may want.
 ---> More efficient than their GUI counterparts.
 
 -> Shell provides an interactive programming language (often referred to as scripting)
 ---> A lot of different shells that have different languages.
 -----> Examples: sh, bash (born again shell), csh (c shell, looks like c language), fish, zsh, ksh
+
+-> Shell has environment variables.
+---> Your computer comes with a bunch inbuilt programs that comes with the machine (when OS is installed).
+-----> This is stored in your filesystem.
+-----> Shell has a way to determine where a program is located. Its basically has a way to search for programs.
+-------> This done using an environment variable.
+---------> These are set whenever shell starts.
+---------> echo $PATH (shows all the paths in my machine that the shell will search for programs)
+-----------> $PATH is a list that is colon separated.
+---------> which echo (shows you the path of echo program)
 
 -> Shell programming is useful tool
 ---> You can write commands in the command line.
@@ -101,16 +169,70 @@ Shell and scripting
 -----> Create a .sh file
 -----> At the top of the file, add this: "#!/bin/sh" or "#!/bin/bash"
 -------> This is known as a hash bang line.
--------> This feeds the entire contents of the file to the program mentioned in the hash bang line.
+-------> This feeds the entire contents of the file to the program mentioned in the shebang or hash bang line.
 -------> Also works in python: "#!/usr/bin/python"
+----------> You can always add python when calling a script: python script.py argument1 argument2
+----------> But having the shebang lets the script know where python is located: ./script.py argument1 argument2
+
+-> Spaces are really important in bash programming (see also "Problem with white spaces" section)
+---> This are different:
+-----> (1) foo=bar
+-------> echo $foo (show bar as the value)
+-----> (2) foo = bar (this will not work)
+
+-> Single quotes and double quotes are different in bash programming
+---> echo "Value is $foo" (shows: Value is bar)
+---> echo 'Value is $foo' (shows: Value is $foo)
+
+-> Directories
+---> Absolute path vs relative path discussion
+---> "." means current directory
+---> ".." means parent directory
+---> "~" expands to home directory
+---> NOTE: By default when a program is called, its run on the current directory
+---> NOTE: "cd -" goes to the previous directory your currently in
+---> NOTE: "ls -l" uses the -l (long form format)
+------> You can find this item on the first part of the line "drwxr-xr-x".
+--------> The "d" means the directory.
+--------> The "rwx" items are for permissions and its letters represent "read", "write", "execute".
+----------> First "rwx" is permissions for the owner of the file
+----------> Second "rwx" is permissions for group that owns this file
+----------> Third "rwx" is permissions for everyone else
+----------> For directories:
+------------> The "read" permssions actually means listing (are you allowed to see which files are in this directory?)
+------------> The "write" permssions actually means change inside the directory (are you allowed to see rename/create/removes files are in this directory?)
+--------------> NOTE: To delete a file you need write permissions on the directory. 
+----------------> You can make it an empty file (delete its contents) but you cannot delete the file itself without directory permissions.
+------------> The "execute" permssions actually means search (are you allowed to enter this directory?)
+--------------> NOTE: For "cd" to work, you need execute permissions on all parent directories of that directory
+
+-> Streams
+---> All programs you launch (“processes”) have three “streams”:
+-----> STDIN: when the program reads input, it comes from here
+-----> STDOUT: when the program prints something, it goes here
+-----> STDERR: a 2nd output the program can choose to use
+-----> by default, STDIN is your keyboard, STDOUT and STDERR are both your terminal. but you can change that!
+-------> a | b makes STDOUT of a STDIN of b.
+-------> also have:
+---------> a > foo (STDOUT of a goes to the file foo)
+---------> a 2> foo (STDERR of a goes to the file foo)
+---------> a < foo (STDIN of a is read from the file foo)
+---------> a >> foo (means append to file foo)
+---------> hint: tail -f will print a file as it’s being written
+-----> why is this useful? lets you manipulate output of a program!
+-------> ls | grep foo: all files that contain the word foo
+-------> ps | grep foo: all processes that contain the word foo
+-------> journalctl | grep -i intel | tail -n5: last 5 system log messages with the word intel (case insensitive)
+-------> who | sendmail -t me@example.com send the list of logged-in users to me@example.com
+-------> | grep foo: all processes that contain the word foo
+-------> curl -- head --silent google.com | grep -i content-length | cut -- delimiter=' ' -f2
+-------> forms the basis for much data-wrangling, as we’ll cover later
 
 -> Loops
----> for i in $(seq 1 5); do echo hello; done
------> This reads: For i in list (1 to 5); 
+---> for i in $(seq 1 5); do echo hello; done-----> This reads: For i in list (1 to 5); 
 -----> Note: New lines are semicolon and semicolons are new lines (they are interchangable)
 -----> Note: Bash has no curly brackets, it usually instead have unique keyword for starting and ending a block ("do" and "done" in this case)
------> Note: The list is actually just space separated.
--------> All the command "seq 1 5" does is to just print 1 to 5
+-----> Note: The list is actually just space separated.-------> All the command "seq 1 5" does is to just print 1 to 5
 -------> So this for command is just gonna assign i for every space separated value on the list.
 
 -> Program substitution
@@ -140,33 +262,67 @@ Shell and scripting
 -------> This means run the program "foo", with the first argument "=", and the second argument "bar"
 
 -> Special variables:
----> $0 is the name of the current program
----> $1 to $9 are the arguments given to the program
+---> $0 is the name of the current script/program
+---> $1 to $9 are the arguments given to the script/program
 ---> $# is the number of arguments
+---> $@ expands to all the arguments
 ---> $$ is the Process ID of the current shell 
 ---> $? is the current exit code
 ---> $! is the Process ID of the last run process
+---> $_ will give the last argument of the previous command
+
+-> !! (bang bang)
+---> Lets say you previous done this and you want to sudo it: mkdir /mnt/new
+-----> When you do: sudo !!
+-------> It automatically becomes this: sudo mkdir /mnt/new
+
+-> Exit codes
+---> echo "hello"
+-----> echo $? (results to 0)
+---> grep foobar nothing.txt (tries to grep foobar in text file but does not exist)
+-----> echo $? (results to 1)
+---> true
+-----> echo $? (results to 0)
+---> false
+-----> echo $? (results to 1)
+---> You can do conditional operators because of this:
+-----> false || echo "This will print" (does print because it needs to execute the second expression)
+-----> true || echo "This will not print" (does not print because it short circuited) 
+-----> false && echo "This will not print" (does not print because it short circuited)
+-----> true && echo "This will print" (does print because it needs to execute the second expression)
+---> You can do concatenation as well
+-----> false ; echo "This will print" (does print because its concatenation)
+-----> NOTE: the output would be concatenated as well.
 
 -> Loop example with if statement
----> for f in $(ls); do if test -d $f; then echo dir $f; fi; done
------> This prints only the directories listed in the directory.
+---> for f in $(ls); do if test -d $f; then echo dir $f; fi; done-----> This prints only the directories listed in the directory.
 -----> This follows the form: if CONDITION; then BODY; fi
 -----> Every program you run in the command line will exit with an exit code
--------> $? has the current exit code
--------> In general, every non zero exit code is a failure and zero means success.
+-------> $? has the current exit code-------> In general, every non zero exit code is a failure and zero means success.
 -----> The if statement just runs the command in the CONDITION, and if the exit code is zero it will run the BODY.
 -----> The "test" command has applications (strings, integers, file) and in general it just test the condition and exit with an exit code depending on its usage.
 -------> Check the manual for "test" for more information
 ---> "elif" and "else" are also some keywords you can use
 
+-> test command
+---> The test utility evaluates the expression and if it evaluates to true returns a zero(true) exit status
+-----> otherwise it returns 1 (false).
+-----> If there is no expression, test also returns 1 (false).
+-------> All operators and flags are separate arguments to the test utility.
+-------> The following primaries are used to contruct expression:
+---------> -b file: True if file exists and is a block special file.
+---------> -c file: True if file exists and is a character special file.
+---------> -d file: True if file exists and is a directory.
+---------> -e file: True if file exists regardless of type.
+---------> -f file: True if file exists and is a regular file.
+---------> etc 
+
 -> Open and close square brackets ([])
 ---> Open square bracket program is just the same with the test command (check manual of test)
----> Close square bracket is just an argument to opern square bracket program on your machine.
----> Open square bracket program requires that the last argument of the program is a close square bracket
+---> Close square bracket is just an argument to opern square bracket program on your machine.---> Open square bracket program requires that the last argument of the program is a close square bracket
 ---> You can do this(equivalent to the previous example): for f in $(ls); do if [ -d $f ]; then echo dir $f; fi; done
 ---> Open square bracket is just a program on your machine.
 -----> In fact run: "which [" -> and it will print the location of echo command ("/usr/bin/[")
-
 -> Problem with white spaces
 ---> This loop is problematic: "for f in $(ls)", because if something is named with a whitespace it will in different entries.
 -----> Having a folder with a name "My Documents" will have two separate entries: "My" and "Documents"
@@ -175,19 +331,27 @@ Shell and scripting
 -----> Original: for f in $(ls); do if [ -d $f ]; then echo dir $f; fi; done
 -----> Fixed: for f in *; do if [ -d "$f" ]; then echo dir $f; fi; done
 -------> Notice you need to wrap it in quotations on the parameter given in the "[" program ("[" only expects one filename)
--------> Notice globbing is used in the loop assingment
+-------> Notice globbing is used in the loop assignment
 
 -> Problem with new lines 
 ---> Newlines are generally stored as carriage return, which forces the cursor at the back of the line.
 
+-> Functions
+---> create a file name mcd.sh that contains this:
+-----> mcd () {
+-------> mkdir -p "$1"
+-------> cd "$1"
+-----> }
+---> you can source it to use it:
+-----> source mcd.sh
+-----> mcd test
+
 -> Globbing
 ---> "*" lets you match any string of characters that are files/directories in the current directory
------> "ls *" will list all files/directories 
------> "echo b/c/*.txt" will display all txt files in "b/c" path
+-----> "ls *" will list all files/directories -----> "echo b/c/*.txt" will display all txt files in "b/c" path
 ---> "?" lets you match any single character
 -----> "ls ???" will list any files/directories with 3 characters
----> "{}" lets you match two conditions
------> "ls {b,r}*" will list any files/directories that starts with a "b" or "r"
+---> "{}" lets you match two conditions-----> "ls {b,r}*" will list any files/directories that starts with a "b" or "r"
 -----> this expands to "ls b* r*"
 -------> note that "mv aaa(.txt)" -> expands to "mv aaa aaa.txt" -> which renames aaa to aaa.txt
 -----> "touch {a,b}{a,b}.txt" lets create 4 empty files
@@ -231,47 +395,45 @@ Shell and scripting
 -------> So its not depedent on your input anymore, but rather the output of preceeding program
 
 -> cat command
----> This command just prints its input.
+---> This command just prints its input (can be STDIN or a file).
 ---> This command just reads from stdin and writes to stdout
+---> Check streams section for more information
+-----> ">" means to write the output stream into a file
+-------> cat > file.txt
+---------> This writes to file with the output of cat. 
+-----> "<" means to read a file and put to stdin
+-------> cat < file.txt
+---------> This reads from file as the input of cat. 
+-----> Example: cat < in.txt > out.txt
+-------> This reads from in.txt and writes to out.txt
+-------> This is basically copy.
+-----> "2>" 
+-------> Redirects stderr
+-----> "&>" 
+-------> Redirects everything
 
--> ">" means to write the output stream into a file
----> cat > file.txt
------> This writes to file with the output of cat. 
-
--> "<" means to read a file and put to stdin
----> cat < file.txt
------> This reads from file as the input of cat. 
-
--> Example: cat < in.txt > out.txt
----> This reads from in.txt and writes to out.txt
----> This is basically copy.
-
--> "2>"
----> Redirects stderr
-
--> "&>" 
----> Redirects everything
+-> tee command
+---> This command just prints its input (STDIN).
+---> This command just reads from stdin and writes to file and stdout
+---> Useful when you want to save to a file and see it in stdout as well
 
 -> grep examples:
----> ls | grep o
------> This display every file/directory with an "o" in it.
+---> ls | grep o-----> This display every file/directory with an "o" in it.
 ---> ls | grep [REGEX EXPRESSION]
 -----> This display every file/directory that satisfies the regex expression
----> journalctrl -b | grep -i kernel | tail -n5
------> This displays the last file lines of boot log with the word "kernel" on it.
+---> journalctrl -b | grep -i kernel | tail -n5-----> This displays the last file lines of boot log with the word "kernel" on it.
 
 -> sendmail examples:
 ---> who | sendmail -t me@example.com
 -----> This sends an email containing the current users of the machine.
 
--> (;) lets you combine outputs
+-> Concatenation
+---> (;) lets you combine outputs
 ---> (who; ps aux) | grep jon | head -n 5
 -----> This shows the current users of the machine and the process report containing the word "jon" and just shows the first 5 lines.
-
 -> Process substitution
 ---> Lets you want to find the difference between the boot logs.
------> You can do this:
--------> journalctl -b -1 > LastBoot.txt
+-----> You can do this:-------> journalctl -b -1 > LastBoot.txt
 -------> journalctl -b -2 > SecondToTheLastBoot.txt
 -------> diff -u LastBoot.txt SecondToTheLastBoot.txt
 -----> Better way is:
@@ -282,7 +444,81 @@ Shell and scripting
 -----------> In fact this command prints the filenames: echo <(journalctl -b -1) <(journalctl -b -2)
 ---> NOTE: journalctl shows OS activity
 
--> Running things on the background
+
+-> Tail follow example:
+---> Create file count.sh that has this line (this will count to 1000 per second):-----> "for i in $(seq 1 1000); do echo hello; sleep 1; done"
+---> Run count.sh in the background and put its output to a file
+-----> "./count.sh > count.log &"
+---> Use tail to display the latest values-----> "tail -f count.log"
+-----> -f means follow and this continuously prints the lines in the file
+
+-> Processes commands
+---> ps 
+-----> lists the running process from the current user of the machine
+---> ps -A
+-----> lists the running process from all users on the machine
+---> pgrep -af server
+-----> list all the running process with word "server" on it 
+---> pstree
+-----> lists the running process in a tree
+---> kill
+-----> sends a signal to a process
+-----> kill -STOP %1
+---> pkill 
+-----> sends a signal to process the matches the pgrep
+-----> These are similar: -------> pkill server
+-------> kill &(pgrep server)
+---> kill -l
+-----> lists all the signals that kill can send-------> default is SIGKILL(9), which tells the process to exit right now
+---> kill -s TERM 20156
+-----> tells process with pid 20156 to exit politely
+-----> SIGTERM tells the process to exit, equivalent to CTRL+C
+-----> SIGKILL tells the kernel to forcefully exit the process, equivalent to CTRL+\
+
+-> Common meanings of flags
+---> Note: You can combine flags:
+-----> "-v -v" is equivalent to "-vv"
+---> "-h" or "--help" shows help contents of the command (short version of the man page)
+---> "-v" or "--verbose" shows verbose output
+---> "-vv" shows more verbose output (pass multiple -v for more verbose output)
+-----> For example, rsync show different details for every increasing number of "-v"
+---> "--silent" or "--quiet" dont display any message (unless its an error)
+---> "-V" or "--version" shows the version
+---> "-a" or "--all" means all
+---> "-f" or "--forced" means forced
+---> "-R" or "-r" means recursive
+---> "dry run flag (varies for every command)" means dont commit any changes but try to run the command
+---> "-i" means interactive
+---> "-" means use STDIN or STDOUT as output instead of file
+---> "--" means after this you should not interpret arguments as a flag
+-----> If you want to create "-a" file, instead of "touch -a", do "touch -- -a"
+
+-> /dev/null
+---> Everything writted here will be discarded
+---> grep foobar "$file" > /dev/null 2> /dev/null
+
+-> NOTE: You can feed the script to itself
+---> ./example.sh mcd.sh script.py example.sh
+
+
+Command line environment
+
+-> Autocomplete works
+-> You customize the font, the color, of the terminals.
+
+-> CTRL-C explanation
+---> Terminal actually sends SIGINT to the program to stop itself.
+---> See "man signal" to see the different signals
+
+-> Signals
+---> Python actually has a way to handle signals.
+---> SIGQUIT is CTRL+\
+-----> much more poweful than SIGINT(CTRL+C)
+---> SIGSTOP is CTRL+Z
+-----> program is just suspended
+
+-> Job Control
+---> Useful for running things on the background
 ---> The ampersand "&" suffix tells bash to run it in the background
 -----> For example: "./server &"
 -------> Runs the server in the background
@@ -304,64 +540,59 @@ Shell and scripting
 ---> The command "disown" will let the background processes continue on even if shell is closed
 -----> For example: "disown %1"
 -------> The process with job number 1 will continue to run even if shell is closed.
+---> The command "kill" can send signals to process
+-----> kill -STOP %1
+-------> This suspends the process with job number 1.
+-----> kill -HUP %1
+-------> This hangups the process with job number 1.
+---> The command "nohup" means "no hang up". 
+-----> Its purpose is to execute a command such that it ignores the HUP (hangup) signal and therefore does not stop when the user logs out. 
+-----> nohup sleep 2000 &
 
--> Tail follow example:
----> Create file count.sh that has this line (this will count to 1000 per second):
------> "for i in $(seq 1 1000); do echo hello; sleep 1; done"
----> Run count.sh in the background and put its output to a file
------> "./count.sh > count.log &"
----> Use tail to display the latest values
------> "tail -f count.log"
------> -f means follow and this continuously prints the lines in the file
-
--> Processes commands
----> ps 
------> lists the running process from the current user of the machine
----> ps -A
------> lists the running process from all users on the machine
----> pgrep -af server
------> list all the running process with word "server" on it 
----> pstree
------> lists the running process in a tree
----> kill
------> sends a signal to a process
----> pkill 
------> sends a signal to process the matches the pgrep
------> These are similar: 
--------> pkill server
--------> kill &(pgrep server)
----> kill -l
------> lists all the signals that kill can send
--------> default is SIGKILL(9), which tells the process to exit right now
----> kill -s TERM 20156
------> tells process with pid 20156 to exit politely
------> SIGTERM tells the process to exit, equivalent to CTRL+C
------> SIGKILL tells the kernel to forcefully exit the process, equivalent to CTRL+\
-
--> Common meanings of flags
----> Note: You can combine flags:
------> "-v -v" is equivalent to "-vv"
----> "-h" or "--help" shows help contents of the command (short version of the man page)
----> "-v" or "--verbose" shows verbose output
----> "-vv" shows more verbose output (pass multiple -v for more verbose output)
----> "-V" or "--version" shows the version
----> "-a" or "--all" means all
----> "-f" or "--forced" means forced
----> "--" means after this you should not interpret arguments as a flag
------> If you want to create "-a" file, instead of "touch -a", do "touch -- -a"
-
-
-
-Command line environment
+-> Terminal multiplexer
+---> Check the configuration file .tmux.conf at home directory
+---> This is very handy for checking server and client. 
+-----> Both are running in parallel and you can check the status for each one.
+---> Terminal multiplexer hierarchy
+-----> Sessions
+-------> Windows
+---------> Panes
+---> Things to do with tmux
+-----> To detach from tmux
+-------> (CTRL+B or CTRL+A) then D
+-----> Create a new session
+-------> tmux a
+-------> tmux new -t foobar
+-----> Check all sessions
+-------> tmux ls
+-----> To create a new window in tmux
+-------> (CTRL+B or CTRL+A) then c
+-----> To go to the previous window
+-------> (CTRL+B or CTRL+A) then p
+-----> To go to the next window
+-------> (CTRL+B or CTRL+A) then n
+-----> To go name a specific window
+-------> (CTRL+B or CTRL+A) then , (then type in the name, it should show on the screen)
+-----> To go to a specific window
+-------> (CTRL+B or CTRL+A) then 1 (it would go to the first window)
+-------> (CTRL+B or CTRL+A) then 2 (it would go to the second window)
+-----> To split to two panes
+-------> (CTRL+B or CTRL+A) then "
+-------> (CTRL+B or CTRL+A) then %
+-----> To move to panes
+-------> (CTRL+B or CTRL+A) then <arrow keys>
+-----> To change the layout of the panes
+-------> (CTRL+B or CTRL+A) then <space bar>
+-------> Just keep doing it till you find the one right for you
+-----> To zoom or have one pane enlarge to your screen
+-------> (CTRL+B or CTRL+A) then z
 
 -> Aliases
 ---> Create an alias for a command.
----> You can do this:
------> alias l2="ls -l"
+---> You can do this:-----> alias l2="ls -l"
 -----> l2
 ---> You can shorten git status:
------> alias gs="git status"
------> gs
+-----> alias gs="git status"-----> gs
 ---> You can know what is being aliased using "which" command:
 -----> which l2
 ---> Aliases can be compounded:
@@ -369,86 +600,160 @@ Command line environment
 ---> Aliases can be overwritten, for example its completely legal to do this:
 -----> alias ls=l3
 -------> ls expands to l3, l3 expands to "l2 -a", l2 expands to the command "ls -l"
+---> You can show what its aliasing using alias command
+-----> alias l3
+-------> shows l3="l2 -a"
 ---> You can call the non-aliased command using back slash:
 -----> \ls
----> You can call the non-aliased function using "command":
------> command ls
+---> You can call the non-aliased function using "command":-----> command ls
 ---> You can remove the alias by using "unalias"
 -----> unalias ls
----> Note: Aliases needs to be done everytime a new command line session is started
------> You can add it to .bashrc or .bash_profile.
+---> Note: Aliases needs to be done everytime a new command line session is started-----> You can add it to .bashrc or .bash_profile.
 -----> It might be a good idea to use source:
 -------> source ~/.aliases
 
--> Autocomplete works
+-> Dotfiles
 
--> You customize the font, the color, of the terminals.
+---> A lot of command-line programs are configurable using Dotfiles
+---> The reason they are called Dotfiles because they have a dot in the name (make sense lol).
+---> Dotfiles are hidden by default
+-----> This was actually a bug on "ls" implementation (dotfiles have a conflict on folders("." and "..")).
+---> Different tools are configured in different ways, you need to read that tools documentation to edit dotfiles.
 
--> tmux command
----> terminal multiplexer
----> Check the configuration file .tmux.conf at home directory
----> This is very handy for checking server and client. Both are running in parallel and you can check the status for each one.
+---> Examples of Dotfiles:
+-----> .vimrc (vim is configurable using vimscript)
+-----> .gitconfig (not a program but just a file format where you can set different values)
+-----> .bashrc
+-------> You can put your aliases on this configuration file
+-----> .vim
+-----> .tmux.conf
+-----> .emacs
 
--> autojump command
----> helps you jump to a path based from history
+---> Advice: Avoid directly copying other peoples Dotfiles/configuration
+-----> You should set your configuration that suits your needs not other people.
 
--> ranger command
----> ranger is a console file manager with VI key bindings. 
+---> Goals on handling Dotfiles
+-----> Easy to install
+-------> Example: You should be able to just checkout a git repo, run a single script and you're good to go.
+-----> Portability
+-------> Configuration should be one and be same everywhere so you can synchronize back and forth. 
+-----> Track changes your on configuration
+-------> Keep it under version control (git for example).
 
--> bat
----> similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) 
+---> How do achieve this different things?
+-----> (1) Have a single folder that have your configuration.
+-----> (2) Have this folder on version control (git public repo is recommended)
+-----> (3) Have a single script setup so when you run that script
+-----> Note: Dont make your home folder (where all the configuration files are located) a git repository
+-------> Bad idea because other files are in there, not just configuration files.
 
--> find command
----> find . -name
----> find is very verbose
------> fd command is much more helpful
+---> Some commands to get you started:
+-----> mkdir dotfiles
+-----> cd dotfiles
+-----> git init
+-----> touch bashrc // Just an example
+-----> // Edit configuration file
+-----> // You can use copy: cp bashrc ~/.bashrc, but use symbolic links instead.
+-----> ln -s /tmp/dotfiles/bashrc ~/.bashrc   // create symbolic link
+-----> ll ~/.bashrc // list and show the links on the current directory
+-----> // You can also create an install script (filename: install):
+-----> // touch install
+-----> // chmod +x install
+--> Bash install script (filename: install):
+---> #!/usr/bin/env bash
+---> BASEDIR=$(dirname $0)
+---> cd $BASEDIR
+---> 
+---> ln -s ${PWD}/bashrc ~/.bashrc || true
+---> ln -s ${PWD}/vimrc ~/.vimrc || true
+---> ...
+-----> NOTE: As shown above, use Symbolic Links to only put version control on necessary files (not polluting your home directory)
+-----> NOTE: There are better script than this.
 
--> rg command
----> regrep
----> search for a string in a file
+---> Portability
+-----> There are slight diferrences in different machines.
+-------> (1) Add conditionals on the Dotfiles itself if its programmable
+---------> You have to make sure on how to get the details about the environment as well
+-------> (2) Keep common parameters on a dotfile and create a new files for specific parameters and use them depending on the machine.
+---------> Example: ".gitconfig" to keep common files, ".gitconfig_local" for local customizations
 
--> fzf command
----> grep on the go
----> ps aux | fzf
------> this lets you grep in real time
+-> Remote machines
 
--> trash command
----> lets delete a file and move to trash
-
--> aunpack command
----> instead of knowing the commands on tar, use this command and it will figure it out
-
--> rsync command
----> lets you copy files
----> Rsync is a fast and extraordinarily versatile file copying tool.
----> Rsync is widely used for backups and mirroring and as an improved copy command for everyday use. 
-
+---> To connect:
+-----> ssh [NAME]@[IP_ADDRESS OR HOST_NAME]
+---> To send a command:
+-----> ssh [NAME]@[IP_ADDRESS OR HOST_NAME] [COMMAND]
+-----> ssh jjgo@192.168.246.142 ls -la
+---> SSH Information are saved in the hidden folder ".ssh".
+---> Generating keys
+-----> ssh-keygen -t rsa -b 4096
+-----> ssh-keygen -o -a 100 -t ed25519
+---> Copying keys to the server
+-----> ssh-copy-id foobar@172.16.174.149
+-----> Manual approach using cat and tee:
+-------> cat ~/.ssh/id_ed25519 | ssh jjgo@192.168.246.142 tee .ssh/authorized_keys
+---> Copying folders to server
+-----> scp -r folder1 foobar@172.16.174.149:folder2
+-----> rsync -avP folder1 foobar@172.16.174.149:folder2
+-----> rsync is better than scp 
+-------> scp just copies all the files, while rsync copies only what changed (minimizing the traffic)
+-------> rsync has also the capability to resume if the connection drops
+-------> https://stackoverflow.com/questions/20244585/how-does-scp-differ-from-rsync
+---> Running processes that wont close if the users logs out
+-----> nohup sleep &
+-----> nohup is a POSIX command which means "no hang up". 
+-----> Its purpose is to execute a command such that it ignores the HUP (hangup) signal and therefore does not stop when the user logs out. 
+---> Managing windows inside the terminal
+-----> screen
+-----> tmux
+---> Port forwarding
+-----> Can be local port forwarding or remote port forwarding
+-----> ssh -L 9999:locahost:8888 foobar@172.16.174.149
+-------> Forwarding port 9999 to port 8888
+---> Graphics forwarding (similar to remote desktop connection)
+-----> ssh -X foobar@172.16.174.149
+-----> you can run firefox on this and the graphics of the firefox window in the server will be forwarded to you
+---> mosh handle disconnections better than ssh
+-----> mosh foobar@172.16.174.149
+-----> NOTE: mosh does not work on port forwarding and graphics forwarding
+---> Save configuration of the connection to host (so you dont have to specify all the time)
+-----> vim .ssh/config
+-----> ssh vm (vm is the host name)
+-----> Sample config file:
+--------> Host vm
+----------> User jjgo
+----------> Hostname 192.168.246.142
+----------> IdentityFile ~/.ssh/id_ed25519
+----------> RemoteForward 9999 localhost:8888
+---> Mounting a remote folder to a local folder
+-----> sshfs vm:Downloads Downloads
+---> Proxy jump
+-----> edit ssh config file
 
 
 Data wrangling
-
 -> Data wrangling means you want to transform a bunch of text (usually you want less text).
 ---> grep and | are examples of data wrangling
-
 -> ssh tsp journalctl > tsp.log
 ---> just for demo (in case network cuts out)
 ---> you can also just pipe it directly
 -----> ssh tsp journalctl | [insert command]
+---> you can also run the whole command on the server and just receive the grep output (less transfer in ssh)
+-----> ssh tsp 'journalctl | grep ssh | grep "Disconnected from"'
 
 -> cat tsp.log | grep sshd | "Disconnected from"
----> shows disconnected users
----> but needs to remove other "crap" from the line
+---> shows disconnected users---> but needs to remove other "crap" from the line
 -----> you can use "sed"
 
 -> sed
 ---> streaming editor that lets give commands to edit a line of text
+---> originated from "ed", which is weird editor that you probably dont want to know
+---> sed operates per line so you dont have to think about multiline stuffs
 
 -> tail
 ---> lets you output the last few lines
-
 -> head
 ---> lets you output the first few lines
-
 -> cat tsp.log | grep sshd | "Disconnected from" | sed 's/.*Disconnected from //' | tail -n5
 ---> "s" in the sed command means substitute
 -----> substitute the pattern on the between the first and second slash with the contents between the second and third slash
@@ -460,27 +765,36 @@ Data wrangling
 ---> "." means any single character
 ---> "*" means zero or more preceeding pattern
 ---> "+" means one or more preceeding pattern
----> "?" means zero or one
+---> "?" means zero or one (this can make it not greedy)
 ---> "[]" means any of the specified characters 
 -----> "[abc]" means "a" or "b" or "c"
------> "[0-9]" means 0 to 9 (ranges can be used as well)
------> "[^ ]" means any character that is not a space
+-----> "[0-9]" means 0 to 9 (ranges can be used as well)-----> "[^ ]" means any character that is not a space
 ---> "|" means or condition
 -----> "(P1|P2)" means any string of characters that match pattern 1 or pattern 2
 ---> "^" means start of line
 ---> "$" means end of line
 ---> ".*" means zero or more of any character
+---> "()" just groups expressions so you can apply regex on that expression
 
+-> sed substitution with regex
+---> echo 'aba' | sed 's/[ab]//' (outputs ba)
+---> echo 'bba' | sed 's/[ab]//' (outputs ba)
+---> echo 'bba' | sed 's/[ab]//g' (outputs nothing)
+-----> g means do this as many times at it keeps matching
+---> echo 'bbac' | sed 's/[ab]//g' (outputs c)
+---> echo 'bcbzac' | sed 's/[ab]//g' (outputs czc)
+---> echo 'abcaba' | sed -E 's/(ab)*//g' (outputs ca)
+---> echo 'abcababc' | sed -E 's/(ab|bc)*//g' (outputs cc)
+---> echo 'abcabbc' | sed -E 's/(ab|bc)*//g' (outputs c)
 
 -> NOTE: Regular expressions are greedy by default. This match as much possible with the pattern used.
+---> echo 'Disconnected from invalid user Disconnected from 84.211' | sed 's/.*Disconnected from //' (outputs nothing)
 
 -> NOTE: You need to put a black slash when you are using special character when substitute in sed.
----> sed 's/a*+|(c|d)//'
------> Needs to be transformed to: 
+---> sed 's/a*+|(c|d)//'-----> Needs to be transformed to: 
 -------> sed 's/a\*\+\|\(c\|d\)//'
 -----> Or you can use -E: 
 -------> sed -E 's/a*+|(c|d)//'
-
 -> NOTE: Regular expressions are greedy by default. This match as much possible with the pattern used.
 ---> You can use perl with sed as alternative.
 
@@ -504,17 +818,17 @@ Data wrangling
 ------> by putting "\2" between the second slash and third slash in sed, we can replace the whole line with the username part
 ---> If we have a username "Disconnected from", since we have an exact regex of the line, it needs to match the whole line, so "Disconnected from" username will still be in the output.
 
--> NOTE: Email regex
----> https://emailregex.com/
----> This is aligned with the RFC (its noted on the site which version).
+-> cat tsp.log | grep sshd | "Disconnected from" | sed -E's/.*?Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' 
+---> THIS IS NOT SUPPORTED BY SED! (check lecture)
+---> The "?" on ".*?" means dont be greedy (check regular expression quick reference)
+---> It means it will stop with the first "Disconnected from"
+---> This will prevent problems on having "Disconnected from" usernames
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
----> removed the redundant grep commands
----> "-e" lets you add multiple expressions on the sed, each expression just needs to be prefixed with "-e"
+---> removed the redundant grep commands---> "-e" lets you add multiple expressions on the sed, each expression just needs to be prefixed with "-e"
 ---> "'/Disconnected from/!d'" means dont delete the line with "Disconnected from"
 
--> wc
----> lets you output the word count
+-> wc---> lets you output the word count
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log  | wc -l
 ---> gives the number of usernames
@@ -539,14 +853,13 @@ Data wrangling
 
 -> awk
 ---> another stream editor per line (similar to sed)
+---> it focuses more on columns
 ---> you want sometimes to use awk instead of sed because awk knows about fields
 ---> line oriented
----> every command of awk has a optional [PATTERN] followed by a {BLOCK}
------> If this pattern matches then execute the code on this block.
+---> every command of awk has a optional [PATTERN] followed by a {BLOCK}-----> If this pattern matches then execute the code on this block.
 ---> special variables:
 -----> $0 is the entire line
------> $1 is the first field
------> $2 is the second field
+-----> $1 is the first field-----> $2 is the second field
 ---> by default, awk will split by whitespace  
 -----> you can also use the -F flag
 -------> "awk -F," means split by comma (useful for csv files)
@@ -570,22 +883,30 @@ Data wrangling
 ---> this prints the time of processes that has user "root" with process id greater than 2000
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk '$2 ~ /^c.*e$/ {print $2}' | paste -sd,
+---> this prints the usernames that starts with c and end with e (single line and comma separated)
+------> $2 ~ /^c.*e$/ means start with the letter c and ends with e
+--------> ~ means match a regular expression
+--------> ^c.*e$ is the regular expression
+
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
 | sort | uniq -c | sort -n -k1,1 -r | awk 'BEGIN {rows = 0} $1 != 1 && $2 ~ /^c/ {rows += $1} END {print rows}' | paste -sd+ | bc -l
 ---> this gives the number usernames that are used more than once that starts with the letter c
 ------> "$1 != 1" means that the username is used more than once (occurrence is not one)
 ------> $2 ~ /^c/ means start with the letter c
+--------> ~ means match a regular expression
+--------> ^c is the regular expression
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
 | sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+ | bc -l
 ---> instead of using "wc -l", this adds the number of occurrences (by listing the occurrences with plus as delimeter and adding them in a calculator)
+---> bc is a calulator
 
 -> echo "2*($(sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
-| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+))" | bc -l
----> this multiplies the total number of occurences to two
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+))" | bc -l---> this multiplies the total number of occurences to two
 ---> NOTE: This uses process substitution.
 
--> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
-| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log | sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'
 ---> this pipes the number of occurrences to R, and then prints a summary of the data
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
@@ -595,267 +916,59 @@ Data wrangling
 -> rustup
 ---> manages your rust installations
 
--> rustup toolchain
+-> rustup toolchain command
 ---> shows rust installations
 
--> xargs
+-> xargs command
 ---> lets convert the input as arguments to a command
 ---> echo "hello" | xargs echo 
 -----> this lets you pass "hello" as an argument to echo
 
--> rustup toolchain list | grep nightly | grep -vE 'nightly-x86' | sed 's/-x86.*//' | xargs rustup toolchain uninstall
----> lets you delete all rust toolchain that match the regex pattern (so you dont have to call it one by one)
+-> Data wrangling but the output is arguments to another program:
+---> rustup toolchain list | grep nightly | grep -vE 'nightly-x86' | sed 's/-x86.*//' | xargs rustup toolchain uninstall
+-----> lets you delete all rust toolchain that match the regex pattern (so you dont have to call it one by one)
  
 -> cat /usr/share/dict/words
 ---> contains a list of words 
-
 -> rustup has this installation guideline:
 ---> Run the following in your terminal: curl https://sh.rustup.rs -sSf |sh
 -----> Dont do this! This is downloading a script on the internet and running it to your shell.
 
--> pup
+-> pup command
 ---> input an html to it and it can give certain details
 
 -> curl -s https:// news.ycombinator.com/ | pup 'table table tr:nth-last-of-type(n+2) td.title a'
 ---> get a link from a table using curl and pup
 
--> jq
+-> jq command
 ---> jq is tool for operating json files 
 
+-> Data wrangling can be used for binary data as well
+---> ffmpeg -loglevel panic -i /dev/video0 -frames 1 -f image2 - | convert - -colorspace gray - | gzip | ssh tsp 'gzip -d | tee copy .png' | feh - 
+-----> ffmpeg is for encoding and decoding video
+-------> "-loglevel panic" to not print a bunch of stuffs
+-------> "-i /dev/video0" means read from webcam (video0 is the webcam this instance)
+-------> "-frames 1" takes the first frame
+-------> "-f image2" takes an image (rather than single frame video)
+-------> "-" to output to STDOUT
+---------> "-" is normally the way you tell programs to use STDIN and STDOUT instead of files
+-----> convert is an image manipulation program
+-------> "-" to read the input from STDIN
+-------> "- colorspace gray" turns the image into grayscale
+-------> "-" to output to STDOUT
+-----> gzip is a compressor
+-------> -d means to decode
+-----> ssh tsp 'gzip -d | tee copy .png'
+-------> pipe it thru the network and decode it
+-------> and output it to copy.png
+-----> feh is an image displayer
+-------> "-" to read the input from STDIN
 
 
-
-Editors
-
--> vim
----> vim vs emacs (very heated topic)
----> More info on: https://en.wikipedia.org/wiki/Editor_war
----> Powerful text editor
-
--> Learning materials
----> vimtutor
------> probably already installed in your pc if it has vim
------> http://www2.geog.ucl.ac.uk/~plewis/teaching/unix/vimtutor
------> The approximate time required to complete the tutor is 25-30 minutes, depending upon how much time is spent with experimentation.
----> vimadventures
------> https://vim-adventures.com
-
--> nano
----> simple to use
----> its great to use when you dont to use anything else
----> its great when you dont have anything else to use and just have to create a small change
----> its not great to use when you want to create complicated programs (no great support to change anything densy)
-
--> vim is a modal editor
----> We typically dont write essays when we code. We just peruse the code and change some line and peruse again and change line again. 
----> So in Vim, there is a concept of modes. The entire tool can be in different modes designed to create this kind of things.
----> There is a mode of inserting text, but there is a mode of viewing the file, and manipulating the file in different ways.
----> "Normal mode" is just viewing the file and manipulating the file in different ways.
-
--> vim is programmable
----> vim can be programmed using vimscript
------> you can customize a lot of aspects of this tool by writing in vimscript
------> you change the configuration and write programs and plugins
----> the interface is also like a programming language
------> the way you move the cursor around and make changes to a file also is through a sequence of commands (usually thru key strokes)
------> the commands are composable
--------> you can combine "movement commands" and "editing commands" to create a "compound command"
--------> Example: you can combine the command "to go forward by a word" with the command "to change something" means you can "replace the word"
-
--> we dont want to use the mouse to navigate
----> its imprecise and very slow
----> we just use the keyboard
----> the editor should work on the speed you think
-
--> Modes:
----> shown the at the bottom-left of vim
----> if nothing is shown then you are in normal mode
----> Keystrokes:
------> 'esc' takes you back to "normal mode"
------> 'i' takes you to "insert mode"
--------> you can type in text
------> 'v' takes you to "visual mode"
--------> you can select a bunch of text
------> 'V' takes you to "visual line mode"
--------> you can select a block of text by lines
------> 'ctrl+v' takes you to "visual block mode"
--------> you can select a block of text
-
--> X-commands (in normal mode)
----> if youre in normal mode, you press colon (you can see that cursor jump down to the bottom-left)
----> Basic X-commands:
------> ':q' means quit
------> ':w' means write (means save the file)
------> ':wq' means write then quit
--------> ':x' means write then quit as well (save so much time by avoid one character lol)
------> ':e' means edit
--------> if you give it a name, you can edit that file (vim can have many buffers open)
------> ':ls' means list the buffers open
--------> it will show you the files you have open
------> ':bn' means go to the next buffer
------> ':h' means help 
--------> ":help write" shows the help contents of the write command
--------> ":help w" shows the help contents of the "w" keystoke (move words forward)
-
--> Moving around the file (in normal mode)
----> You can disable the arrow keys when using vim to avoid bad habits.
------> vim ~/.vimrc
--------> ".vimrc" is the configuration file
--------> put these lines on the file:
-----------> nnoremap <Left> :echoe "Use h" <CR>
-----------> nnoremap <Right> :echoe "Use l" <CR>
-----------> nnoremap <Up> :echoe "Use k" <CR>
-----------> nnoremap <Down> :echoe "Use j" <CR>
----> Keystrokes:
------> 'w' move forward by words (beginning of word)
------> 'b' move backward by words (beginning of word)
------> 'e' move forward by words (end of the word)
------> '0' moves at the start of the line
------> '$' moves at the end of the line
------> '^' moves at the start of the nonwhitespace character of the line
------> 'H' goes to the top of the screen 
------> 'M' goes to the middle of the screen 
------> 'L' goes to the bottom of the screen  
------> 'ctrl+d' goes down by a page 
------> 'ctrl+u' goes up by a page 
------> 'gg' moves at the beginning of the file
------> 'G' moves at the end of the file
------> ':[linenumber]' can get you to the exact line number of the file
------> '%' move to the corresponding item (for example in a parenthesis block, it will go the start of the parenthesis)
------> 'f' and then 'character' means find (search forward) the first occurrence of that character
------> 'F' and then 'character' means find (search backward) the first occurrence of that character
------> 't' and then 'character' means jump to (search forward) the first occurrence of that character (one character before the searched character)
------> 'T' and then 'character' means jump to (search backward) the first occurrence of that character (one character before the searched character)
----> Composability of keystrokes:
------> '5' then 'j' means go down 5 times
------> '3' then 'w' means move forward by 3 words
-
--> Searching (in normal mode):
----> Type in '/' and the cursor moves at the bottom-left of the screen and you can regex search to the next occurence of the regex hit
------> 'n' mean next occurence (this is after performing the regex search)
-
--> Modifying the file (goes into insert mode)
----> 'i' for insert
----> 'a' for append
-
--> Selecting a block of text (visual mode)
----> You can still use the movement keystrokes you can use in normal mode.
-
--> Deleting text
----> Can be composed with movement keystrokes:
------> 'd' then 'e' means delete to the end of the word
------> 'd' then '$' means delete to the end of the line
------> 'd' then '0' means delete to the start of the line
------> 'd' then '^' means delete until the non white space character at the start of the line
------> 'd' then '3' then 'j' means delete three lines down
------> 'd' then '3' then 'w' means delete the next three words
------> 'd' then 'l' means delete one thing to the right
------> 'x' means delete the character on the cursor
----> note: this also can be done in the visual modes
-
--> Changing text (goes into insert mode)
----> Can be composed with movement keystrokes:
------> 'c' then '3' then 'w' means delete the next three words and then go to insert mode
----> Substitute:
------> 's' means delete the character on the cursor and go to insert mode
---------> equivalent to 'd' then 'l' then 'i'
----> Flip the case:
------> '~' means flip the case the character on the cursor and move to the right
---------> '3' then '~' changes 3 characters
----> note: this also can be done in the visual modes
-
--> undo and redo
----> 'u' to undo
----> 'r' to redo
-
--> ".vimrc"
----> can configure tons of things (syntax highlighting, backspace usage etc)
----> look for inspiration from other people in github
-
--> Search and replace
----> ':%s/foo/bar/g' this means regex search for "foo" replace with "bar" globally in the file
------> http://vim.wikia.com/wiki/Search_and_replace
------> "\1" means the replace with the captured text in the parenthesis (similar to sed)
-
--> Split windows
----> ':sp' means split to multiple windows of the same file
------> what if you want to see the top line of text and bottom line of text at the same time
-
--> Macros
----> 'q' then 'any letter' and it will record a macro under that letter
----> '@' then 'any letter' replays the macro
----> Example: You can change an xml file into a json file.
-
-
-
-
-Dotfiles
-
--> Intro
----> A lot of command-line programs are configurable using Dotfiles
----> The reason they are called Dotfiles because they have a dot in the name (make sense lol).
----> Dotfiles are hidden by default
------> This was actually a bug on "ls" implementation (dotfiles have a conflict on folders("." and "..")).
----> Different tools are configured in different ways, you need to read that tools documentation to edit dotfiles.
-
--> Examples of Dotfiles:
----> .vimrc (vim is configurable using vimscript)
----> .gitconfig (not a program but just a file format where you can set different values)
----> .bashrc
----> .emacs
----> .vim
-
--> Advice: Avoid directly copying other peoples Dotfiles/configuration
----> You should set your configuration that suits your needs not other people.
-
--> Goals on handling Dotfiles
----> Easy to install
------> Example: You should be able to just checkout a git repo, run a single script and you're good to go.
----> Portability
------> Configuration should be one and be same everywhere so you can synchronize back and forth. 
----> Track changes your on configuration
------> Keep it under version control (git for example).
-
--> How do achieve this different things?
----> (1) Have a single folder that have your configuration.
----> (2) Have this folder on version control (git public repo is recommended)
----> (3) Have a single script setup so when you run that script
----> Note: Dont make your home folder (where all the configuration files are located) a git repository
------> Bad idea because other files are in there, not just configuration files.
-
--> Some commands to get you started:
----> mkdir dotfiles
----> cd dotfiles
----> git init
----> touch bashrc // Just an example
----> // Edit configuration file
----> // You can use copy: cp bashrc ~/.bashrc, but use symbolic links instead.
----> ln -s /tmp/dotfiles/bashrc ~/.bashrc   // create symbolic link
----> ll ~/.bashrc // list and show the links on the current directory
----> // You can also create an install script (filename: install):
----> // touch install
----> // chmod +x install
-Bash install script (filename: install):
--> #!/usr/bin/env bash
--> BASEDIR=$(dirname $0)
--> cd $BASEDIR
--> 
--> ln -s ${PWD}/bashrc ~/.bashrc || true
--> ln -s ${PWD}/vimrc ~/.vimrc || true
--> ...
----> NOTE: There are better script than this.
-
--> Portability
----> There are slight diferrences in different machines.
------> (1) Add conditionals on the Dotfiles itself if its programmable
--------> You have to make sure on how to get the details about the environment as well
------> (2) Keep common parameters on a dotfile and create a new files for specific parameters and use them depending on the machine.
--------> Example: ".gitconfig" to keep common files, ".gitconfig_local" for local customizations
 
 
 
 Backups
-
 -> There are two kinds of people in the world. People who do backups and people who will do backups.
 ---> It just a matter of time to do backups.
 -----> Your drive can fail.
@@ -935,14 +1048,19 @@ Machine Introspection
 ---> "sudo" command lets you run as the root user
 -----> Example:
 -------> whoami (output is your account name)
--------> sudo whoami (output is root)
+-------> sudo whoami (output is root) 
+-------> NOTE: sudo echo 500 > brightness (This will not work because its shell writing the file not echo.)
+---------> How to fix this?
+-----------> (1) Run as root using: "sudo su"
+-----------> (1) Use tee: "echo 500 | sudo tee brightness"
+-------> NOTE: # mean s run as root
+---------> # echo 1 > /sys/net/ipv4_forward (should be run as root)
+
 
 ---> "visudo" command lets you update the sudoers file
 -----> NOTE: It will check if its syntactically correct before you save it
-
 ---> "su" command lets you run a new prompt as a new user (if no parameters, then by default its root)
 -----> sudo su (lets you run a new prompt as root)
-
 
 -> Logs and commands to check
 
@@ -951,14 +1069,14 @@ Machine Introspection
 -----> exa /var/log (exa is improved file lister better than ls)
 -----> "Xorg" -> logs when X fails
 -----> "private" -> logs for user application failures (example: web servers failures)
+-----> /var/log/system.log 
+-------> contains system.log
 
 ---> dmesg
------> This command shows kernel logs
------> It shows you all the kernel logs since boot
+-----> This command shows kernel logs-----> It shows you all the kernel logs since boot
 
 ---> journalctl 
------> This command shows system logs
------> -u flag gives you all the messages given by this user
+-----> This command shows system logs-----> -u flag gives you all the messages given by this user
 -------> journalctl -u systemd-logind
 ---------> shows you the log of systemd-logind since the beginning of time
 -----> -b flag gives you all the message since the last boot (give it a negative number and it will show logs of based on how many previous boots)
@@ -982,14 +1100,16 @@ Machine Introspection
 -----> This includes network traffic, disk traffic, number interrupts on CPU, context switches, the number of processes, CPU utilization etc.
 -----> NOTE: Useful when running a program and it looks that its not making progress, open dstat to check whats happening on your machine
 
+---> free
+-----> This displays the total amount of free and used memory in the system. 
+-----> Memory is also displayed in tools like htop.
+
 ---> df
 -----> This useful when looking at disk space
------> This shows you for all the filesystems you have on your machine: how much space is used? how much space is available? where is it mounted? etc
------> -h flag shows you in readable numbers (uses M for megabyte and G for giga byte) because by default its in bytes
+-----> This shows you for all the filesystems you have on your machine: how much space is used? how much space is available? where is it mounted? etc-----> -h flag shows you in readable numbers (uses M for megabyte and G for giga byte) because by default its in bytes
 
 ---> du
------> This shows you disk usage for particular files.
------> du *
+-----> This shows you disk usage for particular files.-----> du *
 --------> This shows you usage of files in the current directory
 -----> du -h *
 --------> This shows you usage of files in the current directory in readable number format (uses M for megabyte and G for giga byte)
@@ -999,27 +1119,56 @@ Machine Introspection
 ---> dust
 -----> Similar to du, this shows you disk usage for particular files in a tree.
 
+---> lsof
+-----> This lists on its standard output file information about files opened by processes.
+-----> An open file may be a regular file, a directory, a block special file, a character special file, an executing text reference, 
+-------> a library, a stream or a network file (Internet socket, NFS file or UNIX domain socket.) 
+-----> This lists file information about files opened by processes. 
+-----> It can be quite useful for checking which process has opened a specific file.
+-----> This is great when checking about which processes are leaking file handles and which ones are hoarding access to files.
+-----> sudo lsof
+
+---> iotop 
+-----> This displays live I/O usage information and is handy to check if a process is doing heavy I/O disk operations
+
 ---> ss
------> This great for networking
+-----> This great for networking.
+-----> This lets you monitor incoming and outgoing network packets statistics as well as interface statistics. 
+-----> A common use case of ss is figuring out what process is using a given port in a machine. 
+-----> For displaying routing, network devices and interfaces you can use ip. 
+-----> Note that netstat and ifconfig have been deprecated in favor of the former tools respectively.
 -----> This shows you different connections on your machine.
 -----> This shows you all open sockets.
------> ss -t
--------> This shows you TCP connections.
+-----> ss -t-------> This shows you TCP connections.
 -----> ss -tl
 -------> This shows you listening ports in TCP as well.
------> ss -tlp
--------> This shows you what programs are listening in TCP in my machine.
+-----> ss -tlp-------> This shows you what programs are listening in TCP in my machine.
 -----> ss -tlpn
 -------> This shows you the actual port number where there are listening.
 
+---> nethogs and iftop 
+-----> These are good interactive CLI tools for monitoring network usage.
+-----> If you want to test these tools you can also artificially impose loads on the machine using the stress command.
+
+---> ps
+-----> check ps section
+
+---> hyperfine
+-----> This is used for benchmarking.
+-----> It can benchmark two different commands.
+-----> This benchmarks fd vs find:
+-------> hyperfine --warmup 3 'fd -e jpg' 'find . -iname "*.jpg"'
+
+---> log show
+-----> Used in macOS, 
+-----> Similar to journalctl
+-----> log show | grep error
 
 -> Print the last few messages and dont close (useful for debugging)
----> journalctl -f 
------> f stands for follow
+---> journalctl -f -----> f stands for follow
 ---> dmesg -w 
 -----> w stands for wait
----> for other logs use tail
------> tail -f [LOG_COMMAND]
+---> for other logs use tail-----> tail -f [LOG_COMMAND]
 -------> f stands for follow
 -------> Example: tail -f Xorg.0.log
 ---> you can also use less
@@ -1132,37 +1281,35 @@ Machine Introspection
 -----> Two important files vmlinuz-linux and initramfs-linux.img.
 -------> These are like the boot images for linux.
 
-
 -> links [URL]
 ---> This command is like a text web browser that lets you surf the web.
 
 
 
-
 Program introspectation
 
--> Debugging a program
----> printf style debugging
+-> Debugging a program---> printf style debugging
 -----> excellent debugging technique but sometimes its not good enough
 ---> debugger is a more powerful tool
 -----> lets you halt when it reaches a certain line in the code
 -----> lets you poke whats in memory
 -----> lets you execute the program one line of code at a time
 
+-> Use Log levels on print debugging
+---> Info, Warning, Error, Critical
+---> Use filtering on different log levels (so you can check only error message for example)
 
 -> Debuggers
 
 ---> GDB (GNU debugger)
 -----> NOTE: GDB works for c-style languages (like C++, objective C, GO, Rust)
------> NOTE: GDB will work actually on any executable binary but it needs debug symbols to be able to map it into source code 
+-----> NOTE: GDB will actually work on any executable binary but it needs debug symbols to be able to map it into source code 
 -----> Compile with -g flag to include debug symbols:
 -------> gcc -g -o example example.c 
------> Invoke gdb with the program:
--------> gdb example
+-----> Invoke gdb with the program:-------> gdb example
 -----> Run the program (within gdb):
 -------> run
------> Insert breakpoint (within gdb):
--------> b [NAME_OF_FUNCTION]
+-----> Insert breakpoint (within gdb):-------> b [NAME_OF_FUNCTION]
 -------> b [FILE_NAME]:[LINE_NUMBER]
 -------> After running when breakpoint is reached, the program halts and gdb console is again available.
 -------> NOTE: You call a function when the program halts because of breakpoint (you call printf like functions to print variables).
@@ -1204,110 +1351,249 @@ Program introspectation
 -------> You can write python code in the prompt and it will execute as if its the next line to where its stopped.
 -----> ipdb also exists for interactive python
 
----> Graphical user interfaces for debuggers also exists in web browsers
+---> Web browser debugging
+-----> Graphical user interfaces for this
+-----> Sometimes the browsers itself has a debugger
+-----> They feature a large number of tools, including:
+-------> Source code - Inspect the HTML/CSS/JS source code of any website.
+-------> Live HTML, CSS, JS modification - Change the website content, styles and behavior to test (you can see for yourself that website screenshots are not valid proofs).
+-------> Javascript shell - Execute commands in the JS REPL.
+-------> Network - Analyze the requests timeline.
+-------> Storage - Look into the Cookies and local application storage.
+
 
 
 -> System calls
-
 ---> strace
 -----> Very useful when doing systems programming
 -----> Basically, this runs a program, then for every system call that program makes, it will print the what system call it is and what arguments were given to it
------> Example: strace echo hi
+-----> Examples:
+-------> strace echo hi
+-------> sudo strace ls -l > /dev/null
+---------> Only shows the system calls done when doing ls
+---------> Discards the output of ls -l (see /dev/null section in the notes)
+-------> sudo strace -e lstat ls -l > /dev/null
+---------> checks for only lstat code
+
+-> Static analysis tools
+---> Checks mistakes on the code
+---> For C++, theres cppcheck, sonar, clang tidy, GCC (-fanalyzer flag for GCC tools)
+---> For python, there is pyflakes
+---> For shell, there is shellcheck
+---> Check lecture for more information
+
+-> Dynamic analysis tools
+---> Sanitizers
+---> Valgrind
+
+
 
 
 -> Profiling
 
 ---> Another problem for programs is its performance.
 ---> You are able to investigate why and where its slow.
+---> Two types of profilers: Sampling profilers and tracing profilers
+-----> Tracing profilers instruments your code, execute it step by step and gathers data the needed data (how often a function is called, dead code, memory leaks)
+-----> Sampling profilers executes your program independently and every specified period of time check the status of your program (it could stack trace, memory consumption etc)
 
 ---> time
 -----> Gives you basic information about how long its executed
 -----> Gives you information on how much time its spent running on user space vs how much time its running on system calls.
+-----> Example: time curl http:///comillas.edu &> /dev/null
+-----> Details on the output
+-------> real time - the entire length of time from start to finish
+-------> user time - the amount of time the program is spent on the CPU executing user code
+-------> system time - the amount of time the program is spent on the CPU executing OS/system code
+-------> From SO: https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1
+---------> Real is wall clock time - time from start to finish of the call. 
+-----------> This is all elapsed time including time slices used by other processes and time the process spends blocked (for example if it is waiting for I/O to complete).
+---------> User is the amount of CPU time spent in user-mode code (outside the kernel) within the process.
+-----------> This is only actual CPU time used in executing the process. Other processes and time the process spends blocked do not count towards this figure.
+---------> Sys is the amount of CPU time spent in the kernel within the process. 
+-----------> This means executing CPU time spent in system calls within the kernel, as opposed to library code, which is still running in user-space. 
+-----------> Like 'user', this is only CPU time used by the process. See below for a brief description of kernel mode (also known as 'supervisor' mode) and the system call mechanism.
+---------> NOTE: User+Sys will tell you how much actual CPU time your process used. 
+-----------> Note that this is across all CPUs, so if the process has multiple threads (and this process is running on a computer with more than one processor) 
+-----------> it could potentially exceed the wall clock time reported by Real (which usually occurs). 
+-----------> Note that in the  output these figures include the User and Sys time of all child processes (and their descendants) as well when they could have been collected, 
+-----------> e.g. by wait(2) or waitpid(2), although the underlying system calls return the statistics for the process and its children separately.
+
+---> python profilers
+-----> python -m cProfile -s tottime grep.py 1000 '^(import|s*def)[^,]'
+-----> kernprof -l -v urls.py
+-----> python -m memory_profiler mem.py
 
 ---> perf
 -----> See PerformanceNotes.txt(on notes) or Chandler Carruths lecture as well
+-----> The perf command abstracts CPU differences away and does not report time or memory, but instead it reports system events related to your programs. 
+-----> For example, perf can easily report poor cache locality, high amounts of page faults or livelocks. Here is an overview of the command:
+-------> perf list - List the events that can be traced with perf
+-------> perf stat COMMAND ARG1 ARG2 - Gets counts of different events related a process or command
+-------> perf record COMMAND ARG1 ARG2 - Records the run of a command and saves the statistical data into a file called perf.data
+-------> perf report - Formats and prints the data collected in perf.data
 -----> Record first:
 -------> Example: perf record ag -c 'x' . 
 -----> Show the results:
 -------> perf report
 -------> perf stat [COMMAND]
+---------> perf stat stress -c 1 
 -----> What about small, tight loops?
 -------> perf record
--------> perf report
------> Performance counters
+-------> perf report-----> Performance counters
 -------> perf stat
 ---------> check for "stalled cycles"
 -------> perf list
 ---------> list all commands on perf
 ---------> check for command for cache
 
+
 ---> flamegraphs
+-----> Link: http://www.brandangregg.com/FlameGraphs/cpu-bash-flamegraph.svg
 -----> Its a really nice profiling graphs.
 
 
 
+
+-> Metaprogramming
+
+---> This is a lecture on processes on software development
+---> We will discuss build systems as well.
+
+---> make command
+
+-----> Sample Makefile:
+-------> paper.pdf: paper.tex plot-data.png 
+------->     pdflatex paper.tex
+------->     echo hello
+-------> plot-%.png: %.dat plot.py
+------->     ./plot.py -i $*.dat -o $@
+-----> % means any string (wildcard pattern)
+-----> $* is a special variable that represents what was match on %.
+-----> $@ is a special variable that represents the name of the target (the output file)
+
+-----> In makefiles, there are directives (I call them recipes).
+-------> Every directives has a colon.
+-------> Everything in the left of the colon is a target.
+-------> Everything in the right of the colon is a dependencies.
+
+-----> Message: make: *** No targets specified and no makefile found. Stop.
+-------> The command make looks for the file Makefile.
+
+-----> Message: make: *** No rule to make target 'paper.tex', needed by 'paper.pdf'. Stop.
+-------> This means that some dependencies (can be the file itself or its recipe) is missing.
+
+-----> Message: make: 'paper.pdf' is up to date.
+-------> This means that make already detected that no change has been done and rebuilding is not needed.
+-------> Make always tries to perform the minimum amount of work to build.
+---------> This is really neat if you want to streamline the process and will save a lot of build time.
+
+-----> Popular subcommands:
+-------> make all - builds all the dependencies
+-------> make clean - removes the previous build items and start from a clean slate
+-------> make test - builds the tests and run the tests
+-------> make release - builds with optimizations turn on (software about to be released)
+
 -> Package and Dependency Management
 
----> When people write libraries and packages they generally put them on common repository so that people can access them.
----> In python, where people put them is the python package index.
+---> When people write libraries and packages they generally put them on common repository so that people can access them.---> In python, where people put them is the python package index.
 ---> In rust, where people put them is crates.io
 ---> So its pretty language specific, but in general the communities agree on some place to put all the libraries that are written for a certain language.
+
+---> Repositories
+-----> A collection of things (usually related) that you can install
+-----> Sample repositories:
+-------> pypy for python
+-------> rubygem for ruby
+-------> crates.io for rust
+-------> npm for nodejs
+-------> cryptographic keys can be found on keybase
+-------> system packages like the one can be found on apt on ubuntu or debian
 
 ---> Versioning
 -----> Normally its just an consecutive numbers, but we can do better than that.
 -----> Git hash commit id can also work, but it does NOT convey any more information.
------> There is also semantic versioning.
+-----> There is a lot of schemes on versioning so there is a need to have a common scheme that people can understand
+-----> One of the common schemes on versioning is called semantic versioning.
 -------> Normally the format is: [MAJOR_VERSION].[MINOR_VERSION].[PATCH_VERSION]
 ---------> Example: 10.2.4
--------> PATCH_VERSION is incremented on:
----------> If you fix a bug and you're not changing the behavior of anything else, then PATCH_VERSION is incremented.
+-------> PATCH_VERSION is incremented on:---------> If you fix a bug and you're not changing the behavior of anything else, then PATCH_VERSION is incremented.
 -----------> So you can use the a new release even if the PATCH_VERSION is increased because there is no new behavior introduced.
 -----------> So for example, Version 10.2.5 still works with 10.2.4.
--------> MINOR_VERSION is incremented on:
----------> If you introduce a new feature and youre still making it backwards compatible, then MINOR_VERSION is incremented.
+-------> MINOR_VERSION is incremented on:---------> If you introduce a new feature and youre still making it backwards compatible, then MINOR_VERSION is incremented.
 -----------> For example, you introduce a new function/API but you do not change any of the old function/API.
 -----------> So for example, Version 10.3.0 still works with 10.2.4.
 -------> MAJOR_VERSION is incremented on:
 ---------> If you introduce a change that is not backwards compatible, then MAJOR_VERSION is incremented.
 -----------> So for example, Version 11.0.0 will NOT work with 10.2.4.
 
----> Cryptographic hashes also work on requiring the exact same version with the exact same binaries
------> This is prevent attacks from other people.
------> This is also called "Lock files"
------> This is also enables several repositories to host the binaries (and not trust just one), because you can check if the hash is the same.
+-----> Python versioning has semantive versioning
+-------> Python 2 code will probably not work on Python 3 (it can work on a few cases)
+-------> Python 3.5 code works on Python 3.5, 3.6, 3.7, 3.8
+-------> Python 3.5 code might not work on Python 3.4 (it can work if the features created in 3.5 are not used)
 
----> Constraints
------> Minimum minor version
--------> Example: >= 1.2 and < 2.0
------> Minimum patch version
--------> >= 3.5.4 and < 4.0 
--------> Example: This useful if you need a critical bug fixed.
------> Exact version
--------> Example: == 1.4.3
--------> This useful if your software relies on some specific behavior on that version.
--------> Or maybe you just dont trust the dependencies to adhere to semantic versioning.
+-----> Lock files
+--------> Lockfile requires the exact same version so the exact same binaries
+--------> Cryptographic hashes also work on requiring the exact same version
+--------> This is prevent attacks from other people.
+--------> This is also enables several repositories to host the binaries (and not trust just one), because you can check if the hash is the same.
+--------> One of the reasons to use lockfiles is to have reproducible builds (security packages for example)
 
----> Dependency resolution algorithms
------> This is complicated because the dependencies might rely on other dependencies that already has dependency.
------> You can also make this problem computationally hard (this is similar to SAT/satifiability problem).
------> So take note of this when specifying your constraints on versioning of your software.
--------> You dont want to be unecessarily strict on your versioning because it might cause problems somewhere else.
+-----> Constraints
+-------> Minimum minor version
+---------> Example: >= 1.2 and < 2.0
+-------> Minimum patch version
+---------> >= 3.5.4 and < 4.0 
+---------> Example: This useful if you need a critical bug fixed.
+-------> Exact version
+---------> Example: == 1.4.3
+---------> This useful if your software relies on some specific behavior on that version.
+---------> Or maybe you just dont trust the dependencies to adhere to semantic versioning.
 
----> Virtual environments
------> This useful when the conflict on the dependencies cannot be resolved (you need two set of versions for one dependency)
------> This useful for maintaining several sets of dependencies for maintaining different projects.
------> NOTE: Rust typically doesnt have this problem because it uses static libaries on its application (so when its run, its not relying on dynamic libaries on the system)
+-----> Dependency resolution algorithms
+-------> This is complicated because the dependencies might rely on other dependencies that already has dependency.
+-------> You can also make this problem computationally hard (this is similar to SAT/satifiability problem).
+-------> So take note of this when specifying your constraints on versioning of your software.
+---------> You dont want to be unecessarily strict on your versioning because it might cause problems somewhere else.
 
----> Vendoring
------> Very different approach to dependency management 
------> Basically, you take all the codes from other dependencies and build everything with your project.
------> There are some benefits on doing this:
--------> Youre not depending on package repositories anymore.
--------> Youre not relying on dependency resolution anymore.
--------> Its always the same code/behavior everytime.
------> But there is not sustainable on every project because it will yield to a lot of binary duplications on several applications.
------> NOTE: This is Google's approach on building its application because the dont want to rely on package repositories and dont want to deal with problems in versioning.
+-----> Virtual environments
+-------> This useful when the conflict on the dependencies cannot be resolved (you need two set of versions for one dependency)
+-------> This useful for maintaining several sets of dependencies for maintaining different projects.
+-------> NOTE: Rust typically doesnt have this problem because it uses static libaries on its application (so when its run, its not relying on dynamic libaries on the system)
 
+-----> Vendoring
+-------> Very different approach to dependency management 
+-------> Basically, you take all the codes from other dependencies and build everything with your project.
+-------> There are some benefits on doing this:
+---------> Youre not depending on package repositories anymore.
+---------> Youre not relying on dependency resolution anymore.
+---------> Its always the same code/behavior everytime.
+-------> But there is not sustainable on every project because it will yield to a lot of binary duplications on several applications.
+-------> NOTE: This is Google's approach on building its application because the dont want to rely on package repositories and dont want to deal with problems in versioning.
+
+-> Continuous integration
+
+---> CI is essentially a cloud build system that given a project stored that the CI can access, 
+-----> the CI can do what its needed (building, running tests, releasing your binaries) for your project automatically
+-----> Basically it handles "event triggered actions"
+-----> Examples of CIs: Travis CI, Azure pipeline, Github actions, etc
+
+---> In general to use a CI, you will need a file called a recipe.
+-----> This recipe will contain actions that needs to be taken if a specific event happens (pushing a commit, submitting a pull request, etc).
+-----> One neat software is called the Dependbot (available on github), it looks for newer versions of your installed software and informs if something newer is available.
+
+-> Testing
+
+---> Test suites (lecturer definitions not mine)
+-----> Unit test - Small, self contained test for a particular feature
+-----> Integration test - This tests the interactions of different parts of your software.
+-----> Regression test - Tests that cover what has been broken in the past. They prevent your project from "regressing" from earlier bugs.
+
+-> Mocking
+
+---> Mocking is being to replace parts of your system to with a dummy version of itself.
+-----> You can control the dummy version for your needs (for testing purposes for example).
+-----> Example: File copying thru SSH. You dont actually care that there is a network there, you just need to mock the network.
 
 
 -> OS customizations
@@ -1315,80 +1601,304 @@ Program introspectation
 ---> Keyboard remapping
 -----> Youre keyboard has useless keys that are not used all the time.
 -------> You should remap them to make them do useful things.
+-------> The capslock key and numlock key for example.
+-----> A combination of keys can be mapped to do a specific action (open terminal for example)
 
----> Cusomizing hidden OS settings (not shown in the UI of the settings in the OS)
+---> Customizing hidden OS settings (not shown in the UI of the settings in the OS)
 -----> MacOS has the "defaults" command
- 
+
 ---> Window management
 -----> Tiling window management
 -------> This sets your windows so that it shows whats needed on you application.
 -------> You can bind keys to this as well (so that it will be faster).
 -------> MacOS has hammerspoon
+-----> Check the reddit thread "unixp*rn"
+-------> It has screenshots of really cool setups that other people uses.
 
----> Check the reddit thread "unixp*rn"
------> It has screenshots of really cool setups that other people uses.
+---> Daemons
+-----> Background processes
+-----> These programs normally ends with a 'd' (sshd and systemd for example)
+-----> These daemons are needed for programs to execute correctly (ssh needs sshd for example)
+-----> You can configure these daemons via systemd (check lecture).
 
-
-
--> Remote machines
-
----> To connect:
------> ssh [NAME]@[IP_ADDRESS OR HOST_NAME]
----> SSH Information are saved in the hidden folder ".ssh".
----> Generating keys
------> ssh-keygen -t rsa -b 4096
----> Copying keys to the server
------> ssh-copy-id foobar@172.16.174.149
----> Copying folders to server
------> scp -r folder1 foobar@172.16.174.149:folder2
------> rsync -avP folder1 foobar@172.16.174.149:folder2
------> rsync is better than scp 
--------> scp just copies all the files, while rsync copies only what changed (minimizing the traffic)
--------> rsync has also the capability to resume if the connection drops
--------> https://stackoverflow.com/questions/20244585/how-does-scp-differ-from-rsync
----> Running processes that wont close if the users logs out
------> nohup sleep &
------> nohup is a POSIX command which means "no hang up". 
------> Its purpose is to execute a command such that it ignores the HUP (hangup) signal and therefore does not stop when the user logs out. 
----> Managing windows inside the terminal
------> screen
------> tmux
----> Port forwarding
------> Can be local port forwarding or remote port forwarding
------> ssh -L 9999:locahost:8888 foobar@172.16.174.149
--------> Forwarding port 9999 to port 8888
----> Graphics forwarding (similar to remote desktop connection)
------> ssh -X foobar@172.16.174.149
------> you can run firefox on this and the graphics of the firefox window in the server will be forwarded to you
----> Handle disconnections better than ssh
------> mosh foobar@172.16.174.149
------> NOTE: mosh does not work on port forwarding and graphics forwarding
----> Save configuration of the connection to host (so you dont have to specify all the time)
------> vim .ssh/config
------> ssh vm (vm is the host name)
----> Mounting a remote folder to a local folder
------> sshfs vm:Downloads Downloads
----> Proxy jump
------> edit ssh config file
----> 
----> 
----> 
----> 
----> 
----> 
----> 
----> 
----> 
----> 
----> 
----> 
----> 
+---> Filesystem in user space
+-----> FUSE
+-------> You can have user space code to control file system actions.
+-------> sshfs is an example of this.
+-------> encrypted file systems also are example of this
 
 
 
+-> APIs
+---> There are free online APIs.
+-----> They are well documented and available for everyone to use.
+-----> One example is the US government has service that you can ask for weather forcasts.
+-----> You probably need to know curl.
+
+-> Markdowns
+---> Text with formatting (check lecture).
+
+-> Jupyter notebook
 
 
 
+-> Web and Browsers
+
+---> Shortcuts
+-----> Middle Button Click in a link opens it in a new tab
+-----> Ctrl+T Opens a new tab
+-----> Ctrl+Shift+T Reopens a recently closed tab
+-----> Ctrl+L selects the contents of the search bar
+-----> Ctrl+F to search within a webpage. If you do this often, you may benefit from an extension that supports regular expressions in searches.
+
+---> Search operators
+-----> Web search engines like Google or DuckDuckGo provide search operators to enable more elaborate web searches:
+-------> "bar foo" enforces an exact match of bar foo
+-------> foo site:bar.com searches for foo within bar.com
+-------> foo -bar excludes the terms containing bar from the search
+-------> foobar filetype:pdf Searches for files of that extension
+-------> (foo|bar) searches for matches that have foo OR bar
+
+---> Searchbar
+-----> The searchbar is a powerful tool too. Most browsers can infer search engines from websites and will store them. By editing the keyword argument
+-------> In Google Chrome they are in chrome://settings/searchEngines
+-------> In Firefox they are in about:preferences#search
+
+---> Privacy extensions
+-----> Nowadays surfing the web can get quite annoying due to ads and invasive due to trackers. 
+-----> Moreover a good adblocker not only blocks most ad content but it will also block sketchy and malicious websites since they will be included in the common blacklists. 
+-------> uBlock origin (Chrome, Firefox): block ads and trackers based on predefined rules.
+-------> Privacy Badger: detects and blocks trackers automatically.
+-------> HTTPS everywhere is a wonderful extension that redirects to HTTPS version of a website automatically, if available.
+
+---> Style customization
+-----> Web browsers are just another piece of software running in your machine and thus you usually have the last say about what they should display or how they should behave. 
+-----> An example of this are custom styles. 
+-----> Browsers determine how to render the style of a webpage using Cascading Style Sheets often abbreviated as CSS.
+-------> Our recommendation is Stylus (Firefox, Chrome).
+-------> Try to visit userstyles.org
+
+---> Functionality Customization
+-----> In the same way that you can modify the style, you can also modify the behaviour of a website by writing custom javascript and them sourcing it using a web browser extension such as Tampermonkey
+
+---> Web APIs
+-----> It has become more and more common for webservices to offer an application interface aka web API so you can interact with the services making web requests. 
+-----> A more in depth introduction to the topic can be found here. There are many public APIs. Web APIs can be useful for very many reasons:
+-------> Retrieval.
+-------> Interaction. 
+-------> Piping.
+
+---> Web Automation
+-----> Sometimes web APIs are not enough. 
+-----> If only reading is needed you can use a html parser like pup or use a library, for example python has BeautifulSoup. 
+-----> However if interactivity or javascript execution is required those solutions fall short. WebDriver
+
+ 
+
+
+-> Security (2019)
+
+---> The world is a scary place and everyone's out to get you.
+
+---> What is the tradeoff for you?
+-----> What is the threat model for you?
+-------> This is the only thing that matters to figure out what is worth doing and what is not worth doing.
+-----> You are going to "pay" for security whether its usability, flexibility, the ability to recover when things fail, or some monetary value, etc
+-------> You have to balance this.
+
+---> Security is ongoing process
+-----> If you configure your computer to be secure 10 years ago, it will be no longer be secure today.
+-----> Check https://haveibeenpwned.com/ if youre email has been compromised.
+-------> https://haveibeenpwned.com/Passwords check if your password
+
+---> Do not trust USB cables.
+-----> Its a terrible to plug youre device into a USB socket.
+-----> Takeover on USB is surprising very simple.
+-----> Buy a USB data blocker (it blocks the data pins so only the power pins connect)
+
+---> Authentication
+-----> Get a password manager
+-------> Linux password manager is really good option
+-------> You know the password in your head? That is really big problem.
+---------> Use a generated password
+-----> Two factor authentication
+-------> Its not just one password, you need to provide another thing.
+---------> Usually its something you have(like a phone).
+-------> Take note the you might be vulnerable to phishing attacks (middle man attacks, impersonator)
+---------> Phishing its someone pretending to be someone they are not to get access (get your credentials)
+---------> You still received code for two factor authentication -> you still use it -> the middle man still gets access
+-----------> Use FIDO/U2F dongle 
+-------> Paper codes are used as well to recover in case you misplaced your device (this is important, its the only way to recover your account)
+---------> Store paper codes in a safe (not to be store electronically)
+
+---> Private Communication
+-----> Use Signal (setup instructions. Wire is fine too; WhatsApp is okay; don’t use Telegram). 
+-----> Desktop messengers are pretty broken (partially due to usually relying on Electron, which is a huge trust stack).
+-----> E-mail is particularly problematic, even if PGP signed. 
+-------> It’s not generally forward-secure, and the key-distribution problem is pretty severe.
+-------> keybase.io helps, and is useful for a number of other reasons. 
+-------> Also, PGP keys are generally handled on desktop computers, which is one of the least secure computing environments.
+
+---> File Security
+-----> Offline attacks (someone steals your laptop while it’s off): turn on full disk encryption. 
+-------> (cryptsetup + LUKS on Linux, BitLocker on Windows, FileVault on macOS. 
+-------> Note that this won’t help if the attacker also has you and really wants your secrets.
+-----> Online attacks (someone has your laptop and it’s on): use file encryption. There are two primary mechanisms for doing so
+-------> Encrypted filesystems: stacked filesystem encryption software encrypts files individually rather than having encrypted block devices.
+---------> You can “mount” these filesystems by providing the decryption key, and then browse the files inside it freely. 
+---------> When you unmount it, those files are all unavailable. 
+---------> Modern solutions include gocryptfs and eCryptFS. 
+---------> More detailed comparisons can be found here and here
+-------> Encrypted files: encrypt individual files with symmetric encryption (see gpg -c) and a secret key. 
+---------> Or, like pass, also encrypt the key with your public key so only you can read it back later with your private key. 
+---------> Exact encryption settings matter a lot!
+-----> What is you want to hide the encryption itself? (no encrypted files shown)
+-------> Plausible deniability (what seems to be the problem officer?): usually lower performance, and easier to lose data (loses some of the ability to recover). 
+-------> Hard to actually prove that it provides deniable encryption! 
+-------> See the discussion here, and then consider whether you may want to try VeraCrypt (the maintained fork of good ol’ TrueCrypt).
+-----> Encrypted backups: use Tarsnap or Borgbase
+-------> Think about whether an attacker can delete your backups if they get a hold of your laptop!
+
+---> NOTE: In terms of cryptography and security, if you need to configure it yourself, you will probably get it wrong and shoot yourself in the foot.
+
+---> Internet Security & Privacy
+-----> Open Wifi networks are really scary
+-------> Youre phone is constantly broadcasting the wifi name (even if your somewhere else).
+---------> Its gonna auto connect to it if its finds it.
+---------> Wifi Pineapple device pretends to be a wifi to those devices that broadcast a name.
+-----------> Make sure to delete previous open wifi connections if you are no longer using it.
+-----------> Delete everything that doesnt have a password.
+-------> Also there is no encryption on the wireless traffic.
+---------> There are able to sniff the wireless traffic.
+-----> If you’re ever on a network you don’t trust, a VPN may be worthwhile, but keep in mind that you’re trusting the VPN provider a lot.
+-------> If youre using a VPN, that means that youre trusting your VPN provider more that youre ISP.
+-------> If you truly want a VPN, use a provider you’re sure you trust, and you should probably pay for it. 
+---------> If you use a free VPN, it means that you trust it more than you trust your starbucks (where youre wifi is connected).
+-------> Or set up WireGuard for yourself – it’s excellent!
+-----> There are also secure configuration settings for a lot of internet-enabled applications at cipherlist.eu. 
+-----> If you’re particularly privacy-oriented, privacytools.io is also a good resource.
+-----> Tor is used for a particular threat model
+-------> Its not useful when the government is out to get you. Its not powerful against global attackers.
+-------> Its weak against traffic analysis attacks.
+-------> Its useful on hiding yourself in the small scale (hiding yourself to the server , hiding the server from you. 
+-------> But won’t really buy you all that much in terms of privacy, youre not hiding yourself from everyone else.
+-------> Its also can vulnerable because the server can check your browser fingerprint (fonts used, browser version, size of window) to know who you are.
+---------> Now its not gonna matter how many hops Tor does to mask your privacy.
+
+---> Web Security
+-----> Install HTTPS Everywhere. SSL/TLS is critical, and it’s not just about encryption, but also about being able to verify that you’re talking to the right service in the first place!
+-------> Your browser has the keys to determine if the certificates are real or not, based from this you will not be vulnerable against someone pretending to be a legitimate server (man on the middle).
+---------> You can prevent phishing attacks. 
+---------> However, the man in the middle can say that 443 (HTTPS) is not possible. Now youre forced to use port 80 and communicate in plain text.
+-----------> But there are some websites has a pin on the certificate to force the browser to use HTTPS. They wont connect to you otherwise. So this kind of attack is avoided.
+--->  Install uBlock Origin. It is a wide-spectrum blocker that doesn’t just stop ads, but all sorts of third-party communication a page may try to do.
+-----> It blocks javascript and other scripting.
+-----> Take note that if you do this some site will not work. 
+-------> Flight booking sites are the worst. You fill up all the forms and click next, only to have nothing happened because its stopped working.
+---> If you’re using Firefox, enable Multi-Account Containers. 
+-----> Create separate containers for social networks, banking, shopping, etc. 
+-----> Firefox will keep the cookies and other state for each of the containers totally separate, so sites you visit in one container can’t snoop on sensitive data from the others. 
+-----> In Google Chrome, you can use Chrome Profiles to achieve similar results.
+
+
+
+
+-> Security (2020)
+
+---> Entropy  
+-----> log2(#possibilities)
+-------> coin flip: log2(2) = 1 bit of entropy
+-------> dice roll: log2(6) = 2.6 bit of entropy
+-----> For passwords, you need high entropy. It all depends what your threat model is.
+-------> 40 bits of entropy might be good enough for a online password guesses
+-------> 80 bits of entropy might be good enough for a offline attacks
+
+---> Hash functions  
+-----> Hash functions mapped a variable amount of data to a fixed size output. 
+-----> Sha1 hash (used in git) for example, has multiple bytes for its input and has exactly 160 bits of output.
+-----> You can use sha1sum command:
+-------> printf 'hello' | sha1sum (prints aaf4c61ddcc5e8a2dabebe0f3b482cd9aea9434d)
+-----> Another property that cryptographic hash functions have is that they are "not invertible".
+-------> If you take the output of this function, its hard to figure out what the input was. 
+-----> Another property that cryptographic hash functions have is that they are "collision resistant".
+-------> Its hard to find to sets of input that produces the same output.
+
+-----> Why does need git the hash functions to be cryptographic?
+-------> It needs to be collision resistant to avoid problems in git.
+-------> Git is used in the linux kernel so it would be hard if we have problems on git.
+
+-----> Cryptographic hash functions are used to verify files from untrusted sources.
+-----> Cryptographic hash functions are used commitment schemes
+-------> Example: heads or tails game in your and opponents head (showing hash values can be a way to validate result -> commitment scheme)
+
+-----> Key derivation functions (KDFs)
+-------> PBKDF2 (Password-Based Key Derivation Function) (https://en.wikipedia.org/wiki/PBKDF2)
+-------> You want this algorithm to be slow to avoid brute force attacks.
+-------> These key derivation functions with a sliding computational cost, used to reduce vulnerabilities of brute-force attacks.
+
+-----> Symmetric key cryptography
+-------> API:
+---------> keygen() - This returns a key. This function is randomized and the key has high entropy.
+---------> encrypt(plaintext, key) - This returns a ciphertext.
+---------> decrypt(ciphertext, key) - This returns the plaintext.
+-------> NOTE: This means that the ciphertext cant be figured out the plaintext without the key.
+-------> NOTE: The correctness property holds. This means that the decrypted data should be the same as before encrypting it.
+
+-----> Generating the key can be combined with KDFs
+-------> Use a passphrase and KDFs to generate a key.
+-------> Use the key for your encrypt and decrypt needs.
+-------> Now you just need to remember a passphrase.
+
+-----> Openssl examples:
+-------> To encrypt:
+---------> openssl aes-256-cbc -salt -in README.md -out README.enc.md
+---------> What is salt?
+-----------> Salt is randomized value stored in the data to avoid matching the hash password with existing rainbow tables (hacker attack).
+-----------> If you use a randomized value (salt) to hash your passwords, the rainbow tables for hash passwords will not longer match.
+-------> To decrypt:
+---------> openssl aes-256-cbc -d -in README.enc.md -out README.dec.md
+-------> Comparing them show their equal:
+---------> cmp README.md README.dec.md
+---------> echo $?
+
+-----> Asymmetric key cryptography
+-------> NOTE: This is slower than symmetric key cryptography.
+-------> API:
+---------> keygen() - This returns a two keys (public key and private key).
+---------> encrypt(plaintext, public key) - This returns a ciphertext.
+---------> decrypt(ciphertext, private key) - This returns the plaintext.
+-------> NOTE: This really neat because anyone in the internet can encrypt the data for you because the public key can be available for everyone.
+-------> NOTE: In symmetric key cryptography, once someone knows the key then its over because anyone can decrypt the data (consider sending encrypted data to someone, how you gonna send the key?).
+-------> API for signing and verifying:
+---------> sign(message, private key) - This returns a signature.
+---------> verify(message, signature, public key) - This returns if the message is okay is legitimate or not.
+-------> NOTE: This really neat because it will be hard to forge without private key.
+-------> NOTE: The correctness property holds. This means that message, signature, and public key can be verified correctly if its signature is generated by sign().
+-------> Asymmetric key cryptography are used to sign software releases.
+ 
+-----> Bootstrapping problem
+-------> How do you know if the public key is legit? It might be from someone whos pretending.
+-------> Real life solution: meet in person and exchange keys.
+-------> Signal's solution: Have a dedicated server that stores all the correct public keys.
+-------> https://keybase.io
+
+-----> Hybrid encyption (symmetric, asymmetric)
+-------> A combination of symmetric encryption and asymmetric encryption to be fast and secure
+-------> Fast because assymetric encryption (slow) is only done for the symmetric key, the data is symmetrically encrypted (fast).
+-------> Secure because you still need a private key to decrypt the encrypted key to generate the symmetric key to decrypt the cipher text.
+ 
+                                            --------------
+  Data -----------------------------------> | Symmetric  | --------> cipher text (to be sent as well)
+  Symmetric_keygen() -> Symmetric Key ----> | encryption |
+                              |             --------------
+                              |             --------------
+                              ------------> | Asymmetric | --------> encrypted key (to be sent)
+  public key -----------------------------> | encryption |
+                                            --------------
+
+
+
+-> 
 
 
 
