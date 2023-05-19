@@ -1,14 +1,14 @@
 
 Shortcut Guides
 
+
+
 Terminal Keyboard Shortcuts
 
-Autocomplete text - Press TAB to have the system guess at completing the text already entered. Also does commands.
-Press twice to see the options if more than one is found.
+Autocomplete text - Press TAB to have the system guess at completing the text already entered. Also does commands.Press twice to see the options if more than one is found.
 TAB
 
-Paste
-Similar to CTRL+V in other applications.
+PasteSimilar to CTRL+V in other applications.
 CTRL+SHIFT+V
 
 New Tab

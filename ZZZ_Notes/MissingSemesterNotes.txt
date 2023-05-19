@@ -91,15 +91,14 @@ Shell and scripting
 ---> date - shows you the date and time
 ---> touch - create an empty file
 ---> which - lets you know the location of application
----> chmod - change permissions. chmod +x hello.sh
+---> chmod - change permissions. 
+-----> chmod +x hello.sh
 ---> echo - prints the arguments that you give it
 ---> pwd - prints "present working directory"
------> Arguments are separated by white space, you can use quotations to group them together with whitespace
----> find - find strings in your directory
+-----> Arguments are separated by white space, you can use quotations to group them together with whitespace---> find - find strings in your directory
 -----> find . -name src - type d (searches directory with name src) 
 -----> find . -path '**/test/*.py' - type f (searches python scripts in next sub directory test)
------> find . -mtime -1 (searches files that has been modified in the last day)
------> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
+-----> find . -mtime -1 (searches files that has been modified in the last day)-----> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
 ---> grep - lets you find strings inside files
 -----> grep foobar mcd.sh (greps "foobar" string on mcd.sh)
 -----> grep -R foobar (recursive search in the current directory)
@@ -608,14 +607,23 @@ Command line environment
 -----> To zoom or have one pane enlarge to your screen
 -------> (CTRL+B or CTRL+A) then z
 
+-> Set new directory on PATH
+-----> Using ~/.profile to set $PATH\
+-----> A path set in .bash_profile will only be set in a bash login shell (bash -l). 
+-----> If you put your path in .profile it will be available to your complete desktop session. 
+-----> That means even metacity will use it.
+-----> For example ~/.profile:
+-------> if [ -d "$HOME/bin" ] ; then
+------->   PATH="$PATH:$HOME/bin"
+-------> fi
+
+
 -> Aliases
 ---> Create an alias for a command.
----> You can do this:
------> alias l2="ls -l"
+---> You can do this:-----> alias l2="ls -l"
 -----> l2
 ---> You can shorten git status:
------> alias gs="git status"
------> gs
+-----> alias gs="git status"-----> gs
 ---> You can know what is being aliased using "which" command:
 -----> which l2
 ---> Aliases can be compounded:
@@ -680,14 +688,17 @@ Command line environment
 -----> // Edit configuration file
 -----> // You can use copy: cp bashrc ~/.bashrc, but use symbolic links instead.
 -----> ln -s /tmp/dotfiles/bashrc ~/.bashrc   // create symbolic link
+-------> Hard link vs Symbolic link
+---------> Symbolic links can be made to files and directories while hard links can only be made between files. 
+---------> Symbolic links can be made between different file systems, hard ones cannot. 
+---------> A hard link is a file all its own, and the file references or points to the exact spot on a hard drive where the Inode stores the data. 
+---------> A soft link isn't a separate file, it points to the name of the original file, rather than to a spot on the hard drive.
 -----> ll ~/.bashrc // list and show the links on the current directory
 -----> // You can also create an install script (filename: install):
------> // touch install
------> // chmod +x install
+-----> // touch install-----> // chmod +x install
 --> Bash install script (filename: install):
 ---> #!/usr/bin/env bash
----> BASEDIR=$(dirname $0)
----> cd $BASEDIR
+---> BASEDIR=$(dirname $0)---> cd $BASEDIR
 ---> 
 ---> ln -s ${PWD}/bashrc ~/.bashrc || true
 ---> ln -s ${PWD}/vimrc ~/.vimrc || true
