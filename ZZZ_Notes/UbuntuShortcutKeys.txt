@@ -1,0 +1,166 @@
+
+Shortcut Guides
+
+Terminal Keyboard Shortcuts
+
+Autocomplete text - Press TAB to have the system guess at completing the text already entered. Also does commands.
+Press twice to see the options if more than one is found.
+TAB
+
+Paste
+Similar to CTRL+V in other applications.
+CTRL+SHIFT+V
+
+New Tab
+CTRL+SHIFT+T
+
+Move to Tab [number].
+ALT+[number]
+
+Close Tab
+Or the application if all the Tabs are closed.
+CTRL+D
+
+Clear screen
+CTRL+L
+
+Delete the text before the cursor.
+CTRL+K
+
+Find command in History.
+for the next command>press CTRL+R again.
+CTRL+R+[text]
+
+Move cursor to the beginning.
+CTRL+A
+
+Move the cursor to the end.
+CTRL+E
+
+Kill current task.
+CTRL+C
+
+Move task to background.
+type 'fg'> to bring to foreground.
+CTRL+Z
+
+Home folder symbol.
+i.e. 'cd ~/Documents'
+~
+
+Scrolls through the commands you have previously entered.
+Up Cursor or CTRL+P
+
+Takes you back to a more recent command.
+Down Cursor or CTRL+N
+
+Moves the cursor to the start of a line.
+CTRL+A or HOME
+
+Moves the cursor to the end of a line.
+CTRL+E or END
+
+Moves to the beginning of the previous or current word.
+Esc+B
+
+Deletes from the start of the line to the current cursor position.
+CTRL+U
+
+Deletes the word behind the cursor.
+CTRL+W
+
+Goes back one word at a time.
+ALT+B
+
+Moves forward one word at a time.
+ALT+F
+
+Capitalizes the letter where the cursor is and moves to the end of word.
+ALT+C
+ 
+ 
+ 
+
+Getting around the desktop
+
+Switch between the Activities overview and desktop. In the overview, start typing to instantly search your applications, contacts, and documents.
+Alt+F1 or the Super key
+
+Pop up command window (for quickly running commands).
+Use the arrow keys to quickly access previously run commands.
+Alt+F2
+
+Quickly switch between windows. Hold down Shift for reverse order.
+Super+Tab
+
+Switch between windows from the same application, or from the selected application after Super+Tab.
+This shortcut uses ` on US keyboards, where the ` key is above Tab. On all other keyboards, the shortcut is Super plus the key above Tab.
+Super+`
+
+Switch between windows in the current workspace. Hold down Shift for reverse order.
+Alt+Esc
+
+Give keyboard focus to the top bar. 
+In the Activities overview, switch keyboard focus between the top bar, dash, windows overview, applications list, and search field. 
+Use the arrow keys to navigate.
+Ctrl+Alt+Tab
+
+Show the list of applications.
+Super+A
+
+Switch between workspaces.
+Super+Page Up and Super+Page Down
+
+Move the current window to a different workspace.
+Shift+Super+Page Up Shift+Super+Page Down
+
+Move the current window one monitor to the left.
+Shift+Super+←
+
+Move the current window one monitor to the right.
+Shift+Super+→
+
+Show the Power Off dialog.
+Ctrl+Alt+Delete
+
+Lock the screen.
+Super+L
+
+Show the notification list. Press Super+V again or Esc to close.
+Super+V
+
+
+
+Common editing shortcuts
+
+Select all text or items in a list.
+Ctrl+A
+
+Cut (remove) selected text or items and place it on the clipboard.
+Ctrl+X
+
+Copy selected text or items to the clipboard.
+Ctrl+C
+
+Paste the contents of the clipboard.
+Ctrl+V
+
+Undo the last action.
+Ctrl+Z
+
+
+
+Capturing from the screen
+
+
+Take a screenshot.
+Print Screen
+
+Take a screenshot of a window.
+Alt+Print Screen
+
+Take a screenshot of an area of the screen. The pointer changes to a crosshair. Click and drag to select an area.
+Shift+Print Screen
+
+Start and stop screencast recording.
+Ctrl+Alt+Shift+R

@@ -4,7 +4,8 @@
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba {
 
@@ -78,7 +79,8 @@ HumanScoreGenerator::DataFromExchanges HumanScoreGenerator::getDataFromExchanges
 HumanScoreGenerator::Score HumanScoreGenerator::getMoveTypePart(Move const& move) const {
     Board const& board(m_boardWithContext.getBoard());
     Piece pieceAtStart = board.getPieceAt(move.first);
-    Piece pieceAtEnd = board.getPieceAt(move.second);    if (isSameValueExchange(pieceAtStart, pieceAtEnd)) {
+    Piece pieceAtEnd = board.getPieceAt(move.second);
+    if (isSameValueExchange(pieceAtStart, pieceAtEnd)) {
         return 0;  // avoid same value exchanges
     } else if (isCastlingMove(pieceAtStart, move)) {
         return 4;  // prioritize checks to be castling
@@ -104,7 +106,8 @@ HumanScoreGenerator::Score HumanScoreGenerator::getPiecePart(Move const& move) c
 HumanScoreGenerator::Score HumanScoreGenerator::getHumanScoreOfPiece(PieceType const pieceType) const {
     int result{};
     switch (pieceType) {
-        case PieceType::Pawn: {            result = 2;
+        case PieceType::Pawn: {
+            result = 2;
             break;
         }
         case PieceType::Knight: {
@@ -166,6 +169,7 @@ bool HumanScoreGenerator::isDevelopingMove(Piece const pieceAtStart, Move const&
     return PieceType::Pawn != pieceAtStart.getType() && PieceType::King != pieceAtStart.getType() &&
            getDistanceToKing(move.first) > getDistanceToKing(move.second);
 }
+
 bool HumanScoreGenerator::isCastlingMove(Piece const pieceAtStart, Move const& move) const {
     return PieceType::King == pieceAtStart.getType() && getPositiveDelta(move.first.getX(), move.second.getX()) == 2;
 }

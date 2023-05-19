@@ -428,16 +428,23 @@ RegexPal also provides you with a larger list of regex examples as well as a reg
 
 Page copy protected against web site content infringement by Copyscape
 
-August 2014: Lately I've added many new regex pages and been making major overhauls to old ones. I have not yet had time to revise this page, so please be aware that it is not up the same standard as most pages in the tutorial. I know, and I'm working on it. :)
+August 2014: Lately I've added many new regex pages and been making major overhauls to old ones. 
+I have not yet had time to revise this page, so please be aware that it is not up the same standard as most pages in the tutorial. 
+I know, and I'm working on it. :)
 
-Regex is the gift that keeps giving. Once you learn it, you discover it comes in handy in many places where you hadn't planned to use it. On this page, we'll first look at a number of contexts and programs where you may find regex. Then we'll have a quick look at some regex flavors you may run into. Finally, we'll study some examples of regex patterns in contexts such as:
+Regex is the gift that keeps giving. 
+Once you learn it, you discover it comes in handy in many places where you hadn't planned to use it. 
+On this page, we'll first look at a number of contexts and programs where you may find regex. 
+Then we'll have a quick look at some regex flavors you may run into. 
+Finally, we'll study some examples of regex patterns in contexts such as:
 
 ✽ File Renaming
 ✽ Text Search
 ✽ Web directives (Apache)
 ✽ Database queries (MySQL)
 
-Disclaimer: I haven't edited this page in a while. As a result, the content is not as polished as most of my other pages. I hope to get to it soon.
+Disclaimer: I haven't edited this page in a while. 
+As a result, the content is not as polished as most of my other pages. I hope to get to it soon.
 
 
 Situations where Regex can Save the Day
@@ -445,11 +452,20 @@ Here are some of the thing regular expressions can help you do.
 
 1. Grabbing text in files or validating text input when programming in languages such as C, Java or PHP.
 
-2. Searching (and possibly replacing) text in files when using an advanced text editor such as EditPad Pro and Notepad++ on Windows (or TextWrangler / BBEdit on OSX), a standalone replace tool such as ABA Replace, or good old grep (the linked page has the best command-line grep for Windows).
+2. Searching (and possibly replacing) text in files when using an advanced text editor such as EditPad Pro and Notepad++ on Windows 
+(or TextWrangler / BBEdit on OSX), a standalone replace tool such as ABA Replace, or good old grep (the linked page has the best command-line grep for Windows).
 
-A few words about the tools just mentioned. Among text editors, EditPad Pro is in a league of its own because its regex engine was programmed by the creator of RegexBuddy. If you want to try EditPad Pro, download the free trial. The free Notepad++ used to be deficient in the regex department, but since version 6, it has been using the excellent PCRE engine—though the interface is still clunky. On OSX, the free TextWrangler its big brother BBEdit both claim to use PCRE. What they don't say is that the PCRE version they use is 4.0 from 17 February 2003—or so it appears to me, as it supports [:blank:] from 4.0 but not \X from 5.0. This means that a lot of juicy features are missing. Still, a ten-year-old PCRE is a lot better than JavaScript.
+A few words about the tools just mentioned. Among text editors, 
+EditPad Pro is in a league of its own because its regex engine was programmed by the creator of RegexBuddy. 
+If you want to try EditPad Pro, download the free trial. 
+The free Notepad++ used to be deficient in the regex department, but since version 6, it has been using the excellent PCRE engine—though the interface is still clunky. 
+On OSX, the free TextWrangler its big brother BBEdit both claim to use PCRE. 
+What they don't say is that the PCRE version they use is 4.0 from 17 February 2003—or so it appears to me, 
+as it supports [:blank:] from 4.0 but not \X from 5.0. This means that a lot of juicy features are missing. 
+Still, a ten-year-old PCRE is a lot better than JavaScript.
 
-For replacement in text files, I love ABA Replace. It does one job, and does it brilliantly: searching for and replacing text in a file, or many files at once. In the result window, the results change instantaneously as you tweak the expression, much as in RegexBuddy.
+For replacement in text files, I love ABA Replace. It does one job, and does it brilliantly: searching for and replacing text in a file, or many files at once. 
+In the result window, the results change instantaneously as you tweak the expression, much as in RegexBuddy.
 
 I use regex to rename files, to search in files, to make large-scale substitutions in code, in code (PHP), with databases (mySQL) and to direct my web server (Apache).
 3. Searching and replacing across pages of code when using in an IDE such as Visual Studio, Komodo IDE or even Dreamweaver's crippled ECMAScript flavor.
@@ -458,7 +474,11 @@ I use regex to rename files, to search in files, to make large-scale substitutio
 
 5. Renaming a hundred files at a time in an advanced file manager such as Directory Opus or a renamer such as PFrank (Win) or A Better Finder Rename (OSX).
 
-I should hasten up to add that there really isn't anything "like" Directory Opus. Opus is a unique tool—in my view the most important productivity tool a Windows user can have! Why such an extravagant-sounding statement? Because for most users, an enormous amount of computer time disappears unnoticed in the black hole of file operations—looking for, moving and renaming files. If you haven't seen it yet, you really owe it to yourself to take a tour of Directory Opus features or install the nag-free, fully functional 60-day trial.
+I should hasten up to add that there really isn't anything "like" Directory Opus. 
+Opus is a unique tool—in my view the most important productivity tool a Windows user can have! 
+Why such an extravagant-sounding statement? 
+Because for most users, an enormous amount of computer time disappears unnoticed in the black hole of file operations—looking for, moving and renaming files. 
+If you haven't seen it yet, you really owe it to yourself to take a tour of Directory Opus features or install the nag-free, fully functional 60-day trial.
 
 6. Searching from the command line using Perl one-liners and utilities such as grep, sed and awk.
 
@@ -474,15 +494,20 @@ If I've missed an important category, please shoot me a comment at the bottom of
 Regex Flavors
 As I'm sure you're aware, regular expressions are known by different names: regex or the increasingly infrequent regexp, and their plural regexes, regexps or regexen.
 
-More importantly, regex also comes in many flavors. In the window of RegexBuddy, a fabulous little regex tool I can't work without (more about it later, free trial download here), I can choose between contexts such as C#, Python, Java, PHP, Perl, Ruby, JavaScript, Scala, and many more. You see, everyone who implements a regex engine does so a little differently from anyone else.
+More importantly, regex also comes in many flavors. 
+In the window of RegexBuddy, a fabulous little regex tool I can't work without (more about it later, free trial download here), 
+I can choose between contexts such as C#, Python, Java, PHP, Perl, Ruby, JavaScript, Scala, and many more. 
+You see, everyone who implements a regex engine does so a little differently from anyone else.
 
 The engines behind these flavors fall into two main groups:
 ✽ regex-directed (or NFA, which stands for Nondeterministic Finite Automaton)
 ✽ text-directed (or DFA, which stands for Deterministic Finite Automaton)
 
-When you can choose between NFA or DFA, NFA is usually the fastest. That is indeed the most common implementation in modern languages.
+When you can choose between NFA or DFA, NFA is usually the fastest. 
+That is indeed the most common implementation in modern languages.
 
-It may very well be that the flavor of regex you use does not coincide with anything I use, though that would be bad luck indeed. Here are some of the flavors of regex I frequently use, and their context:
+It may very well be that the flavor of regex you use does not coincide with anything I use, though that would be bad luck indeed. 
+Here are some of the flavors of regex I frequently use, and their context:
 
 ✽ .NET flavor, when programming in C#.
 ✽ PCRE flavor, when programming in PHP and for Apache.
@@ -496,32 +521,47 @@ It may very well be that the flavor of regex you use does not coincide with anyt
 What works with one flavor very often works with the other—but there are important subtleties which I'll try to bring out as we study the features.
 
 Command-Line Searching and Replacing
-Without knowing the Perl language, if you know regex, you can make powerful Perl one-line commands to execute in your operating system's shell. For instance, you can wrap the simple \bc\w+ regex inside some Perl one-liner template code to match or replace all of a file's words that start with the letter c. For more details, see my page about How to build Perl regex one-liners.
+Without knowing the Perl language, if you know regex, you can make powerful Perl one-line commands to execute in your operating system's shell. 
+For instance, you can wrap the simple \bc\w+ regex inside some Perl one-liner template code to match or replace all of a file's words that start with the letter c. 
+For more details, see my page about How to build Perl regex one-liners.
 
-Among command-line utilities that understand regex, you may come across grep, sed, awk and others. Among those, grep is the most famous. My page about grep contains examples, as well as a download to what in my view is best version of grep for Windows (it uses the PCRE engine).
+Among command-line utilities that understand regex, you may come across grep, sed, awk and others. 
+Among those, grep is the most famous. My page about grep contains examples, as well as a download to what in my view is best version of grep for Windows (it uses the PCRE engine).
 
 Regex Examples for File Renaming
-For this section, we will use the regex syntax of Directory Opus. (On the Mac, I would use a dedicated file renamer called A Better Finder Rename, which apart from its regex functions is a little jewel as it allows non-geeks to build complex rename operations in a series of simple steps or "layers".)
+For this section, we will use the regex syntax of Directory Opus. 
+(On the Mac, I would use a dedicated file renamer called A Better Finder Rename, 
+which apart from its regex functions is a little jewel as it allows non-geeks to build complex rename operations in a series of simple steps or "layers".)
 
-The rename function in Opus allows you to save your favorite regex patterns. Since you rarely perform exactly the same rename operation, I tend to save regexes that I can reopen and quickly tweak to meet my needs.
+The rename function in Opus allows you to save your favorite regex patterns. 
+Since you rarely perform exactly the same rename operation, 
+I tend to save regexes that I can reopen and quickly tweak to meet my needs.
 
 Here are a few of my saved patterns.
 
 Changing the File Extension
-The extension in the replacement pattern below is "rar". Edit it to suit your needs.
+The extension in the replacement pattern below is "rar". 
+Edit it to suit your needs.
 
 Search pattern: ^(.*\.)[^.]+$
 Replace: \1rar
 
-Translation: At the beginning of the file name, greedily match any characters then a dot, capturing this to Group 1. The greedy dot-star will shoot to the end of the file name, then backtrack to the last dot. This capture is the stem of the file name. After this capture, match any character that is a non-dot: the extension. Replace all of this with the content of Group 1, expressed as \1 or $1 (this is the captured stem and includes the dot) and "rar".
+Translation: At the beginning of the file name, greedily match any characters then a dot, capturing this to Group 1. 
+The greedy dot-star will shoot to the end of the file name, then backtrack to the last dot.
+This capture is the stem of the file name. After this capture, match any character that is a non-dot: the extension. 
+Replace all of this with the content of Group 1, expressed as \1 or $1 (this is the captured stem and includes the dot) and "rar".
 
 Removing a Character from the File Name
-You could do this with a simple search-and-replace, but, to get accustomed to regex, here is a convoluted way to do it. The aim is to zap all dashes.
+You could do this with a simple search-and-replace, but, to get accustomed to regex, here is a convoluted way to do it. 
+The aim is to zap all dashes.
 
 Search pattern: ^([^-]*)-(.*)#
 Replace: \1\2
 
-Translation: Match and capture any non-dash characters to Group 1, match a dash, then eat up any characters, capturing those in Group 2. Replace the file name with the first group immediately followed by the second group (the dash is gone). The hash character on the first line (#) tells the DOpus engine to perform that substitution until the string stops changing. That way, all dashes are zapped one by one.
+Translation: Match and capture any non-dash characters to Group 1, match a dash, then eat up any characters, capturing those in Group 2. 
+Replace the file name with the first group immediately followed by the second group (the dash is gone). 
+The hash character on the first line (#) tells the DOpus engine to perform that substitution until the string stops changing. 
+That way, all dashes are zapped one by one.
 
 Replacing Dots with Spaces in File Names
 This pattern is for times when you have 95 files that look something like this:
@@ -555,20 +595,25 @@ Translation: The pattern is a bit long, so let's unroll it.
 
 ([^.]+)$  # Greedily eat up anything that is not a dot, until the end of the filename, capturing that in group 3 (this is the extension)
 
-The final hash character (#) tells Opus to repeat the replace operation until there are no dots left to eat and the filename has been cleaned up. The replace string takes the captured groups and inserts a space in place of each dot.
+The final hash character (#) tells Opus to repeat the replace operation until there are no dots left to eat and the filename has been cleaned up. 
+The replace string takes the captured groups and inserts a space in place of each dot.
 
 Swapping Two Parts of a Filename
 Suppose you have named a lot of movie files according to this pattern:
 
 8.2 Groundhog Day (1993).avi
 
-The number at the front is the movie's IMDB rating. The number between parentheses at the end is the movie's release year. One day, you decide that instead of sorting movies by their rating, you really want to sort them by year, which means that in the file name, you'd like to swap the position of the rating and year. You want your files to look like this:
+The number at the front is the movie's IMDB rating. The number between parentheses at the end is the movie's release year. 
+One day, you decide that instead of sorting movies by their rating, you really want to sort them by year, 
+which means that in the file name, you'd like to swap the position of the rating and year. 
+You want your files to look like this:
 
 (1993) Groundhog Day 8.2.avi
 
 Without regular expressions, you are in trouble.
 
-This is actually a fairly common scenario. It could happen for any collection of files you have tagged, such as music tracks or topo maps. Here is a regular expression that works in this case.
+This is actually a fairly common scenario. It could happen for any collection of files you have tagged, such as music tracks or topo maps. 
+Here is a regular expression that works in this case.
 
 Search pattern: ^(\d\.\d)([^(]*)(\([\d]{4}\))(.*)
 Replace: \3\2\1\4
@@ -591,33 +636,45 @@ What good are text editors if you can't perform complex searches? I checked thes
 Seven-Letter Word Containing "hay"
 Some examples may seem contrived, but having a small library of ready-made regex at your fingertips is fabulous.
 Search pattern: (?=\b\w{7}\b)\w*?hay\w*
-Translation: Look right ahead for a seven-letter word (the \b boundaries are important). Lazily eat up any word characters followed by "hay", then eat up any word characters. We know that the greedy match has to stop because the word is seven characters long.
+Translation: Look right ahead for a seven-letter word (the \b boundaries are important). Lazily eat up any word characters followed by "hay", then eat up any word characters. 
+We know that the greedy match has to stop because the word is seven characters long.
 
-Here, in our word, we allow any characters that regex calls "word characters", which, besides letters, also include digits and underscores. If we want a more conservative pattern, we just need to change the lookup:
+Here, in our word, we allow any characters that regex calls "word characters", which, besides letters, also include digits and underscores. 
+If we want a more conservative pattern, we just need to change the lookup:
 
 Traditional word (only letters): (?i)(?=\b[A-Z]{7}\b)\w*?hay\w*
 
-In this pattern, in the lookup, you can see that I replaced \w{7} with [A-Z]{7}, which matches seven capital letters. To include lowercase letters, we could have used [A-Za-z]{7}. Instead, we used the case insensitive modifier (?i). Thanks to this modifier, the pattern can match "HAY" or "hAy" just as easily as "hay". It all depends on what you want: regex puts the power is in your hands.
+In this pattern, in the lookup, you can see that I replaced \w{7} with [A-Z]{7}, which matches seven capital letters. 
+To include lowercase letters, we could have used [A-Za-z]{7}. 
+Instead, we used the case insensitive modifier (?i). 
+Thanks to this modifier, the pattern can match "HAY" or "hAy" just as easily as "hay". 
+It all depends on what you want: regex puts the power is in your hands.
 
 Line Contains both "bubble" and "gum"
 Search pattern: ^(?=.*?\bbubble\b).*?\bgum\b.*
-Translation: While anchored a the beginning of the line, look ahead for any characters followed by the word bubble. We could use a second lookahead to look for gum, but it is faster to just match the whole line, taking care to match gum on the way.
+Translation: While anchored a the beginning of the line, look ahead for any characters followed by the word bubble. 
+We could use a second lookahead to look for gum, but it is faster to just match the whole line, taking care to match gum on the way.
 
 Line Contains "boy" or "buy"
 Search pattern: \bb[ou]y\b
 Translation: Inside a word (inside two \b boundaries), match the character b, then one character that is either o or u, then y.
 
 Find Repeated Words, such as "the the"
-This is a popular example in the regex literature. I don't know about you you, but it doesn't happen all that often often that mistakenly repeated words find their way way into my text. If this example is so popular, it's probably because it's a short pattern that does a great job of showcasing the power of regex.
+This is a popular example in the regex literature. 
+I don't know about you you, but it doesn't happen all that often often that mistakenly repeated words find their way way into my text. 
+If this example is so popular, it's probably because it's a short pattern that does a great job of showcasing the power of regex.
 
-You can find a million ways to write your repeated word pattern. In this one, I used POSIX classes (available in Perl and PHP), allowing us to throw in optional punctuation between the words, in addition to optional space.
+You can find a million ways to write your repeated word pattern. In this one, I used POSIX classes (available in Perl and PHP), 
+allowing us to throw in optional punctuation between the words, in addition to optional space.
 
 Search pattern: \b([[:alpha:]]+)[ [:punct:]]+\1
-Translation: After a word delimiter, in group one, capture a positive number of letters, then eat up space characters or punctuation marks, then match the same word we captured earlier in group one.
+Translation: After a word delimiter, in group one, capture a positive number of letters, 
+then eat up space characters or punctuation marks, then match the same word we captured earlier in group one.
 
 If you don't want the punctuation, just use an \s+ in place of [ [:punct:]]+.
 
-Remember that \s eats up any white-space characters, including newlines, tabs and vertical tabs, so if this is not what you want use [ ]+ to specify space characters. The brackets are optional, but they make the space character easier to spot, especially in a variable-width font.
+Remember that \s eats up any white-space characters, including newlines, tabs and vertical tabs, so if this is not what you want use [ ]+ to specify space characters. 
+The brackets are optional, but they make the space character easier to spot, especially in a variable-width font.
 
 Line does Not Contain "boy"
 Search pattern: ^(?!.*boy).*
@@ -625,14 +682,20 @@ Translation: At the beginning of the line, if the negative lookahead can assert 
 
 Line Contains "bubble" but Neither "gum" Nor "bath"
 Search pattern: ^(?!.*gum)(?!.*bath).*?bubble.*
-Translation: At the beginning of the line, assert that what follows is not "any characters then gum", assert that what follows is not "any characters then bath", then match the whole string, making sure to pick up bubble on the way.
+Translation: At the beginning of the line, assert that what follows is not "any characters then gum", 
+assert that what follows is not "any characters then bath", then match the whole string, making sure to pick up bubble on the way.
 
 Email Address
-If I ever have to look for an email address in my text editor, frankly, I just search for @. That shows me both well-formed addresses, as well as addresses whose authors let their creativity run loose, for instance by typing DOT in place of the period.
+If I ever have to look for an email address in my text editor, frankly, I just search for @. 
+That shows me both well-formed addresses, as well as addresses whose authors let their creativity run loose, for instance by typing DOT in place of the period.
 
-When it comes to validating user input, you want an expression that checks for well-formed addresses. There are thousands of email address regexes out there. In the end, none can really tell you whether an address is valid until you send a message and the recipient replies.
+When it comes to validating user input, you want an expression that checks for well-formed addresses. 
+There are thousands of email address regexes out there. In the end, none can really tell you whether an address is valid until you send a message and the recipient replies.
 
-The regex below is borrowed from chapter 4 of Jan Goyvaert's excellent book, Regular Expressions Cookbook. I'm in tune with Jan's reasoning that what you really want is an expression that works with 999 addresses out of a thousand, an expression that doesn't require a lot of maintenance, for instance by forcing you to add new top-level domains ("dot something") every time the powers in charge of those things decide it's time to launch names ending in something like dot-phone or dot-dog.
+The regex below is borrowed from chapter 4 of Jan Goyvaert's excellent book, Regular Expressions Cookbook. 
+I'm in tune with Jan's reasoning that what you really want is an expression that works with 999 addresses out of a thousand, 
+an expression that doesn't require a lot of maintenance, for instance by forcing you to add new top-level domains ("dot something") 
+every time the powers in charge of those things decide it's time to launch names ending in something like dot-phone or dot-dog.
 
 Search pattern: (?i)\b[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}\b
 
@@ -646,9 +709,11 @@ Let's unroll this one:
 
 @                  # Match @
 
-(?:[A-Z0-9-]+\.)+  # Match one or more strings followed by a dot, such strings being made of letters, numbers and hyphens. These are the domains and sub-domains, such as post. and microsoft. in post.microsoft.com
+(?:[A-Z0-9-]+\.)+  # Match one or more strings followed by a dot, such strings being made of letters, numbers and hyphens. 
+These are the domains and sub-domains, such as post. and microsoft. in post.microsoft.com
 
-[A-Z]{2,6}         # Match two to six letters, for instance US, COM, INFO. This is meant to be the top-level domain. Yes, this also matches DOG. You have to decide if you want achieve razor precision, at the cost of needing to maintain your regex when new TLDs are introduced.
+[A-Z]{2,6}         # Match two to six letters, for instance US, COM, INFO. This is meant to be the top-level domain.
+Yes, this also matches DOG. You have to decide if you want achieve razor precision, at the cost of needing to maintain your regex when new TLDs are introduced.
 
 \b                 # Match a word boundary
 
@@ -670,7 +735,8 @@ Targeting Certain Browsers
 
 BrowserMatch \bMSIE no-gzip
 
-This directive checks if the user's browser name contains "MSIE" (with a word boundary before the "M"). If so, Apache applies what follows on the line. (In this case, no-gzip tells Apache not to compress content.)
+This directive checks if the user's browser name contains "MSIE" (with a word boundary before the "M"). 
+If so, Apache applies what follows on the line. (In this case, no-gzip tells Apache not to compress content.)
 
 Targeting Certain Files
 
@@ -693,10 +759,13 @@ Purpose: In a rewrite rule, tests for an IP range.
 RewriteCond %{TIME_HOUR} ^13$
 Purpose: In a rewrite rule, check if the hour is 1pm.
 
-There are other uses of regex in Apache. These examples should give you a taste. For background information, you may want to look at the manual page for mod_rewrite, the mod_rewrite page, the rewrite guide and the advanced rewrite guide.
+There are other uses of regex in Apache. These examples should give you a taste. 
+For background information, you may want to look at the manual page for mod_rewrite, the mod_rewrite page, the rewrite guide and the advanced rewrite guide.
 
 Is Apache using the same PCRE version as PHP?
-Not necessarily. To see which version of PCRE PHP uses, look at the result of phpinfo() and search for PCRE. In addition to the version number, you will find a reference to a directory: something like pcre-regex=/opt/pcre. Another way to find that folder is to run ldd /some/path/php | grep pcre in the shell, where "some/path" is the path returned by "which php".
+Not necessarily. To see which version of PCRE PHP uses, look at the result of phpinfo() and search for PCRE. 
+In addition to the version number, you will find a reference to a directory: something like pcre-regex=/opt/pcre. 
+Another way to find that folder is to run ldd /some/path/php | grep pcre in the shell, where "some/path" is the path returned by "which php".
 
 You can use that directory in a shell command line to get more information on your PCRE version:
 /opt/pcre/bin/pcretest -C
@@ -717,11 +786,15 @@ SELECT * FROM YourDatabase WHERE YourField NOT REGEXP "[[:digit:]]";
 
 You can use RLIKE in place of REGEXP, as the two are synonyms. But why would you?
 
-Regular expressions in MySQL are aimed to comply with POSIX 1003.2, also known as Harry Spencer's "regex 7" library. The MySQL documentation page for REGEXP states that it is incomplete, but that the full details are included in MySQL source distributions, in the regex.7 file… Okay, that's a drag, but let's download the source. Oh, no, you can't, you need a special installer just to download the source. Nevermind, here is a copy of the regex(7) manual page.
+Regular expressions in MySQL are aimed to comply with POSIX 1003.2, also known as Harry Spencer's "regex 7" library. 
+The MySQL documentation page for REGEXP states that it is incomplete, but that the full details are included in MySQL source distributions, in the regex.7 file… 
+Okay, that's a drag, but let's download the source. Oh, no, you can't, you need a special installer just to download the source. Nevermind, here is a copy of the regex(7) manual page.
 
-If you build queries in a programming language before sending them to MySQL, you have to pay particular attention to escaping contentious characters in the regex string. Your language probably has a function that will get the string ready to be passed to the database.
+If you build queries in a programming language before sending them to MySQL, you have to pay particular attention to escaping contentious characters in the regex string. 
+Your language probably has a function that will get the string ready to be passed to the database.
 
-If you are used to Perl-like regular expressions, MySQL's POSIX flavor will sound like baby talk. If you need more power, you may consider the PCRE library for MySQL. Since I upgrade my MySQL server for major releases, the risk of forward incompatibility is a bit high and I stick with regex(7).
+If you are used to Perl-like regular expressions, MySQL's POSIX flavor will sound like baby talk. If you need more power, you may consider the PCRE library for MySQL. 
+Since I upgrade my MySQL server for major releases, the risk of forward incompatibility is a bit high and I stick with regex(7).
 
 
 

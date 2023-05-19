@@ -899,10 +899,12 @@ TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithFloatOutputType
 
 TEST(StringConverterWithFormattingTest, ConvertNumberToStringWithLessFieldWidth) {
     StringConverterWithFormatting converter;
-    converter.setPrecision(15);    converter.setFieldWidth(3);
+    converter.setPrecision(15);
+    converter.setFieldWidth(3);
 
     EXPECT_EQ("12345", converter.convertToString(12345));
-    EXPECT_EQ("12345.6789", converter.convertToString(12345.6789));    EXPECT_EQ("-67890.1111", converter.convertToString(-67890.1111));
+    EXPECT_EQ("12345.6789", converter.convertToString(12345.6789));
+    EXPECT_EQ("-67890.1111", converter.convertToString(-67890.1111));
     EXPECT_EQ("  (8/3)", converter.convertToString(AlbaNumber::createFraction(8, 3)));
 }
 

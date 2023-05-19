@@ -88,7 +88,8 @@ void UciInterpreter::saveVariation(InfoDetails const& infoDetails) {
         Variation variation{infoDetails.mateValue, infoDetails.scoreInCentipawns, infoDetails.pvHalfMoves};
         if (possibleNewSize <= size) {
             m_calculationDetails.variations[index] = variation;
-        } else if (possibleNewSize == size + 1) {            m_calculationDetails.variations.emplace_back(variation);
+        } else if (possibleNewSize == size + 1) {
+            m_calculationDetails.variations.emplace_back(variation);
         } else {
             m_calculationDetails.variations.resize(possibleNewSize);
             m_calculationDetails.variations[index] = variation;

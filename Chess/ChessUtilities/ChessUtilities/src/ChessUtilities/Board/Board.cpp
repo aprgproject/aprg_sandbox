@@ -112,7 +112,8 @@ Piece Board::getPieceAt(Coordinate const& coordinate) const {
 Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
     enum class ExchangeState { Defended, Attacked };
     constexpr int PAWN_INDEX = 0, KNIGHT_INDEX = 1, BISHOP_INDEX = 2, ROOK_INDEX = 3, QUEEN_INDEX = 4, KING_INDEX = 5,
-                  SIZE = 6;    vector<int> pieceValue{1, 3, 3, 5, 9, 0};
+                  SIZE = 6;
+    vector<int> pieceValue{1, 3, 3, 5, 9, 0};
     AttackDefendCounts counts(6, AttackDefendCount{});
     retrievePawnAttackDefendCountToThis(counts[PAWN_INDEX], coordinate);
     retrieveKnightAttackDefendCountToThis(counts[KNIGHT_INDEX], coordinate);
@@ -144,7 +145,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
             exchangeCount += 2 * sameCount;
         } else if (ExchangeState::Defended == exchangeState) {
             if (counts.at(ai).attack > 0) {
-                exchangeState = ExchangeState::Attacked;                if ((totalCount.defend > 0 && pendingPieceValue + exchangeValue - pieceValue.at(ai) >= 0) ||
+                exchangeState = ExchangeState::Attacked;
+                if ((totalCount.defend > 0 && pendingPieceValue + exchangeValue - pieceValue.at(ai) >= 0) ||
                     (totalCount.defend == 0 && pendingPieceValue + exchangeValue >= 0)) {
                     exchangeValue -= pendingPieceValue;
                     pendingPieceValue = pieceValue.at(ai);
@@ -153,7 +155,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
                     exchangeCount++;
                 } else {
                     break;  // opponent dont want to exchange
-                }            } else if (counts.at(ai).attack == 0) {
+                }
+            } else if (counts.at(ai).attack == 0) {
                 ai++;
             }
         } else if (ExchangeState::Attacked == exchangeState) {
@@ -168,7 +171,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
                     exchangeCount++;
                 } else {
                     break;  // player dont want to exchange
-                }            } else if (counts.at(di).defend == 0) {
+                }
+            } else if (counts.at(di).defend == 0) {
                 di++;
             }
         } else {
@@ -178,7 +182,8 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
     return Exchange(exchangeValue, exchangeCount);
 }
 
-string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {    string result;
+string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {
+    string result;
     if (BoardOrientation::BlackUpWhiteDown == m_orientation) {
         result = string{static_cast<char>('a' + coordinate.getX()), static_cast<char>('1' + 7 - coordinate.getY())};
     } else if (BoardOrientation::WhiteUpBlackDown == m_orientation) {

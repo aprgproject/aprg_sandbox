@@ -23,6 +23,7 @@ static string s_nameOfLine;
 }  // namespace
 
 namespace alba {
+
 namespace chess {
 
 namespace ChessPeek {
@@ -331,6 +332,7 @@ void ResultPrinter::fillMovesFromBook(BookMoves& bookMoves) const {
         }
     }
 }
+
 ResultPrinter::BookMove ResultPrinter::createBookMove(
     Move const& move, Book::LineDetail const& lineDetail, Book::MoveDetail const& bookMoveDetail) const {
     return BookMove{move, getNameOfBookMove(move, lineDetail), bookMoveDetail.winPercentage};
@@ -491,7 +493,8 @@ string ResultPrinter::getDisplayableString(
     int const mateValue, int const engineScore, HumanScoreGenerator::Score const humanScore) const {
     stringstream ss;
     if (mateValue == 0) {
-        ss << fixed << setprecision(2) << setfill('0') << static_cast<double>(engineScore) / 100;    } else {
+        ss << fixed << setprecision(2) << setfill('0') << static_cast<double>(engineScore) / 100;
+    } else {
         ss << "Mate: " << mateValue;
     }
     ss << " (" << hex << uppercase << humanScore << dec << ")";

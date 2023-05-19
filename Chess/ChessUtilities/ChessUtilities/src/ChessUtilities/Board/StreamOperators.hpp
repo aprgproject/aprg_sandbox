@@ -16,6 +16,7 @@ std::ostream& operator<<(std::ostream& out, Exchange const& exchange);
 
 std::ostream& operator<<(std::ostream& out, Move const& move);
 std::istream& operator>>(std::istream& in, Move& move);
+
 std::ostream& operator<<(std::ostream& out, Board const& board);
 
 std::ostream& operator<<(std::ostream& out, BoardValue const& boardValue);

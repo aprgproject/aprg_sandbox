@@ -35,74 +35,10 @@ Editors
 -------> you can combine "movement commands" and "editing commands" to create a "compound command"
 -------> Example: you can combine the command "to go forward by a word" with the command "to change something" means you can "replace the word"
 
--> we dont want to use the mouse to navigate
+-> We dont want to use the mouse to navigate
 ---> its imprecise and very slow
 ---> we just use the keyboard
 ---> the editor should work on the speed you think
-
----> Vim’s interface is a programming language
-
----> The most important idea in Vim is that Vim’s interface itself is a programming language. 
------> Keystrokes (with mnemonic names) are commands, and these commands compose. 
------> This enables efficient movement and edits, especially once the commands become muscle memory.
-
----> Movement
------> You should spend most of your time in Normal mode, using movement commands to navigate the buffer. 
------> Movements in Vim are also called “nouns”, because they refer to chunks of text.
--------> Basic movement: hjkl (left, down, up, right)
--------> Words: w (next word), b (beginning of word), e (end of word)
--------> Lines: 0 (beginning of line), ^ (first non-blank character), $ (end of line)
--------> Screen: H (top of screen), M (middle of screen), L (bottom of screen)
--------> Scroll: Ctrl-u (up), Ctrl-d (down)
--------> File: gg (beginning of file), G (end of file)
--------> Line numbers: :{number}<CR> or {number}G (line {number})
--------> Misc: % (corresponding item)
--------> Find: f{character}, t{character}, F{character}, T{character}
----------> find/to forward/backward {character} on the current line
----------> , / ; for navigating matches
--------> Search: /{regex}, n / N for navigating matches
-
----> Selection
------> Visual modes:
--------> Visual: v
--------> Visual Line: V
--------> Visual Block: Ctrl-v
------> Can use movement keys to make selection.
-
----> Edits
------> Everything that you used to do with the mouse, you now do with the keyboard using editing commands that compose with movement commands. 
------> Here’s where Vim’s interface starts to look like a programming language. 
------> Vim’s editing commands are also called “verbs”, because verbs act on nouns.
--------> i enter Insert mode
----------> but for manipulating/deleting text, want to use something more than backspace
--------> o / O insert line below / above
--------> d{motion} delete {motion}
----------> e.g. dw is delete word, d$ is delete to end of line, d0 is delete to beginning of line
--------> c{motion} change {motion}
----------> e.g. cw is change word
----------> like d{motion} followed by i
--------> x delete character (equal do dl)
--------> s substitute character (equal to xi)
--------> Visual mode + manipulation
----------> select text, d to delete it or c to change it
--------> u to undo, <C-r> to redo
--------> y to copy / “yank” (some other commands like d also copy)
--------> p to paste
--------> Lots more to learn: e.g. ~ flips the case of a character
-
----> Counts
------> You can combine nouns and verbs with a count, which will perform a given action a number of times.
--------> 3w move 3 words forward
--------> 5j move 5 lines down
--------> 7dw delete 7 words
-
----> Modifiers
------> You can use modifiers to change the meaning of a noun. 
------> Some modifiers are i, which means “inner” or “inside”, and a, which means “around”.
--------> ci( change the contents inside the current pair of parentheses
--------> ci[ change the contents inside the current pair of square brackets
--------> da' delete a single-quoted string, including the surrounding single quotes
-
 
 -> Modes:
 ---> shown the at the bottom-left of vim
@@ -110,7 +46,9 @@ Editors
 ---> Keystrokes:
 -----> 'esc' takes you back to "normal mode"
 -----> 'i' takes you to "insert mode"
--------> you can type in text
+-------> you can type in text to insert
+-----> 'R' takes you to replace mode (overwrite mode)
+-------> you can type in text to overwrite
 -----> 'v' takes you to "visual mode" (selection)
 -------> you can select a bunch of text
 -----> 'V' takes you to "visual line mode" (selection)
@@ -123,7 +61,7 @@ Editors
 -> Notation with CTRL
 ---> CTRL+V can be
 -----> ^V
------> CTRL-V
+-----> Ctrl+V
 -----> <C-V> (vim version)
 
 -> X-commands (in normal mode)
@@ -131,16 +69,29 @@ Editors
 ---> Basic X-commands:
 -----> ':q' means quit
 -----> ':w' means write (means save the file)
+-------> ':w [FILENAME]' save a new file
+-------> ':#,# w [FILENAME]' save the chunk of text between two lines (#,#)
 -----> ':wq' means write then quit
 -------> ':x' means write then quit as well (save so much time by avoid one character lol)
 -----> ':e' means edit
 -------> if you give it a name, you can edit that file (vim can have many buffers open)
+-----> ':new' means new file
 -----> ':ls' means list the buffers open
 -------> it will show you the files you have open
 -----> ':bn' means go to the next buffer
 -----> ':h' means help 
 -------> ":help write" shows the help contents of the write command
 -------> ":help w" shows the help contents of the "w" keystoke (move words forward)
+-------> ":help c_<T"
+-------> ":help insert-index"
+-------> ":help user-manual"
+-----> Executing external commands
+-------> Type :! followed by an external command to execute that command.
+-----> Setting options
+-------> :set ic (will set ignore case on search)
+-----> Split windows
+-------> ':sp' means split to multiple windows of the same file
+---------> what if you want to see the top line of text and bottom line of text at the same time
 
 -> Moving around the file (in normal mode)
 ---> You can disable the arrow keys when using vim to avoid bad habits.
@@ -151,99 +102,150 @@ Editors
 ----------> nnoremap <Right> :echoe "Use l" <CR>
 ----------> nnoremap <Up> :echoe "Use k" <CR>
 ----------> nnoremap <Down> :echoe "Use j" <CR>
----> Keystrokes:
------> 'w' move forward by words (beginning of word)
------> 'b' move backward by words (beginning of word)
------> 'e' move forward by words (end of the word)
------> '0' moves at the start of the line
------> '$' moves at the end of the line
------> '^' moves at the start of the nonwhitespace character of the line
------> 'H' goes to the top of the screen 
------> 'M' goes to the middle of the screen 
------> 'L' goes to the bottom of the screen  
------> 'ctrl+d' goes down by a page 
------> 'ctrl+u' goes up by a page 
------> 'gg' moves at the beginning of the file
------> 'G' moves at the end of the file
------> ':[linenumber]' can get you to the exact line number of the file
------> '%' move to the corresponding item (for example in a parenthesis block, it will go the start of the parenthesis)
------> 'f' and then 'character' means find (search forward) the first occurrence of that character
------> 'F' and then 'character' means find (search backward) the first occurrence of that character
------> 't' and then 'character' means jump to (search forward) the first occurrence of that character (one character before the searched character)
------> 'T' and then 'character' means jump to (search backward) the first occurrence of that character (one character before the searched character)
----> Composability of keystrokes:
------> '5' then 'j' means go down 5 times
------> '3' then 'w' means move forward by 3 words
 
--> Searching (in normal mode):
----> Type in '/' and the cursor moves at the bottom-left of the screen and you can regex search to the next occurence of the regex hit
------> 'n' mean next occurence (this is after performing the regex search)
+---> Vim’s interface is a programming language
+-----> The most important idea in Vim is that Vim’s interface itself is a programming language. 
+-------> Keystrokes (with mnemonic names) are commands, and these commands compose. 
+-------> This enables efficient movement and edits, especially once the commands become muscle memory.
 
--> Modifying the file (goes into insert mode)
----> 'i' for insert
----> 'a' for append
----> 'o' for opens a new line (creates a new line below the cursor)
----> 'O' for opens a new line (creates a new line above the cursor)
+---> Format of a command in normal mode is:
+-----> [number] command object or command number [object]
 
--> Selecting a block of text (visual mode)
----> You can still use the movement keystrokes you can use in normal mode.
+---> Movement
+-----> You should spend most of your time in Normal mode, using movement commands to navigate the buffer. 
+-----> Movements in Vim are also called “nouns”, because they refer to chunks of text.
+-------> Basic movement: 'h', 'j', 'k', 'l' (left, down, up, right)
+-------> Words: 'w' (next word), b (beginning of word), 'e' (end of word)
+-------> Lines: '0' (beginning of line), '^' (first non-blank character), '$' (end of line)
+-------> Screen: 'H' (top of screen), 'M' (middle of screen), 'L' (bottom of screen)
+-------> Scroll: Ctrl+'u' (up), Ctrl+'d' (down)
+-------> File: 'gg' (beginning of file), 'G' (end of file)
+-------> Line numbers: :{number}<CR> or {number}G (line {number})
+-------> Misc: '%' (corresponding item)
+---------> Typeing % while the cursor is within a parentheses, braces and brackets locates its matching pair
+---------> Useful for handling parenthesis, braces and brackets
+-------> Find: 'f{character}', 't{character}', 'F{character}', 'T{character}'
+---------> find/to forward/backward {character} on the current line
+---------> ',' and ';' for navigating matches
+-------> Search (in normal mode):
+---------> Type in '/' and the cursor moves at the bottom-left of the screen and you can regex search to the next occurence of the regex hit
+---------> Forward Search: '/{regex}'
+---------> Backward Search: '?{regex}'
+---------> 'n' and 'N' for navigating matches (this is after performing the regex search)
+-------> See Substitute section for search and replace
+-----> Common uses:
+-------> 'w' move forward by words (beginning of word)
+-------> 'b' move backward by words (beginning of word)
+-------> 'e' move forward by words (end of the word)
+-------> '0' moves at the start of the line
+-------> '$' moves at the end of the line
+-------> '^' moves at the start of the nonwhitespace character of the line
+-------> 'H' goes to the top of the screen 
+-------> 'M' goes to the middle of the screen 
+-------> 'L' goes to the bottom of the screen  
+-------> 'ctrl+d' goes down by a page 
+-------> 'ctrl+u' goes up by a page 
+-------> 'gg' moves at the beginning of the file
+-------> 'G' moves at the end of the file
+-------> ':[linenumber]' can get you to the exact line number of the file
+-------> '%' move to the corresponding item (for example in a parenthesis block, it will go the start of the parenthesis)
+-------> 'f' and then 'character' means find (search forward) the first occurrence of that character
+-------> 'F' and then 'character' means find (search backward) the first occurrence of that character
+-------> 't' and then 'character' means jump to (search forward) the first occurrence of that character (one character before the searched character)
+-------> 'T' and then 'character' means jump to (search backward) the first occurrence of that character (one character before the searched character)
+-----> Composability of movement:
+-------> '5' then 'j' means go down 5 times
+-------> '3' then 'w' means move forward by 3 words
 
--> Deleting text
----> Can be composed with movement keystrokes:
------> 'd' then 'e' means delete to the end of the word
------> 'd' then '$' means delete to the end of the line
------> 'd' then '0' means delete to the start of the line
------> 'd' then '^' means delete until the non white space character at the start of the line
------> 'd' then '3' then 'j' means delete three lines down
------> 'd' then '3' then 'w' means delete the next three words
------> 'd' then 'l' means delete one thing to the right
------> 'x' means delete the character on the cursor
----> note: this also can be done in the visual modes
+---> Selection
+-----> Visual modes:
+-------> Visual: 'v'
+-------> Visual Line: 'V'
+-------> Visual Block: Ctrl+'v'
+-----> Can use movement keys to make selection.
 
--> Changing text (goes into insert mode)
----> Can be composed with movement keystrokes:
------> 'c' then '3' then 'w' means delete the next three words and then go to insert mode
----> Substitute:
------> 's' means delete the character on the cursor and go to insert mode
---------> equivalent to 'd' then 'l' then 'i'
----> Flip the case:
------> '~' means flip the case the character on the cursor and move to the right
---------> '3' then '~' changes 3 characters
----> note: this also can be done in the visual modes
+---> Edits
+-----> Everything that you used to do with the mouse, you now do with the keyboard using editing commands that compose with movement commands. 
+-----> Here’s where Vim’s interface starts to look like a programming language. 
+-----> Vim’s editing commands are also called “verbs”, because verbs act on nouns.
+-----> NOTE: this also can be done in the visual modes
+-----> Insert text (goes into insert mode)
+-------> 'i' enter Insert mode
+---------> but for manipulating/deleting text, want to use something more than backspace
+-------> 'o' insert line below, 'O' insert line above
+-------> 'a' append text after the cursor, 'A' append text at the end of the line
+-----> Overwrite text (goes into replace mode (overwrite mode))
+-------> 'R' enter overwrite mode
+-----> Deleting text (goes into insert mode)
+-------> 'd{motion}' delete {motion}
+---------> e.g. dw is delete word, 'd$' is delete to end of line, 'd0' is delete to beginning of line
+-------> 'x' delete character (equal do 'dl')
+-------> Can be composed with movement keystrokes:
+---------> 'd' then 'e' means delete to the end of the word
+---------> 'd' then '$' means delete to the end of the line
+---------> 'd' then '0' means delete to the start of the line
+---------> 'd' then '^' means delete until the non white space character at the start of the line
+---------> 'd' then '3' then 'j' means delete three lines down
+---------> 'd' then '3' then 'w' means delete the next three words
+---------> 'd' then 'l' means delete one thing to the right
+---------> 'x' means delete the character on the cursor
+-------> NOTE: this also can be done in the visual modes
+-----> Changing text (goes into insert mode)
+-------> 'c{motion}' change {motion}
+---------> e.g. 'cw' is change word
+---------> like 'd{motion}' followed by i
+-------> Can be composed with movement keystrokes:
+---------> 'c' then '3' then 'w' means delete the next three words and then go to insert mode
+-----> Substitute:
+-------> 's' means delete the character on the cursor and go to insert mode
+-------> 's' substitute character (equal to 'xi')
+-------> Substitute or (search and replace)
+----------> ':s' lets you substitute like sed 
+------------> ':s/foo/bar' this means regex search for "foo" replace with "bar" on the first hit in a line
+------------> ':s/foo/bar/g' this means regex search for "foo" replace with "bar" on all hits in a line
+------------> ':s#,#/foo/bar/g' this means regex search for "foo" replace with "bar" where #,# are the numbers of the two lines.
+------------> ':s%/foo/bar/g' this means regex search for "foo" replace with "bar" in the whole file
+------------> ':s%/foo/bar/gc' this means regex search for "foo" replace with "bar" in the whole file with confirmation('c') each time
+--------------> http://vim.wikia.com/wiki/Search_and_replace
+--------------> "\1" means the replace with the captured text in the parenthesis (similar to sed)
+-----> Visual mode + manipulation
+-------> select text, 'd' to delete it or 'c' to change it
+-----> Undo and Redo
+-------> 'u' to undo
+-------> 'U' to undo all in the line
+-------> CTRL+R to redo
+-----> Copy and Paste (puts you into normal mode)
+-------> 'y' to copy or "yank" (some other commands with d also copy)
+----------> 'yy' copies the whole line
+----------> 'yw' copies the word
+--------> 'p' to paste or put (you can pasted deleted items using d)
+-----> Repeat
+-------> '.' repeats the last edit
+-----> Flip the case:
+-------> '~' means flip the case the character on the cursor and move to the right
+----------> '3' then '~' changes 3 characters
 
--> undo and redo
----> 'u' to undo
----> CTRL+R to redo
+---> Counts
+-----> You can combine nouns and verbs with a count, which will perform a given action a number of times.
+-------> '3w' move 3 words forward
+-------> '5j' move 5 lines down
+-------> '7dw' delete 7 words
 
--> copy and paste (puts you into normal mode)
----> 'y' to copying (yanking)
------> 'yy' copies the whole line
------> 'yw' copies the word
----> 'p' to paste
-
--> repeat
----> '.' repeats the last edit
-
--> ".vimrc"
----> can configure tons of things (syntax highlighting, backspace usage etc)
----> look for inspiration from other people in github
-
--> Search and replace
----> ':%s/foo/bar/g' this means regex search for "foo" replace with "bar" globally in the file
------> http://vim.wikia.com/wiki/Search_and_replace
------> "\1" means the replace with the captured text in the parenthesis (similar to sed)
-
--> Split windows
----> ':sp' means split to multiple windows of the same file
------> what if you want to see the top line of text and bottom line of text at the same time
+---> Modifiers
+-----> You can use modifiers to change the meaning of a noun. 
+-----> Some modifiers are i, which means “inner” or “inside”, and a, which means “around”.
+-------> 'ci'( change the contents inside the current pair of parentheses
+-------> 'ci'[ change the contents inside the current pair of square brackets
+-------> 'da' delete a single-quoted string, including the surrounding single quotes
 
 -> Macros
 ---> 'q' then 'any letter' and it will record a macro under that letter
 ---> '@' then 'any letter' replays the macro
 ---> Example: You can change an xml file into a json file.
 
--> Take note of which keys are movement keys, selection keys edits keys, count keys and modifier keys (check lecture)
----> Modifiers keys are really helpful
+-> ".vimrc"
+---> can configure tons of things (syntax highlighting, backspace usage etc)
+---> look for inspiration from other people in github
 
 
 
@@ -535,7 +537,7 @@ Editors
 -------> Visual mode with v, 
 -------> Visual Line mode with V, 
 -------> Visual Block mode with <C-v> 
--------> (Ctrl-V, sometimes also written ^V), 
+-------> (Ctrl+V, sometimes also written ^V), 
 -------> and Command-line mode with :.
 -----> You use the <ESC> key a lot when using Vim: consider remapping Caps Lock to Escape (macOS instructions).
 
@@ -582,7 +584,7 @@ Editors
 -------> Words: w (next word), b (beginning of word), e (end of word)
 -------> Lines: 0 (beginning of line), ^ (first non-blank character), $ (end of line)
 -------> Screen: H (top of screen), M (middle of screen), L (bottom of screen)
--------> Scroll: Ctrl-u (up), Ctrl-d (down)
+-------> Scroll: Ctrl+u (up), Ctrl+d (down)
 -------> File: gg (beginning of file), G (end of file)
 -------> Line numbers: :{number}<CR> or {number}G (line {number})
 -------> Misc: % (corresponding item)
@@ -595,7 +597,7 @@ Editors
 -----> Visual modes:
 -------> Visual: v
 -------> Visual Line: V
--------> Visual Block: Ctrl-v
+-------> Visual Block: Ctrl+v
 -----> Can use movement keys to make selection.
 
 ---> Edits
@@ -785,7 +787,7 @@ Editors
 -------> Create the plugins directory with mkdir -p ~/.vim/pack/vendor/start
 -------> Download the plugin: cd ~/.vim/pack/vendor/start; git clone https://github.com/ctrlpvim/ctrlp.vim
 -------> Read the documentation for the plugin. Try using CtrlP to locate a file by navigating to a project directory, opening Vim, and using the Vim command-line to start :CtrlP.
--------> Customize CtrlP by adding configuration to your ~/.vimrc to open CtrlP by pressing Ctrl-P.
+-------> Customize CtrlP by adding configuration to your ~/.vimrc to open CtrlP by pressing Ctrl+P.
 -----> (4) To practice using Vim, re-do the Demo from lecture on your own machine.
 -----> (5) Use Vim for all your text editing for the next month. 
 -------> Whenever something seems inefficient, or when you think “there must be a better way”, try Googling it, there probably is. 

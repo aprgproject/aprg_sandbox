@@ -1,10 +1,12 @@
 
 Common commands:
 
--> Help:---> git help
+-> Help:
+---> git help
 
 -> Stage or add a file one by one to be tracked by git (can be changed files or modified files):
----> git add FileName1 FileName2-----> Note: git add for deleted files as well
+---> git add FileName1 FileName2
+-----> Note: git add for deleted files as well
 
 -> Stage or add multiple files to be tracked by git (multiple changed files or modified files):
 ---> git add .   // all files
@@ -34,9 +36,11 @@ Common commands:
 -----> git diff HashStringOfTheOldestCommit.. // (if end of ".." is blank then it means use HEAD as end)
 ---> show changes with colors
 -----> git diff --color-words
+
 -> Check all commits:
 ---> git log
------> by default, git log shows you a flatten version of the version history---> git log --all --graph --decorate   // shows the changes in a graph
+-----> by default, git log shows you a flatten version of the version history
+---> git log --all --graph --decorate   // shows the changes in a graph
 ---> git log --all --graph --decorate --oneline   // shows the changes in a graph with less 
 ---> git log --oneline // shows a list of commits, each line shows hash string id of the commit and the commit message
 ---> git log --patch // shows the diff of each commit
@@ -149,10 +153,12 @@ Common commands:
 
 Less common commands:
 
--> Set name and email ---> git config --global user.email "detectivemark7@gmail.com"
+-> Set name and email 
+---> git config --global user.email "detectivemark7@gmail.com"
 ---> git config --global user.name "detectivemark7"
 
--> Clone:---> git clone git@github.com:detectivemark7/aprg.git
+-> Clone:
+---> git clone git@github.com:detectivemark7/aprg.git
 ---> git clone --shallow URL    // --shallow means avoid getting the whole version history and get just the latest snapshot (useful for big repositories)
 
 -> Create a git local repository:
@@ -249,9 +255,11 @@ Less common commands:
 
 Carat vs Tilde (specifying revisions):
 -> Source: https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git/2222920#2222920
+
 -> Rules of thumb
 ---> Use ~ most of the time — to go back a number of generations, usually what you want
 ---> Use ^ on merge commits — because they have two or more (immediate) parents
+
 -> Mnemonics:
 ---> Tilde ~ is almost linear in appearance and wants to go backward in a straight line
 ---> Caret ^ suggests an interesting segment of a tree or a fork in the road
@@ -312,7 +320,8 @@ The Three States:
 GIT underneath (data model):
 
 -> Git uses this constructs:
----> "tree" stands for folder---> "blob" stands for a file
+---> "tree" stands for folder
+---> "blob" stands for a file
 ---> "commit" contains information about a commit
 -----> parents: array of commits
 -----> author: string
@@ -376,10 +385,12 @@ GIT underneath (data model):
 ---> Git has a "staging area" which tells what changes should be included in the next snapshot we take
 
 -> commands explanation
--> git init---> creates the git contents (but still empty)
+-> git init
+---> creates the git contents (but still empty)
 -> git add
 ---> adds a change in the staging area
--> git commit---> creates a object(commit) and adds it in the DB
+-> git commit
+---> creates a object(commit) and adds it in the DB
 -> git log
 ---> by default, git log shows you a flatten version of the version history
 -> git cat-file
@@ -926,3 +937,5 @@ Other interesting topics:
 -----> (9) Once you get used to command line applications GUI tools can feel cumbersome/bloated. 
 -------> A nice compromise between the two are ncurses based tools which can be navigated from the command line and still provide an interactive interface. 
 -------> Git has tig, try installing it and running it in a repo. You can find some usage examples here.
+
+

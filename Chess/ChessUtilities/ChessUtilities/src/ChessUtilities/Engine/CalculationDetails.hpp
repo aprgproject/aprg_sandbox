@@ -11,6 +11,7 @@ struct Variation {
     int scoreInCentipawns;
     stringHelper::strings halfMoves;
 };
+
 using Variations = std::vector<Variation>;
 
 struct CalculationDetails {

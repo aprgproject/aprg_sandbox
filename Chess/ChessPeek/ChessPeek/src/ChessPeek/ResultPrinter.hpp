@@ -32,6 +32,7 @@ public:
         HumanScoreGenerator::Score humanScore;
         std::vector<Move> halfMoves;
     };
+
     struct BookMove {
         Move move;
         std::string nameOfLineInBook;
@@ -100,7 +101,8 @@ private:
         int const mateValue, int const engineScore, HumanScoreGenerator::Score const humanScore) const;
     std::string getDisplayableString(int const mateValue, int const engineScore) const;
     std::string formatToHeaderString(std::string const& content) const;
-    std::string getDisplayableStringForABoardCell(        Piece const& piece, int const moveNumber, std::optional<char> const& firstChar) const;
+    std::string getDisplayableStringForABoardCell(
+        Piece const& piece, int const moveNumber, std::optional<char> const& firstChar) const;
     std::optional<char> getFirstCharOfABoardCell(bool const isCertainPreMove, bool isPossiblePreMove) const;
     ScorePair getBestAndWorstScores(Variations const& variations) const;
     int getNumberOfColumnsOfGrid(int const numberOfBoards) const;

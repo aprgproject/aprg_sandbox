@@ -39,7 +39,8 @@ ostream& operator<<(ostream& out, Exchange const& exchange) {
 
 ostream& operator<<(ostream& out, Move const& move) {
     out << move.first.getX() << " ";
-    out << move.first.getY() << " ";    out << move.second.getX() << " ";
+    out << move.first.getY() << " ";
+    out << move.second.getX() << " ";
     out << move.second.getY();
     return out;
 }

@@ -3,9 +3,11 @@ For Git and Vim check other more dedicated notes.
 
 Virtual Machines
 
--> What are VMs?---> Simulated computers
+-> What are VMs?
+---> Simulated computers
 ---> Lets you run an entire OS and bunch of software thats isolates your host environment
 ---> Its configurable. So you can set your how much resources can be used in the VM.
+
 -> Usage of VMs
 ---> You can use it to experiment with the OS and new software without any risks.
 ---> You can use it for applications that run in a specific operating system.
@@ -73,9 +75,9 @@ Shell and scripting
 
 -> Common shortcuts:
 ---> CTRL+L - lets you clear your screen
----> CTRL+R - autocomplete based on bash history
 ---> CTRL+A - jumps to the start of the current line
 ---> CTRL+E - jumps to the end of the current line
+---> CTRL+R - autocomplete based on bash history
 ---> CTRL+R - backwards search for previous command (just keep hitting CTRL-R till you find the what your looking for)
 
 -> Common commands
@@ -119,6 +121,7 @@ Shell and scripting
 ---> tree - similar to ls but graphical output
 ---> broot - similar to ls but graphical output has interactive search as well
 ---> nnn - similar to windows explorer but in terminal
+-----> Press q repetitively to quit
 ---> fd - similar to find but can use regex
 ---> locate - similar to find but builds an index so it can be faster
 -----> use updatedb to update the index
@@ -146,7 +149,8 @@ Shell and scripting
 ---> rlwrap - adds history and ctrl support to REPLs (Read–eval–print loop) that dont already have them
 
 -> Shell provides you more than commands
----> You can invoke any program in your computer---> Command line tools exist for pretty much anything you may want.
+---> You can invoke any program in your computer
+---> Command line tools exist for pretty much anything you may want.
 ---> More efficient than their GUI counterparts.
 
 -> Shell provides an interactive programming language (often referred to as scripting)
@@ -229,10 +233,12 @@ Shell and scripting
 -------> forms the basis for much data-wrangling, as we’ll cover later
 
 -> Loops
----> for i in $(seq 1 5); do echo hello; done-----> This reads: For i in list (1 to 5); 
+---> for i in $(seq 1 5); do echo hello; done
+-----> This reads: For i in list (1 to 5); 
 -----> Note: New lines are semicolon and semicolons are new lines (they are interchangable)
 -----> Note: Bash has no curly brackets, it usually instead have unique keyword for starting and ending a block ("do" and "done" in this case)
------> Note: The list is actually just space separated.-------> All the command "seq 1 5" does is to just print 1 to 5
+-----> Note: The list is actually just space separated.
+-------> All the command "seq 1 5" does is to just print 1 to 5
 -------> So this for command is just gonna assign i for every space separated value on the list.
 
 -> Program substitution
@@ -295,10 +301,12 @@ Shell and scripting
 -----> NOTE: the output would be concatenated as well.
 
 -> Loop example with if statement
----> for f in $(ls); do if test -d $f; then echo dir $f; fi; done-----> This prints only the directories listed in the directory.
+---> for f in $(ls); do if test -d $f; then echo dir $f; fi; done
+-----> This prints only the directories listed in the directory.
 -----> This follows the form: if CONDITION; then BODY; fi
 -----> Every program you run in the command line will exit with an exit code
--------> $? has the current exit code-------> In general, every non zero exit code is a failure and zero means success.
+-------> $? has the current exit code
+-------> In general, every non zero exit code is a failure and zero means success.
 -----> The if statement just runs the command in the CONDITION, and if the exit code is zero it will run the BODY.
 -----> The "test" command has applications (strings, integers, file) and in general it just test the condition and exit with an exit code depending on its usage.
 -------> Check the manual for "test" for more information
@@ -319,10 +327,12 @@ Shell and scripting
 
 -> Open and close square brackets ([])
 ---> Open square bracket program is just the same with the test command (check manual of test)
----> Close square bracket is just an argument to opern square bracket program on your machine.---> Open square bracket program requires that the last argument of the program is a close square bracket
+---> Close square bracket is just an argument to opern square bracket program on your machine.
+---> Open square bracket program requires that the last argument of the program is a close square bracket
 ---> You can do this(equivalent to the previous example): for f in $(ls); do if [ -d $f ]; then echo dir $f; fi; done
 ---> Open square bracket is just a program on your machine.
 -----> In fact run: "which [" -> and it will print the location of echo command ("/usr/bin/[")
+
 -> Problem with white spaces
 ---> This loop is problematic: "for f in $(ls)", because if something is named with a whitespace it will in different entries.
 -----> Having a folder with a name "My Documents" will have two separate entries: "My" and "Documents"
@@ -348,10 +358,12 @@ Shell and scripting
 
 -> Globbing
 ---> "*" lets you match any string of characters that are files/directories in the current directory
------> "ls *" will list all files/directories -----> "echo b/c/*.txt" will display all txt files in "b/c" path
+-----> "ls *" will list all files/directories 
+-----> "echo b/c/*.txt" will display all txt files in "b/c" path
 ---> "?" lets you match any single character
 -----> "ls ???" will list any files/directories with 3 characters
----> "{}" lets you match two conditions-----> "ls {b,r}*" will list any files/directories that starts with a "b" or "r"
+---> "{}" lets you match two conditions
+-----> "ls {b,r}*" will list any files/directories that starts with a "b" or "r"
 -----> this expands to "ls b* r*"
 -------> note that "mv aaa(.txt)" -> expands to "mv aaa aaa.txt" -> which renames aaa to aaa.txt
 -----> "touch {a,b}{a,b}.txt" lets create 4 empty files
@@ -418,10 +430,12 @@ Shell and scripting
 ---> Useful when you want to save to a file and see it in stdout as well
 
 -> grep examples:
----> ls | grep o-----> This display every file/directory with an "o" in it.
+---> ls | grep o
+-----> This display every file/directory with an "o" in it.
 ---> ls | grep [REGEX EXPRESSION]
 -----> This display every file/directory that satisfies the regex expression
----> journalctrl -b | grep -i kernel | tail -n5-----> This displays the last file lines of boot log with the word "kernel" on it.
+---> journalctrl -b | grep -i kernel | tail -n5
+-----> This displays the last file lines of boot log with the word "kernel" on it.
 
 -> sendmail examples:
 ---> who | sendmail -t me@example.com
@@ -431,9 +445,11 @@ Shell and scripting
 ---> (;) lets you combine outputs
 ---> (who; ps aux) | grep jon | head -n 5
 -----> This shows the current users of the machine and the process report containing the word "jon" and just shows the first 5 lines.
+
 -> Process substitution
 ---> Lets you want to find the difference between the boot logs.
------> You can do this:-------> journalctl -b -1 > LastBoot.txt
+-----> You can do this:
+-------> journalctl -b -1 > LastBoot.txt
 -------> journalctl -b -2 > SecondToTheLastBoot.txt
 -------> diff -u LastBoot.txt SecondToTheLastBoot.txt
 -----> Better way is:
@@ -446,10 +462,12 @@ Shell and scripting
 
 
 -> Tail follow example:
----> Create file count.sh that has this line (this will count to 1000 per second):-----> "for i in $(seq 1 1000); do echo hello; sleep 1; done"
+---> Create file count.sh that has this line (this will count to 1000 per second):
+-----> "for i in $(seq 1 1000); do echo hello; sleep 1; done"
 ---> Run count.sh in the background and put its output to a file
 -----> "./count.sh > count.log &"
----> Use tail to display the latest values-----> "tail -f count.log"
+---> Use tail to display the latest values
+-----> "tail -f count.log"
 -----> -f means follow and this continuously prints the lines in the file
 
 -> Processes commands
@@ -466,10 +484,12 @@ Shell and scripting
 -----> kill -STOP %1
 ---> pkill 
 -----> sends a signal to process the matches the pgrep
------> These are similar: -------> pkill server
+-----> These are similar: 
+-------> pkill server
 -------> kill &(pgrep server)
 ---> kill -l
------> lists all the signals that kill can send-------> default is SIGKILL(9), which tells the process to exit right now
+-----> lists all the signals that kill can send
+-------> default is SIGKILL(9), which tells the process to exit right now
 ---> kill -s TERM 20156
 -----> tells process with pid 20156 to exit politely
 -----> SIGTERM tells the process to exit, equivalent to CTRL+C
@@ -516,6 +536,7 @@ Command line environment
 -----> much more poweful than SIGINT(CTRL+C)
 ---> SIGSTOP is CTRL+Z
 -----> program is just suspended
+-----> CTRL+Z stops the current process and put in the background
 
 -> Job Control
 ---> Useful for running things on the background
@@ -589,10 +610,12 @@ Command line environment
 
 -> Aliases
 ---> Create an alias for a command.
----> You can do this:-----> alias l2="ls -l"
+---> You can do this:
+-----> alias l2="ls -l"
 -----> l2
 ---> You can shorten git status:
------> alias gs="git status"-----> gs
+-----> alias gs="git status"
+-----> gs
 ---> You can know what is being aliased using "which" command:
 -----> which l2
 ---> Aliases can be compounded:
@@ -605,10 +628,12 @@ Command line environment
 -------> shows l3="l2 -a"
 ---> You can call the non-aliased command using back slash:
 -----> \ls
----> You can call the non-aliased function using "command":-----> command ls
+---> You can call the non-aliased function using "command":
+-----> command ls
 ---> You can remove the alias by using "unalias"
 -----> unalias ls
----> Note: Aliases needs to be done everytime a new command line session is started-----> You can add it to .bashrc or .bash_profile.
+---> Note: Aliases needs to be done everytime a new command line session is started
+-----> You can add it to .bashrc or .bash_profile.
 -----> It might be a good idea to use source:
 -------> source ~/.aliases
 
@@ -732,8 +757,10 @@ Command line environment
 
 
 Data wrangling
+
 -> Data wrangling means you want to transform a bunch of text (usually you want less text).
 ---> grep and | are examples of data wrangling
+
 -> ssh tsp journalctl > tsp.log
 ---> just for demo (in case network cuts out)
 ---> you can also just pipe it directly
@@ -742,7 +769,8 @@ Data wrangling
 -----> ssh tsp 'journalctl | grep ssh | grep "Disconnected from"'
 
 -> cat tsp.log | grep sshd | "Disconnected from"
----> shows disconnected users---> but needs to remove other "crap" from the line
+---> shows disconnected users
+---> but needs to remove other "crap" from the line
 -----> you can use "sed"
 
 -> sed
@@ -752,8 +780,10 @@ Data wrangling
 
 -> tail
 ---> lets you output the last few lines
+
 -> head
 ---> lets you output the first few lines
+
 -> cat tsp.log | grep sshd | "Disconnected from" | sed 's/.*Disconnected from //' | tail -n5
 ---> "s" in the sed command means substitute
 -----> substitute the pattern on the between the first and second slash with the contents between the second and third slash
@@ -768,7 +798,8 @@ Data wrangling
 ---> "?" means zero or one (this can make it not greedy)
 ---> "[]" means any of the specified characters 
 -----> "[abc]" means "a" or "b" or "c"
------> "[0-9]" means 0 to 9 (ranges can be used as well)-----> "[^ ]" means any character that is not a space
+-----> "[0-9]" means 0 to 9 (ranges can be used as well)
+-----> "[^ ]" means any character that is not a space
 ---> "|" means or condition
 -----> "(P1|P2)" means any string of characters that match pattern 1 or pattern 2
 ---> "^" means start of line
@@ -791,10 +822,12 @@ Data wrangling
 ---> echo 'Disconnected from invalid user Disconnected from 84.211' | sed 's/.*Disconnected from //' (outputs nothing)
 
 -> NOTE: You need to put a black slash when you are using special character when substitute in sed.
----> sed 's/a*+|(c|d)//'-----> Needs to be transformed to: 
+---> sed 's/a*+|(c|d)//'
+-----> Needs to be transformed to: 
 -------> sed 's/a\*\+\|\(c\|d\)//'
 -----> Or you can use -E: 
 -------> sed -E 's/a*+|(c|d)//'
+
 -> NOTE: Regular expressions are greedy by default. This match as much possible with the pattern used.
 ---> You can use perl with sed as alternative.
 
@@ -825,10 +858,12 @@ Data wrangling
 ---> This will prevent problems on having "Disconnected from" usernames
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
----> removed the redundant grep commands---> "-e" lets you add multiple expressions on the sed, each expression just needs to be prefixed with "-e"
+---> removed the redundant grep commands
+---> "-e" lets you add multiple expressions on the sed, each expression just needs to be prefixed with "-e"
 ---> "'/Disconnected from/!d'" means dont delete the line with "Disconnected from"
 
--> wc---> lets you output the word count
+-> wc
+---> lets you output the word count
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log  | wc -l
 ---> gives the number of usernames
@@ -856,10 +891,12 @@ Data wrangling
 ---> it focuses more on columns
 ---> you want sometimes to use awk instead of sed because awk knows about fields
 ---> line oriented
----> every command of awk has a optional [PATTERN] followed by a {BLOCK}-----> If this pattern matches then execute the code on this block.
+---> every command of awk has a optional [PATTERN] followed by a {BLOCK}
+-----> If this pattern matches then execute the code on this block.
 ---> special variables:
 -----> $0 is the entire line
------> $1 is the first field-----> $2 is the second field
+-----> $1 is the first field
+-----> $2 is the second field
 ---> by default, awk will split by whitespace  
 -----> you can also use the -F flag
 -------> "awk -F," means split by comma (useful for csv files)
@@ -903,10 +940,12 @@ Data wrangling
 ---> bc is a calulator
 
 -> echo "2*($(sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
-| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+))" | bc -l---> this multiplies the total number of occurences to two
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | paste -sd+))" | bc -l
+---> this multiplies the total number of occurences to two
 ---> NOTE: This uses process substitution.
 
--> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log | sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'
+-> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
+| sort | uniq -c | sort -n -k1,1 -r | awk '{print $1}' | R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'
 ---> this pipes the number of occurrences to R, and then prints a summary of the data
 
 -> sed -E -e '/Disconnected from/!d' -e 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' tsp.log 
@@ -930,6 +969,7 @@ Data wrangling
  
 -> cat /usr/share/dict/words
 ---> contains a list of words 
+
 -> rustup has this installation guideline:
 ---> Run the following in your terminal: curl https://sh.rustup.rs -sSf |sh
 -----> Dont do this! This is downloading a script on the internet and running it to your shell.
@@ -968,7 +1008,9 @@ Data wrangling
 
 
 
+
 Backups
+
 -> There are two kinds of people in the world. People who do backups and people who will do backups.
 ---> It just a matter of time to do backups.
 -----> Your drive can fail.
@@ -1059,8 +1101,10 @@ Machine Introspection
 
 ---> "visudo" command lets you update the sudoers file
 -----> NOTE: It will check if its syntactically correct before you save it
+
 ---> "su" command lets you run a new prompt as a new user (if no parameters, then by default its root)
 -----> sudo su (lets you run a new prompt as root)
+
 
 -> Logs and commands to check
 
@@ -1073,10 +1117,12 @@ Machine Introspection
 -------> contains system.log
 
 ---> dmesg
------> This command shows kernel logs-----> It shows you all the kernel logs since boot
+-----> This command shows kernel logs
+-----> It shows you all the kernel logs since boot
 
 ---> journalctl 
------> This command shows system logs-----> -u flag gives you all the messages given by this user
+-----> This command shows system logs
+-----> -u flag gives you all the messages given by this user
 -------> journalctl -u systemd-logind
 ---------> shows you the log of systemd-logind since the beginning of time
 -----> -b flag gives you all the message since the last boot (give it a negative number and it will show logs of based on how many previous boots)
@@ -1086,6 +1132,14 @@ Machine Introspection
 ---> top
 -----> This command shows you the processes running on the machine
 -----> It show how much memory and cpu the processes are using.
+-----> Here is a command to gather logs repetitively: 
+-------> top -b -H -n 1000 -d 5 -w 200 > Output.txt
+---------> Explanation of the parameters (from: http://man7.org/linux/man-pages/man1/top.1.html):
+-----------> -b :Batch-mode operation
+-----------> -H :Threads-mode operation
+-----------> -n :Number-of-iterations limit as:  -n number
+-----------> -d :Delay-time interval as:  -d ss.t (secs.tenths)
+-----------> -w :Output-width-override as:  -w [ number ]
 
 ---> htop 
 -----> This is better than top because it has a nicer output
@@ -1106,10 +1160,12 @@ Machine Introspection
 
 ---> df
 -----> This useful when looking at disk space
------> This shows you for all the filesystems you have on your machine: how much space is used? how much space is available? where is it mounted? etc-----> -h flag shows you in readable numbers (uses M for megabyte and G for giga byte) because by default its in bytes
+-----> This shows you for all the filesystems you have on your machine: how much space is used? how much space is available? where is it mounted? etc
+-----> -h flag shows you in readable numbers (uses M for megabyte and G for giga byte) because by default its in bytes
 
 ---> du
------> This shows you disk usage for particular files.-----> du *
+-----> This shows you disk usage for particular files.
+-----> du *
 --------> This shows you usage of files in the current directory
 -----> du -h *
 --------> This shows you usage of files in the current directory in readable number format (uses M for megabyte and G for giga byte)
@@ -1139,10 +1195,12 @@ Machine Introspection
 -----> Note that netstat and ifconfig have been deprecated in favor of the former tools respectively.
 -----> This shows you different connections on your machine.
 -----> This shows you all open sockets.
------> ss -t-------> This shows you TCP connections.
+-----> ss -t
+-------> This shows you TCP connections.
 -----> ss -tl
 -------> This shows you listening ports in TCP as well.
------> ss -tlp-------> This shows you what programs are listening in TCP in my machine.
+-----> ss -tlp
+-------> This shows you what programs are listening in TCP in my machine.
 -----> ss -tlpn
 -------> This shows you the actual port number where there are listening.
 
@@ -1159,22 +1217,26 @@ Machine Introspection
 -----> This benchmarks fd vs find:
 -------> hyperfine --warmup 3 'fd -e jpg' 'find . -iname "*.jpg"'
 
+---> wireshark/wireshark logs
+-----> wireshark
+
 ---> log show
 -----> Used in macOS, 
 -----> Similar to journalctl
 -----> log show | grep error
 
 -> Print the last few messages and dont close (useful for debugging)
----> journalctl -f -----> f stands for follow
+---> journalctl -f 
+-----> f stands for follow
 ---> dmesg -w 
 -----> w stands for wait
----> for other logs use tail-----> tail -f [LOG_COMMAND]
+---> for other logs use tail
+-----> tail -f [LOG_COMMAND]
 -------> f stands for follow
 -------> Example: tail -f Xorg.0.log
 ---> you can also use less
 -----> less +F [LOG_COMMAND]
 -------> Example: less +F Xorg.0.log
-
 
 -> Configuration
 
@@ -1236,6 +1298,7 @@ Machine Introspection
 
 
 -> Searching
+
 ---> find
 -----> find -iname [STRING]
 ---> mlocate is a package that is installed on most systems
@@ -1286,9 +1349,11 @@ Machine Introspection
 
 
 
+
 Program introspectation
 
--> Debugging a program---> printf style debugging
+-> Debugging a program
+---> printf style debugging
 -----> excellent debugging technique but sometimes its not good enough
 ---> debugger is a more powerful tool
 -----> lets you halt when it reaches a certain line in the code
@@ -1299,6 +1364,35 @@ Program introspectation
 ---> Info, Warning, Error, Critical
 ---> Use filtering on different log levels (so you can check only error message for example)
 
+
+-> Investigate the details of the file/program
+---> file
+-----> check if its unstripped or stripped (with or without debug symbols)
+---> objdump
+-----> objdump -t [BINARY] > Symbols.txt.
+-----> objdump -d [BINARY] > Disassembled.txt
+-------> NOTE: In objdump, the option "-t" retrieves the symbol table (.symtab) and the option "-T" retrieves the dynamic symbol table (.dynsym). 
+---------> The dynsym is a smaller version of the symtab. 
+---------> The dynsym only contains global symbols. 
+---------> The information found in the dynsym is therefore also found in the symtab, while the reverse is not necessarily true.
+-------> NOTE: To map this symbols to the actual code, please check this wiki about Name Mangling: https://en.wikipedia.org/wiki/Name_mangling. 
+---------> Here are some important information:
+-----------> All mangled symbols begin with "_Z" (note that an underscore followed by a capital is a reserved identifier in C, so conflict with user identifiers is avoided); 
+-----------> for nested names (including both namespaces and classes), 
+-----------> this is followed by "N", then a series of <length, id> pairs (the length being the length of the next identifier), and finally "E".
+-----------> For functions, this is then followed by the type information. For a void function, this is simply "v"
+
+-> Stack trace investigation
+---> If you have a stack trace here are some few tips.
+-----> You can use the addr2line tool to translate addresses into file names/line numbers/functions. 
+-------> Run this command with the "–functions" option and the "–demangle" option in the terminal. 
+-------> An example is shown below:
+---------> addr2line --functions --demangle --exe=[BINARY] 0x08a0c623 0x08a0c623 0x08a0e284 0x08a1212b 0x08a1195b 0x08a119d9 0x08a1024f
+-----> Typically, the order of function calls are from bottom to top.
+-----> If the reason of investigation is because of a crash/exception, keep the reason of the crash/exception in mind to find the problematic line in the code.
+-----> The objdump tool also has "-d" option to disassemble the build. 
+-------> Using this, you can find the actual trace address in the assembly code and cross reference it to the actual code to have some idea regarding the scenario.
+
 -> Debuggers
 
 ---> GDB (GNU debugger)
@@ -1306,10 +1400,12 @@ Program introspectation
 -----> NOTE: GDB will actually work on any executable binary but it needs debug symbols to be able to map it into source code 
 -----> Compile with -g flag to include debug symbols:
 -------> gcc -g -o example example.c 
------> Invoke gdb with the program:-------> gdb example
+-----> Invoke gdb with the program:
+-------> gdb example
 -----> Run the program (within gdb):
 -------> run
------> Insert breakpoint (within gdb):-------> b [NAME_OF_FUNCTION]
+-----> Insert breakpoint (within gdb):
+-------> b [NAME_OF_FUNCTION]
 -------> b [FILE_NAME]:[LINE_NUMBER]
 -------> After running when breakpoint is reached, the program halts and gdb console is again available.
 -------> NOTE: You call a function when the program halts because of breakpoint (you call printf like functions to print variables).
@@ -1364,6 +1460,7 @@ Program introspectation
 
 
 -> System calls
+
 ---> strace
 -----> Very useful when doing systems programming
 -----> Basically, this runs a program, then for every system call that program makes, it will print the what system call it is and what arguments were given to it
@@ -1419,10 +1516,21 @@ Program introspectation
 -----------> Note that in the  output these figures include the User and Sys time of all child processes (and their descendants) as well when they could have been collected, 
 -----------> e.g. by wait(2) or waitpid(2), although the underlying system calls return the statistics for the process and its children separately.
 
----> python profilers
------> python -m cProfile -s tottime grep.py 1000 '^(import|s*def)[^,]'
------> kernprof -l -v urls.py
------> python -m memory_profiler mem.py
+---> valgrind
+-----> The Valgrind tool suite provides a number of debugging and profiling tools that help you make your programs faster and more correct. 
+-----> The most popular of these tools is called Memcheck. 
+-----> It can detect many memory-related errors that are common in C and C++ programs and that can lead to crashes and unpredictable behaviour.
+-----> If you normally run your program like this:
+-------> myprog arg1 arg2
+-----> Use this command line:
+-------> valgrind --leak-check=yes myprog arg1 arg2
+-------> https://valgrind.org/docs/manual/quick-start.html#quick-start.prepare
+-----> valgrind with callgrind
+-------> The collected data consists of the number of instructions executed on a run, their relationship to source lines, and call relationship among functions together with call counts.
+-------> valgrind --tool=callgrind [callgrind options] your-program [program options]
+-------> https://valgrind.org/docs/manual/cl-manual.html
+-----> User manual for more information: https://valgrind.org/docs/manual/manual.html
+
 
 ---> perf
 -----> See PerformanceNotes.txt(on notes) or Chandler Carruths lecture as well
@@ -1440,17 +1548,31 @@ Program introspectation
 ---------> perf stat stress -c 1 
 -----> What about small, tight loops?
 -------> perf record
--------> perf report-----> Performance counters
+-------> perf report
+-----> Performance counters
 -------> perf stat
 ---------> check for "stalled cycles"
 -------> perf list
 ---------> list all commands on perf
 ---------> check for command for cache
 
-
 ---> flamegraphs
------> Link: http://www.brandangregg.com/FlameGraphs/cpu-bash-flamegraph.svg
+-----> Link: https://www.brendangregg.com/flamegraphs.html
+-----> Flamegraph tool: https://github.com/brendangregg/FlameGraph
+-------> CPU: https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html
+-------> Memory: https://www.brendangregg.com/FlameGraphs/memoryflamegraphs.html
+-------> Off-CPU: https://www.brendangregg.com/FlameGraphs/offcpuflamegraphs.html
+-------> Hot Cold: https://www.brendangregg.com/FlameGraphs/hotcoldflamegraphs.html
+-------> Differential: https://www.brendangregg.com/blog/2014-11-09/differential-flame-graphs.html
 -----> Its a really nice profiling graphs.
+-----> NOTE: This guide might need eBPF: 
+-------> eBPF is a revolutionary technology with origins in the Linux kernel that can run sandboxed programs in an operating system kernel. 
+---------> It is used to safely and efficiently extend the capabilities of the kernel without requiring to change kernel source code or load kernel modules.
+
+---> python profilers
+-----> python -m cProfile -s tottime grep.py 1000 '^(import|s*def)[^,]'
+-----> kernprof -l -v urls.py
+-----> python -m memory_profiler mem.py
 
 
 
@@ -1496,7 +1618,8 @@ Program introspectation
 
 -> Package and Dependency Management
 
----> When people write libraries and packages they generally put them on common repository so that people can access them.---> In python, where people put them is the python package index.
+---> When people write libraries and packages they generally put them on common repository so that people can access them.
+---> In python, where people put them is the python package index.
 ---> In rust, where people put them is crates.io
 ---> So its pretty language specific, but in general the communities agree on some place to put all the libraries that are written for a certain language.
 
@@ -1517,10 +1640,12 @@ Program introspectation
 -----> One of the common schemes on versioning is called semantic versioning.
 -------> Normally the format is: [MAJOR_VERSION].[MINOR_VERSION].[PATCH_VERSION]
 ---------> Example: 10.2.4
--------> PATCH_VERSION is incremented on:---------> If you fix a bug and you're not changing the behavior of anything else, then PATCH_VERSION is incremented.
+-------> PATCH_VERSION is incremented on:
+---------> If you fix a bug and you're not changing the behavior of anything else, then PATCH_VERSION is incremented.
 -----------> So you can use the a new release even if the PATCH_VERSION is increased because there is no new behavior introduced.
 -----------> So for example, Version 10.2.5 still works with 10.2.4.
--------> MINOR_VERSION is incremented on:---------> If you introduce a new feature and youre still making it backwards compatible, then MINOR_VERSION is incremented.
+-------> MINOR_VERSION is incremented on:
+---------> If you introduce a new feature and youre still making it backwards compatible, then MINOR_VERSION is incremented.
 -----------> For example, you introduce a new function/API but you do not change any of the old function/API.
 -----------> So for example, Version 10.3.0 still works with 10.2.4.
 -------> MAJOR_VERSION is incremented on:
@@ -1594,6 +1719,8 @@ Program introspectation
 ---> Mocking is being to replace parts of your system to with a dummy version of itself.
 -----> You can control the dummy version for your needs (for testing purposes for example).
 -----> Example: File copying thru SSH. You dont actually care that there is a network there, you just need to mock the network.
+
+
 
 
 -> OS customizations
@@ -1898,7 +2025,86 @@ Program introspectation
 
 
 
--> 
+
+
+
+-> Q&A (check the lecture as well)
+
+---> Any recommendations on learning operating system related topics like processes, virtual memory, interrupts, memory management etc?
+-----> Not really needed on day to day jobs (unless your working at low level near the kernel)
+-----> Try to create your own OS (theres a class on MIT)
+-----> Book: Modern Operating Systems by Andrew S. Tanenbaum 
+
+---> What are some of the tool you'd prioritize learning first?
+-----> Git because of collaboration (and you need to know the basics to prevent accidents)
+-----> Editor because you will editing a lot of file in your time.
+
+---> When do I use Python versus a Bash script versus some other language?
+-----> Bash script for automating a bunch of commands (short scripts). You dont want any business logic in bash scripts.
+-----> Bash is really hard to get right on all cases, it might work now on your particular use case but it might be problematic on the future (white space problems for example)
+
+---> What is the difference between 'source script.sh' and './script.sh'?
+-----> Both will execute the lines on the script.
+-----> They differ because source runs the script on your current bash session where as running the script executes it by starting a new bash session.
+-----> This matters for example the script has a code that changes directories (it will not persist if you are just running it).
+
+---> What are places where various packages and tools are stored and how does referencing them work? What even is /bin or /lib?
+-----> The conventions are:
+-------> /bin for essential system utilities
+-------> /usr/bin are for user programs
+-------> /usr/local/bin are for user compiled programs
+-------> /tmp holds temporary file (might be deleted on reboot)
+-------> /var holds that varies through time (lockfiles and log files etc)
+-------> /dev are for devices
+-------> /opt are for third party companies to store their files in it
+-----> /bin has binaries on it
+-----> /lib has libaries on it
+
+---> Should I apt-get install a python-whatever package or pip install whatever package?
+-----> Pip might be more update to date that system package manager.
+-----> It might be worthwhile to use the system package manager when your working on a system that pip might have the correct packages for it (raspberry pie for example).
+
+---> Whats the easiest and best profiling tools to use to improve performance of my code?
+-----> valgrind with callgrind
+-------> The collected data consists of the number of instructions executed on a run, their relationship to source lines, and call relationship among functions together with call counts.
+-----> perf 
+-------> This has interesting statistics as well.
+-----> Its pretty language specific, findout the profiling tools on your language.
+
+---> What browser plugins do you use?
+-----> ublockorigin
+-----> stylus
+-----> password manager
+
+---> What are other useful data wrangling tools?
+-----> curl 
+-----> perl
+-----> jq
+-----> pup
+-----> vim macros
+-----> python
+-----> pandoc
+-----> R for analysing data
+
+---> What are the advantages of each OS and how can we choose between them (e.g. choosing the best linux distribution for our purposes)?
+-----> Its really not that important. 
+-----> You might want to look at the update schedule.
+-------> ARCH-LINUX for example updates more frequently so they are prone to breaking
+-------> Debian/Ubuntu (especially LTS/Long term service) updates more conservatively so the are less prone to breaking
+-----> Debian/Ubuntu might be good for first timers because they are minimalist and much more friendly to new users.
+
+---> Any tips or tricks for Machine Learning application?
+-----> Have a json file for the configuration.
+
+---> Any more Vim tips?
+-----> Check vim plugins (check our dotfiles)
+-----> Use marks for easier jumping
+-----> CTRL+O and CTRL+I
+-----> Search command is a noun so you can combine it with delete (you delete until the next match of the search)
+-----> Specify undo directory on your vim configuration (to enable undo even after vim is closed)
+-----> Specify undo directory on your vim configuration (to enable undo even after vim is closed)
+
+
 
 
 

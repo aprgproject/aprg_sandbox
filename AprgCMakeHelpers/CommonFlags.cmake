@@ -193,7 +193,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -> NOTE: This is only available for versions above GCC-10
 
 # Peformance Optimization Flags
-# Flag: "-O0"# -> Optimization Level 0 (No optimization, default)# -> Better for debugging builds during development, since it provides faster compile-time.
+# Flag: "-O0"
+# -> Optimization Level 0 (No optimization, default)
+# -> Better for debugging builds during development, since it provides faster compile-time.
 # Flag: "-O1"
 # -> Optimization Level 1
 # Flag: "-O2"
@@ -227,7 +229,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 
 # Flag: "-fstack-protector"
 # -> Emit extra code to check for buffer overflows, such as stack smashing attacks.
-# -> This is done by adding a guard variable to functions with vulnerable objects.# -> This includes functions that call allocation, and functions with buffers larger than or equal to 8 bytes.
+# -> This is done by adding a guard variable to functions with vulnerable objects.
+# -> This includes functions that call allocation, and functions with buffers larger than or equal to 8 bytes.
 # -> The guards are initialized when a function is entered and then checked when the function exits.
 # -> If a guard check fails, an error message is printed and the program exits.
 # -> Only variables that are actually allocated on the stack are considered, optimized away variables or variables allocated in registers don’t count.
@@ -439,7 +442,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 
 # Using AddressSanitizer
 # In order to use AddressSanitizer you will need to COMPILE and LINK your program using clang with the -fsanitize=address switch.
-# To get a reasonable performance add -O1 or higher. To get nicer stack traces in error messages add -fno-omit-frame-pointer.# Note: Clang 3.1 release uses another flag syntax.
+# To get a reasonable performance add -O1 or higher. To get nicer stack traces in error messages add -fno-omit-frame-pointer.
+# Note: Clang 3.1 release uses another flag syntax.
 
 # Using LeakSanitizer
 # LeakSanitizer is ENABLED BY DEFAULT in ASAN builds of x86_64 Linux, and can be enabled with ASAN_OPTIONS=detect_leaks=1 on x86_64 OS X.

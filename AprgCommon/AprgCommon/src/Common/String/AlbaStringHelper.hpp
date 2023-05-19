@@ -295,6 +295,7 @@ public:
     using FloatOutputTypeOptional = std::optional<FloatOutputType>;
 
     StringConverterWithFormatting() = default;
+
     StringConverterWithFormatting(int const precision)
         : m_precisionOptional(precision),
           m_fieldWidthOptional(),
@@ -331,7 +332,8 @@ public:
             temporaryStream << std::setprecision(m_precisionOptional.value());
         }
         if (m_fillCharacterOptional) {
-            temporaryStream << std::setfill(m_fillCharacterOptional.value());        }
+            temporaryStream << std::setfill(m_fillCharacterOptional.value());
+        }
         if (m_fieldWidthOptional) {
             temporaryStream << std::setw(m_fieldWidthOptional.value());
         }
@@ -356,7 +358,8 @@ public:
             return temporaryStream.str().substr(0, m_maximumLengthOptional.value());
         } else {
             return temporaryStream.str();
-        }    }
+        }
+    }
 
     void setPrecision(int const precision);
     void setFieldWidth(int const fieldWidth);

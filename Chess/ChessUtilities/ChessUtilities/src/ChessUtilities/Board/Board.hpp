@@ -4,7 +4,8 @@
 #include <ChessUtilities/Board/Exchange.hpp>
 #include <ChessUtilities/Board/Piece.hpp>
 
-#include <array>#include <cstdint>
+#include <array>
+#include <cstdint>
 #include <functional>
 #include <optional>
 #include <vector>
@@ -61,7 +62,8 @@ public:
     Exchange getExchangeAt(Coordinate const& coordinate) const;
 
     std::string getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const;
-    std::string getReadableStringOfMove(Move const& move) const;    std::string getNotationPartOfFenString() const;
+    std::string getReadableStringOfMove(Move const& move) const;
+    std::string getNotationPartOfFenString() const;
     std::string getCastlingPartOfFenString() const;
 
     bool isEmptyAt(Coordinate const& coordinate) const;
