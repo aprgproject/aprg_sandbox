@@ -217,17 +217,17 @@ Editors
 -------> 'y' to copy or "yank" (some other commands with d also copy)
 ----------> 'yy' copies the whole line
 ----------> 'yw' copies the word
---------> 'p' to paste or put (you can pasted deleted items using d)
+--------> 'p' to paste or put after cursor (you can also pasted deleted items using d)
+----------> 'P' to paste or put before cursor (you can pasted deleted items using d)
 -----> Repeat
 -------> '.' repeats the last edit
+-------> This useful feature (Me: I use it all the time).
 -----> Flip the case:
 -------> '~' means flip the case the character on the cursor and move to the right
 ----------> '3' then '~' changes 3 characters
-
 ---> Counts
 -----> You can combine nouns and verbs with a count, which will perform a given action a number of times.
--------> '3w' move 3 words forward
--------> '5j' move 5 lines down
+-------> '3w' move 3 words forward-------> '5j' move 5 lines down
 -------> '7dw' delete 7 words
 
 ---> Modifiers
@@ -242,18 +242,76 @@ Editors
 ---> '@' then 'any letter' replays the macro
 ---> Example: You can change an xml file into a json file.
 
+
+
+-> Marks
+
+---> Setting marks
+-----> To set a mark, type m followed by a letter. For example, ma sets mark a at the current position (line and column). 
+-----> If you set mark a, any mark in the current file that was previously identified as a is removed. 
+-----> If you set mark A, any previous mark A (in any file) is removed.
+
+---> Using marks
+-----> To jump to a mark enter an apostrophe (') or backtick (`) followed by a letter. 
+-----> Using an apostrophe jumps to the beginning of the line holding the mark, while a backtick jumps to the line and column of the mark.
+-----> Using a lowercase letter (for example `a) will only work if that mark exists in the current buffer. 
+-----> Using an uppercase letter (for example `A) will jump to the file and the position holding the mark (you do not need to open the file prior to jumping to the mark).
+-------> Each file can have mark a – use a lowercase mark to jump within a file.
+-------> There is only one file mark A – use an uppercase mark to jump between files.
+-----> Commands:
+-------> ma - set mark a at current cursor location
+-------> 'a - jump to line of mark a (first non-blank character in line)
+-------> `a - jump to position (line and column) of mark a
+-------> d'a - delete from current line to line of mark a
+-------> d`a - delete from current cursor position to position of mark a
+-------> c'a - change text from current line to line of mark a
+-------> y`a - yank text to unnamed buffer from cursor to position of mark a
+-------> :marks 	list all the current marks
+-------> :marks aB 	list marks a, B
+-----> Commands like d'a operate "linewise" and include the start and end lines.
+-----> Commands like d`a operate "characterwise" and include the start but not the end character.
+-----> It is possible to navigate between lowercase marks:
+-------> ]' - jump to next line with a lowercase mark
+-------> [' - jump to previous line with a lowercase mark
+-------> ]` - jump to next lowercase mark
+-------> [` - jump to previous lowercase mark
+-----> The above commands take a count. For example, 5]` jumps to the fifth mark after the cursor.
+
+---> Special marks
+-----> Vim has some special marks which it sets automatically. Here are some of the most useful:
+-----> Commands
+-------> `. - jump to position where last change occurred in current buffer
+-------> `" - jump to position where last exited current buffer
+-------> `0 - jump to position in last file edited (when exited Vim)
+-------> `1 - like `0 but the previous file (also `2 etc)
+-------> '' - jump back (to line in current buffer where jumped from)
+-------> `` - jump back (to position in current buffer where jumped from)
+-------> `[ or `] 	jump to beginning/end of previously changed or yanked text
+-------> `< or `> 	jump to beginning/end of last visual selection
+-----> See the full list at :help '[ and following.
+
+---> Deleting marks
+-----> If you delete a line containing a mark, the mark is also deleted.
+-----> If you wipeout a buffer (command :bw), all marks for the buffer are deleted.
+-----> The :delmarks command (abbreviated as :delm) may be used to delete specified marks.
+-----> Commands
+-------> :delmarks a 	delete mark a
+-------> :delmarks a-d 	delete marks a, b, c, d
+-------> :delmarks abxy 	delete marks a, b, x, y
+-------> :delmarks aA 	delete marks a, A
+-------> :delmarks! 	delete all lowercase marks for the current buffer (a-z) 
+
+
+
 -> ".vimrc"
 ---> can configure tons of things (syntax highlighting, backspace usage etc)
 ---> look for inspiration from other people in github
 
 
 
-
-
 -> Editors (2019 lecture)
 
 ---> Importance of Editors
-
 -----> As programmers, we spend most of our time editing plain-text files. 
 -------> It’s worth investing time learning an editor that fits your needs.
 -----> How do you learn a new editor? 

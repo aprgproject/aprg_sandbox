@@ -140,126 +140,133 @@
 ---> Lists are Mutable (you can still change it after its created)
 ---> Lists allows duplicate elements 
 
----> Construction:
------> friends = list()  # creates an empty list
------> friends = list(("Kevin", "Karen", "Jim"))  # using the list function and passing a iterable (in this case a tuple) on it
+---> Construction using the brackets:
+-----> my_list = ["Kevin", "Karen", "Jim"]  # creates a list with items
+
+---> Construction using the list function:
+-----> my_list = list()  # creates an empty list
+-----> my_list = list(("Kevin", "Karen", "Jim"))  # using the list function and passing a iterable (in this case a tuple) on it
+
+---> Construction using the brackets and star:
 -----> lonely_person = ["Pam"] * 5  # creates a list with five "Pam"s
------> friends = ["Kevin", "Karen", "Jim"]  # creates a list with items
 
 ---> Element access:
------> friends = ["Kevin", "Karen", "Jim"]
------> print(friends)  # prints ['Kevin', 'Karen', 'Jim']
------> print(friends[0])  # prints Kevin
------> print(friends[2])  # prints Jim
------> print(friends[-1])  # prints Jim (last item, you can access from the end using negative numbers)
------> print(friends[-2])  # prints Karen
------> print(friends[-3])  # prints Kevin
------> # print(friends[100])  # IndexError: list index out of range
+-----> my_list = ["Kevin", "Karen", "Jim"]
+-----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim']
+-----> print(my_list[0])  # prints Kevin
+-----> print(my_list[2])  # prints Jim
+-----> print(my_list[-1])  # prints Jim (last item, you can access from the end using negative numbers)
+-----> print(my_list[-2])  # prints Karen
+-----> print(my_list[-3])  # prints Kevin
+-----> # print(my_list[100])  # IndexError: list index out of range
 
 ---> Iteration
------> friends = ["Kevin", "Karen", "Jim"]
------> for friend in friends:
------>     print(friend)
+-----> my_list = ["Kevin", "Karen", "Jim"]
+-----> for item in my_list:
+----->     print(item)
 
 ---> if statement to check if item exist in the list
------> friends = ["Kevin", "Karen", "Jim"]
------> if "Jim" in friends:
+-----> my_list = ["Kevin", "Karen", "Jim"]
+-----> if "Jim" in my_list:
 ----->     print("yes")
 -----> else:
 ----->     print("no")
 
 ---> Length
------> friends = ["Kevin", "Karen", "Jim"]
------> print(len(friends))  # prints the length
+-----> my_list = ["Kevin", "Karen", "Jim"]
+-----> print(len(my_list))  # prints the length
 
 ---> Slicing:
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> print(friends[1:])  # prints ['Karen', 'Jim', 'Oscar', 'Toby'] (you can slice using a starting point)
------> print(friends[1:3])  # prints ['Karen', 'Jim'] (you can slice using a range, half open at the end)
------> print(friends[:3])  # prints ['Kevin', 'Karen', 'Jim'] (you can slice using an ending point, half open at the end)
------> print(friends[0::2])  # prints ['Kevin', 'Jim', 'Toby'] (starts at index 0, then take every second item in the list (step index 2))
------> print(friends[::-1])  # prints ['Toby', 'Oscar', 'Jim', 'Karen', 'Kevin'] (take the reverse of the list (step index -1))
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> print(my_list[1:])  # prints ['Karen', 'Jim', 'Oscar', 'Toby'] (you can slice using a starting point)
+-----> print(my_list[1:3])  # prints ['Karen', 'Jim'] (you can slice using a range, half open at the end)
+-----> print(my_list[:3])  # prints ['Kevin', 'Karen', 'Jim'] (you can slice using an ending point, half open at the end)
+-----> print(my_list[0::2])  # prints ['Kevin', 'Jim', 'Toby'] (starts at index 0, then take every second item in the list (step index 2))
+-----> print(my_list[::-1])  # prints ['Toby', 'Oscar', 'Jim', 'Karen', 'Kevin'] (take the reverse of the list (step index -1))
 
 ---> List elements can be modified:
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> friends[1] = "Mike"
------> print(friends)  # prints ['Kevin', 'Mike', 'Jim', 'Oscar', 'Toby']
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list[1] = "Mike"
+-----> print(my_list)  # prints ['Kevin', 'Mike', 'Jim', 'Oscar', 'Toby']
 
 ---> Append as last element
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> friends.append("Creed")
------> print(friends)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list.append("Creed")
+-----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
 
 ---> Extend (concatenation)
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
 -----> lucky_numbers = [4, 8, 15, 16, 23, 42]
------> same_friends = friends + lucky_numbers  # concatenation
------> friends.extend(lucky_numbers)  # concatenation
------> print(friends)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed', 4, 8, 15, 16, 23, 42]
+-----> same_my_list = my_list + lucky_numbers  # concatenation
+-----> my_list.extend(lucky_numbers)  # concatenation
+-----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed', 4, 8, 15, 16, 23, 42]
 
 ---> Insert
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> friends.insert(1, "Kelly")
------> print(friends)  # prints ['Kevin', 'Kelly', 'Karen', 'Jim', 'Oscar', 'Toby']
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list.insert(1, "Kelly")
+-----> print(my_list)  # prints ['Kevin', 'Kelly', 'Karen', 'Jim', 'Oscar', 'Toby']
 
 ---> Specified item removal (remove function)
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> friends.remove("Jim")
------> print(friends)  # prints ['Kevin', 'Karen', 'Oscar', 'Toby']
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list.remove("Jim")
+-----> print(my_list)  # prints ['Kevin', 'Karen', 'Oscar', 'Toby']
 
 ---> Last item removal (pop function)
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> friends.pop()
------> print(friends)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar']
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list.pop()
+-----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar']
 
 ---> Index search
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> print(friends.index("Creed"))  # prints 2
------> # print(friends.index("Mike")) # ValueError: Mike is not in list
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> print(my_list.index("Creed"))  # prints 2
+-----> # print(my_list.index("Mike")) # ValueError: Mike is not in list
 
 ---> Count items
------> friends = ["Kevin", "Oscar", "Karen", "Jim", "Oscar", "Toby"]
------> print(friends.count("Oscar"))  # prints 2
+-----> my_list = ["Kevin", "Oscar", "Karen", "Jim", "Oscar", "Toby"]
+-----> print(my_list.count("Oscar"))  # prints 2
 
 ---> Reverse
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> friends.reverse()
------> print(friends)  # prints ['Toby', 'Oscar', 'Jim', 'Karen', 'Kevin']
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list.reverse()
+-----> print(my_list)  # prints ['Toby', 'Oscar', 'Jim', 'Karen', 'Kevin']
 
 ---> Sort
------> # friends.sort() # error because we have integers and string in the list
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
------> new_friends = sorted(friends) # creates a new list with sorted elements (if you dont want to sort inplace)
------> friends.sort()
------> print(friends)  # prints ['Jim', 'Karen', 'Kevin', 'Oscar', 'Toby']
------> print(new_friends)  # prints ['Jim', 'Karen', 'Kevin', 'Oscar', 'Toby']
+-----> # my_list.sort() # error because we have integers and string in the list
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> new_my_list = sorted(my_list) # creates a new list with sorted elements (if you dont want to sort inplace)
+-----> my_list.sort()
+-----> print(my_list)  # prints ['Jim', 'Karen', 'Kevin', 'Oscar', 'Toby']
+-----> print(new_my_list)  # prints ['Jim', 'Karen', 'Kevin', 'Oscar', 'Toby']
 
 ---> Clear
------> friends.clear()
------> print(friends)  # prints []
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+-----> my_list.clear()
+-----> print(my_list)  # prints []
+
+---> Assigning is not copying (similar to java, variables can point to the same memory)
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby", "Creed"]
+-----> my_list2 = my_list
+-----> my_list2[0] = "Mark"
+-----> print(my_list)  # prints ['Mark', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
+-----> print(my_list2)  # prints ['Mark', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
 
 ---> Copying
------> # assigning is not copying (similar to java, both points to the same memory)
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby", "Creed"]
------> friends2 = friends
------> friends2[0] = "Mark"
------> print(friends)
------> print(friends2)
------> # to copy using copy function
------> friends = ["Kevin", "Karen", "Jim", "Oscar", "Toby", "Creed"]
------> friends2 = friends.copy()  # returns a copy (using the copy function)
------> friends2 = list(friends)  # this creates a copy (using the list function)
------> friends2 = friends[:]  # this also makes a copy (using slicing)
------> friends2[0] = "Mark"
------> print(friends)
------> print(friends2)
+-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby", "Creed"]
+-----> my_list2 = my_list.copy()  # the copy function returns a new instance
+-----> my_list3 = list(my_list)  # this creates a new instance (using the list function)
+-----> my_list4 = my_list[:]  # this also makes a copy (using slicing)
+-----> my_list2[0] = "Mark"
+-----> my_list3[0] = "Mike"
+-----> my_list4[0] = "Millie"
+-----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
+-----> print(my_list2)  # prints ['Mark', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
+-----> print(my_list3)  # prints ['Mike', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
+-----> print(my_list4)  # prints ['Millie', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
 
 ---> List comprehension (cool feature)
------> numbers = [1,2,3,4,5,6]
------> squared_numbers = [n*n for n in numbers]
+-----> numbers = [1,2,3,4,5,6]-----> squared_numbers = [n*n for n in numbers]
 -----> print(numbers)  # prints [1, 2, 3, 4, 5, 6]
 -----> print(squared_numbers)  # prints [1, 4, 9, 16, 25, 36]
-
 
 -> Tuples
 
@@ -371,14 +378,283 @@
 -----> print(sys.getsizeof(my_tuple), "bytes")  # prints 80 bytes (tuple is larger even though they have the same items)
 
 ---> Comparing tuples with lists (duration)
+-----> import timeit
+-----> print(timeit.timeit(stmt="[0,1,2,3,4,5]", number=1000000)) # prints 0.13339190000260714 (list is slower)
+-----> print(timeit.timeit(stmt="(0,1,2,3,4,5)", number=1000000)) # prints 0.08034780000161845 (tuple is faster)
 
 
--> Functions
----> Python recognizes "def" as the keyword for functions
+
+-> Dictionaries
+
+---> Python recognizes {} as the wrapper for sets and dictionaries
+---> Similar to map classes in C++, it has key-value pairs.
+---> Dictionaries are Heterogeneous for both the keys and values (you can put any type (string, int, boolean) in different positions)
+---> Dictionaries are Mutable (you can still change it after its created)
+---> Dictionaries allows duplicate values, but the keys need to be unique (any duplicate keys has its value overwritten) 
+---> The values in the Dictionaries are searchable with the keys.
+
+---> Construction using braces
+-----> monthNameShortToLong =
+-----> {"Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April", "May": "May", "Jun": "June",
+----->  "Jul": "July", "Aug": "August", "Sep": "September", "Oct": "Oct", "Nov": "November", "Dec": "December"}
+-----> print(monthNameShortToLong)  # prints {'Jan': 'January', 'Feb': 'February', ...}
+
+---> Construction using dict function (take note that there are no quotations in the keys)
+-----> monthNameShortToLong = dict(
+----->     Jan="January", Feb="February", Mar="March", Apr="April", May="May", Jun="June",
+----->     Jul="July", Aug="August", Sep="September", Oct="October", Nov="November", Dec="December")
+-----> print(monthNameShortToLong)  # prints {'Jan': 'January', 'Feb': 'February', ...}
+
+---> Element Access
+-----> monthNameShortToLong =
+-----> {"Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April", "May": "May", "Jun": "June",
+----->  "Jul": "July", "Aug": "August", "Sep": "September", "Oct": "Oct", "Nov": "November", "Dec": "December"}
+-----> print(monthNameShortToLong)  # prints {'Jan': 'January', 'Feb': 'February', ...}
+-----> print(monthNameShortToLong["Mar"])  # prints March
+-----> print(monthNameShortToLong["NotAMonth"])  # KeyError: NotAMonth
+-----> print(monthNameShortToLong.get("Mar"))  # prints March
+-----> print(monthNameShortToLong.get("NotAMonth"))  # prints None
+-----> print(monthNameShortToLong.get("NotAMonth", "Not a valid key"))  # prints Not a valid key
+
+---> Modifying Elements
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> my_dict["email"] = "max@xyz.com"  # adds email key with value
+-----> print(my_dict)  # prints with email
+-----> my_dict["email"] = "coolmax@xyz.com"  # modifies value on email key
+-----> print(my_dict)  # prints with new email
+
+---> Removing Elements
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York", "email": "coolmax@xyz.com"}
+-----> del my_dict["email"]  # deletes email key (and its value)
+-----> print(my_dict)  # prints without email
+-----> my_dict.pop("age")  # deletes age key (and its value)
+-----> print(my_dict)  # prints without age
+-----> my_dict.popitem()  # deletes last item (key-value pair)
+-----> print(my_dict)  # prints without city (last added item) 
+
+---> Clear
+-----> my_set = {1, 2, 3}
+-----> my_set.clear()
+-----> print(my_list)  # prints {}
+
+---> Iteration
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> for key in my_dict:
+----->     print(key)
+-----> for key in my_dict.keys():  # same as above
+----->     print(key)
+-----> for value in my_dict.values():
+----->     print(value)
+-----> for key, value in my_dict.items():
+----->     print(key)
+----->     print(value)
+
+---> if statement to check if key exist in the list
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> if "name" in my_dict:
+----->     print(my_dict["name"])  # prints Max
+-----> if "DoesNotExist" in my_dict:  # this is false
+----->     print(my_dict["DoesNotExist"])  # this doesnt get executed
+
+---> try except statement to try to do things with key that might not exist
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> try:
+----->     print(my_dict["DoesNotExist"])
+-----> except:
+----->     print("Error")
+
+---> Assigning is not copying (similar to java, variables can point to the same memory)
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> my_dict2 = my_dict
+-----> my_dict2["name"] = "Mark"
+-----> print(my_dict)  # prints {'name': 'Mark', 'age': 28, 'city': 'New York'}
+-----> print(my_dict2)  # prints {'name': 'Mark', 'age': 28, 'city': 'New York'}
+
+---> Copying
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> my_dict2 = my_dict.copy()  # the copy function returns a new instance
+-----> my_dict3 = dict(my_dict)  # this creates a new instance (using the dict function)
+-----> my_dict2["name"] = "Mark"
+-----> my_dict3["name"] = "Mike"
+-----> print(my_dict)  # prints {'name': 'Max', 'age': 28, 'city': 'New York'}
+-----> print(my_dict2)  # prints {'name': 'Mark', 'age': 28, 'city': 'New York'}
+-----> print(my_dict3)  # prints {'name': 'Mike', 'age': 28, 'city': 'New York'}
+
+---> Combining dictionaries (overwrite and add)
+-----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
+-----> my_dict2 = {"name": "Mary", "age": 27, "email": "Boston"}
+-----> my_dict.update(my_dict2)
+-----> print(my_dict) # prints {'name': 'Mary', 'age': 27, 'city': 'New York', 'email': 'Boston'} (some got overwritten, some got added)
+
+---> Keys need to be a hashable type (int, str, floating types, tuples are hashable, list is not hashable(its mutable))
+-----> dict_with_hashable_keys = {
+----->     "one": 100, 2: "two hundred", 3.5 : "three hundred and fifty", (4, 5) : "four hundred and fifty"}
+-----> print(dict_with_hashable_keys)
+-----> # dict_with_unhashable_keys = {[5, 5] : "five hundred and fifty"} # TypeError: unhashable type: 'list'
+-----> # print(dict_with_unhashable_keys)
+
+
+
+-> Sets
+
+---> Python recognizes {} as the wrapper for sets and dictionaries
+---> Sets are Heterogeneous (you can put any type (string, int, boolean) in different positions)
+---> Sets are Mutable (you can still change it after its created)
+---> Sets need its items to be unique (any duplicate items are discarded) 
+
+---> Construction using braces
+-----> my_set = {1, 2, 3, 1, 2, "hello"}
+-----> print(my_set) # prints {1, 2, 3, 'hello'} (duplicate items are discarded)
+
+---> Construction using set function
+-----> my_set = set([1, 2, 3, 1, 2, "hello"]) # using the set function and passing a iterable (in this case a list) on it
+-----> print(my_set)  # prints {1, 2, 3, 'hello'} (duplicate items are discarded)
+
+---> Construction using set function with a string
+-----> my_set = set("hello") # using the set function and passing a iterable (in this case a string) on it
+-----> print(my_set)  # prints {'l', 'o', 'h', 'e'} (duplicate items are discarded)
+
+---> Construction of an empty set
+-----> my_dict = {} # empty braces is recognized as a dictionary 
+-----> print(type(my_dict))  # shows dictionary
+-----> my_set = set()
+-----> print(type(my_set))   # shows set
+
+---> Adding elements
+-----> my_set = set()
+-----> my_set.add(1)
+-----> my_set.add(2)
+-----> my_set.add(3)
+-----> print(my_set)  # prints {1, 2, 3}
+
+---> Removing elements (using remove)
+-----> my_set = {1, 2, 3}
+-----> my_set.remove(2)
+-----> # my_set.remove(4) # KeyError: 4
+-----> print(my_set)  # prints {1, 3}
+
+---> Removing elements (using discard)
+-----> my_set = {1, 2, 3}
+-----> my_set.discard(2)
+-----> my_set.discard(4) # Nothing happens
+-----> print(my_set)  # prints {1, 3}
+
+---> Removing elements (using pop)
+-----> my_set = {1, 2, 3}
+-----> print(my_set.pop())  # prints 1 (pop returns a value)
+-----> print(my_set)  # prints {2, 3}
+
+---> Clear
+-----> my_set = {1, 2, 3}
+-----> my_set.clear()
+-----> print(my_list)  # prints set()
+
+---> Iteration
+-----> my_set = {1, 2, 3}
+-----> for item in my_set:
+----->     print(item)
+
+---> if statement to check if item exist in the set
+-----> my_set = {1, 2, 3}
+-----> if "1" in my_set:
+----->     print("Yes")  # prints Max
+-----> if "DoesNotExist" in my_set:  # this is false
+----->     print("Yes")  # this doesnt get executed
+
+---> Union
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> union_set = set1.union(set2)
+-----> print(union_set) # prints {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+
+---> Intersection
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> intersection_set = set1.intersection(set2)
+-----> print(intersection_set) # prints {1, 2, 3}
+
+---> Difference 
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> difference_set = set1.difference(set2)
+-----> print(difference_set) # prints {4, 5, 6, 7, 8, 9}
+
+---> Symmetric Difference 
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> sym_diff_set = set1.symmetric_difference(set2)
+-----> print(sym_diff_set) # prints {4, 5, 6, 7, 8, 9}
+
+---> Union update (combining using union)
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> set1.update(set2)
+-----> print(set1)  # prints {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+
+---> Intersection update (combining using intersection)
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9} 
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> set1.intersection_update(set2)
+-----> print(set1)  # prints {1, 2, 3}
+
+---> Difference update (combining using difference)
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9} 
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> set1.difference_update(set2)
+-----> print(set1)  # prints {4, 5, 6, 7, 8, 9}
+
+---> Symmetric difference update (combining using symmetric difference)
+-----> set1 = {1, 2, 3, 4, 5, 6, 7, 8, 9} 
+-----> set2 = {1, 2, 3, 10, 11, 12}
+-----> set1.symmetric_difference_update(set2)
+-----> print(set1)  # prints {4, 5, 6, 7, 8, 9, 10, 11, 12}
+
+---> issubset
+-----> set1 = {1, 2, 3, 4, 5, 6}
+-----> set2 = {1, 2, 3}
+-----> print(set1.issubset(set2))  # prints False
+-----> print(set2.issubset(set1))  # prints True
+
+---> issuperset
+-----> set1 = {1, 2, 3, 4, 5, 6}
+-----> set2 = {1, 2, 3}
+-----> print(set1.issuperset(set2))  # prints True
+-----> print(set2.issuperset(set1))  # prints False
+
+---> isdisjoint
+-----> set1 = {1, 2, 3, 4, 5, 6}
+-----> set2 = {1, 2, 3}
+-----> set3 = {7, 8, 9}
+-----> print(set1.isdisjoint(set2))  # prints False
+-----> print(set2.isdisjoint(set3))  # prints True
+
+---> Assigning is not copying (similar to java, variables can point to the same memory)
+-----> my_set = {1, 2, 3, 4, 5, 6}
+-----> my_set2 = my_set
+-----> my_set2.add(7)
+-----> print(my_set)  # prints {1, 2, 3, 4, 5, 6, 7}
+-----> print(my_set2)  # prints {1, 2, 3, 4, 5, 6, 7}
+
+---> Copying
+-----> my_set = {1, 2, 3, 4, 5, 6}
+-----> my_set2 = my_set.copy()  # the copy function returns a new instance
+-----> my_set3 = set(my_set)  # this creates a new instance (using the list function)
+-----> my_set2.add(7)
+-----> my_set3.add(8)
+-----> print(my_set)  # prints {1, 2, 3, 4, 5, 6}
+-----> print(my_set2)  # prints {1, 2, 3, 4, 5, 6, 7}
+-----> print(my_set3)  # prints {1, 2, 3, 4, 5, 6, 8}
+
+---> frozenset (immutable version of a set)
+-----> my_frozen_set = frozenset([1, 2, 3, 4])
+-----> my_frozen_set.add(5)  # AttributeError: 'frozenset' object has no attribute 'add'
+-----> my_frozen_set.remove(1)  # AttributeError: 'frozenset' object has no attribute 'remove'
+
+
+-> Functions---> Python recognizes "def" as the keyword for functions
 ---> The code the goes inside the function needs to be indented
 ---> Printing example: 
------> def say_hi(name, age):
------>     print("Hello " + name + "! You are " + str(age) + ".")
+-----> def say_hi(name, age):----->     print("Hello " + name + "! You are " + str(age) + ".")
 -----> print("Top")  # prints Top
 -----> say_hi("Mike", 35)  # prints Hello Mike! You are 35.
 -----> say_hi("Steve", 70)  # prints Hello Steve! You are 70.
@@ -446,34 +722,20 @@
 -----> else:
 ----->     print("Invalid operator.")
 
--> Dictionaries
----> Python recognizes {} as the wrapper for dictionaries
----> Similar to map in C++, it has key-value pairs.
------> And values are searchable with the keys.
------> monthNameShortToLong = {"Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April", "May": "May", "Jun": "June",
------>                         "Jul": "July", "Aug": "August", "Sep": "September", "Oct": "Oct", "Nov": "November", "Dec": "December"}
------> print(monthNameShortToLong)  # prints {'Jan': 'January', 'Feb': 'February', ...}
------> print(monthNameShortToLong["Mar"])  # prints March
------> print(monthNameShortToLong.get("Mar"))  # prints March
------> print(monthNameShortToLong.get("NotAMonth"))  # prints None
------> print(monthNameShortToLong.get("NotAMonth", "Not a valid key"))  # prints Not a valid key
-
 -> While loop
 ---> Simple loop that counts 1 to 10:
------> i = 1
------> while i <= 10:
+-----> i = 1-----> while i <= 10:
 ----->     print(i)
 ----->     # i++ # The operator ++ does not exist
 ----->     i += 1
 -----> print("Done with loop")secret_word = "giraffe"
+
 ---> Guessing game:
 -----> guess = ""
------> guess_count = 0
------> guess_limit = 3
+-----> guess_count = 0-----> guess_limit = 3
 -----> while guess != secret_word and guess_count < guess_limit:
 ----->     guess = input("Enter guess: ")
------>     guess_count += 1
------> 
+----->     guess_count += 1-----> 
 -----> if guess_count < guess_limit:
 ----->     print("You win!")
 -----> else:
@@ -483,23 +745,21 @@
 ---> Prints in collection
 -----> for letter in "Giraffe Academy":
 ----->     print(letter)  # prints letter in Giraffe Academy in separate lines
------> friends = ["Jim", "Karen", "Kevin"]
------> for friend in friends:
------>     print(friend)  # prints Jim Karen Kevin in separate lines
+-----> my_list = ["Jim", "Karen", "Kevin"]
+-----> for item in my_list:
+----->     print(item)  # prints Jim Karen Kevin in separate lines
 -----> for index in range(10):
 ----->     print(index)  # prints 0-9 in separate lines
 -----> for index in range(3, 10):
 ----->     print(index)  # prints 3-9 in separate lines
------> for index in range(len(friends)):
------>     print(friends[index])  # prints Jim Karen Kevin in separate lines
+-----> for index in range(len(my_list)):
+----->     print(my_list[index])  # prints Jim Karen Kevin in separate lines
 
 -> 2D list
----> number_grid = [
---->     [1, 2, 3],
+---> number_grid = [--->     [1, 2, 3],
 --->     [4, 5, 6],
 --->     [7, 8, 9],
---->     [0]
----> ]
+--->     [0]---> ]
 ---> print(number_grid[0][0])  # prints 1
 ---> print(number_grid[2][1])  # prints 8
 ---> for row in number_grid:
