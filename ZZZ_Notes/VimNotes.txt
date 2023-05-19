@@ -113,10 +113,12 @@ Editors
 -----> command number [object]
 
 ---> Movement
------> You should spend most of your time in Normal mode, using movement commands to navigate the buffer. -----> Movements in Vim are also called “nouns”, because they refer to chunks of text.
+-----> You should spend most of your time in Normal mode, using movement commands to navigate the buffer. 
+-----> Movements in Vim are also called “nouns”, because they refer to chunks of text.
 -------> Basic movement: 'h', 'j', 'k', 'l' (left, down, up, right)
 -------> Words: 'w' (next word), b (beginning of word), 'e' (end of word)
--------> Lines: '0' (beginning of line), '^' (first non-blank character), '$' (end of line)-------> Screen: 'H' (top of screen), 'M' (middle of screen), 'L' (bottom of screen)
+-------> Lines: '0' (beginning of line), '^' (first non-blank character), '$' (end of line)
+-------> Screen: 'H' (top of screen), 'M' (middle of screen), 'L' (bottom of screen)
 -------> Scroll: Ctrl+'u' (up), Ctrl+'d' (down)
 -------> File: 'gg' (beginning of file), 'G' (end of file)
 -------> Line numbers: :{number}<CR> or {number}G (line {number})
@@ -225,9 +227,11 @@ Editors
 -----> Flip the case:
 -------> '~' means flip the case the character on the cursor and move to the right
 ----------> '3' then '~' changes 3 characters
+
 ---> Counts
 -----> You can combine nouns and verbs with a count, which will perform a given action a number of times.
--------> '3w' move 3 words forward-------> '5j' move 5 lines down
+-------> '3w' move 3 words forward
+-------> '5j' move 5 lines down
 -------> '7dw' delete 7 words
 
 ---> Modifiers
@@ -309,9 +313,12 @@ Editors
 
 
 
+
+
 -> Editors (2019 lecture)
 
 ---> Importance of Editors
+
 -----> As programmers, we spend most of our time editing plain-text files. 
 -------> It’s worth investing time learning an editor that fits your needs.
 -----> How do you learn a new editor? 
