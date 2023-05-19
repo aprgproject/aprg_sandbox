@@ -6,24 +6,469 @@
 
 
 
+-> Modules
+
+---> How to use your own module:
+-----> import utilities
+-----> print(utilities.compute_something())
+---> Check python docs to know what modules you need:
+-----> google: python docs list of modules
+-----> https://docs.python.org/3/py-modindex.html
+-----> Some libraries are built-in (you dont have to add them in the file) some are external (you have to manually add them thru import)
+-------> Check your python installation directory and look for the lib folder.
+
+
+
+-> pip
+
+---> Some third party libraries can be installed using pip
+---> Example (python-docx is libaries that write word documents):
+-----> pip install python-docx
+-------> If python is not added in PATH, you can find pip here and manually run it: C:\Users\detec\AppData\Local\Programs\Python\Python310\Scripts
+-----> The libraries installed by pip are on the directory site-packages
+
+
+
 -> Printing
 
----> Basics:
------> print("Hello World") 
+---> Basics:-----> print("Hello World") 
 -----> print("String1", "String2")  # prints String1 String2
+
+
+
+-> Comments
+
+---> # Single line comment
+---> '''
+---> These are multiline comments.
+---> These are useful when debugging a chunk of code.
+---> But these are not recommended in terms of style (prefer to use single line comments).
+---> '''
 
 
 
 -> Variables
 
 ---> Assigning variables:
------> character_name = "John"
------> character_age = "35"
+-----> Assigning one variable per line:
+-------> character_name = "John"
+-------> character_age = "35"
+-----> Assigning multiple variables in one line:
+-------> character_name, character_age = "John", "35"
 
 ---> Printing variables:
------> print("There once was a man named " + character_name + ", ")
------> print("he was " + character_age + " years old. ")
+-----> Using concatenation:
+-------> print("There once was a man named " + character_name + ", ")
+-------> print("he was " + character_age + " years old. ")
+-----> Using f-strings (better way, it can be used with integers and floats as well):
+-------> print(f"There once was a man named {character_name}, ")  
+-------> print(f"he was {character_age} years old. ")
 
+
+
+-> Basic Data Types in Python
+
+---> Integers
+-----> In Python 3, there is effectively no limit to how long an integer value can be. 
+-----> Of course, it is constrained by the amount of memory your system has, as are all things,
+-----> but beyond that an integer can be as long as you need it to be.
+
+---> Floating-Point Numbers
+-----> The float type in Python designates a floating-point number. 
+-----> float values are specified with a decimal point. 
+-----> Optionally, the character e or E followed by a positive or negative integer may be appended to specify scientific notation.
+
+---> Complex Numbers
+-----> Complex numbers are specified as <real part>+<imaginary part>j.
+
+---> Strings
+-----> Strings are sequences of character data. 
+-----> The string type in Python is called str.
+
+---> Boolean Type
+-----> Objects of Boolean type may have one of two values, True or False:
+
+
+-> Type function
+
+---> You can use the type function to know the type.
+-----> my_variable = 10
+-----> print(type(my_variable))  # prints <class 'int'>
+
+
+
+-> Functions
+
+---> Python recognizes "def" as the keyword for functions
+---> The code the goes inside the function needs to be indented
+---> Printing example: 
+-----> def say_hi(name, age):
+----->     print("Hello " + name + "! You are " + str(age) + ".")
+-----> print("Top")  # prints Top
+-----> say_hi("Mike", 35)  # prints Hello Mike! You are 35.
+-----> say_hi("Steve", 70)  # prints Hello Steve! You are 70.
+-----> print("Bottom")  # prints Bottom
+---> Return statement example: 
+-----> def cube(num):
+----->     return num*num*num
+----->     print("This is will not be printed")  # The functions exists at the return statement so this line will not be executed.
+-----> print(cube(4)) # prints 64
+-----> result = cube(5)
+-----> print(result) # prints 125
+
+
+
+-> If statement
+
+---> Python recognizes "if", "elif", "else" as the keywords for if statements
+---> If statements with boolean variables:
+-----> is_male = True
+-----> is_tall = True
+-----> if is_male or is_tall:
+----->     print("You are a male or tall or both.")
+-----> else:
+----->     print("You are neither male nor tall.")
+-----> if is_male and is_tall:
+----->     print("You are a tall male.")
+-----> elif is_male and not(is_tall):
+----->     print("You are a short male.")
+-----> elif not(is_male) and is_tall:
+----->     print("You are not a male but are tall.")
+-----> else:
+----->     print("You are either not a male and not tall.")
+---> If statements with comparison operators:
+-----> def is_equal(parameter1, parameter2):
+----->     return parameter1 == parameter2
+-----> def is_not_equal(parameter1, parameter2):
+----->     return parameter1 != parameter2
+-----> def max_of_three(num1, num2, num3):
+----->     if num1 >= num2 and num1 >= num3:
+----->         return num1
+----->     elif num2 >= num2 and num2 >= num3:
+----->         return num2
+----->     else:
+----->         return num3
+-----> print(is_equal(1, 1))  # prints True
+-----> print(is_equal(1, 2))  # prints False
+-----> print(is_equal("Jose", "Jose"))  # prints True
+-----> print(is_equal("Jose", "Pancho"))  # prints False
+-----> print(is_not_equal(1, 1))  # prints False
+-----> print(is_not_equal(1, 2))  # prints True
+-----> print(is_not_equal("Jose", "Jose"))  # prints False
+-----> print(is_not_equal("Jose", "Pancho"))  # prints True
+-----> print(max_of_three(1, 2, 3))  # prints 3
+-----> print(max_of_three(300, 40, 5))  # prints 300
+-----> print(max_of_three("300", "40", "5"))  # prints 5 (lexicographically compared)
+---> Calculator example:
+-----> num1 = float(input("Enter first number:"))
+-----> op = input("Enter operator:")
+-----> num2 = float(input("Enter second number:"))
+-----> if op == '+':
+----->     print(num1+num2)
+-----> elif op == '-':
+----->     print(num1-num2)
+-----> elif op == '*':
+----->     print(num1*num2)
+-----> elif op == '/':
+----->     print(num1/num2)
+-----> else:
+----->     print("Invalid operator.")
+
+
+
+-> While loop
+
+---> Simple loop that counts 1 to 10:
+-----> i = 1
+-----> while i <= 10:
+----->     print(i)
+----->     # i++ # The operator ++ does not exist
+----->     i += 1
+-----> print("Done with loop")secret_word = "giraffe"
+
+---> Guessing game:
+-----> guess = ""
+-----> guess_count = 0
+-----> guess_limit = 3
+-----> while guess != secret_word and guess_count < guess_limit:
+----->     guess = input("Enter guess: ")
+----->     guess_count += 1
+-----> 
+-----> if guess_count < guess_limit:
+----->     print("You win!")
+-----> else:
+----->     print("Out of guesses!")
+
+
+
+-> for loop
+
+---> Prints in collection
+-----> for letter in "Giraffe Academy":
+----->     print(letter)  # prints letter in Giraffe Academy in separate lines
+-----> my_list = ["Jim", "Karen", "Kevin"]
+-----> for item in my_list:
+----->     print(item)  # prints Jim Karen Kevin in separate lines
+-----> for index in range(10):  # note that range is an iterable object
+----->     print(index)  # prints 0-9 in separate lines
+-----> for index in range(3, 10):
+----->     print(index)  # prints 3-9 in separate lines
+-----> for index in range(len(my_list)):
+----->     print(my_list[index])  # prints Jim Karen Kevin in separate lines
+-----> for _ in range(3):  # you can also give an empty variable
+----->     print(ThisWillBeRepeated)  # prints ThisWillBeRepeated three times in separate lines
+
+-> 2D list
+---> number_grid = [
+--->     [1, 2, 3],
+--->     [4, 5, 6],
+--->     [7, 8, 9],
+--->     [0]
+---> ]
+---> print(number_grid[0][0])  # prints 1
+---> print(number_grid[2][1])  # prints 8
+---> for row in number_grid:
+--->     for col in row:
+--->         print(col)  # prints all elements in the grid
+
+-> Translation example (convert all vowels to g)
+---> def translate(phrase):
+--->     # this function converts all the vowels to g
+--->     result=""
+--->     for letter in phrase:
+--->         if letter.lower() in "aeiou": # letter is a vowel
+--->             result += "g"
+--->         else:
+--->             result += letter
+--->     return result
+---> print(translate(input("Enter a phrase: ")))
+
+
+
+-> with statement (and context managers)
+
+---> The with statement in Python is used in exception handling to make the code cleaner and much more readable. 
+-----> It simplifies the management of common resources like file streams. 
+
+---> Basic example (comparison without with statement):
+-----> # without using with statement
+-----> file = open('file_path', 'w')
+-----> try:
+----->     file.write('hello world')
+-----> finally:
+----->     file.close()
+-----> # using with statement
+-----> with open('file_path', 'w') as file:
+----->     file.write('hello world !')
+
+---> Supporting the "with" statement in user defined objects
+-----> Supporting the with statement in your objects will ensure that you never leave any resource open.
+-----> To use with statement, you only need to add the methods __enter__() and __exit__() in the object methods.  
+-------> # a simple file writer object
+-------> class MessageWriter(object):
+------->     def __init__(self, file_name):
+------->         self.file_name = file_name
+------->     def __enter__(self):
+------->         self.file_stream = open(self.file_name, 'w')
+------->         return self.file_stream
+------->     def __exit__(self, exception_type, exception_value, exception_traceback):
+------->         if self.file_stream:
+------->             self.file_stream.close()
+------->         # You can handle exceptions here via the exception parameters.
+------->         # You can "return True" and not stop the exception from being propagating after this function
+-------> # using with statement with MessageWriter
+-------> with MessageWriter('my_file.txt') as my_file:
+------->     my_file.write('Writing some stuffs to file')
+
+---> The contextlib module
+-----> A class based context manager as shown above is not the only way to support the with statement in user defined objects. 
+-----> The contextlib module provides a few more abstractions built upon the basic context manager interface.
+-----> Here is how we can rewrite the context manager for the MessageWriter object using the contextlib module.
+-------> from contextlib import contextmanager
+-------> class MessageWriter(object):
+------->     def __init__(self, file_name):
+------->         self.file_name = file_name
+------->     @contextmanager
+------->     def open_file(self):
+------->         try:
+------->             file = open(self.file_name, 'w')
+------->             yield file  # this is generator
+------->         finally:
+------->             file.close()
+-------> # usage
+-------> message_writer = MessageWriter('my_file.txt')
+-------> with message_writer.open_file() as my_file:  # uses a function instead of a whole class
+------->      my_file.write('Writing some stuffs to file')
+
+
+
+-> pass keyword
+
+---> The pass statement is used as a placeholder for future code.
+---> When the pass statement is executed, nothing happens, but you avoid getting an error when empty code is not allowed.
+---> Empty code is not allowed in loops, function definitions, class definitions, or in if statements.
+
+---> Pass keyword used in a function:
+-----> def myfunction():
+----->     pass
+
+
+
+-> enum class
+
+---> Enum is a class in python for creating enumerations, which are a set of symbolic names (members) bound to unique, constant values.
+---> The members of an enumeration can be compared by these symbolic anmes, and the enumeration itself can be iterated over. 
+---> An enum has the following characteristics.
+-----> The enums are evaluatable string representation of an object also called repr().
+-----> The name of the enum is displayed using ‘name’ keyword.
+-----> Using type() we can check the enum types.
+
+---> Example usage:
+-----> import enum
+-----> # Using enum class create enumerations
+-----> class Days(enum.Enum):
+----->    Sun = 1
+----->    Mon = 2
+----->    Tue = 3
+-----> print(Days.Mon)
+
+
+
+-> enumerate() function
+
+---> Often, when dealing with iterators, we also get need to keep a count of iterations. 
+---> Python eases the programmers’ task by providing a built-in function enumerate() for this task. 
+---> Enumerate() method adds a counter to an iterable and returns it in a form of enumerating object. 
+---> This enumerated object can then be used directly for loops or converted into a list of tuples using the list() method.
+---> Syntax:  enumerate(iterable, start=0)
+
+---> Example usage:
+-----> my_list = ["Jim", "Karen", "Kevin"]
+-----> my_str = "Steve"
+-----> print (list(enumerate(my_list)))  # prints [(0, 'Jim'), (1, 'Karen'), (2, 'Kevin')]
+-----> print (list(enumerate(my_str, 2)))  # prints [(2, 'S'), (3, 't'), (4, 'e'), (5, 'v'), (6, 'e')]
+
+
+
+-> Getting Input From Users
+
+---> Example with strings:
+-----> name = input("Enter your name: ")  # gets input from user
+-----> age = input("Enter your age: ")
+-----> print("Hello " + name + "! You are " + age + ".")
+---> NOTE: By default, python gets input as a string. 
+
+---> Example with adding integers from user input:
+-----> num1 = input("Enter a number: ")
+-----> num2 = input("Enter another number: ")
+-----> result = int(num1) + int(num2)
+-----> print(result)
+
+---> Example with adding floating numbers from user input:
+-----> num1 = input("Enter a number: ")
+-----> num2 = input("Enter another number: ")
+-----> result = float(num1) + float(num2)
+-----> print(result)
+
+
+-> Timers
+
+---> Get the duration
+-----> from timeit import default_timer as timer
+-----> start = timer()
+-----> # do something here
+-----> stop = timer()
+-----> print(stop-start)
+
+
+
+-> Classes and objects
+
+---> Simple example:
+-----> On utilities.py:
+-------> class Student:
+------->     def __init__(self, name, major, gpa, is_on_probation):
+------->         self.name = name
+------->         self.major = major
+------->         self.gpa = gpa
+------->         self.is_on_probation = is_on_probation
+-----> On application.py:
+-------> from utilities import Student  # from utilities file import the Student class
+-------> student1 = Student("Jim", "Business", 3.1, False)  # the initializer is called
+-------> student2 = Student("Pam", "Art", 2.5, True)
+-------> print(student1.gpa)
+-------> print(student2.gpa)
+
+---> Multiple choice questionaire:
+-----> On utilities.py:
+-------> class Question:
+------->     def __init__(self, prompt, answer):
+------->         self.prompt = prompt
+------->         self.answer = answer
+-----> On application.py:
+-------> from utilities import Question  # from utilities file import the Question class
+-------> questions_prompts = [
+------->     "What color are apples?\n(a) Red/Green\n(b) Purple\n(c) Orange\n\n",
+------->     "What color are bananas?\n(a) Teal\n(b) Magenta\n(c) Yellow\n\n",
+------->     "What color are strawberries?\n (a) Yellow\n(b) Red\n(c) Blue\n\n"
+-------> ]
+-------> questions = [
+------->     Question(questions_prompts[0], "a"),
+------->     Question(questions_prompts[1], "c"), 
+------->     Question(questions_prompts[2], "b")
+------->     ]
+-------> def run_test(questions):
+------->     score = 0
+------->     for question in questions:
+------->         answer = input(question.prompt)
+------->         if answer == question.answer:
+------->             score+=1
+------->     print("You got " + str(score) +  "/" + str(len(questions))+ " correct")
+-------> run_test(questions)
+
+---> Student Honor Roll (in class function example):
+-----> On utilities.py:
+-------> class Student:
+------->     def __init__(self, name, major, gpa):
+------->         self.name = name
+------->         self.major = major
+------->         self.gpa = gpa
+-------> 
+------->     def is_on_honor_roll(self):
+------->         if self.gpa >= 3.5: 
+------->             return True
+------->         else:
+------->             return False
+-----> On application.py:
+-------> from utilities import Student  # from utilities file import the Student class
+-------> student1 = Student("Oscar", "Accounting", 3.1)
+-------> student2 = Student("Phyllis", "Business", 3.8)
+-------> print(student1.is_on_honor_roll())
+-------> print(student2.is_on_honor_roll())
+
+---> Chef (inheritance example):
+-----> On utilities.py:
+-------> class Chef:
+------->     def make_chicken(self):
+------->         print("The chef makes a chicken.")
+------->     def make_salad(self):
+------->         print("The chef makes a salad.")
+------->     def make_special_dish(self):
+------->         print("The chef makes bbq ribs.")
+-------> class Chinese_Chef(Chef):
+------->     def make_special_dish(self):
+------->         print("The chef makes orange chicken.")
+------->     def make_fried_rice(self):
+------->         print("The chef makes fried rice.")
+-----> On application.py:
+-------> from utilities import Chef, Chinese_Chef
+-------> my_chef = Chef()
+-------> my_chef.make_special_dish()
+-------> my_chinese_chef=Chinese_Chef()
+-------> my_chinese_chef.make_special_dish()
+
+---> Inheritance notes:
+-----> You can access the super class by using "super()."
 
 
 -> Working with numbers
@@ -92,18 +537,18 @@
 -----> string"""  # This is also used for multi line comments
 -----> my_string8 = """This is a single line\
 -----> string"""  # Backslash (\) can be used to escape new line to form a single line
+-----> my_string9 = "ThisStringWillBeRepeated" * 3
 -----> print(my_string1)
 -----> print(my_string2)
------> print(my_string3)
------> print(my_string4)
+-----> print(my_string3)-----> print(my_string4)
 -----> print(my_string5)
 -----> print(my_string6)
 -----> print(my_string7)
 -----> print(my_string8)
+-----> print(my_string9)
 
 ---> Length
------> phrase = "Giraffe Academy"
------> print(len(phrase))  # prints the length
+-----> phrase = "Giraffe Academy"-----> print(len(phrase))  # prints the length
 
 ---> Element access
 -----> phrase = "Giraffe Academy"
@@ -219,11 +664,10 @@
 -----> stringItem = "Tom"
 -----> numberItem = 123.45678
 -----> my_string1 = "The item is [{}].".format(stringItem)
------> my_string2 = "The item is [{}].".format(numberItem)
+-----> my_string2 = "The item is [{:3d}].".format(numberItem)
 -----> my_string3 = "The item is [{:.2f}].".format(numberItem)
 -----> my_string4 = "The items are [{}, {:.2f}].".format(stringItem, numberItem)
------> print(my_string1)
------> print(my_string2)
+-----> print(my_string1)-----> print(my_string2)
 -----> print(my_string3)
 -----> print(my_string4)
 -----> # Using fstring (the newest and best way, available in python 3.6 or newer)
@@ -254,11 +698,10 @@
 -----> my_list = list()  # creates an empty list
 -----> my_list = list(("Kevin", "Karen", "Jim"))  # using the list function and passing a iterable (in this case a tuple) on it
 
----> Construction using the brackets and star:
+---> Construction using the brackets and an asterisk(*):
 -----> lonely_person = ["Pam"] * 5  # creates a list with five "Pam"s
 
----> Element access:
------> my_list = ["Kevin", "Karen", "Jim"]
+---> Element access:-----> my_list = ["Kevin", "Karen", "Jim"]
 -----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim']
 -----> print(my_list[0])  # prints Kevin
 -----> print(my_list[2])  # prints Jim
@@ -316,10 +759,10 @@
 ---> Specified item removal (remove function)
 -----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
 -----> my_list.remove("Jim")
+-----> # my_list.remove("DudeIsNotBornYet")  # ValueError: list.remove(x) x not in list
 -----> print(my_list)  # prints ['Kevin', 'Karen', 'Oscar', 'Toby']
 
----> Last item removal (pop function)
------> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
+---> Last item removal (pop function)-----> my_list = ["Kevin", "Karen", "Jim", "Oscar", "Toby"]
 -----> my_list.pop()
 -----> print(my_list)  # prints ['Kevin', 'Karen', 'Jim', 'Oscar']
 
@@ -371,15 +814,26 @@
 -----> print(my_list4)  # prints ['Millie', 'Karen', 'Jim', 'Oscar', 'Toby', 'Creed']
 
 ---> List comprehension (cool feature)
------> numbers = [1, 2, 3, 4, 5, 6]
------> squared_numbers = [n*n for n in numbers]
------> even_numbers = [n for n in numbers if n % 2 == 0]
------> print(numbers)  # prints [1, 2, 3, 4, 5, 6]
------> print(squared_numbers)  # prints [1, 4, 9, 16, 25, 36]
------> print(even_numbers)  # prints [2, 4, 6]
+-----> Based from a list:
+-------> numbers = [1, 2, 3, 4, 5, 6]
+-------> numbers_string = [str(number) for number in numbers]
+-------> squared_numbers = [n*n for n in numbers]
+-------> even_numbers = [n for n in numbers if n % 2 == 0]
+-------> print(numbers)  # prints [1, 2, 3, 4, 5, 6]
+-------> print(numbers_string)  # ['1', '2', '3', '4', '5', '6']
+-------> print(squared_numbers)  # prints [1, 4, 9, 16, 25, 36]
+-------> print(even_numbers)  # prints [2, 4, 6]
+-----> Based from a range (range is an iterable object):
+-------> numbers_string = [str(number) for n in range(1, 10)]
+-------> squared_numbers = [n*n for n in range(1, 10)]
+-------> even_numbers = [n for n in range(1, 10) if n % 2 == 0]
+-------> print(numbers_string)  # prints ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+-------> print(squared_numbers)  # prints [1, 4, 9, 16, 25, 36, 49, 64, 81]
+-------> print(even_numbers)  # prints [2, 4, 6, 8]
+
+
 
 -> Tuples
-
 ---> Python recognizes comma separated elements as a tuple (but not inside a known construct (a list for example))
 ---> They can be grouped by parentheses but its optional
 ---> Tuples are Heterogeneous (you can put any type (string, int, boolean) in different positions)
@@ -406,14 +860,15 @@
 ---> Construction using the tuple function:
 -----> my_tuple = tuple(["Max", 28, Boston])  # using the tuple function and passing a iterable (in this case a list) on it
 
+---> Construction using the parentheses and an asterisk(*):
+-----> lonely_person = ("Max") * 5  # creates a tuple with five "Max"s
+
 ---> Element access
 -----> my_tuple = "Max", 28, Boston
------> print(my_tuple[1])  # prints 28
------> print(my_tuple[-1])  # prints Boston
+-----> print(my_tuple[1])  # prints 28-----> print(my_tuple[-1])  # prints Boston
 -----> print(my_tuple[-2])  # prints 28
 -----> # print(my_tuple[3])  # IndexError: tuple index out of range
- 
----> Tuples are immutable:
+ ---> Tuples are immutable:
 -----> coordinate = (4, 5)
 -----> print(coordinate[1])  # prints 5
 -----> # coordinate[1] = 10 # TypeError: 'tuple' object does not support item assignment
@@ -549,11 +1004,10 @@
 
 ---> Iteration
 -----> my_dict = {"name": "Max", "age": 28, "city": "New York"}
------> for key in my_dict:
+-----> for key in my_dict:  # Note: Notice that default iteration has only its keys in it.
 ----->     print(key)
 -----> for key in my_dict.keys():  # same as above
------>     print(key)
------> for value in my_dict.values():
+----->     print(key)-----> for value in my_dict.values():
 ----->     print(value)
 -----> for key, value in my_dict.items():
 ----->     print(key)
@@ -761,349 +1215,7 @@
 -----> my_frozen_set.remove(1)  # AttributeError: 'frozenset' object has no attribute 'remove'
 
 
-
-
--> Getting Input From Users
-
----> Example with strings:
------> name = input("Enter your name: ")  # gets input from user
------> age = input("Enter your age: ")
------> print("Hello " + name + "! You are " + age + ".")
----> NOTE: By default, python gets input as a string. 
-
----> Example with adding integers from user input:
------> num1 = input("Enter a number: ")
------> num2 = input("Enter another number: ")
------> result = int(num1) + int(num2)
------> print(result)
-
----> Example with adding floating numbers from user input:
------> num1 = input("Enter a number: ")
------> num2 = input("Enter another number: ")
------> result = float(num1) + float(num2)
------> print(result)
-
-
-
--> Functions
-
----> Python recognizes "def" as the keyword for functions
----> The code the goes inside the function needs to be indented
----> Printing example: 
------> def say_hi(name, age):
------>     print("Hello " + name + "! You are " + str(age) + ".")
------> print("Top")  # prints Top
------> say_hi("Mike", 35)  # prints Hello Mike! You are 35.
------> say_hi("Steve", 70)  # prints Hello Steve! You are 70.
------> print("Bottom")  # prints Bottom
----> Return statement example: 
------> def cube(num):
------>     return num*num*num
------>     print("This is will not be printed")  # The functions exists at the return statement so this line will not be executed.
------> print(cube(4)) # prints 64
------> result = cube(5)
------> print(result) # prints 125
-
-
-
--> If statement
-
----> Python recognizes "if", "elif", "else" as the keywords for if statements
----> If statements with boolean variables:
------> is_male = True
------> is_tall = True
------> if is_male or is_tall:
------>     print("You are a male or tall or both.")
------> else:
------>     print("You are neither male nor tall.")
------> if is_male and is_tall:
------>     print("You are a tall male.")
------> elif is_male and not(is_tall):
------>     print("You are a short male.")
------> elif not(is_male) and is_tall:
------>     print("You are not a male but are tall.")
------> else:
------>     print("You are either not a male and not tall.")
----> If statements with comparison operators:
------> def is_equal(parameter1, parameter2):
------>     return parameter1 == parameter2
------> def is_not_equal(parameter1, parameter2):
------>     return parameter1 != parameter2
------> def max_of_three(num1, num2, num3):
------>     if num1 >= num2 and num1 >= num3:
------>         return num1
------>     elif num2 >= num2 and num2 >= num3:
------>         return num2
------>     else:
------>         return num3
------> print(is_equal(1, 1))  # prints True
------> print(is_equal(1, 2))  # prints False
------> print(is_equal("Jose", "Jose"))  # prints True
------> print(is_equal("Jose", "Pancho"))  # prints False
------> print(is_not_equal(1, 1))  # prints False
------> print(is_not_equal(1, 2))  # prints True
------> print(is_not_equal("Jose", "Jose"))  # prints False
------> print(is_not_equal("Jose", "Pancho"))  # prints True
------> print(max_of_three(1, 2, 3))  # prints 3
------> print(max_of_three(300, 40, 5))  # prints 300
------> print(max_of_three("300", "40", "5"))  # prints 5 (lexicographically compared)
----> Calculator example:
------> num1 = float(input("Enter first number:"))
------> op = input("Enter operator:")
------> num2 = float(input("Enter second number:"))
------> if op == '+':
------>     print(num1+num2)
------> elif op == '-':
------>     print(num1-num2)
------> elif op == '*':
------>     print(num1*num2)
------> elif op == '/':
------>     print(num1/num2)
------> else:
------>     print("Invalid operator.")
-
-
-
--> While loop
-
----> Simple loop that counts 1 to 10:
------> i = 1
------> while i <= 10:
------>     print(i)
------>     # i++ # The operator ++ does not exist
------>     i += 1
------> print("Done with loop")secret_word = "giraffe"
-
----> Guessing game:
------> guess = ""
------> guess_count = 0
------> guess_limit = 3
------> while guess != secret_word and guess_count < guess_limit:
------>     guess = input("Enter guess: ")
------>     guess_count += 1
------> 
------> if guess_count < guess_limit:
------>     print("You win!")
------> else:
------>     print("Out of guesses!")
-
--> for loop
----> Prints in collection
------> for letter in "Giraffe Academy":
------>     print(letter)  # prints letter in Giraffe Academy in separate lines
------> my_list = ["Jim", "Karen", "Kevin"]
------> for item in my_list:
------>     print(item)  # prints Jim Karen Kevin in separate lines
------> for index in range(10):
------>     print(index)  # prints 0-9 in separate lines
------> for index in range(3, 10):
------>     print(index)  # prints 3-9 in separate lines
------> for index in range(len(my_list)):
------>     print(my_list[index])  # prints Jim Karen Kevin in separate lines
-
--> 2D list
----> number_grid = [
---->     [1, 2, 3],
---->     [4, 5, 6],
---->     [7, 8, 9],
---->     [0]
----> ]
----> print(number_grid[0][0])  # prints 1
----> print(number_grid[2][1])  # prints 8
----> for row in number_grid:
---->     for col in row:
---->         print(col)  # prints all elements in the grid
-
--> Translation example (convert all vowels to g)
----> def translate(phrase):
---->     # this function converts all the vowels to g
---->     result=""
---->     for letter in phrase:
---->         if letter.lower() in "aeiou": # letter is a vowel
---->             result += "g"
---->         else:
---->             result += letter
---->     return result
----> print(translate(input("Enter a phrase: ")))
-
--> Comments
----> # Single line comment
----> '''
----> These are multiline comments.
----> These are useful when debugging a chunk of code.
----> But these are not recommended in terms of style (prefer to use single line comments).
----> '''
-
-
-
--> Try except block
----> try:
---->     number = 1/0
----> except:
---->     print("This will catch all exceptions. This is not recommended.")
----> try:
---->     number = 1/0
----> except ZeroDivisionError:
---->     print("Divided by zero")
----> try:
---->     number = 1/0
----> except ZeroDivisionError as error_message:
---->     print(error_message)
----> try:
---->     number = int(input("Enter a number: "))
---->     print(number)
----> except ValueError as error_message:
---->     print("Invalid input: " + str(error_message))
-
-
-
--> Reading from files:
----> sample_file = open("sample.txt", "r")
----> # "r" for read
----> # "w" for write
----> # "a" for append
----> # "r+" for read and write
----> print("Is readable:" + str(sample_file.readable()))  # This returns a boolean if the file can be read (files opened by write will return false)
----> print("The entire contents:" + sample_file.read())  # This prints the entire contents of the file
----> sample_file.seek(0)  # reset at the start of the file
----> print("First line: " + sample_file.readline())  # This prints one line of the file
----> print("Second line: " + sample_file.readline())  # This prints one line of the file
----> print(sample_file.readline())  # This prints one line of the file
----> sample_file.seek(0)  # reset at the start of the file
----> while True:
---->     line = sample_file.readline()
---->     if not line:
---->         break
---->     print("Line at the loop:" + line.strip())
----> sample_file.seek(0)  # reset at the start of the file
----> print(sample_file.readlines())  # This prints all line in a list (readlines() put all lines in a list)
----> sample_file.seek(0)  # reset at the start of the file
----> for line in sample_file.readlines():
---->     print("Line at the loop:" + line.strip())
----> sample_file.close()
-
-
-
--> Writing to file:
----> # appending to a file
----> sample_file = open("sample.txt", "a")
----> sample_file.write("Toby - Human Resources\n") # This appends to the last line.
----> sample_file.close()
----> # writing to a file
----> sample_file = open("sample.txt", "w")
----> sample_file.write("Toby - Human Resources\n")  # This writes a line to the file (and erasing it previous contents).
----> sample_file.close()
-
--> Modules
----> How to use your own module:
------> import utilities
------> print(utilities.compute_something())
----> Check python docs to know what modules you need:
------> google: python docs list of modules
------> https://docs.python.org/3/py-modindex.html
------> Some libraries are built-in (you dont have to add them in the file) some are external (you have to manually add them thru import)
--------> Check your python installation directory and look for the lib folder.
-
-
-
--> pip
----> Some third party libraries can be installed using pip
----> Example (python-docx is libaries that write word documents):
------> pip install python-docx
--------> If python is not added in PATH, you can find pip here and manually run it: C:\Users\detec\AppData\Local\Programs\Python\Python310\Scripts
------> The libraries installed by pip are on the directoy site-packages
-
-
-
--> Classes and objects
-
----> Simple example:
------> On utilities.py:
--------> class Student:
-------->     def __init__(self, name, major, gpa, is_on_probation):
-------->         self.name = name
-------->         self.major = major
-------->         self.gpa = gpa
-------->         self.is_on_probation = is_on_probation
------> On application.py:
--------> from utilities import Student  # from utilities file import the Student class
--------> student1 = Student("Jim", "Business", 3.1, False)  # the initializer is called
--------> student2 = Student("Pam", "Art", 2.5, True)
--------> print(student1.gpa)
--------> print(student2.gpa)
-
----> Multiple choice questionaire:
------> On utilities.py:
--------> class Question:
-------->     def __init__(self, prompt, answer):
-------->         self.prompt = prompt
-------->         self.answer = answer
------> On application.py:
--------> from utilities import Question  # from utilities file import the Question class
--------> questions_prompts = [
-------->     "What color are apples?\n(a) Red/Green\n(b) Purple\n(c) Orange\n\n",
-------->     "What color are bananas?\n(a) Teal\n(b) Magenta\n(c) Yellow\n\n",
-------->     "What color are strawberries?\n (a) Yellow\n(b) Red\n(c) Blue\n\n"
--------> ]
--------> questions = [
-------->     Question(questions_prompts[0], "a"),
-------->     Question(questions_prompts[1], "c"), 
-------->     Question(questions_prompts[2], "b")
-------->     ]
--------> def run_test(questions):
-------->     score = 0
-------->     for question in questions:
-------->         answer = input(question.prompt)
-------->         if answer == question.answer:
-------->             score+=1
-------->     print("You got " + str(score) +  "/" + str(len(questions))+ " correct")
--------> run_test(questions)
-
----> Student Honor Roll (in class function example):
------> On utilities.py:
--------> class Student:
-------->     def __init__(self, name, major, gpa):
-------->         self.name = name
-------->         self.major = major
-------->         self.gpa = gpa
--------> 
-------->     def is_on_honor_roll(self):
-------->         if self.gpa >= 3.5: 
-------->             return True
-------->         else:
-------->             return False
------> On application.py:
--------> from utilities import Student  # from utilities file import the Student class
--------> student1 = Student("Oscar", "Accounting", 3.1)
--------> student2 = Student("Phyllis", "Business", 3.8)
--------> print(student1.is_on_honor_roll())
--------> print(student2.is_on_honor_roll())
-
----> Chef (inheritance example):
------> On utilities.py:
--------> class Chef:
-------->     def make_chicken(self):
-------->         print("The chef makes a chicken.")
-------->     def make_salad(self):
-------->         print("The chef makes a salad.")
-------->     def make_special_dish(self):
-------->         print("The chef makes bbq ribs.")
--------> class Chinese_Chef(Chef):
-------->     def make_special_dish(self):
-------->         print("The chef makes orange chicken.")
-------->     def make_fried_rice(self):
-------->         print("The chef makes fried rice.")
------> On application.py:
--------> from utilities import Chef, Chinese_Chef
--------> my_chef = Chef()
--------> my_chef.make_special_dish()
--------> my_chinese_chef=Chinese_Chef()
--------> my_chinese_chef.make_special_dish()
-
-
-
 -> Collections
-
 ---> The collections module provide special containers that provide additional functionality
 
 ---> Counter
@@ -1294,14 +1406,17 @@
 -----> add10 = lambda x: x+10
 -----> print(add10(5))
 -----> mult = lambda x,y: x*y
+-----> # This is the same but in function format
+-----> def add10(x): return x+10
+-----> print(add10(5))
+-----> def mult(x, y): return x*y
+-----> print(mult(2, 7))
 -----> print(mult(2,7))
 ---> Example usage on sorted function:
------> points = [(1, 2), (15, 1), (5, -1), (10, 4)]
------> points_sorted_in_y = sorted(points, key=lambda x: x[1])  # key expects a function (which can be a lambda)
+-----> points = [(1, 2), (15, 1), (5, -1), (10, 4)]-----> points_sorted_in_y = sorted(points, key=lambda x: x[1])  # key expects a function (which can be a lambda)
 -----> points_sorted_by_sum = sorted(points, key=lambda x: x[0]+x[1])  # key expects a function (which can be a lambda)
 -----> print(points)  # prints [(1, 2), (15, 1), (5, -1), (10, 4)]
------> print(points_sorted_in_y)  # prints [(5, -1), (15, 1), (1, 2), (10, 4)]
------> print(points_sorted_by_sum)  # prints [(1, 2), (5, -1), (10, 4), (15, 1)]
+-----> print(points_sorted_in_y)  # prints [(5, -1), (15, 1), (1, 2), (10, 4)]-----> print(points_sorted_by_sum)  # prints [(1, 2), (5, -1), (10, 4), (15, 1)]
 ---> Example usage on map function (syntax wise its better to use list comprehension):
 ---> This is like the std::generate/std::generate_n function.
 -----> my_list = [1, 2, 3, 4, 5]
@@ -1321,20 +1436,1047 @@
 
 
 
+-> Errors and Exceptions
+---> A python program terminates as soon as it encounters an error (can be a syntax error or an exception).
+
+---> Syntax errors
+-----> Syntax errors happen when the parser detects a syntactically incorrect statement.
+-----> Examples:
+-------> my_value = a5 print(my_value)  # no new line
+-------> print(my_value))  # too many parentheses
+
+---> Exceptions
+-----> Exceptions happen when an internal error happens when executing a statement.
+-----> Examples:
+-------> some_variable = 5+'10'  # TypeError: unsupported operand type(s) for +: 'int' and 'str'
+-------> import DoesNotExistModule  # ModuleNotFoundError: No module named 'DoesNotExistModule'
+-------> some_variable =  not_defined_yet_variable  # NameError: name 'not_defined_yet_variable' is not defined
+-------> file = open('FileDoesNotExist.txt')  #FileNotFoundError: No such file or directory: 'FileDoesNotExist.txt'
+
+---> Raising an exception
+-----> Using the raise statement
+-------> x = -5
+-------> if x < 0:
+------->     raise Exception("x should be positive")  # The program went through here, raise an exception then terminates.
+-----> Using the assert statement
+-------> x = -5
+-------> assert(x >= 0)  # AssertionError
+-------> assert(x >= 0), "x is not positive"  # AssertionError: x is not positive
+
+---> Catching an exception (using the try except block)
+-----> Catch all exceptions
+-------> try:
+------->     some_number = 1/0
+------->     print("This statement will not be executed because exception happened before this.")
+-------> except:  # catch all exceptions (not recommended)
+------->     print("This will catch all exceptions. This is not recommended.")
+-----> Catch only one exception
+-------> try:
+------->     some_number = 1/0
+-------> except ZeroDivisionError:  # catch ZeroDivisionError only
+------->     print("This caught the exception due to dividing a number by zero.")
+-----> Catch only one exception and its error message
+-------> try:
+------->     some_number = 1/0
+-------> except ZeroDivisionError as error_message:  # catch ZeroDivisionError only and its error message
+------->     print(error_message)
+-----> Catch multiple exceptions (and their error messages)
+-------> try:
+------->     some_number = 1/0
+------->     some_variable = 5+'10'  # This will not be executed because exception happened before this.
+-------> except ZeroDivisionError as error_message
+------->     print(error_message)
+-------> except TypeError as error_message
+------->     print(error_message)
+-----> Catch exceptions with else and finally
+-------> try:
+------->     some_number = 1/0
+-------> except ZeroDivisionError as error_message
+------->     print(error_message)
+-------> else:  # This will be executed if there is no exception.
+------->     print(some_number)
+-------> finally:  # This will be executed always (regardless if theres an exception or not, this is normally used for cleanup operations).
+------->     print(some_number)
+-----> Common usage of exceptions is to catch invalid inputs 
+-------> try:  
+------->     some_number = int(input("Enter a number: "))
+------->     print(some_number)
+-------> except ValueError as error_message:
+------->     print("Invalid input: " + str(error_message))
+
+---> Creating our own exceptions (user defined exceptions)
+-----> class ValueTooHighError(Exception):  # its good practice to have the suffix "Error" at the end
+----->     pass
+-----> class ValueTooLowError(Exception): 
+----->     def __init__(self, message, value):  # has additional parameters on its construction
+----->         self.message = message
+----->         self.value = value
+-----> def check_value(x):
+----->     if x > 100:
+----->         raise ValueTooHighError("Value is too high.")
+----->     if x < -100:
+----->         raise ValueTooLowError("Value is too low.", x)
+-----> try:
+----->     check_value(-200);  # comment out depending on which exception you want to raise
+----->     check_value(200);
+-----> except ValueTooHighError as error_message:
+----->     print(error_message)  # prints Value is too high.
+-----> except ValueTooLowError as error_message:
+----->     print(error_message)  # prints ('Value is too low.', -200) 
 
 
 
+-> Logging
+
+---> Python already has powerful logging modules (so you can quickly add logging to your applications).
+
+---> Log levels
+-----> The logging module has debug info warning error and critical log levels (they indicate the severity of the events).
+-----> By default, only levels above warnings are printed (to change this you have to specify the logging configuration):
+-------> import logging
+-------> logging.debug('This is a debug message')  # this is NOT printed by default
+-------> logging.info('This is an info message')  # this is NOT printed by default
+-------> logging.warning('This is an warning message')  # this is printed by default
+-------> logging.error('This is an error message')  # this is printed by default
+-------> logging.critical('This is an critical message')  # this is printed by default
+
+---> Setting the logging configuration:
+-----> import logging
+-----> logging.basicConfig(level=logging.DEBUG, format="%(asctime)s | %(name)s on %(levelname)s: %(message)s", datefmt="%m/%d/%Y %H:%M:%S")
+-----> # Check the documentation for additional parameters of basicConfig (https://docs.python.org/3/lib rary/logging.html#logging.basicConfig).
+-----> logging.debug('This is a debug message')  # prints 08/01/2022 15:03:11 | root on DEBUG: This is a debug message
+-----> logging.info('This is an info message')  # prints 08/01/2022 15:03:11 | root on INFO: This is an info message
+-----> logging.warning('This is an warning message')  # prints 08/01/2022 15:03:11 | root on WARNING: This is an warning message
+-----> logging.error('This is an error message')  # prints 08/01/2022 15:03:11 | root on ERROR: This is an error message
+-----> logging.critical('This is an critical message')  # prints 08/01/2022 15:03:11 | root on CRITICAL: This is an critical message
+
+---> Create your own internal logger
+-----> Its best practice NOT to use the root logger.
+-----> Its also good practice to name your logger in the file where its executed.
+-------> import logging
+-------> logger = logging.getLogger(name=__name__)  # this uses the name of file as the name of the logger
+
+---> Avoiding propagation of logs
+-----> Since you can create your own loggers this can cause a hierarchy of loggers.
+-----> Its starts at the root logger, and all this new loggers gets added to this hierarchy.
+-----> And they propagate their message up to the base logger.
+-----> One way to avoid this is to avoid propagation:
+-------> logger.propagate = False  # now this will not print when executed in other files (when other loggers exists)
+
+---> Log handlers
+-----> You can add log handlers to have different ways of logging the same logs.
+-------> import logging
+-------> logger = logging.getLogger(__name__)
+-------> # create handlers
+-------> handler_for_console = logging.StreamHandler()
+-------> handler_for_file = logging.FileHandler("Log.txt")
+-------> # level and the format
+-------> handler_for_console.setLevel(logging.WARNING)  # Sets the filtering in the console log
+-------> handler_for_file.setLevel(logging.ERROR)  # Sets the filtering in the file log
+-------> # creating custom formatters
+-------> formatter_for_console = logging.Formatter("%(name)s on %(levelname)s: %(message)s") 
+-------> formatter_for_file = logging.Formatter("%(asctime)s | %(name)s on %(levelname)s: %(message)s") 
+-------> handler_for_console.setFormatter(formatter_for_console)
+-------> handler_for_file.setFormatter(formatter_for_file)
+-------> # Add handlers to logger
+-------> logger.addHandler(handler_for_console)
+-------> logger.addHandler(handler_for_file)
+-------> # Do logging 
+-------> logger.warning("This is a warning.")
+-------> logger.error("This is an error.")
+
+---> Log configuration file
+-----> You dont have to hard code your logging, you can load a configuration file instead.
+-----> In the configuration file (typically named "logging.conf" or "logging.ini")
+-------> # See https://docs.python.org/3/library/logging.config.html#configuration-file-format
+-------> [loggers]
+-------> keys=root, internal, external
+-------> [handlers]
+-------> keys=handler_for_console, handler_for_file
+-------> [formatters]
+-------> keys=formatter_for_console, formatter_for_file
+-------> [logger_root]
+-------> level=WARNING
+-------> handlers=handler_for_console
+-------> [logger_external]
+-------> level=INFO
+-------> handlers=handler_for_console, handler_for_file
+-------> propagate=0
+-------> qualname=ExternalLogger
+-------> [logger_internal]
+-------> level=DEBUG
+-------> handlers=handler_for_console, handler_for_file
+-------> propagate=0
+-------> qualname=InternalLogger
+-------> [handler_handler_for_console]
+-------> class=StreamHandler
+-------> level=DEBUG
+-------> formatter=formatter_for_console
+-------> args=(sys.stdout, )
+-------> [handler_handler_for_file]
+-------> class=FileHandler
+-------> level=DEBUG
+-------> formatter=formatter_for_file
+-------> args=('Log.txt', 'w')
+-------> [formatter_formatter_for_console]
+-------> format="%(asctime)s | %(name)s on %(levelname)s: %(message)s"
+-------> [formatter_formatter_for_file]
+-------> format="%(name)s on %(levelname)s: %(message)s"
+-------> datefmt="%m/%d/%Y %H:%M:%S"
+-----> Example usage of the configuration file:
+-------> import logging
+-------> import logging.config
+-------> logging.config.fileConfig('logging.conf')
+-------> logger = logging.getLogger("InternalLogger")
+-------> logger.debug('This is a debug message')
+-------> logger.info('This is an info message')
+-------> logger.warning('This is an warning message')
+-------> logger.error('This is an error message')
+-------> logger.critical('This is an critical message')
+-----> NOTE: You can also use a dictConfig file but it has a different format.
+
+---> Stack trace logging
+-----> To get the stack trace of the exception you can do this.
+-----> If you want to catch the stack trace of a specific exception:
+-------> import logging
+-------> try:
+------->     my_list = [1, 2, 3]
+------->     my_number = my_list[4]
+-------> except IndexError as error_message:
+------->     logging.error(error_message, exc_info=True)
+-----> If you want to catch the stack trace of all exceptions:
+-------> import logging
+-------> import traceback
+-------> try:
+------->     my_list = [1, 2, 3]
+------->     my_number = my_list[4]
+-------> except:
+------->     logging.error("The error is %s", traceback.format_exc())
+
+---> Rotating file handler
+-----> This keeps the file at a specific size and keeps the most recent logs.
+-----> Example usage:
+-------> import logging
+-------> from logging.handlers import RotatingFileHandler 
+-------> logger= logging.getLogger(__name__)
+-------> logger.setLevel(logging.INFO)
+-------> # roll over after 2KB, and keep back logs log.txt.1, log.txt.2, etc
+-------> handler = RotatingFileHandler("log.txt", maxBytes=2000, backupCount=3)  # max size of 2KB and keeps 3 backups
+-------> logger.addHandler(handler)
+-------> for _ in range(10000):
+------->     logger.info("Hello, world!")  # Fill the logs with "Hello, world!"
+
+---> Timed rotating file handler
+-----> The rotation of the log is determined by time instead.
+-----> Example usage:
+-------> import logging
+-------> from logging.handlers import TimedRotatingFileHandler
+-------> logger= logging.getLogger(__name__)
+-------> logger.setLevel(logging.INFO)
+-------> handler = TimedRotatingFileHandler("log.txt", when="s", interval=5, backupCount=3) # every 5 seconds a new file will be created
+-------> # when can be set as s(seconds), m(minutes), h(hours), d(days), midnight, w0(monday), w1(tuesday)
+-------> logger.addHandler(handler)
+-------> for _ in range(10000):
+------->     logger.info("Hello, world!")
 
 
 
--> Timers
+-> JSON (JavaScript Object Notation)
 
----> Get the duration
------> from timeit import default_timer as timer
------> start = timer()
------> # do something here
------> stop = timer()
------> print(stop-start)
+---> Its a light weight data format that is used for data exchanges.
+---> Its heavily used in web applications
+---> Python has already have a built-in JSON module that makes working with JSON easy.
+
+---> Python types to JSON types conversion
+-----> dict (Python) <-> object (JSON)
+-----> list, tuple (Python) <-> array (JSON)
+-----> str (Python) <-> string (JSON)
+-----> int, long, float (Python) <-> number (JSON)
+-----> True (Python) <-> true (JSON)
+-----> False (Python) <-> false (JSON)
+-----> none (Python) <-> null (JSON)
+
+---> Serialization/Encoding
+-----> Converting python data into a JSON string
+-------> import json
+-------> python_data = {"name": "John", "age": 30, "city": "New York", "hasChildren": False, "titles": ["engineer", "programmer"]}
+-------> json_data_string = json.dumps(python_data)  # the "s" in "dumps" is for strings
+-------> print(json_data_string)
+-----> Converting python data into JSON and dumping it into a file
+-------> import json
+-------> with open("person.json", "w") as file:
+------->     json.dump(python_data, file, indent=4, sort_keys=True)
+-----> Converting custom python class/object into JSON
+-------> import json
+-------> class User:
+------->     def __init__(self, name, age):
+------->         self.name = name
+------->         self.age = age
+-------> def encode_with_user(parameter):
+------->     if isinstance (parameter, User):  # this checks if parameter is type User
+------->         return {"name": parameter.name, "age": parameter.age, parameter.__class__.__name__:True}
+------->     else:
+------->         return parameter
+-------> # Use the specified encoder
+-------> user = User('Max', 27)
+-------> json_data_string = json.dumps(user, default=encode_with_user)
+-------> print(json_data_string) 
+
+---> Deserialization/Decoding
+-----> Converting JSON string into python data 
+-------> import json
+-------> converted_data = json.loads(json_data_string)  # the "s" in "loads" is for strings
+-------> print(python_data)
+-----> Reading JSON data from a file and converting it to python data 
+-------> import json
+-------> with open("person.json", "r") as file:
+------->     python_data = json.load(file)
+-------> print(python_data)
+-----> Converting from JSON string into a python class/object  
+-------> import json
+-------> class User:
+------->     def __init__(self, name, age):
+------->         self.name = name
+------->         self.age = age
+-------> def decode_with_user(parameter):
+------->     if User.__name__  in parameter:  # this checks if the class name exists in the data
+------->         return User(name=parameter["name"], age=parameter["age"])
+------->     else:
+------->         return parameter
+-------> # Use the specified decoder
+-------> python_data = json.loads(json_data_string, object_hook=decode_with_user)  # the "s" in "loads" is for strings
+-------> print(type(python_data), python_data.name, python_data.age)
 
 
+
+-> Random Numbers
+
+---> Using the python module "random"
+-----> You can seed and reseed the values so you can reproduce the random numbers.
+-----> Because you can reproduce them, they are not recommended to be used on security applications.
+-----> Example usages:
+-------> import random
+-------> seed_value = 100 
+-------> random.seed(seed_value)  # so we can reproduce the same random numbers (without this it will random at each run)
+-------> random_float = random.random()  # gives a random float on [0, 1)
+-------> random_float_at_interval = random.uniform(-10.5, 10.5)  # gives a random float at interval
+-------> random_int_at_interval1 = random.randint(-10, 10)  # gives a random integer (including both end points)
+-------> random_int_at_interval2 = random.randrange(-10, 10)  # gives a random integer (half open at upper bound (so not included))
+-------> random_at_normal_distribution = random.normalvariate(0, 1)  # gives a random float at normal distribution
+-------> my_list = ["A", "B", "C", "D", "E", "F"]
+-------> random_item = random.choice(my_list)  # picks a random element in a non-empty sequence
+-------> random_items = random.sample(my_list, 3)  # picks multiple random elements (output is a list)
+-------> random_items_multiple_times = random.choices(my_list, k=3)  # picks multiple random elements (output is a list, can be multiple times)
+-------> random.shuffle(my_list)  # shuffle in place
+-------> print(random_float)
+-------> print(random_float_at_interval)
+-------> print(random_int_at_interval1)
+-------> print(random_int_at_interval2) 
+-------> print(random_at_normal_distribution)
+-------> print(random_item)
+-------> print(random_items)
+-------> print(random_items_multiple_times)
+-------> print(my_list)
+
+---> Using the python module "secrets"
+-----> This is used in security applications (passwords, security tokens, account authentication).
+-------> import secrets
+-------> random_int1 = secrets.randbelow(10)  # gives a random int in the range [0, n)
+-------> random_int2 = secrets.randbits(8)  #  gives a random int with k random bits
+-------> my_list = ["A", "B", "C", "D", "E", "F"]
+-------> random_item = secrets.choice(my_list)  # picks a random element in a non-empty sequence
+-------> print(random_int1)
+-------> print(random_int2)
+-------> print(random_item)
+
+---> Using the python third party module "numpy"
+-----> This needs to be installed (preferably via pip)
+-----> This can generate an array of random numbers.
+-----> This uses different random generators from the standard library.
+-------> import numpy as np
+-------> seed_value = 100
+-------> np.random.seed(seed_value)  # so we can reproduce the same random numbers (without this it will random at each run)
+-------> random_floats = np.random.rand()  # gives a random float on [0, 1)
+-------> random_floats_in_1d = np.random.rand(3)  # gives a random floats in a 1D list
+-------> random_floats_in_2d = np.random.rand(3, 3)  # gives a random floats in a 2D list
+-------> random_int = np.random.randint(0, 10)  # gives a random integer (half open at upper bound (so not included))
+-------> random_ints_in_1d = np.random.randint(0, 10, 3)  # gives a random integer in a 1D list
+-------> random_ints_in_2d = np.random.randint(0, 10, (3, 4))  # gives a random integer in a 2D list
+-------> my_list_in_2d = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+-------> np.random.shuffle(my_list_in_2d)  # NOTE: this only shuffles in one dimension
+-------> print(random_floats)
+-------> print(random_floats_in_1d)
+-------> print(random_floats_in_2d)
+-------> print(random_int)
+-------> print(random_ints_in_1d)
+-------> print(random_ints_in_2d)
+-------> print(my_list_in_2d)
+
+
+
+-> Decorators
+
+---> Functions in python are class objects:
+-----> This means like any other objects they be defined inside another function.
+-----> This means like any other objects they be pass as argument to another function.
+-----> This means like any other objects they be returned from another function.
+---> Typical use cases for decorators are:
+-----> Timer decorator (to calculate the time inside the function)
+-----> Debug decorator (print additional infomation about the called function)
+-----> Check arguments decorator (to check if the arguments fulfill the additional requirements)
+-----> Register functions (like plugins)
+-----> Cache the return values, add information, update the state, etc
+
+---> Function decorators
+-----> Basic syntax:
+-------> @first_decorator
+-------> @second_decorator
+-------> def do_something():
+---------> pass
+
+-----> Basic example:
+-------> def my_decorator(function_to_decorate):
+------->     def wrapper():  # can be renamed as something else (typically decorator_something)
+------->         print("do something at the start")  # do something at the start
+------->         function_to_decorate()
+------->         print("do something at the end")  # do something at the end
+------->     return wrapper
+-------> @my_decorator  # decorator syntax
+-------> def my_function():
+------->     print("inside my_function")
+-------> # my_function = my_decorator(my_function) # this is the same thing as above (without decorator syntax)
+-------> my_function()
+
+-----> Example usage (functions with arguments and return value):
+-------> import functools
+-------> def my_decorator(function_to_decorate):
+------->     @functools.wraps(function_to_decorate)  # this preserves the identity as the passed function (without this it will recognized as "wrapper")
+------->     def wrapper(*args, **kwargs):  # can be renamed as something else (typically decorator_something)
+------->         # "*args, **kwargs" means it can handle as much arguments and keyword arguments 
+------->         print("do something at the start")  # do something at the start
+------->         result = function_to_decorate(*args, **kwargs)
+------->         print("do something at the end")  # do something at the end
+------->         return result
+------->     return wrapper
+-------> @my_decorator  # decorator syntax
+-------> def my_function(argument):
+------->     print(f"inside my_function with value: {argument}")
+------->     return argument
+-------> # my_function = my_decorator(my_function) # this is the same thing as above (without decorator syntax)
+-------> result = my_function(10)
+-------> print(result)
+-------> print("Help details: ")  # prints the function's identity (it should retain it)
+-------> help(my_function)
+-------> print(f"Function name: {my_function.__name__}")  # prints the function's name (it should retain it)
+
+-----> Example usage (decorator with arguments):
+-------> import functools
+-------> def my_decorator_with_arguments(number_of_times_to_repeat):
+------->     def sub_decorator(function_to_decorate):
+------->         @functools.wraps(function_to_decorate)  # this preserves the identity as the passed function (without this it will recognized as wrapper)
+------->         def wrapper(*args, **kwargs):  # this means it can handle as much arguments and keyword arguments 
+------->             result = 0  # example usage
+------->             for _ in range(number_of_times_to_repeat):  # example usage
+------->                 result += function_to_decorate(*args, **kwargs)  # example usage
+------->             return result
+------->         return wrapper
+------->     return sub_decorator
+-------> @my_decorator_with_arguments(5)  # decorator syntax
+-------> def my_function(argument):
+------->     print(f"inside the function with value: {argument}")
+------->     return argument
+-------> # my_function = my_decorator(my_function) # this is the same thing as above (without decorator syntax)
+-------> result = my_function(10)
+-------> print(result)
+-------> print("Help details: ")  # prints the function's identity (it should retain it)
+-------> help(my_function)
+-------> print(f"Function name: {my_function.__name__}")  # prints the function's name (it should retain it)
+
+
+ 
+---> Class decorators
+-----> class CountCalls:
+----->     def __init__(self, function_to_decorate):
+----->         self.function_to_decorate = function_to_decorate
+----->         self.number_of_calls = 0
+----->     def __call__(self, *args, **kwargs):
+----->         self.number_of_calls += 1
+----->         result = self.function_to_decorate(*args, **kwargs)
+----->         print(f"{self.function_to_decorate.__name__} is executed {self.number_of_calls} times")
+----->         return result
+-----> @CountCalls
+-----> def my_function():
+----->     print("inside my_function")
+-----> my_function()
+-----> my_function()
+-----> my_function()
+
+
+
+-> Generators
+
+---> They are like functions that return objects that can be iterated over (iterable).
+---> They generate the items lazily, they generate it one at a time and only if you ask for it.
+---> They are much more memory efficient than other sequence objects that deal with large data sets.
+---> The syntax is just like a normal function but instead of the "return" keyword they use the "yield" keyword.
+-----> It will give the next value at every yield.
+
+---> Simple generator example:
+-----> def my_generator():
+----->     yield 1
+----->     yield 2
+----->     yield 3
+-----> my_generator_object = my_generator()
+-----> print(my_generator_object)  # prints generator object my_generator
+-----> for item in my_generator_object:
+----->     print(item)  # prints 1, 2, 3 at a time
+
+---> "next" function example:
+-----> def my_generator():
+----->     yield 1
+----->     yield 2
+----->     yield 3
+-----> my_generator_object = my_generator()
+-----> print(next(my_generator_object))  # prints 1
+-----> print(next(my_generator_object))  # prints 2
+-----> print(next(my_generator_object))  # prints 3
+-----> # print(next(my_generator_object))  # StopOperation exception is raised because there is no yield left
+
+---> You can pass generator objects as an iterable:
+-----> def my_generator():
+----->     yield 6
+----->     yield 2
+----->     yield 8
+-----> my_generator_object = my_generator()
+-----> print(sorted(my_generator_object))  # prints [2, 6, 8]
+-----> # sorted expects an iterable also the output of sorted is a list
+
+---> Generator objects consume less memory than actual structures:
+-----> import sys
+-----> actual_1_to_5 = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+-----> def generator_from_1_to_10():
+----->     for item in range(1, 10):
+----->         yield item
+-----> generator_object_from_1_to_5 = generator_from_1_to_5()
+-----> print(sys.getsizeof(actual_1_to_5))  # prints 120
+-----> print(sys.getsizeof(generator_object_from_1_to_5))  # prints 104
+
+---> Fibonacci example:
+-----> def fibonacci_generator(limitValue):
+----->     # 0, 1, 1, 2, 3, 5, 8, 13
+----->     current, next = 0, 1
+----->     while current < limitValue:
+----->         yield current
+----->         current, next = next, current+next
+-----> fibonacci_iterable = fibonacci_generator(30)
+-----> for value in fibonacci_iterable:
+----->     print(value)
+
+---> Generator expression example (similar syntax to list comprehension):
+-----> squared_numbers = [n*n for n in range(1, 10)]  # brackets mean list comprehension
+-----> even_numbers = [n for n in range(1, 10) if n % 2 == 0]  # brackets mean list comprehension
+-----> squared_numbers_generator_object = (n*n for n in range(1, 10))  # parentheses mean generator object
+-----> even_numbers_generator_object = (n for n in range(1, 10) if n % 2 == 0)  # parentheses mean generator object
+-----> print(squared_numbers)  # prints [1, 4, 9, 16, 25, 36, 49, 64, 81]
+-----> print(even_numbers)  # prints [2, 4, 6, 8]
+-----> for value in squared_numbers_generator_object: 
+----->     print(value)
+-----> for value in even_numbers_generator_object: 
+----->     print(value)
+
+---> Conversion to list (since its iterable it can be passed on its constructor)
+-----> squared_numbers_generator_object = (n*n for n in range(1, 10))  # parentheses mean generator object
+-----> even_numbers_generator_object = (n for n in range(1, 10) if n % 2 == 0)  # parentheses mean generator object
+-----> print(list(squared_numbers_generator_object))  # prints [1, 4, 9, 16, 25, 36, 49, 64, 81]
+-----> print(list(even_numbers_generator_object))  # prints [2, 4, 6, 8]
+
+
+
+-> Multihtreading and multiprocessing
+
+---> Process is an instance of a program
+-----> Examples: the Python Interpreter, the firefox browser
+-----> A thread on the other hand is an entity of a process (a process can have multiples threads inside).
+-----> Pro: Takes advantage of multiple CPUs and cores
+-----> Pro: Separate memory space -> memory is not shared between process
+-----> Pro: Great for CPU-bound processing
+-----> Pro: Processes are interruptable/killable
+-----> Pro: One GIL (Global Interpreter Lock) for each process -> avoids GIL limitation
+-----> Con: Heavyweight
+-----> Con: Starting a process is slower than starting a thread.
+-----> Con: More memory
+-----> Con: IPC (inter-process communication) is more complicated
+processes
+---> Thread is an entity within a process that can be scheduled (also known as lightweight process)
+-----> A process can spawn multiple threads.
+-----> Pro: All thread within a process share the same memory
+-----> Pro: Lightweight
+-----> Pro: Starting a thread is faster than starting a process
+-----> Pro: Great for I/O-bound tasks (can easily switch one thread (waiting for devices) to other threads)
+-----> Con: Threading is limited by GIL: Only one thread at a time
+-----> Con: No effect for CPU-bound tasks
+-----> Con: Not interruptable/killable (be careful with resource leaks)
+-----> Con: Careful with race conditions (two threads changing the same memory at the same time)
+
+---> GIL is the Global Interpreter Lock
+-----> This is a lock that allows only one thread at a time to execute in Python
+-----> This is needed in CPython (the python implementation from python.org) because memory is not thread-safe
+-------> The reference counting is not thread-safe (problems when the reference count is increased or decreased by different threads) 
+-----> How to avoid the GIL?
+-------> Use Multiprocessing
+-------> Avoid CPython and use a different, free-threaded Python implementation (Jython, IronPython)
+-------> Use python as wrapper for third-party libraries (C/C++) -> numpy, scipy
+
+---> Multiprocessing simple example
+-----> from multiprocessing import Process
+-----> import os
+-----> def my_function(argument1, argument2):
+----->     print(f"inside my function with arguments: [{argument1, argument2}]")
+-----> if __name__ == '__main__':  # needed on windows to avoid recursion (the processes other than main are creating their own process)
+----->     processes = []  # create an empty list
+----->     number_of_processes = os.cpu_count()  # its good to match the number of processes with the number of cores
+----->     # create processes
+----->     for _ in range(number_of_processes):
+----->         process = Process(target=my_function, args=(10, 20))  # Note that args should be tuple here
+----->         processes.append(process)
+----->     # start processes
+----->     for process in processes:
+----->         process.start()
+----->     # join or wait for all the processes to finish
+----->     for process in processes:
+----->         process.join()
+----->     # program ends with all processes ended
+
+---> Multithreading simple example
+-----> from threading import Thread
+-----> import os
+-----> def my_function(argument1, argument2):
+----->     print(f"inside my function with arguments: [{argument1, argument2}]")
+-----> threads = []  # create an empty list
+-----> number_of_threads = os.cpu_count()*2  # example number
+-----> # create threads
+-----> for _ in range(number_of_threads):
+----->     thread = Thread(target=my_function, args=(10, 20))  # Note that args should be tuple here
+----->     threads.append(thread)
+-----> # start threads
+-----> for thread in threads:
+----->     thread.start()
+-----> # join or wait for all the threads to finish
+-----> for thread in threads:
+----->     thread.join()
+-----> # program ends with all threads ended
+
+---> Multithreading: Sharing data between threads (common database example)
+-----> from threading import Thread, Lock
+-----> lock = Lock()
+-----> database_value = 0
+-----> def increase_value_in_database():
+----->     global database_value
+----->     global lock 
+----->     with lock:  # need a lock to avoid race conditions
+----->         local_copy = database_value  # similate a database access by getting a local copy
+----->         local_copy += 1
+----->         database_value = local_copy
+-----> print("start value:", database_value)
+-----> thread1 = Thread(target=increase_value_in_database)
+-----> thread2 = Thread(target=increase_value_in_database)
+-----> # start threads
+-----> thread1.start()
+-----> thread2.start()
+-----> # join or wait for all the threads to finish
+-----> thread1.join()
+-----> thread2.join()
+-----> print("end value:", database_value)
+-----> # program ends with all threads ended
+
+---> Multithreading: Use a common queue between threads (worker threads example)
+-----> from threading import Thread, Lock, current_thread
+-----> from queue import Queue  # for multiprocessing use this ("from multiprocessing import Queue") but usage is different
+-----> def worker_function(jobs, lock):
+----->     while True:  # infinite loop to get all values from the queue
+----->         value = jobs.get()  # the get method will block the execution if the queue is empty
+----->         # processing
+----->         with lock:  # add a lock here to not have a jumbled print
+----->             print(f"in {current_thread().name} got {value}")
+----->         jobs.task_done() # For each get(), a call to task_done() tells the queue that the processing is finished
+-----> jobs = Queue()
+-----> lock = Lock()
+-----> number_of_worker_threads = 10
+-----> # start the workers
+-----> for _ in range(number_of_worker_threads):
+----->     worker_thread = Thread(target=worker_function, args=(jobs, lock))  # Note that args should be tuple here (hence the comma)
+----->     worker_thread.daemon = True  # A daemon thread dies when the main thread dies (no cleanup needed)
+----->     worker_thread.start()
+-----> # fill in the jobs
+-----> for i in range(1, 21):
+----->     jobs.put(i)
+-----> jobs.join()  # Blocks until all items in the Queue have been gotten and processed.
+
+---> Multiprocessing: Use a shared value between processes 
+-----> from multiprocessing import Process, Value, Lock
+-----> def increase_shared_value(shared_value, increment, lock):
+----->     with lock:  # need a lock to avoid race conditions
+----->         for _ in range(increment):
+----->             shared_value.value += 1
+-----> if __name__ == '__main__':  # needed on windows to avoid recursion (the processes other than main are creating their own process)
+----->     shared_value = Value("i", 0)
+----->     lock = Lock()
+----->     print("Number at beginning is", shared_value.value)
+----->     process1 = Process(target=increase_shared_value, args=(shared_value, 100, lock))
+----->     process2 = Process(target=increase_shared_value, args=(shared_value, 200, lock))
+----->     process1.start()
+----->     process2.start()
+----->     process1.join()
+----->     process2.join()
+----->     print("Number at end is", shared_value.value)  # double check if value is correct (avoided race conditions)
+
+---> Multiprocessing: Use a shared array between processes 
+-----> from multiprocessing import Process, Array, Lock
+-----> def increase_all_in_shared_array(shared_array, increment, lock):
+----->     for _ in range(increment):
+----->         for i in range(len(shared_array)):
+----->             with lock:  # need a lock to avoid race conditions
+----->                 shared_array[i] += 1
+----->     
+-----> if __name__ == '__main__':  # needed on windows to avoid recursion (the processes other than main are creating their own process)
+----->     shared_array = Array("d", [0.0, 100.0, 200.0])
+----->     lock = Lock()
+----->     print("Array at beginning is", shared_array[:])
+----->     process1 = Process(target=increase_all_in_shared_array, args=(shared_array, 100, lock))
+----->     process2 = Process(target=increase_all_in_shared_array, args=(shared_array, 200, lock))
+----->     process1.start()
+----->     process2.start()
+----->     process1.join()
+----->     process2.join()
+----->     print("Array at end is", shared_array[:])  # double check if value is correct (avoided race conditions)
+
+---> Multiprocessing: Use a process pool
+-----> A process pool can be used to manage multiple processes.
+-----> A process pool object control a pool of worker processes to which jobs can be submitted.
+-----> They manage the available process (split the data into smaller chunks, and feed it to different worker processes). 
+-------> from multiprocessing import Pool
+-------> def cube(number):
+------->     return number * number * number
+-------> if __name__ == '__main__':  # needed on windows to avoid recursion (the processes other than main are creating their own process)
+------->     number = 54
+------->     numbers = [1, 2, 3, 4, 5]
+------->     pool = Pool()
+------->     # The important functions in a process pool are map, apply join, close (please check documentation for more)
+------->     apply_result = pool.apply(cube, args=(number,))  # apply can only process a single input
+------->     map_result = pool.map(cube, numbers)  # map can process multiple inputs 
+------->     pool.close()
+------->     pool.join()
+------->     print(numbers)  # prints [1, 2, 3, 4, 5]
+------->     print(apply_result)  # prints 157464
+------->     print(map_result)  # prints [1, 8, 27, 64, 125]
+ 
+
+
+-> Function arguments and function parameters
+
+---> The difference between arguments and parameters
+-----> Arguments are the values passed while calling a function (so arguments are used when calling a function).
+-----> Parameters are the variables inside the parentheses while defining a function (so arguments are used when defining a function).
+-----> Example usage:
+-------> def my_print_function(this_is_a_function_parameter):
+------->     print(this_is_a_function_parameter)
+-------> this_is_a_function_argument = "SampleText"
+-------> my_print_function(this_is_a_function_argument)
+
+---> Positional and keyword arguments
+-----> The difference is demonstrated in this example:
+-------> def my_print_function(a, b, c):
+------->     print(a, b, c)
+-------> # Note: All of the prints below will show 1 2 3
+-------> my_print_function(1, 2, 3)  # This call is using the "position" to determine the arguments and parameters
+-------> my_print_function(c=3, b=2, a=1)  # This call is using the "keyword" to determine the arguments and parameters
+-------> my_print_function(1, c=3, b=2)  # You can mix them up but with some limitations
+-------> # my_print_function(1, c=3, 2)  # You cannot specify a position argument after a keyword argument
+-------> # my_print_function(1, c=3, a=2)  # You cannot specify a keyword argument thats already been used as position argument
+
+---> Default arguments
+-----> This is demonstrated in this example:
+-------> def my_print_function1(a, b, c, d=4):  # d has a default argument
+------->     print(a, b, c, d)
+-------> # def my_print_function2(a, b=2, c, d=4):  # default arguments should be at the last part of the definition
+-------> #     print(a, b, c, d)
+-------> my_print_function1(1, 2, 3)  # prints 1 2 3 4 (d has a default argument)
+
+---> Variable-length arguments (*args and **kwargs)
+-----> If you mark an parameter with one asterisk(*), then you can call it with any number of positional arguments.
+-----> If you mark an parameter with two asterisks(**), then you can call it with any number of keyword arguments.
+-----> Typically they are called "args" and "kwargs" but you can rename them.
+-----> "args" is a tuple 
+-------> The position in the tuple determines the order of the positional arguments when it was called
+-----> "kwargs" is a dict
+-------> The key of the dict is the keyword of that argument 
+-------> The corresponding value of a key is the value of that argument
+-----> This is demonstrated in this example:
+-------> def my_print_function(a, b, *args, **kwargs):
+------->     values = [str(a), str(b)]
+------->     position = 1
+------->     for positional_argument in args:
+------->         values.append(f"position{position}={positional_argument}")
+------->         position+=1
+------->     for key in kwargs:
+------->         values.append(f"{key}={kwargs[key]}")
+------->     print(", ".join(values))
+-------> my_print_function(1, 2, 3, 4)  # prints 1, 2, position1=3, position2=4
+-------> my_print_function(1, 2, 3, 4, 5, six=6, seven=7)  # 1, 2, position1=3, position2=4, position3=5, six=6, seven=7
+
+---> Force keywords arguments
+-----> After the argument with one asterisk(*) or "*args", it needs to be a keyword arguments.
+-----> This is demonstrated in this example:
+-------> def my_print_function1(a, b, *, c, d):
+------->     print(a, b, c, d)
+-------> def my_print_function2(a, b, *args, c, d):
+------->     print(a, b, c, d)
+-------> # my_print_function1(1, 2, 3, 4)  # does not work because c and d needs to be keyword arguments
+-------> my_print_function1(1, 2, c=3, d=4)  # prints 1 2 3 4
+-------> # my_print_function2(1, 2, 3, 4)  # does not work because c and d needs to be keyword arguments
+-------> my_print_function2(1, 2, c=3, d=4)  # prints 1 2 3 4
+
+---> Container unpacking into function arguments
+-----> The asterisk (*) can un pack container arguments.
+-----> NOTE: The size of the container should match the number of parameters.
+-----> This is demonstrated in this example:
+-------> def my_print_function(a, b, c):
+------->     print(a, b, c)
+-------> my_print_function(*[1, 2, 3])  # prints 1 2 3 (asterisk(*) unpacks a list)
+-------> my_print_function(*(1, 2, 3))  # prints 1 2 3 (asterisk(*) unpacks a tuple)
+-------> my_print_function(*{1, 2, 3})  # prints 1 2 3 (asterisk(*) unpacks a set)
+-------> # my_print_function(*[1, 2, 3, 4])  # TypeError (the number of parameters should match the size)
+-------> my_print_function(*{"a":1, "b":2, "c":3})  # prints a b c (asterisk(*) unpacks the keys of a dict)
+-------> my_print_function(**{"a":1, "b":2, "c":3})  # prints 1 2 3 (double asterisk(*) unpacks the values of a dict)
+-------> # my_print_function(**{"e":1, "f":2, "g":3})  # TypeError (the keys should match the parameters names)
+
+---> Local vs. Global arguments
+-----> This is demonstrated in this example:
+-------> def change_value_of_global_variable():
+------->     global global_variable  # without this global declaration the next statement in this function will just create a local copy
+------->     global_variable = 2
+-------> global_variable = 1
+-------> change_value_of_global_variable()
+-------> print(global_variable)  # prints 2 if "global" keyword is used (prints 1 (the value of the local copy) if there is no "global" keyword used)
+
+---> Parameter passing
+-----> This is similar to "pass by value" and "pass by reference" in C++
+-----> In python, its "call by object" or "call by object reference". 
+-----> The rules are different for mutable types(lists, dicts) and immutable types (ints, strings, tuples)
+-----> For immutable types:
+-------> def reassign_int(parameter_int):
+------->     parameter_int = 2  # Due to reassignment, it rebinds now to a local variable unaffected the original argument.
+-------> def reassign_str(parameter_str):
+------->     parameter_str = "Second"  # Due to reassignment, it rebinds now to a local variable unaffected the original argument.
+-------> my_int = 1
+-------> my_str = "First"
+-------> reassign_int(my_int)
+-------> reassign_str(my_str)
+-------> print(my_int)  # prints 1 (The value is NOT changed because its reassigned and int is immutable)
+-------> print(my_str)  # prints First (The value is NOT changed because its reassigned and str is immutable)
+-----> For mutable types:
+-------> def reassign_list(parameter_list):
+------->     parameter_list = [4, 5, 6]  # Due to reassignment, it rebinds now to a local variable unaffected the original argument.
+-------> def mutate_list(parameter_list):
+------->     parameter_list.append(4)  # This is a mutation and it mutated the original argument.
+-------> my_list1 = [1, 2, 3]
+-------> reassign_list(my_list1)
+-------> print(my_list1)  # prints [1, 2, 3] (The value is NOT changed because its reassigned)
+-------> my_list2 = [1, 2, 3]
+-------> mutate_list(my_list2)
+-------> print(my_list2)  # prints [1, 2, 3, 4] (The value is changed because its mutated and list is mutable)
+-----> The operation(+=) for mutable types is a mutation.
+-------> def reassign_list(parameter_list):
+------->     parameter_list = parameter_list + [4, 5, 6]  # This still rebinds to a local variable.
+-------> def mutate_list(parameter_list):
+------->     parameter_list += [4, 5, 6]  # This is a mutation and it mutated the original argument.
+-------> my_list1 = [1, 2, 3]
+-------> reassign_list(my_list1)
+-------> print(my_list1)  # prints [1, 2, 3] (The value is NOT changed because its reassigned)
+-------> my_list2 = [1, 2, 3]
+-------> mutate_list(my_list2)
+-------> print(my_list2)  # prints [1, 2, 3, 4, 5, 6] (The value is changed because its mutated and list is mutable)
+
+
+
+-> Asterisk/Star (*) operator
+ 
+---> This has several meanings in python, here are some of the multiple different cases:
+
+---> The Asterisk/Star (*) operator is used in multiplication and power operations.
+-----> For example:
+-------> multiplication_result = 5*7
+-------> power_result = 5**7
+-------> print(multiplication_result)  # prints 35
+-------> print(power_result)  # prints 78125
+
+---> The Asterisk/Star (*) operator is used creation of strings, list, tuples etc with repeated elements.
+-----> See constructions in the sections for strings, lists and tuples.
+-----> For example:
+-------> my_str = "XYZ" * 3
+-------> my_list = [1, 2] * 3
+-------> my_tuple = [4, 5, 6] * 3
+-------> print(my_str)  # prints XYZXYZXYZ
+-------> print(my_list)  # prints [1, 2, 1, 2, 1, 2]
+-------> print(my_tuple)  # prints [4, 5, 6, 4, 5, 6, 4, 5, 6]
+
+---> The Asterisk/Star (*) operator is used for args kwargs and keyword only parameters
+-----> See "Variable-length arguments" and "Force keywords arguments" subsections in the "Function arguments and function parameters" section
+
+---> Its used for unpacking lists, tuples, sets, and dictionaries into function arguments.
+-----> See "Container unpacking into function arguments" subsection in the "Function arguments and function parameters" section
+
+---> Its used for unpacking and merging containers.
+-----> Take note that unpacking will always result to a list regardless of the structure used.
+-----> Unpacking examples:
+-------> my_tuple = (1, 2, 3, 4, 5, 6)
+-------> start, *the_rest_at_end = my_tuple
+-------> print(start, the_rest_at_end)  # prints 1 [2, 3, 4, 5, 6]
+-------> *the_rest_at_start, end = my_tuple
+-------> print(the_rest_at_start, end)  # prints [1, 2, 3, 4, 5] 6
+-------> start, *the_rest_at_middle, end = my_tuple
+-------> print(start, the_rest_at_middle, end)  # prints 1 [2, 3, 4, 5] 6
+-------> first_start, second_start, *the_rest_at_middle, second_end, first_end = my_tuple
+-------> print(first_start, second_start, the_rest_at_middle, second_end, first_end)  # prints 1 2 [3, 4] 5 6
+-----> Merging examples (lists, tuples, sets):
+-------> my_list = [1, 2, 3]
+-------> my_tuple =(4, 5, 6)
+-------> my_set = {7, 8, 9}
+-------> new_list = [*my_list, *my_tuple, *my_set]
+-------> new_tuple = (*my_list, *my_tuple, *my_set)
+-------> new_set = {*my_list, *my_tuple, *my_set}
+-------> print(new_list)  # prints [1, 2, 3, 4, 5, 6, 8, 9, 7]  (be careful with expecting the order on set)
+-------> print(new_tuple)  # prints (1, 2, 3, 4, 5, 6, 8, 9, 7)  (be careful with expecting the order on set)
+-------> print(new_set)  # prints {1, 2, 3, 4, 5, 6, 7, 8, 9}
+-----> Merging examples (dictionaries):
+-------> my_dict1 = {"a":1, "b": 2}
+-------> my_dict2 = {"c":3, "d": 4}
+-------> new_dict = {**my_dict1, **my_dict2}  # Use braces "{}" and double asterisk"**" for merging dictionaries
+-------> print(new_dict)
+
+
+
+-> Shallow copy vs Deep copy
+
+---> Shallow copy: one level deep, only references of nested child objects
+---> Deep copy: full independent copy
+
+---> Copying on IMMUTABLE types is NOT a problem
+-----> original = 5
+-----> revised = original
+-----> revised = 6
+-----> print(original)  # prints 5
+-----> print(revised)  # prints 6
+
+---> Copying on MUTABLE types is NOT a problem if you reassign it
+-----> original = [1, 2, 3]
+-----> revised = original
+-----> revised = [4, 5, 6]  # makes a new object
+-----> print(original)  # prints [1, 2, 3]
+-----> print(revised)  # prints [4, 5, 6]
+
+---> Copying on MUTABLE types is a problem if you mutate it
+-----> original = [1, 2, 3]
+-----> revised = original
+-----> revised.append(4)
+-----> print(original)  # prints [1, 2, 3, 4]
+-----> print(revised)  # prints [1, 2, 3, 4]
+
+---> Copying on MUTABLE types can be done in various ways
+-----> See the "Copying" section of list, dictionaries, set etc
+
+---> Copying on MUTABLE types can be done using the copy module
+-----> Shallow copy example:
+-------> import copy
+-------> original = [1, 2, 3]
+-------> revised = copy.copy(original)
+-------> revised[2] = 4
+-------> print(original)  # prints [1, 2, 3]
+-------> print(revised)  # prints [1, 2, 4]
+-----> Deep copy example:
+-------> import copy
+-------> original = [1, 2, 3]
+-------> revised = copy.deepcopy(original)
+-------> revised[2] = 4
+-------> print(original)  # prints [1, 2, 3]
+-------> print(revised)  # prints [1, 2, 4]
+ 
+---> Copying on MUTABLE types with inner MUTABLE types needs to be deep copy
+-----> 2D List example (shallow copy does NOT work):
+-------> import copy
+-------> original = [[1, 2, 3], 4, 5, 6], [7, 8, 9]]
+-------> revised = copy.copy(original)
+-------> revised[0][0] = 100
+-------> print(original)  # prints [[100, 2, 3], [4, 5, 6], [7, 8, 9]]
+-------> print(revised)  # prints [[100, 2, 3], [4, 5, 6], [7, 8, 9]]
+-----> 2D List example (deep copy works):
+-------> import copy
+-------> original = [[1, 2, 3], 4, 5, 6], [7, 8, 9]]
+-------> revised = copy.copy(original)
+-------> revised[0][0] = 100
+-------> print(original)  # prints [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+-------> print(revised)  # prints [[100, 2, 3], [4, 5, 6], [7, 8, 9]]
+-----> Class/Object example:
+-------> import copy
+-------> class Person:
+------->     def __init__(self, name, age):
+------->         self.name = name
+------->         self.age = age
+-------> class Company:
+------->     def __init__(self, boss, employee):
+------->         self.boss = boss
+------->         self.employee = employee
+-------> p1 = Person("Alex", 55)
+-------> p2 = Person("Joe", 27)
+-------> company = Company(p1, p2)
+-------> # company_clone = copy.copy(company)  # shallow copy does NOT work on the boss's age
+-------> company_clone = copy.deepcopy(company)  # deep copy works
+-------> company_clone.boss.age = 56
+-------> print(company_clone.boss.age, company.boss.age)  # prints 56 55 if deep copy (56 56 if shallow copy)
+
+
+
+-> Context managers
+
+---> with statement
+-----> Check the with statement section 
+
+
+
+-> Files
+
+---> Reading from files:
+-----> sample_file = open("sample.txt", "r")
+-----> # "r" for read
+-----> # "w" for write
+-----> # "a" for append
+-----> # "r+" for read and write
+-----> print("Is readable:" + str(sample_file.readable()))  # This returns a boolean if the file can be read (files opened by write will return false)
+-----> print("The entire contents:" + sample_file.read())  # This prints the entire contents of the file
+-----> sample_file.seek(0)  # reset at the start of the file
+-----> print("First line: " + sample_file.readline())  # This prints one line of the file
+-----> print("Second line: " + sample_file.readline())  # This prints one line of the file
+-----> print(sample_file.readline())  # This prints one line of the file
+-----> sample_file.seek(0)  # reset at the start of the file
+-----> while True:
+----->     line = sample_file.readline()
+----->     if not line:
+----->         break
+----->     print("Line at the loop:" + line.strip())
+-----> sample_file.seek(0)  # reset at the start of the file
+-----> print(sample_file.readlines())  # This prints all line in a list (readlines() put all lines in a list)
+-----> sample_file.seek(0)  # reset at the start of the file
+-----> for line in sample_file.readlines():
+----->     print("Line at the loop:" + line.strip())
+-----> sample_file.close()
+
+---> Writing to files:
+-----> # appending to a file
+-----> sample_file = open("sample.txt", "a")
+-----> sample_file.write("Toby - Human Resources\n") # This appends to the last line.
+-----> sample_file.close()
+-----> # writing to a file
+-----> sample_file = open("sample.txt", "w")
+-----> sample_file.write("Toby - Human Resources\n")  # This writes a line to the file (and erasing it previous contents).
+-----> sample_file.close()
 
