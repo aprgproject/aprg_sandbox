@@ -78,14 +78,12 @@ TEST(DatabaseForBooksTest, DISABLED_SavingChessDotComDatabaseWorks) {
 
     // NOTE: Adjust MIN_NUMBER_OF_GAMES to keep the book size (under 10000 maybe?)
     // Also, the LoadingDatabaseWorks tests below needs to be under 100 ms.
-    ASSERT_EQ(5066U, book.getSize());  // update this before writing to database
+    ASSERT_EQ(5932U, book.getSize());  // update this before writing to database
     book.saveDatabaseTo(chessDotComBookDatabase.getFullPath());
 }
-
 TEST(DatabaseForBooksTest, LoadingDatabaseWorksWithStartingPosition) {
     AlbaLocalPathHandler chessDotComBookDatabase(APRG_DIR CHESS_PEEK_CHESS_DOT_COM_BOOK_DATABASE);
-    Book book;
-    Board boardWithBUWD(BoardOrientation::BlackUpWhiteDown);
+    Book book;    Board boardWithBUWD(BoardOrientation::BlackUpWhiteDown);
     Board boardWithWUBD(BoardOrientation::WhiteUpBlackDown);
     book.loadDatabaseFrom(chessDotComBookDatabase.getFullPath());
 

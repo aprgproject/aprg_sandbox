@@ -21,20 +21,18 @@ HumanScoreGenerator::HumanScoreGenerator(
       m_highestScoreLevel((m_bestScore - m_worstScore) / getScoreLevelDistance()) {}
 
 HumanScoreGenerator::Score HumanScoreGenerator::getHumanScore(MoveDetail const& moveDetail) const {
-    // Format: 0000 0000 0000 SSSS SSSS SSSS HHHH HHHH HHHH MMMM KKKK KKKK CCCC CCCC CCCC PPPP
+    // Format: 0000 0000 0000 0000 SSSS SSSS SSSS HHHH HHHH HHHH MMMM KKKK KKKK CCCC CCCC CCCC
 
     DataFromExchanges dataFromExchanges(getDataFromExchanges(moveDetail.move));
-    return getScoreLevelPart(moveDetail) << 40 | dataFromExchanges.hangingValue << 28 |
-           getMoveTypePart(moveDetail.move) << 24 | getDistanceToKingPart(moveDetail.move) << 16 |
-           dataFromExchanges.complicatedScore << 4 | getPiecePart(moveDetail.move);
+    return getScoreLevelPart(moveDetail) << 36 | dataFromExchanges.hangingValue << 24 |
+           getMoveTypePart(moveDetail.move) << 20 | getDistanceToKingPart(moveDetail.move) << 12 |
+           dataFromExchanges.complicatedScore;
 }
 
-HumanScoreGenerator::Score HumanScoreGenerator::getScoreLevelPart(MoveDetail const& moveDetail) const {
-    int scoreLevel = 0;
+HumanScoreGenerator::Score HumanScoreGenerator::getScoreLevelPart(MoveDetail const& moveDetail) const {    int scoreLevel = 0;
     if (moveDetail.mate > 0) {
         if (m_bestScore > LOWER_LIMIT_FOR_WINNING) {
-            scoreLevel = m_highestScoreLevel;  // put mate as same level as best moves if winning (to be human)
-        } else {
+            scoreLevel = m_highestScoreLevel;  // put mate as same level as best moves if winning (to be human)        } else {
             scoreLevel = m_highestScoreLevel + 1;  // put it above than highest score level if losing
         }
     } else if (moveDetail.mate < 0) {

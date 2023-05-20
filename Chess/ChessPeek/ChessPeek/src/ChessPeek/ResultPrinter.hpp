@@ -65,19 +65,18 @@ private:
     void printARowOfMovesSequence(MovesSequence const& movesSequence) const;
     void setMovesSequenceOnGrid(DisplayTable& grid, MovesSequence const& movesSequence, int const rowSize) const;
 
-    void printHeadersFor2ndTo6thMostHumanMoves(NextMoves const& nextMoves) const;
-    void printHeadersFor4thTo8thBestMoves(NextMoves const& nextMoves, int const startIndex) const;
+    void printHeadersForNextMoves(
+        NextMoves const& nextMoves, int const startIndex, stringHelper::strings const& suffixHeaders) const;
     void printHeadersForBookMoves(BookMoves const& bookMoves) const;
-    void printHeadersForBestLine(MovesSequence const& movesSequence) const;
-    void printHeadersForMostHumanLine(MovesSequence const& movesSequence) const;
-    void printHeaders(stringHelper::strings const& prefixes, stringHelper::strings const& suffixes) const;
+    void printHeadersForBestLine(MovesSequence const& movesSequence, stringHelper::strings const& suffixHeaders) const;
+    void printHeaders(
+        stringHelper::strings const& prefixHeaders, stringHelper::strings const& suffixHeaders,
+        int const rowSize) const;
     void printHorizontalBorder() const;
     void setSeparatorsOnGrid(DisplayTable& grid, int const xOffset) const;
-    void setBoardOnGrid(DisplayTable& grid, Board const& board, int const xOffset) const;
-    void setMoveOnGrid(
+    void setBoardOnGrid(DisplayTable& grid, Board const& board, int const xOffset) const;    void setMoveOnGrid(
         DisplayTable& grid, Board const& board, Move const& move, int const xOffset, int const moveNumber,
         std::optional<char> const& firstChar) const;
-
     BookMoves getMovesFromBook() const;
     void fillMovesFromBook(BookMoves& bookMoves) const;
     BookMove createBookMove(
