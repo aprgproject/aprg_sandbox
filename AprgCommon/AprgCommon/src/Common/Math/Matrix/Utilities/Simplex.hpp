@@ -70,15 +70,13 @@ bool isOptimal(AlbaMatrix<DataType> const& simplexTable) {
 
 template <typename DataType>
 size_t getPivotingColumnUsingBlandsRule(AlbaMatrix<DataType> const& simplexTable) {
-    // Findint entring q using Bland's rule: index of first column whose objective function coefficient is positive
+    // Finding entry q using Bland's rule: index of first column whose objective function coefficient is positive
 
     size_t lastY(simplexTable.getNumberOfRows() - 1);
-    size_t x = 0;
-    for (; x < simplexTable.getNumberOfColumns(); x++) {
+    size_t x = 0;    for (; x < simplexTable.getNumberOfColumns(); x++) {
         if (simplexTable.getEntry(x, lastY) > 0) {
             break;
-        }
-    }
+        }    }
     return x;
 }
 
@@ -117,15 +115,14 @@ template <typename DataType>
 void pivotAt(AlbaMatrix<DataType>& simplexTable, size_t const pivotingColumn, size_t const pivotingRow) {
     // In the high level, pivoting works by
     // 1) subtracting the pivoting row to each row in the matrix and using the pivoting column as the basis on scaling
-    // the pivoting row 1) scaling the pivoting row such that the entry in the pivoting column is 1
+    // the pivoting row
+    // 2) scaling the pivoting row such that the entry in the pivoting column is 1
 
     // scale all entries but pivoting row and pivoting column
-    simplexTable.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {
-        if (x != pivotingColumn && y != pivotingRow) {
+    simplexTable.iterateAllThroughYAndThenX([&](size_t const x, size_t const y) {        if (x != pivotingColumn && y != pivotingRow) {
             DataType valueToSubtract(
                 simplexTable.getEntry(x, pivotingRow) * simplexTable.getEntry(pivotingColumn, y) /
-                simplexTable.getEntry(pivotingColumn, pivotingRow));
-            simplexTable.setEntry(x, y, simplexTable.getEntry(x, y) - valueToSubtract);
+                simplexTable.getEntry(pivotingColumn, pivotingRow));            simplexTable.setEntry(x, y, simplexTable.getEntry(x, y) - valueToSubtract);
         }
     });
 
