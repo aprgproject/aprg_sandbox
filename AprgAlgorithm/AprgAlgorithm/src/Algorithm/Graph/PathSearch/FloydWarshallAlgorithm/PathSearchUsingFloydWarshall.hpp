@@ -10,24 +10,22 @@ namespace algorithm {
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template <class> class ComparatorTemplateType>
 class PathSearchUsingFloydWarshall {
 public:
-    enum class DequeDirection { Front, Back };
     struct PathDetails {
         bool hasAPath;
-        Vertex bestAdjacentVertex;
+        Vertex bestInBetweenVertex;
         Weight bestWeight;
     };
     using Graph = EdgeWeightedGraph;
     using Path = typename GraphTypes<Vertex>::Path;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using DequeOfVertices = typename GraphTypes<Vertex>::DequeOfVertices;
+    using ListOfVertices = typename GraphTypes<Vertex>::ListOfVertices;
+    using ListConstIterator = typename ListOfVertices::const_iterator;
     using EdgeOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeOrderedByWeight;
     using PathDetailsMatrix = matrix::AlbaMatrix<PathDetails>;
     using Comparator = ComparatorTemplateType<Weight>;
-
     PathSearchUsingFloydWarshall(EdgeWeightedGraph const& graph)
         : m_graph(graph), m_pathDetailsMatrix(graph.getNumberOfVertices(), graph.getNumberOfVertices()) {
-        searchForBestPaths();
-    }
+        searchForBestPaths();    }
 
     bool hasPathTo(Vertex const& startVertex, Vertex const& endVertex) const {
         bool result(false);
@@ -42,46 +40,37 @@ public:
         if (startVertex != endVertex && m_pathDetailsMatrix.isInside(startVertex, endVertex)) {
             PathDetails const& pathDetails(m_pathDetailsMatrix.getEntryConstReference(startVertex, endVertex));
             if (pathDetails.hasAPath) {
-                DequeOfVertices pathInDeque;
-                addToPath(pathInDeque, DequeDirection::Front, startVertex, endVertex);
-                pathInDeque.emplace_front(startVertex);
-                pathInDeque.emplace_back(endVertex);
-                result.reserve(pathInDeque.size());
-                std::copy(pathInDeque.cbegin(), pathInDeque.cend(), std::back_inserter(result));
+                ListOfVertices pathInList{startVertex, endVertex};
+                addToPath(pathInList, pathInList.cbegin(), std::prev(pathInList.cend()));
+                result.reserve(pathInList.size());
+                std::copy(pathInList.cbegin(), pathInList.cend(), std::back_inserter(result));
             }
         }
         return result;
     }
 
 private:
-    void addToPath(
-        DequeOfVertices& pathInDeque, DequeDirection const direction, Vertex const& first, Vertex const& second) const {
-        if (first != second && m_pathDetailsMatrix.isInside(first, second)) {
-            PathDetails const& firstToSecond(m_pathDetailsMatrix.getEntryConstReference(first, second));
-            if (firstToSecond.hasAPath) {
-                if (first != firstToSecond.bestAdjacentVertex && second != firstToSecond.bestAdjacentVertex) {
-                    if (DequeDirection::Front == direction) {
-                        pathInDeque.emplace_front(firstToSecond.bestAdjacentVertex);
-                    } else if (DequeDirection::Back == direction) {
-                        pathInDeque.emplace_back(firstToSecond.bestAdjacentVertex);
-                    }
+    void addToPath(ListOfVertices& pathInList, ListConstIterator const& startIt, ListConstIterator const& endIt) const {
+        if (*startIt != *endIt && m_pathDetailsMatrix.isInside(*startIt, *endIt)) {
+            PathDetails const& startToEnd(m_pathDetailsMatrix.getEntryConstReference(*startIt, *endIt));
+            if (startToEnd.hasAPath) {
+                if (*startIt != startToEnd.bestInBetweenVertex && *endIt != startToEnd.bestInBetweenVertex) {
+                    ListConstIterator inbetweenIt = pathInList.insert(endIt, startToEnd.bestInBetweenVertex);
                     PathDetails const& firstToMiddle(
-                        m_pathDetailsMatrix.getEntryConstReference(first, firstToSecond.bestAdjacentVertex));
+                        m_pathDetailsMatrix.getEntryConstReference(*startIt, startToEnd.bestInBetweenVertex));
                     PathDetails const& middleToSecond(
-                        m_pathDetailsMatrix.getEntryConstReference(firstToSecond.bestAdjacentVertex, second));
+                        m_pathDetailsMatrix.getEntryConstReference(startToEnd.bestInBetweenVertex, *endIt));
                     if (firstToMiddle.hasAPath && middleToSecond.hasAPath &&
-                        firstToMiddle.bestWeight < firstToSecond.bestWeight &&
-                        middleToSecond.bestWeight < firstToSecond.bestWeight) {
-                        addToPath(pathInDeque, DequeDirection::Front, first, firstToSecond.bestAdjacentVertex);
-                        addToPath(pathInDeque, DequeDirection::Back, firstToSecond.bestAdjacentVertex, second);
+                        firstToMiddle.bestWeight < startToEnd.bestWeight &&
+                        middleToSecond.bestWeight < startToEnd.bestWeight) {
+                        addToPath(pathInList, startIt, inbetweenIt);
+                        addToPath(pathInList, inbetweenIt, endIt);
                     }
                 }
-            }
-        }
+            }        }
     }
 
-    void searchForBestPaths() {
-        initializePathDetailsWithEdgeWeights();
+    void searchForBestPaths() {        initializePathDetailsWithEdgeWeights();
         initializePathDetailsInTheDiagonal();
         checkAllIntermediateVertices();
     }
@@ -98,14 +87,12 @@ private:
         for (Vertex const& vertex : m_graph.getVertices()) {
             PathDetails& diagonalPathDetails(m_pathDetailsMatrix.getEntryReference(vertex, vertex));
             diagonalPathDetails.hasAPath = true;
-            diagonalPathDetails.bestAdjacentVertex = vertex;
+            diagonalPathDetails.bestInBetweenVertex = vertex;
         }
     }
-
     void checkAllIntermediateVertices() {
         Vertices vertices(m_graph.getVertices());
-        for (Vertex const& inbetweenVertex : vertices) {
-            for (Vertex const& startVertex : vertices) {
+        for (Vertex const& inbetweenVertex : vertices) {            for (Vertex const& startVertex : vertices) {
                 if (startVertex != inbetweenVertex) {
                     PathDetails& startToIntermediateDetails(
                         m_pathDetailsMatrix.getEntryReference(startVertex, inbetweenVertex));
@@ -121,15 +108,13 @@ private:
                                 if (!startToEndDetails.hasAPath) {
                                     startToEndDetails = {true, inbetweenVertex, possibleNewWeight};
                                 } else if (m_comparator(possibleNewWeight, startToEndDetails.bestWeight)) {
-                                    startToEndDetails.bestAdjacentVertex = inbetweenVertex;
+                                    startToEndDetails.bestInBetweenVertex = inbetweenVertex;
                                     startToEndDetails.bestWeight = possibleNewWeight;
                                 }
-                            }
-                        }
+                            }                        }
                     }
                 }
-            }
-        }
+            }        }
     }
 
     friend std::ostream& operator<<(std::ostream& out, PathSearchUsingFloydWarshall const& pathSearch) {
@@ -144,15 +129,13 @@ private:
             displayTable.getLastRow().addCell("   ");
             for (unsigned int x = 0; x < pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++) {
                 displayTable.getLastRow().addCell(stringHelper::convertToString(
-                    pathSearch.m_pathDetailsMatrix.getEntryConstReference(x, y).bestAdjacentVertex));
+                    pathSearch.m_pathDetailsMatrix.getEntryConstReference(x, y).bestInBetweenVertex));
             }
             displayTable.getLastRow().addCell("   ");
-            for (unsigned int x = 0; x < pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++) {
-                displayTable.getLastRow().addCell(stringHelper::convertToString(
+            for (unsigned int x = 0; x < pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++) {                displayTable.getLastRow().addCell(stringHelper::convertToString(
                     pathSearch.m_pathDetailsMatrix.getEntryConstReference(x, y).bestWeight));
             }
-        }
-        out << "\n" << displayTable;
+        }        out << "\n" << displayTable;
         return out;
     }
 
@@ -166,14 +149,12 @@ std::ostream& operator<<(
     std::ostream& out,
     typename PathSearchUsingFloydWarshall<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>::PathDetails const&
         pathDetails) {
-    out << pathDetails.hasAPath << "," << pathDetails.bestAdjacentVertex << "," << pathDetails.bestWeight;
+    out << pathDetails.hasAPath << "," << pathDetails.bestInBetweenVertex << "," << pathDetails.bestWeight;
     return out;
 }
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Algorithm in short terms: Use a "adjacent/best weight" matrix to find shortest/longest by checking vertices in
 // between vertices.
 

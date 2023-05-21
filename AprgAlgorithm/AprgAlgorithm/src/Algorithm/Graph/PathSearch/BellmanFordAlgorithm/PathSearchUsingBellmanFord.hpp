@@ -37,23 +37,21 @@ private:
         unsigned int numberOfVertices(b_graph.getNumberOfVertices());
         unsigned int numberOfVerticesProcessed(0U);
         enqueue(b_startVertex);
-        while (!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle) {
+        while (!m_verticesToProcess.empty() && !m_hasPositiveOrNegativeCycle) {
             // Repeat V times: Relax each edge
             bool isNewWeightFound(false);
-            Vertex vertexAtQueue(dequeue());
+            Vertex vertexToProcess(dequeue());
             this->relaxAt(
-                vertexAtQueue,
+                vertexToProcess,
                 [&](Vertex const&, Vertex const& destinationVertex, Weight const&) {
                     isNewWeightFound = true;
-                    if (m_verticesInQueue.isNotFound(destinationVertex)) {
+                    if (m_checkableVerticesToProcess.isNotFound(destinationVertex)) {
                         enqueue(destinationVertex);
                     }
-                },
-                [&]() {
+                },                [&]() {
                     // As soon as processed number vertices reached the total number of vertices check for a
                     // positive/negative cycle.
-                    if (numberOfVerticesProcessed++ >= numberOfVertices) {
-                        // there is a positive or negative cycle if new weight is found when number total number of
+                    if (numberOfVerticesProcessed++ >= numberOfVertices) {                        // there is a positive or negative cycle if new weight is found when number total number of
                         // vertices is reached
                         m_hasPositiveOrNegativeCycle = isNewWeightFound;
                     }
@@ -61,50 +59,45 @@ private:
         }
     }
 
-    void searchForPathUsingOriginalBellmanFord()  // manually positive or negative cycle
-    {
+    void searchForPathUsingOriginalBellmanFord() {  // manually check for positive or negative cycle
         unsigned int numberOfVertices(b_graph.getNumberOfVertices());
         unsigned int numberOfVerticesProcessed(0U);
         enqueue(b_startVertex);
-        while (!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle) {
+        while (!m_verticesToProcess.empty() && !m_hasPositiveOrNegativeCycle) {
             // Repeat V times: Relax each edge
-            Vertex vertexAtQueue(dequeue());
+            Vertex vertexToProcess(dequeue());
             this->relaxAt(
-                vertexAtQueue,
+                vertexToProcess,
                 [&](Vertex const&, Vertex const& destinationVertex, Weight const&) {
-                    if (m_verticesInQueue.isNotFound(destinationVertex)) {
+                    if (m_checkableVerticesToProcess.isNotFound(destinationVertex)) {
                         enqueue(destinationVertex);
                     }
-                },
-                [&]() {
+                },                [&]() {
                     // As soon as processed number vertices reached the total number of vertices check for a
                     // postive/negative cycle.
-                    if (numberOfVerticesProcessed++ != 0 && numberOfVerticesProcessed % numberOfVertices == 0) {
-                        findAPositiveOrNegativeCycle();
+                    if (numberOfVerticesProcessed++ != 0 && numberOfVerticesProcessed % numberOfVertices == 0) {                        findAPositiveOrNegativeCycle();
                     }
                 });
         }
     }
 
     void enqueue(Vertex const& vertex) {
-        m_queueOfVertices.emplace_back(vertex);
-        m_verticesInQueue.putVertex(vertex);
+        m_verticesToProcess.emplace_back(vertex);
+        m_checkableVerticesToProcess.putVertex(vertex);
     }
 
     Vertex dequeue() {
         Vertex result{};
-        if (!m_queueOfVertices.empty()) {
-            result = m_queueOfVertices.front();
-            m_queueOfVertices.pop_front();
-            m_verticesInQueue.removeVertex(result);
+        if (!m_verticesToProcess.empty()) {
+            result = m_verticesToProcess.front();
+            m_verticesToProcess.pop_front();
+            m_checkableVerticesToProcess.removeVertex(result);
         }
         return result;
     }
-
     void findAPositiveOrNegativeCycle() {
         // A positive cycle is a directed cycle whose sum of edge weight is positive.
-        // A negative cycle is a directed cycle whose sum of edge weight is negative.
-        // This is a negative cycle check on shortest path.
+        // A negative cycle is a directed cycle whose sum of edge weight is negative.        // This is a negative cycle check on shortest path.
         // This is a positive cycle check on longest path.
 
         EdgeWeightedGraph bestPathTree;
@@ -123,16 +116,14 @@ private:
     Vertex const& b_startVertex;
     VertexToEdgeOrderedByWeightMap& b_vertexToEdgeWithBestWeightMap;
     bool m_hasPositiveOrNegativeCycle;
-    DequeOfVertices m_queueOfVertices;  // SPFA improvement
-    CheckableVertices<Vertex> m_verticesInQueue;
+    DequeOfVertices m_verticesToProcess;  // SPFA ("Shortest Path Faster Algorithm") improvement
+    CheckableVertices<Vertex> m_checkableVerticesToProcess;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // Algorithm in short terms: Relax all nodes.
-
 // Negative weights failed attempts:
 // -> Dijkstra does not work on negative edge weights
 // -> Reweighting (adding a constant to make all weights positive) does not work either.

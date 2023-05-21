@@ -1,14 +1,13 @@
 #pragma once
 
 #include <deque>
+#include <list>
 #include <map>
 #include <set>
 #include <vector>
-
 namespace alba {
 
 namespace algorithm {
-
 enum class GraphDirectionType { Undirected, Directed };
 
 template <typename Vertex>
@@ -16,14 +15,13 @@ struct GraphTypes {
     // Vertex
     using Vertices = std::vector<Vertex>;
     using DequeOfVertices = std::deque<Vertex>;
+    using ListOfVertices = std::list<Vertex>;
     using SetOfVertices = std::set<Vertex>;
 
-    // Edge
-    using Edge = std::pair<Vertex, Vertex>;
+    // Edge    using Edge = std::pair<Vertex, Vertex>;
     using Edges = std::vector<Edge>;
     using DequeOfEdges = std::deque<Edge>;
-    using SetOfEdges = std::set<Edge>;
-    using ListOfEdges = std::vector<Edges>;
+    using SetOfEdges = std::set<Edge>;    using ListOfEdges = std::vector<Edges>;
 
     // Path
     using Path = std::vector<Vertex>;

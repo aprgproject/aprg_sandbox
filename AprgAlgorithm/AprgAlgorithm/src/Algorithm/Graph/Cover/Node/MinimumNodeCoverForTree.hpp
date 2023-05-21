@@ -12,34 +12,30 @@ template <typename Vertex>
 class MinimumNodeCoverForTree {
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using ChildrenInTree = ChildrenInTree<Vertex>;
+    using SetOfVerticesWithVertex = typename GraphTypes<Vertex>::SetOfVertices;
+    using ChildrenInTreeWithVertex = ChildrenInTree<Vertex>;
     using Count = unsigned int;
     using VertexToCountMap = std::map<Vertex, Count>;
-    using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVertices>;
+    using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVerticesWithVertex>;
     static constexpr unsigned int UNUSED_COUNT = std::numeric_limits<Count>::max();
 
-    MinimumNodeCoverForTree(BaseUndirectedGraphWithVertex const& nAryTreeGraph, Vertex const rootOfTree)
-        : m_nAryTreeGraph(nAryTreeGraph), m_rootOfTree(rootOfTree), m_childrenInTree(m_nAryTreeGraph, m_rootOfTree) {}
+    MinimumNodeCoverForTree(BaseUndirectedGraphWithVertex const& nAryTreeGraph, Vertex const rootOfTree)        : m_nAryTreeGraph(nAryTreeGraph), m_rootOfTree(rootOfTree), m_childrenInTree(m_nAryTreeGraph, m_rootOfTree) {}
 
     Count getMinimumNodeCoverSize() const {
-        Count result(0);
-        if (!m_nAryTreeGraph.isEmpty()) {
+        Count result(0);        if (!m_nAryTreeGraph.isEmpty()) {
             VertexToCountMap vertexToCountMap;
             result = getMinimumNodeCoverSizeUsingMemoizationDP(vertexToCountMap, m_rootOfTree);
         }
         return result;
     }
 
-    SetOfVertices getMinimumNodeCover() const {
-        SetOfVertices result;
+    SetOfVerticesWithVertex getMinimumNodeCover() const {
+        SetOfVerticesWithVertex result;
         if (!m_nAryTreeGraph.isEmpty()) {
             VertexToSetOfVerticesMap vertexToMinimumSetMap;
-            result = getMinimumNodeCoverUsingMemoizationDP(vertexToMinimumSetMap, m_rootOfTree);
-        }
+            result = getMinimumNodeCoverUsingMemoizationDP(vertexToMinimumSetMap, m_rootOfTree);        }
         return result;
     }
-
 private:
     Count getMinimumNodeCoverSizeUsingMemoizationDP(VertexToCountMap& vertexToCountMap, Vertex const vertex) const {
         auto it = vertexToCountMap.find(vertex);
@@ -63,27 +59,25 @@ private:
         }
     }
 
-    SetOfVertices getMinimumNodeCoverUsingMemoizationDP(
+    SetOfVerticesWithVertex getMinimumNodeCoverUsingMemoizationDP(
         VertexToSetOfVerticesMap& vertexToMinimumSetMap, Vertex const vertex) const {
         auto it = vertexToMinimumSetMap.find(vertex);
         if (it == vertexToMinimumSetMap.cend()) {
-            SetOfVertices setIfVertexIsIncluded{vertex};
-            SetOfVertices setIfVertexIsNotIncluded;
+            SetOfVerticesWithVertex setIfVertexIsIncluded{vertex};
+            SetOfVerticesWithVertex setIfVertexIsNotIncluded;
             for (Vertex const child : m_childrenInTree.getChildren(vertex)) {
-                SetOfVertices childSet(getMinimumNodeCoverUsingMemoizationDP(vertexToMinimumSetMap, child));
+                SetOfVerticesWithVertex childSet(getMinimumNodeCoverUsingMemoizationDP(vertexToMinimumSetMap, child));
                 copy(
                     childSet.cbegin(), childSet.cend(), inserter(setIfVertexIsIncluded, setIfVertexIsIncluded.begin()));
                 setIfVertexIsNotIncluded.emplace(child);
                 for (Vertex const grandChild : m_childrenInTree.getChildren(child)) {
-                    SetOfVertices grandChildSet(
+                    SetOfVerticesWithVertex grandChildSet(
                         getMinimumNodeCoverUsingMemoizationDP(vertexToMinimumSetMap, grandChild));
                     copy(
-                        grandChildSet.cbegin(), grandChildSet.cend(),
-                        inserter(setIfVertexIsNotIncluded, setIfVertexIsNotIncluded.begin()));
+                        grandChildSet.cbegin(), grandChildSet.cend(),                        inserter(setIfVertexIsNotIncluded, setIfVertexIsNotIncluded.begin()));
                 }
             }
-            if (setIfVertexIsIncluded.size() <= setIfVertexIsNotIncluded.size()) {
-                vertexToMinimumSetMap.emplace(vertex, setIfVertexIsIncluded);
+            if (setIfVertexIsIncluded.size() <= setIfVertexIsNotIncluded.size()) {                vertexToMinimumSetMap.emplace(vertex, setIfVertexIsIncluded);
                 return setIfVertexIsIncluded;
             } else {
                 vertexToMinimumSetMap.emplace(vertex, setIfVertexIsNotIncluded);
@@ -95,15 +89,13 @@ private:
     }
     BaseUndirectedGraphWithVertex const& m_nAryTreeGraph;
     Vertex m_rootOfTree;
-    ChildrenInTree m_childrenInTree;
+    ChildrenInTreeWithVertex m_childrenInTree;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // Minimum Node Cover For Tree
-
 // A vertex cover of an undirected graph is a subset of its vertices such that
 // for every edge (u, v) of the graph, either ‘u’ or ‘v’ is in vertex cover.
 // Although the name is Vertex Cover, the set covers all edges of the given graph.

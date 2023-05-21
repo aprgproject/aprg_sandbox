@@ -21,15 +21,13 @@ public:
 
     UndirectedGraphWithVertexToAdjacencyListsMap() : m_numberOfEdges(0U) {}
 
-    bool isEmpty() const { return m_adjacencyLists.empty(); }
+    bool isEmpty() const override { return m_adjacencyLists.empty(); }
 
     bool hasAnyConnection(Vertex const& vertex) const override {
-        bool result(false);
-        auto it = m_adjacencyLists.find(vertex);
+        bool result(false);        auto it = m_adjacencyLists.find(vertex);
         if (it != m_adjacencyLists.cend()) {
             AdjacencyList const& adjacencyList(it->second);
-            result = !adjacencyList.empty();
-        }
+            result = !adjacencyList.empty();        }
         return result;
     }
 

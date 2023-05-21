@@ -129,15 +129,23 @@ protected:
     Paths m_savedPaths;
 };
 
-// No efficient method is known for testing if a graph contains a Hamiltonian path, and the problem is NP-hard.
+// The Hamiltonian path problem and the Hamiltonian cycle problem are problems of determining whether a Hamiltonian path
+// (a path in an undirected or directed graph that visits each vertex exactly once)
+// for a Hamiltonian cycle exists in a given graph (whether directed or undirected).
+// Both problems are NP-complete.
+
+// The Hamiltonian cycle problem is a special case of the travelling salesman problem,
+// obtained by setting the distance between two cities to one if they are adjacent and two otherwise,
+// and verifying that the total distance travelled is equal to n (if so, the route is a Hamiltonian circuit;
+// if there is no Hamiltonian circuit then the shortest route will be longer).
+
+// No efficient method is known for testing if a graph contains a Hamiltonian path.
 // Still, in some special cases, we can be certain that a graph contains a Hamiltonian path.
 // A simple observation is that if the graph is complete, i.e., there is an edge between all pairs of nodes, it also
 // contains a Hamiltonian path.
-
 // A simple way to search for a Hamiltonian path is to use a backtracking algorithm that goes through all possible ways
 // to construct the path (implemented above). The time complexity of such an algorithm is at least O(n!), because there
-// are n! different ways to choose the order of n nodes. A more efficient solution is based on dynamic programming. The
-// idea is to calculate values of a function possible(S, x), where S is a subset of nodes and x is one of the nodes. The
+// are n! different ways to choose the order of n nodes. A more efficient solution is based on dynamic programming. The// idea is to calculate values of a function possible(S, x), where S is a subset of nodes and x is one of the nodes. The
 // function indicates whether there is a Hamiltonian path that visits the nodes of S and ends at node x. It is possible
 // to implement this solution in O(2^n * n^2) time.
 

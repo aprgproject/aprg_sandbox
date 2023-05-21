@@ -17,15 +17,13 @@ public:
 
     UndirectedGraphWithAdjacencyMatrix() : m_numberOfEdges(0U), m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE) {}
 
-    bool isEmpty() const { return m_numberOfEdges == 0; }
+    bool isEmpty() const override { return m_numberOfEdges == 0; }
 
     bool hasAnyConnection(Vertex const& vertex) const override {
-        bool result(false);
-        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
+        bool result(false);        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex adjacentVertex = 0; adjacentVertex < numberOfRows; adjacentVertex++) {
             if (isDirectlyConnected(vertex, adjacentVertex)) {
-                result = true;
-                break;
+                result = true;                break;
             }
         }
         return result;
