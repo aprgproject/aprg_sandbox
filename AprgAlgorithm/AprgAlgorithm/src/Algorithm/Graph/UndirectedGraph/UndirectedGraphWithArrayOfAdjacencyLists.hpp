@@ -24,9 +24,11 @@ public:
     bool isEmpty() const override { return m_numberOfVertices == 0 && m_numberOfEdges == 0; }
 
     bool hasAnyConnection(Vertex const& vertex) const override { return !m_adjacencyLists.at(vertex).empty(); }
+
     bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
-        return adjacencyList.find(vertex2) != adjacencyList.cend();    }
+        return adjacencyList.find(vertex2) != adjacencyList.cend();
+    }
 
     unsigned int getNumberOfVertices() const override { return m_numberOfVertices; }
 

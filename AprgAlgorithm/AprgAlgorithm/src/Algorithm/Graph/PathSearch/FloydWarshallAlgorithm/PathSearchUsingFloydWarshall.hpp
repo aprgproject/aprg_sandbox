@@ -23,9 +23,11 @@ public:
     using EdgeOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeOrderedByWeight;
     using PathDetailsMatrix = matrix::AlbaMatrix<PathDetails>;
     using Comparator = ComparatorTemplateType<Weight>;
+
     PathSearchUsingFloydWarshall(EdgeWeightedGraph const& graph)
         : m_graph(graph), m_pathDetailsMatrix(graph.getNumberOfVertices(), graph.getNumberOfVertices()) {
-        searchForBestPaths();    }
+        searchForBestPaths();
+    }
 
     bool hasPathTo(Vertex const& startVertex, Vertex const& endVertex) const {
         bool result(false);
@@ -67,10 +69,12 @@ private:
                         addToPath(pathInList, inbetweenIt, endIt);
                     }
                 }
-            }        }
+            }
+        }
     }
 
-    void searchForBestPaths() {        initializePathDetailsWithEdgeWeights();
+    void searchForBestPaths() {
+        initializePathDetailsWithEdgeWeights();
         initializePathDetailsInTheDiagonal();
         checkAllIntermediateVertices();
     }
@@ -90,9 +94,11 @@ private:
             diagonalPathDetails.bestInBetweenVertex = vertex;
         }
     }
+
     void checkAllIntermediateVertices() {
         Vertices vertices(m_graph.getVertices());
-        for (Vertex const& inbetweenVertex : vertices) {            for (Vertex const& startVertex : vertices) {
+        for (Vertex const& inbetweenVertex : vertices) {
+            for (Vertex const& startVertex : vertices) {
                 if (startVertex != inbetweenVertex) {
                     PathDetails& startToIntermediateDetails(
                         m_pathDetailsMatrix.getEntryReference(startVertex, inbetweenVertex));
@@ -111,10 +117,12 @@ private:
                                     startToEndDetails.bestInBetweenVertex = inbetweenVertex;
                                     startToEndDetails.bestWeight = possibleNewWeight;
                                 }
-                            }                        }
+                            }
+                        }
                     }
                 }
-            }        }
+            }
+        }
     }
 
     friend std::ostream& operator<<(std::ostream& out, PathSearchUsingFloydWarshall const& pathSearch) {
@@ -132,10 +140,12 @@ private:
                     pathSearch.m_pathDetailsMatrix.getEntryConstReference(x, y).bestInBetweenVertex));
             }
             displayTable.getLastRow().addCell("   ");
-            for (unsigned int x = 0; x < pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++) {                displayTable.getLastRow().addCell(stringHelper::convertToString(
+            for (unsigned int x = 0; x < pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++) {
+                displayTable.getLastRow().addCell(stringHelper::convertToString(
                     pathSearch.m_pathDetailsMatrix.getEntryConstReference(x, y).bestWeight));
             }
-        }        out << "\n" << displayTable;
+        }
+        out << "\n" << displayTable;
         return out;
     }
 
@@ -152,9 +162,11 @@ std::ostream& operator<<(
     out << pathDetails.hasAPath << "," << pathDetails.bestInBetweenVertex << "," << pathDetails.bestWeight;
     return out;
 }
+
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Algorithm in short terms: Use a "adjacent/best weight" matrix to find shortest/longest by checking vertices in
 // between vertices.
 

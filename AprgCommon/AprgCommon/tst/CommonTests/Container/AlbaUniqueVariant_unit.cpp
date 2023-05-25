@@ -12,8 +12,10 @@ TEST(AlbaUniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor) {
         uint8_t unsignedField;
         float floatField;
     };
+
     struct ExampleStructure2 : public VariantDataType {
         ExampleStructure2() : doubleField(0.0), charField('\0') {}
+
         double doubleField;
         char charField;
     };

@@ -55,10 +55,12 @@ template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(
     string_view question, Choices<int> const& choices);
 
 string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(
-    string_view question, Choices<string> const& choices) {    cout << question << "\n";
+    string_view question, Choices<string> const& choices) {
+    cout << question << "\n";
 
     DisplayTable table;
-    table.addRow();    table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
+    table.addRow();
+    table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left);
     for (auto const& [choiceString, descriptionString] : choices) {

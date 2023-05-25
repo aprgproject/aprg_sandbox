@@ -1,0 +1,259 @@
+
+-> Numpy library
+
+---> This primarily used for scientific computing.
+---> This is commonly used in data analysis and data sciences (along with panda).
+---> Multi-dimensional library (1d, 2d, 3d, etc)
+
+---> Why use numpy instead of lists?
+-----> List is slow but Numpy is fast
+-------> Numpy is fast because its using fixed types (example int)
+-------> List is slow because its using dynamic types(example objects (with size, reference count, object type and object value))
+-----> Numpy is fast because its uses less memory, and its faster to read less bytes of memory.
+-----> Numpy is fast because there is no type checking between objects.
+-----> Numpy is fast because its uses contiguous memory
+-------> List on the otherhand uses memory all around the place (normally pointing to other objects memory)
+-------> Using contiguous memory is faster because its cache friendly
+-------> Using contiguous memory is faster because the CPU can use SIMD instructions.
+
+---> How are Lists different from Numpy?
+-----> In Lists you can do: insertion, deletion, appending, concatenation etc.
+-----> In Numpy you can do: iInsertion, deletion, appending, concatnation and lost more.
+
+---> Applications of Numpy
+-----> Mathematics (MATLAB replacement)
+-----> Plotting (matplotlib)
+-----> Backend (Pandas, Connect 4, Digital Photography)
+-----> Machine Learning
+
+---> Creating arrays:
+-----> import numpy as np
+-----> my_1d_array = np.array([1, 2, 3])
+-----> my_2d_array = np.array([[9.0, 8.0, 7.0], [6.0, 5.0, 4.0]])
+-----> my_1d_array_as_int_16 = np.array([1, 2, 3], dtype='int16')
+-----> print(my_1d_array)  # prints [1 2 3]
+-----> print(my_2d_array)  # prints [[9. 8. 7.] [6. 5. 4.]]
+-----> print(my_1d_array_as_int_16)  # prints [1 2 3]
+
+---> Getting dimensions and shape:
+-----> import numpy as np
+-----> my_1d_array = np.array([1, 2, 3])
+-----> my_2d_array = np.array([[9.0, 8.0, 7.0], [6.0, 5.0, 4.0]])
+-----> print(my_1d_array.ndim)  # prints 1
+-----> print(my_2d_array.ndim)  # prints 2
+-----> print(my_1d_array.shape)  # prints (3,)
+-----> print(my_2d_array.shape)  # prints (2, 3)
+
+---> Getting type and size:
+-----> import numpy as np
+-----> my_1d_array = np.array([1, 2, 3])
+-----> my_2d_array = np.array([[9.0, 8.0, 7.0], [6.0, 5.0, 4.0]])
+-----> print(my_1d_array.dtype)  # prints int32
+-----> print(my_2d_array.dtype)  # prints float64
+-----> print(my_1d_array.itemsize)  # prints 4
+-----> print(my_2d_array.itemsize)  # prints 8
+-----> print(my_1d_array.nbytes)  # prints 12
+-----> print(my_2d_array.nbytes)  # prints 48
+
+---> Accessing/changing specific elements rows, columns, etc.
+-----> Getting a specific element:
+-------> import numpy as np
+-------> my_array = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+-------> print(my_array[0, 0])  # prints 1
+-------> print(my_array[1, 1])  # prints 5
+-------> print(my_array[1, -1])  # prints 6
+-------> print(my_array[-1, 1])  # prints 8
+-------> print(my_array[-1, -1])  # prints 9
+-----> Getting a specific row:
+-------> import numpy as np
+-------> my_array = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+-------> print(my_array[0, :])  # prints [1 2 3]
+-------> print(my_array[1, :])  # prints [4 5 6]
+-------> print(my_array[2, :])  # prints [7 8 9]
+-----> Getting a specific column:
+-------> import numpy as np
+-------> my_array = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+-------> print(my_array[:, 0])  # prints [1 4 7]
+-------> print(my_array[:, 1])  # prints [2 5 8]
+-------> print(my_array[:, 2])  # prints [3 6 9]
+-----> More fancy examples:
+-------> # Note: Remember splicing arguments are start_index:end_index:step_size
+-------> import numpy as np
+-------> my_array = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+-------> print(my_array[1, 0:3:2])  # prints [4, 6]
+-------> print(my_array[2, 2::-1])  # prints [9 8 7]
+-----> Overwriting values:
+-------> # You can overwrite values thru slicing.
+-------> import numpy as np
+-------> my_array = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+-------> my_array[2,2] = 10  # writing a single value
+-------> my_array[:,0] = 20  # writing multiple values with a single value
+-------> my_array[0:3:2,1] = [30,40]  # writing multiple values with multiple values (the sizes must match)
+-------> print(my_array)  # prints [[20 30  3] [20  5  6] [20 40 10]]
+-----> 3d example:
+-------> import numpy as np
+-------> my_array = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+-------> print(my_array[0,1,1])  # prints 4
+-------> print(my_array[:,1,:])  # prints [[3 4] [7 8]]
+
+---> Initializing values:
+-----> All items with the value zero:
+-------> import numpy as np
+-------> my_1d_array = np.zeros(5)
+-------> my_1d_array_as_int32 = np.zeros(5, dtype='int32')
+-------> my_2d_array = np.zeros((2,3))
+-------> my_3d_array = np.zeros((2,3,2))
+-------> print(my_1d_array)  # prints [0. 0. 0. 0. 0.]
+-------> print(my_1d_array_as_int32)  # prints [0 0 0 0 0]
+-------> print(my_2d_array)  # prints [[0. 0. 0.] [0. 0. 0.]]
+-------> print(my_3d_array)  # prints [[[0. 0.] [0. 0.] [0. 0.]]  [[0. 0.] [0. 0.] [0. 0.]]]
+-----> All items with the value one:
+-------> import numpy as np
+-------> my_1d_array = np.ones(5)
+-------> my_1d_array_as_int32 = np.ones(5, dtype='int32')
+-------> my_2d_array = np.ones((2,3)) 
+-------> my_3d_array = np.ones((2,3,2))
+-------> print(my_1d_array)  # prints [1. 1. 1. 1. 1.]
+-------> print(my_1d_array_as_int32)  # prints [1 1 1 1 1]
+-------> print(my_2d_array)  # prints [[1. 1. 1.] [1. 1. 1.]]
+-------> print(my_3d_array)  # prints [[[1. 1.] [1. 1.] [1. 1.]]  [[1. 1.] [1. 1.] [1. 1.]]]
+-----> All items with a specific value:
+-------> import numpy as np
+-------> my_1d_array = np.full(5, 7)
+-------> my_1d_array_as_int32 = np.full(5, 7, dtype='int32')
+-------> my_2d_array = np.full((2,3), 7)
+-------> my_3d_array = np.full((2,3,2), 7)
+-------> print(my_1d_array)  # prints [7 7 7 7 7]
+-------> print(my_1d_array_as_int32)  # prints [7 7 7 7 7]
+-------> print(my_2d_array)  # prints [[7 7 7] [7 7 7]]
+-------> print(my_3d_array)  # prints [[[7 7]  [7 7]  [7 7]] [[7 7]  [7 7]  [7 7]]]
+-----> All items with a specific value with the same shape (full_like):
+-------> import numpy as np
+-------> old_3d_array = np.full((2,3,2), 5)
+-------> my_3d_array = np.full_like(old_3d_array, 7)
+-------> print(my_3d_array)  # prints [[[7 7]  [7 7]  [7 7]] [[7 7]  [7 7]  [7 7]]]
+-----> All items with random float values:
+-------> import numpy as np
+-------> my_1d_array = np.random.rand(5)
+-------> my_2d_array = np.random.random_sample((2,3))
+-------> my_3d_array = np.random.random_sample((2,3,2))
+-------> print(my_1d_array)
+-------> print(my_2d_array)
+-------> print(my_3d_array)
+-----> All items with random int values:
+-------> import numpy as np
+-------> my_1d_array = np.random.randint(0, 9, size=(5))
+-------> my_2d_array = np.random.randint(0, 9, size=(2,3))
+-------> my_3d_array = np.random.randint(0, 9, size=(2,3,2))
+-------> print(my_1d_array)
+-------> print(my_2d_array)
+-------> print(my_3d_array)
+-----> Identity matrix
+-------> import numpy as np
+-------> my_1d_array = np.identity(1)
+-------> my_2d_array = np.identity(2)
+-------> my_3d_array = np.identity(3)
+-------> print(my_1d_array)  # print [[1.]]
+-------> print(my_2d_array)  # print [[1. 0.] [0. 1.]]
+-------> print(my_3d_array)  # print [[1. 0. 0.] [0. 1. 0.] [0. 0. 1.]]
+-----> Repeat arrays
+-------> import numpy as np
+-------> my_1d_array = np.array([[1, 2, 3]])
+-------> my_2d_array = np.repeat(my_1d_array, 2, axis=0)
+-------> print(my_1d_array)
+-------> print(my_2d_array)
+
+---> Be careful when copying arrays (similar behavior with mutable types in python)
+-----> import numpy as np
+-----> my_array1 = np.array([1, 2, 3])
+-----> my_array2 = my_array1
+-----> my_array2[2] = 100
+-----> print (my_array1)
+-----> print (my_array2)
+
+---> Math in arrays
+-----> import numpy as np
+-----> my_array1 = np.array([1,2,3,4])
+-----> my_array2 = np.array([1,0,1,0])
+-----> print(my_array1+2)  # prints [3 4 5 6]
+-----> print(my_array1-2)  # prints [-1  0  1  2]
+-----> print(my_array1*2)  # prints [2 4 6 8]
+-----> print(my_array1/2)  # prints [0.5 1.  1.5 2. ]
+-----> print(my_array1**2)  # prints [ 1  4  9 16]
+-----> print(np.sin(my_array1))  # prints [ 0.84147098  0.90929743  0.14112001 -0.7568025 ]
+-----> print(my_array1+my_array2)  # prints [2 2 4 4]
+
+---> Linear Algebra
+-----> check this page out: https://numpy.org/doc/stable/reference/routines.linalg.html
+-----> Matrix multiplication:
+-------> import numpy as np
+-------> my_array1 = np.ones((2, 3))
+-------> my_array2 = np.full((3,2), 2)
+-------> print(np.matmul(my_array1, my_array2))  # prints [[6. 6.] [6. 6.]]
+-----> Determinant:
+-------> import numpy as np
+-------> my_identity_matrix = np.identity(3)
+-------> determinant = np.linalg.det(my_identity_matrix)
+-------> print(determinant, my_identity_matrix, )  # prints 1.0 [[1. 0. 0.] [0. 1. 0.  [0. 0. 1.]]
+
+---> Statistics
+-----> import numpy as np
+-----> my_array1 = np.array([[1,2,3,4],[5,6,7,8]])
+-----> print(np.min(my_array1))  # prints 1
+-----> print(np.max(my_array1))  # prints 9
+-----> print(np.sum(my_array1))  # prints 36
+
+---> Reorganizing arrays
+-----> Reshaping arrays
+-------> import numpy as np
+-------> my_array1 = np.array([[1,2,3,4],[5,6,7,8]])
+-------> print(my_array1.reshape((1,8)))  # prints [[1 2 3 4 5 6 7 8]]
+-------> print(my_array1.reshape((4,2)))  # prints [[1 2]  [3 4] [5 6] [7 8]]
+-------> # NOTE: The number of items on the new shape must match.
+-----> Vertically stacking arrays
+-------> import numpy as np
+-------> my_array1 = np.array([1,2,3,4])
+-------> my_array2 = np.array([5,6,7,8])
+-------> print(np.vstack([my_array1, my_array2]))  # prints [[1 2 3 4] [5 6 7 8]]
+-----> Horizaontally stacking arrays
+-------> import numpy as np
+-------> my_array1 = np.array([1,2,3,4])
+-------> my_array2 = np.array([5,6,7,8])
+-------> print(np.hstack([my_array1, my_array2]))  # prints [1 2 3 4 5 6 7 8]
+
+---> Load data from file:
+-----> import numpy as np
+-----> data = np.genfromtxt('data.txt', delimiter=',')
+-----> data = data.astype('int32')
+
+---> Boolean masking
+-----> import numpy as np
+-----> my_array1 = np.array([1,2,3,4,5,6,7,8])
+-----> my_array2 = my_array1 > 5
+-----> my_array3 = (my_array1 > 5) & (my_array1<=6)
+-----> print(my_array2)  # prints [False False False False False  True  True  True]
+-----> print(my_array3)  # prints False False False False False  True False False]
+
+
+---> Advanced indexing
+-----> import numpy as np
+-----> my_array1 = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+-----> my_array2 = my_array1[my_array1 > 5]  # NOTE: You can index with a list in NumPY 
+-----> my_array3 = my_array1[[1, 5, 7]] 
+-----> print(my_array2)  # prints [6 7 8]
+-----> print(my_array3)  # prints [2 6 8]
+
+---> Any and all
+-----> import numpy as np
+-----> my_array1 = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
+-----> print(np.any(my_array1 > 4))  # prints True
+-----> print(np.any(my_array1 < 0))  # prints False
+-----> print(np.any(my_array1 >= 5, axis=0))  # prints [ True  True  True  True]
+-----> print(np.any(my_array1 > 5, axis=1))  # prints [False  True]
+-----> print(np.all(my_array1 > 4))  # prints False
+-----> print(np.all(my_array1 > 0))  # prints True
+-----> print(np.all(my_array1 >= 5, axis=0))  # prints [False False False False]
+-----> print(np.all(my_array1 >= 5, axis=1))  # prints [False  True]
+
+
+

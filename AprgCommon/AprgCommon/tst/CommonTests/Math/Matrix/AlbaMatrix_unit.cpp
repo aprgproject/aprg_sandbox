@@ -41,7 +41,8 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithUniquePointers)
     AlbaMatrix<unique_ptr<int>>::MatrixData const& matrixData(matrix.getMatrixData());
     ASSERT_EQ(6U, matrixData.size());
     EXPECT_FALSE(matrixData.at(0));
-    EXPECT_FALSE(matrixData.at(1));    EXPECT_FALSE(matrixData.at(2));
+    EXPECT_FALSE(matrixData.at(1));
+    EXPECT_FALSE(matrixData.at(2));
     EXPECT_FALSE(matrixData.at(3));
     EXPECT_FALSE(matrixData.at(4));
     EXPECT_FALSE(matrixData.at(5));
@@ -135,9 +136,11 @@ TEST(AlbaMatrixTest, OperatorEqualWorks) {
     AlbaMatrix<int> matrix5(2, 3);
     matrix2 = matrix1;
     matrix5.setEntry(1, 1, 2);
+
     EXPECT_TRUE(matrix1 == matrix1);
     EXPECT_TRUE(matrix1 == matrix2);
-    EXPECT_FALSE(matrix1 == matrix3);    EXPECT_FALSE(matrix1 == matrix4);
+    EXPECT_FALSE(matrix1 == matrix3);
+    EXPECT_FALSE(matrix1 == matrix4);
     EXPECT_FALSE(matrix1 == matrix5);
 }
 
@@ -229,7 +232,8 @@ TEST(AlbaMatrixTest, IsInsideTheMatrixWorks) {
     AlbaMatrix<int> matrix(14, 6);
 
     EXPECT_FALSE(matrix.isInside(14, 6));
-    EXPECT_FALSE(matrix.isInside(14, 5));    EXPECT_FALSE(matrix.isInside(13, 6));
+    EXPECT_FALSE(matrix.isInside(14, 5));
+    EXPECT_FALSE(matrix.isInside(13, 6));
     EXPECT_TRUE(matrix.isInside(13, 5));
 }
 
@@ -368,7 +372,8 @@ TEST(AlbaMatrixTest, SetEntryWorks_ValueCanSavedInTheMatrix) {
     AlbaMatrix<int> matrix(2, 3);
 
     matrix.setEntry(0, 0, 1);
-    matrix.setEntry(1, 0, 2);    matrix.setEntry(0, 1, 3);
+    matrix.setEntry(1, 0, 2);
+    matrix.setEntry(0, 1, 3);
     matrix.setEntry(1, 1, 4);
     matrix.setEntry(0, 2, 5);
     matrix.setEntry(1, 2, 6);
@@ -430,8 +435,10 @@ TEST(AlbaMatrixTest, ClearAndResizeWorksWithInitialValue) {
     AlbaMatrix<int> expectedMatrix(3, 2, {55, 55, 55, 55, 55, 55});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 TEST(AlbaMatrixTest, NegateWorks) {
     AlbaMatrix<int> matrix(2, 3, {1, 2, 3, 4, 5, 6});
+
     matrix.negate();
 
     AlbaMatrix<int> expectedMatrix(2, 3, {-1, -2, -3, -4, -5, -6});
@@ -446,8 +453,10 @@ TEST(AlbaMatrixTest, TransposeWorks) {
     AlbaMatrix<int> expectedMatrix(3, 2, {1, 3, 5, 2, 4, 6});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 TEST(AlbaMatrixTest, InvertWorks) {
     AlbaMatrix<double> matrix(3, 3, {1.0, 1.0, 1.0, 0.0, 2.0, 3.0, 5.0, 5.0, 1.0});
+
     matrix.invert();
 
     AlbaMatrix<double> expectedMatrix(3, 3, {1.625, -0.5, -0.125, -1.875, 0.5, 0.375, 1.25, 0.0, -0.25});
@@ -464,10 +473,12 @@ TEST(AlbaMatrixTest, IterateAllThroughYAndThenXWorks) {
     ASSERT_EQ(9, xyPairsToVerify.size());
     EXPECT_EQ(PairOfNumbers(0, 0), xyPairsToVerify.at(0));
     EXPECT_EQ(PairOfNumbers(1, 0), xyPairsToVerify.at(1));
-    EXPECT_EQ(PairOfNumbers(2, 0), xyPairsToVerify.at(2));    EXPECT_EQ(PairOfNumbers(0, 1), xyPairsToVerify.at(3));
+    EXPECT_EQ(PairOfNumbers(2, 0), xyPairsToVerify.at(2));
+    EXPECT_EQ(PairOfNumbers(0, 1), xyPairsToVerify.at(3));
     EXPECT_EQ(PairOfNumbers(1, 1), xyPairsToVerify.at(4));
     EXPECT_EQ(PairOfNumbers(2, 1), xyPairsToVerify.at(5));
-    EXPECT_EQ(PairOfNumbers(0, 2), xyPairsToVerify.at(6));    EXPECT_EQ(PairOfNumbers(1, 2), xyPairsToVerify.at(7));
+    EXPECT_EQ(PairOfNumbers(0, 2), xyPairsToVerify.at(6));
+    EXPECT_EQ(PairOfNumbers(1, 2), xyPairsToVerify.at(7));
     EXPECT_EQ(PairOfNumbers(2, 2), xyPairsToVerify.at(8));
 }
 
@@ -484,7 +495,8 @@ TEST(AlbaMatrixTest, IterateThroughYAndThenXWithRangesWorks) {
     ASSERT_EQ(4, xyPairsToVerify.size());
     EXPECT_EQ(PairOfNumbers(0, 1), xyPairsToVerify.at(0));
     EXPECT_EQ(PairOfNumbers(1, 1), xyPairsToVerify.at(1));
-    EXPECT_EQ(PairOfNumbers(0, 2), xyPairsToVerify.at(2));    EXPECT_EQ(PairOfNumbers(1, 2), xyPairsToVerify.at(3));
+    EXPECT_EQ(PairOfNumbers(0, 2), xyPairsToVerify.at(2));
+    EXPECT_EQ(PairOfNumbers(1, 2), xyPairsToVerify.at(3));
 }
 
 TEST(AlbaMatrixTest, IterateThroughXAndThenYWithRangesWorks) {
@@ -500,7 +512,8 @@ TEST(AlbaMatrixTest, IterateThroughXAndThenYWithRangesWorks) {
     ASSERT_EQ(4, xyPairsToVerify.size());
     EXPECT_EQ(PairOfNumbers(0, 1), xyPairsToVerify.at(0));
     EXPECT_EQ(PairOfNumbers(0, 2), xyPairsToVerify.at(1));
-    EXPECT_EQ(PairOfNumbers(1, 1), xyPairsToVerify.at(2));    EXPECT_EQ(PairOfNumbers(1, 2), xyPairsToVerify.at(3));
+    EXPECT_EQ(PairOfNumbers(1, 1), xyPairsToVerify.at(2));
+    EXPECT_EQ(PairOfNumbers(1, 2), xyPairsToVerify.at(3));
 }
 
 TEST(AlbaMatrixTest, OutputStreamOperatorWorks) {
@@ -508,4 +521,5 @@ TEST(AlbaMatrixTest, OutputStreamOperatorWorks) {
 
     EXPECT_EQ("Matrix output:\n-----\n|1|2|\n-----\n|3|4|\n-----\n|5|6|\n-----\n", convertToString(matrix));
 }
+
 }  // namespace alba::matrix

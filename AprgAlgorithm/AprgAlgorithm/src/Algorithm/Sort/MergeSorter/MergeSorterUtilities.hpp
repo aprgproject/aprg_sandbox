@@ -51,6 +51,7 @@ Values mergeTwoSortedSequences(Values const& sortedValues1, Values const& sorted
     }
     return result;
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

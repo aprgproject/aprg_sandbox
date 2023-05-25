@@ -48,10 +48,12 @@ private:
                     if (m_checkableVerticesToProcess.isNotFound(destinationVertex)) {
                         enqueue(destinationVertex);
                     }
-                },                [&]() {
+                },
+                [&]() {
                     // As soon as processed number vertices reached the total number of vertices check for a
                     // positive/negative cycle.
-                    if (numberOfVerticesProcessed++ >= numberOfVertices) {                        // there is a positive or negative cycle if new weight is found when number total number of
+                    if (numberOfVerticesProcessed++ >= numberOfVertices) {
+                        // there is a positive or negative cycle if new weight is found when number total number of
                         // vertices is reached
                         m_hasPositiveOrNegativeCycle = isNewWeightFound;
                     }
@@ -72,10 +74,12 @@ private:
                     if (m_checkableVerticesToProcess.isNotFound(destinationVertex)) {
                         enqueue(destinationVertex);
                     }
-                },                [&]() {
+                },
+                [&]() {
                     // As soon as processed number vertices reached the total number of vertices check for a
                     // postive/negative cycle.
-                    if (numberOfVerticesProcessed++ != 0 && numberOfVerticesProcessed % numberOfVertices == 0) {                        findAPositiveOrNegativeCycle();
+                    if (numberOfVerticesProcessed++ != 0 && numberOfVerticesProcessed % numberOfVertices == 0) {
+                        findAPositiveOrNegativeCycle();
                     }
                 });
         }
@@ -95,9 +99,11 @@ private:
         }
         return result;
     }
+
     void findAPositiveOrNegativeCycle() {
         // A positive cycle is a directed cycle whose sum of edge weight is positive.
-        // A negative cycle is a directed cycle whose sum of edge weight is negative.        // This is a negative cycle check on shortest path.
+        // A negative cycle is a directed cycle whose sum of edge weight is negative.
+        // This is a negative cycle check on shortest path.
         // This is a positive cycle check on longest path.
 
         EdgeWeightedGraph bestPathTree;
@@ -121,9 +127,11 @@ private:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // Algorithm in short terms: Relax all nodes.
+
 // Negative weights failed attempts:
 // -> Dijkstra does not work on negative edge weights
 // -> Reweighting (adding a constant to make all weights positive) does not work either.

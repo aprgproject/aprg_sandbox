@@ -74,10 +74,12 @@ TEST(AlbaFileReaderTest, SkipLineWorksUsingVariousCharacters) {
     for (int i = 0; i < 21; i++) {
         fileReader.skipLine();
         EXPECT_TRUE(fileReader.isNotFinished());
-    }    EXPECT_TRUE(fileReader.isNotFinished());
+    }
+    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(AlbaFileReaderTest, GetLineWorksUsingVariousCharacters) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(testFilePath.getFullPath());

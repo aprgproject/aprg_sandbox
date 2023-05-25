@@ -74,9 +74,11 @@ private:
         int const rowSize) const;
     void printHorizontalBorder() const;
     void setSeparatorsOnGrid(DisplayTable& grid, int const xOffset) const;
-    void setBoardOnGrid(DisplayTable& grid, Board const& board, int const xOffset) const;    void setMoveOnGrid(
+    void setBoardOnGrid(DisplayTable& grid, Board const& board, int const xOffset) const;
+    void setMoveOnGrid(
         DisplayTable& grid, Board const& board, Move const& move, int const xOffset, int const moveNumber,
         std::optional<char> const& firstChar) const;
+
     BookMoves getMovesFromBook() const;
     void fillMovesFromBook(BookMoves& bookMoves) const;
     BookMove createBookMove(

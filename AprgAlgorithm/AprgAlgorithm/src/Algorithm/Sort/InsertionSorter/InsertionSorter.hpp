@@ -53,9 +53,11 @@ private:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
-// Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and// ~(1/4)N^2 exchanges on average. Proof: Expect each entry to move halfway back. Only half of the elements along the
+// Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and
+// ~(1/4)N^2 exchanges on average. Proof: Expect each entry to move halfway back. Only half of the elements along the
 // diagonal is involved in the sort.
 
 // Insertion sort depends on the initial order of the data

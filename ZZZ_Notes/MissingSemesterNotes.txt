@@ -861,14 +861,14 @@ Data wrangling
 ---> This will result in blank lines, you need to get the user name part(see next example)
 ---> "[^ ]" means any character that is not a space (check regular expression quick reference)
 
--> cat tsp.log | grep sshd | "Disconnected from" | sed -E's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' 
+-> cat tsp.log | grep sshd | "Disconnected from" | sed -E 's/.*Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' 
 ---> "\2" means the second capture group
 ------> any pattern that is enclosed with parenthesis is a capture group (saved by the engine)
 ------> parentheses were wrapped in "(.+)" to capture it
 ------> by putting "\2" between the second slash and third slash in sed, we can replace the whole line with the username part
 ---> If we have a username "Disconnected from", since we have an exact regex of the line, it needs to match the whole line, so "Disconnected from" username will still be in the output.
 
--> cat tsp.log | grep sshd | "Disconnected from" | sed -E's/.*?Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' 
+-> cat tsp.log | grep sshd | "Disconnected from" | sed -E 's/.*?Disconnected from (invalid |authenticating )?user (.+) [^ ]+ port [0-9]+( \[preauth\])?$/\2/' 
 ---> THIS IS NOT SUPPORTED BY SED! (check lecture)
 ---> The "?" on ".*?" means dont be greedy (check regular expression quick reference)
 ---> It means it will stop with the first "Disconnected from"

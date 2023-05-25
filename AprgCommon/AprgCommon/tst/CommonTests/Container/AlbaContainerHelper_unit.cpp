@@ -160,10 +160,12 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorksOnMultiMap) {
     using MultimapIterator = multimap<int, int>::const_iterator;
     using PairOfIterators = pair<MultimapIterator, MultimapIterator>;
 
-    MultimapIterator firstIterator = begin(sampleMap);    MultimapIterator secondIterator = firstIterator;
+    MultimapIterator firstIterator = begin(sampleMap);
+    MultimapIterator secondIterator = firstIterator;
     secondIterator++;
     MultimapIterator thirdIterator = secondIterator;
-    thirdIterator++;    MultimapIterator fourthIterator = thirdIterator;
+    thirdIterator++;
+    MultimapIterator fourthIterator = thirdIterator;
     fourthIterator++;
     MultimapIterator fifthIterator = fourthIterator;
     fifthIterator++;
@@ -194,10 +196,12 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap) {
     using MultimapIterator = multimap<int, int>::iterator;
     using PairOfIterators = pair<MultimapIterator, MultimapIterator>;
 
-    MultimapIterator firstIterator = begin(sampleMap);    MultimapIterator secondIterator = firstIterator;
+    MultimapIterator firstIterator = begin(sampleMap);
+    MultimapIterator secondIterator = firstIterator;
     secondIterator++;
     MultimapIterator thirdIterator = secondIterator;
-    thirdIterator++;    MultimapIterator fourthIterator = thirdIterator;
+    thirdIterator++;
+    MultimapIterator fourthIterator = thirdIterator;
     fourthIterator++;
     MultimapIterator fifthIterator = fourthIterator;
     fifthIterator++;
@@ -251,9 +255,11 @@ TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack) {
     adapter.pop();
     EXPECT_TRUE(adapter.empty());
 }
+
 TEST(ContainerTest, SaveContentsToStreamWorksForAVectorOfIntegersToFile) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    array<int, 6> temporaryArray{0, -23, 4, 379, -482, 37};    ofstream outputTestFile(testFilePath.getFullPath());
+    array<int, 6> temporaryArray{0, -23, 4, 379, -482, 37};
+    ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);
     outputTestFile.close();

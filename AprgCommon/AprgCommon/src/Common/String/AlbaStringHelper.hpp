@@ -25,9 +25,11 @@ inline bool isNewline(char const c) { return ('\n' == c || '\r' == c); }
 inline bool isNotNpos(int const index) { return static_cast<int>(std::string::npos) != index; }
 
 inline bool isNpos(int const index) { return static_cast<int>(std::string::npos) == index; }
+
 inline bool isValidIndex(int const index, int const stringLength) {
     return isNotNpos(index) && 0 <= index && stringLength >= index;
 }
+
 inline bool isCapitalLetter(char const c) { return ('A' <= c && 'Z' >= c); }
 
 inline bool isLetter(char const c) { return ('a' <= c && 'z' >= c) || ('A' <= c && 'Z' >= c); }

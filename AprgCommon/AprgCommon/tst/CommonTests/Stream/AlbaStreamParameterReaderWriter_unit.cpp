@@ -58,15 +58,18 @@ TEST(ReaderWriterParameterTest, VectorTest) {
     AlbaStreamParameterWriter writer(writeTestFile);
     writer.writeVectorData(sampleVector);
     writer.flush();
+
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
 
     vector<int> retrievedVector;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
-    ASSERT_FALSE(readTestFile.eof());    reader.readVectorData(retrievedVector);
+    ASSERT_FALSE(readTestFile.eof());
+    reader.readVectorData(retrievedVector);
     EXPECT_EQ(sampleVector, retrievedVector);
 }
+
 TEST(ReaderWriterParameterTest, MapTest) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
@@ -76,13 +79,16 @@ TEST(ReaderWriterParameterTest, MapTest) {
     AlbaStreamParameterWriter writer(writeTestFile);
     writer.writeMapData(sampleMap);
     writer.flush();
+
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
 
     map<int, string> retrievedmap;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
-    ASSERT_FALSE(readTestFile.eof());    reader.readMapData(retrievedmap);
+    ASSERT_FALSE(readTestFile.eof());
+    reader.readMapData(retrievedmap);
     EXPECT_EQ(sampleMap, retrievedmap);
 }
+
 }  // namespace alba

@@ -115,17 +115,40 @@ Editors
 ---> Movement
 -----> You should spend most of your time in Normal mode, using movement commands to navigate the buffer. 
 -----> Movements in Vim are also called “nouns”, because they refer to chunks of text.
--------> Basic movement: 'h', 'j', 'k', 'l' (left, down, up, right)
--------> Words: 'w' (next word), b (beginning of word), 'e' (end of word)
--------> Lines: '0' (beginning of line), '^' (first non-blank character), '$' (end of line)
--------> Screen: 'H' (top of screen), 'M' (middle of screen), 'L' (bottom of screen)
--------> Scroll: Ctrl+'u' (up), Ctrl+'d' (down)
--------> File: 'gg' (beginning of file), 'G' (end of file)
--------> Line numbers: :{number}<CR> or {number}G (line {number})
--------> Misc: '%' (corresponding item)
----------> Typeing % while the cursor is within a parentheses, braces and brackets locates its matching pair
----------> Useful for handling parenthesis, braces and brackets
--------> Find: 'f{character}', 't{character}', 'F{character}', 'T{character}'
+-------> Basic movement:
+---------> 'h', 'j', 'k', 'l' (left, down, up, right)
+-------> Words:
+---------> 'w' move forward by words (beginning of word)
+---------> 'e' move forward by words (end of the word)
+---------> 'b' move backward by words (beginning of word)
+---------> 'B' move backward by words (beginning of word)
+-------> Lines: 
+---------> '0' moves at the start of the line
+---------> '$' moves at the end of the line
+---------> '^' moves at the start of the non-whitespace character of the line
+-------> Screen:
+---------> 'H' goes to the top of the screen 
+---------> 'M' goes to the middle of the screen 
+---------> 'L' goes to the bottom of the screen  
+-------> Scroll:
+---------> 'ctrl+d' goes down by a page 
+---------> 'ctrl+u' goes up by a page 
+-------> File:
+---------> 'gg' moves at the beginning of the file
+---------> 'G' moves at the end of the file
+-------> Line numbers: 
+---------> ':[linenumber]' can get you to the exact line number of the file
+---------> :{number}<CR> or {number}G (line {number})
+-------> Misc: 
+---------> '%' (corresponding item)
+-----------> '%' move to the corresponding item (for example in a parenthesis block, it will go the start of the parenthesis)
+-----------> Typeing % while the cursor is within a parentheses, braces and brackets locates its matching pair
+-----------> Useful for handling parenthesis, braces and brackets
+-------> Find:
+---------> 'f' and then 'character' means find (search forward) the first occurrence of that character
+---------> 'F' and then 'character' means find (search backward) the first occurrence of that character
+---------> 't' and then 'character' means jump to (search forward) the first occurrence of that character (one character before the searched character)
+---------> 'T' and then 'character' means jump to (search backward) the first occurrence of that character (one character before the searched character)
 ---------> find/to forward/backward {character} on the current line
 ---------> ',' and ';' for navigating matches
 -------> Search (in normal mode):
@@ -134,26 +157,6 @@ Editors
 ---------> Backward Search: '?{regex}'
 ---------> 'n' and 'N' for navigating matches (this is after performing the regex search)
 -------> See Substitute section for search and replace
------> Common uses:
--------> 'w' move forward by words (beginning of word)
--------> 'b' move backward by words (beginning of word)
--------> 'e' move forward by words (end of the word)
--------> '0' moves at the start of the line
--------> '$' moves at the end of the line
--------> '^' moves at the start of the nonwhitespace character of the line
--------> 'H' goes to the top of the screen 
--------> 'M' goes to the middle of the screen 
--------> 'L' goes to the bottom of the screen  
--------> 'ctrl+d' goes down by a page 
--------> 'ctrl+u' goes up by a page 
--------> 'gg' moves at the beginning of the file
--------> 'G' moves at the end of the file
--------> ':[linenumber]' can get you to the exact line number of the file
--------> '%' move to the corresponding item (for example in a parenthesis block, it will go the start of the parenthesis)
--------> 'f' and then 'character' means find (search forward) the first occurrence of that character
--------> 'F' and then 'character' means find (search backward) the first occurrence of that character
--------> 't' and then 'character' means jump to (search forward) the first occurrence of that character (one character before the searched character)
--------> 'T' and then 'character' means jump to (search backward) the first occurrence of that character (one character before the searched character)
 -----> Composability of movement:
 -------> '5' then 'j' means go down 5 times
 -------> '3' then 'w' means move forward by 3 words

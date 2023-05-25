@@ -35,7 +35,8 @@ def get_cell_display(cell):
         return display_o
 
 
-def get_index(coordinate):    return int(coordinate[1]*board_side_size + coordinate[0])
+def get_index(coordinate):
+    return int(coordinate[1]*board_side_size + coordinate[0])
 
 
 def get_coordinate(index):
@@ -95,7 +96,8 @@ def is_a_column_win(board, index, current_cell):
 def is_a_diagonal_positive_slope_win(board, index, current_cell):
     coordinate = get_coordinate(index)
     x, y = coordinate
-    distance_to_corner = min(x, y)    x -= distance_to_corner
+    distance_to_corner = min(x, y)
+    x -= distance_to_corner
     y -= distance_to_corner
     if (x, y) == (0, 0):
         is_winning = True
@@ -103,7 +105,8 @@ def is_a_diagonal_positive_slope_win(board, index, current_cell):
             if current_cell != board[get_index((x, y))]:
                 is_winning = False
                 break
-            x += 1            y += 1
+            x += 1
+            y += 1
     else:
         is_winning = False
     return is_winning
@@ -112,7 +115,8 @@ def is_a_diagonal_positive_slope_win(board, index, current_cell):
 def is_a_diagonal_negative_slope_win(board, index, current_cell):
     coordinate = get_coordinate(index)
     last_index = board_side_size-1
-    x, y = coordinate    distance_to_corner = min(x, last_index-y)
+    x, y = coordinate
+    distance_to_corner = min(x, last_index-y)
     x -= distance_to_corner
     y += distance_to_corner
     if (x, y) == (0, last_index):
@@ -121,7 +125,8 @@ def is_a_diagonal_negative_slope_win(board, index, current_cell):
             if current_cell != board[get_index((x, y))]:
                 is_winning = False
                 break
-            x += 1            y -= 1
+            x += 1
+            y -= 1
     else:
         is_winning = False
     return is_winning

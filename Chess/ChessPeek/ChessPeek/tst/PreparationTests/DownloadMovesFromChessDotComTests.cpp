@@ -428,10 +428,12 @@ bool shouldIncludeLine(strings const& currentLine, Book const& book) {
     bool result(false);
     constexpr int MIN_NUMBER_OF_GAMES = 10000;
 
-    Board updatedBoard(BoardOrientation::BlackUpWhiteDown);    PieceColor currentColor = PieceColor::White;
+    Board updatedBoard(BoardOrientation::BlackUpWhiteDown);
+    PieceColor currentColor = PieceColor::White;
     int size = currentLine.size();
     int index{};
-    for (string const& moveString : currentLine) {        if (index != size - 1) {
+    for (string const& moveString : currentLine) {
+        if (index != size - 1) {
             Move move = updatedBoard.getMoveUsingAlgebraicNotation(moveString, currentColor);
             if (areCoordinatesValid(move)) {
                 updatedBoard.move(move);
@@ -458,10 +460,12 @@ bool shouldIncludeLine(strings const& currentLine, Book const& book) {
     return result;
 }
 
-void doOnePage(strings const& currentLine, Paths const& paths) {    WebPageInfo pageInfo;
+void doOnePage(strings const& currentLine, Paths const& paths) {
+    WebPageInfo pageInfo;
 
     bool isProcessed(false);
-    while (!isProcessed) {        if (!shouldStillRun) {
+    while (!isProcessed) {
+        if (!shouldStillRun) {
             exit(0);
         }
         clickWindow();

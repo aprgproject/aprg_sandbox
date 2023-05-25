@@ -18,9 +18,11 @@ TEST(DeterminantTest, GetIndexWithHighestNumberOfNonZerosWorks) {
 
     EXPECT_EQ(0U, getIndexWithHighestNumberOfNonZeros(rowsAndColumns));
 }
+
 TEST(DeterminantTest, GetDeterminantWorks) {
     AlbaMatrix<int> matrix1(1, 1, 5);
-    AlbaMatrix<int> matrix2(2, 2, {2, -1, 3, 2});    AlbaMatrix<int> matrix3(3, 3, {1, 2, 3, 2, 1, 3, 3, 1, 2});
+    AlbaMatrix<int> matrix2(2, 2, {2, -1, 3, 2});
+    AlbaMatrix<int> matrix3(3, 3, {1, 2, 3, 2, 1, 3, 3, 1, 2});
     AlbaMatrix<int> matrix4(4, 4, {1, 2, -3, 4, -4, 2, 1, 3, 3, 0, 0, -3, 2, 0, -2, 3});
     AlbaMatrix<int> matrix5(4, 4, {4, 3, 2, 2, 0, 1, -3, 3, 0, -1, 3, 3, 0, 3, 1, 1});
     AlbaMatrix<int> matrix6(4, 4, {1, 2, 3, 4, 2, 5, 7, 3, 4, 10, 14, 6, 3, 4, 2, 7});
@@ -65,4 +67,5 @@ TEST(AlbaMatrixUtilitiesTest, GetMatrixWithOneColumnAndOneRowRemovedWorks) {
     AlbaMatrix<int> expectedMatrix(2, 2, {1, 3, 4, 6});
     EXPECT_EQ(expectedMatrix, resultMatrix);
 }
+
 }  // namespace alba::matrix

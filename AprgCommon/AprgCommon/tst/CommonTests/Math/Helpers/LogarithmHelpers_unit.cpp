@@ -51,10 +51,12 @@ TEST(LogarithmHelpersTest, GetIterativeLogarithmWorks) {
     EXPECT_EQ(2, getIterativeLogarithm<int>(4, 15));
 }
 
-TEST(LogarithmHelpersTest, GetSuperLogarithmWorks) {    EXPECT_EQ(2, getSuperLogarithm<int>(3, 9));
+TEST(LogarithmHelpersTest, GetSuperLogarithmWorks) {
+    EXPECT_EQ(2, getSuperLogarithm<int>(3, 9));
     EXPECT_EQ(4, getSuperLogarithm<int>(2, 32));
     EXPECT_EQ(0, getSuperLogarithm<int>(2, 0.0625));
-    EXPECT_EQ(-1, getSuperLogarithm<int>(2, -1));    EXPECT_EQ(2, getSuperLogarithm<int>(4, 15));
+    EXPECT_EQ(-1, getSuperLogarithm<int>(2, -1));
+    EXPECT_EQ(2, getSuperLogarithm<int>(4, 15));
 }
 
 TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmPerformanceTest_WithIncreasingInput) {
@@ -65,7 +67,8 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmPerformanceTest_WithI
         for (int exponent = 1; exponent < 20000; exponent++) {
             result = std::max(result, getLogarithm(base, exponent));
         }
-    }    EXPECT_DOUBLE_EQ(14.287640242993977, result);
+    }
+    EXPECT_DOUBLE_EQ(14.287640242993977, result);
 }
 
 TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmForIntegersPerformanceTest_WithIncreasingInput) {

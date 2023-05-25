@@ -63,10 +63,12 @@ TEST(FractionHelpersTest, ChangeFractionToSimplestFormForUnsignedWorks) {
     uint32_t denominator4 = 4294967294;
     changeFractionToSimplestFormForUnsigned(numerator4, denominator4);
     EXPECT_EQ(2147483646U, numerator4);
-    EXPECT_EQ(2147483647U, denominator4);}
+    EXPECT_EQ(2147483647U, denominator4);
+}
 
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormForSignedWorks) {
-    int numerator1 = 0;    int denominator1 = 0;
+    int numerator1 = 0;
+    int denominator1 = 0;
     changeFractionToSimplestFormForSigned(numerator1, denominator1);
     EXPECT_EQ(0, numerator1);
     EXPECT_EQ(0, denominator1);
@@ -157,6 +159,7 @@ TEST(FractionHelpersTest, GetBestFractionDetailsForDoubleValueWorks) {
     auto fractionDetails10(getBestFractionDetailsForDoubleValue<uint32_t>(NAN_DOUBLE_VALUE));
     EXPECT_EQ(1, fractionDetails10.sign);
     EXPECT_EQ(0U, fractionDetails10.numerator);
-    EXPECT_EQ(1U, fractionDetails10.denominator);}
+    EXPECT_EQ(1U, fractionDetails10.denominator);
+}
 
 }  // namespace alba::mathHelper

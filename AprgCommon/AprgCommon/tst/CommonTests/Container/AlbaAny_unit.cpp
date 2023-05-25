@@ -53,7 +53,8 @@ TEST(AlbaAnyTest, BoolOperatorWorks) {
     AlbaAny nonEmptyAny(1234);
 
     EXPECT_FALSE(static_cast<bool>(emptyAny));
-    EXPECT_TRUE(static_cast<bool>(nonEmptyAny));}
+    EXPECT_TRUE(static_cast<bool>(nonEmptyAny));
+}
 
 TEST(AlbaAnyTest, HasContentWorks) {
     AlbaAny emptyAny;
@@ -90,6 +91,7 @@ TEST(AlbaAnyTest, ClearWorks) {
     AlbaAny any(1234);
 
     any.clear();
+
     EXPECT_FALSE(any.hasContent());
 }
 
@@ -98,8 +100,10 @@ TEST(AlbaAnyTest, OutputStreamOperatorWorks) {
     AlbaAny any(1234);
 
     ss << any;
+
     EXPECT_EQ(
         "hasContent: 1\n savedMemory: Decimal values: {210, 4, 0, 0, }\nHexadecimal values: {d2, 4, 0, 0, }\n",
-        ss.str());}
+        ss.str());
+}
 
 }  // namespace alba

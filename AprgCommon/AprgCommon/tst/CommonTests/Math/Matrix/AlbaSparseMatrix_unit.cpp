@@ -98,9 +98,11 @@ TEST(AlbaSparseMatrixTest, OperatorEqualWorks) {
     AlbaSparseMatrix<int> matrix5(2, 3);
     matrix2 = matrix1;
     matrix5.setEntry(1, 1, 2);
+
     EXPECT_TRUE(matrix1 == matrix1);
     EXPECT_TRUE(matrix1 == matrix2);
-    EXPECT_FALSE(matrix1 == matrix3);    EXPECT_FALSE(matrix1 == matrix4);
+    EXPECT_FALSE(matrix1 == matrix3);
+    EXPECT_FALSE(matrix1 == matrix4);
     EXPECT_FALSE(matrix1 == matrix5);
 }
 
@@ -131,9 +133,11 @@ TEST(AlbaSparseMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithConsta
     AlbaSparseMatrix<int> expectedMatrix(2, 3, {2, 4, 6, 8, 10, 12});
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
+
 TEST(AlbaSparseMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithAnotherMatrix) {
     AlbaSparseMatrix<int> matrix1(3, 2, {1, 2, -1, 3, 1, 4});
     AlbaSparseMatrix<int> matrix2(2, 3, {-2, 5, 4, -3, 2, 1});
+
     AlbaSparseMatrix<int> matrixToVerify(matrix1 * matrix2);
 
     AlbaSparseMatrix<int> expectedMatrix(2, 2, {4, -2, 6, 16});
@@ -166,7 +170,8 @@ TEST(AlbaSparseMatrixTest, GetMatrixIndexWorks) {
     AlbaSparseMatrix<int> matrix(14, 6);
 
     EXPECT_EQ(45U, matrix.getMatrixIndex(3, 3));
-    EXPECT_EQ(73U, matrix.getMatrixIndex(3, 5));    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));
+    EXPECT_EQ(73U, matrix.getMatrixIndex(3, 5));
+    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));
     EXPECT_EQ(75U, matrix.getMatrixIndex(5, 5));
 }
 
@@ -216,7 +221,8 @@ TEST(AlbaSparseMatrixTest, SetEntryWorks_ValueCanSavedInTheMatrix) {
     AlbaSparseMatrix<int> matrix(2, 3);
 
     matrix.setEntry(0, 0, 1);
-    matrix.setEntry(1, 0, 2);    matrix.setEntry(0, 1, 3);
+    matrix.setEntry(1, 0, 2);
+    matrix.setEntry(0, 1, 3);
     matrix.setEntry(1, 1, 4);
     matrix.setEntry(0, 2, 5);
     matrix.setEntry(1, 2, 6);
@@ -251,8 +257,10 @@ TEST(AlbaSparseMatrixTest, ClearAndResizeWorks) {
     AlbaSparseMatrix<int> expectedMatrix(3, 2, {0, 0, 0, 0, 0, 0});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 TEST(AlbaSparseMatrixTest, NegateWorks) {
     AlbaSparseMatrix<int> matrix(2, 3, {1, 2, 3, 4, 5, 6});
+
     matrix.negate();
 
     AlbaSparseMatrix<int> expectedMatrix(2, 3, {-1, -2, -3, -4, -5, -6});
@@ -267,4 +275,5 @@ TEST(AlbaSparseMatrixTest, TransposeWorks) {
     AlbaSparseMatrix<int> expectedMatrix(3, 2, {1, 3, 5, 2, 4, 6});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 }  // namespace alba::matrix

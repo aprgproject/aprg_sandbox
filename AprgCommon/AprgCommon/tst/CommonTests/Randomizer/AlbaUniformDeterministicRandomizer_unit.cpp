@@ -53,10 +53,12 @@ TEST(AlbaUniformDeterministicRandomizerTest, GetRandomIntegerWorks_AsUniformlyDi
         hitsForEachValue[randomValue]++;
     }
 
-    ASSERT_FALSE(hitsForEachValue.empty());    auto&& [minIterator, maxIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
+    ASSERT_FALSE(hitsForEachValue.empty());
+    auto&& [minIterator, maxIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
     int deviationCount(*maxIterator - *minIterator);
     EXPECT_LT(deviationCount, allowedDeviationCount);
 }
+
 TEST(AlbaUniformDeterministicRandomizerTest, GetRandomFloatingValueWorks_WithinMinimumAndMaximumValues) {
     constexpr double minimumValue(-11.5);
     constexpr double maximumValue(23.25);
@@ -98,10 +100,12 @@ TEST(AlbaUniformDeterministicRandomizerTest, GetRandomFloatingValueWorks_AsUnifo
         hitsForEachValue[randomValue]++;
     }
 
-    ASSERT_FALSE(hitsForEachValue.empty());    auto&& [minIterator, maxIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
+    ASSERT_FALSE(hitsForEachValue.empty());
+    auto&& [minIterator, maxIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
     int deviationCount(*maxIterator - *minIterator);
     EXPECT_LT(deviationCount, allowedDeviationCount);
 }
+
 TEST(AlbaUniformDeterministicRandomizerTest, SetRandomSeedWorks) {
     constexpr int minimumValue(0);
     constexpr int maximumValue(9);
