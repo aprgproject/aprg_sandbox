@@ -7,57 +7,55 @@ using namespace std;
 namespace alba::mathHelper {
 
 TEST(FactorAndMulitplesHelpersTest, IsPrimeWorks) {
-    EXPECT_FALSE(isPrime(0U));
-    EXPECT_FALSE(isPrime(1U));
-    EXPECT_TRUE(isPrime(2U));
-    EXPECT_TRUE(isPrime(3U));
-    EXPECT_FALSE(isPrime(4U));
-    EXPECT_TRUE(isPrime(5U));
-    EXPECT_FALSE(isPrime(24U));
-    EXPECT_TRUE(isPrime(67U));
+    EXPECT_FALSE(isPrime(0));
+    EXPECT_FALSE(isPrime(1));
+    EXPECT_TRUE(isPrime(2));
+    EXPECT_TRUE(isPrime(3));
+    EXPECT_FALSE(isPrime(4));
+    EXPECT_TRUE(isPrime(5));
+    EXPECT_FALSE(isPrime(24));
+    EXPECT_TRUE(isPrime(67));
 }
 
 TEST(FactorAndMulitplesHelpersTest, IsPowerOfTwoWorks) {
-    EXPECT_TRUE(isPowerOfTwo(0U));
-    EXPECT_TRUE(isPowerOfTwo(1U));
-    EXPECT_TRUE(isPowerOfTwo(2U));
-    EXPECT_FALSE(isPowerOfTwo(3U));
-    EXPECT_TRUE(isPowerOfTwo(4U));
-    EXPECT_FALSE(isPowerOfTwo(6U));
+    EXPECT_TRUE(isPowerOfTwo(0));
+    EXPECT_TRUE(isPowerOfTwo(1));
+    EXPECT_TRUE(isPowerOfTwo(2));
+    EXPECT_FALSE(isPowerOfTwo(3));
+    EXPECT_TRUE(isPowerOfTwo(4));
+    EXPECT_FALSE(isPowerOfTwo(6));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonPowerOf2FactorWorks) {
-    EXPECT_EQ(0U, getGreatestPowerOf2Factor(0U));
-    EXPECT_EQ(1U, getGreatestPowerOf2Factor(1U));
-    EXPECT_EQ(2U, getGreatestPowerOf2Factor(2U));
-    EXPECT_EQ(4U, getGreatestPowerOf2Factor(4U));
-    EXPECT_EQ(8U, getGreatestPowerOf2Factor(8U));
-    EXPECT_EQ(16U, getGreatestPowerOf2Factor(16U));
-    EXPECT_EQ(1U, getGreatestPowerOf2Factor(5U));
-    EXPECT_EQ(2U, getGreatestPowerOf2Factor(10U));
-    EXPECT_EQ(4U, getGreatestPowerOf2Factor(12U));
+    EXPECT_EQ(0, getGreatestPowerOf2Factor(0));
+    EXPECT_EQ(1, getGreatestPowerOf2Factor(1));
+    EXPECT_EQ(2, getGreatestPowerOf2Factor(2));
+    EXPECT_EQ(4, getGreatestPowerOf2Factor(4));
+    EXPECT_EQ(8, getGreatestPowerOf2Factor(8));
+    EXPECT_EQ(16, getGreatestPowerOf2Factor(16));
+    EXPECT_EQ(1, getGreatestPowerOf2Factor(5));
+    EXPECT_EQ(2, getGreatestPowerOf2Factor(10));
+    EXPECT_EQ(4, getGreatestPowerOf2Factor(12));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWorks) {
     // UnsignedInteger
-    EXPECT_EQ(0U, getGreatestCommonFactor(0U, 0U));
-    EXPECT_EQ(8U, getGreatestCommonFactor(0U, 8U));
-    EXPECT_EQ(8U, getGreatestCommonFactor(8U, 0U));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1U, 8U));
-    EXPECT_EQ(1U, getGreatestCommonFactor(8U, 1U));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1U, 1U));
-    EXPECT_EQ(16U, getGreatestCommonFactor(16U, 32U));
-    EXPECT_EQ(14U, getGreatestCommonFactor(98U, 56U));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1234567891U, 3U));
-    EXPECT_EQ(1U, getGreatestCommonFactor(3U, 1234567891U));
+    EXPECT_EQ(0, getGreatestCommonFactor(0, 0));
+    EXPECT_EQ(8, getGreatestCommonFactor(0, 8));
+    EXPECT_EQ(8, getGreatestCommonFactor(8, 0));
+    EXPECT_EQ(1, getGreatestCommonFactor(1, 8));
+    EXPECT_EQ(1, getGreatestCommonFactor(8, 1));
+    EXPECT_EQ(1, getGreatestCommonFactor(1, 1));
+    EXPECT_EQ(16, getGreatestCommonFactor(16, 32));
+    EXPECT_EQ(14, getGreatestCommonFactor(98, 56));
+    EXPECT_EQ(1, getGreatestCommonFactor(1234567891, 3));
+    EXPECT_EQ(1, getGreatestCommonFactor(3, 1234567891));
 
     // SignedInteger
-    EXPECT_EQ(0, getGreatestCommonFactor<int>(0, 0));
-    EXPECT_EQ(8, getGreatestCommonFactor(0, -8));
+    EXPECT_EQ(0, getGreatestCommonFactor<int>(0, 0));    EXPECT_EQ(8, getGreatestCommonFactor(0, -8));
     EXPECT_EQ(8, getGreatestCommonFactor(-8, 0));
     EXPECT_EQ(1, getGreatestCommonFactor(1, -8));
-    EXPECT_EQ(1, getGreatestCommonFactor(-8, 1));
-    EXPECT_EQ(1, getGreatestCommonFactor<int>(1, 1));
+    EXPECT_EQ(1, getGreatestCommonFactor(-8, 1));    EXPECT_EQ(1, getGreatestCommonFactor<int>(1, 1));
     EXPECT_EQ(16, getGreatestCommonFactor(16, -32));
     EXPECT_EQ(16, getGreatestCommonFactor(-16, 32));
     EXPECT_EQ(14, getGreatestCommonFactor(98, -56));
@@ -68,24 +66,22 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWorks) {
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorUsingEuclidAlgorithmWorks) {
     // UnsignedInteger
-    EXPECT_EQ(0U, getGreatestCommonFactorUsingEuclidAlgorithm(0U, 0U));
-    EXPECT_EQ(8U, getGreatestCommonFactorUsingEuclidAlgorithm(0U, 8U));
-    EXPECT_EQ(8U, getGreatestCommonFactorUsingEuclidAlgorithm(8U, 0U));
-    EXPECT_EQ(1U, getGreatestCommonFactorUsingEuclidAlgorithm(1U, 8U));
-    EXPECT_EQ(1U, getGreatestCommonFactorUsingEuclidAlgorithm(8U, 1U));
-    EXPECT_EQ(1U, getGreatestCommonFactorUsingEuclidAlgorithm(1U, 1U));
-    EXPECT_EQ(16U, getGreatestCommonFactorUsingEuclidAlgorithm(16U, 32U));
-    EXPECT_EQ(14U, getGreatestCommonFactorUsingEuclidAlgorithm(98U, 56U));
-    EXPECT_EQ(1U, getGreatestCommonFactorUsingEuclidAlgorithm(1234567891U, 3U));
-    EXPECT_EQ(1U, getGreatestCommonFactorUsingEuclidAlgorithm(3U, 1234567891U));
+    EXPECT_EQ(0, getGreatestCommonFactorUsingEuclidAlgorithm(0, 0));
+    EXPECT_EQ(8, getGreatestCommonFactorUsingEuclidAlgorithm(0, 8));
+    EXPECT_EQ(8, getGreatestCommonFactorUsingEuclidAlgorithm(8, 0));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(1, 8));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(8, 1));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(1, 1));
+    EXPECT_EQ(16, getGreatestCommonFactorUsingEuclidAlgorithm(16, 32));
+    EXPECT_EQ(14, getGreatestCommonFactorUsingEuclidAlgorithm(98, 56));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(1234567891, 3));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(3, 1234567891));
 
     // SignedInteger
-    EXPECT_EQ(0, getGreatestCommonFactorUsingEuclidAlgorithm<int>(0, 0));
-    EXPECT_EQ(8, getGreatestCommonFactorUsingEuclidAlgorithm(0, -8));
+    EXPECT_EQ(0, getGreatestCommonFactorUsingEuclidAlgorithm<int>(0, 0));    EXPECT_EQ(8, getGreatestCommonFactorUsingEuclidAlgorithm(0, -8));
     EXPECT_EQ(8, getGreatestCommonFactorUsingEuclidAlgorithm(-8, 0));
     EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(1, -8));
-    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(-8, 1));
-    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm<int>(1, 1));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(-8, 1));    EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm<int>(1, 1));
     EXPECT_EQ(16, getGreatestCommonFactorUsingEuclidAlgorithm(16, -32));
     EXPECT_EQ(16, getGreatestCommonFactorUsingEuclidAlgorithm(-16, 32));
     EXPECT_EQ(14, getGreatestCommonFactorUsingEuclidAlgorithm(98, -56));
@@ -95,95 +91,92 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorUsingEuclidAlgorithmW
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksForUnsignedInteger) {
-    using LastValues = pair<unsigned int, unsigned int>;
+    using LastValues = pair<int, int>;
     LastValues lastValues{};
-    EXPECT_EQ(0U, getGreatestCommonFactorWithLastValues(0U, 0U, lastValues.first, lastValues.second));
+    EXPECT_EQ(0, getGreatestCommonFactorWithLastValues(0, 0, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 0}), lastValues);
-    EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(1U, 1U, lastValues.first, lastValues.second));
+    EXPECT_EQ(1, getGreatestCommonFactorWithLastValues(1, 1, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{0, 1}), lastValues);
-    EXPECT_EQ(16U, getGreatestCommonFactorWithLastValues(16U, 32U, lastValues.first, lastValues.second));
+    EXPECT_EQ(16, getGreatestCommonFactorWithLastValues(16, 32, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 0}), lastValues);
-    EXPECT_EQ(14U, getGreatestCommonFactorWithLastValues(98U, 56U, lastValues.first, lastValues.second));
+    EXPECT_EQ(14, getGreatestCommonFactorWithLastValues(98, 56, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{4294967295, 2}), lastValues);
-    EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(1234567891U, 3U, lastValues.first, lastValues.second));
+    EXPECT_EQ(1, getGreatestCommonFactorWithLastValues(1234567891, 3, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 3883444666}), lastValues);
-    EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(3U, 1234567891U, lastValues.first, lastValues.second));
+    EXPECT_EQ(1, getGreatestCommonFactorWithLastValues(3, 1234567891, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{3883444666, 1}), lastValues);
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleWorks) {
-    EXPECT_EQ(0U, getLeastCommonMultiple(0U, 0U));
-    EXPECT_EQ(1U, getLeastCommonMultiple(1U, 1U));
-    EXPECT_EQ(256U, getLeastCommonMultiple(8U, 256U));
-    EXPECT_EQ(60U, getLeastCommonMultiple(15U, 20U));
-    EXPECT_EQ(262144U, getLeastCommonMultiple(65536U, 262144U));
+    EXPECT_EQ(0, getLeastCommonMultiple(0, 0));
+    EXPECT_EQ(1, getLeastCommonMultiple(1, 1));
+    EXPECT_EQ(256, getLeastCommonMultiple(8, 256));
+    EXPECT_EQ(60, getLeastCommonMultiple(15, 20));
+    EXPECT_EQ(262144, getLeastCommonMultiple(65536, 262144));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleUsingEuclidAlgorithmWorks) {
-    EXPECT_EQ(0U, getLeastCommonMultipleUsingEuclidAlgorithm(0U, 0U));
-    EXPECT_EQ(1U, getLeastCommonMultipleUsingEuclidAlgorithm(1U, 1U));
-    EXPECT_EQ(256U, getLeastCommonMultipleUsingEuclidAlgorithm(8U, 256U));
-    EXPECT_EQ(60U, getLeastCommonMultipleUsingEuclidAlgorithm(15U, 20U));
-    EXPECT_EQ(262144U, getLeastCommonMultipleUsingEuclidAlgorithm(65536U, 262144U));
+    EXPECT_EQ(0, getLeastCommonMultipleUsingEuclidAlgorithm(0, 0));
+    EXPECT_EQ(1, getLeastCommonMultipleUsingEuclidAlgorithm(1, 1));
+    EXPECT_EQ(256, getLeastCommonMultipleUsingEuclidAlgorithm(8, 256));
+    EXPECT_EQ(60, getLeastCommonMultipleUsingEuclidAlgorithm(15, 20));
+    EXPECT_EQ(262144, getLeastCommonMultipleUsingEuclidAlgorithm(65536, 262144));
 }
 
-TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleInDoubleWorks) {
-    EXPECT_DOUBLE_EQ(262144, getLeastCommonMultipleInDouble(65536, 262144));
+TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleInDoubleWorks) {    EXPECT_DOUBLE_EQ(262144, getLeastCommonMultipleInDouble(65536, 262144));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetNumberOfMultiplesInclusiveWorks) {
-    EXPECT_EQ(0U, getNumberOfMultiplesInclusive(0U, 0U));
-    EXPECT_EQ(1U, getNumberOfMultiplesInclusive(10U, 10U));
-    EXPECT_EQ(1U, getNumberOfMultiplesInclusive(5U, 9U));
-    EXPECT_EQ(2U, getNumberOfMultiplesInclusive(5U, 10U));
-    EXPECT_EQ(2U, getNumberOfMultiplesInclusive(5U, 11U));
-    EXPECT_EQ(0U, getNumberOfMultiplesInclusive(10U, 0U));
-    EXPECT_EQ(0U, getNumberOfMultiplesInclusive(10U, 5U));
-    EXPECT_EQ(41U, getNumberOfMultiplesInclusive(57U, 2346U));
+    EXPECT_EQ(0, getNumberOfMultiplesInclusive(0, 0));
+    EXPECT_EQ(1, getNumberOfMultiplesInclusive(10, 10));
+    EXPECT_EQ(1, getNumberOfMultiplesInclusive(5, 9));
+    EXPECT_EQ(2, getNumberOfMultiplesInclusive(5, 10));
+    EXPECT_EQ(2, getNumberOfMultiplesInclusive(5, 11));
+    EXPECT_EQ(0, getNumberOfMultiplesInclusive(10, 0));
+    EXPECT_EQ(0, getNumberOfMultiplesInclusive(10, 5));
+    EXPECT_EQ(41, getNumberOfMultiplesInclusive(57, 2346));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetMultipleThatIsLessOrEqualWorks) {
-    EXPECT_EQ(0U, getMultipleThatIsLesserOrEqual(0U, 0U));
-    EXPECT_EQ(10U, getMultipleThatIsLesserOrEqual(10U, 10U));
-    EXPECT_EQ(5U, getMultipleThatIsLesserOrEqual(5U, 9U));
-    EXPECT_EQ(10U, getMultipleThatIsLesserOrEqual(5U, 10U));
-    EXPECT_EQ(10U, getMultipleThatIsLesserOrEqual(5U, 11U));
-    EXPECT_EQ(0U, getMultipleThatIsLesserOrEqual(0U, 10U));
-    EXPECT_EQ(0U, getMultipleThatIsLesserOrEqual(10U, 0U));
-    EXPECT_EQ(0U, getMultipleThatIsLesserOrEqual(10U, 5U));
-    EXPECT_EQ(2337U, getMultipleThatIsLesserOrEqual(57U, 2346U));
+    EXPECT_EQ(0, getMultipleThatIsLesserOrEqual(0, 0));
+    EXPECT_EQ(10, getMultipleThatIsLesserOrEqual(10, 10));
+    EXPECT_EQ(5, getMultipleThatIsLesserOrEqual(5, 9));
+    EXPECT_EQ(10, getMultipleThatIsLesserOrEqual(5, 10));
+    EXPECT_EQ(10, getMultipleThatIsLesserOrEqual(5, 11));
+    EXPECT_EQ(0, getMultipleThatIsLesserOrEqual(0, 10));
+    EXPECT_EQ(0, getMultipleThatIsLesserOrEqual(10, 0));
+    EXPECT_EQ(0, getMultipleThatIsLesserOrEqual(10, 5));
+    EXPECT_EQ(2337, getMultipleThatIsLesserOrEqual(57, 2346));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetMultipleThatIsGreaterOrEqualWorks) {
-    EXPECT_EQ(0U, getMultipleThatIsGreaterOrEqual(0U, 0U));
-    EXPECT_EQ(10U, getMultipleThatIsGreaterOrEqual(10U, 10U));
-    EXPECT_EQ(10U, getMultipleThatIsGreaterOrEqual(5U, 9U));
-    EXPECT_EQ(10U, getMultipleThatIsGreaterOrEqual(5U, 10U));
-    EXPECT_EQ(15U, getMultipleThatIsGreaterOrEqual(5U, 11U));
-    EXPECT_EQ(0U, getMultipleThatIsGreaterOrEqual(0U, 10U));
-    EXPECT_EQ(0U, getMultipleThatIsGreaterOrEqual(10U, 0U));
-    EXPECT_EQ(10U, getMultipleThatIsGreaterOrEqual(10U, 5U));
-    EXPECT_EQ(2394U, getMultipleThatIsGreaterOrEqual(57U, 2346U));
+    EXPECT_EQ(0, getMultipleThatIsGreaterOrEqual(0, 0));
+    EXPECT_EQ(10, getMultipleThatIsGreaterOrEqual(10, 10));
+    EXPECT_EQ(10, getMultipleThatIsGreaterOrEqual(5, 9));
+    EXPECT_EQ(10, getMultipleThatIsGreaterOrEqual(5, 10));
+    EXPECT_EQ(15, getMultipleThatIsGreaterOrEqual(5, 11));
+    EXPECT_EQ(0, getMultipleThatIsGreaterOrEqual(0, 10));
+    EXPECT_EQ(0, getMultipleThatIsGreaterOrEqual(10, 0));
+    EXPECT_EQ(10, getMultipleThatIsGreaterOrEqual(10, 5));
+    EXPECT_EQ(2394, getMultipleThatIsGreaterOrEqual(57, 2346));
 }
 
 TEST(FactorAndMulitplesHelpersTest, GetDifferenceFromGreaterMultipleWorks) {
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0U, 0U));
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10U, 10U));
-    EXPECT_EQ(1U, getDifferenceFromGreaterMultiple(5U, 9U));
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(5U, 10U));
-    EXPECT_EQ(4U, getDifferenceFromGreaterMultiple(5U, 11U));
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0U, 10U));
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10U, 0U));
-    EXPECT_EQ(5U, getDifferenceFromGreaterMultiple(10U, 5U));
-    EXPECT_EQ(48U, getDifferenceFromGreaterMultiple(57U, 2346U));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(0, 0));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(10, 10));
+    EXPECT_EQ(1, getDifferenceFromGreaterMultiple(5, 9));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(5, 10));
+    EXPECT_EQ(4, getDifferenceFromGreaterMultiple(5, 11));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(0, 10));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(10, 0));
+    EXPECT_EQ(5, getDifferenceFromGreaterMultiple(10, 5));
+    EXPECT_EQ(48, getDifferenceFromGreaterMultiple(57, 2346));
 }
 
-TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorForAlbaNumberWorks) {
-    EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));
+TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorForAlbaNumberWorks) {    EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));
     EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));
     EXPECT_EQ(
-        AlbaNumber::createFraction(1, 12),
-        getGreatestCommonFactor(AlbaNumber::createFraction(1, 6), AlbaNumber::createFraction(1, 4)));
+        AlbaNumber::createFraction(1, 12),        getGreatestCommonFactor(AlbaNumber::createFraction(1, 6), AlbaNumber::createFraction(1, 4)));
     EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber::createFraction(1, 4)));
     EXPECT_EQ(
         AlbaNumber::createFraction(1, 4), getGreatestCommonFactor(AlbaNumber(5), AlbaNumber::createFraction(1, 4)));

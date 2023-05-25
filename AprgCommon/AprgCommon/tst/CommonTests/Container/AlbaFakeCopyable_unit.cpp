@@ -5,30 +5,28 @@
 namespace alba {
 
 struct FakeCopyableExample {
-    FakeCopyableExample() : value(0U) { ++numberOfConstructorExecutions; }
+    FakeCopyableExample() : value(0) { ++numberOfConstructorExecutions; }
 
-    FakeCopyableExample(unsigned int const valueAsParameter) : value(valueAsParameter) {
-        ++numberOfConstructorExecutions;
-    }
+    FakeCopyableExample(int const valueAsParameter) : value(valueAsParameter) { ++numberOfConstructorExecutions; }
 
-    static size_t numberOfConstructorExecutions;
-    unsigned int value;
+    static int numberOfConstructorExecutions;
+    int value;
 };
 
-size_t FakeCopyableExample::numberOfConstructorExecutions = 0;
+int FakeCopyableExample::numberOfConstructorExecutions = 0;
 
 using AlbaFakeCopyableForTest = AlbaFakeCopyable<FakeCopyableExample>;
 
 TEST(AlbaFakeCopyableTest, FakeCopyingWorks) {
-    EXPECT_EQ(0U, FakeCopyableExample::numberOfConstructorExecutions);
+    EXPECT_EQ(0, FakeCopyableExample::numberOfConstructorExecutions);
 
-    AlbaFakeCopyableForTest example1(FakeCopyableExample(176U));
-    EXPECT_EQ(1U, FakeCopyableExample::numberOfConstructorExecutions);
-    EXPECT_EQ(176U, example1.getObject().value);
+    AlbaFakeCopyableForTest example1(FakeCopyableExample(176));
+    EXPECT_EQ(1, FakeCopyableExample::numberOfConstructorExecutions);
+    EXPECT_EQ(176, example1.getObject().value);
 
     AlbaFakeCopyableForTest example2(example1);
-    EXPECT_EQ(2U, FakeCopyableExample::numberOfConstructorExecutions);
-    EXPECT_EQ(0U, example2.getObject().value);  // value is from default constructor
+    EXPECT_EQ(2, FakeCopyableExample::numberOfConstructorExecutions);
+    EXPECT_EQ(0, example2.getObject().value);  // value is from default constructor
 }
 
 }  // namespace alba

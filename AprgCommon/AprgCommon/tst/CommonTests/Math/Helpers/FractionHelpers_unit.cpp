@@ -41,34 +41,32 @@ TEST(FractionHelpersTest, ChangeFractionToSimplestFormWorksWithIntAndUnsignedInt
 }
 
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormForUnsignedWorks) {
-    unsigned int numerator1 = 0;
-    unsigned int denominator1 = 0;
+    uint32_t numerator1 = 0;
+    uint32_t denominator1 = 0;
     changeFractionToSimplestFormForUnsigned(numerator1, denominator1);
     EXPECT_EQ(0U, numerator1);
     EXPECT_EQ(0U, denominator1);
 
-    unsigned int numerator2 = 1;
-    unsigned int denominator2 = 1;
+    uint32_t numerator2 = 1;
+    uint32_t denominator2 = 1;
     changeFractionToSimplestFormForUnsigned(numerator2, denominator2);
     EXPECT_EQ(1U, numerator2);
     EXPECT_EQ(1U, denominator2);
 
-    unsigned int numerator3 = 98;
-    unsigned int denominator3 = 56;
+    uint32_t numerator3 = 98;
+    uint32_t denominator3 = 56;
     changeFractionToSimplestFormForUnsigned(numerator3, denominator3);
     EXPECT_EQ(7U, numerator3);
     EXPECT_EQ(4U, denominator3);
 
-    unsigned int numerator4 = 4294967292;
-    unsigned int denominator4 = 4294967294;
+    uint32_t numerator4 = 4294967292;
+    uint32_t denominator4 = 4294967294;
     changeFractionToSimplestFormForUnsigned(numerator4, denominator4);
     EXPECT_EQ(2147483646U, numerator4);
-    EXPECT_EQ(2147483647U, denominator4);
-}
+    EXPECT_EQ(2147483647U, denominator4);}
 
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormForSignedWorks) {
-    int numerator1 = 0;
-    int denominator1 = 0;
+    int numerator1 = 0;    int denominator1 = 0;
     changeFractionToSimplestFormForSigned(numerator1, denominator1);
     EXPECT_EQ(0, numerator1);
     EXPECT_EQ(0, denominator1);
@@ -111,55 +109,54 @@ TEST(FractionHelpersTest, ChangeFractionToSimplestFormForSignedWorks) {
 }
 
 TEST(FractionHelpersTest, GetBestFractionDetailsForDoubleValueWorks) {
-    auto fractionDetails1(getBestFractionDetailsForDoubleValue<unsigned int>(0));
+    auto fractionDetails1(getBestFractionDetailsForDoubleValue<uint32_t>(0));
     EXPECT_EQ(1, fractionDetails1.sign);
     EXPECT_EQ(0U, fractionDetails1.numerator);
     EXPECT_EQ(1U, fractionDetails1.denominator);
 
-    auto fractionDetails2(getBestFractionDetailsForDoubleValue<unsigned int>(1));
+    auto fractionDetails2(getBestFractionDetailsForDoubleValue<uint32_t>(1));
     EXPECT_EQ(1, fractionDetails2.sign);
     EXPECT_EQ(1U, fractionDetails2.numerator);
     EXPECT_EQ(1U, fractionDetails2.denominator);
 
-    auto fractionDetails3(getBestFractionDetailsForDoubleValue<unsigned int>(-1));
+    auto fractionDetails3(getBestFractionDetailsForDoubleValue<uint32_t>(-1));
     EXPECT_EQ(-1, fractionDetails3.sign);
     EXPECT_EQ(1U, fractionDetails3.numerator);
     EXPECT_EQ(1U, fractionDetails3.denominator);
 
-    auto fractionDetails4(getBestFractionDetailsForDoubleValue<unsigned int>(-234));
+    auto fractionDetails4(getBestFractionDetailsForDoubleValue<uint32_t>(-234));
     EXPECT_EQ(-1, fractionDetails4.sign);
     EXPECT_EQ(234U, fractionDetails4.numerator);
     EXPECT_EQ(1U, fractionDetails4.denominator);
 
-    auto fractionDetails5(getBestFractionDetailsForDoubleValue<unsigned int>(0.3333333333333333333));
+    auto fractionDetails5(getBestFractionDetailsForDoubleValue<uint32_t>(0.3333333333333333333));
     EXPECT_EQ(1, fractionDetails5.sign);
     EXPECT_EQ(1U, fractionDetails5.numerator);
     EXPECT_EQ(3U, fractionDetails5.denominator);
 
-    auto fractionDetails6(getBestFractionDetailsForDoubleValue<unsigned int>(-78.787878787878787878));
+    auto fractionDetails6(getBestFractionDetailsForDoubleValue<uint32_t>(-78.787878787878787878));
     EXPECT_EQ(-1, fractionDetails6.sign);
     EXPECT_EQ(2600U, fractionDetails6.numerator);
     EXPECT_EQ(33U, fractionDetails6.denominator);
 
-    auto fractionDetails7(getBestFractionDetailsForDoubleValue<unsigned int>(2.236067977499789696409));
+    auto fractionDetails7(getBestFractionDetailsForDoubleValue<uint32_t>(2.236067977499789696409));
     EXPECT_EQ(1, fractionDetails7.sign);
     EXPECT_EQ(2446376235U, fractionDetails7.numerator);
     EXPECT_EQ(1094052712U, fractionDetails7.denominator);
 
-    auto fractionDetails8(getBestFractionDetailsForDoubleValue<unsigned int>(POSITIVE_INFINITY_DOUBLE_VALUE));
+    auto fractionDetails8(getBestFractionDetailsForDoubleValue<uint32_t>(POSITIVE_INFINITY_DOUBLE_VALUE));
     EXPECT_EQ(1, fractionDetails8.sign);
     EXPECT_EQ(1U, fractionDetails8.numerator);
     EXPECT_EQ(0U, fractionDetails8.denominator);
 
-    auto fractionDetails9(getBestFractionDetailsForDoubleValue<unsigned int>(NEGATIVE_INFINITY_DOUBLE_VALUE));
+    auto fractionDetails9(getBestFractionDetailsForDoubleValue<uint32_t>(NEGATIVE_INFINITY_DOUBLE_VALUE));
     EXPECT_EQ(-1, fractionDetails9.sign);
     EXPECT_EQ(1U, fractionDetails9.numerator);
     EXPECT_EQ(0U, fractionDetails9.denominator);
 
-    auto fractionDetails10(getBestFractionDetailsForDoubleValue<unsigned int>(NAN_DOUBLE_VALUE));
+    auto fractionDetails10(getBestFractionDetailsForDoubleValue<uint32_t>(NAN_DOUBLE_VALUE));
     EXPECT_EQ(1, fractionDetails10.sign);
     EXPECT_EQ(0U, fractionDetails10.numerator);
-    EXPECT_EQ(1U, fractionDetails10.denominator);
-}
+    EXPECT_EQ(1U, fractionDetails10.denominator);}
 
 }  // namespace alba::mathHelper

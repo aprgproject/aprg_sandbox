@@ -54,41 +54,35 @@ TEST(ReaderWriterParameterTest, VectorTest) {
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
 
-    vector<unsigned int> sampleVector{1, 2, 3, 4, 5};
+    vector<int> sampleVector{1, 2, 3, 4, 5};
     AlbaStreamParameterWriter writer(writeTestFile);
     writer.writeVectorData(sampleVector);
     writer.flush();
-
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
 
-    vector<unsigned int> retrievedVector;
+    vector<int> retrievedVector;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
-    ASSERT_FALSE(readTestFile.eof());
-    reader.readVectorData(retrievedVector);
+    ASSERT_FALSE(readTestFile.eof());    reader.readVectorData(retrievedVector);
     EXPECT_EQ(sampleVector, retrievedVector);
 }
-
 TEST(ReaderWriterParameterTest, MapTest) {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
 
-    map<unsigned int, string> sampleMap{{1, "one"}, {2, "two"}, {3, "three"}};
+    map<int, string> sampleMap{{1, "one"}, {2, "two"}, {3, "three"}};
     AlbaStreamParameterWriter writer(writeTestFile);
     writer.writeMapData(sampleMap);
     writer.flush();
-
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
 
-    map<unsigned int, string> retrievedmap;
+    map<int, string> retrievedmap;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
-    ASSERT_FALSE(readTestFile.eof());
-    reader.readMapData(retrievedmap);
+    ASSERT_FALSE(readTestFile.eof());    reader.readMapData(retrievedmap);
     EXPECT_EQ(sampleMap, retrievedmap);
 }
-
 }  // namespace alba

@@ -16,15 +16,15 @@ TEST(AlbaMacrosForEachTest, AlbaMacrosForEachWorks) {
 }
 
 TEST(AlbaMacrosForEachTest, AlbaMacrosForEachListWorks) {
-#define CREATE_PARAMETER_LIST(x) unsigned int x
+#define CREATE_PARAMETER_LIST(x) int x
 
     auto sampleSumFunction = [](ALBA_MACROS_FOR_EACH_WITH_COMMA(CREATE_PARAMETER_LIST, foo, bar, baz)) {
         return foo + bar + baz;
     };
 
-    EXPECT_EQ(0U, sampleSumFunction(0, 0, 0));
-    EXPECT_EQ(3U, sampleSumFunction(1, 1, 1));
-    EXPECT_EQ(6U, sampleSumFunction(1, 2, 3));
+    EXPECT_EQ(0, sampleSumFunction(0, 0, 0));
+    EXPECT_EQ(3, sampleSumFunction(1, 1, 1));
+    EXPECT_EQ(6, sampleSumFunction(1, 2, 3));
 }
 
 }  // namespace alba

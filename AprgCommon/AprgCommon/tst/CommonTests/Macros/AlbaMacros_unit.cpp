@@ -89,16 +89,14 @@ TEST(AlbaMacrosTest, ConcatenateWorks) {
 }
 
 TEST(AlbaMacrosTest, GetNameWithCountWorks) {
-    unsigned int ALBA_MACROS_GET_NAME_WITH_COUNT(VariablePrefix) = 0xA1BAU;
-    EXPECT_EQ(0xA1BAU, VariablePrefix4);
+    int ALBA_MACROS_GET_NAME_WITH_COUNT(VariablePrefix) = 0xA1BA;
+    EXPECT_EQ(0xA1BA, VariablePrefix4);
 }
 
-TEST(AlbaMacrosTest, IntegerTest) {
-    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGUMENTS(1));
+TEST(AlbaMacrosTest, IntegerTest) {    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGUMENTS(1));
     EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGUMENTS(8237, 23458, 28749));
     EXPECT_EQ(4, ALBA_MACROS_COUNT_ARGUMENTS(0x1, 0x2, 0x3, 0x4));
 }
-
 TEST(AlbaMacrosTest, StringTest) {
     EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGUMENTS("one"));
     EXPECT_EQ(2, ALBA_MACROS_COUNT_ARGUMENTS("one", "two"));

@@ -8,21 +8,19 @@ using namespace std;
 namespace alba::matrix {
 
 TEST(DeterminantTest, GetIndexWithHighestNumberOfZerosWorks) {
-    ListOfAlbaMatrixData<unsigned int> rowsAndColumns{{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
+    ListOfAlbaMatrixData<int> rowsAndColumns{{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
 
     EXPECT_EQ(1U, getIndexWithHighestNumberOfZeros(rowsAndColumns));
 }
 
 TEST(DeterminantTest, GetIndexWithHighestNumberOfNonZerosWorks) {
-    ListOfAlbaMatrixData<unsigned int> rowsAndColumns{{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
+    ListOfAlbaMatrixData<int> rowsAndColumns{{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
 
     EXPECT_EQ(0U, getIndexWithHighestNumberOfNonZeros(rowsAndColumns));
 }
-
 TEST(DeterminantTest, GetDeterminantWorks) {
     AlbaMatrix<int> matrix1(1, 1, 5);
-    AlbaMatrix<int> matrix2(2, 2, {2, -1, 3, 2});
-    AlbaMatrix<int> matrix3(3, 3, {1, 2, 3, 2, 1, 3, 3, 1, 2});
+    AlbaMatrix<int> matrix2(2, 2, {2, -1, 3, 2});    AlbaMatrix<int> matrix3(3, 3, {1, 2, 3, 2, 1, 3, 3, 1, 2});
     AlbaMatrix<int> matrix4(4, 4, {1, 2, -3, 4, -4, 2, 1, 3, 3, 0, 0, -3, 2, 0, -2, 3});
     AlbaMatrix<int> matrix5(4, 4, {4, 3, 2, 2, 0, 1, -3, 3, 0, -1, 3, 3, 0, 3, 1, 1});
     AlbaMatrix<int> matrix6(4, 4, {1, 2, 3, 4, 2, 5, 7, 3, 4, 10, 14, 6, 3, 4, 2, 7});
@@ -60,12 +58,11 @@ TEST(DeterminantTest, GetDeterminantWhenSideIsMoreThan2Works) {
 }
 
 TEST(AlbaMatrixUtilitiesTest, GetMatrixWithOneColumnAndOneRowRemovedWorks) {
-    AlbaMatrix<unsigned int> matrix(3, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+    AlbaMatrix<int> matrix(3, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9});
 
-    AlbaMatrix<unsigned int> resultMatrix(getMatrixWithOneColumnAndOneRowRemoved(matrix, 1, 2));
+    AlbaMatrix<int> resultMatrix(getMatrixWithOneColumnAndOneRowRemoved(matrix, 1, 2));
 
-    AlbaMatrix<unsigned int> expectedMatrix(2, 2, {1, 3, 4, 6});
+    AlbaMatrix<int> expectedMatrix(2, 2, {1, 3, 4, 6});
     EXPECT_EQ(expectedMatrix, resultMatrix);
 }
-
 }  // namespace alba::matrix
