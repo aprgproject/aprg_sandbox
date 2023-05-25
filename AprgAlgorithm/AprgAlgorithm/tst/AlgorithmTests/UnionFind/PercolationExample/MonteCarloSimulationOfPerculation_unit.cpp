@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByEightExample) {
-    MonteCarloSimulationOfPerculation<8U> simulation;
+    MonteCarloSimulationOfPerculation<8> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
 
@@ -21,7 +21,7 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByEightExample) {
 }
 
 TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample) {
-    MonteCarloSimulationOfPerculation<20U> simulation;
+    MonteCarloSimulationOfPerculation<20> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
 
@@ -31,7 +31,7 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample) 
 }
 
 TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample) {
-    MonteCarloSimulationOfPerculation<50U> simulation;
+    MonteCarloSimulationOfPerculation<50> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
 

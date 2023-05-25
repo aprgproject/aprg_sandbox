@@ -17,9 +17,8 @@ struct AlbaLargeSorterConfiguration {
           m_maximumNumberOfObjectsInMemory(2000),
           m_maximumFileStreams(100) {}
     AlbaLargeSorterConfiguration(
-        std::string const& directoryForBlocks, unsigned int minimumNumberOfObjectsPerBlock,
-        unsigned int maximumNumberOfObjectsPerBlock, unsigned int maximumNumberOfObjectsInMemory,
-        unsigned int maximumFileStreams)
+        std::string const& directoryForBlocks, int minimumNumberOfObjectsPerBlock, int maximumNumberOfObjectsPerBlock,
+        int maximumNumberOfObjectsInMemory, int maximumFileStreams)
         : m_directoryForBlocks(getFixedPath(directoryForBlocks)),
           m_minimumNumberOfObjectsPerBlock(minimumNumberOfObjectsPerBlock),
           m_maximumNumberOfObjectsPerBlock(maximumNumberOfObjectsPerBlock),
@@ -31,10 +30,10 @@ struct AlbaLargeSorterConfiguration {
         m_directoryForBlocks = getFixedPath(directoryForBlocks);
     }
     std::string m_directoryForBlocks;
-    unsigned int m_minimumNumberOfObjectsPerBlock;
-    unsigned int m_maximumNumberOfObjectsPerBlock;
-    unsigned int m_maximumNumberOfObjectsInMemory;
-    unsigned int m_maximumFileStreams;
+    int m_minimumNumberOfObjectsPerBlock;
+    int m_maximumNumberOfObjectsPerBlock;
+    int m_maximumNumberOfObjectsInMemory;
+    int m_maximumFileStreams;
     bool isConfigurationValid() const {
         if (m_minimumNumberOfObjectsPerBlock <= 0) {
             return false;
@@ -51,7 +50,7 @@ struct AlbaLargeSorterConfiguration {
         }
         return true;
     }
-    std::string getFilePathWithBlockNumber(unsigned int const blockNumber) const {
+    std::string getFilePathWithBlockNumber(int const blockNumber) const {
         std::stringstream ss;
         ss << m_directoryForBlocks << R"(\BLOCK_)" << blockNumber << ".txt";
         return getFixedPath(ss.str());

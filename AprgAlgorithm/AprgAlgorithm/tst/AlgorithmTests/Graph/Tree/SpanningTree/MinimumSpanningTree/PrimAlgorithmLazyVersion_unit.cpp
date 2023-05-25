@@ -9,7 +9,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using WeightForTest = double;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
@@ -20,26 +20,26 @@ using Edges = GraphTypes<VertexForTest>::Edges;
 
 TEST(PrimAlgorithmLazyVersionTest, WorksOnUndirectedGraph) {
     EdgeWeightedUndirectedGraphForTest graph;
-    graph.connect(0U, 2U, 0.26);
-    graph.connect(0U, 4U, 0.38);
-    graph.connect(0U, 6U, 0.58);
-    graph.connect(0U, 7U, 0.16);
-    graph.connect(1U, 2U, 0.36);
-    graph.connect(1U, 3U, 0.29);
-    graph.connect(1U, 5U, 0.32);
-    graph.connect(1U, 7U, 0.19);
-    graph.connect(2U, 3U, 0.17);
-    graph.connect(2U, 6U, 0.40);
-    graph.connect(2U, 7U, 0.34);
-    graph.connect(3U, 6U, 0.52);
-    graph.connect(4U, 5U, 0.35);
-    graph.connect(4U, 6U, 0.93);
-    graph.connect(4U, 7U, 0.37);
-    graph.connect(5U, 7U, 0.28);
+    graph.connect(0, 2, 0.26);
+    graph.connect(0, 4, 0.38);
+    graph.connect(0, 6, 0.58);
+    graph.connect(0, 7, 0.16);
+    graph.connect(1, 2, 0.36);
+    graph.connect(1, 3, 0.29);
+    graph.connect(1, 5, 0.32);
+    graph.connect(1, 7, 0.19);
+    graph.connect(2, 3, 0.17);
+    graph.connect(2, 6, 0.40);
+    graph.connect(2, 7, 0.34);
+    graph.connect(3, 6, 0.52);
+    graph.connect(4, 5, 0.35);
+    graph.connect(4, 6, 0.93);
+    graph.connect(4, 7, 0.37);
+    graph.connect(5, 7, 0.28);
 
-    MinimumSpanningTreeSearchForTest spanningTreeSearch(graph, 0U);
+    MinimumSpanningTreeSearchForTest spanningTreeSearch(graph, 0);
 
-    Edges expectedMinimumSpanningTree{{0U, 7U}, {1U, 7U}, {0U, 2U}, {2U, 3U}, {5U, 7U}, {4U, 5U}, {2U, 6U}};
+    Edges expectedMinimumSpanningTree{{0, 7}, {1, 7}, {0, 2}, {2, 3}, {5, 7}, {4, 5}, {2, 6}};
     EXPECT_EQ(expectedMinimumSpanningTree, spanningTreeSearch.getMinimumSpanningTreeEdges());
 }
 

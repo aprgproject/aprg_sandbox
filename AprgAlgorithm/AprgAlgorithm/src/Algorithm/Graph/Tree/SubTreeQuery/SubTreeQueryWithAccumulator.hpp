@@ -16,8 +16,8 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using RangeQuery = RangeQueryWithAccumulator<Vertices>;
     using AccumulatorFunction = typename RangeQuery::AccumulatorFunction;
-    using Counts = std::vector<unsigned int>;
-    using VertexToIndexMap = std::map<Vertex, unsigned int>;
+    using Counts = std::vector<int>;
+    using VertexToIndexMap = std::map<Vertex, int>;
 
     SubTreeQueryWithAccumulator(
         BaseUndirectedGraphWithVertex const& graph, Vertex const& rootOfTree, AccumulatorFunction const& accumulator,
@@ -32,7 +32,7 @@ public:
         Vertex result{};
         auto it = b_vertexToIndexMap.find(subRoot);
         if (it != b_vertexToIndexMap.cend()) {
-            unsigned int indexOfSubRoot = it->second;
+            int indexOfSubRoot = it->second;
             result = m_rangeQuery.getAccumulatedValueOnInterval(
                 indexOfSubRoot, indexOfSubRoot + b_subTreeSize.at(indexOfSubRoot) - 1);
         }

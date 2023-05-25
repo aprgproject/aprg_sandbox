@@ -7,7 +7,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+template <typename Vertex, int MAX_VERTEX_VALUE>
 class ReachabilityInDigraphWithArrayUsingDfs : public BaseReachabilityInDigraph<Vertex> {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;

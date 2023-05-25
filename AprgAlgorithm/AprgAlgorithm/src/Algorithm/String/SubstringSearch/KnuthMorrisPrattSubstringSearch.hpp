@@ -11,9 +11,9 @@ namespace algorithm {
 template <typename Index>
 class KnuthMorrisPrattSubstringSearch {
 public:
-    using RadixType = unsigned int;
+    using RadixType = int;
     using Dfa = AlbaDfaUsingMatrix<Index, RadixType>;
-    static constexpr RadixType RADIX = 256U;
+    static constexpr RadixType RADIX = 256;
 
     KnuthMorrisPrattSubstringSearch(std::string const& substringToMatch)
         : m_substringToMatch(substringToMatch),

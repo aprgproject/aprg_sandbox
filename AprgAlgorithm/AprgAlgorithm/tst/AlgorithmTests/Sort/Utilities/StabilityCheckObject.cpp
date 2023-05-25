@@ -6,13 +6,13 @@ namespace alba {
 
 namespace algorithm {
 
-StabilityCheckObject::StabilityCheckObject() : m_visiblePart(0U), m_notVisiblePart(0U) {}
+StabilityCheckObject::StabilityCheckObject() : m_visiblePart(0), m_notVisiblePart(0) {}
 
-StabilityCheckObject::StabilityCheckObject(char const visiblePart, unsigned int const notVisiblePart)
+StabilityCheckObject::StabilityCheckObject(char const visiblePart, int const notVisiblePart)
     : m_visiblePart(visiblePart), m_notVisiblePart(notVisiblePart) {}
 
 StabilityCheckObject::StabilityCheckObject(int const value)
-    : m_visiblePart(static_cast<char>(value)), m_notVisiblePart(0U) {}
+    : m_visiblePart(static_cast<char>(value)), m_notVisiblePart(0) {}
 
 bool StabilityCheckObject::operator==(StabilityCheckObject const& object) const {
     return m_visiblePart == object.m_visiblePart;
@@ -27,11 +27,11 @@ bool StabilityCheckObject::operator<(StabilityCheckObject const& object) const {
 StabilityCheckObject::operator int() const { return m_visiblePart; }
 
 StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const {
-    return StabilityCheckObject(static_cast<char>(m_visiblePart + second.m_visiblePart), 0U);
+    return StabilityCheckObject(static_cast<char>(m_visiblePart + second.m_visiblePart), 0);
 }
 
 StabilityCheckObject StabilityCheckObject::operator-(StabilityCheckObject const& second) const {
-    return StabilityCheckObject(static_cast<char>(m_visiblePart - second.m_visiblePart), 0U);
+    return StabilityCheckObject(static_cast<char>(m_visiblePart - second.m_visiblePart), 0);
 }
 
 StabilityCheckObject StabilityCheckObject::operator+(int const second) const {
@@ -46,7 +46,7 @@ double StabilityCheckObject::operator*(double const multiplier) const { return m
 
 char StabilityCheckObject::getVisiblePart() const { return m_visiblePart; }
 
-unsigned int StabilityCheckObject::getNotVisiblePart() const { return m_notVisiblePart; }
+int StabilityCheckObject::getNotVisiblePart() const { return m_notVisiblePart; }
 
 double operator/(double const dividend, StabilityCheckObject const& divisor) {
     return dividend / divisor.m_visiblePart;

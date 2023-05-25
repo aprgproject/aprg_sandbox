@@ -22,7 +22,7 @@ bool areAllDegreesEven(BaseUndirectedGraph<Vertex> const& graph) {
 
 template <typename Vertex>
 bool isAtMostTwoVerticesHaveOddDegrees(BaseUndirectedGraph<Vertex> const& graph) {
-    unsigned int countOfOdd(0U);
+    int countOfOdd(0);
     for (Vertex const& vertex : graph.getVertices()) {
         if (mathHelper::isOdd(GraphUtilities::getDegreeAt(graph, vertex))) {
             countOfOdd++;
@@ -39,8 +39,8 @@ bool areAllInDegreesEqualsOutDegrees(BaseDirectedGraph<Vertex> const& graph) {
     auto vertexToDegreesPairMap(GraphUtilities::getAllInDegreesAndOutDegrees<Vertex>(graph));
     bool result(true);
     for (auto const& vertexAndDegreesPair : vertexToDegreesPairMap) {
-        unsigned int inDegree = vertexAndDegreesPair.second.first;
-        unsigned int outDegree = vertexAndDegreesPair.second.second;
+        int inDegree = vertexAndDegreesPair.second.first;
+        int outDegree = vertexAndDegreesPair.second.second;
         result = inDegree == outDegree;
         if (!result) {
             break;
@@ -52,12 +52,12 @@ bool areAllInDegreesEqualsOutDegrees(BaseDirectedGraph<Vertex> const& graph) {
 template <typename Vertex>
 bool hasAtLeastOneLesserAndGreaterInAndOutDegrees(BaseDirectedGraph<Vertex> const& graph) {
     auto vertexToDegreesPairMap(GraphUtilities::getAllInDegreesAndOutDegrees<Vertex>(graph));
-    unsigned int numberOfLesser(0U);
-    unsigned int numberOfGreater(0U);
+    int numberOfLesser(0);
+    int numberOfGreater(0);
     bool result(true);
     for (auto const& vertexAndDegreesPair : vertexToDegreesPairMap) {
-        unsigned int inDegree = vertexAndDegreesPair.second.first;
-        unsigned int outDegree = vertexAndDegreesPair.second.second;
+        int inDegree = vertexAndDegreesPair.second.first;
+        int outDegree = vertexAndDegreesPair.second.second;
         bool lesserByOne = inDegree + 1 == outDegree;
         bool greaterByOne = inDegree == outDegree + 1;
         numberOfLesser += lesserByOne ? 1 : 0;

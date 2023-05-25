@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-constexpr unsigned int MAX_NUMBER_OF_NIBBLES = 16U;
-constexpr unsigned int MAX_NUMBER_OF_CHARACTERS = 256U;
+constexpr int MAX_NUMBER_OF_NIBBLES = 16;
+constexpr int MAX_NUMBER_OF_CHARACTERS = 256;
 using Characters = vector<char>;
 using Integers = vector<int>;
 using Strings = vector<string>;
@@ -23,36 +23,30 @@ using SmallIntegerSorter = RadixSorterUsingCountingSorter<Integers, MAX_NUMBER_O
 using StringsSorter = RadixSorterUsingCountingSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
 using StabilityCheckObjectsSorter = RadixSorterUsingCountingSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
 
-CharactersSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int {
-    return 2U;
-};
-CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value,
-                                                                  unsigned int const digitIndex) -> unsigned int {
-    return (value >> (digitIndex * 4U)) & 0xFU;
+CharactersSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> int { return 2; };
+CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, int const digitIndex) -> int {
+    return (value >> (digitIndex * 4)) & 0xF;
 };
 
-SmallIntegerSorter::GetNumberOfDigitsFunction getNumberOfNibblesForInteger = [](Integers const&) -> unsigned int {
-    return 8U;
-};
-SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value,
-                                                                       unsigned int const digitIndex) -> unsigned int {
-    return ((value + 10) >> (digitIndex * 4U)) & 0xFU;
+SmallIntegerSorter::GetNumberOfDigitsFunction getNumberOfNibblesForInteger = [](Integers const&) -> int { return 8; };
+SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, int const digitIndex) -> int {
+    return ((value + 10) >> (digitIndex * 4)) & 0xF;
 };
 
-unsigned int s_maxNumberOfCharacters{};
-StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> unsigned int {
-    s_maxNumberOfCharacters = 0U;
+int s_maxNumberOfCharacters{};
+StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> int {
+    s_maxNumberOfCharacters = 0;
     for (string const& stringObject : strings) {
-        s_maxNumberOfCharacters = max(s_maxNumberOfCharacters, static_cast<unsigned int>(stringObject.length()));
+        s_maxNumberOfCharacters = max(s_maxNumberOfCharacters, static_cast<int>(stringObject.length()));
     }
     return s_maxNumberOfCharacters;
 };
-StringsSorter::GetDigitAtFunction getCharacterAtForString =
-    [](string const& value, unsigned int const leastSignificantDigitIndex) -> unsigned int {
-    unsigned int digitValue{};
+StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value,
+                                                               int const leastSignificantDigitIndex) -> int {
+    int digitValue{};
     if (leastSignificantDigitIndex < s_maxNumberOfCharacters) {
-        unsigned int mostSignificantDigitIndex = s_maxNumberOfCharacters - leastSignificantDigitIndex - 1U;
-        if (mostSignificantDigitIndex < value.length()) {
+        int mostSignificantDigitIndex = s_maxNumberOfCharacters - leastSignificantDigitIndex - 1;
+        if (mostSignificantDigitIndex < static_cast<int>(value.length())) {
             digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
         }
     }
@@ -60,10 +54,10 @@ StringsSorter::GetDigitAtFunction getCharacterAtForString =
 };
 
 StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject =
-    [](StabilityCheckObjects const&) -> unsigned int { return 2U; };
+    [](StabilityCheckObjects const&) -> int { return 2; };
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
-    [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int {
-    return (value.getVisiblePart() >> (digitIndex * 4U)) & 0xFU;
+    [](StabilityCheckObject const& value, int const digitIndex) -> int {
+    return (value.getVisiblePart() >> (digitIndex * 4)) & 0xF;
 };
 }  // namespace
 

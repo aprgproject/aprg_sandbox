@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<unsigned int, unsigned int>;
-using SetForTest = SeparateChainingHashSet<unsigned int, HashFunctionForTest, 2U>;
+using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
+using SetForTest = SeparateChainingHashSet<int, HashFunctionForTest, 2>;
 }  // namespace
 
 TEST(SeparateChainingHashSetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }

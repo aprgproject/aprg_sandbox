@@ -18,9 +18,9 @@ public:
     struct RecursionData {
         Possibilities& possibilities;
         Possibility currentPossibility;
-        unsigned int currentIndex;
+        int currentIndex;
         Objects const& objects;
-        unsigned int const targetPossibilityLength;
+        int const targetPossibilityLength;
     };
 
     // rule of five or six
@@ -38,28 +38,27 @@ public:
         return result;
     }
 
-    static Possibilities generatePossibilitiesWithLength(Objects const& objects, unsigned int const possibilityLength) {
+    static Possibilities generatePossibilitiesWithLength(Objects const& objects, int const possibilityLength) {
         Possibilities result;
-        RecursionData recursionData(createRecursionData(
-            result, objects, std::min(possibilityLength, static_cast<unsigned int>(objects.size()))));
+        RecursionData recursionData(
+            createRecursionData(result, objects, std::min(possibilityLength, static_cast<int>(objects.size()))));
         collectPossibilitiesUsingRecursion(recursionData);
         return result;
     }
 
 private:
-    static RecursionData createRecursionData(
-        Possibilities& possibilities, Objects const& objects, unsigned int const length) {
-        return RecursionData{possibilities, Possibility(), 0U, objects, length};
+    static RecursionData createRecursionData(Possibilities& possibilities, Objects const& objects, int const length) {
+        return RecursionData{possibilities, Possibility(), 0, objects, length};
     }
 
     static void collectPossibilitiesUsingRecursion(RecursionData& recursionData) {
-        if (recursionData.currentPossibility.size() == recursionData.targetPossibilityLength) {
+        if (static_cast<int>(recursionData.currentPossibility.size()) == recursionData.targetPossibilityLength) {
             recursionData.possibilities.emplace_back(recursionData.currentPossibility);
         } else {
             Objects const& objects(recursionData.objects);
             Possibility& currentPossibility(recursionData.currentPossibility);
 
-            for (unsigned int index = 0; index < objects.size(); index++) {
+            for (int index = 0; index < static_cast<int>(objects.size()); index++) {
                 currentPossibility.emplace_back(objects.at(index));
                 collectPossibilitiesUsingRecursion(recursionData);
                 currentPossibility.pop_back();

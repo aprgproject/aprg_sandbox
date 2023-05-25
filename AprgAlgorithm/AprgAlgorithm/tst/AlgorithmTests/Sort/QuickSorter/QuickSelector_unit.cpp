@@ -41,7 +41,7 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
     CharacterSelector selector(PivotType::ValueAtLowestIndex);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5U);
+    selector.doNthElement(valuesToTest, 5);
 
     Characters valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
@@ -51,9 +51,9 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
     CharacterSelector selector(PivotType::ValueAtHighestIndex);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5U);
+    selector.doNthElement(valuesToTest, 5);
 
-    Characters valuesToExpect{'E', 'A', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
+    Characters valuesToExpect{'A', 'E', 'E', 'M', 'L', 'O', 'R', 'X', 'P', 'S', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
@@ -61,16 +61,16 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
     CharacterSelector selector(PivotType::ValueAtRandomIndex);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5U);
+    selector.doNthElement(valuesToTest, 5);
 
-    EXPECT_EQ('O', valuesToTest.at(5U));
+    EXPECT_EQ('O', valuesToTest.at(5));
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians) {
     CharacterSelector selector(PivotType::ValueAtMedianOfMedians);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5U);
+    selector.doNthElement(valuesToTest, 5);
 
     Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);

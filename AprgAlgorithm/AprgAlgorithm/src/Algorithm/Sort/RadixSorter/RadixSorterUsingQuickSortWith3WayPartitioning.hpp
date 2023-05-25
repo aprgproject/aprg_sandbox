@@ -13,8 +13,8 @@ template <typename Values, typename DigitValue>
 class RadixSorterUsingQuickSortWith3WayPartitioning : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
-    using IsDigitFunction = std::function<bool(Value const&, unsigned int const)>;
+    using GetDigitAtFunction = std::function<DigitValue(Value const&, int const)>;
+    using IsDigitFunction = std::function<bool(Value const&, int const)>;
 
     RadixSorterUsingQuickSortWith3WayPartitioning() = delete;
     RadixSorterUsingQuickSortWith3WayPartitioning(
@@ -24,25 +24,23 @@ public:
     void sort(Values& valuesToSort) const override {
         // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
         if (!valuesToSort.empty()) {
-            sortStartingAtMostSignificantDigit(valuesToSort, 0U, valuesToSort.size() - 1, 0U);
+            sortStartingAtMostSignificantDigit(valuesToSort, 0, valuesToSort.size() - 1, 0);
         }
     }
 
     void sortStartingAtMostSignificantDigit(
-        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
-        unsigned int const digitIndex) const {
-        if (lowContainerIndex < valuesToSort.size() && highContainerIndex < valuesToSort.size() &&
-            lowContainerIndex < highContainerIndex) {
+        Values& valuesToSort, int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
+        if (lowContainerIndex < static_cast<int>(valuesToSort.size()) &&
+            highContainerIndex < static_cast<int>(valuesToSort.size()) && lowContainerIndex < highContainerIndex) {
             sortInternal(valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
         }
     }
 
 private:
     void sortInternal(
-        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
-        unsigned int const digitIndex) const {
-        unsigned int lowIndexWithEqualValue = lowContainerIndex, i = lowContainerIndex + 1,
-                     highIndexWithEqualValue = highContainerIndex;
+        Values& valuesToSort, int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
+        int lowIndexWithEqualValue = lowContainerIndex, i = lowContainerIndex + 1,
+            highIndexWithEqualValue = highContainerIndex;
         Value const& partitionValue(valuesToSort.at(lowContainerIndex));  // use first value as partition
 
         DigitValue partitionDigit(m_getDigitAtFunction(partitionValue, digitIndex));
@@ -58,14 +56,14 @@ private:
             }
         }
 
-        if (lowContainerIndex + 1U < lowIndexWithEqualValue) {
-            sortInternal(valuesToSort, lowContainerIndex, lowIndexWithEqualValue - 1U, digitIndex);  // sort lower part
+        if (lowContainerIndex + 1 < lowIndexWithEqualValue) {
+            sortInternal(valuesToSort, lowContainerIndex, lowIndexWithEqualValue - 1, digitIndex);  // sort lower part
         }
         if (shouldEqualPartProceed && lowIndexWithEqualValue < highIndexWithEqualValue) {
             sortInternal(
                 valuesToSort, lowIndexWithEqualValue, highIndexWithEqualValue, digitIndex + 1);  // sort equal part
         }
-        if (highIndexWithEqualValue + 1U < highContainerIndex) {
+        if (highIndexWithEqualValue + 1 < highContainerIndex) {
             sortInternal(
                 valuesToSort, highIndexWithEqualValue + 1, highContainerIndex, digitIndex);  // sort higher part
         }

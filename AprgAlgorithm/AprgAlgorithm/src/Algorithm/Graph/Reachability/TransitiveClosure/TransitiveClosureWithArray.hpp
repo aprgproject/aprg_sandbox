@@ -11,7 +11,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+template <typename Vertex, int MAX_VERTEX_VALUE>
 class TransitiveClosureWithArray : public BaseTransitiveClosure<Vertex> {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;

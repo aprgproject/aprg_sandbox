@@ -9,71 +9,71 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using IndexForTest = unsigned int;
+using IndexForTest = int;
 using QueryForTest = GetNextFreeIndexWithUnionFind<IndexForTest>;
 }  // namespace
 
 TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorksWithZeroSize) {
-    QueryForTest query(0U);
+    QueryForTest query(0);
 
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(1U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(2U));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(0));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(1));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(2));
 }
 
 TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorks) {
-    QueryForTest query(28U);
+    QueryForTest query(28);
 
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
-    EXPECT_EQ(1U, query.getNextFreeIndexAt(1U));
-    EXPECT_EQ(2U, query.getNextFreeIndexAt(2U));
-    EXPECT_EQ(14U, query.getNextFreeIndexAt(14U));
-    EXPECT_EQ(15U, query.getNextFreeIndexAt(15U));
-    EXPECT_EQ(16U, query.getNextFreeIndexAt(16U));
-    EXPECT_EQ(26U, query.getNextFreeIndexAt(26U));
-    EXPECT_EQ(27U, query.getNextFreeIndexAt(27U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(0));
+    EXPECT_EQ(1, query.getNextFreeIndexAt(1));
+    EXPECT_EQ(2, query.getNextFreeIndexAt(2));
+    EXPECT_EQ(14, query.getNextFreeIndexAt(14));
+    EXPECT_EQ(15, query.getNextFreeIndexAt(15));
+    EXPECT_EQ(16, query.getNextFreeIndexAt(16));
+    EXPECT_EQ(26, query.getNextFreeIndexAt(26));
+    EXPECT_EQ(27, query.getNextFreeIndexAt(27));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(28));
 }
 
 TEST(GetNextFreeIndexWithUnionFindTest, SetAsNotFreeWorks) {
-    QueryForTest query(28U);
+    QueryForTest query(28);
 
-    query.setAsNotFree(14U);
-    query.setAsNotFree(15U);
-    query.setAsNotFree(16U);
+    query.setAsNotFree(14);
+    query.setAsNotFree(15);
+    query.setAsNotFree(16);
 
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
-    EXPECT_EQ(1U, query.getNextFreeIndexAt(1U));
-    EXPECT_EQ(2U, query.getNextFreeIndexAt(2U));
-    EXPECT_EQ(13U, query.getNextFreeIndexAt(13U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(14U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(15U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(16U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(17U));
-    EXPECT_EQ(26U, query.getNextFreeIndexAt(26U));
-    EXPECT_EQ(27U, query.getNextFreeIndexAt(27U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(0));
+    EXPECT_EQ(1, query.getNextFreeIndexAt(1));
+    EXPECT_EQ(2, query.getNextFreeIndexAt(2));
+    EXPECT_EQ(13, query.getNextFreeIndexAt(13));
+    EXPECT_EQ(17, query.getNextFreeIndexAt(14));
+    EXPECT_EQ(17, query.getNextFreeIndexAt(15));
+    EXPECT_EQ(17, query.getNextFreeIndexAt(16));
+    EXPECT_EQ(17, query.getNextFreeIndexAt(17));
+    EXPECT_EQ(26, query.getNextFreeIndexAt(26));
+    EXPECT_EQ(27, query.getNextFreeIndexAt(27));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(28));
 }
 
 TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks) {
-    QueryForTest query(28U);
-    query.setAsNotFree(14U);
-    query.setAsNotFree(15U);
-    query.setAsNotFree(16U);
+    QueryForTest query(28);
+    query.setAsNotFree(14);
+    query.setAsNotFree(15);
+    query.setAsNotFree(16);
 
-    query.setAsFree(15U);
+    query.setAsFree(15);
 
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
-    EXPECT_EQ(1U, query.getNextFreeIndexAt(1U));
-    EXPECT_EQ(2U, query.getNextFreeIndexAt(2U));
-    EXPECT_EQ(13U, query.getNextFreeIndexAt(13U));
-    EXPECT_EQ(15U, query.getNextFreeIndexAt(14U));
-    EXPECT_EQ(15U, query.getNextFreeIndexAt(15U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(16U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(17U));
-    EXPECT_EQ(26U, query.getNextFreeIndexAt(26U));
-    EXPECT_EQ(27U, query.getNextFreeIndexAt(27U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(0));
+    EXPECT_EQ(1, query.getNextFreeIndexAt(1));
+    EXPECT_EQ(2, query.getNextFreeIndexAt(2));
+    EXPECT_EQ(13, query.getNextFreeIndexAt(13));
+    EXPECT_EQ(15, query.getNextFreeIndexAt(14));
+    EXPECT_EQ(15, query.getNextFreeIndexAt(15));
+    EXPECT_EQ(17, query.getNextFreeIndexAt(16));
+    EXPECT_EQ(17, query.getNextFreeIndexAt(17));
+    EXPECT_EQ(26, query.getNextFreeIndexAt(26));
+    EXPECT_EQ(27, query.getNextFreeIndexAt(27));
+    EXPECT_EQ(0, query.getNextFreeIndexAt(28));
 }
 
 }  // namespace algorithm

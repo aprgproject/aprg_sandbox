@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
+using Index = int;
 using SubstringSearchForTest = KnuthMorrisPrattSubstringSearch<Index>;
 }  // namespace
 

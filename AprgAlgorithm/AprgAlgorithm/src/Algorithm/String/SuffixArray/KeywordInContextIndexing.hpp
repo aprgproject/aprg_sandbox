@@ -19,8 +19,8 @@ public:
         for (DataType i = m_suffixArray.getRank(stringToCheck);
              i < totalLength && doesItStartWith(m_suffixArray.getSuffixAt(i), stringToCheck); i++) {
             DataType start = std::max(DataType(0), m_suffixArray.getIndexOnMainStringOfSuffixAt(i) - lengthOfContext);
-            DataType end = std::min(
-                totalLength - 1, start + static_cast<unsigned int>(stringToCheck.length()) + 2 * lengthOfContext);
+            DataType end =
+                std::min(totalLength - 1, start + static_cast<DataType>(stringToCheck.length()) + 2 * lengthOfContext);
             result.emplace_back(m_mainString.substr(start, end - start));
         }
         return result;

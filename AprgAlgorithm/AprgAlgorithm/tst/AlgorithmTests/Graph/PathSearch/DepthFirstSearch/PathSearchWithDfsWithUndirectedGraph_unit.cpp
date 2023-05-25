@@ -8,109 +8,109 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = PathSearchUsingDfs<VertexForTest>;
 
 void putConnectionsForTest(GraphForTest& graph) {
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 5U);
-    graph.connect(1U, 2U);
-    graph.connect(2U, 3U);
-    graph.connect(2U, 4U);
-    graph.connect(3U, 4U);
-    graph.connect(3U, 5U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(0, 5);
+    graph.connect(1, 2);
+    graph.connect(2, 3);
+    graph.connect(2, 4);
+    graph.connect(3, 4);
+    graph.connect(3, 5);
 }
 }  // namespace
 
 TEST(PathSearchUsingDfsTest, HasPathToWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, 0U);
+    PathSearchForTest pathSearch(graph, 0);
 
-    EXPECT_TRUE(pathSearch.hasPathTo(0U));
-    EXPECT_TRUE(pathSearch.hasPathTo(1U));
-    EXPECT_TRUE(pathSearch.hasPathTo(2U));
-    EXPECT_TRUE(pathSearch.hasPathTo(3U));
-    EXPECT_TRUE(pathSearch.hasPathTo(4U));
-    EXPECT_TRUE(pathSearch.hasPathTo(5U));
-    EXPECT_FALSE(pathSearch.hasPathTo(6U));
+    EXPECT_TRUE(pathSearch.hasPathTo(0));
+    EXPECT_TRUE(pathSearch.hasPathTo(1));
+    EXPECT_TRUE(pathSearch.hasPathTo(2));
+    EXPECT_TRUE(pathSearch.hasPathTo(3));
+    EXPECT_TRUE(pathSearch.hasPathTo(4));
+    EXPECT_TRUE(pathSearch.hasPathTo(5));
+    EXPECT_FALSE(pathSearch.hasPathTo(6));
 }
 
 TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, 0U);
+    PathSearchForTest pathSearch(graph, 0);
 
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
-    EXPECT_EQ(PathForTest({0U, 1U}), pathSearch.getOrderedPathTo(1U));
-    EXPECT_EQ(PathForTest({0U, 1U, 2U}), pathSearch.getOrderedPathTo(2U));
-    EXPECT_EQ(PathForTest({0U, 1U, 2U, 3U}), pathSearch.getOrderedPathTo(3U));
-    EXPECT_EQ(PathForTest({0U, 1U, 2U, 3U, 4U}), pathSearch.getOrderedPathTo(4U));
-    EXPECT_EQ(PathForTest({0U, 1U, 2U, 3U, 5U}), pathSearch.getOrderedPathTo(5U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0));
+    EXPECT_EQ(PathForTest({0, 1}), pathSearch.getOrderedPathTo(1));
+    EXPECT_EQ(PathForTest({0, 1, 2}), pathSearch.getOrderedPathTo(2));
+    EXPECT_EQ(PathForTest({0, 1, 2, 3}), pathSearch.getOrderedPathTo(3));
+    EXPECT_EQ(PathForTest({0, 1, 2, 3, 4}), pathSearch.getOrderedPathTo(4));
+    EXPECT_EQ(PathForTest({0, 1, 2, 3, 5}), pathSearch.getOrderedPathTo(5));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6));
 }
 
 TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraphWithMultipleStartingPoints) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, {0U, 3U});
+    PathSearchForTest pathSearch(graph, {0, 3});
 
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
-    EXPECT_EQ(PathForTest({0U, 1U}), pathSearch.getOrderedPathTo(1U));
-    EXPECT_EQ(PathForTest({0U, 1U, 2U}), pathSearch.getOrderedPathTo(2U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
-    EXPECT_EQ(PathForTest({3U, 4U}), pathSearch.getOrderedPathTo(4U));
-    EXPECT_EQ(PathForTest({3U, 5U}), pathSearch.getOrderedPathTo(5U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0));
+    EXPECT_EQ(PathForTest({0, 1}), pathSearch.getOrderedPathTo(1));
+    EXPECT_EQ(PathForTest({0, 1, 2}), pathSearch.getOrderedPathTo(2));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3));
+    EXPECT_EQ(PathForTest({3, 4}), pathSearch.getOrderedPathTo(4));
+    EXPECT_EQ(PathForTest({3, 5}), pathSearch.getOrderedPathTo(5));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6));
 }
 
 TEST(PathSearchUsingDfsTest, GetPreviousVertexWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, 0U);
+    PathSearchForTest pathSearch(graph, 0);
 
-    EXPECT_EQ(0U, pathSearch.getPreviousVertex(0U));
-    EXPECT_EQ(0U, pathSearch.getPreviousVertex(1U));
-    EXPECT_EQ(1U, pathSearch.getPreviousVertex(2U));
-    EXPECT_EQ(2U, pathSearch.getPreviousVertex(3U));
-    EXPECT_EQ(3U, pathSearch.getPreviousVertex(4U));
-    EXPECT_EQ(3U, pathSearch.getPreviousVertex(5U));
-    EXPECT_EQ(0U, pathSearch.getPreviousVertex(6U));
+    EXPECT_EQ(0, pathSearch.getPreviousVertex(0));
+    EXPECT_EQ(0, pathSearch.getPreviousVertex(1));
+    EXPECT_EQ(1, pathSearch.getPreviousVertex(2));
+    EXPECT_EQ(2, pathSearch.getPreviousVertex(3));
+    EXPECT_EQ(3, pathSearch.getPreviousVertex(4));
+    EXPECT_EQ(3, pathSearch.getPreviousVertex(5));
+    EXPECT_EQ(0, pathSearch.getPreviousVertex(6));
 }
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, 0U);
+    PathSearchForTest pathSearch(graph, 0);
 
-    pathSearch.reinitializeStartingFrom({3U});
+    pathSearch.reinitializeStartingFrom({3});
 
-    EXPECT_EQ(PathForTest({3U, 2U, 0U}), pathSearch.getOrderedPathTo(0U));
-    EXPECT_EQ(PathForTest({3U, 2U, 0U, 1U}), pathSearch.getOrderedPathTo(1U));
-    EXPECT_EQ(PathForTest({3U, 2U}), pathSearch.getOrderedPathTo(2U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
-    EXPECT_EQ(PathForTest({3U, 2U, 4U}), pathSearch.getOrderedPathTo(4U));
-    EXPECT_EQ(PathForTest({3U, 2U, 0U, 5U}), pathSearch.getOrderedPathTo(5U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
+    EXPECT_EQ(PathForTest({3, 2, 0}), pathSearch.getOrderedPathTo(0));
+    EXPECT_EQ(PathForTest({3, 2, 0, 1}), pathSearch.getOrderedPathTo(1));
+    EXPECT_EQ(PathForTest({3, 2}), pathSearch.getOrderedPathTo(2));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3));
+    EXPECT_EQ(PathForTest({3, 2, 4}), pathSearch.getOrderedPathTo(4));
+    EXPECT_EQ(PathForTest({3, 2, 0, 5}), pathSearch.getOrderedPathTo(5));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6));
 }
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraphWithMultipleStartingPoints) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, 0U);
+    PathSearchForTest pathSearch(graph, 0);
 
-    pathSearch.reinitializeStartingFrom({0U, 3U});
+    pathSearch.reinitializeStartingFrom({0, 3});
 
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
-    EXPECT_EQ(PathForTest({0U, 1U}), pathSearch.getOrderedPathTo(1U));
-    EXPECT_EQ(PathForTest({0U, 1U, 2U}), pathSearch.getOrderedPathTo(2U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
-    EXPECT_EQ(PathForTest({3U, 4U}), pathSearch.getOrderedPathTo(4U));
-    EXPECT_EQ(PathForTest({3U, 5U}), pathSearch.getOrderedPathTo(5U));
-    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0));
+    EXPECT_EQ(PathForTest({0, 1}), pathSearch.getOrderedPathTo(1));
+    EXPECT_EQ(PathForTest({0, 1, 2}), pathSearch.getOrderedPathTo(2));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3));
+    EXPECT_EQ(PathForTest({3, 4}), pathSearch.getOrderedPathTo(4));
+    EXPECT_EQ(PathForTest({3, 5}), pathSearch.getOrderedPathTo(5));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6));
 }
 
 }  // namespace algorithm

@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<unsigned int, unsigned int>;
-using SymbolTableForTest = LinearProbingHashSymbolTable<unsigned int, char, HashFunctionForTest>;
+using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
+using SymbolTableForTest = LinearProbingHashSymbolTable<int, char, HashFunctionForTest>;
 }  // namespace
 
 TEST(LinearProbingHashSymbolTableTest, IsEmptyWorksWhenEmpty) {
@@ -73,45 +73,45 @@ TEST(LinearProbingHashSymbolTableTest, GetKeysInRangeWorks) {
 TEST(LinearProbingHashSymbolTableTest, PutWorksWithDoublingHashTableSize) {
     SymbolTableForTest symbolTable;
 
-    EXPECT_EQ(1U, symbolTable.getHashTableSize());
+    EXPECT_EQ(1, symbolTable.getHashTableSize());
 
-    symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');
-    EXPECT_EQ(4U, symbolTable.getHashTableSize());
+    symbolTable.put(8, 'H');
+    symbolTable.put(9, 'I');
+    EXPECT_EQ(4, symbolTable.getHashTableSize());
 
-    symbolTable.put(5U, 'E');
-    EXPECT_EQ(8U, symbolTable.getHashTableSize());
+    symbolTable.put(5, 'E');
+    EXPECT_EQ(8, symbolTable.getHashTableSize());
 
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
-    EXPECT_EQ(16U, symbolTable.getHashTableSize());
+    symbolTable.put(4, 'D');
+    symbolTable.put(7, 'G');
+    EXPECT_EQ(16, symbolTable.getHashTableSize());
 
-    symbolTable.put(3U, 'C');
-    EXPECT_EQ(16U, symbolTable.getHashTableSize());
+    symbolTable.put(3, 'C');
+    EXPECT_EQ(16, symbolTable.getHashTableSize());
 }
 
 TEST(LinearProbingHashSymbolTableTest, DeleteBasedOnKeyWorksWithHalvingHashTableSize) {
     SymbolTableForTest symbolTable;
-    symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
-    symbolTable.put(3U, 'C');
+    symbolTable.put(8, 'H');
+    symbolTable.put(9, 'I');
+    symbolTable.put(5, 'E');
+    symbolTable.put(4, 'D');
+    symbolTable.put(7, 'G');
+    symbolTable.put(3, 'C');
 
-    EXPECT_EQ(16U, symbolTable.getHashTableSize());
+    EXPECT_EQ(16, symbolTable.getHashTableSize());
 
-    symbolTable.deleteBasedOnKey(3U);
-    symbolTable.deleteBasedOnKey(4U);
-    symbolTable.deleteBasedOnKey(5U);
-    symbolTable.deleteBasedOnKey(7U);
-    EXPECT_EQ(8U, symbolTable.getHashTableSize());
+    symbolTable.deleteBasedOnKey(3);
+    symbolTable.deleteBasedOnKey(4);
+    symbolTable.deleteBasedOnKey(5);
+    symbolTable.deleteBasedOnKey(7);
+    EXPECT_EQ(8, symbolTable.getHashTableSize());
 
-    symbolTable.deleteBasedOnKey(8U);
-    EXPECT_EQ(4U, symbolTable.getHashTableSize());
+    symbolTable.deleteBasedOnKey(8);
+    EXPECT_EQ(4, symbolTable.getHashTableSize());
 
-    symbolTable.deleteBasedOnKey(9U);
-    EXPECT_EQ(4U, symbolTable.getHashTableSize());
+    symbolTable.deleteBasedOnKey(9);
+    EXPECT_EQ(4, symbolTable.getHashTableSize());
 }
 
 }  // namespace algorithm

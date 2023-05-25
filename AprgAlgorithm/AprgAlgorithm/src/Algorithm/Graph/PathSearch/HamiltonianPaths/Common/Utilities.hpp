@@ -40,12 +40,12 @@ bool hasHamiltonianPathBecauseOfOreTheorem(BaseGraph<Vertex> const& graph) {
     // ---> deg v + deg w ≥ n for every pair of distinct non-adjacent vertices v and w of G
     // -> then G is Hamiltonian.
 
-    std::map<Vertex, unsigned int> vertexToDegreeMap;
+    std::map<Vertex, int> vertexToDegreeMap;
     for (Vertex const& vertex : graph.getVertices()) {
         vertexToDegreeMap.emplace(vertex, GraphUtilities::getDegreeAt(graph, vertex));
     }
 
-    unsigned int numberOfVertices(graph.getNumberOfVertices());
+    int numberOfVertices(graph.getNumberOfVertices());
     for (Vertex const& vertex1 : graph.getVertices()) {
         for (Vertex const& vertex2 : graph.getVertices()) {
             if (vertex1 != vertex2 && !graph.isDirectlyConnected(vertex1, vertex2)) {

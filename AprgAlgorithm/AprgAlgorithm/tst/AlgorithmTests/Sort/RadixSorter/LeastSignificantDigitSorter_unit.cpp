@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-constexpr unsigned int MAX_NUMBER_OF_NIBBLES = 16U;
-constexpr unsigned int MAX_NUMBER_OF_CHARACTERS = 256U;
+constexpr int MAX_NUMBER_OF_NIBBLES = 16;
+constexpr int MAX_NUMBER_OF_CHARACTERS = 256;
 using Characters = vector<char>;
 using Integers = vector<int>;
 using Strings = vector<string>;
@@ -23,43 +23,39 @@ using SmallIntegerSorter = LeastSignificantDigitSorter<Integers, MAX_NUMBER_OF_N
 using StringsSorter = LeastSignificantDigitSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
 using StabilityCheckObjectsSorter = LeastSignificantDigitSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
 
-CharactersSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int {
-    return 2U;
-};
-CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter =
-    [](char const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    return (value >> ((1U - mostSignificantDigitIndex) * 4U)) & 0xFU;
+CharactersSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> int { return 2; };
+CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value,
+                                                                  int const mostSignificantDigitIndex) -> int {
+    return (value >> ((1 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
 
-SmallIntegerSorter::GetNumberOfDigitsFunction getNumberOfNibblesForInteger = [](Integers const&) -> unsigned int {
-    return 8U;
-};
-SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger =
-    [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    return ((value + 10) >> ((7U - mostSignificantDigitIndex) * 4U)) & 0xFU;
+SmallIntegerSorter::GetNumberOfDigitsFunction getNumberOfNibblesForInteger = [](Integers const&) -> int { return 8; };
+SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value,
+                                                                       int const mostSignificantDigitIndex) -> int {
+    return ((value + 10) >> ((7 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
 
-StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> unsigned int {
-    unsigned int maxNumberOfCharacters(0U);
+StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> int {
+    int maxNumberOfCharacters(0);
     for (string const& stringObject : strings) {
-        maxNumberOfCharacters = max(maxNumberOfCharacters, static_cast<unsigned int>(stringObject.length()));
+        maxNumberOfCharacters = max(maxNumberOfCharacters, static_cast<int>(stringObject.length()));
     }
     return maxNumberOfCharacters;
 };
-StringsSorter::GetDigitAtFunction getCharacterAtForString =
-    [](string const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    unsigned int digitValue{};
-    if (mostSignificantDigitIndex < value.length()) {
+StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value,
+                                                               int const mostSignificantDigitIndex) -> int {
+    int digitValue{};
+    if (mostSignificantDigitIndex < static_cast<int>(value.length())) {
         digitValue = value.at(mostSignificantDigitIndex);
     }
     return digitValue;
 };
 
 StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject =
-    [](StabilityCheckObjects const&) -> unsigned int { return 2U; };
+    [](StabilityCheckObjects const&) -> int { return 2; };
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
-    [](StabilityCheckObject const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    return (value.getVisiblePart() >> ((1U - mostSignificantDigitIndex) * 4U)) & 0xFU;
+    [](StabilityCheckObject const& value, int const mostSignificantDigitIndex) -> int {
+    return (value.getVisiblePart() >> ((1 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
 }  // namespace
 
@@ -108,7 +104,7 @@ TEST(LeastSignificantDigitSorterTest, SortAtLeastSignificantDigitWorksWithDigitT
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                           "ms. puff",  "pearl",   "larry",     "plankton"};
 
-    sorter.sortAtLeastSignificantDigit(stringsToTest, 1U);
+    sorter.sortAtLeastSignificantDigit(stringsToTest, 1);
 
     Strings expectedStrings{"patrick",   "sandy",     "larry",     "pearl",   "plankton",
                             "spongebob", "squidward", "mr. crabs", "ms. puff"};
@@ -120,7 +116,7 @@ TEST(LeastSignificantDigitSorterTest, SortAtLeastSignificantDigitWorksWithDigitT
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                           "ms. puff",  "pearl",   "larry",     "plankton"};
 
-    sorter.sortAtLeastSignificantDigit(stringsToTest, 6U);
+    sorter.sortAtLeastSignificantDigit(stringsToTest, 6);
 
     Strings expectedStrings{"sandy",     "pearl",    "larry",   "mr. crabs", "squidward",
                             "spongebob", "ms. puff", "patrick", "plankton"};
@@ -132,7 +128,7 @@ TEST(LeastSignificantDigitSorterTest, SortAtLeastSignificantDigitWorksWithDigitT
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                           "ms. puff",  "pearl",   "larry",     "plankton"};
 
-    sorter.sortAtLeastSignificantDigit(stringsToTest, 9U);
+    sorter.sortAtLeastSignificantDigit(stringsToTest, 9);
 
     Strings expectedStrings{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                             "ms. puff",  "pearl",   "larry",     "plankton"};

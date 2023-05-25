@@ -23,9 +23,9 @@ public:
 
     bool doesContain(Key const& key) const override { return doesContainStartingOnThisNode(m_root, key); }
 
-    unsigned int getSize() const override { return getSizeOnThisNode(m_root); }
+    int getSize() const override { return getSizeOnThisNode(m_root); }
 
-    unsigned int getRank(Key const& key) const override { return getRankStartingOnThisNode(m_root, key); }
+    int getRank(Key const& key) const override { return getRankStartingOnThisNode(m_root, key); }
 
     Key getMinimum() const override {
         Key result{};
@@ -45,7 +45,7 @@ public:
         return result;
     }
 
-    Key selectAt(unsigned int const index) const override {
+    Key selectAt(int const index) const override {
         Key result{};
         Node const* const nodePointer(selectNodeWithIndexStartingOnThisNode(m_root, index));
         if (nodePointer != nullptr) {
@@ -103,15 +103,15 @@ public:
 protected:
     virtual void copyContents(Node& destinationNode, Node const& sourceNode) const = 0;
 
-    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const {
-        unsigned int size(0);
+    int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const {
+        int size(0);
         if (nodePointer) {
             size = nodePointer->numberOfNodesOnThisSubTree;
         }
         return size;
     }
 
-    unsigned int calculateSizeOfNodeBasedFromLeftAndRight(Node& node) const {
+    int calculateSizeOfNodeBasedFromLeftAndRight(Node& node) const {
         return getSizeOnThisNode(node.left) + getSizeOnThisNode(node.right) + 1;
     }
 
@@ -158,11 +158,10 @@ protected:
         return result;
     }
 
-    Node const* selectNodeWithIndexStartingOnThisNode(
-        NodeUniquePointer const& nodePointer, unsigned int const index) const {
+    Node const* selectNodeWithIndexStartingOnThisNode(NodeUniquePointer const& nodePointer, int const index) const {
         Node const* result(nullptr);
         if (nodePointer) {
-            unsigned int numberOfNodesOnThisSubTree = getSizeOnThisNode(nodePointer->left);
+            int numberOfNodesOnThisSubTree = getSizeOnThisNode(nodePointer->left);
             if (numberOfNodesOnThisSubTree > index) {
                 result = selectNodeWithIndexStartingOnThisNode(nodePointer->left, index);
             } else if (numberOfNodesOnThisSubTree < index) {
@@ -220,8 +219,8 @@ protected:
         return result;
     }
 
-    virtual unsigned int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const {
-        unsigned int result(0);
+    virtual int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const {
+        int result(0);
         if (nodePointer) {
             Key const& currentKey(nodePointer->key);
             if (key < currentKey) {

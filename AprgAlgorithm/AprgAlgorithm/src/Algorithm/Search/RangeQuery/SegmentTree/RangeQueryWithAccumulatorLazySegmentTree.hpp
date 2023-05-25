@@ -54,8 +54,8 @@ public:
     Value getValueOnInterval(Index const start, Index const end) {
         // This has log(N) running time
         Value result{};
-        if (start <= end && (b_startOfChildren + start) < b_treeValues.size() &&
-            (b_startOfChildren + end) < b_treeValues.size()) {
+        if (start <= end && (b_startOfChildren + start) < static_cast<Index>(b_treeValues.size()) &&
+            (b_startOfChildren + end) < static_cast<Index>(b_treeValues.size())) {
             result = getValueOnIntervalFromTopToBottom(
                 start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren);  // startOfChildren is size of base too
         }
@@ -63,8 +63,8 @@ public:
     }
 
     void increaseAtRange(Index const start, Index const end, Value const& incrementValue) {
-        if (start <= end && (b_startOfChildren + start) < b_treeValues.size() &&
-            (b_startOfChildren + end) < b_treeValues.size()) {
+        if (start <= end && (b_startOfChildren + start) < static_cast<Index>(b_treeValues.size()) &&
+            (b_startOfChildren + end) < static_cast<Index>(b_treeValues.size())) {
             increaseAtRangeFromTopToBottom(
                 start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren,
                 incrementValue);  // startOfChildren is size of base too
@@ -74,7 +74,7 @@ public:
     void changeValueAtIndex(Index const index, Value const& newValue) {
         // This has log(N) running time
         Index childIndex = b_startOfChildren + index;
-        if (childIndex < b_treeValues.size()) {
+        if (childIndex < static_cast<Index>(b_treeValues.size())) {
             increaseAtRange(
                 index, index,
                 m_inverseFunction(newValue, b_treeValues.at(childIndex)));  // startOfChildren is size of base too
@@ -173,7 +173,7 @@ private:
         // The idea is that updates will be propagated downwards only when it is necessary,
         // which guarantees that the operations are always efficient.
 
-        if (index < m_pendingUpdates.size()) {
+        if (index < static_cast<Index>(m_pendingUpdates.size())) {
             Value& pendingUpdate = m_pendingUpdates[index];
             if (m_identityValue != pendingUpdate) {
                 incrementMultipleTimes(b_treeValues[index], pendingUpdate, baseRight + 1 - baseLeft);

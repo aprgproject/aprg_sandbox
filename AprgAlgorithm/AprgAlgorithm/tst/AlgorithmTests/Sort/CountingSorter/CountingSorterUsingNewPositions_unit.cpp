@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-constexpr unsigned int MAX_NUMBER_OF_CHARACTERS = 256U;
-constexpr unsigned int MAX_NUMBER_OF_SMALL_INTS = 21U;
+constexpr int MAX_NUMBER_OF_CHARACTERS = 256;
+constexpr int MAX_NUMBER_OF_SMALL_INTS = 21;
 using Characters = vector<char>;
 using Integers = vector<int>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
@@ -21,20 +21,18 @@ using CharactersSorter = CountingSorterUsingNewPositions<Characters, MAX_NUMBER_
 using SmallIntegerSorter = CountingSorterUsingNewPositions<Integers, MAX_NUMBER_OF_SMALL_INTS>;
 using StabilityCheckObjectsSorter = CountingSorterUsingNewPositions<StabilityCheckObjects, MAX_NUMBER_OF_CHARACTERS>;
 
-CharactersSorter::ValueToIndexableValueFunction characterToIndexableValueFunction =
-    [](char const& value) -> unsigned int {
-    return value & 0xFFU;  // already converts to unsigned integer
+CharactersSorter::ValueToIndexableValueFunction characterToIndexableValueFunction = [](char const& value) -> int {
+    return value & 0xFF;  // already converts to integer
 };
 
-SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction =
-    [](int const& value) -> unsigned int {
+SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> int {
     // Input: {-5, -10, 0, -3, 8, 5, -1, 10}
-    return static_cast<unsigned int>(10 + value);
+    return 10 + value;
 };
 
 StabilityCheckObjectsSorter::ValueToIndexableValueFunction stabilityCheckObjectToIndexableValueFunction =
-    [](StabilityCheckObject const& value) -> unsigned int {
-    return value.getVisiblePart() & 0xFFU;  // there is some splicing here
+    [](StabilityCheckObject const& value) -> int {
+    return value.getVisiblePart() & 0xFF;  // there is some splicing here
 };
 }  // namespace
 

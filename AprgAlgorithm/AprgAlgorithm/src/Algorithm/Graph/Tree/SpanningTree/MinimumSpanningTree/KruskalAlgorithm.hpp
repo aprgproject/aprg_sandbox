@@ -30,9 +30,10 @@ public:
 private:
     void searchForMinimumSpanningTree() {
         putAllEdgesToPriorityQueue();
-        unsigned int maxNumberOfEdgesInSpanningTree(m_graph.getNumberOfVertices() - 1);
+        int maxNumberOfEdgesInSpanningTree(m_graph.getNumberOfVertices() - 1);
         UnionFindUsingMap<Vertex> unionFind;
-        while (!m_edgesInOrder.empty() && m_minimumSpanningTreeEdges.size() < maxNumberOfEdgesInSpanningTree) {
+        while (!m_edgesInOrder.empty() &&
+               static_cast<int>(m_minimumSpanningTreeEdges.size()) < maxNumberOfEdgesInSpanningTree) {
             // traverse all edges (shortest edges first) and add it to MST if vertices are not already connected in the
             // MST (if it does not produce a cycle)
             EdgeOrderedByWeight shortestEdge(m_edgesInOrder.top());

@@ -32,7 +32,7 @@ struct GraphTypes {
     using Paths = std::vector<Path>;
 
     // Complicated types
-    using VertexToUnsignedIntMap = std::map<Vertex, unsigned int>;
+    using VertexToIntMap = std::map<Vertex, int>;
     using VertexToVertexMap = std::map<Vertex, Vertex>;
 };
 

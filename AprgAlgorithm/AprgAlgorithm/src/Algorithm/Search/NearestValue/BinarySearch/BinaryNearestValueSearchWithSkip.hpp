@@ -10,7 +10,7 @@ namespace algorithm {
 template <typename Values>
 class BinaryNearestValueSearchWithSkip {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -61,7 +61,7 @@ private:
     }
 
     Index getHigherIndex(Index const lowerIndex) const {
-        return std::min(lowerIndex + 1, static_cast<unsigned int>(m_sortedValues.size() - 1));
+        return std::min(lowerIndex + 1, static_cast<Index>(m_sortedValues.size()) - 1);
     }
 
     Values const& m_sortedValues;

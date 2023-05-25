@@ -44,7 +44,7 @@ public:
 
 private:
     void initialize(std::string const& mainString) {
-        for (DataType i = 0; i < mainString.length(); i++) {
+        for (DataType i = 0; i < static_cast<DataType>(mainString.length()); i++) {
             m_suffixes.emplace_back(mainString.substr(i));
         }
         std::sort(m_suffixes.begin(), m_suffixes.end());

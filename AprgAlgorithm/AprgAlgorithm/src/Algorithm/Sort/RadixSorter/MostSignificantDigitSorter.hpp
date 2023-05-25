@@ -10,16 +10,16 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_DIGIT_VALUES>
+template <typename Values, int MAX_NUMBER_OF_DIGIT_VALUES>
 class MostSignificantDigitSorter : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using DigitValue = unsigned int;  // this needs to be indexable
+    using DigitValue = int;  // this needs to be indexable
     using ArrayOfCountPerDigitValue =
-        std::array<unsigned int, MAX_NUMBER_OF_DIGIT_VALUES + 2U>;  // offset of two for cumulate and copying back
-    using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
-    using IsDigitFunction = std::function<bool(Value const&, unsigned int const)>;
-    static constexpr unsigned int CUTOFF_TO_SMALLER_SORT = 0;  // switch to different sort when size is small
+        std::array<int, MAX_NUMBER_OF_DIGIT_VALUES + 2>;  // offset of two for cumulate and copying back
+    using GetDigitAtFunction = std::function<DigitValue(Value const&, int const)>;
+    using IsDigitFunction = std::function<bool(Value const&, int const)>;
+    static constexpr int CUTOFF_TO_SMALLER_SORT = 0;  // switch to different sort when size is small
 
     MostSignificantDigitSorter() = delete;
     MostSignificantDigitSorter(
@@ -27,22 +27,20 @@ public:
         : m_getDigitAtFunction(getDigitAtFunction), m_isDigitInvalidFunction(isDigitInvalidFunction) {}
 
     void sort(Values& valuesToSort) const override {
-        sortStartingAtMostSignificantDigit(valuesToSort, 0U, valuesToSort.size() - 1, 0U);
+        sortStartingAtMostSignificantDigit(valuesToSort, 0, valuesToSort.size() - 1, 0);
     }
 
     void sortStartingAtMostSignificantDigit(
-        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
-        unsigned int const digitIndex) const {
-        if (lowContainerIndex < valuesToSort.size() && highContainerIndex < valuesToSort.size() &&
-            lowContainerIndex < highContainerIndex) {
+        Values& valuesToSort, int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
+        if (lowContainerIndex < static_cast<int>(valuesToSort.size()) &&
+            highContainerIndex < static_cast<int>(valuesToSort.size()) && lowContainerIndex < highContainerIndex) {
             sortStartingAtMostSignificantDigitInternal(valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
         }
     }
 
 private:
     void sortStartingAtMostSignificantDigitInternal(
-        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
-        unsigned int const digitIndex) const {
+        Values& valuesToSort, int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
         if (highContainerIndex <= lowContainerIndex + CUTOFF_TO_SMALLER_SORT) {
             sortForSmallerSizes(valuesToSort, lowContainerIndex, highContainerIndex);
         } else {
@@ -51,14 +49,12 @@ private:
         }
     }
 
-    void sortForSmallerSizes(
-        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex) const {
-        std::sort(valuesToSort.begin() + lowContainerIndex, valuesToSort.begin() + highContainerIndex + 1U);
+    void sortForSmallerSizes(Values& valuesToSort, int const lowContainerIndex, int const highContainerIndex) const {
+        std::sort(valuesToSort.begin() + lowContainerIndex, valuesToSort.begin() + highContainerIndex + 1);
     }
 
     void sortStartingAtMostSignificantDigitUsingNewIndexes(
-        Values& valuesToSort, unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
-        unsigned int const digitIndex) const {
+        Values& valuesToSort, int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
         // Key indexed counting
         // Character index start at two because interval must be noted
         // The reason its two, is because (1) is used for offset for cumulate and (2) is used for index for copying back
@@ -81,47 +77,45 @@ private:
 
     void saveFrequencyForEachCharacterAt(
         ArrayOfCountPerDigitValue& countPerDigitValue, bool& areAllDigitsInvalid, Values const& valuesToSort,
-        unsigned int const lowContainerIndex, unsigned int const highContainerIndex,
-        unsigned int const digitIndex) const {
-        unsigned int limit(std::min(highContainerIndex + 1, static_cast<unsigned int>(valuesToSort.size())));
+        int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
+        int limit(std::min(highContainerIndex + 1, static_cast<int>(valuesToSort.size())));
         for (auto it = valuesToSort.cbegin() + lowContainerIndex; it != valuesToSort.cbegin() + limit;
              it++)  // starts at low container index and ends at high container index
         {
             Value const& value(*it);
-            countPerDigitValue[m_getDigitAtFunction(value, digitIndex) + 2U]++;
+            countPerDigitValue[m_getDigitAtFunction(value, digitIndex) + 2]++;
             areAllDigitsInvalid &= m_isDigitInvalidFunction(value, digitIndex);
         }
     }
 
     void computeCumulatesToGetNewIndexes(ArrayOfCountPerDigitValue& newIndexes) const {
-        for (unsigned int i = 0; i + 1 < newIndexes.size(); i++) {
+        for (int i = 0; i + 1 < static_cast<int>(newIndexes.size()); i++) {
             newIndexes[i + 1] += newIndexes.at(i);
         }
     }
 
     void copyBackUsingNewIndexes(
-        Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, unsigned int const lowContainerIndex,
-        unsigned int const highContainerIndex, unsigned int const digitIndex) const {
+        Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, int const lowContainerIndex,
+        int const highContainerIndex, int const digitIndex) const {
         Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
-        unsigned int limit(std::min(highContainerIndex + 1, static_cast<unsigned int>(copiedValues.size())));
+        int limit(std::min(highContainerIndex + 1, static_cast<int>(copiedValues.size())));
         for (auto it = copiedValues.cbegin() + lowContainerIndex; it != copiedValues.cbegin() + limit;
              it++)  // starts at low container index and ends at high container index
         {
             // replace index uses the character index before it
             Value const& copiedValue(*it);
-            unsigned int replaceIndex =
-                lowContainerIndex + newIndexes[m_getDigitAtFunction(copiedValue, digitIndex) + 1U]++;
+            int replaceIndex = lowContainerIndex + newIndexes[m_getDigitAtFunction(copiedValue, digitIndex) + 1]++;
             valuesToSort[replaceIndex] = copiedValue;
         }
     }
 
     void sortForEachCharacterValue(
-        Values& valuesToSort, ArrayOfCountPerDigitValue const& newIndexes, unsigned int const lowContainerIndex,
-        unsigned int const digitIndex) const {
-        for (unsigned int i = 0; i < MAX_NUMBER_OF_DIGIT_VALUES; i++) {
+        Values& valuesToSort, ArrayOfCountPerDigitValue const& newIndexes, int const lowContainerIndex,
+        int const digitIndex) const {
+        for (int i = 0; i < MAX_NUMBER_OF_DIGIT_VALUES; i++) {
             if (newIndexes.at(i) + 1 < newIndexes.at(i + 1)) {
-                unsigned int newLowContainerIndex(lowContainerIndex + newIndexes.at(i));
-                unsigned int newHighContainerIndex(lowContainerIndex + newIndexes.at(i + 1) - 1U);
+                int newLowContainerIndex(lowContainerIndex + newIndexes.at(i));
+                int newHighContainerIndex(lowContainerIndex + newIndexes.at(i + 1) - 1);
                 sortStartingAtMostSignificantDigitInternal(
                     valuesToSort, newLowContainerIndex, newHighContainerIndex, digitIndex + 1);
             }

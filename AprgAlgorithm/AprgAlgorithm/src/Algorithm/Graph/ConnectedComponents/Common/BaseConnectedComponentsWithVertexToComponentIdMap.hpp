@@ -10,10 +10,10 @@ namespace algorithm {
 template <typename Vertex, typename Graph>
 class BaseConnectedComponentsWithVertexToComponentIdMap : public BaseConnectedComponents<Vertex> {
 public:
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using VertexToIntMap = typename GraphTypes<Vertex>::VertexToIntMap;
 
     BaseConnectedComponentsWithVertexToComponentIdMap(Graph const& graph)
-        : m_graph(graph), m_numberOfComponentIds(0U) {}
+        : m_graph(graph), m_numberOfComponentIds(0) {}
 
     ~BaseConnectedComponentsWithVertexToComponentIdMap() override =
         default;  // no need for virtual destructor because base destructor is virtual (similar to other virtual
@@ -29,10 +29,10 @@ public:
         return result;
     }
 
-    unsigned int getNumberOfComponentIds() const override { return m_numberOfComponentIds; }
+    int getNumberOfComponentIds() const override { return m_numberOfComponentIds; }
 
-    unsigned int getComponentId(Vertex const& vertex) const override {
-        unsigned int result(0);
+    int getComponentId(Vertex const& vertex) const override {
+        int result(0);
         auto it = m_vertexToComponentIdMap.find(vertex);
         if (it != m_vertexToComponentIdMap.cend()) {
             result = it->second;
@@ -42,8 +42,8 @@ public:
 
 protected:
     Graph const& m_graph;
-    unsigned int m_numberOfComponentIds;
-    VertexToUnsignedIntMap m_vertexToComponentIdMap;
+    int m_numberOfComponentIds;
+    VertexToIntMap m_vertexToComponentIdMap;
 };
 
 }  // namespace algorithm

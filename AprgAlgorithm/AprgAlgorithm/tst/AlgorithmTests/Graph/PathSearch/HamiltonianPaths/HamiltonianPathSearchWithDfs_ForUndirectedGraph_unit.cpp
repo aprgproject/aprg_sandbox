@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = HamiltonianPathSearchWithDfs<VertexForTest>;
 using PathForTest = PathSearchForTest::Path;
@@ -17,64 +17,63 @@ using PathsForTest = PathSearchForTest::Paths;
 
 TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianPathsWorks) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(2U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(2, 3);
     PathSearchForTest pathSearch(graph);
 
     PathsForTest pathsToVerify(pathSearch.getAllHamiltonianPaths());
 
-    PathsForTest pathsToExpect{{0U, 1U, 2U, 3U}, {0U, 1U, 3U, 2U}, {0U, 2U, 1U, 3U}, {0U, 2U, 3U, 1U},
-                               {1U, 0U, 2U, 3U}, {1U, 3U, 2U, 0U}, {2U, 0U, 1U, 3U}, {2U, 3U, 1U, 0U},
-                               {3U, 1U, 0U, 2U}, {3U, 1U, 2U, 0U}, {3U, 2U, 0U, 1U}, {3U, 2U, 1U, 0U}};
+    PathsForTest pathsToExpect{{0, 1, 2, 3}, {0, 1, 3, 2}, {0, 2, 1, 3}, {0, 2, 3, 1}, {1, 0, 2, 3}, {1, 3, 2, 0},
+                               {2, 0, 1, 3}, {2, 3, 1, 0}, {3, 1, 0, 2}, {3, 1, 2, 0}, {3, 2, 0, 1}, {3, 2, 1, 0}};
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
 TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianPathWorks) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(2U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(2, 3);
     PathSearchForTest pathSearch(graph);
 
     PathForTest pathsToVerify(pathSearch.getOneHamiltonianPath());
 
-    PathForTest pathsToExpect{0U, 1U, 2U, 3U};
+    PathForTest pathsToExpect{0, 1, 2, 3};
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
 TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetAllHamiltonianCyclesWorks) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(2U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(2, 3);
     PathSearchForTest pathSearch(graph);
 
     PathsForTest pathsToVerify(pathSearch.getAllHamiltonianCycles());
 
-    PathsForTest pathsToExpect{{0U, 1U, 3U, 2U, 0U}, {0U, 2U, 3U, 1U, 0U}, {1U, 0U, 2U, 3U, 1U}, {1U, 3U, 2U, 0U, 1U},
-                               {2U, 0U, 1U, 3U, 2U}, {2U, 3U, 1U, 0U, 2U}, {3U, 1U, 0U, 2U, 3U}, {3U, 2U, 0U, 1U, 3U}};
+    PathsForTest pathsToExpect{{0, 1, 3, 2, 0}, {0, 2, 3, 1, 0}, {1, 0, 2, 3, 1}, {1, 3, 2, 0, 1},
+                               {2, 0, 1, 3, 2}, {2, 3, 1, 0, 2}, {3, 1, 0, 2, 3}, {3, 2, 0, 1, 3}};
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
 TEST(HamiltonianPathSearchWithDfsTest_ForUndirectedGraph, GetOneHamiltonianCycleWorks) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(2U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(2, 3);
     PathSearchForTest pathSearch(graph);
 
     PathForTest pathsToVerify(pathSearch.getOneHamiltonianCycle());
 
-    PathForTest pathsToExpect{0U, 1U, 3U, 2U, 0U};
+    PathForTest pathsToExpect{0, 1, 3, 2, 0};
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 

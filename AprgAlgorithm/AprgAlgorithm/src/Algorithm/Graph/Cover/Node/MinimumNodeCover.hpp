@@ -20,7 +20,7 @@ public:
 
     MinimumNodeCover(BaseUndirectedGraphWithVertex const& graph) : m_graph(graph), m_maximumMatchings(m_graph) {}
 
-    unsigned int getMinimumNodeCoverSize(Vertex const& newSourceVertex, Vertex const& newSinkVertex) const {
+    int getMinimumNodeCoverSize(Vertex const& newSourceVertex, Vertex const& newSinkVertex) const {
         // Using Konig's theorem:
         // A minimum node cover of a graph is a minimum set of nodes such that each edge of the graph has at least one
         // endpoint in the set. In a general graph, finding a minimum node cover is a NP-hard problem. However, if the
@@ -30,7 +30,7 @@ public:
         return m_maximumMatchings.getMaximumMatchings(newSourceVertex, newSinkVertex).size();
     }
 
-    unsigned int getMaximumIndependentSetSize(Vertex const& newSourceVertex, Vertex const& newSinkVertex) const {
+    int getMaximumIndependentSetSize(Vertex const& newSourceVertex, Vertex const& newSinkVertex) const {
         // The nodes that do not belong to a minimum node cover form a maximum independent set.
         // This is the largest possible set of nodes such that no two nodes in the set are connected with an edge.
         // Once again, finding a maximum independent set in a general graph is a NP-hard problem,

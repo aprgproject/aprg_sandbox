@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SymbolTableForTest = UnorderedLinkedListSymbolTable<unsigned int, char>;
+using SymbolTableForTest = UnorderedLinkedListSymbolTable<int, char>;
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenEmpty) {

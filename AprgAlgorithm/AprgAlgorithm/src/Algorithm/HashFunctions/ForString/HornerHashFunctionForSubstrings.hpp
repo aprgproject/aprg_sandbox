@@ -29,20 +29,21 @@ public:
         // If a=0, the hash value is simply h[b].
 
         HashValue result{};
-        if (m_stringToHash.length() > 0U) {
-            result = getHashCodeOfSubstring(0U, m_stringToHash.length() - 1);
+        if (m_stringToHash.length() > 0) {
+            result = getHashCodeOfSubstring(0, m_stringToHash.length() - 1);
         }
         return result;
     }
 
-    HashValue getHashCodeOfSubstring(unsigned int const startIndex, unsigned int const endIndex) {
+    HashValue getHashCodeOfSubstring(int const startIndex, int const endIndex) {
         // The hash value of any substring s[a...b] can be calculated in O(1) time using the formula:
         // (h[b] - (h[a-1] * p[b-a+1])) mod B
         // assuming that a>0.
         // If a=0, the hash value is simply h[b].
 
         HashValue result{};
-        if (startIndex < m_stringToHash.length() && endIndex < m_stringToHash.length() && startIndex <= endIndex) {
+        if (startIndex < static_cast<int>(m_stringToHash.length()) &&
+            endIndex < static_cast<int>(m_stringToHash.length()) && startIndex <= endIndex) {
             if (startIndex > 0) {
                 result =
                     (m_largeRandomPrime + m_hParts.at(endIndex) -

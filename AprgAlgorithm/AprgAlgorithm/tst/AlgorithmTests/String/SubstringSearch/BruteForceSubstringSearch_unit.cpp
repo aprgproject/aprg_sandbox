@@ -11,9 +11,9 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
-using BruteForceSubstringSearchWithOneLoop = BruteForceSubstringSearch<1U>;
-using BruteForceSubstringSearchWithTwoLoops = BruteForceSubstringSearch<2U>;
+using Index = int;
+using BruteForceSubstringSearchWithOneLoop = BruteForceSubstringSearch<1>;
+using BruteForceSubstringSearchWithTwoLoops = BruteForceSubstringSearch<2>;
 }  // namespace
 
 TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingEmptyStringsAndDoesNotCrash) {

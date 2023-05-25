@@ -12,7 +12,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using CompressionForTest = HuffmanCompression<unsigned int>;
+using CompressionForTest = HuffmanCompression<int>;
 }
 
 TEST(HuffmanCompressionTest, CompressWorksUsingExample1) {

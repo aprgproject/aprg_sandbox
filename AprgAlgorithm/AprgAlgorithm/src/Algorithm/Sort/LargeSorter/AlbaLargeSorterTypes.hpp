@@ -25,7 +25,7 @@ using AlbaLargeSorterBlockCacheEntry = typename AlbaLargeSorterBlockCache<BlockI
 template <typename BlockIterator>
 using AlbaLargeSorterBlockCacheContainer = typename AlbaLargeSorterBlockCache<BlockIterator>::BlockCacheContainer;
 
-using Indexes = std::vector<unsigned int>;
+using Indexes = std::vector<int>;
 
 }  // namespace algorithm
 

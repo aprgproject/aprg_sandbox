@@ -9,22 +9,22 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Objects = vector<unsigned int>;
+using Objects = vector<int>;
 using GenerationForTest = CombinationsGeneration<Objects>;
 using Combinations = GenerationForTest::Combinations;
 }  // namespace
 
 TEST(CombinationsGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinationLengthIsLessThanSize) {
-    Combinations actualCombinations(GenerationForTest::generateCombinationsWithLength({1U, 3U, 5U}, 2U));
+    Combinations actualCombinations(GenerationForTest::generateCombinationsWithLength({1, 3, 5}, 2));
 
-    Combinations expectedCombinations{{1U, 3U}, {1U, 5U}, {3U, 5U}};
+    Combinations expectedCombinations{{1, 3}, {1, 5}, {3, 5}};
     EXPECT_EQ(expectedCombinations, actualCombinations);
 }
 
 TEST(CombinationsGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinationLengthIsEqualToSize) {
-    Combinations actualCombinations(GenerationForTest::generateCombinationsWithLength({1U, 3U, 5U}, 3U));
+    Combinations actualCombinations(GenerationForTest::generateCombinationsWithLength({1, 3, 5}, 3));
 
-    Combinations expectedCombinations{{1U, 3U, 5U}};
+    Combinations expectedCombinations{{1, 3, 5}};
     EXPECT_EQ(expectedCombinations, actualCombinations);
 }
 

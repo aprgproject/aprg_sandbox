@@ -9,13 +9,13 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
+template <typename Values, int MAX_NUMBER_OF_VALUES>
 class CountingSorterUsingCountPerValue : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using ArrayOfCountPerValue = std::array<unsigned int, MAX_NUMBER_OF_VALUES>;
-    using ValueToIndexableValueFunction = std::function<unsigned int(Value const&)>;
-    using IndexableValueToValueFunction = std::function<Value(unsigned int const)>;
+    using ArrayOfCountPerValue = std::array<int, MAX_NUMBER_OF_VALUES>;
+    using ValueToIndexableValueFunction = std::function<int(Value const&)>;
+    using IndexableValueToValueFunction = std::function<Value(int const)>;
 
     CountingSorterUsingCountPerValue() = delete;
     CountingSorterUsingCountPerValue(
@@ -31,10 +31,10 @@ public:
         }
 
         auto it = valuesToSort.begin();
-        for (unsigned int indexableValue = 0; indexableValue < countPerValue.size();
+        for (int indexableValue = 0; indexableValue < static_cast<int>(countPerValue.size());
              indexableValue++)  // Linear because i runs on valuesToSort.size()
         {
-            for (unsigned int currentCount = 0; currentCount < countPerValue.at(indexableValue); currentCount++) {
+            for (int currentCount = 0; currentCount < countPerValue.at(indexableValue); currentCount++) {
                 *(it++) = m_indexableValueToValueFunction(
                     indexableValue);  // put the value multiple times depending on the current count
             }

@@ -29,7 +29,7 @@ public:
         Indexes result(mainStringLength, Index{});
         Index startOfPrefix = 0, endOfPrefix = 0;
         for (Index position = 1; position < mainStringLength; position++) {
-            result[position] = std::max(0U, std::min(result.at(position - startOfPrefix), endOfPrefix - position + 1));
+            result[position] = std::max(0, std::min(result.at(position - startOfPrefix), endOfPrefix - position + 1));
             while (position + result.at(position) < mainStringLength &&
                    mainString.at(result.at(position)) == mainString.at(position + result.at(position))) {
                 startOfPrefix = position;

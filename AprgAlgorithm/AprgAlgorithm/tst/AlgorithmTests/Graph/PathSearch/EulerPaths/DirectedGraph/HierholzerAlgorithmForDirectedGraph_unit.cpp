@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = HierholzerAlgorithmForDirectedGraph<VertexForTest>;
 }  // namespace

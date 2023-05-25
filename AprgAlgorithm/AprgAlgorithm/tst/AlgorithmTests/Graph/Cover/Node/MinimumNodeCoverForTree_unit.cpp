@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using SetOfVertices = typename GraphTypes<VertexForTest>::SetOfVertices;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using MinimumNodeCoverForTreeForTest = MinimumNodeCoverForTree<VertexForTest>;
@@ -16,32 +16,32 @@ using MinimumNodeCoverForTreeForTest = MinimumNodeCoverForTree<VertexForTest>;
 
 TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample1) {
     GraphForTest graph;
-    graph.connect(10U, 20U);
-    graph.connect(10U, 30U);
-    graph.connect(20U, 40U);
-    graph.connect(20U, 50U);
-    graph.connect(30U, 60U);
-    graph.connect(50U, 70U);
-    graph.connect(50U, 80U);
-    MinimumNodeCoverForTreeForTest minimumNodeCover(graph, 10U);
+    graph.connect(10, 20);
+    graph.connect(10, 30);
+    graph.connect(20, 40);
+    graph.connect(20, 50);
+    graph.connect(30, 60);
+    graph.connect(50, 70);
+    graph.connect(50, 80);
+    MinimumNodeCoverForTreeForTest minimumNodeCover(graph, 10);
 
-    EXPECT_EQ(3U, minimumNodeCover.getMinimumNodeCoverSize());
-    EXPECT_EQ((SetOfVertices{20U, 30U, 50U}), minimumNodeCover.getMinimumNodeCover());
+    EXPECT_EQ(3, minimumNodeCover.getMinimumNodeCoverSize());
+    EXPECT_EQ((SetOfVertices{20, 30, 50}), minimumNodeCover.getMinimumNodeCover());
 }
 
 TEST(MinimumNodeCoverForTreeTest, GetMinimumNodeCoverWorksOnExample2) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 3U);
-    graph.connect(4U, 7U);
-    graph.connect(7U, 8U);
-    MinimumNodeCoverForTreeForTest minimumNodeCover(graph, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 3);
+    graph.connect(4, 7);
+    graph.connect(7, 8);
+    MinimumNodeCoverForTreeForTest minimumNodeCover(graph, 1);
 
-    EXPECT_EQ(4U, minimumNodeCover.getMinimumNodeCoverSize());
-    EXPECT_EQ((SetOfVertices{1U, 2U, 4U, 7U}), minimumNodeCover.getMinimumNodeCover());
+    EXPECT_EQ(4, minimumNodeCover.getMinimumNodeCoverSize());
+    EXPECT_EQ((SetOfVertices{1, 2, 4, 7}), minimumNodeCover.getMinimumNodeCover());
 }
 
 }  // namespace algorithm

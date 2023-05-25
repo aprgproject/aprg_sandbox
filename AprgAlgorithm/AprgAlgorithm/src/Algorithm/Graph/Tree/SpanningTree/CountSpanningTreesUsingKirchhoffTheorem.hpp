@@ -13,7 +13,7 @@ public:
     // Kirchhoff’s theorem provides a way to calculate the number of spanning trees of a graph as a determinant of a
     // special matrix.
 
-    using RowAndColumnPair = std::pair<unsigned int, unsigned int>;
+    using RowAndColumnPair = std::pair<int, int>;
 
     // rule of five or six
     CountSpanningTreesUsingKirchhoffTheorem() = delete;
@@ -23,8 +23,8 @@ public:
     CountSpanningTreesUsingKirchhoffTheorem(CountSpanningTreesUsingKirchhoffTheorem&&) = delete;
     CountSpanningTreesUsingKirchhoffTheorem& operator=(CountSpanningTreesUsingKirchhoffTheorem&&) = delete;
 
-    template <unsigned int MAX_VERTEX_VALUE>
-    static unsigned int getCount(BaseGraph<Vertex> const& graph) {
+    template <int MAX_VERTEX_VALUE>
+    static int getCount(BaseGraph<Vertex> const& graph) {
         // L is the Laplacean matrix.
         // It can be shown that the number of spanning trees equals the determinant of a matrix that is obtained
         // when we remove any row and any column from L.

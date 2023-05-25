@@ -11,7 +11,7 @@ namespace algorithm {
 template <typename Values>
 class BinaryNearestValueSearchWithTwoIndices {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -72,7 +72,7 @@ private:
 
     void setInitialIndexes() {
         if (!m_sortedValues.empty()) {
-            m_lowerIndex = 0U;
+            m_lowerIndex = 0;
             m_higherIndex = m_sortedValues.size() - 1;  // fully closed interval
         }
     }
@@ -96,7 +96,7 @@ private:
     }
 
     void moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(Value const& value) {
-        while (m_lowerIndex + 1U < m_higherIndex) {
+        while (m_lowerIndex + 1 < m_higherIndex) {
             // Binary search with one comparison per iteration
 
             Index middleIndex(getMidpointOfIndexes(m_lowerIndex, m_higherIndex));

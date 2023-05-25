@@ -9,14 +9,14 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_DIGIT_VALUES>
+template <typename Values, int MAX_NUMBER_OF_DIGIT_VALUES>
 class LeastSignificantDigitSorter : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using DigitValue = unsigned int;  // this needs to be indexable
-    using ArrayOfCountPerDigitValue = std::array<unsigned int, MAX_NUMBER_OF_DIGIT_VALUES + 1>;
-    using GetNumberOfDigitsFunction = std::function<unsigned int(Values const&)>;
-    using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
+    using DigitValue = int;  // this needs to be indexable
+    using ArrayOfCountPerDigitValue = std::array<int, MAX_NUMBER_OF_DIGIT_VALUES + 1>;
+    using GetNumberOfDigitsFunction = std::function<int(Values const&)>;
+    using GetDigitAtFunction = std::function<DigitValue(Value const&, int const)>;
 
     LeastSignificantDigitSorter() = delete;
     LeastSignificantDigitSorter(
@@ -27,11 +27,11 @@ public:
         for (int digitIndex = static_cast<int>(m_getNumberOfDigitsFunction(valuesToSort)) - 1; 0 <= digitIndex;
              digitIndex--)  // highest index so least signficant first
         {
-            sortAtLeastSignificantDigit(valuesToSort, static_cast<unsigned int>(digitIndex));
+            sortAtLeastSignificantDigit(valuesToSort, digitIndex);
         }
     }
 
-    void sortAtLeastSignificantDigit(Values& valuesToSort, unsigned int const digitIndex) const {
+    void sortAtLeastSignificantDigit(Values& valuesToSort, int const digitIndex) const {
         // This is called: "key indexed counting"
         // Character index starts in 1 because this array will be used to compute cumulates
         // For example (alphabet is a, b, c, d...), position translate to this:
@@ -47,22 +47,21 @@ public:
 
 private:
     void countTheFrequencyForEachCharacterAt(
-        ArrayOfCountPerDigitValue& countPerDigitValue, Values const& valuesToSort,
-        unsigned int const digitIndex) const {
+        ArrayOfCountPerDigitValue& countPerDigitValue, Values const& valuesToSort, int const digitIndex) const {
         for (Value const& value : valuesToSort) {
-            countPerDigitValue[m_getDigitAtFunction(value, digitIndex) + 1U]++;
+            countPerDigitValue[m_getDigitAtFunction(value, digitIndex) + 1]++;
         }
     }
 
     void computeCumulatesToGetNewIndexes(ArrayOfCountPerDigitValue& newIndexes) const {
-        unsigned int newIndexesSize = newIndexes.size();
-        for (unsigned int i = 0; i + 1U < newIndexesSize; i++) {
-            newIndexes[i + 1U] += newIndexes.at(i);
+        int newIndexesSize = newIndexes.size();
+        for (int i = 0; i + 1 < static_cast<int>(newIndexesSize); i++) {
+            newIndexes[i + 1] += newIndexes.at(i);
         }
     }
 
     void copyBackUsingNewIndexes(
-        Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, unsigned int const digitIndex) const {
+        Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, int const digitIndex) const {
         Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
         for (Value const& copiedValue : copiedValues) {
             valuesToSort[newIndexes[m_getDigitAtFunction(copiedValue, digitIndex)]++] = copiedValue;

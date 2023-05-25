@@ -10,7 +10,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using SubTreeQueryForTest = SubTreeQueryWithAccumulator<VertexForTest>;
 using VerticesForTest = SubTreeQueryForTest::Vertices;
@@ -22,18 +22,18 @@ RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
 
 TEST(SubTreeQueryWithAccumulatorTest, GetAccumulatedValueOfSubTreeAtWorks) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 7U);
-    graph.connect(4U, 8U);
-    graph.connect(4U, 9U);
-    SubTreeQueryForTest subTreeQuery(graph, 1U, plusAccumulator, minusAccumulator);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 7);
+    graph.connect(4, 8);
+    graph.connect(4, 9);
+    SubTreeQueryForTest subTreeQuery(graph, 1, plusAccumulator, minusAccumulator);
 
-    EXPECT_EQ(45U, subTreeQuery.getAccumulatedValueOfSubTreeAt(1U));
-    EXPECT_EQ(28U, subTreeQuery.getAccumulatedValueOfSubTreeAt(4U));
+    EXPECT_EQ(45, subTreeQuery.getAccumulatedValueOfSubTreeAt(1));
+    EXPECT_EQ(28, subTreeQuery.getAccumulatedValueOfSubTreeAt(4));
 }
 
 }  // namespace algorithm

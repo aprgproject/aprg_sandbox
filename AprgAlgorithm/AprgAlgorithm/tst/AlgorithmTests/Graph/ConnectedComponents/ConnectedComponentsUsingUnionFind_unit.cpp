@@ -11,45 +11,44 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
-using ConnectedComponentsForTest = ConnectedComponentsUsingUnionFind<unsigned int>;
+using GraphForTest = UndirectedGraphWithListOfEdges<int>;
+using ConnectedComponentsForTest = ConnectedComponentsUsingUnionFind<int>;
 }  // namespace
 
 TEST(ConnectedComponentsUsingUnionFindTest, GetNumberOfComponentIdsWorksWhenEmpty) {
-    testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<
-        ConnectedComponentsForTest, GraphForTest>();
+    testGetNumberOfComponentIdsWhenEmptyWithVertexAsIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, GetNumberOfComponentIdsWorksWhenNotEmpty) {
-    testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<
+    testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsIntWithUndirectedGraph<
         ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenEmpty) {
-    testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenNotEmpty) {
-    testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, GetComponentIdWorks) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 3U);
-    graph.connect(4U, 5U);
-    graph.connect(6U, 7U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(0, 3);
+    graph.connect(4, 5);
+    graph.connect(6, 7);
     ConnectedComponentsForTest connectedComponents(graph);
 
-    EXPECT_EQ(1U, connectedComponents.getComponentId(0U));
-    EXPECT_EQ(1U, connectedComponents.getComponentId(1U));
-    EXPECT_EQ(1U, connectedComponents.getComponentId(2U));
-    EXPECT_EQ(1U, connectedComponents.getComponentId(3U));
-    EXPECT_EQ(2U, connectedComponents.getComponentId(4U));
-    EXPECT_EQ(2U, connectedComponents.getComponentId(5U));
-    EXPECT_EQ(3U, connectedComponents.getComponentId(6U));
-    EXPECT_EQ(3U, connectedComponents.getComponentId(7U));
+    EXPECT_EQ(1, connectedComponents.getComponentId(0));
+    EXPECT_EQ(1, connectedComponents.getComponentId(1));
+    EXPECT_EQ(1, connectedComponents.getComponentId(2));
+    EXPECT_EQ(1, connectedComponents.getComponentId(3));
+    EXPECT_EQ(2, connectedComponents.getComponentId(4));
+    EXPECT_EQ(2, connectedComponents.getComponentId(5));
+    EXPECT_EQ(3, connectedComponents.getComponentId(6));
+    EXPECT_EQ(3, connectedComponents.getComponentId(7));
 }
 
 }  // namespace algorithm

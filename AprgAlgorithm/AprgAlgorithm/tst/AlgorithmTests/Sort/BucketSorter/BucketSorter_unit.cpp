@@ -20,12 +20,12 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharactersSorter = BucketSorter<Characters, 10U>;
-using ListOfCharactersSorter = BucketSorter<ListOfCharacters, 10U>;
-using IntegersSorter = BucketSorter<Integers, 10U>;
-using DoublesSorter = BucketSorter<Doubles, 10U>;
-using StringsSorter = BucketSorter<Strings, 10U>;
-using StabilityCheckObjectsSorter = BucketSorter<StabilityCheckObjects, 10U>;
+using CharactersSorter = BucketSorter<Characters, 10>;
+using ListOfCharactersSorter = BucketSorter<ListOfCharacters, 10>;
+using IntegersSorter = BucketSorter<Integers, 10>;
+using DoublesSorter = BucketSorter<Doubles, 10>;
+using StringsSorter = BucketSorter<Strings, 10>;
+using StabilityCheckObjectsSorter = BucketSorter<StabilityCheckObjects, 10>;
 }  // namespace
 
 TEST(BucketSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
@@ -73,7 +73,7 @@ TEST(BucketSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)  /
 {
     // Not really stable but samples are too few
 
-    StabilityCheckObjectsSorter sorter(StabilityCheckObject('A', 0U), StabilityCheckObject('Z', 0U));
+    StabilityCheckObjectsSorter sorter(StabilityCheckObject('A', 0), StabilityCheckObject('Z', 0));
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 

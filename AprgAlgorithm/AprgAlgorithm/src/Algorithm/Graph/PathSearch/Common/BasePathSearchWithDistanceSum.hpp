@@ -32,7 +32,7 @@ public:
     }
 
     void updateDistance(Vertex const& adjacentVertex, Vertex const& vertex) {
-        Weight distanceToVertex(0U);
+        Weight distanceToVertex(0);
         auto it = this->m_endVertexToDistanceSumMap.find(vertex);
         if (it != this->m_endVertexToDistanceSumMap.cend()) {
             distanceToVertex = it->second;

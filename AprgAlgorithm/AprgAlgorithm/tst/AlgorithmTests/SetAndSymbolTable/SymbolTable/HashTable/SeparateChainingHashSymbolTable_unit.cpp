@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<unsigned int, unsigned int>;
-using SymbolTableForTest = SeparateChainingHashSymbolTable<unsigned int, char, HashFunctionForTest, 2U>;
+using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
+using SymbolTableForTest = SeparateChainingHashSymbolTable<int, char, HashFunctionForTest, 2>;
 }  // namespace
 
 TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty) {

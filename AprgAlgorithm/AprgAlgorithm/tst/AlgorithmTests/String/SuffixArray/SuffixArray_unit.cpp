@@ -9,27 +9,27 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SuffixArrayForTest = SuffixArray<unsigned int>;
+using SuffixArrayForTest = SuffixArray<int>;
 }
 
 TEST(SuffixArrayTest, GetSizeWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
-    EXPECT_EQ(19U, suffixArray.getSize());
+    EXPECT_EQ(19, suffixArray.getSize());
 }
 
 TEST(SuffixArrayTest, GetIndexOnMainStringOfSuffixAtWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
-    EXPECT_EQ(5U, suffixArray.getIndexOnMainStringOfSuffixAt(5));
-    EXPECT_EQ(7U, suffixArray.getIndexOnMainStringOfSuffixAt(6));
-    EXPECT_EQ(8U, suffixArray.getIndexOnMainStringOfSuffixAt(7));
+    EXPECT_EQ(5, suffixArray.getIndexOnMainStringOfSuffixAt(5));
+    EXPECT_EQ(7, suffixArray.getIndexOnMainStringOfSuffixAt(6));
+    EXPECT_EQ(8, suffixArray.getIndexOnMainStringOfSuffixAt(7));
 }
 
 TEST(SuffixArrayTest, GetRankWorks) {
     SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
-    EXPECT_EQ(2U, suffixArray.getRank("LetsSingInstead"));
+    EXPECT_EQ(2, suffixArray.getRank("LetsSingInstead"));
 }
 
 TEST(SuffixArrayTest, GetSuffixAtWorks) {

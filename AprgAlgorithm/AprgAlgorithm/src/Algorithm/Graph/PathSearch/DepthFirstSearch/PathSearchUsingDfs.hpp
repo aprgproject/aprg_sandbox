@@ -16,7 +16,7 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using VertexToIntMap = typename GraphTypes<Vertex>::VertexToIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
     using InitializeDataFunction = std::function<void(Vertices const&)>;
     using UpdateDataFunction = std::function<void(Vertex const&, Vertex const&)>;

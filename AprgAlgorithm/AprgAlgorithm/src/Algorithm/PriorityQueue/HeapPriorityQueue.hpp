@@ -18,7 +18,7 @@ public:
 
     bool isEmpty() const { return getSize() == 0; }
 
-    unsigned int getSize() const { return m_objects.size(); }
+    int getSize() const { return m_objects.size(); }
 
     Objects const& getObjects() const { return m_objects; }
 
@@ -42,11 +42,11 @@ public:
     }
 
 private:
-    unsigned int getIndexOfLastItemOfTheTree() const { return getSize(); }
+    int getIndexOfLastItemOfTheTree() const { return getSize(); }
 
-    static constexpr unsigned int INDEX_OF_TOP_TREE = 1U;
+    static constexpr int INDEX_OF_TOP_TREE = 1;
     Objects m_objects;
-    HeapTreeAdapter<Objects, 2U, ComparatorTemplateType> m_heapTreeAdapter;
+    HeapTreeAdapter<Objects, 2, ComparatorTemplateType> m_heapTreeAdapter;
 };
 
 // Applications:

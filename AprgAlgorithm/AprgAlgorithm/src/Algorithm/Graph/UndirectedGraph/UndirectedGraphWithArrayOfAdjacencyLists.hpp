@@ -10,7 +10,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+template <typename Vertex, int MAX_VERTEX_VALUE>
 class UndirectedGraphWithArrayOfAdjacencyLists : public BaseUndirectedGraph<Vertex> {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
@@ -19,7 +19,7 @@ public:
     using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::array<AdjacencyList, MAX_VERTEX_VALUE>;
 
-    UndirectedGraphWithArrayOfAdjacencyLists() : m_numberOfVertices(0U), m_numberOfEdges(0U), m_adjacencyLists{} {}
+    UndirectedGraphWithArrayOfAdjacencyLists() : m_numberOfVertices(0), m_numberOfEdges(0), m_adjacencyLists{} {}
 
     bool isEmpty() const override { return m_numberOfVertices == 0 && m_numberOfEdges == 0; }
 
@@ -30,9 +30,9 @@ public:
         return adjacencyList.find(vertex2) != adjacencyList.cend();
     }
 
-    unsigned int getNumberOfVertices() const override { return m_numberOfVertices; }
+    int getNumberOfVertices() const override { return m_numberOfVertices; }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
@@ -41,7 +41,7 @@ public:
 
     Vertices getVertices() const override {
         Vertices result;
-        for (Vertex vertex = 0; vertex < m_adjacencyLists.size(); vertex++) {
+        for (Vertex vertex = 0; vertex < static_cast<Vertex>(m_adjacencyLists.size()); vertex++) {
             if (!m_adjacencyLists.at(vertex).empty()) {
                 result.emplace_back(vertex);
             }
@@ -51,7 +51,7 @@ public:
 
     Edges getEdges() const override {
         Edges result;
-        for (Vertex vertex1 = 0; vertex1 < m_adjacencyLists.size(); vertex1++) {
+        for (Vertex vertex1 = 0; vertex1 < static_cast<Vertex>(m_adjacencyLists.size()); vertex1++) {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
             if (!adjacencyList.empty()) {
                 std::for_each(adjacencyList.lower_bound(vertex1), adjacencyList.cend(), [&](Vertex const& vertex2) {
@@ -93,7 +93,7 @@ public:
     void clear() {
         m_numberOfVertices = 0;
         m_numberOfEdges = 0;
-        for (Vertex vertex = 0; vertex < m_adjacencyLists.size(); vertex++) {
+        for (Vertex vertex = 0; vertex < static_cast<Vertex>(m_adjacencyLists.size()); vertex++) {
             m_adjacencyLists[vertex].clear();
         }
     }
@@ -101,7 +101,7 @@ public:
 protected:
     friend std::ostream& operator<<(std::ostream& out, UndirectedGraphWithArrayOfAdjacencyLists const& graph) {
         out << "Adjacency Lists: \n";
-        for (Vertex vertex = 0; vertex < graph.m_adjacencyLists.size(); vertex++) {
+        for (Vertex vertex = 0; vertex < static_cast<Vertex>(graph.m_adjacencyLists.size()); vertex++) {
             AdjacencyList const& adjacencyList(graph.m_adjacencyLists.at(vertex));
             if (!adjacencyList.empty()) {
                 out << "Adjacent with vertex " << vertex << ": {";
@@ -112,8 +112,8 @@ protected:
         return out;
     }
 
-    unsigned int m_numberOfVertices;
-    unsigned int m_numberOfEdges;
+    int m_numberOfVertices;
+    int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
 

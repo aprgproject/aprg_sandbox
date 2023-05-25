@@ -28,8 +28,8 @@ TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample1) {
 
     SubArrayDetailsForTest subArrayDetailsToVerify(search.getMaximumSubArraySumWithDetails());
 
-    EXPECT_EQ(1U, subArrayDetailsToVerify.lowIndex);
-    EXPECT_EQ(5U, subArrayDetailsToVerify.highIndex);
+    EXPECT_EQ(1, subArrayDetailsToVerify.lowIndex);
+    EXPECT_EQ(5, subArrayDetailsToVerify.highIndex);
     EXPECT_EQ(10, subArrayDetailsToVerify.sum);
 }
 

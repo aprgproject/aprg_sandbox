@@ -29,7 +29,7 @@ protected:
                 nodePointer->value = value;
             }
         } else {
-            nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
+            nodePointer.reset(new Node{key, value, nullptr, nullptr, 1});
         }
     }
 };

@@ -15,24 +15,24 @@ TEST(LasVegasTest, GraphColoringExample) {
     // our task is to find a way to color the nodes of the graph using two colors so that for at least m/2 edges,
     // the endpoints have different colors.
 
-    using Vertex = unsigned int;
-    using Color = unsigned int;
+    using Vertex = int;
+    using Color = int;
     using Edge = GraphTypes<Vertex>::Edge;
     using Graph = UndirectedGraphWithListOfEdges<Vertex>;
 
-    AlbaUniformNonDeterministicRandomizer<unsigned int> randomizer(0, 1);
+    AlbaUniformNonDeterministicRandomizer<int> randomizer(0, 1);
     Graph graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(2U, 4U);
-    graph.connect(2U, 5U);
-    graph.connect(3U, 4U);
-    graph.connect(4U, 5U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(2, 4);
+    graph.connect(2, 5);
+    graph.connect(3, 4);
+    graph.connect(4, 5);
     map<Vertex, Color> vertexToColorMap;
 
     LasVegasAlgorithm graphColoringAlgorithm = [&]() {
-        unsigned int numberOfEdgesWithDifferentColors(0);
+        int numberOfEdgesWithDifferentColors(0);
         do {
             vertexToColorMap.clear();
             for (Vertex const& vertex : graph.getVertices()) {

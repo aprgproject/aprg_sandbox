@@ -30,7 +30,7 @@ public:
     // a dynamic segment tree is not necessary, because we can use an ordinary segment tree with index compression.
     // However, this is not possible when the indices are generated during the algorithm
 
-    using Index = unsigned int;
+    using Index = int;
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
     using Node = DynamicSegmentTreeNode<Value>;
@@ -38,7 +38,7 @@ public:
 
     RangeQueryWithSparseSegmentTree(
         Index const numberOfValues, Value const& defaultValue, Function const& functionObject)
-        : m_maxChildrenIndex(0U),
+        : m_maxChildrenIndex(0),
           m_numberOfValues(numberOfValues),
           m_defaultValue(defaultValue),
           m_function(functionObject) {

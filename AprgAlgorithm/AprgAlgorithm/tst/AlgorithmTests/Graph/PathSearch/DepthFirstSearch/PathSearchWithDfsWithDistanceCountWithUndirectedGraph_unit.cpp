@@ -8,43 +8,43 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
-using ContentMapForTest = GraphTypes<VertexForTest>::VertexToUnsignedIntMap;
+using VertexForTest = int;
+using ContentMapForTest = GraphTypes<VertexForTest>::VertexToIntMap;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = PathSearchUsingDfsWithDistanceCount<VertexForTest>;
 
 void putConnectionsForTest(GraphForTest& graph) {
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 5U);
-    graph.connect(1U, 2U);
-    graph.connect(2U, 3U);
-    graph.connect(2U, 4U);
-    graph.connect(3U, 4U);
-    graph.connect(3U, 5U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(0, 5);
+    graph.connect(1, 2);
+    graph.connect(2, 3);
+    graph.connect(2, 4);
+    graph.connect(3, 4);
+    graph.connect(3, 5);
 }
 }  // namespace
 
 TEST(PathSearchUsingDfsWithDistanceCountTest, GetDistanceToWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, {0U});
+    PathSearchForTest pathSearch(graph, {0});
 
-    EXPECT_EQ(0U, pathSearch.getDistanceTo(0U));
-    EXPECT_EQ(1U, pathSearch.getDistanceTo(1U));
-    EXPECT_EQ(2U, pathSearch.getDistanceTo(2U));
-    EXPECT_EQ(3U, pathSearch.getDistanceTo(3U));
-    EXPECT_EQ(4U, pathSearch.getDistanceTo(4U));
-    EXPECT_EQ(4U, pathSearch.getDistanceTo(5U));
-    EXPECT_EQ(0U, pathSearch.getDistanceTo(6U));
+    EXPECT_EQ(0, pathSearch.getDistanceTo(0));
+    EXPECT_EQ(1, pathSearch.getDistanceTo(1));
+    EXPECT_EQ(2, pathSearch.getDistanceTo(2));
+    EXPECT_EQ(3, pathSearch.getDistanceTo(3));
+    EXPECT_EQ(4, pathSearch.getDistanceTo(4));
+    EXPECT_EQ(4, pathSearch.getDistanceTo(5));
+    EXPECT_EQ(0, pathSearch.getDistanceTo(6));
 }
 
 TEST(PathSearchUsingDfsWithDistanceCountTest, GetEndVertexToDistanceCountMapWorksWithUndirectedGraph) {
     GraphForTest graph;
     putConnectionsForTest(graph);
-    PathSearchForTest pathSearch(graph, {0U});
+    PathSearchForTest pathSearch(graph, {0});
 
-    ContentMapForTest expectedMap{{0U, 0U}, {1U, 1U}, {2U, 2U}, {3U, 3U}, {4U, 4U}, {5U, 4U}};
+    ContentMapForTest expectedMap{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 4}};
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceCountMap());
 }
 

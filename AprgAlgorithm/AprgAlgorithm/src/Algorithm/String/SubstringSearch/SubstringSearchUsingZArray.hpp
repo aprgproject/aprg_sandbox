@@ -24,7 +24,7 @@ public:
         Indexes zArray = calculateZArray(stringForZArray);
         Index subStringLength = m_substringToMatch.length();
         Index i = subStringLength;
-        for (; i < zArray.size(); i++) {
+        for (; i < static_cast<Index>(zArray.size()); i++) {
             if (zArray.at(i) >= subStringLength) {
                 result = i - subStringLength - 1;
                 break;
@@ -39,7 +39,7 @@ public:
         Indexes zArray = calculateZArray(stringForZArray);
         Index subStringLength = m_substringToMatch.length();
         Index i = subStringLength;
-        for (; i < zArray.size(); i++) {
+        for (; i < static_cast<int>(zArray.size()); i++) {
             if (zArray.at(i) >= subStringLength) {
                 result.emplace_back(i - subStringLength - 1);
             }

@@ -9,16 +9,16 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Object, unsigned int SIZE>
+template <typename Object, int SIZE>
 class FixedSizeStack : public BaseStack<Object> {
 public:
     using Objects = std::array<Object, SIZE>;
 
-    FixedSizeStack() : m_size(0U) {}
+    FixedSizeStack() : m_size(0) {}
 
     bool isEmpty() const override { return m_size == 0; }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
     void push(Object const& object) override  // runs in constant time and no allocation (faster than linked list)
     {
@@ -35,7 +35,7 @@ public:
     Objects const& getObjects() const { return m_objects; }
 
 private:
-    unsigned int m_size;
+    int m_size;
     Objects m_objects;
 };
 

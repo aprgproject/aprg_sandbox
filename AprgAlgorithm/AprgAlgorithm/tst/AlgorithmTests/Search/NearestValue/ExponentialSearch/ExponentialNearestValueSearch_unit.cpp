@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = ExponentialNearestValueSearch<ValuesForTest>;
 }  // namespace
 
@@ -51,7 +51,7 @@ TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreD
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
+    EXPECT_EQ(4, search.getIndexOfNearestValue(33));
 }
 
 TEST(ExponentialNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {

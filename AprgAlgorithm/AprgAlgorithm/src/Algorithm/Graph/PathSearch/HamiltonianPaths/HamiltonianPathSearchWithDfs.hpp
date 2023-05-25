@@ -69,7 +69,7 @@ public:
 protected:
     bool shouldStop() const {
         return (SearchType::OneHamiltonianPath == m_searchType || SearchType::OneHamiltonianCycle == m_searchType) &&
-               1U <= m_savedPaths.size();
+               1 <= m_savedPaths.size();
     }
 
     void clear() {
@@ -106,14 +106,14 @@ protected:
 
     void checkPathAndSaveIfNeeded(Path const& currentPath) {
         if ((SearchType::AllHamiltonianPaths == m_searchType || SearchType::OneHamiltonianPath == m_searchType) &&
-            currentPath.size() == m_numberOfVertices) {
+            static_cast<int>(currentPath.size()) == m_numberOfVertices) {
             m_savedPaths.emplace_back(currentPath);
         }
     }
 
     void checkCycleAndSaveIfNeeded(Path const& currentPath, Vertex const& nextVertex) {
         if ((SearchType::AllHamiltonianCycles == m_searchType || SearchType::OneHamiltonianCycle == m_searchType) &&
-            currentPath.size() == m_numberOfVertices && currentPath.size() > 0) {
+            static_cast<int>(currentPath.size()) == m_numberOfVertices && currentPath.size() > 0) {
             if (currentPath.front() == nextVertex) {
                 Path cycle(currentPath);
                 cycle.emplace_back(currentPath.front());
@@ -123,7 +123,7 @@ protected:
     }
 
     BaseGraphWithVertex const& m_graph;
-    unsigned int m_numberOfVertices;
+    int m_numberOfVertices;
     SearchType m_searchType;
     CheckableVerticesWithVertex m_processedVertices;
     Paths m_savedPaths;

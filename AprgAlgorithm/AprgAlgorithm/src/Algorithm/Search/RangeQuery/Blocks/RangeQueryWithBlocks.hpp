@@ -26,7 +26,7 @@ public:
     // -> the array is divided into sqrt(n) blocks, each of which contains sqrt(n) elements.
     // So all operations take O(sqrt(n)) time.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using BlockValue = typename BlockValues::value_type;
     using Output = BlockValue;
@@ -38,7 +38,7 @@ public:
         Values const& valuesToCheck, Index const suggestedNumberOfBlocks, ValuesFunction const& valuesFunction,
         BlockValuesFunction const& blockValuesFunction)
         : m_values(valuesToCheck),
-          m_blockSize(0U),
+          m_blockSize(0),
           m_blocks(),
           m_valuesFunction(valuesFunction),
           m_blockValuesFunction(blockValuesFunction) {
@@ -52,7 +52,7 @@ public:
     Output getResultOnInterval(Index const start, Index const end) const {
         // This is max(O(k), O(n/k)) time.
         Output result{};
-        if (start < m_values.size() && end < m_values.size() && start <= end) {
+        if (start < static_cast<Index>(m_values.size()) && end < static_cast<Index>(m_values.size()) && start <= end) {
             Index startOfBlocks = mathHelper::getMultipleThatIsGreaterOrEqual(m_blockSize, start);
             Index endOfBlocks = mathHelper::getMultipleThatIsLesserOrEqual(m_blockSize, end);
             if (startOfBlocks + m_blockSize <= endOfBlocks) {
@@ -85,11 +85,11 @@ public:
 
     void changeValueAtIndex(Index const index, Value const& newValue) {
         // This has O(n/k) time.
-        if (index < m_values.size()) {
+        if (index < static_cast<Index>(m_values.size())) {
             m_values[index] = newValue;
 
             Index start = mathHelper::getMultipleThatIsLesserOrEqual(m_blockSize, index);
-            Index end = std::min(start + m_blockSize, static_cast<unsigned int>(m_values.size()));
+            Index end = std::min(start + m_blockSize, static_cast<Index>(m_values.size()));
             m_blocks[start / m_blockSize] = m_valuesFunction(m_values.cbegin() + start, m_values.cbegin() + end);
         }
     }
@@ -97,12 +97,12 @@ public:
 protected:
     void initialize(Values const& valuesToCheck, Index const suggestedNumberOfBlocks) {
         if (!valuesToCheck.empty()) {
-            m_blockSize = std::max(static_cast<unsigned int>(valuesToCheck.size() / suggestedNumberOfBlocks), 1U);
-            Index numberOfBlocks = mathHelper::getMultipleThatIsGreaterOrEqual(
-                static_cast<unsigned int>(valuesToCheck.size()), m_blockSize);
+            m_blockSize = std::max(static_cast<Index>(valuesToCheck.size() / suggestedNumberOfBlocks), 1);
+            Index numberOfBlocks =
+                mathHelper::getMultipleThatIsGreaterOrEqual(static_cast<Index>(valuesToCheck.size()), m_blockSize);
             m_blocks.reserve(numberOfBlocks);
-            for (Index start = 0; start < m_values.size(); start += m_blockSize) {
-                Index end = std::min(start + m_blockSize, static_cast<unsigned int>(m_values.size()));
+            for (Index start = 0; start < static_cast<Index>(m_values.size()); start += m_blockSize) {
+                Index end = std::min(start + m_blockSize, static_cast<Index>(m_values.size()));
                 m_blocks.emplace_back(m_valuesFunction(m_values.cbegin() + start, m_values.cbegin() + end));
             }
             m_blocks.shrink_to_fit();

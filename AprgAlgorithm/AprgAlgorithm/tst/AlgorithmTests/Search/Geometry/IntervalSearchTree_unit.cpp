@@ -10,8 +10,8 @@ namespace algorithm {
 
 namespace {
 
-using IntervalForTest = Interval<unsigned int>;
-using SearchTreeForTest = IntervalSearchTree<unsigned int>;
+using IntervalForTest = Interval<int>;
+using SearchTreeForTest = IntervalSearchTree<int>;
 }  // namespace
 
 TEST(IntervalSearchTreeTest, PutWorks) {
@@ -22,17 +22,17 @@ TEST(IntervalSearchTreeTest, PutWorks) {
 
     auto const& root(search.getRoot());
     EXPECT_EQ((IntervalForTest{17, 9}), root->key);
-    EXPECT_EQ(3U, root->numberOfNodesOnThisSubTree);
+    EXPECT_EQ(3, root->numberOfNodesOnThisSubTree);
     EXPECT_EQ(RedBlackColor::Red, root->parentLinkColor);
-    EXPECT_EQ(24U, root->maxIntervalValueInSubtree);
+    EXPECT_EQ(24, root->maxIntervalValueInSubtree);
     EXPECT_EQ((IntervalForTest{5, 8}), root->left->key);
-    EXPECT_EQ(1U, root->left->numberOfNodesOnThisSubTree);
+    EXPECT_EQ(1, root->left->numberOfNodesOnThisSubTree);
     EXPECT_EQ(RedBlackColor::Black, root->left->parentLinkColor);
-    EXPECT_EQ(8U, root->left->maxIntervalValueInSubtree);
+    EXPECT_EQ(8, root->left->maxIntervalValueInSubtree);
     EXPECT_EQ((IntervalForTest{21, 24}), root->right->key);
-    EXPECT_EQ(1U, root->right->numberOfNodesOnThisSubTree);
+    EXPECT_EQ(1, root->right->numberOfNodesOnThisSubTree);
     EXPECT_EQ(RedBlackColor::Black, root->right->parentLinkColor);
-    EXPECT_EQ(24U, root->right->maxIntervalValueInSubtree);
+    EXPECT_EQ(24, root->right->maxIntervalValueInSubtree);
 }
 
 TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample1) {

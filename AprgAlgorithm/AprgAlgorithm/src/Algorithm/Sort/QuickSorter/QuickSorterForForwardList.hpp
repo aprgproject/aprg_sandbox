@@ -31,7 +31,7 @@ private:
         Iterator const highestItPlusOne) const  // half open
     {
         Iterator partitionIt = partitionAndGetPartitionIteratorInOneDirection<Values>(lowestIt, highestItPlusOne);
-        Iterator partitionItPlusOne = std::next(partitionIt, 1U);
+        Iterator partitionItPlusOne = std::next(partitionIt, 1);
         if (lowestIt != partitionIt && lowestIt != partitionItPlusOne)  // size must be at least two
         {
             sort(

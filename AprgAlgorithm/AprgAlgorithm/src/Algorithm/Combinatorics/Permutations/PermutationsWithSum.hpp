@@ -20,9 +20,9 @@ public:
 
     Permutations getPermutationsWithSumUsingLoops(Value const total) {
         // using loops
-        if (total >= m_permutations.size()) {
+        if (total >= static_cast<Value>(m_permutations.size())) {
             Value initialValue = m_permutations.size();
-            unsigned int newSize =
+            Value newSize =
                 std::max(total + 1, *(std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend()).second));
             m_permutations.resize(newSize);
 

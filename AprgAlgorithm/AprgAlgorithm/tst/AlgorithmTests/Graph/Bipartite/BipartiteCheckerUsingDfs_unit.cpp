@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using Vertices = typename GraphTypes<VertexForTest>::Vertices;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using BipartiteCheckerForTest = BipartiteCheckerUsingDfs<VertexForTest>;
@@ -16,56 +16,56 @@ using BipartiteCheckerForTest = BipartiteCheckerUsingDfs<VertexForTest>;
 
 TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph) {
     GraphForTest nonBipartiteGraph;
-    nonBipartiteGraph.connect(0U, 1U);
-    nonBipartiteGraph.connect(0U, 2U);
-    nonBipartiteGraph.connect(0U, 3U);
-    nonBipartiteGraph.connect(3U, 4U);
-    nonBipartiteGraph.connect(3U, 5U);
-    nonBipartiteGraph.connect(4U, 5U);
+    nonBipartiteGraph.connect(0, 1);
+    nonBipartiteGraph.connect(0, 2);
+    nonBipartiteGraph.connect(0, 3);
+    nonBipartiteGraph.connect(3, 4);
+    nonBipartiteGraph.connect(3, 5);
+    nonBipartiteGraph.connect(4, 5);
     Vertices verticesWithFirstColor;
     Vertices verticesWithSecondColor;
     BipartiteCheckerForTest bipartiteChecker(nonBipartiteGraph);
 
     bipartiteChecker.retrieveVerticesWithColor(verticesWithFirstColor, verticesWithSecondColor);
 
-    Vertices expectedWithFirstColor{0U, 4U};
-    Vertices expectedWithSecondColor{1U, 2U, 3U, 5U};
+    Vertices expectedWithFirstColor{0, 4};
+    Vertices expectedWithSecondColor{1, 2, 3, 5};
     EXPECT_FALSE(bipartiteChecker.isBipartite());
-    EXPECT_TRUE(bipartiteChecker.hasFirstColor(0U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(1U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(2U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(3U));
-    EXPECT_TRUE(bipartiteChecker.hasFirstColor(4U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(5U));
+    EXPECT_TRUE(bipartiteChecker.hasFirstColor(0));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(1));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(2));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(3));
+    EXPECT_TRUE(bipartiteChecker.hasFirstColor(4));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(5));
     EXPECT_EQ(expectedWithFirstColor, verticesWithFirstColor);
     EXPECT_EQ(expectedWithSecondColor, verticesWithSecondColor);
 }
 
 TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph) {
     GraphForTest bipartiteGraph;
-    bipartiteGraph.connect(0U, 1U);
-    bipartiteGraph.connect(0U, 2U);
-    bipartiteGraph.connect(0U, 3U);
-    bipartiteGraph.connect(3U, 4U);
-    bipartiteGraph.connect(3U, 6U);
-    bipartiteGraph.connect(4U, 5U);
-    bipartiteGraph.connect(5U, 6U);
+    bipartiteGraph.connect(0, 1);
+    bipartiteGraph.connect(0, 2);
+    bipartiteGraph.connect(0, 3);
+    bipartiteGraph.connect(3, 4);
+    bipartiteGraph.connect(3, 6);
+    bipartiteGraph.connect(4, 5);
+    bipartiteGraph.connect(5, 6);
     Vertices verticesWithFirstColor;
     Vertices verticesWithSecondColor;
     BipartiteCheckerForTest bipartiteChecker(bipartiteGraph);
 
     bipartiteChecker.retrieveVerticesWithColor(verticesWithFirstColor, verticesWithSecondColor);
 
-    Vertices expectedWithFirstColor{0U, 4U, 6U};
-    Vertices expectedWithSecondColor{1U, 2U, 3U, 5U};
+    Vertices expectedWithFirstColor{0, 4, 6};
+    Vertices expectedWithSecondColor{1, 2, 3, 5};
     EXPECT_TRUE(bipartiteChecker.isBipartite());
-    EXPECT_TRUE(bipartiteChecker.hasFirstColor(0U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(1U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(2U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(3U));
-    EXPECT_TRUE(bipartiteChecker.hasFirstColor(4U));
-    EXPECT_FALSE(bipartiteChecker.hasFirstColor(5U));
-    EXPECT_TRUE(bipartiteChecker.hasFirstColor(6U));
+    EXPECT_TRUE(bipartiteChecker.hasFirstColor(0));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(1));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(2));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(3));
+    EXPECT_TRUE(bipartiteChecker.hasFirstColor(4));
+    EXPECT_FALSE(bipartiteChecker.hasFirstColor(5));
+    EXPECT_TRUE(bipartiteChecker.hasFirstColor(6));
     EXPECT_EQ(expectedWithFirstColor, verticesWithFirstColor);
     EXPECT_EQ(expectedWithSecondColor, verticesWithSecondColor);
 }

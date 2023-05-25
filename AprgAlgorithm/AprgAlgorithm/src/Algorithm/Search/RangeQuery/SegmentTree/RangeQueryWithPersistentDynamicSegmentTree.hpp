@@ -29,7 +29,7 @@ public:
     // root node. Since each operation adds only O(logn) new nodes to the tree, it is possible to store the full
     // modification history of the tree.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
@@ -37,10 +37,10 @@ public:
     using NodePointer = std::shared_ptr<Node>;
     using NodeRoot = NodePointer;
     using NodeRoots = std::list<NodeRoot>;
-    using StepCount = unsigned int;
+    using StepCount = int;
 
     RangeQueryWithPersistentDynamicSegmentTree(Values const& valuesToCheck, Function const& functionObject)
-        : m_maxChildrenIndex(0U), m_numberOfValues(valuesToCheck.size()), m_function(functionObject) {
+        : m_maxChildrenIndex(0), m_numberOfValues(valuesToCheck.size()), m_function(functionObject) {
         initialize(valuesToCheck);
     }
 
@@ -58,7 +58,7 @@ public:
         // This has log(N) running time
         Value result{};
         if (start <= end && start < m_numberOfValues && end < m_numberOfValues &&
-            numberOfPreviousSteps < m_roots.size()) {
+            numberOfPreviousSteps < static_cast<StepCount>(m_roots.size())) {
             auto it = m_roots.crbegin();
             std::advance(it, numberOfPreviousSteps);
             result = getValueOnIntervalFromTopToBottom(start, end, *it, 0, m_maxChildrenIndex);
@@ -139,7 +139,7 @@ protected:
         } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
-            if (baseMidPoint + 1 < values.size()) {
+            if (baseMidPoint + 1 < static_cast<Index>(values.size())) {
                 setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint + 1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);

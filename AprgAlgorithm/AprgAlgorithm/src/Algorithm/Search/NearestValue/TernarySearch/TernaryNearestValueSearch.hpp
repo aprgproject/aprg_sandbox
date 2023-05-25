@@ -10,7 +10,7 @@ namespace algorithm {
 template <typename Values>
 class TernaryNearestValueSearch {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -19,7 +19,7 @@ public:
     Value getNearestValue(Value const& value) const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            Index selectedIndex(getIndexOfNearestValueWithoutCheck(0U, m_sortedValues.size() - 1, value));
+            Index selectedIndex(getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, value));
             if (selectedIndex != INVALID_INDEX) {
                 result = m_sortedValues.at(selectedIndex);
             }
@@ -30,14 +30,15 @@ public:
     Index getIndexOfNearestValue(Value const& value) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            result = getIndexOfNearestValueWithoutCheck(0U, m_sortedValues.size() - 1, value);
+            result = getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, value);
         }
         return result;
     }
 
     Index getIndexOfNearestValue(Index const lowerIndex, Index const higherIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (lowerIndex < m_sortedValues.size() && higherIndex < m_sortedValues.size() && lowerIndex <= higherIndex) {
+        if (lowerIndex < static_cast<Index>(m_sortedValues.size()) &&
+            higherIndex < static_cast<Index>(m_sortedValues.size()) && lowerIndex <= higherIndex) {
             result = getIndexOfNearestValueWithoutCheck(lowerIndex, higherIndex, value);
         }
         return result;
@@ -49,9 +50,9 @@ private:
         Index result(INVALID_INDEX);
         if (value < m_sortedValues.at(lowerIndex)) {
             result =
-                (lowerIndex == 0U) ? 0U : getIndexOfNearestValueInBetweenTwoIndices(lowerIndex - 1, lowerIndex, value);
+                (lowerIndex == 0) ? 0 : getIndexOfNearestValueInBetweenTwoIndices(lowerIndex - 1, lowerIndex, value);
         } else if (m_sortedValues.at(higherIndex) < value) {
-            result = (higherIndex == m_sortedValues.size() - 1)
+            result = (higherIndex == static_cast<Index>(m_sortedValues.size()) - 1)
                          ? m_sortedValues.size() - 1
                          : getIndexOfNearestValueInBetweenTwoIndices(higherIndex, higherIndex + 1, value);
         } else {

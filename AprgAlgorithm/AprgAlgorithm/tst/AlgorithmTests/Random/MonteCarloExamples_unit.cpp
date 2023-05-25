@@ -15,9 +15,9 @@ TEST(MonteCarloTest, VerifyingMatrixExample) {
     // Of course, we can solve the problem by calculating the product AB again (in O(n3) time using the basic
     // algorithm), but one could hope that verifying the answer would by easier than to calculate it from scratch.
 
-    using MatrixForTest = matrix::AlbaMatrix<unsigned int>;
+    using MatrixForTest = matrix::AlbaMatrix<int>;
 
-    AlbaUniformNonDeterministicRandomizer<unsigned int> randomizer(1, 10);
+    AlbaUniformNonDeterministicRandomizer<int> randomizer(1, 10);
     MatrixForTest a(3, 2, {1, 2, 3, 4, 5, 6});
     MatrixForTest b(4, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
     MatrixForTest c(4, 2, {38, 44, 50, 56, 83, 98, 113, 128});
@@ -35,7 +35,7 @@ TEST(MonteCarloTest, VerifyingMatrixExample) {
         // multiplications of nxn and nx1 size matrices are needed.
 
         MatrixForTest x(1, b.getNumberOfColumns());
-        for (unsigned int i = 0; i < x.getNumberOfRows(); i++) {
+        for (int i = 0; i < static_cast<int>(x.getNumberOfRows()); i++) {
             x.setEntry(0, i, randomizer.getRandomValue());
         }
         MatrixForTest bx = b * x;

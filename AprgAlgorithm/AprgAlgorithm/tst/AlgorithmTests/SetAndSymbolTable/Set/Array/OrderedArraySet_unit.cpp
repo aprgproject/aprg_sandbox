@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SetForTest = OrderedArraySet<unsigned int>;
+using SetForTest = OrderedArraySet<int>;
 }
 
 TEST(OrderedArraySetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }

@@ -11,7 +11,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Values, unsigned int NUMBER_OF_BUCKETS>
+template <typename Values, int NUMBER_OF_BUCKETS>
 class BucketSorter : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
@@ -27,8 +27,7 @@ public:
         double factor = static_cast<double>(NUMBER_OF_BUCKETS) / (m_maxValue - m_minValue);
         for (Value const& value : valuesToSort)  // Put array elements in different buckets
         {
-            unsigned int bucketIndex =
-                mathHelper::getIntegerAfterRoundingADoubleValue<unsigned int>((value - m_minValue) * factor);
+            int bucketIndex = mathHelper::getIntegerAfterRoundingADoubleValue<int>((value - m_minValue) * factor);
             if (bucketIndex < NUMBER_OF_BUCKETS) {
                 buckets[bucketIndex].emplace_back(value);
             }

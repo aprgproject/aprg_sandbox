@@ -7,28 +7,28 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+template <typename Vertex, int MAX_VERTEX_VALUE>
 class DirectedGraphWithAdjacencyMatrix : public BaseDirectedGraph<Vertex> {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
 
-    DirectedGraphWithAdjacencyMatrix() : m_numberOfEdges(0U), m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE) {}
+    DirectedGraphWithAdjacencyMatrix() : m_numberOfEdges(0), m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE) {}
 
-    bool isEmpty() const { return m_numberOfEdges == 0; }
+    bool isEmpty() const override { return m_numberOfEdges == 0; }
 
     bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override {
         return m_adjacencyMatrix.getEntry(vertex1, vertex2);
     }
 
-    unsigned int getNumberOfVertices() const override { return getVertices().size(); }
+    int getNumberOfVertices() const override { return getVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         Vertices result;
-        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
+        int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex possibleAdjacentVertex = 0; possibleAdjacentVertex < numberOfRows; possibleAdjacentVertex++) {
             if (isDirectlyConnected(vertex, possibleAdjacentVertex)) {
                 result.emplace_back(possibleAdjacentVertex);
@@ -40,8 +40,8 @@ public:
     Vertices getVertices() const override {
         std::array<bool, MAX_VERTEX_VALUE> isVertexIncluded{};
 
-        unsigned int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
-        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
+        int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
+        int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex vertex1 = 0; vertex1 < numberOfColumns; vertex1++) {
             for (Vertex vertex2 = 0; vertex2 < numberOfRows; vertex2++) {
                 if (isDirectlyConnected(vertex1, vertex2)) {
@@ -62,8 +62,8 @@ public:
 
     Edges getEdges() const override {
         Edges result;
-        unsigned int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
-        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
+        int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
+        int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex vertex1 = 0; vertex1 < numberOfColumns; vertex1++) {
             for (Vertex vertex2 = 0; vertex2 < numberOfRows; vertex2++) {
                 if (isDirectlyConnected(vertex1, vertex2)) {
@@ -90,7 +90,7 @@ public:
         }
     }
 
-    void clear() {
+    void clear() override {
         m_numberOfEdges = 0;
         m_adjacencyMatrix.clearAndResize(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE);
     }
@@ -99,11 +99,11 @@ protected:
     friend std::ostream& operator<<(std::ostream& out, DirectedGraphWithAdjacencyMatrix const& graph) {
         matrix::AlbaMatrix<std::string> matrixToDisplay(MAX_VERTEX_VALUE + 1, MAX_VERTEX_VALUE + 1);
         matrixToDisplay.setEntry(0, 0, "X");
-        for (unsigned int i = 0; i < MAX_VERTEX_VALUE; i++) {
+        for (int i = 0; i < MAX_VERTEX_VALUE; i++) {
             matrixToDisplay.setEntry(i + 1, 0, std::string("[") + stringHelper::convertToString(i) + std::string("]"));
             matrixToDisplay.setEntry(0, i + 1, std::string("[") + stringHelper::convertToString(i) + std::string("]"));
         }
-        graph.m_adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+        graph.m_adjacencyMatrix.iterateAllThroughYAndThenX([&](int const x, int const y) {
             matrixToDisplay.setEntry(x + 1, y + 1, stringHelper::convertToString(graph.isDirectlyConnected(x, y)));
         });
 
@@ -111,7 +111,7 @@ protected:
         return out;
     }
 
-    unsigned int m_numberOfEdges;
+    int m_numberOfEdges;
     AdjacencyMatrix m_adjacencyMatrix;  // vertex by adjacent matrix
 };
 

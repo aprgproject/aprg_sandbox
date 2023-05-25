@@ -17,11 +17,11 @@ public:
     CycleSorter() = default;
 
     void sort(Values& valuesToSort) const override {
-        unsigned int numberOfWrites(0U);
-        for (unsigned int incorrectPosition = 0; incorrectPosition + 2U <= valuesToSort.size(); incorrectPosition++) {
+        int numberOfWrites(0);
+        for (int incorrectPosition = 0; incorrectPosition + 2 <= static_cast<int>(valuesToSort.size());
+             incorrectPosition++) {
             Value currentCycleValue = valuesToSort.at(incorrectPosition);
-            unsigned int correctPosition =
-                getCorrectPositionForValue(valuesToSort, currentCycleValue, incorrectPosition);
+            int correctPosition = getCorrectPositionForValue(valuesToSort, currentCycleValue, incorrectPosition);
             if (correctPosition != incorrectPosition)  // check first unsorted
             {
                 movePositionForwardUntilValueIsDifferent(valuesToSort, currentCycleValue, correctPosition);
@@ -45,16 +45,16 @@ public:
     }
 
 private:
-    unsigned int getCorrectPositionForValue(
-        Values const& valuesToSort, Value const& currentCycleValue, unsigned int const incorrectPosition) const {
-        unsigned int numberOfLessValues = std::count_if(
-            valuesToSort.cbegin() + incorrectPosition + 1U, valuesToSort.cend(),
+    int getCorrectPositionForValue(
+        Values const& valuesToSort, Value const& currentCycleValue, int const incorrectPosition) const {
+        int numberOfLessValues = std::count_if(
+            valuesToSort.cbegin() + incorrectPosition + 1, valuesToSort.cend(),
             [&](Value const& valueToSort) { return valueToSort < currentCycleValue; });
         return incorrectPosition + numberOfLessValues;
     }
 
     void movePositionForwardUntilValueIsDifferent(
-        Values const& valuesToSort, Value const& currentCycleValue, unsigned int& correctPosition) const {
+        Values const& valuesToSort, Value const& currentCycleValue, int& correctPosition) const {
         // The purpose of the move is to ensure that we are getting a correctPosition with a different value from
         // currentCycleValue. This is to avoid redundant cycles and even infinite cycles.
         // -> Remember after we swap values, we have to look for a new cycle value.

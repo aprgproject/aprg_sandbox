@@ -19,7 +19,7 @@ public:
     using TraverseFunctionWithNoChange = std::function<void(Node const&, bool&)>;
     using TraverseFunctionWithChange = std::function<void(Node&, bool&)>;
 
-    BaseUnorderedLinkedList() : m_size(0U), m_first(nullptr) {}
+    BaseUnorderedLinkedList() : m_size(0), m_first(nullptr) {}
 
     ~BaseUnorderedLinkedList() override = default;  // no need for virtual destructor because base destructor is virtual
                                                     // (similar to other virtual functions)
@@ -37,10 +37,10 @@ public:
         return result;
     }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
-    unsigned int getRank(Key const& key) const override {
-        unsigned int result(0);
+    int getRank(Key const& key) const override {
+        int result(0);
         traverseWithNoChange([&](Node const& node, bool&) {
             if (key > node.key) {
                 result++;
@@ -77,10 +77,10 @@ public:
         return result;
     }
 
-    Key selectAt(unsigned int const rank) const override {
+    Key selectAt(int const rank) const override {
         Key result{};
         traverseWithNoChange([&](Node const& node, bool& shouldBreak) {
-            unsigned int const rankAtTraversal(getRank(node.key));
+            int const rankAtTraversal(getRank(node.key));
             if (rank == rankAtTraversal) {
                 result = node.key;
                 shouldBreak = true;
@@ -190,7 +190,7 @@ protected:
         }
     }
 
-    unsigned int m_size;
+    int m_size;
     NodeUniquePointer m_first;
 };
 

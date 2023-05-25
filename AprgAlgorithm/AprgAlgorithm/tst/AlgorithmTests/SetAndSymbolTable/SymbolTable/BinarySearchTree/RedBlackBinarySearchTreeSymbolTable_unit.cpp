@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SymbolTableForTest = RedBlackBinarySearchTreeSymbolTable<unsigned int, char>;
+using SymbolTableForTest = RedBlackBinarySearchTreeSymbolTable<int, char>;
 using NodeForTest = typename SymbolTableForTest::Node;
 using KeysForTest = typename SymbolTableForTest::Keys;
 }  // namespace
@@ -82,49 +82,49 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeysInRangeWorks) {
 
 TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPreOrderWorks) {
     SymbolTableForTest symbolTable;
-    symbolTable.put(3U, 'C');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(8U, 'H');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(3, 'C');
+    symbolTable.put(4, 'D');
+    symbolTable.put(5, 'E');
+    symbolTable.put(9, 'I');
+    symbolTable.put(8, 'H');
+    symbolTable.put(7, 'G');
 
     KeysForTest keysToVerify;
     symbolTable.traverseByPreOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{8U, 4U, 3U, 7U, 5U, 9U};  // balanced search tree
+    KeysForTest expectedKeys{8, 4, 3, 7, 5, 9};  // balanced search tree
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
 TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByInOrderWorks) {
     SymbolTableForTest symbolTable;
-    symbolTable.put(3U, 'C');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(8U, 'H');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(3, 'C');
+    symbolTable.put(4, 'D');
+    symbolTable.put(5, 'E');
+    symbolTable.put(9, 'I');
+    symbolTable.put(8, 'H');
+    symbolTable.put(7, 'G');
 
     KeysForTest keysToVerify;
     symbolTable.traverseByInOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
+    KeysForTest expectedKeys{3, 4, 5, 7, 8, 9};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
 TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPostOrderWorks) {
     SymbolTableForTest symbolTable;
-    symbolTable.put(3U, 'C');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(8U, 'H');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(3, 'C');
+    symbolTable.put(4, 'D');
+    symbolTable.put(5, 'E');
+    symbolTable.put(9, 'I');
+    symbolTable.put(8, 'H');
+    symbolTable.put(7, 'G');
 
     KeysForTest keysToVerify;
     symbolTable.traverseByPostOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3U, 5U, 7U, 4U, 9U, 8U};  // balanced
+    KeysForTest expectedKeys{3, 5, 7, 4, 9, 8};  // balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 

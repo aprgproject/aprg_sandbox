@@ -3,33 +3,35 @@
 
 #include <gtest/gtest.h>
 
+using namespace std;
+
 namespace alba {
 
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using Paths = typename GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using GeneralPathCoverForTest = GeneralPathCover<VertexForTest>;
 using VertexPairs = typename GeneralPathCoverForTest::VertexPairs;
 
-VertexForTest newSourceVertex = 0xFFFFFFFEU;
-VertexForTest newSinkVertex = 0xFFFFFFFFU;
+VertexForTest newSourceVertex = numeric_limits<int>::max();
+VertexForTest newSinkVertex = numeric_limits<int>::max() - 1;
 }  // namespace
 
 TEST(GeneralPathCoverTest, GetGeneralPathCoverWorksOnExample1) {
     GraphForTest graph;
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(3U, 4U);
-    graph.connect(5U, 6U);
-    graph.connect(6U, 3U);
-    graph.connect(6U, 7U);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(3, 4);
+    graph.connect(5, 6);
+    graph.connect(6, 3);
+    graph.connect(6, 7);
     GeneralPathCoverForTest generalPathCover(graph);
 
-    Paths expectedPaths{{1U, 5U, 6U, 7U}, {2U, 6U, 3U, 4U}};
-    VertexPairs expectedVertexPairs{{1U, 5U}, {2U, 3U}, {3U, 4U}, {5U, 6U}, {6U, 7U}};
+    Paths expectedPaths{{1, 5, 6, 7}, {2, 6, 3, 4}};
+    VertexPairs expectedVertexPairs{{1, 5}, {2, 3}, {3, 4}, {5, 6}, {6, 7}};
     EXPECT_EQ(
         expectedVertexPairs, generalPathCover.getConnectedVerticesOfGeneralPathCover(newSourceVertex, newSinkVertex));
     EXPECT_EQ(expectedPaths, generalPathCover.getGeneralPathCover(newSourceVertex, newSinkVertex));
@@ -37,15 +39,15 @@ TEST(GeneralPathCoverTest, GetGeneralPathCoverWorksOnExample1) {
 
 TEST(GeneralPathCoverTest, GetSizeOfMaximumAntichainOnExample1) {
     GraphForTest graph;
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(3U, 4U);
-    graph.connect(5U, 6U);
-    graph.connect(6U, 3U);
-    graph.connect(6U, 7U);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(3, 4);
+    graph.connect(5, 6);
+    graph.connect(6, 3);
+    graph.connect(6, 7);
     GeneralPathCoverForTest generalPathCover(graph);
 
-    EXPECT_EQ(2U, generalPathCover.getSizeOfMaximumAntichain(newSourceVertex, newSinkVertex));
+    EXPECT_EQ(2, generalPathCover.getSizeOfMaximumAntichain(newSourceVertex, newSinkVertex));
 }
 
 }  // namespace algorithm

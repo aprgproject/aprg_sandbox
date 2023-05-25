@@ -20,8 +20,8 @@ public:
 
     Combinations getCombinationsWithSumUsingRecursion(Value const total) {
         // this recursion method is exponential
-        if (total >= m_combinations.size()) {
-            unsigned int newSize =
+        if (total >= static_cast<Value>(m_combinations.size())) {
+            int newSize =
                 std::max(total + 1, *(std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend()).second));
             m_combinations.resize(newSize);
         }
@@ -44,9 +44,9 @@ public:
 
     Combinations getCombinationsWithSumUsingLoops(Value const total) {
         // using loops
-        if (total >= m_combinations.size()) {
+        if (total >= static_cast<Value>(m_combinations.size())) {
             Value initialValue = m_combinations.size();
-            unsigned int newSize =
+            Value newSize =
                 std::max(total + 1, *(std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend()).second));
             m_combinations.resize(newSize);
 

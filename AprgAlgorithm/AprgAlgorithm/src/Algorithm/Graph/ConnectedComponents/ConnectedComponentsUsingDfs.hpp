@@ -15,7 +15,7 @@ class ConnectedComponentsUsingDfs
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using BaseClass = BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseUndirectedGraphWithVertex>;
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using VertexToIntMap = typename GraphTypes<Vertex>::VertexToIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     ConnectedComponentsUsingDfs(BaseUndirectedGraphWithVertex const& graph)
@@ -28,7 +28,7 @@ public:
 
 private:
     void initialize() {
-        b_numberOfComponentIds = 0U;
+        b_numberOfComponentIds = 0;
         for (Vertex const& vertex : b_graph.getVertices()) {
             if (m_processedVertices.isNotFound(vertex)) {
                 traverseUsingDfs(vertex);
@@ -47,8 +47,8 @@ private:
         }
     }
     BaseUndirectedGraphWithVertex const& b_graph;
-    unsigned int& b_numberOfComponentIds;
-    VertexToUnsignedIntMap& b_vertexToComponentIdMap;
+    int& b_numberOfComponentIds;
+    VertexToIntMap& b_vertexToComponentIdMap;
     CheckableVerticesWithVertex m_processedVertices;
 };
 

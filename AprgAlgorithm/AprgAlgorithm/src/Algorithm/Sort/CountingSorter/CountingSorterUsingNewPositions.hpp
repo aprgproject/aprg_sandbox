@@ -8,12 +8,12 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
+template <typename Values, int MAX_NUMBER_OF_VALUES>
 class CountingSorterUsingNewPositions : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using ArrayOfCountPerValue = std::array<unsigned int, MAX_NUMBER_OF_VALUES>;
-    using ValueToIndexableValueFunction = std::function<unsigned int(Value const&)>;
+    using ArrayOfCountPerValue = std::array<int, MAX_NUMBER_OF_VALUES>;
+    using ValueToIndexableValueFunction = std::function<int(Value const&)>;
 
     CountingSorterUsingNewPositions() = delete;
     CountingSorterUsingNewPositions(ValueToIndexableValueFunction const& valueToIndexableValueFunction)
@@ -25,7 +25,7 @@ public:
             newPosition[m_valueToIndexableValueFunction(value)]++;  // count each value
         }
 
-        for (unsigned int c = 1; c < newPosition.size();
+        for (int c = 1; c < static_cast<int>(newPosition.size());
              c++)  // Change count[i] so that count[i] now contains actual position of this character in output array
         {
             newPosition[c] += newPosition.at(c - 1);
@@ -36,7 +36,7 @@ public:
              i--)  // For stable algorithm, reverse the traversal in copied values
         {
             Value const& copiedValue(copiedValues.at(i));
-            unsigned int indexableValue(m_valueToIndexableValueFunction(copiedValue));
+            int indexableValue(m_valueToIndexableValueFunction(copiedValue));
             valuesToSort[--newPosition[indexableValue]] = copiedValue;
         }
     }

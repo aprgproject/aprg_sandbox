@@ -10,12 +10,12 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Object, unsigned int SIZE>
+template <typename Object, int SIZE>
 class WeightedQuickUnionWithArray : public BaseUnionFind<Object> {
 public:
     using RootArray = std::array<Object, SIZE>;
     using RootVector = std::vector<Object>;
-    using SizeArray = std::array<unsigned int, SIZE>;
+    using SizeArray = std::array<int, SIZE>;
 
     WeightedQuickUnionWithArray() : m_relativeRoots(), m_sizesOfRoots() { initialize(); }
 
@@ -84,7 +84,7 @@ private:
     void initialize()  // runs in linear time
     {
         std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
-        std::fill(m_sizesOfRoots.begin(), m_sizesOfRoots.end(), 1U);
+        std::fill(m_sizesOfRoots.begin(), m_sizesOfRoots.end(), 1);
     }
 
     void connectRootsBasedOnSize(Object const root2, Object const root1) {

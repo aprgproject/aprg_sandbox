@@ -16,7 +16,7 @@ public:
     using BaseClass = BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseUndirectedGraphWithVertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using VertexToIntMap = typename GraphTypes<Vertex>::VertexToIntMap;
     using UnionFind = UnionFindUsingMap<Vertex>;
 
     ConnectedComponentsUsingUnionFind(BaseUndirectedGraphWithVertex const& graph)
@@ -35,7 +35,7 @@ private:
         }
         SetOfVertices roots;
         for (Vertex const& vertex : b_graph.getVertices()) {
-            unsigned int componentId{};
+            int componentId{};
             Vertex root(unionFind.getRoot(vertex));
             auto it = roots.find(root);
             if (it != roots.cend()) {
@@ -49,8 +49,8 @@ private:
         b_numberOfComponentIds = roots.size();
     }
     BaseUndirectedGraphWithVertex const& b_graph;
-    unsigned int& b_numberOfComponentIds;
-    VertexToUnsignedIntMap& b_vertexToComponentIdMap;
+    int& b_numberOfComponentIds;
+    VertexToIntMap& b_vertexToComponentIdMap;
 };
 
 }  // namespace algorithm

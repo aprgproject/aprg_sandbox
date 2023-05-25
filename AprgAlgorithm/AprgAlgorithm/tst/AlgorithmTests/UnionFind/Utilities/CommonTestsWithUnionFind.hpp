@@ -11,7 +11,7 @@ namespace algorithm {
 namespace CommonTestsWithUnionFind {
 
 template <typename UnionFind>
-void testIsConnectedWithUnsignedInt(UnionFind& unionFind) {
+void testIsConnectedWithInt(UnionFind& unionFind) {
     EXPECT_FALSE(unionFind.isConnected(1, 2));
     EXPECT_FALSE(unionFind.isConnected(3, 4));
 
@@ -24,7 +24,7 @@ void testIsConnectedWithUnsignedInt(UnionFind& unionFind) {
 }
 
 template <typename UnionFind>
-void testConnectWithUnsignedInt(UnionFind& unionFind) {
+void testConnectWithInt(UnionFind& unionFind) {
     EXPECT_FALSE(unionFind.isConnected(3, 4));
     EXPECT_FALSE(unionFind.isConnected(4, 3));
     EXPECT_FALSE(unionFind.isConnected(3, 5));
@@ -44,7 +44,7 @@ void testConnectWithUnsignedInt(UnionFind& unionFind) {
 }
 
 template <typename UnionFind>
-void testConnectUsingExample1WithUnsignedInt(UnionFind& unionFind) {
+void testConnectUsingExample1WithInt(UnionFind& unionFind) {
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
@@ -63,7 +63,7 @@ void testConnectUsingExample1WithUnsignedInt(UnionFind& unionFind) {
 }
 
 template <typename UnionFind>
-void testConnectUsingExample2WithUnsignedInt(UnionFind& unionFind) {
+void testConnectUsingExample2WithInt(UnionFind& unionFind) {
     unionFind.connect(0, 1);
     unionFind.connect(0, 2);
     unionFind.connect(0, 5);

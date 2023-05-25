@@ -12,16 +12,16 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
-using CompressionForTest = RunLengthEncodingCompression<unsigned char>;
+using Index = int;
+using CompressionForTest = RunLengthEncodingCompression<uint8_t>;
 }  // namespace
 
 TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1) {
-    bitset<40U> initialValue(0B0000000000000001111111000000011111111111);
+    bitset<40> initialValue(0B0000000000000001111111000000011111111111);
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
-    initialWriter.writeBitsetData<40U>(initialValue, 39U, 0U);
+    initialWriter.writeBitsetData<40>(initialValue, 39, 0);
     initialWriter.flush();
     CompressionForTest compression;
 

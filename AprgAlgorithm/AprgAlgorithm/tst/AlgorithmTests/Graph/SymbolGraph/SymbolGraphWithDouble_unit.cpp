@@ -24,10 +24,10 @@ namespace {
 using GraphForTest = UndirectedGraphWithListOfEdges<uint64_t>;
 using SymbolGraphForTest = SymbolGraph<uint64_t, double, GraphForTest>;
 
-constexpr uint64_t vertexFor12 = 0x3FF3333333333333ULL;
+constexpr uint64_t vertexFor12 = 0x3FF3333333333333LL;
 constexpr uint64_t vertexFor13 = 0x3FF4CCCCCCCCCCCDULL;
-constexpr uint64_t vertexFor23 = 0x4002666666666666ULL;
-constexpr uint64_t vertexFor45 = 0x4012000000000000ULL;
+constexpr uint64_t vertexFor23 = 0x4002666666666666LL;
+constexpr uint64_t vertexFor45 = 0x4012000000000000LL;
 }  // namespace
 
 TEST(SymbolGraphWithDoubleTest, ContainsWorksWhenEmpty) {

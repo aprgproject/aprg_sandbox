@@ -19,9 +19,9 @@ public:
     using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::map<Vertex, AdjacencyList>;
 
-    DirectedGraphWithVertexToAdjacencyListsMap() : m_numberOfEdges(0U), m_adjacencyLists{} {}
+    DirectedGraphWithVertexToAdjacencyListsMap() : m_numberOfEdges(0), m_adjacencyLists{} {}
 
-    bool isEmpty() const { return m_adjacencyLists.empty(); }
+    bool isEmpty() const override { return m_adjacencyLists.empty(); }
 
     bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         bool result(false);
@@ -33,9 +33,9 @@ public:
         return result;
     }
 
-    unsigned int getNumberOfVertices() const override { return getUniqueVertices().size(); }
+    int getNumberOfVertices() const override { return getUniqueVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         Vertices result(false);
@@ -79,7 +79,7 @@ public:
         }
     }
 
-    void clear() {
+    void clear() override {
         m_numberOfEdges = 0;
         m_adjacencyLists.clear();
     }
@@ -111,7 +111,7 @@ protected:
         return out;
     }
 
-    unsigned int m_numberOfEdges;
+    int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
 

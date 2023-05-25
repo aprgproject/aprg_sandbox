@@ -16,43 +16,45 @@ using Characters = vector<char>;
 using Integers = vector<int>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharactersSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Characters, unsigned int>;
-using SmallIntegerSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Integers, unsigned int>;
+using CharactersSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Characters, int>;
+using SmallIntegerSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Integers, int>;
 using StringsSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Strings, char>;
-using StabilityCheckObjectsSorter = RadixSorterUsingQuickSortWith3WayPartitioning<StabilityCheckObjects, unsigned int>;
+using StabilityCheckObjectsSorter = RadixSorterUsingQuickSortWith3WayPartitioning<StabilityCheckObjects, int>;
 
-CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter =
-    [](char const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    return (value >> ((1U - mostSignificantDigitIndex) * 4U)) & 0xFU;
+CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value,
+                                                                  int const mostSignificantDigitIndex) -> int {
+    return (value >> ((1 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
-CharactersSorter::IsDigitFunction isNibbleDigitValidForCharacter =
-    [](char const&, unsigned int const digitIndex) -> bool { return digitIndex < 2U; };
+CharactersSorter::IsDigitFunction isNibbleDigitValidForCharacter = [](char const&, int const digitIndex) -> bool {
+    return digitIndex < 2;
+};
 
-SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger =
-    [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    return ((value + 10) >> ((7U - mostSignificantDigitIndex) * 4U)) & 0xFU;
+SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value,
+                                                                       int const mostSignificantDigitIndex) -> int {
+    return ((value + 10) >> ((7 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
-SmallIntegerSorter::IsDigitFunction isNibbleDigitValidForSmallInteger =
-    [](int const&, unsigned int const digitIndex) -> bool { return digitIndex < 8U; };
+SmallIntegerSorter::IsDigitFunction isNibbleDigitValidForSmallInteger = [](int const&, int const digitIndex) -> bool {
+    return digitIndex < 8;
+};
 
 StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value,
-                                                               unsigned int const mostSignificantDigitIndex) -> char {
+                                                               int const mostSignificantDigitIndex) -> char {
     char digitValue{};
-    if (mostSignificantDigitIndex < value.length()) {
+    if (mostSignificantDigitIndex < static_cast<int>(value.length())) {
         digitValue = value.at(mostSignificantDigitIndex);
     }
     return digitValue;
 };
-StringsSorter::IsDigitFunction isDigitValidForString = [](string const& value, unsigned int const digitIndex) -> bool {
-    return digitIndex < value.length();
+StringsSorter::IsDigitFunction isDigitValidForString = [](string const& value, int const digitIndex) -> bool {
+    return digitIndex < static_cast<int>(value.length());
 };
 
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
-    [](StabilityCheckObject const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int {
-    return (value.getVisiblePart() >> ((1U - mostSignificantDigitIndex) * 4U)) & 0xFU;
+    [](StabilityCheckObject const& value, int const mostSignificantDigitIndex) -> int {
+    return (value.getVisiblePart() >> ((1 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
 StabilityCheckObjectsSorter::IsDigitFunction isNibbleDigitValidForStabilityCheckObject =
-    [](StabilityCheckObject const&, unsigned int const digitIndex) -> bool { return digitIndex < 2U; };
+    [](StabilityCheckObject const&, int const digitIndex) -> bool { return digitIndex < 2; };
 }  // namespace
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample) {
@@ -105,7 +107,7 @@ TEST(
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                           "ms. puff",  "pearl",   "larry",     "plankton"};
 
-    sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 1U);
+    sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2, 5, 1);
 
     Strings expectedStrings{"spongebob", "patrick", "sandy", "squidward", "mr. crabs",
                             "ms. puff",  "pearl",   "larry", "plankton"};
@@ -119,7 +121,7 @@ TEST(
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                           "ms. puff",  "pearl",   "larry",     "plankton"};
 
-    sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 6U);
+    sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2, 5, 6);
 
     Strings expectedStrings{"spongebob", "patrick", "sandy", "mr. crabs", "squidward",
                             "ms. puff",  "pearl",   "larry", "plankton"};
@@ -133,7 +135,7 @@ TEST(
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                           "ms. puff",  "pearl",   "larry",     "plankton"};
 
-    sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 9U);
+    sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2, 5, 9);
 
     Strings expectedStrings{"spongebob", "patrick", "mr. crabs", "squidward", "sandy",
                             "ms. puff",  "pearl",   "larry",     "plankton"};

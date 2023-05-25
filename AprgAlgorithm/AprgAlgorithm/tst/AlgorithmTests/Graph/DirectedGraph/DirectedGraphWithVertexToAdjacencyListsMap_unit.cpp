@@ -12,92 +12,86 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using GraphForTest = DirectedGraphWithVertexToAdjacencyListsMap<unsigned int>;
+using GraphForTest = DirectedGraphWithVertexToAdjacencyListsMap<int>;
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetGraphDirectionTypeWorks) {
-    testGetGraphDirectionTypeWithVertexAsUnsignedInt<GraphForTest>();
+    testGetGraphDirectionTypeWithVertexAsInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, IsEmptyWorks) {
-    testIsEmptyWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, IsEmptyWorks) { testIsEmptyWithVertexAsInt<GraphForTest>(); }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, IsConnectedWorksWhenEmpty) {
-    testIsConnectedWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, IsConnectedWorksWhenNotEmpty) {
-    testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfVerticesWorksWhenEmpty) {
-    testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfVerticesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfVerticesWorksWhenNotEmpty) {
-    testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfVerticesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfEdgesWorksWhenEmpty) {
-    testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfEdgesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfEdgesWorksWhenNotEmpty) {
-    testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfEdgesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetAdjacentVerticesAtWorksWhenEmpty) {
-    testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetAdjacentVerticesAtWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetAdjacentVerticesAtWorksWhenNotEmpty) {
-    testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetVerticesWorksWhenEmpty) {
-    testGetVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetVerticesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetVerticesWorksWhenNotEmpty) {
-    testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetVerticesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetEdgesWorksWhenEmpty) {
-    testGetEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetEdgesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetEdgesWorksWhenNotEmpty) {
-    testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetEdgesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ConnectWorks) {
-    testConnectWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ConnectWorks) { testConnectWithVertexAsInt<GraphForTest>(); }
 
-TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, DisconnectWorks) {
-    testDisconnectWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, DisconnectWorks) { testDisconnectWithVertexAsInt<GraphForTest>(); }
 
-TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ClearWorks) { testClearWithVertexAsUnsignedInt<GraphForTest>(); }
+TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ClearWorks) { testClearWithVertexAsInt<GraphForTest>(); }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GraphWorksAfterClear) {
-    testGraphWorksAfterClearWithVertexAsUnsignedInt<GraphForTest>();
+    testGraphWorksAfterClearWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ReverseDirectionsWorks) {
-    testReverseDirectionsWithVertexAsUnsignedInt<GraphForTest>();
+    testReverseDirectionsWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ComplicatedTestWorks) {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
+    testWithComplicatedExampleWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, OutputStreamOperatorWorks) {
     GraphForTest graph;
 
-    graph.connect(0U, 1U);
-    graph.connect(2U, 0U);
+    graph.connect(0, 1);
+    graph.connect(2, 0);
 
     EXPECT_EQ(
         "Adjacency Lists: \nAdjacent with vertex 0: {1, } \nAdjacent with vertex 2: {0, } \n", convertToString(graph));

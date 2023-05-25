@@ -8,34 +8,34 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using CountPathsForTest = CountPathsInDirectedGraph<VertexForTest>;
 }  // namespace
 
 TEST(CountPathsInDirectedGraphTest, GetCountWorksOnExample1) {
     GraphForTest graph;
-    graph.connect(1U, 4U);
-    graph.connect(1U, 2U);
-    graph.connect(4U, 5U);
-    graph.connect(5U, 2U);
-    graph.connect(5U, 3U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 6U);
+    graph.connect(1, 4);
+    graph.connect(1, 2);
+    graph.connect(4, 5);
+    graph.connect(5, 2);
+    graph.connect(5, 3);
+    graph.connect(2, 3);
+    graph.connect(3, 6);
     CountPathsForTest countPaths(graph);
 
-    EXPECT_EQ(1U, countPaths.getCount(1U, 1U));
-    EXPECT_EQ(1U, countPaths.getCount(1U, 4U));
-    EXPECT_EQ(1U, countPaths.getCount(1U, 5U));
-    EXPECT_EQ(2U, countPaths.getCount(1U, 2U));
-    EXPECT_EQ(3U, countPaths.getCount(1U, 3U));
-    EXPECT_EQ(3U, countPaths.getCount(1U, 6U));
-    EXPECT_EQ(0U, countPaths.getCount(5U, 1U));
-    EXPECT_EQ(0U, countPaths.getCount(5U, 4U));
-    EXPECT_EQ(1U, countPaths.getCount(5U, 5U));
-    EXPECT_EQ(1U, countPaths.getCount(5U, 2U));
-    EXPECT_EQ(2U, countPaths.getCount(5U, 3U));
-    EXPECT_EQ(2U, countPaths.getCount(5U, 6U));
+    EXPECT_EQ(1, countPaths.getCount(1, 1));
+    EXPECT_EQ(1, countPaths.getCount(1, 4));
+    EXPECT_EQ(1, countPaths.getCount(1, 5));
+    EXPECT_EQ(2, countPaths.getCount(1, 2));
+    EXPECT_EQ(3, countPaths.getCount(1, 3));
+    EXPECT_EQ(3, countPaths.getCount(1, 6));
+    EXPECT_EQ(0, countPaths.getCount(5, 1));
+    EXPECT_EQ(0, countPaths.getCount(5, 4));
+    EXPECT_EQ(1, countPaths.getCount(5, 5));
+    EXPECT_EQ(1, countPaths.getCount(5, 2));
+    EXPECT_EQ(2, countPaths.getCount(5, 3));
+    EXPECT_EQ(2, countPaths.getCount(5, 6));
 }
 
 }  // namespace algorithm

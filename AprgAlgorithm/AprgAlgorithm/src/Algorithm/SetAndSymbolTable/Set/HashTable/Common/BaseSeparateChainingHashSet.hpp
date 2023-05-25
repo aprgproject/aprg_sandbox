@@ -11,7 +11,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Key, typename HashFunction, unsigned int HASH_TABLE_SIZE>
+template <typename Key, typename HashFunction, int HASH_TABLE_SIZE>
 class BaseSeparateChainingHashSet : public BaseSetWithBaseSeparateChainingHash<BaseSeparateChainingHash<
                                         Key, HashTableEntry<Key>, HashFunction, HASH_TABLE_SIZE, OrderedArraySet<Key>,
                                         UnorderedLinkedListSet<Key>, BaseSet<Key>>> {

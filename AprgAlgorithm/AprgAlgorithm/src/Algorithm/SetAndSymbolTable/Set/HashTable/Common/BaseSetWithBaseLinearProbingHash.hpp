@@ -22,7 +22,7 @@ public:
     {
         this->resizeOnPutIfNeeded();
         bool isFound(false);
-        unsigned int i = this->getHash(key);
+        int i = this->getHash(key);
         for (; b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i)) {
             EntryUniquePointer& entryPointer(b_entryPointers[i]);
             if (key == entryPointer->key) {
@@ -43,7 +43,7 @@ protected:
     }
 
 private:
-    unsigned int& b_size;
+    int& b_size;
     EntryPointers& b_entryPointers;
 };
 

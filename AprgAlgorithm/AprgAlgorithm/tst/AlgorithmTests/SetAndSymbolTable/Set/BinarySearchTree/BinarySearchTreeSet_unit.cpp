@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SetForTest = BinarySearchTreeSet<unsigned int>;
+using SetForTest = BinarySearchTreeSet<int>;
 using NodeForTest = typename SetForTest::Node;
 using KeysForTest = typename SetForTest::Keys;
 }  // namespace
@@ -54,11 +54,11 @@ TEST(BinarySearchTreeSetTest, GetKeysInRangeWorks) { testGetKeysInRangeInclusive
 
 TEST(BinarySearchTreeSetTest, GetRootWorks) {
     SetForTest setObject;
-    setObject.put(8U);
+    setObject.put(8);
 
     auto const& expectedRoot(setObject.getRoot());
 
-    NodeForTest node{8U, nullptr, nullptr, 1U};
+    NodeForTest node{8, nullptr, nullptr, 1};
     ASSERT_TRUE(expectedRoot);
     EXPECT_EQ(node.key, expectedRoot->key);
     EXPECT_EQ(node.left, expectedRoot->left);
@@ -68,49 +68,49 @@ TEST(BinarySearchTreeSetTest, GetRootWorks) {
 
 TEST(BinarySearchTreeSetTest, TraverseByPreOrderWorks) {
     SetForTest setObject;
-    setObject.put(3U);
-    setObject.put(4U);
-    setObject.put(5U);
-    setObject.put(9U);
-    setObject.put(8U);
-    setObject.put(7U);
+    setObject.put(3);
+    setObject.put(4);
+    setObject.put(5);
+    setObject.put(9);
+    setObject.put(8);
+    setObject.put(7);
 
     KeysForTest keysToVerify;
     setObject.traverseByPreOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3U, 4U, 5U, 9U, 8U, 7U};  // not balanced
+    KeysForTest expectedKeys{3, 4, 5, 9, 8, 7};  // not balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
 TEST(BinarySearchTreeSetTest, TraverseByInOrderWorks) {
     SetForTest setObject;
-    setObject.put(3U);
-    setObject.put(4U);
-    setObject.put(5U);
-    setObject.put(9U);
-    setObject.put(8U);
-    setObject.put(7U);
+    setObject.put(3);
+    setObject.put(4);
+    setObject.put(5);
+    setObject.put(9);
+    setObject.put(8);
+    setObject.put(7);
 
     KeysForTest keysToVerify;
     setObject.traverseByInOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
+    KeysForTest expectedKeys{3, 4, 5, 7, 8, 9};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
 TEST(BinarySearchTreeSetTest, TraverseByPostOrderWorks) {
     SetForTest setObject;
-    setObject.put(3U);
-    setObject.put(4U);
-    setObject.put(5U);
-    setObject.put(9U);
-    setObject.put(8U);
-    setObject.put(7U);
+    setObject.put(3);
+    setObject.put(4);
+    setObject.put(5);
+    setObject.put(9);
+    setObject.put(8);
+    setObject.put(7);
 
     KeysForTest keysToVerify;
     setObject.traverseByPostOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{7U, 8U, 9U, 5U, 4U, 3U};  // not balanced
+    KeysForTest expectedKeys{7, 8, 9, 5, 4, 3};  // not balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 

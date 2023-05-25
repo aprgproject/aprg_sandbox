@@ -14,11 +14,11 @@ public:
 
     void sort(Values& valuesToSort) const override {
         Values auxiliary(valuesToSort);
-        unsigned int const size = valuesToSort.size();
-        for (unsigned int sizeToSort = 1; sizeToSort < size; sizeToSort *= 2U) {
-            for (unsigned int lowest = 0; lowest < size - sizeToSort; lowest += sizeToSort * 2U) {
-                unsigned int middle = lowest + sizeToSort - 1;
-                unsigned int highest = std::min(lowest + (sizeToSort * 2U) - 1, size - 1);
+        int const size = valuesToSort.size();
+        for (int sizeToSort = 1; sizeToSort < size; sizeToSort *= 2) {
+            for (int lowest = 0; lowest < size - sizeToSort; lowest += sizeToSort * 2) {
+                int middle = lowest + sizeToSort - 1;
+                int highest = std::min(lowest + (sizeToSort * 2) - 1, size - 1);
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);
             }
         }

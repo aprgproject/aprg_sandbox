@@ -9,19 +9,19 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SumSearch = FourSum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
 using FourValuesForTest = SumSearch::FourValues;
 }  // namespace
 
 TEST(FourSumTest, GetPossibleDuplicatedFourValuesWithSumWorksOnExample1) {
-    ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
+    ValuesForTest sortedValues{1, 4, 5, 6, 7, 9, 10};
     SumSearch search(sortedValues);
 
-    FourValuesForTest fourValuesToVerify(search.getPossibleDuplicatedFourValuesWithSum(18U));
+    FourValuesForTest fourValuesToVerify(search.getPossibleDuplicatedFourValuesWithSum(18));
 
-    FourValuesForTest fourValuesToExpect{1U, 1U, 7U, 9U};
+    FourValuesForTest fourValuesToExpect{1, 1, 7, 9};
     EXPECT_EQ(fourValuesToExpect, fourValuesToVerify);
 }
 

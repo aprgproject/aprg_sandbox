@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using InvertedMapForTest = InvertedMapForSymbolGraph<unsigned int, string>;
+using InvertedMapForTest = InvertedMapForSymbolGraph<int, string>;
 }
 
 TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorksWhenAddingVertices) {
@@ -21,7 +21,7 @@ TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorks
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("one");
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("two");
 
-    InvertedMapForTest::ObjectToVertexMap expectedMap{{"zero", 0U}, {"one", 1U}, {"two", 2U}};
+    InvertedMapForTest::ObjectToVertexMap expectedMap{{"zero", 0}, {"one", 1}, {"two", 2}};
     EXPECT_EQ(expectedMap, invertedMap.getObjectToVertexMap());
     EXPECT_TRUE(invertedMap.getUnusedVertices().empty());
 }
@@ -36,8 +36,8 @@ TEST(InvertedMapForSymbolGraphTest, GetVertexIdentifierAndAddObjectIfNeededWorks
 
     invertedMap.getVertexIdentifierAndAddObjectIfNeeded("replacement for one");
 
-    InvertedMapForTest::ObjectToVertexMap expectedMap{{"replacement for one", 1U}, {"two", 2U}};
-    InvertedMapForTest::Vertices expectedUnusedVertices{0U};
+    InvertedMapForTest::ObjectToVertexMap expectedMap{{"replacement for one", 1}, {"two", 2}};
+    InvertedMapForTest::Vertices expectedUnusedVertices{0};
     EXPECT_EQ(expectedMap, invertedMap.getObjectToVertexMap());
     EXPECT_EQ(expectedUnusedVertices, invertedMap.getUnusedVertices());
 }
@@ -51,8 +51,8 @@ TEST(InvertedMapForSymbolGraphTest, RemoveObjectWorksWhenAddingObjects) {
     invertedMap.removeObject("zero");
     invertedMap.removeObject("one");
 
-    InvertedMapForTest::ObjectToVertexMap expectedMap{{"two", 2U}};
-    InvertedMapForTest::Vertices expectedUnusedVertices{0U, 1U};
+    InvertedMapForTest::ObjectToVertexMap expectedMap{{"two", 2}};
+    InvertedMapForTest::Vertices expectedUnusedVertices{0, 1};
     EXPECT_EQ(expectedMap, invertedMap.getObjectToVertexMap());
     EXPECT_EQ(expectedUnusedVertices, invertedMap.getUnusedVertices());
 }

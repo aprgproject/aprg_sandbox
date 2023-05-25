@@ -12,8 +12,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<unsigned int, unsigned int>;
-using SetForTest = LinearProbingHashSet<unsigned int, HashFunctionForTest>;
+using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
+using SetForTest = LinearProbingHashSet<int, HashFunctionForTest>;
 }  // namespace
 
 TEST(LinearProbingHashSetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }
@@ -59,45 +59,45 @@ TEST(LinearProbingHashSetTest, GetKeysInRangeWorks) { testGetKeysInRangeInclusiv
 TEST(LinearProbingHashSetTest, PutWorksWithDoublingHashTableSize) {
     SetForTest setObject;
 
-    EXPECT_EQ(1U, setObject.getHashTableSize());
+    EXPECT_EQ(1, setObject.getHashTableSize());
 
-    setObject.put(8U);
-    setObject.put(9U);
-    EXPECT_EQ(4U, setObject.getHashTableSize());
+    setObject.put(8);
+    setObject.put(9);
+    EXPECT_EQ(4, setObject.getHashTableSize());
 
-    setObject.put(5U);
-    EXPECT_EQ(8U, setObject.getHashTableSize());
+    setObject.put(5);
+    EXPECT_EQ(8, setObject.getHashTableSize());
 
-    setObject.put(4U);
-    setObject.put(7U);
-    EXPECT_EQ(16U, setObject.getHashTableSize());
+    setObject.put(4);
+    setObject.put(7);
+    EXPECT_EQ(16, setObject.getHashTableSize());
 
-    setObject.put(3U);
-    EXPECT_EQ(16U, setObject.getHashTableSize());
+    setObject.put(3);
+    EXPECT_EQ(16, setObject.getHashTableSize());
 }
 
 TEST(LinearProbingHashSetTest, DeleteBasedOnKeyWorksWithHalvingHashTableSize) {
     SetForTest setObject;
-    setObject.put(8U);
-    setObject.put(9U);
-    setObject.put(5U);
-    setObject.put(4U);
-    setObject.put(7U);
-    setObject.put(3U);
+    setObject.put(8);
+    setObject.put(9);
+    setObject.put(5);
+    setObject.put(4);
+    setObject.put(7);
+    setObject.put(3);
 
-    EXPECT_EQ(16U, setObject.getHashTableSize());
+    EXPECT_EQ(16, setObject.getHashTableSize());
 
-    setObject.deleteBasedOnKey(3U);
-    setObject.deleteBasedOnKey(4U);
-    setObject.deleteBasedOnKey(5U);
-    setObject.deleteBasedOnKey(7U);
-    EXPECT_EQ(8U, setObject.getHashTableSize());
+    setObject.deleteBasedOnKey(3);
+    setObject.deleteBasedOnKey(4);
+    setObject.deleteBasedOnKey(5);
+    setObject.deleteBasedOnKey(7);
+    EXPECT_EQ(8, setObject.getHashTableSize());
 
-    setObject.deleteBasedOnKey(8U);
-    EXPECT_EQ(4U, setObject.getHashTableSize());
+    setObject.deleteBasedOnKey(8);
+    EXPECT_EQ(4, setObject.getHashTableSize());
 
-    setObject.deleteBasedOnKey(9U);
-    EXPECT_EQ(4U, setObject.getHashTableSize());
+    setObject.deleteBasedOnKey(9);
+    EXPECT_EQ(4, setObject.getHashTableSize());
 }
 
 }  // namespace algorithm

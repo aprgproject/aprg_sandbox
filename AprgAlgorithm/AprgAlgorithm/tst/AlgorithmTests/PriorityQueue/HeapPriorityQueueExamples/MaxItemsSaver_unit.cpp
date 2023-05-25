@@ -17,7 +17,7 @@ public:
     using MinPriorityQueue = HeapPriorityQueue<Object, greater>;
     using Objects = vector<Object>;
 
-    MaxItemsSaver(unsigned int const numberOfItemsToSave) : m_numberOfItemsToSave(numberOfItemsToSave) {}
+    MaxItemsSaver(int const numberOfItemsToSave) : m_numberOfItemsToSave(numberOfItemsToSave) {}
 
     void save(Object const& object) {
         m_minimumPriorityQueue.insert(object);
@@ -35,27 +35,27 @@ public:
     }
 
 private:
-    unsigned int m_numberOfItemsToSave;
+    int m_numberOfItemsToSave;
     MinPriorityQueue m_minimumPriorityQueue;  // counter intuitive to use min priority queue here but think about it
 };
 
-using MaxItemsSaverForTest = MaxItemsSaver<unsigned int>;
+using MaxItemsSaverForTest = MaxItemsSaver<int>;
 
 }  // namespace
 
 TEST(MaxItemsSaverTest, GetMaxItemsAndClearWorks) {
     MaxItemsSaverForTest saver(3);
-    saver.save(5U);
-    saver.save(100U);
-    saver.save(11U);
-    saver.save(19U);
-    saver.save(66U);
-    saver.save(45U);
-    saver.save(721U);
-    saver.save(98U);
-    saver.save(976U);
+    saver.save(5);
+    saver.save(100);
+    saver.save(11);
+    saver.save(19);
+    saver.save(66);
+    saver.save(45);
+    saver.save(721);
+    saver.save(98);
+    saver.save(976);
 
-    MaxItemsSaverForTest::Objects expectedObjects{100U, 721U, 976U};
+    MaxItemsSaverForTest::Objects expectedObjects{100, 721, 976};
     EXPECT_EQ(expectedObjects, saver.getMaxItemsAndClear());
 }
 

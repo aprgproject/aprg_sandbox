@@ -28,8 +28,8 @@ public:
     // so the total time complexity of a query is O(log2 n).
     // The tree uses O(nlogn) memory, because there are O(logn) levels and each level contains O(n) elements.
 
-    using Index = unsigned int;
-    using Count = unsigned int;
+    using Index = int;
+    using Count = int;
     using Value = typename Values::value_type;
     using ValueToCountMap = std::map<Value, Count>;
     using ValueToCountMaps = std::vector<ValueToCountMap>;
@@ -40,7 +40,7 @@ public:
         : m_valueToCountMapSegmentTree(getValueToCountMaps(valuesToCheck), getFunctionForSegmentTree()) {}
 
     Count getCountOfThisValueOnInterval(Index const start, Index const end, Value const& value) const {
-        Count result(0U);
+        Count result(0);
         ValueToCountMap valueToCountMap(m_valueToCountMapSegmentTree.getValueOnInterval(start, end));
         auto it = valueToCountMap.find(value);
         if (it != valueToCountMap.cend()) {
@@ -50,7 +50,7 @@ public:
     }
 
     void changeValueAtIndex(Index const index, Value const& newValue) {
-        m_valueToCountMapSegmentTree.changeValueAtIndex(index, ValueToCountMap{{newValue, 1U}});
+        m_valueToCountMapSegmentTree.changeValueAtIndex(index, ValueToCountMap{{newValue, 1}});
     }
 
 private:
@@ -59,7 +59,7 @@ private:
         result.reserve(valuesToCheck.size());
         std::transform(
             valuesToCheck.cbegin(), valuesToCheck.cend(), std::back_inserter(result), [](Value const& value) {
-                return ValueToCountMap{{value, 1U}};
+                return ValueToCountMap{{value, 1}};
             });
         return result;
     }

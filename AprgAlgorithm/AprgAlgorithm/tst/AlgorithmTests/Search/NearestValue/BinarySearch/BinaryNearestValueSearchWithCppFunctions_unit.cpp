@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = BinaryNearestValueSearchWithCppFunctions<ValuesForTest>;
 }  // namespace
 
@@ -51,7 +51,7 @@ TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWh
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
+    EXPECT_EQ(4, search.getIndexOfNearestValue(33));
 }
 
 TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
@@ -70,8 +70,8 @@ TEST(BinaryNearestValueSearchWithCppFunctionsTest, GetLowerBoundAndGetHigherBoun
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(43U, search.getLowerBound(34));
-    EXPECT_EQ(43U, search.getHigherBound(34));
+    EXPECT_EQ(43, search.getLowerBound(34));
+    EXPECT_EQ(43, search.getHigherBound(34));
 }
 
 }  // namespace algorithm

@@ -9,7 +9,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+template <typename Vertex, int MAX_VERTEX_VALUE>
 class DirectedGraphWithArrayOfAdjacencyLists : public BaseDirectedGraph<Vertex> {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
@@ -18,18 +18,18 @@ public:
     using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::array<AdjacencyList, MAX_VERTEX_VALUE>;
 
-    DirectedGraphWithArrayOfAdjacencyLists() : m_numberOfEdges(0U), m_adjacencyLists{} {}
+    DirectedGraphWithArrayOfAdjacencyLists() : m_numberOfEdges(0), m_adjacencyLists{} {}
 
-    bool isEmpty() const { return m_numberOfEdges == 0; }
+    bool isEmpty() const override { return m_numberOfEdges == 0; }
 
     bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
         return adjacencyList.find(destinationVertex) != adjacencyList.cend();
     }
 
-    unsigned int getNumberOfVertices() const override { return getUniqueVertices().size(); }
+    int getNumberOfVertices() const override { return getUniqueVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
@@ -43,7 +43,7 @@ public:
 
     Edges getEdges() const override {
         Edges result;
-        for (Vertex vertex1 = 0; vertex1 < m_adjacencyLists.size(); vertex1++) {
+        for (Vertex vertex1 = 0; vertex1 < static_cast<Vertex>(m_adjacencyLists.size()); vertex1++) {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
             for (Vertex const& vertex2 : adjacencyList) {
                 result.emplace_back(vertex1, vertex2);
@@ -66,9 +66,9 @@ public:
         }
     }
 
-    void clear() {
+    void clear() override {
         m_numberOfEdges = 0;
-        for (Vertex sourceVertex = 0; sourceVertex < m_adjacencyLists.size(); sourceVertex++) {
+        for (Vertex sourceVertex = 0; sourceVertex < static_cast<Vertex>(m_adjacencyLists.size()); sourceVertex++) {
             m_adjacencyLists[sourceVertex].clear();
         }
     }
@@ -76,7 +76,7 @@ public:
 protected:
     SetOfVertices getUniqueVertices() const {
         SetOfVertices uniqueVertices;
-        for (Vertex sourceVertex = 0; sourceVertex < m_adjacencyLists.size(); sourceVertex++) {
+        for (Vertex sourceVertex = 0; sourceVertex < static_cast<Vertex>(m_adjacencyLists.size()); sourceVertex++) {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
             if (!adjacencyList.empty()) {
                 uniqueVertices.emplace(sourceVertex);
@@ -90,7 +90,7 @@ protected:
 
     friend std::ostream& operator<<(std::ostream& out, DirectedGraphWithArrayOfAdjacencyLists const& graph) {
         out << "Adjacency Lists: \n";
-        for (Vertex vertex = 0; vertex < graph.m_adjacencyLists.size(); vertex++) {
+        for (Vertex vertex = 0; vertex < static_cast<Vertex>(graph.m_adjacencyLists.size()); vertex++) {
             DirectedGraphWithArrayOfAdjacencyLists::AdjacencyList const& adjacencyList(
                 graph.m_adjacencyLists.at(vertex));
             if (!adjacencyList.empty()) {
@@ -102,7 +102,7 @@ protected:
         return out;
     }
 
-    unsigned int m_numberOfEdges;
+    int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
 

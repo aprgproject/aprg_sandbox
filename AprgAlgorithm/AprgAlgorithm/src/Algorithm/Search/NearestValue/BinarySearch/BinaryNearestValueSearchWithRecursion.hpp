@@ -11,7 +11,7 @@ namespace algorithm {
 template <typename Values>
 class BinaryNearestValueSearchWithRecursion {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -20,7 +20,7 @@ public:
     Value getNearestValue(Value const& value) const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            result = m_sortedValues.at(getIndexOfNearestValueWithoutCheck(0U, m_sortedValues.size() - 1, value));
+            result = m_sortedValues.at(getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, value));
         }
         return result;
     }
@@ -28,14 +28,15 @@ public:
     Index getIndexOfNearestValue(Value const& value) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            result = getIndexOfNearestValueWithoutCheck(0U, m_sortedValues.size() - 1, value);
+            result = getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, value);
         }
         return result;
     }
 
     Index getIndexOfNearestValue(Index const lowerIndex, Index const higherIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (lowerIndex < m_sortedValues.size() && higherIndex < m_sortedValues.size() && lowerIndex <= higherIndex) {
+        if (lowerIndex < static_cast<Index>(m_sortedValues.size()) &&
+            higherIndex < static_cast<Index>(m_sortedValues.size()) && lowerIndex <= higherIndex) {
             result = getIndexOfNearestValueWithoutCheck(lowerIndex, higherIndex, value);
         }
         return result;
@@ -44,7 +45,7 @@ public:
 private:
     Index getIndexOfNearestValueWithoutCheck(
         Index const lowerIndex, Index const higherIndex, Value const& value) const {
-        if (lowerIndex + 1U < higherIndex) {
+        if (lowerIndex + 1 < higherIndex) {
             // Binary search with one comparison per iteration
 
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);

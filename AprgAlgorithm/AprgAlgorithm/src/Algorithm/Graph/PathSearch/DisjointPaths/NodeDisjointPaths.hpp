@@ -35,9 +35,7 @@ public:
     NodeDisjointPaths(BaseDirectedGraphWithVertex const& graph, Vertex const& startVertex, Vertex const& endVertex)
         : m_fordFulkerson(getFlowNetwork(graph, startVertex, endVertex)) {}
 
-    unsigned int getNumberOfNodeDisjointPaths() const {
-        return static_cast<unsigned int>(m_fordFulkerson.getMaxFlowValue());
-    }
+    int getNumberOfNodeDisjointPaths() const { return m_fordFulkerson.getMaxFlowValue(); }
 
     Paths getNodeDisjointPaths() const {
         Paths result;

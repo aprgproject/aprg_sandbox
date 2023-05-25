@@ -28,17 +28,17 @@ public:
 
     DigitValue getDigitValue(char const c) {
         DigitValue result{};
-        unsigned int indexOfCharacter = m_characters.find_first_of(c);
-        if (stringHelper::isNotNpos(static_cast<int>(indexOfCharacter))) {
+        int indexOfCharacter = m_characters.find_first_of(c);
+        if (stringHelper::isNotNpos(indexOfCharacter)) {
             result = static_cast<DigitValue>(indexOfCharacter);
         }
         return result;
     }
 
-    unsigned int getRadix() { return m_characters.size(); }
+    int getRadix() { return m_characters.size(); }
 
-    unsigned int getNumbersOfBitsToRepresentCharacters() {
-        return AlbaBitValueUtilities<unsigned int>::getLogarithmWithBase2Of(getRadix());
+    int getNumbersOfBitsToRepresentCharacters() {
+        return AlbaBitValueUtilities<int>::getLogarithmWithBase2Of(getRadix());
     }
 
     DigitValues convertStringToDigitValues(std::string const& stringParameter) {

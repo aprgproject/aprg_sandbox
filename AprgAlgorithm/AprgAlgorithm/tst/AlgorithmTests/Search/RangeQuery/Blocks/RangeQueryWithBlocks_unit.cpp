@@ -11,8 +11,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
-using BlockValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
+using BlockValuesForTest = vector<int>;
 using RangeQueryForTest = RangeQueryWithBlocks<ValuesForTest, BlockValuesForTest>;
 using ValueForTest = typename RangeQueryForTest::Value;
 
@@ -23,7 +23,7 @@ RangeQueryForTest::ValuesFunction plusForARangeOfValues = [](ValuesForTest::cons
 
 RangeQueryForTest::ValuesFunction countFoursForARangeOfValues = [](ValuesForTest::const_iterator itStart,
                                                                    ValuesForTest::const_iterator itEnd) {
-    return std::count(itStart, itEnd, 4U);
+    return std::count(itStart, itEnd, 4);
 };
 
 RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](BlockValuesForTest::const_iterator itStart,
@@ -34,156 +34,156 @@ RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](BlockValuesFor
 }  // namespace
 
 TEST(RangeQueryWithBlocksTest, GetBlockSizeWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    EXPECT_EQ(4U, sumRangeQuery.getBlockSize());
+    EXPECT_EQ(4, sumRangeQuery.getBlockSize());
 }
 
 TEST(RangeQueryWithBlocksTest, GetBlockSizeWithCountWorksOnExample1) {
-    ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
-    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{4, 2, 5, 4, 2, 4, 3, 3, 4};
+    RangeQueryForTest countRangeQuery(values, 2, countFoursForARangeOfValues, plusForARangeOfBlockValues);
 
-    EXPECT_EQ(4U, countRangeQuery.getBlockSize());
+    EXPECT_EQ(4, countRangeQuery.getBlockSize());
 }
 
 TEST(RangeQueryWithBlocksTest, GetBlocksWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    BlockValuesForTest blocks{16U, 13U, 9U};
+    BlockValuesForTest blocks{16, 13, 9};
     EXPECT_EQ(blocks, sumRangeQuery.getBlocks());
 }
 
 TEST(RangeQueryWithBlocksTest, GetBlocksWithCountWorksOnExample1) {
-    ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
-    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{4, 2, 5, 4, 2, 4, 3, 3, 4};
+    RangeQueryForTest countRangeQuery(values, 2, countFoursForARangeOfValues, plusForARangeOfBlockValues);
 
-    BlockValuesForTest blocks{2U, 1U, 1U};
+    BlockValuesForTest blocks{2, 1, 1};
     EXPECT_EQ(blocks, countRangeQuery.getBlocks());
 }
 
 TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    EXPECT_EQ(0U, sumRangeQuery.getResultOnInterval(0U, 0U));
+    EXPECT_EQ(0, sumRangeQuery.getResultOnInterval(0, 0));
 }
 
 TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    EXPECT_EQ(1U, sumRangeQuery.getResultOnInterval(0U, 0U));
-    EXPECT_EQ(4U, sumRangeQuery.getResultOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getResultOnInterval(0U, 2U));
-    EXPECT_EQ(16U, sumRangeQuery.getResultOnInterval(0U, 3U));
-    EXPECT_EQ(22U, sumRangeQuery.getResultOnInterval(0U, 4U));
-    EXPECT_EQ(23U, sumRangeQuery.getResultOnInterval(0U, 5U));
-    EXPECT_EQ(27U, sumRangeQuery.getResultOnInterval(0U, 6U));
-    EXPECT_EQ(29U, sumRangeQuery.getResultOnInterval(0U, 7U));
-    EXPECT_EQ(38U, sumRangeQuery.getResultOnInterval(0U, 8U));
-    EXPECT_EQ(0U, sumRangeQuery.getResultOnInterval(0U, 9U));
-    EXPECT_EQ(26U, sumRangeQuery.getResultOnInterval(1U, 6U));
-    EXPECT_EQ(19U, sumRangeQuery.getResultOnInterval(2U, 5U));
-    EXPECT_EQ(14U, sumRangeQuery.getResultOnInterval(3U, 4U));
-    EXPECT_EQ(6U, sumRangeQuery.getResultOnInterval(4U, 4U));
+    EXPECT_EQ(1, sumRangeQuery.getResultOnInterval(0, 0));
+    EXPECT_EQ(4, sumRangeQuery.getResultOnInterval(0, 1));
+    EXPECT_EQ(8, sumRangeQuery.getResultOnInterval(0, 2));
+    EXPECT_EQ(16, sumRangeQuery.getResultOnInterval(0, 3));
+    EXPECT_EQ(22, sumRangeQuery.getResultOnInterval(0, 4));
+    EXPECT_EQ(23, sumRangeQuery.getResultOnInterval(0, 5));
+    EXPECT_EQ(27, sumRangeQuery.getResultOnInterval(0, 6));
+    EXPECT_EQ(29, sumRangeQuery.getResultOnInterval(0, 7));
+    EXPECT_EQ(38, sumRangeQuery.getResultOnInterval(0, 8));
+    EXPECT_EQ(0, sumRangeQuery.getResultOnInterval(0, 9));
+    EXPECT_EQ(26, sumRangeQuery.getResultOnInterval(1, 6));
+    EXPECT_EQ(19, sumRangeQuery.getResultOnInterval(2, 5));
+    EXPECT_EQ(14, sumRangeQuery.getResultOnInterval(3, 4));
+    EXPECT_EQ(6, sumRangeQuery.getResultOnInterval(4, 4));
 }
 
 TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithCountWorksOnExample1) {
-    ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
-    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{4, 2, 5, 4, 2, 4, 3, 3, 4};
+    RangeQueryForTest countRangeQuery(values, 2, countFoursForARangeOfValues, plusForARangeOfBlockValues);
 
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 0U));
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(0U, 3U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(0U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getResultOnInterval(0U, 5U));
-    EXPECT_EQ(3U, countRangeQuery.getResultOnInterval(0U, 6U));
-    EXPECT_EQ(3U, countRangeQuery.getResultOnInterval(0U, 7U));
-    EXPECT_EQ(4U, countRangeQuery.getResultOnInterval(0U, 8U));
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(0U, 9U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(1U, 6U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(2U, 5U));
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(3U, 4U));
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(4U, 4U));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(0, 0));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(0, 1));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(0, 2));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(0, 3));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(0, 4));
+    EXPECT_EQ(3, countRangeQuery.getResultOnInterval(0, 5));
+    EXPECT_EQ(3, countRangeQuery.getResultOnInterval(0, 6));
+    EXPECT_EQ(3, countRangeQuery.getResultOnInterval(0, 7));
+    EXPECT_EQ(4, countRangeQuery.getResultOnInterval(0, 8));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(0, 9));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(1, 6));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(2, 5));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(3, 4));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(4, 4));
 }
 
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues) {
     ValuesForTest values;
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    sumRangeQuery.changeValueAtIndex(0U, 0U);
+    sumRangeQuery.changeValueAtIndex(0, 0);
 
-    EXPECT_EQ(0U, sumRangeQuery.getResultOnInterval(0U, 0U));
+    EXPECT_EQ(0, sumRangeQuery.getResultOnInterval(0, 0));
 }
 
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    sumRangeQuery.changeValueAtIndex(3U, 3U);
+    sumRangeQuery.changeValueAtIndex(3, 3);
 
-    EXPECT_EQ(1U, sumRangeQuery.getResultOnInterval(0U, 0U));
-    EXPECT_EQ(4U, sumRangeQuery.getResultOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getResultOnInterval(0U, 2U));
-    EXPECT_EQ(11U, sumRangeQuery.getResultOnInterval(0U, 3U));
-    EXPECT_EQ(17U, sumRangeQuery.getResultOnInterval(0U, 4U));
-    EXPECT_EQ(18U, sumRangeQuery.getResultOnInterval(0U, 5U));
-    EXPECT_EQ(22U, sumRangeQuery.getResultOnInterval(0U, 6U));
-    EXPECT_EQ(24U, sumRangeQuery.getResultOnInterval(0U, 7U));
-    EXPECT_EQ(33U, sumRangeQuery.getResultOnInterval(0U, 8U));
-    EXPECT_EQ(0U, sumRangeQuery.getResultOnInterval(0U, 9U));
-    EXPECT_EQ(21U, sumRangeQuery.getResultOnInterval(1U, 6U));
-    EXPECT_EQ(14U, sumRangeQuery.getResultOnInterval(2U, 5U));
-    EXPECT_EQ(9U, sumRangeQuery.getResultOnInterval(3U, 4U));
-    EXPECT_EQ(6U, sumRangeQuery.getResultOnInterval(4U, 4U));
+    EXPECT_EQ(1, sumRangeQuery.getResultOnInterval(0, 0));
+    EXPECT_EQ(4, sumRangeQuery.getResultOnInterval(0, 1));
+    EXPECT_EQ(8, sumRangeQuery.getResultOnInterval(0, 2));
+    EXPECT_EQ(11, sumRangeQuery.getResultOnInterval(0, 3));
+    EXPECT_EQ(17, sumRangeQuery.getResultOnInterval(0, 4));
+    EXPECT_EQ(18, sumRangeQuery.getResultOnInterval(0, 5));
+    EXPECT_EQ(22, sumRangeQuery.getResultOnInterval(0, 6));
+    EXPECT_EQ(24, sumRangeQuery.getResultOnInterval(0, 7));
+    EXPECT_EQ(33, sumRangeQuery.getResultOnInterval(0, 8));
+    EXPECT_EQ(0, sumRangeQuery.getResultOnInterval(0, 9));
+    EXPECT_EQ(21, sumRangeQuery.getResultOnInterval(1, 6));
+    EXPECT_EQ(14, sumRangeQuery.getResultOnInterval(2, 5));
+    EXPECT_EQ(9, sumRangeQuery.getResultOnInterval(3, 4));
+    EXPECT_EQ(6, sumRangeQuery.getResultOnInterval(4, 4));
 }
 
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksTwiceOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
+    RangeQueryForTest sumRangeQuery(values, 2, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    sumRangeQuery.changeValueAtIndex(3U, 3U);
-    sumRangeQuery.changeValueAtIndex(3U, 13U);
+    sumRangeQuery.changeValueAtIndex(3, 3);
+    sumRangeQuery.changeValueAtIndex(3, 13);
 
-    EXPECT_EQ(1U, sumRangeQuery.getResultOnInterval(0U, 0U));
-    EXPECT_EQ(4U, sumRangeQuery.getResultOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getResultOnInterval(0U, 2U));
-    EXPECT_EQ(21U, sumRangeQuery.getResultOnInterval(0U, 3U));
-    EXPECT_EQ(27U, sumRangeQuery.getResultOnInterval(0U, 4U));
-    EXPECT_EQ(28U, sumRangeQuery.getResultOnInterval(0U, 5U));
-    EXPECT_EQ(32U, sumRangeQuery.getResultOnInterval(0U, 6U));
-    EXPECT_EQ(34U, sumRangeQuery.getResultOnInterval(0U, 7U));
-    EXPECT_EQ(43U, sumRangeQuery.getResultOnInterval(0U, 8U));
-    EXPECT_EQ(0U, sumRangeQuery.getResultOnInterval(0U, 9U));
-    EXPECT_EQ(31U, sumRangeQuery.getResultOnInterval(1U, 6U));
-    EXPECT_EQ(24U, sumRangeQuery.getResultOnInterval(2U, 5U));
-    EXPECT_EQ(19U, sumRangeQuery.getResultOnInterval(3U, 4U));
-    EXPECT_EQ(6U, sumRangeQuery.getResultOnInterval(4U, 4U));
+    EXPECT_EQ(1, sumRangeQuery.getResultOnInterval(0, 0));
+    EXPECT_EQ(4, sumRangeQuery.getResultOnInterval(0, 1));
+    EXPECT_EQ(8, sumRangeQuery.getResultOnInterval(0, 2));
+    EXPECT_EQ(21, sumRangeQuery.getResultOnInterval(0, 3));
+    EXPECT_EQ(27, sumRangeQuery.getResultOnInterval(0, 4));
+    EXPECT_EQ(28, sumRangeQuery.getResultOnInterval(0, 5));
+    EXPECT_EQ(32, sumRangeQuery.getResultOnInterval(0, 6));
+    EXPECT_EQ(34, sumRangeQuery.getResultOnInterval(0, 7));
+    EXPECT_EQ(43, sumRangeQuery.getResultOnInterval(0, 8));
+    EXPECT_EQ(0, sumRangeQuery.getResultOnInterval(0, 9));
+    EXPECT_EQ(31, sumRangeQuery.getResultOnInterval(1, 6));
+    EXPECT_EQ(24, sumRangeQuery.getResultOnInterval(2, 5));
+    EXPECT_EQ(19, sumRangeQuery.getResultOnInterval(3, 4));
+    EXPECT_EQ(6, sumRangeQuery.getResultOnInterval(4, 4));
 }
 
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithCountWorksOnExample1) {
-    ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
-    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{4, 2, 5, 4, 2, 4, 3, 3, 4};
+    RangeQueryForTest countRangeQuery(values, 2, countFoursForARangeOfValues, plusForARangeOfBlockValues);
 
-    countRangeQuery.changeValueAtIndex(0U, 3U);
+    countRangeQuery.changeValueAtIndex(0, 3);
 
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(0U, 0U));
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(0U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(0U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 3U));
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 4U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(0U, 5U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(0U, 6U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(0U, 7U));
-    EXPECT_EQ(3U, countRangeQuery.getResultOnInterval(0U, 8U));
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(0U, 9U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(1U, 6U));
-    EXPECT_EQ(2U, countRangeQuery.getResultOnInterval(2U, 5U));
-    EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(3U, 4U));
-    EXPECT_EQ(0U, countRangeQuery.getResultOnInterval(4U, 4U));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(0, 0));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(0, 1));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(0, 2));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(0, 3));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(0, 4));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(0, 5));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(0, 6));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(0, 7));
+    EXPECT_EQ(3, countRangeQuery.getResultOnInterval(0, 8));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(0, 9));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(1, 6));
+    EXPECT_EQ(2, countRangeQuery.getResultOnInterval(2, 5));
+    EXPECT_EQ(1, countRangeQuery.getResultOnInterval(3, 4));
+    EXPECT_EQ(0, countRangeQuery.getResultOnInterval(4, 4));
 }
 
 TEST(RangeQueryWithBlocksTest, SquareRootSizeExampleWorks) {
@@ -194,14 +194,14 @@ TEST(RangeQueryWithBlocksTest, SquareRootSizeExampleWorks) {
     // -> the array is divided into sqrt(n) blocks, each of which contains sqrt(n) elements.
     // So all operations take O(sqrt(n)) time.
 
-    ValuesForTest values{5U, 8U, 6U, 3U, 2U, 5U, 2U, 6U, 7U, 1U, 7U, 5U, 6U, 2U, 6U, 2U};
-    RangeQueryForTest sumRangeQuery(values, 4U, plusForARangeOfValues, plusForARangeOfBlockValues);
+    ValuesForTest values{5, 8, 6, 3, 2, 5, 2, 6, 7, 1, 7, 5, 6, 2, 6, 2};
+    RangeQueryForTest sumRangeQuery(values, 4, plusForARangeOfValues, plusForARangeOfBlockValues);
 
-    EXPECT_EQ(44U, sumRangeQuery.getResultOnInterval(3U, 12U));
+    EXPECT_EQ(44, sumRangeQuery.getResultOnInterval(3, 12));
 
-    sumRangeQuery.changeValueAtIndex(5U, 0U);
+    sumRangeQuery.changeValueAtIndex(5, 0);
 
-    EXPECT_EQ(39U, sumRangeQuery.getResultOnInterval(3U, 12U));
+    EXPECT_EQ(39, sumRangeQuery.getResultOnInterval(3, 12));
 }
 
 }  // namespace algorithm

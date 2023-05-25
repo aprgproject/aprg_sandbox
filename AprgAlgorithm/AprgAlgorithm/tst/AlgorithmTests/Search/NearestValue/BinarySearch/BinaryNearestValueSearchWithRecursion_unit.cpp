@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = BinaryNearestValueSearchWithRecursion<ValuesForTest>;
 }  // namespace
 
@@ -51,7 +51,7 @@ TEST(BinaryNearestValueSearchWithRecursionTest, GetIndexOfNearestValueWorksWhenT
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
-    EXPECT_EQ(3U, search.getIndexOfNearestValue(33));
+    EXPECT_EQ(3, search.getIndexOfNearestValue(33));
 }
 
 TEST(BinaryNearestValueSearchWithRecursionTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
@@ -72,7 +72,7 @@ TEST(
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(5U, search.getIndexOfNearestValue(5U, 6U, 33U));
+    EXPECT_EQ(5, search.getIndexOfNearestValue(5, 6, 33));
 }
 
 TEST(
@@ -81,7 +81,7 @@ TEST(
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(3U, 5U, 33U));
+    EXPECT_EQ(4, search.getIndexOfNearestValue(3, 5, 33));
 }
 
 TEST(
@@ -90,7 +90,7 @@ TEST(
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(1U, 8U, 33U));
+    EXPECT_EQ(4, search.getIndexOfNearestValue(1, 8, 33));
 }
 
 }  // namespace algorithm

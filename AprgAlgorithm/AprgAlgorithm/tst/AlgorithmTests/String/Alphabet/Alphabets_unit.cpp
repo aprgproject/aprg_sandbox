@@ -27,43 +27,43 @@ TEST(AlphabetsTest, ContainsWorks) {
 TEST(AlphabetsTest, GetCharacterWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
-    EXPECT_EQ('A', alphabet.getCharacter(0U));
-    EXPECT_EQ('B', alphabet.getCharacter(1U));
-    EXPECT_EQ('C', alphabet.getCharacter(2U));
-    EXPECT_EQ('D', alphabet.getCharacter(3U));
-    EXPECT_EQ('E', alphabet.getCharacter(4U));
-    EXPECT_EQ('F', alphabet.getCharacter(5U));
-    EXPECT_EQ('\0', alphabet.getCharacter(6U));
+    EXPECT_EQ('A', alphabet.getCharacter(0));
+    EXPECT_EQ('B', alphabet.getCharacter(1));
+    EXPECT_EQ('C', alphabet.getCharacter(2));
+    EXPECT_EQ('D', alphabet.getCharacter(3));
+    EXPECT_EQ('E', alphabet.getCharacter(4));
+    EXPECT_EQ('F', alphabet.getCharacter(5));
+    EXPECT_EQ('\0', alphabet.getCharacter(6));
 }
 
 TEST(AlphabetsTest, GetDigitValueWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
-    EXPECT_EQ(0U, alphabet.getDigitValue('A'));
-    EXPECT_EQ(1U, alphabet.getDigitValue('B'));
-    EXPECT_EQ(2U, alphabet.getDigitValue('C'));
-    EXPECT_EQ(3U, alphabet.getDigitValue('D'));
-    EXPECT_EQ(4U, alphabet.getDigitValue('E'));
-    EXPECT_EQ(5U, alphabet.getDigitValue('F'));
-    EXPECT_EQ(0U, alphabet.getDigitValue('G'));
+    EXPECT_EQ(0, alphabet.getDigitValue('A'));
+    EXPECT_EQ(1, alphabet.getDigitValue('B'));
+    EXPECT_EQ(2, alphabet.getDigitValue('C'));
+    EXPECT_EQ(3, alphabet.getDigitValue('D'));
+    EXPECT_EQ(4, alphabet.getDigitValue('E'));
+    EXPECT_EQ(5, alphabet.getDigitValue('F'));
+    EXPECT_EQ(0, alphabet.getDigitValue('G'));
 }
 
 TEST(AlphabetsTest, GetRadixWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
-    EXPECT_EQ(6U, alphabet.getRadix());
+    EXPECT_EQ(6, alphabet.getRadix());
 }
 
 TEST(AlphabetsTest, ConvertStringToDigitValuesWorks) {
     AlphabetForTest alphabet("ABCDEF");
 
-    AlphabetForTest::DigitValues values{1U, 1U, 0U, 0U, 5U, 3U, 3U, 0U, 4U};
+    AlphabetForTest::DigitValues values{1, 1, 0, 0, 5, 3, 3, 0, 4};
     EXPECT_EQ(values, alphabet.convertStringToDigitValues("BBAGFDDGE"));
 }
 
 TEST(AlphabetsTest, ConvertDigitValuesToStringWorks) {
     AlphabetForTest alphabet("ABCDEF");
-    AlphabetForTest::DigitValues values{1U, 1U, 0U, 5U, 3U, 4U};
+    AlphabetForTest::DigitValues values{1, 1, 0, 5, 3, 4};
 
     EXPECT_EQ("BBAFDE", alphabet.convertDigitValuesToString(values));
 }

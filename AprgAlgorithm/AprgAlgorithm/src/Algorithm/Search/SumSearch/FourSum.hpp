@@ -12,7 +12,7 @@ namespace algorithm {
 template <typename Values>
 class FourSum {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using FourValues = std::tuple<Value, Value, Value, Value>;
 

@@ -27,4 +27,3 @@ include_directories(${APRG_ALGORITHM_INCLUDE_DIRECTORIES} ${APRG_ALGORITHM_TEST_
 target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT} pthread)
 add_test(${OUTFILE} ${OUTFILE})
 include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)
-

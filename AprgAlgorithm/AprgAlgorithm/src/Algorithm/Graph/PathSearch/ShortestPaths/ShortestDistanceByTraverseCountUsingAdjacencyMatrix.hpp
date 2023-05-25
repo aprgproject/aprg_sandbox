@@ -21,8 +21,7 @@ public:
     using DistanceEntry = AlbaNumber;
     using DistancetMatrix = matrix::AlbaMatrix<DistanceEntry>;
 
-    ShortestDistanceByTraverseCountUsingAdjacencyMatrix(
-        EdgeWeightedGraph const& graph, unsigned int const traverseCount)
+    ShortestDistanceByTraverseCountUsingAdjacencyMatrix(EdgeWeightedGraph const& graph, int const traverseCount)
         : m_shortestDistanceMatrix(createDistanceMatrix(traverseCount, graph)) {}
 
     Weight getShortestDistance(Vertex const& start, Vertex const& end) const {
@@ -30,10 +29,10 @@ public:
     }
 
 private:
-    DistancetMatrix createDistanceMatrix(unsigned int const traverseCount, EdgeWeightedGraph const& graph) {
+    DistancetMatrix createDistanceMatrix(int const traverseCount, EdgeWeightedGraph const& graph) {
         AdjacencyMatrix const& adjacencyMatrix(graph.getAdjacencyMatrix());
         DistancetMatrix initialDistanceMatrix(adjacencyMatrix.getNumberOfColumns(), adjacencyMatrix.getNumberOfRows());
-        adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+        adjacencyMatrix.iterateAllThroughYAndThenX([&](int const x, int const y) {
             // Let us construct an adjacency matrix where INFINITY means that an edge does not exist, and other values
             // correspond to edge weights.
             AlbaNumber entryValue = adjacencyMatrix.getEntry(x, y) ? AlbaNumber(graph.getWeight(x, y))
@@ -43,13 +42,13 @@ private:
         return transformMultipleTimes(initialDistanceMatrix, traverseCount);
     }
 
-    DistancetMatrix transformMultipleTimes(DistancetMatrix const& base, unsigned int const scalarExponent) {
+    DistancetMatrix transformMultipleTimes(DistancetMatrix const& base, int const scalarExponent) {
         assert(base.getNumberOfColumns() == base.getNumberOfRows());
 
         DistancetMatrix result(base);
         if (scalarExponent > 0) {
             DistancetMatrix newBase(base);
-            unsigned int newExponent(scalarExponent - 1);
+            int newExponent(scalarExponent - 1);
             while (newExponent > 0) {
                 if (mathHelper::isEven(newExponent)) {
                     newBase = transformOneTime(newBase, newBase);
@@ -73,9 +72,9 @@ private:
         DistancetMatrix::ListOfMatrixData rowsOfFirstMatrix, columnsOfSecondMatrix;
         first.retrieveRows(rowsOfFirstMatrix);
         second.retrieveColumns(columnsOfSecondMatrix);
-        unsigned int y = 0;
+        int y = 0;
         for (DistancetMatrix::MatrixData const& rowOfFirstMatrix : rowsOfFirstMatrix) {
-            unsigned int x = 0;
+            int x = 0;
             for (DistancetMatrix::MatrixData const& columnOfSecondMatrix : columnsOfSecondMatrix) {
                 result.setEntry(x, y, transformOneSetOfValues(rowOfFirstMatrix, columnOfSecondMatrix));
                 x++;
@@ -88,8 +87,8 @@ private:
     DistanceEntry transformOneSetOfValues(
         DistancetMatrix::MatrixData const& first, DistancetMatrix::MatrixData const& second) {
         DistanceEntry result(AlbaNumberConstants::ALBA_NUMBER_POSITIVE_INFINITY);
-        unsigned int minSize = std::min(first.size(), second.size());
-        for (unsigned int i = 0; i < minSize; i++) {
+        int minSize = std::min(first.size(), second.size());
+        for (int i = 0; i < minSize; i++) {
             AlbaNumber currentValue = first.at(i) + second.at(i);
             if (currentValue < result) {
                 result = currentValue;

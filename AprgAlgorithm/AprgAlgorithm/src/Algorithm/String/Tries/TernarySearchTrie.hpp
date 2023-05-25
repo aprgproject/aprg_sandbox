@@ -33,9 +33,9 @@ public:
         return nodePointer != nullptr;
     }
 
-    unsigned int getSize() const override { return getSize(m_root); }
+    int getSize() const override { return getSize(m_root); }
 
-    unsigned int getNumberOfNodes() const {
+    int getNumberOfNodes() const {
         return getNumberOfNodes(m_root);  // dont count the root pointer
     }
 
@@ -52,7 +52,7 @@ public:
     }
 
     Key getLongestPrefixOf(Key const& keyToCheck) const override {
-        unsigned int longestPrefixLength(getLengthOfLongestPrefix(m_root, keyToCheck, 0U, 0U));
+        int longestPrefixLength(getLengthOfLongestPrefix(m_root, keyToCheck, 0, 0));
         return keyToCheck.substr(0, longestPrefixLength);
     }
 
@@ -72,7 +72,7 @@ public:
 
     Keys getAllKeysWithPrefix(Key const& prefix) const override {
         Keys result;
-        Node const* const firstNode(get(m_root, prefix, 0U));
+        Node const* const firstNode(get(m_root, prefix, 0));
         if (firstNode != nullptr) {
             ValueUniquePointer const& valueUniquePointer(firstNode->valueUniquePointer);
             if (valueUniquePointer) {
@@ -90,8 +90,8 @@ public:
     }
 
 private:
-    unsigned int getSize(NodeUniquePointer const& currentNodePointer) const {
-        unsigned int result(0);
+    int getSize(NodeUniquePointer const& currentNodePointer) const {
+        int result(0);
         if (currentNodePointer) {
             ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
             if (valueUniquePointer) {
@@ -104,8 +104,8 @@ private:
         return result;
     }
 
-    unsigned int getNumberOfNodes(NodeUniquePointer const& currentNodePointer) const {
-        unsigned int result(0);
+    int getNumberOfNodes(NodeUniquePointer const& currentNodePointer) const {
+        int result(0);
         if (currentNodePointer) {
             result++;
             result += getNumberOfNodes(currentNodePointer->left);
@@ -115,15 +115,15 @@ private:
         return result;
     }
 
-    Node const* get(NodeUniquePointer const& currentNodePointer, Key const& key, unsigned int const index) const {
+    Node const* get(NodeUniquePointer const& currentNodePointer, Key const& key, int const index) const {
         Node const* result(nullptr);
-        if (currentNodePointer && index < key.length()) {
+        if (currentNodePointer && index < static_cast<int>(key.length())) {
             char c(key.at(index));
             if (c < currentNodePointer->c) {
                 result = get(currentNodePointer->left, key, index);  // search left
             } else if (c > currentNodePointer->c) {
                 result = get(currentNodePointer->right, key, index);  // search right
-            } else if (index < key.length() - 1) {
+            } else if (index < static_cast<int>(key.length()) - 1) {
                 result = get(currentNodePointer->mid, key, index + 1);  // only advance index when character is a match
             } else {
                 result = currentNodePointer.get();
@@ -132,11 +132,10 @@ private:
         return result;
     }
 
-    unsigned int getLengthOfLongestPrefix(
-        NodeUniquePointer const& currentNodePointer, Key const& keyToCheck, unsigned int const index,
-        unsigned int const length) const {
-        unsigned int currentLongestLength(length);
-        if (currentNodePointer && index < keyToCheck.length()) {
+    int getLengthOfLongestPrefix(
+        NodeUniquePointer const& currentNodePointer, Key const& keyToCheck, int const index, int const length) const {
+        int currentLongestLength(length);
+        if (currentNodePointer && index < static_cast<int>(keyToCheck.length())) {
             char c(keyToCheck.at(index));
             if (c < currentNodePointer->c) {
                 currentLongestLength =
@@ -144,7 +143,7 @@ private:
             } else if (c > currentNodePointer->c) {
                 currentLongestLength =
                     getLengthOfLongestPrefix(currentNodePointer->right, keyToCheck, index, currentLongestLength);
-            } else if (index < keyToCheck.length()) {
+            } else if (index < static_cast<int>(keyToCheck.length())) {
                 if (currentNodePointer->valueUniquePointer) {
                     currentLongestLength = index + 1;
                 }
@@ -173,8 +172,8 @@ private:
         Node const* const currentNodePointer, Key const& previousPrefix, Key const& patternToMatch,
         Keys& collectedKeys) const {
         if (currentNodePointer != nullptr) {
-            unsigned int previousPrefixLength = previousPrefix.length();
-            unsigned int lastIndexToMatch = patternToMatch.length() - 1;
+            int previousPrefixLength = previousPrefix.length();
+            int lastIndexToMatch = patternToMatch.length() - 1;
             char currentChar = currentNodePointer->c;
             char charToMatch = patternToMatch.at(previousPrefixLength);
             Key currentPrefix(previousPrefix + currentNodePointer->c);
@@ -203,7 +202,7 @@ private:
         }
     }
 
-    void put(NodeUniquePointer& currentNodePointer, Key const& key, Value const& value, unsigned int const index) {
+    void put(NodeUniquePointer& currentNodePointer, Key const& key, Value const& value, int const index) {
         char charAtKey(key.at(index));
         if (!currentNodePointer) {
             currentNodePointer = std::make_unique<Node>(Node{charAtKey, nullptr, nullptr, nullptr, nullptr});
@@ -212,16 +211,16 @@ private:
             put(currentNodePointer->left, key, value, index);
         } else if (charAtKey > currentNodePointer->c) {
             put(currentNodePointer->right, key, value, index);
-        } else if (index < key.length() - 1) {
+        } else if (index < static_cast<int>(key.length()) - 1) {
             put(currentNodePointer->mid, key, value, index + 1);
         } else {
             currentNodePointer->valueUniquePointer = std::make_unique<Value>(value);
         }
     }
 
-    void deleteBasedOnKey(NodeUniquePointer& currentNodePointer, Key const& key, unsigned int const index) {
+    void deleteBasedOnKey(NodeUniquePointer& currentNodePointer, Key const& key, int const index) {
         if (currentNodePointer) {
-            unsigned int lastIndex = key.length() - 1;
+            int lastIndex = key.length() - 1;
             ValueUniquePointer& valueUniquePointer(currentNodePointer->valueUniquePointer);
             if (index < lastIndex) {
                 char charAtKey(key.at(index));

@@ -11,16 +11,16 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
-using ReachabilityForTest = TransitiveClosureWithArray<unsigned int, 13>;
+using GraphForTest = DirectedGraphWithListOfEdges<int>;
+using ReachabilityForTest = TransitiveClosureWithArray<int, 13>;
 }  // namespace
 
 TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenEmpty) {
-    testIsReachableWhenEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
+    testIsReachableWhenEmptyWithVertexAsInt<ReachabilityForTest, GraphForTest>();
 }
 
 TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenNotEmpty) {
-    testIsReachableWhenNotEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
+    testIsReachableWhenNotEmptyWithVertexAsInt<ReachabilityForTest, GraphForTest>();
 }
 
 }  // namespace algorithm

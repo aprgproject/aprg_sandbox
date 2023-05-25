@@ -10,7 +10,7 @@ namespace algorithm {
 template <typename Value>
 class RangeQueryForTwoDimensionsWithAccumulator {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
     using AccumulatorFunction = std::function<Value(Value const&, Value const&)>;
 
@@ -38,10 +38,9 @@ public:
 private:
     Value getPartialResultAt(int const x, int const y) const {
         Value result{};
-        if (x >= 0 && x < static_cast<int>(m_partialResults.getNumberOfColumns()) && y >= 0 &&
-            y < static_cast<int>(m_partialResults.getNumberOfRows())) {
-            result =
-                m_partialResults.getEntryConstReference(static_cast<unsigned int>(x), static_cast<unsigned int>(y));
+        if (x >= 0 && x < static_cast<Index>(m_partialResults.getNumberOfColumns()) && y >= 0 &&
+            y < static_cast<Index>(m_partialResults.getNumberOfRows())) {
+            result = m_partialResults.getEntryConstReference(x, y);
         }
         return result;
     }
@@ -50,14 +49,14 @@ private:
         // Quadratic time because of the second loop.
 
         Value partialResultOnFirstRow{};
-        for (unsigned int x = 0; x < valueMatrix.getNumberOfColumns(); x++) {
+        for (int x = 0; x < static_cast<int>(valueMatrix.getNumberOfColumns()); x++) {
             partialResultOnFirstRow += valueMatrix.getEntryConstReference(x, 0);
             m_partialResults.setEntry(x, 0, partialResultOnFirstRow);
         }
 
-        for (unsigned int y = 1; y < valueMatrix.getNumberOfRows(); y++) {
+        for (int y = 1; y < static_cast<int>(valueMatrix.getNumberOfRows()); y++) {
             Value partialResultOnRow{};
-            for (unsigned int x = 0; x < valueMatrix.getNumberOfColumns(); x++) {
+            for (int x = 0; x < static_cast<int>(valueMatrix.getNumberOfColumns()); x++) {
                 partialResultOnRow += valueMatrix.getEntryConstReference(x, y);
                 m_partialResults.setEntry(x, y, partialResultOnRow + m_partialResults.getEntryConstReference(x, y - 1));
             }

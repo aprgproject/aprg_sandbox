@@ -12,7 +12,7 @@ namespace algorithm {
 template <typename Object>
 class DoublingSizeQueue : public BaseQueue<Object> {
 public:
-    DoublingSizeQueue() : m_containerSize(0U), m_beforeFirstEntryIndex(-1), m_lastEntryIndex(-1), m_objects(nullptr) {
+    DoublingSizeQueue() : m_containerSize(0), m_beforeFirstEntryIndex(-1), m_lastEntryIndex(-1), m_objects(nullptr) {
         initialize(INITIAL_CONTAINER_SIZE);
     }
 
@@ -20,9 +20,7 @@ public:
 
     bool isEmpty() const override { return getSize() == 0; }
 
-    unsigned int getSize() const override {
-        return static_cast<unsigned int>(m_lastEntryIndex - m_beforeFirstEntryIndex);
-    }
+    int getSize() const override { return m_lastEntryIndex - m_beforeFirstEntryIndex; }
 
     void enqueue(Object const& object) override {
         resizeOnEnqueueIfNeeded();
@@ -30,13 +28,13 @@ public:
     }
 
     Object dequeue() override {
-        assert(static_cast<int>(m_containerSize) > m_beforeFirstEntryIndex + 1);
+        assert(m_containerSize > m_beforeFirstEntryIndex + 1);
         Object result(m_objects[++m_beforeFirstEntryIndex]);
         resizeOnDequeueIfNeeded();
         return result;
     }
 
-    unsigned int getContainerSize() const { return m_containerSize; }
+    int getContainerSize() const { return m_containerSize; }
 
 private:
     void deleteAllObjects() {
@@ -45,14 +43,14 @@ private:
         }
     }
 
-    void initialize(unsigned int const initialSize) {
+    void initialize(int const initialSize) {
         if (m_objects == nullptr) {
             m_objects = new Object[initialSize]{};
             m_containerSize = initialSize;
         }
     }
 
-    void resize(unsigned int const newSize) {
+    void resize(int const newSize) {
         Object* newObjects = new Object[newSize]{};
         if (m_objects != nullptr) {
             std::copy(m_objects + m_beforeFirstEntryIndex + 1, m_objects + m_lastEntryIndex + 1, newObjects);
@@ -65,7 +63,7 @@ private:
     }
 
     void resizeOnEnqueueIfNeeded() {
-        if (m_lastEntryIndex + 1 == static_cast<int>(m_containerSize)) {
+        if (m_lastEntryIndex + 1 == m_containerSize) {
             resize(m_containerSize * 2);
         }
     }
@@ -76,8 +74,8 @@ private:
         }
     }
 
-    static constexpr unsigned int INITIAL_CONTAINER_SIZE = 1U;
-    unsigned int m_containerSize;
+    static constexpr int INITIAL_CONTAINER_SIZE = 1;
+    int m_containerSize;
     int m_beforeFirstEntryIndex;
     int m_lastEntryIndex;
     Object* m_objects;

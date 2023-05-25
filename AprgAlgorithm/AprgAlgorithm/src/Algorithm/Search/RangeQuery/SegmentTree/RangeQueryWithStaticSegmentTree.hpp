@@ -28,7 +28,7 @@ public:
 
     // Examples of such queries are minimum and maximum, greatest common divisor, and bit operations and, or and xor.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
@@ -36,7 +36,7 @@ public:
     RangeQueryWithStaticSegmentTree() = default;
 
     RangeQueryWithStaticSegmentTree(Values const& valuesToCheck, Function const& functionObject)
-        : m_startOfChildren(0U), m_treeValues(), m_function(functionObject) {
+        : m_startOfChildren(0), m_treeValues(), m_function(functionObject) {
         initialize(valuesToCheck);
     }
 
@@ -54,8 +54,8 @@ public:
     {
         // This has log(N) running time
         Value result{};
-        if (start <= end && (m_startOfChildren + start) < m_treeValues.size() &&
-            (m_startOfChildren + end) < m_treeValues.size()) {
+        if (start <= end && (m_startOfChildren + start) < static_cast<Index>(m_treeValues.size()) &&
+            (m_startOfChildren + end) < static_cast<Index>(m_treeValues.size())) {
             result = getValueOnIntervalFromTopToBottom(
                 start, end, Utilities::ROOT_PARENT_INDEX, 0, m_startOfChildren);  // startOfChildren is size of base too
         }
@@ -106,7 +106,8 @@ protected:
         Value result{};
         Index first(m_startOfChildren + start);
         Index last(m_startOfChildren + end);
-        if (first <= last && first < m_treeValues.size() && last < m_treeValues.size()) {
+        if (first <= last && first < static_cast<Index>(m_treeValues.size()) &&
+            last < static_cast<Index>(m_treeValues.size())) {
             result = m_treeValues.at(first++);
             while (first < last) {
                 if (Utilities::isARightChild(first)) {
@@ -169,9 +170,9 @@ protected:
     void changeValueAtIndexFromBottomToTop(Index const index, Value const& newValue) {
         // This has log(N) running time
         Index treeIndex(m_startOfChildren + index);
-        if (treeIndex < m_treeValues.size()) {
+        if (treeIndex < static_cast<Index>(m_treeValues.size())) {
             m_treeValues[treeIndex] = newValue;
-            if (m_treeValues.size() > 2U) {
+            if (m_treeValues.size() > 2) {
                 while (treeIndex > 0) {
                     Index parentIndex(Utilities::getParent(treeIndex));
                     if (Utilities::isALeftChild(treeIndex)) {
@@ -183,9 +184,9 @@ protected:
                     }
                     treeIndex = parentIndex;
                 }
-                m_treeValues[0] = m_function(m_treeValues.at(1U), m_treeValues.at(2U));
-            } else if (m_treeValues.size() > 1U) {
-                m_treeValues[0] = m_treeValues.at(1U);
+                m_treeValues[0] = m_function(m_treeValues.at(1), m_treeValues.at(2));
+            } else if (m_treeValues.size() > 1) {
+                m_treeValues[0] = m_treeValues.at(1);
             }
         }
     }

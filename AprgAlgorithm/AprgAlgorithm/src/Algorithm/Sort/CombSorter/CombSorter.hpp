@@ -15,14 +15,14 @@ public:
 
     void sort(Values& valuesToSort) const override {
         if (!valuesToSort.empty()) {
-            unsigned int size = valuesToSort.size();
-            unsigned int skip = size;
+            int size = valuesToSort.size();
+            int skip = size;
 
             bool didSwapHappened(true);
             while (didSwapHappened || skip != 1) {
                 didSwapHappened = false;
                 skip = getNextSkipValue(skip);
-                for (unsigned int i = 0; i < size - skip; i++) {
+                for (int i = 0; i < size - skip; i++) {
                     if (valuesToSort.at(i + skip) < valuesToSort.at(i)) {
                         didSwapHappened = true;
                         std::swap(valuesToSort[i], valuesToSort[i + skip]);
@@ -33,8 +33,8 @@ public:
     }
 
 private:
-    unsigned int getNextSkipValue(unsigned int const skip) const {
-        unsigned int result = (skip * 10) / 13;  // shrink factor
+    int getNextSkipValue(int const skip) const {
+        int result = (skip * 10) / 13;  // shrink factor
         result = (result < 1) ? 1 : result;
         return result;
     }

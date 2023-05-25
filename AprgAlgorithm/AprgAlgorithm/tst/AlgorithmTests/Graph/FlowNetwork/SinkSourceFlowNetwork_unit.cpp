@@ -8,37 +8,37 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using FlowDataTypeForTest = double;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using FlowNetworkForTest = SinkSourceFlowNetwork<VertexForTest, FlowDataTypeForTest, DirectedGraphForTest>;
 }  // namespace
 
 TEST(FlowNetworkTest, IsAnStCutWorks) {
-    FlowNetworkForTest graph(0U, 2U);
-    graph.connect(0U, 1U, 15.25, 3.5);
-    graph.connect(1U, 2U, 16.25, 4.5);
+    FlowNetworkForTest graph(0, 2);
+    graph.connect(0, 1, 15.25, 3.5);
+    graph.connect(1, 2, 16.25, 4.5);
 
-    EXPECT_FALSE(graph.isAnStCut({1U, 2U}, {0U, 1U}));
-    EXPECT_FALSE(graph.isAnStCut({0U, 1U}, {0U, 1U}));
-    EXPECT_FALSE(graph.isAnStCut({1U, 2U}, {1U, 2U}));
-    EXPECT_TRUE(graph.isAnStCut({0U, 1U}, {1U, 2U}));
+    EXPECT_FALSE(graph.isAnStCut({1, 2}, {0, 1}));
+    EXPECT_FALSE(graph.isAnStCut({0, 1}, {0, 1}));
+    EXPECT_FALSE(graph.isAnStCut({1, 2}, {1, 2}));
+    EXPECT_TRUE(graph.isAnStCut({0, 1}, {1, 2}));
 }
 
 TEST(FlowNetworkTest, GetSourceVertexWorks) {
-    FlowNetworkForTest graph(0U, 2U);
-    graph.connect(0U, 1U, 15.25, 3.5);
-    graph.connect(1U, 2U, 16.25, 4.5);
+    FlowNetworkForTest graph(0, 2);
+    graph.connect(0, 1, 15.25, 3.5);
+    graph.connect(1, 2, 16.25, 4.5);
 
-    EXPECT_EQ(0U, graph.getSourceVertex());
+    EXPECT_EQ(0, graph.getSourceVertex());
 }
 
 TEST(FlowNetworkTest, GetSinkVerteWorks) {
-    FlowNetworkForTest graph(0U, 2U);
-    graph.connect(0U, 1U, 15.25, 3.5);
-    graph.connect(1U, 2U, 16.25, 4.5);
+    FlowNetworkForTest graph(0, 2);
+    graph.connect(0, 1, 15.25, 3.5);
+    graph.connect(1, 2, 16.25, 4.5);
 
-    EXPECT_EQ(2U, graph.getSinkVertex());
+    EXPECT_EQ(2, graph.getSinkVertex());
 }
 
 }  // namespace algorithm

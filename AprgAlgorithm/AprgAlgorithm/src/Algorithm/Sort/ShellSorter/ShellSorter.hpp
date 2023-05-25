@@ -15,7 +15,7 @@ public:
     ShellSorter() = default;
 
     void sort(Values& valuesToSort) const override {
-        unsigned int skipValue(getSkipValue(valuesToSort.size()));
+        int skipValue(getSkipValue(valuesToSort.size()));
         while (skipValue >= 1) {
             sortWithSkipping(valuesToSort, skipValue);
             skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.
@@ -23,26 +23,26 @@ public:
     }
 
 private:
-    void sortWithSkipping(Values& valuesToSort, unsigned int const skipValue) const {
+    void sortWithSkipping(Values& valuesToSort, int const skipValue) const {
         // This is h-sorting. An h-sorted array is h interleaved sorted subsequences.
         // This is insertion sort but with skipping
-        for (unsigned int i = skipValue; i < valuesToSort.size(); i++) {
+        for (int i = skipValue; i < static_cast<int>(valuesToSort.size()); i++) {
             continuouslySwapDownIfStillOutOfOrderWithSkipping(valuesToSort, i, skipValue);
         }
     }
 
     void continuouslySwapDownIfStillOutOfOrderWithSkipping(
-        Values& valuesToSort, unsigned int const startingIndex, unsigned int const skipValue) const {
+        Values& valuesToSort, int const startingIndex, int const skipValue) const {
         // Works similar to insertion sort (but with skipping)
-        for (unsigned int i = startingIndex; i >= skipValue && valuesToSort.at(i) < valuesToSort.at(i - skipValue);
+        for (int i = startingIndex; i >= skipValue && valuesToSort.at(i) < valuesToSort.at(i - skipValue);
              i -= skipValue) {
             std::swap(valuesToSort[i], valuesToSort[i - skipValue]);
         }
     }
 
-    unsigned int getSkipValue(unsigned int const size) const {
+    int getSkipValue(int const size) const {
         // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
-        unsigned int result(1);
+        int result(1);
         while (result < size / 3) {
             result = 3 * result + 1;
         }

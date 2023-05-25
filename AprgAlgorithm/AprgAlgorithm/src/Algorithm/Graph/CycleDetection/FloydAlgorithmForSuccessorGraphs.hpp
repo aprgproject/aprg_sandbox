@@ -66,9 +66,9 @@ private:
 
     bool isAtTheEnd(Vertex const& vertex) const { return m_walker.isAtTheEnd(vertex); }
 
-    Vertex walkOne(Vertex const& vertex) { return m_walker.walk(vertex, 1U); }
+    Vertex walkOne(Vertex const& vertex) { return m_walker.walk(vertex, 1); }
 
-    Vertex walkTwo(Vertex const& vertex) { return m_walker.walk(vertex, 2U); }
+    Vertex walkTwo(Vertex const& vertex) { return m_walker.walk(vertex, 2); }
 
     BaseDirectedGraphWithVertex const& m_graph;
     Walker m_walker;

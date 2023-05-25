@@ -14,8 +14,8 @@ namespace algorithm {
 template <typename Code>
 class LzwCompression {
 public:
-    static constexpr unsigned int RADIX = 256U;
-    static constexpr unsigned int CODE_WORD_WIDTH = 12;
+    static constexpr int RADIX = 256;
+    static constexpr int CODE_WORD_WIDTH = 12;
     static constexpr Code MAX_NUMBER_CODE_WORDS = 1 << CODE_WORD_WIDTH;
 
     using SymbolTableUsingTrie = TernarySearchTrie<Code>;
@@ -39,7 +39,7 @@ public:
             std::string bestTrieMatch(codeTrie.getLongestPrefixOf(wholeInputString));  // find longest prefix match
             writeCode(writer, codeTrie.get(bestTrieMatch));  // write code word for the best match in trie
             Code matchLength(bestTrieMatch.length());
-            if (matchLength < wholeInputString.length() && lastCode < MAX_NUMBER_CODE_WORDS) {
+            if (matchLength < static_cast<Code>(wholeInputString.length()) && lastCode < MAX_NUMBER_CODE_WORDS) {
                 codeTrie.put(wholeInputString.substr(0, matchLength + 1), lastCode++);  // add new next code word
             }
             // remove processed part in the input:
@@ -98,11 +98,11 @@ private:
 
     void writeCode(AlbaStreamBitWriter& writer, Code const& code) {
         std::bitset<CODE_WORD_WIDTH> bitsetToWrite(code);
-        writer.writeBitsetData<CODE_WORD_WIDTH>(bitsetToWrite, CODE_WORD_WIDTH - 1, 0U);
+        writer.writeBitsetData<CODE_WORD_WIDTH>(bitsetToWrite, CODE_WORD_WIDTH - 1, 0);
     }
 
     Code readOneCodeword(AlbaStreamBitReader& reader) {
-        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(CODE_WORD_WIDTH - 1, 0U));
+        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(CODE_WORD_WIDTH - 1, 0));
         return static_cast<Code>(bitsetCodeword.to_ullong());
     }
 };

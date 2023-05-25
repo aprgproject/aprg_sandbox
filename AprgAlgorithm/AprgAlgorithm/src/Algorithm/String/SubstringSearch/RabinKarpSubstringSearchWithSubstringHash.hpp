@@ -12,9 +12,9 @@ namespace algorithm {
 template <typename Index, typename HashValue>
 class RabinKarpSubstringSearchWithSubstringHash {
 public:
-    using RadixType = unsigned int;
-    static constexpr RadixType RADIX = 256U;
-    static constexpr HashValue A_LARGE_PRIME = 1229952067U;  // hard coded for now (think of an implementation later)
+    using RadixType = int;
+    static constexpr RadixType RADIX = 256;
+    static constexpr HashValue A_LARGE_PRIME = 1229952067;  // hard coded for now (think of an implementation later)
 
     RabinKarpSubstringSearchWithSubstringHash(std::string const& substringToMatch)
         : m_substringToMatch(substringToMatch),
@@ -24,9 +24,9 @@ public:
 
     Index search(std::string const& mainString) {
         Index result(static_cast<Index>(std::string::npos));
-        if (m_substringLength > 0U && m_substringLength <= mainString.length()) {
+        if (m_substringLength > 0 && m_substringLength <= static_cast<Index>(mainString.length())) {
             HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, mainString);
-            for (Index offset = 0; offset + m_substringLength <= mainString.length(); offset++) {
+            for (Index offset = 0; offset + m_substringLength <= static_cast<Index>(mainString.length()); offset++) {
                 if (m_substringToMatchHash ==
                     hashFunction.getHashCodeOfSubstring(offset, offset + m_substringLength - 1)) {
                     result = offset;  // Monte carlo approach (no double check)

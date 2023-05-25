@@ -6,7 +6,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Key, typename Value, typename HashFunction, unsigned int HASH_TABLE_SIZE>
+template <typename Key, typename Value, typename HashFunction, int HASH_TABLE_SIZE>
 class SeparateChainingHashSymbolTable
     : public BaseSeparateChainingHashSymbolTable<Key, Value, HashFunction, HASH_TABLE_SIZE> {};
 

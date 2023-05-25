@@ -13,8 +13,8 @@ public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-    using Depths = std::vector<unsigned int>;
-    using VertexToIndexMap = std::map<Vertex, unsigned int>;
+    using Depths = std::vector<int>;
+    using VertexToIndexMap = std::map<Vertex, int>;
 
     LowestCommonAncestors(BaseUndirectedGraphWithVertex const& graph, Vertex const& rootOfTree)
         : m_graph(graph), m_rootOfTree(rootOfTree) {
@@ -30,33 +30,33 @@ public:
         auto it1 = m_vertexToFirstIndexMap.find(vertex1);
         auto it2 = m_vertexToFirstIndexMap.find(vertex2);
         if (it1 != m_vertexToFirstIndexMap.cend() && it2 != m_vertexToFirstIndexMap.cend()) {
-            unsigned int vertexIndex1 = it1->second;
-            unsigned int vertexIndex2 = it2->second;
-            unsigned int lowestCommonAncestorIndex(getLowestCommonAncestorIndex(vertexIndex1, vertexIndex2));
+            int vertexIndex1 = it1->second;
+            int vertexIndex2 = it2->second;
+            int lowestCommonAncestorIndex(getLowestCommonAncestorIndex(vertexIndex1, vertexIndex2));
             result = m_verticesInTreeOrder.at(lowestCommonAncestorIndex);
         }
         return result;
     }
 
-    unsigned int getDistanceBetweenVertices(Vertex const& vertex1, Vertex const& vertex2) const {
-        unsigned int result{};
+    int getDistanceBetweenVertices(Vertex const& vertex1, Vertex const& vertex2) const {
+        int result{};
         auto it1 = m_vertexToFirstIndexMap.find(vertex1);
         auto it2 = m_vertexToFirstIndexMap.find(vertex2);
         if (it1 != m_vertexToFirstIndexMap.cend() && it2 != m_vertexToFirstIndexMap.cend()) {
-            unsigned int vertexIndex1 = it1->second;
-            unsigned int vertexIndex2 = it2->second;
-            unsigned int lowestCommonAncestorIndex(getLowestCommonAncestorIndex(vertexIndex1, vertexIndex2));
+            int vertexIndex1 = it1->second;
+            int vertexIndex2 = it2->second;
+            int lowestCommonAncestorIndex(getLowestCommonAncestorIndex(vertexIndex1, vertexIndex2));
             result = m_depths.at(vertexIndex1) + m_depths.at(vertexIndex2) - 2 * m_depths.at(lowestCommonAncestorIndex);
         }
         return result;
     }
 
 private:
-    unsigned int getLowestCommonAncestorIndex(unsigned int const vertexIndex1, unsigned int const vertexIndex2) const {
-        unsigned int result = vertexIndex1;
-        unsigned int minimumDepth(m_depths.at(vertexIndex1));
-        for (unsigned int i = vertexIndex1 + 1; i <= vertexIndex2; i++) {
-            unsigned int currentDepth(m_depths.at(i));
+    int getLowestCommonAncestorIndex(int const vertexIndex1, int const vertexIndex2) const {
+        int result = vertexIndex1;
+        int minimumDepth(m_depths.at(vertexIndex1));
+        for (int i = vertexIndex1 + 1; i <= vertexIndex2; i++) {
+            int currentDepth(m_depths.at(i));
             if (minimumDepth > currentDepth) {
                 minimumDepth = currentDepth;
                 result = i;
@@ -77,8 +77,8 @@ private:
         if (m_processedVertices.isNotFound(startVertex) &&
             !m_graph.getAdjacentVerticesAt(startVertex).empty())  // dont include invalid vertex
         {
-            unsigned int index(0);
-            unsigned int depth(0);
+            int index(0);
+            int depth(0);
 
             traverseUsingDfs(index, depth, startVertex);
 
@@ -87,7 +87,7 @@ private:
         }
     }
 
-    void traverseUsingDfs(unsigned int& index, unsigned int& depth, Vertex const& vertex) {
+    void traverseUsingDfs(int& index, int& depth, Vertex const& vertex) {
         // However, we use a different tree traversal array than before:
         // we add each node to the array always when the depth-first search walks through the node, and not only at the
         // first visit. Hence, a node that has k children appears k+1 times in the array and there are a total of 2n-1
@@ -106,7 +106,7 @@ private:
         depth--;
     }
 
-    void addVertex(unsigned int& index, unsigned int const depth, Vertex const& vertex) {
+    void addVertex(int& index, int const depth, Vertex const& vertex) {
         m_verticesInTreeOrder.emplace_back(vertex);
         m_depths.emplace_back(depth);
         index++;

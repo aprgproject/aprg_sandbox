@@ -9,11 +9,11 @@ namespace alba {
 namespace algorithm {
 
 template <typename Key>
-bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth);
+bool isEqualThanWithDepth(Key const& key1, Key const& key2, int const depth);
 template <typename Key>
-bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth);
+bool isLessThanWithDepth(Key const& key1, Key const& key2, int const depth);
 template <typename Key>
-bool isGreaterThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth);
+bool isGreaterThanWithDepth(Key const& key1, Key const& key2, int const depth);
 
 template <typename Key>
 class KdTree : public BaseBinarySearchTreeSet<Key> {
@@ -27,7 +27,7 @@ public:
 
 protected:
     bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const override {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         bool result(false);
         if (nodePointer) {
@@ -46,7 +46,7 @@ protected:
 
     Node const* getNodeWithFloorStartingOnThisNode(
         NodeUniquePointer const& nodePointer, Key const& key) const override {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         Node const* result(nullptr);
         if (nodePointer) {
@@ -74,7 +74,7 @@ protected:
 
     Node const* getNodeWithCeilingStartingOnThisNode(
         NodeUniquePointer const& nodePointer, Key const& key) const override {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         Node const* result(nullptr);
         if (nodePointer) {
@@ -96,10 +96,10 @@ protected:
         return result;
     }
 
-    unsigned int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const override {
-        static unsigned int depth = 0;
+    int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const override {
+        static int depth = 0;
         depth++;
-        unsigned int result(0);
+        int result(0);
         if (nodePointer) {
             Key const& currentKey(nodePointer->key);
             if (isLessThanWithDepth(key, currentKey, depth)) {
@@ -117,7 +117,7 @@ protected:
     }
 
     void putStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) override {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         if (nodePointer) {
             Key const& currentKey(nodePointer->key);
@@ -129,13 +129,13 @@ protected:
                 this->updateTreeNodeDetails(*nodePointer);
             }
         } else {
-            nodePointer.reset(new Node{key, nullptr, nullptr, 1U});
+            nodePointer.reset(new Node{key, nullptr, nullptr, 1});
         }
         depth--;
     }
 
     void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) override {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         // this is called hibbard deletion
         if (nodePointer) {
@@ -171,7 +171,7 @@ protected:
 
     void retrieveKeysInRangeInclusiveStartingOnThisNode(
         Keys& keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const override {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         if (nodePointer) {
             if (isLessThanWithDepth(low, nodePointer->key, depth)) {

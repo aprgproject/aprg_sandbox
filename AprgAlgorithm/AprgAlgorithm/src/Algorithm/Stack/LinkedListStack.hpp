@@ -23,7 +23,7 @@ public:
 
     bool isEmpty() const override { return m_first == nullptr; }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
     void push(Object const& object)
         override  // runs in constant time, but array is still faster because here there is allocation
@@ -46,7 +46,7 @@ public:
     }
 
 private:
-    unsigned int m_size;
+    int m_size;
     NodeUniquePointer m_first;
 };
 

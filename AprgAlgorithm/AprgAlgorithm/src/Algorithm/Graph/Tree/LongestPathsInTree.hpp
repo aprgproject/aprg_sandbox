@@ -21,9 +21,9 @@ public:
 
     EndPointPairs const& getEndPointPairsOfLongestPaths() const { return m_endPointPairsOfLongestPaths; }
 
-    unsigned int getLongestDistance()  // this function is coupled with search function
+    int getLongestDistance()  // this function is coupled with search function
     {
-        unsigned int result(0);
+        int result(0);
         if (!m_endPointPairsOfLongestPaths.empty()) {
             Vertex start = m_endPointPairsOfLongestPaths.front().first;
             Vertex end = m_endPointPairsOfLongestPaths.front().second;
@@ -62,7 +62,7 @@ private:
         Vertices result;
         if (!allVertices.empty()) {
             Dfs const& dfs(getDfs(allVertices.front()));  // start at some arbitiary node
-            unsigned int maxDistance(0);
+            int maxDistance(0);
             for (auto it = allVertices.cbegin() + 1; it != allVertices.cend(); it++) {
                 updateIfMaxDistance(result, maxDistance, dfs, *it);
             }
@@ -72,7 +72,7 @@ private:
 
     void searchForEndPointPairsAt(Vertex const& startVertex) {
         Dfs const& dfs(getDfs(startVertex));
-        unsigned int maxDistance(0);
+        int maxDistance(0);
         Vertices endVerticesWithMaxDistance;
         for (Vertex const& possibleEndVertex : m_allVertices) {
             updateIfMaxDistance(
@@ -84,8 +84,8 @@ private:
     }
 
     void updateIfMaxDistance(
-        Vertices& verticesWithMaxDistance, unsigned int& maxDistance, Dfs const& dfs, Vertex const& currentVertex) {
-        unsigned int currentDistance(dfs.getDistanceTo(currentVertex));
+        Vertices& verticesWithMaxDistance, int& maxDistance, Dfs const& dfs, Vertex const& currentVertex) {
+        int currentDistance(dfs.getDistanceTo(currentVertex));
         if (maxDistance < currentDistance) {
             verticesWithMaxDistance.clear();
             maxDistance = currentDistance;

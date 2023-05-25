@@ -113,7 +113,7 @@ private:
     AlbaLargeSorterConfiguration const& m_configuration;
     BlockCache& m_memoryCache;
     BlockCache& m_fileStreamOpenedCache;
-    unsigned int m_numberOfBlocks;
+    int m_numberOfBlocks;
     BlockContainer m_blocks;
     BlockIterator m_mainIterator;
 };

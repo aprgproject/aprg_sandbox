@@ -9,8 +9,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
-using PatternMatchingToTest = RegularExpressionPatternMatching<unsigned int>;
+using Index = int;
+using PatternMatchingToTest = RegularExpressionPatternMatching<int>;
 }  // namespace
 
 TEST(RegularExpressionPatternMatchingTest, SearchWorksUsingExample1) {

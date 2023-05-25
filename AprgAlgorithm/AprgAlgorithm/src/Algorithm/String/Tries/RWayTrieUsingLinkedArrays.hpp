@@ -13,7 +13,7 @@ namespace algorithm {
 template <typename Value>
 class RWayTrieUsingLinkedArrays : public BaseStringSymbolTable<Value> {
 public:
-    static constexpr unsigned int RADIX = 256U;
+    static constexpr int RADIX = 256;
     using Key = std::string;
     using Keys = stringHelper::strings;
     using ValueUniquePointer = std::unique_ptr<Value>;
@@ -33,9 +33,9 @@ public:
         return nodePointer != nullptr;
     }
 
-    unsigned int getSize() const override { return getSize(m_root); }
+    int getSize() const override { return getSize(m_root); }
 
-    unsigned int getNumberOfNodes() const { return getNumberOfNodes(m_root); }
+    int getNumberOfNodes() const { return getNumberOfNodes(m_root); }
 
     Value get(Key const& key) const override {
         Value result{};
@@ -50,7 +50,7 @@ public:
     }
 
     Key getLongestPrefixOf(Key const& keyToCheck) const override {
-        unsigned int longestPrefixLength(getLengthOfLongestPrefix(m_root.get(), keyToCheck, 0U, 0U));
+        int longestPrefixLength(getLengthOfLongestPrefix(m_root.get(), keyToCheck, 0, 0));
         return keyToCheck.substr(0, longestPrefixLength);
     }
 
@@ -80,35 +80,35 @@ private:
                    [](NodeUniquePointer const& nodePointer) { return !nodePointer; });
     }
 
-    unsigned int getSize(NodeUniquePointer const& currentNodePointer) const {
-        unsigned int result(0);
+    int getSize(NodeUniquePointer const& currentNodePointer) const {
+        int result(0);
         if (currentNodePointer) {
             ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
             if (valueUniquePointer) {
                 result++;
             }
-            for (unsigned int c = 0; c < RADIX; c++) {
+            for (int c = 0; c < RADIX; c++) {
                 result += getSize(currentNodePointer->next.at(c));
             }
         }
         return result;
     }
 
-    unsigned int getNumberOfNodes(NodeUniquePointer const& currentNodePointer) const {
-        unsigned int result(0);
+    int getNumberOfNodes(NodeUniquePointer const& currentNodePointer) const {
+        int result(0);
         if (currentNodePointer) {
             result++;
-            for (unsigned int c = 0; c < RADIX; c++) {
+            for (int c = 0; c < RADIX; c++) {
                 result += getNumberOfNodes(currentNodePointer->next.at(c));
             }
         }
         return result;
     }
 
-    Node const* get(NodeUniquePointer const& currentNodePointer, Key const& key, unsigned int const index) const {
+    Node const* get(NodeUniquePointer const& currentNodePointer, Key const& key, int const index) const {
         Node const* result(nullptr);
         if (currentNodePointer) {
-            if (index == key.length()) {
+            if (index == static_cast<int>(key.length())) {
                 result = currentNodePointer.get();
             } else {
                 result = get(currentNodePointer->next.at(key.at(index)), key, index + 1);
@@ -117,15 +117,14 @@ private:
         return result;
     }
 
-    unsigned int getLengthOfLongestPrefix(
-        Node const* const currentNodePointer, Key const& keyToCheck, unsigned int const index,
-        unsigned int const length) const {
-        unsigned int currentLongestLength(length);
+    int getLengthOfLongestPrefix(
+        Node const* const currentNodePointer, Key const& keyToCheck, int const index, int const length) const {
+        int currentLongestLength(length);
         if (currentNodePointer != nullptr) {
             if (currentNodePointer->valueUniquePointer) {
                 currentLongestLength = index;
             }
-            if (index < keyToCheck.length()) {
+            if (index < static_cast<int>(keyToCheck.length())) {
                 char c = keyToCheck.at(index);
                 currentLongestLength = getLengthOfLongestPrefix(
                     currentNodePointer->next.at(c).get(), keyToCheck, index + 1, currentLongestLength);
@@ -141,7 +140,7 @@ private:
             if (valueUniquePointer) {
                 collectedKeys.emplace_back(previousPrefix);
             }
-            for (unsigned int c = 0; c < RADIX; c++) {
+            for (int c = 0; c < RADIX; c++) {
                 collectAllKeysAtNode(
                     currentNodePointer->next.at(c).get(), previousPrefix + static_cast<char>(c), collectedKeys);
             }
@@ -152,12 +151,12 @@ private:
         Node const* const currentNodePointer, Key const& previousPrefix, Key const& patternToMatch,
         Keys& collectedKeys) const {
         if (currentNodePointer != nullptr) {
-            unsigned int prefixLength = previousPrefix.length();
-            if (prefixLength == patternToMatch.length() && currentNodePointer->valueUniquePointer) {
+            int prefixLength = previousPrefix.length();
+            if (prefixLength == static_cast<int>(patternToMatch.length()) && currentNodePointer->valueUniquePointer) {
                 collectedKeys.emplace_back(previousPrefix);
-            } else if (prefixLength < patternToMatch.length()) {
+            } else if (prefixLength < static_cast<int>(patternToMatch.length())) {
                 char charToMatch = patternToMatch.at(prefixLength);
-                for (unsigned int c = 0; c < RADIX; c++) {
+                for (int c = 0; c < RADIX; c++) {
                     if ('.' == charToMatch || charToMatch == static_cast<char>(c)) {
                         collectKeysThatMatchAtNode(
                             currentNodePointer->next.at(c).get(), previousPrefix + static_cast<char>(c), patternToMatch,
@@ -168,23 +167,22 @@ private:
         }
     }
 
-    void put(NodeUniquePointer& currentNodePointer, Key const& key, Value const& value, unsigned int const index) {
+    void put(NodeUniquePointer& currentNodePointer, Key const& key, Value const& value, int const index) {
         if (!currentNodePointer) {
             currentNodePointer = std::make_unique<Node>();
         }
-        if (index == key.length()) {
+        if (index == static_cast<int>(key.length())) {
             currentNodePointer->valueUniquePointer = std::make_unique<Value>(value);
         } else {
             put(currentNodePointer->next.at(key.at(index)), key, value, index + 1);
         }
     }
 
-    bool deleteBasedOnKeyAndReturnIfDeleted(
-        NodeUniquePointer& currentNodePointer, Key const& key, unsigned int const index) {
+    bool deleteBasedOnKeyAndReturnIfDeleted(NodeUniquePointer& currentNodePointer, Key const& key, int const index) {
         bool isDeleted(false);
         if (currentNodePointer) {
             ValueUniquePointer& valueUniquePointer(currentNodePointer->valueUniquePointer);
-            if (index == key.length()) {
+            if (index == static_cast<int>(key.length())) {
                 valueUniquePointer.reset();
                 if (isEmptyNode(currentNodePointer)) {
                     currentNodePointer.reset();

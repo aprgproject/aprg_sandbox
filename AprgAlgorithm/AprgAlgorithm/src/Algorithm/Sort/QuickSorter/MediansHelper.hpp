@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Algorithm/Search/UniqueProblems/GetMedianOfSmallerSizes/GetMedianOfSmallerSizes.hpp>
+#include <Algorithm/Search/UniqueProblems/Median/MedianOfSmallerSizes.hpp>
+#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 
 #include <algorithm>
 #include <vector>
@@ -10,40 +11,88 @@ namespace alba {
 namespace algorithm {
 
 template <typename Values>
-typename Values::value_type getMedianIfLessThanOrEqualToFive(
-    typename Values::const_iterator lowestIt, typename Values::const_iterator highestItPlusOne) {
-    GetMedianOfSmallerSizes<Values> getMedianOfSmallerSizes(lowestIt, highestItPlusOne);
+typename Values::value_type getMedianOfThree(
+    typename Values::value_type const& value1, typename Values::value_type const& value2,
+    typename Values::value_type const& value3) {
+    auto low = value1;
+    auto mid = value2;
+    auto high = value3;
+    if (low > high) {
+        std::swap(low, high);
+    }
+    if (low > mid) {
+        std::swap(low, mid);
+    }
+    if (mid > high) {
+        std::swap(mid, high);
+    }
+    return mid;
+}
 
+template <typename Values>
+typename Values::value_type getMedianOfSmallerSizes(Values const& values) {
     // As noted below: If the group has an even number of elements, take the larger of the two medians.
-    return getMedianOfSmallerSizes.getLargerMedian();
+    return MedianOfSmallerSizes<Values>(values).getLargerMedian();
+}
+
+template <typename Values>
+typename Values::value_type getMedianOfSmallerSizes(
+    typename Values::const_iterator lowestIt, typename Values::const_iterator highestItPlusOne) {
+    // As noted below: If the group has an even number of elements, take the larger of the two medians.
+    return MedianOfSmallerSizes<Values>(lowestIt, highestItPlusOne).getLargerMedian();
+}
+
+template <typename Values>
+typename Values::value_type getMedianOfLowMidHigh(Values const& values, int const lowestIndex, int const highestIndex) {
+    return getMedianOfThree<Values>(
+        values.at(lowestIndex), values.at(getMidpointOfIndexes(lowestIndex, highestIndex)), values.at(highestIndex));
+}
+
+template <typename Values>
+typename Values::value_type getMedianOfNinther(Values const& values, int const lowestIndex, int const highestIndex) {
+    Values nines;
+    nines.reserve(9);
+    int deltaSize = highestIndex - lowestIndex;
+    for (int i = 0; i <= 8; i++) {
+        nines.emplace_back(values.at(lowestIndex + i * deltaSize / 8));
+    }
+
+    return getMedianOfThree<Values>(
+        getMedianOfThree<Values>(nines[0], nines[1], nines[2]), getMedianOfThree<Values>(nines[3], nines[4], nines[5]),
+        getMedianOfThree<Values>(nines[6], nines[7], nines[8]));
 }
 
 template <typename Values>
 typename Values::value_type getMedianOfMedians(
     typename Values::const_iterator lowestIt, typename Values::const_iterator highestItPlusOne) {
-    if (lowestIt + 5U >= highestItPlusOne) {
-        return getMedianIfLessThanOrEqualToFive<Values>(lowestIt, highestItPlusOne);
+    if (lowestIt + 5 >= highestItPlusOne) {
+        return getMedianOfSmallerSizes<Values>(lowestIt, highestItPlusOne);
     } else {
         using MediansContainer = std::vector<typename Values::value_type>;
-        MediansContainer medianOfMedians;
-        medianOfMedians.reserve(highestItPlusOne - lowestIt);  // reserve this much
-        for (auto smallerLowestIt = lowestIt; smallerLowestIt < highestItPlusOne; smallerLowestIt += 5U) {
-            auto smallerHighestItPlusOne = std::min(smallerLowestIt + 5U, highestItPlusOne);
-            medianOfMedians.emplace_back(
-                getMedianIfLessThanOrEqualToFive<Values>(smallerLowestIt, smallerHighestItPlusOne));
+        MediansContainer medians;
+        medians.reserve(highestItPlusOne - lowestIt);  // reserve this much
+        for (auto medianLowestIt = lowestIt; medianLowestIt < highestItPlusOne; medianLowestIt += 5) {
+            auto medianHighestItPlusOne = std::min(medianLowestIt + 5, highestItPlusOne);
+            medians.emplace_back(getMedianOfSmallerSizes<Values>(medianLowestIt, medianHighestItPlusOne));
         }
-        return getMedianOfMedians<MediansContainer>(medianOfMedians.cbegin(), medianOfMedians.cend());
+        return getMedianOfMedians<MediansContainer>(medians.cbegin(), medians.cend());
     }
 }
 
 template <typename Values>
-unsigned int getIndexOfMedianOfMedians(
-    Values const& values, unsigned int const lowestIndex, unsigned int const highestIndex) {
+typename Values::value_type getMedianOfMedians(Values const& values, int const lowestIndex, int const highestIndex) {
     auto lowestIt = values.cbegin() + lowestIndex;
-    auto highestItPlusOne = values.cbegin() + highestIndex + 1U;
-    auto median = getMedianOfMedians<Values>(lowestIt, highestItPlusOne);
-    auto medianIt = std::find(lowestIt, highestItPlusOne, median);
-    return std::distance(values.cbegin(), medianIt);
+    auto highestItPlusOne = values.cbegin() + highestIndex + 1;
+    return getMedianOfMedians<Values>(lowestIt, highestItPlusOne);
+}
+
+template <typename Values>
+int getIndexOfValue(
+    Values const& values, int const lowestIndex, int const highestIndex, typename Values::value_type const& value) {
+    auto lowestIt = values.cbegin() + lowestIndex;
+    auto highestItPlusOne = values.cbegin() + highestIndex + 1;
+    auto valueIt = std::find(lowestIt, highestItPlusOne, value);
+    return std::distance(values.cbegin(), valueIt);
 }
 
 }  // namespace algorithm

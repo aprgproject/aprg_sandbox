@@ -13,15 +13,16 @@ public:
 
     QuickSelector(PivotType const pivotType) : m_pivotType(pivotType) {}
 
-    Value getNthSelect(Values& valuesToSort, unsigned int const selectionIndex) const {
+    Value getNthSelect(Values& valuesToSort, int const selectionIndex) const {
         doNthElement(valuesToSort, selectionIndex);
         return valuesToSort.at(selectionIndex);
     }
 
-    void doNthElement(Values& valuesToSort, unsigned int const selectionIndex) const {
-        unsigned int lowest = 0, highest = valuesToSort.size() - 1;
+    void doNthElement(Values& valuesToSort, int const selectionIndex) const {
+        // Iterative approach
+        int lowest = 0, highest = valuesToSort.size() - 1;
         while (highest > lowest) {
-            unsigned int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowest, highest, m_pivotType);
+            int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowest, highest, m_pivotType);
 
             // move lowest or highest to the partition where selectionIndex is
             if (partitionIndex < selectionIndex) {

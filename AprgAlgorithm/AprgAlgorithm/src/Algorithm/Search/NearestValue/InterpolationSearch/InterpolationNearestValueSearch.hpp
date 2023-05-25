@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
@@ -11,7 +12,7 @@ namespace algorithm {
 template <typename Values>
 class InterpolationNearestValueSearch {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -46,13 +47,18 @@ public:
 private:
     Index getInterpolatedIndexInBetween(Value const& value) const {
         Index result(INVALID_INDEX);
-        if (m_lowerIndex + 2U == m_higherIndex) {
-            result = m_lowerIndex + 1U;
-        } else if (m_lowerIndex + 2U < m_higherIndex) {
-            result = m_lowerIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Value>(
-                                        static_cast<double>(m_higherIndex - m_lowerIndex) /
-                                        (getHigherValueWithoutCheck() - getLowerValueWithoutCheck()) *
-                                        (value - getLowerValueWithoutCheck()));
+        if (m_lowerIndex + 2 == m_higherIndex) {
+            result = m_lowerIndex + 1;
+        } else if (m_lowerIndex + 2 < m_higherIndex) {
+            Value lowerValue = getLowerValueWithoutCheck();
+            Value higherValue = getHigherValueWithoutCheck();
+            if (lowerValue == higherValue) {
+                result = getMidpointOfIndexes(m_lowerIndex, m_higherIndex);
+            } else {
+                result = m_lowerIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Value>(
+                                            static_cast<double>(m_higherIndex - m_lowerIndex) * (value - lowerValue) /
+                                            (higherValue - lowerValue));
+            }
             result += (m_lowerIndex == result) ? 1 : (m_higherIndex == result) ? -1 : 0;
         }
         return result;
@@ -80,7 +86,7 @@ private:
 
     void setInitialIndexes() {
         if (!m_sortedValues.empty()) {
-            m_lowerIndex = 0U;
+            m_lowerIndex = 0;
             m_higherIndex = m_sortedValues.size() - 1;  // fully closed interval
         }
     }
@@ -98,7 +104,7 @@ private:
 
     void moveIndexesUntilCloseToValue(Value const& value) {
         if (!m_sortedValues.empty()) {
-            while (m_lowerIndex + 1U < m_higherIndex) {
+            while (m_lowerIndex + 1 < m_higherIndex) {
                 Index interpolatedIndex(getInterpolatedIndexInBetween(value));
                 Value valueAtInterpolatedIndex(m_sortedValues.at(interpolatedIndex));
                 if (value == valueAtInterpolatedIndex) {

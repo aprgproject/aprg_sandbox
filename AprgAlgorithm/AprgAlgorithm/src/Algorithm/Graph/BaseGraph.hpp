@@ -19,8 +19,8 @@ public:
     virtual bool isEmpty() const = 0;
     virtual bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const = 0;
     virtual GraphDirectionType getGraphDirectionType() const = 0;
-    virtual unsigned int getNumberOfVertices() const = 0;
-    virtual unsigned int getNumberOfEdges() const = 0;
+    virtual int getNumberOfVertices() const = 0;
+    virtual int getNumberOfEdges() const = 0;
     virtual Vertices getAdjacentVerticesAt(Vertex const& vertex) const = 0;
     virtual Vertices getVertices() const = 0;
     virtual Edges getEdges() const = 0;

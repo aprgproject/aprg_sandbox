@@ -36,15 +36,13 @@ private:
         partitionItPlusOne++;
         if (lowestIt != partitionIt && lowestIt != partitionItMinusOne)  // size must be at least two
         {
-            sort(
-                valuesToSort, lowestIt,
-                partitionItMinusOne);  // recursively sort/partition the low part without the partitionIt
+            // recursively sort/partition the low part without the partitionIt
+            sort(valuesToSort, lowestIt, partitionItMinusOne);
         }
         if (partitionIt != highestIt && partitionItPlusOne != highestIt)  // size must be at least two
         {
-            sort(
-                valuesToSort, partitionItPlusOne,
-                highestIt);  // recursively sort/partition the high part without the partitionIt
+            // recursively sort/partition the high part without the partitionIt
+            sort(valuesToSort, partitionItPlusOne, highestIt);
         }
     }
 };

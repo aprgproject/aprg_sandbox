@@ -10,7 +10,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using SubTreeQueryForTest = SubTreeQueryWithPathAccumulator<VertexForTest>;
 using VerticesForTest = SubTreeQueryForTest::Vertices;
@@ -20,22 +20,22 @@ SubTreeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
 
 TEST(SubTreeQueryWithPathAccumulatorTest, Example1Works) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 7U);
-    graph.connect(4U, 8U);
-    graph.connect(4U, 9U);
-    SubTreeQueryForTest subTreeQuery(graph, 1U, plusAccumulator);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 7);
+    graph.connect(4, 8);
+    graph.connect(4, 9);
+    SubTreeQueryForTest subTreeQuery(graph, 1, plusAccumulator);
 
-    VerticesForTest expectedVertices{1U, 2U, 6U, 3U, 4U, 7U, 8U, 9U, 5U};
-    CountsForTest expectedPathResults{1U, 3U, 9U, 4U, 5U, 12U, 13U, 14U, 6U};
+    VerticesForTest expectedVertices{1, 2, 6, 3, 4, 7, 8, 9, 5};
+    CountsForTest expectedPathResults{1, 3, 9, 4, 5, 12, 13, 14, 6};
     EXPECT_EQ(expectedVertices, subTreeQuery.getVerticesInDfsPreOrder());
     EXPECT_EQ(expectedPathResults, subTreeQuery.getAccumulatedValuesOfPaths());
-    EXPECT_EQ(9U, subTreeQuery.getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(6U));
-    EXPECT_EQ(12U, subTreeQuery.getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(7U));
+    EXPECT_EQ(9, subTreeQuery.getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(6));
+    EXPECT_EQ(12, subTreeQuery.getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(7));
 }
 
 }  // namespace algorithm

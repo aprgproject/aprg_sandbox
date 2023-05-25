@@ -8,19 +8,19 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using LongestPathsForTest = LongestPathsInTree<VertexForTest>;
 using EndPointPairsForTest = typename LongestPathsForTest::EndPointPairs;
 
 void putConnectionsForTest(GraphForTest& graph) {
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(2U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 7U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(2, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 7);
 }
 }  // namespace
 
@@ -32,7 +32,7 @@ TEST(LongestPathsInTreeTest, GetEndPointPairsOfLongestPathsWorks) {
 
     EndPointPairsForTest endPointPairsToVerify(longestPath.getEndPointPairsOfLongestPaths());
 
-    EndPointPairsForTest endPointPairsToExpect{{5U, 7U}, {6U, 7U}, {7U, 5U}, {7U, 6U}};
+    EndPointPairsForTest endPointPairsToExpect{{5, 7}, {6, 7}, {7, 5}, {7, 6}};
     EXPECT_EQ(endPointPairsToExpect, endPointPairsToVerify);
 }
 
@@ -43,7 +43,7 @@ TEST(LongestPathsInTreeTest, GetLongestDistanceWorks) {
     LongestPathsForTest longestPath(graph);
     longestPath.searchForAllEndPointPairs();
 
-    EXPECT_EQ(4U, longestPath.getLongestDistance());
+    EXPECT_EQ(4, longestPath.getLongestDistance());
 }
 
 TEST(LongestPathsInTreeTest, SearchForAtLeastOneEndPointPairWorks) {
@@ -55,7 +55,7 @@ TEST(LongestPathsInTreeTest, SearchForAtLeastOneEndPointPairWorks) {
 
     EndPointPairsForTest endPointPairsToVerify(longestPath.getEndPointPairsOfLongestPaths());
 
-    EndPointPairsForTest endPointPairsToExpect{{5U, 7U}};
+    EndPointPairsForTest endPointPairsToExpect{{5, 7}};
     EXPECT_EQ(endPointPairsToExpect, endPointPairsToVerify);
 }
 
@@ -67,7 +67,7 @@ TEST(LongestPathsInTreeTest, SearchForAllEndPointPairsWorks) {
     longestPath.searchForAllEndPointPairs();
 
     EndPointPairsForTest endPointPairsToVerify(longestPath.getEndPointPairsOfLongestPaths());
-    EndPointPairsForTest endPointPairsToExpect{{5U, 7U}, {6U, 7U}, {7U, 5U}, {7U, 6U}};
+    EndPointPairsForTest endPointPairsToExpect{{5, 7}, {6, 7}, {7, 5}, {7, 6}};
     EXPECT_EQ(endPointPairsToExpect, endPointPairsToVerify);
 }
 

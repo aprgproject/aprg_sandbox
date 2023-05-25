@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = InterpolationNearestValueSearch<ValuesForTest>;
 }  // namespace
 
@@ -51,7 +51,7 @@ TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAr
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
-    EXPECT_EQ(3U, search.getIndexOfNearestValue(33));
+    EXPECT_EQ(3, search.getIndexOfNearestValue(33));
 }
 
 TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
@@ -68,23 +68,23 @@ TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearest
 
 TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(5U, 6U, sortedValues);
+    SearchForTest search(5, 6, sortedValues);
 
-    EXPECT_EQ(43U, search.getNearestValue(33));
+    EXPECT_EQ(43, search.getNearestValue(33));
 }
 
 TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(3U, 5U, sortedValues);
+    SearchForTest search(3, 5, sortedValues);
 
-    EXPECT_EQ(33U, search.getNearestValue(33));
+    EXPECT_EQ(33, search.getNearestValue(33));
 }
 
 TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(1U, 8U, sortedValues);
+    SearchForTest search(1, 8, sortedValues);
 
-    EXPECT_EQ(33U, search.getNearestValue(33));
+    EXPECT_EQ(33, search.getNearestValue(33));
 }
 
 }  // namespace algorithm

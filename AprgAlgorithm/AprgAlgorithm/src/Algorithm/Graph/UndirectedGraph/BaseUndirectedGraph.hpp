@@ -13,7 +13,7 @@ public:
 
     virtual bool hasAnyConnection(Vertex const& vertex) const = 0;
 
-    GraphDirectionType getGraphDirectionType() const { return DIRECTION_TYPE; }
+    GraphDirectionType getGraphDirectionType() const override { return DIRECTION_TYPE; }
     static constexpr GraphDirectionType DIRECTION_TYPE = GraphDirectionType::Undirected;
 };
 

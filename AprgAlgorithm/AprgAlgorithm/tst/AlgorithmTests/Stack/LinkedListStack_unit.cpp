@@ -11,24 +11,24 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using StackForTest = LinkedListStack<unsigned int>;
+using StackForTest = LinkedListStack<int>;
 }
 
-TEST(LinkedListStackTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<StackForTest>(); }
+TEST(LinkedListStackTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithInt<StackForTest>(); }
 
-TEST(LinkedListStackTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<StackForTest>(); }
+TEST(LinkedListStackTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithInt<StackForTest>(); }
 
-TEST(LinkedListStackTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<StackForTest>(); }
+TEST(LinkedListStackTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithInt<StackForTest>(); }
 
-TEST(LinkedListStackTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<StackForTest>(); }
+TEST(LinkedListStackTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithInt<StackForTest>(); }
 
-TEST(LinkedListStackTest, PushWorks) { testPushWithUnsignedInt<StackForTest>(); }
+TEST(LinkedListStackTest, PushWorks) { testPushWithInt<StackForTest>(); }
 
-TEST(LinkedListStackTest, PopWorks) { testPopWithUnsignedInt<StackForTest>(); }
+TEST(LinkedListStackTest, PopWorks) { testPopWithInt<StackForTest>(); }
 
 TEST(LinkedListStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
 {
-    testPopAssertionWhenEmptyWithUnsignedInt<StackForTest>();
+    testPopAssertionWhenEmptyWithInt<StackForTest>();
 }
 
 }  // namespace algorithm

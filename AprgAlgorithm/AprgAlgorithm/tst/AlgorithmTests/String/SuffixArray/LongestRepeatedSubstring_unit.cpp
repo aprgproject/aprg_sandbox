@@ -9,7 +9,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using LongestRepeatedSubstringForTest = LongestRepeatedSubstring<unsigned int>;
+using LongestRepeatedSubstringForTest = LongestRepeatedSubstring<int>;
 }
 
 TEST(LongestRepeatedSubstringTest, GetLongestRepeatedSubstringWorks) {

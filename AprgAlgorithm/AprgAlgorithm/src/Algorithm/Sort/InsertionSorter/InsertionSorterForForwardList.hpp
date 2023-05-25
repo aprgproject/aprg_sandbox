@@ -21,7 +21,7 @@ public:
         if (!valuesToSort.empty()) {
             Values sortedList{valuesToSort.front()};
 
-            for (auto insertIt = std::next(valuesToSort.begin(), 1U); insertIt != valuesToSort.end(); insertIt++) {
+            for (auto insertIt = std::next(valuesToSort.begin(), 1); insertIt != valuesToSort.end(); insertIt++) {
                 insertToSortedList(sortedList, *insertIt);
             }
             valuesToSort = sortedList;

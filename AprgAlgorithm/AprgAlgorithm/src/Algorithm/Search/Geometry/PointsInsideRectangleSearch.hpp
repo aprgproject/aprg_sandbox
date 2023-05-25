@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 template <typename Key>
-bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+bool isEqualThanWithDepth(Key const& key1, Key const& key2, int const depth) {
     if (mathHelper::isOdd(depth)) {
         return key1.first == key2.first;
     } else {
@@ -17,7 +17,7 @@ bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const d
 }
 
 template <typename Key>
-bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+bool isLessThanWithDepth(Key const& key1, Key const& key2, int const depth) {
     if (mathHelper::isOdd(depth)) {
         return key1.first < key2.first;
     } else {
@@ -26,7 +26,7 @@ bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const de
 }
 
 template <typename Key>
-bool isGreaterThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+bool isGreaterThanWithDepth(Key const& key1, Key const& key2, int const depth) {
     if (mathHelper::isOdd(depth)) {
         return key1.first > key2.first;
     } else {
@@ -58,7 +58,7 @@ public:
 
 private:
     void searchForPoints(NodeUniquePointer const& nodePointer, Points& pointsInsideRectangle) const {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         if (nodePointer) {
             Point const& currentPoint(nodePointer->key);
@@ -75,7 +75,7 @@ private:
         depth--;
     }
 
-    inline bool shouldGoToLeftChild(Point const& point, unsigned int const depth) const {
+    inline bool shouldGoToLeftChild(Point const& point, int const depth) const {
         if (mathHelper::isOdd(depth)) {
             return m_rectangleBottomLeft.first < point.first;
         } else {
@@ -83,7 +83,7 @@ private:
         }
     }
 
-    inline bool shouldGoToRightChild(Point const& point, unsigned int const depth) const {
+    inline bool shouldGoToRightChild(Point const& point, int const depth) const {
         if (mathHelper::isOdd(depth)) {
             return m_rectangleTopRight.first > point.first;
         } else {

@@ -37,8 +37,8 @@ public:
     Value getValueOnInterval(Index const start, Index const end) {
         // This has log(N) running time
         Value result{};
-        if (start <= end && (b_startOfChildren + start) < b_treeValues.size() &&
-            (b_startOfChildren + end) < b_treeValues.size()) {
+        if (start <= end && (b_startOfChildren + start) < static_cast<Index>(b_treeValues.size()) &&
+            (b_startOfChildren + end) < static_cast<Index>(b_treeValues.size())) {
             result = getValueOnIntervalFromTopToBottom(
                 start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren);  // startOfChildren is size of base too
         }
@@ -46,8 +46,8 @@ public:
     }
 
     void increaseAtRange(Index const start, Index const end) {
-        if (start <= end && (b_startOfChildren + start) < b_treeValues.size() &&
-            (b_startOfChildren + end) < b_treeValues.size()) {
+        if (start <= end && (b_startOfChildren + start) < static_cast<Index>(b_treeValues.size()) &&
+            (b_startOfChildren + end) < static_cast<Index>(b_treeValues.size())) {
             increaseAtRangeFromTopToBottom(
                 start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren);  // startOfChildren is size of base too
         }
@@ -120,7 +120,7 @@ private:
     }
 
     void performUpdateAtIndexIfNeeded(Index const index, Index const baseLeft, Index const baseRight) {
-        if (index < m_startIndexesForPendingUpdates.size()) {
+        if (index < static_cast<Index>(m_startIndexesForPendingUpdates.size())) {
             PendingUpdateDetail& startIndexForPendingUpdate = m_startIndexesForPendingUpdates[index];
             if (startIndexForPendingUpdate) {
                 increment(b_treeValues[index], startIndexForPendingUpdate.value(), baseLeft, baseRight);

@@ -12,7 +12,7 @@ namespace alba {
 namespace algorithm {
 
 template <
-    typename KeyTemplateType, typename EntryTemplateType, typename HashFunction, unsigned int HASH_TABLE_SIZE,
+    typename KeyTemplateType, typename EntryTemplateType, typename HashFunction, int HASH_TABLE_SIZE,
     typename OrderedArray, typename UnorderedLinkedList, typename BaseDataStructure>
 class BaseSeparateChainingHash : public BaseDataStructure {
 public:
@@ -21,18 +21,18 @@ public:
     using Keys = std::vector<Key>;
     using HashTable = std::array<UnorderedLinkedList, HASH_TABLE_SIZE>;
 
-    BaseSeparateChainingHash() : m_size(0U) {}
+    BaseSeparateChainingHash() : m_size(0) {}
 
     ~BaseSeparateChainingHash() override = default;  // no need for virtual destructor because base destructor is
                                                      // virtual (similar to other virtual functions)
 
-    bool isEmpty() const override { return m_size == 0U; }
+    bool isEmpty() const override { return m_size == 0; }
 
     bool doesContain(Key const& key) const override { return m_smallerSymbolTables.at(getHash(key)).doesContain(key); }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
-    unsigned int getRank(Key const& key) const override {
+    int getRank(Key const& key) const override {
         Keys keys(getKeys());
         return OrderedArray::getRank(key, keys);
     }
@@ -69,7 +69,7 @@ public:
         return result;
     }
 
-    Key selectAt(unsigned int const index) const override {
+    Key selectAt(int const index) const override {
         Keys keys(getKeys());
         return OrderedArray::selectAt(index, keys);
     }
@@ -114,9 +114,9 @@ public:
     }
 
 protected:
-    unsigned int getHash(Key const& key) const { return HashFunction::getHash(key, HASH_TABLE_SIZE); }
+    int getHash(Key const& key) const { return HashFunction::getHash(key, HASH_TABLE_SIZE); }
 
-    unsigned int m_size;
+    int m_size;
     HashTable m_smallerSymbolTables;
 };
 

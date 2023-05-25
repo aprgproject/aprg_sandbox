@@ -27,7 +27,7 @@ protected:
                 this->updateTreeNodeDetails(*nodePointer);
             }
         } else {
-            nodePointer.reset(new Node{key, nullptr, nullptr, 1U});
+            nodePointer.reset(new Node{key, nullptr, nullptr, 1});
         }
     }
 };

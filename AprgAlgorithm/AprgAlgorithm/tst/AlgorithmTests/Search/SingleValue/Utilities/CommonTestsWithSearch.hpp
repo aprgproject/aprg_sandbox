@@ -18,7 +18,7 @@ void testGetIndexOfValueDoesNotCrashWithEmptyUnsignedInts() {
     Search search(emptyValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(33U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(33));
 }
 
 template <typename Search, typename Values>
@@ -27,7 +27,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithOneUnsignedInt() {
     Search search(oneValue);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(33U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(33));
 }
 
 template <typename Search, typename Values>
@@ -35,7 +35,7 @@ void testGetIndexOfValueWhenValueIsFoundWithOneUnsignedInt() {
     Values oneValue{10};
     Search search(oneValue);
 
-    EXPECT_EQ(0U, search.getIndexOfValue(10U));
+    EXPECT_EQ(0, search.getIndexOfValue(10));
 }
 
 template <typename Search, typename Values>
@@ -44,7 +44,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithUnsortedUnsignedInt
     Search search(unsortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34));
 }
 
 template <typename Search, typename Values>
@@ -52,7 +52,7 @@ void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithUnsortedUnsignedInts()
     Values unsortedValues{96, 96, 53, 53, 53, 72, 72, 72, 72, 14, 33, 33, 33, 13, 13};
     Search search(unsortedValues);
 
-    EXPECT_EQ(10U, search.getIndexOfValue(33U));
+    EXPECT_EQ(10, search.getIndexOfValue(33));
 }
 
 template <typename Search, typename Values>
@@ -61,7 +61,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithUnsortedUnsignedInts() {
     Search search(unsortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34));
 }
 
 template <typename Search, typename Values>
@@ -69,7 +69,7 @@ void testGetIndexOfValueWhenValueIsFoundWithUnsortedUnsignedInts() {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
 
-    EXPECT_EQ(10U, search.getIndexOfValue(33U));
+    EXPECT_EQ(10, search.getIndexOfValue(33));
 }
 
 template <typename Search, typename Values>
@@ -78,7 +78,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithDuplicatesWithSortedUnsignedInts(
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34));
 }
 
 template <typename Search, typename Values>
@@ -86,7 +86,7 @@ void testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts() {
     Values sortedValues{13, 13, 14, 33, 33, 33, 53, 53, 53, 72, 72, 72, 72, 96, 96};
     Search search(sortedValues);
 
-    EXPECT_EQ(3U, search.getIndexOfValue(33U));
+    EXPECT_EQ(3, search.getIndexOfValue(33));
 }
 
 template <typename Search, typename Values>
@@ -95,7 +95,7 @@ void testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts() {
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(34));
 }
 
 template <typename Search, typename Values>
@@ -104,7 +104,7 @@ void testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts(
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(3U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(3));
 }
 
 template <typename Search, typename Values>
@@ -113,7 +113,7 @@ void testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedI
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(100U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(100));
 }
 
 template <typename Search, typename Values>
@@ -121,7 +121,7 @@ void testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
 
-    EXPECT_EQ(4U, search.getIndexOfValue(33U));
+    EXPECT_EQ(4, search.getIndexOfValue(33));
 }
 
 // getIndexOfValue with indices
@@ -132,7 +132,7 @@ void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithUnsortedUnsignedInts()
     Search search(unsortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(0U, 9U, 33U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(0, 9, 33));
 }
 
 template <typename Search, typename Values>
@@ -140,7 +140,7 @@ void testGetIndexOfValueWithIndicesWhenValueIsFoundWithUnsortedUnsignedInts() {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
 
-    EXPECT_EQ(10U, search.getIndexOfValue(0U, 12U, 33U));
+    EXPECT_EQ(10, search.getIndexOfValue(0, 12, 33));
 }
 
 template <typename Search, typename Values>
@@ -149,7 +149,7 @@ void testGetIndexOfValueWithIndicesWhenValueIsNotFoundWithSortedUnsignedInts() {
     Search search(sortedValues);
     auto INVALID_INDEX = Search::INVALID_INDEX;
 
-    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(0U, 3U, 33U));
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(0, 3, 33));
 }
 
 template <typename Search, typename Values>
@@ -157,7 +157,7 @@ void testGetIndexOfValueWithIndicesWhenValueIsFoundWithSortedUnsignedInts() {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
 
-    EXPECT_EQ(4U, search.getIndexOfValue(0U, 6U, 33U));
+    EXPECT_EQ(4, search.getIndexOfValue(0, 6, 33));
 }
 
 }  // namespace CommonTestsWithSearch

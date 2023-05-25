@@ -14,11 +14,11 @@ namespace alba {
 
 namespace algorithm {
 
-template <unsigned int DIMENSION>
+template <int DIMENSION>
 class MonteCarloSimulationOfPerculation {
 public:
     MonteCarloSimulationOfPerculation()
-        : m_sites{}, m_unionFindOfIndexes(), m_numberOfOpenSites(0U), m_randomizer(0, getDimensionsSquared() - 1) {}
+        : m_sites{}, m_unionFindOfIndexes(), m_numberOfOpenSites(0), m_randomizer(0, getDimensionsSquared() - 1) {}
 
     bool isPercolated() const {
         return m_unionFindOfIndexes.isConnected(getVirtualTopIndex(), getVirtualBottomIndex());
@@ -30,9 +30,9 @@ public:
 
     std::string getSitesToDisplay() const {
         DisplayTable displayTable;
-        for (unsigned int y = 0; y < DIMENSION; y++) {
+        for (int y = 0; y < DIMENSION; y++) {
             displayTable.addRow();
-            for (unsigned int x = 0; x < DIMENSION; x++) {
+            for (int x = 0; x < DIMENSION; x++) {
                 std::string cell = isSiteOpen(getIndex(x, y)) ? " " : "X";
                 displayTable.getLastRow().addCell(cell);
             }
@@ -49,7 +49,7 @@ public:
 
     void addOpenSite() {
         while (true) {
-            unsigned int newOpenSiteIndex(m_randomizer.getRandomValue());
+            int newOpenSiteIndex(m_randomizer.getRandomValue());
             if (!isSiteOpen(newOpenSiteIndex)) {
                 m_sites[newOpenSiteIndex] = true;
                 connectNeighboringSitesAt(newOpenSiteIndex);
@@ -61,26 +61,26 @@ public:
     }
 
 private:
-    static constexpr unsigned int getDimensionsSquared() {
-        constexpr unsigned int DIMENSION_SQUARED = DIMENSION * DIMENSION;
+    static constexpr int getDimensionsSquared() {
+        constexpr int DIMENSION_SQUARED = DIMENSION * DIMENSION;
         return DIMENSION_SQUARED;
     }
 
-    static constexpr unsigned int getVirtualTopIndex() { return getDimensionsSquared(); }
+    static constexpr int getVirtualTopIndex() { return getDimensionsSquared(); }
 
-    static constexpr unsigned int getVirtualBottomIndex() { return getDimensionsSquared() + 1; }
+    static constexpr int getVirtualBottomIndex() { return getDimensionsSquared() + 1; }
 
-    bool isSiteOpen(unsigned int const index) const { return m_sites.at(index); }
+    bool isSiteOpen(int const index) const { return m_sites.at(index); }
 
-    unsigned int getIndex(unsigned int const x, unsigned int const y) const { return y * DIMENSION + x; }
+    int getIndex(int const x, int const y) const { return y * DIMENSION + x; }
 
-    void retrieveCoordinates(unsigned int const index, unsigned int& x, unsigned int& y) const {
+    void retrieveCoordinates(int const index, int& x, int& y) const {
         x = index % DIMENSION;
         y = index / DIMENSION;
     }
 
-    void connectNeighboringSitesAt(unsigned int const index) {
-        unsigned int x, y;
+    void connectNeighboringSitesAt(int const index) {
+        int x, y;
         retrieveCoordinates(index, x, y);
         if (x > 0) {
             connectNeighborSites(index, getIndex(x - 1, y));
@@ -96,14 +96,14 @@ private:
         }
     }
 
-    void connectNeighborSites(unsigned int const mainIndex, unsigned int const neighborIndex) {
+    void connectNeighborSites(int const mainIndex, int const neighborIndex) {
         if (isSiteOpen(neighborIndex)) {
             m_unionFindOfIndexes.connect(mainIndex, neighborIndex);
         }
     }
 
-    void connectToVirtualTopOrBottomIfNeeded(unsigned int const indexToCheck) {
-        unsigned int x, y;
+    void connectToVirtualTopOrBottomIfNeeded(int const indexToCheck) {
+        int x, y;
         retrieveCoordinates(indexToCheck, x, y);
         if (y == 0) {
             m_unionFindOfIndexes.connect(getVirtualTopIndex(), indexToCheck);
@@ -113,10 +113,10 @@ private:
     }
 
     std::array<bool, getDimensionsSquared()> m_sites;
-    WeightedQuickUnionWithArray<unsigned int, getDimensionsSquared() + 2>
+    WeightedQuickUnionWithArray<int, getDimensionsSquared() + 2>
         m_unionFindOfIndexes;  //+2 because of virtual top site and bottom site
-    unsigned int m_numberOfOpenSites;
-    AlbaUniformNonDeterministicRandomizer<unsigned int> m_randomizer;
+    int m_numberOfOpenSites;
+    AlbaUniformNonDeterministicRandomizer<int> m_randomizer;
 };
 
 }  // namespace algorithm

@@ -104,9 +104,9 @@ private:
 // merge(head1, head2):
 // -> Take a pointer say merged to store the merged list in it and store a dummy node in it.
 // -> Take a pointer temp and assign merge to it.
-// -> Else store head2 in next of temp & move head2 to the next of head2.
+// -> Else store head2 in next of temp and move head2 to the next of head2.
 // -> Move temp to the next of temp.
-// -> Repeat steps 3, 4 & 5 until head1 is not equal to null and head2 is not equal to null.
+// -> Repeat steps 3, 4 and 5 until head1 is not equal to null and head2 is not equal to null.
 // -> Now add any remaining nodes of the first or the second linked list to the merged linked list.
 // -> Return the next of merged(that will ignore the dummy and return the head of the final merged linked list)
 

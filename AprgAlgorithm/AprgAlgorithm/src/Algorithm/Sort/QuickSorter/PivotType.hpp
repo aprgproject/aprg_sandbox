@@ -6,7 +6,14 @@ namespace alba {
 
 namespace algorithm {
 
-enum class PivotType { ValueAtLowestIndex, ValueAtHighestIndex, ValueAtRandomIndex, ValueAtMedianOfMedians };
+enum class PivotType {
+    ValueAtLowestIndex,
+    ValueAtHighestIndex,
+    ValueAtRandomIndex,
+    ValueAtMedianOfLowMidHigh,
+    ValueAtMedianNinther,
+    ValueAtMedianOfMedians
+};
 
 }
 

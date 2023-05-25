@@ -14,20 +14,19 @@ public:
     // the matrix V^n contains the numbers of paths of n edges between the nodes in the graph.
 
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
-    using Count = unsigned int;
+    using Count = int;
     using CountMatrix = matrix::AlbaMatrix<Count>;
 
-    CountPathsWithLengthUsingAdjacencyMatrix(unsigned int const lengthOfPath, AdjacencyMatrix const& adjacencyMatrix)
+    CountPathsWithLengthUsingAdjacencyMatrix(int const lengthOfPath, AdjacencyMatrix const& adjacencyMatrix)
         : m_countMatrix(createCountMatrix(lengthOfPath, adjacencyMatrix)) {}
 
     Count getCount(Vertex const& start, Vertex const& end) const { return m_countMatrix.getEntry(start, end); }
 
 private:
-    CountMatrix createCountMatrix(unsigned int const lengthOfPath, AdjacencyMatrix const& adjacencyMatrix) {
+    CountMatrix createCountMatrix(int const lengthOfPath, AdjacencyMatrix const& adjacencyMatrix) {
         CountMatrix oneCountMatrix(adjacencyMatrix.getNumberOfColumns(), adjacencyMatrix.getNumberOfRows());
-        adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
-            oneCountMatrix.setEntry(x, y, adjacencyMatrix.getEntry(x, y));
-        });
+        adjacencyMatrix.iterateAllThroughYAndThenX(
+            [&](int const x, int const y) { oneCountMatrix.setEntry(x, y, adjacencyMatrix.getEntry(x, y)); });
         return oneCountMatrix ^ lengthOfPath;
     }
 

@@ -61,8 +61,7 @@ TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnStringsUsingExample1) {
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(QuickSorterWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE
-{
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) {
     StabilityCheckObjectsSorter sorter(PivotType::ValueAtLowestIndex);
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
         sorter);

@@ -8,40 +8,40 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using WalkPathsForTest = WalkInSuccessorGraph<VertexForTest>;
 }  // namespace
 
 TEST(WalkInSuccessorGraphTest, WalkWorksOnExample1) {
     GraphForTest graph;
-    graph.connect(1U, 3U);
-    graph.connect(3U, 7U);
-    graph.connect(7U, 1U);
-    graph.connect(9U, 3U);
+    graph.connect(1, 3);
+    graph.connect(3, 7);
+    graph.connect(7, 1);
+    graph.connect(9, 3);
     WalkPathsForTest walkPaths(graph);
 
-    EXPECT_EQ(3U, walkPaths.walk(1U, 1U));
-    EXPECT_EQ(7U, walkPaths.walk(1U, 2U));
-    EXPECT_EQ(1U, walkPaths.walk(1U, 3U));
-    EXPECT_EQ(3U, walkPaths.walk(9U, 1U));
-    EXPECT_EQ(7U, walkPaths.walk(9U, 2U));
-    EXPECT_EQ(1U, walkPaths.walk(9U, 3U));
+    EXPECT_EQ(3, walkPaths.walk(1, 1));
+    EXPECT_EQ(7, walkPaths.walk(1, 2));
+    EXPECT_EQ(1, walkPaths.walk(1, 3));
+    EXPECT_EQ(3, walkPaths.walk(9, 1));
+    EXPECT_EQ(7, walkPaths.walk(9, 2));
+    EXPECT_EQ(1, walkPaths.walk(9, 3));
 }
 
 TEST(WalkInSuccessorGraphTest, WalkWorksOnExample2) {
     GraphForTest graph;
-    graph.connect(4U, 6U);
-    graph.connect(8U, 6U);
-    graph.connect(6U, 2U);
-    graph.connect(2U, 5U);
-    graph.connect(5U, 2U);
+    graph.connect(4, 6);
+    graph.connect(8, 6);
+    graph.connect(6, 2);
+    graph.connect(2, 5);
+    graph.connect(5, 2);
     WalkPathsForTest walkPaths(graph);
 
-    EXPECT_EQ(6U, walkPaths.walk(4U, 1U));
-    EXPECT_EQ(2U, walkPaths.walk(4U, 2U));
-    EXPECT_EQ(5U, walkPaths.walk(4U, 3U));
-    EXPECT_EQ(2U, walkPaths.walk(4U, 4U));
+    EXPECT_EQ(6, walkPaths.walk(4, 1));
+    EXPECT_EQ(2, walkPaths.walk(4, 2));
+    EXPECT_EQ(5, walkPaths.walk(4, 3));
+    EXPECT_EQ(2, walkPaths.walk(4, 4));
 }
 
 }  // namespace algorithm

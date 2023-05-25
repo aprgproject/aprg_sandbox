@@ -11,8 +11,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
-using BlockValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
+using BlockValuesForTest = vector<int>;
 using RangeQueryForTest = RangeQueryWithBlocksWithMultipleRequests<ValuesForTest, BlockValuesForTest>;
 using ValueForTest = typename RangeQueryForTest::Value;
 using BlockValueForTest = typename RangeQueryForTest::BlockValue;
@@ -34,17 +34,16 @@ RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](BlockValuesFor
 }  // namespace
 
 TEST(RangeQueryWithBlocksWithMultipleRequestsTest, GetInputAndOutputPairsUsingMoAlgorithmWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest sumRangeQuery(
         values, plusForARangeOfValues, plusForARangeOfBlockValues, plusForAPairOfBlockValues,
         minusForPairOfBlockValues);
-    RangesForTest inputRanges{{0U, 0U}, {0U, 1U}, {0U, 2U}, {0U, 3U}, {0U, 4U}, {0U, 5U}, {0U, 6U},
-                              {0U, 7U}, {0U, 8U}, {0U, 9U}, {1U, 6U}, {2U, 5U}, {3U, 4U}, {4U, 4U}};
+    RangesForTest inputRanges{{0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6},
+                              {0, 7}, {0, 8}, {0, 9}, {1, 6}, {2, 5}, {3, 4}, {4, 4}};
 
-    InputAndOutputPairsForTest expectedPairs{{{0U, 0U}, 1U},  {{0U, 1U}, 4U},  {{0U, 2U}, 8U},  {{0U, 3U}, 16U},
-                                             {{0U, 4U}, 22U}, {{0U, 5U}, 23U}, {{2U, 5U}, 19U}, {{0U, 6U}, 27U},
-                                             {{1U, 6U}, 26U}, {{0U, 7U}, 29U}, {{0U, 8U}, 38U}, {{3U, 4U}, 14U},
-                                             {{4U, 4U}, 6U}};
+    InputAndOutputPairsForTest expectedPairs{{{0, 0}, 1},  {{0, 1}, 4},  {{0, 2}, 8},  {{0, 3}, 16}, {{0, 4}, 22},
+                                             {{0, 5}, 23}, {{2, 5}, 19}, {{0, 6}, 27}, {{1, 6}, 26}, {{0, 7}, 29},
+                                             {{0, 8}, 38}, {{3, 4}, 14}, {{4, 4}, 6}};
     EXPECT_EQ(expectedPairs, sumRangeQuery.getInputAndOutputPairsUsingMoAlgorithm(inputRanges));
 }
 

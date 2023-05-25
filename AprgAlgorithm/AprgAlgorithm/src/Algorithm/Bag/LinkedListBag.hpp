@@ -24,7 +24,7 @@ public:
 
     bool isEmpty() const override { return m_size == 0; }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
     void add(Object const& object) override {
         NodeUniquePointer newNext(std::move(m_first));
@@ -41,7 +41,7 @@ public:
     }
 
 private:
-    unsigned int m_size;
+    int m_size;
     NodeUniquePointer m_first;
 };
 

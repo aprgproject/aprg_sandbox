@@ -17,7 +17,7 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using VertexToIntMap = typename GraphTypes<Vertex>::VertexToIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
     using InitializeDataFunction = std::function<void(Vertices const&)>;
     using UpdateDataFunction = std::function<void(Vertex const&, Vertex const&)>;
@@ -118,6 +118,25 @@ private:
 // Like in depth-first search, the time complexity of breadth-first search is O(n+m),
 // where n is the number of nodes and m is the number of edges.
 // The algorithm processes each node and edge once.
+
+// -> More details
+// ---> This non-recursive implementation is similar to the non-recursive implementation of depth-first search, but
+// differs from it in two ways:
+// -----> it uses a queue (First In First Out) instead of a stack and
+// -----> it checks whether a vertex has been explored before enqueueing the vertex rather than delaying this check
+// until the vertex is dequeued from the queue.
+// ---> If G is a tree, replacing the queue of this breadth-first search algorithm with a stack will yield a depth-first
+// search algorithm.
+// -----> For general graphs, replacing the stack of the iterative depth-first search implementation
+// -----> with a queue would also produce a breadth-first search algorithm, although a somewhat nonstandard one.
+// ---> The Q queue contains the frontier along which the algorithm is currently searching.
+// -----> Nodes can be labelled as explored by storing them in a set, or by an attribute on each node, depending on the
+// implementation.
+// -----> Note that the word node is usually interchangeable with the word vertex.
+// -----> The parent attribute of each node is useful for accessing the nodes in a shortest path,
+// -----> for example by backtracking from the destination node up to the starting node, once the BFS has been run,
+// -----> and the predecessors nodes have been set.
+// ---> Breadth-first search produces a so-called breadth first tree.
 
 }  // namespace algorithm
 

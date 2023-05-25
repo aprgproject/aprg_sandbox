@@ -15,8 +15,8 @@ public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-    using Counts = std::vector<unsigned int>;
-    using VertexToIndexMap = std::map<Vertex, unsigned int>;
+    using Counts = std::vector<int>;
+    using VertexToIndexMap = std::map<Vertex, int>;
     using AccumulatorFunction = std::function<Vertex(Vertex const&, Vertex const&)>;
 
     SubTreeQueryWithPathAccumulator(
@@ -51,7 +51,7 @@ protected:
         if (m_processedVertices.isNotFound(startVertex) &&
             !m_graph.getAdjacentVerticesAt(startVertex).empty())  // dont include invalid vertex
         {
-            unsigned int treeSize(0);
+            int treeSize(0);
             Vertex startValue(startVertex);
             traverseUsingDfs(treeSize, startValue, startVertex);
 
@@ -60,11 +60,11 @@ protected:
         }
     }
 
-    void traverseUsingDfs(unsigned int& treeSize, Vertex const& pathAccumulatedValue, Vertex const& vertex) {
+    void traverseUsingDfs(int& treeSize, Vertex const& pathAccumulatedValue, Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
         m_verticesInDfsPreOrder.emplace_back(vertex);
         m_accumulatedValuesOfPaths.emplace_back(pathAccumulatedValue);
-        unsigned int index = treeSize++;
+        int index = treeSize++;
         for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
             if (m_processedVertices.isNotFound(adjacentVertex)) {
                 traverseUsingDfs(treeSize, m_accumulator(pathAccumulatedValue, adjacentVertex), adjacentVertex);

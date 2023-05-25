@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    unsigned int& b_size;
+    int& b_size;
     HashTable& b_smallerSymbolTables;
 };
 

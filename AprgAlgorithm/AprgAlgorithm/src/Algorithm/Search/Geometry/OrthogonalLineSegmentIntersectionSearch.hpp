@@ -29,7 +29,7 @@ public:
             if (xLocation != event.xLocation) {
                 result = xLocation < event.xLocation;  // sweep through x
             } else {
-                result = static_cast<unsigned int>(eventType) < static_cast<unsigned int>(event.eventType);
+                result = static_cast<int>(eventType) < static_cast<int>(event.eventType);
             }
             return result;
         }

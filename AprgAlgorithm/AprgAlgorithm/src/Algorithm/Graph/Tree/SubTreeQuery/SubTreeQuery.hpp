@@ -13,8 +13,8 @@ public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-    using Counts = std::vector<unsigned int>;
-    using VertexToIndexMap = std::map<Vertex, unsigned int>;
+    using Counts = std::vector<int>;
+    using VertexToIndexMap = std::map<Vertex, int>;
 
     SubTreeQuery(BaseUndirectedGraphWithVertex const& graph, Vertex const& rootOfTree)
         : m_graph(graph), m_rootOfTree(rootOfTree) {
@@ -29,8 +29,8 @@ public:
         Vertices result;
         auto it = m_vertexToIndexMap.find(subRoot);
         if (it != m_vertexToIndexMap.cend()) {
-            unsigned int indexOfSubRoot = it->second;
-            unsigned int subTreeSizeAtSubRoot = m_subTreeSize.at(indexOfSubRoot);
+            int indexOfSubRoot = it->second;
+            int subTreeSizeAtSubRoot = m_subTreeSize.at(indexOfSubRoot);
             result.reserve(subTreeSizeAtSubRoot);
             auto start = m_verticesInDfsPreOrder.cbegin() + indexOfSubRoot;
             auto end = m_verticesInDfsPreOrder.cbegin() + indexOfSubRoot + subTreeSizeAtSubRoot;
@@ -54,7 +54,7 @@ protected:
         {
             m_subTreeSize.resize(m_graph.getNumberOfVertices());
 
-            unsigned int treeSize(0);
+            int treeSize(0);
             traverseUsingDfs(treeSize, startVertex);
 
             m_subTreeSize.resize(m_verticesInDfsPreOrder.size());
@@ -63,10 +63,10 @@ protected:
         }
     }
 
-    void traverseUsingDfs(unsigned int& treeSize, Vertex const& vertex) {
+    void traverseUsingDfs(int& treeSize, Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
         m_verticesInDfsPreOrder.emplace_back(vertex);
-        unsigned int beforeTreeSize = treeSize++;
+        int beforeTreeSize = treeSize++;
         for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
             if (m_processedVertices.isNotFound(adjacentVertex)) {
                 traverseUsingDfs(treeSize, adjacentVertex);

@@ -49,7 +49,7 @@ public:
           m_operatorPriority(0) {}
     ExpressionEvaluatorTerm(
         OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue,
-        unsigned int const operatorPriority)
+        int const operatorPriority)
         : m_termType(TermType::Operator),
           m_value(),
           m_operator(operatorValue),
@@ -64,14 +64,14 @@ public:
     ValueTemplateType getValue() const { return m_value; }
     ValueTemplateType& getReferenceOfValue() { return m_value; }
     OperatorTemplateType getOperator() const { return m_operator; }
-    unsigned int getOperatorPriority() const { return m_operatorPriority; }
+    int getOperatorPriority() const { return m_operatorPriority; }
 
 private:
     TermType m_termType;
     ValueTemplateType m_value;
     OperatorTemplateType m_operator;
     OperatorSyntaxType m_operatorSyntaxType;
-    unsigned int m_operatorPriority;
+    int m_operatorPriority;
 };
 
 template <typename ValueTemplateType, typename OperatorTemplateType>

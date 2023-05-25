@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using QueryForTest = ChildrenInTree<VertexForTest>;
 using VerticesForTest = QueryForTest::Vertices;
@@ -16,19 +16,19 @@ using VerticesForTest = QueryForTest::Vertices;
 
 TEST(ChildrenInTreeTest, GetChildrenWorks) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 3U);
-    graph.connect(4U, 7U);
-    graph.connect(7U, 8U);
-    QueryForTest query(graph, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 3);
+    graph.connect(4, 7);
+    graph.connect(7, 8);
+    QueryForTest query(graph, 1);
 
-    EXPECT_EQ((VerticesForTest{2U, 4U, 5U}), query.getChildren(1U));
-    EXPECT_EQ((VerticesForTest{6U}), query.getChildren(2U));
-    EXPECT_EQ((VerticesForTest{3U, 7U}), query.getChildren(4U));
-    EXPECT_EQ((VerticesForTest{8U}), query.getChildren(7U));
+    EXPECT_EQ((VerticesForTest{2, 4, 5}), query.getChildren(1));
+    EXPECT_EQ((VerticesForTest{6}), query.getChildren(2));
+    EXPECT_EQ((VerticesForTest{3, 7}), query.getChildren(4));
+    EXPECT_EQ((VerticesForTest{8}), query.getChildren(7));
 }
 
 }  // namespace algorithm

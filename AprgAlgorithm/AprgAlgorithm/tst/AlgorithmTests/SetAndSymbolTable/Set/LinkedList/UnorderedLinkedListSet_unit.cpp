@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SetForTest = UnorderedLinkedListSet<unsigned int>;
+using SetForTest = UnorderedLinkedListSet<int>;
 }
 
 TEST(UnorderedLinkedListSetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }

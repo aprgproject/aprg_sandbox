@@ -33,11 +33,11 @@ public:
 
     bool isEmpty() const override { return m_size == 0; }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
     bool doesContain(Key const& key) const override {
         bool result(false);
-        for (unsigned int i(getHash(key)); m_entryPointers[i]; incrementHashTableIndexWithWrapAround(i)) {
+        for (int i(getHash(key)); m_entryPointers[i]; incrementHashTableIndexWithWrapAround(i)) {
             EntryUniquePointer const& entryPointer(m_entryPointers[i]);
             if (key == entryPointer->key) {
                 result = true;
@@ -47,7 +47,7 @@ public:
         return result;
     }
 
-    unsigned int getRank(Key const& key) const override {
+    int getRank(Key const& key) const override {
         Keys keys(getKeys());
         return OrderedArray::getRank(key, keys);
     }
@@ -55,7 +55,7 @@ public:
     Key getMinimum() const override {
         Key result{};
         bool isFirst(true);
-        for (unsigned int i = 0; i < m_hashTableSize; i++) {
+        for (int i = 0; i < m_hashTableSize; i++) {
             EntryUniquePointer const& entryPointer(m_entryPointers[i]);
             if (entryPointer) {
                 if (isFirst) {
@@ -72,7 +72,7 @@ public:
     Key getMaximum() const override {
         Key result{};
         bool isFirst(true);
-        for (unsigned int i = 0; i < m_hashTableSize; i++) {
+        for (int i = 0; i < m_hashTableSize; i++) {
             EntryUniquePointer const& entryPointer(m_entryPointers[i]);
             if (entryPointer) {
                 if (isFirst) {
@@ -86,7 +86,7 @@ public:
         return result;
     }
 
-    Key selectAt(unsigned int const index) const override {
+    Key selectAt(int const index) const override {
         Keys keys(getKeys());
         return OrderedArray::selectAt(index, keys);
     }
@@ -102,7 +102,7 @@ public:
     }
 
     void deleteBasedOnKey(Key const& key) override {
-        unsigned int i(getHash(key));
+        int i(getHash(key));
         for (; m_entryPointers[i] && m_entryPointers[i]->key != key; incrementHashTableIndexWithWrapAround(i))
             ;
         if (m_entryPointers[i] && m_entryPointers[i]->key == key) {
@@ -124,7 +124,7 @@ public:
 
     Keys getKeys() const override {
         Keys result;
-        for (unsigned int i = 0; i < m_hashTableSize; i++) {
+        for (int i = 0; i < m_hashTableSize; i++) {
             EntryUniquePointer const& entryPointer(m_entryPointers[i]);
             if (entryPointer) {
                 result.emplace_back(entryPointer->key);
@@ -136,7 +136,7 @@ public:
 
     Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override {
         Keys result;
-        for (unsigned int i = 0; i < m_hashTableSize; i++) {
+        for (int i = 0; i < m_hashTableSize; i++) {
             EntryUniquePointer const& entryPointer(m_entryPointers[i]);
             if (entryPointer) {
                 Key const& currentKey(entryPointer->key);
@@ -149,7 +149,7 @@ public:
         return result;
     }
 
-    unsigned int getHashTableSize() const { return m_hashTableSize; }
+    int getHashTableSize() const { return m_hashTableSize; }
 
 protected:
     virtual void putEntry(Entry const& entry) = 0;
@@ -160,25 +160,25 @@ protected:
         }
     }
 
-    void deleteEntryOnIndex(unsigned int const index) {
+    void deleteEntryOnIndex(int const index) {
         m_entryPointers[index].reset();
         m_size--;
     }
 
-    void initialize(unsigned int const initialSize) {
+    void initialize(int const initialSize) {
         if (m_entryPointers == nullptr) {
             m_entryPointers = new EntryUniquePointer[initialSize]{};
             m_hashTableSize = initialSize;
         }
     }
 
-    void resize(unsigned int const newHashTableSize) {
+    void resize(int const newHashTableSize) {
         EntryPointers oldEntryPointers = m_entryPointers;
-        unsigned int oldHashTableSize = m_hashTableSize;
+        int oldHashTableSize = m_hashTableSize;
         m_size = 0;
         m_entryPointers = new EntryUniquePointer[newHashTableSize]();
         m_hashTableSize = newHashTableSize;
-        for (unsigned int i = 0; i < oldHashTableSize; i++) {
+        for (int i = 0; i < oldHashTableSize; i++) {
             EntryUniquePointer const& entryPointer(oldEntryPointers[i]);
             if (entryPointer) {
                 putEntry(*entryPointer);
@@ -201,13 +201,13 @@ protected:
         }
     }
 
-    unsigned int getHash(Key const& key) const { return HashFunction::getHash(key, m_hashTableSize); }
+    int getHash(Key const& key) const { return HashFunction::getHash(key, m_hashTableSize); }
 
-    void incrementHashTableIndexWithWrapAround(unsigned int& index) const { index = (index + 1) % m_hashTableSize; }
+    void incrementHashTableIndexWithWrapAround(int& index) const { index = (index + 1) % m_hashTableSize; }
 
-    static constexpr unsigned int INITIAL_HASH_TABLE_SIZE = 1U;
-    unsigned int m_size;
-    unsigned int m_hashTableSize;
+    static constexpr int INITIAL_HASH_TABLE_SIZE = 1;
+    int m_size;
+    int m_hashTableSize;
     EntryPointers m_entryPointers;
 };
 

@@ -9,13 +9,13 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_DIGIT_VALUES>
+template <typename Values, int MAX_NUMBER_OF_DIGIT_VALUES>
 class RadixSorterUsingCountingSorter : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using DigitValue = unsigned int;  // this needs to be indexable as its used on CountingSorter
-    using GetNumberOfDigitsFunction = std::function<unsigned int(Values const&)>;
-    using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
+    using DigitValue = int;  // this needs to be indexable as its used on CountingSorter
+    using GetNumberOfDigitsFunction = std::function<int(Values const&)>;
+    using GetDigitAtFunction = std::function<DigitValue(Value const&, int const)>;
 
     RadixSorterUsingCountingSorter() = delete;
     RadixSorterUsingCountingSorter(
@@ -23,9 +23,8 @@ public:
         : m_getNumberOfDigitsFunction(getNumberOfDigitsFunction), m_getDigitAtFunction(getDigitAtFunction) {}
 
     void sort(Values& valuesToSort) const override {
-        unsigned int numberOfDigits(m_getNumberOfDigitsFunction(valuesToSort));
-        for (unsigned int digitIndex = 0; digitIndex < numberOfDigits;
-             digitIndex++)  // start at least significant digit
+        int numberOfDigits(m_getNumberOfDigitsFunction(valuesToSort));
+        for (int digitIndex = 0; digitIndex < numberOfDigits; digitIndex++)  // start at least significant digit
         {
             auto getDigitFunction = [&](Value const& value) { return m_getDigitAtFunction(value, digitIndex); };
             CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_DIGIT_VALUES> countingSorter(getDigitFunction);
@@ -61,7 +60,7 @@ private:
 
 // Sorting by least significant digit (1s place) gives:
 // [*Notice that we keep 802 before 2, because 802 occurred before 2 in the original list, and similarly for pairs 170 &
-// 90 and 45 & 75.] 170, 90, 802, 2, 24, 45, 75, 66
+// 90 and 45 and 75.] 170, 90, 802, 2, 24, 45, 75, 66
 
 // Sorting by next digit (10s place) gives:
 // [*Notice that 802 again comes before 2 as 802 comes before 2 in the previous list.]
@@ -75,7 +74,7 @@ private:
 // ---> Or it can be expressed as O((n+b)*d)
 // -> Let the "size of input" be "n".
 // -> Let the "maximum possible value" be "k".
-// ---> In a 32-bit unsigned integer its 0xFFFFFFFF or 4294967295.
+// ---> In a 32-bit integer its 0xFFFFFFFF or 4294967295.
 // -> Let the "number of digit values" be "b".
 // ---> The "number of digit values" is also the BASE for digit value.
 // -----> For example, in the decimal system the "number of digit values" is 10.

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 namespace alba {
@@ -10,7 +11,7 @@ namespace algorithm {
 template <typename Values>
 class InterpolationSearch {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -19,14 +20,15 @@ public:
     Index getIndexOfValue(Value const& value) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size() - 1, value);
+            result = getIndexOfValueWithoutCheck(0, m_sortedValues.size() - 1, value);
         }
         return result;
     }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex) {
+        if (startIndex < static_cast<Index>(m_sortedValues.size()) &&
+            endIndex < static_cast<Index>(m_sortedValues.size()) && startIndex <= endIndex) {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
         }
         return result;
@@ -39,13 +41,15 @@ private:
         while (lowerIndex <= higherIndex) {
             Value lowerValue(m_sortedValues.at(lowerIndex));
             Value higherValue(m_sortedValues.at(higherIndex));
-            if (targetValue < lowerValue || higherValue < targetValue)  // out of range
-            {
+            if (targetValue < lowerValue || higherValue < targetValue) {  // out of range
+                break;
+            } else if (lowerValue == higherValue) {
+                result = getMidpointOfIndexes(lowerIndex, higherIndex);
                 break;
             } else {
                 Index interpolatedIndex = lowerIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Index>(
-                                                           static_cast<double>(higherIndex - lowerIndex) /
-                                                           (higherValue - lowerValue) * (targetValue - lowerValue));
+                                                           static_cast<double>(higherIndex - lowerIndex) *
+                                                           (targetValue - lowerValue) / (higherValue - lowerValue));
                 Value valueAtInterpolatedIndex(m_sortedValues.at(interpolatedIndex));
                 if (targetValue == valueAtInterpolatedIndex) {
                     result = interpolatedIndex;
@@ -57,6 +61,8 @@ private:
                     lowerIndex = interpolatedIndex + 1;
                 }
             }
+        }
+        if (lowerIndex == higherIndex) {
         }
         return result;
     }

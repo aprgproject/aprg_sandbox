@@ -14,26 +14,23 @@ public:
 
     void sort(Values& valuesToSort) const override {
         if (!valuesToSort.empty()) {
-            // You can randomize inputs here to remove dependence on input (quick sort works best if input is not
-            // sorted) std::shuffle should help
-            sort(valuesToSort, 0U, valuesToSort.size() - 1);
+            // You can randomize inputs here to remove dependence on input
+            // (quick sort works best if input is not sorted) std::shuffle should help
+            sort(valuesToSort, 0, valuesToSort.size() - 1);
         }
     }
 
 private:
-    void sort(Values& valuesToSort, unsigned int const lowestIndex, unsigned int const highestIndex) const {
+    void sort(Values& valuesToSort, int const lowestIndex, int const highestIndex) const {
         if (lowestIndex < highestIndex) {
-            unsigned int partitionIndex =
-                partitionAndGetPartitionIndex(valuesToSort, lowestIndex, highestIndex, m_pivotType);
-            if (lowestIndex != partitionIndex) {
-                sort(
-                    valuesToSort, lowestIndex,
-                    partitionIndex - 1);  // recursively sort/partition the low part without the partition index
+            int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowestIndex, highestIndex, m_pivotType);
+            if (lowestIndex < partitionIndex) {
+                // recursively sort/partition the low part without the partition index
+                sort(valuesToSort, lowestIndex, partitionIndex - 1);
             }
-            if (partitionIndex != highestIndex) {
-                sort(
-                    valuesToSort, partitionIndex + 1,
-                    highestIndex);  // recursively sort/partition the high part without the partition index
+            if (partitionIndex < highestIndex) {
+                // recursively sort/partition the high part without the partition index
+                sort(valuesToSort, partitionIndex + 1, highestIndex);
             }
         }
     }

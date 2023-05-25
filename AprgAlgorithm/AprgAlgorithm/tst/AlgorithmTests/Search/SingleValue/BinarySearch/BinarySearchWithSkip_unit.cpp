@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = BinarySearchWithSkip<ValuesForTest>;
 }  // namespace
 

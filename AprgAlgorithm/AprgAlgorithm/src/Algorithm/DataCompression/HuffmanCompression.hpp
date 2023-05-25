@@ -15,7 +15,7 @@ namespace algorithm {
 template <typename Count>
 class HuffmanCompression {
 public:
-    static constexpr unsigned int RADIX = 256U;
+    static constexpr int RADIX = 256;
 
     using Characters = std::vector<char>;
     using HuffmanCode = std::vector<bool>;
@@ -100,7 +100,7 @@ private:
 
     FrequencyOfEachCharacter getFrequencyOfEachCharacter(Characters const& charactersInput) {
         FrequencyOfEachCharacter frequency{};
-        for (Count i = 0; i < charactersInput.size(); i++) {
+        for (Count i = 0; i < static_cast<Count>(charactersInput.size()); i++) {
             frequency[charactersInput.at(i)]++;
         }
         return frequency;
@@ -108,7 +108,7 @@ private:
 
     void writeHuffmanCodes(
         AlbaStreamBitWriter& writer, Characters const& wholeInput, HuffmanCodeTable const& huffmanCodeTable) {
-        for (Count i = 0; i < wholeInput.size(); i++) {
+        for (Count i = 0; i < static_cast<Count>(wholeInput.size()); i++) {
             HuffmanCode const& huffmanCode(huffmanCodeTable.at(wholeInput.at(i)));
             for (bool const b : huffmanCode) {
                 writer.writeBoolData(b);

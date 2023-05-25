@@ -9,7 +9,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 using IndexForTest = RangeQueryForTest::Index;
@@ -32,28 +32,28 @@ TEST(
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
-    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
+    EXPECT_EQ(0, sumRangeQuery.getValueOnInterval(0, 0));
 }
 
 TEST(
     RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, GetValueOnIntervalWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
-    EXPECT_EQ(1U, sumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));
-    EXPECT_EQ(16U, sumRangeQuery.getValueOnInterval(0U, 3U));
-    EXPECT_EQ(22U, sumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_EQ(23U, sumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_EQ(27U, sumRangeQuery.getValueOnInterval(0U, 6U));
-    EXPECT_EQ(29U, sumRangeQuery.getValueOnInterval(0U, 7U));
-    EXPECT_EQ(38U, sumRangeQuery.getValueOnInterval(0U, 8U));
-    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 9U));
-    EXPECT_EQ(26U, sumRangeQuery.getValueOnInterval(1U, 6U));
-    EXPECT_EQ(19U, sumRangeQuery.getValueOnInterval(2U, 5U));
-    EXPECT_EQ(14U, sumRangeQuery.getValueOnInterval(3U, 4U));
-    EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
+    EXPECT_EQ(1, sumRangeQuery.getValueOnInterval(0, 0));
+    EXPECT_EQ(4, sumRangeQuery.getValueOnInterval(0, 1));
+    EXPECT_EQ(8, sumRangeQuery.getValueOnInterval(0, 2));
+    EXPECT_EQ(16, sumRangeQuery.getValueOnInterval(0, 3));
+    EXPECT_EQ(22, sumRangeQuery.getValueOnInterval(0, 4));
+    EXPECT_EQ(23, sumRangeQuery.getValueOnInterval(0, 5));
+    EXPECT_EQ(27, sumRangeQuery.getValueOnInterval(0, 6));
+    EXPECT_EQ(29, sumRangeQuery.getValueOnInterval(0, 7));
+    EXPECT_EQ(38, sumRangeQuery.getValueOnInterval(0, 8));
+    EXPECT_EQ(0, sumRangeQuery.getValueOnInterval(0, 9));
+    EXPECT_EQ(26, sumRangeQuery.getValueOnInterval(1, 6));
+    EXPECT_EQ(19, sumRangeQuery.getValueOnInterval(2, 5));
+    EXPECT_EQ(14, sumRangeQuery.getValueOnInterval(3, 4));
+    EXPECT_EQ(6, sumRangeQuery.getValueOnInterval(4, 4));
 }
 
 TEST(
@@ -62,31 +62,31 @@ TEST(
     ValuesForTest values;
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
-    sumRangeQuery.increaseAtRange(0U, 5U);
+    sumRangeQuery.increaseAtRange(0, 5);
 
-    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
+    EXPECT_EQ(0, sumRangeQuery.getValueOnInterval(0, 0));
 }
 
 TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, IncreaseAtRangeWithSumWorksOnExample1) {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
-    sumRangeQuery.increaseAtRange(0U, 5U);
+    sumRangeQuery.increaseAtRange(0, 5);
 
-    EXPECT_EQ(2U, sumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_EQ(7U, sumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(14U, sumRangeQuery.getValueOnInterval(0U, 2U));
-    EXPECT_EQ(26U, sumRangeQuery.getValueOnInterval(0U, 3U));
-    EXPECT_EQ(37U, sumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_EQ(44U, sumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_EQ(48U, sumRangeQuery.getValueOnInterval(0U, 6U));
-    EXPECT_EQ(50U, sumRangeQuery.getValueOnInterval(0U, 7U));
-    EXPECT_EQ(59U, sumRangeQuery.getValueOnInterval(0U, 8U));
-    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 9U));
-    EXPECT_EQ(46U, sumRangeQuery.getValueOnInterval(1U, 6U));
-    EXPECT_EQ(37U, sumRangeQuery.getValueOnInterval(2U, 5U));
-    EXPECT_EQ(23U, sumRangeQuery.getValueOnInterval(3U, 4U));
-    EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(4U, 4U));
+    EXPECT_EQ(2, sumRangeQuery.getValueOnInterval(0, 0));
+    EXPECT_EQ(7, sumRangeQuery.getValueOnInterval(0, 1));
+    EXPECT_EQ(14, sumRangeQuery.getValueOnInterval(0, 2));
+    EXPECT_EQ(26, sumRangeQuery.getValueOnInterval(0, 3));
+    EXPECT_EQ(37, sumRangeQuery.getValueOnInterval(0, 4));
+    EXPECT_EQ(44, sumRangeQuery.getValueOnInterval(0, 5));
+    EXPECT_EQ(48, sumRangeQuery.getValueOnInterval(0, 6));
+    EXPECT_EQ(50, sumRangeQuery.getValueOnInterval(0, 7));
+    EXPECT_EQ(59, sumRangeQuery.getValueOnInterval(0, 8));
+    EXPECT_EQ(0, sumRangeQuery.getValueOnInterval(0, 9));
+    EXPECT_EQ(46, sumRangeQuery.getValueOnInterval(1, 6));
+    EXPECT_EQ(37, sumRangeQuery.getValueOnInterval(2, 5));
+    EXPECT_EQ(23, sumRangeQuery.getValueOnInterval(3, 4));
+    EXPECT_EQ(11, sumRangeQuery.getValueOnInterval(4, 4));
 }
 
 }  // namespace algorithm

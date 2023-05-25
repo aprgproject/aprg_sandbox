@@ -14,8 +14,8 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-constexpr unsigned int MAX_NUMBER_OF_CHARACTERS = 256U;
-constexpr unsigned int MAX_NUMBER_OF_SMALL_INTS = 21U;
+constexpr int MAX_NUMBER_OF_CHARACTERS = 256;
+constexpr int MAX_NUMBER_OF_SMALL_INTS = 21;
 using Characters = vector<char>;
 using ListOfCharacters = list<char>;
 using Integers = vector<int>;
@@ -25,31 +25,29 @@ using ListOfCharactersSorter = CountingSorterUsingCountPerValue<ListOfCharacters
 using SmallIntegerSorter = CountingSorterUsingCountPerValue<Integers, MAX_NUMBER_OF_SMALL_INTS>;
 using StabilityCheckObjectsSorter = CountingSorterUsingCountPerValue<StabilityCheckObjects, MAX_NUMBER_OF_CHARACTERS>;
 
-CharactersSorter::ValueToIndexableValueFunction characterToIndexableValueFunction =
-    [](char const& value) -> unsigned int {
-    return value & 0xFFU;  // already converts to unsigned integer
+CharactersSorter::ValueToIndexableValueFunction characterToIndexableValueFunction = [](char const& value) -> int {
+    return value & 0xFF;  // already converts to integer
 };
 CharactersSorter::IndexableValueToValueFunction indexableValueToCharacterFunction =
-    [](unsigned int const indexableValue) -> char { return static_cast<char>(indexableValue & 0xFFU); };
+    [](int const indexableValue) -> char { return static_cast<char>(indexableValue & 0xFF); };
 
-SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction =
-    [](int const& value) -> unsigned int {
+SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> int {
     // Input: {-5, -10, 0, -3, 8, 5, -1, 10}
-    return static_cast<unsigned int>(10 + value);
+    return 10 + value;
 };
 SmallIntegerSorter::IndexableValueToValueFunction indexableValueToSmallIntFunction =
-    [](unsigned int const indexableValue) -> int {
+    [](int const indexableValue) -> int {
     // Input: {-5, -10, 0, -3, 8, 5, -1, 10}
-    return static_cast<int>(indexableValue) - 10;
+    return indexableValue - 10;
 };
 
 StabilityCheckObjectsSorter::ValueToIndexableValueFunction stabilityCheckObjectToIndexableValueFunction =
-    [](StabilityCheckObject const& value) -> unsigned int {
-    return value.getVisiblePart() & 0xFFU;  // there is some splicing here
+    [](StabilityCheckObject const& value) -> int {
+    return value.getVisiblePart() & 0xFF;  // there is some splicing here
 };
 StabilityCheckObjectsSorter::IndexableValueToValueFunction indexableValueToStabilityCheckObjectFunction =
-    [](unsigned int const indexableValue) -> StabilityCheckObject {
-    return StabilityCheckObject(static_cast<char>(indexableValue & 0xFFU), 0U);
+    [](int const indexableValue) -> StabilityCheckObject {
+    return StabilityCheckObject(static_cast<char>(indexableValue & 0xFF), 0);
 };
 
 }  // namespace

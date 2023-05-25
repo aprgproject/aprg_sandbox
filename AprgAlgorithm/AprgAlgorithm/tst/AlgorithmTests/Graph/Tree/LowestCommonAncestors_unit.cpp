@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using LowestCommonAncestorsForTest = LowestCommonAncestors<VertexForTest>;
 using VerticesForTest = LowestCommonAncestorsForTest::Vertices;
@@ -17,45 +17,45 @@ using DepthsForTest = LowestCommonAncestorsForTest::Depths;
 
 TEST(LowestCommonAncestorsTest, Example1Works) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 7U);
-    graph.connect(4U, 8U);
-    graph.connect(4U, 9U);
-    LowestCommonAncestorsForTest lowestCommonAncestors(graph, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 7);
+    graph.connect(4, 8);
+    graph.connect(4, 9);
+    LowestCommonAncestorsForTest lowestCommonAncestors(graph, 1);
 
-    VerticesForTest expectedVertices{1U, 2U, 6U, 2U, 1U, 3U, 1U, 4U, 7U, 4U, 8U, 4U, 9U, 4U, 1U, 5U, 1U};
-    DepthsForTest expectedDepth{1U, 2U, 3U, 2U, 1U, 2U, 1U, 2U, 3U, 2U, 3U, 2U, 3U, 2U, 1U, 2U, 1U};
+    VerticesForTest expectedVertices{1, 2, 6, 2, 1, 3, 1, 4, 7, 4, 8, 4, 9, 4, 1, 5, 1};
+    DepthsForTest expectedDepth{1, 2, 3, 2, 1, 2, 1, 2, 3, 2, 3, 2, 3, 2, 1, 2, 1};
     EXPECT_EQ(expectedVertices, lowestCommonAncestors.getVerticesInTreeOrder());
     EXPECT_EQ(expectedDepth, lowestCommonAncestors.getDepths());
-    EXPECT_EQ(1U, lowestCommonAncestors.getLowestCommonAncestor(6U, 8U));
-    EXPECT_EQ(4U, lowestCommonAncestors.getLowestCommonAncestor(8U, 9U));
-    EXPECT_EQ(4U, lowestCommonAncestors.getDistanceBetweenVertices(6U, 8U));
-    EXPECT_EQ(2U, lowestCommonAncestors.getDistanceBetweenVertices(8U, 9U));
+    EXPECT_EQ(1, lowestCommonAncestors.getLowestCommonAncestor(6, 8));
+    EXPECT_EQ(4, lowestCommonAncestors.getLowestCommonAncestor(8, 9));
+    EXPECT_EQ(4, lowestCommonAncestors.getDistanceBetweenVertices(6, 8));
+    EXPECT_EQ(2, lowestCommonAncestors.getDistanceBetweenVertices(8, 9));
 }
 
 TEST(LowestCommonAncestorsTest, Example2Works) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(2U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 7U);
-    graph.connect(6U, 8U);
-    LowestCommonAncestorsForTest lowestCommonAncestors(graph, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(2, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 7);
+    graph.connect(6, 8);
+    LowestCommonAncestorsForTest lowestCommonAncestors(graph, 1);
 
-    VerticesForTest expectedVertices{1U, 2U, 5U, 2U, 6U, 8U, 6U, 2U, 1U, 3U, 1U, 4U, 7U, 4U, 1U};
-    DepthsForTest expectedDepth{1U, 2U, 3U, 2U, 3U, 4U, 3U, 2U, 1U, 2U, 1U, 2U, 3U, 2U, 1U};
+    VerticesForTest expectedVertices{1, 2, 5, 2, 6, 8, 6, 2, 1, 3, 1, 4, 7, 4, 1};
+    DepthsForTest expectedDepth{1, 2, 3, 2, 3, 4, 3, 2, 1, 2, 1, 2, 3, 2, 1};
     EXPECT_EQ(expectedVertices, lowestCommonAncestors.getVerticesInTreeOrder());
     EXPECT_EQ(expectedDepth, lowestCommonAncestors.getDepths());
-    EXPECT_EQ(1U, lowestCommonAncestors.getLowestCommonAncestor(5U, 7U));
-    EXPECT_EQ(2U, lowestCommonAncestors.getLowestCommonAncestor(5U, 8U));
-    EXPECT_EQ(4U, lowestCommonAncestors.getDistanceBetweenVertices(5U, 7U));
-    EXPECT_EQ(3U, lowestCommonAncestors.getDistanceBetweenVertices(5U, 8U));
+    EXPECT_EQ(1, lowestCommonAncestors.getLowestCommonAncestor(5, 7));
+    EXPECT_EQ(2, lowestCommonAncestors.getLowestCommonAncestor(5, 8));
+    EXPECT_EQ(4, lowestCommonAncestors.getDistanceBetweenVertices(5, 7));
+    EXPECT_EQ(3, lowestCommonAncestors.getDistanceBetweenVertices(5, 8));
 }
 
 }  // namespace algorithm

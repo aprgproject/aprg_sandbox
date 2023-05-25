@@ -56,7 +56,7 @@ public:
         return result;
     }
 
-    unsigned int getSizeOfMaximumAntichain(Vertex const& newSourceVertex, Vertex const& newSinkVertex) const {
+    int getSizeOfMaximumAntichain(Vertex const& newSourceVertex, Vertex const& newSinkVertex) const {
         // Using Dilworth's theorem:
         // An antichain is a set of nodes of a graph such that there is no path from any node to another node using the
         // edges of the graph. Dilworth’s theorem states that in a directed acyclic graph, the size of a minimum general
@@ -84,7 +84,7 @@ private:
             Edge firstEdge(detectedEdges.front());
             detectedEdges.pop_front();
             DequeOfVertices pathInDeque{firstEdge.first, firstEdge.second};
-            for (unsigned int i = 0; i < detectedEdges.size();) {
+            for (int i = 0; i < static_cast<int>(detectedEdges.size());) {
                 Edge const& edge(detectedEdges.at(i));
                 if (pathInDeque.front() == edge.second) {
                     pathInDeque.emplace_front(edge.first);

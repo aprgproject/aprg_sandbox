@@ -9,7 +9,7 @@ namespace algorithm {
 template <typename Values>
 class TernarySearch {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -18,14 +18,15 @@ public:
     Index getIndexOfValue(Value const& value) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size() - 1, value);
+            result = getIndexOfValueWithoutCheck(0, m_sortedValues.size() - 1, value);
         }
         return result;
     }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex) {
+        if (startIndex < static_cast<Index>(m_sortedValues.size()) &&
+            endIndex < static_cast<Index>(m_sortedValues.size()) && startIndex <= endIndex) {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
         }
         return result;
@@ -46,7 +47,7 @@ private:
                 result = secondMiddleIndex;
             } else if (value < firstMiddleValue)  // if on the first one-third part
             {
-                if (firstMiddleIndex > 0U) {
+                if (firstMiddleIndex > 0) {
                     result = getIndexOfValueWithoutCheck(lowerIndex, firstMiddleIndex - 1, value);
                 }
             } else if (secondMiddleValue < value)  // if on the third one-third part

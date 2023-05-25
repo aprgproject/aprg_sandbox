@@ -11,9 +11,9 @@ namespace algorithm {
 template <typename Index, typename HashValue>
 class RabinKarpSubstringSearchWithRunningHash {
 public:
-    using RadixType = unsigned int;
-    static constexpr RadixType RADIX = 256U;
-    static constexpr HashValue A_LARGE_PRIME = 1229952067U;  // hard coded for now (think of an implementation later)
+    using RadixType = int;
+    static constexpr RadixType RADIX = 256;
+    static constexpr HashValue A_LARGE_PRIME = 1229952067;  // hard coded for now (think of an implementation later)
 
     RabinKarpSubstringSearchWithRunningHash(std::string const& substringToMatch)
         : m_substringToMatch(substringToMatch),
@@ -44,7 +44,7 @@ public:
 
 private:
     HashValue getHash(std::string const& key) {
-        return m_hornerHashFunction.getHashCode(key.substr(0U, m_matchLength));
+        return m_hornerHashFunction.getHashCode(key.substr(0, m_matchLength));
     }
 
     HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd) {
@@ -59,7 +59,7 @@ private:
 
     HashValue getRadixRaiseToMatchLengthHash() {
         HashValue result(1);
-        for (unsigned int i = 1; i < m_matchLength; i++) {
+        for (int i = 1; i < m_matchLength; i++) {
             result = (result * RADIX) % m_largeRandomPrime;
         }
         return result;

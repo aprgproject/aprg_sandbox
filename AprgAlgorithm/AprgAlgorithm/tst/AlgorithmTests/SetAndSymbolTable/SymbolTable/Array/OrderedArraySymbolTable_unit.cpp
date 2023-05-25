@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using SymbolTableForTest = OrderedArraySymbolTable<unsigned int, char>;
+using SymbolTableForTest = OrderedArraySymbolTable<int, char>;
 }
 
 TEST(OrderedArraySymbolTableTest, IsEmptyWorksWhenEmpty) {

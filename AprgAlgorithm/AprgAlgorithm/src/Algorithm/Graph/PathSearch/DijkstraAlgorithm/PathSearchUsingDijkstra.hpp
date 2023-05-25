@@ -33,8 +33,8 @@ public:
 
 private:
     bool isComparisonLessThan() const {
-        ComparatorTemplateType<unsigned int> comparisonInUnsignedInt;
-        return (comparisonInUnsignedInt(1U, 2U) && !comparisonInUnsignedInt(1U, 1U));
+        ComparatorTemplateType<int> comparisonInUnsignedInt;
+        return (comparisonInUnsignedInt(1, 2) && !comparisonInUnsignedInt(1, 1));
     }
 
     void searchForPathIfPossible() {

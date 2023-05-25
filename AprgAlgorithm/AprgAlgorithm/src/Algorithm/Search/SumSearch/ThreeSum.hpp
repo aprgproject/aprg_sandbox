@@ -30,7 +30,7 @@ public:
     // -> Space Complexity: O(1).
     // ---> As no extra space is required.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using ThreeValues = std::tuple<Value, Value, Value>;
 
@@ -40,7 +40,7 @@ public:
         ThreeValues result{};
         if (!m_sortedValues.empty()) {
             TwoSum<Values> twoSum(m_sortedValues);
-            for (Index firstIndex = 0; firstIndex < m_sortedValues.size(); firstIndex++) {
+            for (Index firstIndex = 0; firstIndex < static_cast<Index>(m_sortedValues.size()); firstIndex++) {
                 Value const& firstValue(m_sortedValues.at(firstIndex));
                 auto twoSumValues(twoSum.getNonDuplicateTwoValuesWithSum(
                     targetSum - firstValue, firstIndex + 1, m_sortedValues.size() - 1));
@@ -57,7 +57,7 @@ public:
         ThreeValues result{};
         if (!m_sortedValues.empty()) {
             TwoSum<Values> twoSum(m_sortedValues);
-            for (Index firstIndex = 0; firstIndex < m_sortedValues.size(); firstIndex++) {
+            for (Index firstIndex = 0; firstIndex < static_cast<Index>(m_sortedValues.size()); firstIndex++) {
                 Value const& firstValue(m_sortedValues.at(firstIndex));
                 auto twoSumValues(twoSum.getPossibleDuplicatedTwoValuesWithSum(
                     targetSum - firstValue, firstIndex, m_sortedValues.size() - 1));

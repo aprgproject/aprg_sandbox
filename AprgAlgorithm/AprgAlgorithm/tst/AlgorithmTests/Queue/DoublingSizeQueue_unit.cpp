@@ -11,73 +11,73 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using QueueForTest = DoublingSizeQueue<unsigned int>;
+using QueueForTest = DoublingSizeQueue<int>;
 }
 
-TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>(); }
+TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>(); }
+TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>(); }
+TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>(); }
+TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, EnqueueWorks) { testEnqueueWithUnsignedInt<QueueForTest>(); }
+TEST(DoublingSizeQueueTest, EnqueueWorks) { testEnqueueWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, DequeueWorks) { testDequeueWithUnsignedInt<QueueForTest>(); }
+TEST(DoublingSizeQueueTest, DequeueWorks) { testDequeueWithInt<QueueForTest>(); }
 
 TEST(DoublingSizeQueueTest, GetContainerSizeWorks) {
     QueueForTest queue1;
     QueueForTest queue2;
-    queue2.enqueue(10U);
-    queue2.enqueue(5U);
-    queue2.enqueue(4U);
+    queue2.enqueue(10);
+    queue2.enqueue(5);
+    queue2.enqueue(4);
 
-    EXPECT_EQ(1U, queue1.getContainerSize());
-    EXPECT_EQ(4U, queue2.getContainerSize());
+    EXPECT_EQ(1, queue1.getContainerSize());
+    EXPECT_EQ(4, queue2.getContainerSize());
 }
 
 TEST(DoublingSizeQueueTest, PushWorksWithDoublingContainerSize) {
     QueueForTest queue;
-    EXPECT_EQ(1U, queue.getContainerSize());
+    EXPECT_EQ(1, queue.getContainerSize());
 
-    queue.enqueue(1U);
-    queue.enqueue(2U);
-    EXPECT_EQ(2U, queue.getContainerSize());
+    queue.enqueue(1);
+    queue.enqueue(2);
+    EXPECT_EQ(2, queue.getContainerSize());
 
-    queue.enqueue(3U);
-    EXPECT_EQ(4U, queue.getContainerSize());
+    queue.enqueue(3);
+    EXPECT_EQ(4, queue.getContainerSize());
 
-    queue.enqueue(4U);
-    queue.enqueue(5U);
-    EXPECT_EQ(8U, queue.getContainerSize());
+    queue.enqueue(4);
+    queue.enqueue(5);
+    EXPECT_EQ(8, queue.getContainerSize());
 }
 
 TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize) {
     QueueForTest queue;
 
-    queue.enqueue(1U);
-    queue.enqueue(2U);
-    queue.enqueue(3U);
-    queue.enqueue(4U);
-    queue.enqueue(5U);
-    EXPECT_EQ(8U, queue.getContainerSize());
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
+    queue.enqueue(4);
+    queue.enqueue(5);
+    EXPECT_EQ(8, queue.getContainerSize());
 
-    EXPECT_EQ(1U, queue.dequeue());
-    EXPECT_EQ(2U, queue.dequeue());
-    EXPECT_EQ(3U, queue.dequeue());
-    EXPECT_EQ(4U, queue.getContainerSize());
+    EXPECT_EQ(1, queue.dequeue());
+    EXPECT_EQ(2, queue.dequeue());
+    EXPECT_EQ(3, queue.dequeue());
+    EXPECT_EQ(4, queue.getContainerSize());
 
-    EXPECT_EQ(4U, queue.dequeue());
-    EXPECT_EQ(2U, queue.getContainerSize());
+    EXPECT_EQ(4, queue.dequeue());
+    EXPECT_EQ(2, queue.getContainerSize());
 
-    EXPECT_EQ(5U, queue.dequeue());
-    EXPECT_EQ(1U, queue.getContainerSize());
+    EXPECT_EQ(5, queue.dequeue());
+    EXPECT_EQ(1, queue.getContainerSize());
 }
 
 TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
 {
-    testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();
+    testDequeueAssertionWhenEmptyWithInt<QueueForTest>();
 }
 
 }  // namespace algorithm

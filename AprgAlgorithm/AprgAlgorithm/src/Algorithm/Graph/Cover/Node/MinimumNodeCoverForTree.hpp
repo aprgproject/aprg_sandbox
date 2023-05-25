@@ -14,10 +14,10 @@ public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using SetOfVerticesWithVertex = typename GraphTypes<Vertex>::SetOfVertices;
     using ChildrenInTreeWithVertex = ChildrenInTree<Vertex>;
-    using Count = unsigned int;
+    using Count = int;
     using VertexToCountMap = std::map<Vertex, Count>;
     using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVerticesWithVertex>;
-    static constexpr unsigned int UNUSED_COUNT = std::numeric_limits<Count>::max();
+    static constexpr int UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     MinimumNodeCoverForTree(BaseUndirectedGraphWithVertex const& nAryTreeGraph, Vertex const rootOfTree)
         : m_nAryTreeGraph(nAryTreeGraph), m_rootOfTree(rootOfTree), m_childrenInTree(m_nAryTreeGraph, m_rootOfTree) {}

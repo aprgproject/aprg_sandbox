@@ -18,17 +18,17 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    DirectedGraphWithListOfEdges() : m_numberOfEdges(0U) {}
+    DirectedGraphWithListOfEdges() : m_numberOfEdges(0) {}
 
-    bool isEmpty() const { return m_edges.empty(); }
+    bool isEmpty() const override { return m_edges.empty(); }
 
     bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         return m_edges.find({sourceVertex, destinationVertex}) != m_edges.cend();
     }
 
-    unsigned int getNumberOfVertices() const override { return getUniqueVertices().size(); }
+    int getNumberOfVertices() const override { return getUniqueVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         Vertices result;
@@ -65,7 +65,7 @@ public:
         }
     }
 
-    void clear() {
+    void clear() override {
         m_numberOfEdges = 0;
         m_edges.clear();
     }
@@ -88,7 +88,7 @@ protected:
         }
         return uniqueVertices;
     }
-    unsigned int m_numberOfEdges;
+    int m_numberOfEdges;
     SetOfEdges m_edges;
 };
 

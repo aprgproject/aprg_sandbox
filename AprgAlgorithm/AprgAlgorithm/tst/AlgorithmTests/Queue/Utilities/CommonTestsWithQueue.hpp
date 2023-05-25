@@ -11,65 +11,65 @@ namespace algorithm {
 namespace CommonTestsWithQueue {
 
 template <typename Queue>
-void testIsEmptyWhenEmptyWithUnsignedInt() {
+void testIsEmptyWhenEmptyWithInt() {
     Queue queue;
 
     EXPECT_TRUE(queue.isEmpty());
 }
 
 template <typename Queue>
-void testIsEmptyWhenNotEmptyWithUnsignedInt() {
+void testIsEmptyWhenNotEmptyWithInt() {
     Queue queue;
-    queue.enqueue(10U);
+    queue.enqueue(10);
 
     EXPECT_FALSE(queue.isEmpty());
 }
 
 template <typename Queue>
-void testGetSizeWhenEmptyWithUnsignedInt() {
+void testGetSizeWhenEmptyWithInt() {
     Queue queue;
 
-    EXPECT_EQ(0U, queue.getSize());
+    EXPECT_EQ(0, queue.getSize());
 }
 
 template <typename Queue>
-void testGetSizeWhenNotEmptyWithUnsignedInt() {
+void testGetSizeWhenNotEmptyWithInt() {
     Queue queue;
-    queue.enqueue(10U);
-    queue.enqueue(5U);
-    queue.enqueue(4U);
+    queue.enqueue(10);
+    queue.enqueue(5);
+    queue.enqueue(4);
 
-    EXPECT_EQ(3U, queue.getSize());
+    EXPECT_EQ(3, queue.getSize());
 }
 
 template <typename Queue>
-void testEnqueueWithUnsignedInt() {
+void testEnqueueWithInt() {
     Queue queue;
-    queue.enqueue(1U);
-    queue.enqueue(2U);
-    queue.enqueue(3U);
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
 
-    ASSERT_EQ(3U, queue.getSize());
-    EXPECT_EQ(1U, queue.dequeue());
-    EXPECT_EQ(2U, queue.dequeue());
-    EXPECT_EQ(3U, queue.dequeue());
+    ASSERT_EQ(3, queue.getSize());
+    EXPECT_EQ(1, queue.dequeue());
+    EXPECT_EQ(2, queue.dequeue());
+    EXPECT_EQ(3, queue.dequeue());
 }
 
 template <typename Queue>
-void testDequeueWithUnsignedInt() {
+void testDequeueWithInt() {
     Queue queue;
-    queue.enqueue(1U);
-    queue.enqueue(2U);
-    queue.enqueue(3U);
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
 
-    EXPECT_EQ(1U, queue.dequeue());
-    EXPECT_EQ(2U, queue.dequeue());
-    EXPECT_EQ(3U, queue.dequeue());
-    ASSERT_EQ(0U, queue.getSize());
+    EXPECT_EQ(1, queue.dequeue());
+    EXPECT_EQ(2, queue.dequeue());
+    EXPECT_EQ(3, queue.dequeue());
+    ASSERT_EQ(0, queue.getSize());
 }
 
 template <typename Queue>
-void testDequeueAssertionWhenEmptyWithUnsignedInt() {
+void testDequeueAssertionWhenEmptyWithInt() {
     Queue queue;
     EXPECT_DEATH(queue.dequeue(), "Assertion failed!");
 }

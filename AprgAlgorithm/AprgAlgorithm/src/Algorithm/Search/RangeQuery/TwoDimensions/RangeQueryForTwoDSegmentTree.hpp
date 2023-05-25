@@ -19,7 +19,7 @@ public:
     // and each small tree consist of O(log(n)) levels.
     // The tree requires O(n^2) memory, because each small tree contains O(n) values.
 
-    using Index = unsigned int;
+    using Index = int;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
     using Values = typename ValueMatrix::MatrixData;
     using ListOfValues = typename ValueMatrix::ListOfMatrixData;
@@ -74,7 +74,8 @@ private:
                 treeValues1.size() - tree1.getStartOfChildren(), treeValues2.size() - tree2.getStartOfChildren());
             newValues.reserve(estimatedSize);
             for (Index i1 = tree1.getStartOfChildren(), i2 = tree2.getStartOfChildren();
-                 i1 < treeValues1.size() && i2 < treeValues2.size(); i1++, i2++) {
+                 i1 < static_cast<Index>(treeValues1.size()) && i2 < static_cast<Index>(treeValues2.size());
+                 i1++, i2++) {
                 newValues.emplace_back(m_function(treeValues1.at(i1), treeValues2.at(i2)));
             }
             newValues.shrink_to_fit();

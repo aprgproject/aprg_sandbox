@@ -28,9 +28,7 @@ public:
     EdgeDisjointPaths(BaseDirectedGraphWithVertex const& graph, Vertex const& startVertex, Vertex const& endVertex)
         : m_fordFulkerson(getFlowNetwork(graph, startVertex, endVertex)) {}
 
-    unsigned int getNumberOfEdgeDisjointPaths() const {
-        return static_cast<unsigned int>(m_fordFulkerson.getMaxFlowValue());
-    }
+    int getNumberOfEdgeDisjointPaths() const { return m_fordFulkerson.getMaxFlowValue(); }
 
     Paths getEdgeDisjointPaths() const { return m_fordFulkerson.getAugmentingPaths(); }
 

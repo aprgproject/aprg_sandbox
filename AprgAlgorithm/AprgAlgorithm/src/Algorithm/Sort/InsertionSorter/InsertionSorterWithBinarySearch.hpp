@@ -14,38 +14,37 @@ template <typename Values>
 class InsertionSorterWithBinarySearch : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    static constexpr unsigned int INVALID_INDEX = getInvalidIndex<unsigned int>();
+    static constexpr int INVALID_INDEX = getInvalidIndex<int>();
 
     InsertionSorterWithBinarySearch() = default;
 
     void sort(Values& valuesToSort) const override {
-        for (unsigned int insertIndex(1U); insertIndex < valuesToSort.size(); insertIndex++) {
+        for (int insertIndex(1); insertIndex < static_cast<int>(valuesToSort.size()); insertIndex++) {
             swapDownWithIndexFoundInBinarySearch(valuesToSort, insertIndex);
         }
     }
 
 private:
-    void swapDownWithIndexFoundInBinarySearch(Values& valuesToSort, unsigned int const insertIndex) const {
-        unsigned int indexWithGreaterValue =
-            getIndexWithGreaterValueUsingBinarySearch(valuesToSort, 0U, insertIndex - 1U, valuesToSort.at(insertIndex));
+    void swapDownWithIndexFoundInBinarySearch(Values& valuesToSort, int const insertIndex) const {
+        int indexWithGreaterValue =
+            getIndexWithGreaterValueUsingBinarySearch(valuesToSort, 0, insertIndex - 1, valuesToSort.at(insertIndex));
         if (indexWithGreaterValue != INVALID_INDEX) {
-            for (unsigned int swapIndex(insertIndex); swapIndex > indexWithGreaterValue; swapIndex--) {
+            for (int swapIndex(insertIndex); swapIndex > indexWithGreaterValue; swapIndex--) {
                 std::swap(valuesToSort[swapIndex - 1], valuesToSort[swapIndex]);
             }
         }
     }
 
-    unsigned int getIndexWithGreaterValueUsingBinarySearch(
-        Values const& valuesToSort, unsigned int const lowestIndex, unsigned int const highestIndex,
-        Value const& value) const {
-        unsigned int result(INVALID_INDEX);
-        unsigned int lowerIndex(lowestIndex), higherIndex(highestIndex);
+    int getIndexWithGreaterValueUsingBinarySearch(
+        Values const& valuesToSort, int const lowestIndex, int const highestIndex, Value const& value) const {
+        int result(INVALID_INDEX);
+        int lowerIndex(lowestIndex), higherIndex(highestIndex);
         while (lowerIndex <= higherIndex) {
-            unsigned int middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
+            int middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(valuesToSort.at(middleIndex));
             if (value < middleValue) {
                 result = middleIndex;
-                if (middleIndex > 0U) {
+                if (middleIndex > 0) {
                     higherIndex = middleIndex - 1;
                 } else {
                     break;

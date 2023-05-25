@@ -10,17 +10,17 @@ namespace algorithm {
 
 namespace {
 using ContainerForTest = vector<char>;
-using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2U, less>;
+using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2, less>;
 }  // namespace
 
 TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks) {
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
-    EXPECT_EQ('H', adapter.getObjectConstReferenceOnTree(1U));
-    EXPECT_EQ('E', adapter.getObjectConstReferenceOnTree(2U));
-    EXPECT_EQ('A', adapter.getObjectConstReferenceOnTree(3U));
-    EXPECT_EQ('P', adapter.getObjectConstReferenceOnTree(4U));
+    EXPECT_EQ('H', adapter.getObjectConstReferenceOnTree(1));
+    EXPECT_EQ('E', adapter.getObjectConstReferenceOnTree(2));
+    EXPECT_EQ('A', adapter.getObjectConstReferenceOnTree(3));
+    EXPECT_EQ('P', adapter.getObjectConstReferenceOnTree(4));
     EXPECT_EQ('S', adapter.getObjectConstReferenceOnTree(objects.size()));
 }
 
@@ -28,7 +28,7 @@ TEST(HeapTreeAdapterTest, GetObjectReferenceOnTreeWorks) {
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
-    char& characterAtTopOfTree(adapter.getObjectReferenceOnTree(1U));
+    char& characterAtTopOfTree(adapter.getObjectReferenceOnTree(1));
 
     characterAtTopOfTree = 'Z';
 
@@ -50,7 +50,7 @@ TEST(HeapTreeAdapterTest, SinkWorksOnExample1) {
     ContainerForTest objects{'A', 'D', 'A', 'P', 'T', 'E', 'R', 'F', 'O', 'R', 'H', 'E', 'A', 'P'};
     AdapterForTest adapter(objects);
 
-    adapter.sink(1U);
+    adapter.sink(1);
 
     ContainerForTest objectsToExpect{'D', 'T', 'A', 'P', 'R', 'E', 'R', 'F', 'O', 'A', 'H', 'E', 'A', 'P'};
     EXPECT_EQ(objectsToExpect, objects);
@@ -60,7 +60,7 @@ TEST(HeapTreeAdapterTest, SinkWorksOnExample2) {
     ContainerForTest objects{'A', 'B'};
     AdapterForTest adapter(objects);
 
-    adapter.sink(1U);
+    adapter.sink(1);
 
     ContainerForTest objectsToExpect{'B', 'A'};
     EXPECT_EQ(objectsToExpect, objects);

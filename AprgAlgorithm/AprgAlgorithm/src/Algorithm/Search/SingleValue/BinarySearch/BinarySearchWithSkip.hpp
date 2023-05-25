@@ -9,7 +9,7 @@ namespace algorithm {
 template <typename Values>
 class BinarySearchWithSkip {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -28,11 +28,11 @@ public:
 
 private:
     Index getIndexUsingForwardSkip(Value const& value) const {
-        Index result(0U);
+        Index result(0);
         Index size(m_sortedValues.size());
-        for (Index forwardSkip = size / 2; forwardSkip >= 1U;
+        for (Index forwardSkip = size / 2; forwardSkip >= 1;
              forwardSkip /=
-             2U)  // forward skip start from half of size, then quarter of size, then eighth of size and so on
+             2)  // forward skip start from half of size, then quarter of size, then eighth of size and so on
         {
             while (result + forwardSkip < size &&
                    m_sortedValues.at(result + forwardSkip) <
@@ -41,7 +41,7 @@ private:
                 result += forwardSkip;
             }
         }
-        result += (result + 1U < m_sortedValues.size()) ? 1U : 0U;  // move one for equal
+        result += (result + 1 < static_cast<Index>(m_sortedValues.size())) ? 1 : 0;  // move one for equal
         return result;
     }
 

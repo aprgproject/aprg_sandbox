@@ -20,7 +20,7 @@ public:
     using BaseClass = BaseConnectedComponentsWithVertexToComponentIdMap<Vertex, BaseDirectedGraphWithVertex>;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using DirectedGraphWithListOfEdgesWithVertex = DirectedGraphWithListOfEdges<Vertex>;
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using VertexToIntMap = typename GraphTypes<Vertex>::VertexToIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)
@@ -34,7 +34,7 @@ public:
 private:
     void initialize() {
         // Kosaraju Sharir algorithm works on reversing directions and iterating vertices in topological order
-        // and iterating that vertices using DFS on the original graph with orginial directions
+        // and iterating that vertices using DFS on the original graph with original directions
 
         // This works because:
         // -> reversing the edges -> reverses the dependency of the vertices in the graph
@@ -43,7 +43,7 @@ private:
         // -> this means contracting each strong component into a single vertex
         // and we can increment the id when one vertex finishes DFS (in the original graph)
 
-        b_numberOfComponentIds = 0U;
+        b_numberOfComponentIds = 0;
         DirectedGraphWithListOfEdgesWithVertex graphWithReversedDirections(getGraphWithReversedDirections(b_graph));
         VertexOrderingUsingDfs<Vertex> vertexOrdering(graphWithReversedDirections);
         for (Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder()) {
@@ -74,8 +74,8 @@ private:
     }
 
     BaseDirectedGraphWithVertex const& b_graph;
-    unsigned int& b_numberOfComponentIds;
-    VertexToUnsignedIntMap& b_vertexToComponentIdMap;
+    int& b_numberOfComponentIds;
+    VertexToIntMap& b_vertexToComponentIdMap;
     CheckableVerticesWithVertex m_processedVertices;
 };
 

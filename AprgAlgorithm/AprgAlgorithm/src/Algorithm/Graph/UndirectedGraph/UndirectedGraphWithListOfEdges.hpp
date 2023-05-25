@@ -17,7 +17,7 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    UndirectedGraphWithListOfEdges() : m_numberOfEdges(0U), m_edges{} {}
+    UndirectedGraphWithListOfEdges() : m_numberOfEdges(0), m_edges{} {}
 
     bool isEmpty() const override { return m_edges.empty(); }
 
@@ -34,9 +34,9 @@ public:
         return m_edges.find({vertex1, vertex2}) != m_edges.cend();
     }
 
-    unsigned int getNumberOfVertices() const override { return getVertices().size(); }
+    int getNumberOfVertices() const override { return getVertices().size(); }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         Vertices result;
@@ -85,7 +85,7 @@ public:
         }
     }
 
-    void clear() {
+    void clear() override {
         m_numberOfEdges = 0;
         m_edges.clear();
     }
@@ -102,7 +102,7 @@ protected:
         return out;
     }
 
-    unsigned int m_numberOfEdges;
+    int m_numberOfEdges;
     SetOfEdges m_edges;
 };
 

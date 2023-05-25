@@ -9,93 +9,93 @@ namespace algorithm {
 namespace CommonTestsWithTransitiveClosure {
 
 template <typename TransitiveClosure, typename Graph>
-void testIsReachableWhenEmptyWithVertexAsUnsignedInt() {
+void testIsReachableWhenEmptyWithVertexAsInt() {
     Graph graph;
     TransitiveClosure transitiveClosure(graph);
 
     // Reachability in 0
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 1U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 2U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 3U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 4U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 5U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 6U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 7U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 8U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 9U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 10U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 11U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 12U));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 1));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 2));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 3));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 4));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 5));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 6));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 7));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 8));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 9));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 10));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 11));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 12));
 }
 
 template <typename TransitiveClosure, typename Graph>
-void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt() {
+void testIsReachableWhenNotEmptyWithVertexAsInt() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 5U);
-    graph.connect(2U, 0U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 2U);
-    graph.connect(3U, 5U);
-    graph.connect(4U, 2U);
-    graph.connect(4U, 3U);
-    graph.connect(5U, 4U);
-    graph.connect(6U, 0U);
-    graph.connect(6U, 4U);
-    graph.connect(6U, 8U);
-    graph.connect(6U, 9U);
-    graph.connect(7U, 6U);
-    graph.connect(7U, 9U);
-    graph.connect(8U, 6U);
-    graph.connect(9U, 10U);
-    graph.connect(9U, 11U);
-    graph.connect(10U, 12U);
-    graph.connect(11U, 4U);
-    graph.connect(11U, 12U);
-    graph.connect(12U, 9U);
+    graph.connect(0, 1);
+    graph.connect(0, 5);
+    graph.connect(2, 0);
+    graph.connect(2, 3);
+    graph.connect(3, 2);
+    graph.connect(3, 5);
+    graph.connect(4, 2);
+    graph.connect(4, 3);
+    graph.connect(5, 4);
+    graph.connect(6, 0);
+    graph.connect(6, 4);
+    graph.connect(6, 8);
+    graph.connect(6, 9);
+    graph.connect(7, 6);
+    graph.connect(7, 9);
+    graph.connect(8, 6);
+    graph.connect(9, 10);
+    graph.connect(9, 11);
+    graph.connect(10, 12);
+    graph.connect(11, 4);
+    graph.connect(11, 12);
+    graph.connect(12, 9);
     TransitiveClosure transitiveClosure(graph);
 
     // Reachability in 0
-    EXPECT_TRUE(transitiveClosure.isReachable(0U, 1U));
-    EXPECT_TRUE(transitiveClosure.isReachable(0U, 2U));
-    EXPECT_TRUE(transitiveClosure.isReachable(0U, 3U));
-    EXPECT_TRUE(transitiveClosure.isReachable(0U, 4U));
-    EXPECT_TRUE(transitiveClosure.isReachable(0U, 5U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 6U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 7U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 8U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 9U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 10U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 11U));
-    EXPECT_FALSE(transitiveClosure.isReachable(0U, 12U));
+    EXPECT_TRUE(transitiveClosure.isReachable(0, 1));
+    EXPECT_TRUE(transitiveClosure.isReachable(0, 2));
+    EXPECT_TRUE(transitiveClosure.isReachable(0, 3));
+    EXPECT_TRUE(transitiveClosure.isReachable(0, 4));
+    EXPECT_TRUE(transitiveClosure.isReachable(0, 5));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 6));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 7));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 8));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 9));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 10));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 11));
+    EXPECT_FALSE(transitiveClosure.isReachable(0, 12));
 
     // Reachability in 6
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 1U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 2U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 3U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 4U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 5U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 6U));
-    EXPECT_FALSE(transitiveClosure.isReachable(6U, 7U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 8U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 9U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 10U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 11U));
-    EXPECT_TRUE(transitiveClosure.isReachable(6U, 12U));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 1));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 2));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 3));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 4));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 5));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 6));
+    EXPECT_FALSE(transitiveClosure.isReachable(6, 7));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 8));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 9));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 10));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 11));
+    EXPECT_TRUE(transitiveClosure.isReachable(6, 12));
 
     // Reachability in 9
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 1U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 2U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 3U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 4U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 5U));
-    EXPECT_FALSE(transitiveClosure.isReachable(9U, 6U));
-    EXPECT_FALSE(transitiveClosure.isReachable(9U, 7U));
-    EXPECT_FALSE(transitiveClosure.isReachable(9U, 8U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 9U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 10U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 11U));
-    EXPECT_TRUE(transitiveClosure.isReachable(9U, 12U));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 1));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 2));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 3));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 4));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 5));
+    EXPECT_FALSE(transitiveClosure.isReachable(9, 6));
+    EXPECT_FALSE(transitiveClosure.isReachable(9, 7));
+    EXPECT_FALSE(transitiveClosure.isReachable(9, 8));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 9));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 10));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 11));
+    EXPECT_TRUE(transitiveClosure.isReachable(9, 12));
 }
 
 }  // namespace CommonTestsWithTransitiveClosure

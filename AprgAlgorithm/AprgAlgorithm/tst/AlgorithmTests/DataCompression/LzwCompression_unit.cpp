@@ -12,7 +12,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using CompressionForTest = LzwCompression<unsigned int>;
+using CompressionForTest = LzwCompression<int>;
 }
 
 TEST(LzwCompressionTest, CompressWorksUsingExample1) {

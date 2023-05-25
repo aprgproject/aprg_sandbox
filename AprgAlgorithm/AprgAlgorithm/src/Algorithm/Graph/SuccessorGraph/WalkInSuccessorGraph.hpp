@@ -13,17 +13,17 @@ public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using VertexAndCountPair = std::pair<Vertex, unsigned int>;
+    using VertexAndCountPair = std::pair<Vertex, int>;
     using VertexAndCountPairToVertexMap = std::map<VertexAndCountPair, Vertex>;
 
     WalkInSuccessorGraph(BaseDirectedGraphWithVertex const& graph) : m_graph(graph) {}
 
     bool isAtTheEnd(Vertex const& vertex) const { return m_graph.getAdjacentVerticesAt(vertex).empty(); }
 
-    Vertex walk(Vertex const& start, unsigned int const distance) { return walkInternal(start, distance); }
+    Vertex walk(Vertex const& start, int const distance) { return walkInternal(start, distance); }
 
 private:
-    Vertex walkInternal(Vertex const& vertex, unsigned int const distance) {
+    Vertex walkInternal(Vertex const& vertex, int const distance) {
         Vertex result(vertex);
         if (distance > 0) {
             auto it = m_startAndDistancePairToDestinationMap.find({vertex, distance});
@@ -31,7 +31,7 @@ private:
                 result = it->second;
             } else {
                 if (distance > 1) {
-                    unsigned int halfDistance = distance / 2;
+                    int halfDistance = distance / 2;
                     result = walkInternal(walkInternal(vertex, distance - halfDistance), halfDistance);
                 } else if (distance == 1) {
                     Vertices adjacentVertices(

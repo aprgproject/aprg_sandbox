@@ -7,83 +7,83 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using CheckableVerticesForTest = CheckableVertices<VertexForTest>;
 }  // namespace
 
 TEST(CheckableVerticesTest, IsFoundWorks) {
     CheckableVerticesForTest emptyCheckableVertices;
     CheckableVerticesForTest nonEmptyCheckableVertices;
-    nonEmptyCheckableVertices.putVertex(10U);
-    nonEmptyCheckableVertices.putVertex(11U);
-    nonEmptyCheckableVertices.putVertex(12U);
+    nonEmptyCheckableVertices.putVertex(10);
+    nonEmptyCheckableVertices.putVertex(11);
+    nonEmptyCheckableVertices.putVertex(12);
 
-    EXPECT_FALSE(emptyCheckableVertices.isFound(1U));
-    EXPECT_TRUE(nonEmptyCheckableVertices.isFound(10U));
-    EXPECT_TRUE(nonEmptyCheckableVertices.isFound(11U));
-    EXPECT_TRUE(nonEmptyCheckableVertices.isFound(12U));
-    EXPECT_FALSE(nonEmptyCheckableVertices.isFound(9U));
-    EXPECT_FALSE(nonEmptyCheckableVertices.isFound(13U));
+    EXPECT_FALSE(emptyCheckableVertices.isFound(1));
+    EXPECT_TRUE(nonEmptyCheckableVertices.isFound(10));
+    EXPECT_TRUE(nonEmptyCheckableVertices.isFound(11));
+    EXPECT_TRUE(nonEmptyCheckableVertices.isFound(12));
+    EXPECT_FALSE(nonEmptyCheckableVertices.isFound(9));
+    EXPECT_FALSE(nonEmptyCheckableVertices.isFound(13));
 }
 
 TEST(CheckableVerticesTest, IsNotFoundWorks) {
     CheckableVerticesForTest emptyCheckableVertices;
     CheckableVerticesForTest nonEmptyCheckableVertices;
-    nonEmptyCheckableVertices.putVertex(10U);
-    nonEmptyCheckableVertices.putVertex(11U);
-    nonEmptyCheckableVertices.putVertex(12U);
+    nonEmptyCheckableVertices.putVertex(10);
+    nonEmptyCheckableVertices.putVertex(11);
+    nonEmptyCheckableVertices.putVertex(12);
 
-    EXPECT_TRUE(emptyCheckableVertices.isNotFound(1U));
-    EXPECT_FALSE(nonEmptyCheckableVertices.isNotFound(10U));
-    EXPECT_FALSE(nonEmptyCheckableVertices.isNotFound(11U));
-    EXPECT_FALSE(nonEmptyCheckableVertices.isNotFound(12U));
-    EXPECT_TRUE(nonEmptyCheckableVertices.isNotFound(9U));
-    EXPECT_TRUE(nonEmptyCheckableVertices.isNotFound(13U));
+    EXPECT_TRUE(emptyCheckableVertices.isNotFound(1));
+    EXPECT_FALSE(nonEmptyCheckableVertices.isNotFound(10));
+    EXPECT_FALSE(nonEmptyCheckableVertices.isNotFound(11));
+    EXPECT_FALSE(nonEmptyCheckableVertices.isNotFound(12));
+    EXPECT_TRUE(nonEmptyCheckableVertices.isNotFound(9));
+    EXPECT_TRUE(nonEmptyCheckableVertices.isNotFound(13));
 }
 
 TEST(CheckableVerticesTest, PutVertexWorks) {
     CheckableVerticesForTest checkableVertices;
 
-    checkableVertices.putVertex(10U);
-    checkableVertices.putVertex(11U);
-    checkableVertices.putVertex(12U);
+    checkableVertices.putVertex(10);
+    checkableVertices.putVertex(11);
+    checkableVertices.putVertex(12);
 
-    EXPECT_TRUE(checkableVertices.isFound(10U));
-    EXPECT_TRUE(checkableVertices.isFound(11U));
-    EXPECT_TRUE(checkableVertices.isFound(12U));
-    EXPECT_FALSE(checkableVertices.isFound(9U));
-    EXPECT_FALSE(checkableVertices.isFound(13U));
+    EXPECT_TRUE(checkableVertices.isFound(10));
+    EXPECT_TRUE(checkableVertices.isFound(11));
+    EXPECT_TRUE(checkableVertices.isFound(12));
+    EXPECT_FALSE(checkableVertices.isFound(9));
+    EXPECT_FALSE(checkableVertices.isFound(13));
 }
 
 TEST(CheckableVerticesTest, RemoveVertexWorks) {
     CheckableVerticesForTest checkableVertices;
-    checkableVertices.putVertex(10U);
-    checkableVertices.putVertex(11U);
-    checkableVertices.putVertex(12U);
+    checkableVertices.putVertex(10);
+    checkableVertices.putVertex(11);
+    checkableVertices.putVertex(12);
 
-    checkableVertices.removeVertex(9U);
-    checkableVertices.removeVertex(12U);
+    checkableVertices.removeVertex(9);
+    checkableVertices.removeVertex(12);
 
-    EXPECT_TRUE(checkableVertices.isFound(10U));
-    EXPECT_TRUE(checkableVertices.isFound(11U));
-    EXPECT_FALSE(checkableVertices.isFound(12U));
-    EXPECT_FALSE(checkableVertices.isFound(9U));
-    EXPECT_FALSE(checkableVertices.isFound(13U));
+    EXPECT_TRUE(checkableVertices.isFound(10));
+    EXPECT_TRUE(checkableVertices.isFound(11));
+    EXPECT_FALSE(checkableVertices.isFound(12));
+    EXPECT_FALSE(checkableVertices.isFound(9));
+    EXPECT_FALSE(checkableVertices.isFound(13));
 }
 
 TEST(CheckableVerticesTest, ClearWorks) {
     CheckableVerticesForTest checkableVertices;
-    checkableVertices.putVertex(10U);
-    checkableVertices.putVertex(11U);
-    checkableVertices.putVertex(12U);
+    checkableVertices.putVertex(10);
+    checkableVertices.putVertex(11);
+    checkableVertices.putVertex(12);
 
     checkableVertices.clear();
 
-    EXPECT_FALSE(checkableVertices.isFound(10U));
-    EXPECT_FALSE(checkableVertices.isFound(11U));
-    EXPECT_FALSE(checkableVertices.isFound(12U));
-    EXPECT_FALSE(checkableVertices.isFound(9U));
-    EXPECT_FALSE(checkableVertices.isFound(13U));
+    EXPECT_FALSE(checkableVertices.isFound(10));
+    EXPECT_FALSE(checkableVertices.isFound(11));
+    EXPECT_FALSE(checkableVertices.isFound(12));
+    EXPECT_FALSE(checkableVertices.isFound(9));
+    EXPECT_FALSE(checkableVertices.isFound(13));
 }
 
 }  // namespace algorithm

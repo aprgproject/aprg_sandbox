@@ -18,7 +18,7 @@ public:
     // An segment tree is dynamic, which means memory is allocated only for nodes
     // that are actually accessed during the algorithm, which can save a large amount of memory.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
@@ -26,7 +26,7 @@ public:
     using NodePointer = std::unique_ptr<Node>;
 
     RangeQueryWithDynamicSegmentTree(Values const& valuesToCheck, Function const& functionObject)
-        : m_maxChildrenIndex(0U), m_numberOfValues(valuesToCheck.size()), m_function(functionObject) {
+        : m_maxChildrenIndex(0), m_numberOfValues(valuesToCheck.size()), m_function(functionObject) {
         initialize(valuesToCheck);
     }
 
@@ -109,7 +109,7 @@ protected:
         } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
-            if (baseMidPoint + 1 < values.size()) {
+            if (baseMidPoint + 1 < static_cast<Index>(values.size())) {
                 setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint + 1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);

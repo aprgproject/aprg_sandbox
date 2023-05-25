@@ -9,7 +9,7 @@ namespace alba {
 
 namespace algorithm {
 
-template <typename Object, unsigned int SIZE>
+template <typename Object, int SIZE>
 class QuickUnion : public BaseUnionFind<Object> {
 public:
     using RootArray = std::array<Object, SIZE>;

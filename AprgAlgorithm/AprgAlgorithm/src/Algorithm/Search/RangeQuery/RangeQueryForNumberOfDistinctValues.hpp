@@ -18,7 +18,7 @@ public:
     // query is maintained. In this problem, we can maintain an array count where count[x] indicates the number of times
     // an element x occurs in the active range.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using Range = std::pair<Index, Index>;
     using Ranges = std::vector<Range>;
@@ -60,7 +60,7 @@ public:
 
 private:
     bool isValidRange(Range const& range) const {
-        return range.first < m_values.size() && range.second < m_values.size();
+        return range.first < static_cast<Index>(m_values.size()) && range.second < static_cast<Index>(m_values.size());
     }
 
     Index getSquareRootSize(Index const numberOfValues) const { return static_cast<Index>(sqrt(numberOfValues)); }

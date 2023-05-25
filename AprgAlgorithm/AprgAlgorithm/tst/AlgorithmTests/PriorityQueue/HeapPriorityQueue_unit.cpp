@@ -29,8 +29,8 @@ TEST(HeapPriorityQueueTest, GetSizeWorks) {
     queue2.insert('Q');
     queue2.insert('E');
 
-    EXPECT_EQ(0U, queue1.getSize());
-    EXPECT_EQ(3U, queue2.getSize());
+    EXPECT_EQ(0, queue1.getSize());
+    EXPECT_EQ(3, queue2.getSize());
 }
 
 TEST(HeapPriorityQueueTest, GetObjectsWorks) {

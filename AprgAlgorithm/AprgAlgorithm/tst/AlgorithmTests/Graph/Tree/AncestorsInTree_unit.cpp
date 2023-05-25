@@ -8,26 +8,26 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using QueryForTest = AncestorsInTree<VertexForTest>;
 }  // namespace
 
 TEST(AncestorsInTreeTest, GetAncestorWorks) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 3U);
-    graph.connect(4U, 7U);
-    graph.connect(7U, 8U);
-    QueryForTest query(graph, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 3);
+    graph.connect(4, 7);
+    graph.connect(7, 8);
+    QueryForTest query(graph, 1);
 
-    EXPECT_EQ(1U, query.getAncestor(2U, 1U));
-    EXPECT_EQ(7U, query.getAncestor(8U, 1U));
-    EXPECT_EQ(4U, query.getAncestor(8U, 2U));
-    EXPECT_EQ(1U, query.getAncestor(8U, 3U));
+    EXPECT_EQ(1, query.getAncestor(2, 1));
+    EXPECT_EQ(7, query.getAncestor(8, 1));
+    EXPECT_EQ(4, query.getAncestor(8, 2));
+    EXPECT_EQ(1, query.getAncestor(8, 3));
 }
 
 }  // namespace algorithm

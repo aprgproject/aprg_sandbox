@@ -15,59 +15,59 @@ RangeQueryForTest::Function multipliesFunction = multiplies<>();
 }  // namespace
 
 TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues) {
-    RangeQueryForTest geometricSumRangeQuery(0U, 1U, multipliesFunction);
+    RangeQueryForTest geometricSumRangeQuery(0, 1, multipliesFunction);
 
-    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
+    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0, 0));
 }
 
 TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1) {
-    RangeQueryForTest geometricSumRangeQuery(9U, 1U, multipliesFunction);
+    RangeQueryForTest geometricSumRangeQuery(9, 1, multipliesFunction);
 
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 2U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 3U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 6U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 7U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 8U));
-    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 9U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(1U, 6U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(2U, 5U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(3U, 4U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 0));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 1));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 2));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 3));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 4));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 5));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 6));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 7));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 8));
+    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0, 9));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(1, 6));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(2, 5));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(3, 4));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(4, 4));
 }
 
 TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksWithEmptySetOfValues) {
-    RangeQueryForTest geometricSumRangeQuery(0U, 1U, multipliesFunction);
+    RangeQueryForTest geometricSumRangeQuery(0, 1, multipliesFunction);
 
-    geometricSumRangeQuery.setValueOnIndex(0U, 10U);
+    geometricSumRangeQuery.setValueOnIndex(0, 10);
 
-    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
+    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0, 0));
 }
 
 TEST(RangeQueryWithSparseSegmentTreeTest, SetValueAtIndexWithGeometricSumWorksOnExample1) {
-    RangeQueryForTest geometricSumRangeQuery(9U, 1U, multipliesFunction);
+    RangeQueryForTest geometricSumRangeQuery(9, 1, multipliesFunction);
 
-    geometricSumRangeQuery.setValueOnIndex(3U, 10U);
-    geometricSumRangeQuery.setValueOnIndex(4U, 11U);
-    geometricSumRangeQuery.setValueOnIndex(5U, 12U);
+    geometricSumRangeQuery.setValueOnIndex(3, 10);
+    geometricSumRangeQuery.setValueOnIndex(4, 11);
+    geometricSumRangeQuery.setValueOnIndex(5, 12);
 
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 2U));
-    EXPECT_DOUBLE_EQ(10, geometricSumRangeQuery.getValueOnInterval(0U, 3U));
-    EXPECT_DOUBLE_EQ(110, geometricSumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0U, 6U));
-    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0U, 7U));
-    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0U, 8U));
-    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 9U));
-    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(1U, 6U));
-    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(2U, 5U));
-    EXPECT_DOUBLE_EQ(110, geometricSumRangeQuery.getValueOnInterval(3U, 4U));
-    EXPECT_DOUBLE_EQ(11, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 0));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 1));
+    EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0, 2));
+    EXPECT_DOUBLE_EQ(10, geometricSumRangeQuery.getValueOnInterval(0, 3));
+    EXPECT_DOUBLE_EQ(110, geometricSumRangeQuery.getValueOnInterval(0, 4));
+    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0, 5));
+    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0, 6));
+    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0, 7));
+    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(0, 8));
+    EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0, 9));
+    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(1, 6));
+    EXPECT_DOUBLE_EQ(1320, geometricSumRangeQuery.getValueOnInterval(2, 5));
+    EXPECT_DOUBLE_EQ(110, geometricSumRangeQuery.getValueOnInterval(3, 4));
+    EXPECT_DOUBLE_EQ(11, geometricSumRangeQuery.getValueOnInterval(4, 4));
 }
 
 }  // namespace algorithm

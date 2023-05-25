@@ -9,148 +9,148 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using RangeQueryForTest = RangeQueryForCount<ValuesForTest>;
 }  // namespace
 
 TEST(RangeQueryForCountTest, GetCountOfThisValueOnIntervalWorksOnExample1) {
-    ValuesForTest values{4U, 2U, 4U, 4U, 2U, 4U, 3U, 3U, 4U};
+    ValuesForTest values{4, 2, 4, 4, 2, 4, 3, 3, 4};
     RangeQueryForTest countRangeQuery(values);
 
     // The counts for 1
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 1U));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 1));
 
     // The counts for 2
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 2U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 2U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 2U));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 2));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 2));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 2));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 2));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 2));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 2));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 2));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 2));
 
     // The counts for 3
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 3U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 3U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 3U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 3U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 3U));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 3));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 3));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 3));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 3));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 3));
 
     // The counts for 4
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 4U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 4U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 4U));
-    EXPECT_EQ(4U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 4U));
-    EXPECT_EQ(4U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 4U));
-    EXPECT_EQ(4U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 4U));
-    EXPECT_EQ(5U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 4U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 4U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 4U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 4U));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 4));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 4));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 4));
+    EXPECT_EQ(4, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 4));
+    EXPECT_EQ(4, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 4));
+    EXPECT_EQ(4, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 4));
+    EXPECT_EQ(5, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 4));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 4));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 4));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 4));
 }
 
 TEST(RangeQueryForCountTest, ChangeValueAtIndexWorksOnExample1) {
-    ValuesForTest values{4U, 2U, 4U, 4U, 2U, 4U, 3U, 3U, 4U};
+    ValuesForTest values{4, 2, 4, 4, 2, 4, 3, 3, 4};
     RangeQueryForTest countRangeQuery(values);
 
-    countRangeQuery.changeValueAtIndex(1U, 1U);
+    countRangeQuery.changeValueAtIndex(1, 1);
 
     // The counts for 1
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 1U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 1U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 1U));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 1));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 1));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 1));
 
     // The counts for 2
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 2U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 2U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 2U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 2U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 2U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 2U));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 2));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 2));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 2));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 2));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 2));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 2));
 
     // The counts for 3
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 3U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 3U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 3U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 3U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 3U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 3U));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 3));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 3));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 3));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 3));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 3));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 3));
 
     // The counts for 4
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 4U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 4U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfThisValueOnInterval(0U, 2U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(0U, 3U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(0U, 4U, 4U));
-    EXPECT_EQ(4U, countRangeQuery.getCountOfThisValueOnInterval(0U, 5U, 4U));
-    EXPECT_EQ(4U, countRangeQuery.getCountOfThisValueOnInterval(0U, 6U, 4U));
-    EXPECT_EQ(4U, countRangeQuery.getCountOfThisValueOnInterval(0U, 7U, 4U));
-    EXPECT_EQ(5U, countRangeQuery.getCountOfThisValueOnInterval(0U, 8U, 4U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 9U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(1U, 6U, 4U));
-    EXPECT_EQ(3U, countRangeQuery.getCountOfThisValueOnInterval(2U, 5U, 4U));
-    EXPECT_EQ(1U, countRangeQuery.getCountOfThisValueOnInterval(3U, 4U, 4U));
-    EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(4U, 4U, 4U));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 0, 4));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(0, 1, 4));
+    EXPECT_EQ(2, countRangeQuery.getCountOfThisValueOnInterval(0, 2, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(0, 3, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(0, 4, 4));
+    EXPECT_EQ(4, countRangeQuery.getCountOfThisValueOnInterval(0, 5, 4));
+    EXPECT_EQ(4, countRangeQuery.getCountOfThisValueOnInterval(0, 6, 4));
+    EXPECT_EQ(4, countRangeQuery.getCountOfThisValueOnInterval(0, 7, 4));
+    EXPECT_EQ(5, countRangeQuery.getCountOfThisValueOnInterval(0, 8, 4));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(0, 9, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(1, 6, 4));
+    EXPECT_EQ(3, countRangeQuery.getCountOfThisValueOnInterval(2, 5, 4));
+    EXPECT_EQ(1, countRangeQuery.getCountOfThisValueOnInterval(3, 4, 4));
+    EXPECT_EQ(0, countRangeQuery.getCountOfThisValueOnInterval(4, 4, 4));
 }
 
 }  // namespace algorithm

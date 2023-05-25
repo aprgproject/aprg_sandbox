@@ -11,7 +11,7 @@ namespace algorithm {
 template <typename Values>
 class LinearSearchWithTwoIndices {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -21,14 +21,15 @@ public:
     Index getIndexOfValue(Value const& value) const {
         Index result(INVALID_INDEX);
         if (!m_values.empty()) {
-            result = getIndexOfValueWithoutCheck(0U, m_values.size() - 1, value);
+            result = getIndexOfValueWithoutCheck(0, m_values.size() - 1, value);
         }
         return result;
     }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (startIndex < m_values.size() && endIndex < m_values.size() && startIndex <= endIndex) {
+        if (startIndex < static_cast<Index>(m_values.size()) && endIndex < static_cast<Index>(m_values.size()) &&
+            startIndex <= endIndex) {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
         }
         return result;

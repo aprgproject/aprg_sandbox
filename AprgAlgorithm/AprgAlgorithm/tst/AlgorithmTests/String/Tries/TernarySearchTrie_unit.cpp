@@ -11,107 +11,107 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using TrieForTest = TernarySearchTrie<unsigned int>;
+using TrieForTest = TernarySearchTrie<int>;
 }
 
-TEST(TernarySearchTrieTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, DoesContainWorks) { testDoesContainWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, DoesContainWorks) { testDoesContainWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetWorks) { testGetWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetWorks) { testGetWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetLongestPrefixWorks) { testGetLongestPrefixOfWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetLongestPrefixWorks) { testGetLongestPrefixOfWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, PutWorks) { testPutWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, PutWorks) { testPutWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorks) { testDeleteBasedOnKeyWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetKeysWorks) { testGetKeysWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetKeysWorks) { testGetKeysWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetAllKeysWithPrefixWorks) { testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetAllKeysWithPrefixWorks) { testGetAllKeysWithPrefixWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, GetAllKeysThatMatchWorks) { testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, GetAllKeysThatMatchWorks) { testGetAllKeysThatMatchWithInt<TrieForTest>(); }
 
-TEST(TernarySearchTrieTest, Example1Works) { testExample1WithUnsignedInt<TrieForTest>(); }
+TEST(TernarySearchTrieTest, Example1Works) { testExample1WithInt<TrieForTest>(); }
 
 TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenEmpty) {
     TrieForTest trie;
 
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
+    EXPECT_EQ(0, trie.getNumberOfNodes());
 }
 
 TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenNotEmpty) {
     TrieForTest trie;
-    trie.put("she", 0U);
-    trie.put("sells", 1U);
-    trie.put("sea", 2U);
+    trie.put("she", 0);
+    trie.put("sells", 1);
+    trie.put("sea", 2);
 
-    EXPECT_EQ(8U, trie.getNumberOfNodes());
+    EXPECT_EQ(8, trie.getNumberOfNodes());
 }
 
 TEST(TernarySearchTrieTest, PutWorksWithNumberOfNodes) {
     TrieForTest trie;
 
-    trie.put("she", 0U);
-    trie.put("sells", 1U);
-    trie.put("sea", 2U);
+    trie.put("she", 0);
+    trie.put("sells", 1);
+    trie.put("sea", 2);
 
-    EXPECT_EQ(3U, trie.getSize());
-    EXPECT_EQ(8U, trie.getNumberOfNodes());
-    EXPECT_EQ(0U, trie.get("she"));
-    EXPECT_EQ(1U, trie.get("sells"));
-    EXPECT_EQ(2U, trie.get("sea"));
+    EXPECT_EQ(3, trie.getSize());
+    EXPECT_EQ(8, trie.getNumberOfNodes());
+    EXPECT_EQ(0, trie.get("she"));
+    EXPECT_EQ(1, trie.get("sells"));
+    EXPECT_EQ(2, trie.get("sea"));
 }
 
 TEST(TernarySearchTrieTest, PutWhenEmptyStringHasNoEffect) {
     TrieForTest trie;
 
-    trie.put("", 17U);
+    trie.put("", 17);
 
-    EXPECT_EQ(0U, trie.getSize());
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
-    EXPECT_EQ(0U, trie.get(""));
+    EXPECT_EQ(0, trie.getSize());
+    EXPECT_EQ(0, trie.getNumberOfNodes());
+    EXPECT_EQ(0, trie.get(""));
 }
 
 TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorksWithNumberOfNodes) {
     TrieForTest trie;
-    trie.put("she", 0U);
-    trie.put("sells", 1U);
-    trie.put("sea", 2U);
+    trie.put("she", 0);
+    trie.put("sells", 1);
+    trie.put("sea", 2);
 
     trie.deleteBasedOnKey("she");
-    EXPECT_EQ(2U, trie.getSize());
-    EXPECT_EQ(6U, trie.getNumberOfNodes());
-    EXPECT_EQ(1U, trie.get("sells"));
-    EXPECT_EQ(2U, trie.get("sea"));
+    EXPECT_EQ(2, trie.getSize());
+    EXPECT_EQ(6, trie.getNumberOfNodes());
+    EXPECT_EQ(1, trie.get("sells"));
+    EXPECT_EQ(2, trie.get("sea"));
 
     trie.deleteBasedOnKey("sells");
-    EXPECT_EQ(1U, trie.getSize());
-    EXPECT_EQ(3U, trie.getNumberOfNodes());
-    EXPECT_EQ(2U, trie.get("sea"));
+    EXPECT_EQ(1, trie.getSize());
+    EXPECT_EQ(3, trie.getNumberOfNodes());
+    EXPECT_EQ(2, trie.get("sea"));
 
     trie.deleteBasedOnKey("sea");
     EXPECT_TRUE(trie.isEmpty());
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
+    EXPECT_EQ(0, trie.getNumberOfNodes());
 }
 
 TEST(TernarySearchTrieTest, DeleteBasedOnKeyWhenEmptyStringHasNoEffect) {
     TrieForTest trie;
-    trie.put("", 17U);
+    trie.put("", 17);
 
     trie.deleteBasedOnKey("");
     EXPECT_TRUE(trie.isEmpty());
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
+    EXPECT_EQ(0, trie.getNumberOfNodes());
 
     trie.deleteBasedOnKey("");
     EXPECT_TRUE(trie.isEmpty());
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
+    EXPECT_EQ(0, trie.getNumberOfNodes());
 }
 
 }  // namespace algorithm

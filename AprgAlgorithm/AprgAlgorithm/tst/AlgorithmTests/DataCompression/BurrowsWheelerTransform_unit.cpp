@@ -10,7 +10,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
+using Index = int;
 using TransformForTest = BurrowsWheelerTransform<Index, '_'>;  // '_' is the end character
 }  // namespace
 

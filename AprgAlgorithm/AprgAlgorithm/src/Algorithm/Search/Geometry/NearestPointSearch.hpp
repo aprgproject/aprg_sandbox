@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 template <typename Key>
-bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+bool isEqualThanWithDepth(Key const& key1, Key const& key2, int const depth) {
     if (mathHelper::isOdd(depth)) {
         return key1.first == key2.first;
     } else {
@@ -20,7 +20,7 @@ bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const d
 }
 
 template <typename Key>
-bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+bool isLessThanWithDepth(Key const& key1, Key const& key2, int const depth) {
     if (mathHelper::isOdd(depth)) {
         return key1.first < key2.first;
     } else {
@@ -29,7 +29,7 @@ bool isLessThanWithDepth(Key const& key1, Key const& key2, unsigned int const de
 }
 
 template <typename Key>
-bool isGreaterThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth) {
+bool isGreaterThanWithDepth(Key const& key1, Key const& key2, int const depth) {
     if (mathHelper::isOdd(depth)) {
         return key1.first > key2.first;
     } else {
@@ -82,7 +82,7 @@ public:
 
 private:
     void searchNearestPoint(NodeUniquePointer const& nodePointer, SearchDetails& searchDetails) const {
-        static unsigned int depth = 0;
+        static int depth = 0;
         depth++;
         if (nodePointer) {
             Point const& currentPoint(nodePointer->key);
@@ -106,7 +106,7 @@ private:
     }
 
     SearchAction getSearchAction(
-        NodeUniquePointer const& nodePointer, Point const& pointToCheck, unsigned int const depth) const {
+        NodeUniquePointer const& nodePointer, Point const& pointToCheck, int const depth) const {
         SearchAction result(SearchAction::Nothing);
         if (nodePointer) {
             Point const& currentPoint(nodePointer->key);

@@ -12,7 +12,7 @@ namespace algorithm {
 template <typename Values>
 class LinearNearestValueSearchWithOneIndex {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -59,15 +59,15 @@ public:
 private:
     void setInitialIndexes() {
         if (!m_values.empty()) {
-            m_startIndex = 0U;
+            m_startIndex = 0;
             m_endIndex = m_values.size();  // half open interval
         }
     }
 
     void setInitialIndexes(Index const lowerIndex, Index const higherIndex) {
         if (!m_values.empty()) {
-            m_startIndex = std::min(lowerIndex, static_cast<unsigned int>(m_values.size() - 1));
-            m_endIndex = std::min(higherIndex + 1U, static_cast<unsigned int>(m_values.size()));  // half open interval
+            m_startIndex = std::min(lowerIndex, static_cast<Index>(m_values.size()) - 1);
+            m_endIndex = std::min(higherIndex + 1, static_cast<Index>(m_values.size()));  // half open interval
         }
     }
 

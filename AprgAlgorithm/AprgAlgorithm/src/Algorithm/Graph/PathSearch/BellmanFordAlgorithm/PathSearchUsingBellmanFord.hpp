@@ -34,8 +34,8 @@ public:
 
 private:
     void searchForPathUsingAutomaticCycleDetection() {
-        unsigned int numberOfVertices(b_graph.getNumberOfVertices());
-        unsigned int numberOfVerticesProcessed(0U);
+        int numberOfVertices(b_graph.getNumberOfVertices());
+        int numberOfVerticesProcessed(0);
         enqueue(b_startVertex);
         while (!m_verticesToProcess.empty() && !m_hasPositiveOrNegativeCycle) {
             // Repeat V times: Relax each edge
@@ -62,8 +62,8 @@ private:
     }
 
     void searchForPathUsingOriginalBellmanFord() {  // manually check for positive or negative cycle
-        unsigned int numberOfVertices(b_graph.getNumberOfVertices());
-        unsigned int numberOfVerticesProcessed(0U);
+        int numberOfVertices(b_graph.getNumberOfVertices());
+        int numberOfVerticesProcessed(0);
         enqueue(b_startVertex);
         while (!m_verticesToProcess.empty() && !m_hasPositiveOrNegativeCycle) {
             // Repeat V times: Relax each edge

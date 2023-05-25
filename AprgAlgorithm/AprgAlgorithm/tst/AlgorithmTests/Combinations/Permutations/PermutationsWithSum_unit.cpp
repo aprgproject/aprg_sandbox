@@ -9,19 +9,18 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Values = vector<unsigned int>;
+using Values = vector<int>;
 using GenerationForTest = PermutationsWithSum<Values>;
 using Permutations = GenerationForTest::Permutations;
 }  // namespace
 
 TEST(PermutationsWithSumTest, GetPermutationsWithSumUsingLoopsWorks) {
-    Values inputValues{1U, 2U, 3U, 4U};
+    Values inputValues{1, 2, 3, 4};
     GenerationForTest generation(inputValues);
 
-    Permutations actualPermutations(generation.getPermutationsWithSumUsingLoops(4U));
+    Permutations actualPermutations(generation.getPermutationsWithSumUsingLoops(4));
 
-    Permutations expectedPermutations{{1U, 1U, 1U, 1U}, {1U, 1U, 2U}, {1U, 2U, 1U}, {1U, 3U},
-                                      {2U, 1U, 1U},     {2U, 2U},     {3U, 1U},     {4U}};
+    Permutations expectedPermutations{{1, 1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 3}, {2, 1, 1}, {2, 2}, {3, 1}, {4}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 

@@ -16,15 +16,15 @@ public:
     void sort(Values& valuesToSort) const override {
         if (!valuesToSort.empty()) {
             Values auxiliary(valuesToSort);
-            sort(valuesToSort, auxiliary, 0U, valuesToSort.size() - 1);
+            sort(valuesToSort, auxiliary, 0, valuesToSort.size() - 1);
         }
     }
 
 private:
-    void sort(Values& valuesToSort, Values& auxiliary, unsigned int const lowest, unsigned int const highest) const {
+    void sort(Values& valuesToSort, Values& auxiliary, int const lowest, int const highest) const {
         // recursive approach
         if (lowest < highest) {
-            unsigned int const middle = getMidpointOfIndexes(lowest, highest);
+            int const middle = getMidpointOfIndexes(lowest, highest);
             sort(valuesToSort, auxiliary, lowest, middle);       // sort the first half (recursive call)
             sort(valuesToSort, auxiliary, middle + 1, highest);  // sort the second half (recursive call)
             bool isAlreadySorted(valuesToSort.at(middle) < valuesToSort.at(middle + 1));

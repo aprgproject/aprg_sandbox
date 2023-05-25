@@ -9,29 +9,29 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SumSearch = ThreeSum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
 using ThreeValuesForTest = SumSearch::ThreeValues;
 }  // namespace
 
 TEST(ThreeSumTest, GetNonDuplicateThreeValuesWithSumWorksOnExample1) {
-    ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
+    ValuesForTest sortedValues{1, 4, 5, 6, 7, 9, 10};
     SumSearch search(sortedValues);
 
-    ThreeValuesForTest threeValuesToVerify(search.getNonDuplicateThreeValuesWithSum(18U));
+    ThreeValuesForTest threeValuesToVerify(search.getNonDuplicateThreeValuesWithSum(18));
 
-    ThreeValuesForTest threeValuesToExpect{1U, 7U, 10U};
+    ThreeValuesForTest threeValuesToExpect{1, 7, 10};
     EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
 }
 
 TEST(ThreeSumTest, GetPossibleDuplicatedThreeValuesWithSumWorksOnExample1) {
-    ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
+    ValuesForTest sortedValues{1, 4, 5, 6, 7, 9, 10};
     SumSearch search(sortedValues);
 
-    ThreeValuesForTest threeValuesToVerify(search.getPossibleDuplicatedThreeValuesWithSum(30U));
+    ThreeValuesForTest threeValuesToVerify(search.getPossibleDuplicatedThreeValuesWithSum(30));
 
-    ThreeValuesForTest threeValuesToExpect{10U, 10U, 10U};
+    ThreeValuesForTest threeValuesToExpect{10, 10, 10};
     EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
 }
 

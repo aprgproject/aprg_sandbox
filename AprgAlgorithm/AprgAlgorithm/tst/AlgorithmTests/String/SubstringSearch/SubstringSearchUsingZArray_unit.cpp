@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
+using Index = int;
 using SubstringSearchForTest = SubstringSearchUsingZArray<Index, '#'>;
 using Indexes = SubstringSearchForTest::Indexes;
 }  // namespace
@@ -45,7 +45,7 @@ TEST(SubstringSearchUsingZArrayTest, SearchForAllSubstringsWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");
 
-    EXPECT_EQ((Indexes{1U, 6U}), substringSearch.searchForAllSubstrings(mainString));
+    EXPECT_EQ((Indexes{1, 6}), substringSearch.searchForAllSubstrings(mainString));
 }
 
 }  // namespace algorithm

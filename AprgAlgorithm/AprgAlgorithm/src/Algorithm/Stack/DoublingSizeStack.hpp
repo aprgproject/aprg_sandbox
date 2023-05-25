@@ -18,7 +18,7 @@ public:
 
     bool isEmpty() const override { return m_stackSize == 0; }
 
-    unsigned int getSize() const override { return m_stackSize; }
+    int getSize() const override { return m_stackSize; }
 
     void push(
         Object const& object) override  // constant amortized (best case: constant, worst case: linear due to resizing)
@@ -35,7 +35,7 @@ public:
         return result;
     }
 
-    unsigned int getContainerSize() const { return m_containerSize; }
+    int getContainerSize() const { return m_containerSize; }
 
 private:
     void deleteAllObjects() {
@@ -44,14 +44,14 @@ private:
         }
     }
 
-    void initialize(unsigned int const initialSize) {
+    void initialize(int const initialSize) {
         if (m_objects == nullptr) {
             m_objects = new Object[initialSize]{};
             m_containerSize = initialSize;
         }
     }
 
-    void resize(unsigned int const newSize)  // array is between 25% and 100% full
+    void resize(int const newSize)  // array is between 25% and 100% full
     {
         Object* newObjects = new Object[newSize]{};
         if (m_objects != nullptr) {
@@ -71,18 +71,15 @@ private:
     }
 
     void resizeOnPopIfNeeded() {
-        if (m_containerSize > 0 &&
-            m_stackSize ==
-                m_containerSize /
-                    4)  // only resize to half when its one-fourth full to avoid "thrashing" (push pop push pop action)
-        {
+        // only resize to half when its one-fourth full to avoid "thrashing" (push pop push pop action)
+        if (m_containerSize > 0 && m_stackSize == m_containerSize / 4) {
             resize(m_containerSize / 2);
         }
     }
 
-    static constexpr unsigned int INITIAL_CONTAINER_SIZE = 1U;
-    unsigned int m_stackSize;
-    unsigned int m_containerSize;
+    static constexpr int INITIAL_CONTAINER_SIZE = 1;
+    int m_stackSize;
+    int m_containerSize;
     Object* m_objects;
 };
 

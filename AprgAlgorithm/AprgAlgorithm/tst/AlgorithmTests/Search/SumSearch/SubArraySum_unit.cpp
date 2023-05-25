@@ -9,18 +9,18 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SumSearch = SubArraySum<ValuesForTest>;
 using ValueForTest = SumSearch::Value;
 }  // namespace
 
 TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1) {
-    ValuesForTest valuesToTest{1U, 3U, 2U, 5U, 1U, 1U, 2U, 3U};
+    ValuesForTest valuesToTest{1, 3, 2, 5, 1, 1, 2, 3};
     SumSearch search(valuesToTest);
 
-    ValuesForTest valuesToVerify(search.getSubArrayWithSum(8U));
+    ValuesForTest valuesToVerify(search.getSubArrayWithSum(8));
 
-    ValuesForTest valuesToExpect{2U, 5U, 1U};
+    ValuesForTest valuesToExpect{2, 5, 1};
     EXPECT_EQ(valuesToExpect, valuesToVerify);
 }
 

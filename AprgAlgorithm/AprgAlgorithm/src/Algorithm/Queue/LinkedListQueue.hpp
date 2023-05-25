@@ -23,7 +23,7 @@ public:
 
     bool isEmpty() const override { return m_first == nullptr; }
 
-    unsigned int getSize() const override { return m_size; }
+    int getSize() const override { return m_size; }
 
     void enqueue(Object const& object) override {
         if (isEmpty()) {
@@ -51,7 +51,7 @@ public:
     }
 
 private:
-    unsigned int m_size;
+    int m_size;
     NodeUniquePointer m_first;
     Node* m_last;
 };

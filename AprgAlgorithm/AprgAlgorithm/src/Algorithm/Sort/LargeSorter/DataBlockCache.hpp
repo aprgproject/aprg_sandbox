@@ -14,21 +14,21 @@ template <typename BlockInformation>
 class DataBlockCache {
 public:
     struct BlockCacheEntry {
-        BlockCacheEntry(unsigned int blockId, BlockInformation const& blockInformation)
+        BlockCacheEntry(int const blockId, BlockInformation const& blockInformation)
             : m_blockId(blockId), m_blockInformation(blockInformation) {}
-        unsigned int m_blockId;
+        int m_blockId;
         BlockInformation m_blockInformation;
     };
 
     using BlockCacheContainer = std::deque<BlockCacheEntry>;
 
-    void addBlock(unsigned const int blockId, BlockInformation const& iterator) {
+    void addBlock(int const blockId, BlockInformation const& iterator) {
         if (m_blocksInformationCache.empty() || m_blocksInformationCache.front().m_blockId != blockId) {
             deleteBlock(blockId);
             m_blocksInformationCache.emplace_front(blockId, iterator);
         }
     }
-    void deleteBlock(unsigned const int blockId) {
+    void deleteBlock(int const blockId) {
         m_blocksInformationCache.erase(
             std::remove_if(
                 m_blocksInformationCache.begin(), m_blocksInformationCache.end(),

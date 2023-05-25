@@ -19,7 +19,7 @@ namespace alba {
 namespace algorithm {
 
 TEST(AlbaLargeSorterProfileTest, DISABLED_FirstTest) {
-    unsigned int stringSize(200);
+    int stringSize(200);
     AlbaLargeSorterConfiguration sorterConfiguration;
     sorterConfiguration.m_directoryForBlocks = AlbaLocalPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR).getFullPath();
     sorterConfiguration.m_minimumNumberOfObjectsPerBlock = 1000;
@@ -30,7 +30,7 @@ TEST(AlbaLargeSorterProfileTest, DISABLED_FirstTest) {
     // AlbaUserInterface ui;
     // while(true)
     //{
-    unsigned int sampleSize = 1280000;  //(stringHelper::convertStringToNumber<unsigned int>(ui.getUserInput()));
+    int sampleSize = 1280000;  //(stringHelper::convertStringToNumber<int>(ui.getUserInput()));
 
     vector<string> samples;
     samples.resize(sampleSize);

@@ -11,16 +11,16 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
-using ReachabilityForTest = ReachabilityInDigraphWithSetUsingDfs<unsigned int>;
+using GraphForTest = DirectedGraphWithListOfEdges<int>;
+using ReachabilityForTest = ReachabilityInDigraphWithSetUsingDfs<int>;
 }  // namespace
 
 TEST(ReachabilityInDigraphWithSetUsingDfsTest, IsReachableWorksWhenEmpty) {
-    testIsReachableWhenEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
+    testIsReachableWhenEmptyWithVertexAsInt<ReachabilityForTest, GraphForTest>();
 }
 
 TEST(ReachabilityInDigraphWithSetUsingDfsTest, IsReachableWorksWhenNotEmpty) {
-    testIsReachableWhenNotEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
+    testIsReachableWhenNotEmptyWithVertexAsInt<ReachabilityForTest, GraphForTest>();
 }
 
 }  // namespace algorithm

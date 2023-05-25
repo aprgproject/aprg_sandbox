@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using PathsForTest = GraphTypes<VertexForTest>::Paths;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
@@ -25,9 +25,9 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenGraphIsEmptyWithUndirect
 
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndirectedGraph) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(0, 3);
     CycleDetectionForTest cycleDetection(graph);
 
     EXPECT_TRUE(cycleDetection.getOneCycle().empty());
@@ -36,51 +36,51 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndire
 
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithUndirectedGraph) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(1U, 2U);
-    graph.connect(2U, 0U);
+    graph.connect(0, 1);
+    graph.connect(1, 2);
+    graph.connect(2, 0);
     CycleDetectionForTest cycleDetection(graph);
 
-    PathForTest expectedOneCycle{0U, 1U, 2U, 0U};
-    PathsForTest expectedCycles{{0U, 1U, 2U, 0U}};
+    PathForTest expectedOneCycle{0, 1, 2, 0};
+    PathsForTest expectedCycles{{0, 1, 2, 0}};
     EXPECT_EQ(expectedOneCycle, cycleDetection.getOneCycle());
     EXPECT_EQ(expectedCycles, cycleDetection.getAllCycles());
 }
 
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedGraph) {
     GraphForTest graph;
-    graph.connect(0U, 5U);
-    graph.connect(4U, 3U);
-    graph.connect(0U, 1U);
-    graph.connect(9U, 12U);
-    graph.connect(6U, 4U);
-    graph.connect(5U, 4U);
-    graph.connect(0U, 2U);
-    graph.connect(11U, 12U);
-    graph.connect(9U, 10U);
-    graph.connect(0U, 6U);
-    graph.connect(7U, 8U);
-    graph.connect(9U, 11U);
-    graph.connect(5U, 3U);
+    graph.connect(0, 5);
+    graph.connect(4, 3);
+    graph.connect(0, 1);
+    graph.connect(9, 12);
+    graph.connect(6, 4);
+    graph.connect(5, 4);
+    graph.connect(0, 2);
+    graph.connect(11, 12);
+    graph.connect(9, 10);
+    graph.connect(0, 6);
+    graph.connect(7, 8);
+    graph.connect(9, 11);
+    graph.connect(5, 3);
     CycleDetectionForTest cycleDetection(graph);
 
-    PathForTest expectedOneCycle{5U, 3U, 4U, 5U};
-    PathsForTest expectedCycles{{5U, 3U, 4U, 5U}, {0U, 5U, 3U, 4U, 6U, 0U}, {9U, 11U, 12U, 9U}};
+    PathForTest expectedOneCycle{5, 3, 4, 5};
+    PathsForTest expectedCycles{{5, 3, 4, 5}, {0, 5, 3, 4, 6, 0}, {9, 11, 12, 9}};
     EXPECT_EQ(expectedOneCycle, cycleDetection.getOneCycle());
     EXPECT_EQ(expectedCycles, cycleDetection.getAllCycles());
 }
 
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedGraph) {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(1U, 2U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 4U);
-    graph.connect(4U, 0U);
+    graph.connect(0, 1);
+    graph.connect(1, 2);
+    graph.connect(2, 3);
+    graph.connect(3, 4);
+    graph.connect(4, 0);
     CycleDetectionForTest cycleDetection(graph);
 
-    PathForTest expectedOneCycle{0U, 1U, 2U, 3U, 4U, 0U};
-    PathsForTest expectedCycles{{0U, 1U, 2U, 3U, 4U, 0U}};
+    PathForTest expectedOneCycle{0, 1, 2, 3, 4, 0};
+    PathsForTest expectedCycles{{0, 1, 2, 3, 4, 0}};
     EXPECT_EQ(expectedOneCycle, cycleDetection.getOneCycle());
     EXPECT_EQ(expectedCycles, cycleDetection.getAllCycles());
 }

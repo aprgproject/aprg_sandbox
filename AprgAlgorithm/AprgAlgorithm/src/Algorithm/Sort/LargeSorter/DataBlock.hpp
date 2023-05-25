@@ -22,7 +22,7 @@ class DataBlock {
     typedef DataBlockMemoryContainer<ObjectToSort> MemoryContainer;
 
 public:
-    DataBlock(DataBlockType const blockType, unsigned int const blockNumber, std::string const& fileDumpPath)
+    DataBlock(DataBlockType const blockType, int const blockNumber, std::string const& fileDumpPath)
         : m_blockType(blockType),
           m_blockId(blockNumber),
           m_fileDumpPath(fileDumpPath),
@@ -40,10 +40,10 @@ public:
         }
     }
     DataBlockType getBlockType() const { return m_blockType; }
-    unsigned int getBlockId() const { return m_blockId; }
-    unsigned int getNumberOfObjects() const { return m_numberOfObjects; }
-    unsigned int getNumberOfObjectsInMemory() const {
-        unsigned int numberOfObjectsInMemory(0);
+    int getBlockId() const { return m_blockId; }
+    int getNumberOfObjects() const { return m_numberOfObjects; }
+    int getNumberOfObjectsInMemory() const {
+        int numberOfObjectsInMemory(0);
         if (m_memoryBlockHandler) {
             numberOfObjectsInMemory = m_memoryBlockHandler->getContainerConstReference().size();
         }
@@ -95,7 +95,7 @@ public:
         switchToMemoryMode();
         MemoryContainer& contents(m_memoryBlockHandler->getContainerReference());
         typename MemoryContainer::iterator iteratorForStart = contents.begin();
-        for (unsigned int const& index : indexes) {
+        for (int const& index : indexes) {
             typename MemoryContainer::iterator iteratorForNext = contents.begin() + index;
             std::nth_element(iteratorForStart, iteratorForNext, contents.end());
             iteratorForStart = iteratorForNext;
@@ -123,7 +123,7 @@ public:
             MemoryContainer& contents(m_memoryBlockHandler->getContainerReference());
             std::ifstream inputFileStream(m_fileDumpPath);
             containerHelper::retrieveContentsFromStream(inputFileStream, contents);
-            assert(contents.size() == m_numberOfObjects);
+            assert(static_cast<int>(contents.size()) == m_numberOfObjects);
         }
         m_blockFileHandler.reset();
         m_blockType = DataBlockType::Memory;
@@ -153,9 +153,9 @@ private:
         }
     }
     DataBlockType m_blockType;
-    unsigned int const m_blockId;
+    int const m_blockId;
     std::string const m_fileDumpPath;
-    unsigned int m_numberOfObjects;
+    int m_numberOfObjects;
     ObjectToSort m_lowestValue;
     std::optional<DataBlockMemoryHandler<ObjectToSort>> m_memoryBlockHandler;
     std::optional<DataBlockFileHandler<ObjectToSort>> m_blockFileHandler;

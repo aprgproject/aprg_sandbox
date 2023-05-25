@@ -13,15 +13,15 @@ public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
     using VertexPair = std::pair<Vertex, Vertex>;
-    using VertexPairToCountMap = std::map<VertexPair, unsigned int>;
+    using VertexPairToCountMap = std::map<VertexPair, int>;
 
     CountPathsInUndirectedGraph(BaseUndirectedGraphWithVertex const& graph) : m_graph(graph) {}
 
-    unsigned int getCount(Vertex const& start, Vertex const& end) { return getCountInternal(start, end); }
+    int getCount(Vertex const& start, Vertex const& end) { return getCountInternal(start, end); }
 
 private:
-    unsigned int getCountInternal(Vertex const& start, Vertex const& end) {
-        unsigned int result(1U);  // if start and end are equal, then return one count
+    int getCountInternal(Vertex const& start, Vertex const& end) {
+        int result(1);  // if start and end are equal, then return one count
         if (start != end) {
             auto it = m_pathCounts.find({start, end});
             if (it != m_pathCounts.cend()) {
@@ -44,7 +44,7 @@ private:
             if (processingVertices.isNotFound(adjacentToCurrent)) {
                 traverseUsingDfs(start, adjacentToCurrent, processingVertices);
                 VertexPair endPointPair{start, adjacentToCurrent};
-                m_pathCounts.emplace(endPointPair, 0U);
+                m_pathCounts.emplace(endPointPair, 0);
                 m_pathCounts[endPointPair]++;
             }
         }

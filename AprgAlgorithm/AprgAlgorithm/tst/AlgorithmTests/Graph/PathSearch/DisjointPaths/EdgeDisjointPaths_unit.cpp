@@ -8,7 +8,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using PathsForTest = typename GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = EdgeDisjointPaths<VertexForTest>;
@@ -16,19 +16,19 @@ using PathSearchForTest = EdgeDisjointPaths<VertexForTest>;
 
 TEST(EdgeDisjointPathsTest, Example1Works) {
     GraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 4U);
-    graph.connect(2U, 4U);
-    graph.connect(3U, 2U);
-    graph.connect(3U, 5U);
-    graph.connect(3U, 6U);
-    graph.connect(4U, 3U);
-    graph.connect(4U, 5U);
-    graph.connect(5U, 6U);
-    PathSearchForTest pathSearch(graph, 1U, 6U);
+    graph.connect(1, 2);
+    graph.connect(1, 4);
+    graph.connect(2, 4);
+    graph.connect(3, 2);
+    graph.connect(3, 5);
+    graph.connect(3, 6);
+    graph.connect(4, 3);
+    graph.connect(4, 5);
+    graph.connect(5, 6);
+    PathSearchForTest pathSearch(graph, 1, 6);
 
-    PathsForTest expectedEdgeDisjointPaths{{1U, 4U, 3U, 6U}, {1U, 2U, 4U, 5U, 6U}};
-    EXPECT_EQ(2U, pathSearch.getNumberOfEdgeDisjointPaths());
+    PathsForTest expectedEdgeDisjointPaths{{1, 4, 3, 6}, {1, 2, 4, 5, 6}};
+    EXPECT_EQ(2, pathSearch.getNumberOfEdgeDisjointPaths());
     EXPECT_EQ(expectedEdgeDisjointPaths, pathSearch.getEdgeDisjointPaths());
 }
 

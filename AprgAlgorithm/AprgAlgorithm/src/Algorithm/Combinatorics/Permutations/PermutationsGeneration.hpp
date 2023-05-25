@@ -20,7 +20,7 @@ public:
         Permutation currentPermutation;
         BooleanVector isProcessed;
         Objects const& objects;
-        unsigned int const targetPermutationLength;
+        int const targetPermutationLength;
     };
 
     // rule of five or six
@@ -60,30 +60,28 @@ public:
         return result;
     }
 
-    static Permutations generatePermutationsWithLength(
-        Objects const& objects, unsigned int const targetPermutationLength) {
+    static Permutations generatePermutationsWithLength(Objects const& objects, int const targetPermutationLength) {
         Permutations result;
-        RecursionData recursionData(createRecursionData(
-            result, objects, std::min(targetPermutationLength, static_cast<unsigned int>(objects.size()))));
+        RecursionData recursionData(
+            createRecursionData(result, objects, std::min(targetPermutationLength, static_cast<int>(objects.size()))));
         collectPermutationsUsingRecursion(recursionData);
         return result;
     }
 
 private:
-    static RecursionData createRecursionData(
-        Permutations& permutations, Objects const& objects, unsigned int const length) {
+    static RecursionData createRecursionData(Permutations& permutations, Objects const& objects, int const length) {
         return RecursionData{permutations, Permutation(), BooleanVector(objects.size(), false), objects, length};
     }
 
     static void collectPermutationsUsingRecursion(RecursionData& recursionData) {
-        if (recursionData.currentPermutation.size() == recursionData.targetPermutationLength) {
+        if (static_cast<int>(recursionData.currentPermutation.size()) == recursionData.targetPermutationLength) {
             recursionData.permutations.emplace_back(recursionData.currentPermutation);
         } else {
             Objects const& objects(recursionData.objects);
             Permutation& currentPermutation(recursionData.currentPermutation);
             BooleanVector& isProcessed(recursionData.isProcessed);
 
-            for (unsigned int index = 0; index < objects.size(); index++) {
+            for (int index = 0; index < static_cast<int>(objects.size()); index++) {
                 if (!isProcessed.at(index)) {
                     currentPermutation.emplace_back(objects.at(index));
                     isProcessed[index] = true;

@@ -12,86 +12,82 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
+using GraphForTest = DirectedGraphWithListOfEdges<int>;
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetGraphDirectionTypeWorks) {
-    testGetGraphDirectionTypeWithVertexAsUnsignedInt<GraphForTest>();
+    testGetGraphDirectionTypeWithVertexAsInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithListOfEdgesTest, IsEmptyWorks) { testIsEmptyWithVertexAsUnsignedInt<GraphForTest>(); }
+TEST(DirectedGraphWithListOfEdgesTest, IsEmptyWorks) { testIsEmptyWithVertexAsInt<GraphForTest>(); }
 
 TEST(DirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenEmpty) {
-    testIsConnectedWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenNotEmpty) {
-    testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenEmpty) {
-    testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfVerticesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenNotEmpty) {
-    testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfVerticesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenEmpty) {
-    testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfEdgesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenNotEmpty) {
-    testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetNumberOfEdgesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenEmpty) {
-    testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetAdjacentVerticesAtWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenNotEmpty) {
-    testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenEmpty) {
-    testGetVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetVerticesWhenEmptyWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenNotEmpty) {
-    testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetVerticesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenEmpty) {
-    testGetEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(DirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenEmpty) { testGetEdgesWhenEmptyWithVertexAsInt<GraphForTest>(); }
 
 TEST(DirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenNotEmpty) {
-    testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
+    testGetEdgesWhenNotEmptyWithVertexAsInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithListOfEdgesTest, ConnectWorks) { testConnectWithVertexAsUnsignedInt<GraphForTest>(); }
+TEST(DirectedGraphWithListOfEdgesTest, ConnectWorks) { testConnectWithVertexAsInt<GraphForTest>(); }
 
-TEST(DirectedGraphWithListOfEdgesTest, DisconnectWorks) { testDisconnectWithVertexAsUnsignedInt<GraphForTest>(); }
+TEST(DirectedGraphWithListOfEdgesTest, DisconnectWorks) { testDisconnectWithVertexAsInt<GraphForTest>(); }
 
-TEST(DirectedGraphWithListOfEdgesTest, ClearWorks) { testClearWithVertexAsUnsignedInt<GraphForTest>(); }
+TEST(DirectedGraphWithListOfEdgesTest, ClearWorks) { testClearWithVertexAsInt<GraphForTest>(); }
 
 TEST(DirectedGraphWithListOfEdgesTest, GraphWorksAfterClear) {
-    testGraphWorksAfterClearWithVertexAsUnsignedInt<GraphForTest>();
+    testGraphWorksAfterClearWithVertexAsInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithListOfEdgesTest, ReverseDirectionsWorks) {
-    testReverseDirectionsWithVertexAsUnsignedInt<GraphForTest>();
-}
+TEST(DirectedGraphWithListOfEdgesTest, ReverseDirectionsWorks) { testReverseDirectionsWithVertexAsInt<GraphForTest>(); }
 
 TEST(DirectedGraphWithListOfEdgesTest, ComplicatedTestWorks) {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
+    testWithComplicatedExampleWithVertexAsInt<GraphForTest>();
 }
 
 TEST(DirectedGraphWithListOfEdgesTest, OutputStreamOperatorWorks) {
     GraphForTest graph;
 
-    graph.connect(0U, 1U);
-    graph.connect(2U, 0U);
+    graph.connect(0, 1);
+    graph.connect(2, 0);
 
     EXPECT_EQ("Edges: {0->1, 2->0, }", convertToString(graph));
 }

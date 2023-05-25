@@ -9,34 +9,34 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 }  // namespace
 
 TEST(LaplaceanMatrixTest, CreateLaplaceanMatrixWorksWithUndirectedGraph) {
     UndirectedGraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(3U, 4U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(3, 4);
 
-    LaplaceanMatrix matrixToVerify(createLaplaceanMatrix<VertexForTest, 5U>(graph));
+    LaplaceanMatrix matrixToVerify(createLaplaceanMatrix<VertexForTest, 5>(graph));
 
-    LaplaceanMatrix expectedMatrix(4U, 4U, {3, -1, -1, -1, -1, 1, 0, 0, -1, 0, 2, -1, -1, 0, -1, 2});
+    LaplaceanMatrix expectedMatrix(4, 4, {3, -1, -1, -1, -1, 1, 0, 0, -1, 0, 2, -1, -1, 0, -1, 2});
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
 
 TEST(LaplaceanMatrixTest, CreateLaplaceanMatrixWorksWithDirectedGraph) {
     DirectedGraphForTest graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(1U, 4U);
-    graph.connect(3U, 4U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(1, 4);
+    graph.connect(3, 4);
 
-    LaplaceanMatrix matrixToVerify(createLaplaceanMatrix<VertexForTest, 5U>(graph));
+    LaplaceanMatrix matrixToVerify(createLaplaceanMatrix<VertexForTest, 5>(graph));
 
-    LaplaceanMatrix expectedMatrix(4U, 4U, {3, 0, 0, 0, -1, 0, 0, 0, -1, 0, 1, 0, -1, 0, -1, 0});
+    LaplaceanMatrix expectedMatrix(4, 4, {3, 0, 0, 0, -1, 0, 0, 0, -1, 0, 1, 0, -1, 0, -1, 0});
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
 

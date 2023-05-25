@@ -84,7 +84,7 @@ template <typename Vertex>
 bool isDirectedSuccessorGraph(BaseGraph<Vertex> const& graph) {
     // The outdegree of each node is 1, so each node has a unique successor.
 
-    return GraphDirectionType::Directed == graph.getGraphDirectionType() && getMaxDegree(graph) == 1U;
+    return GraphDirectionType::Directed == graph.getGraphDirectionType() && getMaxDegree(graph) == 1;
 }
 
 template <typename Vertex>
@@ -100,7 +100,7 @@ bool isARegularGraph(BaseGraph<Vertex> const& graph) {
     bool result(true);
     auto vertices(graph.getVertices());
     if (!vertices.empty()) {
-        unsigned int degreeThatShouldMatch = getDegreeAt(graph, vertices.front());
+        int degreeThatShouldMatch = getDegreeAt(graph, vertices.front());
         for (auto it = vertices.cbegin() + 1; it != vertices.cend(); it++) {
             if (degreeThatShouldMatch != getDegreeAt(graph, *it)) {
                 result = false;
@@ -145,7 +145,7 @@ bool isAForest(BaseUndirectedGraph<Vertex> const& graph) {
 }
 
 template <typename Vertex>
-bool areAllDegrees(BaseGraph<Vertex> const& graph, unsigned int const degreeThatShouldMatch) {
+bool areAllDegrees(BaseGraph<Vertex> const& graph, int const degreeThatShouldMatch) {
     auto const& vertices(graph.getVertices());
     return std::all_of(vertices.cbegin(), vertices.cend(), [&](Vertex const& vertex) {
         return degreeThatShouldMatch == getDegreeAt(graph, vertex);
@@ -175,7 +175,7 @@ bool isGraphConnected(BaseUndirectedGraph<Vertex> const& graph) {
     // This is used for undirected graphs.
 
     ConnectedComponentsUsingDfs<Vertex> connectedComponents(graph);
-    return 1U == connectedComponents.getNumberOfComponentIds();
+    return 1 == connectedComponents.getNumberOfComponentIds();
 }
 
 template <typename Vertex>
@@ -193,7 +193,7 @@ bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph) {
     // from w to v) A directed graph is strongly connected if all its vertices are strongly connected to one another
 
     StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
-    return 1U == connectedComponents.getNumberOfComponentIds();
+    return 1 == connectedComponents.getNumberOfComponentIds();
 }
 
 template <typename Vertex>
@@ -250,10 +250,10 @@ bool isSinkSourceFlowNetworkFeasible(SinkSourceFlowNetworkType const& flowNetwor
 }
 
 template <typename Vertex>
-unsigned int getLengthOfPath(typename GraphTypes<Vertex>::Path const& path) {
+int getLengthOfPath(typename GraphTypes<Vertex>::Path const& path) {
     // The length of a path is the number of edges in it.
 
-    unsigned int result(0);
+    int result(0);
     if (!path.empty()) {
         result = path.size() - 1;
     }
@@ -261,15 +261,15 @@ unsigned int getLengthOfPath(typename GraphTypes<Vertex>::Path const& path) {
 }
 
 template <typename Vertex>
-unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex) {
+int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex) {
     // Other definition: The degree of a node is the number of its neighbors.
 
     return graph.getAdjacentVerticesAt(vertex).size();
 }
 
 template <typename Vertex>
-unsigned int getMaxDegree(BaseGraph<Vertex> const& graph) {
-    unsigned int result(0);
+int getMaxDegree(BaseGraph<Vertex> const& graph) {
+    int result(0);
     for (Vertex const& vertex : graph.getVertices()) {
         result = std::max(result, getDegreeAt(graph, vertex));
     }
@@ -277,8 +277,8 @@ unsigned int getMaxDegree(BaseGraph<Vertex> const& graph) {
 }
 
 template <typename Vertex>
-unsigned int getMinDegree(BaseGraph<Vertex> const& graph) {
-    unsigned int result(0);
+int getMinDegree(BaseGraph<Vertex> const& graph) {
+    int result(0);
     auto vertices(graph.getVertices());
     if (!vertices.empty()) {
         result = getDegreeAt(graph, vertices.front());
@@ -290,7 +290,7 @@ unsigned int getMinDegree(BaseGraph<Vertex> const& graph) {
 }
 
 template <typename Vertex>
-unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph) {
+int getSumOfDegrees(BaseGraph<Vertex> const& graph) {
     // Other definition:
     // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the
     // degree of exactly two nodes by one. For this reason, the sum of degrees is always even.
@@ -306,9 +306,9 @@ double getAverageDegree(BaseGraph<Vertex> const& graph) {
 }
 
 template <typename Vertex>
-unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph) {
+int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph) {
     using Edge = typename GraphTypes<Vertex>::Edge;
-    unsigned int count(0);
+    int count(0);
     for (Edge const& edge : graph.getEdges()) {
         if (edge.first == edge.second) {
             count++;
@@ -318,7 +318,7 @@ unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph) {
 }
 
 template <typename Vertex>
-unsigned int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph) {
+int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph) {
     // The diameter of a tree is the maximum length of a path between two nodes.
 
     LongestPathsInTree<Vertex> longestPathsInTree(graph);
@@ -327,14 +327,13 @@ unsigned int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph) {
 }
 
 template <typename Vertex>
-std::pair<unsigned int, unsigned int> getInDegreeAndOutDegreeAt(
-    BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex) {
+std::pair<int, int> getInDegreeAndOutDegreeAt(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex) {
     // In a directed graph, the indegree of a node is the number of edges that end at the node,
     // and the outdegree of a node is the number of edges that start at the node.
 
     using Edge = typename GraphTypes<Vertex>::Edge;
 
-    std::pair<unsigned int, unsigned int> result{};
+    std::pair<int, int> result{};
     for (Edge const& edge : graph.getEdges()) {
         if (edge.first == vertex) {
             result.first++;
@@ -347,14 +346,13 @@ std::pair<unsigned int, unsigned int> getInDegreeAndOutDegreeAt(
 }
 
 template <typename Vertex>
-std::map<Vertex, std::pair<unsigned int, unsigned int>> getAllInDegreesAndOutDegrees(
-    BaseDirectedGraph<Vertex> const& graph) {
+std::map<Vertex, std::pair<int, int>> getAllInDegreesAndOutDegrees(BaseDirectedGraph<Vertex> const& graph) {
     // In a directed graph, the indegree of a node is the number of edges that end at the node,
     // and the outdegree of a node is the number of edges that start at the node.
 
     using Edge = typename GraphTypes<Vertex>::Edge;
 
-    std::map<Vertex, std::pair<unsigned int, unsigned int>> result;
+    std::map<Vertex, std::pair<int, int>> result;
     for (Edge const& edge : graph.getEdges()) {
         result[edge.first].first++;
         result[edge.second].second++;

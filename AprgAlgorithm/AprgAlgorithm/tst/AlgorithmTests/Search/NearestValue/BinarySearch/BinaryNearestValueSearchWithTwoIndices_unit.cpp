@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = BinaryNearestValueSearchWithTwoIndices<ValuesForTest>;
 }  // namespace
 
@@ -51,7 +51,7 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhen
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
+    EXPECT_EQ(4, search.getIndexOfNearestValue(33));
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues) {
@@ -70,104 +70,104 @@ TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueW
     ValuesForTest sortedValues{6};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(6U, search.getLowerValue());
-    EXPECT_EQ(6U, search.getHigherValue());
+    EXPECT_EQ(6, search.getLowerValue());
+    EXPECT_EQ(6, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithTwoItems) {
     ValuesForTest sortedValues{6, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(6U, search.getLowerValue());
-    EXPECT_EQ(97U, search.getHigherValue());
+    EXPECT_EQ(6, search.getLowerValue());
+    EXPECT_EQ(97, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithFourItems) {
     ValuesForTest sortedValues{6, 13, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(6U, search.getLowerValue());
-    EXPECT_EQ(97U, search.getHigherValue());
+    EXPECT_EQ(6, search.getLowerValue());
+    EXPECT_EQ(97, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksWithoutGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(6U, search.getLowerValue());
-    EXPECT_EQ(97U, search.getHigherValue());
+    EXPECT_EQ(6, search.getLowerValue());
+    EXPECT_EQ(97, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerValueAndGetHigherValueWorksAfterGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
-    EXPECT_EQ(33U, search.getNearestValue(34));
+    EXPECT_EQ(33, search.getNearestValue(34));
 
-    EXPECT_EQ(33U, search.getLowerValue());
-    EXPECT_EQ(43U, search.getHigherValue());
+    EXPECT_EQ(33, search.getLowerValue());
+    EXPECT_EQ(43, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexWorksWithoutGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(0U, search.getLowerIndex());
-    EXPECT_EQ(14U, search.getHigherIndex());
+    EXPECT_EQ(0, search.getLowerIndex());
+    EXPECT_EQ(14, search.getHigherIndex());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, GetLowerIndexAndGetHigherIndexWorksAfterGetNearestValue) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
-    EXPECT_EQ(33U, search.getNearestValue(34));
+    EXPECT_EQ(33, search.getNearestValue(34));
 
-    EXPECT_EQ(4U, search.getLowerIndex());
-    EXPECT_EQ(5U, search.getHigherIndex());
+    EXPECT_EQ(4, search.getLowerIndex());
+    EXPECT_EQ(5, search.getHigherIndex());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(5U, 6U, sortedValues);
+    SearchForTest search(5, 6, sortedValues);
 
-    EXPECT_EQ(43U, search.getLowerValue());
-    EXPECT_EQ(51U, search.getHigherValue());
-    EXPECT_EQ(43U, search.getNearestValue(33));
-    EXPECT_EQ(43U, search.getLowerValue());
-    EXPECT_EQ(43U, search.getHigherValue());
+    EXPECT_EQ(43, search.getLowerValue());
+    EXPECT_EQ(51, search.getHigherValue());
+    EXPECT_EQ(43, search.getNearestValue(33));
+    EXPECT_EQ(43, search.getLowerValue());
+    EXPECT_EQ(43, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(3U, 5U, sortedValues);
+    SearchForTest search(3, 5, sortedValues);
 
-    EXPECT_EQ(25U, search.getLowerValue());
-    EXPECT_EQ(43U, search.getHigherValue());
-    EXPECT_EQ(33U, search.getNearestValue(33));
-    EXPECT_EQ(33U, search.getLowerValue());
-    EXPECT_EQ(33U, search.getHigherValue());
+    EXPECT_EQ(25, search.getLowerValue());
+    EXPECT_EQ(43, search.getHigherValue());
+    EXPECT_EQ(33, search.getNearestValue(33));
+    EXPECT_EQ(33, search.getLowerValue());
+    EXPECT_EQ(33, search.getHigherValue());
 }
 
 TEST(BinaryNearestValueSearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(1U, 8U, sortedValues);
+    SearchForTest search(1, 8, sortedValues);
 
-    EXPECT_EQ(13U, search.getLowerValue());
-    EXPECT_EQ(64U, search.getHigherValue());
-    EXPECT_EQ(33U, search.getNearestValue(33));
-    EXPECT_EQ(33U, search.getLowerValue());
-    EXPECT_EQ(33U, search.getHigherValue());
+    EXPECT_EQ(13, search.getLowerValue());
+    EXPECT_EQ(64, search.getHigherValue());
+    EXPECT_EQ(33, search.getNearestValue(33));
+    EXPECT_EQ(33, search.getLowerValue());
+    EXPECT_EQ(33, search.getHigherValue());
 }
 
 TEST(
     BinaryNearestValueSearchWithTwoIndicesTest,
     SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOddAndValueIsHigher) {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest search(1U, 8U, sortedValues);
+    SearchForTest search(1, 8, sortedValues);
 
-    EXPECT_EQ(13U, search.getLowerValue());
-    EXPECT_EQ(64U, search.getHigherValue());
-    EXPECT_EQ(33U, search.getNearestValue(34));
-    EXPECT_EQ(33U, search.getLowerValue());
-    EXPECT_EQ(43U, search.getHigherValue());
+    EXPECT_EQ(13, search.getLowerValue());
+    EXPECT_EQ(64, search.getHigherValue());
+    EXPECT_EQ(33, search.getNearestValue(34));
+    EXPECT_EQ(33, search.getLowerValue());
+    EXPECT_EQ(43, search.getHigherValue());
 }
 
 }  // namespace algorithm

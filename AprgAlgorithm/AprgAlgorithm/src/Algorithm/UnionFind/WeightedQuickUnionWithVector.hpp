@@ -12,9 +12,9 @@ template <typename Object>
 class WeightedQuickUnionWithVector : public BaseUnionFind<Object> {
 public:
     using RootVector = std::vector<Object>;
-    using SizeVector = std::vector<unsigned int>;
+    using SizeVector = std::vector<int>;
 
-    WeightedQuickUnionWithVector(unsigned int const maximumSize) : m_relativeRoots(), m_sizesOfRoots() {
+    WeightedQuickUnionWithVector(int const maximumSize) : m_relativeRoots(), m_sizesOfRoots() {
         initialize(maximumSize);
     }
 
@@ -85,15 +85,15 @@ public:
     SizeVector& getSizesOfRootsVectorReference() { return m_sizesOfRoots; }
 
 private:
-    void initialize(unsigned int const maximumSize)  // runs in linear time
+    void initialize(int const maximumSize)  // runs in linear time
     {
         m_relativeRoots.reserve(maximumSize);
-        for (unsigned int i = 0; i < maximumSize; i++) {
+        for (int i = 0; i < maximumSize; i++) {
             m_relativeRoots.emplace_back(i);
         }
         m_relativeRoots.shrink_to_fit();
 
-        m_sizesOfRoots.resize(maximumSize, Object{1U});
+        m_sizesOfRoots.resize(maximumSize, Object{1});
         m_sizesOfRoots.shrink_to_fit();
     }
 

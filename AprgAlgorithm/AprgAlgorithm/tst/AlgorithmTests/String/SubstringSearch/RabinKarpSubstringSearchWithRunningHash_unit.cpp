@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Index = unsigned int;
+using Index = int;
 using HashValue = unsigned long long;
 using SubstringSearchForTest = RabinKarpSubstringSearchWithRunningHash<Index, HashValue>;
 }  // namespace

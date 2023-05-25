@@ -8,17 +8,17 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using WeightForTest = double;
 }  // namespace
 
 TEST(SortedEdgeTest, CreateSortedEdgeWorks) {
     using EdgeForTest = GraphTypes<VertexForTest>::Edge;
 
-    EdgeForTest sortedEdge1ToVerify(createSortedEdge<VertexForTest, EdgeForTest>(4U, 5U));
-    EdgeForTest sortedEdge2ToVerify(createSortedEdge<VertexForTest, EdgeForTest>(5U, 4U));
+    EdgeForTest sortedEdge1ToVerify(createSortedEdge<VertexForTest, EdgeForTest>(4, 5));
+    EdgeForTest sortedEdge2ToVerify(createSortedEdge<VertexForTest, EdgeForTest>(5, 4));
 
-    EdgeForTest expectedSortedEdge(4U, 5U);
+    EdgeForTest expectedSortedEdge(4, 5);
     EXPECT_EQ(expectedSortedEdge, sortedEdge1ToVerify);
     EXPECT_EQ(expectedSortedEdge, sortedEdge2ToVerify);
 }
@@ -27,11 +27,11 @@ TEST(SortedEdgeTest, CreateSortedEdgeOrderedByWeightWorks) {
     using EdgeForTest = GraphTypesWithWeights<VertexForTest, WeightForTest>::EdgeOrderedByWeight;
 
     EdgeForTest sortedEdge1ToVerify(
-        createSortedEdgeOrderedByWeight<VertexForTest, WeightForTest, EdgeForTest>(4U, 5U, 9.9));
+        createSortedEdgeOrderedByWeight<VertexForTest, WeightForTest, EdgeForTest>(4, 5, 9.9));
     EdgeForTest sortedEdge2ToVerify(
-        createSortedEdgeOrderedByWeight<VertexForTest, WeightForTest, EdgeForTest>(5U, 4U, 9.9));
+        createSortedEdgeOrderedByWeight<VertexForTest, WeightForTest, EdgeForTest>(5, 4, 9.9));
 
-    EdgeForTest expectedSortedEdge(4U, 5U, 9.9);
+    EdgeForTest expectedSortedEdge(4, 5, 9.9);
     EXPECT_EQ(expectedSortedEdge, sortedEdge1ToVerify);
     EXPECT_EQ(expectedSortedEdge, sortedEdge2ToVerify);
 }

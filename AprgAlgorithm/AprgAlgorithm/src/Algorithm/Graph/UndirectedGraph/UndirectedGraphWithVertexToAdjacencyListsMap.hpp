@@ -19,7 +19,7 @@ public:
     using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::map<Vertex, AdjacencyList>;
 
-    UndirectedGraphWithVertexToAdjacencyListsMap() : m_numberOfEdges(0U) {}
+    UndirectedGraphWithVertexToAdjacencyListsMap() : m_numberOfEdges(0) {}
 
     bool isEmpty() const override { return m_adjacencyLists.empty(); }
 
@@ -43,8 +43,8 @@ public:
         return result;
     }
 
-    unsigned int getNumberOfVertices() const override {
-        unsigned int result(0);
+    int getNumberOfVertices() const override {
+        int result(0);
         for (auto const& vertexAndAdjacencyListPair : m_adjacencyLists) {
             AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
             if (!adjacencyList.empty()) {
@@ -54,7 +54,7 @@ public:
         return result;
     }
 
-    unsigned int getNumberOfEdges() const override { return m_numberOfEdges; }
+    int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
         Vertices result(false);
@@ -129,7 +129,7 @@ protected:
         return out;
     }
 
-    unsigned int m_numberOfEdges;
+    int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
 

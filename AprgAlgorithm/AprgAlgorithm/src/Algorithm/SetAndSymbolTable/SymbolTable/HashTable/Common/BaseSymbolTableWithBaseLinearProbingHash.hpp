@@ -21,7 +21,7 @@ public:
 
     Value get(Key const& key) const override {
         Value result{};
-        for (unsigned int i(this->getHash(key)); b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i)) {
+        for (int i(this->getHash(key)); b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i)) {
             EntryUniquePointer const& entryPointer(b_entryPointers[i]);
             if (key == entryPointer->key) {
                 result = entryPointer->value;
@@ -34,7 +34,7 @@ public:
     void put(Key const& key, Value const& value) override {
         this->resizeOnPutIfNeeded();
         bool isFound(false);
-        unsigned int i(this->getHash(key));
+        int i(this->getHash(key));
         for (; b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i)) {
             EntryUniquePointer& entryPointer(b_entryPointers[i]);
             if (key == entryPointer->key) {
@@ -56,7 +56,7 @@ protected:
     }
 
 private:
-    unsigned int& b_size;
+    int& b_size;
     EntryPointers& b_entryPointers;
 };
 

@@ -11,27 +11,27 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using UnionFindForTest = UnionFindUsingMap<unsigned int>;
+using UnionFindForTest = UnionFindUsingMap<int>;
 }
 
 TEST(UnionFindUsingMapTest, IsConnectedWorks) {
     UnionFindForTest unionFind;
-    testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
+    testIsConnectedWithInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorks) {
     UnionFindForTest unionFind;
-    testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
+    testConnectWithInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorksWithExample1) {
     UnionFindForTest unionFind;
-    testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
+    testConnectUsingExample1WithInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorksWithExample2) {
     UnionFindForTest unionFind;
-    testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
+    testConnectUsingExample2WithInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, GetRootWorks) {
@@ -42,16 +42,16 @@ TEST(UnionFindUsingMapTest, GetRootWorks) {
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_EQ(0U, unionFind.getRoot(0));
-    EXPECT_EQ(1U, unionFind.getRoot(1));
-    EXPECT_EQ(1U, unionFind.getRoot(2));
-    EXPECT_EQ(3U, unionFind.getRoot(3));
-    EXPECT_EQ(3U, unionFind.getRoot(4));
-    EXPECT_EQ(5U, unionFind.getRoot(5));
-    EXPECT_EQ(5U, unionFind.getRoot(6));
-    EXPECT_EQ(7U, unionFind.getRoot(7));
-    EXPECT_EQ(3U, unionFind.getRoot(8));
-    EXPECT_EQ(3U, unionFind.getRoot(9));
+    EXPECT_EQ(0, unionFind.getRoot(0));
+    EXPECT_EQ(1, unionFind.getRoot(1));
+    EXPECT_EQ(1, unionFind.getRoot(2));
+    EXPECT_EQ(3, unionFind.getRoot(3));
+    EXPECT_EQ(3, unionFind.getRoot(4));
+    EXPECT_EQ(5, unionFind.getRoot(5));
+    EXPECT_EQ(5, unionFind.getRoot(6));
+    EXPECT_EQ(7, unionFind.getRoot(7));
+    EXPECT_EQ(3, unionFind.getRoot(8));
+    EXPECT_EQ(3, unionFind.getRoot(9));
 }
 
 TEST(UnionFindUsingMapTest, GetConnectionMapWorks) {
@@ -66,8 +66,8 @@ TEST(UnionFindUsingMapTest, GetConnectionMapWorks) {
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    UnionFindForTest::ConnectionMap expectedConnectionMap{{1U, 1U}, {2U, 1U}, {3U, 3U}, {4U, 3U},
-                                                          {5U, 5U}, {6U, 5U}, {8U, 3U}, {9U, 3U}};
+    UnionFindForTest::ConnectionMap expectedConnectionMap{{1, 1}, {2, 1}, {3, 3}, {4, 3},
+                                                          {5, 5}, {6, 5}, {8, 3}, {9, 3}};
     EXPECT_EQ(expectedConnectionMap, unionFind.getConnectionMap());
 }
 

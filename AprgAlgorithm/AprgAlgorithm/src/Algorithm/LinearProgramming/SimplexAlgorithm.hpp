@@ -28,12 +28,12 @@ public:
     }
 
     Matrix getSolution() const {
-        unsigned int numberOfRows = m_simplexTable.getNumberOfRows() - 1;
-        unsigned int numberOfColumns = m_simplexTable.getNumberOfColumns() - numberOfRows;
+        int numberOfRows = m_simplexTable.getNumberOfRows() - 1;
+        int numberOfColumns = m_simplexTable.getNumberOfColumns() - numberOfRows;
         Matrix result(numberOfColumns, numberOfRows);
-        unsigned int lastXInSimplex(m_simplexTable.getNumberOfColumns() - 1);
-        unsigned int lastXInResult(result.getNumberOfColumns() - 1);
-        result.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y) {
+        int lastXInSimplex(m_simplexTable.getNumberOfColumns() - 1);
+        int lastXInResult(result.getNumberOfColumns() - 1);
+        result.iterateAllThroughYAndThenX([&](int const x, int const y) {
             if (x == lastXInResult) {
                 result.setEntry(x, y, m_simplexTable.getEntry(lastXInSimplex, y));
             } else {

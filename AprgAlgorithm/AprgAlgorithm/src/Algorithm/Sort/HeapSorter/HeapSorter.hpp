@@ -13,7 +13,7 @@ namespace algorithm {
 template <typename Values>
 class HeapSorter : public BaseSorter<Values> {
 public:
-    static constexpr unsigned int NUMBER_OF_CHILDREN_IN_HEAP_TREE = 2U;
+    static constexpr int NUMBER_OF_CHILDREN_IN_HEAP_TREE = 2;
     using MaxHeapTreeAdapter = HeapTreeAdapter<Values, NUMBER_OF_CHILDREN_IN_HEAP_TREE, std::less>;
 
     HeapSorter() = default;
@@ -28,16 +28,16 @@ public:
 
 private:
     void putItemsInHeapOrder(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
-        unsigned int size(maxHeapTreeAdapter.getSize());
+        int size(maxHeapTreeAdapter.getSize());
         // Traverse all parents (starting from bottom to top), and sink down to put items in heap order
-        for (unsigned int parentIndex = getLastParentAtTheBottom(maxHeapTreeAdapter);
+        for (int parentIndex = getLastParentAtTheBottom(maxHeapTreeAdapter);
              parentIndex >= maxHeapTreeAdapter.getTopTreeIndex(); parentIndex--) {
             maxHeapTreeAdapter.sink(parentIndex, size);
         }
     }
 
     void swapTopItemsToLastPlaces(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
-        unsigned int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());  // traverse from bottom to top
+        int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());  // traverse from bottom to top
         while (treeIndex > maxHeapTreeAdapter.getTopTreeIndex()) {
             // swap current max to current last place
             std::swap(
@@ -49,7 +49,7 @@ private:
         }
     }
 
-    unsigned int getLastParentAtTheBottom(MaxHeapTreeAdapter const& maxHeapTreeAdapter) const {
+    int getLastParentAtTheBottom(MaxHeapTreeAdapter const& maxHeapTreeAdapter) const {
         return maxHeapTreeAdapter.getParentIndex(maxHeapTreeAdapter.getBottomTreeIndex());
     }
 };

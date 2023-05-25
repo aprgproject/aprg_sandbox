@@ -23,9 +23,9 @@ string compressCharactersToValues(string const& characters) {
     AlbaStreamBitReader reader(inputSs);
     AlbaStreamBitWriter writer(outputSs);
     while (true) {
-        bitset<2U> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));
+        bitset<2> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));
         if (!inputSs.eof()) {
-            writer.writeBitsetData<2U>(valueBitset, 0U, 1U);
+            writer.writeBitsetData<2>(valueBitset, 0, 1);
         } else {
             break;
         }
@@ -42,7 +42,7 @@ string expandValuesToCharacters(string const& characters) {
     AlbaStreamBitReader reader(inputSs);
     AlbaStreamBitWriter writer(outputSs);
     while (true) {
-        bitset<2U> valueBitset(reader.readBitsetData<2U>(0, 1));
+        bitset<2> valueBitset(reader.readBitsetData<2>(0, 1));
         if (!inputSs.eof()) {
             writer.writeCharData(dnaAlphabet.getCharacter(static_cast<unsigned char>(valueBitset.to_ulong())));
         } else {

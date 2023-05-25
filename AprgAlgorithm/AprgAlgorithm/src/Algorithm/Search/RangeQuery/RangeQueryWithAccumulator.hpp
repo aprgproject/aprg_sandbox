@@ -15,7 +15,7 @@ public:
     // value at position k is sumq(0,k). The preprocessing of prefix sum array can be constructed in O(n) time. The
     // range query can be done in O(1)/constant time.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using AccumulatorFunction = std::function<Value(Value const&, Value const&)>;
 
@@ -29,7 +29,8 @@ public:
     Value getAccumulatedValueOnInterval(Index const start, Index const end) const {
         // This is on constant time
         Value result{};
-        if (start <= end && start < m_partialResults.size() && end < m_partialResults.size()) {
+        if (start <= end && start < static_cast<Index>(m_partialResults.size()) &&
+            end < static_cast<Index>(m_partialResults.size())) {
             if (start > 0) {
                 result = m_inverseAccumulator(m_partialResults.at(end), m_partialResults.at(start - 1));
             } else {

@@ -9,7 +9,7 @@ namespace algorithm {
 class StabilityCheckObject {
 public:
     StabilityCheckObject();
-    StabilityCheckObject(char const visiblePart, unsigned int const notVisiblePart);
+    StabilityCheckObject(char const visiblePart, int const notVisiblePart);
     StabilityCheckObject(int const value);
 
     bool operator==(StabilityCheckObject const& object) const;
@@ -23,7 +23,7 @@ public:
     double operator*(double const multiplier) const;
 
     char getVisiblePart() const;
-    unsigned int getNotVisiblePart() const;
+    int getNotVisiblePart() const;
 
     friend double operator/(double const dividend, StabilityCheckObject const& divisor);
     friend bool areObjectsEqualOnVisibleAndNotVisiblePart(
@@ -32,7 +32,7 @@ public:
 
 private:
     char m_visiblePart;
-    unsigned int m_notVisiblePart;
+    int m_notVisiblePart;
 };
 
 bool areObjectsEqualOnVisibleAndNotVisiblePart(

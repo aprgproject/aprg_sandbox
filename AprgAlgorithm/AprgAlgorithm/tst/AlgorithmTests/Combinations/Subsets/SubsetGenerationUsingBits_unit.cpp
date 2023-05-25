@@ -9,15 +9,15 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Objects = vector<unsigned int>;
-using GenerationForTest = SubsetGenerationUsingBits<Objects, unsigned int>;
+using Objects = vector<int>;
+using GenerationForTest = SubsetGenerationUsingBits<Objects, int>;
 using Subsets = GenerationForTest::Subsets;
 }  // namespace
 
 TEST(SubsetGenerationUsingBitsTest, GenerateSubsetsUsingBitsWorks) {
-    Subsets actualSubsets(GenerationForTest::generateSubsetsUsingBits({1U, 3U, 5U}));
+    Subsets actualSubsets(GenerationForTest::generateSubsetsUsingBits({1, 3, 5}));
 
-    Subsets expectedSubsets{{}, {1U}, {3U}, {1U, 3U}, {5U}, {1U, 5U}, {3U, 5U}, {1U, 3U, 5U}};
+    Subsets expectedSubsets{{}, {1}, {3}, {1, 3}, {5}, {1, 5}, {3, 5}, {1, 3, 5}};
     EXPECT_EQ(expectedSubsets, actualSubsets);
 }
 

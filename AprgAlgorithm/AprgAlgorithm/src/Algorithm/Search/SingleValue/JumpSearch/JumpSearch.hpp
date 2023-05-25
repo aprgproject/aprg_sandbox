@@ -11,7 +11,7 @@ namespace algorithm {
 template <typename Values>
 class JumpSearch {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
@@ -22,9 +22,9 @@ public:
         Index result(INVALID_INDEX);
 
         // find the block where value is included
-        Index blockStartIndex(0U);
-        Index blockEndIndex(0U);
-        while (blockEndIndex < m_values.size() && m_values.at(blockEndIndex) < valueToCheck) {
+        Index blockStartIndex(0);
+        Index blockEndIndex(0);
+        while (blockEndIndex < static_cast<Index>(m_values.size()) && m_values.at(blockEndIndex) < valueToCheck) {
             blockStartIndex = blockEndIndex;
             blockEndIndex += m_blockSize;
         }
@@ -37,7 +37,7 @@ public:
 private:
     Index getOptimalSize(Values const& values) const {
         // optimal size is squareroot size
-        return std::max(1U, mathHelper::getIntegerAfterFloorOfDoubleValue<Index>(sqrt(values.size())));
+        return std::max(1, mathHelper::getIntegerAfterFloorOfDoubleValue<Index>(sqrt(values.size())));
     }
 
     Index m_blockSize;

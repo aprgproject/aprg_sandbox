@@ -13,11 +13,11 @@ public:
     // the largest possible sum of a sequence of consecutive values in the array.
     // The problem is interesting when there may be negative values in the array.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     struct SubArrayDetails {
-        unsigned int lowIndex;
-        unsigned int highIndex;
+        Index lowIndex;
+        Index highIndex;
         Value sum;
     };
 
@@ -50,7 +50,7 @@ public:
 
     SubArrayDetails getMaximumSubArraySumWithDetails() {
         SubArrayDetails currentSubArray{}, bestSubArray{};
-        unsigned int index(0);
+        int index(0);
         for (Value const& value : m_valuesToCheck) {
             if (value > currentSubArray.sum + value)  // new sub array contains only value
             {

@@ -9,31 +9,31 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using Objects = vector<unsigned int>;
+using Objects = vector<int>;
 using GenerationForTest = PermutationsGeneration<Objects>;
 using Permutations = GenerationForTest::Permutations;
 }  // namespace
 
 TEST(PermutationsGenerationTest, GeneratePermutationsUsingCppFunctionsWorks) {
-    Permutations actualPermutations(GenerationForTest::generatePermutationsUsingCppFunctions({1U, 3U, 5U}));
+    Permutations actualPermutations(GenerationForTest::generatePermutationsUsingCppFunctions({1, 3, 5}));
 
-    Permutations expectedPermutations{{1U, 3U, 5U}, {1U, 5U, 3U}, {3U, 1U, 5U},
-                                      {3U, 5U, 1U}, {5U, 1U, 3U}, {5U, 3U, 1U}};
+    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5},
+                                      {3, 5, 1}, {5, 1, 3}, {5, 3, 1}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
 TEST(PermutationsGenerationTest, GeneratePermutationsUsingRecursionWorks) {
-    Permutations actualPermutations(GenerationForTest::generatePermutationsUsingRecursion({1U, 3U, 5U}));
+    Permutations actualPermutations(GenerationForTest::generatePermutationsUsingRecursion({1, 3, 5}));
 
-    Permutations expectedPermutations{{1U, 3U, 5U}, {1U, 5U, 3U}, {3U, 1U, 5U},
-                                      {3U, 5U, 1U}, {5U, 1U, 3U}, {5U, 3U, 1U}};
+    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5},
+                                      {3, 5, 1}, {5, 1, 3}, {5, 3, 1}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
 TEST(PermutationsGenerationTest, GeneratePermutationsWithLengthWorks) {
-    Permutations actualPermutations(GenerationForTest::generatePermutationsWithLength({1U, 3U, 5U}, 2U));
+    Permutations actualPermutations(GenerationForTest::generatePermutationsWithLength({1, 3, 5}, 2));
 
-    Permutations expectedPermutations{{1U, 3U}, {1U, 5U}, {3U, 1U}, {3U, 5U}, {5U, 1U}, {5U, 3U}};
+    Permutations expectedPermutations{{1, 3}, {1, 5}, {3, 1}, {3, 5}, {5, 1}, {5, 3}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 

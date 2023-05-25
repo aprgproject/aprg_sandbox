@@ -11,7 +11,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValuesForTest = vector<unsigned int>;
+using ValuesForTest = vector<int>;
 using SearchForTest = LinearSearchWithTwoIndices<ValuesForTest>;
 }  // namespace
 
@@ -35,7 +35,7 @@ TEST(LinearSearchWithTwoIndicesTest, GetIndexOfValueWorksWhenValueIsFoundAndWhen
     ValuesForTest unsortedValues{96, 96, 53, 53, 53, 72, 72, 72, 72, 14, 33, 33, 33, 13, 13};
     SearchForTest search(unsortedValues);
 
-    EXPECT_EQ(12U, search.getIndexOfValue(33U));
+    EXPECT_EQ(12, search.getIndexOfValue(33));
 }
 
 TEST(LinearSearchWithTwoIndicesTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {

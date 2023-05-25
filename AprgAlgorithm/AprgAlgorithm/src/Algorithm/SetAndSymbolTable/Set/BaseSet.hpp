@@ -16,14 +16,14 @@ public:
     virtual bool isEmpty() const = 0;                    // is the set empty
     virtual bool doesContain(Key const& key) const = 0;  // is key exists on set
 
-    virtual unsigned int getSize() const = 0;                // get number of keys
-    virtual unsigned int getRank(Key const& key) const = 0;  // get number of keys less than key
+    virtual int getSize() const = 0;                // get number of keys
+    virtual int getRank(Key const& key) const = 0;  // get number of keys less than key
 
-    virtual Key getMinimum() const = 0;                       // get smallest key
-    virtual Key getMaximum() const = 0;                       // get largest key
-    virtual Key selectAt(unsigned int const rank) const = 0;  // get key at rank
-    virtual Key getFloor(Key const& key) const = 0;           // get largest key less than or equal to key
-    virtual Key getCeiling(Key const& key) const = 0;         // get smallest key greater than or equal to key
+    virtual Key getMinimum() const = 0;                // get smallest key
+    virtual Key getMaximum() const = 0;                // get largest key
+    virtual Key selectAt(int const rank) const = 0;    // get key at rank
+    virtual Key getFloor(Key const& key) const = 0;    // get largest key less than or equal to key
+    virtual Key getCeiling(Key const& key) const = 0;  // get smallest key greater than or equal to key
 
     virtual void put(Key const& key) = 0;               // put key
     virtual void deleteBasedOnKey(Key const& key) = 0;  // remove key from the set

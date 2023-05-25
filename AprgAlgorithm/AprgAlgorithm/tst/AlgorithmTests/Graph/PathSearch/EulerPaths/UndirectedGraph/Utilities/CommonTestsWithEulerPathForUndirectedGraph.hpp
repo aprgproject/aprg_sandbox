@@ -11,9 +11,9 @@ namespace CommonTestsWithEulerPathForUndirectedGraph {
 template <typename PathSearch, typename Graph>
 void testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(1, 2);
     PathSearch pathSearch(graph);
 
     EXPECT_TRUE(pathSearch.hasEulerCycle());
@@ -22,8 +22,8 @@ void testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices() {
 template <typename PathSearch, typename Graph>
 void testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
     PathSearch pathSearch(graph);
 
     EXPECT_FALSE(pathSearch.hasEulerCycle());
@@ -32,7 +32,7 @@ void testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices() {
 template <typename PathSearch, typename Graph>
 void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
+    graph.connect(0, 1);
     PathSearch pathSearch(graph);
 
     EXPECT_TRUE(pathSearch.hasEulerPath());
@@ -41,8 +41,8 @@ void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices() {
 template <typename PathSearch, typename Graph>
 void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
     PathSearch pathSearch(graph);
 
     EXPECT_TRUE(pathSearch.hasEulerPath());
@@ -51,9 +51,9 @@ void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices() {
 template <typename PathSearch, typename Graph>
 void testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(0, 3);
     PathSearch pathSearch(graph);
 
     EXPECT_FALSE(pathSearch.hasEulerPath());
@@ -73,22 +73,22 @@ void testGetEulerCycleWorksOnEmptyGraph() {
 template <typename PathSearch, typename Graph>
 void testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(1, 2);
     PathSearch pathSearch(graph);
 
     typename PathSearch::Path pathToVerify(pathSearch.getEulerCycle());
 
-    typename PathSearch::Path pathToExpect{0U, 1U, 2U, 0U};
+    typename PathSearch::Path pathToExpect{0, 1, 2, 0};
     EXPECT_EQ(pathToExpect, pathToVerify);
 }
 
 template <typename PathSearch, typename Graph>
 void testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
     PathSearch pathSearch(graph);
 
     typename PathSearch::Path pathToVerify(pathSearch.getEulerCycle());
@@ -110,22 +110,22 @@ void testGetEulerPathWorksOnEmptyGraph() {
 template <typename PathSearch, typename Graph>
 void testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
     PathSearch pathSearch(graph);
 
     typename PathSearch::Path pathToVerify(pathSearch.getEulerPath());
 
-    typename PathSearch::Path pathToExpect{1U, 0U, 2U};
+    typename PathSearch::Path pathToExpect{1, 0, 2};
     EXPECT_EQ(pathToExpect, pathToVerify);
 }
 
 template <typename PathSearch, typename Graph>
 void testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices() {
     Graph graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 3U);
+    graph.connect(0, 1);
+    graph.connect(0, 2);
+    graph.connect(0, 3);
     PathSearch pathSearch(graph);
 
     typename PathSearch::Path pathToVerify(pathSearch.getEulerCycle());
@@ -137,19 +137,19 @@ template <typename PathSearch, typename Graph>
 void testGetEulerCycleAndPathWorksOnExample1() {
     using Path = typename PathSearch::Path;
     Graph graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 4U);
-    graph.connect(2U, 3U);
-    graph.connect(2U, 5U);
-    graph.connect(3U, 5U);
-    graph.connect(5U, 4U);
-    graph.connect(4U, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 4);
+    graph.connect(2, 3);
+    graph.connect(2, 5);
+    graph.connect(3, 5);
+    graph.connect(5, 4);
+    graph.connect(4, 1);
     PathSearch pathSearch(graph);
 
     Path pathToVerify(pathSearch.getEulerPath());
     Path cycleToVerify(pathSearch.getEulerCycle());
 
-    Path pathToExpect{2U, 1U, 4U, 5U, 2U, 3U, 5U};
+    Path pathToExpect{2, 1, 4, 5, 2, 3, 5};
     EXPECT_EQ(pathToExpect, pathToVerify);
     EXPECT_TRUE(cycleToVerify.empty());
 }
@@ -158,23 +158,23 @@ template <typename PathSearch, typename Graph>
 void testGetEulerCycleAndPathWorksOnExample2() {
     using Path = typename PathSearch::Path;
     Graph graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 3U);
-    graph.connect(2U, 3U);
-    graph.connect(2U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(3U, 4U);
-    graph.connect(3U, 6U);
-    graph.connect(4U, 7U);
-    graph.connect(5U, 6U);
-    graph.connect(6U, 7U);
+    graph.connect(1, 2);
+    graph.connect(1, 3);
+    graph.connect(2, 3);
+    graph.connect(2, 5);
+    graph.connect(2, 6);
+    graph.connect(3, 4);
+    graph.connect(3, 6);
+    graph.connect(4, 7);
+    graph.connect(5, 6);
+    graph.connect(6, 7);
     PathSearch pathSearch(graph);
 
     Path pathToVerify(pathSearch.getEulerPath());
     Path cycleToVerify(pathSearch.getEulerCycle());
 
-    Path pathToExpect{1U, 2U, 3U, 4U, 7U, 6U, 2U, 5U, 6U, 3U, 1U};
-    Path cycleToExpect{1U, 2U, 3U, 4U, 7U, 6U, 2U, 5U, 6U, 3U, 1U};
+    Path pathToExpect{1, 2, 3, 4, 7, 6, 2, 5, 6, 3, 1};
+    Path cycleToExpect{1, 2, 3, 4, 7, 6, 2, 5, 6, 3, 1};
     EXPECT_EQ(pathToExpect, pathToVerify);
     EXPECT_EQ(cycleToExpect, cycleToVerify);
 }

@@ -15,8 +15,7 @@ public:
     using VertexToWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToWeightMap;
     using Bfs = PathSearchUsingBfsWithDistanceSum<Vertex, Weight, EdgeWeightedGraph>;
 
-    KCentersWithGreedyApproximate(
-        EdgeWeightedGraph const& graph, Vertex const& startVertex, unsigned int const numberOfCenters)
+    KCentersWithGreedyApproximate(EdgeWeightedGraph const& graph, Vertex const& startVertex, int const numberOfCenters)
         : m_graph(graph), m_startVertex(startVertex), m_numberOfCenters(numberOfCenters) {
         initialize();
     }
@@ -28,7 +27,7 @@ private:
 
     void traverseWithGreedyApproach() {
         Vertex currentCenter(m_startVertex);  // start vertex is a center
-        for (unsigned int centerCount = 0; centerCount < m_numberOfCenters; centerCount++) {
+        for (int centerCount = 0; centerCount < m_numberOfCenters; centerCount++) {
             m_foundCenters.emplace_back(currentCenter);
             updateClosestDistances(currentCenter);
             currentCenter = getVertexForMaximumClosestDistance();
@@ -63,7 +62,7 @@ private:
 
     EdgeWeightedGraph const& m_graph;
     Vertex const m_startVertex;
-    unsigned int const m_numberOfCenters;
+    int const m_numberOfCenters;
     VertexToWeightMap m_closestDistanceForVertex;
     Vertices m_foundCenters;
 };

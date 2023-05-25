@@ -10,9 +10,9 @@ namespace algorithm {
 template <typename Index>
 class BoyerMooreSubstringSearch {
 public:
-    using RadixType = unsigned int;
+    using RadixType = int;
     using Position = int;  // allows negative position
-    static constexpr RadixType RADIX = 256U;
+    static constexpr RadixType RADIX = 256;
     using SkipTable = std::array<Position, RADIX>;
 
     BoyerMooreSubstringSearch(std::string const& substringToMatch)
@@ -57,7 +57,7 @@ public:
 
 private:
     void initialize() {
-        char i(0U);
+        char i(0);
         for (RadixType i = 0; i < RADIX; i++) {
             m_rightMostLetterPosition[i] = -1;  // assign negative one for case 1
         }

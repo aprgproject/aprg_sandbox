@@ -13,22 +13,22 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-InvertedMapForSymbolGraph<unsigned int, string> invertedMap;
+InvertedMapForSymbolGraph<int, string> invertedMap;
 }
 
 template <>
-unsigned int getUniqueVertexIdentifier<unsigned int, string>(string const& object) {
+int getUniqueVertexIdentifier<int, string>(string const& object) {
     return invertedMap.getVertexIdentifierAndAddObjectIfNeeded(object);
 }
 
 template <>
-void removeUniqueVertexIdentifierIfNeeded<unsigned int, string>(string const& object) {
+void removeUniqueVertexIdentifierIfNeeded<int, string>(string const& object) {
     return invertedMap.removeObject(object);
 }
 
 namespace {
-using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
-using SymbolGraphForTest = SymbolGraph<unsigned int, string, GraphForTest>;
+using GraphForTest = UndirectedGraphWithListOfEdges<int>;
+using SymbolGraphForTest = SymbolGraph<int, string, GraphForTest>;
 }  // namespace
 
 TEST(SymbolGraphWithStringTest, ContainsWorksWhenEmpty) {
@@ -59,10 +59,10 @@ TEST(SymbolGraphWithStringTest, GetVertexWorks) {
     invertedMap.clear();
     SymbolGraphForTest symbolGraph;
 
-    EXPECT_EQ(0U, symbolGraph.getVertex("zero"));
-    EXPECT_EQ(1U, symbolGraph.getVertex("one"));
-    EXPECT_EQ(2U, symbolGraph.getVertex("two"));
-    EXPECT_EQ(3U, symbolGraph.getVertex("three"));
+    EXPECT_EQ(0, symbolGraph.getVertex("zero"));
+    EXPECT_EQ(1, symbolGraph.getVertex("one"));
+    EXPECT_EQ(2, symbolGraph.getVertex("two"));
+    EXPECT_EQ(3, symbolGraph.getVertex("three"));
 }
 
 TEST(SymbolGraphWithStringTest, GetObjectWorks) {
@@ -72,10 +72,10 @@ TEST(SymbolGraphWithStringTest, GetObjectWorks) {
     symbolGraph.connect("zero", "two");
     symbolGraph.connect("one", "two");
 
-    EXPECT_EQ("zero", symbolGraph.getObject(0U));
-    EXPECT_EQ("one", symbolGraph.getObject(1U));
-    EXPECT_EQ("two", symbolGraph.getObject(2U));
-    EXPECT_TRUE(symbolGraph.getObject(3U).empty());
+    EXPECT_EQ("zero", symbolGraph.getObject(0));
+    EXPECT_EQ("one", symbolGraph.getObject(1));
+    EXPECT_EQ("two", symbolGraph.getObject(2));
+    EXPECT_TRUE(symbolGraph.getObject(3).empty());
 }
 
 TEST(SymbolGraphWithStringTest, GetGraphWorks) {
@@ -85,7 +85,7 @@ TEST(SymbolGraphWithStringTest, GetGraphWorks) {
     symbolGraph.connect("zero", "two");
     symbolGraph.connect("one", "two");
 
-    GraphForTest::Edges expectedEdges{{0U, 1U}, {0U, 2U}, {1U, 2U}};
+    GraphForTest::Edges expectedEdges{{0, 1}, {0, 2}, {1, 2}};
     EXPECT_EQ(expectedEdges, symbolGraph.getGraph().getEdges());
 }
 
@@ -96,7 +96,7 @@ TEST(SymbolGraphWithStringTest, GetSymbolTableWorks) {
     symbolGraph.connect("zero", "two");
     symbolGraph.connect("one", "two");
 
-    SymbolGraphForTest::SymbolTable expectedSymbolTable{{0U, "zero"}, {1U, "one"}, {2U, "two"}};
+    SymbolGraphForTest::SymbolTable expectedSymbolTable{{0, "zero"}, {1, "one"}, {2, "two"}};
     EXPECT_EQ(expectedSymbolTable, symbolGraph.getSymbolTable());
 }
 
@@ -107,8 +107,8 @@ TEST(SymbolGraphWithStringTest, ConnectWorks) {
     symbolGraph.connect("zero", "two");
     symbolGraph.connect("one", "two");
 
-    GraphForTest::Edges expectedEdges{{0U, 1U}, {0U, 2U}, {1U, 2U}};
-    SymbolGraphForTest::SymbolTable expectedSymbolTable{{0U, "zero"}, {1U, "one"}, {2U, "two"}};
+    GraphForTest::Edges expectedEdges{{0, 1}, {0, 2}, {1, 2}};
+    SymbolGraphForTest::SymbolTable expectedSymbolTable{{0, "zero"}, {1, "one"}, {2, "two"}};
     EXPECT_EQ(expectedEdges, symbolGraph.getGraph().getEdges());
     EXPECT_EQ(expectedSymbolTable, symbolGraph.getSymbolTable());
 }
@@ -123,8 +123,8 @@ TEST(SymbolGraphWithStringTest, DisconnectWorks) {
     symbolGraph.disconnect("zero", "one");
     symbolGraph.disconnect("zero", "two");
 
-    GraphForTest::Edges expectedEdges{{1U, 2U}};
-    SymbolGraphForTest::SymbolTable expectedSymbolTable{{1U, "one"}, {2U, "two"}};
+    GraphForTest::Edges expectedEdges{{1, 2}};
+    SymbolGraphForTest::SymbolTable expectedSymbolTable{{1, "one"}, {2, "two"}};
     EXPECT_EQ(expectedEdges, symbolGraph.getGraph().getEdges());
     EXPECT_EQ(expectedSymbolTable, symbolGraph.getSymbolTable());
 }

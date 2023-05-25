@@ -9,7 +9,7 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using VertexForTest = unsigned int;
+using VertexForTest = int;
 using WeightForTest = double;
 using VerticesForTest = GraphTypes<VertexForTest>::Vertices;
 using ContentMapForTest = GraphTypesWithWeights<VertexForTest, WeightForTest>::VertexToWeightMap;
@@ -21,31 +21,31 @@ using NodeSearchForTest =
 
 TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphForExample1) {
     EdgeWeightedUndirectedGraphForTest graph;
-    graph.connect(0U, 1U, 0.05);
-    graph.connect(0U, 2U, 0.10);
-    graph.connect(0U, 5U, 0.15);
-    graph.connect(1U, 2U, 0.20);
-    graph.connect(2U, 3U, 0.25);
-    graph.connect(2U, 4U, 0.30);
-    graph.connect(3U, 4U, 0.35);
-    graph.connect(3U, 5U, 0.40);
-    NodeSearchForTest nodeSearch(graph, 0U, 3U);
+    graph.connect(0, 1, 0.05);
+    graph.connect(0, 2, 0.10);
+    graph.connect(0, 5, 0.15);
+    graph.connect(1, 2, 0.20);
+    graph.connect(2, 3, 0.25);
+    graph.connect(2, 4, 0.30);
+    graph.connect(3, 4, 0.35);
+    graph.connect(3, 5, 0.40);
+    NodeSearchForTest nodeSearch(graph, 0, 3);
 
-    VerticesForTest expectedCenters{0U, 4U, 3U};
+    VerticesForTest expectedCenters{0, 4, 3};
     EXPECT_EQ(expectedCenters, nodeSearch.getFoundCenters());
 }
 
 TEST(KCentersWithGreedyApproximateTest, GetDistanceToWorksWithUndirectedGraphForExample2) {
     EdgeWeightedUndirectedGraphForTest graph;
-    graph.connect(0U, 1U, 1.0);
-    graph.connect(0U, 2U, 0.7);
-    graph.connect(0U, 3U, 0.6);
-    graph.connect(1U, 2U, 0.8);
-    graph.connect(1U, 3U, 0.5);
-    graph.connect(2U, 3U, 1.2);
-    NodeSearchForTest nodeSearch(graph, 2U, 2U);
+    graph.connect(0, 1, 1.0);
+    graph.connect(0, 2, 0.7);
+    graph.connect(0, 3, 0.6);
+    graph.connect(1, 2, 0.8);
+    graph.connect(1, 3, 0.5);
+    graph.connect(2, 3, 1.2);
+    NodeSearchForTest nodeSearch(graph, 2, 2);
 
-    VerticesForTest expectedCenters{2U, 3U};
+    VerticesForTest expectedCenters{2, 3};
     EXPECT_EQ(expectedCenters, nodeSearch.getFoundCenters());
 }
 
