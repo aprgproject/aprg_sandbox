@@ -53,15 +53,13 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
         cout << "Choice " << choice << " :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << "\n";
         choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
     }
-    unsigned chosenChoice(m_userInterface.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices));
+    auto chosenChoice(m_userInterface.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices));
     cout << "Chosen choice: " << chosenChoice << "\n";
 
-    return choices[chosenChoice];
-}
+    return choices[chosenChoice];}
 
 void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath) {
-    ifstream formDetailsStream(formDetailsFilePath);
-    AlbaFileReader fileReader(formDetailsStream);
+    ifstream formDetailsStream(formDetailsFilePath);    AlbaFileReader fileReader(formDetailsStream);
 
     m_savedConfiguration.setFormDetailsTitle(fileReader.getLineAndIgnoreWhiteSpaces());
 
