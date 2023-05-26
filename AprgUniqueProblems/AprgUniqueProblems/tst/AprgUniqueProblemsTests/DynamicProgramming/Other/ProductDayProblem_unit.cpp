@@ -15,7 +15,7 @@ TEST(ProductDayProblemTest, GetMinimumPriceWorksOnExample1) {
     ProductDayProblem queryForTest(pricesInDayByProduct);
 
     EXPECT_EQ(5, queryForTest.getMinimumPriceUsingMemoizationDP());
-    // EXPECT_EQ(5, queryForTest.getMinimumPriceUsingIterativeDP());
+    EXPECT_EQ(5, queryForTest.getMinimumPriceUsingIterativeDP());
 }
 
 }  // namespace alba
