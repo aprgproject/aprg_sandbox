@@ -13,21 +13,21 @@ constexpr Value UV = FindTheMinimumCostToReachDestinationUsingATrain::UNUSED_VAL
 }  // namespace
 
 TEST(FindTheMinimumCostToReachDestinationUsingATrainTest, GetMinimumPriceWorksOnEmpty) {
-    ValueMatrix valueMatrix(0U, 0U);
+    ValueMatrix valueMatrix(0, 0);
     FindTheMinimumCostToReachDestinationUsingATrain queryForTest(valueMatrix);
 
-    EXPECT_EQ(0U, queryForTest.getMinimumCostUsingNaiveRecursion());
-    EXPECT_EQ(0U, queryForTest.getMinimumCostUsingMemoizationDP());
-    EXPECT_EQ(0U, queryForTest.getMinimumCostUsingIterativeDP());
+    EXPECT_EQ(0, queryForTest.getMinimumCostUsingNaiveRecursion());
+    EXPECT_EQ(0, queryForTest.getMinimumCostUsingMemoizationDP());
+    EXPECT_EQ(0, queryForTest.getMinimumCostUsingIterativeDP());
 }
 
 TEST(FindTheMinimumCostToReachDestinationUsingATrainTest, GetMinimumPriceWorksOnExample1) {
-    ValueMatrix valueMatrix(4U, 4U, {0, UV, UV, UV, 15, 0, UV, UV, 80, 40, 0, UV, 90, 50, 70, 0});
+    ValueMatrix valueMatrix(4, 4, {0, UV, UV, UV, 15, 0, UV, UV, 80, 40, 0, UV, 90, 50, 70, 0});
     FindTheMinimumCostToReachDestinationUsingATrain queryForTest(valueMatrix);
 
-    EXPECT_EQ(65U, queryForTest.getMinimumCostUsingNaiveRecursion());
-    EXPECT_EQ(65U, queryForTest.getMinimumCostUsingMemoizationDP());
-    EXPECT_EQ(65U, queryForTest.getMinimumCostUsingIterativeDP());
+    EXPECT_EQ(65, queryForTest.getMinimumCostUsingNaiveRecursion());
+    EXPECT_EQ(65, queryForTest.getMinimumCostUsingMemoizationDP());
+    EXPECT_EQ(65, queryForTest.getMinimumCostUsingIterativeDP());
 }
 
 }  // namespace alba

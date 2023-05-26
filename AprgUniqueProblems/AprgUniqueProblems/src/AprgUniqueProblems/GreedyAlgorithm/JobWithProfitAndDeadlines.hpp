@@ -11,26 +11,23 @@ class JobWithProfitAndDeadlines {
 public:
     struct Job {
         std::string jobName;
-        unsigned int profit;
-        unsigned int deadline;
+        int profit;
+        int deadline;
     };
 
-    using Jobs = std::deque<Job>;
-    using JobNames = stringHelper::strings;
+    using Jobs = std::deque<Job>;    using JobNames = stringHelper::strings;
 
     JobNames getJobsOrderWithMaximumProfit() const;
 
-    void addJob(std::string const& jobName, unsigned int const profit, unsigned int const deadline);
+    void addJob(std::string const& jobName, int const profit, int const deadline);
 
 private:
-    unsigned int getMaximumDeadline() const;
+    int getMaximumDeadline() const;
     Jobs m_jobs;
 };
-
 }  // namespace alba
 
-// Given a set of n jobs where each job i has a deadline di >=1 and profit pi>=0.
-// Only one job can be scheduled at a time. Each job takes 1 unit of time to complete.
+// Given a set of n jobs where each job i has a deadline di >=1 and profit pi>=0.// Only one job can be scheduled at a time. Each job takes 1 unit of time to complete.
 // We earn the profit if and only if the job is completed by its deadline. The task is to find the subset of jobs that
 // maximizes profit.
 

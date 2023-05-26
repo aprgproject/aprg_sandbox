@@ -82,15 +82,13 @@ PrintMaximumNumberOfAs::Count PrintMaximumNumberOfAs::getMaxCountOfAOnScreenUsin
         return m_numberOfPresses;
     } else {
         Counts countsOnScreen(m_numberOfPresses, 0);
-        for (Count remainingNumberOfPresses = 1; remainingNumberOfPresses <= 6U; remainingNumberOfPresses++) {
+        for (Count remainingNumberOfPresses = 1; remainingNumberOfPresses <= 6; remainingNumberOfPresses++) {
             countsOnScreen[remainingNumberOfPresses - 1] = remainingNumberOfPresses;
         }
-        for (Count remainingNumberOfPresses = 7; remainingNumberOfPresses <= m_numberOfPresses;
-             remainingNumberOfPresses++) {
+        for (Count remainingNumberOfPresses = 7; remainingNumberOfPresses <= m_numberOfPresses;             remainingNumberOfPresses++) {
             // break point will start ctrl-a, ctrl-c and then only ctrl-v all the way.
             for (Count breakPoint = remainingNumberOfPresses - 3; breakPoint >= 1; breakPoint--) {
-                Count countIfBreakPoint = (remainingNumberOfPresses - breakPoint - 1) * countsOnScreen[breakPoint - 1];
-                if (countIfBreakPoint > countsOnScreen[remainingNumberOfPresses - 1]) {
+                Count countIfBreakPoint = (remainingNumberOfPresses - breakPoint - 1) * countsOnScreen[breakPoint - 1];                if (countIfBreakPoint > countsOnScreen[remainingNumberOfPresses - 1]) {
                     countsOnScreen[remainingNumberOfPresses - 1] = countIfBreakPoint;
                 }
             }

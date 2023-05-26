@@ -49,15 +49,13 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
         IndexToIndex indexToPreviousIndex(secondPoints.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
         lengthMinus1ToEndValue[0] = secondPoints.front();
-        for (Index i = 1; i < secondPoints.size(); i++) {
+        for (Index i = 1; i < static_cast<Index>(secondPoints.size()); i++) {
             Value const& value(secondPoints.at(i));
             auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
-
             if (lowerBoundItForEndValue == endIt)  // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);
-                lengthMinus1ToEndIndex[longestLength] = i;
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);                lengthMinus1ToEndIndex[longestLength] = i;
                 lengthMinus1ToEndValue[longestLength++] = value;  // extend
             } else {
                 Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);

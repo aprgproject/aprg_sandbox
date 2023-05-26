@@ -11,17 +11,16 @@ using Boxes = BoxStackingProblem::Boxes;
 }
 
 TEST(BoxStackingProblemTest, GetLongestLengthWorksOnExample1) {
-    BoxStackingProblem queryForTest({{4U, 6U, 7U}, {1U, 2U, 3U}, {4U, 5U, 6U}, {10U, 12U, 32U}});
+    BoxStackingProblem queryForTest({{4, 6, 7}, {1, 2, 3}, {4, 5, 6}, {10, 12, 32}});
 
-    EXPECT_EQ(60U, queryForTest.getMaximumStackedHeight());
+    EXPECT_EQ(60, queryForTest.getMaximumStackedHeight());
 }
 
 TEST(BoxStackingProblemTest, GetLongestSubsequenceWorksOnExample1) {
-    BoxStackingProblem queryForTest({{4U, 6U, 7U}, {1U, 2U, 3U}, {4U, 5U, 6U}, {10U, 12U, 32U}});
+    BoxStackingProblem queryForTest({{4, 6, 7}, {1, 2, 3}, {4, 5, 6}, {10, 12, 32}});
 
     EXPECT_EQ(
-        (Boxes{{1U, 2U, 3U}, {2U, 3U, 1U}, {4U, 5U, 6U}, {5U, 6U, 4U}, {6U, 7U, 4U}, {10U, 12U, 32U}, {12U, 32U, 10U}}),
+        (Boxes{{1, 2, 3}, {2, 3, 1}, {4, 5, 6}, {5, 6, 4}, {6, 7, 4}, {10, 12, 32}, {12, 32, 10}}),
         queryForTest.getBoxesWithMaximumStackedHeight());
 }
-
 }  // namespace alba

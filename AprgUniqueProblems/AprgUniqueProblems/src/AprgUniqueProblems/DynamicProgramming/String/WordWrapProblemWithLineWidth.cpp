@@ -15,15 +15,13 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
     if (!m_words.empty()) {
         Index firstWordLength = m_words.front().length();
         RecursionDetails recursionDetails{Indices{firstWordLength}};  // bad idea to have structure as argument
-        result = getOptimizedCostUsingNaiveRecursion(recursionDetails, 1U);
+        result = getOptimizedCostUsingNaiveRecursion(recursionDetails, 1);
     }
     return result;
 }
-
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostByTryingAllLengths() const {
     // Time Complexity: O(lineWidth x numberOfWords)
     // Auxiliary Space: O(lineWidth)
-
     Cost result(0);
     if (!m_words.empty() && m_maxLineLength > 0) {
         Costs costsAtLength(m_maxLineLength + 1, static_cast<Cost>(MAX_COST));
@@ -90,15 +88,13 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostUsingNaiveRecursion(
     RecursionDetails const& recursionDetails, Index const wordIndex) const {
     Cost result(0);
-    if (wordIndex < m_words.size()) {
+    if (wordIndex < static_cast<Index>(m_words.size())) {
         result = MAX_COST;
         Index wordLength(m_words.at(wordIndex).length());
-        if (wordLength <= m_maxLineLength) {
-            Index lastLength(recursionDetails.lineLengths.back());
+        if (wordLength <= m_maxLineLength) {            Index lastLength(recursionDetails.lineLengths.back());
             if (lastLength + 1 + wordLength <= m_maxLineLength) {
                 // try to put word on last line
-                RecursionDetails currentDetails(recursionDetails);
-                currentDetails.lineLengths.back() += 1 + wordLength;
+                RecursionDetails currentDetails(recursionDetails);                currentDetails.lineLengths.back() += 1 + wordLength;
                 result = min(result, getOptimizedCostUsingNaiveRecursion(currentDetails, wordIndex + 1));
             }
 

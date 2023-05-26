@@ -8,17 +8,15 @@ namespace alba {
 
 class WeightedJobScheduling {
 public:
-    using Index = unsigned int;
-    using Time = unsigned int;
-    using Profit = unsigned int;
+    using Index = int;
+    using Time = int;
+    using Profit = int;
 
     struct Job {
-        Time startTime;
-        Time endTime;
+        Time startTime;        Time endTime;
         Profit profit;
     };
-    using Times = std::vector<Time>;
-    using Profits = std::vector<Profit>;
+    using Times = std::vector<Time>;    using Profits = std::vector<Profit>;
     using Jobs = std::vector<Job>;
 
     WeightedJobScheduling(Jobs const& jobs);

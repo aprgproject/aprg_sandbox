@@ -17,74 +17,66 @@ public:
     // find the minimum length subarray arr[s..e] such that sorting this subarray makes the whole array sorted.
 
     using Value = typename Values::value_type;
-    using Index = unsigned int;
+    using Index = int;
     using IndexPair = std::pair<Index, Index>;
     using ValuePair = std::pair<Value, Index>;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
-
     MaximumUnsortedRange() = default;
 
     IndexPair getMaximumUnsortedRange(Values const& valuesToSort) const {
         IndexPair result{INVALID_INDEX, INVALID_INDEX};
         if (!valuesToSort.empty()) {
             Index startIndex(getStartIndex(valuesToSort));
-            if (startIndex + 1U < valuesToSort.size()) {
+            if (startIndex + 1 < static_cast<Index>(valuesToSort.size())) {
                 Index endIndex(getEndIndex(valuesToSort));
                 ValuePair minMaxPair(getMinMaxPairInUnsorted(valuesToSort, startIndex, endIndex));
-                result = {
-                    getAdjustedStartIndex(valuesToSort, startIndex, minMaxPair.first),
+                result = {                    getAdjustedStartIndex(valuesToSort, startIndex, minMaxPair.first),
                     getAdjustedEndIndex(valuesToSort, endIndex, minMaxPair.second)};
             }
-        }
-        return result;
+        }        return result;
     }
 
 private:
     Index getStartIndex(Values const& valuesToSort) const {
-        Index startIndex(0U);
-        for (; startIndex + 1U < valuesToSort.size(); startIndex++) {
-            if (valuesToSort.at(startIndex) > valuesToSort.at(startIndex + 1U)) {
+        Index startIndex(0);
+        for (; startIndex + 1 < static_cast<Index>(valuesToSort.size()); startIndex++) {
+            if (valuesToSort.at(startIndex) > valuesToSort.at(startIndex + 1)) {
                 break;
             }
-        }
-        return startIndex;
+        }        return startIndex;
     }
 
     Index getEndIndex(Values const& valuesToSort) const {
-        int endIndex = valuesToSort.size() - 1U;
+        int endIndex = valuesToSort.size() - 1;
         for (; endIndex > 0; endIndex--) {
-            if (valuesToSort.at(endIndex) < valuesToSort.at(endIndex - 1U)) {
+            if (valuesToSort.at(endIndex) < valuesToSort.at(endIndex - 1)) {
                 break;
             }
-        }
-        return static_cast<Index>(endIndex);
+        }        return static_cast<Index>(endIndex);
     }
 
     ValuePair getMinMaxPairInUnsorted(Values const& valuesToSort, Index const startIndex, Index const endIndex) const {
         auto minmaxItPair =
-            std::minmax_element(valuesToSort.cbegin() + startIndex, valuesToSort.cbegin() + endIndex + 1U);
+            std::minmax_element(valuesToSort.cbegin() + startIndex, valuesToSort.cbegin() + endIndex + 1);
         return ValuePair(*(minmaxItPair.first), *(minmaxItPair.second));
     }
-
     Index getAdjustedStartIndex(Values const& valuesToSort, Index const startIndex, Value const& minimum) const {
         int adjustedStartIndex = static_cast<int>(startIndex);
-        while (adjustedStartIndex - 1 > 0 && minimum < valuesToSort.at(adjustedStartIndex - 1)) {
-            adjustedStartIndex--;
+        while (adjustedStartIndex - 1 > 0 && minimum < valuesToSort.at(adjustedStartIndex - 1)) {            adjustedStartIndex--;
         }
         return static_cast<Index>(adjustedStartIndex);
     }
 
     Index getAdjustedEndIndex(Values const& valuesToSort, Index const endIndex, Value const& maximum) const {
         Index adjustedEndIndex(endIndex);
-        while (adjustedEndIndex + 1 < valuesToSort.size() && valuesToSort.at(adjustedEndIndex + 1) < maximum) {
+        while (adjustedEndIndex + 1 < static_cast<Index>(valuesToSort.size()) &&
+               valuesToSort.at(adjustedEndIndex + 1) < maximum) {
             adjustedEndIndex++;
         }
-        return adjustedEndIndex;
-    }
+        return adjustedEndIndex;    }
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // Solution:

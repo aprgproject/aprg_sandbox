@@ -7,14 +7,12 @@ namespace alba {
 namespace ReversingALinkedList {
 
 struct Node {
-    unsigned int value;
+    int value;
     std::unique_ptr<Node> nextPointer;
 
-    // ~Node(); blows up the stack
-};
+    // ~Node(); blows up the stack};
 
 std::unique_ptr<Node> reverseALinkedList(std::unique_ptr<Node> parent);
-
 }  // namespace ReversingALinkedList
 
 }  // namespace alba

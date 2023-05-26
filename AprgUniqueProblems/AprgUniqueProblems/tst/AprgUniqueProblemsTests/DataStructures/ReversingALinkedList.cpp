@@ -17,19 +17,17 @@ TEST(ReversingALinkedListTest, ThreeNodes) {
 
     std::unique_ptr<Node> result = reverseALinkedList(move(node1));
 
-    EXPECT_EQ(3U, result->value);
+    EXPECT_EQ(3, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(2U, result->value);
+    EXPECT_EQ(2, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(1U, result->value);
+    EXPECT_EQ(1, result->value);
     result = move(result->nextPointer);
     EXPECT_FALSE(result);
 }
-
 TEST(ReversingALinkedListTest, SevenNodes) {
     std::unique_ptr<Node> node1(new Node{1, nullptr});
-    std::unique_ptr<Node> node2(new Node{2, nullptr});
-    std::unique_ptr<Node> node3(new Node{3, nullptr});
+    std::unique_ptr<Node> node2(new Node{2, nullptr});    std::unique_ptr<Node> node3(new Node{3, nullptr});
     std::unique_ptr<Node> node4(new Node{4, nullptr});
     std::unique_ptr<Node> node5(new Node{5, nullptr});
     std::unique_ptr<Node> node6(new Node{6, nullptr});
@@ -43,23 +41,22 @@ TEST(ReversingALinkedListTest, SevenNodes) {
 
     std::unique_ptr<Node> result = reverseALinkedList(move(node1));
 
-    EXPECT_EQ(7U, result->value);
+    EXPECT_EQ(7, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(6U, result->value);
+    EXPECT_EQ(6, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(5U, result->value);
+    EXPECT_EQ(5, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(4U, result->value);
+    EXPECT_EQ(4, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(3U, result->value);
+    EXPECT_EQ(3, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(2U, result->value);
+    EXPECT_EQ(2, result->value);
     result = move(result->nextPointer);
-    EXPECT_EQ(1U, result->value);
+    EXPECT_EQ(1, result->value);
     result = move(result->nextPointer);
     EXPECT_FALSE(result);
 }
-
 }  // namespace ReversingALinkedList
 
 }  // namespace alba

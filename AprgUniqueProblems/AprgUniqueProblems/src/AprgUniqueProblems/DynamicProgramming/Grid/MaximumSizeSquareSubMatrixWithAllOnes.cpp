@@ -84,23 +84,21 @@ MaximumSizeSquareSubMatrixWithAllOnes::getMaximumSquareAreaUsingIterativeDPAndTi
     if (!m_booleanMatrix.isEmpty()) {
         UnitMatrix sideMatrix(m_booleanMatrix.getNumberOfColumns(), m_booleanMatrix.getNumberOfRows());
 
-        for (Index x = 0; x < m_booleanMatrix.getNumberOfColumns(); x++) {
+        for (Index x = 0; x < static_cast<Index>(m_booleanMatrix.getNumberOfColumns()); x++) {
             sideMatrix.setEntry(x, 0, getUnitAt(x, 0));
         }
-        for (Index y = 0; y < m_booleanMatrix.getNumberOfRows(); y++) {
+        for (Index y = 0; y < static_cast<Index>(m_booleanMatrix.getNumberOfRows()); y++) {
             sideMatrix.setEntry(0, y, getUnitAt(0, y));
         }
 
-        for (Index x = 1; x < m_booleanMatrix.getNumberOfColumns(); x++) {
-            for (Index y = 1; y < m_booleanMatrix.getNumberOfRows(); y++) {
+        for (Index x = 1; x < static_cast<Index>(m_booleanMatrix.getNumberOfColumns()); x++) {
+            for (Index y = 1; y < static_cast<Index>(m_booleanMatrix.getNumberOfRows()); y++) {
                 Unit entryResult(0);
                 if (m_booleanMatrix.getEntry(x, y)) {
-                    entryResult = 1 + min(min(sideMatrix.getEntry(x - 1, y - 1), sideMatrix.getEntry(x, y - 1)),
-                                          sideMatrix.getEntry(x - 1, y));
+                    entryResult = 1 + min(min(sideMatrix.getEntry(x - 1, y - 1), sideMatrix.getEntry(x, y - 1)),                                          sideMatrix.getEntry(x - 1, y));
                 }
                 sideMatrix.setEntry(x, y, entryResult);
-            }
-        }
+            }        }
 
         Unit maximumSide(0);
         sideMatrix.iterateAllThroughYAndThenX(

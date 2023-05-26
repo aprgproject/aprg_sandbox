@@ -27,19 +27,17 @@ TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample1) {
 
     SubArrayDetails subArrayDetailsToVerify(queryForTest.getMaximumSubArraySumWithDetails());
 
-    EXPECT_EQ(1U, subArrayDetailsToVerify.lowIndex);
-    EXPECT_EQ(5U, subArrayDetailsToVerify.highIndex);
+    EXPECT_EQ(1, subArrayDetailsToVerify.lowIndex);
+    EXPECT_EQ(5, subArrayDetailsToVerify.highIndex);
     EXPECT_EQ(10, subArrayDetailsToVerify.sum);
 }
-
 TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample2) {
     MaximumSubArraySum queryForTest({-6, -2, -1, -3, -5, -2, -5, -2});  // all negative  numbers
 
     SubArrayDetails subArrayDetailsToVerify(queryForTest.getMaximumSubArraySumWithDetails());
 
-    EXPECT_EQ(2U, subArrayDetailsToVerify.lowIndex);
-    EXPECT_EQ(2U, subArrayDetailsToVerify.highIndex);
+    EXPECT_EQ(2, subArrayDetailsToVerify.lowIndex);
+    EXPECT_EQ(2, subArrayDetailsToVerify.highIndex);
     EXPECT_EQ(-1, subArrayDetailsToVerify.sum);
 }
-
 }  // namespace alba

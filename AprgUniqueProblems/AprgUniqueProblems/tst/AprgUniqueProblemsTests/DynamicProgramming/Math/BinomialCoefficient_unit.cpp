@@ -7,33 +7,33 @@ using namespace std;
 namespace alba {
 
 TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample1) {
-    BinomialCoefficient queryForTest(0U, 0U);
+    BinomialCoefficient queryForTest(0, 0);
 
-    EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingNaiveRecursion());
-    EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingMemoizationDP());
-    EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingIterativeDP());
-    EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingIterativeDPAndSpaceEfficient());
-    EXPECT_EQ(1U, queryForTest.getBinomialCoefficientUsingGcf());
+    EXPECT_EQ(1, queryForTest.getBinomialCoefficientUsingNaiveRecursion());
+    EXPECT_EQ(1, queryForTest.getBinomialCoefficientUsingMemoizationDP());
+    EXPECT_EQ(1, queryForTest.getBinomialCoefficientUsingIterativeDP());
+    EXPECT_EQ(1, queryForTest.getBinomialCoefficientUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(1, queryForTest.getBinomialCoefficientUsingGcf());
 }
 
 TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample2) {
-    BinomialCoefficient queryForTest(5U, 2U);
+    BinomialCoefficient queryForTest(5, 2);
 
-    EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingNaiveRecursion());
-    EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingMemoizationDP());
-    EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingIterativeDP());
-    EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingIterativeDPAndSpaceEfficient());
-    EXPECT_EQ(10U, queryForTest.getBinomialCoefficientUsingGcf());
+    EXPECT_EQ(10, queryForTest.getBinomialCoefficientUsingNaiveRecursion());
+    EXPECT_EQ(10, queryForTest.getBinomialCoefficientUsingMemoizationDP());
+    EXPECT_EQ(10, queryForTest.getBinomialCoefficientUsingIterativeDP());
+    EXPECT_EQ(10, queryForTest.getBinomialCoefficientUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(10, queryForTest.getBinomialCoefficientUsingGcf());
 }
 
 TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample3) {
-    BinomialCoefficient queryForTest(34U, 17U);
+    BinomialCoefficient queryForTest(34, 17);
 
-    // EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingNaiveRecursion()); // Too long
-    EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingMemoizationDP());
-    EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingIterativeDP());
-    EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingIterativeDPAndSpaceEfficient());
-    EXPECT_EQ(2333606220U, queryForTest.getBinomialCoefficientUsingGcf());
+    // EXPECT_EQ(2333606220, queryForTest.getBinomialCoefficientUsingNaiveRecursion()); // Too long
+    EXPECT_EQ(2333606220, queryForTest.getBinomialCoefficientUsingMemoizationDP());
+    EXPECT_EQ(2333606220, queryForTest.getBinomialCoefficientUsingIterativeDP());
+    EXPECT_EQ(2333606220, queryForTest.getBinomialCoefficientUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(2333606220, queryForTest.getBinomialCoefficientUsingGcf());
 }
 
 }  // namespace alba

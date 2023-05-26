@@ -9,16 +9,14 @@ namespace alba {
 
 class PrintMaximumNumberOfAs {
 public:
-    using Index = unsigned int;
-    using Count = unsigned int;
+    using Index = int;
+    using Count = int;
     using Counts = std::vector<Count>;
     enum class PressType { Unknown, TypeA, CtrlA, CtrlC, CtrlV };
-    struct CountDetail {
-        Count numberInScreen;
+    struct CountDetail {        Count numberInScreen;
         Count numberInBuffer;
         Count numberInSelection;
-    };
-    using CountDetails = std::vector<CountDetail>;
+    };    using CountDetails = std::vector<CountDetail>;
     using CountDetailMatrix = matrix::AlbaMatrix<CountDetail>;
     static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 

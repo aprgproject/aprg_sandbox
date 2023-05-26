@@ -13,70 +13,70 @@ using Path = PathSumInGridInRightOrDownTraversal::Path;
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathSumWithMinimumTypeWorksOnExample1) {
     Grid inputGrid(
-        5U, 5U, {3U, 7U, 9U, 2U, 7U, 9U, 8U, 3U, 5U, 5U, 1U, 7U, 9U, 8U, 5U, 3U, 8U, 6U, 4U, 10U, 6U, 3U, 9U, 7U, 8U});
+        5, 5, {3, 7, 9, 2, 7, 9, 8, 3, 5, 5, 1, 7, 9, 8, 5, 3, 8, 6, 4, 10, 6, 3, 9, 7, 8});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MinimumSum, inputGrid);
 
-    EXPECT_EQ(49U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(49U, queryForTest.getBestPathSumUsingMemoizationDP());
-    EXPECT_EQ(49U, queryForTest.getBestPathSumUsingIterativeDP());
+    EXPECT_EQ(49, queryForTest.getBestPathSumUsingNaiveRecursion());
+    EXPECT_EQ(49, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(49, queryForTest.getBestPathSumUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathSumWithMinimumTypeWorksOnExample2) {
-    Grid inputGrid(3U, 3U, {1U, 2U, 3U, 4U, 8U, 2U, 1U, 5U, 3U});
+    Grid inputGrid(3, 3, {1, 2, 3, 4, 8, 2, 1, 5, 3});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MinimumSum, inputGrid);
 
-    EXPECT_EQ(11U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(11U, queryForTest.getBestPathSumUsingMemoizationDP());
-    EXPECT_EQ(11U, queryForTest.getBestPathSumUsingIterativeDP());
+    EXPECT_EQ(11, queryForTest.getBestPathSumUsingNaiveRecursion());
+    EXPECT_EQ(11, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(11, queryForTest.getBestPathSumUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathSumWithMaximumTypeWorksOnExample1) {
     Grid inputGrid(
-        5U, 5U, {3U, 7U, 9U, 2U, 7U, 9U, 8U, 3U, 5U, 5U, 1U, 7U, 9U, 8U, 5U, 3U, 8U, 6U, 4U, 10U, 6U, 3U, 9U, 7U, 8U});
+        5, 5, {3, 7, 9, 2, 7, 9, 8, 3, 5, 5, 1, 7, 9, 8, 5, 3, 8, 6, 4, 10, 6, 3, 9, 7, 8});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MaximumSum, inputGrid);
 
-    EXPECT_EQ(67U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(67U, queryForTest.getBestPathSumUsingMemoizationDP());
-    EXPECT_EQ(67U, queryForTest.getBestPathSumUsingIterativeDP());
+    EXPECT_EQ(67, queryForTest.getBestPathSumUsingNaiveRecursion());
+    EXPECT_EQ(67, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(67, queryForTest.getBestPathSumUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathSumWithMaximumTypeWorksOnExample2) {
-    Grid inputGrid(3U, 3U, {1U, 2U, 3U, 4U, 8U, 2U, 1U, 5U, 3U});
+    Grid inputGrid(3, 3, {1, 2, 3, 4, 8, 2, 1, 5, 3});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MaximumSum, inputGrid);
 
-    EXPECT_EQ(21U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(21U, queryForTest.getBestPathSumUsingMemoizationDP());
-    EXPECT_EQ(21U, queryForTest.getBestPathSumUsingIterativeDP());
+    EXPECT_EQ(21, queryForTest.getBestPathSumUsingNaiveRecursion());
+    EXPECT_EQ(21, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(21, queryForTest.getBestPathSumUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathWithMinimumTypeWorksOnExample1) {
     Grid inputGrid(
-        5U, 5U, {3U, 7U, 9U, 2U, 7U, 9U, 8U, 3U, 5U, 5U, 1U, 7U, 9U, 8U, 5U, 3U, 8U, 6U, 4U, 10U, 6U, 3U, 9U, 7U, 8U});
+        5, 5, {3, 7, 9, 2, 7, 9, 8, 3, 5, 5, 1, 7, 9, 8, 5, 3, 8, 6, 4, 10, 6, 3, 9, 7, 8});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MinimumSum, inputGrid);
 
-    EXPECT_EQ((Path{3U, 9U, 1U, 3U, 6U, 3U, 9U, 7U, 8U}), queryForTest.getBestPathUsingIterativeDP());
+    EXPECT_EQ((Path{3, 9, 1, 3, 6, 3, 9, 7, 8}), queryForTest.getBestPathUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathWithMaximumTypeWorksOnExample1) {
     Grid inputGrid(
-        5U, 5U, {3U, 7U, 9U, 2U, 7U, 9U, 8U, 3U, 5U, 5U, 1U, 7U, 9U, 8U, 5U, 3U, 8U, 6U, 4U, 10U, 6U, 3U, 9U, 7U, 8U});
+        5, 5, {3, 7, 9, 2, 7, 9, 8, 3, 5, 5, 1, 7, 9, 8, 5, 3, 8, 6, 4, 10, 6, 3, 9, 7, 8});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MaximumSum, inputGrid);
 
-    EXPECT_EQ((Path{3U, 9U, 8U, 7U, 9U, 8U, 5U, 10U, 8U}), queryForTest.getBestPathUsingIterativeDP());
+    EXPECT_EQ((Path{3, 9, 8, 7, 9, 8, 5, 10, 8}), queryForTest.getBestPathUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathWithMinimumTypeWorksOnExample2) {
-    Grid inputGrid(3U, 3U, {1U, 2U, 3U, 4U, 8U, 2U, 1U, 5U, 3U});
+    Grid inputGrid(3, 3, {1, 2, 3, 4, 8, 2, 1, 5, 3});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MinimumSum, inputGrid);
 
-    EXPECT_EQ((Path{1U, 2U, 3U, 2U, 3U}), queryForTest.getBestPathUsingIterativeDP());
+    EXPECT_EQ((Path{1, 2, 3, 2, 3}), queryForTest.getBestPathUsingIterativeDP());
 }
 
 TEST(PathSumInGridInRightOrDownTraversalTest, GetBestPathWithMaximumTypeWorksOnExample2) {
-    Grid inputGrid(3U, 3U, {1U, 2U, 3U, 4U, 8U, 2U, 1U, 5U, 3U});
+    Grid inputGrid(3, 3, {1, 2, 3, 4, 8, 2, 1, 5, 3});
     PathSumInGridInRightOrDownTraversal queryForTest(PathSumInGridInRightOrDownTraversal::Type::MaximumSum, inputGrid);
 
-    EXPECT_EQ((Path{1U, 4U, 8U, 5U, 3U}), queryForTest.getBestPathUsingIterativeDP());
+    EXPECT_EQ((Path{1, 4, 8, 5, 3}), queryForTest.getBestPathUsingIterativeDP());
 }
 
 }  // namespace alba

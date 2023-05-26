@@ -11,69 +11,68 @@ using ChessBoardIndexes = KnightsTour::ChessBoardIndexes;
 }
 
 TEST(KnightsTourTest, GetAnOpenKnightsTourWorksOn3By3) {
-    KnightsTour knightsTour(3U, 3U);
+    KnightsTour knightsTour(3, 3);
 
-    ChessBoardIndexes expectedKnightsTour{0U, 5U, 6U, 1U, 8U, 3U, 2U, 7U};
+    ChessBoardIndexes expectedKnightsTour{0, 5, 6, 1, 8, 3, 2, 7};
     EXPECT_EQ(expectedKnightsTour, knightsTour.getAnOpenKnightsTour());
 }
 
 TEST(KnightsTourTest, GetAClosedKnightsTourWorksOn3By3) {
-    KnightsTour knightsTour(3U, 3U);
+    KnightsTour knightsTour(3, 3);
 
-    ChessBoardIndexes expectedKnightsTour{0U, 5U, 6U, 1U, 8U, 3U, 2U, 7U, 0U};
+    ChessBoardIndexes expectedKnightsTour{0, 5, 6, 1, 8, 3, 2, 7, 0};
     EXPECT_EQ(expectedKnightsTour, knightsTour.getAClosedKnightsTour());
 }
 
 TEST(KnightsTourTest, GetAnOpenKnightsTourWorksOn4By4) {
-    KnightsTour knightsTour(4U, 4U);
+    KnightsTour knightsTour(4, 4);
 
     EXPECT_TRUE(knightsTour.getAnOpenKnightsTour().empty());
 }
 
 TEST(KnightsTourTest, GetAClosedKnightsTourWorksOn4By4) {
-    KnightsTour knightsTour(4U, 4U);
+    KnightsTour knightsTour(4, 4);
 
     EXPECT_TRUE(knightsTour.getAClosedKnightsTour().empty());
 }
 
 TEST(KnightsTourTest, GetAnOpenKnightsTourWorksOn5By5) {
-    KnightsTour knightsTour(5U, 5U);
+    KnightsTour knightsTour(5, 5);
 
-    ChessBoardIndexes expectedKnightsTour{0U, 7U, 4U,  13U, 24U, 17U, 20U, 11U, 2U,  5U,  16U, 23U, 14U,
-                                          3U, 6U, 15U, 22U, 19U, 8U,  1U,  10U, 21U, 18U, 9U,  12U};
+    ChessBoardIndexes expectedKnightsTour{0, 7, 4,  13, 24, 17, 20, 11, 2,  5,  16, 23, 14,
+                                          3, 6, 15, 22, 19, 8,  1,  10, 21, 18, 9,  12};
     EXPECT_EQ(expectedKnightsTour, knightsTour.getAnOpenKnightsTour());
 }
 
 TEST(KnightsTourTest, DISABLED_GetAClosedKnightsTourWorksOn5By5) {
-    KnightsTour knightsTour(5U, 5U);
+    KnightsTour knightsTour(5, 5);
 
     EXPECT_TRUE(knightsTour.getAClosedKnightsTour().empty());
 }
 
 TEST(KnightsTourTest, GetAnOpenKnightsTourWorksOn2By4) {
-    KnightsTour knightsTour(2U, 4U);
+    KnightsTour knightsTour(2, 4);
 
     EXPECT_TRUE(knightsTour.getAnOpenKnightsTour().empty());
 }
 
 TEST(KnightsTourTest, GetAClosedKnightsTourWorksOn2By4) {
-    KnightsTour knightsTour(2U, 4U);
+    KnightsTour knightsTour(2, 4);
 
     EXPECT_TRUE(knightsTour.getAClosedKnightsTour().empty());
 }
 
 TEST(KnightsTourTest, GetAnOpenKnightsTourWorksOn4By5) {
-    KnightsTour knightsTour(4U, 5U);
+    KnightsTour knightsTour(4, 5);
 
-    ChessBoardIndexes expectedKnightsTour{0U, 6U, 15U, 17U, 8U,  1U, 7U, 14U, 16U, 9U,
-                                          2U, 4U, 13U, 19U, 10U, 3U, 5U, 12U, 18U, 11U};
+    ChessBoardIndexes expectedKnightsTour{0, 6, 15, 17, 8,  1, 7, 14, 16, 9,
+                                          2, 4, 13, 19, 10, 3, 5, 12, 18, 11};
     EXPECT_EQ(expectedKnightsTour, knightsTour.getAnOpenKnightsTour());
 }
 
 TEST(KnightsTourTest, DISABLED_GetAClosedKnightsTourWorksOn4By5) {
-    KnightsTour knightsTour(4U, 5U);
+    KnightsTour knightsTour(4, 5);
 
     EXPECT_TRUE(knightsTour.getAClosedKnightsTour().empty());
 }
-
 }  // namespace alba

@@ -21,27 +21,23 @@ public:
     void sort(Integers& valuesToSort) const {
         static_assert(typeHelper::isIntegralType<Integer>(), "Data type must be an integer");
 
-        unsigned int size = valuesToSort.size();
-        if (size > 1U) {
+        int size = valuesToSort.size();
+        if (size > 1) {
             // If we set b as n, the value of O(logb(n)) becomes O(1) and overall time complexity becomes O(n).
-            unsigned int numberOfBitsInDigit = AlbaBitValueUtilities<unsigned int>::getCeilOfLogarithmWithBase2Of(size);
-            unsigned int numberOfDigits =
+            int numberOfBitsInDigit = AlbaBitValueUtilities<int>::getCeilOfLogarithmWithBase2Of(size);
+            int numberOfDigits =
                 (AlbaBitValueUtilities<Integer>::getNumberOfBits() + numberOfBitsInDigit - 1) / numberOfBitsInDigit;
             Integer mask = AlbaBitValueUtilities<Integer>::generateOnesWithNumberOfBits(numberOfBitsInDigit);
 
-            GetDigitAtFunction getDigitAt = [&](Integer const& value,
-                                                unsigned int const mostSignificantDigitIndex) -> Integer {
-                return (value >> ((numberOfDigits - mostSignificantDigitIndex - 1U) * numberOfBitsInDigit)) & mask;
+            GetDigitAtFunction getDigitAt = [&](Integer const& value, int const mostSignificantDigitIndex) -> Integer {
+                return (value >> ((numberOfDigits - mostSignificantDigitIndex - 1) * numberOfBitsInDigit)) & mask;
             };
-            IsDigitFunction isDigitIndexValid = [numberOfDigits](
-                                                    Integer const&, unsigned int const digitIndex) -> bool {
+            IsDigitFunction isDigitIndexValid = [numberOfDigits](Integer const&, int const digitIndex) -> bool {
                 return digitIndex < numberOfDigits;
             };
-
             RadixSorter radixSorter(getDigitAt, isDigitIndexValid);
             radixSorter.sort(valuesToSort);
-        }
-    }
+        }    }
 };
 
 }  // namespace algorithm

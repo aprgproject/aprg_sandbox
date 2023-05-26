@@ -8,16 +8,14 @@ namespace alba {
 
 class TotalNumberOfNonDecreasingNumbersWithNDigits {
 public:
-    using Count = unsigned int;
-    using Value = unsigned int;
+    using Count = int;
+    using Value = int;
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
     static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
-
     TotalNumberOfNonDecreasingNumbersWithNDigits(Count const numberOfDigits);
 
-    Count getCountUsingNaiveRecursion() const;
-    Count getCountUsingMemoizationDP() const;
+    Count getCountUsingNaiveRecursion() const;    Count getCountUsingMemoizationDP() const;
     Count getCountUsingIterativeDP() const;
     Count getCountUsingIterativeDPAndSpaceEfficient() const;
     Count getCountUsingSummationFormula() const;

@@ -9,15 +9,13 @@ namespace alba {
 
 class CountNumberOfWaysToReachAGivenScoreInAGame {
 public:
-    using Index = unsigned int;
-    using Value = unsigned int;
+    using Index = int;
+    using Value = int;
     using Values = std::vector<Value>;
 
     CountNumberOfWaysToReachAGivenScoreInAGame(Value const targetScore);
-
     Value getMinimumCostUsingIterativeDP() const;
     Value getMinimumCostUsingCoinProblemSolutions() const;
-
 private:
     Value m_targetScore;
 };

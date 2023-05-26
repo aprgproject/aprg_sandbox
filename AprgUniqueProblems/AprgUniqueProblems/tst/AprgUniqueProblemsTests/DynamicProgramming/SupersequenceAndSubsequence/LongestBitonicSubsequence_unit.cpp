@@ -11,27 +11,27 @@ using Values = LongestBitonicSubsequence::Values;
 }
 
 TEST(LongestBitonicSubsequenceTest, GetLongestLengthWorksOnExample1) {
-    LongestBitonicSubsequence queryForTest({6U, 2U, 5U, 1U, 7U, 4U, 8U, 3U});
+    LongestBitonicSubsequence queryForTest({6, 2, 5, 1, 7, 4, 8, 3});
 
-    EXPECT_EQ(5U, queryForTest.getLongestLength());
+    EXPECT_EQ(5, queryForTest.getLongestLength());
 }
 
 TEST(LongestBitonicSubsequenceTest, GetLongestLengthWorksOnExample2) {
-    LongestBitonicSubsequence queryForTest({12U, 11U, 40U, 5U, 3U, 1U});
+    LongestBitonicSubsequence queryForTest({12, 11, 40, 5, 3, 1});
 
-    EXPECT_EQ(5U, queryForTest.getLongestLength());
+    EXPECT_EQ(5, queryForTest.getLongestLength());
 }
 
 TEST(LongestBitonicSubsequenceTest, GetLongestSubsequenceWorksOnExample1) {
-    LongestBitonicSubsequence queryForTest({6U, 2U, 5U, 1U, 7U, 4U, 8U, 3U});
+    LongestBitonicSubsequence queryForTest({6, 2, 5, 1, 7, 4, 8, 3});
 
-    EXPECT_EQ((Values{2U, 5U, 7U, 4U, 3U}), queryForTest.getLongestSubsequence());
+    EXPECT_EQ((Values{2, 5, 7, 4, 3}), queryForTest.getLongestSubsequence());
 }
 
 TEST(LongestBitonicSubsequenceTest, GetLongestSubsequenceWorksOnExample2) {
-    LongestBitonicSubsequence queryForTest({12U, 11U, 40U, 5U, 3U, 1U});
+    LongestBitonicSubsequence queryForTest({12, 11, 40, 5, 3, 1});
 
-    EXPECT_EQ((Values{12U, 11U, 5U, 3U, 1U}), queryForTest.getLongestSubsequence());
+    EXPECT_EQ((Values{12, 11, 5, 3, 1}), queryForTest.getLongestSubsequence());
 }
 
 }  // namespace alba

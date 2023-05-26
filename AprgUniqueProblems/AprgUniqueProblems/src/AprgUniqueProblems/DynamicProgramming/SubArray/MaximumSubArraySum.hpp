@@ -8,15 +8,13 @@ namespace alba {
 class MaximumSubArraySum  // the largest possible sum of a sequence of consecutive values in the array
 {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = int;
     using Values = std::vector<Value>;
-    struct SubArrayDetails {
-        Index lowIndex;
+    struct SubArrayDetails {        Index lowIndex;
         Index highIndex;
         Value sum;
-    };
-    static constexpr Value MIN_VALUE = std::numeric_limits<Value>::min();
+    };    static constexpr Value MIN_VALUE = std::numeric_limits<Value>::min();
 
     MaximumSubArraySum(Values const& values);
 

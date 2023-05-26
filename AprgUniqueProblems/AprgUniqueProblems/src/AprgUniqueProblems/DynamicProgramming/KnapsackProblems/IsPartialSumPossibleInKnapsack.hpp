@@ -8,16 +8,14 @@ namespace alba {
 
 class IsPartialSumPossibleInKnapsack {
 public:
-    using Index = unsigned int;
-    using Value = unsigned int;
+    using Index = int;
+    using Value = int;
     enum class State { Unused, False, True };
     using Values = std::vector<Value>;
-    using Booleans = std::vector<bool>;
-    using BooleanMatrix = matrix::AlbaMatrix<bool>;
+    using Booleans = std::vector<bool>;    using BooleanMatrix = matrix::AlbaMatrix<bool>;
     using StateMatrix = matrix::AlbaMatrix<State>;
 
     IsPartialSumPossibleInKnapsack(Value const targetSum, Values const& values);
-
     bool isPartialSumPossibleUsingNaiveRecursion() const;
     bool isPartialSumPossibleUsingMemoizationDP() const;
     bool isPartialSumPossibleUsingIterativeDP() const;

@@ -9,15 +9,13 @@ class MaximumProfitByBuyingAndSellingAShareAtMostTwice  // the largest possible 
                                                         // in the array
 {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = int;
     using Values = std::vector<Value>;
     static constexpr Index MAX_NUMBER_OF_TRANSACTIONS = 2;
-
     MaximumProfitByBuyingAndSellingAShareAtMostTwice(Values const& prices);
 
     Value getMaximumProfitUsingIterativeDP() const;
-
 private:
     Values const m_prices;
 };

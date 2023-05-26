@@ -13,19 +13,19 @@ using Distance = LevenshteinDistance::Index;
 TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1) {
     LevenshteinDistance queryForTest("MOVIE", "LOVE");
 
-    EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
-    EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
-    EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingIterativeDP());
-    EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(2, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
+    EXPECT_EQ(2, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
+    EXPECT_EQ(2, queryForTest.getLevenshteinDistanceUsingIterativeDP());
+    EXPECT_EQ(2, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
 }
 
 TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2) {
     LevenshteinDistance queryForTest("This is a statement", "This is not a statement");
 
-    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
-    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
-    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingIterativeDP());
-    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(4, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
+    EXPECT_EQ(4, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
+    EXPECT_EQ(4, queryForTest.getLevenshteinDistanceUsingIterativeDP());
+    EXPECT_EQ(4, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
 }
 
 }  // namespace alba

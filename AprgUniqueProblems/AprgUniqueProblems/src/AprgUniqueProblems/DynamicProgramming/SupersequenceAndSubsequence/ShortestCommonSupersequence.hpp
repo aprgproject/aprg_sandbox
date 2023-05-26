@@ -9,16 +9,14 @@ namespace alba {
 
 class ShortestCommonSupersequence {
 public:
-    using Index = unsigned int;
-    using Count = unsigned int;
-    using Value = unsigned int;
+    using Index = int;
+    using Count = int;
+    using Value = int;
     using Values = std::vector<Value>;
     using Counts = std::vector<Count>;
-    using CountMatrix = matrix::AlbaMatrix<Count>;
-    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
+    using CountMatrix = matrix::AlbaMatrix<Count>;    static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     ShortestCommonSupersequence(Values const& sequence1, Values const& sequence2);
-
     Count getShortestLengthUsingNaiveRecursion() const;
     Count getShortestLengthUsingMemoizationDP() const;
     Count getShortestLengthUsingIterativeDP() const;

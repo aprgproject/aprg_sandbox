@@ -43,15 +43,13 @@ LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const 
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
         lengthMinus1ToEndValue[0] = m_sequence.front();
-        for (Index i = 1; i < m_sequence.size(); i++) {
+        for (Index i = 1; i < static_cast<Index>(m_sequence.size()); i++) {
             Value const& value(m_sequence.at(i));
             auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
-
             if (lowerBoundItForEndValue == endIt)  // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);
-                lengthMinus1ToEndIndex[longestLength] = i;
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);                lengthMinus1ToEndIndex[longestLength] = i;
                 lengthMinus1ToEndValue[longestLength++] = value;  // extend
             } else {
                 Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);

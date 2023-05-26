@@ -16,15 +16,13 @@ WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getOptimi
     if (!m_words.empty()) {
         Index firstWordLength = m_words.front().length();
         RecursionDetails recursionDetails{firstWordLength, Indices{firstWordLength}};
-        result = getOptimizedCostUsingNaiveRecursion(recursionDetails, 1U);
+        result = getOptimizedCostUsingNaiveRecursion(recursionDetails, 1);
     }
     return result;
 }
-
 WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getOptimizedCostByTryingAllLengths() const {
     // Time Complexity: O(totalLength x numberOfWords)
     // Auxiliary Space: O(totalLength)
-
     Cost result(0);
     Index totalLength(getTotalLength());
     if (totalLength > 0) {
@@ -59,15 +57,13 @@ WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getOptimi
 WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getOptimizedCostUsingNaiveRecursion(
     RecursionDetails const& recursionDetails, Index const wordIndex) const {
     Cost result(0);
-    if (wordIndex < m_words.size()) {
+    if (wordIndex < static_cast<Index>(m_words.size())) {
         result = MAX_COST;
         Index wordLength(m_words.at(wordIndex).length());
-        {
-            RecursionDetails currentDetails(recursionDetails);
+        {            RecursionDetails currentDetails(recursionDetails);
             Index& lastLength(currentDetails.lengths.back());
             lastLength += wordLength + 1;
-            currentDetails.maxLength = max(currentDetails.maxLength, lastLength);
-            result = min(result, getOptimizedCostUsingNaiveRecursion(currentDetails, wordIndex + 1));
+            currentDetails.maxLength = max(currentDetails.maxLength, lastLength);            result = min(result, getOptimizedCostUsingNaiveRecursion(currentDetails, wordIndex + 1));
         }
         {
             RecursionDetails currentDetails(recursionDetails);

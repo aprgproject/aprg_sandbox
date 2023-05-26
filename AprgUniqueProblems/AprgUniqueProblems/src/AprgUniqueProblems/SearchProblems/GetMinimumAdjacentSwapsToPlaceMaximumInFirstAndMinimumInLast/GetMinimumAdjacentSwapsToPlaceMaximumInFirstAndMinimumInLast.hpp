@@ -7,39 +7,35 @@ namespace algorithm {
 template <typename Values>
 class GetMinimumAdjacentSwapsToPlaceMaximumInFirstAndMinimumInLast {
 public:
-    using Count = unsigned int;
-    using Index = unsigned int;
+    using Count = int;
+    using Index = int;
     using Value = typename Values::value_type;
 
     GetMinimumAdjacentSwapsToPlaceMaximumInFirstAndMinimumInLast() = default;
 
     Count getMinimumAdjacentSwapsToPlaceMaximumInFirstAndMinimumInLast(Values const& values) {
-        Count result(0U);
+        Count result(0);
         Index size = values.size();
-        if (size > 1U) {
+        if (size > 1) {
             Index firstMaxIndex = 0, lastMinIndex = 0;
             Value minimum(values.front()), maximum(values.front());
-            unsigned int i = 0;
+            int i = 0;
             for (Value const& value : values) {
                 if (maximum < value) {
-                    maximum = value;
-                    firstMaxIndex = i;
+                    maximum = value;                    firstMaxIndex = i;
                 }
                 if (minimum >= value) {
-                    minimum = value;
-                    lastMinIndex = i;
+                    minimum = value;                    lastMinIndex = i;
                 }
                 i++;
             }
-            result = firstMaxIndex + (values.size() - 1U - lastMinIndex);
+            result = firstMaxIndex + (values.size() - 1 - lastMinIndex);
             if (lastMinIndex < firstMaxIndex) {
                 result--;  // reduce one because of overlap
-            }
-        }
+            }        }
         return result;
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

@@ -9,16 +9,14 @@ namespace alba {
 
 class MaximumSumIncreasingSubsequence {
 public:
-    using Index = unsigned int;
-    using Count = unsigned int;
-    using Value = unsigned int;
+    using Index = int;
+    using Count = int;
+    using Value = int;
     using IndexToIndex = std::vector<Index>;
     using Values = std::vector<Value>;
-
     MaximumSumIncreasingSubsequence(Values const& sequence);
 
-    Value getMaximumSum() const;
-    Values getSubsequenceWithMaximumSum() const;
+    Value getMaximumSum() const;    Values getSubsequenceWithMaximumSum() const;
 
 private:
     Values m_sequence;

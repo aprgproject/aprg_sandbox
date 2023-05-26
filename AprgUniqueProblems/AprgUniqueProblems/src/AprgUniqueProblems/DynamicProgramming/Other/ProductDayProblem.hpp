@@ -9,18 +9,16 @@ namespace alba {
 
 class ProductDayProblem {
 public:
-    using Price = unsigned int;
-    using Product = unsigned int;
-    using Day = unsigned int;
-    using ProductBits = unsigned int;
+    using Price = int;
+    using Product = int;
+    using Day = int;
+    using ProductBits = int;
     using PriceMatrix = matrix::AlbaMatrix<Price>;
     using ProductAndDayPair = std::pair<Product, Day>;
-    using ProductAndDayPairs = std::vector<ProductAndDayPair>;
-    static constexpr Price INVALID_PRICE = std::numeric_limits<Price>::max();
+    using ProductAndDayPairs = std::vector<ProductAndDayPair>;    static constexpr Price INVALID_PRICE = std::numeric_limits<Price>::max();
     static constexpr Price UNUSED_PRICE = INVALID_PRICE - 1;
 
     ProductDayProblem(PriceMatrix const& pricesInDayByProduct);
-
     Price getMinimumPriceUsingMemoizationDP() const;
     Price getMinimumPriceUsingIterativeDP() const;
 

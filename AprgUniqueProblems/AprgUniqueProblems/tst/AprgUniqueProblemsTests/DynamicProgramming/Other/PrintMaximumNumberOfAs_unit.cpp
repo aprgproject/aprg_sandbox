@@ -7,48 +7,48 @@ using namespace std;
 namespace alba {
 
 TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnZero) {
-    PrintMaximumNumberOfAs queryForTest(0U);
+    PrintMaximumNumberOfAs queryForTest(0);
 
-    EXPECT_EQ(0U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
-    EXPECT_EQ(0U, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
-    EXPECT_EQ(0U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
-    EXPECT_EQ(0U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(0, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
+    EXPECT_EQ(0, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
+    EXPECT_EQ(0, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
+    EXPECT_EQ(0, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
 TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample1) {
-    PrintMaximumNumberOfAs queryForTest(1U);
+    PrintMaximumNumberOfAs queryForTest(1);
 
-    EXPECT_EQ(1U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
-    EXPECT_EQ(1U, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
-    EXPECT_EQ(1U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
-    EXPECT_EQ(1U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(1, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
+    EXPECT_EQ(1, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
+    EXPECT_EQ(1, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
+    EXPECT_EQ(1, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
 TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample2) {
-    PrintMaximumNumberOfAs queryForTest(3U);
+    PrintMaximumNumberOfAs queryForTest(3);
 
-    EXPECT_EQ(3U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
-    EXPECT_EQ(3U, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
-    EXPECT_EQ(3U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
-    EXPECT_EQ(3U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(3, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
+    EXPECT_EQ(3, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
+    EXPECT_EQ(3, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
+    EXPECT_EQ(3, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
 TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample3) {
-    PrintMaximumNumberOfAs queryForTest(7U);
+    PrintMaximumNumberOfAs queryForTest(7);
 
-    EXPECT_EQ(9U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
-    EXPECT_EQ(9U, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
-    EXPECT_EQ(9U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
-    EXPECT_EQ(9U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(9, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion());
+    EXPECT_EQ(9, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
+    EXPECT_EQ(9, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
+    EXPECT_EQ(9, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
 TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnExample4) {
-    PrintMaximumNumberOfAs queryForTest(11U);
+    PrintMaximumNumberOfAs queryForTest(11);
 
-    // EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion()); // too long
-    EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
-    EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
-    EXPECT_EQ(27U, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
+    // EXPECT_EQ(27, queryForTest.getMaxCountOfAOnScreenUsingNaiveRecursion()); // too long
+    EXPECT_EQ(27, queryForTest.getMaxCountOfAOnScreenUsingMemoizationDP());
+    EXPECT_EQ(27, queryForTest.getMaxCountOfAOnScreenUsingIterativeDP());
+    EXPECT_EQ(27, queryForTest.getMaxCountOfAOnScreenUsingIterativeDPAndSpaceEfficient());
 }
 
 }  // namespace alba

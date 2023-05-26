@@ -28,66 +28,61 @@ public:
     // ---> if x=0 : 1
     // ---> if x>0 : summation of (solve(x-coins)) for all coins
 
-    using Value = unsigned int;
+    using Value = int;
     using Coins = std::vector<Value>;
     using CoinSet = std::set<Value>;
     using CoinPermutation = std::vector<Value>;
     using CoinPermutations = std::set<CoinPermutation>;
     using CoinCombination = std::multiset<Value>;
     using CoinCombinations = std::set<CoinCombination>;
-    using CountPerValue = std::vector<unsigned int>;
-    using CountMatrix = matrix::AlbaMatrix<unsigned int>;
+    using CountPerValue = std::vector<int>;
+    using CountMatrix = matrix::AlbaMatrix<int>;
     using VectorOfCoins = std::vector<Coins>;
     using CoinPermutationsPerValue = std::vector<CoinPermutations>;
     using CoinCombinationsPerValue = std::vector<CoinCombinations>;
-    static constexpr unsigned int UNUSED_COUNT = std::numeric_limits<unsigned int>::max();
+    static constexpr int UNUSED_COUNT = std::numeric_limits<int>::max();
 
     CoinProblem(Coins const& availableCoins);
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
-    unsigned int getNumberOfFewestCoinsIterativeDP(Value const total) const;
+    int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
+    int getNumberOfFewestCoinsIterativeDP(Value const total) const;
     Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
     Coins getFewestCoinsUsingIterativeDP(Value const total) const;
 
     // permutations
-    unsigned int getNumberOfCoinPermutationsMemoizationDP(Value const total) const;
-    unsigned int getNumberOfCoinPermutationsIterativeDP(Value const total) const;
+    int getNumberOfCoinPermutationsMemoizationDP(Value const total) const;
+    int getNumberOfCoinPermutationsIterativeDP(Value const total) const;
     CoinPermutations getCoinPermutationsUsingMemoizationDP(Value const total) const;
     CoinPermutations getCoinPermutationsUsingIterativeDP(Value const total) const;
 
     // combinations
-    unsigned int getNumberOfCoinCombinationsUsingMemoizationDP(Value const total) const;
-    unsigned int getNumberOfCoinCombinationsUsingIterativeDP(Value const total) const;
-    unsigned int getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(Value const total) const;
+    int getNumberOfCoinCombinationsUsingMemoizationDP(Value const total) const;
+    int getNumberOfCoinCombinationsUsingIterativeDP(Value const total) const;
+    int getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(Value const total) const;
     CoinCombinations getCoinCombinationsUsingMemoizationDP(Value const total) const;
     CoinCombinations getCoinCombinationsUsingIterativeDP(Value const total) const;
-
 private:
     Value getMaxAvailableCoin() const;
     Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(
-        CountPerValue& countPerValue, Value const total) const;
+    int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue& countPerValue, Value const total) const;
     Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins& fewestCoins, Value const total) const;
 
     // permutations
-    unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(
-        CountPerValue& countPerValue, Value const total) const;
+    int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue& countPerValue, Value const total) const;
     CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(
         CoinPermutationsPerValue& coinPermutationsPerValue, Value const total) const;
 
     // combinations
-    unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(
-        CountMatrix& countByValueByCoin, Value const total, unsigned int const coinIndex) const;
+    int getNumberOfCoinCombinationsUsingMemoizationDPInternal(
+        CountMatrix& countByValueByCoin, Value const total, int const coinIndex) const;
     CoinCombinations getCoinCombinationsUsingMemoizationDPInternal(
         CoinCombinationsPerValue& coinCombinationsPerValue, Value const total) const;
-    Coins m_availableCoins;
-};
+    Coins m_availableCoins;};
 
 }  // namespace alba
-
 // COIN COMBINATIONS PROBLEM:
 // Given a value N, if we want to make change for N cents,
 // and we have infinite supply of each of S = { S1, S2, .. , Sm} valued coins,

@@ -23,26 +23,24 @@ public:
     // -----> numberOfRides(peopleBits with a person) = numberOfRides(peopleBits without a person)+1
     // -----> So, lastWeight(peopleBits with a person) = person weight
 
-    using Weight = unsigned int;
-    using Person = unsigned int;
-    using PeopleBits = unsigned int;
+    using Weight = int;
+    using Person = int;
+    using PeopleBits = int;
     using People = std::vector<Person>;
     using ListOfPeople = std::vector<People>;
     using Weights = std::vector<Weight>;
-    using NumberOfRidesAndWeight = std::pair<unsigned int, Weight>;
+    using NumberOfRidesAndWeight = std::pair<int, Weight>;
     using NumberOfRidesAndWeights = std::vector<NumberOfRidesAndWeight>;
 
     ElevatorWeightProblem(Weight const maximumElevatorWeight, Weights const& peopleWeights);
 
-    unsigned int getNumberOfOptimalRides();
+    int getNumberOfOptimalRides();
 
 private:
-    bool isPersonIncluded(PeopleBits const peopleBits, Person const person) const;
-    Person getNumberOfPeople() const;
+    bool isPersonIncluded(PeopleBits const peopleBits, Person const person) const;    Person getNumberOfPeople() const;
     PeopleBits getNumberOfPeopleSubsets() const;
     PeopleBits getProductBits(Person const person) const;
-    PeopleBits removePerson(PeopleBits const peopleBits, Person const person) const;
-    Weight m_maximumElevatorWeight;
+    PeopleBits removePerson(PeopleBits const peopleBits, Person const person) const;    Weight m_maximumElevatorWeight;
     Weights m_peopleWeights;
     NumberOfRidesAndWeights m_numberOfRidesAndLastWeights;
 };

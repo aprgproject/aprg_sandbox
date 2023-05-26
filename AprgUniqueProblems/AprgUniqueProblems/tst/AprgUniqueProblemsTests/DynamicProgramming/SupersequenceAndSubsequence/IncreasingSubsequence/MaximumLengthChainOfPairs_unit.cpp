@@ -11,15 +11,15 @@ using Values = MaximumLengthChainOfPairs::Pairs;
 }
 
 TEST(MaximumLengthChainOfPairsTest, GetLongestLengthWorksOnExample1) {
-    MaximumLengthChainOfPairs queryForTest({{5U, 24U}, {39U, 60U}, {15U, 28U}, {27U, 40U}, {50U, 90U}});
+    MaximumLengthChainOfPairs queryForTest({{5, 24}, {39, 60}, {15, 28}, {27, 40}, {50, 90}});
 
-    EXPECT_EQ(3U, queryForTest.getLongestLength());
+    EXPECT_EQ(3, queryForTest.getLongestLength());
 }
 
 TEST(MaximumLengthChainOfPairsTest, GetLongestSubsequenceWorksOnExample1) {
-    MaximumLengthChainOfPairs queryForTest({{5U, 24U}, {39U, 60U}, {15U, 28U}, {27U, 40U}, {50U, 90U}});
+    MaximumLengthChainOfPairs queryForTest({{5, 24}, {39, 60}, {15, 28}, {27, 40}, {50, 90}});
 
-    EXPECT_EQ((Values{{5U, 24U}, {27U, 40U}, {50U, 90U}}), queryForTest.getLongestSubsequence());
+    EXPECT_EQ((Values{{5, 24}, {27, 40}, {50, 90}}), queryForTest.getLongestSubsequence());
 }
 
 }  // namespace alba

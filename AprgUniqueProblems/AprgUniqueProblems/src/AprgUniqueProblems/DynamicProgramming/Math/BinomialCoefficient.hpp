@@ -8,15 +8,13 @@ namespace alba {
 
 class BinomialCoefficient {
 public:
-    using Value = unsigned int;
+    using Value = int64_t;
     using Values = std::vector<Value>;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
     static constexpr Value UNUSED_VALUE = std::numeric_limits<Value>::max();
-
     BinomialCoefficient(Value const n, Value const k);
 
-    Value getBinomialCoefficientUsingNaiveRecursion() const;
-    Value getBinomialCoefficientUsingMemoizationDP() const;
+    Value getBinomialCoefficientUsingNaiveRecursion() const;    Value getBinomialCoefficientUsingMemoizationDP() const;
     Value getBinomialCoefficientUsingIterativeDP() const;
     Value getBinomialCoefficientUsingIterativeDPAndSpaceEfficient() const;
     Value getBinomialCoefficientUsingGcf() const;

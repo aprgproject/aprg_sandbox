@@ -7,14 +7,12 @@ namespace alba {
 
 class MinimumNumberOfSquaresWithSumEqualToN {
 public:
-    using Count = unsigned int;
+    using Count = int;
     using Counts = std::vector<Count>;
     static constexpr Count MAX_COUNT = std::numeric_limits<Count>::max();
-
     MinimumNumberOfSquaresWithSumEqualToN(Count const sumOfSquares);
 
-    Count getMinimumCountUsingNaiveRecursion() const;
-    Count getMinimumCountUsingMemoizationDP() const;
+    Count getMinimumCountUsingNaiveRecursion() const;    Count getMinimumCountUsingMemoizationDP() const;
     Count getMinimumCountUsingIterativeDP() const;
     Count getMinimumCountUsingBfs() const;
     Count getMinimumCountUsingFewestCoins() const;

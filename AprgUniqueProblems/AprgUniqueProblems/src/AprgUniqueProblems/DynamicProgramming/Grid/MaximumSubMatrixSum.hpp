@@ -8,15 +8,13 @@ namespace alba {
 
 class MaximumSubMatrixSum {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = int;
     struct SubArrayDetails {
-        Index left;
-        Index right;
+        Index left;        Index right;
         Index up;
         Index down;
-        Value sum;
-    };
+        Value sum;    };
     using Values = std::vector<Value>;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
     static constexpr Value MIN_VALUE = std::numeric_limits<Value>::min();

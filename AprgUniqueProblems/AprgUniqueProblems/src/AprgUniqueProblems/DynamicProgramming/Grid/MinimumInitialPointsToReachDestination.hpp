@@ -6,14 +6,12 @@ namespace alba {
 
 class MinimumInitialPointsToReachDestination {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = int;
     using Grid = matrix::AlbaMatrix<Value>;
-
     MinimumInitialPointsToReachDestination(Grid const& inputGrid);
 
     Value getMinimalInitialPointsUsingIterativeDP() const;
-
 private:
     Grid m_inputGrid;
 };

@@ -7,12 +7,12 @@ using namespace std;
 namespace alba {
 
 TEST(LongestCommonSubsequenceTest, GetLongestLengthWorksOnExample1) {
-    LongestCommonSubsequence queryForTest({1U, 2U, 3U, 4U, 7U, 8U}, {1U, 5U, 4U, 6U, 8U, 18U});
+    LongestCommonSubsequence queryForTest({1, 2, 3, 4, 7, 8}, {1, 5, 4, 6, 8, 18});
 
-    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingNaiveRecursion());
-    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingMemoizationDP());
-    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingIterativeDP());
-    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(3, queryForTest.getLongestLengthUsingNaiveRecursion());
+    EXPECT_EQ(3, queryForTest.getLongestLengthUsingMemoizationDP());
+    EXPECT_EQ(3, queryForTest.getLongestLengthUsingIterativeDP());
+    EXPECT_EQ(3, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
 }
 
 }  // namespace alba

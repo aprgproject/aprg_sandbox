@@ -12,9 +12,9 @@ using ListOfPeople = ElevatorWeightProblem::ListOfPeople;
 }  // namespace
 
 TEST(ElevatorWeightProblemTest, GetNumberOfOptimalRidesWorksOnExample1) {
-    ElevatorWeightProblem queryForTest(10U, {2U, 3U, 3U, 5U, 6U});
+    ElevatorWeightProblem queryForTest(10, {2, 3, 3, 5, 6});
 
-    EXPECT_EQ(2U, queryForTest.getNumberOfOptimalRides());
+    EXPECT_EQ(2, queryForTest.getNumberOfOptimalRides());
 }
 
 }  // namespace alba

@@ -8,66 +8,60 @@ namespace alba {
 
 TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample1) {
     SchedulingEvents schedulingEvents;
-    schedulingEvents.addEvent("A", 1U, 3U);
-    schedulingEvents.addEvent("B", 2U, 5U);
-    schedulingEvents.addEvent("C", 3U, 9U);
-    schedulingEvents.addEvent("D", 6U, 8U);
+    schedulingEvents.addEvent("A", 1, 3);
+    schedulingEvents.addEvent("B", 2, 5);
+    schedulingEvents.addEvent("C", 3, 9);
+    schedulingEvents.addEvent("D", 6, 8);
 
     SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
-
     SchedulingEvents::EventNames expectedNames{"A", "D"};
     EXPECT_EQ(expectedNames, actualNames);
 }
 
 TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndShortEventsAreNotImmediatelySelected) {
     SchedulingEvents schedulingEvents;
-    schedulingEvents.addEvent("A", 1U, 5U);
-    schedulingEvents.addEvent("B", 4U, 6U);
-    schedulingEvents.addEvent("C", 6U, 10U);
+    schedulingEvents.addEvent("A", 1, 5);
+    schedulingEvents.addEvent("B", 4, 6);
+    schedulingEvents.addEvent("C", 6, 10);
 
     SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
-
     SchedulingEvents::EventNames expectedNames{"A", "C"};
     EXPECT_EQ(expectedNames, actualNames);
 }
 
 TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndEarlyEventsAreNotImmediatelySelected) {
     SchedulingEvents schedulingEvents;
-    schedulingEvents.addEvent("A", 1U, 10U);
-    schedulingEvents.addEvent("B", 3U, 4U);
-    schedulingEvents.addEvent("C", 4U, 5U);
+    schedulingEvents.addEvent("A", 1, 10);
+    schedulingEvents.addEvent("B", 3, 4);
+    schedulingEvents.addEvent("C", 4, 5);
 
     SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
-
     SchedulingEvents::EventNames expectedNames{"B", "C"};
     EXPECT_EQ(expectedNames, actualNames);
 }
 
 TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample2) {
     SchedulingEvents schedulingEvents;
-    schedulingEvents.addEvent("A", 10U, 20U);
-    schedulingEvents.addEvent("B", 12U, 25U);
-    schedulingEvents.addEvent("C", 20U, 30U);
+    schedulingEvents.addEvent("A", 10, 20);
+    schedulingEvents.addEvent("B", 12, 25);
+    schedulingEvents.addEvent("C", 20, 30);
 
     SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
-
     SchedulingEvents::EventNames expectedNames{"A", "C"};
     EXPECT_EQ(expectedNames, actualNames);
 }
 
 TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample3) {
     SchedulingEvents schedulingEvents;
-    schedulingEvents.addEvent("A", 1U, 2U);
-    schedulingEvents.addEvent("B", 3U, 4U);
-    schedulingEvents.addEvent("C", 0U, 6U);
-    schedulingEvents.addEvent("D", 5U, 7U);
-    schedulingEvents.addEvent("E", 8U, 9U);
-    schedulingEvents.addEvent("F", 5U, 9U);
+    schedulingEvents.addEvent("A", 1, 2);
+    schedulingEvents.addEvent("B", 3, 4);
+    schedulingEvents.addEvent("C", 0, 6);
+    schedulingEvents.addEvent("D", 5, 7);
+    schedulingEvents.addEvent("E", 8, 9);
+    schedulingEvents.addEvent("F", 5, 9);
 
     SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
-
     SchedulingEvents::EventNames expectedNames{"A", "B", "D", "E"};
     EXPECT_EQ(expectedNames, actualNames);
 }
-
 }  // namespace alba

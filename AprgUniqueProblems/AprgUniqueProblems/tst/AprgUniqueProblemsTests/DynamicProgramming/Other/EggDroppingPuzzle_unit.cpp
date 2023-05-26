@@ -7,35 +7,35 @@ using namespace std;
 namespace alba {
 
 TEST(EggDroppingPuzzleTest, GetMinimumNumberOfOperationsWorksOnExample1) {
-    EggDroppingPuzzle queryForTest(0U, 0U);
+    EggDroppingPuzzle queryForTest(0, 0);
 
-    EXPECT_EQ(0U, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion());
-    EXPECT_EQ(0U, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
-    EXPECT_EQ(0U, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
+    EXPECT_EQ(0, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion());
+    EXPECT_EQ(0, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
+    EXPECT_EQ(0, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
 }
 
 TEST(EggDroppingPuzzleTest, GetMinimumNumberOfOperationsWorksOnExample2) {
-    EggDroppingPuzzle queryForTest(1U, 5U);
+    EggDroppingPuzzle queryForTest(1, 5);
 
-    EXPECT_EQ(5U, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion());
-    EXPECT_EQ(5U, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
-    EXPECT_EQ(5U, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
+    EXPECT_EQ(5, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion());
+    EXPECT_EQ(5, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
+    EXPECT_EQ(5, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
 }
 
 TEST(EggDroppingPuzzleTest, GetMinimumNumberOfOperationsWorksOnExample3) {
-    EggDroppingPuzzle queryForTest(2U, 10U);
+    EggDroppingPuzzle queryForTest(2, 10);
 
-    EXPECT_EQ(4U, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion());
-    EXPECT_EQ(4U, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
-    EXPECT_EQ(4U, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
+    EXPECT_EQ(4, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion());
+    EXPECT_EQ(4, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
+    EXPECT_EQ(4, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
 }
 
 TEST(EggDroppingPuzzleTest, GetMinimumNumberOfOperationsWorksOnExample4) {
-    EggDroppingPuzzle queryForTest(2U, 36U);
+    EggDroppingPuzzle queryForTest(2, 36);
 
-    // EXPECT_EQ(8U, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion()); // too long
-    EXPECT_EQ(8U, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
-    EXPECT_EQ(8U, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
+    // EXPECT_EQ(8, queryForTest.getMinimumNumberOfTrialsUsingNaiveRecursion()); // too long
+    EXPECT_EQ(8, queryForTest.getMinimumNumberOfTrialsUsingMemoizationDP());
+    EXPECT_EQ(8, queryForTest.getMinimumNumberOfTrialsUsingIterativeDP());
 }
 
 }  // namespace alba

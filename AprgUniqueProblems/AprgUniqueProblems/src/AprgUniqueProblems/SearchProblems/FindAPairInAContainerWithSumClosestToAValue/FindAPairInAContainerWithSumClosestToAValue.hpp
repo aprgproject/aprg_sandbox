@@ -16,14 +16,12 @@ public:
     // also known as the 2SUM problem: given an array of n numbers and a target sum x,
     // find two array values such that their sum is x, or report that no such values exist.
 
-    using Index = unsigned int;
+    using Index = int;
     using Value = typename Values::value_type;
     using ValuePair = std::pair<Value, Value>;
-
     FindAPairInAContainerWithSumClosestToAValue(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    ValuePair getValuePairWithSumClosestToAValue(Value const& targetSum) const {
-        // std::less_equal because index can be equal
+    ValuePair getValuePairWithSumClosestToAValue(Value const& targetSum) const {        // std::less_equal because index can be equal
         return getValuePairWithSumClosestToAValue(targetSum, 0, m_sortedValues.size() - 1);
     }
 

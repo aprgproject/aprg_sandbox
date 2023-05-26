@@ -7,22 +7,22 @@ using namespace std;
 namespace alba {
 
 TEST(MaximizeProfitInKnapsackTest, GetBestProfitWorksOnExample1) {
-    MaximizeProfitInKnapsack queryForTest(50U, {{10U, 60U}, {20U, 100U}, {30U, 120U}});
+    MaximizeProfitInKnapsack queryForTest(50, {{10, 60}, {20, 100}, {30, 120}});
 
-    EXPECT_EQ(220U, queryForTest.getBestProfitUsingNaiveRecursion());
-    EXPECT_EQ(220U, queryForTest.getBestProfitUsingMemoizationDP());
-    EXPECT_EQ(220U, queryForTest.getBestProfitUsingIterativeDP());
-    EXPECT_EQ(220U, queryForTest.getBestProfitUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(220, queryForTest.getBestProfitUsingNaiveRecursion());
+    EXPECT_EQ(220, queryForTest.getBestProfitUsingMemoizationDP());
+    EXPECT_EQ(220, queryForTest.getBestProfitUsingIterativeDP());
+    EXPECT_EQ(220, queryForTest.getBestProfitUsingIterativeDPAndSpaceEfficient());
 }
 
 TEST(MaximizeProfitInKnapsackTest, GetBestProfitWorksOnExample2) {
     MaximizeProfitInKnapsack queryForTest(
-        8U, {{1U, 1U}, {2U, 5U}, {3U, 8U}, {4U, 9U}, {5U, 10U}, {6U, 17U}, {7U, 17U}, {8U, 20U}});
+        8, {{1, 1}, {2, 5}, {3, 8}, {4, 9}, {5, 10}, {6, 17}, {7, 17}, {8, 20}});
 
-    EXPECT_EQ(22U, queryForTest.getBestProfitUsingNaiveRecursion());
-    EXPECT_EQ(22U, queryForTest.getBestProfitUsingMemoizationDP());
-    EXPECT_EQ(22U, queryForTest.getBestProfitUsingIterativeDP());
-    EXPECT_EQ(22U, queryForTest.getBestProfitUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ(22, queryForTest.getBestProfitUsingNaiveRecursion());
+    EXPECT_EQ(22, queryForTest.getBestProfitUsingMemoizationDP());
+    EXPECT_EQ(22, queryForTest.getBestProfitUsingIterativeDP());
+    EXPECT_EQ(22, queryForTest.getBestProfitUsingIterativeDPAndSpaceEfficient());
 }
 
 }  // namespace alba

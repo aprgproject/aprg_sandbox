@@ -7,54 +7,54 @@ using namespace std;
 namespace alba {
 
 TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnZero) {
-    MinimumNumberOfSquaresWithSumEqualToN queryForTest(0U);
+    MinimumNumberOfSquaresWithSumEqualToN queryForTest(0);
 
-    EXPECT_EQ(0U, queryForTest.getMinimumCountUsingNaiveRecursion());
-    EXPECT_EQ(0U, queryForTest.getMinimumCountUsingMemoizationDP());
-    EXPECT_EQ(0U, queryForTest.getMinimumCountUsingIterativeDP());
-    EXPECT_EQ(0U, queryForTest.getMinimumCountUsingBfs());
+    EXPECT_EQ(0, queryForTest.getMinimumCountUsingNaiveRecursion());
+    EXPECT_EQ(0, queryForTest.getMinimumCountUsingMemoizationDP());
+    EXPECT_EQ(0, queryForTest.getMinimumCountUsingIterativeDP());
+    EXPECT_EQ(0, queryForTest.getMinimumCountUsingBfs());
     EXPECT_EQ(
-        1U, queryForTest.getMinimumCountUsingFewestCoins());  // Answer is 1 because we are using the CoinProblem class
+        1, queryForTest.getMinimumCountUsingFewestCoins());  // Answer is 1 because we are using the CoinProblem class
 }
 
 TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnOne) {
-    MinimumNumberOfSquaresWithSumEqualToN queryForTest(1U);
+    MinimumNumberOfSquaresWithSumEqualToN queryForTest(1);
 
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingNaiveRecursion());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingMemoizationDP());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingIterativeDP());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingBfs());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingFewestCoins());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingNaiveRecursion());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingMemoizationDP());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingIterativeDP());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingBfs());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
 TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnAnExactSquare) {
-    MinimumNumberOfSquaresWithSumEqualToN queryForTest(100U);
+    MinimumNumberOfSquaresWithSumEqualToN queryForTest(100);
 
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingNaiveRecursion());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingMemoizationDP());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingIterativeDP());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingBfs());
-    EXPECT_EQ(1U, queryForTest.getMinimumCountUsingFewestCoins());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingNaiveRecursion());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingMemoizationDP());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingIterativeDP());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingBfs());
+    EXPECT_EQ(1, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
 TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample1) {
-    MinimumNumberOfSquaresWithSumEqualToN queryForTest(6U);
+    MinimumNumberOfSquaresWithSumEqualToN queryForTest(6);
 
-    EXPECT_EQ(3U, queryForTest.getMinimumCountUsingNaiveRecursion());
-    EXPECT_EQ(3U, queryForTest.getMinimumCountUsingMemoizationDP());
-    EXPECT_EQ(3U, queryForTest.getMinimumCountUsingIterativeDP());
-    EXPECT_EQ(3U, queryForTest.getMinimumCountUsingBfs());
-    EXPECT_EQ(3U, queryForTest.getMinimumCountUsingFewestCoins());
+    EXPECT_EQ(3, queryForTest.getMinimumCountUsingNaiveRecursion());
+    EXPECT_EQ(3, queryForTest.getMinimumCountUsingMemoizationDP());
+    EXPECT_EQ(3, queryForTest.getMinimumCountUsingIterativeDP());
+    EXPECT_EQ(3, queryForTest.getMinimumCountUsingBfs());
+    EXPECT_EQ(3, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
 TEST(MinimumNumberOfSquaresWithSumEqualToNTest, GetCountWorksOnExample2) {
-    MinimumNumberOfSquaresWithSumEqualToN queryForTest(47U);
+    MinimumNumberOfSquaresWithSumEqualToN queryForTest(47);
 
-    EXPECT_EQ(4U, queryForTest.getMinimumCountUsingNaiveRecursion());
-    EXPECT_EQ(4U, queryForTest.getMinimumCountUsingMemoizationDP());
-    EXPECT_EQ(4U, queryForTest.getMinimumCountUsingIterativeDP());
-    EXPECT_EQ(4U, queryForTest.getMinimumCountUsingBfs());
-    EXPECT_EQ(4U, queryForTest.getMinimumCountUsingFewestCoins());
+    EXPECT_EQ(4, queryForTest.getMinimumCountUsingNaiveRecursion());
+    EXPECT_EQ(4, queryForTest.getMinimumCountUsingMemoizationDP());
+    EXPECT_EQ(4, queryForTest.getMinimumCountUsingIterativeDP());
+    EXPECT_EQ(4, queryForTest.getMinimumCountUsingBfs());
+    EXPECT_EQ(4, queryForTest.getMinimumCountUsingFewestCoins());
 }
 
 }  // namespace alba

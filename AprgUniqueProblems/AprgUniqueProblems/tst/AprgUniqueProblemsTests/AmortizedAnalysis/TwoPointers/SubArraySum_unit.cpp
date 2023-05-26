@@ -12,9 +12,9 @@ using Values = SubArraySum::Values;
 }  // namespace
 
 TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1) {
-    SubArraySum search({1U, 3U, 2U, 5U, 1U, 1U, 2U, 3U});
+    SubArraySum search({1, 3, 2, 5, 1, 1, 2, 3});
 
-    EXPECT_EQ((Values{2U, 5U, 1U}), search.getSubArrayWithSum(8));
+    EXPECT_EQ((Values{2, 5, 1}), search.getSubArrayWithSum(8));
 }
 
 }  // namespace alba

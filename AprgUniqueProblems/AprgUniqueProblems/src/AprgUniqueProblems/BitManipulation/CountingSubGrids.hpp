@@ -14,15 +14,14 @@ public:
     using BitValueUtilities = AlbaBitValueUtilities<BitValue>;
     using BitGrid = matrix::AlbaMatrix<bool>;
     using BitValueGrid = matrix::AlbaMatrix<BitValue>;
-    static constexpr unsigned int NUMBER_OF_BITS = BitValueUtilities::getNumberOfBits();
+    static constexpr int NUMBER_OF_BITS = BitValueUtilities::getNumberOfBits();
 
     CountingSubGrids(BitGrid const& bitGrid);
 
-    unsigned int countSubGridsWithAllBlackCorners() const;
+    int countSubGridsWithAllBlackCorners() const;
 
 private:
-    void initialize(BitGrid const& bitGrid);
-    BitValueGrid m_bitValueGrid;
+    void initialize(BitGrid const& bitGrid);    BitValueGrid m_bitValueGrid;
 };
 
 }  // namespace alba

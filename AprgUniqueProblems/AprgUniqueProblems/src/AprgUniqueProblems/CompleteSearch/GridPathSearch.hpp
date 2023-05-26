@@ -17,22 +17,21 @@ public:
         Down,
     };
 
-    GridPathSearch(unsigned int const gridSide);
+    GridPathSearch(int const gridSide);
 
-    unsigned int countPaths();
+    int countPaths();
 
 private:
-    bool isLowerRightCorner(unsigned int const x, unsigned int const y);
-    bool canTraverse(unsigned int const x, unsigned int const y);
-    bool shouldStop(unsigned int const x, unsigned int const y, Movement const previousMovement);
+    bool isLowerRightCorner(int const x, int const y);
+    bool canTraverse(int const x, int const y);
+    bool shouldStop(int const x, int const y, Movement const previousMovement);
     void startSearch();
-    void search(unsigned int const x, unsigned int const y, Movement const previousMovement);
-    void searchNextCoordinate(unsigned int const x, unsigned int const y, Movement const movement);
-    unsigned int const m_gridSide;
-    unsigned int const m_numberOfCells;
-    unsigned int m_numberTraversedCells;
-    unsigned int m_numberOfCompletePaths;
+    void search(int const x, int const y, Movement const previousMovement);
+    void searchNextCoordinate(int const x, int const y, Movement const movement);
+    int const m_gridSide;
+    int const m_numberOfCells;
+    int m_numberTraversedCells;
+    int m_numberOfCompletePaths;
     Grid m_grid;
 };
-
 }  // namespace alba

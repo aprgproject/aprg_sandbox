@@ -7,11 +7,11 @@ using namespace std;
 namespace alba {
 
 TEST(GreedyAlgorithmForFewestCoinsTest, GetTasksAsPossibleWorksOnExample1) {
-    GreedyAlgorithmForFewestCoins fewestCoins({1U, 2U, 5U, 10U, 20U, 50U, 100U});
+    GreedyAlgorithmForFewestCoins fewestCoins({1, 2, 5, 10, 20, 50, 100});
 
-    EXPECT_EQ(2U, fewestCoins.getFewestNumberOfCoins(70U));
-    EXPECT_EQ(5U, fewestCoins.getFewestNumberOfCoins(93U));
-    EXPECT_EQ(3U, fewestCoins.getFewestNumberOfCoins(121U));
+    EXPECT_EQ(2, fewestCoins.getFewestNumberOfCoins(70));
+    EXPECT_EQ(5, fewestCoins.getFewestNumberOfCoins(93));
+    EXPECT_EQ(3, fewestCoins.getFewestNumberOfCoins(121));
 }
 
 }  // namespace alba

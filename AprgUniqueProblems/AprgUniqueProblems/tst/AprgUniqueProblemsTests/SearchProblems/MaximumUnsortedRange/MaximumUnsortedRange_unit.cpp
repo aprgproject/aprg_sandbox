@@ -9,43 +9,39 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using ValueForTest = unsigned int;
+using ValueForTest = int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = MaximumUnsortedRange<ValuesForTest>;
 }  // namespace
-
 TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query;
-
     QueryForTest::IndexPair expectedIndexPair{QueryForTest::INVALID_INDEX, QueryForTest::INVALID_INDEX};
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
 TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnOneValue) {
-    ValuesForTest valuesForTest{10U};
+    ValuesForTest valuesForTest{10};
     QueryForTest query;
 
-    QueryForTest::IndexPair expectedIndexPair{QueryForTest::INVALID_INDEX, QueryForTest::INVALID_INDEX};
-    EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
+    QueryForTest::IndexPair expectedIndexPair{QueryForTest::INVALID_INDEX, QueryForTest::INVALID_INDEX};    EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
 TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample1) {
-    ValuesForTest valuesForTest{10U, 12U, 20U, 30U, 25U, 40U, 32U, 31U, 35U, 50U, 60U};
+    ValuesForTest valuesForTest{10, 12, 20, 30, 25, 40, 32, 31, 35, 50, 60};
     QueryForTest query;
 
-    QueryForTest::IndexPair expectedIndexPair{3U, 8U};
+    QueryForTest::IndexPair expectedIndexPair{3, 8};
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
 TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample2) {
-    ValuesForTest valuesForTest{0U, 1U, 15U, 25U, 6U, 7U, 30U, 40U, 50U};
+    ValuesForTest valuesForTest{0, 1, 15, 25, 6, 7, 30, 40, 50};
     QueryForTest query;
 
-    QueryForTest::IndexPair expectedIndexPair{2U, 5U};
+    QueryForTest::IndexPair expectedIndexPair{2, 5};
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
-
 }  // namespace algorithm
 
 }  // namespace alba

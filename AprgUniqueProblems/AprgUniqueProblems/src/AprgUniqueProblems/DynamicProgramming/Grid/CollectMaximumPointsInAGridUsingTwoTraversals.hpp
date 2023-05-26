@@ -6,15 +6,13 @@ namespace alba {
 
 class CollectMaximumPointsInAGridUsingTwoTraversals {
 public:
-    using Index = unsigned int;
-    using Value = unsigned int;
+    using Index = int;
+    using Value = int;
     using ValueGrid = matrix::AlbaMatrix<Value>;
     using ValueGrids = std::vector<ValueGrid>;
-    static constexpr Value INVALID_COUNT = std::numeric_limits<Value>::max();
-    static constexpr Value UNUSED_COUNT = INVALID_COUNT - 1;
+    static constexpr Value INVALID_COUNT = std::numeric_limits<Value>::max();    static constexpr Value UNUSED_COUNT = INVALID_COUNT - 1;
 
     CollectMaximumPointsInAGridUsingTwoTraversals(ValueGrid const& inputGrid);
-
     Value getMaximumPointsUsingNaiveRecursion() const;
     Value getMaximumPointsUsingMemoizationDP() const;
     Value getMaximumPointsUsingIterativeDP() const;

@@ -13,9 +13,9 @@ using ValuesPair = TwoSum::ValuesPair;
 }  // namespace
 
 TEST(TwoSumTest, GetTwoIndexesWithSumWorksOnExample1) {
-    TwoSum search({10U, 9U, 9U, 7U, 1U, 4U, 5U, 6U});
+    TwoSum search({10, 9, 9, 7, 1, 4, 5, 6});
 
-    EXPECT_EQ((ValuesPair{5U, 7U}), search.getTwoValuesWithSum(12));
+    EXPECT_EQ((ValuesPair{5, 7}), search.getTwoValuesWithSum(12));
 }
 
 }  // namespace alba

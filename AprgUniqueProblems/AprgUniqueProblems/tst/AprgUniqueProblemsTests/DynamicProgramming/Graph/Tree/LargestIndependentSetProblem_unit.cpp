@@ -12,34 +12,34 @@ using SetOfVertices = LargestIndependentSetProblem::SetOfVertices;
 
 TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample1) {
     LargestIndependentSetProblem::Graph graph;
-    graph.connect(10U, 20U);
-    graph.connect(10U, 30U);
-    graph.connect(20U, 40U);
-    graph.connect(20U, 50U);
-    graph.connect(30U, 60U);
-    graph.connect(50U, 70U);
-    graph.connect(50U, 80U);
-    LargestIndependentSetProblem queryForTest(graph, 10U);
+    graph.connect(10, 20);
+    graph.connect(10, 30);
+    graph.connect(20, 40);
+    graph.connect(20, 50);
+    graph.connect(30, 60);
+    graph.connect(50, 70);
+    graph.connect(50, 80);
+    LargestIndependentSetProblem queryForTest(graph, 10);
 
-    EXPECT_EQ(5U, queryForTest.getMaximumCountUsingNaiveRecursion());
-    EXPECT_EQ(5U, queryForTest.getMaximumCountUsingMemoizationDP());
-    EXPECT_EQ((SetOfVertices{10U, 40U, 60U, 70U, 80U}), queryForTest.getMaximumSetUsingMemoizationDP());
+    EXPECT_EQ(5, queryForTest.getMaximumCountUsingNaiveRecursion());
+    EXPECT_EQ(5, queryForTest.getMaximumCountUsingMemoizationDP());
+    EXPECT_EQ((SetOfVertices{10, 40, 60, 70, 80}), queryForTest.getMaximumSetUsingMemoizationDP());
 }
 
 TEST(LargestIndependentSetProblemTest, GetMaximumCountWorksOnExample2) {
     LargestIndependentSetProblem::Graph graph;
-    graph.connect(1U, 2U);
-    graph.connect(1U, 4U);
-    graph.connect(1U, 5U);
-    graph.connect(2U, 6U);
-    graph.connect(4U, 3U);
-    graph.connect(4U, 7U);
-    graph.connect(7U, 8U);
-    LargestIndependentSetProblem queryForTest(graph, 1U);
+    graph.connect(1, 2);
+    graph.connect(1, 4);
+    graph.connect(1, 5);
+    graph.connect(2, 6);
+    graph.connect(4, 3);
+    graph.connect(4, 7);
+    graph.connect(7, 8);
+    LargestIndependentSetProblem queryForTest(graph, 1);
 
-    EXPECT_EQ(4U, queryForTest.getMaximumCountUsingNaiveRecursion());
-    EXPECT_EQ(4U, queryForTest.getMaximumCountUsingMemoizationDP());
-    EXPECT_EQ((SetOfVertices{1U, 3U, 6U, 7U}), queryForTest.getMaximumSetUsingMemoizationDP());
+    EXPECT_EQ(4, queryForTest.getMaximumCountUsingNaiveRecursion());
+    EXPECT_EQ(4, queryForTest.getMaximumCountUsingMemoizationDP());
+    EXPECT_EQ((SetOfVertices{1, 3, 6, 7}), queryForTest.getMaximumSetUsingMemoizationDP());
 }
 
 }  // namespace alba

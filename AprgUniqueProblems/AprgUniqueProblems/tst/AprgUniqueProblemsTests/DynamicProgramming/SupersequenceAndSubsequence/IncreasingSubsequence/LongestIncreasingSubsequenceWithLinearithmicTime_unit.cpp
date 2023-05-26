@@ -11,15 +11,15 @@ using Values = LongestIncreasingSubsequenceWithLinearithmicTime::Values;
 }
 
 TEST(LongestIncreasingSubsequenceWithLinearithmicTimeTest, GetLongestLengthWorksOnExample1) {
-    LongestIncreasingSubsequenceWithLinearithmicTime queryForTest({6U, 2U, 5U, 1U, 7U, 4U, 8U, 3U});
+    LongestIncreasingSubsequenceWithLinearithmicTime queryForTest({6, 2, 5, 1, 7, 4, 8, 3});
 
-    EXPECT_EQ(4U, queryForTest.getLongestLength());
+    EXPECT_EQ(4, queryForTest.getLongestLength());
 }
 
 TEST(LongestIncreasingSubsequenceWithLinearithmicTimeTest, GetLongestSubsequenceWorksOnExample1) {
-    LongestIncreasingSubsequenceWithLinearithmicTime queryForTest({6U, 2U, 5U, 1U, 7U, 4U, 8U, 3U});
+    LongestIncreasingSubsequenceWithLinearithmicTime queryForTest({6, 2, 5, 1, 7, 4, 8, 3});
 
-    EXPECT_EQ((Values{2U, 5U, 7U, 8U}), queryForTest.getLongestSubsequence());
+    EXPECT_EQ((Values{2, 5, 7, 8}), queryForTest.getLongestSubsequence());
 }
 
 }  // namespace alba

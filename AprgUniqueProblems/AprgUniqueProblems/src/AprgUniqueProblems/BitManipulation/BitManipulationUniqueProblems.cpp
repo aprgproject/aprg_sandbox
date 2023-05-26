@@ -6,18 +6,17 @@ namespace alba {
 
 namespace BitManipulation {
 
-unsigned int changeKthBitToOne(unsigned int const value, unsigned int const k) { return value | (1 << k); }
+uint64_t changeKthBitToOne(uint64_t const value, uint64_t const k) { return value | (1 << k); }
 
-unsigned int changeKthBitToZero(unsigned int const value, unsigned int const k) { return value & ~(1 << k); }
+uint64_t changeKthBitToZero(uint64_t const value, uint64_t const k) { return value & ~(1 << k); }
 
-unsigned int invertKthBit(unsigned int const value, unsigned int const k) { return value ^ (1 << k); }
+uint64_t invertKthBit(uint64_t const value, uint64_t const k) { return value ^ (1 << k); }
 
-unsigned int changeLastOneToZero(unsigned int const value) { return value & (value - 1); }
+uint64_t changeLastOneToZero(uint64_t const value) { return value & (value - 1); }
 
-unsigned int changeAllOnesToZeroExceptForLast(unsigned int const value) { return value & (-value); }
+uint64_t changeAllOnesToZeroExceptForLast(uint64_t const value) { return value & (-value); }
 
-unsigned int invertAllBitsAfterTheLastOne(unsigned int const value) { return value | (value - 1); }
+uint64_t invertAllBitsAfterTheLastOne(uint64_t const value) { return value | (value - 1); }
 
 }  // namespace BitManipulation
-
 }  // namespace alba

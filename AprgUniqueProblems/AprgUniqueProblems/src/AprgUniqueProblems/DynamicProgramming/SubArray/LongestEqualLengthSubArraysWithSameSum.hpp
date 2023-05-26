@@ -7,15 +7,13 @@ namespace alba {
 
 class LongestEqualLengthSubArraysWithSameSum {
 public:
-    using Index = unsigned int;
+    using Index = int;
     using Value = int;
     using Values = std::vector<Value>;
     static constexpr Value MIN_VALUE = std::numeric_limits<Value>::min();
-
     LongestEqualLengthSubArraysWithSameSum(Values const& values);
 
-    Index getLongestTotalLengthOfSubArraysUsingPartialSums() const;
-    Index getLongestTotalLengthOfSubArraysByAccumulatingSum() const;
+    Index getLongestTotalLengthOfSubArraysUsingPartialSums() const;    Index getLongestTotalLengthOfSubArraysByAccumulatingSum() const;
 
 private:
     Values const m_values;

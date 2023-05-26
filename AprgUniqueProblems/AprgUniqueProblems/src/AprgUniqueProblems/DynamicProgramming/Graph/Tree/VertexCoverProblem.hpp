@@ -7,22 +7,20 @@ namespace alba {
 
 class VertexCoverProblem {
 public:
-    using Count = unsigned int;
-    using Index = unsigned int;
-    using Vertex = unsigned int;
+    using Count = int;
+    using Index = int;
+    using Vertex = int;
     using SetOfVertices = algorithm::GraphTypes<Vertex>::SetOfVertices;
     using Graph = algorithm::UndirectedGraphWithListOfEdges<Vertex>;
     using ChildrenInTree = algorithm::ChildrenInTree<Vertex>;
     using VertexToCountMap = std::map<Vertex, Count>;
     using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVertices>;
-    static constexpr unsigned int UNUSED_COUNT = std::numeric_limits<unsigned int>::max();
+    static constexpr int UNUSED_COUNT = std::numeric_limits<int>::max();
 
     VertexCoverProblem(Graph const& nAryTreeGraph, Vertex const rootOfTree);
-
     Count getMinimumCountUsingNaiveRecursion() const;
     Count getMinimumCountUsingMemoizationDP() const;
     SetOfVertices getMinimumSetUsingMemoizationDP() const;
-
 private:
     Count getMinimumCountUsingNaiveRecursion(Vertex const vertex) const;
     Count getMinimumCountUsingMemoizationDP(VertexToCountMap& vertexToCountMap, Vertex const vertex) const;

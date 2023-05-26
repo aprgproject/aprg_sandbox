@@ -9,43 +9,43 @@ namespace alba {
 TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample1) {
     FibonacciExample fibonacciExample;
 
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingMemoizationDP(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingIterativeDP(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingMatrixMultiplication(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingMatrixPowerWithLogarithmicTime(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingLogarithmicMemoizationDP(0U));
-    EXPECT_EQ(0U, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(0U));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingNaiveRecursion(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingMemoizationDP(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingIterativeDP(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingMatrixMultiplication(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingMatrixPowerWithLogarithmicTime(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingLogarithmicMemoizationDP(0));
+    EXPECT_EQ(0, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(0));
 }
 
 TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample2) {
     FibonacciExample fibonacciExample;
 
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingMemoizationDP(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingIterativeDP(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingMatrixMultiplication(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingMatrixPowerWithLogarithmicTime(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingLogarithmicMemoizationDP(3U));
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(3U));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingNaiveRecursion(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingMemoizationDP(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingIterativeDP(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingMatrixMultiplication(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingMatrixPowerWithLogarithmicTime(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingLogarithmicMemoizationDP(3));
+    EXPECT_EQ(2, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(3));
 }
 
 TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample3) {
     FibonacciExample fibonacciExample;
 
-    // EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(40U)); // takes too long
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingMemoizationDP(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingIterativeDP(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingMatrixMultiplication(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingMatrixPowerWithLogarithmicTime(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingLogarithmicMemoizationDP(40U));
-    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(40U));
+    // EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingNaiveRecursion(40)); // takes too long
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingMemoizationDP(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingIterativeDP(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingMatrixMultiplication(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingMatrixPowerWithLogarithmicTime(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingLogarithmicMemoizationDP(40));
+    EXPECT_EQ(102334155, fibonacciExample.getNthFibonacciUsingLogarithmicIterativeDP(40));
 }
 
 }  // namespace alba

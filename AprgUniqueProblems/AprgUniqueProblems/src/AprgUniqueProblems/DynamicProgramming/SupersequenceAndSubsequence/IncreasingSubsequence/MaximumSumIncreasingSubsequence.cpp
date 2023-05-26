@@ -14,15 +14,13 @@ MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaxim
     Value result(0);
     if (!m_sequence.empty()) {
         Values partialSums(m_sequence.size(), 0);
-        for (Index index(0); index < m_sequence.size(); index++) {
+        for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Value& partialSum(partialSums[index]);
             for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-                if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {
-                    partialSum = max(partialSum, partialSums.at(lowerIndex));
+                if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {                    partialSum = max(partialSum, partialSums.at(lowerIndex));
                 }
             }
-            partialSum += m_sequence.at(index);
-        }
+            partialSum += m_sequence.at(index);        }
         result = *max_element(partialSums.cbegin(), partialSums.cend());
     }
     return result;
@@ -37,15 +35,13 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
 
-        for (Index index(0); index < m_sequence.size(); index++) {
+        for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Value& partialSum(partialSums[index]);
             Value& previousIndex(indexToPreviousIndex[index]);
-            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-                if (m_sequence.at(lowerIndex) < m_sequence.at(index) && partialSum < partialSums.at(lowerIndex)) {
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {                if (m_sequence.at(lowerIndex) < m_sequence.at(index) && partialSum < partialSums.at(lowerIndex)) {
                     partialSum = partialSums.at(lowerIndex);
                     previousIndex = lowerIndex;
-                }
-            }
+                }            }
             partialSum += m_sequence.at(index);
         }
 

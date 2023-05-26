@@ -36,31 +36,27 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(Num
     // If the precomputed value is there then we return that value,
     // otherwise, we calculate the value and put the result in the lookup table so that it can be reused later.
 
-    Number size = max(number + 1, 2U);
-    Numbers memoizationData(size, static_cast<unsigned int>(UNUSED_VALUE));
+    Number size = max(number + 1, 2);
+    Numbers memoizationData(size, static_cast<int>(UNUSED_VALUE));
     memoizationData[0] = 0;
     memoizationData[1] = 1;
-    return getNthFibonacciUsingMemoizationDP(memoizationData, number);
-}
+    return getNthFibonacciUsingMemoizationDP(memoizationData, number);}
 
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDP(Number const number) {
-    // Time Complexity: O(n)
-    // Extra Space: O(n)
+    // Time Complexity: O(n)    // Extra Space: O(n)
 
     // b) Tabulation (Bottom Up):
     // The tabulated program for a given problem builds a table in bottom up fashion and returns the last entry from
     // table. For example, for the same Fibonacci number, we first calculate fib(0) then fib(1) then fib(2) then fib(3)
     // and so on. So literally, we are building the solutions of subproblems bottom-up.
 
-    Number size = max(number + 1, 2U);
+    Number size = max(number + 1, 2);
     Numbers tabulationData(size);
     tabulationData[0] = 0;
-    tabulationData[1] = 1;
-    for (Number i = 2; i <= number; i++) {
+    tabulationData[1] = 1;    for (Number i = 2; i <= number; i++) {
         tabulationData[i] = tabulationData.at(i - 1) + tabulationData.at(i - 2);
     }
-    return tabulationData.at(number);
-}
+    return tabulationData.at(number);}
 
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number) {
     // NOTE: Same implementation in AprgMath
@@ -118,13 +114,11 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMatrixMultiplicat
         for (Number i = 2; i < number; i++) {
             fibonacciMatrix *= formulaicTransform;
         }
-        return fibonacciMatrix.getEntry(1U, 1U);
+        return fibonacciMatrix.getEntry(1, 1);
     }
 }
-
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMatrixPowerWithLogarithmicTime(Number const number) {
     // NOTE: Same implementation in AprgMath (Linear Recurrence)
-
     // Time Complexity: O(n)
     // Extra Space: O(1)
 
@@ -138,35 +132,31 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMatrixPowerWithLo
         NumberMatrix formulaicTransform(2, 2, {0, 1, 1, 1});
 
         NumberMatrix fibonacciMatrix(getMatrixRaiseToScalarPower(formulaicTransform, number - 1));  // logarithmic
-        return fibonacciMatrix.getEntry(1U, 1U);
+        return fibonacciMatrix.getEntry(1, 1);
     }
 }
-
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicMemoizationDP(Number const number) {
     // Time Complexity: O(log(n))
     // Extra Space: O(n)
 
-    Number size = max(number + 1, 2U);
-    Numbers memoizationData(size, static_cast<unsigned int>(UNUSED_VALUE));
+    Number size = max(number + 1, 2);
+    Numbers memoizationData(size, static_cast<int>(UNUSED_VALUE));
     memoizationData[0] = 0;
     memoizationData[1] = 1;
-    return getNthFibonacciUsingMemoizationDP(memoizationData, number);
-}
+    return getNthFibonacciUsingMemoizationDP(memoizationData, number);}
 
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterativeDP(Number const number) {
     // Derived using matrix power (check notes at header file)
 
     Number result(number);
     if (result > 1) {
-        Number size = max(number + 1, 2U);
+        Number size = max(number + 1, 2);
         Numbers iterativeData(size);
         iterativeData[0] = 0;
         iterativeData[1] = 1;
-
         NumberSet logarithmicSteps{number};
         Number k(number);
-        while (k >= 3) {
-            k = mathHelper::isOdd(k) ? (k + 1) / 2 : k / 2;
+        while (k >= 3) {            k = mathHelper::isOdd(k) ? (k + 1) / 2 : k / 2;
             logarithmicSteps.emplace(k);
             logarithmicSteps.emplace(k - 1);
         }

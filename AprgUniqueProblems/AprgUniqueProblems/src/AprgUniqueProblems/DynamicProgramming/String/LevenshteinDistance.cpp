@@ -87,21 +87,19 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingItera
     Counts& firstPrevious(previousAndCurrentCounts[0]);
     iota(firstPrevious.begin(), firstPrevious.end(), 0);  // first row
 
-    for (Index index2 = 1; index2 <= m_string2.length(); index2++) {
+    for (Index index2 = 1; index2 <= static_cast<Index>(m_string2.length()); index2++) {
         Counts& previousCounts(previousAndCurrentCounts[(index2 - 1) % 2]);
         Counts& currentCounts(previousAndCurrentCounts[index2 % 2]);
 
         currentCounts[0] = index2;  // first column
-        for (Index index1 = 1; index1 <= m_string1.length(); index1++) {
-            unsigned int cost = m_string1.at(index1 - 1) == m_string2.at(index2 - 1) ? 0 : 1;
+        for (Index index1 = 1; index1 <= static_cast<Index>(m_string1.length()); index1++) {
+            int cost = m_string1.at(index1 - 1) == m_string2.at(index2 - 1) ? 0 : 1;
             currentCounts[index1] =
                 min(min(currentCounts.at(index1 - 1) + 1, previousCounts.at(index1) + 1),
-                    previousCounts.at(index1 - 1) + cost);
-        }
+                    previousCounts.at(index1 - 1) + cost);        }
     }
 
-    Counts const& lastCurrent(previousAndCurrentCounts.at(m_string2.length() % 2));
-    return lastCurrent.back();
+    Counts const& lastCurrent(previousAndCurrentCounts.at(m_string2.length() % 2));    return lastCurrent.back();
 }
 
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(

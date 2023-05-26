@@ -35,19 +35,17 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
 
     Count result(0);
     if (!m_dimensions.empty()) {
-        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), 0U);
+        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), 0);
 
-        for (Index length = 3; length <= m_dimensions.size(); length++) {
-            for (Index leftParenthesis = 0; leftParenthesis + length <= countMatrix.getNumberOfColumns();
-                 leftParenthesis++) {
+        for (Index length = 3; length <= static_cast<Index>(m_dimensions.size()); length++) {
+            for (Index leftParenthesis = 0;
+                 leftParenthesis + length <= static_cast<Index>(countMatrix.getNumberOfColumns()); leftParenthesis++) {
                 Index rightParenthesis = leftParenthesis + length - 1;
                 Count minimumCount(MAX_COUNT);
-                for (Index inBetween = leftParenthesis + 1; inBetween < rightParenthesis; inBetween++) {
-                    Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween) +
+                for (Index inBetween = leftParenthesis + 1; inBetween < rightParenthesis; inBetween++) {                    Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween) +
                                          countMatrix.getEntry(inBetween, rightParenthesis) +
                                          m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) *
-                                             m_dimensions.at(rightParenthesis);
-                    minimumCount = min(minimumCount, currentCount);
+                                             m_dimensions.at(rightParenthesis);                    minimumCount = min(minimumCount, currentCount);
                 }
                 countMatrix.setEntry(leftParenthesis, rightParenthesis, minimumCount);
             }

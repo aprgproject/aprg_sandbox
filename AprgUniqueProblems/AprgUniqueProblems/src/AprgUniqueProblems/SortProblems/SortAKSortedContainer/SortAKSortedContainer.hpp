@@ -14,24 +14,22 @@ public:
 
     SortAKSortedContainer() = default;
 
-    void sort(unsigned int const maximumDistanceFromCorrectPosition, Values& valuesToSort) const {
-        if (maximumDistanceFromCorrectPosition <= valuesToSort.size()) {
-            unsigned int pqSize = (maximumDistanceFromCorrectPosition == valuesToSort.size())
-                                      ? maximumDistanceFromCorrectPosition
-                                      : maximumDistanceFromCorrectPosition + 1;
+    void sort(int const maximumDistanceFromCorrectPosition, Values& valuesToSort) const {
+        if (maximumDistanceFromCorrectPosition <= static_cast<int>(valuesToSort.size())) {
+            int pqSize = (maximumDistanceFromCorrectPosition == static_cast<int>(valuesToSort.size()))
+                             ? maximumDistanceFromCorrectPosition
+                             : maximumDistanceFromCorrectPosition + 1;
             KPriorityQueue pq(valuesToSort.cbegin(), valuesToSort.cbegin() + pqSize);
 
-            unsigned int sortedIndex(0U);
-            for (unsigned int newPqIndex = maximumDistanceFromCorrectPosition + 1; newPqIndex < valuesToSort.size();
-                 newPqIndex++) {
+            int sortedIndex(0);
+            for (int newPqIndex = maximumDistanceFromCorrectPosition + 1;
+                 newPqIndex < static_cast<int>(valuesToSort.size()); newPqIndex++) {
                 valuesToSort[sortedIndex++] = pq.top();
                 pq.pop();
-                pq.push(valuesToSort.at(newPqIndex));
-            }
+                pq.push(valuesToSort.at(newPqIndex));            }
 
             while (!pq.empty()) {
-                valuesToSort[sortedIndex++] = pq.top();
-                pq.pop();
+                valuesToSort[sortedIndex++] = pq.top();                pq.pop();
             }
         }
     }

@@ -34,15 +34,14 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
     if (!m_rods.empty()) {
         Profits partialProfits(m_length + 1, 0);
         Length smallestItemLength(getSmallestItemLength());
-        for (Length remainingLength = smallestItemLength; remainingLength < partialProfits.size(); remainingLength++) {
+        for (Length remainingLength = smallestItemLength; remainingLength < static_cast<Length>(partialProfits.size());
+             remainingLength++) {
             Profit entryResult(0);
             for (Rod const& rod : m_rods) {
-                Length rodLength(rod.first);
-                Profit rodProfit(rod.second);
+                Length rodLength(rod.first);                Profit rodProfit(rod.second);
                 if (remainingLength >= rodLength) {
                     entryResult = max(entryResult, rodProfit + partialProfits.at(remainingLength - rodLength));
-                }
-            }
+                }            }
             partialProfits[remainingLength] = entryResult;
         }
         result = partialProfits.back();

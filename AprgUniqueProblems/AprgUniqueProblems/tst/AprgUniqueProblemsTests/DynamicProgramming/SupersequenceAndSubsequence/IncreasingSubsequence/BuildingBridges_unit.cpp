@@ -11,27 +11,27 @@ using Bridges = BuildingBridges::Bridges;
 }
 
 TEST(BuildingBridgesTest, GetLongestLengthWorksOnExample1) {
-    BuildingBridges queryForTest({{6U, 2U}, {4U, 3U}, {2U, 6U}, {1U, 5U}});
+    BuildingBridges queryForTest({{6, 2}, {4, 3}, {2, 6}, {1, 5}});
 
-    EXPECT_EQ(2U, queryForTest.getNumberOfPossibleBridges());
+    EXPECT_EQ(2, queryForTest.getNumberOfPossibleBridges());
 }
 
 TEST(BuildingBridgesTest, GetLongestLengthWorksOnExample2) {
-    BuildingBridges queryForTest({{8U, 1U}, {1U, 2U}, {4U, 3U}, {3U, 4U}, {5U, 5U}, {2U, 6U}, {6U, 7U}, {7U, 8U}});
+    BuildingBridges queryForTest({{8, 1}, {1, 2}, {4, 3}, {3, 4}, {5, 5}, {2, 6}, {6, 7}, {7, 8}});
 
-    EXPECT_EQ(5U, queryForTest.getNumberOfPossibleBridges());
+    EXPECT_EQ(5, queryForTest.getNumberOfPossibleBridges());
 }
 
 TEST(BuildingBridgesTest, GetLongestSubsequenceWorksOnExample1) {
-    BuildingBridges queryForTest({{6U, 2U}, {4U, 3U}, {2U, 6U}, {1U, 5U}});
+    BuildingBridges queryForTest({{6, 2}, {4, 3}, {2, 6}, {1, 5}});
 
-    EXPECT_EQ((Bridges{{2U, 6U}, {1U, 5U}}), queryForTest.getPossibleBridges());
+    EXPECT_EQ((Bridges{{2, 6}, {1, 5}}), queryForTest.getPossibleBridges());
 }
 
 TEST(BuildingBridgesTest, GetLongestSubsequenceWorksOnExample2) {
-    BuildingBridges queryForTest({{8U, 1U}, {1U, 2U}, {4U, 3U}, {3U, 4U}, {5U, 5U}, {2U, 6U}, {6U, 7U}, {7U, 8U}});
+    BuildingBridges queryForTest({{8, 1}, {1, 2}, {4, 3}, {3, 4}, {5, 5}, {2, 6}, {6, 7}, {7, 8}});
 
-    EXPECT_EQ((Bridges{{7U, 8U}, {6U, 7U}, {5U, 5U}, {4U, 3U}, {1U, 2U}}), queryForTest.getPossibleBridges());
+    EXPECT_EQ((Bridges{{7, 8}, {6, 7}, {5, 5}, {4, 3}, {1, 2}}), queryForTest.getPossibleBridges());
 }
 
 }  // namespace alba

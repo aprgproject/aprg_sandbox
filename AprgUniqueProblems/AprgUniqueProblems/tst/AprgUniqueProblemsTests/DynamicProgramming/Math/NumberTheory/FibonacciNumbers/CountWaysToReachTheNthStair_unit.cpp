@@ -7,27 +7,27 @@ using namespace std;
 namespace alba {
 
 TEST(CountWaysToReachTheNthStairTest, GetCountWorksOnExample1) {
-    CountWaysToReachTheNthStair queryForTest(1U);
+    CountWaysToReachTheNthStair queryForTest(1);
 
-    EXPECT_EQ(1U, queryForTest.getCountUsingFibonacci());
+    EXPECT_EQ(1, queryForTest.getCountUsingFibonacci());
 }
 
 TEST(CountWaysToReachTheNthStairTest, GetCountWorksOnExample2) {
-    CountWaysToReachTheNthStair queryForTest(2U);
+    CountWaysToReachTheNthStair queryForTest(2);
 
-    EXPECT_EQ(2U, queryForTest.getCountUsingFibonacci());
+    EXPECT_EQ(2, queryForTest.getCountUsingFibonacci());
 }
 
 TEST(CountWaysToReachTheNthStairTest, GetCountWorksOnExample3) {
-    CountWaysToReachTheNthStair queryForTest(4U);
+    CountWaysToReachTheNthStair queryForTest(4);
 
-    EXPECT_EQ(5U, queryForTest.getCountUsingFibonacci());
+    EXPECT_EQ(5, queryForTest.getCountUsingFibonacci());
 }
 
 TEST(CountWaysToReachTheNthStairTest, GetCountWorksOnExample4) {
-    CountWaysToReachTheNthStair queryForTest(10U);
+    CountWaysToReachTheNthStair queryForTest(10);
 
-    EXPECT_EQ(89U, queryForTest.getCountUsingFibonacci());
+    EXPECT_EQ(89, queryForTest.getCountUsingFibonacci());
 }
 
 }  // namespace alba
