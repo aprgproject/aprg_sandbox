@@ -16,15 +16,13 @@ namespace algorithm {
 namespace {
 
 string compressCharactersToValues(string const& characters) {
-    Alphabet<unsigned char> dnaAlphabet("ACTG");
+    Alphabet<uint8_t> dnaAlphabet("ACTG");
     stringstream inputSs;
     inputSs << characters;
-    stringstream outputSs;
-    AlbaStreamBitReader reader(inputSs);
+    stringstream outputSs;    AlbaStreamBitReader reader(inputSs);
     AlbaStreamBitWriter writer(outputSs);
     while (true) {
-        bitset<2> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));
-        if (!inputSs.eof()) {
+        bitset<2> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));        if (!inputSs.eof()) {
             writer.writeBitsetData<2>(valueBitset, 0, 1);
         } else {
             break;
@@ -35,24 +33,21 @@ string compressCharactersToValues(string const& characters) {
 }
 
 string expandValuesToCharacters(string const& characters) {
-    Alphabet<unsigned char> dnaAlphabet("ACTG");
+    Alphabet<uint8_t> dnaAlphabet("ACTG");
     stringstream inputSs;
     inputSs << characters;
-    stringstream outputSs;
-    AlbaStreamBitReader reader(inputSs);
+    stringstream outputSs;    AlbaStreamBitReader reader(inputSs);
     AlbaStreamBitWriter writer(outputSs);
     while (true) {
         bitset<2> valueBitset(reader.readBitsetData<2>(0, 1));
         if (!inputSs.eof()) {
-            writer.writeCharData(dnaAlphabet.getCharacter(static_cast<unsigned char>(valueBitset.to_ulong())));
+            writer.writeCharData(dnaAlphabet.getCharacter(static_cast<uint8_t>(valueBitset.to_ulong())));
         } else {
             break;
-        }
-    }
+        }    }
     writer.flush();
     return outputSs.str();
 }
-
 }  // namespace
 
 TEST(GenomicExampleTest, CompressCharactersToValuesWorks) {
