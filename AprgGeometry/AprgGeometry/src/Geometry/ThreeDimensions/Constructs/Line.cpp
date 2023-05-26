@@ -32,16 +32,13 @@ Line::Line(Point const& first, Point const& second)
     double deltaZ = second.getZ() - first.getZ();
     double sign = 1;
     vector<double> deltas = {deltaX, deltaY, deltaZ};
-    unsigned int negativeNumbers =
-        std::count_if(deltas.cbegin(), deltas.cend(), [&](double const delta) { return delta < 0; });
+    int negativeNumbers = std::count_if(deltas.cbegin(), deltas.cend(), [&](double const delta) { return delta < 0; });
     if (negativeNumbers > 1) {
         sign = -1;
-    }
-    m_aCoefficient = deltaX * sign;
+    }    m_aCoefficient = deltaX * sign;
     m_bCoefficient = deltaY * sign;
     m_cCoefficient = deltaZ * sign;
-    calculateAndSaveInitialValuesIfPossible(first);
-}
+    calculateAndSaveInitialValuesIfPossible(first);}
 
 Line::Line(double const aCoefficient, double const bCoefficient, double const cCoefficient, Point const& point)
     : m_aCoefficient(aCoefficient),
@@ -121,15 +118,13 @@ void Line::calculateAndSaveInitialValuesIfPossible(Point const& first) {
         } else {
             // x1/a1 = k (so that initial value = 0)
             // get average of all of x and y and z
-            unsigned int count = 0;
+            int count = 0;
             if (!isAlmostEqual(m_aCoefficient, 0.0)) {
                 minimizedMultiplierForInitialValue += first.getX() / m_aCoefficient;
-                count++;
-            }
+                count++;            }
             if (!isAlmostEqual(m_bCoefficient, 0.0)) {
                 minimizedMultiplierForInitialValue += first.getY() / m_bCoefficient;
-                count++;
-            }
+                count++;            }
             if (!isAlmostEqual(m_cCoefficient, 0.0)) {
                 minimizedMultiplierForInitialValue += first.getZ() / m_cCoefficient;
                 count++;

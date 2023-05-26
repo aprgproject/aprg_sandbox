@@ -7,8 +7,7 @@ namespace alba {
 
 namespace TwoDimensions {
 
-using Vector = AlbaMathVector<double, 2U>;
+using Vector = AlbaMathVector<double, 2>;
 
 }
-
 }  // namespace alba

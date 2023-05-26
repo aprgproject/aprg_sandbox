@@ -212,15 +212,12 @@ double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral) {
            2;
 }
 
-double getAreaUsingPicksTheorem(
-    unsigned int const numberOfPointsInside, unsigned int const numberOfPointsOnTheBoundary) {
+double getAreaUsingPicksTheorem(int const numberOfPointsInside, int const numberOfPointsOnTheBoundary) {
     return numberOfPointsInside + static_cast<double>(numberOfPointsOnTheBoundary) / 2 - 1;
 }
-
 ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity) {
     ConicSectionType result(ConicSectionType::Unknown);
-    if (isAlmostEqual(eccentricity, 0.0)) {
-        result = ConicSectionType::Circle;
+    if (isAlmostEqual(eccentricity, 0.0)) {        result = ConicSectionType::Circle;
     } else if (isAlmostEqual(eccentricity, 1.0)) {
         result = ConicSectionType::Parabola;
     } else if (eccentricity > 0 && eccentricity < 1) {
@@ -480,15 +477,13 @@ Point popNearestPoint(Points& points, Point const& point) {
     if (!points.empty()) {
         double nearestDistance = getDistance(points.front(), point);
         Points::iterator nearestPointIterator = points.begin();
-        for (Points::iterator it = points.begin() + 1U; it != points.end(); it++) {
+        for (Points::iterator it = points.begin() + 1; it != points.end(); ++it) {
             double currentDistance(getDistance(*it, point));
             if (nearestDistance > currentDistance) {
-                nearestDistance = currentDistance;
-                nearestPointIterator = it;
+                nearestDistance = currentDistance;                nearestPointIterator = it;
             }
         }
-        result = *nearestPointIterator;
-        points.erase(nearestPointIterator);
+        result = *nearestPointIterator;        points.erase(nearestPointIterator);
     }
     return result;
 }
@@ -547,15 +542,13 @@ Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points 
         if (iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend()) {
             if (isAlmostEqual(iteratorForX->getX(), iteratorForY->getX())) {
                 result.emplace_back(*iteratorForX++);
-                iteratorForY++;
+                ++iteratorForY;
             } else if (iteratorForX->getX() < iteratorForY->getX()) {
                 result.emplace_back(*iteratorForX++);
-            } else {
-                result.emplace_back(*iteratorForY++);
+            } else {                result.emplace_back(*iteratorForY++);
             }
         } else if (iteratorForX != firstPoints.cend()) {
-            result.emplace_back(*iteratorForX++);
-        } else if (iteratorForY != secondPoints.cend()) {
+            result.emplace_back(*iteratorForX++);        } else if (iteratorForY != secondPoints.cend()) {
             result.emplace_back(*iteratorForY++);
         }
     }
@@ -572,15 +565,13 @@ Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points 
         if (iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend()) {
             if (isAlmostEqual(iteratorForX->getX(), iteratorForY->getX())) {
                 result.emplace_back(*iteratorForX++);
-                iteratorForY++;
+                ++iteratorForY;
             } else if (iteratorForX->getX() > iteratorForY->getX()) {
                 result.emplace_back(*iteratorForX++);
-            } else {
-                result.emplace_back(*iteratorForY++);
+            } else {                result.emplace_back(*iteratorForY++);
             }
         } else if (iteratorForX != firstPoints.cend()) {
-            result.emplace_back(*iteratorForX++);
-        } else if (iteratorForY != secondPoints.cend()) {
+            result.emplace_back(*iteratorForX++);        } else if (iteratorForY != secondPoints.cend()) {
             result.emplace_back(*iteratorForY++);
         }
     }
@@ -650,15 +641,13 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points) {
     }
 
     stack<Point> convertHullPoints;
-    unsigned int i = 0;
+    int i = 0;
     for (auto const& compareDataAndPointPair : compareDataToPointMap) {
         Point const& currentPoint(compareDataAndPointPair.second);
-        if (i < 2) {
-            convertHullPoints.push(currentPoint);  // push the first 2 points
+        if (i < 2) {            convertHullPoints.push(currentPoint);  // push the first 2 points
         } else {
             Point previousTop = convertHullPoints.top();
-            convertHullPoints.pop();
-            while (!convertHullPoints.empty() &&
+            convertHullPoints.pop();            while (!convertHullPoints.empty() &&
                    RotationDirection::ClockWise !=
                        getRotationDirectionTraversing3Points(previousTop, convertHullPoints.top(), currentPoint))
             // Counter clock wise must be maintained

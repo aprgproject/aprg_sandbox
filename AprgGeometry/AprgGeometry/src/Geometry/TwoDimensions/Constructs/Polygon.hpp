@@ -11,14 +11,12 @@ namespace alba {
 
 namespace TwoDimensions {
 
-template <unsigned int numberOfVertices>
+template <int numberOfVertices>
 class Polygon {
 public:
-    using Distances = std::array<double, numberOfVertices>;
-    Polygon();
+    using Distances = std::array<double, numberOfVertices>;    Polygon();
 
     Polygon(std::initializer_list<Point> const& vertices);
-
     bool isEquilateral() const;
     bool isEquiangular() const;
     bool isRegular() const;
@@ -32,14 +30,12 @@ public:
 
     Points getPoints(double const interval) const;
     void getPointsFromVerticesWithoutLastPoint(
-        Points& points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const;
+        Points& points, double const interval, int vertexIndex1, int vertexIndex2) const;
 
 protected:
-    std::array<Point, numberOfVertices> m_vertices;
-};
+    std::array<Point, numberOfVertices> m_vertices;};
 
 template class Polygon<3>;
 template class Polygon<4>;
-
 }  // namespace TwoDimensions
 }  // namespace alba
