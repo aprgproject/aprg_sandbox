@@ -2,18 +2,16 @@
 
 namespace aiff_stereo_24bit_48000 {
 
-unsigned int numSamplesPerChannel = 384000;
+int numSamplesPerChannel = 384000;
 int bitDepth = 24;
-unsigned int sampleRate = 48000;
-unsigned int numChannels = 2;
+int sampleRate = 48000;
+int numChannels = 2;
 
 std::vector<std::vector<double>> testBuffer = {
-    {0.0,
-     0.0,
+    {0.0,     0.0,
      7.15255737305e-07,
      2.62260437012e-06,
-     6.55651092529e-06,
-     1.20401382446e-05,
+     6.55651092529e-06,     1.20401382446e-05,
      2.07424163818e-05,
      3.20672988892e-05,
      4.70876693726e-05,

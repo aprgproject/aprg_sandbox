@@ -2,18 +2,16 @@
 
 namespace wav_stereo_16bit_44100 {
 
-unsigned int numSamplesPerChannel = 352800;
+int numSamplesPerChannel = 352800;
 int bitDepth = 16;
-unsigned int sampleRate = 44100;
-unsigned int numChannels = 2;
+int sampleRate = 44100;
+int numChannels = 2;
 
 std::vector<std::vector<double>> testBuffer = {
-    {0.0,
-     -9.1552734375e-05,
+    {0.0,     -9.1552734375e-05,
      -0.00054931640625,
      -0.00119018554688,
-     -0.00128173828125,
-     0.00198364257812,
+     -0.00128173828125,     0.00198364257812,
      0.0105590820312,
      0.0144958496094,
      0.009765625,
