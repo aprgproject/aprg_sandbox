@@ -20,15 +20,13 @@ AlbaWindowsScreenMonitoring::~AlbaWindowsScreenMonitoring() { cleanup(); }
 uint32_t AlbaWindowsScreenMonitoring::getColorAt(int const x, int const y) const {
     uint32_t result{};
     int index = (x + (m_screenHeight - y - 1) * m_screenWidth) * 4;
-    if (index >= 0 && static_cast<unsigned int>(index + 2) < m_pixelData.getSize()) {
+    if (index >= 0 && index + 2 < static_cast<int>(m_pixelData.getSize())) {
         uint8_t const* bufferPointer = static_cast<uint8_t const*>(m_pixelData.getConstantBufferPointer()) + index;
         result = AlbaBitManipulation<uint32_t>::concatenateBytes(bufferPointer[2], bufferPointer[1], bufferPointer[0]);
-    }
-    return result;
+    }    return result;
 }
 
-void AlbaWindowsScreenMonitoring::capturePixelsFromScreen() {
-    HBITMAP bitmapHandler = createBitmapHandlerFromScreen(m_screenHandler);
+void AlbaWindowsScreenMonitoring::capturePixelsFromScreen() {    HBITMAP bitmapHandler = createBitmapHandlerFromScreen(m_screenHandler);
     savePixelsFromBitmapScreen(m_screenHandler, bitmapHandler, m_bitmapInfo);
     DeleteObject(bitmapHandler);
 }
