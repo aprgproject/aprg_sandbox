@@ -13,12 +13,10 @@ void AprgGnuPlot2D::graph(PointsInGraph const& points, string const& graphName, 
 void AprgGnuPlot2D::graph(
     TwoDimensions::Points const& geometryPoints, string const& graphName, string const& configurationString) {
     PointsInGraph points;
-    for (unsigned int i = 0; i < geometryPoints.size(); i++) {
+    for (int i = 0; i < static_cast<int>(geometryPoints.size()); i++) {
         points.emplace_back(make_pair(geometryPoints[i].getX(), geometryPoints[i].getY()));
     }
-    graph(points, graphName, configurationString);
-}
+    graph(points, graphName, configurationString);}
 
 void AprgGnuPlot2D::startGraph() { m_gnuPlot << "plot "; }
-
 }  // namespace alba

@@ -17,13 +17,11 @@ void AprgGnuPlot3D::graph(PointsInGraph const& points, string const& graphName, 
 void AprgGnuPlot3D::graph(
     ThreeDimensions::Points const& geometryPoints, string const& graphName, string const& configurationString) {
     PointsInGraph points;
-    for (unsigned int i = 0; i < geometryPoints.size(); i++) {
+    for (int i = 0; i < static_cast<int>(geometryPoints.size()); i++) {
         points.emplace_back(
             make_pair(make_pair(geometryPoints[i].getX(), geometryPoints[i].getY()), geometryPoints[i].getZ()));
-    }
-    graph(points, graphName, configurationString);
+    }    graph(points, graphName, configurationString);
 }
 
 void AprgGnuPlot3D::startGraph() { m_gnuPlot << "splot "; }
-
 }  // namespace alba
