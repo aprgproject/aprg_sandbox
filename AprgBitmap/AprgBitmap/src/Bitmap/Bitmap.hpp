@@ -20,18 +20,17 @@ public:
     BitmapSnippet getSnippetReadFromFileWithOutOfRangeCoordinates(
         int outOfRangeLeft, int outOfRangeTop, int outOfRangeRight, int outOfRangeBottom) const;
     BitmapSnippet getSnippetReadFromFileWithNumberOfBytesToRead(
-        BitmapXY const center, unsigned int const numberOfBytesToRead) const;
+        BitmapXY const center, int const numberOfBytesToRead) const;
     BitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;
     void setSnippetWriteToFile(BitmapSnippet const& snippet) const;
 
 private:
     void calculateNewCornersBasedOnCenterAndNumberOfBytes(
         BitmapXY& topLeftCorner, BitmapXY& bottomRightCorner, BitmapXY const center,
-        unsigned int const numberOfBytes) const;
-    void adjustToTargetLength(int& low, int& high, int const targetLength, unsigned int const maxLength) const;
+        int const numberOfBytes) const;
+    void adjustToTargetLength(int& low, int& high, int const targetLength, int const maxLength) const;
     BitmapConfiguration m_configuration;
 };
-
 }  // namespace AprgBitmap
 
 }  // namespace alba

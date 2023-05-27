@@ -46,31 +46,29 @@ public:
     uint32_t getBitMaskForValue() const;
 
     BitmapXY getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const;
-    unsigned int getXCoordinateWithinTheBitmap(int const coordinate) const;
-    unsigned int getYCoordinateWithinTheBitmap(int const coordinate) const;
-    unsigned int getCoordinateWithinRange(int const coordinate, int maxLength) const;
+    int getXCoordinateWithinTheBitmap(int const coordinate) const;
+    int getYCoordinateWithinTheBitmap(int const coordinate) const;
+    int getCoordinateWithinRange(int const coordinate, int maxLength) const;
     BitmapXY getUpLeftCornerPoint() const;
     BitmapXY getDownRightCornerPoint() const;
 
     uint32_t getColorUsingPixelValue(uint32_t const pixelValue) const;
-    unsigned int convertPixelsToBytesRoundedToFloor(unsigned int pixels) const;
-    unsigned int convertPixelsToBytesRoundedToCeil(unsigned int pixels) const;
-    unsigned int convertBytesToPixels(unsigned int bytes) const;
-    unsigned int getNumberOfPixelsForOneByte() const;
-    unsigned int getMaximumNumberOfPixelsBeforeOneByte() const;
-    unsigned int getMinimumNumberOfBytesForOnePixel() const;
-    unsigned int getEstimatedSquareSideInPixels(unsigned int const numberOfBytesToRead) const;
-    unsigned int getOneRowSizeInBytesFromPixels(
-        unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const;
-    unsigned int getOneRowSizeInBytesFromBytes(
-        unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const;
+    int convertPixelsToBytesRoundedToFloor(int pixels) const;
+    int convertPixelsToBytesRoundedToCeil(int pixels) const;
+    int convertBytesToPixels(int bytes) const;
+    int getNumberOfPixelsForOneByte() const;
+    int getMaximumNumberOfPixelsBeforeOneByte() const;
+    int getMinimumNumberOfBytesForOnePixel() const;
+    int getEstimatedSquareSideInPixels(int const numberOfBytesToRead) const;
+    int getOneRowSizeInBytesFromPixels(
+        int const leftPixelInclusive, int const rightPixelInclusive) const;
+    int getOneRowSizeInBytesFromBytes(
+        int const leftByteInclusive, int const rightByteInclusive) const;
 
     Colors getColorTable() const;
-
     void readBitmap(std::string const& path);
 
-private:
-    void readBitmapFileHeader(AlbaFileReader& fileReader);
+private:    void readBitmapFileHeader(AlbaFileReader& fileReader);
     void readDibHeader(AlbaFileReader& fileReader);
     void readColors(AlbaFileReader& fileReader);
     void calculateOtherValuesAfterReading();

@@ -57,19 +57,17 @@ bool BitmapConfiguration::isCompressedMethodSupported() const {
 }
 
 bool BitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const {
-    return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
+    return position.getX() < static_cast<int>(m_bitmapWidth) && position.getY() < static_cast<int>(m_bitmapHeight);
 }
 
 bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const {
-    return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
+    return x < static_cast<int>(m_bitmapWidth) && y < static_cast<int>(m_bitmapHeight) && x >= 0 && y >= 0;
 }
 
 CompressedMethodType BitmapConfiguration::getCompressedMethodType() const { return m_compressionMethodType; }
-
 std::string BitmapConfiguration::getPath() const { return m_path; }
 
 uint32_t BitmapConfiguration::getPixelArrayAddress() const { return m_pixelArrayAddress; }
-
 uint32_t BitmapConfiguration::getBitmapWidth() const { return m_bitmapWidth; }
 
 uint32_t BitmapConfiguration::getBitmapHeight() const { return m_bitmapHeight; }
@@ -84,30 +82,28 @@ BitmapXY BitmapConfiguration::getPointWithinTheBitmap(int const xCoordinate, int
     return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));
 }
 
-unsigned int BitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const {
+int BitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const {
     return getCoordinateWithinRange(coordinate, m_bitmapWidth);
 }
 
-unsigned int BitmapConfiguration::getYCoordinateWithinTheBitmap(int const coordinate) const {
+int BitmapConfiguration::getYCoordinateWithinTheBitmap(int const coordinate) const {
     return getCoordinateWithinRange(coordinate, m_bitmapHeight);
 }
 
-unsigned int BitmapConfiguration::getCoordinateWithinRange(int const coordinate, int maxLength) const {
+int BitmapConfiguration::getCoordinateWithinRange(int const coordinate, int maxLength) const {
     return (coordinate < 0 || maxLength <= 0) ? 0 : (coordinate >= maxLength) ? maxLength - 1 : coordinate;
 }
 
 BitmapXY BitmapConfiguration::getUpLeftCornerPoint() const { return BitmapXY(0, 0); }
 
 BitmapXY BitmapConfiguration::getDownRightCornerPoint() const {
-    unsigned int maxX = m_bitmapWidth == 0 ? 0 : m_bitmapWidth - 1;
-    unsigned int maxY = m_bitmapHeight == 0 ? 0 : m_bitmapHeight - 1;
+    int maxX = m_bitmapWidth == 0 ? 0 : m_bitmapWidth - 1;
+    int maxY = m_bitmapHeight == 0 ? 0 : m_bitmapHeight - 1;
     return BitmapXY(maxX, maxY);
 }
-
 uint32_t BitmapConfiguration::getColorUsingPixelValue(uint32_t const pixelValue) const {
     uint32_t color(0);
-    switch (m_numberOfBitsPerPixel) {
-        case 1:
+    switch (m_numberOfBitsPerPixel) {        case 1:
         case 2:
         case 4:
         case 8:
@@ -122,62 +118,60 @@ uint32_t BitmapConfiguration::getColorUsingPixelValue(uint32_t const pixelValue)
     return color;
 }
 
-unsigned int BitmapConfiguration::convertPixelsToBytesRoundedToFloor(unsigned int pixels) const {
+int BitmapConfiguration::convertPixelsToBytesRoundedToFloor(int pixels) const {
     return (pixels * m_numberOfBitsPerPixel) / AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
 
-unsigned int BitmapConfiguration::convertPixelsToBytesRoundedToCeil(unsigned int pixels) const {
+int BitmapConfiguration::convertPixelsToBytesRoundedToCeil(int pixels) const {
     return ((pixels * m_numberOfBitsPerPixel) + AlbaBitConstants::BYTE_SIZE_IN_BITS - 1) /
            AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
 
-unsigned int BitmapConfiguration::convertBytesToPixels(unsigned int bytes) const {
+int BitmapConfiguration::convertBytesToPixels(int bytes) const {
     return (bytes * AlbaBitConstants::BYTE_SIZE_IN_BITS) / m_numberOfBitsPerPixel;
 }
 
-unsigned int BitmapConfiguration::getNumberOfPixelsForOneByte() const { return convertBytesToPixels(1); }
+int BitmapConfiguration::getNumberOfPixelsForOneByte() const { return convertBytesToPixels(1); }
 
-unsigned int BitmapConfiguration::getMaximumNumberOfPixelsBeforeOneByte() const {
-    unsigned int numberOfPixelsInOneByte(convertBytesToPixels(1));
+int BitmapConfiguration::getMaximumNumberOfPixelsBeforeOneByte() const {
+    int numberOfPixelsInOneByte(convertBytesToPixels(1));
     return (numberOfPixelsInOneByte > 0) ? numberOfPixelsInOneByte - 1 : 0;
 }
 
-unsigned int BitmapConfiguration::getMinimumNumberOfBytesForOnePixel() const {
-    unsigned int numberOfBytesInOnePixel(convertPixelsToBytesRoundedToFloor(1));
+int BitmapConfiguration::getMinimumNumberOfBytesForOnePixel() const {
+    int numberOfBytesInOnePixel(convertPixelsToBytesRoundedToFloor(1));
     return (numberOfBytesInOnePixel > 0) ? numberOfBytesInOnePixel : 1;
 }
 
-unsigned int BitmapConfiguration::getEstimatedSquareSideInPixels(unsigned int const numberOfBytesToRead) const {
+int BitmapConfiguration::getEstimatedSquareSideInPixels(int const numberOfBytesToRead) const {
     // Quadratic equation: side*side*m_numberOfBitsPerPixel
     //+ side*(1+getMinimumNumberOfBytesForOnePixel())*AlbaBitConstants::BYTE_SIZE_IN_BITS
     //- numberOfBytesToRead*AlbaBitConstants::BYTE_SIZE_IN_BITS
     double a = m_numberOfBitsPerPixel;
     double b = (1 + getMinimumNumberOfBytesForOnePixel()) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
     double c = -1 * static_cast<int>(numberOfBytesToRead * AlbaBitConstants::BYTE_SIZE_IN_BITS);
-    unsigned int result(0);
+    int result(0);
     AlbaNumbers roots(getQuadraticRoots(RootType::RealRootsOnly, AlbaNumber(a), AlbaNumber(b), AlbaNumber(c)));
     if (!roots.empty()) {
-        result = static_cast<unsigned int>(roots.front().getInteger());
+        result = static_cast<int>(roots.front().getInteger());
     }
     return result;
 }
 
-unsigned int BitmapConfiguration::getOneRowSizeInBytesFromPixels(
-    unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const {
+int BitmapConfiguration::getOneRowSizeInBytesFromPixels(
+    int const leftPixelInclusive, int const rightPixelInclusive) const {
     return getOneRowSizeInBytesFromBytes(
         convertPixelsToBytesRoundedToFloor(leftPixelInclusive),
         convertPixelsToBytesRoundedToFloor(rightPixelInclusive));
 }
 
-unsigned int BitmapConfiguration::getOneRowSizeInBytesFromBytes(
-    unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const {
+int BitmapConfiguration::getOneRowSizeInBytesFromBytes(
+    int const leftByteInclusive, int const rightByteInclusive) const {
     return rightByteInclusive - leftByteInclusive + getMinimumNumberOfBytesForOnePixel();
 }
-
 Colors BitmapConfiguration::getColorTable() const { return m_colors; }
 
-void BitmapConfiguration::readBitmap(string const& path) {
-    // https://en.wikipedia.org/wiki/BMP_file_format
+void BitmapConfiguration::readBitmap(string const& path) {    // https://en.wikipedia.org/wiki/BMP_file_format
 
     m_path = AlbaLocalPathHandler(path).getFullPath();
     ifstream inputStream(m_path, ios::binary);
