@@ -28,15 +28,13 @@ void UserInterface::askUserForMainDetails() {
     double discharge(m_userInterface.getNumberFromInput<double>());
 
     cout << "Enter minimum satisfactory score (inclusive):\n";
-    unsigned int minimumSatisfactoryScore(m_userInterface.getNumberFromInput<unsigned int>());
+    int minimumSatisfactoryScore(m_userInterface.getNumberFromInput<int>());
 
     m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);
 }
-
 void UserInterface::askUserForFormDetails() {
     AlbaLocalPathHandler formDetailsDirectoryPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
-    formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");
-    saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
+    formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");    saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
 }
 
 string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath) {
@@ -44,15 +42,13 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
 
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaUserInterface::Choices<unsigned int> choices;
-    unsigned int choice(0);
+    AlbaUserInterface::Choices<int> choices;
+    int choice(0);
 
     formDetailsPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-
     for (string const& formDetailsFile : listOfFiles) {
         cout << "Choice " << choice << " :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << "\n";
-        choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
-    }
+        choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());    }
     auto chosenChoice(m_userInterface.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices));
     cout << "Chosen choice: " << chosenChoice << "\n";
 
@@ -63,15 +59,13 @@ void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsF
 
     m_savedConfiguration.setFormDetailsTitle(fileReader.getLineAndIgnoreWhiteSpaces());
 
-    unsigned int columnNumber = 0;
+    int columnNumber = 0;
     while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if (!line.empty()) {
-            if (line == "NEW_COLUMN") {
+        if (!line.empty()) {            if (line == "NEW_COLUMN") {
                 columnNumber++;
             } else {
-                m_savedConfiguration.addQuestion(columnNumber, line);
-            }
+                m_savedConfiguration.addQuestion(columnNumber, line);            }
         }
     }
 }
