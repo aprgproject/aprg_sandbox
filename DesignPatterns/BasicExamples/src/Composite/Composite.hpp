@@ -13,45 +13,39 @@ public:
     virtual ~Component() = default;
 
     virtual Component const* getChildPointerAt(
-        unsigned int const) const  // Make sure that this doesn't break interface segregation principle. (Make sure the
+        int const) const  // Make sure that this doesn't break interface segregation principle. (Make sure the
                                    // method/function makes sense.)
     {
-        return nullptr;
-    }
+        return nullptr;    }
 
     virtual void add(std::unique_ptr<Component>)  // Make sure that this doesn't break interface segregation principle.
-                                                  // (Make sure the method/function makes sense.)
-    {
+                                                  // (Make sure the method/function makes sense.)    {
         //...
     }
 
-    virtual void removeAtIndex(unsigned int const)  // Make sure that this doesn't break interface segregation
+    virtual void removeAtIndex(int const)  // Make sure that this doesn't break interface segregation
                                                     // principle. (Make sure the method/function makes sense.)
     {
-        //...
-    }
+        //...    }
 
     virtual void operation() = 0;
 };
-
 // Composite
 // defines behavior of the components having children
 // and store child components
 
 class Composite : public Component {
 public:
-    Component const* getChildPointerAt(unsigned int const index) const override { return m_children.at(index).get(); }
+    Component const* getChildPointerAt(int const index) const override { return m_children.at(index).get(); }
 
     void add(std::unique_ptr<Component> component) override { m_children.emplace_back(move(component)); }
 
-    void removeAtIndex(unsigned int const index) override { m_children.erase(m_children.begin() + index); }
+    void removeAtIndex(int const index) override { m_children.erase(m_children.begin() + index); }
 
     void operation() override {
-        for (auto& child : m_children) {
-            child->operation();
+        for (auto& child : m_children) {            child->operation();
         }
     }
-
 private:
     std::vector<std::unique_ptr<Component>> m_children;
 };
@@ -62,20 +56,18 @@ private:
 
 class Leaf : public Component {
 public:
-    Leaf(unsigned int const id) : m_id(id) {}
+    Leaf(int const id) : m_id(id) {}
 
     void operation() override { std::cout << "Leaf " << m_id << " operation\n"; }
 
 private:
-    unsigned int m_id;
+    int m_id;
 };
 
 }  // namespace Composite
-
 // Composite discussion:
 
-// ONE LINE NOTE:
-// -> Provide an object that CAN be an "individual object" or a "composite object", and they are treated UNIFORMLY
+// ONE LINE NOTE:// -> Provide an object that CAN be an "individual object" or a "composite object", and they are treated UNIFORMLY
 
 // Intent:
 // Compose objects into tree structures to represent part-whole hierarchies.

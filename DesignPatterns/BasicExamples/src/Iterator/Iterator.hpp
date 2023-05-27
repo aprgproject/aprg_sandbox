@@ -25,28 +25,26 @@ public:
 
 class ConcreteAggregate : public Aggregate {
 public:
-    ConcreteAggregate(unsigned int const size) {
+    ConcreteAggregate(int const size) {
         m_listPointer = std::make_unique<int[]>(size);
         m_count = size;
     }
 
     std::unique_ptr<Iterator> createIterator() override;  // defined after Iterator is declared
 
-    unsigned int size() const { return m_count; }
+    int size() const { return m_count; }
 
-    int getValueAt(unsigned int const index) { return m_listPointer[index]; }
+    int getValueAt(int const index) { return m_listPointer[index]; }
     // ...
 
 private:
     std::unique_ptr<int[]> m_listPointer;
-    unsigned int m_count;
+    int m_count;
     // ...
 };
-
 // Iterator
 // provides the interface that all iterators must implement and
 // a set of methods for traversing over elements
-
 class Iterator {
 public:
     virtual ~Iterator() = default;
@@ -77,14 +75,12 @@ public:
 
 private:
     ConcreteAggregate& m_aggregate;
-    unsigned int index;
+    int index;
     // ...
 };
-
 std::unique_ptr<Iterator> ConcreteAggregate::createIterator() { return std::make_unique<ConcreteIterator>(*this); }
 
 }  // namespace Iterator
-
 // Iterator discussion:
 
 // ONE LINE NOTE:

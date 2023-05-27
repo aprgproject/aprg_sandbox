@@ -12,31 +12,29 @@ class Mediator;
 
 class Colleague {
 public:
-    Colleague(Mediator& mediator, const unsigned int id) : m_mediator(mediator), m_id(id) {}
+    Colleague(Mediator& mediator, const int id) : m_mediator(mediator), m_id(id) {}
 
     virtual ~Colleague() = default;
 
-    unsigned int getID() const { return m_id; }
+    int getID() const { return m_id; }
 
     virtual void send(std::string const&) = 0;
     virtual void receive(std::string const&) = 0;
 
 protected:
     Mediator& m_mediator;
-    unsigned int m_id;
+    int m_id;
 };
 
 class ConcreteColleague : public Colleague {
 public:
-    ConcreteColleague(Mediator& mediator, unsigned int const id) : Colleague(mediator, id) {}
+    ConcreteColleague(Mediator& mediator, int const id) : Colleague(mediator, id) {}
 
     void send(std::string const& message) override;
-    void receive(std::string const& message) override;
-};
+    void receive(std::string const& message) override;};
 
 // Mediator
 // defines an interface for communicating with Colleague objects
-
 class Mediator {
 public:
     virtual ~Mediator() = default;
