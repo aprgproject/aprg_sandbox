@@ -30,22 +30,20 @@ PenCircles::PointToPenCircleDetailsMap const& PenCircles::getPenCircles() const 
 PenCircles::CircleCenterConnections const& PenCircles::getCenterConnections() const { return m_centerConnections; }
 
 PenCircles::PointAndPenCircleDetailsPairs PenCircles::getNearestPenCirclesToAPoint(
-    BitmapXY const& point, unsigned int const distance) const {
+    BitmapXY const& point, int const distance) const {
     PointAndPenCircleDetailsPairs result;
-    unsigned int minX =
-        static_cast<unsigned int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getX(), distance), 0));
-    unsigned int maxX = point.getX() + distance;
-    unsigned int minY =
-        static_cast<unsigned int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getY(), distance), 0));
-    unsigned int maxY = point.getY() + distance;
+    int minX =
+        static_cast<int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getX(), distance), 0));
+    int maxX = point.getX() + distance;
+    int minY =
+        static_cast<int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getY(), distance), 0));
+    int maxY = point.getY() + distance;
     for (auto const& pointAndPenCircleDetailsPair : m_penCircles) {
         BitmapXY const& centerPoint(pointAndPenCircleDetailsPair.first);
-        if (minX <= centerPoint.getX() && centerPoint.getX() <= maxX && minY <= centerPoint.getY() &&
-            centerPoint.getY() <= maxY) {
+        if (minX <= centerPoint.getX() && centerPoint.getX() <= maxX && minY <= centerPoint.getY() &&            centerPoint.getY() <= maxY) {
             result.emplace_back(pointAndPenCircleDetailsPair);
         }
-    }
-    return result;
+    }    return result;
 }
 
 PenCircles::PointToPenCircleDetailsMap& PenCircles::getPenCirclesReference() { return m_penCircles; }

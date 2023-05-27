@@ -73,16 +73,14 @@ void AprgColorStatistics::saveColorData(string const& path) {
                         << "luma601, "
                         << "luma709"
                         << "\n";
-    unsigned int count = 0;
-    unsigned int size = min(
+    int count = 0;
+    int size = min(
         colorIntensitySet.size(),
         min(hueDegreesSet.size(),
-            min(saturationLightnessSet.size(),
-                min(lightnessSet.size(),
+            min(saturationLightnessSet.size(),                min(lightnessSet.size(),
                     min(saturationValueSet.size(), min(valueSet.size(), min(luma601Set.size(), luma601Set.size())))))));
     while (count < size) {
-        colorDataFileStream << *colorIntensityIterator++ << ", " << *hueDegreesIterator++ / 360 << ", "
-                            << *saturationLightnessIterator++ << ", " << *lightnessIterator++ << ", "
+        colorDataFileStream << *colorIntensityIterator++ << ", " << *hueDegreesIterator++ / 360 << ", "                            << *saturationLightnessIterator++ << ", " << *lightnessIterator++ << ", "
                             << *saturationValueIterator++ << ", " << *valueIterator++ << ", " << *luma601Iterator++
                             << ", " << *luma709Iterator++ << "\n";
         count++;

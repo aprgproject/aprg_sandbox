@@ -14,8 +14,7 @@ void doStuffsAfterSteps(AlbaLocalTimer& localTimer, std::string const& descripti
 void doStuffsAfterSteps(
     AlbaLocalTimer& localTimer, BitmapFilters& bitmapFilter, BitmapSnippet const& snippet,
     std::string const& inputFilePath, std::string const& description);
-std::string getNewFilePath(std::string const& inputFilePath, unsigned int const step, std::string const& description);
+std::string getNewFilePath(std::string const& inputFilePath, int const step, std::string const& description);
 
 }  // namespace AprgBitmap
-
 }  // namespace alba

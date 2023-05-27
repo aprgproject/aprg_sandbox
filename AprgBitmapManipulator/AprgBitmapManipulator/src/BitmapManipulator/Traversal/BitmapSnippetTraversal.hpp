@@ -21,15 +21,13 @@ public:
     void traverseQuadrilateralArea(
         TwoDimensions::Quadrilateral const& quadrilateral, TraverseOperation const& traverseOperation) const;
     void traverseCoordinatesCombinations(
-        BitmapXY const& centerPoint, unsigned int const coordinate1, unsigned int const coordinate2,
+        BitmapXY const& centerPoint, int const coordinate1, int const coordinate2,
         TraverseOperation const& traverseOperation) const;
     void traverse4WayConnectivity(BitmapXY const& centerPoint, TraverseOperation const& traverseOperation) const;
     void traverse8WayConnectivity(BitmapXY const& centerPoint, TraverseOperation const& traverseOperation) const;
-
 private:
     void checkPointBeforeDoingTraverseOperation(
-        BitmapXY const& point, TraverseOperation const& traverseOperation) const;
-    BitmapSnippet const& m_bitmapSnippet;
+        BitmapXY const& point, TraverseOperation const& traverseOperation) const;    BitmapSnippet const& m_bitmapSnippet;
 };
 
 }  // namespace AprgBitmap

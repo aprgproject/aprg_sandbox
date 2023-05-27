@@ -96,22 +96,20 @@ void doStuffsAfterSteps(AlbaLocalTimer& localTimer, string const& description) {
 void doStuffsAfterSteps(
     AlbaLocalTimer& localTimer, BitmapFilters& bitmapFilters, BitmapSnippet const& snippet, string const& inputFilePath,
     string const& description) {
-    static unsigned int step = 1;
+    static int step = 1;
     localTimer.stopTimer();
     bitmapFilters.saveSnippetIntoFileWithFullFilePath(snippet, getNewFilePath(inputFilePath, step++, description));
     cout << localTimer.getDifferenceAsAlbaDateTime() << ": " << description << "\n";
     localTimer.resetTimer();
 }
 
-string getNewFilePath(string const& inputFilePath, unsigned int const step, string const& description) {
+string getNewFilePath(string const& inputFilePath, int const step, string const& description) {
     AlbaLocalPathHandler inputFilePathHandler(inputFilePath);
     stringstream ss;
-    ss << inputFilePathHandler.getDirectory() << inputFilePathHandler.getFilenameOnly() << "_Step" << step << "_("
-       << stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(description) << ")."
+    ss << inputFilePathHandler.getDirectory() << inputFilePathHandler.getFilenameOnly() << "_Step" << step << "_("       << stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(description) << ")."
        << inputFilePathHandler.getExtension();
     return ss.str();
 }
-
 }  // namespace AprgBitmap
 
 }  // namespace alba

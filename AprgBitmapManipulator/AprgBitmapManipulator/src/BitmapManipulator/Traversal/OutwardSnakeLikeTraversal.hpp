@@ -12,16 +12,14 @@ class OutwardSnakeLikeTraversal {
 public:
     enum class Direction { Up, Down, Left, Right };
     OutwardSnakeLikeTraversal(
-        BitmapXY const& currentPoint, Direction const direction, unsigned int const lowestLeft,
-        unsigned int const highestRight, unsigned int const lowestTop, unsigned int const highestBottom);
+        BitmapXY const& currentPoint, Direction const direction, int const lowestLeft,
+        int const highestRight, int const lowestTop, int const highestBottom);
 
     bool isTraversalFinished() const;
     BitmapXY getNextPoint();
-
 private:
     BitmapXY fixPoint(BitmapXY const& point);
-    void gotoNextPoint();
-    void move();
+    void gotoNextPoint();    void move();
     void moveLeft();
     void moveRight();
     void moveUp();
@@ -38,18 +36,17 @@ private:
     Direction m_direction;
     std::optional<Direction> m_scheduledTeleportDirection;
     std::optional<Direction> m_previousMovementDirection;
-    unsigned int m_lowestLeft;
-    unsigned int m_highestRight;
-    unsigned int m_lowestTop;
-    unsigned int m_highestBottom;
-    unsigned int m_lastMostLeft;
-    unsigned int m_lastMostRight;
-    unsigned int m_lastMostTop;
-    unsigned int m_lastMostBottom;
+    int m_lowestLeft;
+    int m_highestRight;
+    int m_lowestTop;
+    int m_highestBottom;
+    int m_lastMostLeft;
+    int m_lastMostRight;
+    int m_lastMostTop;
+    int m_lastMostBottom;
     bool m_isStart;
     bool m_isFinished;
 };
-
 }  // namespace AprgBitmap
 
 }  // namespace alba
