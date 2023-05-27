@@ -33,14 +33,12 @@ TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)  // DISABLED_
 
     userAutomation.sleep(3000);
 
-    for (unsigned int page = 1; page <= 1000; page++) {
+    for (int page = 1; page <= 1000; page++) {
         userAutomation.typeControlAndLetterSimultaneously('S');
         userAutomation.sleep(2000);
-
         stringstream fileName;
         fileName << "page_" << page << ".html";
-        AlbaLocalPathHandler filePathHandler(itemDatabaseFolder.getFullPath() + fileName.str());
-        userAutomation.setStringToClipboard(filePathHandler.getFullPath());
+        AlbaLocalPathHandler filePathHandler(itemDatabaseFolder.getFullPath() + fileName.str());        userAutomation.setStringToClipboard(filePathHandler.getFullPath());
         userAutomation.typeControlAndLetterSimultaneously('V');
         userAutomation.sleepWithRealisticDelay();
         userAutomation.typeKey(VK_RETURN);
@@ -80,15 +78,13 @@ TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms) {
     AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
 
     for (char letter = 'a'; letter <= 'z'; letter++) {
-        for (unsigned int pageNumber = 1; pageNumber <= 100; pageNumber++) {
+        for (int pageNumber = 1; pageNumber <= 100; pageNumber++) {
             userAutomation.doLeftClickAt(MousePosition(2368, 52));
 
-            stringstream rmsPath;
-            rmsPath << R"(https://ratemyserver.net/index.php?page=mob_db&list=1&letter=)" << letter << R"(&page_num=)"
+            stringstream rmsPath;            rmsPath << R"(https://ratemyserver.net/index.php?page=mob_db&list=1&letter=)" << letter << R"(&page_num=)"
                     << pageNumber;
             userAutomation.sleepWithRealisticDelay();
-            userAutomation.typeKey(VK_DELETE);
-            userAutomation.setStringToClipboard(rmsPath.str());
+            userAutomation.typeKey(VK_DELETE);            userAutomation.setStringToClipboard(rmsPath.str());
             userAutomation.typeControlAndLetterSimultaneously('V');
             userAutomation.sleepWithRealisticDelay();
             userAutomation.typeKey(VK_RETURN);

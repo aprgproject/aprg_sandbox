@@ -28,31 +28,30 @@ public:
     void releaseRightButtonOnMouse() const;
     void doRightClick() const;
     void doRightClickAt(MousePosition const& position) const;
-    void pressKey(unsigned int const key) const;
-    void releaseKey(unsigned int const key) const;
-    void typeKey(unsigned int const key) const;
+    void pressKey(uint16_t const key) const;
+    void releaseKey(uint16_t const key) const;
+    void typeKey(uint16_t const key) const;
     void typeCharacter(char const character) const;
     void typeString(std::string const& stringToType) const;
-    void typeControlAndLetterSimultaneously(unsigned int const letter) const;
+    void typeControlAndLetterSimultaneously(uint16_t const letter) const;
     std::string getClassNameOfForegroundWindow() const;
     void setForegroundWindowWithClassName(std::string const& className) const;
     void setForegroundWindowWithWindowName(std::string const& windowName) const;
     void sleepWithRealisticDelay() const;
-    void sleep(unsigned int const milliseconds) const;
+    void sleep(int const milliseconds) const;
 
     void saveBitmapOnScreen(
         std::string const& filePath) const;  // Note: the difference on partially capturing the screen is negligible
-
     std::string getStringFromClipboard() const;
     void setStringToClipboard(std::string const& clipBoardText) const;
     void saveBitmapFromClipboard(std::string const& filePath) const;
 
 private:
-    unsigned int convertToVirtualKey(char const character) const;
+    uint16_t convertToVirtualKey(char const character) const;
     void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;
     void doOperation(InputFunction const& inputFunction) const;
     void doOperationWithRealisticDelay(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const;
-    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS = 100;
+    static constexpr int REALISTIC_DELAY_IN_MILLISECONDS = 100;
 };
 
 }  // namespace alba
