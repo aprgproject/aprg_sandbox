@@ -7,32 +7,30 @@ namespace alba {
 namespace booleanAlgebra {
 
 TEST(EnumHelpersTest, GetOperatorTypeInversePriorityWorks) {
-    EXPECT_EQ(0U, getOperatorTypeInversePriority(OperatorType::Unknown));
-    EXPECT_EQ(1U, getOperatorTypeInversePriority(OperatorType::Not));
-    EXPECT_EQ(2U, getOperatorTypeInversePriority(OperatorType::And));
-    EXPECT_EQ(3U, getOperatorTypeInversePriority(OperatorType::Or));
+    EXPECT_EQ(0, getOperatorTypeInversePriority(OperatorType::Unknown));
+    EXPECT_EQ(1, getOperatorTypeInversePriority(OperatorType::Not));
+    EXPECT_EQ(2, getOperatorTypeInversePriority(OperatorType::And));
+    EXPECT_EQ(3, getOperatorTypeInversePriority(OperatorType::Or));
 }
 
 TEST(EnumHelpersTest, GetOperatorLevelInversePriorityWorks) {
-    EXPECT_EQ(0U, getOperatorLevelInversePriority(OperatorLevel::Unknown));
-    EXPECT_EQ(1U, getOperatorLevelInversePriority(OperatorLevel::And));
-    EXPECT_EQ(2U, getOperatorLevelInversePriority(OperatorLevel::Or));
+    EXPECT_EQ(0, getOperatorLevelInversePriority(OperatorLevel::Unknown));
+    EXPECT_EQ(1, getOperatorLevelInversePriority(OperatorLevel::And));
+    EXPECT_EQ(2, getOperatorLevelInversePriority(OperatorLevel::Or));
 }
 
 TEST(EnumHelpersTest, GetTermPriorityValueWorks) {
-    EXPECT_EQ(0U, getTermTypePriorityValue(TermType::Empty));
-    EXPECT_EQ(1U, getTermTypePriorityValue(TermType::Operator));
-    EXPECT_EQ(2U, getTermTypePriorityValue(TermType::Constant));
-    EXPECT_EQ(3U, getTermTypePriorityValue(TermType::VariableTerm));
-    EXPECT_EQ(4U, getTermTypePriorityValue(TermType::Expression));
+    EXPECT_EQ(0, getTermTypePriorityValue(TermType::Empty));
+    EXPECT_EQ(1, getTermTypePriorityValue(TermType::Operator));
+    EXPECT_EQ(2, getTermTypePriorityValue(TermType::Constant));
+    EXPECT_EQ(3, getTermTypePriorityValue(TermType::VariableTerm));
+    EXPECT_EQ(4, getTermTypePriorityValue(TermType::Expression));
 }
 
-TEST(EnumHelpersTest, GetDualOperatorLevelWorks) {
-    EXPECT_EQ(OperatorLevel::Unknown, getDualOperatorLevel(OperatorLevel::Unknown));
+TEST(EnumHelpersTest, GetDualOperatorLevelWorks) {    EXPECT_EQ(OperatorLevel::Unknown, getDualOperatorLevel(OperatorLevel::Unknown));
     EXPECT_EQ(OperatorLevel::Or, getDualOperatorLevel(OperatorLevel::And));
     EXPECT_EQ(OperatorLevel::And, getDualOperatorLevel(OperatorLevel::Or));
 }
-
 TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks) {
     EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
     EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));

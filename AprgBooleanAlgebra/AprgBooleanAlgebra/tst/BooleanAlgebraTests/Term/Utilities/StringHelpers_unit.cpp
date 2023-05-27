@@ -18,20 +18,18 @@ TEST(StringHelpersTest, IsOperatorWorks) {
 }
 
 TEST(StringHelpersTest, GetOperatorTypeValueWorks) {
-    EXPECT_EQ(1U, getOperatorPriority("("));
-    EXPECT_EQ(2U, getOperatorPriority(")"));
-    EXPECT_EQ(3U, getOperatorPriority("~"));
-    EXPECT_EQ(4U, getOperatorPriority("&"));
-    EXPECT_EQ(5U, getOperatorPriority("|"));
-    EXPECT_EQ(0U, getOperatorPriority("notAnOperator"));
+    EXPECT_EQ(1, getOperatorPriority("("));
+    EXPECT_EQ(2, getOperatorPriority(")"));
+    EXPECT_EQ(3, getOperatorPriority("~"));
+    EXPECT_EQ(4, getOperatorPriority("&"));
+    EXPECT_EQ(5, getOperatorPriority("|"));
+    EXPECT_EQ(0, getOperatorPriority("notAnOperator"));
 }
 
-TEST(StringHelpersTest, GetStringWorksForOperatorType) {
-    EXPECT_TRUE(getString(OperatorType::Unknown).empty());
+TEST(StringHelpersTest, GetStringWorksForOperatorType) {    EXPECT_TRUE(getString(OperatorType::Unknown).empty());
     EXPECT_EQ("~", getString(OperatorType::Not));
     EXPECT_EQ("&", getString(OperatorType::And));
-    EXPECT_EQ("|", getString(OperatorType::Or));
-}
+    EXPECT_EQ("|", getString(OperatorType::Or));}
 
 TEST(StringHelpersTest, GetStringWorksForOperatorLevel) {
     EXPECT_TRUE(getString(OperatorLevel::Unknown).empty());

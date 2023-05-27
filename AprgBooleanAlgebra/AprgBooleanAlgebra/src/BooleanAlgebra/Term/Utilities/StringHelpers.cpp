@@ -27,16 +27,14 @@ bool isOperator(string const& stringObject) {
 
 bool isPrime(char const character) { return '\'' == character; }
 
-unsigned int getOperatorPriority(string const& operatorString) {
-    unsigned int result = 0;
+int getOperatorPriority(string const& operatorString) {
+    int result = 0;
     if ("(" == operatorString) {
         result = 1;
-    } else if (")" == operatorString) {
-        result = 2;
+    } else if (")" == operatorString) {        result = 2;
     } else if ("~" == operatorString) {
         result = 3;
-    } else if ("&" == operatorString) {
-        result = 4;
+    } else if ("&" == operatorString) {        result = 4;
     } else if ("|" == operatorString) {
         result = 5;
     }

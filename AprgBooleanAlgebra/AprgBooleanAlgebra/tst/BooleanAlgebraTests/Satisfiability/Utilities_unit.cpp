@@ -13,15 +13,13 @@ TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityLevelWorks) {
         {VariableTerm("b"), VariableTerm("c")},
         {VariableTerm("d"), VariableTerm("e"), VariableTerm("f")}};
 
-    EXPECT_EQ(3U, getSatisfiabilityLevel(satTermsToTest));
+    EXPECT_EQ(3, getSatisfiabilityLevel(satTermsToTest));
 }
 
-TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithTerm) {
-    Term term1(true);
+TEST(SatisfiabilityUtilitiesTest, GetSatisfiabilityTermsWorksWithTerm) {    Term term1(true);
     Term term2("x");
     Expression subExpression1(createExpressionIfPossible({"b", "|", "c"}));
-    Expression subExpression2(createExpressionIfPossible({"d", "|", "e", "|", "f"}));
-    Term term3(createExpressionIfPossible({"a", "&", subExpression1, "&", subExpression2}));
+    Expression subExpression2(createExpressionIfPossible({"d", "|", "e", "|", "f"}));    Term term3(createExpressionIfPossible({"a", "&", subExpression1, "&", subExpression2}));
 
     SatisfiabilityTerms satTermsToVerify1(getSatisfiabilityTerms(term1));
     SatisfiabilityTerms satTermsToVerify2(getSatisfiabilityTerms(term2));

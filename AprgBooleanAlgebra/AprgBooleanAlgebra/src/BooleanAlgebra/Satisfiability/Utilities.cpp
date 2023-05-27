@@ -11,18 +11,16 @@ namespace booleanAlgebra {
 using SatisfiabilityTerm = VariableTerms;
 using SatisfiabilityTerms = std::vector<VariableTerms>;
 
-unsigned int getSatisfiabilityLevel(SatisfiabilityTerms const& satTerms) {
-    unsigned int result(0);
+int getSatisfiabilityLevel(SatisfiabilityTerms const& satTerms) {
+    int result(0);
     for (SatisfiabilityTerm const& satTerm : satTerms) {
-        result = max(result, static_cast<unsigned int>(satTerm.size()));
+        result = max(result, static_cast<int>(satTerm.size()));
     }
     return result;
 }
-
 SatisfiabilityTerms getSatisfiabilityTerms(Term const& term) {
     SatisfiabilityTerms result;
-    if (term.isVariableTerm()) {
-        result.emplace_back(SatisfiabilityTerm{term.getVariableTermConstReference()});
+    if (term.isVariableTerm()) {        result.emplace_back(SatisfiabilityTerm{term.getVariableTermConstReference()});
     } else if (term.isExpression()) {
         result = getSatisfiabilityTerms(term.getExpressionConstReference());
     }

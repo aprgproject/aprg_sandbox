@@ -8,16 +8,14 @@ namespace alba {
 
 namespace booleanAlgebra {
 
-unsigned int getOperatorTypeInversePriority(OperatorType const operatorType) {
-    unsigned int result(0);
+int getOperatorTypeInversePriority(OperatorType const operatorType) {
+    int result(0);
     switch (operatorType) {
         case OperatorType::Unknown:
-            result = 0;
-            break;
+            result = 0;            break;
         case OperatorType::Not:
             result = 1;
-            break;
-        case OperatorType::And:
+            break;        case OperatorType::And:
             result = 2;
             break;
         case OperatorType::Or:
@@ -27,32 +25,28 @@ unsigned int getOperatorTypeInversePriority(OperatorType const operatorType) {
     return result;
 }
 
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel) {
-    unsigned int result(0);
+int getOperatorLevelInversePriority(OperatorLevel const operatorLevel) {
+    int result(0);
     switch (operatorLevel) {
         case OperatorLevel::Unknown:
-            result = 0;
-            break;
+            result = 0;            break;
         case OperatorLevel::And:
             result = 1;
-            break;
-        case OperatorLevel::Or:
+            break;        case OperatorLevel::Or:
             result = 2;
             break;
     }
     return result;
 }
 
-unsigned int getTermTypePriorityValue(TermType const termType) {
-    unsigned int result(0);
+int getTermTypePriorityValue(TermType const termType) {
+    int result(0);
     switch (termType) {
         case TermType::Empty:
-            result = 0;
-            break;
+            result = 0;            break;
         case TermType::Operator:
             result = 1;
-            break;
-        case TermType::Constant:
+            break;        case TermType::Constant:
             result = 2;
             break;
         case TermType::VariableTerm:

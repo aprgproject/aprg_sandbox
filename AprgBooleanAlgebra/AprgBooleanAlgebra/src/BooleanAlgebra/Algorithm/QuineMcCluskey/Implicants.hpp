@@ -28,14 +28,12 @@ public:
         return !(first == second);
     }
 
-    unsigned int getSize() const { return m_implicantsData.size(); }
+    int getSize() const { return m_implicantsData.size(); }
 
     ImplicantWithMintermSet const& getImplicantsData() const& { return m_implicantsData; }
-
     void addImplicant(ImplicantWithMinterm const& implicant) { m_implicantsData.emplace(implicant); }
 
-    void addFinalImplicant(ImplicantWithMinterm const& implicant) {
-        bool isAlreadyRepresented(false);
+    void addFinalImplicant(ImplicantWithMinterm const& implicant) {        bool isAlreadyRepresented(false);
         for (ImplicantWithMinterm const& iteratorImplicant : m_implicantsData) {
             if (implicant.isSubset(iteratorImplicant)) {
                 isAlreadyRepresented = true;
