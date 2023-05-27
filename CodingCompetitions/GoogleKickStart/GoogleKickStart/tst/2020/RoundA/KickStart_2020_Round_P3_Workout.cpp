@@ -27,14 +27,12 @@ namespace KickStart_2020_Round_P3_Workout {
 
 int n, k, a[100000];
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     my_cin >> n >> k;
     for (int i = 0; i < n; ++i) my_cin >> a[i];
-
     int lb = 1, rb = a[n - 1] - a[0];
     while (lb < rb) {
-        int mb = (lb + rb) / 2;
-        int k2 = 0;
+        int mb = (lb + rb) / 2;        int k2 = 0;
         for (int i = 1; i < n; ++i) {
             int d = a[i] - a[i - 1];
             // ceil(d/(n+1))<=mb
@@ -51,17 +49,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

@@ -25,26 +25,23 @@ namespace KickStart_2020_RoundH_P1_Retype {
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int64_t n, k, s;
     my_cin >> n >> k >> s;
     int64_t answer = min(n + 1, (k - s) + (n - s) + 1) + (k - 1);
-
     my_cout << "Case #" << testCaseNumber << ": " << answer << '\n';
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

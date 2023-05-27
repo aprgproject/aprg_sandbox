@@ -26,32 +26,28 @@ namespace KickStart_2020_RoundB_P2_BusRoutes {
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int N;
     my_cin >> N;
-    int64_t D;
-    my_cin >> D;
+    int64_t D;    my_cin >> D;
     vector<int64_t> X(N);
     for (int i = 0; i < N; i++) my_cin >> X[i];
-    for (int i = N - 1; i >= 0; i--) {
-        D = D / X[i] * X[i];
+    for (int i = N - 1; i >= 0; i--) {        D = D / X[i] * X[i];
     }
 
     my_cout << "Case #" << testCaseNumber << ": " << D << '\n';
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

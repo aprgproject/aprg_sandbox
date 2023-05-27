@@ -36,15 +36,13 @@ struct ColorDetail {
 };
 using ColorDetails = vector<ColorDetail>;
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int numberOfDogs, targetNumberOfObserves;
     my_cin >> numberOfDogs >> targetNumberOfObserves;
-    vector<int> positionsOfDogs(numberOfDogs);
-    vector<int> colorsOfDogs(numberOfDogs);
+    vector<int> positionsOfDogs(numberOfDogs);    vector<int> colorsOfDogs(numberOfDogs);
 
     for (int i = 0; i < numberOfDogs; i++) {
-        my_cin >> positionsOfDogs[i];
-    }
+        my_cin >> positionsOfDogs[i];    }
     for (int i = 0; i < numberOfDogs; i++) {
         my_cin >> colorsOfDogs[i];
     }
@@ -118,17 +116,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

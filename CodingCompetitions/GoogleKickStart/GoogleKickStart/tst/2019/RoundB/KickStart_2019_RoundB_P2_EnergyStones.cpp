@@ -83,14 +83,12 @@ int getMaxEnergy(
     return savedEnergy;
 }
 
-void runTestCase(unsigned int const testCaseNumber)
+void runTestCase(int const testCaseNumber)
 {
     my_cin >> numberOfStones;
-
     int totalConsumptionTime=0;
     stones.clear();
-    stones.reserve(numberOfStones);
-    for(int y=0; y<numberOfStones; ++y)
+    stones.reserve(numberOfStones);    for(int y=0; y<numberOfStones; ++y)
     {
         Stone stone;
         my_cin >> stone.timeToConsume >> stone.energy >> stone.rateOfLoss;
@@ -125,15 +123,13 @@ int getMaxEnergy(int const index, int const elapsedTime) {
     }
 }
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     my_cin >> numberOfStones;
 
-    int totalConsumptionTime = 0;
-    stones.clear();
+    int totalConsumptionTime = 0;    stones.clear();
     stones.reserve(numberOfStones);
     for (int y = 0; y < numberOfStones; ++y) {
-        Stone stone;
-        my_cin >> stone.timeToConsume >> stone.energy >> stone.rateOfLoss;
+        Stone stone;        my_cin >> stone.timeToConsume >> stone.energy >> stone.rateOfLoss;
         totalConsumptionTime += stone.timeToConsume;
         stones.emplace_back(stone);
     }
@@ -156,17 +152,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

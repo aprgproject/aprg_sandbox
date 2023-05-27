@@ -20,15 +20,13 @@ namespace KickStart_2020_RoundH_P2_BoringNumbers {
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int64_t L, R;
     my_cin >> L >> R;
-    ++R;
-    bool parity = 0;
+    ++R;    bool parity = 0;
     int64_t coeff = 1;
     int64_t ans = 0;
-    while (L < R) {
-        auto is_good = [&](int64_t v) {
+    while (L < R) {        auto is_good = [&](int64_t v) {
             bool d = v % 2;
             while (v > 0) {
                 if (v % 2 != d) return false;
@@ -62,17 +60,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

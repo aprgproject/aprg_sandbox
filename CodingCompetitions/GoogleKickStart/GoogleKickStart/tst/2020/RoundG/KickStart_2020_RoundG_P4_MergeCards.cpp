@@ -26,15 +26,13 @@ namespace KickStart_2020_RoundG_P4_MergeCards {
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int n;
     my_cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; ++i) {
+    vector<int> a(n);    for (int i = 0; i < n; ++i) {
         my_cin >> a[i];
     }
-    double answer = 0;
-    for (int x = 0; x < n - 1; ++x) {
+    double answer = 0;    for (int x = 0; x < n - 1; ++x) {
         for (int i = x; i >= 0; --i) {
             answer += a[i] / (double)(x - i + 1);
         }
@@ -47,17 +45,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

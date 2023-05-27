@@ -26,15 +26,13 @@ namespace KickStart_2020_RoundG_P2_MaximumCoins {
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int n;
     my_cin >> n;
-    map<int, long long> mapka;
-    for (int row = 0; row < n; ++row) {
+    map<int, long long> mapka;    for (int row = 0; row < n; ++row) {
         for (int col = 0; col < n; ++col) {
             int x;
-            my_cin >> x;
-            mapka[row - col] += x;
+            my_cin >> x;            mapka[row - col] += x;
         }
     }
     long long answer = 0;
@@ -45,17 +43,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;

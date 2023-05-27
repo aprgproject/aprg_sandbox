@@ -143,15 +143,13 @@ Direction getDirection(char const directionChar) {
     }
 }
 
-void runTestCase(unsigned int const testCaseNumber) {
+void runTestCase(int const testCaseNumber) {
     int numberOfRows, numberOfColumns;
     int numberOfInstructions, startX, startY;
-    string instructions;
-    my_cin >> numberOfInstructions >> numberOfRows >> numberOfColumns >> startY >> startX;
+    string instructions;    my_cin >> numberOfInstructions >> numberOfRows >> numberOfColumns >> startY >> startX;
     my_cin >> instructions;
 
-    History history(numberOfColumns, numberOfRows);
-    Coordinate source(startX - 1, startY - 1);
+    History history(numberOfColumns, numberOfRows);    Coordinate source(startX - 1, startY - 1);
     for (char const directionChar : instructions) {
         source = history.addSourceAndGetNext(source, getDirection(directionChar));
     }
@@ -160,17 +158,15 @@ void runTestCase(unsigned int const testCaseNumber) {
 }
 
 void runAllTestCases() {
-    unsigned int numberOfTestCases;
+    int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
-
     runAllTestCases();
 
     return 0;
