@@ -13,22 +13,21 @@ namespace AprgAudio {
 
 struct SearchResultDetails {
     bool isSampleFound;
-    unsigned int replicationIndex;
-    unsigned int searchIndex;
-    unsigned int numberOfSamples;
+    int replicationIndex;
+    int searchIndex;
+    int numberOfSamples;
     double multiplierForSearch;
     double minDifference;
 };
 using SearchResultsDetails = std::vector<SearchResultDetails>;
 
-using Indexes = std::vector<unsigned int>;
+using Indexes = std::vector<int>;
 
 using DoubleOptional = std::optional<double>;
 using Samples = std::vector<double>;
 using AudioInDouble = Audio<double>;
 
-using ValuesToIndexes = std::multimap<double, unsigned int>;
+using ValuesToIndexes = std::multimap<double, int>;
 
 }  // namespace AprgAudio
-
 }  // namespace alba

@@ -9,35 +9,30 @@ namespace alba {
 
 namespace AprgAudio {
 
-void retrieveDeltas(Samples& deltaSamples, Samples const& pointerOfSampleToCheck, unsigned int const numberOfSamples);
+void retrieveDeltas(Samples& deltaSamples, Samples const& pointerOfSampleToCheck, int const numberOfSamples);
 
-double getSumInRange(
-    Samples const& samples, unsigned int const startIndexIncluded, unsigned int const endIndexExcluded);
+double getSumInRange(Samples const& samples, int const startIndexIncluded, int const endIndexExcluded);
 double getAverageOfSamples(Samples const& samples);
-double getAverageInRange(
-    Samples const& samples, unsigned int const startIndexIncluded, unsigned int const endIndexExcluded);
+double getAverageInRange(Samples const& samples, int const startIndexIncluded, int const endIndexExcluded);
 double getCommonMultiplierForDeltaSamples(
-    Samples const& samples, unsigned int const startIndexIncluded, unsigned int const endIndexExcluded);
-double getCommonMultiplierUsingSumAndNumberOfItems(double const sum, unsigned int const numberOfItems);
+    Samples const& samples, int const startIndexIncluded, int const endIndexExcluded);
+double getCommonMultiplierUsingSumAndNumberOfItems(double const sum, int const numberOfItems);
 void multiplyValueToAllSamples(Samples& samples, double const value);
 DoubleOptional compareDeltasAndGetDifference(
     Samples const& deltaSamples1, Samples const& deltaSamples2, double const multiplierToSample2,
-    unsigned int const startOfDeltaSamples1, unsigned int const startOfDeltaSamples2,
-    unsigned int const numberOfSamples);
+    int const startOfDeltaSamples1, int const startOfDeltaSamples2, int const numberOfSamples);
 
 void searchForBestSampleIndexes(
-    SearchResultsDetails& replicateAndSearchIndexes, unsigned int const sampleIntervalForReplication,
-    unsigned int const numberOfSamplesForReplication, unsigned int const numberOfSearchSamplesPerReplication,
+    SearchResultsDetails& replicateAndSearchIndexes, int const sampleIntervalForReplication,
+    int const numberOfSamplesForReplication, int const numberOfSearchSamplesPerReplication,
     Samples const& samplesToReplicate, Samples const& samplesToSearch);
 
 void searchAndTryToReplicateSamples(
     AudioInDouble& audioToChange, AudioInDouble const& audioToReplicate, AudioInDouble const& audioToSearch,
-    unsigned channelIndexInAudioToChange, unsigned channelIndexInAudioToReplicate, unsigned channelIndexInAudioToSearch,
+    int channelIndexInAudioToChange, int channelIndexInAudioToReplicate, int channelIndexInAudioToSearch,
     bool const alwaysPutNewValue);
 
-void searchAndTryToReplicate(
-    std::string const& filePathForAudioToChange, std::string const& filePathForAudioToReplicate,
+void searchAndTryToReplicate(    std::string const& filePathForAudioToChange, std::string const& filePathForAudioToReplicate,
     std::string const& filePathForAudioToSearch, bool const alwaysPutNewValue);
 }  // namespace AprgAudio
-
 }  // namespace alba
