@@ -100,24 +100,23 @@ void AlbaSackReader::tokenize(stringHelper::strings& tokens, string const& line)
 }
 
 void AlbaSackReader::combineWords(stringHelper::strings& tokens) {
-    vector<string> tokensToCombine = {"unsigned char",   "signed char",        "unsigned int",     "signed int",
-                                      "short int",       "unsigned short int", "signed short int", "long int",
-                                      "signed long int", "unsigned long int",  "long double"};
+    vector<string> tokensToCombine = {"unsigned char",     "signed char", "int",
+                                      "signed int",        "short int",   "unsigned short int",
+                                      "signed short int",  "long int",    "signed long int",
+                                      "unsigned long int", "long double"};
 
     struct TokenAndIndex {
-        unsigned int index;
+        int index;
         string token;
     };
     vector<TokenAndIndex> recentWords;
-    for (unsigned int i = 0; i < tokens.size(); i++) {
+    for (int i = 0; i < static_cast<int>(tokens.size()); i++) {
         string token(tokens[i]);
         if (stringHelper::isIdentifier(token)) {
-            TokenAndIndex tokenAndIndex{};
-            tokenAndIndex.index = i;
+            TokenAndIndex tokenAndIndex{};            tokenAndIndex.index = i;
             tokenAndIndex.token = token;
             recentWords.emplace_back(tokenAndIndex);
-            int lastIndex = static_cast<int>(recentWords.size()) - 1;
-            if (lastIndex >= 2) {
+            int lastIndex = static_cast<int>(recentWords.size()) - 1;            if (lastIndex >= 2) {
                 string lastThreeWords = recentWords[lastIndex - 2].token + " " + recentWords[lastIndex - 1].token +
                                         " " + recentWords[lastIndex].token;
                 if (tokensToCombine.end() !=
@@ -150,18 +149,16 @@ void AlbaSackReader::combineWords(stringHelper::strings& tokens) {
 }
 
 void AlbaSackReader::combineArrayOperators(stringHelper::strings& tokens) {
-    unsigned int state = 0;
-    unsigned int nonWhiteSpaceIndex = 0;
-    unsigned int closingBracketIndex = 0;
-    for (unsigned int i = 0; i < tokens.size(); i++) {
+    int state = 0;
+    int nonWhiteSpaceIndex = 0;
+    int closingBracketIndex = 0;
+    for (int i = 0; i < static_cast<int>(tokens.size()); i++) {
         string token(tokens[i]);
         if (0 == state) {
-            if ('[' == token[0]) {
-                state = 1;
+            if ('[' == token[0]) {                state = 1;
             } else if (!stringHelper::isWhiteSpace(token)) {
                 nonWhiteSpaceIndex = i;
-            }
-        } else if (1 == state) {
+            }        } else if (1 == state) {
             if (']' == token[0]) {
                 closingBracketIndex = i;
                 string combinedArrayString = accumulate(
