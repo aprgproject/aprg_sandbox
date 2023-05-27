@@ -91,14 +91,12 @@ SetOfUnsignedIntegers GrundyGame::getNextGrundyNumbersWithNumberOfSticks(Unsigne
     SetOfUnsignedIntegers result;
 
     UnsignedInteger limit = (numberOfSticks + 1) / 2;
-    for (unsigned int a = 1; a < limit; a++) {
-        unsigned int b = numberOfSticks - a;
+    for (int a = 1; a < static_cast<int>(limit); a++) {
+        int b = numberOfSticks - a;
         result.emplace(
             getCombinedGrundyNumber(getGrundyNumberWithNumberOfSticks(a), getGrundyNumberWithNumberOfSticks(b)));
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace math
-
 }  // namespace alba
