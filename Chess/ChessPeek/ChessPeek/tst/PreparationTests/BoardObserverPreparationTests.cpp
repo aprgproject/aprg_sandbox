@@ -32,16 +32,13 @@ void writeBottomRightBorder(BitmapSnippet& outputSnippet, XY const& deltaChessBo
 
 void checkChessCellForWhiteAndBlackPoints(
     PointToSetOfPiecesMap& whitePointsToUniquePiecesMap, PointToSetOfPiecesMap& blackPointsToUniquePiecesMap,
-    BoardObserver const& retriever, PieceColorAndType const piece, unsigned int const xIndex,
-    unsigned int const yIndex) {
+    BoardObserver const& retriever, PieceColorAndType const piece, int const xIndex, int const yIndex) {
     XYs whitePoints, blackPoints;
     retriever.retrieveWhiteOffsetPoints(whitePoints, xIndex, yIndex);
     retriever.retrieveBlackOffsetPoints(blackPoints, xIndex, yIndex);
-
     for (XY const& whitePoint : whitePoints) {
         whitePointsToUniquePiecesMap[whitePoint].emplace(piece);
-    }
-    for (XY const& blackPoint : blackPoints) {
+    }    for (XY const& blackPoint : blackPoints) {
         blackPointsToUniquePiecesMap[blackPoint].emplace(piece);
     }
 }
@@ -150,24 +147,22 @@ void printChessBitValuesWithBlackUpWhiteDown(BoardObserver const& retriever) {
     cout << "Black king:   [" << retriever.getBitValueFromCell(4U, 0U).to_string() << "]\n";
 }
 
-unsigned int getLabelBasedOnSetOfPieces(SetOfPieces const& setOfPieces) {
-    unsigned int result(0U);
+int getLabelBasedOnSetOfPieces(SetOfPieces const& setOfPieces) {
+    int result(0U);
     for (PieceColorAndType const piece : setOfPieces) {
-        result += static_cast<unsigned int>(piece) * 13U;
+        result += static_cast<int>(piece) * 13U;
     }
     return result;
 }
 
-uint32_t getLabelColor(unsigned int const label) {
-    unsigned int digits = getNumberOfBase10Digits(label);
+uint32_t getLabelColor(int const label) {
+    int digits = getNumberOfBase10Digits(label);
     double newValue = (static_cast<double>(1) / label) * pow(10, digits + 8);
     return static_cast<uint32_t>(newValue) % 0xFFFFFF;
 }
-
 uint32_t getLabelColor(SetOfPieces const& setOfPieces) {
     return getLabelColor(getLabelBasedOnSetOfPieces(setOfPieces));
 }
-
 }  // namespace
 
 TEST(BoardObserverPreparationTest, DISABLED_CheckChessBitValue_ForChessDotComVersus) {

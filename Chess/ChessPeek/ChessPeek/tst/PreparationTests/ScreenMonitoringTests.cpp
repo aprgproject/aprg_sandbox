@@ -23,15 +23,13 @@ TEST(ScreenMonitoringTest, DISABLED_ScreenCaptureCanBeSavedAsBitmap) {
 
     BitmapXY topLeftCorner = outputSnippet.getTopLeftCorner();
     BitmapXY bottomRightCorner = outputSnippet.getBottomRightCorner();
-    for (unsigned int y = topLeftCorner.getY(); y <= bottomRightCorner.getY(); y++) {
-        for (unsigned int x = topLeftCorner.getX(); x <= bottomRightCorner.getX(); x++) {
+    for (int y = topLeftCorner.getY(); y <= bottomRightCorner.getY(); y++) {
+        for (int x = topLeftCorner.getX(); x <= bottomRightCorner.getX(); x++) {
             outputSnippet.setPixelAt(BitmapXY(x, y), screenMonitoring.getColorAt(x, y));
         }
     }
-
     outputBitmap.setSnippetWriteToFile(outputSnippet);
 }
-
 }  // namespace ChessPeek
 
 }  // namespace chess

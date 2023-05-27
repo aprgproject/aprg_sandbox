@@ -9,15 +9,13 @@ namespace chess {
 namespace ChessPeek {
 
 struct CalculationDetails {
-    unsigned int depthInPlies;
+    int depthInPlies;
     Variations variations;
     std::string bestMove;
     std::string responseMoveToPonder;
-
     bool operator==(CalculationDetails const& other) const;
     bool operator!=(CalculationDetails const& other) const;
 };
-
 }  // namespace ChessPeek
 
 }  // namespace chess

@@ -232,14 +232,12 @@ uint32_t BoardObserver::getColorAt(int const x, int const y) const {
     if (m_screenMonitoringPtr) {
         result = m_screenMonitoringPtr->getColorAt(x, y);
     } else if (m_bitmapSnippetPtr) {
-        result = m_bitmapSnippetPtr->getColorAt({static_cast<unsigned int>(x), static_cast<unsigned int>(y)});
+        result = m_bitmapSnippetPtr->getColorAt({x, y});
     }
     return result;
 }
-
 PieceColorAndType BoardObserver::getBestPieceFromChessCellBitValue(uint64_t const chessCellBitValue) const {
     PieceColorAndTypes bestFitPieces(getBestFitPiecesFromChessCellBitValue(chessCellBitValue));
-
     PieceColorAndType result{};
     if (bestFitPieces.size() == 1) {
         result = bestFitPieces.back();

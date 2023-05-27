@@ -15,20 +15,18 @@ public:
     DetailsFromTheScreen(Configuration const& configuration);
 
     struct CountOfPieces {
-        unsigned int pieceCount;
-        unsigned int whiteCountInUpperHalf;
-        unsigned int blackCountInUpperHalf;
-        unsigned int whiteCountInLowerHalf;
-        unsigned int blackCountInLowerHalf;
-        unsigned int numberOfWhiteKings;
-        unsigned int numberOfBlackKings;
+        int pieceCount;
+        int whiteCountInUpperHalf;
+        int blackCountInUpperHalf;
+        int whiteCountInLowerHalf;
+        int blackCountInLowerHalf;
+        int numberOfWhiteKings;
+        int numberOfBlackKings;
         Coordinate whiteKingCoordinate;
         Coordinate blackKingCoordinate;
     };
-
     bool canAnalyzeBoard() const;
     BoardWithContext const& getBoardWithContext() const;
-
     void saveDetailsFromTheScreen();
 
 private:
