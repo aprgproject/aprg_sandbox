@@ -11,48 +11,44 @@
 
 namespace alba {
 
-template <unsigned int DIMENSIONS>
+template <int DIMENSIONS>
 class DataSample {
 public:
-    using Sample = DataSample<DIMENSIONS>;
-    using BufferType = std::array<double, DIMENSIONS>;
+    using Sample = DataSample<DIMENSIONS>;    using BufferType = std::array<double, DIMENSIONS>;
 
     DataSample() { std::fill(m_data.begin(), m_data.end(), 0); }
 
     DataSample(std::initializer_list<double> const& dataSampleValues) {
-        unsigned int limit = std::min(DIMENSIONS, static_cast<unsigned int>(dataSampleValues.size()));
+        int limit = std::min(DIMENSIONS, static_cast<int>(dataSampleValues.size()));
         std::copy(dataSampleValues.begin(), dataSampleValues.begin() + limit, m_data.begin());
     }
 
-    bool isIndexValid(unsigned int index) const { return index < DIMENSIONS; }
+    bool isIndexValid(int index) const { return index >= 0 && index < DIMENSIONS; }
 
-    unsigned int getSize() const { return m_data.size(); }
+    int getSize() const { return m_data.size(); }
 
-    double getValueAt(unsigned int index) const {
+    double getValueAt(int index) const {
         double result(0);
         if (isIndexValid(index)) {
-            result = m_data[index];
-        }
+            result = m_data[index];        }
         return result;
     }
 
     double getSum() const {
         double result(0);
-        for (unsigned int index = 0; index < DIMENSIONS; index++) {
+        for (int index = 0; index < DIMENSIONS; index++) {
             result += m_data.at(index);
         }
         return result;
     }
 
-    void setValueAt(unsigned int index, double const dataSampleValue) {
+    void setValueAt(int index, double const dataSampleValue) {
         if (isIndexValid(index)) {
             m_data[index] = dataSampleValue;
-        }
-    }
+        }    }
 
     bool operator==(Sample const& value) const {
-        return std::equal(m_data.cbegin(), m_data.cend(), value.m_data.cbegin());
-    }
+        return std::equal(m_data.cbegin(), m_data.cend(), value.m_data.cbegin());    }
 
     bool operator!=(Sample const& value) const { return !(*this == value); }
 
