@@ -15,16 +15,14 @@ struct Variation {
 using Variations = std::vector<Variation>;
 
 struct CalculationDetails {
-    unsigned int depthInPlies;           // search depth in plies
-    unsigned int selectiveDepthInPlies;  // selective search depth in plies
+    int depthInPlies;           // search depth in plies
+    int selectiveDepthInPlies;  // selective search depth in plies
     // Some programs also report a selective search depth beside the nominal search depth, most often much greater than
     // the nominal search depth. Some programs determine the highest distance to the root at any node, others only at
-    // the horizon.
-    Variations variations;
+    // the horizon.    Variations variations;
     std::string bestMove;              // best move in position as determined by engine
     std::string responseMoveToPonder;  // move that engine is pondering after best move
 };
-
 // Ply explanation:
 // Source: https://en.wikipedia.org/wiki/Ply_(game_theory)
 // For example, in standard chess terminology, one move consists of a turn by each player; therefore a ply in chess is a

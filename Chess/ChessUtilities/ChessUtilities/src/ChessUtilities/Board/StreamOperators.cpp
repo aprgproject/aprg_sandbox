@@ -92,13 +92,11 @@ void printHexValuesInBoard(ostream& out, Board const& board) {
     out << hex << uppercase;
     for (int y = 0; y < Board::CHESS_SIDE_SIZE; y++) {
         for (int x = 0; x < Board::CHESS_SIDE_SIZE; x++) {
-            out << "0x" << static_cast<unsigned int>(pieceGrid.at(i++).getData()) << ", ";
+            out << "0x" << static_cast<uint32_t>(pieceGrid.at(i++).getData()) << ", ";
         }
     }
-    out << dec;
-    out << "\n";
+    out << dec;    out << "\n";
 }
 
 }  // namespace chess
-
 }  // namespace alba

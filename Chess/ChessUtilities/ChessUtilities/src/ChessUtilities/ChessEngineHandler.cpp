@@ -59,15 +59,13 @@ void ChessEngineHandler::reset() {
 }
 
 void ChessEngineHandler::sendStringToEngine(string const& stringToEngine) {
-    unsigned long bytesWritten(0U);
+    DWORD bytesWritten(0U);
     string stringToWrite(stringToEngine);
     stringToWrite += "\n";
-    long remainingLength = stringToWrite.length();
-    bool isSuccessful(true);
+    long remainingLength = stringToWrite.length();    bool isSuccessful(true);
     do {
         isSuccessful = WriteFile(m_inputStreamOnHandler, stringToWrite.c_str(), remainingLength, &bytesWritten, NULL);
-        if (isSuccessful) {
-            remainingLength = remainingLength - bytesWritten;
+        if (isSuccessful) {            remainingLength = remainingLength - bytesWritten;
             if (remainingLength > 0) {
                 stringToWrite = stringToWrite.substr(bytesWritten, remainingLength);
             }
@@ -87,30 +85,27 @@ void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine)
 
 void ChessEngineHandler::startMonitoringEngineOutput() {
     std::lock_guard<std::mutex> const lockGuard(m_readMutex);
-    unsigned long bytesRead;       // bytes read
-    unsigned long bytesAvailable;  // bytes available
+    DWORD bytesRead;       // bytes read
+    DWORD bytesAvailable;  // bytes available
     char buffer[MAX_BUFFER_SIZE];
     string stringBuffer;
-    while (true) {
-        PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);
+    while (true) {        PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);
         if (bytesAvailable > 0) {
             ReadFile(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, &bytesRead, NULL);
             stringBuffer.reserve(stringBuffer.size() + bytesRead);
             copy(begin(buffer), begin(buffer) + bytesRead, back_inserter(stringBuffer));
 
-            unsigned int currentIndex(0U);
+            int currentIndex(0U);
             bool shouldContinue(true);
             while (shouldContinue) {
-                unsigned int startIndex = currentIndex;
-                unsigned int newLineIndex = stringBuffer.find_first_of("\r\n", startIndex);
+                int startIndex = currentIndex;
+                int newLineIndex = stringBuffer.find_first_of("\r\n", startIndex);
                 if (isNotNpos(static_cast<int>(newLineIndex))) {
                     string oneLine(stringBuffer.substr(startIndex, newLineIndex - startIndex));
-                    if (!oneLine.empty()) {
-                        processStringFromEngine(oneLine);
+                    if (!oneLine.empty()) {                        processStringFromEngine(oneLine);
                     }
                     currentIndex = newLineIndex + 1;
-                } else {
-                    if (currentIndex > 0) {
+                } else {                    if (currentIndex > 0) {
                         stringBuffer = stringBuffer.substr(currentIndex);
                     }
                     shouldContinue = false;
