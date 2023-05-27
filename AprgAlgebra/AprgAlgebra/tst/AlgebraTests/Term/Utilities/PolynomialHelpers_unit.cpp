@@ -71,26 +71,23 @@ TEST(PolynomialHelpersTest, IsVariableExponentMapContentFoundWorks) {
 }
 
 TEST(PolynomialHelpersTest, GetBinomialCoefficientWorks) {
-    EXPECT_EQ(6U, getBinomialCoefficient(4U, 2U));
-    EXPECT_EQ(252U, getBinomialCoefficient(10U, 5U));
+    EXPECT_EQ(6, getBinomialCoefficient(4U, 2U));
+    EXPECT_EQ(252, getBinomialCoefficient(10U, 5U));
 }
 
-TEST(PolynomialHelpersTest, GetMultinomialCoefficientWorks) {
-    // The third power of the trinomial a + b + c is given by
+TEST(PolynomialHelpersTest, GetMultinomialCoefficientWorks) {    // The third power of the trinomial a + b + c is given by
     // (a+b+c)^3 = a^3 + b^3 + c^3 + 3*a^2*b + 3*a^2*c + 3*a*b^2 + 3*b^2*c + 3*a*c^2 + 3*b*c^2 + 6*a*b*c
 
     // The coefficient of a^2 * b^0 * c^1 = 3
-    EXPECT_EQ(3U, getMultinomialCoefficient(3U, {2U, 0U, 1U}));
+    EXPECT_EQ(3, getMultinomialCoefficient(3U, {2U, 0U, 1U}));
 
     // The coefficient of a^1 * b^1 * c^1 = 6
-    EXPECT_EQ(6U, getMultinomialCoefficient(3U, {1U, 1U, 1U}));
+    EXPECT_EQ(6, getMultinomialCoefficient(3U, {1U, 1U, 1U}));
 }
 
-TEST(PolynomialHelpersTest, GetFirstMonomialWorks) {
-    Polynomial polynomial1;
+TEST(PolynomialHelpersTest, GetFirstMonomialWorks) {    Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
-
     Monomial monomial1(getFirstMonomial(polynomial1));
     Monomial monomial2(getFirstMonomial(polynomial2));
     Monomial monomial3(getFirstMonomial(polynomial3));

@@ -21,23 +21,20 @@ TEST(
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
-    EXPECT_EQ(0U, solutionSet.getNumberOfVariablesWithSolutions());
+    EXPECT_EQ(0, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetWorksForThreeMonomials) {
-    LinearDiophantineEquationSolver solver;
+TEST(LinearDiophantineEquationSolverTest, CalculateSolutionAndReturnSolutionSetWorksForThreeMonomials) {    LinearDiophantineEquationSolver solver;
     Polynomial polynomial{Monomial(39, {{"x", 1}}), Monomial(15, {{"y", 1}})};
     Equation equation(polynomial, "=", 12);
-
     MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equation));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
-    EXPECT_EQ(2U, solutionSet.getNumberOfVariablesWithSolutions());
+    EXPECT_EQ(2, solutionSet.getNumberOfVariablesWithSolutions());
     EXPECT_EQ(AlbaNumbers{8}, solutionSet.getSolutionSetForVariable("x").getAcceptedValues());
     EXPECT_EQ(AlbaNumbers{-20}, solutionSet.getSolutionSetForVariable("y").getAcceptedValues());
 }
-
 }  // namespace algebra
 
 }  // namespace alba

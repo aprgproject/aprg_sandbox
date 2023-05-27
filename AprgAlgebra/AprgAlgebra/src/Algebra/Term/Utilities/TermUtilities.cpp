@@ -49,15 +49,13 @@ bool isARadicalTerm(Term const& term) {
     return termRaiseToANumber.isRadical();
 }
 
-unsigned int getNumberOfTerms(Term const& term) {
+int getNumberOfTerms(Term const& term) {
     NumberOfTermsRetriever retriever;
     retriever.retrieveFromTerm(term);
-    return retriever.getSavedData();
-}
+    return retriever.getSavedData();}
 
 AlbaNumber getConstantFactor(Term const& term) {
-    AlbaNumber result(1);
-    if (term.isConstant()) {
+    AlbaNumber result(1);    if (term.isConstant()) {
         result = term.getConstantValueConstReference();
     } else if (term.isMonomial()) {
         result = term.getMonomialConstReference().getConstantConstReference();

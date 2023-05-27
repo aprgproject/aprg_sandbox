@@ -201,23 +201,22 @@ Polynomial TermsOverTerms::multiplyPolynomialTerms(Terms const& polynomialTerms)
 }
 
 bool TermsOverTerms::removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(Terms& numerators, Terms& denominators) {
-    unsigned int previousNumberOfNumerators = numerators.size();
-    unsigned int previousNumberOfDenominators = denominators.size();
+    int previousNumberOfNumerators = numerators.size();
+    int previousNumberOfDenominators = denominators.size();
 
     handleZerosInNumeratorOrDenominator(denominators, numerators);
     removeTermsThatHaveNoEffect(numerators);
     removeTermsThatHaveNoEffect(denominators);
     calculateBasesAndExponentsAndPutThatToNumeratorsAndDenominators(numerators, denominators);
 
-    return previousNumberOfNumerators != numerators.size() || previousNumberOfDenominators != denominators.size();
+    return previousNumberOfNumerators != static_cast<int>(numerators.size()) ||
+           previousNumberOfDenominators != static_cast<int>(denominators.size());
 }
 
-void TermsOverTerms::handleZerosInNumeratorOrDenominator(Terms& denominators, Terms& numerators) {
-    bool hasZeroOnNumerators(hasZero(numerators));
+void TermsOverTerms::handleZerosInNumeratorOrDenominator(Terms& denominators, Terms& numerators) {    bool hasZeroOnNumerators(hasZero(numerators));
     bool hasZeroOnDenominators(hasZero(denominators));
     if (hasZeroOnNumerators && hasZeroOnDenominators) {
-        numerators.clear();
-        denominators.clear();
+        numerators.clear();        denominators.clear();
         numerators.emplace_back(ALBA_NUMBER_NOT_A_NUMBER);
     } else if (hasZeroOnNumerators) {
         numerators.clear();
@@ -317,16 +316,14 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbe
 }
 
 void TermsOverTerms::populateTermsWithBase(Terms& termsToUpdate, Term const& base, AlbaNumber const& exponent) {
-    unsigned int exponentCount = static_cast<unsigned int>(getAbsoluteValue(exponent).getInteger());
-    for (unsigned int i = 0; i < exponentCount; i++) {
+    int exponentCount = static_cast<int>(getAbsoluteValue(exponent).getInteger());
+    for (int i = 0; i < exponentCount; i++) {
         termsToUpdate.emplace_back(base);
     }
 }
-
 void TermsOverTerms::removeTermsThatHaveNoEffect(Terms& terms) const {
     terms.erase(
-        remove_if(
-            terms.begin(), terms.end(),
+        remove_if(            terms.begin(), terms.end(),
             [](Term const& term) { return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term); }),
         terms.end());
 }

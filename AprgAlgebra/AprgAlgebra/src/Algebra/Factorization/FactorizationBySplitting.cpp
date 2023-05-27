@@ -220,18 +220,16 @@ void updateToGetSubsetOfFactors(Polynomials& commonFactors, Polynomials const& c
     Polynomials previousCommonFactors(commonFactors);
     Polynomials currentCommonFactors(commonFactorsOfAPolynomial);
     commonFactors.clear();
-    for (unsigned int i = 0; i < previousCommonFactors.size(); i++) {
+    for (int i = 0; i < static_cast<int>(previousCommonFactors.size()); i++) {
         bool isFound(false);
         Polynomial const& previousCommonFactor(previousCommonFactors.at(i));
-        for (unsigned int j = 0; j < currentCommonFactors.size(); j++) {
+        for (int j = 0; j < static_cast<int>(currentCommonFactors.size()); j++) {
             Polynomial const& currentCommonFactor(currentCommonFactors.at(j));
             if (isOneMonomial(previousCommonFactor) && isOneMonomial(currentCommonFactor)) {
-                Monomial gcfMonomial(getGcfMonomialInMonomials(
-                    {getFirstMonomial(previousCommonFactor), getFirstMonomial(currentCommonFactor)}));
+                Monomial gcfMonomial(getGcfMonomialInMonomials(                    {getFirstMonomial(previousCommonFactor), getFirstMonomial(currentCommonFactor)}));
                 gcfMonomial.simplify();
                 if (!isTheValue(gcfMonomial, 1)) {
-                    commonFactors.emplace_back(Polynomial{gcfMonomial});
-                    isFound = true;
+                    commonFactors.emplace_back(Polynomial{gcfMonomial});                    isFound = true;
                 }
             } else if (previousCommonFactor == currentCommonFactor) {
                 commonFactors.emplace_back(currentCommonFactor);

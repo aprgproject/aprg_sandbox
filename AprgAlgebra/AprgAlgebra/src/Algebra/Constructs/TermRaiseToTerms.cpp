@@ -151,22 +151,18 @@ void TermRaiseToTerms::simplifyBaseAndExponents() {
         simplifyMonomialRaiseToConstant(
             m_base, createMonomialIfPossible(m_base), exponentCombinedTerm.getConstantValueConstReference());
     } else if (m_base.isPolynomial() && !m_shouldSimplifyToFactors && isPositiveIntegerConstant(exponentCombinedTerm)) {
-        unsigned int exponent =
-            static_cast<unsigned int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
+        int exponent = static_cast<int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
         simplifyPolynomialRaiseToPositiveInteger(m_base, createPolynomialIfPossible(m_base), exponent);
     } else if (
         !m_shouldSimplifyToFactors && isPositiveIntegerConstant(exponentCombinedTerm) && m_base.isExpression() &&
         OperatorLevel::AdditionAndSubtraction == m_base.getExpressionConstReference().getCommonOperatorLevel()) {
-        unsigned int exponent =
-            static_cast<unsigned int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
+        int exponent = static_cast<int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
         simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(
             m_base, m_base.getExpressionConstReference(), exponent);
-    } else if (
-        m_base.isConstant() && exponentCombinedTerm.isExpression() &&
+    } else if (        m_base.isConstant() && exponentCombinedTerm.isExpression() &&
         OperatorLevel::MultiplicationAndDivision ==
             exponentCombinedTerm.getExpressionConstReference().getCommonOperatorLevel()) {
-        simplifyConstantRaiseToMultiplicationAndDivisionExpression(m_base, m_exponents, exponentCombinedTerm);
-    } else {
+        simplifyConstantRaiseToMultiplicationAndDivisionExpression(m_base, m_exponents, exponentCombinedTerm);    } else {
         m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
     }
 }
@@ -190,36 +186,33 @@ void TermRaiseToTerms::simplifyMonomialRaiseToConstant(
 }
 
 void TermRaiseToTerms::simplifyPolynomialRaiseToPositiveInteger(
-    Term& base, Polynomial const& polynomialBase, unsigned int const exponent) {
+    Term& base, Polynomial const& polynomialBase, int const exponent) {
     Polynomial result(polynomialBase);
     result.raiseToUnsignedInteger(exponent);
     base = simplifyAndConvertPolynomialToSimplestTerm(result);
 }
 
 void TermRaiseToTerms::simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(
-    Term& base, Expression const& expressionBase, unsigned int const exponent) {
+    Term& base, Expression const& expressionBase, int const exponent) {
     Term result(1);
     Term termToMultiply(expressionBase);
-    for (unsigned int i = 0; i < exponent; i++) {
+    for (int i = 0; i < exponent; i++) {
         result = result * termToMultiply;
     }
-    result.simplify();
-    base = result;
+    result.simplify();    base = result;
 }
 
 void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpression(
     Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm) {
     TermsWithDetails termsWithDetails(
         exponentCombinedTerm.getExpressionConstReference().getTermsWithAssociation().getTermsWithDetails());
-    for (unsigned int i = 0; i < termsWithDetails.size(); i++) {
+    for (int i = 0; i < static_cast<int>(termsWithDetails.size()); i++) {
         TermWithDetails const& exponentWithDetails(termsWithDetails.at(i));
         Term const& exponent(getTermConstReferenceFromUniquePointer(exponentWithDetails.baseTermPointer));
-        if (exponentWithDetails.hasPositiveAssociation() && exponent.isFunction()) {
-            Function const& functionObject(exponent.getFunctionConstReference());
+        if (exponentWithDetails.hasPositiveAssociation() && exponent.isFunction()) {            Function const& functionObject(exponent.getFunctionConstReference());
             string const& functionName(functionObject.getFunctionName());
             if ((getEAsATerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName)) {
-                base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-                termsWithDetails.erase(termsWithDetails.begin() + i);
+                base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());                termsWithDetails.erase(termsWithDetails.begin() + i);
                 break;
             }
         }

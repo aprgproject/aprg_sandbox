@@ -16,15 +16,13 @@ Term TaylorSeries::getFormulaForTaylorSeries() const { return m_formulaForTaylor
 Term TaylorSeries::getValueAtIndex(int const index, Term const& startingValue) const {
     Term result;
     if (index >= 0) {
-        unsigned int positiveIndex(static_cast<unsigned int>(index));
+        int positiveIndex(static_cast<int>(index));
         result = getApproximationUsingTaylorsFormula(
             m_formulaForTaylorSeries, m_variableName, startingValue, m_variableName, positiveIndex);
-    }
-    return result;
+    }    return result;
 }
 
 Term TaylorSeries::getValueForMaclaurinSeriesAtIndex(int const index) const { return getValueAtIndex(index, 0); }
-
 }  // namespace algebra
 
 }  // namespace alba

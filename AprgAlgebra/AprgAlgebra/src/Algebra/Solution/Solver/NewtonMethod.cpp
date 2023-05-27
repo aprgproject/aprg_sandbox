@@ -25,14 +25,12 @@ bool NewtonMethod::isSolved() const { return m_functionToIterate(m_currentValue)
 
 bool NewtonMethod::isFinished() const { return !m_currentValue.isARealFiniteValue() || isSolved(); }
 
-unsigned int NewtonMethod::getNumberOfIterationsExecuted() const { return m_numberOfIterationsExecuted; }
+int NewtonMethod::getNumberOfIterationsExecuted() const { return m_numberOfIterationsExecuted; }
 
 AlbaNumber const& NewtonMethod::getCurrentValue() const { return m_currentValue; }
-
 void NewtonMethod::runOneIteration() {
     AlbaNumber::ScopeConfigurationObject scopeConfigurationObject;
     scopeConfigurationObject.setInThisScopeTheTolerancesToZero();
-
     AlbaNumber newValue =
         m_currentValue - (m_functionToIterate(m_currentValue) / getSlopeApproximationAt(m_currentValue));
     updatePositiveDeltaForSlopeIfNeeded(newValue);
@@ -40,16 +38,14 @@ void NewtonMethod::runOneIteration() {
     m_numberOfIterationsExecuted++;
 }
 
-void NewtonMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations) {
-    for (unsigned int i = 0; !isFinished() && i < maxIterations; i++) {
+void NewtonMethod::runMaxNumberOfIterationsOrUntilFinished(int const maxIterations) {
+    for (int i = 0; !isFinished() && i < maxIterations; i++) {
         runOneIteration();
     }
 }
-
 void NewtonMethod::runUntilFinished() {
     while (!isFinished()) {
-        runOneIteration();
-    }
+        runOneIteration();    }
 }
 
 AlbaNumber NewtonMethod::getSlopeApproximationAt(AlbaNumber const& value) const {

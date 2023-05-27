@@ -74,16 +74,14 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetSizeWorks) {
     additionAndSubtraction2.putAsAddOrSubtraction(expression1, TermAssociationType::Positive);
     additionAndSubtraction2.putAsAddOrSubtraction(expression2, TermAssociationType::Negative);
 
-    EXPECT_EQ(0U, additionAndSubtraction1.getSize());
-    EXPECT_EQ(2U, additionAndSubtraction2.getSize());
+    EXPECT_EQ(0, additionAndSubtraction1.getSize());
+    EXPECT_EQ(2, additionAndSubtraction2.getSize());
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks) {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks) {    AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({"x"}));
     Expression expression2(createExpressionIfPossible({"y"}));
-    additionAndSubtraction.putAsAddOrSubtraction(expression1, TermAssociationType::Positive);
-    additionAndSubtraction.putAsAddOrSubtraction(expression2, TermAssociationType::Negative);
+    additionAndSubtraction.putAsAddOrSubtraction(expression1, TermAssociationType::Positive);    additionAndSubtraction.putAsAddOrSubtraction(expression2, TermAssociationType::Negative);
 
     TermsWithDetails termsWithDetails(additionAndSubtraction.getAsTermsWithDetails());
 

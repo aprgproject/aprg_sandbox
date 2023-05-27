@@ -293,20 +293,18 @@ Factorization::ConfigurationDetails SimplificationOfExpression::getFactorization
 bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(
     Expression const& expression) {
     bool continueToTryToSubstitute = false;
-    unsigned int oldNumberOfTerms = expression.getTermsWithAssociation().getTermsWithDetails().size();
+    int oldNumberOfTerms = expression.getTermsWithAssociation().getTermsWithDetails().size();
     Terms expressionAndFunctionTerms(retrieveSubExpressionsAndSubFunctions(expression));
     for (Term const& expressionOrFunctionTerm : expressionAndFunctionTerms) {
         Expression newExpression(
             getNewExpressionWithSubstitutedVariableForTerm(m_expression, expressionOrFunctionTerm));
-        unsigned int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
+        int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
         if (expression.getCommonOperatorLevel() != newExpression.getCommonOperatorLevel() ||
             oldNumberOfTerms != newNumberOfTerms) {
-            m_expression = newExpression;
-            continueToTryToSubstitute = true;
+            m_expression = newExpression;            continueToTryToSubstitute = true;
             break;
         }
-    }
-    return continueToTryToSubstitute;
+    }    return continueToTryToSubstitute;
 }
 
 Expression SimplificationOfExpression::getNewExpressionWithSubstitutedVariableForTerm(

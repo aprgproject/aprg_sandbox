@@ -26,15 +26,13 @@ TEST(SummationTest, ExperimentalTest1) {
     // digits.
 
     Term formula(1);
-    for (unsigned int i = 1; i < 10; i++)  // continue to integrate for number of digits
+    for (int i = 1; i < 10; i++)  // continue to integrate for number of digits
     {
         Summation summation(formula, "x");
-        formula = summation.getSummationModelWithUnknownConstant();
-        formula = formula - Term("C");
+        formula = summation.getSummationModelWithUnknownConstant();        formula = formula - Term("C");
     }
     EXPECT_EQ(
-        "((1/362880)[x^9] + (1/8064)[x^8] + (29/12096)[x^7] + (5/192)[x^6] + (3013/17280)[x^5] + (95/128)[x^4] + "
-        "(4523/2268)[x^3] + (6515/2016)[x^2] + (7129/2520)[x] + 1)",
+        "((1/362880)[x^9] + (1/8064)[x^8] + (29/12096)[x^7] + (5/192)[x^6] + (3013/17280)[x^5] + (95/128)[x^4] + "        "(4523/2268)[x^3] + (6515/2016)[x^2] + (7129/2520)[x] + 1)",
         convertToString(formula));
 
     SubstitutionOfVariablesToValues substitution{{"x", 5}};
@@ -47,23 +45,21 @@ TEST(SummationTest, ExperimentalTest2) {
         Monomial(-1, {{"C", 1}, {"s", 2}}), Monomial(1, {{"s", 3}})};
     Summation summation(polynomial, "s");
 
-    unsigned int r = 1000;
-    unsigned int s = 500;
-    unsigned int minOfRSMinus1(min(r, s) - 1);
+    int r = 1000;
+    int s = 500;
+    int minOfRSMinus1(min(r, s) - 1);
     Term summationFormula(summation.getSum(1, "minOfRSMinus1"));
     Polynomials polynomials(factorizeAPolynomial(summationFormula.getPolynomialConstReference()));
     SubstitutionOfVariablesToValues substitution{{"R", r}, {"C", s}, {"minOfRSMinus1", minOfRSMinus1}};
-    unsigned long long result =
+    long long result =
         substitution.performSubstitutionTo(summationFormula).getConstantValueConstReference().getInteger();
-    unsigned long long display = result % 1000000007;
+    long long display = result % 1000000007;
 
     for (Polynomial const& polynomial : polynomials) {
-        cout << "Factor: " << polynomial << "\n";
-    }
+        cout << "Factor: " << polynomial << "\n";    }
     EXPECT_EQ(
         "((1/2)[C][R][minOfRSMinus1^2] + (-1/3)[C][minOfRSMinus1^3] + (-1/3)[R][minOfRSMinus1^3] + "
-        "(1/4)[minOfRSMinus1^4] + (1/2)[C][R][minOfRSMinus1] + (-1/2)[C][minOfRSMinus1^2] + (-1/2)[R][minOfRSMinus1^2] "
-        "+ (1/2)[minOfRSMinus1^3] + (-1/6)[C][minOfRSMinus1] + (-1/6)[R][minOfRSMinus1] + (1/4)[minOfRSMinus1^2])",
+        "(1/4)[minOfRSMinus1^4] + (1/2)[C][R][minOfRSMinus1] + (-1/2)[C][minOfRSMinus1^2] + (-1/2)[R][minOfRSMinus1^2] "        "+ (1/2)[minOfRSMinus1^3] + (-1/6)[C][minOfRSMinus1] + (-1/6)[R][minOfRSMinus1] + (1/4)[minOfRSMinus1^2])",
         convertToString(summationFormula));
     EXPECT_EQ(624937395U, display);
 }

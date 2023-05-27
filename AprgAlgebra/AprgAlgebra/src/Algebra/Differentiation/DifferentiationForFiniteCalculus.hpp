@@ -20,16 +20,14 @@ public:
     Term differentiate(Function const& functionObject) const;
     Equation differentiate(Equation const& equation) const;
 
-    Term differentiateMultipleTimes(Term const& term, unsigned int const numberOfTimes) const;
-    Equation differentiateMultipleTimes(Equation const& equation, unsigned int const numberOfTimes) const;
+    Term differentiateMultipleTimes(Term const& term, int const numberOfTimes) const;
+    Equation differentiateMultipleTimes(Equation const& equation, int const numberOfTimes) const;
 
     Term differentiateTerm(Term const& term) const;
-    AlbaNumber differentiateConstant(Constant const&) const;
-    Polynomial differentiateVariable(Variable const& variable) const;
+    AlbaNumber differentiateConstant(Constant const&) const;    Polynomial differentiateVariable(Variable const& variable) const;
     Term differentiateMonomial(Monomial const& monomial) const;
     Term differentiatePolynomial(Polynomial const& polynomial) const;
-    Term differentiateExpression(Expression const& expression) const;
-    Term differentiateFunction(Function const& functionObject) const;
+    Term differentiateExpression(Expression const& expression) const;    Term differentiateFunction(Function const& functionObject) const;
     Equation differentiateEquation(Equation const& equation) const;
 
 private:

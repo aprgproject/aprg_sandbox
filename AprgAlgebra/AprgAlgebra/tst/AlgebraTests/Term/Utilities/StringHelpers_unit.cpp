@@ -25,22 +25,20 @@ TEST(StringHelpersTest, IsFunctionWorks) {
 }
 
 TEST(StringHelpersTest, GetOperatorLevelValueWorks) {
-    EXPECT_EQ(1U, getOperatorPriority("("));
-    EXPECT_EQ(2U, getOperatorPriority(")"));
-    EXPECT_EQ(3U, getOperatorPriority("+"));
-    EXPECT_EQ(4U, getOperatorPriority("-"));
-    EXPECT_EQ(5U, getOperatorPriority("*"));
-    EXPECT_EQ(6U, getOperatorPriority("/"));
-    EXPECT_EQ(7U, getOperatorPriority("^"));
-    EXPECT_EQ(0U, getOperatorPriority("operator"));
+    EXPECT_EQ(1, getOperatorPriority("("));
+    EXPECT_EQ(2, getOperatorPriority(")"));
+    EXPECT_EQ(3, getOperatorPriority("+"));
+    EXPECT_EQ(4, getOperatorPriority("-"));
+    EXPECT_EQ(5, getOperatorPriority("*"));
+    EXPECT_EQ(6, getOperatorPriority("/"));
+    EXPECT_EQ(7, getOperatorPriority("^"));
+    EXPECT_EQ(0, getOperatorPriority("operator"));
 }
 TEST(StringHelpersTest, GetOperatingStringWorks) {
-    EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Positive).empty());
-    EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
+    EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Positive).empty());    EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
     EXPECT_EQ("+", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive));
     EXPECT_EQ("-", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
-    EXPECT_EQ("*", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive));
-    EXPECT_EQ("/", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
+    EXPECT_EQ("*", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive));    EXPECT_EQ("/", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
     EXPECT_EQ("^", getOperatingString(OperatorLevel::RaiseToPower, TermAssociationType::Positive));
     EXPECT_TRUE(getOperatingString(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
 }

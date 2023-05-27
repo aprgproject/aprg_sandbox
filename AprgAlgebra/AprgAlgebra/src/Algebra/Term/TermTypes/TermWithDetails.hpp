@@ -26,15 +26,13 @@ struct TermWithDetails {
     bool operator<(TermWithDetails const& second) const;
     bool hasPositiveAssociation() const;
     bool hasNegativeAssociation() const;
-    unsigned int getAssociationPriority() const;
+    int getAssociationPriority() const;
     void clear();
     void reverseAssociation();
-    BaseTermUniquePointer baseTermPointer;
-    TermAssociationType association;
+    BaseTermUniquePointer baseTermPointer;    TermAssociationType association;
 };
 
 using TermsWithDetails = std::vector<TermWithDetails>;
-
 }  // namespace algebra
 
 }  // namespace alba

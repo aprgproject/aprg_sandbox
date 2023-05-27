@@ -14,33 +14,31 @@ namespace alba {
 namespace algebra {
 
 PolynomialRaiseToAnUnsignedInt::PolynomialRaiseToAnUnsignedInt(Polynomial const& polynomial)
-    : m_base(polynomial), m_exponent(1U) {
+    : m_base(polynomial), m_exponent(1) {
     PolynomialToNumberMap factorsToExponent;
     Monomial commonMonomialInBase(1, {});
     factorizeAndUpdateCommonMonomialAndFactorsToExponent(polynomial, factorsToExponent, commonMonomialInBase);
-    unsigned int gcfOfExponents(getGcfOfExponents(factorsToExponent));
+    int gcfOfExponents(getGcfOfExponents(factorsToExponent));
     if (canBeSimplified(gcfOfExponents, commonMonomialInBase)) {
         m_base = getRemainingBase(factorsToExponent, commonMonomialInBase, gcfOfExponents);
         m_exponent = gcfOfExponents;
     }
 }
 
-bool PolynomialRaiseToAnUnsignedInt::isExponentOne() const { return m_exponent == 1U; }
+bool PolynomialRaiseToAnUnsignedInt::isExponentOne() const { return m_exponent == 1; }
 
 Polynomial const& PolynomialRaiseToAnUnsignedInt::getBase() const { return m_base; }
 
-unsigned int PolynomialRaiseToAnUnsignedInt::getExponent() const { return m_exponent; }
+int PolynomialRaiseToAnUnsignedInt::getExponent() const { return m_exponent; }
 
 bool PolynomialRaiseToAnUnsignedInt::canBeSimplified(
-    unsigned int const gcfOfExponents, Monomial const& commonMonomialInBase) {
+    int const gcfOfExponents, Monomial const& commonMonomialInBase) {
     return gcfOfExponents != 1 &&
            (!isEven(gcfOfExponents) || (isEven(gcfOfExponents) && !isANegativeMonomial(commonMonomialInBase)));
 }
-
 void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsToExponent(
     Polynomial const& polynomial, PolynomialToNumberMap& factorsToExponent, Monomial& commonMonomialInBase) {
-    Polynomials factors(factorizeAPolynomial(polynomial));
-    for (Polynomial const& factor : factors) {
+    Polynomials factors(factorizeAPolynomial(polynomial));    for (Polynomial const& factor : factors) {
         if (isOneMonomial(factor)) {
             commonMonomialInBase.multiplyMonomial(getFirstMonomial(factor));
         } else {
@@ -54,34 +52,30 @@ void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsT
     }
 }
 
-unsigned int PolynomialRaiseToAnUnsignedInt::getGcfOfExponents(PolynomialToNumberMap const& factorsToExponent) {
-    unsigned int result(1U);
+int PolynomialRaiseToAnUnsignedInt::getGcfOfExponents(PolynomialToNumberMap const& factorsToExponent) {
+    int result(1);
     if (!factorsToExponent.empty()) {
         auto it = factorsToExponent.cbegin();
-        result = it->second;
-        it++;
+        result = it->second;        it++;
         for (; it != factorsToExponent.cend(); it++) {
             result = getGreatestCommonFactor(result, it->second);
-        }
-    }
+        }    }
     return result;
 }
 
 Polynomial PolynomialRaiseToAnUnsignedInt::getRemainingBase(
     PolynomialToNumberMap const& factorsToExponent, Monomial const& commonMonomialInBase,
-    unsigned int const gcfOfExponents) {
+    int const gcfOfExponents) {
     Monomial remainingCommonMonomial(commonMonomialInBase);
     remainingCommonMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, gcfOfExponents));
     Polynomial result{remainingCommonMonomial};
     for (auto const& factorsAndExponentPair : factorsToExponent) {
-        unsigned int remainingExponent(factorsAndExponentPair.second / gcfOfExponents);
+        int remainingExponent(factorsAndExponentPair.second / gcfOfExponents);
         Polynomial remainingFactor(factorsAndExponentPair.first);
         remainingFactor.raiseToUnsignedInteger(remainingExponent);
-        result.multiplyPolynomial(remainingFactor);
-    }
+        result.multiplyPolynomial(remainingFactor);    }
     return result;
 }
-
 }  // namespace algebra
 
 }  // namespace alba

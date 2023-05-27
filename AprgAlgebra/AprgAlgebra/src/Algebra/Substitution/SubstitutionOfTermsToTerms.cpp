@@ -25,15 +25,13 @@ bool SubstitutionOfTermsToTerms::isTermFound(Term const& term) const {
     return m_termsToTermsMap.find(term) != m_termsToTermsMap.cend();
 }
 
-unsigned int SubstitutionOfTermsToTerms::getSize() const { return m_termsToTermsMap.size(); }
+int SubstitutionOfTermsToTerms::getSize() const { return m_termsToTermsMap.size(); }
 
 Term SubstitutionOfTermsToTerms::getTermForTerm(Term const& term) const {
-    Term result;
-    if (isTermFound(term)) {
+    Term result;    if (isTermFound(term)) {
         result = m_termsToTermsMap.at(term);
     }
-    return result;
-}
+    return result;}
 
 Term SubstitutionOfTermsToTerms::performSubstitutionTo(Expression const& expression) const {
     Term result;

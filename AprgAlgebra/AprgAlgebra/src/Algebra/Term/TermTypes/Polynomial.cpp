@@ -42,16 +42,14 @@ bool Polynomial::operator<(Polynomial const& second) const {
     Monomials const& monomials2(second.m_monomials);
     bool result(false);
     if (monomials1.size() == monomials2.size()) {
-        unsigned int size = monomials1.size();
-        for (unsigned int i = 0; i < size; i++) {
+        int size = monomials1.size();
+        for (int i = 0; i < size; i++) {
             Monomial const& monomial1(monomials1.at(i));
             Monomial const& monomial2(monomials2.at(i));
-            if (monomial1 != monomial2) {
-                result = monomial1 < monomial2;
+            if (monomial1 != monomial2) {                result = monomial1 < monomial2;
                 break;
             }
-        }
-    } else {
+        }    } else {
         result = monomials1.size() < monomials2.size();
     }
     return result;
@@ -154,16 +152,14 @@ void Polynomial::divideMonomial(Monomial const& monomial) {
     clearSimplifiedFlag();
 }
 
-void Polynomial::raiseToUnsignedInteger(unsigned int const exponent) {
+void Polynomial::raiseToUnsignedInteger(int const exponent) {
     Polynomial base(*this);
-    for (unsigned int exponentCount = 1; exponentCount < exponent; exponentCount++) {
+    for (int exponentCount = 1; exponentCount < exponent; exponentCount++) {
         multiplyPolynomial(base);
     }
-    clearSimplifiedFlag();
-}
+    clearSimplifiedFlag();}
 
 void Polynomial::setAsSimplified() { m_isSimplified = true; }
-
 void Polynomial::clearSimplifiedFlag() { m_isSimplified = false; }
 
 bool Polynomial::isFurtherSimplificationNeeded(

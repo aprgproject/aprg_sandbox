@@ -38,27 +38,26 @@ void calculateLagrangeEquations(
 
 Term getTermWithLagrangeFunctions(
     Term const& term, Terms const& lagrangeFunctions, strings const& lagrangeMultiplierNames) {
-    unsigned int size(min(lagrangeFunctions.size(), lagrangeMultiplierNames.size()));
+    int size(min(lagrangeFunctions.size(), lagrangeMultiplierNames.size()));
     Term result(term);
-    for (unsigned int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         result += lagrangeFunctions.at(i) * Term(lagrangeMultiplierNames.at(i));
     }
     return result;
 }
 
-strings getLagrangeMultiplierNames(unsigned int const size) {
+strings getLagrangeMultiplierNames(int const size) {
     strings result;
-    for (unsigned int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         result.emplace_back(getLagrangeMultiplierName(i));
     }
     return result;
 }
 
-string getLagrangeMultiplierName(unsigned int const index) {
+string getLagrangeMultiplierName(int const index) {
     static StringConverterWithFormatting converter(3, '0');
     return "multiplier" + converter.convertToString(index);
 }
-
 }  // namespace algebra
 
 }  // namespace alba

@@ -18,18 +18,16 @@ TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks) {
     SubstitutionOfTermsToTerms substitution3{variableWithValues};
 
     EXPECT_TRUE(substitution1.isEmpty());
-    EXPECT_EQ(2U, substitution2.getSize());
+    EXPECT_EQ(2, substitution2.getSize());
     EXPECT_EQ(Term(2), substitution2.getTermForTerm("x"));
     EXPECT_EQ(Term(5), substitution2.getTermForTerm("y"));
-    EXPECT_EQ(2U, substitution3.getSize());
+    EXPECT_EQ(2, substitution3.getSize());
     EXPECT_EQ(Term(2), substitution3.getTermForTerm("x"));
     EXPECT_EQ(Term(5), substitution3.getTermForTerm("y"));
 }
-
 TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", 2}, {"y", 5}});
-
     EXPECT_TRUE(substitution1.isEmpty());
     EXPECT_FALSE(substitution2.isEmpty());
 }
@@ -47,16 +45,14 @@ TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", 2}, {"y", 5}});
 
-    EXPECT_EQ(0U, substitution1.getSize());
-    EXPECT_EQ(2U, substitution2.getSize());
+    EXPECT_EQ(0, substitution1.getSize());
+    EXPECT_EQ(2, substitution2.getSize());
 }
 
-TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks) {
-    SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
+TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks) {    SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
 
     EXPECT_EQ(Term(2), substitution.getTermForTerm("x"));
-    EXPECT_EQ(Term(5), substitution.getTermForTerm("y"));
-    EXPECT_EQ(Term(), substitution.getTermForTerm("a"));
+    EXPECT_EQ(Term(5), substitution.getTermForTerm("y"));    EXPECT_EQ(Term(), substitution.getTermForTerm("a"));
     EXPECT_EQ(Term(), substitution.getTermForTerm("b"));
 }
 

@@ -37,15 +37,13 @@ TEST(MultipleVariableSolutionSetTest, GetNumberOfVariablesWithSolutionsWorks) {
     solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);
     solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
 
-    EXPECT_EQ(2U, solutionSet.getNumberOfVariablesWithSolutions());
+    EXPECT_EQ(2, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
-TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks) {
-    MultipleVariableSolutionSet solutionSet;
+TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks) {    MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(AlbaNumber(58));
-    solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);
-    solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
+    solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);    solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
 
     VariableNamesSet variableNames(solutionSet.getVariableNames());
     auto it = variableNames.cbegin();

@@ -36,14 +36,12 @@ public:
     void multiplyMonomial(Monomial const& monomial);
     void multiplyPolynomial(Polynomial const& polynomial);
     void divideMonomial(Monomial const& monomial);
-    void raiseToUnsignedInteger(unsigned int const exponent);
+    void raiseToUnsignedInteger(int const exponent);
     void setAsSimplified();
     void clearSimplifiedFlag();
-
 private:
     bool isFurtherSimplificationNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify) const;
-    void setNan();
-    void simplifyContinuouslyIfChanged();
+    void setNan();    void simplifyContinuouslyIfChanged();
     void simplifyMonomialsAndReAdd();
 
     friend std::ostream& operator<<(std::ostream& out, Polynomial const& polynomial);

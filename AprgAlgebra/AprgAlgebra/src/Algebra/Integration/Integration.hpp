@@ -187,15 +187,13 @@ private:
     void integratePartialFractionsBasedOnSolvedMatrix(
         Term& result, NumberMatrix const& solvedMatrix, VariableNamesSet const& newVariableNames,
         Polynomials const& partialNumerators, Polynomials const& partialDenominators);
-    Polynomial getPartialNumeratorForPartialFractions(unsigned int const degree, std::string const& variableName) const;
+    Polynomial getPartialNumeratorForPartialFractions(int const degree, std::string const& variableName) const;
     std::string getNewVariableNameForPartialFractions() const;
 
-    // Integration by parts
-    void integrateByTryingIntegrationByParts(Term& result, Term const& term);
+    // Integration by parts    void integrateByTryingIntegrationByParts(Term& result, Term const& term);
     void integrateUsingIntegrationByPartsByOneTermAndOne(Term& result, Term const& term);
     void integrateUsingIntegrationByPartsByTryingTwoTerms(Term& result, Term const& term);
-    void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(
-        Term& result, Term const& term, Term const& firstTerm, Term const& secondTerm);
+    void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(        Term& result, Term const& term, Term const& firstTerm, Term const& secondTerm);
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(
         Term& result, Term const& term, Term const& u, Term const& dv);
     void integrateUsingPreviousIntegrationByPartsTerms(
@@ -214,45 +212,43 @@ private:
     void integrateUsingKnownTrigonometricCombinations(
         Term& result, TrigonometryFunctionExponents const& exponents, Term const& functionInputTerm);
     void integrateSinRaiseToAnIntegerGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const exponent);
+        Term& result, Term const& functionInputTerm, int const exponent);
     void integrateCosRaiseToAnIntegerGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const exponent);
+        Term& result, Term const& functionInputTerm, int const exponent);
     void integrateTanRaiseToAnIntegerGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const exponent);
+        Term& result, Term const& functionInputTerm, int const exponent);
     void integrateCscRaiseToAnIntegerGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const exponent);
+        Term& result, Term const& functionInputTerm, int const exponent);
     void integrateSecRaiseToAnIntegerGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const exponent);
+        Term& result, Term const& functionInputTerm, int const exponent);
     void integrateCotRaiseToAnIntegerGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const exponent);
+        Term& result, Term const& functionInputTerm, int const exponent);
     void integrateSinAndCosCombinationWithExponentsGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const sinExponent, unsigned int const cosExponent);
+        Term& result, Term const& functionInputTerm, int const sinExponent, int const cosExponent);
     void integrateCscAndCotCombinationWithExponentsGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const cscExponent, unsigned int const cotExponent);
+        Term& result, Term const& functionInputTerm, int const cscExponent, int const cotExponent);
     void integrateSecAndTanCombinationWithExponentsGreaterThanOne(
-        Term& result, Term const& functionInputTerm, unsigned int const secExponent, unsigned int const tanExponent);
+        Term& result, Term const& functionInputTerm, int const secExponent, int const tanExponent);
     TrigonometryFunctionExponents getTrigonometricExponentsSuitableForIntegration(
         TrigonometryFunctionExponents const& oldExponents) const;
     void putReducedSineSquaredToDoubleAngleCosineTerms(
-        Term& outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+        Term& outputTerm, Term const& inputTerm, int const exponent) const;
     void putReducedCosineSquaredToDoubleAngleCosineTerms(
-        Term& outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+        Term& outputTerm, Term const& inputTerm, int const exponent) const;
     void putTangentSquaredToSecantSquaredTerms(
-        Term& outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+        Term& outputTerm, Term const& inputTerm, int const exponent) const;
     void putCosecantSquaredToCotangentSquaredTerms(
-        Term& outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+        Term& outputTerm, Term const& inputTerm, int const exponent) const;
     void putSecantSquaredToTangentSquaredTerms(
-        Term& outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+        Term& outputTerm, Term const& inputTerm, int const exponent) const;
     void putCotangentSquaredToCosecantSquaredTerms(
-        Term& outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+        Term& outputTerm, Term const& inputTerm, int const exponent) const;
 
     // Simplify
-    void simplifyForIntegration(Term& term, Configuration const& configuration) const;
-    void simplifyAndFixTrigonometricFunctions(Term& term, bool const shouldFixTrigonometricFunctions) const;
+    void simplifyForIntegration(Term& term, Configuration const& configuration) const;    void simplifyAndFixTrigonometricFunctions(Term& term, bool const shouldFixTrigonometricFunctions) const;
     void fixTrigonometricFunctionsBasedFromExponents(
         Term& term, InputTermToTrigonometryFunctionExponentsMap const& trigFunctionsInputTermToExponents,
-        TermsRaiseToNumbers const& remainingTermsWithExponents) const;
-    void putTrigonometricFunctionsWithExponents(
+        TermsRaiseToNumbers const& remainingTermsWithExponents) const;    void putTrigonometricFunctionsWithExponents(
         TermsRaiseToNumbers& newTerms, Term const& inputTerm, TrigonometryFunctionExponents const& exponents) const;
 
     // Integration configurations

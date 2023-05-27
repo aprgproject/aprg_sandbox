@@ -25,15 +25,14 @@ private:
     void solve();
     void processConstraints(
         Equations const& constraints, Polynomials& constraintsInStandardForm,
-        VariableNamesRetriever& inputVariablesRetriever, std::set<unsigned int>& indicesWithSlackVariables);
+        VariableNamesRetriever& inputVariablesRetriever, std::set<int>& indicesWithSlackVariables);
     void saveInputVariables(VariableNamesSet const& inputVariableNames);
     void initializeSimplexTable(
         Polynomial const& objectiveFunction, Polynomials const& constraintsInStandardForm,
-        VariableNamesSet const& inputVariableNames, std::set<unsigned int> const& indicesWithSlackVariables);
+        VariableNamesSet const& inputVariableNames, std::set<int> const& indicesWithSlackVariables);
     SimplexMatrix m_simplexTable;
     VariableNames m_inputVariables;
 };
-
 }  // namespace algebra
 
 }  // namespace alba

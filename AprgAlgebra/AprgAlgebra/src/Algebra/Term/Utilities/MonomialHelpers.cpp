@@ -177,25 +177,25 @@ AlbaNumber getLcmOfCoefficientsInMonomials(Monomials const& monomials) {
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials) {
     bool isFirstMonomial(true);
     bool isFirstMonomialNegative(false);
-    unsigned int negativeSignCount(0);
+    int negativeSignCount(0);
     for (Monomial const& monomial : monomials) {
         if (monomial.getConstantConstReference() < AlbaNumber(0)) {
-            negativeSignCount++;
-            if (isFirstMonomial) {
+            negativeSignCount++;            if (isFirstMonomial) {
                 isFirstMonomialNegative = true;
             }
         }
         isFirstMonomial = false;
     }
-    return (isFirstMonomialNegative || (negativeSignCount > 0 && negativeSignCount == monomials.size())) ? -1 : 1;
+    return (isFirstMonomialNegative ||
+            (negativeSignCount > 0 && negativeSignCount == static_cast<int>(monomials.size())))
+               ? -1
+               : 1;
 }
 
-Monomial getGcfMonomialInMonomials(Monomials const& monomials) {
-    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));
+Monomial getGcfMonomialInMonomials(Monomials const& monomials) {    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));
     Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
     if (commonCoefficient != 1) {
-        commonCoefficient = getCommonSignInMonomials(monomials) * commonCoefficient;
-    }
+        commonCoefficient = getCommonSignInMonomials(monomials) * commonCoefficient;    }
     minExponentMonomial.setConstant(commonCoefficient);
     minExponentMonomial.simplify();
     return minExponentMonomial;

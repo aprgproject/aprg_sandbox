@@ -13,15 +13,13 @@ public:
 
     Expressions const& getExpressions() const;
     TermAssociationTypes const& getAssociations() const;
-    unsigned int getSize() const;
+    int getSize() const;
     TermsWithDetails getAsTermsWithDetails() const;
 
     Term getCombinedTerm();
-
     void putAsAddition(Expression const& expression);
     void putAsSubtraction(Expression const& expression);
-    void putAsAddOrSubtraction(Expression const& expression, TermAssociationType const association);
-    void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
+    void putAsAddOrSubtraction(Expression const& expression, TermAssociationType const association);    void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
 
     void combineExpressionsIfPossible();
 

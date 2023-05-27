@@ -254,18 +254,16 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, AreAllMonomialsFoun
 }
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculateMaxExponentDivisorWorks) {
-    EXPECT_EQ(0U, calculateMaxExponentDivisor(Monomial(1, {}), Monomial(1, {})));
-    EXPECT_EQ(7U, calculateMaxExponentDivisor(Monomial(1, {{"x", 7}}), Monomial(1, {{"y", 7}})));
-    EXPECT_EQ(7U, calculateMaxExponentDivisor(Monomial(1, {{"x", 3}}), Monomial(1, {{"y", 7}})));
-    EXPECT_EQ(9U, calculateMaxExponentDivisor(Monomial(1, {{"x", 9}}), Monomial(1, {{"y", 7}})));
+    EXPECT_EQ(0, calculateMaxExponentDivisor(Monomial(1, {}), Monomial(1, {})));
+    EXPECT_EQ(7, calculateMaxExponentDivisor(Monomial(1, {{"x", 7}}), Monomial(1, {{"y", 7}})));
+    EXPECT_EQ(7, calculateMaxExponentDivisor(Monomial(1, {{"x", 3}}), Monomial(1, {{"y", 7}})));
+    EXPECT_EQ(9, calculateMaxExponentDivisor(Monomial(1, {{"x", 9}}), Monomial(1, {{"y", 7}})));
 }
 
-TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, GetCoefficientsInMonomialsWithExponentsInOrderWorks) {
-    Polynomial polynomial1{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 2}}), Monomial(3, {{"x", 1}}), Monomial(1, {})};
+TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, GetCoefficientsInMonomialsWithExponentsInOrderWorks) {    Polynomial polynomial1{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 2}}), Monomial(3, {{"x", 1}}), Monomial(1, {})};
     Monomials monomials1{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 2}}), Monomial(1, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomial2{Monomial(1, {{"y", 3}}), Monomial(3, {{"y", 2}}), Monomial(3, {{"x", 1}}), Monomial(1, {})};
     Monomials monomials2{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 2}}), Monomial(1, {{"x", 1}}), Monomial(1, {})};
-
     AlbaNumbers coefficients1(getCoefficientsInMonomialsWithExponentsInOrder(Polynomial{}, Monomials{}));
     AlbaNumbers coefficients2(getCoefficientsInMonomialsWithExponentsInOrder(polynomial1, monomials1));
     AlbaNumbers coefficients3(getCoefficientsInMonomialsWithExponentsInOrder(polynomial2, monomials2));

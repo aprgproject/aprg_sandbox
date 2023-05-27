@@ -211,29 +211,25 @@ bool isRolleTheoremSatisfied(
     Term fb(substitution.performSubstitutionTo(term));
 
     bool result(false);
-    if (fa.isConstant() && fb.isConstant() && AlbaNumber(0U) == fa.getConstantValueConstReference() &&
-        AlbaNumber(0U) == fb.getConstantValueConstReference()) {
+    if (fa.isConstant() && fb.isConstant() && AlbaNumber(0) == fa.getConstantValueConstReference() &&
+        AlbaNumber(0) == fb.getConstantValueConstReference()) {
         AlbaNumberIntervals continuityDomainIntervals(getContinuityDomain(term).getAcceptedIntervals());
         AlbaNumberIntervals differentiabilityDomainIntervals(
-            getDifferentiabilityDomain(term, variableName).getAcceptedIntervals());
-        AlbaNumberInterval abCloseInterval(createCloseEndpoint(a), createCloseEndpoint(b));
+            getDifferentiabilityDomain(term, variableName).getAcceptedIntervals());        AlbaNumberInterval abCloseInterval(createCloseEndpoint(a), createCloseEndpoint(b));
         AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
 
-        if (isIntervalInsideTheIntervals(abCloseInterval, continuityDomainIntervals) &&
-            isIntervalInsideTheIntervals(abOpenInterval, differentiabilityDomainIntervals)) {
+        if (isIntervalInsideTheIntervals(abCloseInterval, continuityDomainIntervals) &&            isIntervalInsideTheIntervals(abOpenInterval, differentiabilityDomainIntervals)) {
             Differentiation differentiation(variableName);
             Term firstDerivativeTerm(differentiation.differentiate(term));
             substitution.putVariableWithValue(variableName, c);
             Term fPrimeC(substitution.performSubstitutionTo(firstDerivativeTerm));
-            result = fPrimeC.isConstant() && AlbaNumber(0U) == fPrimeC.getConstantValueConstReference();
+            result = fPrimeC.isConstant() && AlbaNumber(0) == fPrimeC.getConstantValueConstReference();
         }
     }
-    return result;
-}
+    return result;}
 
 AlbaNumbers getInputValuesInIntervalWithSameAsMeanOfInterval(
-    Term const& term, string const& variableName, AlbaNumber const& a, AlbaNumber const& b) {
-    // Mean-Value theorem:
+    Term const& term, string const& variableName, AlbaNumber const& a, AlbaNumber const& b) {    // Mean-Value theorem:
     // Let f be a function such that:
     // (i) it is continuous on the closed interval [a, b]
     // (ii) it is differentiable on the open interval (a, b)
@@ -298,15 +294,13 @@ Extremum getAbsoluteExtremumBasedOnRelativeExtremaOnInterval(
     // (i) if f(c) is relative maximum value of f on I, then f(c) is an absolute maximum value of f on I.
     // (ii) if f(c) is relative minimum value of f on I, then f(c) is an absolute minimum value of f on I.
 
-    unsigned int numberOfExtremaFoundInInterval(0U);
+    int numberOfExtremaFoundInInterval(0);
     Extremum result;
     Extremum extremumInInterval;
-    for (Extremum const& extremum : relativeExtrema) {
-        if (interval.isValueInsideTheInterval(extremum.inputOutputValues.first)) {
+    for (Extremum const& extremum : relativeExtrema) {        if (interval.isValueInsideTheInterval(extremum.inputOutputValues.first)) {
             extremumInInterval = extremum;
             numberOfExtremaFoundInInterval++;
-            if (numberOfExtremaFoundInInterval > 1) {
-                break;
+            if (numberOfExtremaFoundInInterval > 1) {                break;
             }
         }
     }
@@ -428,15 +422,13 @@ Extrema getRelativeExtrema(Term const& term, string const& variableName) {
 
     Differentiation differentiation(variableName);
     Term firstDerivative(differentiation.differentiate(term));
-    Term secondDerivative(differentiation.differentiateMultipleTimes(term, 2U));
+    Term secondDerivative(differentiation.differentiateMultipleTimes(term, 2));
     Equation firstDerivativeEqualsZeroEquation(firstDerivative, "=", 0);
     OneEquationOneVariableEqualitySolver solver;
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(firstDerivativeEqualsZeroEquation));
-    AlbaNumbers const& valuesWhenFirstDerivativeIsZero(solutionSet.getAcceptedValues());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(firstDerivativeEqualsZeroEquation));    AlbaNumbers const& valuesWhenFirstDerivativeIsZero(solutionSet.getAcceptedValues());
     Extrema result;
     for (AlbaNumber const& valueWhenFirstDerivativeIsZero : valuesWhenFirstDerivativeIsZero) {
-        SubstitutionOfVariablesToValues substitution({{variableName, valueWhenFirstDerivativeIsZero}});
-        Term secondDerivativeTermAtCriticalValue(substitution.performSubstitutionTo(secondDerivative));
+        SubstitutionOfVariablesToValues substitution({{variableName, valueWhenFirstDerivativeIsZero}});        Term secondDerivativeTermAtCriticalValue(substitution.performSubstitutionTo(secondDerivative));
         Term evaluatedTerm(substitution.performSubstitutionTo(term));
         if (secondDerivativeTermAtCriticalValue.isConstant() && evaluatedTerm.isConstant()) {
             AlbaNumber secondDerivativeValueAtCriticalValue(
@@ -482,15 +474,13 @@ void putArbitiaryValuesFromInterval(AlbaNumbers& arbitiaryValues, AlbaNumberInte
     if (highEndpoint.isClose()) {
         arbitiaryValues.emplace_back(highValue);
     }
-    for (unsigned int level = 0; level < 5; level++) {
+    for (int level = 0; level < 5; level++) {
         AlbaNumber midpoint = (lowValue + highValue) / 2;
         lowValue = (lowValue + midpoint) / 2;
-        highValue = (highValue + midpoint) / 2;
-        arbitiaryValues.emplace_back(lowValue);
+        highValue = (highValue + midpoint) / 2;        arbitiaryValues.emplace_back(lowValue);
         arbitiaryValues.emplace_back(midpoint);
         arbitiaryValues.emplace_back(highValue);
-    }
-}
+    }}
 
 void putArbitiaryValuesBasedFromDomainOfTerm(AlbaNumbers& arbitiaryValues, Term const& term) {
     SolutionSet domainSolutionSet = calculateDomainForTermWithOneVariable(term);
@@ -509,17 +499,15 @@ void retrieveSecondDerivatives(Terms& secondDerivatives, Term const& term, strin
 void retrieveSubstitutionsFromCriticalNumbers(
     SubstitutionsOfVariablesToValues& substitutions, VariableNameToCriticalNumbersMap const& nameToCriticalNumbersMap) {
     for (auto const& nameAndCriticalNumbersPair : nameToCriticalNumbersMap) {
-        unsigned int i = 0;
+        int i = 0;
         AlbaNumbers const& criticalNumbers(nameAndCriticalNumbersPair.second);
         for (AlbaNumber const& criticalNumber : criticalNumbers) {
-            if (substitutions.size() <= i) {
+            if (static_cast<int>(substitutions.size()) <= i) {
                 substitutions.emplace_back();
             }
-            substitutions.at(i++).putVariableWithValue(nameAndCriticalNumbersPair.first, criticalNumber);
-        }
+            substitutions.at(i++).putVariableWithValue(nameAndCriticalNumbersPair.first, criticalNumber);        }
     }
 }
-
 void determineExtrema(
     ExtremaWithMultipleVariables& extrema, Terms const& secondDerivatives,
     SubstitutionsOfVariablesToValues const& substitutions) {

@@ -51,19 +51,17 @@ void BaseOneEquationOneVariableSolver::sortAndRemoveDuplicateCalculatedValues() 
 
 void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFunctions(
     FunctionsSet const& absFunctions, Term const& term, string const& variableName) {
-    unsigned int finalValue = AlbaBitValueUtilities<unsigned int>::generateOnesWithNumberOfBits(absFunctions.size());
-    for (unsigned int permutationValue = 0; permutationValue <= finalValue; permutationValue++) {
+    int finalValue = AlbaBitValueUtilities<int>::generateOnesWithNumberOfBits(absFunctions.size());
+    for (int permutationValue = 0; permutationValue <= finalValue; permutationValue++) {
         SubstitutionOfTermsToTerms substitution;
         auto itFunctionSet = absFunctions.cbegin();
-        for (unsigned int i = 0; i < absFunctions.size(); i++) {
+        for (int i = 0; i < static_cast<int>(absFunctions.size()); i++) {
             bool isBitAsserted((permutationValue >> i) & 1);
             Term termToReplace;
-            Term const& absFunctionTerm(*itFunctionSet);
-            Term const& absFunctionInputTerm(
+            Term const& absFunctionTerm(*itFunctionSet);            Term const& absFunctionInputTerm(
                 getTermConstReferenceFromBaseTerm(itFunctionSet->getInputTermConstReference()));
             if (isBitAsserted) {
-                termToReplace = absFunctionInputTerm;
-            } else {
+                termToReplace = absFunctionInputTerm;            } else {
                 termToReplace = createExpressionIfPossible({-1, "*", absFunctionInputTerm});
             }
             substitution.putTermToTermMapping(absFunctionTerm, termToReplace);

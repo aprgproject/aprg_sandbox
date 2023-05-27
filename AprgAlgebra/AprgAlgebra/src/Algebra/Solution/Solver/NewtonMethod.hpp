@@ -16,22 +16,20 @@ public:
 
     bool isSolved() const;
     bool isFinished() const;
-    unsigned int getNumberOfIterationsExecuted() const;
+    int getNumberOfIterationsExecuted() const;
     AlbaNumber const& getCurrentValue() const;
 
     void runOneIteration();
-    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);
+    void runMaxNumberOfIterationsOrUntilFinished(int const maxIterations);
     void runUntilFinished();
 
 private:
     AlbaNumber getSlopeApproximationAt(AlbaNumber const& value) const;
     void updatePositiveDeltaForSlopeIfNeeded(AlbaNumber const& newValue);
-    unsigned int m_numberOfIterationsExecuted;
+    int m_numberOfIterationsExecuted;
     AlbaNumber m_currentValue;
     AlbaNumber m_positiveDeltaForSlope;
-    Function m_functionToIterate;
-};
+    Function m_functionToIterate;};
 
 }  // namespace algebra
-
 }  // namespace alba

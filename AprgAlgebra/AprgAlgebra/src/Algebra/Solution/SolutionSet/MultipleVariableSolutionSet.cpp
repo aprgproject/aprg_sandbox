@@ -18,14 +18,12 @@ bool MultipleVariableSolutionSet::isValueAcceptedForVariable(
     return find(acceptedValues.cbegin(), acceptedValues.cend(), value) != acceptedValues.cend();
 }
 
-unsigned int MultipleVariableSolutionSet::getNumberOfVariablesWithSolutions() const {
+int MultipleVariableSolutionSet::getNumberOfVariablesWithSolutions() const {
     return m_variableNameToSolutionSetMap.size();
 }
-
 VariableNamesSet MultipleVariableSolutionSet::getVariableNames() const {
     VariableNamesSet result;
-    for (auto const& pair : m_variableNameToSolutionSetMap) {
-        result.emplace(pair.first);
+    for (auto const& pair : m_variableNameToSolutionSetMap) {        result.emplace(pair.first);
     }
     return result;
 }

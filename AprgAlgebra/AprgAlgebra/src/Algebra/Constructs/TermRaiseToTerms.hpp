@@ -37,16 +37,14 @@ private:
     void simplifyConstantRaiseToFunction(Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm);
     void simplifyMonomialRaiseToConstant(Term& base, Monomial const& monomialBase, AlbaNumber const& exponent);
     void simplifyPolynomialRaiseToPositiveInteger(
-        Term& base, Polynomial const& polynomialBase, unsigned int const exponent);
+        Term& base, Polynomial const& polynomialBase, int const exponent);
     void simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(
-        Term& base, Expression const& expressionBase, unsigned int const exponent);
+        Term& base, Expression const& expressionBase, int const exponent);
     void simplifyConstantRaiseToMultiplicationAndDivisionExpression(
         Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm);
-
     void initializeUsingTermsInRaiseToPowerExpression(TermsWithDetails const& termsInRaiseToPowerExpression);
     void initializeExponentsInTerms(Terms const& exponents);
     Term getCombinedBaseAndExponents() const;
-
     Term m_base;
     TermsWithDetails m_exponents;
     bool m_shouldSimplifyToFactors;

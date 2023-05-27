@@ -17,9 +17,8 @@ void calculateLagrangeEquations(
     stringHelper::strings const& lagrangeMultiplierNames);
 Term getTermWithLagrangeFunctions(
     Term const& term, Terms const& lagrangeFunctions, stringHelper::strings const& lagrangeMultiplierNames);
-stringHelper::strings getLagrangeMultiplierNames(unsigned int const size);
-std::string getLagrangeMultiplierName(unsigned int const index);
+stringHelper::strings getLagrangeMultiplierNames(int const size);
+std::string getLagrangeMultiplierName(int const index);
 
 }  // namespace algebra
-
 }  // namespace alba

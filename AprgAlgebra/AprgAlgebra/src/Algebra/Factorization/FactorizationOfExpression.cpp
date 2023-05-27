@@ -154,16 +154,15 @@ TermsRaiseToNumbers getFactorizedItemsForAdditionAndSubtraction(
     TermsRaiseToNumbers const& commonNonConstantFactors) {
     TermsWithDetails outerAddends;
     TermsWithDetails const& originalAddends(expression.getTermsWithAssociation().getTermsWithDetails());
-    for (unsigned int i = 0;
-         i < constantFactorsPerAddends.size() && i < nonConstantFactorsPerAddends.size() && i < originalAddends.size();
+    for (int i = 0;
+         i < static_cast<int>(constantFactorsPerAddends.size()) &&
+         i < static_cast<int>(nonConstantFactorsPerAddends.size()) && i < static_cast<int>(originalAddends.size());
          i++) {
         TermsWithDetails innerMultipliers;
-        putRemainingConstantFactorAsAnInnerMultiplier(innerMultipliers, constantFactorsPerAddends.at(i), constantGcf);
-        putRemainingNonConstantFactorsAsInnerMultipliers(
+        putRemainingConstantFactorAsAnInnerMultiplier(innerMultipliers, constantFactorsPerAddends.at(i), constantGcf);        putRemainingNonConstantFactorsAsInnerMultipliers(
             innerMultipliers, nonConstantFactorsPerAddends.at(i), commonNonConstantFactors);
         putRemainingInnerMultipliersAsOuterAddend(outerAddends, innerMultipliers, originalAddends.at(i));
-    }
-    return getFactorizedItemsBasedFromCollectedData(constantGcf, commonNonConstantFactors, outerAddends);
+    }    return getFactorizedItemsBasedFromCollectedData(constantGcf, commonNonConstantFactors, outerAddends);
 }
 
 void putRemainingConstantFactorAsAnInnerMultiplier(

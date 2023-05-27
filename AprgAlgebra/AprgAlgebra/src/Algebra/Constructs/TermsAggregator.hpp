@@ -9,14 +9,12 @@ namespace algebra {
 class TermsAggregator {
 public:
     enum class AggregatorTraverseSteps { BuildExpression, Simplify };
-    using Indexes = std::vector<unsigned int>;
+    using Indexes = std::vector<int>;
 
     TermsAggregator(Terms const& terms);
-
     Terms const& getTermsConstReference() const;
 
-    void buildExpressionFromTerms();
-    void simplifyTerms();
+    void buildExpressionFromTerms();    void simplifyTerms();
 
 private:
     void updateStartIndexAndEndIndexAndCheckOpeningAndClosingOperators();
@@ -25,29 +23,28 @@ private:
     bool traverseOnOperatorIndexesAndReturnIfContinue(
         AggregatorTraverseSteps const traverseSteps, OperatorInputType const operatorInputType);
     bool performTraverseStepsAndReturnIfContinue(
-        AggregatorTraverseSteps const traverseSteps, unsigned int const nextOperatorIndex,
+        AggregatorTraverseSteps const traverseSteps, int const nextOperatorIndex,
         OperatorInputType const operatorInputType);
     bool performTraverseStepsWithBinaryOperationAndReturnIfContinue(
-        AggregatorTraverseSteps const traverseSteps, unsigned int const nextOperatorIndex);
+        AggregatorTraverseSteps const traverseSteps, int const nextOperatorIndex);
     bool performTraverseStepsWithUnaryOperationAndReturnIfContinue(
-        AggregatorTraverseSteps const traverseSteps, unsigned int const nextOperatorIndex);
+        AggregatorTraverseSteps const traverseSteps, int const nextOperatorIndex);
     Indexes getNextOperatorIndexes(OperatorInputType const operatorInputType) const;
 
-    bool buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index);
-    bool buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index);
-    bool simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index);
-    bool simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index);
-    bool hasNoValueBeforeThisIndex(unsigned int const index) const;
+    bool buildExpressionWithBinaryOperationAndReturnIfBuilt(int const index);
+    bool buildExpressionWithUnaryOperationAndReturnIfBuilt(int const index);
+    bool simplifyBinaryOperationAndReturnIfSimplified(int const index);
+    bool simplifyUnaryOperationAndReturnIfSimplified(int const index);
+    bool hasNoValueBeforeThisIndex(int const index) const;
 
-    void eraseAndThenInsert(unsigned int const firstIndex, unsigned int const secondIndex, Term const& term);
-    void eraseTermsInclusive(unsigned int const firstIndex, unsigned int const secondIndex);
-    void insertTerm(unsigned int const index, Term const& term);
+    void eraseAndThenInsert(int const firstIndex, int const secondIndex, Term const& term);
+    void eraseTermsInclusive(int const firstIndex, int const secondIndex);
+    void insertTerm(int const index, Term const& term);
 
-    unsigned int m_startIndex;
-    unsigned int m_endIndex;
+    int m_startIndex;
+    int m_endIndex;
     Terms m_terms;
 };
-
 }  // namespace algebra
 
 }  // namespace alba

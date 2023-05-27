@@ -17,26 +17,24 @@ void putFactorizedPolynomialsIfPossible(Polynomials& result, Polynomials const& 
 void simplifyAndRemoveEmptyPolynomials(Polynomials& polynomials);
 
 void tryToFactorizeCommonMonomial(
-    Polynomials& polynomialsToFactorize, unsigned int& deltaSize, Polynomial const& simplifiedPolynomial,
-    unsigned int const originalSize);
+    Polynomials& polynomialsToFactorize, int& deltaSize, Polynomial const& simplifiedPolynomial,
+    int const originalSize);
 void tryToFactorizeUsingPatterns(
-    Polynomials& polynomialsToFactorize, unsigned int& deltaSize, Polynomial const& simplifiedPolynomial,
-    unsigned int const originalSize);
+    Polynomials& polynomialsToFactorize, int& deltaSize, Polynomial const& simplifiedPolynomial,
+    int const originalSize);
 void tryToFactorizeIncreasingAndDecreasingExponentsForm(
-    Polynomials& polynomialsToFactorize, unsigned int& deltaSize, Polynomial const& simplifiedPolynomial,
-    unsigned int const originalSize);
+    Polynomials& polynomialsToFactorize, int& deltaSize, Polynomial const& simplifiedPolynomial,
+    int const originalSize);
 void tryToFactorizeBySplittingToSmallerPolynomials(
-    Polynomials& polynomialsToFactorize, unsigned int& deltaSize, Polynomial const& simplifiedPolynomial,
-    unsigned int const originalSize);
+    Polynomials& polynomialsToFactorize, int& deltaSize, Polynomial const& simplifiedPolynomial,
+    int const originalSize);
 
-unsigned int getDeltaSize(Polynomials const& polynomials, unsigned int const originalSize);
+int getDeltaSize(Polynomials const& polynomials, int const originalSize);
 
 bool isFactorizeUsingPatternsNeeded(Polynomial const& polynomial);
-bool isFactorizeIncreasingAndDecreasingExponentsFormNeeded(Polynomial const& polynomial);
-bool isFactorizeBySplittingToSmallerPolynomialsNeeded(Polynomial const& polynomial);
+bool isFactorizeIncreasingAndDecreasingExponentsFormNeeded(Polynomial const& polynomial);bool isFactorizeBySplittingToSmallerPolynomialsNeeded(Polynomial const& polynomial);
 
 }  // namespace Factorization
-
 }  // namespace algebra
 
 }  // namespace alba
