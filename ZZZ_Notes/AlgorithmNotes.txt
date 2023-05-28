@@ -2791,15 +2791,12 @@
 ----------->     m2 = r − (r−l)/3
 -----------> Run time order
 ----------->     T ( n ) = T ( 2 n / 3 ) + 1 = Θ ( log ⁡ n )
------------> 
 -----------> Recursive algorithm
 -----------> 
------------> def ternary_search(f, left, right, absolute_precision) -> float:
------------>     """Left and right are the current bounds;
+-----------> def ternary_search(f, left, right, absolute_precision) -> float:----------->     """Left and right are the current bounds;
 ----------->     the maximum is between them.
 ----------->     """
------------>     if abs(right - left) < absolute_precision:
------------>         return (left + right) / 2
+----------->     if abs(right - left) < absolute_precision:----------->         return (left + right) / 2
 -----------> 
 ----------->     left_third = (2*left + right) / 3
 ----------->     right_third = (left + 2*right) / 3
