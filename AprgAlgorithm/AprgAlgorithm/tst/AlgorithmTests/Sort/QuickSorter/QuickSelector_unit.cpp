@@ -39,43 +39,42 @@ TEST(QuickSelectorTest, GetNthSelectWorksOnPositiveAndNegativeIntegersUsingExamp
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtLowestIndex) {
     CharacterSelector selector(PivotType::LowestIndex);
-    Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    Characters valuesToSort{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5);
+    selector.doNthElement(valuesToSort, 5);
 
     Characters valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    EXPECT_EQ(valuesToExpect, valuesToSort);
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtHighestIndex) {
     CharacterSelector selector(PivotType::HighestIndex);
-    Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    Characters valuesToSort{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5);
+    selector.doNthElement(valuesToSort, 5);
 
     Characters valuesToExpect{'E', 'A', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    EXPECT_EQ(valuesToExpect, valuesToSort);
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtRandomIndex) {
     CharacterSelector selector(PivotType::RandomIndex);
-    Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    Characters valuesToSort{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5);
+    selector.doNthElement(valuesToSort, 5);
 
-    EXPECT_EQ('O', valuesToTest.at(5));
+    EXPECT_EQ('O', valuesToSort.at(5));
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians) {
     CharacterSelector selector(PivotType::MedianOfMedians);
-    Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    Characters valuesToSort{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5);
+    selector.doNthElement(valuesToSort, 5);
 
     Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    EXPECT_EQ(valuesToExpect, valuesToSort);
 }
 
 }  // namespace algorithm
-
 }  // namespace alba

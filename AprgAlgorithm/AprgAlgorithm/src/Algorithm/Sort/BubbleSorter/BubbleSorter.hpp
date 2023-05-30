@@ -2,35 +2,28 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 
+#include <iterator>
 #include <utility>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class BubbleSorter : public BaseSorter<Values> {
+template <typename Values>class BubbleSorter : public BaseSorter<Values> {
 public:
     BubbleSorter() = default;
 
     void sort(Values& valuesToSort) const override {
         if (!valuesToSort.empty()) {
-            auto itStop = valuesToSort.begin();
-            itStop++;
-            for (auto itEnd = valuesToSort.end(); itStop != itEnd; itEnd--) {
+            for (auto itStop = std::next(valuesToSort.begin()), itEnd = valuesToSort.end(); itStop != itEnd; itEnd--) {
                 bool noSwapHappened(true);
-                auto itFirst = valuesToSort.begin();
-                auto itSecond = valuesToSort.begin();
-                itSecond++;
-                for (; itSecond != itEnd; itFirst++, itSecond++) {
+                for (auto itFirst = valuesToSort.begin(), itSecond = std::next(valuesToSort.begin()); itSecond != itEnd;
+                     itFirst++, itSecond++) {
                     if (*itSecond < *itFirst) {
                         std::swap(*itFirst, *itSecond);
-                        noSwapHappened = false;
-                    }
+                        noSwapHappened = false;                    }
                 }
                 if (noSwapHappened) {
-                    break;
-                }
+                    break;                }
             }
         }
     }

@@ -12,40 +12,39 @@ namespace CommonTestsWithSelector {
 
 template <typename Selector, typename Values>
 void testDoNthElementUsingExample1WithCharacters(Selector const& selector) {
-    Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    Values valuesToSelect{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    selector.doNthElement(valuesToTest, 5);
+    selector.doNthElement(valuesToSelect, 5);
 
     Values valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    EXPECT_EQ(valuesToExpect, valuesToSelect);
 }
 
 template <typename Selector, typename Values>
 void testDoNthElementUsingExample1WithPositiveAndNegativeIntegers(Selector const& selector) {
-    Values valuesToTest{-5, -10, 0, -3, 8, 5, -1, 10};
+    Values valuesToSelect{-5, -10, 0, -3, 8, 5, -1, 10};
 
-    selector.doNthElement(valuesToTest, 3);
+    selector.doNthElement(valuesToSelect, 3);
 
     Values valuesToExpect{-10, -5, -3, -1, 0, 5, 8, 10};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    EXPECT_EQ(valuesToExpect, valuesToSelect);
 }
 
 template <typename Selector, typename Values>
 void testGetNthElementUsingExample1WithCharacters(Selector const& selector) {
-    Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    Values valuesToSelect{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
-    EXPECT_EQ('O', selector.getNthSelect(valuesToTest, 5));
+    EXPECT_EQ('O', selector.getNthSelect(valuesToSelect, 5));
 }
 
 template <typename Selector, typename Values>
 void testGetNthElementUsingExample1WithPositiveAndNegativeIntegers(Selector const& selector) {
-    Values valuesToTest{-5, -10, 0, -3, 8, 5, -1, 10};
+    Values valuesToSelect{-5, -10, 0, -3, 8, 5, -1, 10};
 
-    EXPECT_EQ(-1, selector.getNthSelect(valuesToTest, 3));
+    EXPECT_EQ(-1, selector.getNthSelect(valuesToSelect, 3));
 }
 
 }  // namespace CommonTestsWithSelector
-
 }  // namespace algorithm
 
 }  // namespace alba
