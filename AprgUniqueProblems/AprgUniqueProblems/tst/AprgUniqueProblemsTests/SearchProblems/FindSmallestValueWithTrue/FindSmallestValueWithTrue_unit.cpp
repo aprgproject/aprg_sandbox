@@ -26,4 +26,5 @@ TEST(FindSmallestValueWithTrueTest, GetNearestValueWorksWhenThereAreMultipleValu
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

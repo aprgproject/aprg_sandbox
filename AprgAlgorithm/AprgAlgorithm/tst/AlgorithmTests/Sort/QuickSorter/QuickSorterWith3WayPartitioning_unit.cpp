@@ -86,6 +86,7 @@ TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1With
     CharactersSorter sorter(PivotType::MedianOfMedians);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

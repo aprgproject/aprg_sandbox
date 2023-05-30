@@ -51,10 +51,12 @@ bool TermWithDetails::hasNegativeAssociation() const { return TermAssociationTyp
 int TermWithDetails::getAssociationPriority() const { return algebra::getAssociationPriority(association); }
 
 void TermWithDetails::clear() {
-    baseTermPointer.reset();    association = TermAssociationType::Positive;
+    baseTermPointer.reset();
+    association = TermAssociationType::Positive;
 }
 
 void TermWithDetails::reverseAssociation() { association = getReversedAssociationType(association); }
+
 }  // namespace algebra
 
 }  // namespace alba

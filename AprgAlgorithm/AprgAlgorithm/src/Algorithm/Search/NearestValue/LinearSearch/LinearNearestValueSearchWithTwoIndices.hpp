@@ -24,10 +24,12 @@ public:
         setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& valueToCheck) {        Value result{};
+    Value getNearestValue(Value const& valueToCheck) {
+        Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if (selectedIndex != INVALID_INDEX) {
-            result = m_values.at(selectedIndex);        }
+            result = m_values.at(selectedIndex);
+        }
         return result;
     }
 
@@ -75,10 +77,12 @@ private:
             m_endIndex = std::min(highIndex, static_cast<Index>(m_values.size()) - 1);  // fully closed interval
             if (m_startIndex > m_endIndex) {
                 std::swap(m_startIndex, m_endIndex);
-            }        }
+            }
+        }
     }
 
-    Index m_startIndex;    Index m_endIndex;
+    Index m_startIndex;
+    Index m_endIndex;
     Values const& m_values;
 };
 

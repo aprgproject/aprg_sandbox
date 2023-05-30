@@ -12,6 +12,7 @@ namespace {
 using ValuesForTest = vector<int>;
 using QueryForTest = GetMinimumAdjacentSwapsToPlaceMaximumInFirstAndMinimumInLast<ValuesForTest>;
 }  // namespace
+
 TEST(GetMinimumAdjacentSwapsToPlaceMaximumInFirstAndMinimumInLastTest, WorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query;
@@ -41,4 +42,5 @@ TEST(GetMinimumAdjacentSwapsToPlaceMaximumInFirstAndMinimumInLastTest, WorksOnEx
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

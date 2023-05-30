@@ -65,10 +65,12 @@ public:
         int index = 0;
         generateFunction([&](ElementType const& element) {
             if (contains(element)) {
-                enumerateElement(descriptionStream, element, index);                index++;
+                enumerateElement(descriptionStream, element, index);
+                index++;
             }
         });
-        return std::string("{... ") + descriptionStream.str() + " ...}";    }
+        return std::string("{... ") + descriptionStream.str() + " ...}";
+    }
 
     bool isASubsetOf(MathSet const& mathSet2, GenerateFunction const& generateFunction) const {
         bool result(true);
@@ -160,7 +162,8 @@ private:
         int index = 0;
         for (ElementType const& elementInRoster : rosterList) {
             enumerateElement(descriptionStream, elementInRoster, index);
-            index++;        }
+            index++;
+        }
         return descriptionStream.str();
     }
 
@@ -168,9 +171,11 @@ private:
         std::stringstream& descriptionStream, ElementType const& elementInRoster, int const index) const {
         if (index == 0) {
             descriptionStream << elementInRoster;
-        } else {            descriptionStream << ", " << elementInRoster;
+        } else {
+            descriptionStream << ", " << elementInRoster;
         }
     }
+
     std::string m_description;
     Rule m_ruleToBeInTheSet;
 };

@@ -49,4 +49,5 @@ TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContai
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

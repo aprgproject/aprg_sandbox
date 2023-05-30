@@ -9,10 +9,12 @@ namespace alba {
 uint64_t arrayBasedImplementationForOneByte(uint8_t const value) {
     constexpr std::array<uint8_t, 256> savedValues{
         0U, 1U, 1U, 2U, 1U, 2U, 2U, 3U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U,
-        3U, 4U, 3U, 4U, 4U, 5U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 2U, 3U, 3U, 4U,        3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U,
+        3U, 4U, 3U, 4U, 4U, 5U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 2U, 3U, 3U, 4U,
+        3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U,
         4U, 5U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U,
         3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 4U, 5U, 5U, 6U, 5U, 6U, 6U, 7U, 1U, 2U,
-        2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U,        4U, 5U, 5U, 6U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 3U, 4U, 4U, 5U, 4U, 5U,
+        2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U,
+        4U, 5U, 5U, 6U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 3U, 4U, 4U, 5U, 4U, 5U,
         5U, 6U, 4U, 5U, 5U, 6U, 5U, 6U, 6U, 7U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U,
         3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 4U, 5U, 5U, 6U, 5U, 6U, 6U, 7U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U, 4U, 5U,
         5U, 6U, 5U, 6U, 6U, 7U, 4U, 5U, 5U, 6U, 5U, 6U, 6U, 7U, 5U, 6U, 6U, 7U, 6U, 7U, 7U, 8U};
@@ -22,7 +24,8 @@ uint64_t arrayBasedImplementationForOneByte(uint8_t const value) {
 uint64_t arrayBasedImplementation(uint64_t const value) {
     return arrayBasedImplementationForOneByte(static_cast<uint8_t>(value)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 8)) +
-           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 16)) +           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 24)) +
+           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 16)) +
+           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 24)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 32)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 40)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 48)) +
@@ -35,10 +38,12 @@ uint64_t loopBasedImplementation(uint64_t const input) {
     uint64_t result(0);
     for (uint64_t value = input; value > 0; value >>= 1) {
         if ((value & 1) == 1) {
-            ++result;        }
+            ++result;
+        }
     }
     return result;
 }
+
 static void BM_BaseRun(benchmark::State& state) {
     // Perform setup here
 

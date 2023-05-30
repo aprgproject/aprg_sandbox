@@ -14,9 +14,11 @@ public:
     using Value = int;
     using Values = std::vector<Value>;
     using ValuesPair = std::pair<Value, Value>;
+
     TwoSum(Values const& valuesToCheck);
 
     ValuesPair getTwoValuesWithSum(Value const targetSum) const;
+
 private:
     Values m_sortedValues;
 };

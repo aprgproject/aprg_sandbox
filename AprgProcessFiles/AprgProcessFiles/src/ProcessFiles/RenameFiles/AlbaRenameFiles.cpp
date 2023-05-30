@@ -20,7 +20,9 @@ void AlbaRenameFiles::renameWithIncreasingNumbers(
     int count = startingNumber;
     for (string const& file : listOfFiles) {
         AlbaLocalPathHandler filePathHandler(file);
-        filePathHandler.renameFile(            prefix + converter.convertToString(count++) + string(".") + filePathHandler.getExtension());
+        filePathHandler.renameFile(
+            prefix + converter.convertToString(count++) + string(".") + filePathHandler.getExtension());
     }
 }
+
 }  // namespace alba

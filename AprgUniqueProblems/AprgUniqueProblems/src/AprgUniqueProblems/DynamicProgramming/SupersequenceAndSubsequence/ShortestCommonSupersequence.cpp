@@ -27,10 +27,12 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
     for (Index index2 = 1; index2 < static_cast<Index>(lengthMatrix.getNumberOfRows()); index2++) {
         lengthMatrix.setEntry(0, index2, index2);
     }
-    return getShortestLengthUsingMemoizationDP(lengthMatrix, m_sequence1.size(), m_sequence2.size());}
+    return getShortestLengthUsingMemoizationDP(lengthMatrix, m_sequence1.size(), m_sequence2.size());
+}
 
 ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengthUsingIterativeDP() const {
-    // Time Complexity: O(m x n)    // Auxiliary Space: O(m x n)
+    // Time Complexity: O(m x n)
+    // Auxiliary Space: O(m x n)
 
     CountMatrix lengthMatrix(m_sequence1.size() + 1, m_sequence2.size() + 1, 0);
 
@@ -44,10 +46,12 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
         for (Index index2 = 1; index2 < static_cast<Index>(lengthMatrix.getNumberOfRows()); index2++) {
             Count entryResult(0);
             if (m_sequence1.at(index1 - 1) == m_sequence2.at(index2 - 1)) {
-                entryResult = 1 + lengthMatrix.getEntry(index1 - 1, index2 - 1);            } else {
+                entryResult = 1 + lengthMatrix.getEntry(index1 - 1, index2 - 1);
+            } else {
                 entryResult =
                     1 + min(lengthMatrix.getEntry(index1 - 1, index2), lengthMatrix.getEntry(index1, index2 - 1));
-            }            lengthMatrix.setEntry(index1, index2, entryResult);
+            }
+            lengthMatrix.setEntry(index1, index2, entryResult);
         }
     }
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
@@ -79,10 +83,12 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
         for (Index index1 = 1; index1 <= static_cast<Index>(m_sequence1.size()); index1++) {
             if (m_sequence1.at(index1 - 1) == m_sequence2.at(index2 - 1)) {
                 currentCounts[index1] = 1 + previousCounts.at(index1 - 1);
-            } else {                currentCounts[index1] = 1 + min(currentCounts.at(index1 - 1), previousCounts.at(index1));
+            } else {
+                currentCounts[index1] = 1 + min(currentCounts.at(index1 - 1), previousCounts.at(index1));
             }
         }
     }
+
     Counts const& lastCurrent(previousAndCurrentCounts.at((m_sequence2.size() + 1) % 2));
     return lastCurrent.back();
 }

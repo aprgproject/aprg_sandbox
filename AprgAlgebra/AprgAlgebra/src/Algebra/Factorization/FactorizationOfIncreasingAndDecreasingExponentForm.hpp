@@ -22,7 +22,8 @@ bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
 int calculateMaxExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
 AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(
     Polynomial const& polynomial, Monomials const& monomialsWithExponentsInOrder);
-AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients);AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
+AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients);
+AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
     AlbaNumbers const& previousDerivativeRoots, AlbaNumbers const& coefficients);
 AlbaNumber getMaxAbsoluteValueForRootFinding(AlbaNumbers const& coefficients);
 AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients);
@@ -30,6 +31,7 @@ Monomials getMonomialsWithExponentsInOrder(
     int const exponentDivisor, Monomial const& firstInPolynomial, Monomial const& lastInPolynomial);
 bool areRootsAcceptable(AlbaNumbers const& rootValues);
 }  // namespace Factorization
+
 }  // namespace algebra
 
 }  // namespace alba

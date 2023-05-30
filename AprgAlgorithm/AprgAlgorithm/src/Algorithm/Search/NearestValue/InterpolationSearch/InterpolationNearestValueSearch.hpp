@@ -26,10 +26,12 @@ public:
         setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& value) {        Value result{};
+    Value getNearestValue(Value const& value) {
+        Value result{};
         if (!m_sortedValues.empty()) {
             moveIndexesUntilCloseToValue(value);
-            result = getNearestValueFromLowerAndHigherIndices(value);        }
+            result = getNearestValueFromLowerAndHigherIndices(value);
+        }
         return result;
     }
 
@@ -67,10 +69,12 @@ private:
     inline Value getHigherValueWithoutCheck() const { return m_sortedValues.at(m_highIndex); }
 
     Value getNearestValueFromLowerAndHigherIndices(Value const& value) const {
-        Value lowerValue(getLowerValueWithoutCheck());        Value higherValue(getHigherValueWithoutCheck());
+        Value lowerValue(getLowerValueWithoutCheck());
+        Value higherValue(getHigherValueWithoutCheck());
         Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-        return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;    }
+        return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
+    }
 
     Index getIndexNearestValueFromLowerAndHigherIndices(Value const& value) const {
         Value lowerValue(getLowerValueWithoutCheck());
@@ -120,6 +124,7 @@ private:
     Index m_highIndex;
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

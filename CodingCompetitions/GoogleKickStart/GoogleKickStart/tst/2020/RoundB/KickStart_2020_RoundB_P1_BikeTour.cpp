@@ -29,10 +29,12 @@ namespace KickStart_2020_RoundB_P1_BikeTour {
 void runTestCase(int const testCaseNumber) {
     int N;
     my_cin >> N;
-    vector<int> H(N);    for (int& a : H) my_cin >> a;
+    vector<int> H(N);
+    for (int& a : H) my_cin >> a;
     int ans = 0;
     for (int i = 1; i + 1 < N; i++) {
-        ans += (H[i] > H[i - 1]) && H[i] > H[i + 1];    }
+        ans += (H[i] > H[i - 1]) && H[i] > H[i + 1];
+    }
 
     my_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
 }
@@ -44,9 +46,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

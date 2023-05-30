@@ -6,9 +6,11 @@
 #include <Fake/FakeNames.hpp>
 #endif
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #include <cmath>
 #include <cstdint>
-#include <functional>#include <iostream>
+#include <functional>
+#include <iostream>
 #include <limits>
 #include <vector>
 
@@ -41,9 +43,11 @@ public:
     using Value = typename Values::value_type;
     using ValueMatrix = vector<Value>;
     using SelectorFunction = std::function<Value(Value const&, Value const&)>;
+
     RangeQueryWithSelector(Values const& valuesToCheck, SelectorFunction const& selector)
         : m_selectedValueMatrix(), m_selector(selector), m_columns(0), m_rows(0) {
-        initialize(valuesToCheck);    }
+        initialize(valuesToCheck);
+    }
 
     Value getSelectedValueOnInterval(Index const start, Index const end) const {
         // This is on constant time
@@ -60,10 +64,12 @@ public:
                 result = m_selectedValueMatrix.at(getMatrixIndex(start, 0));
             }
         }
-        return result;    }
+        return result;
+    }
 
 private:
-    void initialize(Values const& valuesToCheck) {        if (!valuesToCheck.empty()) {
+    void initialize(Values const& valuesToCheck) {
+        if (!valuesToCheck.empty()) {
             Index lastExponentOf2(getCeilOfLogarithmWithBase2Of(valuesToCheck.size()));
             m_columns = valuesToCheck.size();
             m_rows = lastExponentOf2 + 1;
@@ -75,10 +81,12 @@ private:
                 m_selectedValueMatrix[getMatrixIndex(index, 0)] = valuesToCheck.at(index);
             }
             for (Index exponentOf2 = 0; exponentOf2 < lastExponentOf2;
-                 exponentOf2++)  // put remaining values with "powers of 2 sized" ranges            {
+                 exponentOf2++)  // put remaining values with "powers of 2 sized" ranges
+            {
                 Index offset = get2ToThePowerOf(exponentOf2);
                 Index limit = valuesToCheck.size() - offset;
-                for (Index index = 0; index < limit; index++) {                    Value selectedValue(m_selector(
+                for (Index index = 0; index < limit; index++) {
+                    Value selectedValue(m_selector(
                         m_selectedValueMatrix.at(getMatrixIndex(index, exponentOf2)),
                         m_selectedValueMatrix.at(getMatrixIndex(index + offset, exponentOf2))));
                     m_selectedValueMatrix[getMatrixIndex(index, exponentOf2 + 1)] = selectedValue;
@@ -127,9 +135,11 @@ void runTestCase(int const testCaseNumber) {
     int maxAllowableThickness;
     my_cin >> numberOfRows >> numberOfColumns >> maxAllowableThickness;
     vector<int> thicknessPerCell(numberOfRows * numberOfColumns);
+
     for (int i = 0; i < numberOfColumns * numberOfRows; i++) {
         my_cin >> thicknessPerCell[i];
-    }    vector<int> subRowThicknessMatrix(numberOfRows * numberOfColumns);
+    }
+    vector<int> subRowThicknessMatrix(numberOfRows * numberOfColumns);
     for (int y = 0; y < numberOfRows; y++) {
         vector<int> rowThickness(
             thicknessPerCell.cbegin() + getIndex(0, y), thicknessPerCell.cbegin() + getIndex(0, y + 1));
@@ -183,10 +193,12 @@ int getIndexFromMaxLength(int const x, int const y, int const z)
 void runTestCase(int const testCaseNumber)
 {
     int maxAllowableThickness;
-    my_cin >> numberOfRows >> numberOfColumns >> maxAllowableThickness;    vector<int> thicknessPerCell(numberOfRows*numberOfColumns);
+    my_cin >> numberOfRows >> numberOfColumns >> maxAllowableThickness;
+    vector<int> thicknessPerCell(numberOfRows*numberOfColumns);
 
     for(int i=0; i<numberOfColumns*numberOfRows; i++)
-    {        my_cin >> thicknessPerCell[i];
+    {
+        my_cin >> thicknessPerCell[i];
     }
 
     vector<int> ok(MAX_LENGTH*MAX_LENGTH*MAX_LENGTH, false);
@@ -227,9 +239,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

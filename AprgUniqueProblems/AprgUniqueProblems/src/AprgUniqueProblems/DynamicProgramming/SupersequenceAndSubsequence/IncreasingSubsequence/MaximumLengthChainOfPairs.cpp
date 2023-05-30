@@ -22,10 +22,12 @@ MaximumLengthChainOfPairs::Index MaximumLengthChainOfPairs::getLongestLength() c
         for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Index& subLength(subLengths[index]);
             for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-                if (m_sequence.at(lowerIndex).second < m_sequence.at(index).first) {                    subLength = max(subLength, subLengths.at(lowerIndex) + 1);
+                if (m_sequence.at(lowerIndex).second < m_sequence.at(index).first) {
+                    subLength = max(subLength, subLengths.at(lowerIndex) + 1);
                 }
             }
-        }        result = *max_element(subLengths.cbegin(), subLengths.cend());
+        }
+        result = *max_element(subLengths.cbegin(), subLengths.cend());
     }
     return result;
 }
@@ -43,10 +45,12 @@ MaximumLengthChainOfPairs::Pairs MaximumLengthChainOfPairs::getLongestSubsequenc
         for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Index& subLength(subLengths[index]);
             Index& previousIndex(indexToPreviousIndex[index]);
-            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {                if (m_sequence.at(lowerIndex).second < m_sequence.at(index).first &&
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
+                if (m_sequence.at(lowerIndex).second < m_sequence.at(index).first &&
                     subLength < subLengths.at(lowerIndex) + 1) {
                     subLength = subLengths.at(lowerIndex) + 1;
-                    previousIndex = lowerIndex;                }
+                    previousIndex = lowerIndex;
+                }
             }
         }
 

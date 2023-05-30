@@ -13,10 +13,12 @@ public:
     using Profit = int;
 
     struct Job {
-        Time startTime;        Time endTime;
+        Time startTime;
+        Time endTime;
         Profit profit;
     };
-    using Times = std::vector<Time>;    using Profits = std::vector<Profit>;
+    using Times = std::vector<Time>;
+    using Profits = std::vector<Profit>;
     using Jobs = std::vector<Job>;
 
     WeightedJobScheduling(Jobs const& jobs);

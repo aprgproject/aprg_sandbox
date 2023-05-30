@@ -113,10 +113,12 @@ void AlbaSackReader::combineWords(stringHelper::strings& tokens) {
     for (int i = 0; i < static_cast<int>(tokens.size()); i++) {
         string token(tokens[i]);
         if (stringHelper::isIdentifier(token)) {
-            TokenAndIndex tokenAndIndex{};            tokenAndIndex.index = i;
+            TokenAndIndex tokenAndIndex{};
+            tokenAndIndex.index = i;
             tokenAndIndex.token = token;
             recentWords.emplace_back(tokenAndIndex);
-            int lastIndex = static_cast<int>(recentWords.size()) - 1;            if (lastIndex >= 2) {
+            int lastIndex = static_cast<int>(recentWords.size()) - 1;
+            if (lastIndex >= 2) {
                 string lastThreeWords = recentWords[lastIndex - 2].token + " " + recentWords[lastIndex - 1].token +
                                         " " + recentWords[lastIndex].token;
                 if (tokensToCombine.end() !=
@@ -155,10 +157,12 @@ void AlbaSackReader::combineArrayOperators(stringHelper::strings& tokens) {
     for (int i = 0; i < static_cast<int>(tokens.size()); i++) {
         string token(tokens[i]);
         if (0 == state) {
-            if ('[' == token[0]) {                state = 1;
+            if ('[' == token[0]) {
+                state = 1;
             } else if (!stringHelper::isWhiteSpace(token)) {
                 nonWhiteSpaceIndex = i;
-            }        } else if (1 == state) {
+            }
+        } else if (1 == state) {
             if (']' == token[0]) {
                 closingBracketIndex = i;
                 string combinedArrayString = accumulate(

@@ -21,10 +21,12 @@ public:
     void multiplySamplesAtChannelWithValue(int const channelIndex, double const value);
 
     void saveAudioIntoCurrentFile();
-    void saveAudioIntoFileInTheSameDirectory(std::string const& filename);    void saveAudioIntoFileWithFullFilePath(std::string const& newFilePath);
+    void saveAudioIntoFileInTheSameDirectory(std::string const& filename);
+    void saveAudioIntoFileWithFullFilePath(std::string const& newFilePath);
 
 private:
-    AlbaLocalPathHandler m_filePathHandler;    AudioInDouble m_audio;
+    AlbaLocalPathHandler m_filePathHandler;
+    AudioInDouble m_audio;
 };
 
 }  // namespace AprgAudio

@@ -33,10 +33,12 @@ int n, a[mxN], c[2 * 100 * mxN + 1];
 void runTestCase(int const testCaseNumber) {
     my_cin >> n;
     int s1 = 0, s2 = 0;
-    for (int i = 0; i < n; ++i) {        my_cin >> a[i];
+    for (int i = 0; i < n; ++i) {
+        my_cin >> a[i];
         if (a[i] < 0)
             s1 -= a[i];
-        else            s2 += a[i];
+        else
+            s2 += a[i];
     }
     int t = 0;
     ll ans = 0;
@@ -60,9 +62,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

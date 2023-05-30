@@ -52,10 +52,12 @@ public:
         for (int i = 0; i < commonLength; i++) {
             if (string1.at(i) != string2.at(i)) {
                 if (string1.at(i) == '-' || string2.at(i) == '-') {
-                    result = false;                    break;
+                    result = false;
+                    break;
                 } else if (difference > 1) {
                     result = false;
-                    break;                } else {
+                    break;
+                } else {
                     difference++;
                 }
             }
@@ -101,10 +103,12 @@ public:
                 int bitIndex = length - i - 1;
                 if (xorBits[bitIndex]) {
                     booleanEquivalent.push_back('-');
-                } else if (displayBits[bitIndex]) {                    booleanEquivalent.push_back('1');
+                } else if (displayBits[bitIndex]) {
+                    booleanEquivalent.push_back('1');
                 } else {
                     booleanEquivalent.push_back('0');
-                }            }
+                }
+            }
         }
         return booleanEquivalent;
     }
@@ -125,10 +129,12 @@ private:
         int orResult(performOrOperationOfAllMinterms());
         for (; orResult > 0; orResult >>= 1) {
             result++;
-        }        return result;
+        }
+        return result;
     }
 
-    Minterm getFirstMinterm() const {        Minterm result(0);
+    Minterm getFirstMinterm() const {
+        Minterm result(0);
         if (!m_minterms.empty()) {
             result = *(m_minterms.begin());
         }

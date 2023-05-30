@@ -16,7 +16,9 @@ void AprgGnuPlot2D::graph(
     for (int i = 0; i < static_cast<int>(geometryPoints.size()); i++) {
         points.emplace_back(make_pair(geometryPoints[i].getX(), geometryPoints[i].getY()));
     }
-    graph(points, graphName, configurationString);}
+    graph(points, graphName, configurationString);
+}
 
 void AprgGnuPlot2D::startGraph() { m_gnuPlot << "plot "; }
+
 }  // namespace alba

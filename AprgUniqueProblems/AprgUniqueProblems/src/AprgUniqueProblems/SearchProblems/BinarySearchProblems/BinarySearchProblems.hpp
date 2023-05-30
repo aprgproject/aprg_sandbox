@@ -15,9 +15,11 @@ public:
     using Value = typename Values::value_type;
 
     BinarySearchProblems() = default;
+
     Value getNearestFloor(Values const& sortedValues, Value const& valueToCheck) {
         // Problem Statement:
-        // Given an array of N distinct integers, find floor value of input ‘key’.        // Say, A = {-1, 2, 3, 5, 6, 8, 9, 10} and key = 7, we should return 6 as outcome.
+        // Given an array of N distinct integers, find floor value of input ‘key’.
+        // Say, A = {-1, 2, 3, 5, 6, 8, 9, 10} and key = 7, we should return 6 as outcome.
 
         // We can use the above optimized implementation to find floor value of key.
         // We keep moving the left pointer to right most as long as the invariant holds.
@@ -80,10 +82,12 @@ public:
         Index lowerIndex(0), higherIndex(sortedValues.size() - 1);
         if (sortedValues.at(lowerIndex) <= sortedValues.at(higherIndex)) {
             result = lowerIndex;
-        } else {            while (lowerIndex <= higherIndex) {
+        } else {
+            while (lowerIndex <= higherIndex) {
                 if (lowerIndex == higherIndex) {
                     result = lowerIndex;
-                    break;                }
+                    break;
+                }
                 Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
                 if (sortedValues.at(middleIndex) < sortedValues.at(higherIndex)) {
                     higherIndex = middleIndex;
@@ -102,10 +106,12 @@ private:
         while (lowerIndex + 1 < higherIndex) {
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(sortedValues.at(middleIndex));
-            if (middleValue <= value) {                lowerIndex = middleIndex;
+            if (middleValue <= value) {
+                lowerIndex = middleIndex;
             } else {
                 higherIndex = middleIndex;
-            }        }
+            }
+        }
         return lowerIndex;
     }
 
@@ -115,10 +121,12 @@ private:
         while (lowerIndex + 1 < higherIndex) {
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(sortedValues.at(middleIndex));
-            if (value <= middleValue) {                higherIndex = middleIndex;
+            if (value <= middleValue) {
+                higherIndex = middleIndex;
             } else {
                 lowerIndex = middleIndex;
-            }        }
+            }
+        }
         return higherIndex;
     }
 };

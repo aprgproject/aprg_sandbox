@@ -180,7 +180,8 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials) {
     int negativeSignCount(0);
     for (Monomial const& monomial : monomials) {
         if (monomial.getConstantConstReference() < AlbaNumber(0)) {
-            negativeSignCount++;            if (isFirstMonomial) {
+            negativeSignCount++;
+            if (isFirstMonomial) {
                 isFirstMonomialNegative = true;
             }
         }
@@ -192,10 +193,12 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials) {
                : 1;
 }
 
-Monomial getGcfMonomialInMonomials(Monomials const& monomials) {    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));
+Monomial getGcfMonomialInMonomials(Monomials const& monomials) {
+    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));
     Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
     if (commonCoefficient != 1) {
-        commonCoefficient = getCommonSignInMonomials(monomials) * commonCoefficient;    }
+        commonCoefficient = getCommonSignInMonomials(monomials) * commonCoefficient;
+    }
     minExponentMonomial.setConstant(commonCoefficient);
     minExponentMonomial.simplify();
     return minExponentMonomial;

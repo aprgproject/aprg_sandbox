@@ -16,4 +16,5 @@ enum class PivotType {
 };
 
 }
+
 }  // namespace alba

@@ -60,7 +60,8 @@ private:
             Index firstMiddleIndex = lowIndex + oneThirdSize;
             Index secondMiddleIndex = firstMiddleIndex + oneThirdSize;
             Value firstMiddleValue(m_sortedValues.at(firstMiddleIndex));
-            Value secondMiddleValue(m_sortedValues.at(secondMiddleIndex));            if (value == firstMiddleValue) {
+            Value secondMiddleValue(m_sortedValues.at(secondMiddleIndex));
+            if (value == firstMiddleValue) {
                 result = firstMiddleIndex;
             } else if (value == secondMiddleValue) {
                 result = secondMiddleIndex;
@@ -72,7 +73,8 @@ private:
                 result = getIndexOfNearestValueWithoutCheck(secondMiddleIndex + 1, highIndex, value);
             } else  // if on the second one-third part
             {
-                result = getIndexOfNearestValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);            }
+                result = getIndexOfNearestValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);
+            }
         }
         return result;
     }
@@ -84,7 +86,9 @@ private:
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
 
-    Values const& m_sortedValues;};
+    Values const& m_sortedValues;
+};
 
 }  // namespace algorithm
+
 }  // namespace alba

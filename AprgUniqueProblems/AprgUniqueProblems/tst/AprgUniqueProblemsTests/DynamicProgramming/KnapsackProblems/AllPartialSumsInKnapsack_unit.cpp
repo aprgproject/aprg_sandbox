@@ -24,4 +24,5 @@ TEST(AllPartialSumsInKnapsackTest, GetAllPossiblePartialSumsWithSquareRootAlgori
     Values expectedValues{0, 1, 3, 4, 5, 6, 7, 8, 9, 11, 12};
     EXPECT_EQ(expectedValues, queryForTest.getAllPossiblePartialSumsWithSquareRootAlgorithm());
 }
+
 }  // namespace alba

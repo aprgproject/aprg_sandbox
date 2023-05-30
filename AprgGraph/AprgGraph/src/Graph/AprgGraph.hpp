@@ -46,10 +46,12 @@ public:
     void drawCharacter(AprgBitmap::BitmapXY const& upLeftPoint, char const character, uint32_t const colorToWrite);
     void saveChangesToBitmapFile();
 
-private:    bool isBitmapPointInTheBitmap(TwoDimensions::Point const& bitmapPoint);
+private:
+    bool isBitmapPointInTheBitmap(TwoDimensions::Point const& bitmapPoint);
     std::string getBitmapFilePathOfCharacter(char const character) const;
     double getLowestInterval() const;
-    TwoDimensions::Point convertBitmapXYToRealPoint(AprgBitmap::BitmapXY const& bitmapPosition) const;    TwoDimensions::Point convertRealPointToBitmapPoint(TwoDimensions::Point const& realPosition) const;
+    TwoDimensions::Point convertBitmapXYToRealPoint(AprgBitmap::BitmapXY const& bitmapPosition) const;
+    TwoDimensions::Point convertRealPointToBitmapPoint(TwoDimensions::Point const& realPosition) const;
     int convertRealXCoordinateToBitmapXCoordinate(double const xCoordinate) const;
     int convertRealYCoordinateToBitmapYCoordinate(double const yCoordinate) const;
     double convertBitmapXCoordinateToRealXCoordinate(double const xCoordinate) const;
@@ -62,10 +64,12 @@ private:    bool isBitmapPointInTheBitmap(TwoDimensions::Point const& bitmapPoin
     void drawEquationWithYSubstitution(algebra::Equation const& equation, uint32_t const color);
     AprgBitmap::Bitmap m_bitmap;
     AprgBitmap::BitmapSnippet m_bitmapSnippet;
-    AprgBitmap::BitmapXY m_originInBitmap;    AprgBitmap::BitmapDoubleXY m_magnification;
+    AprgBitmap::BitmapXY m_originInBitmap;
+    AprgBitmap::BitmapDoubleXY m_magnification;
     double m_lowestInterval;
     TwoDimensions::Point m_realUpLeftPoint;
-    TwoDimensions::Point m_realDownRightPoint;    alba::stringHelper::StringConverterWithFormatting m_numberToStringConverter;
+    TwoDimensions::Point m_realDownRightPoint;
+    alba::stringHelper::StringConverterWithFormatting m_numberToStringConverter;
 };
 
 }  // namespace alba

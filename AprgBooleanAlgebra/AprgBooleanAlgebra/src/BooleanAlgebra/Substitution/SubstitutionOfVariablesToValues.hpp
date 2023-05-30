@@ -22,9 +22,11 @@ public:
     int getSize() const;
     bool getValueForVariable(std::string const& variable) const;
     VariablesToValuesMap const& getVariableToValuesMap() const;
+
     Term performSubstitutionTo(VariableTerm const& variableTerm) const;
     Term performSubstitutionTo(Expression const& expression) const;
     Term performSubstitutionTo(Term const& term) const;
+
     Expression performSubstitutionForExpression(Expression const& expression) const;
 
     void putVariablesWithValues(std::initializer_list<VariableValuePair> const& variablesWithValues);

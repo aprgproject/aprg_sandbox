@@ -48,10 +48,12 @@ MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getMinimu
             for (Index left = 0; left + length <= static_cast<Index>(countMatrix.getNumberOfColumns()); left++) {
                 Index right = left + length - 1;
                 Cost minimumCount(MAX_COUNT);
-                for (Index inBetween = left + 1; inBetween < right; inBetween++) {                    Cost currentCount = countMatrix.getEntry(left, inBetween) + countMatrix.getEntry(inBetween, right) +
+                for (Index inBetween = left + 1; inBetween < right; inBetween++) {
+                    Cost currentCount = countMatrix.getEntry(left, inBetween) + countMatrix.getEntry(inBetween, right) +
                                         getCostOfThreePoints(left, inBetween, right);
                     minimumCount = min(minimumCount, currentCount);
-                }                countMatrix.setEntry(left, right, minimumCount);
+                }
+                countMatrix.setEntry(left, right, minimumCount);
             }
         }
         result = countMatrix.getEntry(0, countMatrix.getNumberOfRows() - 1);

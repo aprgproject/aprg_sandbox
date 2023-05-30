@@ -32,10 +32,12 @@ typedef long long ll;
 void runTestCase(int const testCaseNumber) {
     string s;
     my_cin >> s;
-    ll mod = 1e9;    ll x = 0, y = 0;
+    ll mod = 1e9;
+    ll x = 0, y = 0;
     vector<ll> mul = {1};
     for (char c : s) {
-        if (c >= '2' && c <= '9')            mul.push_back(mul.back() * (c - '0') % mod);
+        if (c >= '2' && c <= '9')
+            mul.push_back(mul.back() * (c - '0') % mod);
         else if (c == 'E')
             x = (x + mul.back()) % mod;
         else if (c == 'W')
@@ -61,9 +63,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

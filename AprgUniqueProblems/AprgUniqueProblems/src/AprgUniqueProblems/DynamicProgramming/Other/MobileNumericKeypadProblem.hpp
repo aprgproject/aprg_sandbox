@@ -12,9 +12,11 @@ public:
     using Count = int;
     using NumpadValues = std::vector<NumpadValue>;
     using Counts = std::vector<Count>;
-    using CountMatrix = matrix::AlbaMatrix<Count>;    static constexpr Count UNUSED_VALUE = std::numeric_limits<Count>::max();
+    using CountMatrix = matrix::AlbaMatrix<Count>;
+    static constexpr Count UNUSED_VALUE = std::numeric_limits<Count>::max();
 
     MobileNumericKeypadProblem(Count const length);
+
     Count getCountUsingNaiveRecursion() const;
     Count getCountUsingMemoizationDP() const;
     Count getCountUsingIterativeDP() const;

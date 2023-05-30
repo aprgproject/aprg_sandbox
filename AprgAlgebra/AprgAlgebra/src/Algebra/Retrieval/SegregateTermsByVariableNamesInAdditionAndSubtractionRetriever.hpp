@@ -33,7 +33,9 @@ private:
     void saveTerm(Term const& term, int numberOfTimesFound, std::string const& variableName);
     VariableNameToTermMap m_variableNameToTermMap;
     Term m_termWithMultipleVariableNames;
-    Term m_remainingTerm;};
+    Term m_remainingTerm;
+};
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -50,9 +50,11 @@ private:
             // do nothing for items that are equal to the pivotValue
         }
     }
+
 private:
     PivotType m_pivotType;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

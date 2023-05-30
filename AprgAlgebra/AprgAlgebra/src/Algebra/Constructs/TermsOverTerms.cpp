@@ -213,10 +213,12 @@ bool TermsOverTerms::removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(Terms& nu
            previousNumberOfDenominators != static_cast<int>(denominators.size());
 }
 
-void TermsOverTerms::handleZerosInNumeratorOrDenominator(Terms& denominators, Terms& numerators) {    bool hasZeroOnNumerators(hasZero(numerators));
+void TermsOverTerms::handleZerosInNumeratorOrDenominator(Terms& denominators, Terms& numerators) {
+    bool hasZeroOnNumerators(hasZero(numerators));
     bool hasZeroOnDenominators(hasZero(denominators));
     if (hasZeroOnNumerators && hasZeroOnDenominators) {
-        numerators.clear();        denominators.clear();
+        numerators.clear();
+        denominators.clear();
         numerators.emplace_back(ALBA_NUMBER_NOT_A_NUMBER);
     } else if (hasZeroOnNumerators) {
         numerators.clear();
@@ -321,9 +323,11 @@ void TermsOverTerms::populateTermsWithBase(Terms& termsToUpdate, Term const& bas
         termsToUpdate.emplace_back(base);
     }
 }
+
 void TermsOverTerms::removeTermsThatHaveNoEffect(Terms& terms) const {
     terms.erase(
-        remove_if(            terms.begin(), terms.end(),
+        remove_if(
+            terms.begin(), terms.end(),
             [](Term const& term) { return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term); }),
         terms.end());
 }

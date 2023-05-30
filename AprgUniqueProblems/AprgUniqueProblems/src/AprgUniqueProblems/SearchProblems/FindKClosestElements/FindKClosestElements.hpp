@@ -28,7 +28,8 @@ public:
             while (count < numberOfClosestElements && low > 0 && high + 1 < static_cast<Index>(m_values.size())) {
                 if (valueToCheck - m_values.at(low) <= m_values.at(high) - valueToCheck) {
                     low--;
-                } else {                    high++;
+                } else {
+                    high++;
                 }
                 count++;
             }
@@ -39,10 +40,12 @@ public:
             while (count < numberOfClosestElements && high + 1 < static_cast<Index>(m_values.size())) {
                 high++;
                 count++;
-            }            result = {low, high};
+            }
+            result = {low, high};
         }
         return result;
     }
+
 private:
     Values const& m_values;
 };

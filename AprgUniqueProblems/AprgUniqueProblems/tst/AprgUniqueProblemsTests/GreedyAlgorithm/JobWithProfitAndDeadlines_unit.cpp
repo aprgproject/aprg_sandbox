@@ -14,6 +14,7 @@ TEST(JobWithProfitAndDeadlinesTest, GetJobsAsPossibleWorksOnExample1) {
     taskAndDeadlines.addJob("D", 30, 1);
 
     JobWithProfitAndDeadlines::JobNames actualNames(taskAndDeadlines.getJobsOrderWithMaximumProfit());
+
     JobWithProfitAndDeadlines::JobNames expectedNames{"C", "A"};
     EXPECT_EQ(expectedNames, actualNames);
 }
@@ -27,7 +28,9 @@ TEST(JobWithProfitAndDeadlinesTest, GetJobsAsPossibleWorksOnExample2) {
     taskAndDeadlines.addJob("E", 15, 3);
 
     JobWithProfitAndDeadlines::JobNames actualNames(taskAndDeadlines.getJobsOrderWithMaximumProfit());
+
     JobWithProfitAndDeadlines::JobNames expectedNames{"A", "C", "E"};
     EXPECT_EQ(expectedNames, actualNames);
 }
+
 }  // namespace alba

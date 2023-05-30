@@ -11,9 +11,11 @@ DeBruijnSequences::DeBruijnSequences(int const substringSize, string const& alph
     : m_substringSize(substringSize), m_alphabet(alphabet) {
     initialize();
 }
+
 string DeBruijnSequences::getDeBruijnString() const {
     string result;
-    if (m_substringSize == 1) {        result = m_alphabet;
+    if (m_substringSize == 1) {
+        result = m_alphabet;
     } else {
         HierholzerAlgorithmForDirectedGraph<string> eulerPathSearch(m_graph);
         auto eulerPath(eulerPathSearch.getEulerPath());
@@ -41,9 +43,11 @@ void DeBruijnSequences::addAllSubstringsAsVertex() {
 void DeBruijnSequences::addSubstringAsVertex(int const depth, string const& substring) {
     if (depth < m_substringSize) {
         for (char const c : m_alphabet) {
-            string newSubstring = substring.substr(1, substring.length()) + c;            addSubstringAsVertex(depth + 1, newSubstring);
+            string newSubstring = substring.substr(1, substring.length()) + c;
+            addSubstringAsVertex(depth + 1, newSubstring);
             m_graph.connect(substring, newSubstring);
         }
-    }}
+    }
+}
 
 }  // namespace alba

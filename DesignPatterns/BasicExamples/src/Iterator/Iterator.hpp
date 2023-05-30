@@ -42,9 +42,11 @@ private:
     int m_count;
     // ...
 };
+
 // Iterator
 // provides the interface that all iterators must implement and
 // a set of methods for traversing over elements
+
 class Iterator {
 public:
     virtual ~Iterator() = default;
@@ -78,9 +80,11 @@ private:
     int index;
     // ...
 };
+
 std::unique_ptr<Iterator> ConcreteAggregate::createIterator() { return std::make_unique<ConcreteIterator>(*this); }
 
 }  // namespace Iterator
+
 // Iterator discussion:
 
 // ONE LINE NOTE:

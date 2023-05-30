@@ -129,10 +129,12 @@ void collectMinAndMaxValues(AlbaNumbersSet& collectedValues, AlbaNumbersSet cons
     int const valuesSize = sortedValues.size();
     if (valuesSize == 1) {
         AlbaNumbersSet::const_iterator itFront = sortedValues.cbegin();
-        collectedValues.emplace(*itFront);    } else if (sortedValues.size() >= 2) {
+        collectedValues.emplace(*itFront);
+    } else if (sortedValues.size() >= 2) {
         AlbaNumbersSet::const_iterator itFront = sortedValues.cbegin();
         AlbaNumbersSet::const_iterator itBack = sortedValues.cend();
-        itBack--;        collectedValues.emplace(*itFront);
+        itBack--;
+        collectedValues.emplace(*itFront);
         collectedValues.emplace(*itBack);
     }
 }

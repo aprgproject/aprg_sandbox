@@ -22,10 +22,12 @@ BoxStackingProblem::Index BoxStackingProblem::getMaximumStackedHeight() const {
         for (Index index(0); index < static_cast<Index>(possibleBoxes.size()); index++) {
             Box const& rightBox(possibleBoxes.at(index));
             Value& partialHeight(partialHeights[index]);
-            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {                Box const& leftBox(possibleBoxes.at(lowerIndex));
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
+                Box const& leftBox(possibleBoxes.at(lowerIndex));
                 if (leftBox.getX() < rightBox.getX() && leftBox.getY() < rightBox.getY()) {
                     partialHeight = max(partialHeight, partialHeights.at(lowerIndex));
-                }            }
+                }
+            }
             partialHeight += possibleBoxes.at(index).getZ();
         }
         result = *max_element(partialHeights.cbegin(), partialHeights.cend());
@@ -48,10 +50,12 @@ BoxStackingProblem::Boxes BoxStackingProblem::getBoxesWithMaximumStackedHeight()
         for (Index index(0); index < static_cast<Index>(possibleBoxes.size()); index++) {
             Box const& rightBox(possibleBoxes.at(index));
             Value& partialHeight(partialHeights[index]);
-            Value& previousIndex(indexToPreviousIndex[index]);            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
+            Value& previousIndex(indexToPreviousIndex[index]);
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
                 Box const& leftBox(possibleBoxes.at(lowerIndex));
                 if (leftBox.getX() < rightBox.getX() && leftBox.getY() < rightBox.getY() &&
-                    partialHeight < partialHeights.at(lowerIndex)) {                    partialHeight = partialHeights.at(lowerIndex);
+                    partialHeight < partialHeights.at(lowerIndex)) {
+                    partialHeight = partialHeights.at(lowerIndex);
                     previousIndex = lowerIndex;
                 }
             }

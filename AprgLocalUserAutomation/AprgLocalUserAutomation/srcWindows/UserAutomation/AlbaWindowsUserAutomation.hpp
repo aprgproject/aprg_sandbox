@@ -42,6 +42,7 @@ public:
 
     void saveBitmapOnScreen(
         std::string const& filePath) const;  // Note: the difference on partially capturing the screen is negligible
+
     std::string getStringFromClipboard() const;
     void setStringToClipboard(std::string const& clipBoardText) const;
     void saveBitmapFromClipboard(std::string const& filePath) const;

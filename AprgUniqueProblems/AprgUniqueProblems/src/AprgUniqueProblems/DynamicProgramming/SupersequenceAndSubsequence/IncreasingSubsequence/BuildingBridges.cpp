@@ -53,9 +53,11 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
             Value const& value(secondPoints.at(i));
             auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
+
             if (lowerBoundItForEndValue == endIt)  // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);                lengthMinus1ToEndIndex[longestLength] = i;
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);
+                lengthMinus1ToEndIndex[longestLength] = i;
                 lengthMinus1ToEndValue[longestLength++] = value;  // extend
             } else {
                 Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);

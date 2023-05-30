@@ -38,8 +38,8 @@ private:
 
         Index result(INVALID_INDEX);
         if (lowIndex < highIndex) {
-            Index firstMiddleIndex = (2 * lowIndex + highIndex) / 3;
-            Index secondMiddleIndex = (lowIndex + 2 * highIndex) / 3;
+            Index firstMiddleIndex = (2 * lowIndex + highIndex) / 3;   // Note: possible overflow bug
+            Index secondMiddleIndex = (lowIndex + 2 * highIndex) / 3;  // Note: possible overflow bug
             if (value < m_sortedValues.at(firstMiddleIndex)) {
                 // if on the first one-third part
                 result = getIndexOfValueWithoutCheck(lowIndex, firstMiddleIndex - 1, value);
@@ -57,6 +57,7 @@ private:
     }
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

@@ -26,10 +26,12 @@ LongestEqualLengthSubArraysWithSameSum::getLongestTotalLengthOfSubArraysUsingPar
         for (Index startOfSubArray1 = 0; startOfSubArray1 + (2 * subArrayLength) <= static_cast<Index>(m_values.size());
              startOfSubArray1++) {
             Index startOfSubArray2 = startOfSubArray1 + subArrayLength;
-            Value sum1 =                partialSumsQuery.getAccumulatedValueOnInterval(startOfSubArray1, startOfSubArray1 + subArrayLength - 1);
+            Value sum1 =
+                partialSumsQuery.getAccumulatedValueOnInterval(startOfSubArray1, startOfSubArray1 + subArrayLength - 1);
             Value sum2 =
                 partialSumsQuery.getAccumulatedValueOnInterval(startOfSubArray2, startOfSubArray2 + subArrayLength - 1);
-            if (sum1 == sum2) {                result = subArrayLength * 2;
+            if (sum1 == sum2) {
+                result = subArrayLength * 2;
             }
         }
     }
@@ -50,10 +52,12 @@ LongestEqualLengthSubArraysWithSameSum::getLongestTotalLengthOfSubArraysByAccumu
                startOfSubArray2 + subArrayLength < static_cast<Index>(m_values.size())) {
             sum1 += m_values.at(endOfSubArray1 - subArrayLength);
             sum2 += m_values.at(startOfSubArray2 + subArrayLength);
-            ++subArrayLength;            if (sum1 == sum2) {
+            ++subArrayLength;
+            if (sum1 == sum2) {
                 result = max(result, subArrayLength * 2);
             }
-        }    }
+        }
+    }
     return result;
 }
 

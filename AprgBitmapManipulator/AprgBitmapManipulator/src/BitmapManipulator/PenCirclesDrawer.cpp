@@ -80,10 +80,12 @@ void PenCirclesDrawer::writeCirclesWithoutOverlay() {
         int circleColor(pointAndPenCircleDetailsPair.second.color);
         m_snippetTraversal.traverseCircleArea(
             penCircle, [&](BitmapXY const& pointInCircle) { m_snippet.setPixelAt(pointInCircle, circleColor); });
-    }}
+    }
+}
 
 void PenCirclesDrawer::writeCirclesWithOverlay() {
-    PointToColorDetailsMap pointsWithColorDetails;    for (auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles()) {
+    PointToColorDetailsMap pointsWithColorDetails;
+    for (auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles()) {
         Circle penCircle(
             convertBitmapXYToPoint(pointAndPenCircleDetailsPair.first), pointAndPenCircleDetailsPair.second.radius);
         m_snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInCircle) {
@@ -108,10 +110,12 @@ void PenCirclesDrawer::connectCirclesIfNeeded() {
             centerPoint, static_cast<int>(round(mainPair.second.radius))));
         for (auto const& neighborPair : neighborPairs) {
             if (mainPair.first != neighborPair.first && isToBeConnected(mainPair, neighborPair)) {
-                m_penCircles.connectCircles(centerPoint, neighborPair.first);            }
+                m_penCircles.connectCircles(centerPoint, neighborPair.first);
+            }
         }
     }
 }
+
 void PenCirclesDrawer::putCirclesWithoutOverlay() {
     for (auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles()) {
         Circle penCircle(
@@ -119,10 +123,12 @@ void PenCirclesDrawer::putCirclesWithoutOverlay() {
         int circleColor(pointAndPenCircleDetailsPair.second.color);
         m_snippetTraversal.traverseCircleArea(
             penCircle, [&](BitmapXY const& pointInCircle) { m_drawnPoints.emplace(pointInCircle, circleColor); });
-    }}
+    }
+}
 
 void PenCirclesDrawer::putCirclesWithOverlay() {
-    PointToColorDetailsMap pointsWithColorDetails;    for (auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles()) {
+    PointToColorDetailsMap pointsWithColorDetails;
+    for (auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles()) {
         Circle penCircle(
             convertBitmapXYToPoint(pointAndPenCircleDetailsPair.first), pointAndPenCircleDetailsPair.second.radius);
         m_snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInCircle) {

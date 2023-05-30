@@ -13,6 +13,7 @@ using ValueForTest = int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = BinarySearchProblems<ValuesForTest>;
 }  // namespace
+
 TEST(BinarySearchProblemsTest, GetNearestFloorWorks) {
     ValuesForTest valuesForTest{1, 2, 3, 5, 6, 8, 9, 10};
     QueryForTest query;
@@ -42,4 +43,5 @@ TEST(BinarySearchProblemsTest, GetPositionOfRotationWorks) {
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

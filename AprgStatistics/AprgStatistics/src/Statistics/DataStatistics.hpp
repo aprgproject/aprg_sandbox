@@ -11,10 +11,12 @@ namespace alba {
 template <int DIMENSIONS>
 class DataStatistics {
 public:
-    using Sample = DataSample<DIMENSIONS>;    using Samples = std::vector<Sample>;
+    using Sample = DataSample<DIMENSIONS>;
+    using Samples = std::vector<Sample>;
     using StatisticsUtilities = DataStatisticsUtilities<DIMENSIONS>;
     using SampleOptional = std::optional<Sample>;
     using DoubleOptional = std::optional<double>;
+
     DataStatistics() {}
 
     DataStatistics(Samples const& samples) : m_samples(samples) {}
@@ -80,9 +82,11 @@ protected:
             m_mean = m_sum.value() / sampleSize;
         }
     }
+
     void calculateSampleVarianceIfNeeded() { calculateVarianceIfNeeded(m_sampleVariance, m_samples.size() - 1); }
 
-    void calculateSampleStandardDeviationIfNeeded() {        calculateStandardDeviationIfNeeded(m_sampleStandardDeviation, m_sampleVariance, m_samples.size() - 1);
+    void calculateSampleStandardDeviationIfNeeded() {
+        calculateStandardDeviationIfNeeded(m_sampleStandardDeviation, m_sampleVariance, m_samples.size() - 1);
     }
 
     void calculatePopulationVarianceIfNeeded() { calculateVarianceIfNeeded(m_populationVariance, m_samples.size()); }
@@ -94,10 +98,12 @@ protected:
     void calculateVarianceIfNeeded(SampleOptional& variance, int sampleSize) {
         if (!variance) {
             if (!m_samples.empty()) {
-                Samples varianceCalculationTemp(m_samples);                calculateMeanIfNeeded();
+                Samples varianceCalculationTemp(m_samples);
+                calculateMeanIfNeeded();
                 for (Sample& sample : varianceCalculationTemp) {
                     sample = sample - m_mean.value();
-                    sample = sample.calculateRaiseToPower(2);                }
+                    sample = sample.calculateRaiseToPower(2);
+                }
                 variance = StatisticsUtilities::calculateSum(varianceCalculationTemp) / sampleSize;
             } else {
                 variance = Sample{};
@@ -109,10 +115,12 @@ protected:
         SampleOptional& standardDeviation, SampleOptional& variance, int sampleSize) {
         if (!standardDeviation) {
             calculateVarianceIfNeeded(variance, sampleSize);
-            Sample standardDeviationTemp(variance.value());            standardDeviationTemp = standardDeviationTemp.calculateRaiseToInversePower(2);
+            Sample standardDeviationTemp(variance.value());
+            standardDeviationTemp = standardDeviationTemp.calculateRaiseToInversePower(2);
             standardDeviation = standardDeviationTemp;
         }
     }
+
     void calculateDispersionAroundTheCentroidIfNeeded() {
         if (!m_dispersionAroundTheCentroid) {
             calculateSampleStandardDeviationIfNeeded();

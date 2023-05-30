@@ -34,6 +34,7 @@ private:
             std::swap(*rItLow, *rItHigh);
         }
     }
+
     void continuouslyCopyBackIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const {
         // reserve a copy instead of continuously swapping down
         // this is another implementation (from CLS book)
@@ -48,9 +49,11 @@ private:
         *rItHigh = insertItem;
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and
 // ~(1/4)N^2 exchanges on average. Proof: Expect each entry to move halfway back. Only half of the elements along the
 // diagonal is involved in the sort.

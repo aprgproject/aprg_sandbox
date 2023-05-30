@@ -5,9 +5,11 @@
 #include <cstdint>
 #include <limits>
 #include <vector>
+
 namespace alba {
 
-class StringConstruction {public:
+class StringConstruction {
+public:
     // Given a string s of length n and a set of strings D whose total length is m,
     // consider the problem of counting the number of ways s can be formed as a concatenation of strings in D.
     // For example, if s = ABAB and D = {A, B, AB}, there are 4 ways:

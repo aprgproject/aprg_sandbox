@@ -50,10 +50,12 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingIterat
             for (Index left = 0; left + length <= static_cast<Index>(costMatrix.getNumberOfColumns()); left++) {
                 Index right = left + length - 1;
                 Cost entryResult(MAX_COUNT);
-                Cost offsetCost(                    frequencyRange.getAccumulatedValueOnInterval(left, right));  // pattern when going down with depth
+                Cost offsetCost(
+                    frequencyRange.getAccumulatedValueOnInterval(left, right));  // pattern when going down with depth
                 for (Index possibleParent = left; possibleParent <= right; possibleParent++) {
                     Cost costOfPossibleParent(offsetCost);
-                    if (left < possibleParent) {                        costOfPossibleParent += costMatrix.getEntry(left, possibleParent - 1);  // left child
+                    if (left < possibleParent) {
+                        costOfPossibleParent += costMatrix.getEntry(left, possibleParent - 1);  // left child
                     }
                     if (possibleParent < right) {
                         costOfPossibleParent += costMatrix.getEntry(possibleParent + 1, right);  // right child

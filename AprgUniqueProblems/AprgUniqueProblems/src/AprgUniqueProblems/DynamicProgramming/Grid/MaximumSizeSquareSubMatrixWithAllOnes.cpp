@@ -95,10 +95,12 @@ MaximumSizeSquareSubMatrixWithAllOnes::getMaximumSquareAreaUsingIterativeDPAndTi
             for (Index y = 1; y < static_cast<Index>(m_booleanMatrix.getNumberOfRows()); y++) {
                 Unit entryResult(0);
                 if (m_booleanMatrix.getEntry(x, y)) {
-                    entryResult = 1 + min(min(sideMatrix.getEntry(x - 1, y - 1), sideMatrix.getEntry(x, y - 1)),                                          sideMatrix.getEntry(x - 1, y));
+                    entryResult = 1 + min(min(sideMatrix.getEntry(x - 1, y - 1), sideMatrix.getEntry(x, y - 1)),
+                                          sideMatrix.getEntry(x - 1, y));
                 }
                 sideMatrix.setEntry(x, y, entryResult);
-            }        }
+            }
+        }
 
         Unit maximumSide(0);
         sideMatrix.iterateAllThroughYAndThenX(

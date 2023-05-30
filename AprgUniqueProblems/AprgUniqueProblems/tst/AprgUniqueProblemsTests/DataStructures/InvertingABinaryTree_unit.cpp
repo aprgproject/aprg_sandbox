@@ -22,10 +22,12 @@ TEST(InvertingABinaryTreeTest, ThreeNodes) {
     EXPECT_EQ(1, result->rightPointer->value);
     EXPECT_FALSE(result->leftPointer->leftPointer);
     EXPECT_FALSE(result->leftPointer->rightPointer);
-    EXPECT_FALSE(result->rightPointer->leftPointer);    EXPECT_FALSE(result->rightPointer->rightPointer);
+    EXPECT_FALSE(result->rightPointer->leftPointer);
+    EXPECT_FALSE(result->rightPointer->rightPointer);
 }
 
-TEST(InvertingABinaryTreeTest, SevenNodes) {    std::unique_ptr<Node> node1(new Node{1, nullptr, nullptr});
+TEST(InvertingABinaryTreeTest, SevenNodes) {
+    std::unique_ptr<Node> node1(new Node{1, nullptr, nullptr});
     std::unique_ptr<Node> node2(new Node{2, nullptr, nullptr});
     std::unique_ptr<Node> node3(new Node{3, nullptr, nullptr});
     std::unique_ptr<Node> node4(new Node{4, nullptr, nullptr});
@@ -51,4 +53,5 @@ TEST(InvertingABinaryTreeTest, SevenNodes) {    std::unique_ptr<Node> node1(new 
 }
 
 }  // namespace InvertingABinaryTree
+
 }  // namespace alba

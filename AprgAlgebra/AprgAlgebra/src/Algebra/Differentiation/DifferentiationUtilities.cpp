@@ -194,7 +194,8 @@ Term getApproximationUsingTaylorsFormula(
     int const numberOfTimes) {
     // taylors formula:
     // f(b) = f(a) + f'(a)*(b-a)/1! + f''(a)*(b-a)^2/2! ...
-    Differentiation differentiation(variableName);    Term difference(valueToApproach - startingValue);
+    Differentiation differentiation(variableName);
+    Term difference(valueToApproach - startingValue);
     Term currentDerivative(term);
     Term differenceRaiseToPower(1);
     AlbaNumber factorialValue(1);
@@ -202,10 +203,12 @@ Term getApproximationUsingTaylorsFormula(
     for (int n = 1; n <= numberOfTimes; n++) {
         currentDerivative = differentiation.differentiate(currentDerivative);
         differenceRaiseToPower *= difference;
-        factorialValue *= n;        Term currentDerivativeValue(evaluateAtDefiniteTerm(currentDerivative, variableName, startingValue));
+        factorialValue *= n;
+        Term currentDerivativeValue(evaluateAtDefiniteTerm(currentDerivative, variableName, startingValue));
         Term currentTerm(currentDerivativeValue * differenceRaiseToPower / factorialValue);
         result += currentTerm;
-    }    result.simplify();
+    }
+    result.simplify();
     return result;
 }
 
@@ -220,10 +223,12 @@ Term getApproximationOfErrorUsingTaylorsRemainder(
     int nPlusOne = numberOfTimes + 1;
     Term derivative(differentiation.differentiateMultipleTimes(term, nPlusOne));
     Term derivativeValue(evaluateAtDefiniteTerm(derivative, variableName, valueForEstimation));
-    Term differenceRaiseToPower(difference ^ (nPlusOne));    Term factorialValue(getFactorial(nPlusOne));
+    Term differenceRaiseToPower(difference ^ (nPlusOne));
+    Term factorialValue(getFactorial(nPlusOne));
     Term result(derivativeValue * differenceRaiseToPower / factorialValue);
     result.simplify();
-    return result;}
+    return result;
+}
 
 Term getTotalDerivativeWithInnerTermsUsingChainRule(
     Term const& term, SubstitutionOfVariablesToTerms const& substitution, string const& commonVariable) {

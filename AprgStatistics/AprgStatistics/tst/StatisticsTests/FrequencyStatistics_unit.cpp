@@ -18,9 +18,11 @@ TEST(FrequencyStatisticsTest, SamplesAreEmpty) {
     EXPECT_EQ(0, FrequencyStatistics::calculateMedian(samples));
     ASSERT_EQ(0U, modes.size());
 }
+
 TEST(FrequencyStatisticsTest, SingleSamplePerValueWithOddNumberOfValues) {
     FrequencyStatistics::FrequencySamples samples;
-    samples[1] = 1;    samples[2] = 1;
+    samples[1] = 1;
+    samples[2] = 1;
     samples[3] = 1;
     samples[4] = 1;
     samples[5] = 1;
@@ -36,10 +38,12 @@ TEST(FrequencyStatisticsTest, SingleSamplePerValueWithOddNumberOfValues) {
     EXPECT_EQ(5, FrequencyStatistics::calculateMedian(samples));
     ASSERT_EQ(9U, modes.size());
     EXPECT_EQ(1, modes[0]);
-    EXPECT_EQ(2, modes[1]);    EXPECT_EQ(3, modes[2]);
+    EXPECT_EQ(2, modes[1]);
+    EXPECT_EQ(3, modes[2]);
     EXPECT_EQ(4, modes[3]);
     EXPECT_EQ(5, modes[4]);
-    EXPECT_EQ(6, modes[5]);    EXPECT_EQ(7, modes[6]);
+    EXPECT_EQ(6, modes[5]);
+    EXPECT_EQ(7, modes[6]);
     EXPECT_EQ(8, modes[7]);
     EXPECT_EQ(9, modes[8]);
 }
@@ -62,10 +66,12 @@ TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues) {
     EXPECT_EQ(55, FrequencyStatistics::calculateSum(samples));
     EXPECT_EQ(5.5, FrequencyStatistics::calculateMean(samples));
     EXPECT_EQ(5.5, FrequencyStatistics::calculateMedian(samples));
-    ASSERT_EQ(10U, modes.size());    EXPECT_EQ(1, modes[0]);
+    ASSERT_EQ(10U, modes.size());
+    EXPECT_EQ(1, modes[0]);
     EXPECT_EQ(2, modes[1]);
     EXPECT_EQ(3, modes[2]);
-    EXPECT_EQ(4, modes[3]);    EXPECT_EQ(5, modes[4]);
+    EXPECT_EQ(4, modes[3]);
+    EXPECT_EQ(5, modes[4]);
     EXPECT_EQ(6, modes[5]);
     EXPECT_EQ(7, modes[6]);
     EXPECT_EQ(8, modes[7]);
@@ -86,10 +92,12 @@ TEST(FrequencyStatisticsTest, MulipleSamplesPerValue) {
     EXPECT_EQ(96, FrequencyStatistics::calculateSum(samples));
     EXPECT_EQ(3.2, FrequencyStatistics::calculateMean(samples));
     EXPECT_EQ(4U, FrequencyStatistics::calculateMedian(samples));
-    ASSERT_EQ(1U, modes.size());    EXPECT_EQ(4, modes[0]);
+    ASSERT_EQ(1U, modes.size());
+    EXPECT_EQ(4, modes[0]);
 }
 
-TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues) {    FrequencyStatistics::FrequencySamples samples;
+TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues) {
+    FrequencyStatistics::FrequencySamples samples;
     samples[9] = 0;
     samples[10] = 7;
     samples[15] = 0;
@@ -111,4 +119,5 @@ TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues) {    FrequencyStati
     ASSERT_EQ(1U, modes.size());
     EXPECT_EQ(20, modes[0]);
 }
+
 }  // namespace alba

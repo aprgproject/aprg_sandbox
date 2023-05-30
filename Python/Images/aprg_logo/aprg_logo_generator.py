@@ -2,10 +2,12 @@
 import copy
 import numpy as np
 import math
-import randomimport skimage.io
+import random
+import skimage.io
 
 
-def get_rgb_on_circle(scale, rgb_start, rgb_end):    return round(scale*(rgb_end - rgb_start) + rgb_start)
+def get_rgb_on_circle(scale, rgb_start, rgb_end):
+    return round(scale*(rgb_end - rgb_start) + rgb_start)
 
 
 def get_scale_on_circle(scale_to_change, noise_scale):
@@ -16,9 +18,11 @@ def get_rgb_on_text(original_rgb, alpha_scale, scale_x):
     return 127 + 128*0.9*(0.8*scale_x + 0.2*(1-scale_x)*random.random()) + 0.1*alpha_scale*original_rgb
 
 
-def draw_pixel_at_circle(image, x, y, top_left, bottom_right, color_start, color_end):    scale_x = (x-top_left[0])/(bottom_right[0]-top_left[0])
+def draw_pixel_at_circle(image, x, y, top_left, bottom_right, color_start, color_end):
+    scale_x = (x-top_left[0])/(bottom_right[0]-top_left[0])
     scale_y = (y-top_left[1])/(bottom_right[1]-top_left[1])
     scale_hyp = math.dist(top_left, (x, y)) / math.dist(top_left, bottom_right)
+
     image[y, x] = [
         get_rgb_on_circle(get_scale_on_circle(scale_x, scale_x),
                           color_start[0], color_end[0]),
@@ -75,7 +79,8 @@ def draw_circle(image):
         76, 129, 134), (210, 223, 225), (127, 85, 131), (15, 10, 16)
     radius = x_size*0.4
     multiplier_sin_function = radius/4
-    multiplier_to_angle = math.pi/radius    midpoint = ((x_size+1)//2, (y_size+1)//2)
+    multiplier_to_angle = math.pi/radius
+    midpoint = ((x_size+1)//2, (y_size+1)//2)
     top_left = (midpoint[0]-radius, midpoint[1]-radius)
     bottom_right = (midpoint[0]+radius, midpoint[1]+radius)
     for x in range(x_size):
@@ -146,6 +151,7 @@ def generate_aprg_logo():
     darken_edges(image)
 
     skimage.io.imsave('aprg_logo.png', image)
+
 
 if __name__ == '__main__':
     generate_aprg_logo()

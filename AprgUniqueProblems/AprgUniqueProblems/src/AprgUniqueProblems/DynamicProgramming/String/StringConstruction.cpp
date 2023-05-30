@@ -29,10 +29,12 @@ int StringConstruction::getCountSquareRootAlgorithm() {
     int result(0);
     if (!m_stringToConstruct.empty()) {
         result = getCountSquareRootAlgorithm(m_stringToConstruct.length());
-    }    return result;
+    }
+    return result;
 }
 
-void StringConstruction::initialize() {    removeEmptySubstrings();
+void StringConstruction::initialize() {
+    removeEmptySubstrings();
     removeDuplicateSubstrings();
     saveHashOfAllSubstrings();
 }
@@ -93,7 +95,8 @@ int StringConstruction::count(int const prefixLength) {
 int StringConstruction::countSquareRootAlgorithm(int const prefixLength) {
     // However, we can solve the problem more efficiently by using string hashing
     // and the fact that there are at most O(sqrt(m)) distinct string lengths in D.
-    // First, we construct a set H that contains all hash values of the strings in D.    // Then, when calculating a value of count(k), we go through all values of p such that
+    // First, we construct a set H that contains all hash values of the strings in D.
+    // Then, when calculating a value of count(k), we go through all values of p such that
     // there is a string of length p in D, calculate the hash value of s[k-p+1...k] and check if it belongs to H.
     // Since there are at most O(sqrt(m)) distinct string lengths, this results in an algorithm whose running time is
     // O(n*sqrt(m)).
@@ -106,7 +109,8 @@ int StringConstruction::countSquareRootAlgorithm(int const prefixLength) {
         int subStringLength = m_subStrings.at(i).length();
         HashValue subStringHash = m_subStringHash.at(i);
 
-        // Note that getHashCodeOfSubstring is on constant time.        if (subStringLength < prefixLength && subStringHash == mainHashFunction.getHashCodeOfSubstring(
+        // Note that getHashCodeOfSubstring is on constant time.
+        if (subStringLength < prefixLength && subStringHash == mainHashFunction.getHashCodeOfSubstring(
                                                                    prefixLength - subStringLength, prefixLength - 1)) {
             result += getCountSquareRootAlgorithm(prefixLength - subStringLength);
         } else if (
@@ -114,7 +118,8 @@ int StringConstruction::countSquareRootAlgorithm(int const prefixLength) {
             subStringHash == mainHashFunction.getHashCodeOfSubstring(0, prefixLength - 1)) {
             result++;
         }
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

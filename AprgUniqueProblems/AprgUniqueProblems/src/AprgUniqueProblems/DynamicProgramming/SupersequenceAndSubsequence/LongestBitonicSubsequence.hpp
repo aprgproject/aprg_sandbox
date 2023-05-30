@@ -11,9 +11,11 @@ public:
     using Value = int;
     using Values = std::vector<Value>;
     using IndexToIndex = std::vector<Index>;
+
     LongestBitonicSubsequence(Values const& sequence);
 
-    Index getLongestLength() const;    Values getLongestSubsequence() const;
+    Index getLongestLength() const;
+    Values getLongestSubsequence() const;
 
 private:
     void computeIncreasingPartialLengths(IndexToIndex& increasingPartialLengths) const;

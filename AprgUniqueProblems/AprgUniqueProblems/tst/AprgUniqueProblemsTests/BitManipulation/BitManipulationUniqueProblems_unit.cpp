@@ -57,4 +57,5 @@ TEST(BitManipulationUniqueProblemsTest, InvertAllBitsAfterTheLastOneWorks) {
 }
 
 }  // namespace BitManipulation
+
 }  // namespace alba

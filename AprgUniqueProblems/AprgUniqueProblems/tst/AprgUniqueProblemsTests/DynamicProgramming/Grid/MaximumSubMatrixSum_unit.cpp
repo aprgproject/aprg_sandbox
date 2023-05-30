@@ -30,4 +30,5 @@ TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1) 
     EXPECT_EQ(3, subArrayDetailsToVerify.down);
     EXPECT_EQ(29, subArrayDetailsToVerify.sum);
 }
+
 }  // namespace alba

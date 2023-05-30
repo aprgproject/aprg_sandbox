@@ -11,9 +11,11 @@ public:
     using Value = int;
     using Values = std::vector<Value>;
     using IndexToIndex = std::vector<Index>;
+
     LongestIncreasingSubsequence(Values const& sequence);
 
-    Index getLongestLength() const;    Values getLongestSubsequence() const;
+    Index getLongestLength() const;
+    Values getLongestSubsequence() const;
 
 private:
     Values m_sequence;

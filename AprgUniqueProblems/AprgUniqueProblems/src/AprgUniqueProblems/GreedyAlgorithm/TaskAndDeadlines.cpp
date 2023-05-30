@@ -36,4 +36,5 @@ TaskAndDeadlines::TaskNames TaskAndDeadlines::getTasksOrderWithMaximumScore() co
 void TaskAndDeadlines::addTask(string const& taskName, int const duration, int const deadline) {
     m_tasks.emplace_back(Task{taskName, duration, deadline});
 }
+
 }  // namespace alba

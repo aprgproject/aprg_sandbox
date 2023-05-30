@@ -214,10 +214,12 @@ void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) co
     set<int> indentionsOfLoops;
     for (string const& line : m_linesAfterTheHeader) {
         if (isLineWithALoopStart(line)) {
-            indentionsOfLoops.emplace(getStringThatContainsWhiteSpaceIndention(line).size());            if (indentionsOfLoops.size() >= 2) {
+            indentionsOfLoops.emplace(getStringThatContainsWhiteSpaceIndention(line).size());
+            if (indentionsOfLoops.size() >= 2) {
                 cout << "CHECK THIS: More than 2 loops found in:[" << path << "] in line:[" << line << "].\n";
             }
-        } else if (isLineWithALoopEnd(line)) {            auto it = indentionsOfLoops.find(getStringThatContainsWhiteSpaceIndention(line).size());
+        } else if (isLineWithALoopEnd(line)) {
+            auto it = indentionsOfLoops.find(getStringThatContainsWhiteSpaceIndention(line).size());
             if (it != indentionsOfLoops.end()) {
                 indentionsOfLoops.erase(it);
             }

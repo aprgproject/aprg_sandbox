@@ -18,9 +18,11 @@ namespace {
 constexpr int NUMBER_OF_ITERATIONS_IN_NEWTON_METHOD = 1000;
 constexpr double DIFFERENCE_TOLERANCE_FOR_ACCEPTED_VALUE = 1E-11;
 }  // namespace
+
 OneEquationOneVariableEqualitySolver::OneEquationOneVariableEqualitySolver() : BaseOneEquationOneVariableSolver() {}
 
-void OneEquationOneVariableEqualitySolver::calculateSolution(SolutionSet& solutionSet, Equation const& equation) {    if (equation.getEquationOperator().isEqual()) {
+void OneEquationOneVariableEqualitySolver::calculateSolution(SolutionSet& solutionSet, Equation const& equation) {
+    if (equation.getEquationOperator().isEqual()) {
         Equation simplifiedEquation(equation);
         simplifiedEquation.simplify();
         if (simplifiedEquation.isEquationSatisfied()) {

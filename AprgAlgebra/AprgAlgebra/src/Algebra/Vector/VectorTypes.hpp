@@ -31,4 +31,5 @@ using MathVectorOfTwoTerms = MathVectorOfTerms<2>;
 using MathVectorOfThreeTerms = MathVectorOfTerms<3>;
 
 }  // namespace algebra
+
 }  // namespace alba

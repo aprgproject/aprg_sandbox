@@ -31,10 +31,12 @@ public:
     using Count = int;
     using PieceToChessCellBitValueMap = std::map<PieceColorAndType, uint64_t>;
     using BitValueUtilities = AlbaBitValueUtilities<uint64_t>;
-    using PieceColorAndTypes = std::vector<PieceColorAndType>;    using CheckDetails = std::vector<CheckDetail>;
+    using PieceColorAndTypes = std::vector<PieceColorAndType>;
+    using CheckDetails = std::vector<CheckDetail>;
     using BoolFunction = std::function<bool(double const)>;
 
-    BoardObserver() = delete;    BoardObserver(Configuration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring);
+    BoardObserver() = delete;
+    BoardObserver(Configuration const& configuration, AlbaLocalScreenMonitoring const& screenMonitoring);
     BoardObserver(Configuration const& configuration, AprgBitmap::BitmapSnippet const& bitmapSnippet);
 
     Piece getPieceFromCell(int const xIndex, int const yIndex) const;

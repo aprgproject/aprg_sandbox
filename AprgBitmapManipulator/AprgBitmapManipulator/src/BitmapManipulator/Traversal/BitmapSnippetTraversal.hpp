@@ -25,9 +25,11 @@ public:
         TraverseOperation const& traverseOperation) const;
     void traverse4WayConnectivity(BitmapXY const& centerPoint, TraverseOperation const& traverseOperation) const;
     void traverse8WayConnectivity(BitmapXY const& centerPoint, TraverseOperation const& traverseOperation) const;
+
 private:
     void checkPointBeforeDoingTraverseOperation(
-        BitmapXY const& point, TraverseOperation const& traverseOperation) const;    BitmapSnippet const& m_bitmapSnippet;
+        BitmapXY const& point, TraverseOperation const& traverseOperation) const;
+    BitmapSnippet const& m_bitmapSnippet;
 };
 
 }  // namespace AprgBitmap

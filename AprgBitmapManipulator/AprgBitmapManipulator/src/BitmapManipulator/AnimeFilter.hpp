@@ -17,4 +17,5 @@ void doStuffsAfterSteps(
 std::string getNewFilePath(std::string const& inputFilePath, int const step, std::string const& description);
 
 }  // namespace AprgBitmap
+
 }  // namespace alba

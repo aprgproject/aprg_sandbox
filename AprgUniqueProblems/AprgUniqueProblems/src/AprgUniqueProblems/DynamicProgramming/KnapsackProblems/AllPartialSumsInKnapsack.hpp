@@ -9,9 +9,11 @@ public:
     using Value = int;
     using Values = std::vector<Value>;
     using Booleans = std::vector<bool>;
+
     AllPartialSumsInKnapsack(Values const& values);
 
-    Values getAllPossiblePartialSums() const;    Values getAllPossiblePartialSumsBySettingFutureValues() const;
+    Values getAllPossiblePartialSums() const;
+    Values getAllPossiblePartialSumsBySettingFutureValues() const;
     Values getAllPossiblePartialSumsWithSquareRootAlgorithm();
 
 private:

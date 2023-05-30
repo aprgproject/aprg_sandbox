@@ -20,10 +20,12 @@ bool IntegrationHistory::didThisIntegrationPurposeAlreadyHappened(IntegrationPur
 int IntegrationHistory::getDepth() const { return m_recordOfIntegrationPurposes.size(); }
 
 IntegrationPurpose IntegrationHistory::getLastIntegrationPurpose() const {
-    IntegrationPurpose result(IntegrationPurpose::NotSet);    if (!m_recordOfIntegrationPurposes.empty()) {
+    IntegrationPurpose result(IntegrationPurpose::NotSet);
+    if (!m_recordOfIntegrationPurposes.empty()) {
         result = m_recordOfIntegrationPurposes.back();
     }
-    return result;}
+    return result;
+}
 
 string IntegrationHistory::getEnumShortString(IntegrationPurpose const purpose) const {
     switch (purpose) {

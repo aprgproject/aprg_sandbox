@@ -22,10 +22,12 @@ void OutwardCircleTraversal::constructRadiusToCoordinates() {
         for (int j = i; j <= m_maxRadius; j++) {
             double radius(getSquareRootOfXSquaredPlusYSquared(static_cast<double>(i), static_cast<double>(j)));
             m_radiusToCoordinates.emplace(radius, Coordinate(i, j));
-        }    }
+        }
+    }
 }
 
-OutwardCircleTraversal::RadiusToCoordinates const& OutwardCircleTraversal::getRadiusToCoordinates() const {    return m_radiusToCoordinates;
+OutwardCircleTraversal::RadiusToCoordinates const& OutwardCircleTraversal::getRadiusToCoordinates() const {
+    return m_radiusToCoordinates;
 }
 
 }  // namespace AprgBitmap

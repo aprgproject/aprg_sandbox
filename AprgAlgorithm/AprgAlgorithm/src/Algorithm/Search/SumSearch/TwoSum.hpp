@@ -32,7 +32,8 @@ public:
         return getTwoValuesWithSum(targetSum, lowIndex, highIndex, std::less<Index>());
     }
 
-    ValuePair getPossibleDuplicatedTwoValuesWithSum(Value const& targetSum) const {        // std::less_equal because index can be equal
+    ValuePair getPossibleDuplicatedTwoValuesWithSum(Value const& targetSum) const {
+        // std::less_equal because index can be equal
         return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size() - 1, std::less_equal<Index>());
     }
 
@@ -60,10 +61,12 @@ private:
                     ++iLow;
                 }
             }
-        }        return result;
+        }
+        return result;
     }
 
-    Values const& m_sortedValues;};
+    Values const& m_sortedValues;
+};
 
 }  // namespace algorithm
 

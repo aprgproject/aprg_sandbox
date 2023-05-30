@@ -23,9 +23,11 @@ public:
     using Coordinate = std::pair<int, int>;
     using Coordinates = std::vector<Coordinate>;
     static constexpr GrundyNumberEntry INVALID_GRUNDY_NUMBER = -1;
+
     GameWithMaze(BooleanMatrix const& isBlockedMatrix);
 
-    bool hasNoMoves(Coordinate const& coordinate) const;    UnsignedInteger getGrundyNumberAt(Coordinate const& coordinate);
+    bool hasNoMoves(Coordinate const& coordinate) const;
+    UnsignedInteger getGrundyNumberAt(Coordinate const& coordinate);
     GameState getGameStateAt(Coordinate const& coordinate);
     Coordinate getOptimalNextCoordinateAt(Coordinate const& coordinate);
     Coordinate getNextCoordinateWithGrundyNumber(

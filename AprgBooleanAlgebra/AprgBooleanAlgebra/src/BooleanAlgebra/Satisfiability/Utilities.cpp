@@ -18,9 +18,11 @@ int getSatisfiabilityLevel(SatisfiabilityTerms const& satTerms) {
     }
     return result;
 }
+
 SatisfiabilityTerms getSatisfiabilityTerms(Term const& term) {
     SatisfiabilityTerms result;
-    if (term.isVariableTerm()) {        result.emplace_back(SatisfiabilityTerm{term.getVariableTermConstReference()});
+    if (term.isVariableTerm()) {
+        result.emplace_back(SatisfiabilityTerm{term.getVariableTermConstReference()});
     } else if (term.isExpression()) {
         result = getSatisfiabilityTerms(term.getExpressionConstReference());
     }

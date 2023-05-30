@@ -80,9 +80,11 @@ double Ellipse::getArea() const { return getPi() * m_aValue * m_bValue; }
     for(int i = 0; i<depthOfCalculation; i++)
     {
         totalFactor += currentFactor;
-        currentFactor = currentFactor*h;    }
+        currentFactor = currentFactor*h;
+    }
     return getPi()*2*m_radius;
 }*/
+
 bool Ellipse::isInside(Point const& point) const {
     return (pow((point.getX() - m_center.getX()) / m_aValue, 2)) +
                (pow((point.getY() - m_center.getY()) / m_bValue, 2)) <=
@@ -141,7 +143,8 @@ Line Ellipse::getMajorAxis() const {
     if (2 == vertices.size()) {
         result = Line(vertices.at(0), vertices.at(1));
     }
-    return result;}
+    return result;
+}
 
 Line Ellipse::getMinorAxis() const {
     Line result;
@@ -149,10 +152,12 @@ Line Ellipse::getMinorAxis() const {
     if (2 == vertices.size()) {
         result = Line(vertices.at(0), vertices.at(1));
     }
-    return result;}
+    return result;
+}
 
 Points Ellipse::getPointsForCircumference(double const interval) const {
-    Points result;    if (!isAlmostEqual(m_aValue, 0.0) && !isAlmostEqual(m_bValue, 0.0)) {
+    Points result;
+    if (!isAlmostEqual(m_aValue, 0.0) && !isAlmostEqual(m_bValue, 0.0)) {
         Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
         Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
         Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));

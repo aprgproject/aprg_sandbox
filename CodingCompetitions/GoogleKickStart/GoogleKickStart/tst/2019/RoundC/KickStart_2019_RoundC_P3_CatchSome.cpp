@@ -39,10 +39,12 @@ using ColorDetails = vector<ColorDetail>;
 void runTestCase(int const testCaseNumber) {
     int numberOfDogs, targetNumberOfObserves;
     my_cin >> numberOfDogs >> targetNumberOfObserves;
-    vector<int> positionsOfDogs(numberOfDogs);    vector<int> colorsOfDogs(numberOfDogs);
+    vector<int> positionsOfDogs(numberOfDogs);
+    vector<int> colorsOfDogs(numberOfDogs);
 
     for (int i = 0; i < numberOfDogs; i++) {
-        my_cin >> positionsOfDogs[i];    }
+        my_cin >> positionsOfDogs[i];
+    }
     for (int i = 0; i < numberOfDogs; i++) {
         my_cin >> colorsOfDogs[i];
     }
@@ -122,9 +124,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

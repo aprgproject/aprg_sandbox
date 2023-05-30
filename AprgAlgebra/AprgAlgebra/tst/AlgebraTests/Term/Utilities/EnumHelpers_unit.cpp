@@ -29,9 +29,11 @@ TEST(EnumHelpersTest, GetTermPriorityValueWorks) {
     EXPECT_EQ(7, getTermTypePriorityValue(TermType::Function));
 }
 
-TEST(EnumHelpersTest, GetReversedAssociationTypeWorks) {    EXPECT_EQ(TermAssociationType::Negative, getReversedAssociationType(TermAssociationType::Positive));
+TEST(EnumHelpersTest, GetReversedAssociationTypeWorks) {
+    EXPECT_EQ(TermAssociationType::Negative, getReversedAssociationType(TermAssociationType::Positive));
     EXPECT_EQ(TermAssociationType::Positive, getReversedAssociationType(TermAssociationType::Negative));
 }
+
 TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks) {
     EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
     EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));

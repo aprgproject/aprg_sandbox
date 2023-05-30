@@ -27,10 +27,12 @@ Indexes NearestSamples::getNearestSamplesIndexes(double const value, int const r
            itLower != m_valuesToIndexes.cbegin() && itUpper != m_valuesToIndexes.cend()) {
         if (itLower != m_valuesToIndexes.cbegin()) {
             indexesInOrder.emplace(itLower->second);
-            itLower--;        }
+            itLower--;
+        }
         if (itUpper != m_valuesToIndexes.cend()) {
             indexesInOrder.emplace(itUpper->second);
-            itUpper--;        }
+            itUpper--;
+        }
     }
     result.reserve(result.size());
     copy(indexesInOrder.cbegin(), indexesInOrder.cend(), back_inserter(result));
@@ -41,7 +43,9 @@ void NearestSamples::saveToValuesToIndexes() {
     int i = 0;
     for (double const sample : m_samples) {
         m_valuesToIndexes.emplace(sample, i++);
-    }}
+    }
+}
 
 }  // namespace AprgAudio
+
 }  // namespace alba

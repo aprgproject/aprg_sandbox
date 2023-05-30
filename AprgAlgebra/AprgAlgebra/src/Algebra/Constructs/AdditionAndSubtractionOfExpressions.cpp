@@ -48,10 +48,12 @@ TermsWithDetails AdditionAndSubtractionOfExpressions::getAsTermsWithDetails() co
     for (int index = 0; index < size; index++) {
         result.emplace_back(convertExpressionToSimplestTerm(m_expressions.at(index)), m_associations.at(index));
     }
-    return result;}
+    return result;
+}
 
 Term AdditionAndSubtractionOfExpressions::getCombinedTerm() {
-    Term combinedTerm;    combineExpressionsIfPossible();
+    Term combinedTerm;
+    combineExpressionsIfPossible();
     accumulateTermsForAdditionAndSubtraction(combinedTerm, getAsTermsWithDetails());
     return combinedTerm;
 }
@@ -95,10 +97,12 @@ void AdditionAndSubtractionOfExpressions::mergeExpressionsByCheckingTwoTermsAtAT
         for (int j = i + 1; j < size; j++) {
             // quadratic time: think on how this can be better
             if (canBeMerged(mergeParts.at(i), mergeParts.at(j), commonParts.at(i), commonParts.at(j))) {
-                Term mergedTerm(                    mergeTerms(mergeParts.at(i), mergeParts.at(j), m_associations.at(i), m_associations.at(j)));
+                Term mergedTerm(
+                    mergeTerms(mergeParts.at(i), mergeParts.at(j), m_associations.at(i), m_associations.at(j)));
                 Term const& commonPart(commonParts.at(i));
                 mergeParts[i] = mergedTerm;
-                m_expressions[i] = createOrCopyExpressionFromATerm(mergedTerm * commonPart);                m_associations[i] = TermAssociationType::Positive;
+                m_expressions[i] = createOrCopyExpressionFromATerm(mergedTerm * commonPart);
+                m_associations[i] = TermAssociationType::Positive;
 
                 mergeParts.erase(mergeParts.begin() + j);
                 commonParts.erase(commonParts.begin() + j);

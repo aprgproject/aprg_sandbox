@@ -40,10 +40,12 @@ PenCircles::PointAndPenCircleDetailsPairs PenCircles::getNearestPenCirclesToAPoi
     int maxY = point.getY() + distance;
     for (auto const& pointAndPenCircleDetailsPair : m_penCircles) {
         BitmapXY const& centerPoint(pointAndPenCircleDetailsPair.first);
-        if (minX <= centerPoint.getX() && centerPoint.getX() <= maxX && minY <= centerPoint.getY() &&            centerPoint.getY() <= maxY) {
+        if (minX <= centerPoint.getX() && centerPoint.getX() <= maxX && minY <= centerPoint.getY() &&
+            centerPoint.getY() <= maxY) {
             result.emplace_back(pointAndPenCircleDetailsPair);
         }
-    }    return result;
+    }
+    return result;
 }
 
 PenCircles::PointToPenCircleDetailsMap& PenCircles::getPenCirclesReference() { return m_penCircles; }

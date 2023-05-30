@@ -13,9 +13,11 @@ using ValueForTest = int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = MaximumUnsortedRange<ValuesForTest>;
 }  // namespace
+
 TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query;
+
     QueryForTest::IndexPair expectedIndexPair{QueryForTest::INVALID_INDEX, QueryForTest::INVALID_INDEX};
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
@@ -24,7 +26,8 @@ TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnOneValue) {
     ValuesForTest valuesForTest{10};
     QueryForTest query;
 
-    QueryForTest::IndexPair expectedIndexPair{QueryForTest::INVALID_INDEX, QueryForTest::INVALID_INDEX};    EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
+    QueryForTest::IndexPair expectedIndexPair{QueryForTest::INVALID_INDEX, QueryForTest::INVALID_INDEX};
+    EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
 
 TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample1) {
@@ -42,6 +45,7 @@ TEST(MaximumUnsortedRangeTest, GetMaximumUnsortedRangeWorksOnExample2) {
     QueryForTest::IndexPair expectedIndexPair{2, 5};
     EXPECT_EQ(expectedIndexPair, query.getMaximumUnsortedRange(valuesForTest));
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

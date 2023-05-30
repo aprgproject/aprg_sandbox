@@ -26,6 +26,7 @@ private:
     int const m_maxRadius;
     RadiusToCoordinates m_radiusToCoordinates;
 };
+
 }  // namespace AprgBitmap
 
 }  // namespace alba

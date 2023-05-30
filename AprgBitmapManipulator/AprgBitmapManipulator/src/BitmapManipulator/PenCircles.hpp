@@ -32,9 +32,11 @@ public:
         BitmapXY const& point, int const distance) const;
 
     PointToPenCircleDetailsMap& getPenCirclesReference();
+
     void addAsPenCircle(BitmapXY const& point, double const radius, uint32_t const color);
     void removePenCircleAt(BitmapXY const& circleCenter);
-    void connectCircles(BitmapXY const& circle1Center, BitmapXY const& circle2Center);    void clear();
+    void connectCircles(BitmapXY const& circle1Center, BitmapXY const& circle2Center);
+    void clear();
 
 private:
     PointToPenCircleDetailsMap m_penCircles;

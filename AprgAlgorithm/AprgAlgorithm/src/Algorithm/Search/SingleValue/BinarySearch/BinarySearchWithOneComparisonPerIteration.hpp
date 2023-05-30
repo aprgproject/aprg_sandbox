@@ -53,8 +53,10 @@ private:
         }
         return result;
     }
+
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

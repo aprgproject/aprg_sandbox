@@ -46,10 +46,12 @@ FindTheMinimumCostToReachDestinationUsingATrain::getMinimumCostUsingIterativeDP(
         for (Index endStation = 1; endStation < static_cast<Index>(savedCosts.size()); endStation++) {
             Value entryResult(MAX_VALUE);
             for (Index immediateStation = 0; immediateStation < endStation; immediateStation++) {
-                entryResult =                    min(entryResult,
+                entryResult =
+                    min(entryResult,
                         savedCosts.at(immediateStation) + m_pricesAtEachStation.getEntry(immediateStation, endStation));
             }
-            savedCosts[endStation] = entryResult;        }
+            savedCosts[endStation] = entryResult;
+        }
         result = savedCosts.back();
     }
     return result;

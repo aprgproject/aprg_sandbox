@@ -91,9 +91,11 @@ TEST(InputConfigurationTest, GetQuestionAtWorks) {
     EXPECT_EQ("Question2AtColumn2", inputConfiguration.getQuestionAt(4));
 }
 
-TEST(InputConfigurationTest, GetFormDetailsTitleWorks) {    InputConfiguration inputConfiguration;
+TEST(InputConfigurationTest, GetFormDetailsTitleWorks) {
+    InputConfiguration inputConfiguration;
 
     EXPECT_TRUE(inputConfiguration.getFormDetailsTitle().empty());
+
     inputConfiguration.setFormDetailsTitle("FormDetailsTitleToTest");
     EXPECT_EQ("FormDetailsTitleToTest", inputConfiguration.getFormDetailsTitle());
 }
@@ -115,6 +117,7 @@ TEST(InputConfigurationTest, GetAreaWorks) {
     inputConfiguration.setMainParameters("AreaToTest", "PeriodToTest", 1.234, 7);
     EXPECT_EQ("AreaToTest", inputConfiguration.getArea());
 }
+
 TEST(InputConfigurationTest, GetPeriodWorks) {
     InputConfiguration inputConfiguration;
 
@@ -132,8 +135,10 @@ TEST(InputConfigurationTest, GetDischargeWorks) {
     inputConfiguration.setMainParameters("AreaToTest", "PeriodToTest", 1.234, 7);
     EXPECT_DOUBLE_EQ(1.234, inputConfiguration.getDischarge());
 }
+
 TEST(InputConfigurationTest, SetPathWorks) {
     InputConfiguration inputConfiguration;
+
     inputConfiguration.setPath("PathToTest");
 
     EXPECT_EQ("PathToTest", inputConfiguration.getPath());
@@ -150,7 +155,8 @@ TEST(InputConfigurationTest, SetMainParametersWorks) {
     EXPECT_EQ(7, inputConfiguration.getMinimumSatisfactoryScore());
 }
 
-TEST(InputConfigurationTest, AddQuestionWorks) {    InputConfiguration inputConfiguration;
+TEST(InputConfigurationTest, AddQuestionWorks) {
+    InputConfiguration inputConfiguration;
 
     inputConfiguration.addQuestion(1, "Question1AtColumn1");
     inputConfiguration.addQuestion(2, "Question1AtColumn2");
@@ -163,9 +169,11 @@ TEST(InputConfigurationTest, AddQuestionWorks) {    InputConfiguration inputConf
     EXPECT_EQ("Question1AtColumn1", inputConfiguration.getQuestionAt(0));
 }
 
-TEST(InputConfigurationTest, SetFormDetailsTitleWorks) {    InputConfiguration inputConfiguration;
+TEST(InputConfigurationTest, SetFormDetailsTitleWorks) {
+    InputConfiguration inputConfiguration;
 
     inputConfiguration.setFormDetailsTitle("FormDetailsTitleToTest");
+
     EXPECT_EQ("FormDetailsTitleToTest", inputConfiguration.getFormDetailsTitle());
 }
 

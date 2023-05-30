@@ -26,13 +26,13 @@ private:
             return unsortedValues;
         } else {
             // Split to two parts
-            Values firstPart,
-                secondPart;  // THIS IS COSTLY, in a more controllable link list we can split it more easily
+            // THIS IS COSTLY, in a more controllable link list we can split it more easily
+            Values firstPart, secondPart;
             std::copy(unsortedValues.cbegin(), middle, std::back_inserter(firstPart));
             std::copy(middle, unsortedValues.cend(), std::back_inserter(secondPart));
 
-            return mergeTwoRanges(
-                getSortedValues(firstPart), getSortedValues(secondPart));  // this is top down merge sort
+            // this is top down merge sort
+            return mergeTwoRanges(getSortedValues(firstPart), getSortedValues(secondPart));
         }
     }
 
@@ -51,17 +51,15 @@ private:
         ConstIterator it1 = firstPart.cbegin(), it2 = secondPart.cbegin();
         for (; it1 != firstPart.cend() && it2 != secondPart.cend();) {
             if (*it1 <= *it2) {
-                result.emplace_back(*it1);
-                it1++;
+                result.emplace_back(*it1++);
             } else {
-                result.emplace_back(*it2);
-                it2++;
+                result.emplace_back(*it2++);
             }
         }
-        for (; it1 != firstPart.cend(); it1++) {
+        for (; it1 != firstPart.cend(); ++it1) {
             result.emplace_back(*it1);
         }
-        for (; it2 != secondPart.cend(); it2++) {
+        for (; it2 != secondPart.cend(); ++it2) {
             result.emplace_back(*it2);
         }
         return result;

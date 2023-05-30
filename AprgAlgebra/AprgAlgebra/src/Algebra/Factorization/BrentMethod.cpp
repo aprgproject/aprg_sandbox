@@ -30,9 +30,11 @@ bool BrentMethod::isFinished() const { return m_values.solutionOptional.has_valu
 int BrentMethod::getNumberOfIterationsExecuted() const { return m_numberOfIterationsExecuted; }
 
 AlbaNumbers const& BrentMethod::getCoefficients() const { return m_coefficients; }
+
 BrentMethod::CalculationValues const& BrentMethod::getCalculationValues() const { return m_values; }
 
-AlbaNumberOptional const& BrentMethod::getSolution() {    convertSolutionToIntegerIfNeeded();
+AlbaNumberOptional const& BrentMethod::getSolution() {
+    convertSolutionToIntegerIfNeeded();
     return m_values.solutionOptional;
 }
 
@@ -114,9 +116,11 @@ void BrentMethod::runMaxNumberOfIterationsOrUntilFinished(int const maxIteration
         runOneIteration();
     }
 }
+
 bool BrentMethod::isAlmostEqualForBrentMethod(AlbaNumber const& value1, AlbaNumber const& value2) const {
     return isAlmostEqual(value1.getDouble(), value2.getDouble(), BRENT_METHOD_COMPARISON_TOLERANCE);
 }
+
 bool BrentMethod::isAlmostEqualForBrentMethod(AlbaNumber const& value1, double const value2) const {
     return isAlmostEqual(value1.getDouble(), value2, BRENT_METHOD_COMPARISON_TOLERANCE);
 }

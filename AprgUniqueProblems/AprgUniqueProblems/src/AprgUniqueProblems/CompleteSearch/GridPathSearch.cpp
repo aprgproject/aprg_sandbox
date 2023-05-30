@@ -26,10 +26,12 @@ bool GridPathSearch::canTraverse(int const x, int const y) { return m_grid.isIns
 bool GridPathSearch::shouldStop(int const x, int const y, Movement const previousMovement) {
     // Optimization 3: If the path touches a wall and can turn either left or right, the grid splits into two parts that
     // contain unvisited squares. Optimization 4: The idea of Optimization 3 can be generalized: if the path cannot
-    // continue forward but can turn either left or right, the grid splits into two parts that both contain unvisited    // squares.
+    // continue forward but can turn either left or right, the grid splits into two parts that both contain unvisited
+    // squares.
 
     if (Movement::Left == previousMovement) {
-        if (!canTraverse(x - 1, y) && canTraverse(x, y - 1) && canTraverse(x, y + 1)) {            return true;
+        if (!canTraverse(x - 1, y) && canTraverse(x, y - 1) && canTraverse(x, y + 1)) {
+            return true;
         }
     } else if (Movement::Right == previousMovement) {
         if (!canTraverse(x + 1, y) && canTraverse(x, y - 1) && canTraverse(x, y + 1)) {
@@ -67,10 +69,12 @@ void GridPathSearch::startSearch() {
 void GridPathSearch::search(int const x, int const y, Movement const previousMovement) {
     if (m_numberTraversedCells == m_numberOfCells) {
         if (isLowerRightCorner(x, y))  // lower-right corner
-        {            m_numberOfCompletePaths++;
+        {
+            m_numberOfCompletePaths++;
         }
     } else if (!isLowerRightCorner(x, y)) {
-        // Optimization 2: If the path reaches the lower-right square before it has visited all other squares of the        // grid, it is clear that it will not be possible to complete the solution.
+        // Optimization 2: If the path reaches the lower-right square before it has visited all other squares of the
+        // grid, it is clear that it will not be possible to complete the solution.
 
         if (!shouldStop(x, y, previousMovement)) {
             searchNextCoordinate(x - 1, y, Movement::Left);
@@ -84,9 +88,11 @@ void GridPathSearch::search(int const x, int const y, Movement const previousMov
 void GridPathSearch::searchNextCoordinate(int const x, int const y, Movement const movement) {
     if (canTraverse(x, y)) {
         m_numberTraversedCells++;
-        m_grid.setEntry(x, y, true);        search(x, y, movement);
+        m_grid.setEntry(x, y, true);
+        search(x, y, movement);
         m_grid.setEntry(x, y, false);
         m_numberTraversedCells--;
-    }}
+    }
+}
 
 }  // namespace alba

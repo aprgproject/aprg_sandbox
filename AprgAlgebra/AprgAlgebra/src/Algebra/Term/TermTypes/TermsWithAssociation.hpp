@@ -24,10 +24,12 @@ public:
     int getSize() const;
     BaseTerm const& getFirstTermConstReference() const;
     TermAssociationType getFirstAssociationType() const;
-    TermsWithDetails const& getTermsWithDetails() const;    TermsWithDetails& getTermsWithDetailsReference();
+    TermsWithDetails const& getTermsWithDetails() const;
+    TermsWithDetails& getTermsWithDetailsReference();
 
     void clear();
-    void sort(bool const dontSortFirstItem);    void putTermWithDetails(TermWithDetails const& termWithDetails);
+    void sort(bool const dontSortFirstItem);
+    void putTermWithDetails(TermWithDetails const& termWithDetails);
     void putTermsWithDetails(std::initializer_list<TermWithDetails> const& termsWithDetails);
     void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
     void putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType);

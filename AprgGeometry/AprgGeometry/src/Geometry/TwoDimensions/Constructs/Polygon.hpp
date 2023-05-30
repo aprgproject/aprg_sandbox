@@ -14,9 +14,11 @@ namespace TwoDimensions {
 template <int numberOfVertices>
 class Polygon {
 public:
-    using Distances = std::array<double, numberOfVertices>;    Polygon();
+    using Distances = std::array<double, numberOfVertices>;
+    Polygon();
 
     Polygon(std::initializer_list<Point> const& vertices);
+
     bool isEquilateral() const;
     bool isEquiangular() const;
     bool isRegular() const;
@@ -33,9 +35,11 @@ public:
         Points& points, double const interval, int vertexIndex1, int vertexIndex2) const;
 
 protected:
-    std::array<Point, numberOfVertices> m_vertices;};
+    std::array<Point, numberOfVertices> m_vertices;
+};
 
 template class Polygon<3>;
 template class Polygon<4>;
+
 }  // namespace TwoDimensions
 }  // namespace alba

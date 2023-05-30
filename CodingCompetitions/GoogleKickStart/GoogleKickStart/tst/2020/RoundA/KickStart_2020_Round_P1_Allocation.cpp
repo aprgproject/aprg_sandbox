@@ -30,10 +30,12 @@ int n, b, a[100000];
 void runTestCase(int const testCaseNumber) {
     my_cin >> n >> b;
     for (int i = 0; i < n; ++i) my_cin >> a[i];
-    sort(a, a + n);    int ans = 0;
+    sort(a, a + n);
+    int ans = 0;
     for (int i = 0; i < n; ++i) {
         if (b >= a[i]) {
-            b -= a[i];            ++ans;
+            b -= a[i];
+            ++ans;
         }
     }
     my_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
@@ -46,9 +48,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

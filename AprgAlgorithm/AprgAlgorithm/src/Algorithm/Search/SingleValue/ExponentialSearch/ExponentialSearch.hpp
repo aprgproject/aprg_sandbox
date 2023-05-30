@@ -3,6 +3,8 @@
 #include <Algorithm/Search/SingleValue/BinarySearch/BinarySearchWithTwoIndices.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 
+#include <algorithm>
+
 namespace alba {
 
 namespace algorithm {
@@ -15,28 +17,24 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     ExponentialSearch(Values const& values)  // values can be unsorted
-        : m_values(values) {}
+        : m_sortedValues(values) {}
 
     Index getIndexOfValue(Value const& valueToCheck) {
-        Index result(INVALID_INDEX);
-
-        if (!m_values.empty()) {
-            if (m_values.front() == valueToCheck) {
-                result = 0;
-            } else {
-                Index endIndex = 1;
-                while (endIndex < static_cast<Index>(m_values.size()) && m_values.at(endIndex) <= valueToCheck) {
-                    endIndex *= 2;
-                }
-                BinarySearchWithTwoIndices<Values> binarySearch(m_values);  // perform linear search on that block
-                result = binarySearch.getIndexOfValue(1, endIndex, valueToCheck);
-            }
+        Index lowIndex(0);
+        Index exponentIndex(1);
+        while (exponentIndex < static_cast<Index>(m_sortedValues.size()) &&
+               m_sortedValues.at(exponentIndex) < valueToCheck) {
+            lowIndex = exponentIndex + 1;
+            exponentIndex = exponentIndex * 2;
         }
-        return result;
+
+        BinarySearchWithTwoIndices<Values> binarySearch(m_sortedValues);  // perform binary search on that block
+        return binarySearch.getIndexOfValue(
+            lowIndex, std::min(exponentIndex, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);
     }
 
 private:
-    Values const& m_values;
+    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm

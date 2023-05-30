@@ -14,6 +14,7 @@ TEST(MinimumInitialPointsToReachDestinationTest, GetMinimalInitialPointsUsingIte
     Grid inputGrid(3, 3, {-2, -3, 3, -5, -10, 1, 10, 30, -5});
     MinimumInitialPointsToReachDestination queryForTest(inputGrid);
 
-    EXPECT_EQ(7, queryForTest.getMinimalInitialPointsUsingIterativeDP());}
+    EXPECT_EQ(7, queryForTest.getMinimalInitialPointsUsingIterativeDP());
+}
 
 }  // namespace alba

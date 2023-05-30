@@ -45,10 +45,12 @@ InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPa
     inputConfiguration.setMainParameters("area", "period", 12.345, 3);
     inputConfiguration.addQuestion(1, "01. Patient Admission - promptness of service");
     inputConfiguration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
-    inputConfiguration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");    inputConfiguration.addQuestion(1, "04. Hospital Environment - cleanliness of surroundings");
+    inputConfiguration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");
+    inputConfiguration.addQuestion(1, "04. Hospital Environment - cleanliness of surroundings");
     inputConfiguration.addQuestion(1, "05. Hospital Environment - cleanliness of toilet/bathroom");
     inputConfiguration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");
-    inputConfiguration.addQuestion(1, "07. Hospital Environment - lighting");    inputConfiguration.addQuestion(1, "08. Hospital Environment - furniture and fixtures  are in good condition");
+    inputConfiguration.addQuestion(1, "07. Hospital Environment - lighting");
+    inputConfiguration.addQuestion(1, "08. Hospital Environment - furniture and fixtures  are in good condition");
     inputConfiguration.addQuestion(1, "09. Hospital Environment - appliances  are working properly");
     inputConfiguration.addQuestion(1, "10. Nursing Care - promptness of service");
     inputConfiguration.addQuestion(1, "11. Nursing Care - quality of patient care");
@@ -97,10 +99,12 @@ InputConfiguration getInputConfigurationForDemObas(string const& inputPath) {
     inputConfiguration.setMainParameters("area", "period", 12.345, 3);
     inputConfiguration.addQuestion(1, "01. Patient Admission - promptness of service");
     inputConfiguration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
-    inputConfiguration.addQuestion(1, "03. Hospital Environment - cleanliness of surroundings");    inputConfiguration.addQuestion(1, "04. Hospital Environment - cleanliness of toilet/bathroom");
+    inputConfiguration.addQuestion(1, "03. Hospital Environment - cleanliness of surroundings");
+    inputConfiguration.addQuestion(1, "04. Hospital Environment - cleanliness of toilet/bathroom");
     inputConfiguration.addQuestion(1, "05. Hospital Environment - ventilation/air-conditioning");
     inputConfiguration.addQuestion(1, "06. Hospital Environment - lighting");
-    inputConfiguration.addQuestion(1, "07. Nursing Care - promptness of service");    inputConfiguration.addQuestion(1, "08. Nursing Care - quality of patient care");
+    inputConfiguration.addQuestion(1, "07. Nursing Care - promptness of service");
+    inputConfiguration.addQuestion(1, "08. Nursing Care - quality of patient care");
     inputConfiguration.addQuestion(1, "09. Nursing Care - courtesy in dealing with patients");
     inputConfiguration.addQuestion(
         1, "10. Nursing Care - ability to give important information regarding the needs  of patient");
@@ -138,10 +142,12 @@ InputConfiguration getInputConfigurationForSpecialUnits(string const& inputPath)
     inputConfiguration.setMainParameters("area", "period", 12.345, 3);
     inputConfiguration.addQuestion(1, "01. Hospital Environment - cleanliness of the area");
     inputConfiguration.addQuestion(1, "02. Hospital Environment - ventilation/air-conditioning");
-    inputConfiguration.addQuestion(1, "03. Hospital Environment - lighting");    inputConfiguration.addQuestion(1, "04. Nursing Care - promptness of service");
+    inputConfiguration.addQuestion(1, "03. Hospital Environment - lighting");
+    inputConfiguration.addQuestion(1, "04. Nursing Care - promptness of service");
     inputConfiguration.addQuestion(1, "05. Nursing Care - quality of patient care");
     inputConfiguration.addQuestion(1, "06. Nursing Care - courtesy in dealing with patients/watchers");
-    inputConfiguration.addQuestion(1, "07. Medical Care - promptness of service");    inputConfiguration.addQuestion(1, "08. Medical Care - quality of care and treatment");
+    inputConfiguration.addQuestion(1, "07. Medical Care - promptness of service");
+    inputConfiguration.addQuestion(1, "08. Medical Care - quality of care and treatment");
     inputConfiguration.addQuestion(1, "09. Medical Care - courtesy in dealing with patients");
     inputConfiguration.addQuestion(1, "10. Pharmacy - availability of medicines and medical supplies");
     inputConfiguration.addQuestion(1, "11. Pharmacy - promptness of  service");
@@ -417,4 +423,5 @@ void checkAnswersForSpecialUnitsPattern3(SOOSA const& soosa) {
 void checkAnswersForEmptyForm(SOOSA const& soosa) { EXPECT_EQ(0, soosa.getNumberOfAnswers()); }
 
 }  // namespace soosa
+
 }  // namespace alba

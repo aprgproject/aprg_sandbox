@@ -13,6 +13,7 @@ using ValuesForTest = vector<int>;
 using QueryForTest = FindAPairInAContainerWithSumClosestToAValue<ValuesForTest>;
 using ValuePairForTest = QueryForTest::ValuePair;
 }  // namespace
+
 TEST(FindAPairInAContainerWithSumClosestToAValueTest, GetValuePairWithSumClosestToAValueWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query(valuesForTest);
@@ -21,7 +22,8 @@ TEST(FindAPairInAContainerWithSumClosestToAValueTest, GetValuePairWithSumClosest
     EXPECT_EQ(expectedValuePair, query.getValuePairWithSumClosestToAValue(50));
 }
 
-TEST(FindAPairInAContainerWithSumClosestToAValueTest, GetValuePairWithSumClosestToAValueWorksOnOneValue) {    ValuesForTest valuesForTest{12};
+TEST(FindAPairInAContainerWithSumClosestToAValueTest, GetValuePairWithSumClosestToAValueWorksOnOneValue) {
+    ValuesForTest valuesForTest{12};
     QueryForTest query(valuesForTest);
 
     QueryForTest::ValuePair expectedValuePair{};
@@ -45,4 +47,5 @@ TEST(FindAPairInAContainerWithSumClosestToAValueTest, GetValuePairWithSumClosest
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -19,17 +19,20 @@ int GreedyAlgorithmForFewestCoins::getFewestNumberOfCoins(Value const value) con
     int count(0);
     Value partialValue(value);
     for (Coin const& coin : m_sortedAvailableCoins) {
-        while (partialValue >= coin) {            partialValue -= coin;
+        while (partialValue >= coin) {
+            partialValue -= coin;
             count++;
         }
     }
     if (partialValue == 0) {
         result = count;
     }
-    return result;}
+    return result;
+}
 
 void GreedyAlgorithmForFewestCoins::initialize() {
-    sort(        m_sortedAvailableCoins.begin(), m_sortedAvailableCoins.end(),
+    sort(
+        m_sortedAvailableCoins.begin(), m_sortedAvailableCoins.end(),
         [](Coin const& coin1, Coin const& coin2)  // sort by higher
         { return coin1 > coin2; });
 }

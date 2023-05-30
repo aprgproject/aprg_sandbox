@@ -21,9 +21,11 @@ public:
         std::copy(coefficients.begin(), coefficients.begin() + limit, m_coefficients.rbegin());
         saveFirstDerivativeCoefficients();
     }
+
     double calculateOutputFromInput(double const input) const {
         double powerValueOfInput(1);
-        double result(0);        for (double const coefficient : m_coefficients) {
+        double result(0);
+        for (double const coefficient : m_coefficients) {
             result += coefficient * powerValueOfInput;
             powerValueOfInput *= input;
         }
@@ -46,8 +48,10 @@ protected:
             m_coefficientsOfFirstDerivative[i - 1] = i * m_coefficients.at(i);
         }
     }
+
     std::array<double, numberOfCoefficients> m_coefficients;                       // form is c0 + c1*x + c2*x2....
     std::array<double, numberOfCoefficients - 1> m_coefficientsOfFirstDerivative;  // form is c0 + c1*x + c2*x2....
 };
+
 }  // namespace TwoDimensions
 }  // namespace alba

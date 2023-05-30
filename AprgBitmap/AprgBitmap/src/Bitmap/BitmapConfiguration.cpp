@@ -65,9 +65,11 @@ bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const {
 }
 
 CompressedMethodType BitmapConfiguration::getCompressedMethodType() const { return m_compressionMethodType; }
+
 std::string BitmapConfiguration::getPath() const { return m_path; }
 
 uint32_t BitmapConfiguration::getPixelArrayAddress() const { return m_pixelArrayAddress; }
+
 uint32_t BitmapConfiguration::getBitmapWidth() const { return m_bitmapWidth; }
 
 uint32_t BitmapConfiguration::getBitmapHeight() const { return m_bitmapHeight; }
@@ -101,9 +103,11 @@ BitmapXY BitmapConfiguration::getDownRightCornerPoint() const {
     int maxY = m_bitmapHeight == 0 ? 0 : m_bitmapHeight - 1;
     return BitmapXY(maxX, maxY);
 }
+
 uint32_t BitmapConfiguration::getColorUsingPixelValue(uint32_t const pixelValue) const {
     uint32_t color(0);
-    switch (m_numberOfBitsPerPixel) {        case 1:
+    switch (m_numberOfBitsPerPixel) {
+        case 1:
         case 2:
         case 4:
         case 8:
@@ -169,9 +173,11 @@ int BitmapConfiguration::getOneRowSizeInBytesFromBytes(
     int const leftByteInclusive, int const rightByteInclusive) const {
     return rightByteInclusive - leftByteInclusive + getMinimumNumberOfBytesForOnePixel();
 }
+
 Colors BitmapConfiguration::getColorTable() const { return m_colors; }
 
-void BitmapConfiguration::readBitmap(string const& path) {    // https://en.wikipedia.org/wiki/BMP_file_format
+void BitmapConfiguration::readBitmap(string const& path) {
+    // https://en.wikipedia.org/wiki/BMP_file_format
 
     m_path = AlbaLocalPathHandler(path).getFullPath();
     ifstream inputStream(m_path, ios::binary);

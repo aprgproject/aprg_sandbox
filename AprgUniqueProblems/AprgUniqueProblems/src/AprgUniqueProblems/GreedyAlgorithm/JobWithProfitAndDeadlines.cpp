@@ -13,9 +13,11 @@ JobWithProfitAndDeadlines::JobNames JobWithProfitAndDeadlines::getJobsOrderWithM
     using PreviousFreeIndex = GetPreviousFreeIndexWithUnionFind<int>;
 
     JobNames result;
+
     Jobs jobToSchedule(m_jobs);
     sort(
-        jobToSchedule.begin(), jobToSchedule.end(),        [](Job const& job1, Job const& job2)  // sort by larger profit
+        jobToSchedule.begin(), jobToSchedule.end(),
+        [](Job const& job1, Job const& job2)  // sort by larger profit
         { return job1.profit > job2.profit; });
 
     PreviousFreeIndex availableSchedule(getMaximumDeadline() + 1);  // plus one because deadline should indexable
@@ -25,7 +27,8 @@ JobWithProfitAndDeadlines::JobNames JobWithProfitAndDeadlines::getJobsOrderWithM
             availableSchedule.getPreviousFreeIndexAt(0) != availableSchedule.getPreviousFreeIndexAt(job.deadline);
         if (isAvailableTime) {
             availableSchedule.setAsNotFree(availableTime);
-            result.emplace_back(job.jobName);        }
+            result.emplace_back(job.jobName);
+        }
     }
 
     return result;
@@ -39,7 +42,8 @@ int JobWithProfitAndDeadlines::getMaximumDeadline() const {
     int result(0);
     for (Job const& job : m_jobs) {
         result = max(result, job.deadline);
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

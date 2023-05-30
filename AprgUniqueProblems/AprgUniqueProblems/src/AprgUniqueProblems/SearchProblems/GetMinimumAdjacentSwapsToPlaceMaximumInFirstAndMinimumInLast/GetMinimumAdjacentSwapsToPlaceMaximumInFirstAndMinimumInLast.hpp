@@ -22,20 +22,24 @@ public:
             int i = 0;
             for (Value const& value : values) {
                 if (maximum < value) {
-                    maximum = value;                    firstMaxIndex = i;
+                    maximum = value;
+                    firstMaxIndex = i;
                 }
                 if (minimum >= value) {
-                    minimum = value;                    lastMinIndex = i;
+                    minimum = value;
+                    lastMinIndex = i;
                 }
                 i++;
             }
             result = firstMaxIndex + (values.size() - 1 - lastMinIndex);
             if (lastMinIndex < firstMaxIndex) {
                 result--;  // reduce one because of overlap
-            }        }
+            }
+        }
         return result;
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

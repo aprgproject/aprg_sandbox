@@ -42,6 +42,7 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
+
     Characters valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
@@ -61,6 +62,7 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
+
     EXPECT_EQ('O', valuesToTest.at(5));
 }
 
@@ -69,9 +71,11 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
+
     Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

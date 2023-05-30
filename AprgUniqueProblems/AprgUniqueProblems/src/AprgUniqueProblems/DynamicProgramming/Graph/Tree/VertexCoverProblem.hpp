@@ -18,9 +18,11 @@ public:
     static constexpr int UNUSED_COUNT = std::numeric_limits<int>::max();
 
     VertexCoverProblem(Graph const& nAryTreeGraph, Vertex const rootOfTree);
+
     Count getMinimumCountUsingNaiveRecursion() const;
     Count getMinimumCountUsingMemoizationDP() const;
     SetOfVertices getMinimumSetUsingMemoizationDP() const;
+
 private:
     Count getMinimumCountUsingNaiveRecursion(Vertex const vertex) const;
     Count getMinimumCountUsingMemoizationDP(VertexToCountMap& vertexToCountMap, Vertex const vertex) const;

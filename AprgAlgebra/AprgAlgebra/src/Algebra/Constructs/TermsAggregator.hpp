@@ -12,9 +12,11 @@ public:
     using Indexes = std::vector<int>;
 
     TermsAggregator(Terms const& terms);
+
     Terms const& getTermsConstReference() const;
 
-    void buildExpressionFromTerms();    void simplifyTerms();
+    void buildExpressionFromTerms();
+    void simplifyTerms();
 
 private:
     void updateStartIndexAndEndIndexAndCheckOpeningAndClosingOperators();
@@ -45,6 +47,7 @@ private:
     int m_endIndex;
     Terms m_terms;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

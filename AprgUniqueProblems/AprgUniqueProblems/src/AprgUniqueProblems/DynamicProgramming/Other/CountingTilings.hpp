@@ -13,9 +13,11 @@ public:
     using Count = int;
     using Grid = matrix::AlbaMatrix<char>;
     using Row = std::string;
-    using Rows = std::vector<Row>;    using RowToRowsMap = std::map<Row, Rows>;  // This also can be represented by vector using bitstrings
+    using Rows = std::vector<Row>;
+    using RowToRowsMap = std::map<Row, Rows>;  // This also can be represented by vector using bitstrings
 
     CountingTilings(Count const numberOfColumns, Count const numberOfRows);
+
     Count getNumberOfSolutionsUsingDynamicProgramming();
     Count getNumberOfSolutionsUsingCompleteSearch();
 

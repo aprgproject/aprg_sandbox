@@ -19,10 +19,12 @@ public:
             Index lowerIndex(0), higherIndex(sortedBinaryValues.size() - 1);
             while (lowerIndex < higherIndex) {
                 Index middleIndex = (lowerIndex + higherIndex) / 2;
-                if (sortedBinaryValues.at(middleIndex)) {                    result = sortedBinaryValues.size() - middleIndex;
+                if (sortedBinaryValues.at(middleIndex)) {
+                    result = sortedBinaryValues.size() - middleIndex;
                     higherIndex = middleIndex - 1;
                 } else {
-                    lowerIndex = middleIndex + 1;                }
+                    lowerIndex = middleIndex + 1;
+                }
             }
             if (sortedBinaryValues.at(lowerIndex)) {
                 result = sortedBinaryValues.size() - lowerIndex;
@@ -44,10 +46,12 @@ public:
     //            Index smallestOneIndex = query.getSmallestValueWithTrue(0, sortedBinaryValues.size()-1);
     //            if(sortedBinaryValues.at(smallestOneIndex))
     //            {
-    //                result = sortedBinaryValues.size() - smallestOneIndex;    //            }
+    //                result = sortedBinaryValues.size() - smallestOneIndex;
+    //            }
     //        }
     //        return result;
-    //    }};
+    //    }
+};
 
 }  // namespace algorithm
 

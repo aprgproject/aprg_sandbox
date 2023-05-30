@@ -31,10 +31,12 @@ void BitmapSnippetTraversal::traverseCoordinatesCombinations(
     int j = coordinate2;
     if (i == 0 && j == 0) {
         checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);
-    } else if (i == 0) {        checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX() + j, centerPoint.getY()), traverseOperation);
+    } else if (i == 0) {
+        checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX() + j, centerPoint.getY()), traverseOperation);
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX() - j, centerPoint.getY()), traverseOperation);
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY() + j), traverseOperation);
-        checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY() - j), traverseOperation);    } else if (j == 0) {
+        checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY() - j), traverseOperation);
+    } else if (j == 0) {
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX() + i, centerPoint.getY()), traverseOperation);
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX() - i, centerPoint.getY()), traverseOperation);
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY() + i), traverseOperation);

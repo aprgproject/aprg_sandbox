@@ -28,10 +28,12 @@ bool SubstitutionOfVariablesToTerms::isVariableFound(string const& variable) con
 int SubstitutionOfVariablesToTerms::getSize() const { return m_variableToTermsMap.size(); }
 
 Term SubstitutionOfVariablesToTerms::getTermForVariable(string const& variable) const {
-    Term result;    if (isVariableFound(variable)) {
+    Term result;
+    if (isVariableFound(variable)) {
         result = m_variableToTermsMap.at(variable);
     }
-    return result;}
+    return result;
+}
 
 VariablesToTermsMap const& SubstitutionOfVariablesToTerms::getVariablesToTermsMap() const {
     return m_variableToTermsMap;

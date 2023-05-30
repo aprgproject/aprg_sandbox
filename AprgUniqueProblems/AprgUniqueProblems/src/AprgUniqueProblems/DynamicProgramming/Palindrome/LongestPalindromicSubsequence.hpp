@@ -15,9 +15,11 @@ public:
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
     static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
+
     LongestPalindromicSubsequence(std::string const& stringParameter);
 
-    Count getLongestLengthUsingNaiveRecursion() const;    Count getLongestLengthUsingMemoizationDP() const;
+    Count getLongestLengthUsingNaiveRecursion() const;
+    Count getLongestLengthUsingMemoizationDP() const;
     Count getLongestLengthUsingIterativeDP() const;
     Count getLongestLengthUsingIterativeDPAndSpaceEfficient() const;
 

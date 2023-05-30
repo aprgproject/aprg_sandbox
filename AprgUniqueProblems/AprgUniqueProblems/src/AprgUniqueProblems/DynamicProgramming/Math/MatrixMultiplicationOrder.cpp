@@ -42,10 +42,12 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
                  leftParenthesis + length <= static_cast<Index>(countMatrix.getNumberOfColumns()); leftParenthesis++) {
                 Index rightParenthesis = leftParenthesis + length - 1;
                 Count minimumCount(MAX_COUNT);
-                for (Index inBetween = leftParenthesis + 1; inBetween < rightParenthesis; inBetween++) {                    Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween) +
+                for (Index inBetween = leftParenthesis + 1; inBetween < rightParenthesis; inBetween++) {
+                    Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween) +
                                          countMatrix.getEntry(inBetween, rightParenthesis) +
                                          m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) *
-                                             m_dimensions.at(rightParenthesis);                    minimumCount = min(minimumCount, currentCount);
+                                             m_dimensions.at(rightParenthesis);
+                    minimumCount = min(minimumCount, currentCount);
                 }
                 countMatrix.setEntry(leftParenthesis, rightParenthesis, minimumCount);
             }

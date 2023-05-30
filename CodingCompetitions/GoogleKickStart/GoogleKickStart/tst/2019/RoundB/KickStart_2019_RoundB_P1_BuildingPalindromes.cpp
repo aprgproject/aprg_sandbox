@@ -50,10 +50,12 @@ bool canPalindrome(string const& blocksString, Question const& question) {
 void runTestCase(int const testCaseNumber) {
     int numberOfBlocks, numberOfQuestions;
     my_cin >> numberOfBlocks >> numberOfQuestions;
-    string blocksString;    my_cin >> blocksString;
+    string blocksString;
+    my_cin >> blocksString;
 
     Questions questions;
-    for (int y = 0; y < numberOfQuestions; ++y) {        int leftIndex, rightIndex;
+    for (int y = 0; y < numberOfQuestions; ++y) {
+        int leftIndex, rightIndex;
         my_cin >> leftIndex >> rightIndex;
         questions.emplace_back(leftIndex, rightIndex);
     }
@@ -75,9 +77,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

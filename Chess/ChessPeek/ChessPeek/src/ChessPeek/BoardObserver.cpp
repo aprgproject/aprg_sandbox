@@ -236,8 +236,10 @@ uint32_t BoardObserver::getColorAt(int const x, int const y) const {
     }
     return result;
 }
+
 PieceColorAndType BoardObserver::getBestPieceFromChessCellBitValue(uint64_t const chessCellBitValue) const {
     PieceColorAndTypes bestFitPieces(getBestFitPiecesFromChessCellBitValue(chessCellBitValue));
+
     PieceColorAndType result{};
     if (bestFitPieces.size() == 1) {
         result = bestFitPieces.back();

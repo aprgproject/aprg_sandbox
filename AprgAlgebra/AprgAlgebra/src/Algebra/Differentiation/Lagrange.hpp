@@ -21,4 +21,5 @@ stringHelper::strings getLagrangeMultiplierNames(int const size);
 std::string getLagrangeMultiplierName(int const index);
 
 }  // namespace algebra
+
 }  // namespace alba

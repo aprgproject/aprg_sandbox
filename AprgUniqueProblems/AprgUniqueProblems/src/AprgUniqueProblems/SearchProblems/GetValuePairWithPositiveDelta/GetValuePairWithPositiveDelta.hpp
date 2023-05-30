@@ -16,6 +16,7 @@ public:
     using Index = int;
     using Value = typename Values::value_type;
     using ValuePair = std::pair<Value, Value>;
+
     GetValuePairWithPositiveDelta(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
     ValuePair getValuePairWithPositiveDelta(Value const& targetPositiveDelta) const {
@@ -25,10 +26,12 @@ public:
             while (lowerIndex < higherIndex && higherIndex < static_cast<Index>(m_sortedValues.size())) {
                 Value currentPositiveDelta = m_sortedValues.at(higherIndex) - m_sortedValues.at(lowerIndex);
                 if (currentPositiveDelta == targetPositiveDelta) {
-                    result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};                    break;
+                    result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
+                    break;
                 } else if (currentPositiveDelta > targetPositiveDelta) {
                     lowerIndex++;
-                } else if (currentPositiveDelta < targetPositiveDelta) {                    higherIndex++;
+                } else if (currentPositiveDelta < targetPositiveDelta) {
+                    higherIndex++;
                 }
             }
         }

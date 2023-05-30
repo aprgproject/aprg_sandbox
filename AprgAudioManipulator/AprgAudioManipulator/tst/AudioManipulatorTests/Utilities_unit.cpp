@@ -70,10 +70,12 @@ TEST(UtilitiesTest, DISABLED_SearchAndTryToReplicateSamplesWorks) {
     for (int i = 0; i < numberOfChannels; i++) {
         searchAndTryToReplicateSamples(
             audioToChange, audioToReplicate, audioToSearch, clampHigherBound(i, audioToChange.getNumChannels()),
-            clampHigherBound(i, audioToReplicate.getNumChannels()), clampHigherBound(i, audioToSearch.getNumChannels()),            true);
+            clampHigherBound(i, audioToReplicate.getNumChannels()), clampHigherBound(i, audioToSearch.getNumChannels()),
+            true);
     }
     audioToChangeManipulator.saveAudioIntoFileInTheSameDirectory("output.wav");
 }
+
 TEST(UtilitiesTest, DISABLED_SearchAndTryToReplicateWorks) {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
     AlbaLocalPathHandler audioToReplicateFilePathHandler(

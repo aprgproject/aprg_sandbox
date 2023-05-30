@@ -69,9 +69,11 @@ long long getGeometricTerm(long long i, long long k) {
 void runTestCase(int const testCaseNumber) {
     my_cin >> N >> K >> x1 >> y1 >> C >> D >> E1 >> E2 >> F;
     vector<long long> A(N);
+
     buildA(A);
 
-    // The summation of a geometric progression, it can also be written as Ax * (p^(K+1)-1)/(p-1).    long long geometricSum = 0, numberOfInstances = 1, currentK = N, totalPower = 0;
+    // The summation of a geometric progression, it can also be written as Ax * (p^(K+1)-1)/(p-1).
+    long long geometricSum = 0, numberOfInstances = 1, currentK = N, totalPower = 0;
     for (long long i = N - 1; i >= 0; --i) {
         geometricSum = (geometricSum + numberOfInstances * A[i]) % MAX_MODULO;
         ++numberOfInstances;
@@ -88,9 +90,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

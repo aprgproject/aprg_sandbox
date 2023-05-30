@@ -11,9 +11,11 @@ public:
     using BooleanMatrix = matrix::AlbaMatrix<bool>;
     using UnitMatrix = matrix::AlbaMatrix<Unit>;
     static constexpr Unit UNUSED_UNIT = std::numeric_limits<Unit>::max();
+
     MaximumSizeSquareSubMatrixWithAllOnes(BooleanMatrix const& booleanMatrix);
 
-    Unit getMaximumSquareAreaUsingMemoizationDP() const;    Unit getMaximumSquareAreaUsingIterativeDP() const;
+    Unit getMaximumSquareAreaUsingMemoizationDP() const;
+    Unit getMaximumSquareAreaUsingIterativeDP() const;
     Unit getMaximumSquareAreaUsingIterativeDPAndTimeEfficient() const;
 
 private:

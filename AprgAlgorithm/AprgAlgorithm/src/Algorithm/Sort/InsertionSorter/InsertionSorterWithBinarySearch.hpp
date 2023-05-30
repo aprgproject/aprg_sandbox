@@ -50,10 +50,12 @@ private:
                 iLow = middleIndex + 1;
             }
         }
-        return result;    }
+        return result;
+    }
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // We can use binary search to reduce the number of comparisons in normal insertion sort.

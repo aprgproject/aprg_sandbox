@@ -25,10 +25,12 @@ public:
         setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& value) {        Value result{};
+    Value getNearestValue(Value const& value) {
+        Value result{};
         if (!m_sortedValues.empty()) {
             moveIndexesUntilCloseToValue(value);
-            result = m_sortedValues.at(getIndexOfNearestValueInBetweenTwoIndices(value));        }
+            result = m_sortedValues.at(getIndexOfNearestValueInBetweenTwoIndices(value));
+        }
         return result;
     }
 
@@ -52,6 +54,7 @@ public:
         }
         return result;
     }
+
     Value getHigherValue() const {
         Value result{};
         if (!m_sortedValues.empty()) {
@@ -84,9 +87,11 @@ private:
             }
         }
     }
+
     void moveIndexesUntilCloseToValue(Value const& value) {
         if (!m_sortedValues.empty()) {
-            moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(value);            moveIndexesCloserWhenValueIsBeyondTheIndices(value);
+            moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(value);
+            moveIndexesCloserWhenValueIsBeyondTheIndices(value);
         }
     }
 
@@ -116,6 +121,7 @@ private:
     Index m_highIndex;
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

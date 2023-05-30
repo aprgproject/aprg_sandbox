@@ -42,9 +42,11 @@ WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringTim
 
         Jobs jobsSortedByEndTime(m_jobs);
         sort(jobsSortedByEndTime.begin(), jobsSortedByEndTime.end(), endTimeJobComparator);
+
         for (Job const& job : jobsSortedByEndTime) {
             Index timeIndexBeforeJob =
-                distance(timeStamps.begin(), find(timeStamps.begin(), timeStamps.end(), job.startTime));            Index timeIndexAfterJob =
+                distance(timeStamps.begin(), find(timeStamps.begin(), timeStamps.end(), job.startTime));
+            Index timeIndexAfterJob =
                 distance(timeStamps.begin(), find(timeStamps.begin(), timeStamps.end(), job.endTime));
             Profit profitBeforeJob = maxProfitsAtTime.at(timeIndexBeforeJob);
             Profit profitAfterJob = maxProfitsAtTime.at(timeIndexAfterJob);
@@ -54,10 +56,12 @@ WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringTim
                  timeToUpdate++) {
                 maxProfitsAtTime[timeToUpdate] = max(maxProfitsAtTime.at(timeToUpdate), maxProfitForJob);
             }
-        }        result = maxProfitsAtTime.back();
+        }
+        result = maxProfitsAtTime.back();
     }
     return result;
 }
+
 WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringJobsUsingIterativeDP() const {
     // Time Complexity: O(n*log(n))
     // Auxiliary Space: O(n)
@@ -73,10 +77,12 @@ WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringJob
         for (Index jobIndex = 1; jobIndex < static_cast<Index>(jobsSortedByEndTime.size()); jobIndex++) {
             Job const& currentJob(jobsSortedByEndTime.at(jobIndex));
             Profit currentProfit = currentJob.profit;
-            auto itLatestNonConflictingJob = lower_bound(                jobsSortedByEndTime.begin(), jobsSortedByEndTime.begin() + jobIndex, currentJob.startTime,
+            auto itLatestNonConflictingJob = lower_bound(
+                jobsSortedByEndTime.begin(), jobsSortedByEndTime.begin() + jobIndex, currentJob.startTime,
                 endTimeJobAndTimeComparator);
             if (itLatestNonConflictingJob != jobsSortedByEndTime.end()) {
-                currentProfit += maxProfitsAtJob.at(distance(jobsSortedByEndTime.begin(), itLatestNonConflictingJob));            }
+                currentProfit += maxProfitsAtJob.at(distance(jobsSortedByEndTime.begin(), itLatestNonConflictingJob));
+            }
             maxProfitsAtJob[jobIndex] = max(maxProfitsAtJob.at(jobIndex - 1), currentProfit);
         }
 

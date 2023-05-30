@@ -190,10 +190,12 @@ private:
     Polynomial getPartialNumeratorForPartialFractions(int const degree, std::string const& variableName) const;
     std::string getNewVariableNameForPartialFractions() const;
 
-    // Integration by parts    void integrateByTryingIntegrationByParts(Term& result, Term const& term);
+    // Integration by parts
+    void integrateByTryingIntegrationByParts(Term& result, Term const& term);
     void integrateUsingIntegrationByPartsByOneTermAndOne(Term& result, Term const& term);
     void integrateUsingIntegrationByPartsByTryingTwoTerms(Term& result, Term const& term);
-    void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(        Term& result, Term const& term, Term const& firstTerm, Term const& secondTerm);
+    void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(
+        Term& result, Term const& term, Term const& firstTerm, Term const& secondTerm);
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(
         Term& result, Term const& term, Term const& u, Term const& dv);
     void integrateUsingPreviousIntegrationByPartsTerms(
@@ -245,10 +247,12 @@ private:
         Term& outputTerm, Term const& inputTerm, int const exponent) const;
 
     // Simplify
-    void simplifyForIntegration(Term& term, Configuration const& configuration) const;    void simplifyAndFixTrigonometricFunctions(Term& term, bool const shouldFixTrigonometricFunctions) const;
+    void simplifyForIntegration(Term& term, Configuration const& configuration) const;
+    void simplifyAndFixTrigonometricFunctions(Term& term, bool const shouldFixTrigonometricFunctions) const;
     void fixTrigonometricFunctionsBasedFromExponents(
         Term& term, InputTermToTrigonometryFunctionExponentsMap const& trigFunctionsInputTermToExponents,
-        TermsRaiseToNumbers const& remainingTermsWithExponents) const;    void putTrigonometricFunctionsWithExponents(
+        TermsRaiseToNumbers const& remainingTermsWithExponents) const;
+    void putTrigonometricFunctionsWithExponents(
         TermsRaiseToNumbers& newTerms, Term const& inputTerm, TrigonometryFunctionExponents const& exponents) const;
 
     // Integration configurations

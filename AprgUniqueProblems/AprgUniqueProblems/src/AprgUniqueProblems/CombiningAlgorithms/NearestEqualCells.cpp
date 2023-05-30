@@ -28,10 +28,12 @@ NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPair(Value c
     if (static_cast<int>(coordinatesWithValue.size()) <= static_cast<int>(sqrt(m_valueMatrix.getNumberOfCells()))) {
         return getNearestEqualPairByCheckingAllPairs(value);
     } else {
-        return getNearestEqualPairUsingBfs(value);    }
+        return getNearestEqualPairUsingBfs(value);
+    }
 }
 
-NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairByCheckingAllPairs(Value const value) const {    // Algorithm 1: Go through all pairs of cells with letter c, and calculate the minimum distance between such cells.
+NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairByCheckingAllPairs(Value const value) const {
+    // Algorithm 1: Go through all pairs of cells with letter c, and calculate the minimum distance between such cells.
     // This will take O(k2) time where k is the number of cells with letter c.
 
     CoordinatePair result{};
@@ -51,10 +53,12 @@ NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairByChecki
                 int distance = getDistance(twoCoordinates.at(0), twoCoordinates.at(1));
                 if (distance < minimumDistance) {
                     minimumDistance = distance;
-                    result = {twoCoordinates.at(0), twoCoordinates.at(1)};                }
+                    result = {twoCoordinates.at(0), twoCoordinates.at(1)};
+                }
             }
         }
-    }    return result;
+    }
+    return result;
 }
 
 NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairUsingBfs(Value const value) const {
@@ -69,19 +73,23 @@ void NearestEqualCells::initializeGraph() {
     m_valueMatrix.iterateAllThroughYAndThenX([&](int const x, int const y) {
         if (m_valueMatrix.isInside(x + 1, y)) {
             m_coordinateGraph.connect(Coordinate(x, y), Coordinate(x + 1, y));
-        }        if (m_valueMatrix.isInside(x, y + 1)) {
+        }
+        if (m_valueMatrix.isInside(x, y + 1)) {
             m_coordinateGraph.connect(Coordinate(x, y), Coordinate(x, y + 1));
         }
-    });}
+    });
+}
 
 NearestEqualCells::Coordinates NearestEqualCells::getCoordinatesWithThisValue(Value const value) const {
     Coordinates result;
     m_valueMatrix.iterateAllThroughYAndThenX([&](int const x, int const y) {
         if (m_valueMatrix.getEntry(x, y) == value) {
             result.emplace_back(x, y);
-        }    });
+        }
+    });
     return result;
 }
+
 NearestEqualCells::Coordinate NearestEqualCells::getFirstCoordinateUsingBfs(Value const value) const {
     Coordinates coordinates(getCoordinatesWithThisValue(value));
     Bfs bfs(m_coordinateGraph, coordinates);
@@ -105,10 +113,12 @@ NearestEqualCells::Coordinate NearestEqualCells::getCoordinateUsingBfs(
         int distance(vertexDistancePair.second);
         if (value == m_valueMatrix.getEntry(coordinate.first, coordinate.second) && firstCoordinate != coordinate) {
             if (isFirst) {
-                minimumDistance = distance;                result = coordinate;
+                minimumDistance = distance;
+                result = coordinate;
                 isFirst = false;
             } else if (distance < minimumDistance) {
-                minimumDistance = distance;                result = coordinate;
+                minimumDistance = distance;
+                result = coordinate;
             }
         }
     }
@@ -119,4 +129,5 @@ int NearestEqualCells::getDistance(Coordinate const& coordinate1, Coordinate con
     return getPositiveDelta(coordinate1.first, coordinate2.first) +
            getPositiveDelta(coordinate1.second, coordinate2.second);
 }
+
 }  // namespace alba

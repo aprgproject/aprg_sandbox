@@ -13,6 +13,7 @@ using ValueForTest = int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = FindThePairWithClosestToSumFromTwoSortedContainers<ValuesForTest>;
 }  // namespace
+
 TEST(
     FindThePairWithClosestToSumFromTwoSortedContainersTest,
     GetValuePairThatIsClosestToSumWorksWhenFirstContainerIsEmpty) {
@@ -47,4 +48,5 @@ TEST(FindThePairWithClosestToSumFromTwoSortedContainersTest, GetValuePairThatIsC
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -17,6 +17,7 @@ public:
     std::string const& getBaseVariable() const;
     std::string const& getDependentVariable() const;
     std::string getNameInLeibnizNotation() const;
+
     void differentiate();
 
 private:
@@ -27,6 +28,7 @@ private:
     std::string m_baseVariable;
     std::string m_dependentVariable;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

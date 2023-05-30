@@ -94,10 +94,12 @@ double ans(vector<int> a, int tot) {
 void runTestCase(int const testCaseNumber) {
     mp.clear();
     my_cin >> n >> m;
-    iv = 1 / (double)m;    int k;
+    iv = 1 / (double)m;
+    int k;
     my_cin >> k;
     need.resize(k);
-    for (int i = 0; i < k; i++) my_cin >> need[i];    sort(need.begin(), need.end());
+    for (int i = 0; i < k; i++) my_cin >> need[i];
+    sort(need.begin(), need.end());
     vector<int> go;
     my_cout.precision(10);
     my_cout << "Case #" << testCaseNumber << ": " << fixed << ans(go, 0) << '\n';
@@ -110,9 +112,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

@@ -9,7 +9,8 @@ namespace alba {
 using VertexOfKnightsTour = std::pair<int, int>;  // Count and ChessBoardIndex pair
 
 class KnightsTour {
-public:    // A knight’s tour is a sequence of moves of a knight on an n x n chessboard following the rules of chess such that
+public:
+    // A knight’s tour is a sequence of moves of a knight on an n x n chessboard following the rules of chess such that
     // the knight visits each square exactly once. A knight’s tour is called a closed tour if the knight finally returns
     // to the starting square and otherwise it is called an open tour.
 
@@ -22,6 +23,7 @@ public:    // A knight’s tour is a sequence of moves of a knight on an n x n c
 
     ChessBoardIndexes getAnOpenKnightsTour() const;
     ChessBoardIndexes getAClosedKnightsTour() const;
+
 private:
     void initialize();
     void initializeNeighborMatrix();

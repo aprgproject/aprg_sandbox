@@ -31,4 +31,5 @@ std::string constructFenString(
     std::string const& enPassantTarget, int const halfMoveClock, int const fullMoveNumber);
 
 }  // namespace chess
+
 }  // namespace alba

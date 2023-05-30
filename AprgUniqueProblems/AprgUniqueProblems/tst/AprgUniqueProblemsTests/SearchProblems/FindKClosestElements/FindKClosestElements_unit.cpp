@@ -13,6 +13,7 @@ using ValueForTest = int;
 using ValuesForTest = vector<ValueForTest>;
 using QueryForTest = FindKClosestElements<ValuesForTest>;
 }  // namespace
+
 TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query(valuesForTest);
@@ -38,4 +39,5 @@ TEST(FindKClosestElementsTest, GetIndexPairClosestElementsWorksOnExample1) {
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -33,10 +33,12 @@ void ChineseRemainderTheorem::solve(UnsignedIntegers const& numbers, UnsignedInt
         for (int k = 0; k < static_cast<int>(numbers.size()); k++) {
             UnsignedInteger const& number(numbers.at(k));
             UnsignedInteger const& modulo(modulos.at(k));
-            UnsignedInteger formulaForK = m_productOfModulos / modulo;            UnsignedInteger modularInverseOfFk = getModularInverseByEulersTheorem(formulaForK, modulo);
+            UnsignedInteger formulaForK = m_productOfModulos / modulo;
+            UnsignedInteger modularInverseOfFk = getModularInverseByEulersTheorem(formulaForK, modulo);
             m_solutionValue += number * formulaForK * modularInverseOfFk;
         }
-    }}
+    }
+}
 
 }  // namespace math
 

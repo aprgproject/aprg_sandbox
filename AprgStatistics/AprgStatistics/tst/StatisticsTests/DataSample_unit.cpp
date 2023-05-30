@@ -84,8 +84,10 @@ TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue) {
     int singleValue = 1;
     DataSample<5> actualResult = dataSample1 + singleValue;
     EXPECT_EQ(11U, actualResult.getValueAt(0));
-    EXPECT_EQ(21U, actualResult.getValueAt(1));    EXPECT_EQ(31U, actualResult.getValueAt(2));
+    EXPECT_EQ(21U, actualResult.getValueAt(1));
+    EXPECT_EQ(31U, actualResult.getValueAt(2));
     EXPECT_EQ(41U, actualResult.getValueAt(3));
     EXPECT_EQ(51U, actualResult.getValueAt(4));
 }
+
 }  // namespace alba

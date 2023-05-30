@@ -15,9 +15,11 @@ public:
     using Boxes = std::vector<Box>;
     using IndexToIndex = std::vector<Index>;
     using IndexToValue = std::vector<Value>;
+
     BoxStackingProblem(Boxes const& sequence);
 
-    Index getMaximumStackedHeight() const;    Boxes getBoxesWithMaximumStackedHeight() const;
+    Index getMaximumStackedHeight() const;
+    Boxes getBoxesWithMaximumStackedHeight() const;
 
 private:
     Boxes getAllPossibleBoxes() const;

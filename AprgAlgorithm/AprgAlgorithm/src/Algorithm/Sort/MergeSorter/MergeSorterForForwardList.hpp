@@ -26,18 +26,18 @@ private:
             return unsortedValues;
         } else {
             // Split to two parts
-            Values firstPart,
-                secondPart;  // THIS IS COSTLY, in a more controllable forward link list we can split it more easily
+            // THIS IS COSTLY, in a more controllable forward link list we can split it more easily
+            Values firstPart, secondPart;
             Iterator itNewFirstPart = firstPart.before_begin(), itNewSecondPart = secondPart.before_begin();
-            for (ConstIterator it = unsortedValues.cbegin(); it != middle; it++) {
+            for (ConstIterator it = unsortedValues.cbegin(); it != middle; ++it) {
                 itNewFirstPart = firstPart.emplace_after(itNewFirstPart, *it);
             }
-            for (ConstIterator it = middle; it != unsortedValues.cend(); it++) {
+            for (ConstIterator it = middle; it != unsortedValues.cend(); ++it) {
                 itNewSecondPart = secondPart.emplace_after(itNewSecondPart, *it);
             }
 
-            return mergeTwoRanges(
-                getSortedValues(firstPart), getSortedValues(secondPart));  // this is top down merge sort
+            // this is top down merge sort
+            return mergeTwoRanges(getSortedValues(firstPart), getSortedValues(secondPart));
         }
     }
 
@@ -46,10 +46,10 @@ private:
         ConstIterator hare(values.cbegin());
         while (hare != values.cend()) {
             // std::advance with 2 for hare? no, because we need to check if we exceeded
-            turtoise++;
-            hare++;
+            ++turtoise;
+            ++hare;
             if (hare != values.cend()) {
-                hare++;
+                ++hare;
             }
         }
         return turtoise;
@@ -63,17 +63,15 @@ private:
         ConstIterator it1 = firstPart.cbegin(), it2 = secondPart.cbegin();
         for (; it1 != firstPart.cend() && it2 != secondPart.cend();) {
             if (*it1 <= *it2) {
-                itNewValue = result.emplace_after(itNewValue, *it1);
-                it1++;
+                itNewValue = result.emplace_after(itNewValue, *it1++);
             } else {
-                itNewValue = result.emplace_after(itNewValue, *it2);
-                it2++;
+                itNewValue = result.emplace_after(itNewValue, *it2++);
             }
         }
-        for (; it1 != firstPart.cend(); it1++) {
+        for (; it1 != firstPart.cend(); ++it1) {
             itNewValue = result.emplace_after(itNewValue, *it1);
         }
-        for (; it2 != secondPart.cend(); it2++) {
+        for (; it2 != secondPart.cend(); ++it2) {
             itNewValue = result.emplace_after(itNewValue, *it2);
         }
         return result;

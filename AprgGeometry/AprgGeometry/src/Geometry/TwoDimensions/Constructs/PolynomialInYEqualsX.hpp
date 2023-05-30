@@ -9,10 +9,12 @@ namespace TwoDimensions {
 template <int numberOfCoefficients>
 class PolynomialInYEqualsX : public Polynomial<numberOfCoefficients> {
 public:
-    using PolynomialInYEqualsXParent = Polynomial<numberOfCoefficients>;    PolynomialInYEqualsX() : PolynomialInYEqualsXParent() {}
+    using PolynomialInYEqualsXParent = Polynomial<numberOfCoefficients>;
+    PolynomialInYEqualsX() : PolynomialInYEqualsXParent() {}
 
     PolynomialInYEqualsX(std::initializer_list<double> const& coefficients)
         : PolynomialInYEqualsXParent(coefficients) {}
+
     Points getPoints(double const startValueOfY, double const endValueOfY, double const interval) const {
         Points points;
         AlbaValueRange<double> range(startValueOfY, endValueOfY, interval);

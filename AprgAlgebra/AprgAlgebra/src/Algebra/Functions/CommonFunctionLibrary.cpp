@@ -43,10 +43,12 @@ Function factorial(Term const& term) {
             result = AlbaNumber(getFactorial(static_cast<int>(number.getInteger())));
         }
         return result;
-    });}
+    });
+}
 
 Function ln(Term const& term) {
-    return Function("ln", term, [](AlbaNumber const& number) -> AlbaNumber { return ::log(number.getDouble()); });}
+    return Function("ln", term, [](AlbaNumber const& number) -> AlbaNumber { return ::log(number.getDouble()); });
+}
 
 Function log(Term const& term) {
     return Function("log", term, [](AlbaNumber const& number) -> AlbaNumber { return ::log10(number.getDouble()); });
@@ -60,9 +62,11 @@ Function harmonicNumber(Term const& term) {
             for (int i = 1; i <= lastNumber; i++) {
                 result = result + AlbaNumber::createFraction(1, i);
             }
-        }        return result;
+        }
+        return result;
     });
 }
+
 Function sin(Term const& term) {
     return Function("sin", term, [](AlbaNumber const& number) -> AlbaNumber { return ::sin(number.getDouble()); });
 }

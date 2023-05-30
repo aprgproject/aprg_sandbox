@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Search/NearestValue/LinearSearch/LinearNearestValueSearchWithTwoIndices.hpp>
+#include <Algorithm/Search/NearestValue/LinearSearch/LinearNearestValueSearchWithOneIndex.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
@@ -17,40 +17,29 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     JumpNearestValueSearch(Values const& values)  // values can be unsorted
-        : m_blockSize(getOptimalSize(values)), m_values(values) {}
+        : m_blockSize(getOptimalSize(values)), m_sortedValues(values) {}
 
     Value getNearestValue(Value const& valueToCheck) {
         Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if (selectedIndex != INVALID_INDEX) {
-            result = m_values.at(selectedIndex);
+            result = m_sortedValues.at(selectedIndex);
         }
         return result;
     }
 
     Index getIndexOfNearestValue(Value const& valueToCheck) {
-        Index result(INVALID_INDEX);
-        bool shouldContinueToLinearSearch(true);
-
-        // find the block where value is included
-        Index blockStartIndex(0);
-        Index blockEndIndex(0);
-        while (blockEndIndex < static_cast<Index>(m_values.size()) && m_values.at(blockEndIndex) <= valueToCheck) {
-            blockStartIndex = blockEndIndex;
-            blockEndIndex += m_blockSize;
-            if (m_values.at(blockStartIndex) > valueToCheck) {
-                shouldContinueToLinearSearch = false;
-                break;
-            }
+        Index previousSearchIndex(0);
+        Index searchIndex(0);
+        while (searchIndex < static_cast<Index>(m_sortedValues.size()) && m_sortedValues.at(searchIndex) < valueToCheck) {
+            previousSearchIndex = searchIndex;
+            searchIndex += m_blockSize;
         }
 
-        if (shouldContinueToLinearSearch) {
-            // continue to linear search
-            LinearNearestValueSearchWithTwoIndices<Values> linearSearch(
-                blockStartIndex, blockEndIndex, m_values);  // perform linear search on that block
-            result = linearSearch.getIndexOfNearestValue(valueToCheck);
-        }
-        return result;
+        // perform linear search on that block
+        LinearNearestValueSearchWithOneIndex<Values> linearSearch(
+            previousSearchIndex, std::min(searchIndex, static_cast<int>(m_sortedValues.size()) - 1), m_sortedValues);
+        return linearSearch.getIndexOfNearestValue(valueToCheck);
     }
 
 private:
@@ -60,7 +49,7 @@ private:
     }
 
     Index m_blockSize;
-    Values const& m_values;
+    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm

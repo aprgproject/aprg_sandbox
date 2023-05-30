@@ -21,9 +21,11 @@ TEST(SubstitutionOfVariablesToTermsTest, ConstructionWorks) {
     EXPECT_EQ(1, substitution3.getSize());
     EXPECT_EQ(Term("y"), substitution3.getTermForVariable("x"));
 }
+
 TEST(SubstitutionOfVariablesToTermsTest, IsEmptyWorks) {
     SubstitutionOfVariablesToTerms substitution1;
     SubstitutionOfVariablesToTerms substitution2({{"x", "y"}});
+
     EXPECT_TRUE(substitution1.isEmpty());
     EXPECT_FALSE(substitution2.isEmpty());
 }
@@ -45,10 +47,12 @@ TEST(SubstitutionOfVariablesToTermsTest, GetSizeWorks) {
     EXPECT_EQ(1, substitution2.getSize());
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, GetValueForVariableWorks) {    SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
+TEST(SubstitutionOfVariablesToTermsTest, GetValueForVariableWorks) {
+    SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
 
     Term termToExpect("y");
-    EXPECT_EQ(termToExpect, substitution.getTermForVariable("x"));    EXPECT_EQ(Term{}, substitution.getTermForVariable("y"));
+    EXPECT_EQ(termToExpect, substitution.getTermForVariable("x"));
+    EXPECT_EQ(Term{}, substitution.getTermForVariable("y"));
     EXPECT_EQ(Term{}, substitution.getTermForVariable("a"));
     EXPECT_EQ(Term{}, substitution.getTermForVariable("b"));
 }

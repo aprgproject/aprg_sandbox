@@ -66,9 +66,11 @@ public:
         int const leftByteInclusive, int const rightByteInclusive) const;
 
     Colors getColorTable() const;
+
     void readBitmap(std::string const& path);
 
-private:    void readBitmapFileHeader(AlbaFileReader& fileReader);
+private:
+    void readBitmapFileHeader(AlbaFileReader& fileReader);
     void readDibHeader(AlbaFileReader& fileReader);
     void readColors(AlbaFileReader& fileReader);
     void calculateOtherValuesAfterReading();

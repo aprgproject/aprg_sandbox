@@ -12,10 +12,12 @@ namespace {
 using HashValue = uint64_t;
 using HashFunctionForTest = HornerHashFunctionForSubstrings<HashValue>;
 constexpr HashValue RADIX = 256;
-constexpr HashValue A_LARGE_PRIME = 1229952067;}  // namespace
+constexpr HashValue A_LARGE_PRIME = 1229952067;
+}  // namespace
 
 TEST(HornerHashFunctionForSubstringsTest, Example1Works) {
     HashFunctionForTest hashFunction(RADIX, A_LARGE_PRIME, "ALLEY");
+
     EXPECT_EQ(23869869ULL, hashFunction.getHashCodeOfWholeString());
 
     EXPECT_EQ(65ULL, hashFunction.getHashCodeOfSubstring(0, 0));

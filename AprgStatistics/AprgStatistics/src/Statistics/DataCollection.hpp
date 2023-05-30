@@ -15,10 +15,12 @@ public:
     int getCount() const { return m_count; }
     DataType getAverage() const { return (m_count == 0) ? 0 : m_sum / m_count; }
     double getAverageWithDoubleFormat() const { return (double)m_sum / m_count; }
-    void addData(DataType const& dataValue) {        if (m_count == 0) {
+    void addData(DataType const& dataValue) {
+        if (m_count == 0) {
             m_minimum = dataValue;
             m_maximum = dataValue;
-        } else {  // no std::min, std::max because algorithm header is needed            if (m_minimum > dataValue) {
+        } else {  // no std::min, std::max because algorithm header is needed
+            if (m_minimum > dataValue) {
                 m_minimum = dataValue;
                 m_theCountForMinimum = m_count;
             }

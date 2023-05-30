@@ -14,9 +14,11 @@ public:
     static constexpr Count UNUSED_COUNT = std::numeric_limits<Count>::max();
 
     CountPossibleWaysToConstructBuildings(Count const numberOfSections);
+
     Count getNumberOfWaysUsingCountOfBuildingAndSpaces() const;
     Count getNumberOfWaysUsingFibonacciNumber() const;
     Count getNumberOfWaysUsingCombinations() const;
+
 private:
     Count m_numberOfSections;
 };

@@ -11,7 +11,8 @@ namespace alba {
 template <int DIMENSIONS>
 class KMeansClustering {
 public:
-    using Statistics = DataStatistics<DIMENSIONS>;    using StatisticsUtilities = DataStatisticsUtilities<DIMENSIONS>;
+    using Statistics = DataStatistics<DIMENSIONS>;
+    using StatisticsUtilities = DataStatisticsUtilities<DIMENSIONS>;
     using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
     using GroupOfSamples = std::vector<Samples>;
@@ -19,9 +20,11 @@ public:
     using SamplesGroupPairs = std::vector<std::pair<Sample, int>>;
 
     KMeansClustering() {}
+
     void clear() { m_samples.clear(); }
 
     void addSample(Sample const& sample) { m_samples.emplace_back(sample); }
+
     void addSamples(Samples const& samples) {
         m_samples.reserve(m_samples.size() + samples.size());
         std::copy(samples.cbegin(), samples.cend(), std::back_inserter(m_samples));
@@ -34,7 +37,8 @@ public:
     GroupOfSamples getGroupOfSamplesUsingKMeans(int const numberOfGroups) const {
         SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));
         bool isSamplesGroupPairsChanged(true);
-        while (isSamplesGroupPairsChanged) {            isSamplesGroupPairsChanged = false;
+        while (isSamplesGroupPairsChanged) {
+            isSamplesGroupPairsChanged = false;
             GroupOfSamples groupOfSamples(
                 calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups));
             Samples meanForEachGroup(calculateMeanForEachGroup(groupOfSamples));
@@ -45,10 +49,12 @@ public:
                 for (int groupIndex = 0; groupIndex < numberOfGroups; groupIndex++) {
                     double currentDistance(
                         StatisticsUtilities::calculateDistance(samplesGroupPair.first, meanForEachGroup[groupIndex]));
-                    if (groupIndex == 0 || nearestDistance > currentDistance) {                        nearestGroup = groupIndex;
+                    if (groupIndex == 0 || nearestDistance > currentDistance) {
+                        nearestGroup = groupIndex;
                         nearestDistance = currentDistance;
                     }
-                }                isSamplesGroupPairsChanged = isSamplesGroupPairsChanged || (nearestGroup != samplesGroupPair.second);
+                }
+                isSamplesGroupPairsChanged = isSamplesGroupPairsChanged || (nearestGroup != samplesGroupPair.second);
                 samplesGroupPair.second = nearestGroup;
             }
         }
@@ -62,7 +68,8 @@ private:
         for (int groupIndex = 0; groupIndex < numberOfGroups; groupIndex++) {
             result.emplace_back();
         }
-        for (SamplesGroupPair const& samplesGroupPair : samplesGroupPairs) {            result[samplesGroupPair.second].emplace_back(samplesGroupPair.first);
+        for (SamplesGroupPair const& samplesGroupPair : samplesGroupPairs) {
+            result[samplesGroupPair.second].emplace_back(samplesGroupPair.first);
         }
         return result;
     }
@@ -73,7 +80,8 @@ private:
         int numberSamplesPerGroup((m_samples.size() / numberOfGroups) + 1);
         for (Sample const& sample : m_samples) {
             result.emplace_back(sample, count++ / numberSamplesPerGroup);
-        }        return result;
+        }
+        return result;
     }
 
     Samples calculateMeanForEachGroup(GroupOfSamples const& groupOfSamples) const {
@@ -81,8 +89,10 @@ private:
         for (int groupIndex = 0; groupIndex < static_cast<int>(groupOfSamples.size()); groupIndex++) {
             Statistics statistics(groupOfSamples[groupIndex]);
             meanForEachGroup.emplace_back(statistics.getMean());
-        }        return meanForEachGroup;
+        }
+        return meanForEachGroup;
     }
     Samples m_samples;
 };
+
 }  // namespace alba

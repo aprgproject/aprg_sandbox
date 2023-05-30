@@ -12,9 +12,11 @@ public:
     using Bridges = std::vector<Bridge>;
     using IndexToIndex = std::vector<Index>;
     using IndexToValue = std::vector<Value>;
+
     BuildingBridges(Bridges const& sequence);
 
-    Index getNumberOfPossibleBridges() const;    Bridges getPossibleBridges() const;
+    Index getNumberOfPossibleBridges() const;
+    Bridges getPossibleBridges() const;
 
 private:
     Bridges m_bridges;

@@ -16,6 +16,7 @@ void substituteEquationForSelectedEquationIndex(
     int const selectedEquationIndex);
 void removeEquationsWithoutUnknowns(Equations& substitutedEquations);
 VariableNamesSet getVariablesNamesToCheck(Equations const& equations, VariableNamesSet const& variableNamesToIgnore);
+
 }  // namespace algebra
 
 }  // namespace alba

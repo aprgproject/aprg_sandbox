@@ -35,10 +35,12 @@ Term BinomialSeries::getBinomialSeriesApproximation(
     for (int n = 1; n <= numberOfTimes; n++) {
         monomialPartRaiseToPower *= monomialPart;
         Term multiplier(exponent - n + 1);
-        partialProduct *= multiplier;        factorialValue *= n;
+        partialProduct *= multiplier;
+        factorialValue *= n;
         Term currentTerm(partialProduct * monomialPartRaiseToPower / factorialValue);
         result += currentTerm;
-    }    result.simplify();
+    }
+    result.simplify();
     return result;
 }
 

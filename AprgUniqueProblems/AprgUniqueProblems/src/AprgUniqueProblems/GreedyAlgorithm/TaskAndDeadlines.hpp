@@ -19,13 +19,15 @@ public:
         int deadline;
     };
 
-    using Tasks = std::deque<Task>;    using TaskNames = stringHelper::strings;
+    using Tasks = std::deque<Task>;
+    using TaskNames = stringHelper::strings;
 
     TaskNames getTasksOrderWithMaximumScore() const;
 
     void addTask(std::string const& taskName, int const duration, int const deadline);
 
 private:
-    Tasks m_tasks;};
+    Tasks m_tasks;
+};
 
 }  // namespace alba

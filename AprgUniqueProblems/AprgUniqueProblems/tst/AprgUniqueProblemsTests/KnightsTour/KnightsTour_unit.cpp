@@ -75,4 +75,5 @@ TEST(KnightsTourTest, DISABLED_GetAClosedKnightsTourWorksOn4By5) {
 
     EXPECT_TRUE(knightsTour.getAClosedKnightsTour().empty());
 }
+
 }  // namespace alba

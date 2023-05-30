@@ -30,9 +30,11 @@ TEST(AlbaCropFileTest, CropUpdatesWorks) {
         testFile << i << "\n";
     }
     testFile.close();
+
     double capturedPercentage = 0;
     AlbaCropFile cropFile("[50]", 50, [&](double percentage) -> void { capturedPercentage = percentage; });
-    EXPECT_FALSE(cropFile.isOutputFileWritten());    cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
+    EXPECT_FALSE(cropFile.isOutputFileWritten());
+    cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(cropFile.isOutputFileWritten());
     EXPECT_DOUBLE_EQ(100, capturedPercentage);
 }
@@ -46,8 +48,10 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument) {
         testFile << i << "\n";
     }
     testFile.close();
+
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
+
     AlbaCropFile cropFile("[4]", testFileReader.getFileSize() / 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
@@ -87,8 +91,10 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument) {
         testFile << i << "\n";
     }
     testFile.close();
+
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
+
     AlbaCropFile cropFile("[4]", testFileReader.getFileSize() * 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
@@ -124,8 +130,10 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart) 
         testFile << i << "\n";
     }
     testFile.close();
+
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
+
     AlbaCropFile cropFile("[0]", testFileReader.getFileSize() / 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
@@ -164,8 +172,10 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd) {
         testFile << i << "\n";
     }
     testFile.close();
+
     ifstream testFileToRead(file1ToReadPathHandler.getFullPath());
     AlbaFileReader testFileReader(testFileToRead);
+
     AlbaCropFile cropFile("[9]", testFileReader.getFileSize() / 2);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());

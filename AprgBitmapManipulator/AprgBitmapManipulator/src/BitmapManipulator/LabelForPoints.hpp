@@ -26,7 +26,9 @@ public:
     void setLabel(BitmapXY const& point, int const label);
 
 private:
-    PixelsToLabelsMap m_pixelsTolabelsMap;};
+    PixelsToLabelsMap m_pixelsTolabelsMap;
+};
 
 }  // namespace AprgBitmap
+
 }  // namespace alba

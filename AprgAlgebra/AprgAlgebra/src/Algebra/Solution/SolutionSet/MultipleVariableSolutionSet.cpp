@@ -21,9 +21,11 @@ bool MultipleVariableSolutionSet::isValueAcceptedForVariable(
 int MultipleVariableSolutionSet::getNumberOfVariablesWithSolutions() const {
     return m_variableNameToSolutionSetMap.size();
 }
+
 VariableNamesSet MultipleVariableSolutionSet::getVariableNames() const {
     VariableNamesSet result;
-    for (auto const& pair : m_variableNameToSolutionSetMap) {        result.emplace(pair.first);
+    for (auto const& pair : m_variableNameToSolutionSetMap) {
+        result.emplace(pair.first);
     }
     return result;
 }

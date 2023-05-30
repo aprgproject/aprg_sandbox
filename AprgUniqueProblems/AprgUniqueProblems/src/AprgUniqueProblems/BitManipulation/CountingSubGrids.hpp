@@ -21,7 +21,8 @@ public:
     int countSubGridsWithAllBlackCorners() const;
 
 private:
-    void initialize(BitGrid const& bitGrid);    BitValueGrid m_bitValueGrid;
+    void initialize(BitGrid const& bitGrid);
+    BitValueGrid m_bitValueGrid;
 };
 
 }  // namespace alba

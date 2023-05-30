@@ -95,8 +95,10 @@ void printHexValuesInBoard(ostream& out, Board const& board) {
             out << "0x" << static_cast<uint32_t>(pieceGrid.at(i++).getData()) << ", ";
         }
     }
-    out << dec;    out << "\n";
+    out << dec;
+    out << "\n";
 }
 
 }  // namespace chess
+
 }  // namespace alba

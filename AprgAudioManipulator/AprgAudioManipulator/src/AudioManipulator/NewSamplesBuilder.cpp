@@ -29,10 +29,12 @@ void NewSamplesBuilder::retrieveSampleMergingDetails(
         for (int i = 0; i < detail.numberOfSamples && (i + detail.searchIndex) < searchSamplesSize; i++) {
             double distanceFromMidpoint = getPositiveDelta(midpoint, static_cast<double>(i));
             double weightForPosition = 1 - distanceFromMidpoint / midpoint;
-            double searchSampleValue(searchSamples[i + detail.searchIndex]);            SampleMergingDetails& newSampleDetail(samplesMergingDetails[i + detail.replicationIndex]);
+            double searchSampleValue(searchSamples[i + detail.searchIndex]);
+            SampleMergingDetails& newSampleDetail(samplesMergingDetails[i + detail.replicationIndex]);
             newSampleDetail.isChanged = true;
             newSampleDetail.totalValue += searchSampleValue * weightForPosition;
-            newSampleDetail.weight += weightForPosition;        }
+            newSampleDetail.weight += weightForPosition;
+        }
     }
 }
 
@@ -42,10 +44,12 @@ void NewSamplesBuilder::saveToNewSamples(
     for (int i = 0; i < sampleSize; i++) {
         SampleMergingDetails const& mergingDetails(samplesMergingDetails.at(i));
         if (mergingDetails.isChanged) {
-            double mergedValue(mergingDetails.totalValue / mergingDetails.weight);            double oldSample(m_oldSamples[i]);
+            double mergedValue(mergingDetails.totalValue / mergingDetails.weight);
+            double oldSample(m_oldSamples[i]);
             double& currentSample(newSamples[i]);
             double newValue = mergedValue * 0.5 + oldSample * 0.5;
-            if (alwaysPutNewValue ||                getPositiveDelta(newValue, oldSample) < getPositiveDelta(currentSample, oldSample)) {
+            if (alwaysPutNewValue ||
+                getPositiveDelta(newValue, oldSample) < getPositiveDelta(currentSample, oldSample)) {
                 currentSample = newValue;
             }
         }

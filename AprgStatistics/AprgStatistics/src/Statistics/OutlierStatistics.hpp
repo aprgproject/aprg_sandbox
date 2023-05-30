@@ -8,10 +8,12 @@ namespace alba {
 template <int DIMENSIONS>
 class OutlierStatistics : public DataStatistics<DIMENSIONS> {
 public:
-    using Sample = DataSample<DIMENSIONS>;    using Samples = std::vector<Sample>;
+    using Sample = DataSample<DIMENSIONS>;
+    using Samples = std::vector<Sample>;
     using LocalStatistics = DataStatistics<DIMENSIONS>;
 
     OutlierStatistics(Samples const& samples) : DataStatistics<DIMENSIONS>(samples) {}
+
     bool isAnOutlierBasedOnChauvenetCriterion(Sample const& sample) {
         LocalStatistics::calculateMeanIfNeeded();
         LocalStatistics::calculateSampleStandardDeviationIfNeeded();
@@ -23,7 +25,8 @@ public:
         for (int i = 0; i < deviationOverStandardDeviation.getSize(); i++) {
             if (deviationOverStandardDeviation.getValueAt(i) > acceptableDeviation) {
                 isAnOutlier = true;
-                break;            }
+                break;
+            }
         }
         return isAnOutlier;
     }
@@ -31,6 +34,7 @@ public:
     double calculateAcceptableDeviationBasedOnChauvenetCriterion(int const sampleSize) {
         return mathHelper::getAbsoluteValue(
             mathHelper::getInverseCumulativeStandardDistributionApproximation(1 / ((double)4 * sampleSize), 20));
-    }};
+    }
+};
 
 }  // namespace alba

@@ -12,9 +12,11 @@ namespace {
 using ValuesForTest = vector<int>;
 using SearchForTest = SearchUnsortedElementOnAlmostSortedContainer<ValuesForTest>;
 constexpr SearchForTest::Index INVALID_INDEX = SearchForTest::INVALID_INDEX;
+
 }  // namespace
 
-TEST(SearchUnsortedElementOnAlmostSortedContainerTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {    ValuesForTest emptyValues;
+TEST(SearchUnsortedElementOnAlmostSortedContainerTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty) {
+    ValuesForTest emptyValues;
     SearchForTest search(emptyValues);
 
     EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(33));
@@ -41,7 +43,8 @@ TEST(SearchUnsortedElementOnAlmostSortedContainerTest, GetIndexOfNearestValueWor
     EXPECT_EQ(5, search.getIndexOfValue(33));
 }
 
-TEST(    SearchUnsortedElementOnAlmostSortedContainerTest,
+TEST(
+    SearchUnsortedElementOnAlmostSortedContainerTest,
     GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsOne) {
     ValuesForTest sortedValues{6, 13, 14, 25, 43, 33, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
@@ -49,7 +52,8 @@ TEST(    SearchUnsortedElementOnAlmostSortedContainerTest,
     EXPECT_EQ(5, search.getIndexOfValue(5, 6, 33));
 }
 
-TEST(    SearchUnsortedElementOnAlmostSortedContainerTest,
+TEST(
+    SearchUnsortedElementOnAlmostSortedContainerTest,
     GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsTwo) {
     ValuesForTest sortedValues{6, 13, 14, 25, 43, 33, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
@@ -57,7 +61,8 @@ TEST(    SearchUnsortedElementOnAlmostSortedContainerTest,
     EXPECT_EQ(5, search.getIndexOfValue(3, 5, 33));
 }
 
-TEST(    SearchUnsortedElementOnAlmostSortedContainerTest,
+TEST(
+    SearchUnsortedElementOnAlmostSortedContainerTest,
     GetIndexOfNearestValueWorksWithndexesWhenDistanceFromLowerToHigherIsOdd) {
     ValuesForTest sortedValues{6, 13, 14, 25, 43, 33, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
@@ -66,4 +71,5 @@ TEST(    SearchUnsortedElementOnAlmostSortedContainerTest,
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

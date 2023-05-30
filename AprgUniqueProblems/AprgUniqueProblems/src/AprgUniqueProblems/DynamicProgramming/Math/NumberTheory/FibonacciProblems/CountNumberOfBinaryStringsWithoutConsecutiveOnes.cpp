@@ -84,4 +84,5 @@ CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingNaiveRecursion(
         return 1;
     }
 }
+
 }  // namespace alba

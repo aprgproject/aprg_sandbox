@@ -14,9 +14,11 @@ CountingTilings::CountingTilings(Count const numberOfColumns, Count const number
       m_numberOfSolutions(0),
       m_grid()  // just initialize this when searching
 {}
+
 CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingDynamicProgramming() {
     // lets make the column the smaller dimension
-    if (m_numberOfColumns > m_numberOfRows) {        swap(m_numberOfColumns, m_numberOfRows);
+    if (m_numberOfColumns > m_numberOfRows) {
+        swap(m_numberOfColumns, m_numberOfRows);
     }
 
     m_numberOfSolutions = 0;
@@ -26,9 +28,11 @@ CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingDynamicProgramm
 
     return m_numberOfSolutions;
 }
+
 CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingCompleteSearch() {
     // This is not exactly DP but "complete search".
-    startCompleteSearch();    return m_numberOfSolutions;
+    startCompleteSearch();
+    return m_numberOfSolutions;
 }
 
 CountingTilings::Row CountingTilings::getEmptyRow(Count const length) const { return Row(length, ' '); }
@@ -80,10 +84,12 @@ CountingTilings::Rows CountingTilings::calculateNextRows(Row const& currentRow) 
             if (nextIndex + 1 < static_cast<Count>(currentRow.length()) && currentRow.at(nextIndex + 1) == ' ') {
                 possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 2});
             }
-            nextRow[nextIndex] = 'V';            possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 1});
+            nextRow[nextIndex] = 'V';
+            possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 1});
         } else {
             possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 1});
-        }    }
+        }
+    }
     return result;
 }
 
@@ -97,7 +103,8 @@ void CountingTilings::startCompleteSearch() {
     doCompleteSearchAt(0);
 }
 
-void CountingTilings::doCompleteSearchAt(Count const gridIndex) {    // This is not exactly DP but "complete search".
+void CountingTilings::doCompleteSearchAt(Count const gridIndex) {
+    // This is not exactly DP but "complete search".
 
     if (m_numberFilledCells == m_numberOfCells) {
         m_numberOfSolutions++;
@@ -105,10 +112,12 @@ void CountingTilings::doCompleteSearchAt(Count const gridIndex) {    // This is 
         size_t x, y;
         m_grid.retrieveXAndYFromIndex(x, y, gridIndex);
         if (m_grid.getEntry(x, y) == '\0') {
-            if (m_grid.isInside(x + 1, y) && m_grid.getEntry(x + 1, y) == '\0') {                m_grid.setEntry(x, y, 'H');
+            if (m_grid.isInside(x + 1, y) && m_grid.getEntry(x + 1, y) == '\0') {
+                m_grid.setEntry(x, y, 'H');
                 m_grid.setEntry(x + 1, y, 'H');
                 m_numberFilledCells += 2;
-                doCompleteSearchAt(gridIndex + 2);                m_grid.setEntry(x, y, '\0');
+                doCompleteSearchAt(gridIndex + 2);
+                m_grid.setEntry(x, y, '\0');
                 m_grid.setEntry(x + 1, y, '\0');
                 m_numberFilledCells -= 2;
             }

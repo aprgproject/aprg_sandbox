@@ -48,26 +48,25 @@ private:
                 break;
             } else {
                 Index interpolatedIndex = lowIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Index>(
-                                                           static_cast<double>(highIndex - lowIndex) *
-                                                           (targetValue - lowerValue) / (higherValue - lowerValue));
+                                                         static_cast<double>(highIndex - lowIndex) *
+                                                         (targetValue - lowerValue) / (higherValue - lowerValue));
                 Value valueAtInterpolatedIndex(m_sortedValues.at(interpolatedIndex));
-                if (targetValue == valueAtInterpolatedIndex) {
+                if (targetValue < valueAtInterpolatedIndex) {
+                    highIndex = interpolatedIndex - 1;
+                } else if (valueAtInterpolatedIndex < targetValue) {
+                    lowIndex = interpolatedIndex + 1;
+                } else {  // valueAtInterpolatedIndex <= targetValue
                     result = interpolatedIndex;
                     break;
-                } else if (targetValue < valueAtInterpolatedIndex) {
-                    highIndex = interpolatedIndex - 1;
-                } else  // valueAtInterpolatedIndex < targetValue
-                {
-                    lowIndex = interpolatedIndex + 1;
                 }
             }
         }
-        if (lowIndex == highIndex) {
-        }
         return result;
     }
+
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

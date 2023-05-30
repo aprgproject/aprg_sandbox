@@ -34,9 +34,11 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingMemoizationDP() const
         CountMatrix countMatrix(10, m_numberOfDigits, UNUSED_COUNT);
         for (Value digitValue = 0; digitValue <= 9; digitValue++) {
             result += getCountUsingMemoizationDP(countMatrix, digitValue, m_numberOfDigits - 1);
-        }    }
+        }
+    }
     return result;
 }
+
 TotalNumberOfNonDecreasingNumbersWithNDigits::Count
 TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingIterativeDP() const {
     // Time Complexity: O(numberOfDigits)
@@ -75,10 +77,12 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingIterativeDPAndSpaceEf
         Counts digitValueToCount(10, 1);
         for (Count digitIndex = 1; digitIndex < m_numberOfDigits; digitIndex++) {
             for (int digitValue = 9; digitValue >= 0; digitValue--) {
-                Count entryResult(0);                for (Value beforeDigitValue = 0; beforeDigitValue <= static_cast<Value>(digitValue);
+                Count entryResult(0);
+                for (Value beforeDigitValue = 0; beforeDigitValue <= static_cast<Value>(digitValue);
                      beforeDigitValue++) {
                     entryResult += digitValueToCount.at(beforeDigitValue);
-                }                digitValueToCount[digitValue] = entryResult;
+                }
+                digitValueToCount[digitValue] = entryResult;
             }
         }
 
@@ -86,9 +90,11 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingIterativeDPAndSpaceEf
     }
     return result;
 }
+
 TotalNumberOfNonDecreasingNumbersWithNDigits::Count
 TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingSummationFormula() const {
-    // Using integration for finite calculus:    // When length=1, then formula=1.
+    // Using integration for finite calculus:
+    // When length=1, then formula=1.
     // When length=2, then formula=(x+1).
     // When length=3, then formula=(x+1)*(x+2)/2.
     // When length=4, then formula=(x+1)*(x+2)*(x+3)/2/3.

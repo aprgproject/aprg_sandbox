@@ -15,7 +15,8 @@ public:
         int deadline;
     };
 
-    using Jobs = std::deque<Job>;    using JobNames = stringHelper::strings;
+    using Jobs = std::deque<Job>;
+    using JobNames = stringHelper::strings;
 
     JobNames getJobsOrderWithMaximumProfit() const;
 
@@ -25,9 +26,11 @@ private:
     int getMaximumDeadline() const;
     Jobs m_jobs;
 };
+
 }  // namespace alba
 
-// Given a set of n jobs where each job i has a deadline di >=1 and profit pi>=0.// Only one job can be scheduled at a time. Each job takes 1 unit of time to complete.
+// Given a set of n jobs where each job i has a deadline di >=1 and profit pi>=0.
+// Only one job can be scheduled at a time. Each job takes 1 unit of time to complete.
 // We earn the profit if and only if the job is completed by its deadline. The task is to find the subset of jobs that
 // maximizes profit.
 

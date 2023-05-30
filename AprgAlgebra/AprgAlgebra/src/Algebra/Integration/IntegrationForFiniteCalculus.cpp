@@ -204,10 +204,12 @@ Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFro
         for (int i = 0; i <= exponentUnsigned; i++) {
             result.addMonomial(
                 Monomial(getStirlingNumberOfTheSecondKind(exponentUnsigned, i), {{m_nameOfVariableToIntegrate, i}}));
-        }        result.multiplyMonomial(monomialToRetain);
+        }
+        result.multiplyMonomial(monomialToRetain);
     }
     result.simplify();
-    return result;}
+    return result;
+}
 
 Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFromFallingPowerToRegularPower(
     Monomial const& monomial) const {
@@ -221,10 +223,12 @@ Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFro
         for (int i = 0; i < exponentUnsigned; i++) {
             result.multiplyPolynomial(
                 Polynomial{Monomial(1, {{m_nameOfVariableToIntegrate, 1}}), Monomial(-AlbaNumber(i), {})});
-        }        result.multiplyMonomial(monomialToRetain);
+        }
+        result.multiplyMonomial(monomialToRetain);
     }
     result.simplify();
-    return result;}
+    return result;
+}
 
 Polynomial IntegrationForFiniteCalculus::convertPolynomialWithPositiveExponentsFromRegularPowerToFallingPower(
     Polynomial const& polynomial) const {

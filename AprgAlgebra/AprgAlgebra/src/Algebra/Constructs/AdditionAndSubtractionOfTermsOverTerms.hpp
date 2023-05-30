@@ -17,7 +17,8 @@ public:
     Terms getRevisedNumeratorTermsBasedOnLcmOnIndex(int itemIndex, Terms const& lcmOfDenominatorTerms) const;
 
     void putAsAddition(TermsOverTerms const& addend);
-    void putAsSubtraction(TermsOverTerms const& subtrahend);    void putAsAddOrSubtraction(TermsOverTerms const& item, TermAssociationType const association);
+    void putAsSubtraction(TermsOverTerms const& subtrahend);
+    void putAsAddOrSubtraction(TermsOverTerms const& item, TermAssociationType const association);
 
 private:
     void eraseCommonFactorOrAddDistinctFactor(
@@ -33,10 +34,12 @@ private:
     Expression getCombinedExpressionForNumeratorOnIndex(int numeratorIndex, Terms const& lcmDenominatorTerms) const;
     void combineExpressionAsAddOrSubtract(
         Expression& combinedExpression, Expression const& expression, TermAssociationType const association) const;
-    TermsOverTerms getSimplifiedTermsOverTerms(TermsOverTerms const& termsOverTerms);    void putItem(TermsOverTerms const& item, TermAssociationType const association);
+    TermsOverTerms getSimplifiedTermsOverTerms(TermsOverTerms const& termsOverTerms);
+    void putItem(TermsOverTerms const& item, TermAssociationType const association);
     VectorOfTermsOverTerms m_items;
     TermAssociationTypes m_associations;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

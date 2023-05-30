@@ -14,10 +14,12 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0));
     Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
     isPartialSumPossible[0] = true;
-    for (Value const& inputValue : m_inputValues) {        for (Value partialSum = sum; partialSum > 0;
+    for (Value const& inputValue : m_inputValues) {
+        for (Value partialSum = sum; partialSum > 0;
              partialSum--)  // reverse traversal so that the changed values wont be changed again in one iteration
         {
-            if (partialSum >= inputValue && isPartialSumPossible.at(partialSum - inputValue)) {                isPartialSumPossible[partialSum] = true;
+            if (partialSum >= inputValue && isPartialSumPossible.at(partialSum - inputValue)) {
+                isPartialSumPossible[partialSum] = true;
             }
         }
     }
@@ -28,10 +30,12 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0));
     Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
     isPartialSumPossible[0] = true;
-    for (Value const& inputValue : m_inputValues) {        for (int partialSum = sum; partialSum >= 0;
+    for (Value const& inputValue : m_inputValues) {
+        for (int partialSum = sum; partialSum >= 0;
              partialSum--)  // reverse traversal so that the changed values wont be changed again in one iteration
         {
-            if (isPartialSumPossible.at(partialSum)) {                Value possibleNextValue = static_cast<Value>(partialSum) + inputValue;
+            if (isPartialSumPossible.at(partialSum)) {
+                Value possibleNextValue = static_cast<Value>(partialSum) + inputValue;
                 if (possibleNextValue <= sum) {
                     isPartialSumPossible[possibleNextValue] = true;
                 }
@@ -67,6 +71,7 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0));
     Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
     isPartialSumPossible[0] = true;
+
     for (auto const& inputValueAndCountPair : inputValueToCount)  // sqrt(n) distinct numbers
     {
         // reverse traversal so that the changed values wont be changed again in one iteration
@@ -76,10 +81,12 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
                 for (int i = 1; i <= inputValueAndCountPair.second; i++)  // near constant time
                 {
                     isPartialSumPossible[static_cast<Value>(partialSumIndex) + (i * inputValueAndCountPair.first)] =
-                        true;                }
+                        true;
+                }
             }
         }
-    }    return getAllPossiblePartialSums(isPartialSumPossible);
+    }
+    return getAllPossiblePartialSums(isPartialSumPossible);
 }
 
 AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSums(
@@ -88,9 +95,11 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     for (int partialSumIndex = 0; partialSumIndex < static_cast<int>(isPartialSumPossible.size());
          partialSumIndex++)  // O(n) or linear time
     {
-        if (isPartialSumPossible.at(partialSumIndex)) {            result.emplace_back(partialSumIndex);
+        if (isPartialSumPossible.at(partialSumIndex)) {
+            result.emplace_back(partialSumIndex);
         }
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

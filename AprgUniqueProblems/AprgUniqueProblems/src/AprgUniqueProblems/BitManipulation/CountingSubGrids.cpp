@@ -16,10 +16,12 @@ int CountingSubGrids::countSubGridsWithAllBlackCorners() const {
             for (int i = 0; i < static_cast<int>(m_bitValueGrid.getNumberOfColumns()); i++) {
                 commonBlackColumns += BitValueUtilities::getNumberOfOnes(
                     m_bitValueGrid.getEntry(i, row) & m_bitValueGrid.getEntry(i, nextRow));
-            }            result += commonBlackColumns * (commonBlackColumns - 1) /
+            }
+            result += commonBlackColumns * (commonBlackColumns - 1) /
                       2;  // combinations of subgrids based on common black columns
         }
-    }    return result;
+    }
+    return result;
 }
 
 void CountingSubGrids::initialize(BitGrid const& bitGrid) {
@@ -55,7 +57,9 @@ void CountingSubGrids::initialize(BitGrid const& bitGrid) {
                 if (bitPosition == NUMBER_OF_BITS - 1 || x == static_cast<int>(bitGrid.getNumberOfColumns()) - 1) {
                     m_bitValueGrid.setEntry(x / NUMBER_OF_BITS, y, static_cast<BitValue>(bitsetValue.to_ullong()));
                 }
-            }        }
+            }
+        }
     }
 }
+
 }  // namespace alba

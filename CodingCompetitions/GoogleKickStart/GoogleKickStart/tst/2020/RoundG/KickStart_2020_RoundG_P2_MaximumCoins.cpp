@@ -29,10 +29,12 @@ namespace KickStart_2020_RoundG_P2_MaximumCoins {
 void runTestCase(int const testCaseNumber) {
     int n;
     my_cin >> n;
-    map<int, long long> mapka;    for (int row = 0; row < n; ++row) {
+    map<int, long long> mapka;
+    for (int row = 0; row < n; ++row) {
         for (int col = 0; col < n; ++col) {
             int x;
-            my_cin >> x;            mapka[row - col] += x;
+            my_cin >> x;
+            mapka[row - col] += x;
         }
     }
     long long answer = 0;
@@ -49,9 +51,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

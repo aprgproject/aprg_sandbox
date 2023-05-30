@@ -54,10 +54,12 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingIterativeDP()
                 for (Value digitValue = 0; digitValue <= min(partialSum - 1, 9); digitValue++) {
                     countMatrix.getEntryReference(partialSum, digitIndex) +=
                         countMatrix.getEntry(partialSum - digitValue, digitIndex - 1);
-                }            }
+                }
+            }
         }
         result = countMatrix.getEntry(countMatrix.getNumberOfColumns() - 1, countMatrix.getNumberOfRows() - 1);
-    }    return result;
+    }
+    return result;
 }
 
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count
@@ -76,10 +78,12 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingIterativeDPAn
                 for (Value digitValue = 1; digitValue <= min(partialSum - 1, 9);
                      digitValue++)  // When digitValue==0, the count is 1, so no need to process
                 {
-                    partialSumToCount[partialSum] += partialSumToCount.at(partialSum - digitValue);                }
+                    partialSumToCount[partialSum] += partialSumToCount.at(partialSum - digitValue);
+                }
             }
         }
-        result = partialSumToCount.back();    }
+        result = partialSumToCount.back();
+    }
     return result;
 }
 
@@ -96,10 +100,12 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountBySearchingValuesW
         Value end = getRaiseToPowerForIntegers(10, m_numberOfDigits);
 
         for (Value value = start; value < end;
-             value += (value == m_targetSumOfDigits) ? 9 : 1)  // once sum is found just add 9 to find the next one        {
+             value += (value == m_targetSumOfDigits) ? 9 : 1)  // once sum is found just add 9 to find the next one
+        {
             Value currentSumOfDigits = 0, remainingDigits = value;
             while (remainingDigits != 0) {
-                currentSumOfDigits += remainingDigits % 10;                remainingDigits /= 10;
+                currentSumOfDigits += remainingDigits % 10;
+                remainingDigits /= 10;
             }
             if (currentSumOfDigits == m_targetSumOfDigits) {
                 result++;
@@ -118,10 +124,12 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingNaiveRecursio
             Value lastDigitValue = min(partialSum - 1, 9);
             for (Value digitValue = 0; digitValue <= lastDigitValue; digitValue++) {
                 result += getCountUsingNaiveRecursion(partialSum - digitValue, digitIndex - 1);
-            }        } else {
+            }
+        } else {
             result = 1;
         }
-    } else if (partialSum <= 9)  // 1 to 9    {
+    } else if (partialSum <= 9)  // 1 to 9
+    {
         result = 1;
     }
     return result;
@@ -138,10 +146,12 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingMemoizationDP
                 Value lastDigitValue = min(partialSum - 1, 9);
                 for (Value digitValue = 0; digitValue <= lastDigitValue; digitValue++) {
                     result += getCountUsingMemoizationDP(countMatrix, partialSum - digitValue, digitIndex - 1);
-                }            } else {
+                }
+            } else {
                 result = 1;
             }
-        } else if (partialSum <= 9)  // 1 to 9        {
+        } else if (partialSum <= 9)  // 1 to 9
+        {
             result = 1;
         }
         countMatrix.setEntry(partialSum, digitIndex, result);

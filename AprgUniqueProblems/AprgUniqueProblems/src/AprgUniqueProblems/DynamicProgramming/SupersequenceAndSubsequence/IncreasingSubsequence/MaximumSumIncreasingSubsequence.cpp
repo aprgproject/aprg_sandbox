@@ -17,10 +17,12 @@ MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaxim
         for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Value& partialSum(partialSums[index]);
             for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-                if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {                    partialSum = max(partialSum, partialSums.at(lowerIndex));
+                if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {
+                    partialSum = max(partialSum, partialSums.at(lowerIndex));
                 }
             }
-            partialSum += m_sequence.at(index);        }
+            partialSum += m_sequence.at(index);
+        }
         result = *max_element(partialSums.cbegin(), partialSums.cend());
     }
     return result;
@@ -38,10 +40,12 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
         for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Value& partialSum(partialSums[index]);
             Value& previousIndex(indexToPreviousIndex[index]);
-            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {                if (m_sequence.at(lowerIndex) < m_sequence.at(index) && partialSum < partialSums.at(lowerIndex)) {
+            for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
+                if (m_sequence.at(lowerIndex) < m_sequence.at(index) && partialSum < partialSums.at(lowerIndex)) {
                     partialSum = partialSums.at(lowerIndex);
                     previousIndex = lowerIndex;
-                }            }
+                }
+            }
             partialSum += m_sequence.at(index);
         }
 

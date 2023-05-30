@@ -12,7 +12,8 @@ int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDP(Value const total) con
     CountPerValue countPerValue(getMaxOfTotalAndMaxCoinPlusOne(total), static_cast<int>(UNUSED_COUNT));
     countPerValue[0] = 1;  // null set
     for (Value const availableCoin : m_availableCoins) {
-        countPerValue[availableCoin] = 1;    }
+        countPerValue[availableCoin] = 1;
+    }
     return getNumberOfFewestCoinsUsingMemoizationDPInternal(countPerValue, total);
 }
 
@@ -29,10 +30,12 @@ int CoinProblem::getNumberOfFewestCoinsIterativeDP(Value const total) const {
                 int subCount = countPerValue.at(partialValue - availableCoin);
                 if (UNUSED_COUNT != subCount) {
                     countPerValue[partialValue] = min(countPerValue.at(partialValue), subCount + 1);
-                }            }
+                }
+            }
         }
     }
-    return countPerValue.at(total);}
+    return countPerValue.at(total);
+}
 
 CoinProblem::Coins CoinProblem::getFewestCoinsUsingMemoizationDP(Value const total) const {
     VectorOfCoins fewestCoins(total + 1);
@@ -68,10 +71,12 @@ int CoinProblem::getNumberOfCoinPermutationsMemoizationDP(Value const total) con
 int CoinProblem::getNumberOfCoinPermutationsIterativeDP(Value const total) const {
     CountPerValue countPerValue(total + 1, 0);
     countPerValue[0] = 1;  // null set
-    for (Value partialValue = 1; partialValue <= total; partialValue++) {        for (Value const availableCoin : m_availableCoins) {
+    for (Value partialValue = 1; partialValue <= total; partialValue++) {
+        for (Value const availableCoin : m_availableCoins) {
             if (partialValue >= availableCoin) {
                 countPerValue[partialValue] += countPerValue.at(partialValue - availableCoin);
-            }        }
+            }
+        }
     }
     return countPerValue.at(total);
 }
@@ -90,10 +95,12 @@ CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingIterativeDP(V
     for (Value partialValue = 0; partialValue < static_cast<Value>(coinPermutationsPerValue.size()); partialValue++) {
         CoinPermutations& coinPermutations(coinPermutationsPerValue[partialValue]);
         for (Value const availableCoin : m_availableCoins) {
-            if (partialValue > availableCoin) {                for (CoinPermutation const& permutationWithoutCoin :
+            if (partialValue > availableCoin) {
+                for (CoinPermutation const& permutationWithoutCoin :
                      coinPermutationsPerValue.at(partialValue - availableCoin)) {
                     CoinPermutation permutationWithCoin(permutationWithoutCoin);
-                    permutationWithCoin.emplace_back(availableCoin);                    coinPermutations.emplace(permutationWithCoin);
+                    permutationWithCoin.emplace_back(availableCoin);
+                    coinPermutations.emplace(permutationWithCoin);
                 }
             }
         }
@@ -110,7 +117,8 @@ int CoinProblem::getNumberOfCoinCombinationsUsingMemoizationDP(Value const total
     int result(0);
     if (!m_availableCoins.empty()) {
         result = getNumberOfCoinCombinationsUsingMemoizationDPInternal(
-            countByValueByCoin, total, m_availableCoins.size() - 1);    }
+            countByValueByCoin, total, m_availableCoins.size() - 1);
+    }
     return result;
 }
 
@@ -127,10 +135,12 @@ int CoinProblem::getNumberOfCoinCombinationsUsingIterativeDP(Value const total) 
             for (int coinIndex = 0; coinIndex < static_cast<int>(m_availableCoins.size()); coinIndex++) {
                 Value countWithoutCoin(0), countWithCoin(0);
                 if (coinIndex > 0) {
-                    countWithoutCoin = countByValueByCoin.getEntry(                        partialValue, coinIndex - 1);  // possibilities before this coin entry
+                    countWithoutCoin = countByValueByCoin.getEntry(
+                        partialValue, coinIndex - 1);  // possibilities before this coin entry
                 }
                 if (partialValue >= m_availableCoins.at(coinIndex))  // if coin can be subtracted to value
-                {                    countWithCoin = countByValueByCoin.getEntry(
+                {
+                    countWithCoin = countByValueByCoin.getEntry(
                         partialValue - m_availableCoins.at(coinIndex),
                         coinIndex);  // possibilities with the subtracted value
                 }
@@ -146,9 +156,11 @@ int CoinProblem::getNumberOfCoinCombinationsUsingIterativeDP(Value const total) 
 int CoinProblem::getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(Value const total) const {
     // Time Complexity: O(mn)
     // The auxiliary space required here is O(n) only.
+
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one row above,
     // we only really need 1 row (not a matrix) to keep track partial values.
+
     CountPerValue countPerValue(total + 1, 0);
     countPerValue[0] = 1;
     for (Value const& availableCoin : m_availableCoins) {
@@ -175,10 +187,12 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingIterativeDP(V
     for (Value partialValue = 1; partialValue < static_cast<Value>(coinCombinationsPerValue.size()); partialValue++) {
         CoinCombinations& combinations(coinCombinationsPerValue[partialValue]);
         for (Value const availableCoin : m_availableCoins) {
-            if (partialValue > availableCoin) {                for (CoinCombination const& combinationWithoutCoin :
+            if (partialValue > availableCoin) {
+                for (CoinCombination const& combinationWithoutCoin :
                      coinCombinationsPerValue.at(partialValue - availableCoin)) {
                     CoinCombination combinationWithCoin(combinationWithoutCoin);
-                    combinationWithCoin.emplace(availableCoin);                    combinations.emplace(combinationWithCoin);
+                    combinationWithCoin.emplace(availableCoin);
+                    combinations.emplace(combinationWithCoin);
                 }
             }
         }
@@ -208,10 +222,12 @@ int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDPInternal(
                 int subCount(getNumberOfFewestCoinsUsingMemoizationDPInternal(countPerValue, total - availableCoin));
                 if (UNUSED_COUNT != subCount) {
                     result = min(result, subCount + 1);
-                }            }
+                }
+            }
         }
         countPerValue[total] = result;
-    }    return result;
+    }
+    return result;
 }
 
 CoinProblem::Coins CoinProblem::getFewestCoinsUsingMemoizationDPInternal(
@@ -226,10 +242,12 @@ CoinProblem::Coins CoinProblem::getFewestCoinsUsingMemoizationDPInternal(
                 if (static_cast<int>(subSolution.size()) + 1 < fewestSize) {
                     subSolution.emplace_back(availableCoin);
                     fewestSize = subSolution.size();
-                    result = subSolution;                }
+                    result = subSolution;
+                }
             } else if (total == availableCoin) {
                 result = {availableCoin};
-                break;            }
+                break;
+            }
         }
         fewestCoins[total] = result;
     }
@@ -241,10 +259,12 @@ int CoinProblem::getNumberOfCoinPermutationsMemoizationDPInternal(
     int result(countPerValue.at(total));
     if (UNUSED_COUNT == result) {
         result = 0;
-        for (Value const availableCoin : m_availableCoins) {            if (total >= availableCoin) {
+        for (Value const availableCoin : m_availableCoins) {
+            if (total >= availableCoin) {
                 result += getNumberOfCoinPermutationsMemoizationDPInternal(countPerValue, total - availableCoin);
             }
-        }        countPerValue[total] = result;
+        }
+        countPerValue[total] = result;
     }
     return result;
 }
@@ -276,10 +296,12 @@ int CoinProblem::getNumberOfCoinCombinationsUsingMemoizationDPInternal(
     int result(countByValueByCoin.getEntry(total, coinIndex));
     if (UNUSED_COUNT == result) {
         if (coinIndex > 0) {
-            Value countWithCoin(0);            Value countWithoutCoin = getNumberOfCoinCombinationsUsingMemoizationDPInternal(
+            Value countWithCoin(0);
+            Value countWithoutCoin = getNumberOfCoinCombinationsUsingMemoizationDPInternal(
                 countByValueByCoin, total, coinIndex - 1);  // possibilities before this coin entry
             if (total >= m_availableCoins.at(coinIndex))    // if coin can be subtracted to value
-            {                countWithCoin = getNumberOfCoinCombinationsUsingMemoizationDPInternal(
+            {
+                countWithCoin = getNumberOfCoinCombinationsUsingMemoizationDPInternal(
                     countByValueByCoin, total - m_availableCoins.at(coinIndex),
                     coinIndex);  // possibilities with the subtracted value
             }

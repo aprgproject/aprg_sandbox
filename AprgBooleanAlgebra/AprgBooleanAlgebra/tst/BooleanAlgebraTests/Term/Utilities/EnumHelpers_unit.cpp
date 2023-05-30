@@ -27,10 +27,12 @@ TEST(EnumHelpersTest, GetTermPriorityValueWorks) {
     EXPECT_EQ(4, getTermTypePriorityValue(TermType::Expression));
 }
 
-TEST(EnumHelpersTest, GetDualOperatorLevelWorks) {    EXPECT_EQ(OperatorLevel::Unknown, getDualOperatorLevel(OperatorLevel::Unknown));
+TEST(EnumHelpersTest, GetDualOperatorLevelWorks) {
+    EXPECT_EQ(OperatorLevel::Unknown, getDualOperatorLevel(OperatorLevel::Unknown));
     EXPECT_EQ(OperatorLevel::Or, getDualOperatorLevel(OperatorLevel::And));
     EXPECT_EQ(OperatorLevel::And, getDualOperatorLevel(OperatorLevel::Or));
 }
+
 TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks) {
     EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
     EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));

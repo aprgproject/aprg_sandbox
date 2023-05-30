@@ -36,10 +36,12 @@ NumberType getLogarithmForIntegers(NumberType const base, NumberType const input
     if (base > 1 && inputForLogarithm > 0) {  // base must be at least 2 and input should be positive
         NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
         while (remainingValue > 0) {
-            NumberType nextRemainingValue = remainingValue / currentBase;            if (nextRemainingValue > 0) {
+            NumberType nextRemainingValue = remainingValue / currentBase;
+            if (nextRemainingValue > 0) {
                 result += currentCount;
                 currentBase *= base;
-                currentCount++;            } else {
+                currentCount++;
+            } else {
                 nextRemainingValue = remainingValue / base;
                 if (nextRemainingValue > 0) {
                     result++;

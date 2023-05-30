@@ -65,9 +65,11 @@ ComputeSumOfDigitsInAllNumbersFrom1ToN::Value ComputeSumOfDigitsInAllNumbersFrom
         Value numberOfDigitsMinus1 = getLogarithmForIntegers(10, number);
 
         Values sumAtDigitIndex(numberOfDigitsMinus1 + 1);
-        // sumAtDigitIndex[0]=0;        // sumAtDigitIndex[1]=sum of digit from 1 to 9 = 45
+        // sumAtDigitIndex[0]=0;
+        // sumAtDigitIndex[1]=sum of digit from 1 to 9 = 45
         // sumAtDigitIndex[2]=sum of digit from 1 to 99 = a[1]*10 + 45*10^1 = 900
         // sumAtDigitIndex[3]=sum of digit from 1 to 999 = a[2]*10 + 45*10^2 = 13500
+
         sumAtDigitIndex[0] = 0;
         sumAtDigitIndex[1] = 45;
         for (Value digitIndex = 2; digitIndex <= numberOfDigitsMinus1; digitIndex++) {
@@ -78,9 +80,11 @@ ComputeSumOfDigitsInAllNumbersFrom1ToN::Value ComputeSumOfDigitsInAllNumbersFrom
         Value highestPowerOf10 = getRaiseToPowerForIntegers(10, numberOfDigitsMinus1);
         Value mostSignificantDigit = number / highestPowerOf10;
         Value remainingDigits = number % highestPowerOf10;
+
         result = mostSignificantDigit * sumAtDigitIndex.at(numberOfDigitsMinus1) +
                  mostSignificantDigit * (mostSignificantDigit - 1) / 2 * highestPowerOf10 +
-                 mostSignificantDigit * (1 + remainingDigits) + getValueUsingMemoizationDP(remainingDigits);    }
+                 mostSignificantDigit * (1 + remainingDigits) + getValueUsingMemoizationDP(remainingDigits);
+    }
     return result;
 }
 

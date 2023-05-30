@@ -37,10 +37,12 @@ Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() cons
         int groupOfPointsIndex(0);
         Point previousPoint(vertices.front());
         result.emplace_back();
-        result[groupOfPointsIndex].emplace_back(vertices.front());        for (auto it = vertices.cbegin() + 1; it != vertices.cend(); it++) {
+        result[groupOfPointsIndex].emplace_back(vertices.front());
+        for (auto it = vertices.cbegin() + 1; it != vertices.cend(); it++) {
             Point const& currentPoint(*it);
             if (isAlmostEqual(currentPoint.getY(), previousPoint.getY())) {
-                result[groupOfPointsIndex].emplace_back(currentPoint);            } else {
+                result[groupOfPointsIndex].emplace_back(currentPoint);
+            } else {
                 result.emplace_back();
                 groupOfPointsIndex++;
                 result[groupOfPointsIndex].emplace_back(currentPoint);
@@ -60,10 +62,12 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXs(
     int groupSize = groupOfPointsBasedOnYValue.size();
     if (groupSize == 1) {
         Points points(groupOfPointsBasedOnYValue.at(0));
-        result = getStartEndForXsFor1Points(points);    } else if (groupSize == 2) {
+        result = getStartEndForXsFor1Points(points);
+    } else if (groupSize == 2) {
         Points points1(groupOfPointsBasedOnYValue.at(0));
         Points points2(groupOfPointsBasedOnYValue.at(1));
-        result = getStartEndForXsFor2Points(points1, points2, interval);    } else if (groupSize == 3) {
+        result = getStartEndForXsFor2Points(points1, points2, interval);
+    } else if (groupSize == 3) {
         Points points1(groupOfPointsBasedOnYValue.at(0));
         Points points2(groupOfPointsBasedOnYValue.at(1));
         Points points3(groupOfPointsBasedOnYValue.at(2));
@@ -93,10 +97,12 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor2Points(
     int points2Size = points2.size();
     if (points1Size == 1 && points2Size == 3) {
         Point point1(points1.at(0));
-        Point point21(points2.at(0));        Point point23(points2.at(2));
+        Point point21(points2.at(0));
+        Point point23(points2.at(2));
         Line line1To21(point1, point21);
         Line line1To23(point1, point23);
-        AlbaValueRange<double> rangeForY(point1.getY(), point21.getY(), interval);        rangeForY.traverse([&](double const y) {
+        AlbaValueRange<double> rangeForY(point1.getY(), point21.getY(), interval);
+        rangeForY.traverse([&](double const y) {
             result.emplace_back(line1To21.calculateXFromY(y), line1To23.calculateXFromY(y), y);
         });
     } else if (points1Size == 2 && points2Size == 2) {
@@ -132,10 +138,12 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor3Points(
     int points3Size = points3.size();
     if (points1Size == 1 && points2Size == 1 && points3Size == 2) {
         Point point1(points1.at(0));
-        Point point2(points2.at(0));        Point point31(points3.at(0));
+        Point point2(points2.at(0));
+        Point point31(points3.at(0));
         Point point32(points3.at(1));
         if (point1.getX() < point2.getX()) {
-            Line line1To31(point1, point31);            Line line1To2(point1, point2);
+            Line line1To31(point1, point31);
+            Line line1To2(point1, point2);
             Line line2To32(point2, point32);
             AlbaValueRange<double> rangeForY(point1.getY(), point2.getY(), interval);
             rangeForY.traverse([&](double const y) {

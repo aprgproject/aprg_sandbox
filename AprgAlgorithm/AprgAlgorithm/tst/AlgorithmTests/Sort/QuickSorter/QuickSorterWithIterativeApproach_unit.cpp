@@ -87,6 +87,7 @@ TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1Wit
     CharactersSorter sorter(PivotType::MedianOfMedians);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

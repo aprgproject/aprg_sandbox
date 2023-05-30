@@ -16,10 +16,12 @@ public:
         int count;
         double newValue;
     };
-    using ColorDataMap = std::map<double, ColorDetails>;    using ValueAndColorDataPair = std::pair<double, ColorDetails>;
+    using ColorDataMap = std::map<double, ColorDetails>;
+    using ValueAndColorDataPair = std::pair<double, ColorDetails>;
 
     uint32_t getNewColor(uint32_t const originalColor) const;
-    double getNewLightness(double const originalValue) const;    double getNewSaturation(double const originalValue) const;
+    double getNewLightness(double const originalValue) const;
+    double getNewSaturation(double const originalValue) const;
     void gatherStatistics(std::string const& bitmapPath);
     void calculateNewValues();
     void saveColorData(std::string const& path);

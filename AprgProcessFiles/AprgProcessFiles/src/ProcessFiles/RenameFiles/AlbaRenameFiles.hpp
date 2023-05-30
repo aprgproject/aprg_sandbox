@@ -14,6 +14,7 @@ public:
         std::string const& prefix, int const startingNumber, int const fieldWidth) const;
 
 private:
-    AlbaLocalPathHandler m_directoryPathHandler;};
+    AlbaLocalPathHandler m_directoryPathHandler;
+};
 
 }  // namespace alba

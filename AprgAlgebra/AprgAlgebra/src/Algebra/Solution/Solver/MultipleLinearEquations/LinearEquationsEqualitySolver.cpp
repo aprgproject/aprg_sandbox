@@ -78,10 +78,12 @@ void LinearEquationsEqualitySolver::setMatrixCoefficients(
         int columnIndex = 0;
         VariableToValueMap variableToValueMap(getCoefficientsForVariablesOnly(polynomial));
         for (string const& variableName : variableNames) {
-            VariableToValueMap::const_iterator it = variableToValueMap.find(variableName);            if (it != variableToValueMap.cend()) {
+            VariableToValueMap::const_iterator it = variableToValueMap.find(variableName);
+            if (it != variableToValueMap.cend()) {
                 coefficientsMatrix.setEntry(columnIndex++, rowIndex, it->second);
             }
-        }        coefficientsMatrix.setEntry(columnIndex, rowIndex++, getCoefficientOfMonomialWithNoVariables(polynomial));
+        }
+        coefficientsMatrix.setEntry(columnIndex, rowIndex++, getCoefficientOfMonomialWithNoVariables(polynomial));
     }
 }
 
@@ -92,10 +94,12 @@ void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
     int columnEndIndex = variables.size();
     for (string const& variableName : variables) {
         AlbaNumber identityDiagonalEntry(coefficientsMatrix.getEntry(index, index));
-        if (identityDiagonalEntry == 1) {            SolutionSet solutionSetForVariable;
+        if (identityDiagonalEntry == 1) {
+            SolutionSet solutionSetForVariable;
             solutionSetForVariable.addAcceptedValue(-coefficientsMatrix.getEntry(columnEndIndex, index));
             solutionSet.addSolutionSetForVariable(variableName, solutionSetForVariable);
-        }        index++;
+        }
+        index++;
     }
 }
 

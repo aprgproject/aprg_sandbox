@@ -15,8 +15,10 @@ using Index = int;
 using HashValue = uint64_t;
 using SubstringSearchForTest = RabinKarpSubstringSearchWithSubstringHash<Index, HashValue>;
 }  // namespace
+
 TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
     // SubstringSearchUsingZArray has unique results of handling empty strings
+
     string emptyString;
     string nonEmptyString("NonEmptyString");
     SubstringSearchForTest emptyStringSearch(emptyString);

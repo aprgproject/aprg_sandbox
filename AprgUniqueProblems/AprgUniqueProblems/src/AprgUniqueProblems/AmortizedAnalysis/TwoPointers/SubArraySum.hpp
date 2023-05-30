@@ -14,9 +14,11 @@ public:
     using Values = std::vector<Value>;
 
     SubArraySum(Values const& valuesToCheck);
+
     Values getSubArrayWithSum(Value const targetSum) const;
 
-private:    Values m_valuesToCheck;
+private:
+    Values m_valuesToCheck;
 };
 
 }  // namespace alba

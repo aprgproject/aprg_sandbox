@@ -19,9 +19,11 @@ public:
     using SamplesMergingDetails = std::map<int, SampleMergingDetails>;
 
     NewSamplesBuilder(Samples const& oldSamples);
+
     void putSamplesBasedOnSearchResultAndSamples(
         Samples& samplesToChange, SearchResultsDetails const& details, Samples const& searchSamples,
         bool const alwaysPutNewValue);
+
 private:
     void retrieveSampleMergingDetails(
         SamplesMergingDetails& samplesMergingDetails, SearchResultsDetails const& details,

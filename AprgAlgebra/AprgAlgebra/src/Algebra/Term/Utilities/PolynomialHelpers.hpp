@@ -10,9 +10,11 @@ namespace algebra {
 using IntegerCoefficient = int;
 using IntegerCoefficients = std::vector<IntegerCoefficient>;
 
-enum class RootType {    RealRootsOnly,
+enum class RootType {
+    RealRootsOnly,
     RealAndImaginaryRoots,
 };
+
 bool doesThePolynomialHaveOnlyOneConstant(Polynomial const& polynomial);
 bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial);
 bool doesThePolynomialHaveDoubleValue(Polynomial const& polynomial);
@@ -38,6 +40,7 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial);
 Polynomial raiseBinomialToAPowerUsingBinomialExpansion(Polynomial const& binomial, int const power);
 
 void removeEmptyPolynomials(Polynomials& polynomials);
+
 }  // namespace algebra
 
 }  // namespace alba

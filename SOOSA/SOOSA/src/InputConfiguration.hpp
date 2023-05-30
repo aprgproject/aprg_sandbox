@@ -13,7 +13,8 @@ struct FormDetails {
     using ColumnToNumberOfQuestionsPair = std::pair<int, int>;
     std::string title;
     std::vector<std::string> questions;
-    ColumnToNumberOfQuestionsMap columnToNumberOfQuestionsMap;};
+    ColumnToNumberOfQuestionsMap columnToNumberOfQuestionsMap;
+};
 
 class InputConfiguration {
 public:
@@ -29,7 +30,8 @@ public:
     std::string getQuestionAt(int const questionIndex) const;
     std::string getFormDetailsTitle() const;
     std::string getPath() const;
-    std::string getArea() const;    std::string getPeriod() const;
+    std::string getArea() const;
+    std::string getPeriod() const;
     double getDischarge() const;
     void setPath(std::string const& path);
     void setMainParameters(
@@ -38,13 +40,15 @@ public:
     void addQuestion(int const columnNumber, std::string const& question);
     void setFormDetailsTitle(std::string const& title);
 
-private:    std::string m_path;
+private:
+    std::string m_path;
     std::string m_area;
     std::string m_period;
     double m_discharge;
     int m_minimumSatisfactoryScore;
     FormDetails m_formDetails;
 };
+
 }  // namespace soosa
 
 }  // namespace alba

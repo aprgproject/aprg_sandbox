@@ -31,10 +31,12 @@ public:
     ConcreteColleague(Mediator& mediator, int const id) : Colleague(mediator, id) {}
 
     void send(std::string const& message) override;
-    void receive(std::string const& message) override;};
+    void receive(std::string const& message) override;
+};
 
 // Mediator
 // defines an interface for communicating with Colleague objects
+
 class Mediator {
 public:
     virtual ~Mediator() = default;

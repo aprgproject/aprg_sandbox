@@ -13,6 +13,7 @@ using ValuesForTest = vector<int>;
 using QueryForTest = GetValuePairWithPositiveDelta<ValuesForTest>;
 using ValuePairForTest = QueryForTest::ValuePair;
 }  // namespace
+
 TEST(GetValuePairWithPositiveDeltaTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty) {
     ValuesForTest sortedValues;
     QueryForTest query(sortedValues);
@@ -38,4 +39,5 @@ TEST(GetValuePairWithPositiveDeltaTest, GetPossibleDuplicatedTwoValuesWithSumWit
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

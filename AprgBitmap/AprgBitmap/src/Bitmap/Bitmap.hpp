@@ -31,6 +31,7 @@ private:
     void adjustToTargetLength(int& low, int& high, int const targetLength, int const maxLength) const;
     BitmapConfiguration m_configuration;
 };
+
 }  // namespace AprgBitmap
 
 }  // namespace alba

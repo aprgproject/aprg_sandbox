@@ -28,10 +28,12 @@ bool SubstitutionOfVariablesToValues::isVariableFound(string const& variable) co
 int SubstitutionOfVariablesToValues::getSize() const { return m_variableToValuesMap.size(); }
 
 bool SubstitutionOfVariablesToValues::getValueForVariable(string const& variable) const {
-    bool result(false);    if (isVariableFound(variable)) {
+    bool result(false);
+    if (isVariableFound(variable)) {
         result = m_variableToValuesMap.at(variable);
     }
-    return result;}
+    return result;
+}
 
 VariablesToValuesMap const& SubstitutionOfVariablesToValues::getVariableToValuesMap() const {
     return m_variableToValuesMap;

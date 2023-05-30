@@ -25,4 +25,5 @@ TEST(LongestPalindromicSubstringTest, GetLongestLengthWorksOnExample2) {
     EXPECT_EQ(2, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
     EXPECT_EQ("ee", queryForTest.getLongestStringUsingIterativeDPAndSpaceEfficient());
 }
+
 }  // namespace alba

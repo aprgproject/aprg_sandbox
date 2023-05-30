@@ -30,10 +30,12 @@ public:
     Equation differentiateMultipleTimes(Equation const& equation, int const numberOfTimes) const;
 
     AlbaNumber differentiateConstant(Constant const&) const;
-    Monomial differentiateVariable(Variable const& variable) const;    Polynomial differentiateMonomial(Monomial const& monomial) const;
+    Monomial differentiateVariable(Variable const& variable) const;
+    Polynomial differentiateMonomial(Monomial const& monomial) const;
     Polynomial differentiatePolynomial(Polynomial const& polynomial) const;
     Term differentiateExpression(Expression const& expression) const;
-    Term differentiateFunction(Function const& functionObject) const;    Equation differentiateEquation(Equation const& equation) const;
+    Term differentiateFunction(Function const& functionObject) const;
+    Equation differentiateEquation(Equation const& equation) const;
 
     Term differentiateTwoMultipliedTerms(Term const& term1, Term const& term2) const;
     Term differentiateTwoDividedTerms(Term const& numerator, Term const& denominator) const;

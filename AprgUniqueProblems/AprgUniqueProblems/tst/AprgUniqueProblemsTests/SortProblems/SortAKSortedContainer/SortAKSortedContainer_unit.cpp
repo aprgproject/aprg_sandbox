@@ -21,6 +21,7 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExam
 
     EXPECT_TRUE(emptyContainer.empty());
 }
+
 TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingOneValueExample) {
     IntegersSorter sorter;
     Integers valuesToTest{5};
@@ -28,7 +29,8 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingOneValueExample) {
     sorter.sort(3, valuesToTest);
 
     Integers valuesToExpect{5};
-    EXPECT_EQ(valuesToExpect, valuesToTest);}
+    EXPECT_EQ(valuesToExpect, valuesToTest);
+}
 
 TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample1) {
     IntegersSorter sorter;
@@ -37,7 +39,8 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample1) {
     sorter.sort(3, valuesToTest);
 
     Integers valuesToExpect{2, 3, 5, 6, 8, 9, 10};
-    EXPECT_EQ(valuesToExpect, valuesToTest);}
+    EXPECT_EQ(valuesToExpect, valuesToTest);
+}
 
 TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2) {
     IntegersSorter sorter;
@@ -46,7 +49,9 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2) {
     sorter.sort(4, valuesToTest);
 
     Integers valuesToExpect{4, 7, 8, 9, 10, 11, 12, 13};
-    EXPECT_EQ(valuesToExpect, valuesToTest);}
+    EXPECT_EQ(valuesToExpect, valuesToTest);
+}
 
 }  // namespace algorithm
+
 }  // namespace alba

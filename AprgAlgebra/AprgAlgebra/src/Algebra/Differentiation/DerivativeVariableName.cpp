@@ -19,7 +19,8 @@ DerivativeVariableName::DerivativeVariableName(string const& derivativeVariableI
     : m_isValid(false), m_differentiationLevel(0) {
     string numerator = getStringBeforeThisString(derivativeVariableInLeibnizNotation, "/");
     string denominator = getStringAfterThisString(derivativeVariableInLeibnizNotation, "/");
-    processNumerator(numerator);    if (isValid()) {
+    processNumerator(numerator);
+    if (isValid()) {
         processDenominator(denominator);
     }
 }
@@ -29,9 +30,11 @@ bool DerivativeVariableName::isValid() const { return m_isValid; }
 int DerivativeVariableName::getDifferentiationLevel() const { return m_differentiationLevel; }
 
 string const& DerivativeVariableName::getBaseVariable() const { return m_baseVariable; }
+
 string const& DerivativeVariableName::getDependentVariable() const { return m_dependentVariable; }
 
-string DerivativeVariableName::getNameInLeibnizNotation() const {    stringstream ss;
+string DerivativeVariableName::getNameInLeibnizNotation() const {
+    stringstream ss;
     if (m_differentiationLevel == 1) {
         ss << "d[" << m_dependentVariable << "]";
         if (!m_baseVariable.empty()) {
@@ -95,10 +98,12 @@ void DerivativeVariableName::processNumerator(string const& numerator) {
         m_differentiationLevel = convertStringToNumber<int>(differentiationLevelString);
     } else {
         m_isValid = false;
-    }}
+    }
+}
 
 void DerivativeVariableName::processDenominator(string const& denominator) {
-    enum class ProcessingState { Initial, AfterD, Number, VariableWithBrackets, VariableOnly, LastState, Invalid };    ProcessingState state = ProcessingState::Initial;
+    enum class ProcessingState { Initial, AfterD, Number, VariableWithBrackets, VariableOnly, LastState, Invalid };
+    ProcessingState state = ProcessingState::Initial;
     string differentiationLevelString;
     string baseVariable;
     for (char const c : denominator) {
@@ -136,10 +141,12 @@ void DerivativeVariableName::processDenominator(string const& denominator) {
             convertStringToNumber<int>(differentiationLevelString);
         if (differentiationLevelInDenominator == m_differentiationLevel) {
             m_isValid = true;
-            m_baseVariable = baseVariable;        } else {
+            m_baseVariable = baseVariable;
+        } else {
             m_isValid = false;
         }
-    } else {        m_isValid = false;
+    } else {
+        m_isValid = false;
     }
 }
 

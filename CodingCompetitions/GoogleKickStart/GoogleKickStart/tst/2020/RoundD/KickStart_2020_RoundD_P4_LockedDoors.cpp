@@ -52,10 +52,12 @@ struct UnionFind {
 void runTestCase(int const testCaseNumber) {
     long long n, q;
     my_cin >> n >> q;
-    vector<long long> ds(n - 1);    for (long long i = 0; i < n - 1; i++) my_cin >> ds[i];
+    vector<long long> ds(n - 1);
+    for (long long i = 0; i < n - 1; i++) my_cin >> ds[i];
 
     vector<long long> ss(q), ks(q);
     for (long long i = 0; i < q; i++) my_cin >> ss[i] >> ks[i], ss[i]--;
+
     using P = pair<long long, long long>;
     vector<P> vp;
     for (long long i = 0; i < n - 1; i++) vp.emplace_back(ds[i], i);
@@ -135,9 +137,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

@@ -31,9 +31,11 @@ private:
         inputIndicesStack.push(highIndex);
 
         while (!inputIndicesStack.empty()) {
-            int highIndex = inputIndicesStack.top();            inputIndicesStack.pop();
+            int highIndex = inputIndicesStack.top();
+            inputIndicesStack.pop();
             int lowIndex = inputIndicesStack.top();
             inputIndicesStack.pop();
+
             int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
             if (lowIndex + 1 < partitionIndex) {
                 inputIndicesStack.push(lowIndex);

@@ -38,10 +38,12 @@ private:
         return getIndexOfNearestValueFromLowerIndex(value, lowIndex);
     }
 
-    Index getNearestLowerBoundIndex(Value const& value) const {        Index result(0);
+    Index getNearestLowerBoundIndex(Value const& value) const {
+        Index result(0);
         Index size(m_sortedValues.size());
         for (Index forwardSkip = size / 2; forwardSkip >= 1;
-             forwardSkip /=             2)  // forward skip start from half of size, then quarter of size, then eighth of size and so on
+             forwardSkip /=
+             2)  // forward skip start from half of size, then quarter of size, then eighth of size and so on
         {
             while (result + forwardSkip < size && m_sortedValues.at(result + forwardSkip) <= value) {
                 result += forwardSkip;
@@ -62,7 +64,9 @@ private:
         return std::min(lowIndex + 1, static_cast<Index>(m_sortedValues.size()) - 1);
     }
 
-    Values const& m_sortedValues;};
+    Values const& m_sortedValues;
+};
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -33,6 +33,7 @@ private:
     SimplexMatrix m_simplexTable;
     VariableNames m_inputVariables;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

@@ -248,10 +248,12 @@ Shell and scripting
 
 
 -> Loops
----> for i in $(seq 1 5); do echo hello; done-----> This reads: For i in list (1 to 5); 
+---> for i in $(seq 1 5); do echo hello; done
+-----> This reads: For i in list (1 to 5); 
 -----> Note: New lines are semicolon and semicolons are new lines (they are interchangable)
 -----> Note: Bash has no curly brackets, it usually instead have unique keyword for starting and ending a block ("do" and "done" in this case)
------> Note: The list is actually just space separated.-------> All the command "seq 1 5" does is to just print 1 to 5
+-----> Note: The list is actually just space separated.
+-------> All the command "seq 1 5" does is to just print 1 to 5
 -------> So this for command is just gonna assign i for every space separated value on the list.
 
 -> Program substitution
@@ -1432,10 +1434,12 @@ Program introspectation
 
 -> Debuggers
 
----> GDB (GNU debugger)-----> NOTE: GDB works for c-style languages (like C++, objective C, GO, Rust)
+---> GDB (GNU debugger)
+-----> NOTE: GDB works for c-style languages (like C++, objective C, GO, Rust)
 -----> NOTE: GDB will actually work on any executable binary but it needs debug symbols to be able to map it into source code 
 -----> Compile with -g flag to include debug symbols:
--------> gcc -g -o example example.c -----> Invoke gdb with the program:
+-------> gcc -g -o example example.c 
+-----> Invoke gdb with the program:
 -------> gdb example
 -----> Run the program (within gdb):
 -------> run
@@ -1516,10 +1520,12 @@ Program introspectation
 
 
 ---> RR (Debugger that lets you go back)
------> Has rstep and previous-----> Very useful when the issue is hard to reproduce and you need to know what happened before
+-----> Has rstep and previous
+-----> Very useful when the issue is hard to reproduce and you need to know what happened before
 
 ---> pdb (python debugger)
------> Insert this line in the code:-------> import pdb; pdb.set_trace()
+-----> Insert this line in the code:
+-------> import pdb; pdb.set_trace()
 -----> This opens a hybrid GDB like prompt and similar to a python shell
 -------> You can write python code in the prompt and it will execute as if its the next line to where its stopped.
 -----> ipdb also exists for interactive python

@@ -23,8 +23,10 @@ private:
     std::string const m_alphabet;
     algorithm::DirectedGraphWithListOfEdges<std::string> m_graph;
 };
+
 // An Eulerian path in this graph corresponds to a string that contains all strings of length n.
 // The string contains the characters of the starting node and all characters of the edges.
-// The starting node has n-1 characters and there are k^n characters in the edges, so the length of the string is k^n +// n - 1.
+// The starting node has n-1 characters and there are k^n characters in the edges, so the length of the string is k^n +
+// n - 1.
 
 }  // namespace alba

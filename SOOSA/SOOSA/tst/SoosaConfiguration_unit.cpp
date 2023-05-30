@@ -18,7 +18,8 @@ TEST(SoosaConfigurationTest, AParameterCanBeUpdated) {
     EXPECT_EQ(10, soosaConfiguration.getNumberOfChoices());
 }
 
-TEST(SoosaConfigurationTest, TwoParametersCanBeUpdated) {    SoosaConfiguration soosaConfiguration;
+TEST(SoosaConfigurationTest, TwoParametersCanBeUpdated) {
+    SoosaConfiguration soosaConfiguration;
 
     soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "10");
     soosaConfiguration.bufferNameAndValueString("m_acceptableLineDeviationForLineModelInPixels", "200");
@@ -28,7 +29,8 @@ TEST(SoosaConfigurationTest, TwoParametersCanBeUpdated) {    SoosaConfiguration 
     EXPECT_EQ(200, soosaConfiguration.getAcceptableLineDeviationForLineModelInPixels());
 }
 
-TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks) {    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\SoosaConfigurationForTest.txt)");
+TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks) {
+    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\SoosaConfigurationForTest.txt)");
     SoosaConfiguration soosaConfiguration;
 
     soosaConfiguration.loadConfigurationFromFile(fileForSoosa.getFullPath());
@@ -43,10 +45,12 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks) {    AlbaLocalPathH
     EXPECT_EQ(20, soosaConfiguration.getLineBarWidthSearchInitialBlackPointsValue());
     EXPECT_DOUBLE_EQ(0.80, soosaConfiguration.getLineBarWidthSearchAcceptedRunningBlackRatio());
     EXPECT_DOUBLE_EQ(0.40, soosaConfiguration.getAcceptableDistanceOverWidthRatioFromWidthMidpoint());
-    EXPECT_DOUBLE_EQ(4.00, soosaConfiguration.getAcceptableMinimumDistanceFromWidthMidpoint());    EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getAcceptableSdOverMeanDeviationForLine());
+    EXPECT_DOUBLE_EQ(4.00, soosaConfiguration.getAcceptableMinimumDistanceFromWidthMidpoint());
+    EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getAcceptableSdOverMeanDeviationForLine());
     EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBar());
     EXPECT_DOUBLE_EQ(0.05, soosaConfiguration.getRemovalRatioForLineAndBar());
-    EXPECT_DOUBLE_EQ(10.00, soosaConfiguration.getInitialValueForMaximumDistanceBetweenBarHeights());    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getMultiplierForMaximumDistanceBetweenBarHeights());
+    EXPECT_DOUBLE_EQ(10.00, soosaConfiguration.getInitialValueForMaximumDistanceBetweenBarHeights());
+    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getMultiplierForMaximumDistanceBetweenBarHeights());
     EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBarHeight());
     EXPECT_DOUBLE_EQ(0.02, soosaConfiguration.getRemovalRatioForBarHeight());
 
@@ -56,6 +60,7 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks) {    AlbaLocalPathH
     EXPECT_DOUBLE_EQ(0.75, soosaConfiguration.getBarHeightToDiameterMultiplier());
     EXPECT_DOUBLE_EQ(0.40, soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle());
 }
+
 }  // namespace soosa
 
 }  // namespace alba

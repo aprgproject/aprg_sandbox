@@ -12,9 +12,11 @@ public:
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
     static constexpr Count UNUSED_VALUE = std::numeric_limits<Count>::max();
+
     CountNumberOfBinaryStringsWithoutConsecutiveOnes(Count const length);
 
-    Count getCountUsingNaiveRecursion() const;    Count getCountUsingIterativeDP() const;
+    Count getCountUsingNaiveRecursion() const;
+    Count getCountUsingIterativeDP() const;
     Count getCountUsingIterativeDPAndSpaceEfficient() const;
     Count getCountUsingFibonacci() const;
 

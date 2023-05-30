@@ -28,7 +28,8 @@ int LabelForPoints::getLabel(BitmapXY const& point) const {
     int label(INITIAL_LABEL_VALUE);
     PixelsToLabelsMap::const_iterator it = m_pixelsTolabelsMap.find(point);
     if (it != m_pixelsTolabelsMap.cend()) {
-        label = it->second;    }
+        label = it->second;
+    }
     return label;
 }
 
@@ -37,4 +38,5 @@ LabelForPoints::PixelsToLabelsMap const& LabelForPoints::getPixelsToLabels() con
 void LabelForPoints::setLabel(BitmapXY const& point, int const label) { m_pixelsTolabelsMap[point] = label; }
 
 }  // namespace AprgBitmap
+
 }  // namespace alba

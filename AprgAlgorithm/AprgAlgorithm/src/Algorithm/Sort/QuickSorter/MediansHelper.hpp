@@ -94,9 +94,11 @@ int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int cons
 }
 
 }  // namespace algorithm
+
 }  // namespace alba
 
-// Quick selection in worst-case linear time// Source: http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap10.htm
+// Quick selection in worst-case linear time
+// Source: http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap10.htm
 
 // We now examine a selection algorithm whose running time is O(n) in the worst case.
 // Like RANDOMIZED-SELECT, the algorithm SELECT finds the desired element by recursively partitioning the input array.

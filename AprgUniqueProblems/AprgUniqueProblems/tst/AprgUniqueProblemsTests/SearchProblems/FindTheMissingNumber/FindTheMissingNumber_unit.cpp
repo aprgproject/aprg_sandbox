@@ -12,6 +12,7 @@ namespace {
 using ValuesForTest = vector<int>;
 using QueryForTest = FindTheMissingNumber<ValuesForTest>;
 }  // namespace
+
 TEST(FindTheMissingNumberTest, GetTheMissingNumberWorksOnEmpty) {
     ValuesForTest valuesForTest;
     QueryForTest query;
@@ -44,4 +45,5 @@ TEST(FindTheMissingNumberTest, GetTheMissingNumberWorksOnExample2) {
     EXPECT_EQ(5, query.getTheMissingNumberUsingXor(valuesForTest));
 }
 }  // namespace algorithm
+
 }  // namespace alba

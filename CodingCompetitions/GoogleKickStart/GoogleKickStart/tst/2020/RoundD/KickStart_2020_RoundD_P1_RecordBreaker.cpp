@@ -29,10 +29,12 @@ namespace KickStart_2020_RoundD_P1_RecordBreaker {
 void runTestCase(int const testCaseNumber) {
     int N;
     my_cin >> N;
-    vector<int> V(N);    for (int i = 0; i < N; i++) {
+    vector<int> V(N);
+    for (int i = 0; i < N; i++) {
         my_cin >> V[i];
     }
-    int cur_max = -1;    int answer = 0;
+    int cur_max = -1;
+    int answer = 0;
     for (int i = 0; i < N; i++) {
         answer += V[i] > cur_max && (i + 1 == N || V[i] > V[i + 1]);
         cur_max = max(cur_max, V[i]);
@@ -48,9 +50,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

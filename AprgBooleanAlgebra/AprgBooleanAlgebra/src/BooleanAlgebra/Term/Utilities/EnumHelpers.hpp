@@ -15,9 +15,11 @@ int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 int getTermTypePriorityValue(TermType const termType);
 
 OperatorLevel getDualOperatorLevel(OperatorLevel const operatorLevel);
+
 std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(OperatorType const operatorType);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
+
 }  // namespace booleanAlgebra
 
 }  // namespace alba

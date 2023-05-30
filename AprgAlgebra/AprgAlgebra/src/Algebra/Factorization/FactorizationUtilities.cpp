@@ -23,10 +23,12 @@ namespace Factorization {
 bool areExponentsDivisible(Monomial const& monomial, int const divisor) {
     bool result(true);
     for (auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference()) {
-        if (!variableExponentPair.second.isIntegerType() ||            !isDivisible<long long int>(getAbsoluteValue(variableExponentPair.second.getInteger()), divisor)) {
+        if (!variableExponentPair.second.isIntegerType() ||
+            !isDivisible<long long int>(getAbsoluteValue(variableExponentPair.second.getInteger()), divisor)) {
             result = false;
             break;
-        }    }
+        }
+    }
     return result;
 }
 
@@ -37,10 +39,12 @@ bool isPerfectCube(Monomial const& monomial) { return isPerfectNthPower(monomial
 bool isPerfectNthPower(Monomial const& monomial, int const nthPower) {
     AlbaNumber constant(monomial.getConstantConstReference());
     bool result(false);
-    if (constant.isIntegerType() && mathHelper::isPerfectNthPower(constant, nthPower)) {        result = areExponentsDivisible(monomial, nthPower);
+    if (constant.isIntegerType() && mathHelper::isPerfectNthPower(constant, nthPower)) {
+        result = areExponentsDivisible(monomial, nthPower);
     }
     return result;
 }
+
 bool doesNotNeedToBeFactorized(Polynomial const& polynomial) {
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     bool result(false);
@@ -78,10 +82,12 @@ bool IsEmptyOrContainConstantsOrOneNonConstant(Polynomials const& polynomials) {
     int nonConstantsCount = 0;
     for (Polynomial const& polynomial : polynomials) {
         if (!doesThePolynomialHaveOnlyOneConstant(polynomial)) {
-            nonConstantsCount++;            if (nonConstantsCount > 1) {
+            nonConstantsCount++;
+            if (nonConstantsCount > 1) {
                 result = false;
                 break;
-            }        }
+            }
+        }
     }
     return result;
 }

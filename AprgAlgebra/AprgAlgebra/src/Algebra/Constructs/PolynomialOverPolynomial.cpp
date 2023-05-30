@@ -94,9 +94,11 @@ void PolynomialOverPolynomial::convertFractionCoefficientsToInteger() {
     m_numerator.multiplyNumber(denominatorMultiplier);
     m_denominator.multiplyNumber(denominatorMultiplier);
 }
+
 void PolynomialOverPolynomial::convertNegativeExponentsToPositive() {
     Monomial monomialExponentNumerator(getMonomialWithMaxNegativeExponentsAndConvertItToPositive(m_numerator));
-    Monomial monomialExponentDenominator(getMonomialWithMaxNegativeExponentsAndConvertItToPositive(m_denominator));    m_numerator.multiplyMonomial(monomialExponentNumerator);
+    Monomial monomialExponentDenominator(getMonomialWithMaxNegativeExponentsAndConvertItToPositive(m_denominator));
+    m_numerator.multiplyMonomial(monomialExponentNumerator);
     m_numerator.multiplyMonomial(monomialExponentDenominator);
     m_denominator.multiplyMonomial(monomialExponentNumerator);
     m_denominator.multiplyMonomial(monomialExponentDenominator);
@@ -149,10 +151,12 @@ int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const&
             lcm = getLeastCommonMultiple(lcm, static_cast<int>(fractionData.denominator));
         }
     }
-    return lcm;}
+    return lcm;
+}
 
 Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvertItToPositive(
-    Polynomial const& polynomial) {    Monomial resultMonomial(1, {});
+    Polynomial const& polynomial) {
+    Monomial resultMonomial(1, {});
     Monomial::VariablesToExponentsMap const& resultVariableMap(
         resultMonomial.getVariablesToExponentsMapConstReference());
     for (Monomial const& monomial : polynomial.getMonomialsConstReference()) {

@@ -45,4 +45,5 @@ SchedulingEvents::EventNames SchedulingEvents::getAsMuchEventsAsPossible() const
 void SchedulingEvents::addEvent(string const& eventName, int const startTime, int const endTime) {
     m_events.emplace_back(Event{eventName, startTime, endTime});
 }
+
 }  // namespace alba

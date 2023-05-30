@@ -30,10 +30,12 @@ namespace KickStart_2019_PracticeRound_P2_Mural {
 void runTestCase(int const testCaseNumber) {
     int numberOfSections;
     my_cin >> numberOfSections;
-    string scoresString;    my_cin >> scoresString;
+    string scoresString;
+    my_cin >> scoresString;
 
     vector<int> scores(numberOfSections, 0);
-    for (int i = 0; i < min(numberOfSections, static_cast<int>(scoresString.length())); i++) {        scores[i] = scoresString[i] - '0';
+    for (int i = 0; i < min(numberOfSections, static_cast<int>(scoresString.length())); i++) {
+        scores[i] = scoresString[i] - '0';
     }
 
     int subarraySize = (numberOfSections + 1) / 2;
@@ -57,10 +59,12 @@ Implementation of top scorer:
 void runTestCase(int const testCaseNumber)
 {
     int N;
-    my_cin >> N;    string s;
+    my_cin >> N;
+    string s;
     my_cin >> s;
     vector<int> b(N+1, 0);
-    for(int i = 0; i < N; ++i) b[i+1] = b[i] + s[i] - '0';    int l = (N+1)/2, ret = 0;
+    for(int i = 0; i < N; ++i) b[i+1] = b[i] + s[i] - '0';
+    int l = (N+1)/2, ret = 0;
     for(int i = 0; i+l-1 < N; ++i){
       ret = max(ret,b[i+l]-b[i]);
     }
@@ -74,9 +78,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

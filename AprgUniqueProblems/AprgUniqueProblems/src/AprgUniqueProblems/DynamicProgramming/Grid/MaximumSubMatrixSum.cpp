@@ -26,9 +26,11 @@ MaximumSubMatrixSum::Value MaximumSubMatrixSum::getMaximumSubMatrixSum() const {
                 // add next column
                 accumulatedColumn[rowIndex] += m_valueMatrix.getEntry(right, rowIndex);
             }
-        }    }
+        }
+    }
     return result;
 }
+
 MaximumSubMatrixSum::SubArrayDetails MaximumSubMatrixSum::getMaximumSubMatrixSumWithDetails() const {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n)
@@ -40,10 +42,12 @@ MaximumSubMatrixSum::SubArrayDetails MaximumSubMatrixSum::getMaximumSubMatrixSum
         for (Index right = left + 1; right < static_cast<Index>(m_valueMatrix.getNumberOfColumns()); right++) {
             MaximumSubArraySum maximumSubArraySum(accumulatedColumn);
 
-            auto columnSumDetails(maximumSubArraySum.getMaximumSubArraySumWithDetails());  // linear            if (result.sum < columnSumDetails.sum) {
+            auto columnSumDetails(maximumSubArraySum.getMaximumSubArraySumWithDetails());  // linear
+            if (result.sum < columnSumDetails.sum) {
                 result.sum = columnSumDetails.sum;
                 result.left = left;
-                result.right = right;                result.up = columnSumDetails.lowIndex;
+                result.right = right;
+                result.up = columnSumDetails.lowIndex;
                 result.down = columnSumDetails.highIndex;
             }
 
@@ -51,7 +55,9 @@ MaximumSubMatrixSum::SubArrayDetails MaximumSubMatrixSum::getMaximumSubMatrixSum
                 // add next column
                 accumulatedColumn[rowIndex] += m_valueMatrix.getEntry(right, rowIndex);
             }
-        }    }
+        }
+    }
     return result;
 }
+
 }  // namespace alba

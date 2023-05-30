@@ -29,7 +29,9 @@ private:
     int m_numberOfIterationsExecuted;
     AlbaNumber m_currentValue;
     AlbaNumber m_positiveDeltaForSlope;
-    Function m_functionToIterate;};
+    Function m_functionToIterate;
+};
 
 }  // namespace algebra
+
 }  // namespace alba

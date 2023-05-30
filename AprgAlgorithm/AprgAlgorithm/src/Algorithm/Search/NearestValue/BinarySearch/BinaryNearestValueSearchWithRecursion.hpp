@@ -67,7 +67,9 @@ private:
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
 
-    Values const& m_sortedValues;};
+    Values const& m_sortedValues;
+};
 
 }  // namespace algorithm
+
 }  // namespace alba

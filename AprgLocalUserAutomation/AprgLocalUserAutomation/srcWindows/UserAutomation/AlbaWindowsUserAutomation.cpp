@@ -135,7 +135,8 @@ void AlbaWindowsUserAutomation::doRightClickAt(MousePosition const& position) co
 void AlbaWindowsUserAutomation::pressKey(uint16_t const key) const {
     doOperation([&](INPUT& input) {
         input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;        input.ki.time = 0;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
         input.ki.wVk = (WORD)key;
         input.ki.dwFlags = 0;
@@ -145,7 +146,8 @@ void AlbaWindowsUserAutomation::pressKey(uint16_t const key) const {
 void AlbaWindowsUserAutomation::releaseKey(uint16_t const key) const {
     doOperation([&](INPUT& input) {
         input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;        input.ki.time = 0;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
         input.ki.wVk = (WORD)key;
         input.ki.dwFlags = KEYEVENTF_KEYUP;
@@ -155,10 +157,12 @@ void AlbaWindowsUserAutomation::releaseKey(uint16_t const key) const {
 void AlbaWindowsUserAutomation::typeKey(uint16_t const key) const {
     doOperationWithRealisticDelay([&](INPUT& input) {
         input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;        input.ki.time = 0;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
         input.ki.wVk = (WORD)key;
-        input.ki.dwFlags = 0;    });
+        input.ki.dwFlags = 0;
+    });
     doOperationWithRealisticDelay([&](INPUT& input) {
         input.type = INPUT_KEYBOARD;
         input.ki.wScan = 0;
@@ -197,9 +201,11 @@ void AlbaWindowsUserAutomation::typeString(string const& stringToType) const {
 void AlbaWindowsUserAutomation::typeControlAndLetterSimultaneously(uint16_t const letter) const {
     pressKey(VK_CONTROL);
     pressKey(letter);
-    sleepWithRealisticDelay();    releaseKey(letter);
+    sleepWithRealisticDelay();
+    releaseKey(letter);
     releaseKey(VK_CONTROL);
 }
+
 string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const {
     int const LENGTH = 1000;
     char className[LENGTH];
@@ -230,10 +236,12 @@ void AlbaWindowsUserAutomation::sleepWithRealisticDelay() const { Sleep(REALISTI
 void AlbaWindowsUserAutomation::sleep(int const milliseconds) const { Sleep(milliseconds); }
 
 void AlbaWindowsUserAutomation::saveBitmapOnScreen(string const& filePath) const {
-    typeKey(VK_SNAPSHOT);    saveBitmapFromClipboard(filePath);
+    typeKey(VK_SNAPSHOT);
+    saveBitmapFromClipboard(filePath);
 }
 
-string AlbaWindowsUserAutomation::getStringFromClipboard() const {    string stringInClipboard;
+string AlbaWindowsUserAutomation::getStringFromClipboard() const {
+    string stringInClipboard;
     if (OpenClipboard(NULL)) {
         HANDLE clipboardData = GetClipboardData(CF_TEXT);
         stringInClipboard = (char*)clipboardData;
@@ -297,10 +305,12 @@ void AlbaWindowsUserAutomation::saveBitmapFromClipboard(string const& filePath) 
 uint16_t AlbaWindowsUserAutomation::convertToVirtualKey(char const character) const {
     int virtualKey = character;
     if (stringHelper::isLetter(character)) {
-        virtualKey = ::toupper(character);    } else if ('.' == character) {
+        virtualKey = ::toupper(character);
+    } else if ('.' == character) {
         virtualKey = VK_OEM_PERIOD;
     }
-    return virtualKey;}
+    return virtualKey;
+}
 
 void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const windowHandle) const {
     bool isSuccessful(false);

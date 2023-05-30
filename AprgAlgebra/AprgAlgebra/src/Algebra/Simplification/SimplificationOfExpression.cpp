@@ -301,10 +301,12 @@ bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndRet
         int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
         if (expression.getCommonOperatorLevel() != newExpression.getCommonOperatorLevel() ||
             oldNumberOfTerms != newNumberOfTerms) {
-            m_expression = newExpression;            continueToTryToSubstitute = true;
+            m_expression = newExpression;
+            continueToTryToSubstitute = true;
             break;
         }
-    }    return continueToTryToSubstitute;
+    }
+    return continueToTryToSubstitute;
 }
 
 Expression SimplificationOfExpression::getNewExpressionWithSubstitutedVariableForTerm(

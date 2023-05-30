@@ -113,10 +113,12 @@ PathSumInGridInRightOrDownWithDiagonalTraversal::getPartialSumGridUsingIterative
         for (Index y = 1; y < static_cast<Index>(result.getNumberOfRows()); y++) {
             // diagonal is included
             result.getEntryReference(x, y) += m_minMaxFunction(
-                m_minMaxFunction(result.getEntry(x - 1, y), result.getEntry(x, y - 1)), result.getEntry(x - 1, y - 1));        }
+                m_minMaxFunction(result.getEntry(x - 1, y), result.getEntry(x, y - 1)), result.getEntry(x - 1, y - 1));
+        }
     }
     return result;
 }
+
 PathSumInGridInRightOrDownWithDiagonalTraversal::Value
 PathSumInGridInRightOrDownWithDiagonalTraversal::getBestPathSumUsingMemoizationDP(
     Grid& partialSumGrid, Index const x, Index const y) const {

@@ -16,20 +16,24 @@ public:
         int const) const  // Make sure that this doesn't break interface segregation principle. (Make sure the
                                    // method/function makes sense.)
     {
-        return nullptr;    }
+        return nullptr;
+    }
 
     virtual void add(std::unique_ptr<Component>)  // Make sure that this doesn't break interface segregation principle.
-                                                  // (Make sure the method/function makes sense.)    {
+                                                  // (Make sure the method/function makes sense.)
+    {
         //...
     }
 
     virtual void removeAtIndex(int const)  // Make sure that this doesn't break interface segregation
                                                     // principle. (Make sure the method/function makes sense.)
     {
-        //...    }
+        //...
+    }
 
     virtual void operation() = 0;
 };
+
 // Composite
 // defines behavior of the components having children
 // and store child components
@@ -43,9 +47,11 @@ public:
     void removeAtIndex(int const index) override { m_children.erase(m_children.begin() + index); }
 
     void operation() override {
-        for (auto& child : m_children) {            child->operation();
+        for (auto& child : m_children) {
+            child->operation();
         }
     }
+
 private:
     std::vector<std::unique_ptr<Component>> m_children;
 };
@@ -65,9 +71,11 @@ private:
 };
 
 }  // namespace Composite
+
 // Composite discussion:
 
-// ONE LINE NOTE:// -> Provide an object that CAN be an "individual object" or a "composite object", and they are treated UNIFORMLY
+// ONE LINE NOTE:
+// -> Provide an object that CAN be an "individual object" or a "composite object", and they are treated UNIFORMLY
 
 // Intent:
 // Compose objects into tree structures to represent part-whole hierarchies.

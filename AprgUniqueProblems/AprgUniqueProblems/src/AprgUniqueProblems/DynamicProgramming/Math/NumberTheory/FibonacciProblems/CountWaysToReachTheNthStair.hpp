@@ -12,9 +12,11 @@ public:
     using Counts = std::vector<Count>;
     using CountMatrix = matrix::AlbaMatrix<Count>;
     static constexpr Count UNUSED_VALUE = std::numeric_limits<Count>::max();
+
     CountWaysToReachTheNthStair(Count const numberOfStairs);
 
     Count getCountUsingFibonacci() const;
+
     Count const m_numberOfStairs;
 };
 

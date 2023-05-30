@@ -14,7 +14,8 @@ namespace alba {
 template <int DIMENSIONS>
 class DataSample {
 public:
-    using Sample = DataSample<DIMENSIONS>;    using BufferType = std::array<double, DIMENSIONS>;
+    using Sample = DataSample<DIMENSIONS>;
+    using BufferType = std::array<double, DIMENSIONS>;
 
     DataSample() { std::fill(m_data.begin(), m_data.end(), 0); }
 
@@ -30,7 +31,8 @@ public:
     double getValueAt(int index) const {
         double result(0);
         if (isIndexValid(index)) {
-            result = m_data[index];        }
+            result = m_data[index];
+        }
         return result;
     }
 
@@ -45,10 +47,12 @@ public:
     void setValueAt(int index, double const dataSampleValue) {
         if (isIndexValid(index)) {
             m_data[index] = dataSampleValue;
-        }    }
+        }
+    }
 
     bool operator==(Sample const& value) const {
-        return std::equal(m_data.cbegin(), m_data.cend(), value.m_data.cbegin());    }
+        return std::equal(m_data.cbegin(), m_data.cend(), value.m_data.cbegin());
+    }
 
     bool operator!=(Sample const& value) const { return !(*this == value); }
 

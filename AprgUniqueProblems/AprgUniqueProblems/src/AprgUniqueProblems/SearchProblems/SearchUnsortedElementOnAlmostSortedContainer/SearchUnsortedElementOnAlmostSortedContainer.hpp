@@ -12,6 +12,7 @@ public:
     using Index = int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
+
     SearchUnsortedElementOnAlmostSortedContainer(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
     Index getIndexOfValue(Value const& value) const {
@@ -28,10 +29,12 @@ public:
             higherIndex < static_cast<Index>(m_sortedValues.size()) && lowerIndex <= higherIndex) {
             result = getIndexOfValueWithoutCheck(lowerIndex, higherIndex, value);
         }
-        return result;    }
+        return result;
+    }
 
 private:
-    Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const {        Index result(INVALID_INDEX);
+    Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const {
+        Index result(INVALID_INDEX);
         if (lowerIndex <= higherIndex) {
             Index middleIndex = (lowerIndex + higherIndex) / 2;
             Value middleValue(m_sortedValues.at(middleIndex));
@@ -47,10 +50,12 @@ private:
                 result = getIndexOfValueWithoutCheck(middleIndex + 2, higherIndex, value);
             }
         }
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

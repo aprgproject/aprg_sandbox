@@ -23,9 +23,11 @@ TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks) {
     EXPECT_EQ(Term(false), substitution3.getTermForTerm("x"));
     EXPECT_EQ(Term(true), substitution3.getTermForTerm("y"));
 }
+
 TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks) {
     SubstitutionOfTermsToTerms substitution1;
     SubstitutionOfTermsToTerms substitution2({{"x", false}, {"y", true}});
+
     EXPECT_TRUE(substitution1.isEmpty());
     EXPECT_FALSE(substitution2.isEmpty());
 }
@@ -47,10 +49,12 @@ TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks) {
     EXPECT_EQ(2, substitution2.getSize());
 }
 
-TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks) {    SubstitutionOfTermsToTerms substitution({{"x", false}, {"y", true}});
+TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks) {
+    SubstitutionOfTermsToTerms substitution({{"x", false}, {"y", true}});
 
     EXPECT_EQ(Term(false), substitution.getTermForTerm("x"));
-    EXPECT_EQ(Term(true), substitution.getTermForTerm("y"));    EXPECT_EQ(Term(), substitution.getTermForTerm("a"));
+    EXPECT_EQ(Term(true), substitution.getTermForTerm("y"));
+    EXPECT_EQ(Term(), substitution.getTermForTerm("a"));
     EXPECT_EQ(Term(), substitution.getTermForTerm("b"));
 }
 

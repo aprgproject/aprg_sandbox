@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 graph_dimensions = (7, 7,)  # in inches
 fig = plt.figure(figsize=graph_dimensions)
 ax = plt.axes(projection='3d')
+
 # Three-dimensional Points and Lines
 # # Data for a three-dimensional line
 # zline = np.linspace(0, 15, 1000)
@@ -15,7 +16,8 @@ ax = plt.axes(projection='3d')
 #
 # # Data for three-dimensional scattered points
 # zdata = 15 * np.random.random(100)
-# xdata = np.sin(zdata) + 0.1 * np.random.randn(100)# ydata = np.cos(zdata) + 0.1 * np.random.randn(100)
+# xdata = np.sin(zdata) + 0.1 * np.random.randn(100)
+# ydata = np.cos(zdata) + 0.1 * np.random.randn(100)
 # ax.scatter3D(xdata, ydata, zdata, c=zdata, cmap='Greens');
 
 # Three-dimensional Contour Plots
@@ -27,6 +29,7 @@ def f(x, y):
 
 x = np.linspace(-6, 6, 30)
 y = np.linspace(-6, 6, 30)
+
 X, Y = np.meshgrid(x, y)
 Z = f(X, Y)
 

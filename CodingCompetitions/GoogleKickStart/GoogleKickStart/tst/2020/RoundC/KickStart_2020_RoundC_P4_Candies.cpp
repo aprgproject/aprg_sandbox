@@ -55,10 +55,12 @@ void app(int i, ll x) {
 void runTestCase(int const testCaseNumber) {
     my_cin >> n >> q;
     for (int i = 0; i < n; ++i) {
-        ll a;        my_cin >> a;
+        ll a;
+        my_cin >> a;
         app(i, a);
     }
-    ll ans = 0;    while (q--) {
+    ll ans = 0;
+    while (q--) {
         char qt;
         my_cin >> qt;
         if (qt == 'Q') {
@@ -84,9 +86,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

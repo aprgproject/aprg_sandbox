@@ -39,6 +39,7 @@ private:
         }
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

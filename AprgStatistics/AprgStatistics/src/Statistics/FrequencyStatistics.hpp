@@ -13,7 +13,9 @@ using MultipleValues = std::vector<int>;
 int calculateNumberOfSamples(FrequencySamples const& samples);
 double calculateSum(FrequencySamples const& samples);
 double calculateMean(FrequencySamples const& samples);
-double calculateMedian(FrequencySamples const& samples);MultipleValues calculateMode(FrequencySamples const& samples);
+double calculateMedian(FrequencySamples const& samples);
+MultipleValues calculateMode(FrequencySamples const& samples);
 
 }  // namespace FrequencyStatistics
+
 }  // namespace alba

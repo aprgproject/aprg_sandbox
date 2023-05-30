@@ -62,10 +62,12 @@ Equation DifferentiationForFiniteCalculus::differentiateMultipleTimes(
     for (int i = 0; i < numberOfTimes; i++) {
         currentResult = differentiate(currentResult);
     }
-    return currentResult;}
+    return currentResult;
+}
 
 Term DifferentiationForFiniteCalculus::differentiateTerm(Term const& term) const {
-    Term result;    if (term.isConstant()) {
+    Term result;
+    if (term.isConstant()) {
         result = differentiate(term.getConstantConstReference());
     } else if (term.isVariable()) {
         result = differentiate(term.getVariableConstReference());

@@ -34,10 +34,12 @@ Equations SimplexSolver::getSolutionEquations() const {
         for (int x = 0; x < static_cast<int>(m_inputVariables.size()); x++) {
             AlbaNumber coefficient(m_simplexTable.getEntry(x, y));
             if (coefficient != 0) {
-                solutionPolynomial.addMonomial(Monomial(coefficient, {{m_inputVariables.at(x), 1}}));            }
+                solutionPolynomial.addMonomial(Monomial(coefficient, {{m_inputVariables.at(x), 1}}));
+            }
         }
         if (!solutionPolynomial
-                 .isEmpty())  // only consider solutions with input coefficients (dont consider slack variables)        {
+                 .isEmpty())  // only consider solutions with input coefficients (dont consider slack variables)
+        {
             solutionPolynomial.addMonomial(Monomial(m_simplexTable.getEntry(lastX, y) * -1, {}));  // put constant
             Equation solutionEquation(solutionPolynomial, "=", 0);
             solutionEquation.simplify();
@@ -54,9 +56,11 @@ void SimplexSolver::intialize(Equations const& constraints, Polynomial const& ob
         set<int> indicesWithSlackVariables;
         processConstraints(constraints, constraintsInStandardForm, inputVariablesRetriever, indicesWithSlackVariables);
         VariableNamesSet const& inputVariableNames(inputVariablesRetriever.getSavedData());
+
         saveInputVariables(inputVariableNames);
 
-        initializeSimplexTable(            objectiveFunction, constraintsInStandardForm, inputVariableNames, indicesWithSlackVariables);
+        initializeSimplexTable(
+            objectiveFunction, constraintsInStandardForm, inputVariableNames, indicesWithSlackVariables);
     }
 }
 
@@ -68,10 +72,12 @@ void SimplexSolver::processConstraints(
     int index(0);
     for (Equation const& constraint : constraints) {
         Equation simplifiedEquation(constraint);
-        simplifiedEquation.simplify();        Term const& leftHandTerm(simplifiedEquation.getLeftHandTerm());
+        simplifiedEquation.simplify();
+        Term const& leftHandTerm(simplifiedEquation.getLeftHandTerm());
         if (canBeConvertedToPolynomial(leftHandTerm)) {
             Polynomial constraint(createPolynomialIfPossible(leftHandTerm));
-            inputVariablesRetriever.retrieveFromPolynomial(constraint);            if (isPolynomialLinear(constraint)) {
+            inputVariablesRetriever.retrieveFromPolynomial(constraint);
+            if (isPolynomialLinear(constraint)) {
                 EquationOperator const& equationOperator(simplifiedEquation.getEquationOperator());
                 bool shouldIncludeConstraint(false);
                 if (equationOperator.isEqual()) {
@@ -115,10 +121,12 @@ void SimplexSolver::initializeSimplexTable(
     for (int y = 0; y < static_cast<int>(constraintsInStandardForm.size()); y++) {
         Polynomial const& standardFormConstraint(constraintsInStandardForm.at(y));
         for (Monomial const& monomial : standardFormConstraint.getMonomialsConstReference()) {
-            string variableName(getFirstVariableName(monomial));            if (variableName.empty()) {
+            string variableName(getFirstVariableName(monomial));
+            if (variableName.empty()) {
                 m_simplexTable.setEntry(lastX, y, monomial.getConstantConstReference() * -1);  // put constant
             } else {
-                m_simplexTable.setEntry(                    variableNameToIndexMap.at(variableName), y,
+                m_simplexTable.setEntry(
+                    variableNameToIndexMap.at(variableName), y,
                     monomial.getConstantConstReference());  // put variable coefficient
             }
         }
@@ -130,10 +138,12 @@ void SimplexSolver::initializeSimplexTable(
     int lastY(m_simplexTable.getNumberOfRows() - 1);
     for (Monomial const& monomial : objectiveFunction.getMonomialsConstReference()) {
         string variableName(getFirstVariableName(monomial));
-        if (variableName.empty()) {            m_simplexTable.setEntry(
+        if (variableName.empty()) {
+            m_simplexTable.setEntry(
                 lastX, lastY, monomial.getConstantConstReference() * -1);  // put objective function constant
         } else {
-            auto it = variableNameToIndexMap.find(variableName);            if (it != variableNameToIndexMap.cend()) {
+            auto it = variableNameToIndexMap.find(variableName);
+            if (it != variableNameToIndexMap.cend()) {
                 m_simplexTable.setEntry(
                     it->second, lastY,
                     monomial.getConstantConstReference());  // put objective function variable coefficient

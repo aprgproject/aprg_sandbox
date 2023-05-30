@@ -34,4 +34,5 @@ private:
     int m_numberOfCompletePaths;
     Grid m_grid;
 };
+
 }  // namespace alba

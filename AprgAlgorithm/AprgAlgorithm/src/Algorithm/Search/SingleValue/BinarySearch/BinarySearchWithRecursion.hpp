@@ -47,10 +47,12 @@ private:
                 result = middleIndex;
             }
         }
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

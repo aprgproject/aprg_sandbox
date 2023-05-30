@@ -33,10 +33,12 @@ vector<long double> logFact(int(3.1e5));
 void runTestCase(int const testCaseNumber) {
     int X, Y;
     my_cin >> X >> Y;
-    int Xlo, Xhi, Ylo, Yhi;    my_cin >> Xlo >> Ylo >> Xhi >> Yhi;
+    int Xlo, Xhi, Ylo, Yhi;
+    my_cin >> Xlo >> Ylo >> Xhi >> Yhi;
 
     auto probPath = [&](int r, int c) -> long double {
-        return exp(logFact[r + c] - logFact[r] - logFact[c] - (r + c) * log(2.L));    };
+        return exp(logFact[r + c] - logFact[r] - logFact[c] - (r + c) * log(2.L));
+    };
     // we'll just casework on the first entry
     vector<long double> sumAnds;
     if (Ylo > 1) {
@@ -79,9 +81,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

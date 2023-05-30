@@ -58,6 +58,7 @@ string getLagrangeMultiplierName(int const index) {
     static StringConverterWithFormatting converter(3, '0');
     return "multiplier" + converter.convertToString(index);
 }
+
 }  // namespace algebra
 
 }  // namespace alba

@@ -18,9 +18,11 @@ public:
     using Value = typename Values::value_type;
 
     FindTheMissingNumber() = default;
+
     Value getTheMissingNumberUsingSum(Values const& values)  // values can be unsorted because of xor
     {
         static_assert(typeHelper::isIntegralType<Value>(), "Value needs to be an integer.");
+
         // There is only one loop here.
         Value totalCountOfNumbers(values.size() + 1);
         Value actualSum = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(0), std::plus<Value>());

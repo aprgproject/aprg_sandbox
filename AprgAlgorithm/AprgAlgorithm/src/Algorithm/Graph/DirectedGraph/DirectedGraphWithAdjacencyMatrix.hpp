@@ -31,10 +31,12 @@ public:
         Vertex numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex possibleAdjacentVertex = 0; possibleAdjacentVertex < numberOfRows; possibleAdjacentVertex++) {
             if (isDirectlyConnected(vertex, possibleAdjacentVertex)) {
-                result.emplace_back(possibleAdjacentVertex);            }
+                result.emplace_back(possibleAdjacentVertex);
+            }
         }
         return result;
     }
+
     Vertices getVertices() const override {
         std::array<bool, MAX_VERTEX_VALUE> isVertexIncluded{};
 
@@ -42,10 +44,12 @@ public:
         Vertex numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex vertex1 = 0; vertex1 < numberOfColumns; vertex1++) {
             for (Vertex vertex2 = 0; vertex2 < numberOfRows; vertex2++) {
-                if (isDirectlyConnected(vertex1, vertex2)) {                    isVertexIncluded[vertex1] = true;
+                if (isDirectlyConnected(vertex1, vertex2)) {
+                    isVertexIncluded[vertex1] = true;
                     isVertexIncluded[vertex2] = true;
                 }
-            }        }
+            }
+        }
 
         Vertices result;
         for (Vertex vertex = 0; vertex < MAX_VERTEX_VALUE; vertex++) {
@@ -62,10 +66,12 @@ public:
         Vertex numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex vertex1 = 0; vertex1 < numberOfColumns; vertex1++) {
             for (Vertex vertex2 = 0; vertex2 < numberOfRows; vertex2++) {
-                if (isDirectlyConnected(vertex1, vertex2)) {                    result.emplace_back(vertex1, vertex2);
+                if (isDirectlyConnected(vertex1, vertex2)) {
+                    result.emplace_back(vertex1, vertex2);
                 }
             }
-        }        return result;
+        }
+        return result;
     }
 
     AdjacencyMatrix const& getAdjacencyMatrix() const { return m_adjacencyMatrix; }

@@ -42,9 +42,11 @@ private:
         Term& base, Expression const& expressionBase, int const exponent);
     void simplifyConstantRaiseToMultiplicationAndDivisionExpression(
         Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm);
+
     void initializeUsingTermsInRaiseToPowerExpression(TermsWithDetails const& termsInRaiseToPowerExpression);
     void initializeExponentsInTerms(Terms const& exponents);
     Term getCombinedBaseAndExponents() const;
+
     Term m_base;
     TermsWithDetails m_exponents;
     bool m_shouldSimplifyToFactors;

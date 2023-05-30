@@ -49,9 +49,11 @@ public:
     using Index = int;
     using Value = typename Values::value_type;
     using BlockValue = typename BlockValues::value_type;
-    using Output = BlockValue;    using ValuesFunction = std::function<BlockValue(typename Values::const_iterator, typename Values::const_iterator)>;
+    using Output = BlockValue;
+    using ValuesFunction = std::function<BlockValue(typename Values::const_iterator, typename Values::const_iterator)>;
     using BlockValuesFunction =
         std::function<BlockValue(typename BlockValues::const_iterator, typename BlockValues::const_iterator)>;
+
     RangeQueryWithBlocks(
         Values const& valuesToCheck, Index const suggestedNumberOfBlocks, ValuesFunction const& valuesFunction,
         BlockValuesFunction const& blockValuesFunction)
@@ -59,10 +61,12 @@ public:
           m_blockSize(0),
           m_blocks(),
           m_valuesFunction(valuesFunction),
-          m_blockValuesFunction(blockValuesFunction) {        initialize(valuesToCheck, suggestedNumberOfBlocks);
+          m_blockValuesFunction(blockValuesFunction) {
+        initialize(valuesToCheck, suggestedNumberOfBlocks);
     }
 
     Index getBlockSize() const { return m_blockSize; }
+
     BlockValues const& getBlocks() const { return m_blocks; }
 
     Output getResultOnInterval(Index const start, Index const end) const {
@@ -109,6 +113,7 @@ public:
             m_blocks[start / m_blockSize] = m_valuesFunction(m_values.cbegin() + start, m_values.cbegin() + end);
         }
     }
+
 protected:
     void initialize(Values const& valuesToCheck, Index const suggestedNumberOfBlocks) {
         if (!valuesToCheck.empty()) {
@@ -120,10 +125,12 @@ protected:
                 Index end = std::min(start + m_blockSize, static_cast<int>(m_values.size()));
                 m_blocks.emplace_back(m_valuesFunction(m_values.cbegin() + start, m_values.cbegin() + end));
             }
-            m_blocks.shrink_to_fit();        }
+            m_blocks.shrink_to_fit();
+        }
     }
 
-    Index getMultipleThatIsGreaterOrEqual(Index const multiple, Index const number) const {        Index result(0);
+    Index getMultipleThatIsGreaterOrEqual(Index const multiple, Index const number) const {
+        Index result(0);
         if (multiple > 0 && number > 0) {
             result = ((number - 1) / multiple + 1) * multiple;
         }
@@ -159,10 +166,12 @@ RangeQuery::ValuesFunction xorARangeOfValues = [](Values::const_iterator itStart
 void runTestCase(int const testCaseNumber) {
     int numberOfValues, numberOfModifications;
     my_cin >> numberOfValues >> numberOfModifications;
-    Values values(numberOfValues);    Modifications modifications(numberOfModifications);
+    Values values(numberOfValues);
+    Modifications modifications(numberOfModifications);
 
     for (int i = 0; i < numberOfValues; i++) {
-        my_cin >> values[i];    }
+        my_cin >> values[i];
+    }
     for (int i = 0; i < numberOfModifications; i++) {
         my_cin >> modifications[i].first >> modifications[i].second;
     }
@@ -194,9 +203,11 @@ void runAllTestCases() {
         runTestCase(testCaseNumber);
     }
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     my_cin.tie(nullptr);
+
     runAllTestCases();
 
     return 0;

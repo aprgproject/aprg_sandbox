@@ -53,7 +53,8 @@ int partitionAndGetPartitionIndex(Values& values, int const lowIndex, int const 
         while (pivotValue < values.at(--indexWithLesserValue) && indexWithLesserValue > lowIndex)
             ;
 
-        // stop if the indexWithGreaterValue and indexWithLesserValue meet        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
+        // stop if the indexWithGreaterValue and indexWithLesserValue meet
+        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
         if (indexWithGreaterValue < indexWithLesserValue) {
             std::swap(values[indexWithGreaterValue], values[indexWithLesserValue]);
         } else {
@@ -103,7 +104,8 @@ typename Values::iterator partitionAndGetPartitionIteratorInTwoDirections(
         while (pivotValue < *--itWithLesserValue && itWithLesserValue != itLow)
             ;
         // check two positions because the iterators moves by two (one move back, one move forward)
-        if (itWithGreaterValue != itWithLesserValue && itWithGreaterValue != std::next(itWithLesserValue)) {            std::swap(*itWithGreaterValue, *itWithLesserValue);
+        if (itWithGreaterValue != itWithLesserValue && itWithGreaterValue != std::next(itWithLesserValue)) {
+            std::swap(*itWithGreaterValue, *itWithLesserValue);
         } else {
             break;
         }
@@ -129,9 +131,11 @@ typename Values::iterator partitionAndGetPartitionIteratorInOneDirection(
     std::swap(*itLow, *partitionIt);  // put pivotValue at partition iterator
     return partitionIt;
 }
+
 }  // namespace algorithm
 
 }  // namespace alba
+
 // A improvement idea is to randomly pick a pivot element.
 // To implement randomized partition, we use a random function, rand() to generate index between l and r,
 // swap the element at randomly generated index with the last element,
