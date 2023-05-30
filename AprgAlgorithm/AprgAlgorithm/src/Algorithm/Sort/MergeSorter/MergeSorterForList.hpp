@@ -17,40 +17,57 @@ public:
 
     MergeSorterForList() = default;
 
-    void sort(Values& valuesToSort) const override { valuesToSort = getSortedValues(valuesToSort); }
+    void sort(Values& valuesToSort) const override { sortFromTheTopDown(valuesToSort); }
 
 private:
-    Values getSortedValues(Values const& unsortedValues) const {
-        ConstIterator middle = getMiddleIterator(unsortedValues);
-        if (middle == unsortedValues.cend()) {
-            return unsortedValues;
-        } else {
+    void sortFromTheTopDown(Values& values) const {
+        // list contains one or empty stop
+        if (values.begin() != values.cend() && std::next(values.begin()) != values.cend()) {
             // Split to two parts
-            // THIS IS COSTLY, in a more controllable link list we can split it more easily
-            Values firstPart, secondPart;
-            std::copy(unsortedValues.cbegin(), middle, std::back_inserter(firstPart));
-            std::copy(middle, unsortedValues.cend(), std::back_inserter(secondPart));
+            Values& firstPart(values);
+            Values secondPart;
+            ConstIterator middle = getMiddleIterator(values);
+
+            secondPart.splice(secondPart.cbegin(), firstPart, middle, firstPart.cend());
 
             // this is top down merge sort
-            return mergeTwoRanges(getSortedValues(firstPart), getSortedValues(secondPart));
+            sortFromTheTopDown(firstPart);
+            sortFromTheTopDown(secondPart);
+            mergeTwoRanges(values, firstPart, secondPart);
         }
     }
-
     ConstIterator getMiddleIterator(Values const& values) const {
         int halfSize = (values.size() + 1) / 2;
-        auto middle = values.cbegin();
-        for (int count = 0; count < halfSize && middle != values.cend(); middle++, count++)
+        auto middle = values.cbegin();        for (int count = 0; count < halfSize && middle != values.cend(); middle++, count++)
             ;
         return middle;
     }
 
+    void mergeTwoRanges(Values& result, Values& firstPart, Values& secondPart) const {
+        // this is similar with std::forward_list::merge
+
+        Values merged;
+
+        for (; firstPart.cbegin() != firstPart.cend() && secondPart.cbegin() != secondPart.cend();) {
+            if (firstPart.front() <= secondPart.front()) {
+                merged.splice(merged.cend(), firstPart, firstPart.cbegin());
+            } else {
+                merged.splice(merged.cend(), secondPart, secondPart.cbegin());
+            }
+        }
+        // copy remaining from first part
+        merged.splice(merged.cend(), firstPart);
+        // copy remaining from second part
+        merged.splice(merged.cend(), secondPart);
+
+        result = std::move(merged);
+    }
+
     Values mergeTwoRanges(Values const& firstPart, Values const& secondPart) const {
         // this is similar with std::list::merge
-
         Values result;
         ConstIterator it1 = firstPart.cbegin(), it2 = secondPart.cbegin();
-        for (; it1 != firstPart.cend() && it2 != secondPart.cend();) {
-            if (*it1 <= *it2) {
+        for (; it1 != firstPart.cend() && it2 != secondPart.cend();) {            if (*it1 <= *it2) {
                 result.emplace_back(*it1++);
             } else {
                 result.emplace_back(*it2++);
