@@ -25,17 +25,15 @@ public:
     }
 
 private:
-    void sortWithIterativeApproach(Values& valuesToSort, int const lowestIndex, int const highestIndex) const {
+    void sortWithIterativeApproach(Values& valuesToSort, int const lowIndex, int const highIndex) const {
         std::stack<int> inputIndicesStack;
-        inputIndicesStack.push(lowestIndex);
-        inputIndicesStack.push(highestIndex);
+        inputIndicesStack.push(lowIndex);
+        inputIndicesStack.push(highIndex);
 
         while (!inputIndicesStack.empty()) {
-            int highIndex = inputIndicesStack.top();
-            inputIndicesStack.pop();
+            int highIndex = inputIndicesStack.top();            inputIndicesStack.pop();
             int lowIndex = inputIndicesStack.top();
             inputIndicesStack.pop();
-
             int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
             if (lowIndex + 1 < partitionIndex) {
                 inputIndicesStack.push(lowIndex);

@@ -19,17 +19,15 @@ public:
         setInitialIndexes();
     }
 
-    LinearNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
+    LinearNearestValueSearchWithTwoIndices(Index const lowIndex, Index const highIndex, Values const& sortedValues)
         : m_startIndex(INVALID_INDEX), m_endIndex(INVALID_INDEX), m_values(sortedValues) {
-        setInitialIndexes(lowerIndex, higherIndex);
+        setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& valueToCheck) {
-        Value result{};
+    Value getNearestValue(Value const& valueToCheck) {        Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if (selectedIndex != INVALID_INDEX) {
-            result = m_values.at(selectedIndex);
-        }
+            result = m_values.at(selectedIndex);        }
         return result;
     }
 
@@ -71,18 +69,16 @@ private:
         }
     }
 
-    void setInitialIndexes(Index const lowerIndex, Index const higherIndex) {
+    void setInitialIndexes(Index const lowIndex, Index const highIndex) {
         if (!m_values.empty()) {
-            m_startIndex = std::min(lowerIndex, static_cast<Index>(m_values.size()) - 1);
-            m_endIndex = std::min(higherIndex, static_cast<Index>(m_values.size()) - 1);  // fully closed interval
+            m_startIndex = std::min(lowIndex, static_cast<Index>(m_values.size()) - 1);
+            m_endIndex = std::min(highIndex, static_cast<Index>(m_values.size()) - 1);  // fully closed interval
             if (m_startIndex > m_endIndex) {
                 std::swap(m_startIndex, m_endIndex);
-            }
-        }
+            }        }
     }
 
-    Index m_startIndex;
-    Index m_endIndex;
+    Index m_startIndex;    Index m_endIndex;
     Values const& m_values;
 };
 

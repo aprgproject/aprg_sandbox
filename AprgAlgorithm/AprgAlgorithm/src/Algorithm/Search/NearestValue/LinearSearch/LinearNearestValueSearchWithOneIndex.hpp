@@ -64,17 +64,15 @@ private:
         }
     }
 
-    void setInitialIndexes(Index const lowerIndex, Index const higherIndex) {
+    void setInitialIndexes(Index const lowIndex, Index const highIndex) {
         if (!m_values.empty()) {
-            m_startIndex = std::min(lowerIndex, static_cast<Index>(m_values.size()) - 1);
-            m_endIndex = std::min(higherIndex + 1, static_cast<Index>(m_values.size()));  // half open interval
+            m_startIndex = std::min(lowIndex, static_cast<Index>(m_values.size()) - 1);
+            m_endIndex = std::min(highIndex + 1, static_cast<Index>(m_values.size()));  // half open interval
         }
     }
-
     Index m_startIndex;
     Index m_endIndex;
-    Values const& m_values;
-};
+    Values const& m_values;};
 
 }  // namespace algorithm
 

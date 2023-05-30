@@ -34,28 +34,23 @@ public:
     }
 
 private:
-    Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const {
+    Index getIndexOfValueWithoutCheck(Index const lowIndex, Index const highIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (lowerIndex <= higherIndex) {
-            Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
+        if (lowIndex <= highIndex) {
+            Index middleIndex = getMidpointOfIndexes(lowIndex, highIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
-            if (value == middleValue) {
+            if (value < middleValue) {
+                result = getIndexOfValueWithoutCheck(lowIndex, middleIndex - 1, value);
+            } else if (middleValue < value) {
+                result = getIndexOfValueWithoutCheck(middleIndex + 1, highIndex, value);
+            } else {  // middleValue == value
                 result = middleIndex;
-            } else if (value < middleValue) {
-                if (middleIndex > 0) {
-                    result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex - 1, value);
-                }
-            } else  // middleValue < value
-            {
-                result = getIndexOfValueWithoutCheck(middleIndex + 1, higherIndex, value);
             }
         }
-        return result;
-    }
+        return result;    }
 
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

@@ -37,39 +37,37 @@ public:
 private:
     Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& targetValue) const {
         Index result(INVALID_INDEX);
-        Index lowerIndex(startIndex), higherIndex(endIndex);
-        while (lowerIndex <= higherIndex) {
-            Value lowerValue(m_sortedValues.at(lowerIndex));
-            Value higherValue(m_sortedValues.at(higherIndex));
+        Index lowIndex(startIndex), highIndex(endIndex);
+        while (lowIndex <= highIndex) {
+            Value lowerValue(m_sortedValues.at(lowIndex));
+            Value higherValue(m_sortedValues.at(highIndex));
             if (targetValue < lowerValue || higherValue < targetValue) {  // out of range
                 break;
             } else if (lowerValue == higherValue) {
-                result = getMidpointOfIndexes(lowerIndex, higherIndex);
+                result = getMidpointOfIndexes(lowIndex, highIndex);
                 break;
             } else {
-                Index interpolatedIndex = lowerIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Index>(
-                                                           static_cast<double>(higherIndex - lowerIndex) *
+                Index interpolatedIndex = lowIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Index>(
+                                                           static_cast<double>(highIndex - lowIndex) *
                                                            (targetValue - lowerValue) / (higherValue - lowerValue));
                 Value valueAtInterpolatedIndex(m_sortedValues.at(interpolatedIndex));
                 if (targetValue == valueAtInterpolatedIndex) {
                     result = interpolatedIndex;
                     break;
                 } else if (targetValue < valueAtInterpolatedIndex) {
-                    higherIndex = interpolatedIndex - 1;
+                    highIndex = interpolatedIndex - 1;
                 } else  // valueAtInterpolatedIndex < targetValue
                 {
-                    lowerIndex = interpolatedIndex + 1;
+                    lowIndex = interpolatedIndex + 1;
                 }
             }
         }
-        if (lowerIndex == higherIndex) {
+        if (lowIndex == highIndex) {
         }
         return result;
     }
-
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

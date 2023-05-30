@@ -12,132 +12,126 @@ namespace alba {
 namespace algorithm {
 
 template <typename Values>
-typename Values::value_type getPivotValue(
-    Values& values, int const lowestIndex, int const highestIndex, PivotType const pivotType) {
+int getPivotIndex(Values& values, int const lowIndex, int const highIndex, PivotType const pivotType) {
     switch (pivotType) {
-        case PivotType::ValueAtLowestIndex:
-            return values.at(lowestIndex);
-        case PivotType::ValueAtHighestIndex:
-            return values.at(highestIndex);
-        case PivotType::ValueAtRandomIndex:
-            return values.at(AlbaUniformNonDeterministicRandomizer(lowestIndex, highestIndex).getRandomValue());
-        case PivotType::ValueAtMedianOfLowMidHigh:
-            return getMedianOfLowMidHigh(values, lowestIndex, highestIndex);
-        case PivotType::ValueAtMedianNinther:
-            return getMedianOfNinther(values, lowestIndex, highestIndex);
-        case PivotType::ValueAtMedianOfMedians:
-            return getMedianOfMedians<Values>(values, lowestIndex, highestIndex);
+        case PivotType::LowestIndex:
+            return lowIndex;
+        case PivotType::HighestIndex:
+            return highIndex;
+        case PivotType::RandomIndex:
+            return AlbaUniformNonDeterministicRandomizer(lowIndex, highIndex).getRandomValue();
+        case PivotType::MedianOfLowMidHighIndexes:
+            return getIndexOfMedianOfLowMidHighIndexes(values, lowIndex, highIndex);
+        case PivotType::MedianNinther:
+            return getIndexOfMedianNinther(values, lowIndex, highIndex);
+        case PivotType::MedianOfMedians:
+            return getIndexOfMedianOfMedians(values, lowIndex, highIndex);
         default:
-            return values.at(lowestIndex);
+            return lowIndex;
     }
 }
 
 template <typename Values>
-int partitionAndGetPartitionIndex(
-    Values& values, int const lowestIndex, int const highestIndex, PivotType const pivotType) {
+int partitionAndGetPartitionIndex(Values& values, int const lowIndex, int const highIndex, PivotType const pivotType) {
     // This is Hoare partition scheme
     // https://en.wikipedia.org/wiki/Quicksort#Hoare_partition_scheme
 
-    auto pivotValue = getPivotValue(values, lowestIndex, highestIndex, pivotType);
-    // Getting the index of the pivot value is an UGLY WORKAROUND, but we want to have multiple purposes
-    int indexWithPivotValue = getIndexOfValue(values, lowestIndex, highestIndex, pivotValue);
-    std::swap(values[lowestIndex], values[indexWithPivotValue]);
+    int indexWithPivotValue = getPivotIndex(values, lowIndex, highIndex, pivotType);
+    auto pivotValue = values.at(indexWithPivotValue);
+    std::swap(values[lowIndex], values[indexWithPivotValue]);
 
-    int indexWithGreaterValue = lowestIndex;
-    int indexWithLesserValue = highestIndex + 1;
+    int indexWithGreaterValue = lowIndex;
+    int indexWithLesserValue = highIndex + 1;
     while (true) {
         // Notice that the loop has increment first
         // Important: This loops exits when it finds a value greater than pivotValue
-        while (values.at(++indexWithGreaterValue) < pivotValue && indexWithGreaterValue < highestIndex)
+        while (values.at(++indexWithGreaterValue) < pivotValue && indexWithGreaterValue < highIndex)
             ;
 
         // Notice that the loop has decrement first
         // Important: This loops exits when it finds a value less than pivotValue
-        while (pivotValue < values.at(--indexWithLesserValue) && indexWithLesserValue > lowestIndex)
+        while (pivotValue < values.at(--indexWithLesserValue) && indexWithLesserValue > lowIndex)
             ;
 
-        // stop if the indexWithGreaterValue and indexWithLesserValue meet
-        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
+        // stop if the indexWithGreaterValue and indexWithLesserValue meet        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
         if (indexWithGreaterValue < indexWithLesserValue) {
             std::swap(values[indexWithGreaterValue], values[indexWithLesserValue]);
         } else {
             break;
         }
     }
-    std::swap(values[lowestIndex], values[indexWithLesserValue]);
+
+    std::swap(values[lowIndex], values[indexWithLesserValue]);
     return indexWithLesserValue;  // return partition index
 }
 
 template <typename Values>
 int partitionAndGetPartitionIndexUsingLomuto(
-    Values& values, int const lowestIndex, int const highestIndex, PivotType const pivotType) {
+    Values& values, int const lowIndex, int const highIndex, PivotType const pivotType) {
     // This is based from Lomuto partition scheme
     // https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme
 
-    auto pivotValue = getPivotValue(values, lowestIndex, highestIndex, pivotType);
-    // Getting the index of the pivot value is an UGLY WORKAROUND, but we want to have multiple purposes
-    int indexWithPivotValue = getIndexOfValue(values, lowestIndex, highestIndex, pivotValue);
-    std::swap(values[lowestIndex], values[indexWithPivotValue]);
+    int indexWithPivotValue = getPivotIndex(values, lowIndex, highIndex, pivotType);
+    auto pivotValue = values.at(indexWithPivotValue);
+    std::swap(values[lowIndex], values[indexWithPivotValue]);
 
-    int partitionIndex = lowestIndex;
-    for (int compareIndex = lowestIndex + 1; compareIndex <= highestIndex; compareIndex++) {
-        if (values[compareIndex] <= pivotValue) {
+    int partitionIndex = lowIndex;
+    for (int compareIndex = lowIndex + 1; compareIndex <= highIndex; compareIndex++) {
+        if (values[compareIndex] < pivotValue) {
             std::swap(values[++partitionIndex], values[compareIndex]);
-            if (values[partitionIndex] == pivotValue) {
-                indexWithPivotValue = partitionIndex;
-            }
         }
     }
-    std::swap(values[partitionIndex], values[lowestIndex]);
+
+    std::swap(values[partitionIndex], values[lowIndex]);
     return partitionIndex;
 }
 
 template <typename Values>
 typename Values::iterator partitionAndGetPartitionIteratorInTwoDirections(
-    typename Values::iterator const lowestIt, typename Values::iterator const highestIt) {
+    typename Values::iterator const itLow, typename Values::iterator const itHigh) {
     // same algorithm with index version
     // This is Hoare partition scheme
     // https://en.wikipedia.org/wiki/Quicksort#Hoare_partition_scheme
 
-    auto pivotValue(*lowestIt);  // pivot value is at lowestIt
+    auto pivotValue(*itLow);  // pivot value is at itLow
 
-    auto itWithGreaterValue = lowestIt;             // no minus one because first index is skipped
-    auto itWithLesserValue = std::next(highestIt);  // plus one because inner loop has decrement first
+    auto itWithGreaterValue = itLow;             // no minus one because first index is skipped
+    auto itWithLesserValue = std::next(itHigh);  // plus one because inner loop has decrement first
     while (true) {
-        while (*++itWithGreaterValue < pivotValue && itWithGreaterValue != highestIt)
+        while (*++itWithGreaterValue < pivotValue && itWithGreaterValue != itHigh)
             ;
-        while (pivotValue < *--itWithLesserValue && itWithLesserValue != lowestIt)
+        while (pivotValue < *--itWithLesserValue && itWithLesserValue != itLow)
             ;
         // check two positions because the iterators moves by two (one move back, one move forward)
-        if (itWithGreaterValue != itWithLesserValue && itWithGreaterValue != std::next(itWithLesserValue)) {
-            std::swap(*itWithGreaterValue, *itWithLesserValue);
+        if (itWithGreaterValue != itWithLesserValue && itWithGreaterValue != std::next(itWithLesserValue)) {            std::swap(*itWithGreaterValue, *itWithLesserValue);
         } else {
             break;
         }
     }
-    std::swap(*lowestIt, *itWithLesserValue);  // put pivotValue at partition iterator
-    return itWithLesserValue;                  // return partition iterator
+
+    std::swap(*itLow, *itWithLesserValue);  // put pivotValue at partition iterator
+    return itWithLesserValue;               // return partition iterator
 }
 
 template <typename Values>
 typename Values::iterator partitionAndGetPartitionIteratorInOneDirection(
-    typename Values::iterator const lowestIt, typename Values::iterator const highestItPlusOne) {
-    auto pivotValue(*lowestIt);  // pivot value is at lowestIt
-    auto partitionIt = lowestIt;
-    auto stopIt = highestItPlusOne;
-    for (auto compareIt = std::next(lowestIt); compareIt != stopIt; compareIt++) {
+    typename Values::iterator const itLow, typename Values::iterator const itHighPlusOne) {
+    auto pivotValue(*itLow);  // pivot value is at itLow
+
+    auto partitionIt = itLow;
+    auto stopIt = itHighPlusOne;
+    for (auto compareIt = std::next(itLow); compareIt != stopIt; compareIt++) {
         if (*compareIt <= pivotValue) {
             std::swap(*++partitionIt, *compareIt);
         }
     }
-    std::swap(*lowestIt, *partitionIt);  // put pivotValue at partition iterator
+
+    std::swap(*itLow, *partitionIt);  // put pivotValue at partition iterator
     return partitionIt;
 }
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // A improvement idea is to randomly pick a pivot element.
 // To implement randomized partition, we use a random function, rand() to generate index between l and r,
 // swap the element at randomly generated index with the last element,

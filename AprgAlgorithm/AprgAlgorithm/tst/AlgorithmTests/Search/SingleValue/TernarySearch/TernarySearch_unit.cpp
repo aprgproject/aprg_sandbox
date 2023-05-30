@@ -35,15 +35,13 @@ TEST(TernarySearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDupli
     ValuesForTest sortedValues{13, 13, 14, 33, 33, 33, 53, 53, 53, 72, 72, 72, 72, 96, 96};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(4, search.getIndexOfValue(33));
+    EXPECT_EQ(5, search.getIndexOfValue(33));
 }
 
-TEST(TernarySearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
-    testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+TEST(TernarySearchTest, GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {    testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues) {
-    testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+TEST(TernarySearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues) {    testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(TernarySearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWhenThereAreMultipleValues) {

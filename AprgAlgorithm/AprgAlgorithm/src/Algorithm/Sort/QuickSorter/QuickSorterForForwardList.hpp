@@ -26,27 +26,19 @@ public:
     }
 
 private:
-    void sort(
-        Values& valuesToSort, Iterator const lowestIt,
-        Iterator const highestItPlusOne) const  // half open
-    {
-        Iterator partitionIt = partitionAndGetPartitionIteratorInOneDirection<Values>(lowestIt, highestItPlusOne);
+    void sort(Values& valuesToSort, Iterator const itLow, Iterator const itHighPlusOne) const {
+        Iterator partitionIt = partitionAndGetPartitionIteratorInOneDirection<Values>(itLow, itHighPlusOne);
         Iterator partitionItPlusOne = std::next(partitionIt, 1);
-        if (lowestIt != partitionIt && lowestIt != partitionItPlusOne)  // size must be at least two
-        {
-            sort(
-                valuesToSort, lowestIt,
-                partitionIt);  // recursively sort/partition the low part without the partitionIt
+        if (itLow != partitionIt && itLow != partitionItPlusOne) {  // size must be at least two
+            // recursively sort/partition the low part without the partitionIt
+            sort(valuesToSort, itLow, partitionIt);
         }
-        if (partitionIt != highestItPlusOne && partitionItPlusOne != highestItPlusOne)  // size must be at least two
-        {
-            sort(
-                valuesToSort, partitionItPlusOne,
-                highestItPlusOne);  // recursively sort/partition the high part without the partitionIt
+        if (partitionIt != itHighPlusOne && partitionItPlusOne != itHighPlusOne) {  // size must be at least two
+            // recursively sort/partition the high part without the partitionIt
+            sort(valuesToSort, partitionItPlusOne, itHighPlusOne);
         }
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

@@ -21,24 +21,22 @@ public:
     }
 
 private:
-    void sort(Values& valuesToSort, int const lowestIndex, int const highestIndex) const {
-        if (lowestIndex < highestIndex) {
-            int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowestIndex, highestIndex, m_pivotType);
-            if (lowestIndex < partitionIndex) {
+    void sort(Values& valuesToSort, int const lowIndex, int const highIndex) const {
+        if (lowIndex < highIndex) {
+            int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
+            if (lowIndex < partitionIndex) {
                 // recursively sort/partition the low part without the partition index
-                sort(valuesToSort, lowestIndex, partitionIndex - 1);
+                sort(valuesToSort, lowIndex, partitionIndex - 1);
             }
-            if (partitionIndex < highestIndex) {
+            if (partitionIndex < highIndex) {
                 // recursively sort/partition the high part without the partition index
-                sort(valuesToSort, partitionIndex + 1, highestIndex);
+                sort(valuesToSort, partitionIndex + 1, highIndex);
             }
         }
     }
-
 private:
     PivotType m_pivotType;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

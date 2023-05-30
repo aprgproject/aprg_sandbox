@@ -36,30 +36,24 @@ private:
     }
 
     int getIndexWithGreaterValueUsingBinarySearch(
-        Values const& valuesToSort, int const lowestIndex, int const highestIndex, Value const& value) const {
+        Values const& valuesToSort, int const lowIndex, int const highIndex, Value const& value) const {
         int result(INVALID_INDEX);
-        int lowerIndex(lowestIndex), higherIndex(highestIndex);
-        while (lowerIndex <= higherIndex) {
-            int middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
+        int iLow(lowIndex), iHigh(highIndex);
+        while (iLow <= iHigh) {
+            int middleIndex = getMidpointOfIndexes(iLow, iHigh);
             Value middleValue(valuesToSort.at(middleIndex));
             if (value < middleValue) {
                 result = middleIndex;
-                if (middleIndex > 0) {
-                    higherIndex = middleIndex - 1;
-                } else {
-                    break;
-                }
+                iHigh = middleIndex - 1;
             } else  // (middleValue < value)
             {
-                lowerIndex = middleIndex + 1;
+                iLow = middleIndex + 1;
             }
         }
-        return result;
-    }
+        return result;    }
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // We can use binary search to reduce the number of comparisons in normal insertion sort.

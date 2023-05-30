@@ -23,45 +23,36 @@ public:
     }
 
 private:
-    void sort(Values& valuesToSort, int const lowestIndex, int const highestIndex) const {
-        if (lowestIndex < highestIndex) {
-            auto pivotValue = getPivotValue(valuesToSort, lowestIndex, highestIndex, m_pivotType);
-            // Getting the index of the pivot value is an UGLY WORKAROUND, but we want to have multiple
-            // purposes
-            int indexWithPivotValue = getIndexOfValue(valuesToSort, lowestIndex, highestIndex, pivotValue);
-            if (indexWithPivotValue != lowestIndex) {
-                // put it as lowest index so it would not be affected
-                std::swap(valuesToSort[indexWithPivotValue], valuesToSort[lowestIndex]);
-            }
+    void sort(Values& valuesToSort, int const lowIndex, int const highIndex) const {
+        if (lowIndex < highIndex) {
+            int indexWithPivotValue = getPivotIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
+            auto pivotValue = valuesToSort.at(indexWithPivotValue);
 
-            int boundaryIndexForLessThan = lowestIndex, boundaryIndexForGreaterThan = highestIndex;
-            int i = lowestIndex + 1;
+            int boundaryIndexForLessThan = lowIndex, boundaryIndexForGreaterThan = highIndex;
+            int compareIndex = lowIndex;
 
-            while (i <= boundaryIndexForGreaterThan)  // i moves within the boundaries
-            {
-                if (valuesToSort.at(i) < pivotValue) {
+            while (compareIndex <= boundaryIndexForGreaterThan) {  // i moves within the boundaries
+                if (valuesToSort.at(compareIndex) < pivotValue) {
                     // swap so that elements that are less than are kept to the left of boundaryIndexForLessThan
                     // i is moved here as well (to keep i within the boundary)
-                    std::swap(valuesToSort[boundaryIndexForLessThan++], valuesToSort[i++]);
-                } else if (pivotValue < valuesToSort.at(i)) {
+                    std::swap(valuesToSort[boundaryIndexForLessThan++], valuesToSort[compareIndex++]);
+                } else if (pivotValue < valuesToSort.at(compareIndex)) {
                     // swap so that elements that are greater than are kept to the right of boundaryIndexForGreaterThan
-                    std::swap(valuesToSort[i], valuesToSort[boundaryIndexForGreaterThan--]);
+                    std::swap(valuesToSort[compareIndex], valuesToSort[boundaryIndexForGreaterThan--]);
                 } else {
-                    i++;  // equal to partition value so just move to the next item
+                    compareIndex++;  // equal to partition value so just move to the next item
                 }
             }
             // sort items that are less than the pivotValue
-            sort(valuesToSort, lowestIndex, boundaryIndexForLessThan - 1);
+            sort(valuesToSort, lowIndex, boundaryIndexForLessThan - 1);
             // sort items that are greater than the pivotValue
-            sort(valuesToSort, boundaryIndexForGreaterThan + 1, highestIndex);
+            sort(valuesToSort, boundaryIndexForGreaterThan + 1, highIndex);
             // do nothing for items that are equal to the pivotValue
         }
     }
-
 private:
     PivotType m_pivotType;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

@@ -1,106 +1,102 @@
 #pragma once
 
-#include <Algorithm/Search/UniqueProblems/Median/MedianOfSmallerSizes.hpp>
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 
 #include <algorithm>
+#include <numeric>
 #include <vector>
 
 namespace alba {
 
 namespace algorithm {
 
+using Indexes = std::vector<int>;
+using IndexesIterator = Indexes::iterator;
+
 template <typename Values>
-typename Values::value_type getMedianOfThree(
-    typename Values::value_type const& value1, typename Values::value_type const& value2,
-    typename Values::value_type const& value3) {
-    auto low = value1;
-    auto mid = value2;
-    auto high = value3;
-    if (low > high) {
-        std::swap(low, high);
+int getIndexOfMedianOfThree(Values const& values, int const index1, int const index2, int const index3) {
+    // Based from: https://en.wikipedia.org/wiki/Quicksort#Choice_of_pivot
+    auto low = std::make_pair(values.at(index1), index1);
+    auto mid = std::make_pair(values.at(index2), index2);
+    auto high = std::make_pair(values.at(index3), index3);
+    if (low.first > high.first) {
+        std::swap(high, low);
     }
-    if (low > mid) {
-        std::swap(low, mid);
+    if (low.first > mid.first) {
+        std::swap(mid, low);
     }
-    if (mid > high) {
-        std::swap(mid, high);
+    if (mid.first > high.first) {
+        std::swap(high, mid);
     }
-    return mid;
+    return mid.second;
 }
 
 template <typename Values>
-typename Values::value_type getMedianOfSmallerSizes(Values const& values) {
-    // As noted below: If the group has an even number of elements, take the larger of the two medians.
-    return MedianOfSmallerSizes<Values>(values).getLargerMedian();
+int getIndexOfMedianOfLowMidHighIndexes(Values const& values, int const lowIndex, int const highIndex) {
+    // Recommended by Sedgewick:
+    // Choose the median of the first, middle and last element of the partition for the pivot
+    return getIndexOfMedianOfThree(values, lowIndex, getMidpointOfIndexes(lowIndex, highIndex), highIndex);
 }
 
 template <typename Values>
-typename Values::value_type getMedianOfSmallerSizes(
-    typename Values::const_iterator lowestIt, typename Values::const_iterator highestItPlusOne) {
-    // As noted below: If the group has an even number of elements, take the larger of the two medians.
-    return MedianOfSmallerSizes<Values>(lowestIt, highestItPlusOne).getLargerMedian();
-}
-
-template <typename Values>
-typename Values::value_type getMedianOfLowMidHigh(Values const& values, int const lowestIndex, int const highestIndex) {
-    return getMedianOfThree<Values>(
-        values.at(lowestIndex), values.at(getMidpointOfIndexes(lowestIndex, highestIndex)), values.at(highestIndex));
-}
-
-template <typename Values>
-typename Values::value_type getMedianOfNinther(Values const& values, int const lowestIndex, int const highestIndex) {
-    Values nines;
-    nines.reserve(9);
-    int deltaSize = highestIndex - lowestIndex;
+int getIndexOfMedianNinther(Values const& values, int const lowIndex, int const highIndex) {
+    // Based from Tukey's ninther
+    // https://en.wikipedia.org/wiki/Median#The_sample_median
+    Indexes indexes;
+    indexes.reserve(9);
+    int deltaSize = highIndex - lowIndex;
     for (int i = 0; i <= 8; i++) {
-        nines.emplace_back(values.at(lowestIndex + i * deltaSize / 8));
+        indexes.emplace_back(lowIndex + i * deltaSize / 8);
     }
 
-    return getMedianOfThree<Values>(
-        getMedianOfThree<Values>(nines[0], nines[1], nines[2]), getMedianOfThree<Values>(nines[3], nines[4], nines[5]),
-        getMedianOfThree<Values>(nines[6], nines[7], nines[8]));
+    return getIndexOfMedianOfThree(
+        values, getIndexOfMedianOfThree(values, indexes[0], indexes[1], indexes[2]),
+        getIndexOfMedianOfThree(values, indexes[3], indexes[4], indexes[5]),
+        getIndexOfMedianOfThree(values, indexes[6], indexes[7], indexes[8]));
 }
 
 template <typename Values>
-typename Values::value_type getMedianOfMedians(
-    typename Values::const_iterator lowestIt, typename Values::const_iterator highestItPlusOne) {
-    if (lowestIt + 5 >= highestItPlusOne) {
-        return getMedianOfSmallerSizes<Values>(lowestIt, highestItPlusOne);
-    } else {
-        using MediansContainer = std::vector<typename Values::value_type>;
-        MediansContainer medians;
-        medians.reserve(highestItPlusOne - lowestIt);  // reserve this much
-        for (auto medianLowestIt = lowestIt; medianLowestIt < highestItPlusOne; medianLowestIt += 5) {
-            auto medianHighestItPlusOne = std::min(medianLowestIt + 5, highestItPlusOne);
-            medians.emplace_back(getMedianOfSmallerSizes<Values>(medianLowestIt, medianHighestItPlusOne));
+int getMedianIteratorOfLessThanFive(
+    Values const& values, Indexes& medianIndexes, int const lowIndex, int const highIndex) {
+    // Perform insertion sort
+    for (int insertIndex = lowIndex + 1; insertIndex <= highIndex; insertIndex++) {
+        for (int iLow = insertIndex - 1, iHigh = insertIndex;
+             lowIndex <= iLow && values.at(medianIndexes.at(iLow)) > values.at(medianIndexes.at(iHigh));
+             iLow--, iHigh--) {
+            std::swap(medianIndexes[iLow], medianIndexes[iHigh]);
         }
-        return getMedianOfMedians<MediansContainer>(medians.cbegin(), medians.cend());
     }
+    return getMidpointOfIndexes(lowIndex, highIndex);
 }
 
 template <typename Values>
-typename Values::value_type getMedianOfMedians(Values const& values, int const lowestIndex, int const highestIndex) {
-    auto lowestIt = values.cbegin() + lowestIndex;
-    auto highestItPlusOne = values.cbegin() + highestIndex + 1;
-    return getMedianOfMedians<Values>(lowestIt, highestItPlusOne);
-}
+int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int const highIndex) {
+    // Based from https://en.wikipedia.org/wiki/Median_of_medians
 
-template <typename Values>
-int getIndexOfValue(
-    Values const& values, int const lowestIndex, int const highestIndex, typename Values::value_type const& value) {
-    auto lowestIt = values.cbegin() + lowestIndex;
-    auto highestItPlusOne = values.cbegin() + highestIndex + 1;
-    auto valueIt = std::find(lowestIt, highestItPlusOne, value);
-    return std::distance(values.cbegin(), valueIt);
+    int result{};
+    if (lowIndex <= highIndex) {
+        Indexes medianIndexes(highIndex - lowIndex);
+        std::iota(medianIndexes.begin(), medianIndexes.end(), lowIndex);
+
+        int medianSize = medianIndexes.size();
+        while (medianSize > 1) {
+            int medianIndex = 0;
+            for (int lowOfFive = 0; lowOfFive < medianSize; lowOfFive += 5) {
+                int highOfFive = std::min(lowOfFive + 4, medianSize - 1);
+                int medianIndexOfFive = getMedianIteratorOfLessThanFive(values, medianIndexes, lowOfFive, highOfFive);
+                std::swap(medianIndexes[medianIndex++], medianIndexes[medianIndexOfFive]);
+            }
+            medianSize = medianIndex;
+        }
+        result = medianIndexes.front();
+    }
+    return result;
 }
 
 }  // namespace algorithm
-
 }  // namespace alba
 
-// Quick selection in worst-case linear time
-// Source: http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap10.htm
+// Quick selection in worst-case linear time// Source: http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap10.htm
 
 // We now examine a selection algorithm whose running time is O(n) in the worst case.
 // Like RANDOMIZED-SELECT, the algorithm SELECT finds the desired element by recursively partitioning the input array.

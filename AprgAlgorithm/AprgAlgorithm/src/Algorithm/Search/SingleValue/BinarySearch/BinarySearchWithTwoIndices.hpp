@@ -36,30 +36,24 @@ public:
 private:
     Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        Index lowerIndex(startIndex), higherIndex(endIndex);
-        while (lowerIndex <= higherIndex) {
-            Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
+        Index lowIndex(startIndex), highIndex(endIndex);
+        while (lowIndex <= highIndex) {
+            Index middleIndex = getMidpointOfIndexes(lowIndex, highIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
             if (value == middleValue) {
                 result = middleIndex;
                 break;
             } else if (value < middleValue) {
-                if (middleIndex > 0) {
-                    higherIndex = middleIndex - 1;
-                } else {
-                    break;
-                }
+                highIndex = middleIndex - 1;
             } else  // (middleValue < value)
             {
-                lowerIndex = middleIndex + 1;
+                lowIndex = middleIndex + 1;
             }
         }
-        return result;
-    }
+        return result;    }
 
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

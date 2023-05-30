@@ -73,29 +73,27 @@ public:
     static int getRank(Key const& key, Keys const& keys) {
         // this is binary search
         int result(0);
-        int lowerIndex = 0, higherIndex = keys.size() - 1;
-        while (lowerIndex <= higherIndex) {
-            int middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
+        int lowIndex = 0, highIndex = keys.size() - 1;
+        while (lowIndex <= highIndex) {
+            int middleIndex = getMidpointOfIndexes(lowIndex, highIndex);
             Key const& keyAtMiddleIndex(keys.at(middleIndex));
             if (key < keyAtMiddleIndex) {
-                higherIndex = middleIndex - 1;
+                highIndex = middleIndex - 1;
             } else if (key > keyAtMiddleIndex) {
-                lowerIndex = middleIndex + 1;
+                lowIndex = middleIndex + 1;
             } else {
                 result = middleIndex;
                 break;
             }
         }
         if (result == 0) {
-            result = lowerIndex;
+            result = lowIndex;
         }
         return result;
     }
-
     static Key selectAt(int const index, Keys const& keys) {
         Key result{};
-        if (index < static_cast<int>(keys.size())) {
-            result = keys.at(index);
+        if (index < static_cast<int>(keys.size())) {            result = keys.at(index);
         }
         return result;
     }

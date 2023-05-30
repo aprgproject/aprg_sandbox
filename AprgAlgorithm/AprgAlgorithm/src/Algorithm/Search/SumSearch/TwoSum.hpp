@@ -27,46 +27,43 @@ public:
     }
 
     ValuePair getNonDuplicateTwoValuesWithSum(
-        Value const& targetSum, Index const lowerIndex, Index const higherIndex) const {
+        Value const& targetSum, Index const lowIndex, Index const highIndex) const {
         // std::less because index must be distinct
-        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less<Index>());
+        return getTwoValuesWithSum(targetSum, lowIndex, highIndex, std::less<Index>());
     }
 
-    ValuePair getPossibleDuplicatedTwoValuesWithSum(Value const& targetSum) const {
-        // std::less_equal because index can be equal
+    ValuePair getPossibleDuplicatedTwoValuesWithSum(Value const& targetSum) const {        // std::less_equal because index can be equal
         return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size() - 1, std::less_equal<Index>());
     }
 
     ValuePair getPossibleDuplicatedTwoValuesWithSum(
-        Value const& targetSum, Index const lowerIndex, Index const higherIndex) const {
+        Value const& targetSum, Index const lowIndex, Index const highIndex) const {
         // std::less_equal because index can be equal
-        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less_equal<Index>());
+        return getTwoValuesWithSum(targetSum, lowIndex, highIndex, std::less_equal<Index>());
     }
 
 private:
     ValuePair getTwoValuesWithSum(
-        Value const& targetSum, Index const lowestIndex, Index const highestIndex,
+        Value const& targetSum, Index const lowIndex, Index const highIndex,
         Comparator const& shouldContinue) const {
         ValuePair result{};
         if (!m_sortedValues.empty()) {
-            Index lowerIndex = lowestIndex, higherIndex = highestIndex;
-            while (shouldContinue(lowerIndex, higherIndex)) {
-                Value currentSum(m_sortedValues.at(lowerIndex) + m_sortedValues.at(higherIndex));
+            Index iLow = lowIndex, iHigh = highIndex;
+            while (shouldContinue(iLow, iHigh)) {
+                Value currentSum(m_sortedValues.at(iLow) + m_sortedValues.at(iHigh));
                 if (currentSum == targetSum) {
-                    result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
+                    result = {m_sortedValues.at(iLow), m_sortedValues.at(iHigh)};
                     break;
                 } else if (currentSum > targetSum) {
-                    higherIndex--;
-                } else if (currentSum < targetSum) {
-                    lowerIndex++;
+                    --iHigh;
+                } else {  // currentSum < targetSum
+                    ++iLow;
                 }
             }
-        }
-        return result;
+        }        return result;
     }
 
-    Values const& m_sortedValues;
-};
+    Values const& m_sortedValues;};
 
 }  // namespace algorithm
 

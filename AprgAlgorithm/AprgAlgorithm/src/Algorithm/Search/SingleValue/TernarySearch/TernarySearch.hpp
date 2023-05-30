@@ -33,37 +33,30 @@ public:
     }
 
 private:
-    Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const {
+    Index getIndexOfValueWithoutCheck(Index const lowIndex, Index const highIndex, Value const& value) const {
+        // Based from https://en.wikipedia.org/wiki/Ternary_search#Algorithm
+
         Index result(INVALID_INDEX);
-        if (lowerIndex <= higherIndex) {
-            Index oneThirdSize = (higherIndex - lowerIndex) / 3;
-            Index firstMiddleIndex = lowerIndex + oneThirdSize;
-            Index secondMiddleIndex = firstMiddleIndex + oneThirdSize;
-            Value firstMiddleValue(m_sortedValues.at(firstMiddleIndex));
-            Value secondMiddleValue(m_sortedValues.at(secondMiddleIndex));
-            if (value == firstMiddleValue) {
-                result = firstMiddleIndex;
-            } else if (value == secondMiddleValue) {
-                result = secondMiddleIndex;
-            } else if (value < firstMiddleValue)  // if on the first one-third part
-            {
-                if (firstMiddleIndex > 0) {
-                    result = getIndexOfValueWithoutCheck(lowerIndex, firstMiddleIndex - 1, value);
-                }
-            } else if (secondMiddleValue < value)  // if on the third one-third part
-            {
-                result = getIndexOfValueWithoutCheck(secondMiddleIndex + 1, higherIndex, value);
-            } else  // if on the second one-third part
-            {
-                result = getIndexOfValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);
+        if (lowIndex < highIndex) {
+            Index firstMiddleIndex = (2 * lowIndex + highIndex) / 3;
+            Index secondMiddleIndex = (lowIndex + 2 * highIndex) / 3;
+            if (value < m_sortedValues.at(firstMiddleIndex)) {
+                // if on the first one-third part
+                result = getIndexOfValueWithoutCheck(lowIndex, firstMiddleIndex - 1, value);
+            } else if (m_sortedValues.at(secondMiddleIndex) < value) {
+                // if on the third one-third part
+                result = getIndexOfValueWithoutCheck(secondMiddleIndex + 1, highIndex, value);
+            } else {
+                // if on the second one-third part
+                result = getIndexOfValueWithoutCheck(firstMiddleIndex, secondMiddleIndex, value);
             }
+        } else if (lowIndex == highIndex && value == m_sortedValues.at(lowIndex)) {
+            result = lowIndex;
         }
         return result;
     }
-
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

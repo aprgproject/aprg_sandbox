@@ -28,29 +28,25 @@ public:
     }
 
 private:
-    void sort(Values& valuesToSort, Iterator const lowestIt, Iterator const highestIt) const {
-        Iterator partitionIt = partitionAndGetPartitionIteratorInTwoDirections<Values>(lowestIt, highestIt);
+    void sort(Values& valuesToSort, Iterator const itLow, Iterator const itHigh) const {
+        Iterator partitionIt = partitionAndGetPartitionIteratorInTwoDirections<Values>(itLow, itHigh);
         Iterator partitionItMinusOne = partitionIt;
         Iterator partitionItPlusOne = partitionIt;
         partitionItMinusOne--;
         partitionItPlusOne++;
-        if (lowestIt != partitionIt && lowestIt != partitionItMinusOne)  // size must be at least two
-        {
+        if (itLow != partitionIt && itLow != partitionItMinusOne) {  // size must be at least two
             // recursively sort/partition the low part without the partitionIt
-            sort(valuesToSort, lowestIt, partitionItMinusOne);
+            sort(valuesToSort, itLow, partitionItMinusOne);
         }
-        if (partitionIt != highestIt && partitionItPlusOne != highestIt)  // size must be at least two
-        {
+        if (partitionIt != itHigh && partitionItPlusOne != itHigh) {  // size must be at least two
             // recursively sort/partition the high part without the partitionIt
-            sort(valuesToSort, partitionItPlusOne, highestIt);
+            sort(valuesToSort, partitionItPlusOne, itHigh);
         }
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Time Complexity: Time complexity of the above implementation is same as time complexity of QuickSort() for arrays.
 // -> It takes O(n^2) time in the worst case and O(nLogn) in average and best cases.
 // -> The worst case occurs when the linked list is already sorted.

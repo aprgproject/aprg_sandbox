@@ -35,60 +35,56 @@ public:
         return result;
     }
 
-    Index getIndexOfNearestValue(Index const lowerIndex, Index const higherIndex, Value const& value) const {
+    Index getIndexOfNearestValue(Index const lowIndex, Index const highIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (lowerIndex < static_cast<Index>(m_sortedValues.size()) &&
-            higherIndex < static_cast<Index>(m_sortedValues.size()) && lowerIndex <= higherIndex) {
-            result = getIndexOfNearestValueWithoutCheck(lowerIndex, higherIndex, value);
+        if (lowIndex < static_cast<Index>(m_sortedValues.size()) &&
+            highIndex < static_cast<Index>(m_sortedValues.size()) && lowIndex <= highIndex) {
+            result = getIndexOfNearestValueWithoutCheck(lowIndex, highIndex, value);
         }
         return result;
     }
 
 private:
     Index getIndexOfNearestValueWithoutCheck(
-        Index const lowerIndex, Index const higherIndex, Value const& value) const {
+        Index const lowIndex, Index const highIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        if (value < m_sortedValues.at(lowerIndex)) {
+        if (value < m_sortedValues.at(lowIndex)) {
             result =
-                (lowerIndex == 0) ? 0 : getIndexOfNearestValueInBetweenTwoIndices(lowerIndex - 1, lowerIndex, value);
-        } else if (m_sortedValues.at(higherIndex) < value) {
-            result = (higherIndex == static_cast<Index>(m_sortedValues.size()) - 1)
+                (lowIndex == 0) ? 0 : getIndexOfNearestValueInBetweenTwoIndices(lowIndex - 1, lowIndex, value);
+        } else if (m_sortedValues.at(highIndex) < value) {
+            result = (highIndex == static_cast<Index>(m_sortedValues.size()) - 1)
                          ? m_sortedValues.size() - 1
-                         : getIndexOfNearestValueInBetweenTwoIndices(higherIndex, higherIndex + 1, value);
+                         : getIndexOfNearestValueInBetweenTwoIndices(highIndex, highIndex + 1, value);
         } else {
-            Index oneThirdSize = (higherIndex - lowerIndex) / 3;
-            Index firstMiddleIndex = lowerIndex + oneThirdSize;
+            Index oneThirdSize = (highIndex - lowIndex) / 3;
+            Index firstMiddleIndex = lowIndex + oneThirdSize;
             Index secondMiddleIndex = firstMiddleIndex + oneThirdSize;
             Value firstMiddleValue(m_sortedValues.at(firstMiddleIndex));
-            Value secondMiddleValue(m_sortedValues.at(secondMiddleIndex));
-            if (value == firstMiddleValue) {
+            Value secondMiddleValue(m_sortedValues.at(secondMiddleIndex));            if (value == firstMiddleValue) {
                 result = firstMiddleIndex;
             } else if (value == secondMiddleValue) {
                 result = secondMiddleIndex;
             } else if (firstMiddleValue > value)  // if on the first one-third part
             {
-                result = getIndexOfNearestValueWithoutCheck(lowerIndex, firstMiddleIndex - 1, value);
+                result = getIndexOfNearestValueWithoutCheck(lowIndex, firstMiddleIndex - 1, value);
             } else if (secondMiddleValue < value)  // if on the third one-third part
             {
-                result = getIndexOfNearestValueWithoutCheck(secondMiddleIndex + 1, higherIndex, value);
+                result = getIndexOfNearestValueWithoutCheck(secondMiddleIndex + 1, highIndex, value);
             } else  // if on the second one-third part
             {
-                result = getIndexOfNearestValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);
-            }
+                result = getIndexOfNearestValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);            }
         }
         return result;
     }
 
     Index getIndexOfNearestValueInBetweenTwoIndices(
-        Index const lowerIndex, Index const higherIndex, Value const& value) const {
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(lowerIndex)));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
-        return (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
+        Index const lowIndex, Index const highIndex, Value const& value) const {
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(lowIndex)));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(highIndex)));
+        return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
 
-    Values const& m_sortedValues;
-};
+    Values const& m_sortedValues;};
 
 }  // namespace algorithm
-
 }  // namespace alba

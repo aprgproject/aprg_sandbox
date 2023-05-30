@@ -59,25 +59,23 @@ private:
         Value const& targetSum, SumsOfPairOfValues const& sumOfPairOfValues, Comparator const& shouldContinue) const {
         PairOfSumOfPairOfValues result{};
         if (!sumOfPairOfValues.empty()) {
-            Index lowerIndex = 0, higherIndex = sumOfPairOfValues.size() - 1;
-            while (shouldContinue(lowerIndex, higherIndex)) {
+            Index lowIndex = 0, highIndex = sumOfPairOfValues.size() - 1;
+            while (shouldContinue(lowIndex, highIndex)) {
                 Value currentSum(
-                    std::get<0>(sumOfPairOfValues.at(lowerIndex)) + std::get<0>(sumOfPairOfValues.at(higherIndex)));
+                    std::get<0>(sumOfPairOfValues.at(lowIndex)) + std::get<0>(sumOfPairOfValues.at(highIndex)));
                 if (currentSum == targetSum) {
-                    result = {sumOfPairOfValues.at(lowerIndex), sumOfPairOfValues.at(higherIndex)};
+                    result = {sumOfPairOfValues.at(lowIndex), sumOfPairOfValues.at(highIndex)};
                     break;
                 } else if (currentSum > targetSum) {
-                    higherIndex--;
+                    highIndex--;
                 } else if (currentSum < targetSum) {
-                    lowerIndex++;
+                    lowIndex++;
                 }
             }
-        }
-        return result;
+        }        return result;
     }
 
-    Values const& m_sortedValues;
-};
+    Values const& m_sortedValues;};
 
 }  // namespace algorithm
 

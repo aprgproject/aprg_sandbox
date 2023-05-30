@@ -18,64 +18,60 @@ using IntegerSelector = QuickSelector<Integers>;
 }  // namespace
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1) {
-    CharacterSelector selector(PivotType::ValueAtLowestIndex);
+    CharacterSelector selector(PivotType::LowestIndex);
     testDoNthElementUsingExample1WithCharacters<CharacterSelector, Characters>(selector);
 }
 
 TEST(QuickSelectorTest, DoNthSelectWorksOnPositiveAndNegativeIntegersUsingExample1) {
-    IntegerSelector selector(PivotType::ValueAtLowestIndex);
+    IntegerSelector selector(PivotType::LowestIndex);
     testDoNthElementUsingExample1WithPositiveAndNegativeIntegers<IntegerSelector, Integers>(selector);
 }
 
 TEST(QuickSelectorTest, GetNthSelectWorksOnCharactersUsingExample1) {
-    CharacterSelector selector(PivotType::ValueAtLowestIndex);
+    CharacterSelector selector(PivotType::LowestIndex);
     testGetNthElementUsingExample1WithCharacters<CharacterSelector, Characters>(selector);
 }
 
 TEST(QuickSelectorTest, GetNthSelectWorksOnPositiveAndNegativeIntegersUsingExample1) {
-    IntegerSelector selector(PivotType::ValueAtLowestIndex);
+    IntegerSelector selector(PivotType::LowestIndex);
     testGetNthElementUsingExample1WithPositiveAndNegativeIntegers<IntegerSelector, Integers>(selector);
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtLowestIndex) {
-    CharacterSelector selector(PivotType::ValueAtLowestIndex);
+    CharacterSelector selector(PivotType::LowestIndex);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
-
     Characters valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtHighestIndex) {
-    CharacterSelector selector(PivotType::ValueAtHighestIndex);
+    CharacterSelector selector(PivotType::HighestIndex);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
 
-    Characters valuesToExpect{'A', 'E', 'E', 'M', 'L', 'O', 'R', 'X', 'P', 'S', 'T'};
+    Characters valuesToExpect{'E', 'A', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtRandomIndex) {
-    CharacterSelector selector(PivotType::ValueAtRandomIndex);
+    CharacterSelector selector(PivotType::RandomIndex);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
-
     EXPECT_EQ('O', valuesToTest.at(5));
 }
 
 TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians) {
-    CharacterSelector selector(PivotType::ValueAtMedianOfMedians);
+    CharacterSelector selector(PivotType::MedianOfMedians);
     Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToTest, 5);
-
     Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
-
 }  // namespace algorithm
 
 }  // namespace alba

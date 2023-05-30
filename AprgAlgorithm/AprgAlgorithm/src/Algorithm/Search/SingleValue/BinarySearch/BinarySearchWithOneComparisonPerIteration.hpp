@@ -36,27 +36,25 @@ public:
 private:
     Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& value) const {
         Index result(INVALID_INDEX);
-        Index lowerIndex(startIndex), higherIndex(endIndex);
-        while (lowerIndex + 1 < higherIndex) {
-            Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
+        Index lowIndex(startIndex), highIndex(endIndex);
+        while (lowIndex + 1 < highIndex) {
+            Index middleIndex = getMidpointOfIndexes(lowIndex, highIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
             if (value <= middleValue) {
-                higherIndex = middleIndex;
+                highIndex = middleIndex;
             } else {
-                lowerIndex = middleIndex;
+                lowIndex = middleIndex;
             }
         }
-        if (value == m_sortedValues.at(lowerIndex)) {
-            result = lowerIndex;
-        } else if (value == m_sortedValues.at(higherIndex)) {
-            result = higherIndex;
+        if (value == m_sortedValues.at(lowIndex)) {
+            result = lowIndex;
+        } else if (value == m_sortedValues.at(highIndex)) {
+            result = highIndex;
         }
         return result;
     }
-
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

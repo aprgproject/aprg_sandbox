@@ -17,45 +17,40 @@ public:
 
     void sort(Values& valuesToSort) const override {
         if (!valuesToSort.empty()) {
-            auto insertIt = valuesToSort.begin();
-            insertIt++;
-            for (; insertIt != valuesToSort.end(); insertIt++) {
-                // continuouslySwapIfStillOutOfOrder(valuesToSort, insertIt);  // swap implementation
-                continuouslyCopyBackIfStillOutOfOrder(valuesToSort, insertIt);  // copy implementation
+            for (auto insertIt = std::next(valuesToSort.begin()); insertIt != valuesToSort.end(); insertIt++) {
+                continuouslySwapBackIfStillOutOfOrder(valuesToSort, insertIt);  // swap implementation
+                // continuouslyCopyBackIfStillOutOfOrder(valuesToSort, insertIt);  // copy implementation
             }
         }
     }
 
 private:
     void continuouslySwapBackIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const {
-        auto itLow = std::make_reverse_iterator(insertIt);  // make_reverse_iterator moves it by one
-        auto itHigh = itLow;
-        itHigh--;  // move it back to original place (same as insert It)
-        // so final the stiuation here is itLow < itHigh and insertIt
-        for (; itLow != valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++) {
-            std::swap(*itLow, *itHigh);
+        auto rItLow = std::make_reverse_iterator(insertIt);  // make_reverse_iterator moves it by one
+        auto rItHigh = rItLow;
+        rItHigh--;  // move it back to original place (same as insert It)
+        // so final the stiuation here is rItLow < rItHigh and insertIt
+        for (; rItLow != valuesToSort.rend() && *rItLow > *rItHigh; rItLow++, rItHigh++) {
+            std::swap(*rItLow, *rItHigh);
         }
     }
-
     void continuouslyCopyBackIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const {
         // reserve a copy instead of continuously swapping down
         // this is another implementation (from CLS book)
         auto insertItem = *insertIt;
-        auto itLow = std::make_reverse_iterator(insertIt);  // make_reverse_iterator moves it by one
-        auto itHigh = itLow;
-        itHigh--;  // move it back to original place (same as insert It)
-        // so final the stiuation here is itLow < itHigh and insertIt
-        for (; itLow != valuesToSort.rend() && *itLow > insertItem; itLow++, itHigh++) {
-            *itHigh = *itLow;  // move
+        auto rItLow = std::make_reverse_iterator(insertIt);  // make_reverse_iterator moves it by one
+        auto rItHigh = rItLow;
+        rItHigh--;  // move it back to original place (same as insert It)
+        // so final the stiuation here is rItLow < rItHigh and insertIt
+        for (; rItLow != valuesToSort.rend() && *rItLow > insertItem; rItLow++, rItHigh++) {
+            *rItHigh = *rItLow;  // move
         }
-        *itHigh = insertItem;
+        *rItHigh = insertItem;
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and
 // ~(1/4)N^2 exchanges on average. Proof: Expect each entry to move halfway back. Only half of the elements along the
 // diagonal is involved in the sort.

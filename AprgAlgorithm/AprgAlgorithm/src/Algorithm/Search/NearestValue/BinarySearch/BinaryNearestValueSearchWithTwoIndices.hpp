@@ -16,21 +16,19 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     BinaryNearestValueSearchWithTwoIndices(Values const& sortedValues)
-        : m_lowerIndex(INVALID_INDEX), m_higherIndex(INVALID_INDEX), m_sortedValues(sortedValues) {
+        : m_lowIndex(INVALID_INDEX), m_highIndex(INVALID_INDEX), m_sortedValues(sortedValues) {
         setInitialIndexes();
     }
 
-    BinaryNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
-        : m_lowerIndex(INVALID_INDEX), m_higherIndex(INVALID_INDEX), m_sortedValues(sortedValues) {
-        setInitialIndexes(lowerIndex, higherIndex);
+    BinaryNearestValueSearchWithTwoIndices(Index const lowIndex, Index const highIndex, Values const& sortedValues)
+        : m_lowIndex(INVALID_INDEX), m_highIndex(INVALID_INDEX), m_sortedValues(sortedValues) {
+        setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& value) {
-        Value result{};
+    Value getNearestValue(Value const& value) {        Value result{};
         if (!m_sortedValues.empty()) {
             moveIndexesUntilCloseToValue(value);
-            result = m_sortedValues.at(getIndexOfNearestValueInBetweenTwoIndices(value));
-        }
+            result = m_sortedValues.at(getIndexOfNearestValueInBetweenTwoIndices(value));        }
         return result;
     }
 
@@ -43,85 +41,81 @@ public:
         return result;
     }
 
-    inline Index getLowerIndex() const { return m_lowerIndex; }
+    inline Index getLowerIndex() const { return m_lowIndex; }
 
-    inline Index getHigherIndex() const { return m_higherIndex; }
+    inline Index getHigherIndex() const { return m_highIndex; }
 
     Value getLowerValue() const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            result = m_sortedValues.at(m_lowerIndex);
+            result = m_sortedValues.at(m_lowIndex);
         }
         return result;
     }
-
     Value getHigherValue() const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            result = m_sortedValues.at(m_higherIndex);
+            result = m_sortedValues.at(m_highIndex);
         }
         return result;
     }
 
 private:
     Index getIndexOfNearestValueInBetweenTwoIndices(Value const& value) const {
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_lowerIndex)));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_higherIndex)));
-        return (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_lowIndex)));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_highIndex)));
+        return (deviationFromLower <= deviationFromHigher) ? m_lowIndex : m_highIndex;
     }
 
     void setInitialIndexes() {
         if (!m_sortedValues.empty()) {
-            m_lowerIndex = 0;
-            m_higherIndex = m_sortedValues.size() - 1;  // fully closed interval
+            m_lowIndex = 0;
+            m_highIndex = m_sortedValues.size() - 1;  // fully closed interval
         }
     }
 
-    void setInitialIndexes(Index const lowerIndex, Index const higherIndex) {
+    void setInitialIndexes(Index const lowIndex, Index const highIndex) {
         if (!m_sortedValues.empty()) {
             Index maxIndex = m_sortedValues.size() - 1;
-            m_lowerIndex = std::min(lowerIndex, maxIndex);
-            m_higherIndex = std::min(higherIndex, maxIndex);  // fully closed interval
-            if (m_lowerIndex > m_higherIndex) {
-                std::swap(m_lowerIndex, m_higherIndex);
+            m_lowIndex = std::min(lowIndex, maxIndex);
+            m_highIndex = std::min(highIndex, maxIndex);  // fully closed interval
+            if (m_lowIndex > m_highIndex) {
+                std::swap(m_lowIndex, m_highIndex);
             }
         }
     }
-
     void moveIndexesUntilCloseToValue(Value const& value) {
         if (!m_sortedValues.empty()) {
-            moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(value);
-            moveIndexesCloserWhenValueIsBeyondTheIndices(value);
+            moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(value);            moveIndexesCloserWhenValueIsBeyondTheIndices(value);
         }
     }
 
     void moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(Value const& value) {
-        while (m_lowerIndex + 1 < m_higherIndex) {
+        while (m_lowIndex + 1 < m_highIndex) {
             // Binary search with one comparison per iteration
 
-            Index middleIndex(getMidpointOfIndexes(m_lowerIndex, m_higherIndex));
+            Index middleIndex(getMidpointOfIndexes(m_lowIndex, m_highIndex));
             Value middleValue(m_sortedValues.at(middleIndex));
             if (value <= middleValue) {
-                m_higherIndex = middleIndex;
+                m_highIndex = middleIndex;
             } else {
-                m_lowerIndex = middleIndex;
+                m_lowIndex = middleIndex;
             }
         }
     }
 
     void moveIndexesCloserWhenValueIsBeyondTheIndices(Value const& value) {
-        if (value <= m_sortedValues.at(m_lowerIndex)) {
-            m_higherIndex = m_lowerIndex;
-        } else if (m_sortedValues.at(m_higherIndex) <= value) {
-            m_lowerIndex = m_higherIndex;
+        if (value <= m_sortedValues.at(m_lowIndex)) {
+            m_highIndex = m_lowIndex;
+        } else if (m_sortedValues.at(m_highIndex) <= value) {
+            m_lowIndex = m_highIndex;
         }
     }
 
-    Index m_lowerIndex;
-    Index m_higherIndex;
+    Index m_lowIndex;
+    Index m_highIndex;
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
