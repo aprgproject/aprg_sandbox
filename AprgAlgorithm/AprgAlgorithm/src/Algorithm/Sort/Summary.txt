@@ -1,4 +1,211 @@
-Sorting Summary:
+
+-> Classification
+
+---> Sorting algorithms can be classified by:
+
+-----> Computational complexity
+-------> Best, worst and average case behavior in terms of the size of the list. 
+---------> For typical serial sorting algorithms, good behavior is O(n log n), with parallel sort in O(log2 n), and bad behavior is O(n2). 
+---------> Ideal behavior for a serial sort is O(n), but this is not possible in the average case. Optimal parallel sorting is O(log n).
+-------> Swaps for "in-place" algorithms.
+-----> Memory usage (and use of other computer resources). 
+-------> In particular, some sorting algorithms are "in-place". 
+-------> Strictly, an in-place sort needs only O(1) memory beyond the items being sorted; sometimes O(log n) additional memory is considered "in-place".
+-----> Recursion: 
+-------> Some algorithms are either recursive or non-recursive, while others may be both (e.g., merge sort).
+-----> Stability: 
+-------> stable sorting algorithms maintain the relative order of records with equal keys (i.e., values).
+-----> Whether or not they are a comparison sort. 
+-------> A comparison sort examines the data only by comparing two elements with a comparison operator.
+-----> General method: 
+-------> insertion, exchange, selection, merging, etc. Exchange sorts include bubble sort and quicksort. Selection sorts include cycle sort and heapsort.
+-----> Whether the algorithm is serial or parallel. 
+-------> The remainder of this discussion almost exclusively concentrates upon serial algorithms and assumes serial operation.
+-----> Adaptability: 
+-------> Whether or not the presortedness of the input affects the running time. Algorithms that take this into account are known to be adaptive.
+-----> Online: 
+-------> An algorithm such as Insertion Sort that is online can sort a constant stream of input.
+
+
+
+---> Comparison of algorithms
+-----> In these tables, n is the number of records to be sorted. 
+-------> The columns "Best", "Average" and "Worst" give the time complexity in each case, 
+-------> under the assumption that the length of each key is constant, and therefore that all comparisons, 
+-------> swaps and other operations can proceed in constant time. 
+-------> "Memory" denotes the amount of extra storage needed additionally to that used by the list itself, under the same assumption. 
+-------> The run times and the memory requirements listed are inside big O notation, hence the base of the logarithms does not matter. 
+-------> The notation log2 n means (log n)2.
+
+---> Comparison sorts
+-----> Below is a table of comparison sorts.
+-------> A comparison sort cannot perform better than O(n log n) on average:
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Name                 | Best     | Average  | Worst      | Memory | Stable | Inplace | Method       | Other notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Quicksort            | n log(n) | n log(n) | n^2        | log(n) | No     | Yes     | Partitioning | Fastest in practice
+|                      |          |          |            |        |        |         |              | Linearithmic (n log(n)) probabilistic guarantee.
+|                      |          |          |            |        |        |         |              | Quicksort is usually done in-place with O(log n) stack space.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Three-way Quicksort  | n        | n log(n) | n^2        | log(n) | No     | Yes     | Partitioning | Linear on best case.
+|                      |          |          |            |        |        |         |              | This improves quicksort in presence of duplicate keys.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Merge sort           | n log(n) | n log(n) | n log(n)   | n      | Yes    | No      | Merging      | Stable
+|                      |          |          |            |        |        |         |              | Linearithmic (n log(n)) guarantee but uses auxiliary space.
+|                      |          |          |            |        |        |         |              | Highly parallelizable (up to O(log n) using the Three Hungarians' Algorithm).
+-----------------------------------------------------------------------------------------------------------------------------------------
+| In-place merge sort  | —        | —        | n log(n)^2 | 1      | Yes    |         | Merging      | Can be implemented as a stable sort based on stable in-place merging.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Introsort            | n log(n) | n log(n) | n log(n)   | log(n) | No     |         | Partitioning | Used in several STL implementations.
+|                      |          |          |            |        |        |         | Selection    |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Heapsort             | n log(n) | n log(n) | n log(n)   | 1      | No     | Yes     | Selection    | Linearithmic (n log(n)) guarantee and in place
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Insertion sort       | n        | n^2      | n^2        | 1      | Yes    | Yes     | Insertion    | This is best on small n or partially ordered.
+|                      |          |          |            |        |        |         |              | O(n + d), in the worst case over sequences that have d inversions.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Block sort           | n        | n log(n) | n log(n)   | 1      | Yes    |         | Insertion    | Combine a block-based O(n) in-place merge algorithm[9] with a bottom-up merge sort.
+|                      |          |          |            |        |        |         | Merging      |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Timsort              | n        | n log(n) | n log(n)   | n      | Yes    |         | Insertion    | Makes n-1 comparisons when the data is already sorted or reverse sorted.
+|                      |          |          |            |        |        |         | Merging      |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Selection sort       | n^2      | n^2      | n^2        | 1      | No     | Yes     | Selection    | The number of exchanges is n.
+|                      |          |          |            |        |        |         |              | Stable with O(n) extra space, when using linked lists, 
+|                      |          |          |            |        |        |         |              | or when made as a variant of Insertion Sort instead of swapping the two items.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Cubesort             | n        | n log(n) | n log(n)   | n      | Yes    |         | Insertion    | Makes n-1 comparisons when the data is already sorted or reverse sorted.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Shellsort            | n log(n) | n^(4/3)  | n^(3/2)    | 1      | No     | No      | Insertion    | This is best on limited code size.
+|                      |          |          |            |        |        |         |              | This is also subquadratic.
+|                      |          |          |            |        |        |         |              | Small code size.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Bubble sort          | n        | n^2      | n^2        | 1      | Yes    |         | Exchanging   | Tiny code size.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Exchange sort        | n^2      | n^2      | n^2        | 1      | No     |         | Exchanging   | Tiny code size.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Tree sort            | n log(n) | n log(n) | n log(n)   | n      | Yes    |         | Insertion    | When using a self-balancing binary search tree.
+|                      |          |          | (balanced) |        |        |         |              | 
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Cycle sort           | n^2      | n^2      | n^2        | 1      | No     |         | Selection    | In-place with theoretically optimal number of writes.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Library sort         | n log(n) | n log(n) | n^2        | n      | No     |         | Insertion    | Similar to a gapped insertion sort. 
+|                      |          |          |            |        |        |         |              | It requires randomly permuting the input to warrant 
+|                      |          |          |            |        |        |         |              | with-high-probability time bounds, which makes it not stable.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Patience sorting     | n        | n log(n) | n log(n)   | n      | No     |         | Insertion    | Finds all the longest increasing subsequences in O(n log n).
+|                      |          |          |            |        |        |         | Selection    |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Smoothsort           | n        | n log(n) | n log(n)   | 1      | No     |         | Selection    | An adaptive variant of heapsort based upon the Leonardo sequence 
+|                      |          |          |            |        |        |         |              | rather than a traditional binary heap.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Strand sort          | n        | n^2      | n^2        | n      | Yes    |         | Selection    | 
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Tournament sort      | n log(n) | n log(n) | n log(n)   | n      | No     |         | Selection    | Variation of Heapsort.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Cocktail shaker sort | n        | n^2      | n^2        | 1      | Yes    |         | Exchanging   | A variant of Bubblesort which deals well with small values at end of list
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Comb sort            | n log(n) | n^2      | n^2        | 1      | No     |         | Exchanging   | Faster than bubble sort on average.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Gnome sort           | n        | n^2      | n^2        | 1      | Yes    |         | Exchanging   | Tiny code size.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Odd–even sort        | n        | n^2      | n^2        | 1      | Yes    |         | Exchanging   | Can be run on parallel processors easily.
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+---> Non-comparison sorts
+-----> The following table describes integer sorting algorithms and other sorting algorithms that are not comparison sorts. 
+-------> As such, they are not limited to Ω(n log n).
+-------> Complexities below assume n items to be sorted, with keys of size k, digit size d, and r the range of numbers to be sorted. 
+-------> Many of them are based on the assumption that the key size is large enough that all entries have unique key values, and hence that n << 2k, where << means "much less than". 
+-------> In the unit-cost random-access machine model, algorithms with running time of n*k/d, 
+-------> such as radix sort, still take time proportional to Θ(n log n), because n is limited to be not more than 2*k/d, 
+-------> and a larger number of elements to sort would require a bigger k in order to store them in the memory.
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Name            | Best | Average | Worst       | Memory    | Stable | Inplace | n << 2k | Notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Pigeonhole sort | —    | n+2^k   | n+2^k       | 2^k       | Yes    |         | Yes     | Cannot sort non-integers.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Bucket sort     | —    | n+k     | (n^2)*k     | n*k       | Yes    |         | No      | Assumes uniform distribution of elements from the domain in the array. 
+| (uniform keys)  |      |         |             |           |        |         |         | Also cannot sort non-integers
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Bucket sort     | —    | n+r     | n+r         | n+r       | Yes    |         | Yes     | If r is O(n), then average time complexity is O(n).
+| (integer keys)  |      |         |             |           |        |         |         | 
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Counting sort   | —    | n+r     | n+r         | n+r       | Yes    |         | Yes     | If r is O(n), then average time complexity is O(n).
+-----------------------------------------------------------------------------------------------------------------------------------------
+| LSD Radix Sort  | n    | n*k/d   | n*k/d       | n+(2^d)   | Yes    | No      | No      | This have a performance guarantee (n*k/d)
+|                 |      |         |             |           |        |         |         | This need extra space.
+|                 |      |         |             |           |        |         |         | k/d recursion levels, 2d for count array. 
+|                 |      |         |             |           |        |         |         | Unlike most distribution sorts, this can sort Floating point numbers, negative numbers and more.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| MSD Radix Sort  | —    | n*k/d   | n*k/d       | n+(2^d)   | Yes    | No      | No      | This need extra space.
+|                 |      |         |             |           |        |         |         | Stable version uses an external array of size n to hold all of the bins. 
+|                 |      |         |             |           |        |         |         | Same as the LSD variant, it can sort non-integers.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| MSD Radix Sort  | —    | n*k     | n*k         | 2^1       | No     | No      | No      | d=1 for in-place, k/1 recursion levels, no count array.
+| (in-place)      |      |         |             |           |        |         |         | 
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Spreadsort      | n    | n*k/d   | n*(k/s + d) | k/d*(2^d) | No     |         | No      | Asymptotic are based on the assumption that n ≪ 2k, but the algorithm does not require this.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Burstsort       | —    | n*k/d   | n*k/d       | n*k/d     | No     |         | No      | Has better constant factor than radix sort for sorting strings. 
+|                 |      |         |             |           |        |         |         | Though relies somewhat on specifics of commonly encountered strings.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Flashsort       | n    | n+r     | n^2         | n         | No     |         | No      | Requires uniform distribution of elements from the domain in the array to run in linear time. 
+|                 |      |         |             |           |        |         |         | If distribution is extremely skewed then it can go quadratic if underlying sort is quadratic (it is usually an insertion sort). 
+|                 |      |         |             |           |        |         |         | In-place version is not stable.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Postman sort    | —    | n*k/d   | n*k/d       | n+2^d     |  —     |         | No      | A variation of bucket sort, which works very similarly to MSD Radix Sort. Specific to post service needs.
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----> Samplesort can be used to parallelize any of the non-comparison sorts, 
+-------> by efficiently distributing data into several buckets and then passing down sorting to several processors, 
+-------> with no need to merge as buckets are already sorted between each other.
+
+---> Others
+-----> Some algorithms are slow compared to those discussed above, such as the bogosort with unbounded run time and the stooge sort which has O(n^2.7) run time. 
+-------> These sorts are usually described for educational purposes in order to demonstrate how run time of algorithms is estimated. 
+-------> The following table describes some sorting algorithms that are impractical for real-life use in traditional software contexts due to extremely poor performance or specialized hardware requirements.
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Name                     | Best            | Average          | Worst            | Memory | Stable | Comparison | Other notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Bead sort                | n               | S                | S                | n^2    | —      | No         | Works only with positive integers.  
+-----------------------------------------------------------------------------------------------------------------------------------------
+|                          |                 |                  |                  |        |        |            | Requires specialized hardware for it to run in guaranteed O(n) time.
+|                          |                 |                  |                  |        |        |            | There is a possibility for software implementation, but running time will be O(S),
+|                          |                 |                  |                  |        |        |            |  where S is sum of all integers to be sorted, in case of small integers it can be considered to be linear.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Simple pancake sort      | —               | n^2              | n^2              | log(n) | No     | Yes        | Count is number of flips.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| "I Can't Believe It Can" | n^2             | n^2              | n^2              | 1      | No     | Yes        | Notable primarily for appearing to be an erroneous implementation of either Insertion Sort or Exchange Sort.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Spaghetti (Poll) sort    | n               | n                | n                | n^2    | Yes    | Polling    | This is a linear-time, analog algorithm for sorting a sequence of items, 
+|                          |                 |                  |                  |        |        |            | requiring O(n) stack space, and the sort is stable. 
+|                          |                 |                  |                  |        |        |            | This requires n parallel processors. See spaghetti sort#Analysis.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Sorting network          | Varies          | Varies           | Varies           | Varies | Varies | Yes        | Order of comparisons are set in advance based on a fixed network size.[disputed – discuss]
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Bitonic sorter           | log(n)^2        | log(n)^2         | n log(n)^2       | 1      | No     | Yes        | An effective variation of Sorting networks.[disputed – discuss]
+|                          | parallel        | parallel         | non-parallel     |        |        |            |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Bogosort                 | n               | (n×n!)           | unbounded (n×n!) | 1      | No     | Yes        | Random shuffling. Used for example purposes only, as even the expected best-case runtime is awful.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Stooge sort              | n^(log3/log1.5) | n^(log3/ log1.5) | n^(log3/ log1.5) | n      | No     | Yes        | Slower than most of the sorting algorithms (even naive ones) 
+|                          |                 |                  |                  |        |        |            | with a time complexity of O(nlog 3 / log 1.5 ) = O(n2.7095...) 
+|                          |                 |                  |                  |        |        |            | Can be made stable, and is also a sorting network.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Slowsort                 | n^(log n)       | n^(log n)        | n^(log n)        | n      | No     | Yes        | A multiply and surrender algorithm, antonymous with divide-and-conquer algorithm.
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----> Theoretical computer scientists have detailed other sorting algorithms that provide better than O(n log n) time complexity assuming additional constraints, including:
+-------> Thorup's algorithm, a randomized algorithm for sorting keys from a domain of finite size, taking O(n log log n) time and O(n) space.[18]
+-------> A randomized integer sorting algorithm taking O(n*sqrt(log(log n))) expected time and O(n) space.[19]
+ 
+ 
+
+
+Sorting Summary (THIS IS ALREADY MERGED WITH THE TABLES ABOVE):
 
 Note: lg N means log2(N)
 

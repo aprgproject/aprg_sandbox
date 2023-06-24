@@ -45,6 +45,7 @@ void testGetNthElementUsingExample1WithPositiveAndNegativeIntegers(Selector cons
 }
 
 }  // namespace CommonTestsWithSelector
+
 }  // namespace algorithm
 
 }  // namespace alba

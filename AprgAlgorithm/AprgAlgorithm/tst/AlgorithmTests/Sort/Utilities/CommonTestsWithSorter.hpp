@@ -114,7 +114,9 @@ void testSortAsNotStableUsingExample1WithStabilityCheckObjects(Sorter const& sor
         areObjectsEqualOnVisibleAndNotVisiblePart);
     EXPECT_FALSE(areEqual);
 }
+
 }  // namespace CommonTestsWithSorter
 
 }  // namespace algorithm
+
 }  // namespace alba

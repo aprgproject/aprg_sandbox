@@ -19,9 +19,11 @@ TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1) {
     SumSearch search(valuesToSearch);
 
     ValuesForTest valuesToVerify(search.getSubArrayWithSum(8));
+
     ValuesForTest valuesToExpect{2, 5, 1};
     EXPECT_EQ(valuesToExpect, valuesToVerify);
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

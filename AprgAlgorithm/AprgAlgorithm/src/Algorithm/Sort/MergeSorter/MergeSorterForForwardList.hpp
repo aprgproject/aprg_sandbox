@@ -46,7 +46,8 @@ private:
             ++turtoise;
             if (hare != values.cend()) {
                 ++hare;
-            }        }
+            }
+        }
         return turtoise;
     }
 
@@ -70,9 +71,11 @@ private:
         result = std::move(merged);
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Merge sort is often preferred for sorting a linked list.
 // The slow random-access performance of a linked list makes some other algorithms (such as quicksort) perform poorly,
 // and others (such as heapsort) completely impossible.

@@ -6,24 +6,54 @@
 #include <utility>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Values>class BubbleSorter : public BaseSorter<Values> {
+template <typename Values>
+class BubbleSorter : public BaseSorter<Values> {
 public:
     BubbleSorter() = default;
 
     void sort(Values& valuesToSort) const override {
+        sortWithSkip(valuesToSort);
+        // sortWithTwoLoops(valuesToSort);
+    }
+
+private:
+    void sortWithSkip(Values& valuesToSort) const {
+        // Based from https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
         if (!valuesToSort.empty()) {
-            for (auto itStop = std::next(valuesToSort.begin()), itEnd = valuesToSort.end(); itStop != itEnd; itEnd--) {
-                bool noSwapHappened(true);
-                for (auto itFirst = valuesToSort.begin(), itSecond = std::next(valuesToSort.begin()); itSecond != itEnd;
-                     itFirst++, itSecond++) {
+            auto itLast = valuesToSort.end();
+            do {
+                auto itSkip = valuesToSort.begin();
+                for (auto itFirst = valuesToSort.begin(), itSecond = std::next(valuesToSort.begin());
+                     itSecond != itLast; itFirst++, itSecond++) {
                     if (*itSecond < *itFirst) {
                         std::swap(*itFirst, *itSecond);
-                        noSwapHappened = false;                    }
+                        itSkip = itSecond;
+                    }
+                }
+                itLast = itSkip;
+            } while (itLast != valuesToSort.begin());
+        }
+    }
+
+    void sortWithTwoLoops(Values& valuesToSort) const {
+        // Based from https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
+        if (!valuesToSort.empty()) {
+            auto itBeginPlusOne = std::next(valuesToSort.begin());
+            for (auto itLast = valuesToSort.end(); itBeginPlusOne != itLast; itLast--) {
+                bool noSwapHappened(true);
+                for (auto itFirst = valuesToSort.begin(), itSecond = std::next(valuesToSort.begin());
+                     itSecond != itLast; itFirst++, itSecond++) {
+                    if (*itSecond < *itFirst) {
+                        std::swap(*itFirst, *itSecond);
+                        noSwapHappened = false;
+                    }
                 }
                 if (noSwapHappened) {
-                    break;                }
+                    break;
+                }
             }
         }
     }

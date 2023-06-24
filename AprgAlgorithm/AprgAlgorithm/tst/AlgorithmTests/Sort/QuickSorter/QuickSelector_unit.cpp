@@ -77,4 +77,5 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
 }
 
 }  // namespace algorithm
+
 }  // namespace alba
