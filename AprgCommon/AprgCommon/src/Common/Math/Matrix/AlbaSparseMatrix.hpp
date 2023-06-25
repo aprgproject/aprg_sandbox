@@ -106,27 +106,24 @@ public:
 
     DataType& getEntryReference(size_t const x, size_t const y) {
         assert((x < m_numberOfColumns) && (y < m_numberOfRows));
-        return m_matrixData.at(getMatrixIndex(x, y));
+        return m_matrixData[getMatrixIndex(x, y)];
     }
 
-    void setEntry(size_t const x, size_t const y, DataType const& value) {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+    void setEntry(size_t const x, size_t const y, DataType const& value) {        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
         m_matrixData[getMatrixIndex(x, y)] = value;
     }
 
     void setEntries(ListedMatrixData const& dataSampleValues) {
         size_t limit = std::min<size_t>(dataSampleValues.size(), m_numberOfColumns * m_numberOfRows);
         for (size_t i = 0; i < limit; i++) {
-            if (!isEqualForMathMatrixDataType(dataSampleValues.at(i), static_cast<DataType>(0))) {
-                m_matrixData[i] = dataSampleValues.at(i);
+            if (!isEqualForMathMatrixDataType(dataSampleValues[i], static_cast<DataType>(0))) {
+                m_matrixData[i] = dataSampleValues[i];
             }
         }
     }
-
     void clearAndResize(size_t const numberOfColumns, size_t const numberOfRows) {
         m_numberOfColumns = numberOfColumns;
-        m_numberOfRows = numberOfRows;
-        m_matrixData.clear();
+        m_numberOfRows = numberOfRows;        m_matrixData.clear();
     }
 
     void negate() {

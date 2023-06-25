@@ -183,16 +183,14 @@ TEST(AlbaMathVectorTest, GetValuesWorks) {
     VectorTwoElements::ValuesInArray values(mathVector.getValues());
 
     ASSERT_EQ(2U, values.size());
-    EXPECT_DOUBLE_EQ(3.5, values.at(0));
-    EXPECT_DOUBLE_EQ(4.5, values.at(1));
+    EXPECT_DOUBLE_EQ(3.5, values[0]);
+    EXPECT_DOUBLE_EQ(4.5, values[1]);
 }
 
-TEST(AlbaMathVectorTest, OutputStreamOperatorWorks) {
-    stringstream ss;
+TEST(AlbaMathVectorTest, OutputStreamOperatorWorks) {    stringstream ss;
     VectorTwoElements mathVector{3.5, 4.5};
 
     ss << mathVector;
-
     EXPECT_EQ("{3.5, 4.5}", ss.str());
 }
 

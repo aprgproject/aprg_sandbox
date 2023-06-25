@@ -170,15 +170,13 @@ DataType multiplyEachItemAndGetSum(AlbaMatrixData<DataType> const& first, AlbaMa
     DataType result{};
     size_t minSize = std::min(first.size(), second.size());
     for (size_t i = 0; i < minSize; i++) {
-        result += first.at(i) * second.at(i);
+        result += first[i] * second[i];
     }
     return result;
 }
-
 template <typename DataType>
 size_t getIndexWithHighestSatisfiedCount(
-    ListOfAlbaMatrixData<DataType> const& rowsOrColumns, BoolUnaryFunction<DataType> const& condition) {
-    size_t i = 0;
+    ListOfAlbaMatrixData<DataType> const& rowsOrColumns, BoolUnaryFunction<DataType> const& condition) {    size_t i = 0;
     size_t bestIndex = 0;
     size_t highestCount = 0;
     for (auto const& rowOrColumn : rowsOrColumns) {

@@ -19,18 +19,23 @@ public:
         typeHelper::isIntegralType<ValueType>(), std::uniform_int_distribution<ValueType>,
         std::uniform_real_distribution<ValueType>>;
 
-    AlbaUniformDeterministicRandomizer(ValueType const minimum, ValueType const maximum, ValueType const customSeed)
+    AlbaUniformDeterministicRandomizer() : m_randomEngine(), m_randomNumberDistribution() {}
+
+    explicit AlbaUniformDeterministicRandomizer(
+        ValueType const minimum, ValueType const maximum, ValueType const customSeed)
         : m_randomEngine(customSeed), m_randomNumberDistribution(minimum, maximum) {}
 
     ValueType getRandomValue() { return m_randomNumberDistribution(m_randomEngine); }
 
+    void setMinimumAndMaximum(ValueType const minimum, ValueType const maximum) {
+        m_randomNumberDistribution = Distribution(minimum, maximum);
+    }
+
     void setRandomSeed(ValueType const customSeed) { m_randomEngine.seed(customSeed); }
 
-private:
-    RandomEngine m_randomEngine;
+private:    RandomEngine m_randomEngine;
     Distribution m_randomNumberDistribution;
 };
-
 }  // namespace alba
 
 // Notes:

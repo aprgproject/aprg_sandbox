@@ -13,15 +13,47 @@ using IntegerRandomizerForTest = AlbaUniformNonDeterministicRandomizer<int>;
 using FloatingPointRandomizerForTest = AlbaUniformNonDeterministicRandomizer<double>;
 }  // namespace
 
-TEST(AlbaUniformNonDeterministicRandomizerTest, GetRandomIntegerWorks_WithinMinimumAndMaximumValues) {
+TEST(AlbaUniformNonDeterministicRandomizerTest, DefaultConstructorWorks) {
+    IntegerRandomizerForTest randomizer;
+
+    EXPECT_NO_FATAL_FAILURE(randomizer.getRandomValue());
+}
+
+TEST(AlbaUniformNonDeterministicRandomizerTest, SetMinimumAndMaximumWorks) {
     constexpr int minimumValue(0);
     constexpr int maximumValue(9);
-    IntegerRandomizerForTest randomizer(minimumValue, maximumValue);
+    IntegerRandomizerForTest randomizer;
+
+    randomizer.setMinimumAndMaximum(minimumValue, maximumValue);
 
     for (int i = 0; i < 1000; i++) {
         auto randomValue(randomizer.getRandomValue());
         ASSERT_GE(randomValue, minimumValue);
         ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
+TEST(AlbaUniformNonDeterministicRandomizerTest, ResetRandomSeedWorks) {
+    constexpr int minimumValue(0);
+    constexpr int maximumValue(9);
+    IntegerRandomizerForTest randomizer(minimumValue, maximumValue);
+
+    randomizer.resetRandomSeed();
+
+    for (int i = 0; i < 1000; i++) {
+        auto randomValue(randomizer.getRandomValue());
+        ASSERT_GE(randomValue, minimumValue);
+        ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
+TEST(AlbaUniformNonDeterministicRandomizerTest, GetRandomIntegerWorks_WithinMinimumAndMaximumValues) {
+    constexpr int minimumValue(0);
+    constexpr int maximumValue(9);    IntegerRandomizerForTest randomizer(minimumValue, maximumValue);
+
+    for (int i = 0; i < 1000; i++) {
+        auto randomValue(randomizer.getRandomValue());
+        ASSERT_GE(randomValue, minimumValue);        ASSERT_LE(randomValue, maximumValue);
     }
 }
 
@@ -111,20 +143,6 @@ TEST(AlbaUniformNonDeterministicRandomizerTest, GetRandomFloatingValueWorks_AsUn
     auto&& [minIterator, maxIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
     int deviationCount(*maxIterator - *minIterator);
     EXPECT_LT(deviationCount, allowedDeviationCount);
-}
-
-TEST(AlbaUniformNonDeterministicRandomizerTest, ResetRandomSeedWorks) {
-    constexpr int minimumValue(0);
-    constexpr int maximumValue(9);
-    IntegerRandomizerForTest randomizer(minimumValue, maximumValue);
-
-    randomizer.resetRandomSeed();
-
-    for (int i = 0; i < 1000; i++) {
-        auto randomValue(randomizer.getRandomValue());
-        ASSERT_GE(randomValue, minimumValue);
-        ASSERT_LE(randomValue, maximumValue);
-    }
 }
 
 }  // namespace alba

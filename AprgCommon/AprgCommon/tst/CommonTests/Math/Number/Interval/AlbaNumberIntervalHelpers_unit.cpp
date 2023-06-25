@@ -114,9 +114,9 @@ TEST(AlbaNumberIntervalTest, GetNumbersInsideTheIntervalWorks) {
 
     AlbaNumbers numbersToVerify(getNumbersInsideTheInterval(numbers, interval));
     ASSERT_EQ(3U, numbersToVerify.size());
-    EXPECT_EQ(AlbaNumber(2), numbersToVerify.at(0));
-    EXPECT_EQ(AlbaNumber(3), numbersToVerify.at(1));
-    EXPECT_EQ(AlbaNumber(4), numbersToVerify.at(2));
+    EXPECT_EQ(AlbaNumber(2), numbersToVerify[0]);
+    EXPECT_EQ(AlbaNumber(3), numbersToVerify[1]);
+    EXPECT_EQ(AlbaNumber(4), numbersToVerify[2]);
 }
 
 }  // namespace alba

@@ -13,14 +13,48 @@ using IntegerRandomizerForTest = AlbaUniformDeterministicRandomizer<int>;
 using FloatingPointRandomizerForTest = AlbaUniformDeterministicRandomizer<double>;
 }  // namespace
 
-TEST(AlbaUniformDeterministicRandomizerTest, GetRandomIntegerWorks_WithinMinimumAndMaximumValues) {
+TEST(AlbaUniformDeterministicRandomizerTest, DefaultConstructorWorks) {
+    IntegerRandomizerForTest randomizer;
+
+    EXPECT_NO_FATAL_FAILURE(randomizer.getRandomValue());
+}
+
+TEST(AlbaUniformDeterministicRandomizerTest, SetMinimumAndMaximumWorks) {
     constexpr int minimumValue(0);
     constexpr int maximumValue(9);
-    constexpr int customSeed(5);
-    IntegerRandomizerForTest randomizer(minimumValue, maximumValue, customSeed);
+    IntegerRandomizerForTest randomizer;
+
+    randomizer.setMinimumAndMaximum(minimumValue, maximumValue);
 
     for (int i = 0; i < 1000; i++) {
         auto randomValue(randomizer.getRandomValue());
+        ASSERT_GE(randomValue, minimumValue);
+        ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
+TEST(AlbaUniformDeterministicRandomizerTest, SetRandomSeedWorks) {
+    constexpr int minimumValue(0);
+    constexpr int maximumValue(9);
+    constexpr double customSeed(10);
+    IntegerRandomizerForTest randomizer(minimumValue, maximumValue, customSeed);
+
+    constexpr int newCustomSeed(42);
+    randomizer.setRandomSeed(newCustomSeed);
+
+    for (int i = 0; i < 1000; i++) {
+        auto randomValue(randomizer.getRandomValue());
+        ASSERT_GE(randomValue, minimumValue);
+        ASSERT_LE(randomValue, maximumValue);
+    }
+}
+
+TEST(AlbaUniformDeterministicRandomizerTest, GetRandomIntegerWorks_WithinMinimumAndMaximumValues) {
+    constexpr int minimumValue(0);
+    constexpr int maximumValue(9);    constexpr int customSeed(5);
+    IntegerRandomizerForTest randomizer(minimumValue, maximumValue, customSeed);
+
+    for (int i = 0; i < 1000; i++) {        auto randomValue(randomizer.getRandomValue());
         ASSERT_GE(randomValue, minimumValue);
         ASSERT_LE(randomValue, maximumValue);
     }
@@ -104,22 +138,6 @@ TEST(AlbaUniformDeterministicRandomizerTest, GetRandomFloatingValueWorks_AsUnifo
     auto&& [minIterator, maxIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
     int deviationCount(*maxIterator - *minIterator);
     EXPECT_LT(deviationCount, allowedDeviationCount);
-}
-
-TEST(AlbaUniformDeterministicRandomizerTest, SetRandomSeedWorks) {
-    constexpr int minimumValue(0);
-    constexpr int maximumValue(9);
-    constexpr double customSeed(10);
-    IntegerRandomizerForTest randomizer(minimumValue, maximumValue, customSeed);
-
-    constexpr int newCustomSeed(42);
-    randomizer.setRandomSeed(newCustomSeed);
-
-    for (int i = 0; i < 1000; i++) {
-        auto randomValue(randomizer.getRandomValue());
-        ASSERT_GE(randomValue, minimumValue);
-        ASSERT_LE(randomValue, maximumValue);
-    }
 }
 
 }  // namespace alba

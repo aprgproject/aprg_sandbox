@@ -73,30 +73,28 @@ TEST(ComputationHelpersTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingRe
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 8, 22, 15));
 
     ASSERT_EQ(2U, quadraticRoots.size());
-    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
+    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots[0]);
+    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots[1]);
 }
 
-TEST(ComputationHelpersTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingImaginaryRoots) {
-    AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 1, 0, 4));
+TEST(ComputationHelpersTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingImaginaryRoots) {    AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 1, 0, 4));
 
     EXPECT_TRUE(quadraticRoots.empty());
 }
-
 TEST(ComputationHelpersTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInputHavingRealRoots) {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealAndImaginaryRoots, 8, 22, 15));
 
     ASSERT_EQ(2U, quadraticRoots.size());
-    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
+    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots[0]);
+    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots[1]);
 }
 
 TEST(ComputationHelpersTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInputHavingImaginaryRoots) {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealAndImaginaryRoots, 1, 0, 4));
 
     ASSERT_EQ(2U, quadraticRoots.size());
-    EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots.at(1));
+    EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), quadraticRoots[0]);
+    EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots[1]);
 }
 
 }  // namespace alba::mathHelper
