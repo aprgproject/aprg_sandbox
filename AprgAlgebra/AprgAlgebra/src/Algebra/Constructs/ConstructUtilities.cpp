@@ -281,21 +281,19 @@ void createTermRaiseToTermsFromMultiplicationAndDivisionExpression(
              i < static_cast<int>(constantFactorsOfExponents.size()) &&
              i < static_cast<int>(nonConstantFactorsOfExponents.size()) && i < static_cast<int>(originalBases.size());
              i++) {
-            AlbaNumber uniqueConstantExponent(constantFactorsOfExponents.at(i) / constantGcf);
-            TermsRaiseToNumbers remainingNonConstantFactors(nonConstantFactorsOfExponents.at(i));
+            AlbaNumber uniqueConstantExponent(constantFactorsOfExponents[i] / constantGcf);
+            TermsRaiseToNumbers remainingNonConstantFactors(nonConstantFactorsOfExponents[i]);
             remainingNonConstantFactors.subtractExponents(commonNonConstantFactorsOfExponents);
             remainingNonConstantFactors.simplify();
             Term uniqueExponent(Term(uniqueConstantExponent) * remainingNonConstantFactors.getCombinedTerm());
             uniqueExponent.simplify();
-            TermRaiseToTerms originalBaseToUniqueExponent(originalBases.at(i), uniqueExponent);
+            TermRaiseToTerms originalBaseToUniqueExponent(originalBases[i], uniqueExponent);
             finalBasesWithDetails.emplace_back(
                 originalBaseToUniqueExponent.getCombinedTerm(), TermAssociationType::Positive);
         }
-
         Term finalBase(convertExpressionToSimplestTerm(
             Expression(OperatorLevel::MultiplicationAndDivision, finalBasesWithDetails)));
-        finalBase.simplify();
-        commonExponent.simplify();
+        finalBase.simplify();        commonExponent.simplify();
         result = TermRaiseToTerms(finalBase, commonExponent);
     } else {
         result = TermRaiseToTerms(Term(expression), 1);

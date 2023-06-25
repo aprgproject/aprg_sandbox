@@ -133,14 +133,12 @@ AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients) {
     AlbaNumbers result;
     if (coefficients.size() == 3) {
         result = getQuadraticRoots(
-            mathHelper::RootType::RealRootsOnly, coefficients.at(0), coefficients.at(1), coefficients.at(2));
+            mathHelper::RootType::RealRootsOnly, coefficients[0], coefficients[1], coefficients[2]);
     } else {
         AlbaNumbers derivativeRoots(calculatePolynomialRoots(getDerivativeCoefficients(coefficients)));
-        result = calculatePolynomialRootsUsingBrentMethod(derivativeRoots, coefficients);
-    }
+        result = calculatePolynomialRootsUsingBrentMethod(derivativeRoots, coefficients);    }
     return result;
 }
-
 AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
     AlbaNumbers const& previousDerivativeRoots, AlbaNumbers const& coefficients) {
     AlbaNumbers result;
@@ -153,15 +151,13 @@ AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
     int size = valuesForRootFinding.size();
     for (int i = 0; i < size - 1; i++) {
         int j = i + 1;
-        brentMethod.resetCalculation(valuesForRootFinding.at(i), valuesForRootFinding.at(j));
+        brentMethod.resetCalculation(valuesForRootFinding[i], valuesForRootFinding[j]);
         brentMethod.runMaxNumberOfIterationsOrUntilFinished(NUMBER_OF_ITERATIONS_IN_BRENT_METHOD);
         AlbaNumberOptional rootOptional(brentMethod.getSolution());
-        if (rootOptional) {
-            AlbaNumber const& root(rootOptional.value());
+        if (rootOptional) {            AlbaNumber const& root(rootOptional.value());
             result.emplace_back(root);
         }
-    }
-    return result;
+    }    return result;
 }
 
 AlbaNumber getMaxAbsoluteValueForRootFinding(AlbaNumbers const& coefficients) {

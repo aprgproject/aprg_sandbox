@@ -44,14 +44,12 @@ TEST(OneEquationOneVariableEqualitySolverTest, EquationsThatAreAlwaysSatisfiedRe
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, actualIntervals.size());
-    EXPECT_EQ(createAllRealValuesInterval(), actualIntervals.at(0));
+    EXPECT_EQ(createAllRealValuesInterval(), actualIntervals[0]);
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly) {
-    OneEquationOneVariableEqualitySolver solver;
+TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly) {    OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Monomial(1, {{"x", 4}}), "=", 16)));
-
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     EXPECT_EQ((AlbaNumbers{-2, AlbaNumber::createComplexNumber(0, 2), 2}), solutionSet.getAcceptedValues());
@@ -124,16 +122,14 @@ TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolve
 
     AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
     ASSERT_EQ(2U, acceptedValues.size());
-    EXPECT_EQ(AlbaNumber(-2), acceptedValues.at(0));
-    EXPECT_EQ(AlbaNumber::createFraction(-1, 3), acceptedValues.at(1));
+    EXPECT_EQ(AlbaNumber(-2), acceptedValues[0]);
+    EXPECT_EQ(AlbaNumber::createFraction(-1, 3), acceptedValues[1]);
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolved) {
-    Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};
+TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolved) {    Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};
     Polynomial polynomial2{Monomial(5, {{"x", 1}})};
     Polynomial polynomial3{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
-    Expression expression1(createExpressionIfPossible({polynomial1, "/", 2}));
-    Expression expression2(createExpressionIfPossible({polynomial2, "/", polynomial3}));
+    Expression expression1(createExpressionIfPossible({polynomial1, "/", 2}));    Expression expression2(createExpressionIfPossible({polynomial2, "/", polynomial3}));
     Expression leftHandExpression(createExpressionIfPossible({expression1, "-", expression2}));
     OneEquationOneVariableEqualitySolver solver;
 

@@ -157,18 +157,16 @@ TEST(TermTest, TermsAsExpressionsWorks) {
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression2.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify2.size());
-    EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
-    Term const& termToVerify1(getTermConstReferenceFromUniquePointer(termsToVerify2.at(0).baseTermPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify2[0].association);
+    Term const& termToVerify1(getTermConstReferenceFromUniquePointer(termsToVerify2[0].baseTermPointer));
     EXPECT_EQ(Term(5), termToVerify1);
-    EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(1).association);
-    Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify2.at(1).baseTermPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify2[1].association);
+    Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify2[1].baseTermPointer));
     EXPECT_EQ(Term("interest"), termToVerify2);
 }
-
 TEST(TermTest, TermsAsFunctionsWorks) {
     Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });
-    Term functionTerm1(function1);
+    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });    Term functionTerm1(function1);
     Term functionTerm2(function2);
     Term functionTerm3("abs");
 

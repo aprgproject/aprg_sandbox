@@ -94,15 +94,13 @@ TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWo
 
     ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};
-    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect, polynomialsToVerify[0]);
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {
-    Polynomial polynomialToTest;
+TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {    Polynomial polynomialToTest;
 
     Polynomials polynomialsToVerify;
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(polynomialsToVerify, polynomialToTest);
-
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
@@ -114,15 +112,13 @@ TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpt
 
     ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
-    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect, polynomialsToVerify[0]);
 }
 
-TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {
-    Polynomial polynomialToTest;
+TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {    Polynomial polynomialToTest;
 
     Polynomials polynomialsToVerify;
     emplaceBackIfPolynomialIsNotEmpty(polynomialsToVerify, polynomialToTest);
-
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
@@ -139,24 +135,22 @@ TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksW
     Polynomial polynomialToExpect1(polynomial1);
     Polynomial polynomialToExpect2(polynomial2);
     Polynomial polynomialToExpect3(polynomial3);
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify[0]);
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify[1]);
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify[2]);
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsEmpty) {
-    Polynomial singlePolynomial{Monomial(1, {{"a", 1}}), Monomial(23, {})};
+TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsEmpty) {    Polynomial singlePolynomial{Monomial(1, {{"a", 1}}), Monomial(23, {})};
     Polynomials polynomialsToVerify;
 
     simplifyAndEmplaceBackPolynomialIfListIsEmpty(polynomialsToVerify, singlePolynomial);
 
     ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(singlePolynomial);
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify[0]);
 }
 
 }  // namespace Factorization
-
 }  // namespace algebra
 
 }  // namespace alba

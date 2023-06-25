@@ -70,16 +70,14 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     Term& rationalizedTerm, Term& multiplier, Polynomial const& polynomial) const {
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     if (monomials.size() == 2) {
-        Monomial const& firstMonomial(monomials.at(0));
-        Monomial const& secondMonomial(monomials.at(1));
+        Monomial const& firstMonomial(monomials[0]);
+        Monomial const& secondMonomial(monomials[1]);
         retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
     }
 }
-
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     Term& rationalizedTerm, Term& multiplier, Monomial const& firstMonomial, Monomial const& secondMonomial) const {
-    AlbaNumber gcfOfExponents = getGreatestCommonFactor(
-        getGcfOfExponentsInMonomial(firstMonomial), getGcfOfExponentsInMonomial(secondMonomial));
+    AlbaNumber gcfOfExponents = getGreatestCommonFactor(        getGcfOfExponentsInMonomial(firstMonomial), getGcfOfExponentsInMonomial(secondMonomial));
     if (gcfOfExponents.isFractionType()) {
         AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
         if (isDivisible(exponentFraction.denominator, 2U)) {
@@ -129,16 +127,14 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
     if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
         TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
         if (termsWithDetails.size() == 2) {
-            TermWithDetails const& firstTermWithDetails(termsWithDetails.at(0));
-            TermWithDetails const& secondTermWithDetails(termsWithDetails.at(1));
+            TermWithDetails const& firstTermWithDetails(termsWithDetails[0]);
+            TermWithDetails const& secondTermWithDetails(termsWithDetails[1]);
             retrieveTermsForRationalizationForExpression(
                 rationalizedTerm, multiplier, firstTermWithDetails, secondTermWithDetails);
-        }
-    }
+        }    }
 }
 
-void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
-    Term& rationalizedTerm, Term& multiplier, TermWithDetails const& firstTermWithDetails,
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(    Term& rationalizedTerm, Term& multiplier, TermWithDetails const& firstTermWithDetails,
     TermWithDetails const& secondTermWithDetails) const {
     Term const& firstTerm(getTermConstReferenceFromUniquePointer(firstTermWithDetails.baseTermPointer));
     Term const& secondTerm(getTermConstReferenceFromUniquePointer(secondTermWithDetails.baseTermPointer));

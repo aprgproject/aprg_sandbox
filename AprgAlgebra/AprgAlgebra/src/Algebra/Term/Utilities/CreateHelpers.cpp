@@ -77,26 +77,23 @@ Expression createExpressionIfPossible(Terms const& terms) {
     aggregator.buildExpressionFromTerms();
     Terms const& builtTerms(aggregator.getTermsConstReference());
     if (builtTerms.size() == 1) {
-        result = createOrCopyExpressionFromATerm(builtTerms.at(0));
+        result = createOrCopyExpressionFromATerm(builtTerms[0]);
     }
     return result;
 }
-
 Expression createSimplifiedExpressionIfPossible(Terms const& terms) {
     Expression result;
     TermsAggregator aggregator(terms);
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
     if (simplifiedTerms.size() == 1) {
-        result = createOrCopyExpressionFromATerm(simplifiedTerms.at(0));
+        result = createOrCopyExpressionFromATerm(simplifiedTerms[0]);
     }
     return result;
 }
-
 Function createFunctionWithEmptyInputExpression(string const& functionName) {
     Function result;
-    if ("abs" == functionName) {
-        result = abs(Term());
+    if ("abs" == functionName) {        result = abs(Term());
     }
     return result;
 }

@@ -77,41 +77,35 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression) 
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
+    EXPECT_EQ(Term("x"), numeratorsToVerify[0]);
     Terms const& denominatorsToVerify(termsOverTerms.getDenominators());
     EXPECT_TRUE(denominatorsToVerify.empty());
 }
-
 TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonMultiplicationDivisionExpression) {
     Term nonMultiplicationDivisionExpressionTerm(createExpressionIfPossible({"x", "^", "x"}));
-
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonMultiplicationDivisionExpressionTerm));
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_EQ(nonMultiplicationDivisionExpressionTerm, numeratorsToVerify.at(0));
+    EXPECT_EQ(nonMultiplicationDivisionExpressionTerm, numeratorsToVerify[0]);
     Terms const& denominatorsToVerify(termsOverTerms.getDenominators());
     EXPECT_TRUE(denominatorsToVerify.empty());
 }
-
 TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForMultiplicationDivisionExpression) {
     Term multiplicationDivisionExpressionTerm(createExpressionIfPossible({"x", "/", "y"}));
-
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(multiplicationDivisionExpressionTerm));
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
+    EXPECT_EQ(Term("x"), numeratorsToVerify[0]);
     Terms const& denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(1U, denominatorsToVerify.size());
-    EXPECT_EQ(Term("y"), denominatorsToVerify.at(0));
+    EXPECT_EQ(Term("y"), denominatorsToVerify[0]);
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomialOrExpression) {
-    Term nonMonomialOrExpressionTerm("x");
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomialOrExpression) {    Term nonMonomialOrExpressionTerm("x");
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(nonMonomialOrExpressionTerm));
-
     EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
 }

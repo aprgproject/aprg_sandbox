@@ -25,15 +25,13 @@ TEST(PowerSeriesTest, GetIntervalsOfConvergenceWorks) {
 
     AlbaNumberIntervals expectedIntervals(series.getIntervalsOfConvergence());
     ASSERT_EQ(1U, expectedIntervals.size());
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1), createOpenEndpoint(3)), expectedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1), createOpenEndpoint(3)), expectedIntervals[0]);
 }
 
-TEST(PowerSeriesTest, GetRadiusOfConvergenceWorks) {
-    Term multiplier("n");
+TEST(PowerSeriesTest, GetRadiusOfConvergenceWorks) {    Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
-    EXPECT_EQ(AlbaNumber(1), series.getRadiusOfConvergence());
-}
+    EXPECT_EQ(AlbaNumber(1), series.getRadiusOfConvergence());}
 
 TEST(PowerSeriesTest, DifferentiateWorks) {
     Term multiplier("n");

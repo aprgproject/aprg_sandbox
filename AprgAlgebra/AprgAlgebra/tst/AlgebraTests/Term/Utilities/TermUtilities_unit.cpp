@@ -100,24 +100,22 @@ TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks) {
     AlbaNumberPairs inputAndOutputPairs(evaluateAndGetInputOutputPair(inputNumbers, "x", Monomial(-2, {{"x", 3}})));
 
     ASSERT_EQ(5U, inputAndOutputPairs.size());
-    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);
-    EXPECT_EQ(AlbaNumber(16), inputAndOutputPairs.at(0).second);
-    EXPECT_EQ(AlbaNumber(-1), inputAndOutputPairs.at(1).first);
-    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(1).second);
-    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).first);
-    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).second);
-    EXPECT_EQ(AlbaNumber(1), inputAndOutputPairs.at(3).first);
-    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(3).second);
-    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(4).first);
-    EXPECT_EQ(AlbaNumber(-16), inputAndOutputPairs.at(4).second);
+    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs[0].first);
+    EXPECT_EQ(AlbaNumber(16), inputAndOutputPairs[0].second);
+    EXPECT_EQ(AlbaNumber(-1), inputAndOutputPairs[1].first);
+    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs[1].second);
+    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs[2].first);
+    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs[2].second);
+    EXPECT_EQ(AlbaNumber(1), inputAndOutputPairs[3].first);
+    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs[3].second);
+    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs[4].first);
+    EXPECT_EQ(AlbaNumber(-16), inputAndOutputPairs[4].second);
 }
 
 TEST(TermUtilitiesTest, GetPiAsTermWorks) { EXPECT_EQ(Term(ALBA_NUMBER_PI), getPiAsATerm()); }
-
 TEST(TermUtilitiesTest, GetEAsTermWorks) { EXPECT_EQ(Term(ALBA_NUMBER_E), getEAsATerm()); }
 
-TEST(TermUtilitiesTest, GetPositiveInfinityAsATermWorks) {
-    EXPECT_EQ(Term(ALBA_NUMBER_POSITIVE_INFINITY), getPositiveInfinityAsATerm());
+TEST(TermUtilitiesTest, GetPositiveInfinityAsATermWorks) {    EXPECT_EQ(Term(ALBA_NUMBER_POSITIVE_INFINITY), getPositiveInfinityAsATerm());
 }
 
 TEST(TermUtilitiesTest, GetNegativeInfinityAsATermWorks) {

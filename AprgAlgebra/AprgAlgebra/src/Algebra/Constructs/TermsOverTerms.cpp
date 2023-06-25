@@ -358,16 +358,14 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
             Expression const& expression(termToCheck.getExpressionConstReference());
             TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
             if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel() && termsWithDetails.size() == 2) {
-                Term const& base(getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
-                Term const& exponent(getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
+                Term const& base(getTermConstReferenceFromUniquePointer(termsWithDetails[0].baseTermPointer));
+                Term const& exponent(getTermConstReferenceFromUniquePointer(termsWithDetails[1].baseTermPointer));
                 isNeededToPutOnTheOtherSide = isANegativeTerm(exponent);
                 transformedTermOnTheOtherSide = createExpressionIfPossible({base, "^", negateTerm(exponent)});
-            }
-        }
+            }        }
         if (isNeededToPutOnTheOtherSide) {
             transformedTermOnTheOtherSide.simplify();
-            termsToPutOnTheOtherSide.emplace_back(transformedTermOnTheOtherSide);
-        } else {
+            termsToPutOnTheOtherSide.emplace_back(transformedTermOnTheOtherSide);        } else {
             termsToRetain.emplace_back(termToCheck);
         }
     }

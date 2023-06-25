@@ -33,15 +33,13 @@ bool isGaussDivergenceTheoremInAPlaneTrue(
     // Line Integral result
     SubstitutionOfVariablesToTerms substitution;
     for (int i = 0; i < 2; i++) {
-        substitution.putVariableWithTerm(coordinateVariables.at(i), regionOfLineIntegral.getValueAt(i));
+        substitution.putVariableWithTerm(coordinateVariables[i], regionOfLineIntegral.getValueAt(i));
     }
     MathVectorOfTwoTerms linePathInVectorField;
-    for (int i = 0; i < 2; i++) {
-        linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
+    for (int i = 0; i < 2; i++) {        linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
     }
     Term termIntegrate(getDotProduct(linePathInVectorField, unitOutwardNormal));
-    Integration integration(lineIntegralDetails.variableName);
-    Term lineIntegralResult(integration.integrateAtDefiniteTerms(
+    Integration integration(lineIntegralDetails.variableName);    Term lineIntegralResult(integration.integrateAtDefiniteTerms(
         termIntegrate, lineIntegralDetails.lowerEnd, lineIntegralDetails.higherEnd));
 
     // Area result
@@ -63,28 +61,24 @@ bool isStokesTheoremInAPlaneTrue(
     // Line Integral result
     SubstitutionOfVariablesToTerms substitution;
     for (int i = 0; i < 2; i++) {
-        substitution.putVariableWithTerm(coordinateVariables.at(i), regionOfLineIntegral.getValueAt(i));
+        substitution.putVariableWithTerm(coordinateVariables[i], regionOfLineIntegral.getValueAt(i));
     }
     MathVectorOfTwoTerms linePathInVectorField;
-    for (int i = 0; i < 2; i++) {
-        linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
+    for (int i = 0; i < 2; i++) {        linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
     }
     Term termIntegrate(getDotProduct(linePathInVectorField, unitTangentVector));
-    Integration integration(lineIntegralDetails.variableName);
-    Term lineIntegralResult(integration.integrateAtDefiniteTerms(
+    Integration integration(lineIntegralDetails.variableName);    Term lineIntegralResult(integration.integrateAtDefiniteTerms(
         termIntegrate, lineIntegralDetails.lowerEnd, lineIntegralDetails.higherEnd));
 
     // Area result
-    Term partialDerivativeOfYOnX(getPartialDerivative(vectorField.getValueAt(1), coordinateVariables.at(0)));
-    Term partialDerivativeOfXOnY(getPartialDerivative(vectorField.getValueAt(0), coordinateVariables.at(1)));
+    Term partialDerivativeOfYOnX(getPartialDerivative(vectorField.getValueAt(1), coordinateVariables[0]));
+    Term partialDerivativeOfXOnY(getPartialDerivative(vectorField.getValueAt(0), coordinateVariables[1]));
     Term termToIntegrateForArea(partialDerivativeOfYOnX - partialDerivativeOfXOnY);
     Term areaResult(getDoubleIntegralInCartesianCoordinates(termToIntegrateForArea, areaDetailsInX, areaDetailsInY));
-    return lineIntegralResult == areaResult;
-}
+    return lineIntegralResult == areaResult;}
 
 Term getDyOverDx(MathVectorOfTwoTerms const& termVector, string const& variableName) {
-    MathVectorOfTwoTerms derivative(differentiate(termVector, variableName));
-    Term result(derivative.getValueAt(1) / derivative.getValueAt(0));
+    MathVectorOfTwoTerms derivative(differentiate(termVector, variableName));    Term result(derivative.getValueAt(1) / derivative.getValueAt(0));
     result.simplify();
     return result;
 }
@@ -116,40 +110,35 @@ Term getLineIntegralOfAClosedNonIntersectingPathUsingGreensTheorem(
     // Green's Theorem is only usable on a line path that is closed and simple (non intersecting)
     // Green's Theorem relates line integral to area
 
-    Term partialDerivativeOfYOnX(getPartialDerivative(vectorField.getValueAt(1), coordinateVariables.at(0)));
-    Term partialDerivativeOfXOnY(getPartialDerivative(vectorField.getValueAt(0), coordinateVariables.at(1)));
+    Term partialDerivativeOfYOnX(getPartialDerivative(vectorField.getValueAt(1), coordinateVariables[0]));
+    Term partialDerivativeOfXOnY(getPartialDerivative(vectorField.getValueAt(0), coordinateVariables[1]));
     Term termToIntegrateForArea(partialDerivativeOfYOnX - partialDerivativeOfXOnY);
     return getDoubleIntegralInCartesianCoordinates(termToIntegrateForArea, xDetailsForLinePath, yDetailsForLinePath);
 }
-
 Term getAreaOfAClosedNonIntersectingPathUsingGreensTheorem(
     ArrayOfTwoStrings const& coordinateVariables, MathVectorOfTwoTerms const& linePath,
     DetailsForDefiniteIntegralWithTerms const& linePathIntegralDetails) {
     // Green's Theorem is only usable on a line path that is closed and simple (non intersecting)
     // Green's Theorem relates area to line integral
 
-    MathVectorOfTwoTerms vectorField{coordinateVariables.at(1) * -1, coordinateVariables.at(0)};
+    MathVectorOfTwoTerms vectorField{coordinateVariables[1] * -1, coordinateVariables[0]};
     return getLineIntegral<2>(vectorField, coordinateVariables, linePath, linePathIntegralDetails) / 2;
 }
-
 MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(
     Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point) {
-    using Values = typename MathVectorOfThreeTerms::ValuesInArray;
-    Equation simplifiedSurface(surface);
+    using Values = typename MathVectorOfThreeTerms::ValuesInArray;    Equation simplifiedSurface(surface);
     simplifiedSurface.simplify();
     MathVectorOfThreeTerms gradient(getGradient<3>(simplifiedSurface.getLeftHandTerm(), coordinateVariables));
     SubstitutionOfVariablesToValues substitution;
-    substitution.putVariableWithValue(coordinateVariables.at(0), point.getValueAt(0));
-    substitution.putVariableWithValue(coordinateVariables.at(1), point.getValueAt(1));
-    substitution.putVariableWithValue(coordinateVariables.at(2), point.getValueAt(2));
+    substitution.putVariableWithValue(coordinateVariables[0], point.getValueAt(0));
+    substitution.putVariableWithValue(coordinateVariables[1], point.getValueAt(1));
+    substitution.putVariableWithValue(coordinateVariables[2], point.getValueAt(2));
 
     MathVectorOfThreeTerms result;
-    Values const& values(gradient.getValues());
-    transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term) {
+    Values const& values(gradient.getValues());    transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term) {
         return substitution.performSubstitutionTo(term);
     });
-    return result;
-}
+    return result;}
 
 Equation getTangentPlaneOnAPointOfASurface(
     Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point) {
@@ -189,16 +178,14 @@ MathVectorOfThreeTerms getCurl(
     Term const& a(termVector.getValueAt(0));
     Term const& b(termVector.getValueAt(1));
     Term const& c(termVector.getValueAt(2));
-    Term x(getPartialDerivative(c, coordinateVariables.at(1)) - getPartialDerivative(b, coordinateVariables.at(2)));
-    Term y(getPartialDerivative(a, coordinateVariables.at(2)) - getPartialDerivative(c, coordinateVariables.at(0)));
-    Term z(getPartialDerivative(b, coordinateVariables.at(0)) - getPartialDerivative(a, coordinateVariables.at(1)));
+    Term x(getPartialDerivative(c, coordinateVariables[1]) - getPartialDerivative(b, coordinateVariables[2]));
+    Term y(getPartialDerivative(a, coordinateVariables[2]) - getPartialDerivative(c, coordinateVariables[0]));
+    Term z(getPartialDerivative(b, coordinateVariables[0]) - getPartialDerivative(a, coordinateVariables[1]));
     return MathVectorOfThreeTerms{x, y, z};
 }
-
 void simplifyForTermInVector(Term& term) {
     Simplification::simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(term);
-    term.clearAllInnerSimplifiedFlags();
-    term.simplify();
+    term.clearAllInnerSimplifiedFlags();    term.simplify();
 }
 
 SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForComparison(

@@ -44,16 +44,14 @@ bool Polynomial::operator<(Polynomial const& second) const {
     if (monomials1.size() == monomials2.size()) {
         int size = monomials1.size();
         for (int i = 0; i < size; i++) {
-            Monomial const& monomial1(monomials1.at(i));
-            Monomial const& monomial2(monomials2.at(i));
+            Monomial const& monomial1(monomials1[i]);
+            Monomial const& monomial2(monomials2[i]);
             if (monomial1 != monomial2) {
                 result = monomial1 < monomial2;
-                break;
-            }
+                break;            }
         }
     } else {
-        result = monomials1.size() < monomials2.size();
-    }
+        result = monomials1.size() < monomials2.size();    }
     return result;
 }
 

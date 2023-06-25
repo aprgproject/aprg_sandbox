@@ -515,15 +515,13 @@ void retrieveSubstitutionsFromCriticalNumbers(
             if (static_cast<int>(substitutions.size()) <= i) {
                 substitutions.emplace_back();
             }
-            substitutions.at(i++).putVariableWithValue(nameAndCriticalNumbersPair.first, criticalNumber);
+            substitutions[i++].putVariableWithValue(nameAndCriticalNumbersPair.first, criticalNumber);
         }
     }
 }
-
 void determineExtrema(
     ExtremaWithMultipleVariables& extrema, Terms const& secondDerivatives,
-    SubstitutionsOfVariablesToValues const& substitutions) {
-    for (SubstitutionOfVariablesToValues const& substitution : substitutions) {
+    SubstitutionsOfVariablesToValues const& substitutions) {    for (SubstitutionOfVariablesToValues const& substitution : substitutions) {
         ExtremumWithMultipleVariables extremum;
         ExtremumType extremumType(ExtremumType::Unknown);
         for (Term const& secondDerivative : secondDerivatives) {

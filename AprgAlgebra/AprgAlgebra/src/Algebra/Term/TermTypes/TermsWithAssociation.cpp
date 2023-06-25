@@ -25,15 +25,13 @@ bool TermsWithAssociation::operator==(TermsWithAssociation const& second) const 
         result = true;
         int commonSize = terms1.size();
         for (int i = 0; i < commonSize; i++) {
-            if (terms1.at(i) != terms2.at(i)) {
+            if (terms1[i] != terms2[i]) {
                 result = false;
                 break;
-            }
-        }
+            }        }
     }
     return result;
 }
-
 bool TermsWithAssociation::operator!=(TermsWithAssociation const& second) const { return !(operator==(second)); }
 
 bool TermsWithAssociation::operator<(TermsWithAssociation const& second) const {
@@ -43,16 +41,14 @@ bool TermsWithAssociation::operator<(TermsWithAssociation const& second) const {
     if (terms1.size() == terms2.size()) {
         int size = terms1.size();
         for (int i = 0; i < size; i++) {
-            TermWithDetails const& termWithDetails1(terms1.at(i));
-            TermWithDetails const& termWithDetails2(terms2.at(i));
+            TermWithDetails const& termWithDetails1(terms1[i]);
+            TermWithDetails const& termWithDetails2(terms2[i]);
             if (termWithDetails1 != termWithDetails2) {
                 result = termWithDetails1 < termWithDetails2;
-                break;
-            }
+                break;            }
         }
     } else {
-        result = terms1.size() < terms2.size();
-    }
+        result = terms1.size() < terms2.size();    }
     return result;
 }
 

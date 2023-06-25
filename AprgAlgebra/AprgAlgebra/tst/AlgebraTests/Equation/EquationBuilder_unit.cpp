@@ -30,27 +30,25 @@ TEST(EquationBuilderTest, GetTermStringsWorks) {
     stringHelper::strings termStrings(builder.getTermStrings());
 
     ASSERT_EQ(4U, termStrings.size());
-    EXPECT_EQ("a", termStrings.at(0));
-    EXPECT_EQ("b", termStrings.at(1));
-    EXPECT_EQ("c", termStrings.at(2));
-    EXPECT_EQ("d", termStrings.at(3));
+    EXPECT_EQ("a", termStrings[0]);
+    EXPECT_EQ("b", termStrings[1]);
+    EXPECT_EQ("c", termStrings[2]);
+    EXPECT_EQ("d", termStrings[3]);
 }
 
-TEST(EquationBuilderTest, GetEquationOperatorStringsWorks) {
-    EquationBuilder builder("a=a==a!=a<a>a<=a>=a");
+TEST(EquationBuilderTest, GetEquationOperatorStringsWorks) {    EquationBuilder builder("a=a==a!=a<a>a<=a>=a");
 
     stringHelper::strings equationOperatorStrings(builder.getEquationOperatorStrings());
 
     ASSERT_EQ(7U, equationOperatorStrings.size());
-    EXPECT_EQ("=", equationOperatorStrings.at(0));
-    EXPECT_EQ("==", equationOperatorStrings.at(1));
-    EXPECT_EQ("!=", equationOperatorStrings.at(2));
-    EXPECT_EQ("<", equationOperatorStrings.at(3));
-    EXPECT_EQ(">", equationOperatorStrings.at(4));
-    EXPECT_EQ("<=", equationOperatorStrings.at(5));
-    EXPECT_EQ(">=", equationOperatorStrings.at(6));
+    EXPECT_EQ("=", equationOperatorStrings[0]);
+    EXPECT_EQ("==", equationOperatorStrings[1]);
+    EXPECT_EQ("!=", equationOperatorStrings[2]);
+    EXPECT_EQ("<", equationOperatorStrings[3]);
+    EXPECT_EQ(">", equationOperatorStrings[4]);
+    EXPECT_EQ("<=", equationOperatorStrings[5]);
+    EXPECT_EQ(">=", equationOperatorStrings[6]);
 }
 
 }  // namespace algebra
-
 }  // namespace alba

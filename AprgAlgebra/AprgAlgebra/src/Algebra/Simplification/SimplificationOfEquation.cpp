@@ -102,17 +102,15 @@ void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded
         if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
             TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
             if (termsWithDetails.size() == 2 &&
-                areTheSignsOfTwoTermsDifferent(termsWithDetails.at(0), termsWithDetails.at(1))) {
-                Term const& firstTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
-                Term const& secondTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
+                areTheSignsOfTwoTermsDifferent(termsWithDetails[0], termsWithDetails[1])) {
+                Term const& firstTerm(getTermConstReferenceFromUniquePointer(termsWithDetails[0].baseTermPointer));
+                Term const& secondTerm(getTermConstReferenceFromUniquePointer(termsWithDetails[1].baseTermPointer));
                 TermRaiseToANumber termRaiseToANumber1(createTermRaiseToANumberFromTerm(firstTerm));
                 TermRaiseToANumber termRaiseToANumber2(createTermRaiseToANumberFromTerm(secondTerm));
-                AlbaNumber gcfOfExponents =
-                    getGreatestCommonFactor(termRaiseToANumber1.getExponent(), termRaiseToANumber2.getExponent());
+                AlbaNumber gcfOfExponents =                    getGreatestCommonFactor(termRaiseToANumber1.getExponent(), termRaiseToANumber2.getExponent());
                 if (gcfOfExponents.isFractionType()) {
                     AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
-                    termRaiseToANumber1.setExponent(termRaiseToANumber1.getExponent() * exponentFraction.denominator);
-                    termRaiseToANumber2.setExponent(termRaiseToANumber2.getExponent() * exponentFraction.denominator);
+                    termRaiseToANumber1.setExponent(termRaiseToANumber1.getExponent() * exponentFraction.denominator);                    termRaiseToANumber2.setExponent(termRaiseToANumber2.getExponent() * exponentFraction.denominator);
                     leftHandSide = termRaiseToANumber1.getCombinedTerm() - termRaiseToANumber2.getCombinedTerm();
                     leftHandSide.simplify();
                 }
@@ -133,15 +131,13 @@ void SimplificationOfEquation::removeCommonConstant(Term& leftHandSide) {
             for (Polynomial& factor : factors) {
                 Monomials& monomials(factor.getMonomialsReference());
                 if (monomials.size() == 1) {
-                    Monomial& onlyMonomial(monomials.at(0));
+                    Monomial& onlyMonomial(monomials[0]);
                     onlyMonomial.setConstant(getSign(onlyMonomial.getConstantConstReference()));
                     isLeftHandSideChanged = true;
-                }
-            }
+                }            }
             if (isLeftHandSideChanged) {
                 Polynomial combinedPolynomial(createPolynomialFromNumber(1));
-                for (Polynomial const& factor : factors) {
-                    combinedPolynomial.multiplyPolynomial(factor);
+                for (Polynomial const& factor : factors) {                    combinedPolynomial.multiplyPolynomial(factor);
                 }
                 leftHandSide = Term(combinedPolynomial);
             }

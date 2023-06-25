@@ -94,15 +94,13 @@ Term buildTermIfPossible(string const& termString) {
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
     if (simplifiedTerms.size() == 1) {
-        result = simplifiedTerms.at(0);
+        result = simplifiedTerms[0];
     }
     return result;
 }
-
 Terms tokenizeToTerms(string const& inputString) {
     Terms tokenizedTerms;
-    string valueString;
-    for (char const c : inputString) {
+    string valueString;    for (char const c : inputString) {
         if (!isWhiteSpace(c)) {
             string characterString(1, c);
             if (isOperator(characterString)) {

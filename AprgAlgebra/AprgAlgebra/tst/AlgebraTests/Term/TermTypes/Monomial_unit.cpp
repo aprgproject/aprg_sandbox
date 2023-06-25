@@ -53,39 +53,35 @@ TEST(MonomialTest, CombineVariableExponentMapByMultiplicationWorks) {
         Monomial::combineVariableExponentMapByMultiplication(variableMap1, variableMap3));
 
     ASSERT_EQ(2U, variableMapToVerify1.size());
-    EXPECT_DOUBLE_EQ(8, variableMapToVerify1.at("x").getDouble());
-    EXPECT_DOUBLE_EQ(0, variableMapToVerify1.at("y").getDouble());
+    EXPECT_DOUBLE_EQ(8, variableMapToVerify1["x"].getDouble());
+    EXPECT_DOUBLE_EQ(0, variableMapToVerify1["y"].getDouble());
     ASSERT_EQ(3U, variableMapToVerify2.size());
-    EXPECT_DOUBLE_EQ(7, variableMapToVerify2.at("x").getDouble());
-    EXPECT_DOUBLE_EQ(8, variableMapToVerify2.at("y").getDouble());
-    EXPECT_DOUBLE_EQ(5, variableMapToVerify2.at("z").getDouble());
+    EXPECT_DOUBLE_EQ(7, variableMapToVerify2["x"].getDouble());
+    EXPECT_DOUBLE_EQ(8, variableMapToVerify2["y"].getDouble());
+    EXPECT_DOUBLE_EQ(5, variableMapToVerify2["z"].getDouble());
 }
 
-TEST(MonomialTest, CombineVariableExponentMapByDivisionWorks) {
-    Monomial::VariablesToExponentsMap variableMap1{{"x", 7}, {"y", 8}};
+TEST(MonomialTest, CombineVariableExponentMapByDivisionWorks) {    Monomial::VariablesToExponentsMap variableMap1{{"x", 7}, {"y", 8}};
     Monomial::VariablesToExponentsMap variableMap2{{"x", 1}, {"y", 8}};
     Monomial::VariablesToExponentsMap variableMap3{{"z", 5}};
-
     Monomial::VariablesToExponentsMap variableMapToVerify1(
         Monomial::combineVariableExponentMapByDivision(variableMap1, variableMap2));
     Monomial::VariablesToExponentsMap variableMapToVerify2(
         Monomial::combineVariableExponentMapByDivision(variableMap1, variableMap3));
 
     ASSERT_EQ(2U, variableMapToVerify1.size());
-    EXPECT_DOUBLE_EQ(6, variableMapToVerify1.at("x").getDouble());
-    EXPECT_DOUBLE_EQ(0, variableMapToVerify1.at("y").getDouble());
+    EXPECT_DOUBLE_EQ(6, variableMapToVerify1["x"].getDouble());
+    EXPECT_DOUBLE_EQ(0, variableMapToVerify1["y"].getDouble());
     ASSERT_EQ(3U, variableMapToVerify2.size());
-    EXPECT_DOUBLE_EQ(7, variableMapToVerify2.at("x").getDouble());
-    EXPECT_DOUBLE_EQ(8, variableMapToVerify2.at("y").getDouble());
-    EXPECT_DOUBLE_EQ(-5, variableMapToVerify2.at("z").getDouble());
+    EXPECT_DOUBLE_EQ(7, variableMapToVerify2["x"].getDouble());
+    EXPECT_DOUBLE_EQ(8, variableMapToVerify2["y"].getDouble());
+    EXPECT_DOUBLE_EQ(-5, variableMapToVerify2["z"].getDouble());
 }
 
-TEST(MonomialTest, EqualityOperatorWorks) {
-    Monomial monomial1;
+TEST(MonomialTest, EqualityOperatorWorks) {    Monomial monomial1;
     Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(-234, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial4(-54, {{"x", 6}});
-    Monomial monomial5(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial4(-54, {{"x", 6}});    Monomial monomial5(-54, {{"x", 6}, {"y", -1.25}});
 
     EXPECT_TRUE(monomial1 == monomial1);
     EXPECT_FALSE(monomial1 == monomial2);

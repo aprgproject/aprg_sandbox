@@ -135,12 +135,10 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::saveTerm(
     if (numberOfTimesFound == 0) {
         m_remainingTerm += term;
     } else if (numberOfTimesFound == 1) {
-        m_variableNameToTermMap.at(variableName) += term;
+        m_variableNameToTermMap[variableName] += term;
     } else {
         m_termWithMultipleVariableNames += term;
-    }
-}
+    }}
 
 }  // namespace algebra
-
 }  // namespace alba

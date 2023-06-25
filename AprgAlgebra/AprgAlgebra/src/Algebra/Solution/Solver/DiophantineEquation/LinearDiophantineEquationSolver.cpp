@@ -56,18 +56,17 @@ void LinearDiophantineEquationSolver::retrieveDetailsFromPolynomial(
     bool& isPatternRecognized, AlbaNumber& a, AlbaNumber& b, AlbaNumber& c, string& xName, string& yName,
     Polynomial const& polynomial) {
     Monomials const& monomials(polynomial.getMonomialsConstReference());
-    if (3 == monomials.size() && 1 == monomials.at(0).getVariablesToExponentsMapConstReference().size() &&
-        1 == monomials.at(1).getVariablesToExponentsMapConstReference().size() &&
-        monomials.at(2).getVariablesToExponentsMapConstReference().empty()) {
-        a = monomials.at(0).getConstantConstReference();
-        b = monomials.at(1).getConstantConstReference();
-        c = -monomials.at(2).getConstantConstReference();
-        xName = monomials.at(0).getVariablesToExponentsMapConstReference().cbegin()->first;
-        yName = monomials.at(1).getVariablesToExponentsMapConstReference().cbegin()->first;
+    if (3 == monomials.size() && 1 == monomials[0].getVariablesToExponentsMapConstReference().size() &&
+        1 == monomials[1].getVariablesToExponentsMapConstReference().size() &&
+        monomials[2].getVariablesToExponentsMapConstReference().empty()) {
+        a = monomials[0].getConstantConstReference();
+        b = monomials[1].getConstantConstReference();
+        c = -monomials[2].getConstantConstReference();
+        xName = monomials[0].getVariablesToExponentsMapConstReference().cbegin()->first;
+        yName = monomials[1].getVariablesToExponentsMapConstReference().cbegin()->first;
         isPatternRecognized = true;
     }
 }
-
 }  // namespace algebra
 
 }  // namespace alba
