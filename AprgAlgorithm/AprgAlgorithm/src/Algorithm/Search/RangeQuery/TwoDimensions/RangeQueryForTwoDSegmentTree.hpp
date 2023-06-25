@@ -76,15 +76,13 @@ private:
             for (Index i1 = tree1.getStartOfChildren(), i2 = tree2.getStartOfChildren();
                  i1 < static_cast<Index>(treeValues1.size()) && i2 < static_cast<Index>(treeValues2.size());
                  i1++, i2++) {
-                newValues.emplace_back(m_function(treeValues1.at(i1), treeValues2.at(i2)));
+                newValues.emplace_back(m_function(treeValues1[i1], treeValues2[i2]));
             }
             newValues.shrink_to_fit();
-            return OneDSegmentTree(newValues, m_function);
-        };
+            return OneDSegmentTree(newValues, m_function);        };
     }
 
-    ValueMatrix m_valueMatrix;
-    OneDFunction m_function;
+    ValueMatrix m_valueMatrix;    OneDFunction m_function;
     TwoDSegmentTree m_twoDSegmentTree;
 };
 

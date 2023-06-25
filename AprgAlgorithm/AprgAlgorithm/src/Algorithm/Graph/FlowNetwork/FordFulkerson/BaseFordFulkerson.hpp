@@ -77,28 +77,25 @@ protected:
     void traverseAugmentingPathInReverse(TraverseFunction const& function) {
         // traverse augmenting path in reverse (does not reach source vertex)
         for (Vertex vertex = m_flowNetwork.getSinkVertex(); vertex != m_flowNetwork.getSourceVertex();
-             vertex = m_vertexToAugmentingPathEdgeMap.at(vertex).getTheOtherVertex(vertex)) {
+             vertex = m_vertexToAugmentingPathEdgeMap[vertex].getTheOtherVertex(vertex)) {
             function(vertex);
         }
     }
-
     FlowDataType getBottleNeckFlow() {
         // find minimum residual capacity in augmenting path
         FlowDataType bottleNeckFlow{};
         if (!m_vertexToAugmentingPathEdgeMap.empty()) {
             Vertex firstVertex(m_vertexToAugmentingPathEdgeMap.cbegin()->first);
-            bottleNeckFlow = m_vertexToAugmentingPathEdgeMap.at(firstVertex).getResidualCapacityTo(firstVertex);
+            bottleNeckFlow = m_vertexToAugmentingPathEdgeMap[firstVertex].getResidualCapacityTo(firstVertex);
             traverseAugmentingPathInReverse([&](Vertex const& vertex) {
                 bottleNeckFlow =
-                    std::min(bottleNeckFlow, m_vertexToAugmentingPathEdgeMap.at(vertex).getResidualCapacityTo(vertex));
+                    std::min(bottleNeckFlow, m_vertexToAugmentingPathEdgeMap[vertex].getResidualCapacityTo(vertex));
             });
         }
-        return bottleNeckFlow;
-    }
+        return bottleNeckFlow;    }
 
     SinkSourceFlowNetworkType m_flowNetwork;
-    FlowDataType m_maxFlowValue;
-    Paths m_augmentingPaths;
+    FlowDataType m_maxFlowValue;    Paths m_augmentingPaths;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToFlowEdgeMap m_vertexToAugmentingPathEdgeMap;
 };

@@ -28,22 +28,20 @@ public:
         for (int c = 1; c < static_cast<int>(newPosition.size());
              c++)  // Change count[i] so that count[i] now contains actual position of this character in output array
         {
-            newPosition[c] += newPosition.at(c - 1);
+            newPosition[c] += newPosition[c - 1];
         }
 
         Values copiedValues(valuesToSort);
         for (int i = copiedValues.size() - 1; i >= 0;
              i--)  // For stable algorithm, reverse the traversal in copied values
         {
-            Value const& copiedValue(copiedValues.at(i));
+            Value const& copiedValue(copiedValues[i]);
             int indexableValue(m_valueToIndexableValueFunction(copiedValue));
             valuesToSort[--newPosition[indexableValue]] = copiedValue;
-        }
-    }
+        }    }
 
 private:
-    ValueToIndexableValueFunction m_valueToIndexableValueFunction;
-};
+    ValueToIndexableValueFunction m_valueToIndexableValueFunction;};
 
 }  // namespace algorithm
 

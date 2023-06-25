@@ -23,23 +23,20 @@ public:
         Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if (selectedIndex != INVALID_INDEX) {
-            result = m_sortedValues.at(selectedIndex);
+            result = m_sortedValues[selectedIndex];
         }
         return result;
     }
-
     Index getIndexOfNearestValue(Value const& valueToCheck) {
         Index previousSearchIndex(0);
         Index searchIndex(0);
-        while (searchIndex < static_cast<Index>(m_sortedValues.size()) && m_sortedValues.at(searchIndex) < valueToCheck) {
+        while (searchIndex < static_cast<Index>(m_sortedValues.size()) && m_sortedValues[searchIndex] < valueToCheck) {
             previousSearchIndex = searchIndex;
             searchIndex += m_blockSize;
         }
-
         // perform linear search on that block
         LinearNearestValueSearchWithOneIndex<Values> linearSearch(
-            previousSearchIndex, std::min(searchIndex, static_cast<int>(m_sortedValues.size()) - 1), m_sortedValues);
-        return linearSearch.getIndexOfNearestValue(valueToCheck);
+            previousSearchIndex, std::min(searchIndex, static_cast<int>(m_sortedValues.size()) - 1), m_sortedValues);        return linearSearch.getIndexOfNearestValue(valueToCheck);
     }
 
 private:

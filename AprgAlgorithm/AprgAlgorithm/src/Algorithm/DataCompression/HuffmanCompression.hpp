@@ -101,23 +101,20 @@ private:
     FrequencyOfEachCharacter getFrequencyOfEachCharacter(Characters const& charactersInput) {
         FrequencyOfEachCharacter frequency{};
         for (Count i = 0; i < static_cast<Count>(charactersInput.size()); i++) {
-            frequency[charactersInput.at(i)]++;
+            frequency[charactersInput[i]]++;
         }
         return frequency;
     }
-
     void writeHuffmanCodes(
         AlbaStreamBitWriter& writer, Characters const& wholeInput, HuffmanCodeTable const& huffmanCodeTable) {
         for (Count i = 0; i < static_cast<Count>(wholeInput.size()); i++) {
-            HuffmanCode const& huffmanCode(huffmanCodeTable.at(wholeInput.at(i)));
+            HuffmanCode const& huffmanCode(huffmanCodeTable[wholeInput[i]]);
             for (bool const b : huffmanCode) {
                 writer.writeBoolData(b);
-            }
-        }
+            }        }
     }
 
-    void expandAllCharacters(
-        AlbaStreamBitReader& reader, AlbaStreamBitWriter& writer, TrieNodeUniquePointer const& root,
+    void expandAllCharacters(        AlbaStreamBitReader& reader, AlbaStreamBitWriter& writer, TrieNodeUniquePointer const& root,
         Count const lengthOfString) {
         for (Count i = 0; i < lengthOfString; i++) {
             expandOneCharacterBasedFromTrieAndCode(reader, writer, root);
@@ -183,17 +180,15 @@ private:
             frequenciesInMinimumOrder;  // min priority queue
         std::array<TrieNodeUniquePointer, RADIX> characterNode{};
         for (Count c = 0; c < RADIX; c++) {
-            if (frequency.at(c) > 0) {
+            if (frequency[c] > 0) {
                 frequenciesInMinimumOrder.emplace(
-                    static_cast<char>(c), frequency.at(c),
+                    static_cast<char>(c), frequency[c],
                     false);  // This PQ is used to prioritize low frequency characters first
                 characterNode[c] = std::make_unique<TrieNode>(
-                    static_cast<char>(c), nullptr, nullptr);  // These character nodes are used to build trie later on
-            }
+                    static_cast<char>(c), nullptr, nullptr);  // These character nodes are used to build trie later on            }
         }
 
-        while (frequenciesInMinimumOrder.size() >
-               1)  // Needs to be 2 or higher because we are popping 2 items per iteration
+        while (frequenciesInMinimumOrder.size() >               1)  // Needs to be 2 or higher because we are popping 2 items per iteration
         {
             // process the frequencies (minimum first) and build the trie by combining two nodes with lowest frequencies
             CharacterFrequency first(frequenciesInMinimumOrder.top());

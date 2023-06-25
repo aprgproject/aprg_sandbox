@@ -58,29 +58,27 @@ public:
         initializeLookupTablewithAllSingleCharacters(lookupTable);
         Code codeWord = readOneCodeword(reader);
         Code multiCharCode = RADIX + 2;
-        std::string currentString(lookupTable.at(codeWord));
+        std::string currentString(lookupTable[codeWord]);
 
         while (true) {
             writer.writeStringData(currentString);
             codeWord = readOneCodeword(reader);
             if (!input.eof() && codeWord != RADIX)  // exit at stop code word(RADIX)
             {
-                std::string nextString(lookupTable.at(codeWord));
+                std::string nextString(lookupTable[codeWord]);
                 if (codeWord == multiCharCode)  // not in the symbol table yet (tricky case)
                 {
                     // we expand the current string as the same time as processing it as next
-                    nextString = currentString + currentString.at(0);
+                    nextString = currentString + currentString[0];
                 }
                 if (multiCharCode < MAX_NUMBER_CODE_WORDS) {
-                    lookupTable.emplace_back(currentString + nextString.at(0));  // add a new code word
+                    lookupTable.emplace_back(currentString + nextString[0]);  // add a new code word
                     multiCharCode++;
                 }
-                currentString = nextString;
-            } else {
+                currentString = nextString;            } else {
                 break;
             }
-        }
-    }
+        }    }
 
 private:
     void initializeCodeTableWithAllSingleCharacters(SymbolTableUsingTrie& codeTrie) {

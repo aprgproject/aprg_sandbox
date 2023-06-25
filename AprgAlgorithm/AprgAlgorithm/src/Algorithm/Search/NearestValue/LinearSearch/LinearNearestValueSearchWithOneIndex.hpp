@@ -30,15 +30,13 @@ public:
         Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if (selectedIndex != INVALID_INDEX) {
-            result = m_values.at(selectedIndex);
+            result = m_values[selectedIndex];
         }
         return result;
     }
-
     Index getIndexOfNearestValue(Value const& valueToCheck) {
         Index result(INVALID_INDEX);
-        if (!m_values.empty()) {
-            Value minimumDeviation(std::numeric_limits<Value>::max());
+        if (!m_values.empty()) {            Value minimumDeviation(std::numeric_limits<Value>::max());
             for (auto it = m_values.cbegin() + m_startIndex; it != m_values.cbegin() + m_endIndex; it++) {
                 Value value(*it);
                 if (value == valueToCheck) {

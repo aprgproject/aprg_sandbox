@@ -77,14 +77,12 @@ public:
         if (childIndex < static_cast<Index>(b_treeValues.size())) {
             increaseAtRange(
                 index, index,
-                m_inverseFunction(newValue, b_treeValues.at(childIndex)));  // startOfChildren is size of base too
+                m_inverseFunction(newValue, b_treeValues[childIndex]));  // startOfChildren is size of base too
         }
     }
-
 private:
     Value getValueOnIntervalFromTopToBottom(
-        Index const startInterval, Index const endInterval, Index const currentChild, Index const baseLeft,
-        Index const baseRight) {
+        Index const startInterval, Index const endInterval, Index const currentChild, Index const baseLeft,        Index const baseRight) {
         // This has log(N) running time
 
         // We also calculate the sum of elements in a range [a,b] by walking in the tree from top to bottom.
@@ -94,15 +92,13 @@ private:
         Value result{};
         performUpdateAtIndexIfNeeded(currentChild, baseLeft, baseRight);  // propagate current update before processing
         if (startInterval <= baseLeft && baseRight <= endInterval) {
-            result = b_treeValues.at(currentChild);
+            result = b_treeValues[currentChild];
         } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
-            bool doesLeftPartIntersect = !(endInterval < baseLeft || baseMidPoint < startInterval);
-            bool doesRightPartIntersect = !(endInterval < baseMidPoint + 1 || baseRight < startInterval);
+            bool doesLeftPartIntersect = !(endInterval < baseLeft || baseMidPoint < startInterval);            bool doesRightPartIntersect = !(endInterval < baseMidPoint + 1 || baseRight < startInterval);
             if (doesLeftPartIntersect && doesRightPartIntersect) {
                 result = b_function(
-                    getValueOnIntervalFromTopToBottom(
-                        startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
+                    getValueOnIntervalFromTopToBottom(                        startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
                     getValueOnIntervalFromTopToBottom(
                         startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint + 1,
                         baseRight));

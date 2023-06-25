@@ -38,15 +38,13 @@ private:
         Index result(INVALID_INDEX);
         if (lowIndex <= highIndex) {
             Index middleIndex = getMidpointOfIndexes(lowIndex, highIndex);
-            Value middleValue(m_sortedValues.at(middleIndex));
+            Value middleValue(m_sortedValues[middleIndex]);
             if (value < middleValue) {
                 result = getIndexOfValueWithoutCheck(lowIndex, middleIndex - 1, value);
-            } else if (middleValue < value) {
-                result = getIndexOfValueWithoutCheck(middleIndex + 1, highIndex, value);
+            } else if (middleValue < value) {                result = getIndexOfValueWithoutCheck(middleIndex + 1, highIndex, value);
             } else {  // middleValue == value
                 result = middleIndex;
-            }
-        }
+            }        }
         return result;
     }
 

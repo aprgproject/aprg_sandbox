@@ -26,25 +26,23 @@ private:
     void sort(Values& valuesToSort, int const lowIndex, int const highIndex) const {
         if (lowIndex < highIndex) {
             int indexWithPivotValue = getPivotIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
-            auto pivotValue = valuesToSort.at(indexWithPivotValue);
+            auto pivotValue = valuesToSort[indexWithPivotValue];
 
             int boundaryIndexForLessThan = lowIndex, boundaryIndexForGreaterThan = highIndex;
             int compareIndex = lowIndex;
 
             while (compareIndex <= boundaryIndexForGreaterThan) {  // i moves within the boundaries
-                if (valuesToSort.at(compareIndex) < pivotValue) {
+                if (valuesToSort[compareIndex] < pivotValue) {
                     // swap so that elements that are less than are kept to the left of boundaryIndexForLessThan
                     // i is moved here as well (to keep i within the boundary)
                     std::swap(valuesToSort[boundaryIndexForLessThan++], valuesToSort[compareIndex++]);
-                } else if (pivotValue < valuesToSort.at(compareIndex)) {
+                } else if (pivotValue < valuesToSort[compareIndex]) {
                     // swap so that elements that are greater than are kept to the right of boundaryIndexForGreaterThan
                     std::swap(valuesToSort[compareIndex], valuesToSort[boundaryIndexForGreaterThan--]);
-                } else {
-                    compareIndex++;  // equal to partition value so just move to the next item
+                } else {                    compareIndex++;  // equal to partition value so just move to the next item
                 }
             }
-            // sort items that are less than the pivotValue
-            sort(valuesToSort, lowIndex, boundaryIndexForLessThan - 1);
+            // sort items that are less than the pivotValue            sort(valuesToSort, lowIndex, boundaryIndexForLessThan - 1);
             // sort items that are greater than the pivotValue
             sort(valuesToSort, boundaryIndexForGreaterThan + 1, highIndex);
             // do nothing for items that are equal to the pivotValue

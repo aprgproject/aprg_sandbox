@@ -27,15 +27,13 @@ public:
 
     bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override {
         bool result(false);
-        ReachabilityPointer const& pointer(m_reachabilityPointerArray.at(sourceVertex));
+        ReachabilityPointer const& pointer(m_reachabilityPointerArray[sourceVertex]);
         if (pointer) {
             result = pointer->isReachable(destinationVertex);
-        }
-        return result;
+        }        return result;
     }
 
-private:
-    void initialize() {
+private:    void initialize() {
         for (Vertex vertex = 0; vertex < MAX_VERTEX_VALUE; vertex++) {
             m_reachabilityPointerArray[vertex] = std::make_unique<Reachability>(m_graph, vertex);
         }

@@ -39,24 +39,22 @@ private:
         Index lowIndex(startIndex), highIndex(endIndex);
         while (lowIndex + 1 < highIndex) {
             Index middleIndex = getMidpointOfIndexes(lowIndex, highIndex);
-            Value middleValue(m_sortedValues.at(middleIndex));
+            Value middleValue(m_sortedValues[middleIndex]);
             if (value <= middleValue) {
                 highIndex = middleIndex;
             } else {
                 lowIndex = middleIndex;
             }
         }
-        if (value == m_sortedValues.at(lowIndex)) {
+        if (value == m_sortedValues[lowIndex]) {
             result = lowIndex;
-        } else if (value == m_sortedValues.at(highIndex)) {
+        } else if (value == m_sortedValues[highIndex]) {
             result = highIndex;
         }
-        return result;
-    }
+        return result;    }
 
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

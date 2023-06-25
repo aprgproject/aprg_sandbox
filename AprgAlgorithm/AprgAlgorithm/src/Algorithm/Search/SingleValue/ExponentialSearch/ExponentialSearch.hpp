@@ -23,15 +23,13 @@ public:
         Index lowIndex(0);
         Index exponentIndex(1);
         while (exponentIndex < static_cast<Index>(m_sortedValues.size()) &&
-               m_sortedValues.at(exponentIndex) < valueToCheck) {
+               m_sortedValues[exponentIndex] < valueToCheck) {
             lowIndex = exponentIndex + 1;
             exponentIndex = exponentIndex * 2;
         }
-
         BinarySearchWithTwoIndices<Values> binarySearch(m_sortedValues);  // perform binary search on that block
         return binarySearch.getIndexOfValue(
-            lowIndex, std::min(exponentIndex, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);
-    }
+            lowIndex, std::min(exponentIndex, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);    }
 
 private:
     Values const& m_sortedValues;

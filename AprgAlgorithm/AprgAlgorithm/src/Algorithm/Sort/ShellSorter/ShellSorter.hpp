@@ -34,15 +34,13 @@ private:
     void continuouslySwapDownIfStillOutOfOrderWithSkipping(
         Values& valuesToSort, int const startingIndex, int const skipValue) const {
         // Works similar to insertion sort (but with skipping)
-        for (int i = startingIndex; i >= skipValue && valuesToSort.at(i) < valuesToSort.at(i - skipValue);
+        for (int i = startingIndex; i >= skipValue && valuesToSort[i] < valuesToSort[i - skipValue];
              i -= skipValue) {
             std::swap(valuesToSort[i], valuesToSort[i - skipValue]);
-        }
-    }
+        }    }
 
     int getSkipValue(int const size) const {
-        // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
-        int result(1);
+        // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093        int result(1);
         while (result < size / 3) {
             result = 3 * result + 1;
         }

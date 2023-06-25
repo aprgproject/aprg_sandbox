@@ -34,15 +34,13 @@ public:
         if (it != b_vertexToIndexMap.cend()) {
             int indexOfSubRoot = it->second;
             result = m_rangeQuery.getAccumulatedValueOnInterval(
-                indexOfSubRoot, indexOfSubRoot + b_subTreeSize.at(indexOfSubRoot) - 1);
+                indexOfSubRoot, indexOfSubRoot + b_subTreeSize[indexOfSubRoot] - 1);
         }
         return result;
     }
-
 private:
     Vertices const& b_verticesInDfsPreOrder;
-    Counts const& b_subTreeSize;
-    VertexToIndexMap const& b_vertexToIndexMap;
+    Counts const& b_subTreeSize;    VertexToIndexMap const& b_vertexToIndexMap;
     RangeQuery m_rangeQuery;
 };
 

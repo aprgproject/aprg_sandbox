@@ -21,18 +21,16 @@ public:
 
     Object getRoot(Object const& object) const override {
         Object currentRoot(object);
-        Object nextRoot(m_relativeRoots.at(object));
+        Object nextRoot(m_relativeRoots[object]);
         while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
-            nextRoot = m_relativeRoots.at(currentRoot);
+            nextRoot = m_relativeRoots[currentRoot];
         }
         return currentRoot;
     }
-
     Object getRootWithPathCompression(Object const& object) {
         RootVector relativeRoots;
-        Object mainRoot = getRootAndRelativeRoots(object, relativeRoots);
-        saveNewRootOnRelativeRoots(mainRoot, relativeRoots);
+        Object mainRoot = getRootAndRelativeRoots(object, relativeRoots);        saveNewRootOnRelativeRoots(mainRoot, relativeRoots);
         return mainRoot;
     }
 
@@ -61,20 +59,18 @@ private:
 
     Object getRootAndRelativeRoots(Object const& object, RootVector& relativeRoots) const {
         Object currentRoot(object);
-        Object nextRoot(m_relativeRoots.at(object));
+        Object nextRoot(m_relativeRoots[object]);
         relativeRoots.emplace_back(currentRoot);
         while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
             relativeRoots.emplace_back(nextRoot);
-            nextRoot = m_relativeRoots.at(currentRoot);
+            nextRoot = m_relativeRoots[currentRoot];
         }
         return currentRoot;
     }
-
     void saveNewRootOnRelativeRoots(Object const& newRoot, RootVector const& relativeRoots) {
         for (Object const& relativeRoot : relativeRoots) {
-            m_relativeRoots[relativeRoot] = newRoot;
-        }
+            m_relativeRoots[relativeRoot] = newRoot;        }
     }
 
     RootVector m_relativeRoots;

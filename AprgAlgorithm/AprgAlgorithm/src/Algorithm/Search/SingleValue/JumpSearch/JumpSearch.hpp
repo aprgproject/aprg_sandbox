@@ -22,15 +22,13 @@ public:
         // find the block where value is included
         Index blockStartIndex(0);
         Index blockEndIndex(m_blockSize);
-        while (blockEndIndex < static_cast<Index>(m_sortedValues.size()) && m_sortedValues.at(blockEndIndex) < valueToCheck) {
+        while (blockEndIndex < static_cast<Index>(m_sortedValues.size()) && m_sortedValues[blockEndIndex] < valueToCheck) {
             blockStartIndex = blockEndIndex + 1;
             blockEndIndex += m_blockSize;
         }
-
         LinearSearchWithOneIndex<Values> linearSearch(m_sortedValues);  // perform linear search on that block
         return linearSearch.getIndexOfValue(
-            blockStartIndex, std::min(blockEndIndex, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);
-    }
+            blockStartIndex, std::min(blockEndIndex, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);    }
 
 private:
     Index getOptimalSize(Values const& values) const {

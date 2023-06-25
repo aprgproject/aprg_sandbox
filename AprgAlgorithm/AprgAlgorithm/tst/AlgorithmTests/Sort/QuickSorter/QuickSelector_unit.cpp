@@ -63,15 +63,13 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
 
     selector.doNthElement(valuesToSort, 5);
 
-    EXPECT_EQ('O', valuesToSort.at(5));
+    EXPECT_EQ('O', valuesToSort[5]);
 }
 
-TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians) {
-    CharacterSelector selector(PivotType::MedianOfMedians);
+TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians) {    CharacterSelector selector(PivotType::MedianOfMedians);
     Characters valuesToSort{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     selector.doNthElement(valuesToSort, 5);
-
     Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
 }

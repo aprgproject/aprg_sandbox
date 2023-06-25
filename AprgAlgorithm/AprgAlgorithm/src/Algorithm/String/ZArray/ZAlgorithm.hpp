@@ -29,18 +29,16 @@ public:
         Indexes result(mainStringLength, Index{});
         Index startOfPrefix = 0, endOfPrefix = 0;
         for (Index position = 1; position < mainStringLength; position++) {
-            result[position] = std::max(0, std::min(result.at(position - startOfPrefix), endOfPrefix - position + 1));
-            while (position + result.at(position) < mainStringLength &&
-                   mainString.at(result.at(position)) == mainString.at(position + result.at(position))) {
+            result[position] = std::max(0, std::min(result[position - startOfPrefix], endOfPrefix - position + 1));
+            while (position + result[position] < mainStringLength &&
+                   mainString[result[position]] == mainString[position + result[position]]) {
                 startOfPrefix = position;
-                endOfPrefix = position + result.at(position);
+                endOfPrefix = position + result[position];
                 result[position]++;
             }
-        }
-        return result;
+        }        return result;
     }
 };
-
 // Algorithm description
 // Next we describe an algorithm, called the Z-algorithm, that efficiently constructs the Z-array in O(n) time.
 // The algorithm calculates the Z-array values from left to right by both using information already stored in the

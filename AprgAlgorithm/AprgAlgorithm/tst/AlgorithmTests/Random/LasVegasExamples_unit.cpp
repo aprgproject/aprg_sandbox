@@ -40,15 +40,13 @@ TEST(LasVegasTest, GraphColoringExample) {
             }
             numberOfEdgesWithDifferentColors = 0;
             for (Edge const& edge : graph.getEdges()) {
-                if (vertexToColorMap.at(edge.first) != vertexToColorMap.at(edge.second)) {
+                if (vertexToColorMap[edge.first] != vertexToColorMap[edge.second]) {
                     numberOfEdgesWithDifferentColors++;
                 }
-            }
-        } while (numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges() / 2);
+            }        } while (numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges() / 2);
     };
 
     performALasVegasAlgorithm(graphColoringAlgorithm);
-
     EXPECT_EQ(5U, vertexToColorMap.size());
 }
 

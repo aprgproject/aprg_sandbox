@@ -33,46 +33,37 @@ public:
 
             if (std::get<0>(twoSumValues.first) + std::get<0>(twoSumValues.second) == targetSum) {
                 result = FourValues(
-                    m_sortedValues.at(std::get<1>(twoSumValues.first)),
-                    m_sortedValues.at(std::get<2>(twoSumValues.first)),
-                    m_sortedValues.at(std::get<1>(twoSumValues.second)),
-                    m_sortedValues.at(std::get<2>(twoSumValues.second)));
+                    m_sortedValues[std::get<1>(twoSumValues.first)], m_sortedValues[std::get<2>(twoSumValues.first)],
+                    m_sortedValues[std::get<1>(twoSumValues.second)], m_sortedValues[std::get<2>(twoSumValues.second)]);
             }
         }
-        return result;
-    }
+        return result;    }
 
 private:
-    SumsOfPairOfValues getSumsOfPairOfValuesWithPossibleDuplicates() const {
-        SumsOfPairOfValues result;
+    SumsOfPairOfValues getSumsOfPairOfValuesWithPossibleDuplicates() const {        SumsOfPairOfValues result;
         Index size = m_sortedValues.size();
         result.reserve(size * size);  // reserve this much
         for (Index i = 0; i < size; i++) {
             for (Index j = i; j < size; j++) {
-                result.emplace_back(m_sortedValues.at(i) + m_sortedValues.at(j), i, j);
+                result.emplace_back(m_sortedValues[i] + m_sortedValues[j], i, j);
             }
         }
-        return result;
-    }
+        return result;    }
 
     PairOfSumOfPairOfValues getTwoValuesWithSum(
-        Value const& targetSum, SumsOfPairOfValues const& sumOfPairOfValues, Comparator const& shouldContinue) const {
-        PairOfSumOfPairOfValues result{};
+        Value const& targetSum, SumsOfPairOfValues const& sumOfPairOfValues, Comparator const& shouldContinue) const {        PairOfSumOfPairOfValues result{};
         if (!sumOfPairOfValues.empty()) {
             Index lowIndex = 0, highIndex = sumOfPairOfValues.size() - 1;
             while (shouldContinue(lowIndex, highIndex)) {
-                Value currentSum(
-                    std::get<0>(sumOfPairOfValues.at(lowIndex)) + std::get<0>(sumOfPairOfValues.at(highIndex)));
+                Value currentSum(std::get<0>(sumOfPairOfValues[lowIndex]) + std::get<0>(sumOfPairOfValues[highIndex]));
                 if (currentSum == targetSum) {
-                    result = {sumOfPairOfValues.at(lowIndex), sumOfPairOfValues.at(highIndex)};
+                    result = {sumOfPairOfValues[lowIndex], sumOfPairOfValues[highIndex]};
                     break;
                 } else if (currentSum > targetSum) {
-                    highIndex--;
-                } else if (currentSum < targetSum) {
+                    highIndex--;                } else if (currentSum < targetSum) {
                     lowIndex++;
                 }
-            }
-        }
+            }        }
         return result;
     }
 

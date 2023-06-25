@@ -33,38 +33,33 @@ public:
             int vertexIndex1 = it1->second;
             int vertexIndex2 = it2->second;
             int lowestCommonAncestorIndex(getLowestCommonAncestorIndex(vertexIndex1, vertexIndex2));
-            result = m_verticesInTreeOrder.at(lowestCommonAncestorIndex);
+            result = m_verticesInTreeOrder[lowestCommonAncestorIndex];
         }
         return result;
     }
-
     int getDistanceBetweenVertices(Vertex const& vertex1, Vertex const& vertex2) const {
         int result{};
-        auto it1 = m_vertexToFirstIndexMap.find(vertex1);
-        auto it2 = m_vertexToFirstIndexMap.find(vertex2);
+        auto it1 = m_vertexToFirstIndexMap.find(vertex1);        auto it2 = m_vertexToFirstIndexMap.find(vertex2);
         if (it1 != m_vertexToFirstIndexMap.cend() && it2 != m_vertexToFirstIndexMap.cend()) {
             int vertexIndex1 = it1->second;
             int vertexIndex2 = it2->second;
             int lowestCommonAncestorIndex(getLowestCommonAncestorIndex(vertexIndex1, vertexIndex2));
-            result = m_depths.at(vertexIndex1) + m_depths.at(vertexIndex2) - 2 * m_depths.at(lowestCommonAncestorIndex);
+            result = m_depths[vertexIndex1] + m_depths[vertexIndex2] - 2 * m_depths[lowestCommonAncestorIndex];
         }
         return result;
     }
-
 private:
     int getLowestCommonAncestorIndex(int const vertexIndex1, int const vertexIndex2) const {
         int result = vertexIndex1;
-        int minimumDepth(m_depths.at(vertexIndex1));
+        int minimumDepth(m_depths[vertexIndex1]);
         for (int i = vertexIndex1 + 1; i <= vertexIndex2; i++) {
-            int currentDepth(m_depths.at(i));
+            int currentDepth(m_depths[i]);
             if (minimumDepth > currentDepth) {
                 minimumDepth = currentDepth;
-                result = i;
-            }
+                result = i;            }
         }
         return result;
     }
-
     void initializeIfNeeded() {
         if (GraphUtilities::isATree(m_graph)) {
             initialize();

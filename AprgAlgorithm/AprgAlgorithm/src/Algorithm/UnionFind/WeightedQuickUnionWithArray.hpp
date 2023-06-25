@@ -28,42 +28,38 @@ public:
     {
         // Continuously find relative root until its equal to the previous root
         Object currentRoot(object);
-        Object nextRoot(m_relativeRoots.at(object));
+        Object nextRoot(m_relativeRoots[object]);
         while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
-            nextRoot = m_relativeRoots.at(currentRoot);
+            nextRoot = m_relativeRoots[currentRoot];
         }
         return currentRoot;
     }
-
     Object getRootWithPathCompressionOnePass(Object const& object)  // no longer const
     {
         Object result(object);
-        while (result != m_relativeRoots.at(object)) {
+        while (result != m_relativeRoots[object]) {
             m_relativeRoots[object] =
-                m_relativeRoots.at(m_relativeRoots.at(object));  // make every relative root point to its grandparent
-            result = m_relativeRoots.at(object);
+                m_relativeRoots[m_relativeRoots[object]];  // make every relative root point to its grandparent
+            result = m_relativeRoots[object];
         }
         return result;
     }
-
     Object getRootWithPathCompressionTwoPass(Object const& object)  // no longer const
     {
         RootVector relativeRoots;
         Object currentRoot(object);
-        Object nextRoot(m_relativeRoots.at(object));
+        Object nextRoot(m_relativeRoots[object]);
         while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
             relativeRoots.emplace_back(nextRoot);
-            nextRoot = m_relativeRoots.at(currentRoot);
+            nextRoot = m_relativeRoots[currentRoot];
         }
         for (Object const& relativeRoot :
-             relativeRoots)  // set found root to all examined relative roots -> makes the tree really flat (Hopcroft
-                             // Ulman Tarjan proof -> almost linear)
+             relativeRoots)  // set found root to all examined relative roots -> makes the tree really flat (Hopcroft                             // Ulman Tarjan proof -> almost linear)
         {
             m_relativeRoots[relativeRoot] = currentRoot;
-        }
-        return currentRoot;
+        }        return currentRoot;
     }
 
     void connect(Object const& object1, Object const& object2)
@@ -89,19 +85,17 @@ private:
 
     void connectRootsBasedOnSize(Object const root2, Object const root1) {
         // assign the root of the smaller root to the larger root (to make it flatter)
-        if (m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2)) {
+        if (m_sizesOfRoots[root1] < m_sizesOfRoots[root2]) {
             m_relativeRoots[root1] = root2;
-            m_sizesOfRoots[root2] += m_sizesOfRoots.at(root1);
+            m_sizesOfRoots[root2] += m_sizesOfRoots[root1];
         } else {
             m_relativeRoots[root2] = root1;
-            m_sizesOfRoots[root1] += m_sizesOfRoots.at(root2);
+            m_sizesOfRoots[root1] += m_sizesOfRoots[root2];
         }
     }
-
     RootArray m_relativeRoots;
     SizeArray m_sizesOfRoots;
 };
-
 // Proof
 // Depth of any node x is at most log2 (SIZE)
 // When does the depth of x increase? Increase by 1 when tree T1 containing x is merged into another tree T2.

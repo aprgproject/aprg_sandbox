@@ -27,14 +27,12 @@ private:
             int const middle = getMidpointOfIndexes(lowest, highest);
             sort(valuesToSort, auxiliary, lowest, middle);       // sort the first half (recursive call)
             sort(valuesToSort, auxiliary, middle + 1, highest);  // sort the second half (recursive call)
-            bool isAlreadySorted(valuesToSort.at(middle) < valuesToSort.at(middle + 1));
+            bool isAlreadySorted(valuesToSort[middle] < valuesToSort[middle + 1]);
             if (!isAlreadySorted) {
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);  // merge the two sorted parts
-            }
-        }
+            }        }
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

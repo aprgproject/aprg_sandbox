@@ -23,15 +23,13 @@ public:
                 didSwapHappened = false;
                 skip = getNextSkipValue(skip);
                 for (int i = 0; i < size - skip; i++) {
-                    if (valuesToSort.at(i + skip) < valuesToSort.at(i)) {
+                    if (valuesToSort[i + skip] < valuesToSort[i]) {
                         didSwapHappened = true;
                         std::swap(valuesToSort[i], valuesToSort[i + skip]);
-                    }
-                }
+                    }                }
             }
         }
     }
-
 private:
     int getNextSkipValue(int const skip) const {
         int result = (skip * 10) / 13;  // shrink factor

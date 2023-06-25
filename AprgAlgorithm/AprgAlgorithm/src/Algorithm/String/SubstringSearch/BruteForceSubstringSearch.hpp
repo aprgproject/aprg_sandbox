@@ -29,15 +29,13 @@ private:
         int substringLength(substringToMatch.length());
         int searchIndex = 0, matchIndex = 0;
         for (; searchIndex < mainLength && matchIndex < substringLength; searchIndex++) {
-            if (mainString.at(searchIndex) == substringToMatch.at(matchIndex)) {
+            if (mainString[searchIndex] == substringToMatch[matchIndex]) {
                 matchIndex++;  // matchIndex represents the index of matches as well
             } else {
-                searchIndex -= matchIndex;  // if there is a mismatch, go back
-                matchIndex = 0;             // reset because matchIndex represents the index of matches as well
+                searchIndex -= matchIndex;  // if there is a mismatch, go back                matchIndex = 0;             // reset because matchIndex represents the index of matches as well
             }
         }
-        if (matchIndex == substringLength)  // if matchIndex reached length
-        {
+        if (matchIndex == substringLength)  // if matchIndex reached length        {
             result = searchIndex - substringLength;
         }
         return result;
@@ -53,15 +51,13 @@ private:
         for (int offset = 0; offset + substringLength <= mainLength; offset++) {
             int matchIndex = 0;
             for (; matchIndex < substringLength; matchIndex++) {
-                if (mainString.at(offset + matchIndex) != substringToMatch.at(matchIndex)) {
+                if (mainString[offset + matchIndex] != substringToMatch[matchIndex]) {
                     // matchIndex represents the index of matches as well
                     break;
-                }
-            }
+                }            }
             if (matchIndex == substringLength)  // if matchIndex reached length
             {
-                result = offset;
-                break;
+                result = offset;                break;
             }
         }
         return result;

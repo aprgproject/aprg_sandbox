@@ -40,26 +40,24 @@ private:
         // This has log(N) running time
 
         Index result{};
-        if (index + 1 == m_treeSums.at(currentChild) &&
+        if (index + 1 == m_treeSums[currentChild] &&
             m_startOfChildren + baseRight < static_cast<Index>(m_treeSums.size()) &&
-            m_treeSums.at(m_startOfChildren + baseRight) != 0) {
+            m_treeSums[m_startOfChildren + baseRight] != 0) {
             result = baseRight;
         } else if (
             index == 0 && m_startOfChildren + baseLeft < static_cast<Index>(m_treeSums.size()) &&
-            m_treeSums.at(m_startOfChildren + baseLeft) != 0) {
+            m_treeSums[m_startOfChildren + baseLeft] != 0) {
             result = baseLeft;
         } else {
             Index leftChild = Utilities::getLeftChild(currentChild);
             if (leftChild < static_cast<Index>(m_treeSums.size())) {
-                Index leftChildSum = m_treeSums.at(leftChild);
+                Index leftChildSum = m_treeSums[leftChild];
                 Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
                 if (index + 1 <= leftChildSum) {
-                    result = getNextFreeIndexAt(index, leftChild, baseLeft, baseMidPoint);
-                } else {
+                    result = getNextFreeIndexAt(index, leftChild, baseLeft, baseMidPoint);                } else {
                     result = getNextFreeIndexAt(
                         index - leftChildSum, Utilities::getRightChild(currentChild), baseMidPoint + 1, baseRight);
-                }
-            }
+                }            }
         }
         return result;
     }

@@ -27,33 +27,29 @@ public:
             m_permutations.resize(newSize);
 
             for (Value const inputValue : m_inputValues) {
-                if (m_permutations.at(inputValue).empty()) {
+                if (m_permutations[inputValue].empty()) {
                     m_permutations[inputValue].emplace(Permutation{inputValue});
                 }
             }
-
             for (Value partialValue = initialValue; partialValue < newSize; partialValue++) {
                 Permutations& permutations(m_permutations[partialValue]);
                 for (Value const inputValue : m_inputValues) {
                     if (partialValue > inputValue) {
                         for (Permutation const& permutationWithoutValue :
-                             m_permutations.at(partialValue - inputValue)) {
+                             m_permutations[partialValue - inputValue]) {
                             Permutation permutationWithValue(permutationWithoutValue);
                             permutationWithValue.emplace_back(inputValue);
-                            permutations.emplace(permutationWithValue);
-                        }
+                            permutations.emplace(permutationWithValue);                        }
                     }
                 }
             }
         }
-        return m_permutations.at(total);
+        return m_permutations[total];
     }
 
-private:
-    Values const& m_inputValues;
+private:    Values const& m_inputValues;
     VectorOfPermutations m_permutations;  // dynamic programming
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

@@ -30,15 +30,13 @@ public:
         auto it = m_vertexToIndexMap.find(subRoot);
         if (it != m_vertexToIndexMap.cend()) {
             int indexOfSubRoot = it->second;
-            int subTreeSizeAtSubRoot = m_subTreeSize.at(indexOfSubRoot);
+            int subTreeSizeAtSubRoot = m_subTreeSize[indexOfSubRoot];
             result.reserve(subTreeSizeAtSubRoot);
             auto start = m_verticesInDfsPreOrder.cbegin() + indexOfSubRoot;
-            auto end = m_verticesInDfsPreOrder.cbegin() + indexOfSubRoot + subTreeSizeAtSubRoot;
-            std::copy(start, end, std::back_inserter(result));
+            auto end = m_verticesInDfsPreOrder.cbegin() + indexOfSubRoot + subTreeSizeAtSubRoot;            std::copy(start, end, std::back_inserter(result));
         }
         return result;
     }
-
 protected:
     void initializeIfNeeded() {
         if (GraphUtilities::isATree(m_graph)) {

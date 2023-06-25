@@ -40,24 +40,22 @@ private:
         if (lowIndex < highIndex) {
             Index firstMiddleIndex = (2 * lowIndex + highIndex) / 3;   // Note: possible overflow bug
             Index secondMiddleIndex = (lowIndex + 2 * highIndex) / 3;  // Note: possible overflow bug
-            if (value < m_sortedValues.at(firstMiddleIndex)) {
+            if (value < m_sortedValues[firstMiddleIndex]) {
                 // if on the first one-third part
                 result = getIndexOfValueWithoutCheck(lowIndex, firstMiddleIndex - 1, value);
-            } else if (m_sortedValues.at(secondMiddleIndex) < value) {
+            } else if (m_sortedValues[secondMiddleIndex] < value) {
                 // if on the third one-third part
                 result = getIndexOfValueWithoutCheck(secondMiddleIndex + 1, highIndex, value);
             } else {
                 // if on the second one-third part
                 result = getIndexOfValueWithoutCheck(firstMiddleIndex, secondMiddleIndex, value);
             }
-        } else if (lowIndex == highIndex && value == m_sortedValues.at(lowIndex)) {
+        } else if (lowIndex == highIndex && value == m_sortedValues[lowIndex]) {
             result = lowIndex;
         }
-        return result;
-    }
+        return result;    }
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

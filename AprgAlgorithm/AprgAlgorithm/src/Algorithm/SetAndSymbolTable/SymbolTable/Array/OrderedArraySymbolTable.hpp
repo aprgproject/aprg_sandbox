@@ -20,60 +20,54 @@ public:
         Value result{};
         if (!this->isEmpty()) {
             int rank(this->getRank(key));
-            if (rank < b_size && b_keys.at(rank) == key) {
-                result = m_values.at(rank);
+            if (rank < b_size && b_keys[rank] == key) {
+                result = m_values[rank];
             }
         }
-        return result;
-    }
+        return result;    }
 
     void put(Key const& key, Value const& value) override {
         bool isKeyFound(false);
         int rank(this->getRank(key));
-        if (rank < b_size && b_keys.at(rank) == key) {
+        if (rank < b_size && b_keys[rank] == key) {
             m_values[rank] = value;
             isKeyFound = true;
-        }
-        if (!isKeyFound) {
+        }        if (!isKeyFound) {
             b_keys.emplace_back();
             m_values.emplace_back();
             for (int i = b_size; i > rank; i--) {
-                b_keys[i] = b_keys.at(i - 1);
-                m_values[i] = m_values.at(i - 1);
+                b_keys[i] = b_keys[i - 1];
+                m_values[i] = m_values[i - 1];
             }
             b_keys[rank] = key;
-            m_values[rank] = value;
-            b_size++;
+            m_values[rank] = value;            b_size++;
         }
     }
 
     void deleteBasedOnKey(Key const& key) override {
         int rank(this->getRank(key));
-        if (rank < b_size && b_keys.at(rank) == key) {
+        if (rank < b_size && b_keys[rank] == key) {
             if (b_size >= 2) {
                 for (int i = rank; i < b_size - 1; i++) {
-                    b_keys[i] = b_keys.at(i + 1);
-                    m_values[i] = m_values.at(i + 1);
+                    b_keys[i] = b_keys[i + 1];
+                    m_values[i] = m_values[i + 1];
                 }
             }
-            b_keys.pop_back();
-            m_values.pop_back();
+            b_keys.pop_back();            m_values.pop_back();
             b_size--;
         }
     }
 
     void deleteMinimum() override {
         for (int i = 0; i < b_size - 1; i++) {
-            b_keys[i] = b_keys.at(i + 1);
-            m_values[i] = m_values.at(i + 1);
+            b_keys[i] = b_keys[i + 1];
+            m_values[i] = m_values[i + 1];
         }
         b_keys.pop_back();
-        m_values.pop_back();
-        b_size--;
+        m_values.pop_back();        b_size--;
     }
 
-    void deleteMaximum() override {
-        b_keys.pop_back();
+    void deleteMaximum() override {        b_keys.pop_back();
         m_values.pop_back();
         b_size--;
     }

@@ -47,15 +47,13 @@ StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& val
     if (leastSignificantDigitIndex < s_maxNumberOfCharacters) {
         int mostSignificantDigitIndex = s_maxNumberOfCharacters - leastSignificantDigitIndex - 1;
         if (mostSignificantDigitIndex < static_cast<int>(value.length())) {
-            digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
+            digitValue = value[mostSignificantDigitIndex] & 0xFF;
         }
     }
-    return digitValue;
-};
+    return digitValue;};
 
 StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject =
-    [](StabilityCheckObjects const&) -> int { return 2; };
-StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
+    [](StabilityCheckObjects const&) -> int { return 2; };StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
     [](StabilityCheckObject const& value, int const digitIndex) -> int {
     return (value.getVisiblePart() >> (digitIndex * 4)) & 0xF;
 };

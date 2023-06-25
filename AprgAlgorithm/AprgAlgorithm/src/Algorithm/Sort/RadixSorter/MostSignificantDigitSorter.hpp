@@ -90,14 +90,12 @@ private:
 
     void computeCumulatesToGetNewIndexes(ArrayOfCountPerDigitValue& newIndexes) const {
         for (int i = 0; i + 1 < static_cast<int>(newIndexes.size()); i++) {
-            newIndexes[i + 1] += newIndexes.at(i);
+            newIndexes[i + 1] += newIndexes[i];
         }
     }
-
     void copyBackUsingNewIndexes(
         Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, int const lowContainerIndex,
-        int const highContainerIndex, int const digitIndex) const {
-        Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
+        int const highContainerIndex, int const digitIndex) const {        Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
         int limit(std::min(highContainerIndex + 1, static_cast<int>(copiedValues.size())));
         for (auto it = copiedValues.cbegin() + lowContainerIndex; it != copiedValues.cbegin() + limit;
              it++)  // starts at low container index and ends at high container index
@@ -113,17 +111,15 @@ private:
         Values& valuesToSort, ArrayOfCountPerDigitValue const& newIndexes, int const lowContainerIndex,
         int const digitIndex) const {
         for (int i = 0; i < MAX_NUMBER_OF_DIGIT_VALUES; i++) {
-            if (newIndexes.at(i) + 1 < newIndexes.at(i + 1)) {
-                int newLowContainerIndex(lowContainerIndex + newIndexes.at(i));
-                int newHighContainerIndex(lowContainerIndex + newIndexes.at(i + 1) - 1);
+            if (newIndexes[i] + 1 < newIndexes[i + 1]) {
+                int newLowContainerIndex(lowContainerIndex + newIndexes[i]);
+                int newHighContainerIndex(lowContainerIndex + newIndexes[i + 1] - 1);
                 sortStartingAtMostSignificantDigitInternal(
                     valuesToSort, newLowContainerIndex, newHighContainerIndex, digitIndex + 1);
-            }
-        }
+            }        }
     }
 
-    GetDigitAtFunction m_getDigitAtFunction;
-    IsDigitFunction m_isDigitInvalidFunction;
+    GetDigitAtFunction m_getDigitAtFunction;    IsDigitFunction m_isDigitInvalidFunction;
 };
 
 }  // namespace algorithm

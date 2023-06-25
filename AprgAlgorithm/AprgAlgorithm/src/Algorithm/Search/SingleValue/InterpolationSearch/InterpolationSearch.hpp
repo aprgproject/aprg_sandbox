@@ -39,26 +39,23 @@ private:
         Index result(INVALID_INDEX);
         Index lowIndex(startIndex), highIndex(endIndex);
         while (lowIndex <= highIndex) {
-            Value lowerValue(m_sortedValues.at(lowIndex));
-            Value higherValue(m_sortedValues.at(highIndex));
+            Value lowerValue(m_sortedValues[lowIndex]);
+            Value higherValue(m_sortedValues[highIndex]);
             if (targetValue < lowerValue || higherValue < targetValue) {  // out of range
                 break;
-            } else if (lowerValue == higherValue) {
-                result = getMidpointOfIndexes(lowIndex, highIndex);
+            } else if (lowerValue == higherValue) {                result = getMidpointOfIndexes(lowIndex, highIndex);
                 break;
             } else {
                 Index interpolatedIndex = lowIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Index>(
                                                          static_cast<double>(highIndex - lowIndex) *
                                                          (targetValue - lowerValue) / (higherValue - lowerValue));
-                Value valueAtInterpolatedIndex(m_sortedValues.at(interpolatedIndex));
+                Value valueAtInterpolatedIndex(m_sortedValues[interpolatedIndex]);
                 if (targetValue < valueAtInterpolatedIndex) {
                     highIndex = interpolatedIndex - 1;
-                } else if (valueAtInterpolatedIndex < targetValue) {
-                    lowIndex = interpolatedIndex + 1;
+                } else if (valueAtInterpolatedIndex < targetValue) {                    lowIndex = interpolatedIndex + 1;
                 } else {  // valueAtInterpolatedIndex <= targetValue
                     result = interpolatedIndex;
-                    break;
-                }
+                    break;                }
             }
         }
         return result;

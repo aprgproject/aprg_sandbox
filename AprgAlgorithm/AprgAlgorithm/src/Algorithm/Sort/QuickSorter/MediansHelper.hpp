@@ -16,17 +16,15 @@ using IndexesIterator = Indexes::iterator;
 template <typename Values>
 int getIndexOfMedianOfThree(Values const& values, int const index1, int const index2, int const index3) {
     // Based from: https://en.wikipedia.org/wiki/Quicksort#Choice_of_pivot
-    auto low = std::make_pair(values.at(index1), index1);
-    auto mid = std::make_pair(values.at(index2), index2);
-    auto high = std::make_pair(values.at(index3), index3);
+    auto low = std::make_pair(values[index1], index1);
+    auto mid = std::make_pair(values[index2], index2);
+    auto high = std::make_pair(values[index3], index3);
     if (low.first > high.first) {
         std::swap(high, low);
-    }
-    if (low.first > mid.first) {
+    }    if (low.first > mid.first) {
         std::swap(mid, low);
     }
-    if (mid.first > high.first) {
-        std::swap(high, mid);
+    if (mid.first > high.first) {        std::swap(high, mid);
     }
     return mid.second;
 }
@@ -61,14 +59,12 @@ int getMedianIteratorOfLessThanFive(
     // Perform insertion sort
     for (int insertIndex = lowIndex + 1; insertIndex <= highIndex; insertIndex++) {
         for (int iLow = insertIndex - 1, iHigh = insertIndex;
-             lowIndex <= iLow && values.at(medianIndexes.at(iLow)) > values.at(medianIndexes.at(iHigh));
+             lowIndex <= iLow && values[medianIndexes[iLow]] > values[medianIndexes[iHigh]];
              iLow--, iHigh--) {
             std::swap(medianIndexes[iLow], medianIndexes[iHigh]);
-        }
-    }
+        }    }
     return getMidpointOfIndexes(lowIndex, highIndex);
 }
-
 template <typename Values>
 int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int const highIndex) {
     // Based from https://en.wikipedia.org/wiki/Median_of_medians

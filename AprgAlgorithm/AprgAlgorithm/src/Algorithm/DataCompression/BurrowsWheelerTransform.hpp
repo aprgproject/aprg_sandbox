@@ -28,18 +28,16 @@ public:
             Index deltaLength(wholeInputString.length() - suffixArray.getSuffixAt(i).length());
             if (deltaLength > 0)  // if its a suffix, take the character based from the delta
             {
-                stringOutput += wholeInputString.at(deltaLength - 1);
+                stringOutput += wholeInputString[deltaLength - 1];
             } else  // if its the whole input string, just take the last item
             {
-                stringOutput += wholeInputString.at(wholeInputString.length() - 1);
+                stringOutput += wholeInputString[wholeInputString.length() - 1];
             }
         }
-        writer.writeStringData(stringOutput);
-    }
+        writer.writeStringData(stringOutput);    }
 
     void decode(std::istream& input, std::ostream& output) {
-        AlbaStreamBitReader reader(input);
-        AlbaStreamBitWriter writer(output);
+        AlbaStreamBitReader reader(input);        AlbaStreamBitWriter writer(output);
 
         std::string wholeInputString(reader.readWholeStreamAsStringData());
         if (!wholeInputString.empty()) {
@@ -50,15 +48,13 @@ public:
             alba::stringHelper::strings possibleOutputs(prefix.size());
             for (Index iteration = 0; iteration < static_cast<Index>(wholeInputString.length()); iteration++) {
                 for (Index index = 0; index < static_cast<Index>(wholeInputString.length()); index++) {
-                    possibleOutputs[index] = prefix.at(index) + possibleOutputs.at(index);  // add prefixes
+                    possibleOutputs[index] = prefix[index] + possibleOutputs[index];  // add prefixes
                 }
                 std::sort(
-                    possibleOutputs.begin(),
-                    possibleOutputs.end());  // sort outputs, possible optimization to use radix sort here
+                    possibleOutputs.begin(),                    possibleOutputs.end());  // sort outputs, possible optimization to use radix sort here
             }
             auto it = std::find_if(
-                possibleOutputs.cbegin(), possibleOutputs.cend(),
-                [](std::string const& possibleOutput) { return END_CHARACTER == possibleOutput.back(); });
+                possibleOutputs.cbegin(), possibleOutputs.cend(),                [](std::string const& possibleOutput) { return END_CHARACTER == possibleOutput.back(); });
             if (it != possibleOutputs.cend()) {
                 writer.writeStringData(it->substr(0, it->length() - 1));  // remove last character
             }

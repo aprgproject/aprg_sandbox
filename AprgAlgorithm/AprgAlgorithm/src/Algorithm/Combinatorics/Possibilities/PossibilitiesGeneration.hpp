@@ -59,14 +59,12 @@ private:
             Possibility& currentPossibility(recursionData.currentPossibility);
 
             for (int index = 0; index < static_cast<int>(objects.size()); index++) {
-                currentPossibility.emplace_back(objects.at(index));
+                currentPossibility.emplace_back(objects[index]);
                 collectPossibilitiesUsingRecursion(recursionData);
                 currentPossibility.pop_back();
-            }
-        }
+            }        }
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

@@ -32,17 +32,15 @@ public:
         if (start <= end && start < static_cast<Index>(m_partialResults.size()) &&
             end < static_cast<Index>(m_partialResults.size())) {
             if (start > 0) {
-                result = m_inverseAccumulator(m_partialResults.at(end), m_partialResults.at(start - 1));
+                result = m_inverseAccumulator(m_partialResults[end], m_partialResults[start - 1]);
             } else {
-                result = m_partialResults.at(end);
+                result = m_partialResults[end];
             }
         }
-        return result;
-    }
+        return result;    }
 
 private:
-    void initialize(Values const& valuesToCheck) {
-        m_partialResults.reserve(valuesToCheck.size());
+    void initialize(Values const& valuesToCheck) {        m_partialResults.reserve(valuesToCheck.size());
 
         Value partialResult{};
         if (!valuesToCheck.empty()) {

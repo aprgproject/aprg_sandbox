@@ -51,17 +51,15 @@ private:
         if (!m_sortedValues.empty()) {
             Index iLow = lowIndex, iHigh = highIndex;
             while (shouldContinue(iLow, iHigh)) {
-                Value currentSum(m_sortedValues.at(iLow) + m_sortedValues.at(iHigh));
+                Value currentSum(m_sortedValues[iLow] + m_sortedValues[iHigh]);
                 if (currentSum == targetSum) {
-                    result = {m_sortedValues.at(iLow), m_sortedValues.at(iHigh)};
+                    result = {m_sortedValues[iLow], m_sortedValues[iHigh]};
                     break;
                 } else if (currentSum > targetSum) {
-                    --iHigh;
-                } else {  // currentSum < targetSum
+                    --iHigh;                } else {  // currentSum < targetSum
                     ++iLow;
                 }
-            }
-        }
+            }        }
         return result;
     }
 

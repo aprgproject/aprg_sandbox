@@ -62,15 +62,13 @@ private:
             // if distanceInTopologicalOrder is zero: count is 1
             // if distanceInTopologicalOrder is negative: count is 0
             if (distanceInTopologicalOrder > 0) {
-                for (Vertex const& dependentVertexAtEnd : m_vertexToDependentVertices.at(end)) {
+                for (Vertex const& dependentVertexAtEnd : m_vertexToDependentVertices[end]) {
                     result += getCountInternal(start, dependentVertexAtEnd);
                 }
-            } else if (distanceInTopologicalOrder == 0) {
-                result = 1;
+            } else if (distanceInTopologicalOrder == 0) {                result = 1;
             }
         }
-        return result;
-    }
+        return result;    }
 
     BaseDirectedGraphWithVertex const& m_graph;
     VertexToSetOfVerticesMap m_vertexToDependentVertices;

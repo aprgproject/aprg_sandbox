@@ -16,15 +16,13 @@ public:
     HeapTreeAdapter(Objects& objects) : m_comparator(), m_objects(objects) {}
 
     Object const& getObjectConstReferenceOnTree(int const treeIndex) const {
-        return m_objects.at(getContainerIndex(treeIndex));
+        return m_objects[getContainerIndex(treeIndex)];
     }
 
     Object& getObjectReferenceOnTree(int const treeIndex) { return m_objects[getContainerIndex(treeIndex)]; }
-
     void swim(int const startTreeIndex) {
         // Swim is "bottom up reheapify" -> it swims up to the top of the tree
         int treeIndex(startTreeIndex);
-
         // while parent and child are not in heap order
         // Heap order: isComparisonSatisfied(child, parent) is true
         while (treeIndex > 1 && isComparisonSatisfied(

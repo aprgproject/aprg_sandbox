@@ -27,29 +27,25 @@ public:
 private:
     void swapDownWithIndexFoundInBinarySearch(Values& valuesToSort, int const insertIndex) const {
         int indexWithGreaterValue =
-            getIndexWithGreaterValueUsingBinarySearch(valuesToSort, 0, insertIndex - 1, valuesToSort.at(insertIndex));
+            getIndexWithGreaterValueUsingBinarySearch(valuesToSort, 0, insertIndex - 1, valuesToSort[insertIndex]);
         if (indexWithGreaterValue != INVALID_INDEX) {
             for (int swapIndex(insertIndex); swapIndex > indexWithGreaterValue; swapIndex--) {
-                std::swap(valuesToSort[swapIndex - 1], valuesToSort[swapIndex]);
-            }
+                std::swap(valuesToSort[swapIndex - 1], valuesToSort[swapIndex]);            }
         }
     }
-
     int getIndexWithGreaterValueUsingBinarySearch(
         Values const& valuesToSort, int const lowIndex, int const highIndex, Value const& value) const {
         int result(INVALID_INDEX);
         int iLow(lowIndex), iHigh(highIndex);
         while (iLow <= iHigh) {
             int middleIndex = getMidpointOfIndexes(iLow, iHigh);
-            Value middleValue(valuesToSort.at(middleIndex));
+            Value middleValue(valuesToSort[middleIndex]);
             if (value < middleValue) {
                 result = middleIndex;
-                iHigh = middleIndex - 1;
-            } else  // (middleValue < value)
+                iHigh = middleIndex - 1;            } else  // (middleValue < value)
             {
                 iLow = middleIndex + 1;
-            }
-        }
+            }        }
         return result;
     }
 };

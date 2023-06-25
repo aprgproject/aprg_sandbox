@@ -89,14 +89,12 @@ private:
         DistanceEntry result(AlbaNumberConstants::ALBA_NUMBER_POSITIVE_INFINITY);
         int minSize = std::min(first.size(), second.size());
         for (int i = 0; i < minSize; i++) {
-            AlbaNumber currentValue = first.at(i) + second.at(i);
+            AlbaNumber currentValue = first[i] + second[i];
             if (currentValue < result) {
                 result = currentValue;
-            }
-        }
+            }        }
         return result;
     }
-
     DistancetMatrix m_shortestDistanceMatrix;
 };
 
