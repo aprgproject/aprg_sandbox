@@ -50,15 +50,13 @@ bool isTwinPrimeConjectureTrue(UnsignedInteger const number) {
     UnsignedIntegers numbers(getPrimesBelowThisNumber(number));
     UnsignedInteger twinPrimeCount = 0;
     for (UnsignedInteger i = 0; i < numbers.size() - 1; i++) {
-        if (numbers.at(i + 1) - numbers.at(i) == 2) {
+        if (numbers[i + 1] - numbers[i] == 2) {
             twinPrimeCount++;
         }
-    }
-    return twinPrimeCount > 0;  // actually we should check if this is infinite (continuously increasing)
+    }    return twinPrimeCount > 0;  // actually we should check if this is infinite (continuously increasing)
 }
 
-bool isLegendreConjectureTrue(UnsignedInteger const number) {
-    // Legendre’s conjecture: There is always a prime between numbers n^2 and (n+1)^2, where n is any positive integer.
+bool isLegendreConjectureTrue(UnsignedInteger const number) {    // Legendre’s conjecture: There is always a prime between numbers n^2 and (n+1)^2, where n is any positive integer.
 
     UnsignedInteger start = getRaiseToPowerForIntegers(number, static_cast<UnsignedInteger>(2));
     UnsignedInteger end = getRaiseToPowerForIntegers(number + 1, static_cast<UnsignedInteger>(2));
@@ -147,15 +145,13 @@ UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {
     }
     UnsignedIntegers result;
     for (UnsignedInteger prime = 2; prime < number; prime++) {
-        if (sieveOfEratosthenes.at(prime)) {
+        if (sieveOfEratosthenes[prime]) {
             result.emplace_back(prime);
         }
-    }
-    return result;
+    }    return result;
 }
 
-UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number) {
-    UnsignedIntegers result;
+UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number) {    UnsignedIntegers result;
     UnsignedInteger remainingFactor(number);
     for (UnsignedInteger factor = 2; factor * factor <= remainingFactor; factor++) {
         while (remainingFactor % factor == 0) {

@@ -13,14 +13,12 @@ namespace math {
 bool MultipleGamesWithMaze::hasNoMoves() const {
     bool result(true);
     for (UnsignedInteger gameIndex = 0; gameIndex < m_games.size(); gameIndex++) {
-        if (!m_games.at(gameIndex).hasNoMoves(m_coordinateInGames.at(gameIndex))) {
+        if (!m_games[gameIndex].hasNoMoves(m_coordinateInGames[gameIndex])) {
             result = false;
             break;
-        }
-    }
+        }    }
     return result;
 }
-
 UnsignedInteger MultipleGamesWithMaze::getOverallGrundyNumber() { return getCombinedGrundyNumber(); }
 
 GameState MultipleGamesWithMaze::getGameState() { return getGameStateFromGrundyNumber(getOverallGrundyNumber()); }
@@ -32,24 +30,21 @@ MultipleGamesWithMaze::GameIndexAndCoordinatePair MultipleGamesWithMaze::getOpti
     if (GameState::Losing == gameState) {
         for (UnsignedInteger gameIndex = 0; gameIndex < m_games.size(); gameIndex++) {
             Game& game(m_games[gameIndex]);
-            Coordinate const& coordinate(m_coordinateInGames.at(gameIndex));
+            Coordinate const& coordinate(m_coordinateInGames[gameIndex]);
             if (!game.hasNoMoves(coordinate)) {
                 result = {gameIndex, game.getOptimalNextCoordinateAt(coordinate)};
-                break;
-            }
+                break;            }
         }
     } else if (GameState::Winning == gameState) {
         for (UnsignedInteger gameIndex = 0; gameIndex < m_games.size(); gameIndex++) {
             Game& game(m_games[gameIndex]);
-            Coordinate const& coordinate(m_coordinateInGames.at(gameIndex));
+            Coordinate const& coordinate(m_coordinateInGames[gameIndex]);
             UnsignedInteger grundyNumberAtGame = game.getGrundyNumberAt(coordinate);
             UnsignedInteger hammingDistance = grundyNumberAtGame ^ overallGrundyNumber;
-            if (hammingDistance < grundyNumberAtGame) {
-                result = {gameIndex, m_games[gameIndex].getNextCoordinateWithGrundyNumber(coordinate, hammingDistance)};
+            if (hammingDistance < grundyNumberAtGame) {                result = {gameIndex, m_games[gameIndex].getNextCoordinateWithGrundyNumber(coordinate, hammingDistance)};
                 break;
             }
-        }
-    }
+        }    }
     return result;
 }
 
@@ -78,11 +73,10 @@ UnsignedInteger MultipleGamesWithMaze::getCombinedGrundyNumber() {
     UnsignedInteger result(0U);
     for (UnsignedInteger gameIndex = 0; gameIndex < m_games.size(); gameIndex++) {
         result = math::getCombinedGrundyNumber(
-            result, m_games[gameIndex].getGrundyNumberAt(m_coordinateInGames.at(gameIndex)));
+            result, m_games[gameIndex].getGrundyNumberAt(m_coordinateInGames[gameIndex]));
     }
     return result;
 }
-
 }  // namespace math
 
 }  // namespace alba

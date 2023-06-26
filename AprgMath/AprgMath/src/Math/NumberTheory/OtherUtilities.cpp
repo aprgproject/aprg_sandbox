@@ -22,15 +22,13 @@ void findDistinctNonConsecutiveFibonacciNumbersForSum(
     UnsignedInteger const index) {
     // This can be improved by dynamic programming
     for (UnsignedInteger i = index; i < fibonaccis.size(); i++) {
-        UnsignedInteger fibonacci(fibonaccis.at(i));
+        UnsignedInteger fibonacci(fibonaccis[i]);
         if (sum > fibonacci) {
             fibonaccisForSum.emplace_back(fibonacci);
-            findDistinctNonConsecutiveFibonacciNumbersForSum(
-                isComplete, fibonaccisForSum, fibonaccis, sum - fibonacci, index + 2);
+            findDistinctNonConsecutiveFibonacciNumbersForSum(                isComplete, fibonaccisForSum, fibonaccis, sum - fibonacci, index + 2);
             if (isComplete) {
                 break;
-            }
-            fibonaccisForSum.pop_back();
+            }            fibonaccisForSum.pop_back();
         } else if (sum == fibonacci) {
             fibonaccisForSum.emplace_back(fibonacci);
             isComplete = true;
@@ -147,25 +145,23 @@ UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const n
             UnsignedInteger& resultForStep(tabularData[step]);
             if (mathHelper::isOdd(step)) {
                 UnsignedInteger n = (step + 1) / 2;
-                UnsignedInteger fibonacciAtK = tabularData.at(n);
-                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(n - 1);
+                UnsignedInteger fibonacciAtK = tabularData[n];
+                UnsignedInteger fibonacciAtKMinus1 = tabularData[n - 1];
                 resultForStep = fibonacciAtK * fibonacciAtK + fibonacciAtKMinus1 * fibonacciAtKMinus1;
             } else {
                 UnsignedInteger n = step / 2;
-                UnsignedInteger fibonacciAtK = tabularData.at(n);
-                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(n - 1);
+                UnsignedInteger fibonacciAtK = tabularData[n];
+                UnsignedInteger fibonacciAtKMinus1 = tabularData[n - 1];
                 resultForStep = (2 * fibonacciAtKMinus1 + fibonacciAtK) * fibonacciAtK;
             }
         }
-        result = tabularData.at(number);
+        result = tabularData[number];
     }
     return result;
 }
-
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number) {
     UnsignedIntegers result;
-    UnsignedInteger previousFibonacci(0);
-    UnsignedInteger currentFibonacci(1);
+    UnsignedInteger previousFibonacci(0);    UnsignedInteger currentFibonacci(1);
     if (0 < number) {
         result.emplace_back(0);  // zero is included if number is higher than zero
     }
