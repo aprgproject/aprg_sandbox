@@ -59,14 +59,12 @@ void VariableTerm::initializeIfNotEmpty() {
     int lastIndex = m_variableName.length() - 1;
     int index = lastIndex;
     for (; index >= 0; index--) {
-        if (!isPrime(m_variableName.at(index))) {
+        if (!isPrime(m_variableName[index])) {
             break;
         }
-    }
-    m_isNegated = isOdd(lastIndex - index);
+    }    m_isNegated = isOdd(lastIndex - index);
     m_variableName.resize(index + 1);
 }
-
 ostream& operator<<(ostream& out, VariableTerm const& variableTerm) {
     out << variableTerm.m_variableName;
     if (variableTerm.m_isNegated) {

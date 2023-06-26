@@ -89,15 +89,13 @@ void SubstitutionOfVariablesToTerms::putVariablesWithTerms(VariablesToTermsMap c
 
 void SubstitutionOfVariablesToTerms::putVariableWithTerm(string const& variable, Term const& term) {
     m_variableToTermsMap[variable] = term;
-    m_variableToTermsMap.at(variable).simplify();
+    m_variableToTermsMap[variable].simplify();
 }
 
-void SubstitutionOfVariablesToTerms::performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const {
-    for (WrappedTerm& wrappedTerm : wrappedTerms) {
+void SubstitutionOfVariablesToTerms::performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const {    for (WrappedTerm& wrappedTerm : wrappedTerms) {
         Term& term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
         term = performSubstitutionTo(term);
-    }
-}
+    }}
 
 }  // namespace booleanAlgebra
 

@@ -50,16 +50,14 @@ public:
         bool result(true);
         int difference = 0;
         for (int i = 0; i < commonLength; i++) {
-            if (string1.at(i) != string2.at(i)) {
-                if (string1.at(i) == '-' || string2.at(i) == '-') {
+            if (string1[i] != string2[i]) {
+                if (string1[i] == '-' || string2[i] == '-') {
                     result = false;
                     break;
-                } else if (difference > 1) {
-                    result = false;
+                } else if (difference > 1) {                    result = false;
                     break;
                 } else {
-                    difference++;
-                }
+                    difference++;                }
             }
         }
         return result;

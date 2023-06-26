@@ -73,10 +73,9 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {
     addValueTermIfNotEmpty(termsToVerify1, "true");
 
     ASSERT_EQ(1U, termsToVerify1.size());
-    ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_TRUE(termsToVerify1.at(0).getBooleanValue());
+    ASSERT_EQ(TermType::Constant, termsToVerify1[0].getTermType());
+    EXPECT_TRUE(termsToVerify1[0].getBooleanValue());
 }
 
 }  // namespace booleanAlgebra
-
 }  // namespace alba

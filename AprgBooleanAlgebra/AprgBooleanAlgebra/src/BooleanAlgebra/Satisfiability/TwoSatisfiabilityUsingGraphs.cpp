@@ -60,16 +60,14 @@ TwoSatisfiabilityUsingGraphs::DirectedGraph TwoSatisfiabilityUsingGraphs::create
     {
         for (SatisfiabilityTerm const& satTerm : satTerms) {
             if (satTerm.size() == 1) {
-                result.connect(~satTerm.at(0), satTerm.at(0));
+                result.connect(~satTerm[0], satTerm[0]);
             } else if (satTerm.size() == 2) {
-                result.connect(~satTerm.at(0), satTerm.at(1));
-                result.connect(~satTerm.at(1), satTerm.at(0));
+                result.connect(~satTerm[0], satTerm[1]);
+                result.connect(~satTerm[1], satTerm[0]);
             }
         }
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace booleanAlgebra
-
 }  // namespace alba
