@@ -294,23 +294,21 @@ void CPlusPlusFileFixer::fixSmallUToCapitalUInNumbers() {
             bool isCharacterBeforeUANumber(false);
             bool isCharacterAfterUNotALetterOrNumberOrUnderscore(false);
             if (indexOfU > 0) {
-                isCharacterBeforeUANumber = isNumber(line.at(indexOfU - 1));
+                isCharacterBeforeUANumber = isNumber(line[indexOfU - 1]);
             }
             if (indexOfU + 1 < static_cast<int>(line.length())) {
-                isCharacterAfterUNotALetterOrNumberOrUnderscore = !isLetterOrNumberOrUnderscore(line.at(indexOfU + 1));
+                isCharacterAfterUNotALetterOrNumberOrUnderscore = !isLetterOrNumberOrUnderscore(line[indexOfU + 1]);
             } else {
                 isCharacterAfterUNotALetterOrNumberOrUnderscore = true;
             }
             if (isCharacterBeforeUANumber && isCharacterAfterUNotALetterOrNumberOrUnderscore) {
-                line.at(indexOfU) = 'U';
+                line[indexOfU] = 'U';
             }
             indexOfU = line.find('u', indexOfU + 1);
-        }
-    }
+        }    }
 }
 
-void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(string const& header) {
-    AlbaPathHandler headerPathHandler(header, "/");
+void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(string const& header) {    AlbaPathHandler headerPathHandler(header, "/");
     m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
 }
 
