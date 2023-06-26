@@ -69,18 +69,16 @@ TEST(LimaconTest, GetPointsForShapeWorks) {
 
     Points points(limacon.getPointsForShape(AlbaAngle(AngleUnitType::Degrees, 90)));
     ASSERT_EQ(4U, points.size());
-    EXPECT_EQ(Point(23, 0), points.at(0));
-    EXPECT_EQ(Point(0, 10), points.at(1));
-    EXPECT_EQ(Point(3, 0), points.at(2));
-    EXPECT_EQ(Point(0, -10), points.at(3));
+    EXPECT_EQ(Point(23, 0), points[0]);
+    EXPECT_EQ(Point(0, 10), points[1]);
+    EXPECT_EQ(Point(3, 0), points[2]);
+    EXPECT_EQ(Point(0, -10), points[3]);
 }
 
-TEST(LimaconTest, CalculateRadiusFromThetaWorks) {
-    Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
+TEST(LimaconTest, CalculateRadiusFromThetaWorks) {    Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
     EXPECT_DOUBLE_EQ(10, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 90)));
-    EXPECT_DOUBLE_EQ(-3, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 180)));
-    EXPECT_DOUBLE_EQ(10, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 270)));
+    EXPECT_DOUBLE_EQ(-3, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 180)));    EXPECT_DOUBLE_EQ(10, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 270)));
     EXPECT_DOUBLE_EQ(23, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 

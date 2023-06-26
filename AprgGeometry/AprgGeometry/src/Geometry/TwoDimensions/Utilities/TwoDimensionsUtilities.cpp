@@ -36,16 +36,14 @@ bool isCongruent(Triangle const& triangle1, Triangle const& triangle2) {
     AlbaAngles anglesInTriangle2(triangle2.getAnglesAtVertices());
     sort(anglesInTriangle1.begin(), anglesInTriangle1.end());
     sort(anglesInTriangle2.begin(), anglesInTriangle2.end());
-    return (anglesInTriangle1.at(0) == anglesInTriangle2.at(0)) &&
-           (anglesInTriangle1.at(1) == anglesInTriangle2.at(1)) && (anglesInTriangle1.at(2) == anglesInTriangle2.at(2));
+    return (anglesInTriangle1[0] == anglesInTriangle2[0]) &&
+           (anglesInTriangle1[1] == anglesInTriangle2[1]) && (anglesInTriangle1[2] == anglesInTriangle2[2]);
 }
 
-bool areLinesParallel(Line const& line1, Line const& line2) {
-    return (line1.getType() == LineType::Horizontal && line2.getType() == LineType::Horizontal) ||
+bool areLinesParallel(Line const& line1, Line const& line2) {    return (line1.getType() == LineType::Horizontal && line2.getType() == LineType::Horizontal) ||
            (line1.getType() == LineType::Vertical && line2.getType() == LineType::Vertical) ||
            (isAlmostEqual(line1.getSlope(), line2.getSlope()));
 }
-
 bool areLinesPerpendicular(Line const& line1, Line const& line2) {
     return (line1.getType() == LineType::Horizontal && line2.getType() == LineType::Vertical) ||
            (line1.getType() == LineType::Vertical && line2.getType() == LineType::Horizontal) ||
@@ -184,38 +182,33 @@ double getAreaOfTriangleUsingThreePoints(Triangle const& triangle) {
     // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
     auto vertices(triangle.getVertices());
     return mathHelper::getAbsoluteValue(
-        getSignedCounterClockwiseTriangleAreaOf3Points(vertices.at(0), vertices.at(1), vertices.at(2)));
+        getSignedCounterClockwiseTriangleAreaOf3Points(vertices[0], vertices[1], vertices[2]));
 }
 
-double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle) {
-    // The area of a triangle can be calculated, for example, using Heron’s formula:
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle) {    // The area of a triangle can be calculated, for example, using Heron’s formula:
     // area = sqrt(s(s-a)(s-b)(s-c)),
     // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
     auto sides(triangle.getLengthOfSides());
-    double s = (sides.at(0) + sides.at(1) + sides.at(2)) / 2;
-    return sqrt(s * (s - sides.at(0)) * (s - sides.at(1)) * (s - sides.at(2)));
+    double s = (sides[0] + sides[1] + sides[2]) / 2;
+    return sqrt(s * (s - sides[0]) * (s - sides[1]) * (s - sides[2]));
 }
 
-double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral) {
-    // Namely, there is a general formula:
+double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral) {    // Namely, there is a general formula:
     // area = x1y2 - x2y1 + x2y3 - x3y2 + x3y4 - x4y3 + x4y1 - x1y4
     // that calculates the area of a quadrilateral whose vertices are (x1, y1), (x2, y2), (x3, y3) and (x4, y4).
-    // This formula is easy to implement, there are no special cases, and we can even generalize the formula to all
-    // polygons. Note: This is same with shoelace formula
+    // This formula is easy to implement, there are no special cases, and we can even generalize the formula to all    // polygons. Note: This is same with shoelace formula
 
     Points points(quadrilateral.getVertices());
     return getAbsoluteValue(
-               points.at(0).getX() * points.at(1).getY() - points.at(1).getX() * points.at(0).getY() +
-               points.at(1).getX() * points.at(2).getY() - points.at(2).getX() * points.at(1).getY() +
-               points.at(2).getX() * points.at(3).getY() - points.at(3).getX() * points.at(2).getY() +
-               points.at(3).getX() * points.at(0).getY() - points.at(0).getX() * points.at(3).getY()) /
+               points[0].getX() * points[1].getY() - points[1].getX() * points[0].getY() +
+               points[1].getX() * points[2].getY() - points[2].getX() * points[1].getY() +
+               points[2].getX() * points[3].getY() - points[3].getX() * points[2].getY() +
+               points[3].getX() * points[0].getY() - points[0].getX() * points[3].getY()) /
            2;
 }
-
 double getAreaUsingPicksTheorem(int const numberOfPointsInside, int const numberOfPointsOnTheBoundary) {
     return numberOfPointsInside + static_cast<double>(numberOfPointsOnTheBoundary) / 2 - 1;
 }
-
 ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity) {
     ConicSectionType result(ConicSectionType::Unknown);
     if (isAlmostEqual(eccentricity, 0.0)) {

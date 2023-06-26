@@ -45,19 +45,17 @@ public:
     Parabola(double const aCoefficient, double const bCoefficient, double const cCoefficient)
         : ParabolaParent{aCoefficient, bCoefficient, cCoefficient} {}
 
-    double getA() const { return ParabolaParent::m_coefficients.at(2); }
+    double getA() const { return ParabolaParent::m_coefficients[2]; }
 
-    double getB() const { return ParabolaParent::m_coefficients.at(1); }
+    double getB() const { return ParabolaParent::m_coefficients[1]; }
 
-    double getC() const { return ParabolaParent::m_coefficients.at(0); }
+    double getC() const { return ParabolaParent::m_coefficients[0]; }
 
     double getP() const {
-        //(x-xt)^2 = 4p*(y-yt)
-        return 1 / (getA() * 4);
+        //(x-xt)^2 = 4p*(y-yt)        return 1 / (getA() * 4);
     }
 
-    double getTranslationInX() const {
-        //(x-xt)^2 = 4p*(y-yt)
+    double getTranslationInX() const {        //(x-xt)^2 = 4p*(y-yt)
         return -2 * getB() * getP();
     }
 

@@ -38,30 +38,28 @@ TEST(EllipseTest, EllipseAtOriginWithRadius) {
 
     Points points(ellipse.getPointsForCircumference(1));
     ASSERT_EQ(16U, points.size());
-    EXPECT_EQ(Point(3, 0), points.at(0));
-    EXPECT_EQ(Point(2.5980762113533160118, 1), points.at(1));
-    EXPECT_EQ(Point(2, 1.490711984999859796), points.at(2));
-    EXPECT_EQ(Point(1, 1.8856180831641267126), points.at(3));
-    EXPECT_EQ(Point(0, 2), points.at(4));
-    EXPECT_EQ(Point(-1, 1.8856180831641267126), points.at(5));
-    EXPECT_EQ(Point(-2, 1.490711984999859796), points.at(6));
-    EXPECT_EQ(Point(-2.5980762113533160118, 1), points.at(7));
-    EXPECT_EQ(Point(-3, 0), points.at(8));
-    EXPECT_EQ(Point(-2.5980762113533160118, -1), points.at(9));
-    EXPECT_EQ(Point(-2, -1.490711984999859796), points.at(10));
-    EXPECT_EQ(Point(-1, -1.8856180831641267126), points.at(11));
-    EXPECT_EQ(Point(0, -2), points.at(12));
-    EXPECT_EQ(Point(1, -1.8856180831641267126), points.at(13));
-    EXPECT_EQ(Point(2, -1.490711984999859796), points.at(14));
-    EXPECT_EQ(Point(2.5980762113533160118, -1), points.at(15));
+    EXPECT_EQ(Point(3, 0), points[0]);
+    EXPECT_EQ(Point(2.5980762113533160118, 1), points[1]);
+    EXPECT_EQ(Point(2, 1.490711984999859796), points[2]);
+    EXPECT_EQ(Point(1, 1.8856180831641267126), points[3]);
+    EXPECT_EQ(Point(0, 2), points[4]);
+    EXPECT_EQ(Point(-1, 1.8856180831641267126), points[5]);
+    EXPECT_EQ(Point(-2, 1.490711984999859796), points[6]);
+    EXPECT_EQ(Point(-2.5980762113533160118, 1), points[7]);
+    EXPECT_EQ(Point(-3, 0), points[8]);
+    EXPECT_EQ(Point(-2.5980762113533160118, -1), points[9]);
+    EXPECT_EQ(Point(-2, -1.490711984999859796), points[10]);
+    EXPECT_EQ(Point(-1, -1.8856180831641267126), points[11]);
+    EXPECT_EQ(Point(0, -2), points[12]);
+    EXPECT_EQ(Point(1, -1.8856180831641267126), points[13]);
+    EXPECT_EQ(Point(2, -1.490711984999859796), points[14]);
+    EXPECT_EQ(Point(2.5980762113533160118, -1), points[15]);
 }
 
-TEST(EllipseTest, IsInsideWorks) {
-    Ellipse ellipse(Point(0, 0), 5, 4);
+TEST(EllipseTest, IsInsideWorks) {    Ellipse ellipse(Point(0, 0), 5, 4);
 
     EXPECT_TRUE(ellipse.isInside(Point(0, 0)));
-    EXPECT_FALSE(ellipse.isInside(Point(5, 5)));
-}
+    EXPECT_FALSE(ellipse.isInside(Point(5, 5)));}
 
 TEST(EllipseTest, GetFociWorks) {
     Ellipse ellipse1(Point(0, 0), 1, 1);
@@ -73,56 +71,50 @@ TEST(EllipseTest, GetFociWorks) {
     Points foci3(ellipse3.getFoci());
 
     ASSERT_EQ(1U, foci1.size());
-    EXPECT_EQ(Point(0, 0), foci1.at(0));
+    EXPECT_EQ(Point(0, 0), foci1[0]);
     ASSERT_EQ(2U, foci2.size());
-    EXPECT_EQ(Point(0, 3), foci2.at(0));
-    EXPECT_EQ(Point(0, -3), foci2.at(1));
+    EXPECT_EQ(Point(0, 3), foci2[0]);
+    EXPECT_EQ(Point(0, -3), foci2[1]);
     ASSERT_EQ(2U, foci3.size());
-    EXPECT_EQ(Point(3, 0), foci3.at(0));
-    EXPECT_EQ(Point(-3, 0), foci3.at(1));
+    EXPECT_EQ(Point(3, 0), foci3[0]);
+    EXPECT_EQ(Point(-3, 0), foci3[1]);
 }
 
-TEST(EllipseTest, GetMajorVerticesWorks) {
-    Ellipse ellipse1(Point(0, 0), 1, 1);
+TEST(EllipseTest, GetMajorVerticesWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1);
     Ellipse ellipse2(Point(0, 0), 4, 5);
     Ellipse ellipse3(Point(0, 0), 5, 4);
-
     Points majorVertices1(ellipse1.getMajorVertices());
     Points majorVertices2(ellipse2.getMajorVertices());
     Points majorVertices3(ellipse3.getMajorVertices());
 
     EXPECT_TRUE(majorVertices1.empty());
     ASSERT_EQ(2U, majorVertices2.size());
-    EXPECT_EQ(Point(0, 5), majorVertices2.at(0));
-    EXPECT_EQ(Point(0, -5), majorVertices2.at(1));
+    EXPECT_EQ(Point(0, 5), majorVertices2[0]);
+    EXPECT_EQ(Point(0, -5), majorVertices2[1]);
     ASSERT_EQ(2U, majorVertices3.size());
-    EXPECT_EQ(Point(5, 0), majorVertices3.at(0));
-    EXPECT_EQ(Point(-5, 0), majorVertices3.at(1));
+    EXPECT_EQ(Point(5, 0), majorVertices3[0]);
+    EXPECT_EQ(Point(-5, 0), majorVertices3[1]);
 }
 
-TEST(EllipseTest, GetMinorVerticesWorks) {
-    Ellipse ellipse1(Point(0, 0), 1, 1);
+TEST(EllipseTest, GetMinorVerticesWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1);
     Ellipse ellipse2(Point(0, 0), 4, 5);
     Ellipse ellipse3(Point(0, 0), 5, 4);
-
     Points minorVertices1(ellipse1.getMinorVertices());
     Points minorVertices2(ellipse2.getMinorVertices());
     Points minorVertices3(ellipse3.getMinorVertices());
 
     EXPECT_TRUE(minorVertices1.empty());
     ASSERT_EQ(2U, minorVertices2.size());
-    EXPECT_EQ(Point(4, 0), minorVertices2.at(0));
-    EXPECT_EQ(Point(-4, 0), minorVertices2.at(1));
+    EXPECT_EQ(Point(4, 0), minorVertices2[0]);
+    EXPECT_EQ(Point(-4, 0), minorVertices2[1]);
     ASSERT_EQ(2U, minorVertices3.size());
-    EXPECT_EQ(Point(0, 4), minorVertices3.at(0));
-    EXPECT_EQ(Point(0, -4), minorVertices3.at(1));
+    EXPECT_EQ(Point(0, 4), minorVertices3[0]);
+    EXPECT_EQ(Point(0, -4), minorVertices3[1]);
 }
 
-TEST(EllipseTest, GetMajorAxisWorks) {
-    Ellipse ellipse1(Point(0, 0), 1, 1);
+TEST(EllipseTest, GetMajorAxisWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1);
     Ellipse ellipse2(Point(0, 0), 4, 5);
     Ellipse ellipse3(Point(0, 0), 5, 4);
-
     Line majorAxis1(ellipse1.getMajorAxis());
     Line majorAxis2(ellipse2.getMajorAxis());
     Line majorAxis3(ellipse3.getMajorAxis());
