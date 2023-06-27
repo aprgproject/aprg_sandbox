@@ -52,15 +52,13 @@ public:
     std::unique_ptr<Prototype> createBasedFrom(int const index) {
         std::unique_ptr<Prototype> result;
         if (index < NUMBER_OF_TYPES) {
-            result = m_types.at(index)->clone();
+            result = m_types[index]->clone();
         }
         return result;
-    }
-    // ...
+    }    // ...
 
 private:
-    std::array<std::unique_ptr<Prototype>, NUMBER_OF_TYPES> m_types;
-};
+    std::array<std::unique_ptr<Prototype>, NUMBER_OF_TYPES> m_types;};
 
 }  // namespace Prototype
 
