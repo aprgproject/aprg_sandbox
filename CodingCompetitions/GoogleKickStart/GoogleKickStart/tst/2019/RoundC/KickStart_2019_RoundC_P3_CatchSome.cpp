@@ -53,20 +53,18 @@ void runTestCase(int const testCaseNumber) {
     ColorDetails colorDetails;
     int numberOfColors = 0;
     for (int i = 0; i < numberOfDogs; i++) {
-        int& colorDetailsIndex(colorToIndex[colorsOfDogs.at(i)]);
+        int& colorDetailsIndex(colorToIndex[colorsOfDogs[i]]);
         if (colorDetailsIndex == -1) {
             colorDetailsIndex = numberOfColors++;
             colorDetails.emplace_back();
         }
-        colorDetails[colorDetailsIndex].distances.emplace_back(positionsOfDogs.at(i));
+        colorDetails[colorDetailsIndex].distances.emplace_back(positionsOfDogs[i]);
     }
     for (int i = 0; i < numberOfColors; i++) {
-        Distances& distances(colorDetails[i].distances);
-        sort(distances.begin(), distances.end());
+        Distances& distances(colorDetails[i].distances);        sort(distances.begin(), distances.end());
     }
 
-    constexpr int MAX_DISTANCE = INT_MAX / 2;
-    vector<int> savedTimesWithLast((targetNumberOfObserves + 1) * numberOfColors, MAX_DISTANCE);
+    constexpr int MAX_DISTANCE = INT_MAX / 2;    vector<int> savedTimesWithLast((targetNumberOfObserves + 1) * numberOfColors, MAX_DISTANCE);
     vector<int> savedTimesWithoutLast((targetNumberOfObserves + 1) * numberOfColors, MAX_DISTANCE);
     auto getIndex = [=](int const numberOfObserves, int const colorIndex) {
         return numberOfObserves + (targetNumberOfObserves + 1) * colorIndex;
@@ -80,27 +78,24 @@ void runTestCase(int const testCaseNumber) {
     for (int currentNumberOfObserves = 1; currentNumberOfObserves <= targetNumberOfObserves;
          currentNumberOfObserves++) {
         for (int colorIndex = 0; colorIndex < numberOfColors; colorIndex++) {
-            Distances const& distances(colorDetails.at(colorIndex).distances);
+            Distances const& distances(colorDetails[colorIndex].distances);
             if (colorIndex == 0) {
                 if (currentNumberOfObserves <= (int)distances.size()) {
-                    int distance(distances.at(currentNumberOfObserves - 1));
+                    int distance(distances[currentNumberOfObserves - 1]);
                     int& savedTimeWithLast(savedTimesWithLast[getIndex(currentNumberOfObserves, 0)]);
                     int& savedTimeWithoutLast(savedTimesWithoutLast[getIndex(currentNumberOfObserves, 0)]);
-                    savedTimeWithLast = min(savedTimeWithLast, distance);
-                    savedTimeWithoutLast = min(savedTimeWithoutLast, 2 * distance);
+                    savedTimeWithLast = min(savedTimeWithLast, distance);                    savedTimeWithoutLast = min(savedTimeWithoutLast, 2 * distance);
                 }
             } else {
                 int distanceIndexLimit = min(currentNumberOfObserves, (int)distances.size());
                 for (int distanceIndex = 0; distanceIndex < distanceIndexLimit; distanceIndex++) {
-                    int distance(distances.at(distanceIndex));
+                    int distance(distances[distanceIndex]);
                     int possibleNumberOfObserves = distanceIndex + 1;
                     int& savedTimeWithLast(savedTimesWithLast[getIndex(currentNumberOfObserves, colorIndex)]);
                     int& savedTimeWithoutLast(savedTimesWithoutLast[getIndex(currentNumberOfObserves, colorIndex)]);
-
                     int previousWithNoLast = savedTimesWithoutLast.at(
                         getIndex(currentNumberOfObserves - possibleNumberOfObserves, colorIndex - 1));
-                    int previousWithLast = savedTimesWithLast.at(
-                        getIndex(currentNumberOfObserves - possibleNumberOfObserves, colorIndex - 1));
+                    int previousWithLast = savedTimesWithLast.at(                        getIndex(currentNumberOfObserves - possibleNumberOfObserves, colorIndex - 1));
                     int bestTimeWithNoLast = 2 * distance + previousWithNoLast;
                     int bestTimeWithCurrentLast = distance + previousWithNoLast;
                     int bestTimeWithPreviousLast = 2 * distance + previousWithLast;
@@ -113,14 +108,12 @@ void runTestCase(int const testCaseNumber) {
         }
     }
 
-    int minimumTime = savedTimesWithLast.at(getIndex(targetNumberOfObserves, numberOfColors - 1));
+    int minimumTime = savedTimesWithLast[getIndex(targetNumberOfObserves, numberOfColors - 1)];
     my_cout << "Case #" << testCaseNumber << ": " << minimumTime << '\n';
 }
-
 void runAllTestCases() {
     int numberOfTestCases;
-    my_cin >> numberOfTestCases;
-    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
+    my_cin >> numberOfTestCases;    for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }
 }

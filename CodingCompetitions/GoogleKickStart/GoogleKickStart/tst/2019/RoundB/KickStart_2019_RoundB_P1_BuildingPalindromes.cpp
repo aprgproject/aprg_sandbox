@@ -33,15 +33,13 @@ int32_t getPalindromeValue(string const& blocksString, Question const& question)
     // this can be faster using dynamic programming
     int32_t result = 0;
     for (int i = question.first; i <= question.second; i++) {
-        result ^= 1 << (blocksString.at(i - 1) - 'A');
+        result ^= 1 << (blocksString[i - 1] - 'A');
     }
     return result;
 }
-
 bool canPalindrome(string const& blocksString, Question const& question) {
     int length = question.second - question.first + 1;
-    if (length % 2 == 0) {
-        return __builtin_popcount(getPalindromeValue(blocksString, question)) == 0;
+    if (length % 2 == 0) {        return __builtin_popcount(getPalindromeValue(blocksString, question)) == 0;
     } else {
         return __builtin_popcount(getPalindromeValue(blocksString, question)) == 1;
     }

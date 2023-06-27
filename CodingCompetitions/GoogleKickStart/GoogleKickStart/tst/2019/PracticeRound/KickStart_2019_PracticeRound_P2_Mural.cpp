@@ -42,18 +42,16 @@ void runTestCase(int const testCaseNumber) {
     int currentAccumulatedScore = 0;
     int i = 0;
     for (; i < subarraySize; i++) {
-        currentAccumulatedScore += scores.at(i);
+        currentAccumulatedScore += scores[i];
     }
     int maxAccumulatedScore = currentAccumulatedScore;
     for (; i < numberOfSections; i++) {
-        currentAccumulatedScore += scores.at(i);
-        currentAccumulatedScore -= scores.at(i - subarraySize);
+        currentAccumulatedScore += scores[i];
+        currentAccumulatedScore -= scores[i - subarraySize];
         maxAccumulatedScore = max(maxAccumulatedScore, currentAccumulatedScore);
     }
-
     my_cout << "Case #" << testCaseNumber << ": " << maxAccumulatedScore << '\n';
 }
-
 /*
 Implementation of top scorer:
 void runTestCase(int const testCaseNumber)
