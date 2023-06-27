@@ -63,30 +63,28 @@ Coordinate BoardValue::getCorrectCoordinate(
 void BoardValue::saveBoardToData(Board const& board) {
     using BitManip = AlbaBitManipulation<uint64_t>;
     for (int i = 0; i < SIZE_OF_COORDINATES; i += 16) {
-        Coordinate c01 = getCorrectCoordinate(board, coordinates.at(i).first, coordinates.at(i).second);
-        Coordinate c02 = getCorrectCoordinate(board, coordinates.at(i + 1).first, coordinates.at(i + 1).second);
-        Coordinate c03 = getCorrectCoordinate(board, coordinates.at(i + 2).first, coordinates.at(i + 2).second);
-        Coordinate c04 = getCorrectCoordinate(board, coordinates.at(i + 3).first, coordinates.at(i + 3).second);
-        Coordinate c05 = getCorrectCoordinate(board, coordinates.at(i + 4).first, coordinates.at(i + 4).second);
-        Coordinate c06 = getCorrectCoordinate(board, coordinates.at(i + 5).first, coordinates.at(i + 5).second);
-        Coordinate c07 = getCorrectCoordinate(board, coordinates.at(i + 6).first, coordinates.at(i + 6).second);
-        Coordinate c08 = getCorrectCoordinate(board, coordinates.at(i + 7).first, coordinates.at(i + 7).second);
-        Coordinate c09 = getCorrectCoordinate(board, coordinates.at(i + 8).first, coordinates.at(i + 8).second);
-        Coordinate c10 = getCorrectCoordinate(board, coordinates.at(i + 9).first, coordinates.at(i + 9).second);
-        Coordinate c11 = getCorrectCoordinate(board, coordinates.at(i + 10).first, coordinates.at(i + 10).second);
-        Coordinate c12 = getCorrectCoordinate(board, coordinates.at(i + 11).first, coordinates.at(i + 11).second);
-        Coordinate c13 = getCorrectCoordinate(board, coordinates.at(i + 12).first, coordinates.at(i + 12).second);
-        Coordinate c14 = getCorrectCoordinate(board, coordinates.at(i + 13).first, coordinates.at(i + 13).second);
-        Coordinate c15 = getCorrectCoordinate(board, coordinates.at(i + 14).first, coordinates.at(i + 14).second);
-        Coordinate c16 = getCorrectCoordinate(board, coordinates.at(i + 15).first, coordinates.at(i + 15).second);
+        Coordinate c01 = getCorrectCoordinate(board, coordinates[i].first, coordinates[i].second);
+        Coordinate c02 = getCorrectCoordinate(board, coordinates[i + 1].first, coordinates[i + 1].second);
+        Coordinate c03 = getCorrectCoordinate(board, coordinates[i + 2].first, coordinates[i + 2].second);
+        Coordinate c04 = getCorrectCoordinate(board, coordinates[i + 3].first, coordinates[i + 3].second);
+        Coordinate c05 = getCorrectCoordinate(board, coordinates[i + 4].first, coordinates[i + 4].second);
+        Coordinate c06 = getCorrectCoordinate(board, coordinates[i + 5].first, coordinates[i + 5].second);
+        Coordinate c07 = getCorrectCoordinate(board, coordinates[i + 6].first, coordinates[i + 6].second);
+        Coordinate c08 = getCorrectCoordinate(board, coordinates[i + 7].first, coordinates[i + 7].second);
+        Coordinate c09 = getCorrectCoordinate(board, coordinates[i + 8].first, coordinates[i + 8].second);
+        Coordinate c10 = getCorrectCoordinate(board, coordinates[i + 9].first, coordinates[i + 9].second);
+        Coordinate c11 = getCorrectCoordinate(board, coordinates[i + 10].first, coordinates[i + 10].second);
+        Coordinate c12 = getCorrectCoordinate(board, coordinates[i + 11].first, coordinates[i + 11].second);
+        Coordinate c13 = getCorrectCoordinate(board, coordinates[i + 12].first, coordinates[i + 12].second);
+        Coordinate c14 = getCorrectCoordinate(board, coordinates[i + 13].first, coordinates[i + 13].second);
+        Coordinate c15 = getCorrectCoordinate(board, coordinates[i + 14].first, coordinates[i + 14].second);
+        Coordinate c16 = getCorrectCoordinate(board, coordinates[i + 15].first, coordinates[i + 15].second);
         uint8_t nibble01 = static_cast<uint8_t>(board.getPieceAt(c01).getColorAndType());
         uint8_t nibble02 = static_cast<uint8_t>(board.getPieceAt(c02).getColorAndType());
-        uint8_t nibble03 = static_cast<uint8_t>(board.getPieceAt(c03).getColorAndType());
-        uint8_t nibble04 = static_cast<uint8_t>(board.getPieceAt(c04).getColorAndType());
+        uint8_t nibble03 = static_cast<uint8_t>(board.getPieceAt(c03).getColorAndType());        uint8_t nibble04 = static_cast<uint8_t>(board.getPieceAt(c04).getColorAndType());
         uint8_t nibble05 = static_cast<uint8_t>(board.getPieceAt(c05).getColorAndType());
         uint8_t nibble06 = static_cast<uint8_t>(board.getPieceAt(c06).getColorAndType());
-        uint8_t nibble07 = static_cast<uint8_t>(board.getPieceAt(c07).getColorAndType());
-        uint8_t nibble08 = static_cast<uint8_t>(board.getPieceAt(c08).getColorAndType());
+        uint8_t nibble07 = static_cast<uint8_t>(board.getPieceAt(c07).getColorAndType());        uint8_t nibble08 = static_cast<uint8_t>(board.getPieceAt(c08).getColorAndType());
         uint8_t nibble09 = static_cast<uint8_t>(board.getPieceAt(c09).getColorAndType());
         uint8_t nibble10 = static_cast<uint8_t>(board.getPieceAt(c10).getColorAndType());
         uint8_t nibble11 = static_cast<uint8_t>(board.getPieceAt(c11).getColorAndType());
@@ -103,22 +101,19 @@ void BoardValue::saveBoardToData(Board const& board) {
 
 bool operator<(BoardValue const& bv1, BoardValue const& bv2) {
     for (int i = 0; i < BoardValue::SIZE_OF_DATA; i++) {
-        if (bv1.m_data.at(i) != bv2.m_data.at(i)) {
-            return bv1.m_data.at(i) < bv2.m_data.at(i);
+        if (bv1.m_data[i] != bv2.m_data[i]) {
+            return bv1.m_data[i] < bv2.m_data[i];
         }
     }
-    return false;
-}
+    return false;}
 
 bool operator==(BoardValue const& bv1, BoardValue const& bv2) {
     for (int i = 0; i < BoardValue::SIZE_OF_DATA; i++) {
-        if (bv1.m_data.at(i) != bv2.m_data.at(i)) {
+        if (bv1.m_data[i] != bv2.m_data[i]) {
             return false;
         }
-    }
-    return true;
+    }    return true;
 }
 
 }  // namespace chess
-
 }  // namespace alba

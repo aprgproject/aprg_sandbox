@@ -92,27 +92,24 @@ Move Board::getMoveUsingAlgebraicNotation(string const& text, PieceColor const m
 Coordinate Board::getCoordinateFromAlgebraicNotation(string const& text) const {
     Coordinate result{};
     if (text.size() == 2) {
-        char letterChar = tolower(text.at(0));
-        char numberChar = text.at(1);
+        char letterChar = tolower(text[0]);
+        char numberChar = text[1];
         if (isAToH(letterChar) && is1To8(numberChar)) {
             result = getCorrectCoordinateFromAlgebraicNotation(letterChar - 'a', numberChar - '1');
-        }
-    }
+        }    }
     return result;
 }
 
 Piece Board::getPieceAt(Coordinate const& coordinate) const {
     Piece result;
     if ((isCoordinateWithinTheBoard(coordinate))) {
-        result = m_pieceGrid.at(getGridIndex(coordinate.getX(), coordinate.getY()));
+        result = m_pieceGrid[getGridIndex(coordinate.getX(), coordinate.getY())];
     }
     return result;
 }
-
 Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
     enum class ExchangeState { Defended, Attacked };
-    constexpr int PAWN_INDEX = 0, KNIGHT_INDEX = 1, BISHOP_INDEX = 2, ROOK_INDEX = 3, QUEEN_INDEX = 4, KING_INDEX = 5,
-                  SIZE = 6;
+    constexpr int PAWN_INDEX = 0, KNIGHT_INDEX = 1, BISHOP_INDEX = 2, ROOK_INDEX = 3, QUEEN_INDEX = 4, KING_INDEX = 5,                  SIZE = 6;
     vector<int> pieceValue{1, 3, 3, 5, 9, 0};
     AttackDefendCounts counts(6, AttackDefendCount{});
     retrievePawnAttackDefendCountToThis(counts[PAWN_INDEX], coordinate);
@@ -135,52 +132,50 @@ Exchange Board::getExchangeAt(Coordinate const& coordinate) const {
         if ((ai == KING_INDEX && totalCount.defend > 0) || (di == KING_INDEX && totalCount.attack > 0)) {
             break;  // king cant counter capture so break loop
         } else if (
-            counts.at(ai).attack > 0 && counts.at(di).defend > 0 && pieceValue.at(ai) == pieceValue.at(di) &&
-            pendingPieceValue == pieceValue.at(ai) && exchangeValue == 0) {
-            int sameCount = min(counts.at(ai).attack, counts.at(di).defend);
+            counts[ai].attack > 0 && counts[di].defend > 0 && pieceValue[ai] == pieceValue[di] &&
+            pendingPieceValue == pieceValue[ai] && exchangeValue == 0) {
+            int sameCount = min(counts[ai].attack, counts[di].defend);
             counts[ai].attack -= sameCount;
             counts[di].defend -= sameCount;
             totalCount.attack -= sameCount;
             totalCount.defend -= sameCount;
             exchangeCount += 2 * sameCount;
         } else if (ExchangeState::Defended == exchangeState) {
-            if (counts.at(ai).attack > 0) {
+            if (counts[ai].attack > 0) {
                 exchangeState = ExchangeState::Attacked;
-                if ((totalCount.defend > 0 && pendingPieceValue + exchangeValue - pieceValue.at(ai) >= 0) ||
+                if ((totalCount.defend > 0 && pendingPieceValue + exchangeValue - pieceValue[ai] >= 0) ||
                     (totalCount.defend == 0 && pendingPieceValue + exchangeValue >= 0)) {
                     exchangeValue -= pendingPieceValue;
-                    pendingPieceValue = pieceValue.at(ai);
+                    pendingPieceValue = pieceValue[ai];
                     counts[ai].attack--;
                     totalCount.attack--;
                     exchangeCount++;
                 } else {
                     break;  // opponent dont want to exchange
                 }
-            } else if (counts.at(ai).attack == 0) {
+            } else if (counts[ai].attack == 0) {
                 ai++;
             }
         } else if (ExchangeState::Attacked == exchangeState) {
-            if (counts.at(di).defend > 0) {
+            if (counts[di].defend > 0) {
                 exchangeState = ExchangeState::Defended;
-                if ((totalCount.attack > 0 && pendingPieceValue - exchangeValue - pieceValue.at(di) >= 0) ||
+                if ((totalCount.attack > 0 && pendingPieceValue - exchangeValue - pieceValue[di] >= 0) ||
                     (totalCount.attack == 0 && pendingPieceValue - exchangeValue >= 0)) {
                     exchangeValue += pendingPieceValue;
-                    pendingPieceValue = pieceValue.at(di);
+                    pendingPieceValue = pieceValue[di];
                     counts[di].defend--;
                     totalCount.defend--;
                     exchangeCount++;
                 } else {
                     break;  // player dont want to exchange
                 }
-            } else if (counts.at(di).defend == 0) {
+            } else if (counts[di].defend == 0) {
                 di++;
             }
-        } else {
-            break;
+        } else {            break;
         }
     }
-    return Exchange(exchangeValue, exchangeCount);
-}
+    return Exchange(exchangeValue, exchangeCount);}
 
 string Board::getAlgebraicNotationOfCoordinate(Coordinate const& coordinate) const {
     string result;

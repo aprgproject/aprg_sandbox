@@ -37,41 +37,38 @@ void UciInterpreter::processInfoTokens(strings const& infoTokens) {
 
 void UciInterpreter::processBestMoveTokens(strings const& tokens) {
     for (int i = 0; i < static_cast<int>(tokens.size()); i++) {
-        string const& token(tokens.at(i));
+        string const& token(tokens[i]);
         if (token == "bestmove") {
-            m_calculationDetails.bestMove = tokens.at(++i);
+            m_calculationDetails.bestMove = tokens[++i];
         } else if (token == "ponder") {
-            m_calculationDetails.responseMoveToPonder = tokens.at(++i);
+            m_calculationDetails.responseMoveToPonder = tokens[++i];
         }
     }
 }
-
 UciInterpreter::InfoDetails UciInterpreter::createInfoDetailsFromInfoTokens(strings const& tokens) {
     InfoDetails infoDetails{};
     for (int i = 1; i < static_cast<int>(tokens.size()); i++) {
-        string const& token(tokens.at(i));
+        string const& token(tokens[i]);
         if (shouldSkipTheEntireInfo(token)) {
             break;
         } else if (isACommonParameter(token)) {
-            infoDetails.commonParameterNameAndValue.emplace_back(token, tokens.at(++i));
+            infoDetails.commonParameterNameAndValue.emplace_back(token, tokens[++i]);
         } else if ("multipv" == token) {
-            infoDetails.multipv = convertStringToNumber<int>(tokens.at(++i));
+            infoDetails.multipv = convertStringToNumber<int>(tokens[++i]);
         } else if ("cp" == token) {
-            infoDetails.scoreInCentipawns = convertStringToNumber<int>(tokens.at(++i));
+            infoDetails.scoreInCentipawns = convertStringToNumber<int>(tokens[++i]);
         } else if ("mate" == token) {
-            infoDetails.mateValue = convertStringToNumber<int>(tokens.at(++i));
+            infoDetails.mateValue = convertStringToNumber<int>(tokens[++i]);
         } else if ("pv" == token) {
             i++;  // skip "pv"
             for (; i < static_cast<int>(tokens.size()); i++) {
-                infoDetails.pvHalfMoves.emplace_back(tokens.at(i));
+                infoDetails.pvHalfMoves.emplace_back(tokens[i]);
             }
         }
-    }
-    return infoDetails;
+    }    return infoDetails;
 }
 
-void UciInterpreter::saveCommonParametersOfBestLine(InfoDetails const& infoDetails) {
-    for (StringPair const& nameAndValuePair : infoDetails.commonParameterNameAndValue) {
+void UciInterpreter::saveCommonParametersOfBestLine(InfoDetails const& infoDetails) {    for (StringPair const& nameAndValuePair : infoDetails.commonParameterNameAndValue) {
         if (nameAndValuePair.first == "depth") {
             m_calculationDetails.depthInPlies = convertStringToNumber<int>(nameAndValuePair.second);
         } else if (nameAndValuePair.first == "seldepth") {

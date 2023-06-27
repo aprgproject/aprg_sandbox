@@ -63,25 +63,22 @@ ostream& operator<<(ostream& out, Board const& board) {
     for (int y = 0; y < Board::CHESS_SIDE_SIZE; y++) {
         for (int x = 0; x < Board::CHESS_SIDE_SIZE; x++) {
             displayTable.getCellReferenceAt(x, y).setText(
-                string(" ") + pieceGrid.at(i++).getFenCharacter() + string(" "));
+                string(" ") + pieceGrid[i++].getFenCharacter() + string(" "));
         }
     }
-    out << displayTable;
-    return out;
+    out << displayTable;    return out;
 }
 
 ostream& operator<<(ostream& out, BoardValue const& boardValue) {
-    out << boardValue.m_data.at(0) << " ";
-    out << boardValue.m_data.at(1) << " ";
-    out << boardValue.m_data.at(2) << " ";
-    out << boardValue.m_data.at(3);
+    out << boardValue.m_data[0] << " ";
+    out << boardValue.m_data[1] << " ";
+    out << boardValue.m_data[2] << " ";
+    out << boardValue.m_data[3];
     return out;
 }
-
 istream& operator>>(istream& in, BoardValue& boardValue) {
     in >> boardValue.m_data[0];
-    in >> boardValue.m_data[1];
-    in >> boardValue.m_data[2];
+    in >> boardValue.m_data[1];    in >> boardValue.m_data[2];
     in >> boardValue.m_data[3];
     return in;
 }
@@ -92,13 +89,11 @@ void printHexValuesInBoard(ostream& out, Board const& board) {
     out << hex << uppercase;
     for (int y = 0; y < Board::CHESS_SIDE_SIZE; y++) {
         for (int x = 0; x < Board::CHESS_SIDE_SIZE; x++) {
-            out << "0x" << static_cast<uint32_t>(pieceGrid.at(i++).getData()) << ", ";
+            out << "0x" << static_cast<uint32_t>(pieceGrid[i++].getData()) << ", ";
         }
     }
-    out << dec;
-    out << "\n";
+    out << dec;    out << "\n";
 }
 
 }  // namespace chess
-
 }  // namespace alba
