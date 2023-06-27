@@ -23,15 +23,13 @@ LongestBitonicSubsequence::Index LongestBitonicSubsequence::getLongestLength() c
         computeDecreasingPartialLengths(decreasingPartialLengths);
 
         for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
-            result = max(result, increasingPartialLengths.at(index) + decreasingPartialLengths.at(index) - 1);
+            result = max(result, increasingPartialLengths[index] + decreasingPartialLengths[index] - 1);
         }
     }
-    return result;
-}
+    return result;}
 
 LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequence() const {
-    // Time Complexity: O(n^2)
-    // Auxiliary Space: O(n)
+    // Time Complexity: O(n^2)    // Auxiliary Space: O(n)
 
     Values result;
     if (!m_sequence.empty()) {
@@ -56,84 +54,75 @@ void LongestBitonicSubsequence::computeIncreasingPartialLengths(IndexToIndex& in
     for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
         Value& subIncreasingLength(increasingPartialLengths[index]);
         for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-            if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {
-                subIncreasingLength = max(subIncreasingLength, increasingPartialLengths.at(lowerIndex) + 1);
+            if (m_sequence[lowerIndex] < m_sequence[index]) {
+                subIncreasingLength = max(subIncreasingLength, increasingPartialLengths[lowerIndex] + 1);
             }
         }
-    }
-}
+    }}
 
 void LongestBitonicSubsequence::computeDecreasingPartialLengths(IndexToIndex& decreasingPartialLengths) const {
     for (int index = m_sequence.size() - 1; index >= 0; index--) {
         Value& decreasingPartialLength(decreasingPartialLengths[index]);
         for (Index higherIndex = index + 1; higherIndex < static_cast<Index>(m_sequence.size()); higherIndex++) {
-            if (m_sequence.at(index) > m_sequence.at(higherIndex)) {
-                decreasingPartialLength = max(decreasingPartialLength, decreasingPartialLengths.at(higherIndex) + 1);
+            if (m_sequence[index] > m_sequence[higherIndex]) {
+                decreasingPartialLength = max(decreasingPartialLength, decreasingPartialLengths[higherIndex] + 1);
             }
         }
-    }
-}
+    }}
 
 void LongestBitonicSubsequence::computeIncreasingPartialLengths(
-    IndexToIndex& increasingPartialLengths, IndexToIndex& indexToIncreasingPreviousIndex) const {
-    for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
+    IndexToIndex& increasingPartialLengths, IndexToIndex& indexToIncreasingPreviousIndex) const {    for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
         Value& subIncreasingLength(increasingPartialLengths[index]);
         Value& previousIndex(indexToIncreasingPreviousIndex[index]);
         for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-            if (m_sequence.at(lowerIndex) < m_sequence.at(index) &&
-                subIncreasingLength < increasingPartialLengths.at(lowerIndex) + 1) {
-                subIncreasingLength = increasingPartialLengths.at(lowerIndex) + 1;
+            if (m_sequence[lowerIndex] < m_sequence[index] &&
+                subIncreasingLength < increasingPartialLengths[lowerIndex] + 1) {
+                subIncreasingLength = increasingPartialLengths[lowerIndex] + 1;
                 previousIndex = lowerIndex;
             }
-        }
-    }
+        }    }
 }
 
-void LongestBitonicSubsequence::computeDecreasingPartialLengths(
-    IndexToIndex& decreasingPartialLengths, IndexToIndex& indexToDecreasingPreviousIndex) const {
+void LongestBitonicSubsequence::computeDecreasingPartialLengths(    IndexToIndex& decreasingPartialLengths, IndexToIndex& indexToDecreasingPreviousIndex) const {
     for (int index = m_sequence.size() - 1; index >= 0; index--) {
         Value& decreasingPartialLength(decreasingPartialLengths[index]);
         Value& previousIndex(indexToDecreasingPreviousIndex[index]);
         for (Index higherIndex = index + 1; higherIndex < static_cast<Index>(m_sequence.size()); higherIndex++) {
-            if (m_sequence.at(index) > m_sequence.at(higherIndex) &&
-                decreasingPartialLength < decreasingPartialLengths.at(higherIndex) + 1) {
-                decreasingPartialLength = decreasingPartialLengths.at(higherIndex) + 1;
+            if (m_sequence[index] > m_sequence[higherIndex] &&
+                decreasingPartialLength < decreasingPartialLengths[higherIndex] + 1) {
+                decreasingPartialLength = decreasingPartialLengths[higherIndex] + 1;
                 previousIndex = higherIndex;
             }
-        }
-    }
+        }    }
 }
 
-LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequence(
-    IndexToIndex& increasingPartialLengths, IndexToIndex& decreasingPartialLengths,
+LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequence(    IndexToIndex& increasingPartialLengths, IndexToIndex& decreasingPartialLengths,
     IndexToIndex& indexToIncreasingPreviousIndex, IndexToIndex& indexToDecreasingPreviousIndex) const {
     Value maxLength(0);
     Index indexOfLongestLength(0);
     for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
-        Value lengthAtIndex(increasingPartialLengths.at(index) + decreasingPartialLengths.at(index) - 1);
+        Value lengthAtIndex(increasingPartialLengths[index] + decreasingPartialLengths[index] - 1);
         if (maxLength < lengthAtIndex) {
             maxLength = lengthAtIndex;
-            indexOfLongestLength = index;
-        }
+            indexOfLongestLength = index;        }
     }
 
     list<Value> sequenceInDeque;
 
     Index traverseIndex = indexOfLongestLength;
-    for (; traverseIndex != indexToIncreasingPreviousIndex.at(traverseIndex);
-         traverseIndex = indexToIncreasingPreviousIndex.at(traverseIndex)) {
-        sequenceInDeque.emplace_front(m_sequence.at(traverseIndex));
+    for (; traverseIndex != indexToIncreasingPreviousIndex[traverseIndex];
+         traverseIndex = indexToIncreasingPreviousIndex[traverseIndex]) {
+        sequenceInDeque.emplace_front(m_sequence[traverseIndex]);
     }
-    sequenceInDeque.emplace_front(m_sequence.at(traverseIndex));
+    sequenceInDeque.emplace_front(m_sequence[traverseIndex]);
 
-    traverseIndex = indexToDecreasingPreviousIndex.at(indexOfLongestLength);
-    for (; traverseIndex != indexToDecreasingPreviousIndex.at(traverseIndex);
-         traverseIndex = indexToDecreasingPreviousIndex.at(traverseIndex)) {
-        sequenceInDeque.emplace_back(m_sequence.at(traverseIndex));
+    traverseIndex = indexToDecreasingPreviousIndex[indexOfLongestLength];
+    for (; traverseIndex != indexToDecreasingPreviousIndex[traverseIndex];
+         traverseIndex = indexToDecreasingPreviousIndex[traverseIndex]) {
+        sequenceInDeque.emplace_back(m_sequence[traverseIndex]);
     }
-    sequenceInDeque.emplace_back(m_sequence.at(traverseIndex));
+    sequenceInDeque.emplace_back(m_sequence[traverseIndex]);
 
     return Values(sequenceInDeque.cbegin(), sequenceInDeque.cend());
 }
-
 }  // namespace alba

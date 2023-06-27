@@ -19,40 +19,36 @@ public:
             Index lowerIndex(0), higherIndex(sortedBinaryValues.size() - 1);
             while (lowerIndex < higherIndex) {
                 Index middleIndex = (lowerIndex + higherIndex) / 2;
-                if (sortedBinaryValues.at(middleIndex)) {
+                if (sortedBinaryValues[middleIndex]) {
                     result = sortedBinaryValues.size() - middleIndex;
                     higherIndex = middleIndex - 1;
                 } else {
                     lowerIndex = middleIndex + 1;
                 }
             }
-            if (sortedBinaryValues.at(lowerIndex)) {
+            if (sortedBinaryValues[lowerIndex]) {
                 result = sortedBinaryValues.size() - lowerIndex;
             }
-        }
-        return result;
+        }        return result;
     }
 
-    //    Implementation using FindSmallestValueWithTrue
-    //    Index getNumberOfOnesInASortedBinaryContainer(Values const& sortedBinaryValues)
+    //    Implementation using FindSmallestValueWithTrue    //    Index getNumberOfOnesInASortedBinaryContainer(Values const& sortedBinaryValues)
     //    {
     //        Index result(0);
     //        if(!sortedBinaryValues.empty())
     //        {
     //            FindSmallestValueWithTrue<Index> query([&](Index const index) -> bool // this is binary search
     //            {
-    //                return sortedBinaryValues.at(index);
+    //                return sortedBinaryValues[index];
     //            });
     //            Index smallestOneIndex = query.getSmallestValueWithTrue(0, sortedBinaryValues.size()-1);
-    //            if(sortedBinaryValues.at(smallestOneIndex))
+    //            if(sortedBinaryValues[smallestOneIndex])
     //            {
     //                result = sortedBinaryValues.size() - smallestOneIndex;
-    //            }
-    //        }
+    //            }    //        }
     //        return result;
     //    }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

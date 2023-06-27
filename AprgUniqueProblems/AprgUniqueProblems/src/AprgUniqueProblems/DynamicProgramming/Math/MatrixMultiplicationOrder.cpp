@@ -45,16 +45,14 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
                 for (Index inBetween = leftParenthesis + 1; inBetween < rightParenthesis; inBetween++) {
                     Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween) +
                                          countMatrix.getEntry(inBetween, rightParenthesis) +
-                                         m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) *
-                                             m_dimensions.at(rightParenthesis);
+                                         m_dimensions[leftParenthesis] * m_dimensions[inBetween] *
+                                             m_dimensions[rightParenthesis];
                     minimumCount = min(minimumCount, currentCount);
                 }
-                countMatrix.setEntry(leftParenthesis, rightParenthesis, minimumCount);
-            }
+                countMatrix.setEntry(leftParenthesis, rightParenthesis, minimumCount);            }
         }
         result = countMatrix.getEntry(0, countMatrix.getNumberOfRows() - 1);
-    }
-    return result;
+    }    return result;
 }
 
 MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingNaiveRecursion(
@@ -67,15 +65,13 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
             Count currentCount =
                 getMinimumNumberOfOperationsUsingNaiveRecursion(leftParenthesis, inBetween) +
                 getMinimumNumberOfOperationsUsingNaiveRecursion(inBetween, rightParenthesis) +
-                m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) * m_dimensions.at(rightParenthesis);
+                m_dimensions[leftParenthesis] * m_dimensions[inBetween] * m_dimensions[rightParenthesis];
             result = min(result, currentCount);
         }
-    }
-    return result;
+    }    return result;
 }
 
-MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingMemoizationDP(
-    CountMatrix& countMatrix, Index const leftParenthesis, Index const rightParenthesis) const {
+MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingMemoizationDP(    CountMatrix& countMatrix, Index const leftParenthesis, Index const rightParenthesis) const {
     Count result(countMatrix.getEntry(leftParenthesis, rightParenthesis));
     if (MAX_COUNT == result) {
         if (leftParenthesis + 2 <= rightParenthesis)  // distance should be two for at least three elements
@@ -85,15 +81,13 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
                 Count currentCount =
                     getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, leftParenthesis, inBetween) +
                     getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, inBetween, rightParenthesis) +
-                    m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) * m_dimensions.at(rightParenthesis);
+                    m_dimensions[leftParenthesis] * m_dimensions[inBetween] * m_dimensions[rightParenthesis];
                 result = min(result, currentCount);
             }
-        } else {
-            result = 0;
+        } else {            result = 0;
         }
         countMatrix.setEntry(leftParenthesis, rightParenthesis, result);
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace alba

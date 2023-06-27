@@ -17,19 +17,17 @@ MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaxim
         for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
             Value& partialSum(partialSums[index]);
             for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-                if (m_sequence.at(lowerIndex) < m_sequence.at(index)) {
-                    partialSum = max(partialSum, partialSums.at(lowerIndex));
+                if (m_sequence[lowerIndex] < m_sequence[index]) {
+                    partialSum = max(partialSum, partialSums[lowerIndex]);
                 }
             }
-            partialSum += m_sequence.at(index);
+            partialSum += m_sequence[index];
         }
         result = *max_element(partialSums.cbegin(), partialSums.cend());
-    }
-    return result;
+    }    return result;
 }
 
-MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubsequenceWithMaximumSum() const {
-    // Quadratic time because of double loop
+MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubsequenceWithMaximumSum() const {    // Quadratic time because of double loop
 
     Values result;
     if (!m_sequence.empty()) {
@@ -41,26 +39,25 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
             Value& partialSum(partialSums[index]);
             Value& previousIndex(indexToPreviousIndex[index]);
             for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
-                if (m_sequence.at(lowerIndex) < m_sequence.at(index) && partialSum < partialSums.at(lowerIndex)) {
-                    partialSum = partialSums.at(lowerIndex);
+                if (m_sequence[lowerIndex] < m_sequence[index] && partialSum < partialSums[lowerIndex]) {
+                    partialSum = partialSums[lowerIndex];
                     previousIndex = lowerIndex;
                 }
             }
-            partialSum += m_sequence.at(index);
+            partialSum += m_sequence[index];
         }
 
         // construct longest sequence
         auto itMax = max_element(partialSums.cbegin(), partialSums.cend());
         Index indexOfMaxSum = distance(partialSums.cbegin(), itMax);
         Index traverseIndex = indexOfMaxSum;
-        for (; traverseIndex != indexToPreviousIndex.at(traverseIndex);
-             traverseIndex = indexToPreviousIndex.at(traverseIndex)) {
-            result.emplace_back(m_sequence.at(traverseIndex));
+        for (; traverseIndex != indexToPreviousIndex[traverseIndex];
+             traverseIndex = indexToPreviousIndex[traverseIndex]) {
+            result.emplace_back(m_sequence[traverseIndex]);
         }
-        result.emplace_back(m_sequence.at(traverseIndex));
+        result.emplace_back(m_sequence[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;
-}
+    return result;}
 
 }  // namespace alba

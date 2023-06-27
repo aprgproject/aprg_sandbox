@@ -102,9 +102,9 @@ MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getCostOf
     Index const index1, Index const index2, Index const index3) const {
     // cost is perimeter
 
-    return getDistance(m_vertices.at(index1), m_vertices.at(index2)) +
-           getDistance(m_vertices.at(index2), m_vertices.at(index3)) +
-           getDistance(m_vertices.at(index1), m_vertices.at(index3));
+    return getDistance(m_vertices[index1], m_vertices[index2]) +
+           getDistance(m_vertices[index2], m_vertices[index3]) +
+           getDistance(m_vertices[index1], m_vertices[index3]);
 }
 
 }  // namespace alba

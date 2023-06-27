@@ -50,15 +50,13 @@ LongestEqualLengthSubArraysWithSameSum::getLongestTotalLengthOfSubArraysByAccumu
         Value sum1(0), sum2(0);
         while (endOfSubArray1 >= subArrayLength &&
                startOfSubArray2 + subArrayLength < static_cast<Index>(m_values.size())) {
-            sum1 += m_values.at(endOfSubArray1 - subArrayLength);
-            sum2 += m_values.at(startOfSubArray2 + subArrayLength);
+            sum1 += m_values[endOfSubArray1 - subArrayLength];
+            sum2 += m_values[startOfSubArray2 + subArrayLength];
             ++subArrayLength;
             if (sum1 == sum2) {
-                result = max(result, subArrayLength * 2);
-            }
+                result = max(result, subArrayLength * 2);            }
         }
     }
-    return result;
-}
+    return result;}
 
 }  // namespace alba

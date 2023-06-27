@@ -78,15 +78,13 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingIterativeDPAn
                 for (Value digitValue = 1; digitValue <= min(partialSum - 1, 9);
                      digitValue++)  // When digitValue==0, the count is 1, so no need to process
                 {
-                    partialSumToCount[partialSum] += partialSumToCount.at(partialSum - digitValue);
+                    partialSumToCount[partialSum] += partialSumToCount[partialSum - digitValue];
                 }
             }
-        }
-        result = partialSumToCount.back();
+        }        result = partialSumToCount.back();
     }
     return result;
 }
-
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountBySearchingValuesWith1And9Increment() const {
     // Time Complexity: O(possible values * numberOfDigits)

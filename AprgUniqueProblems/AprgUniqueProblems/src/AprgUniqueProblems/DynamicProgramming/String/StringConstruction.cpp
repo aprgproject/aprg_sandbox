@@ -60,25 +60,23 @@ void StringConstruction::saveHashOfAllSubstrings() {
 }
 
 int StringConstruction::getCount(int const prefixLength) {
-    if (UNUSED_VALUE == m_prefixLengthToCount.at(prefixLength)) {
+    if (UNUSED_VALUE == m_prefixLengthToCount[prefixLength]) {
         m_prefixLengthToCount[prefixLength] = count(prefixLength);
     }
-    return m_prefixLengthToCount.at(prefixLength);
+    return m_prefixLengthToCount[prefixLength];
 }
 
 int StringConstruction::getCountSquareRootAlgorithm(int const prefixLength) {
-    if (UNUSED_VALUE == m_prefixLengthToCount.at(prefixLength)) {
+    if (UNUSED_VALUE == m_prefixLengthToCount[prefixLength]) {
         m_prefixLengthToCount[prefixLength] = countSquareRootAlgorithm(prefixLength);
     }
-    return m_prefixLengthToCount.at(prefixLength);
+    return m_prefixLengthToCount[prefixLength];
 }
 
-int StringConstruction::count(int const prefixLength) {
-    // We can solve the problem using dynamic programming:
+int StringConstruction::count(int const prefixLength) {    // We can solve the problem using dynamic programming:
     // Let count(k) denote the number of ways to construct the prefix s[0...k] using the strings in D.
     // Now count(n-1) gives the answer to the problem, and we can solve the problem in O(n2) time using a trie
     // structure.
-
     int result(0);
     for (string const& subString : m_subStrings) {
         int subStringLength = subString.length();
@@ -106,16 +104,14 @@ int StringConstruction::countSquareRootAlgorithm(int const prefixLength) {
     int result(0);
     int limit = min(m_subStrings.size(), m_subStringHash.size());
     for (int i = 0; i < limit; i++) {
-        int subStringLength = m_subStrings.at(i).length();
-        HashValue subStringHash = m_subStringHash.at(i);
+        int subStringLength = m_subStrings[i].length();
+        HashValue subStringHash = m_subStringHash[i];
 
         // Note that getHashCodeOfSubstring is on constant time.
-        if (subStringLength < prefixLength && subStringHash == mainHashFunction.getHashCodeOfSubstring(
-                                                                   prefixLength - subStringLength, prefixLength - 1)) {
+        if (subStringLength < prefixLength && subStringHash == mainHashFunction.getHashCodeOfSubstring(                                                                   prefixLength - subStringLength, prefixLength - 1)) {
             result += getCountSquareRootAlgorithm(prefixLength - subStringLength);
         } else if (
-            subStringLength == prefixLength &&
-            subStringHash == mainHashFunction.getHashCodeOfSubstring(0, prefixLength - 1)) {
+            subStringLength == prefixLength &&            subStringHash == mainHashFunction.getHashCodeOfSubstring(0, prefixLength - 1)) {
             result++;
         }
     }

@@ -37,20 +37,18 @@ private:
         Index result(INVALID_INDEX);
         if (lowerIndex <= higherIndex) {
             Index middleIndex = (lowerIndex + higherIndex) / 2;
-            Value middleValue(m_sortedValues.at(middleIndex));
+            Value middleValue(m_sortedValues[middleIndex]);
             if (value == middleValue) {
                 result = middleIndex;
-            } else if (lowerIndex < middleIndex && value == m_sortedValues.at(middleIndex - 1)) {
+            } else if (lowerIndex < middleIndex && value == m_sortedValues[middleIndex - 1]) {
                 result = middleIndex - 1;
-            } else if (middleIndex < higherIndex && value == m_sortedValues.at(middleIndex + 1)) {
+            } else if (middleIndex < higherIndex && value == m_sortedValues[middleIndex + 1]) {
                 result = middleIndex + 1;
             } else if (value < middleValue) {
-                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex - 2, value);
-            } else if (middleValue < value) {
+                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex - 2, value);            } else if (middleValue < value) {
                 result = getIndexOfValueWithoutCheck(middleIndex + 2, higherIndex, value);
             }
-        }
-        return result;
+        }        return result;
     }
 
     Values const& m_sortedValues;

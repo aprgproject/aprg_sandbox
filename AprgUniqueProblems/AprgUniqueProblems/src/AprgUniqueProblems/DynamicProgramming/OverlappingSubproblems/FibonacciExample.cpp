@@ -57,17 +57,15 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDP(Numbe
     tabulationData[0] = 0;
     tabulationData[1] = 1;
     for (Number i = 2; i <= number; i++) {
-        tabulationData[i] = tabulationData.at(i - 1) + tabulationData.at(i - 2);
+        tabulationData[i] = tabulationData[i - 1] + tabulationData[i - 2];
     }
-    return tabulationData.at(number);
+    return tabulationData[number];
 }
 
-FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number) {
-    // NOTE: Same implementation in AprgMath
+FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number) {    // NOTE: Same implementation in AprgMath
 
     // Time Complexity: O(n)
-    // Extra Space: O(1)
-    // -> We can optimize the space used in method 2 by storing the previous two numbers only
+    // Extra Space: O(1)    // -> We can optimize the space used in method 2 by storing the previous two numbers only
     // because that is all we need to get the next Fibonacci number in series.
 
     if (number == 0) {
@@ -175,25 +173,23 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterat
             Number& resultForStep(iterativeData[step]);
             if (mathHelper::isOdd(step)) {
                 Number k = (step + 1) / 2;
-                Number fibonacciAtK = iterativeData.at(k);
-                Number fibonacciAtKMinus1 = iterativeData.at(k - 1);
+                Number fibonacciAtK = iterativeData[k];
+                Number fibonacciAtKMinus1 = iterativeData[k - 1];
                 resultForStep = fibonacciAtK * fibonacciAtK + fibonacciAtKMinus1 * fibonacciAtKMinus1;
             } else {
                 Number k = step / 2;
-                Number fibonacciAtK = iterativeData.at(k);
-                Number fibonacciAtKMinus1 = iterativeData.at(k - 1);
+                Number fibonacciAtK = iterativeData[k];
+                Number fibonacciAtKMinus1 = iterativeData[k - 1];
                 resultForStep = (2 * fibonacciAtKMinus1 + fibonacciAtK) * fibonacciAtK;
             }
         }
-        result = iterativeData.at(number);
+        result = iterativeData[number];
     }
     return result;
 }
-
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(
     Numbers& memoizationData, Number const number) {
-    Number& resultForNumber(memoizationData[number]);
-    if (resultForNumber == UNUSED_VALUE) {
+    Number& resultForNumber(memoizationData[number]);    if (resultForNumber == UNUSED_VALUE) {
         resultForNumber = getNthFibonacciUsingMemoizationDP(memoizationData, number - 1) +
                           getNthFibonacciUsingMemoizationDP(memoizationData, number - 2);
     }

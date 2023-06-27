@@ -50,35 +50,32 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
         lengthMinus1ToEndValue[0] = secondPoints.front();
         for (Index i = 1; i < static_cast<Index>(secondPoints.size()); i++) {
-            Value const& value(secondPoints.at(i));
+            Value const& value(secondPoints[i]);
             auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
 
             if (lowerBoundItForEndValue == endIt)  // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength - 1);
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex[longestLength - 1];
                 lengthMinus1ToEndIndex[longestLength] = i;
                 lengthMinus1ToEndValue[longestLength++] = value;  // extend
-            } else {
-                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
+            } else {                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
                 if (currentLength > 0) {
                     indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength - 1];
-                }
-                lengthMinus1ToEndIndex[currentLength] = i;
+                }                lengthMinus1ToEndIndex[currentLength] = i;
                 *lowerBoundItForEndValue = value;  // replace
             }
         }
 
         // construct longest sequence
-        Index traverseIndex = lengthMinus1ToEndIndex.at(longestLength - 1);
-        for (; traverseIndex != indexToPreviousIndex.at(traverseIndex);
-             traverseIndex = indexToPreviousIndex.at(traverseIndex)) {
-            result.emplace_back(sortedBridges.at(traverseIndex));
+        Index traverseIndex = lengthMinus1ToEndIndex[longestLength - 1];
+        for (; traverseIndex != indexToPreviousIndex[traverseIndex];
+             traverseIndex = indexToPreviousIndex[traverseIndex]) {
+            result.emplace_back(sortedBridges[traverseIndex]);
         }
-        result.emplace_back(sortedBridges.at(traverseIndex));
+        result.emplace_back(sortedBridges[traverseIndex]);
         // reverse(result.begin(), result.end()); // no need for reverse
     }
-    return result;
-}
+    return result;}
 
 }  // namespace alba

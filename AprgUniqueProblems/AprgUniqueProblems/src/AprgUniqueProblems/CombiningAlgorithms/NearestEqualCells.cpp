@@ -46,21 +46,19 @@ NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairByChecki
     for (auto const& twoCoordinates : twoCoordinatesCombinations) {
         if (twoCoordinates.size() >= 2) {
             if (isFirst) {
-                minimumDistance = getDistance(twoCoordinates.at(0), twoCoordinates.at(1));
-                result = {twoCoordinates.at(0), twoCoordinates.at(1)};
+                minimumDistance = getDistance(twoCoordinates[0], twoCoordinates[1]);
+                result = {twoCoordinates[0], twoCoordinates[1]};
                 isFirst = false;
             } else {
-                int distance = getDistance(twoCoordinates.at(0), twoCoordinates.at(1));
+                int distance = getDistance(twoCoordinates[0], twoCoordinates[1]);
                 if (distance < minimumDistance) {
                     minimumDistance = distance;
-                    result = {twoCoordinates.at(0), twoCoordinates.at(1)};
+                    result = {twoCoordinates[0], twoCoordinates[1]};
                 }
             }
-        }
-    }
+        }    }
     return result;
 }
-
 NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairUsingBfs(Value const value) const {
     // Algorithm 2: Perform a breadth-first search that simultaneously starts at each cell with letter c.
     // The minimum distance between two cells with letter c will be calculated in O(n) time.

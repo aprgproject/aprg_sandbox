@@ -58,13 +58,11 @@ CountingTilings::Rows const& CountingTilings::getNextRows(Row const& currentRow)
         return it->second;
     } else {
         m_currentRowToNextRows[currentRow] = calculateNextRows(currentRow);
-        return m_currentRowToNextRows.at(currentRow);
+        return m_currentRowToNextRows[currentRow];
     }
 }
-
 CountingTilings::Rows CountingTilings::calculateNextRows(Row const& currentRow) {
     // This is not exactly DP but "complete search".
-
     struct NextDetail {
         Row nextRow;
         Count nextIndex;
@@ -80,16 +78,14 @@ CountingTilings::Rows CountingTilings::calculateNextRows(Row const& currentRow) 
         possibleNextDetails.pop();
         if (nextIndex >= static_cast<Count>(currentRow.length())) {
             result.emplace_back(nextRow);
-        } else if (currentRow.at(nextIndex) == ' ') {
-            if (nextIndex + 1 < static_cast<Count>(currentRow.length()) && currentRow.at(nextIndex + 1) == ' ') {
+        } else if (currentRow[nextIndex] == ' ') {
+            if (nextIndex + 1 < static_cast<Count>(currentRow.length()) && currentRow[nextIndex + 1] == ' ') {
                 possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 2});
             }
-            nextRow[nextIndex] = 'V';
-            possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 1});
+            nextRow[nextIndex] = 'V';            possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 1});
         } else {
             possibleNextDetails.emplace(NextDetail{nextRow, nextIndex + 1});
-        }
-    }
+        }    }
     return result;
 }
 

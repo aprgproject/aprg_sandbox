@@ -72,19 +72,17 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
             for (Index lastWordIndex = firstWordIndex; lastWordIndex < numberOfWords;
                  lastWordIndex++)  // try all last word in lines
             {
-                lineLength += m_words.at(lastWordIndex).length();
+                lineLength += m_words[lastWordIndex].length();
                 lineLength += (static_cast<Index>(firstWordIndex) < lastWordIndex) ? 1 : 0;  // add space character
                 if (lineLength <= m_maxLineLength) {
                     Cost possibleCost = getCostFromExtraSpaces(m_maxLineLength - lineLength);
-                    possibleCost += (lastWordIndex + 1 < numberOfWords) ? costsIfFirstWord.at(lastWordIndex + 1)
+                    possibleCost += (lastWordIndex + 1 < numberOfWords) ? costsIfFirstWord[lastWordIndex + 1]
                                                                         : 0;  // add cost of next lines
                     costIfFirstWord = min(costIfFirstWord, possibleCost);
-                }
-            }
+                }            }
         }
         result = costsIfFirstWord.front();
-    }
-    return result;
+    }    return result;
 }
 
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostUsingNaiveRecursion(
@@ -92,15 +90,13 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
     Cost result(0);
     if (wordIndex < static_cast<Index>(m_words.size())) {
         result = MAX_COST;
-        Index wordLength(m_words.at(wordIndex).length());
+        Index wordLength(m_words[wordIndex].length());
         if (wordLength <= m_maxLineLength) {
             Index lastLength(recursionDetails.lineLengths.back());
-            if (lastLength + 1 + wordLength <= m_maxLineLength) {
-                // try to put word on last line
+            if (lastLength + 1 + wordLength <= m_maxLineLength) {                // try to put word on last line
                 RecursionDetails currentDetails(recursionDetails);
                 currentDetails.lineLengths.back() += 1 + wordLength;
-                result = min(result, getOptimizedCostUsingNaiveRecursion(currentDetails, wordIndex + 1));
-            }
+                result = min(result, getOptimizedCostUsingNaiveRecursion(currentDetails, wordIndex + 1));            }
 
             {
                 // try to put word on new line

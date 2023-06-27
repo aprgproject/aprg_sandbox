@@ -45,15 +45,13 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
     for (Index index1 = 1; index1 < static_cast<Index>(lengthMatrix.getNumberOfColumns()); index1++) {
         for (Index index2 = 1; index2 < static_cast<Index>(lengthMatrix.getNumberOfRows()); index2++) {
             Count entryResult(0);
-            if (m_sequence1.at(index1 - 1) == m_sequence2.at(index2 - 1)) {
+            if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
                 entryResult = 1 + lengthMatrix.getEntry(index1 - 1, index2 - 1);
             } else {
-                entryResult =
-                    1 + min(lengthMatrix.getEntry(index1 - 1, index2), lengthMatrix.getEntry(index1, index2 - 1));
+                entryResult =                    1 + min(lengthMatrix.getEntry(index1 - 1, index2), lengthMatrix.getEntry(index1, index2 - 1));
             }
             lengthMatrix.setEntry(index1, index2, entryResult);
-        }
-    }
+        }    }
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
 }
 
@@ -81,32 +79,29 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
 
         currentCounts[0] = index2;
         for (Index index1 = 1; index1 <= static_cast<Index>(m_sequence1.size()); index1++) {
-            if (m_sequence1.at(index1 - 1) == m_sequence2.at(index2 - 1)) {
-                currentCounts[index1] = 1 + previousCounts.at(index1 - 1);
+            if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
+                currentCounts[index1] = 1 + previousCounts[index1 - 1];
             } else {
-                currentCounts[index1] = 1 + min(currentCounts.at(index1 - 1), previousCounts.at(index1));
+                currentCounts[index1] = 1 + min(currentCounts[index1 - 1], previousCounts[index1]);
             }
         }
     }
 
-    Counts const& lastCurrent(previousAndCurrentCounts.at((m_sequence2.size() + 1) % 2));
+    Counts const& lastCurrent(previousAndCurrentCounts[(m_sequence2.size() + 1) % 2]);
     return lastCurrent.back();
 }
-
 ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengthUsingNaiveRecursion(
     Index const index1, Index const index2) const {
     if (index1 == 0) {
         return index2;
     } else if (index2 == 0) {
         return index1;
-    } else if (m_sequence1.at(index1 - 1) == m_sequence2.at(index2 - 1)) {
+    } else if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
         return 1 + getShortestLengthUsingNaiveRecursion(index1 - 1, index2 - 1);
     } else {
-        return 1 + min(getShortestLengthUsingNaiveRecursion(index1, index2 - 1),
-                       getShortestLengthUsingNaiveRecursion(index1 - 1, index2));
+        return 1 + min(getShortestLengthUsingNaiveRecursion(index1, index2 - 1),                       getShortestLengthUsingNaiveRecursion(index1 - 1, index2));
     }
 }
-
 ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengthUsingMemoizationDP(
     CountMatrix& lengthMatrix, Index const index1, Index const index2) const {
     Count result(lengthMatrix.getEntry(index1, index2));
@@ -115,15 +110,13 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
             result = index2;
         } else if (index2 == 0) {
             result = index1;
-        } else if (m_sequence1.at(index1 - 1) == m_sequence2.at(index2 - 1)) {
+        } else if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
             result = 1 + getShortestLengthUsingMemoizationDP(lengthMatrix, index1 - 1, index2 - 1);
         } else {
-            result = 1 + min(getShortestLengthUsingMemoizationDP(lengthMatrix, index1, index2 - 1),
-                             getShortestLengthUsingMemoizationDP(lengthMatrix, index1 - 1, index2));
+            result = 1 + min(getShortestLengthUsingMemoizationDP(lengthMatrix, index1, index2 - 1),                             getShortestLengthUsingMemoizationDP(lengthMatrix, index1 - 1, index2));
         }
         lengthMatrix.setEntry(index1, index2, result);
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace alba

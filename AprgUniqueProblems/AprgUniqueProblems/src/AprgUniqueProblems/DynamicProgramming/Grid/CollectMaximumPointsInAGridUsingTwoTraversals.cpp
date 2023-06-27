@@ -68,15 +68,13 @@ CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingIterativeDP(
                         if (m_inputGrid.isInside(previousColumnLeft, previousRow) &&
                             m_inputGrid.isInside(previousColumnRight, previousRow)) {
                             Value previousValue =
-                                valueGrids.at(previousRow).getEntry(previousColumnLeft, previousColumnRight);
+                                valueGrids[previousRow].getEntry(previousColumnLeft, previousColumnRight);
                             if (INVALID_COUNT != previousValue) {
                                 entryResult =
-                                    (entryResult == INVALID_COUNT) ? previousValue : max(entryResult, previousValue);
-                            }
+                                    (entryResult == INVALID_COUNT) ? previousValue : max(entryResult, previousValue);                            }
                         }
                     }
-                    if (INVALID_COUNT != entryResult) {
-                        entryResult += (columnLeft == columnRight) ? m_inputGrid.getEntry(columnLeft, row)
+                    if (INVALID_COUNT != entryResult) {                        entryResult += (columnLeft == columnRight) ? m_inputGrid.getEntry(columnLeft, row)
                                                                    : m_inputGrid.getEntry(columnLeft, row) +
                                                                          m_inputGrid.getEntry(columnRight, row);
                     }
@@ -119,15 +117,13 @@ CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingNaiveRecursi
 CollectMaximumPointsInAGridUsingTwoTraversals::Value
 CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingMemoizationDP(
     ValueGrids& valueGrids, Index const row, Index const columnLeft, Index const columnRight) const {
-    Value result(valueGrids.at(row).getEntry(columnLeft, columnRight));
+    Value result(valueGrids[row].getEntry(columnLeft, columnRight));
     if (UNUSED_COUNT == result) {
         result = 0;
-        if (row == static_cast<Index>(m_inputGrid.getNumberOfRows()) - 1 &&
-            !(columnLeft == 0 && columnRight == static_cast<Index>(m_inputGrid.getNumberOfColumns()) - 1)) {
+        if (row == static_cast<Index>(m_inputGrid.getNumberOfRows()) - 1 &&            !(columnLeft == 0 && columnRight == static_cast<Index>(m_inputGrid.getNumberOfColumns()) - 1)) {
             // if last row did not reach destination
             result = INVALID_COUNT;
-        } else {
-            for (auto const& columnsOffset : columnsOffsets) {
+        } else {            for (auto const& columnsOffset : columnsOffsets) {
                 Index nextRow = row + 1;
                 Index nextColumnLeft = columnLeft + columnsOffset.first;
                 Index nextColumnRight = columnRight + columnsOffset.second;

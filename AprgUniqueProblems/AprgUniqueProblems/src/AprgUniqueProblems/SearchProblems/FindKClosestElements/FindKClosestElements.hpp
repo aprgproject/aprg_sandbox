@@ -26,15 +26,13 @@ public:
             Index count(1);
             Index low(nearestIndex), high(nearestIndex);
             while (count < numberOfClosestElements && low > 0 && high + 1 < static_cast<Index>(m_values.size())) {
-                if (valueToCheck - m_values.at(low) <= m_values.at(high) - valueToCheck) {
+                if (valueToCheck - m_values[low] <= m_values[high] - valueToCheck) {
                     low--;
                 } else {
-                    high++;
-                }
+                    high++;                }
                 count++;
             }
-            while (count < numberOfClosestElements && low > 0) {
-                low--;
+            while (count < numberOfClosestElements && low > 0) {                low--;
                 count++;
             }
             while (count < numberOfClosestElements && high + 1 < static_cast<Index>(m_values.size())) {

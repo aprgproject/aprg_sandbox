@@ -37,19 +37,17 @@ private:
             Value minimumDeviation(std::numeric_limits<Value>::max());
             Index lowerIndex = lowestIndex, higherIndex = highestIndex;
             while (lowerIndex < higherIndex) {
-                Value currentSum(m_sortedValues.at(lowerIndex) + m_sortedValues.at(higherIndex));
+                Value currentSum(m_sortedValues[lowerIndex] + m_sortedValues[higherIndex]);
                 Value currentDeviation(mathHelper::getPositiveDelta(currentSum, targetSum));
                 if (minimumDeviation > currentDeviation) {
                     minimumDeviation = currentDeviation;
-                    result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
+                    result = {m_sortedValues[lowerIndex], m_sortedValues[higherIndex]};
                 }
                 if (currentSum == targetSum) {
-                    break;
-                } else if (currentSum > targetSum) {
+                    break;                } else if (currentSum > targetSum) {
                     higherIndex--;
                 } else if (currentSum < targetSum) {
-                    lowerIndex++;
-                }
+                    lowerIndex++;                }
             }
         }
         return result;

@@ -80,15 +80,13 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingIterativeDPAndSpaceEf
                 Count entryResult(0);
                 for (Value beforeDigitValue = 0; beforeDigitValue <= static_cast<Value>(digitValue);
                      beforeDigitValue++) {
-                    entryResult += digitValueToCount.at(beforeDigitValue);
+                    entryResult += digitValueToCount[beforeDigitValue];
                 }
                 digitValueToCount[digitValue] = entryResult;
-            }
-        }
+            }        }
 
         result = accumulate(digitValueToCount.cbegin(), digitValueToCount.cend(), 0);
-    }
-    return result;
+    }    return result;
 }
 
 TotalNumberOfNonDecreasingNumbersWithNDigits::Count

@@ -48,15 +48,13 @@ FindTheMinimumCostToReachDestinationUsingATrain::getMinimumCostUsingIterativeDP(
             for (Index immediateStation = 0; immediateStation < endStation; immediateStation++) {
                 entryResult =
                     min(entryResult,
-                        savedCosts.at(immediateStation) + m_pricesAtEachStation.getEntry(immediateStation, endStation));
+                        savedCosts[immediateStation] + m_pricesAtEachStation.getEntry(immediateStation, endStation));
             }
             savedCosts[endStation] = entryResult;
-        }
-        result = savedCosts.back();
+        }        result = savedCosts.back();
     }
     return result;
 }
-
 FindTheMinimumCostToReachDestinationUsingATrain::Value
 FindTheMinimumCostToReachDestinationUsingATrain::getMinimumCostUsingNaiveRecursion(Index const endStation) const {
     Value result(0);
@@ -74,15 +72,13 @@ FindTheMinimumCostToReachDestinationUsingATrain::getMinimumCostUsingNaiveRecursi
 FindTheMinimumCostToReachDestinationUsingATrain::Value
 FindTheMinimumCostToReachDestinationUsingATrain::getMinimumCostUsingMemoizationDP(
     Values& savedCosts, Index const endStation) const {
-    Value result(savedCosts.at(endStation));
+    Value result(savedCosts[endStation]);
     if (UNUSED_VALUE == result) {
         result = 0;
-        if (endStation > 0) {
-            result = MAX_VALUE;
+        if (endStation > 0) {            result = MAX_VALUE;
             for (int immediateStation = static_cast<int>(endStation) - 1; immediateStation >= 0; immediateStation--) {
                 result =
-                    min(result, getMinimumCostUsingNaiveRecursion(immediateStation) +
-                                    m_pricesAtEachStation.getEntry(immediateStation, endStation));
+                    min(result, getMinimumCostUsingNaiveRecursion(immediateStation) +                                    m_pricesAtEachStation.getEntry(immediateStation, endStation));
             }
         }
         savedCosts[endStation] = result;

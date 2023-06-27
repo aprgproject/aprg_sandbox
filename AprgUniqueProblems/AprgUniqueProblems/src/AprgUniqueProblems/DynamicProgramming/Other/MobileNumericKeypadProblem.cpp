@@ -104,34 +104,29 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingItera
             Counts& previousCounts(previousAndCurrentCounts[(lengthMinus1 - 1) % 2]);
             Counts& currentCounts(previousAndCurrentCounts[lengthMinus1 % 2]);
 
-            currentCounts[0] = previousCounts.at(0) + previousCounts.at(8);
-            currentCounts[1] = previousCounts.at(1) + previousCounts.at(2) + previousCounts.at(4);
-            currentCounts[2] =
-                previousCounts.at(2) + previousCounts.at(1) + previousCounts.at(3) + previousCounts.at(5);
-            currentCounts[3] = previousCounts.at(3) + previousCounts.at(2) + previousCounts.at(6);
-            currentCounts[4] =
-                previousCounts.at(4) + previousCounts.at(1) + previousCounts.at(5) + previousCounts.at(7);
-            currentCounts[5] = previousCounts.at(5) + previousCounts.at(2) + previousCounts.at(4) +
-                               previousCounts.at(6) + previousCounts.at(8);
-            currentCounts[6] =
-                previousCounts.at(6) + previousCounts.at(3) + previousCounts.at(5) + previousCounts.at(6);
-            currentCounts[7] = previousCounts.at(7) + previousCounts.at(4) + previousCounts.at(8);
-            currentCounts[8] = previousCounts.at(8) + previousCounts.at(5) + previousCounts.at(7) +
-                               previousCounts.at(9) + previousCounts.at(0);
-            currentCounts[9] = previousCounts.at(9) + previousCounts.at(6) + previousCounts.at(8);
+            currentCounts[0] = previousCounts[0] + previousCounts[8];
+            currentCounts[1] = previousCounts[1] + previousCounts[2] + previousCounts[4];
+            currentCounts[2] = previousCounts[2] + previousCounts[1] + previousCounts[3] + previousCounts[5];
+            currentCounts[3] = previousCounts[3] + previousCounts[2] + previousCounts[6];
+            currentCounts[4] = previousCounts[4] + previousCounts[1] + previousCounts[5] + previousCounts[7];
+            currentCounts[5] =
+                previousCounts[5] + previousCounts[2] + previousCounts[4] + previousCounts[6] + previousCounts[8];
+            currentCounts[6] = previousCounts[6] + previousCounts[3] + previousCounts[5] + previousCounts[6];
+            currentCounts[7] = previousCounts[7] + previousCounts[4] + previousCounts[8];
+            currentCounts[8] =
+                previousCounts[8] + previousCounts[5] + previousCounts[7] + previousCounts[9] + previousCounts[0];
+            currentCounts[9] = previousCounts[9] + previousCounts[6] + previousCounts[8];
         }
 
-        Counts const& lastCurrent(previousAndCurrentCounts.at((m_length - 1) % 2));
+        Counts const& lastCurrent(previousAndCurrentCounts[(m_length - 1) % 2]);
         for (NumpadValue numpadValue = 0; numpadValue <= 9; numpadValue++) {
-            result += lastCurrent.at(numpadValue);
+            result += lastCurrent[numpadValue];
         }
     }
-    return result;
-}
+    return result;}
 
 MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountForValueUsingNaiveRecursion(
-    Count const length, NumpadValue const numpadValue) const {
-    Count result(0);
+    Count const length, NumpadValue const numpadValue) const {    Count result(0);
     if (length > 1) {
         Count lengthMinus1 = length - 1;
         switch (numpadValue) {

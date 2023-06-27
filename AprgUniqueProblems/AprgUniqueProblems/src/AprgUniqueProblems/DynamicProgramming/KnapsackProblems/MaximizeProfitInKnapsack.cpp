@@ -39,16 +39,14 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingIte
         ProfitMatrix profitMatrix(m_maximumWeight + 1, m_items.size() + 1, 0);
         Weight smallestItemWeight(getSmallestItemWeight());
         for (int itemIndex = static_cast<int>(m_items.size()) - 1; itemIndex >= 0; itemIndex--) {
-            Weight itemWeight(m_items.at(itemIndex).first);
-            Profit itemProfit(m_items.at(itemIndex).second);
+            Weight itemWeight(m_items[itemIndex].first);
+            Profit itemProfit(m_items[itemIndex].second);
             for (Weight weight(smallestItemWeight); weight < static_cast<Index>(profitMatrix.getNumberOfColumns());
                  weight++) {
-                if (weight >= itemWeight) {
-                    Profit profit =
+                if (weight >= itemWeight) {                    Profit profit =
                         max(profitMatrix.getEntry(weight, itemIndex + 1),
                             itemProfit + profitMatrix.getEntry(weight - itemWeight, itemIndex + 1));
-                    profitMatrix.setEntry(weight, itemIndex, profit);
-                }
+                    profitMatrix.setEntry(weight, itemIndex, profit);                }
             }
         }
         result = profitMatrix.getEntry(profitMatrix.getNumberOfColumns() - 1, 0);
@@ -78,29 +76,25 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingIte
             {
                 if (weight >= itemWeight) {
                     weightToProfit[weight] =
-                        max(weightToProfit.at(weight), weightToProfit.at(weight - itemWeight) + itemProfit);
+                        max(weightToProfit[weight], weightToProfit[weight - itemWeight] + itemProfit);
                 }
             }
-        }
-        result = weightToProfit.back();
+        }        result = weightToProfit.back();
     }
     return result;
 }
-
 MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingNaiveRecursion(
     Weight const remainingWeight, ItemIndex const itemIndex) const {
     Profit result(0);
     if (itemIndex < static_cast<Index>(m_items.size())) {
-        Weight itemWeight(m_items.at(itemIndex).first);
-        Profit itemProfit(m_items.at(itemIndex).second);
+        Weight itemWeight(m_items[itemIndex].first);
+        Profit itemProfit(m_items[itemIndex].second);
         if (remainingWeight >= itemWeight) {
             result =
-                max(getBestProfitUsingNaiveRecursion(remainingWeight, itemIndex + 1),
-                    itemProfit + getBestProfitUsingNaiveRecursion(remainingWeight - itemWeight, itemIndex + 1));
+                max(getBestProfitUsingNaiveRecursion(remainingWeight, itemIndex + 1),                    itemProfit + getBestProfitUsingNaiveRecursion(remainingWeight - itemWeight, itemIndex + 1));
         }
     }
-    return result;
-}
+    return result;}
 
 MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingMemoizationDP(
     ProfitMatrix& profitMatrix, Weight const remainingWeight, ItemIndex const itemIndex) const {
@@ -108,16 +102,14 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingMem
     if (UNUSED_VALUE == result) {
         result = 0;
         if (itemIndex < static_cast<ItemIndex>(m_items.size())) {
-            Weight itemWeight(m_items.at(itemIndex).first);
-            Profit itemProfit(m_items.at(itemIndex).second);
+            Weight itemWeight(m_items[itemIndex].first);
+            Profit itemProfit(m_items[itemIndex].second);
             if (remainingWeight >= itemWeight) {
                 result =
-                    max(getBestProfitUsingMemoizationDP(profitMatrix, remainingWeight, itemIndex + 1),
-                        itemProfit +
+                    max(getBestProfitUsingMemoizationDP(profitMatrix, remainingWeight, itemIndex + 1),                        itemProfit +
                             getBestProfitUsingMemoizationDP(profitMatrix, remainingWeight - itemWeight, itemIndex + 1));
             }
-        }
-        profitMatrix.setEntry(remainingWeight, itemIndex, result);
+        }        profitMatrix.setEntry(remainingWeight, itemIndex, result);
     }
     return result;
 }

@@ -21,17 +21,15 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUs
         Number currentNumber = 1;
         for (Number count = 1; count < m_nth;) {
             currentNumber++;
-            bool isCurrentNumberUgly = isDivisible(currentNumber, 2)   ? isUglyNumber.at((currentNumber / 2) - 1)
-                                       : isDivisible(currentNumber, 3) ? isUglyNumber.at((currentNumber / 3) - 1)
-                                       : isDivisible(currentNumber, 5) ? isUglyNumber.at((currentNumber / 5) - 1)
+            bool isCurrentNumberUgly = isDivisible(currentNumber, 2)   ? isUglyNumber[(currentNumber / 2) - 1]
+                                       : isDivisible(currentNumber, 3) ? isUglyNumber[(currentNumber / 3) - 1]
+                                       : isDivisible(currentNumber, 5) ? isUglyNumber[(currentNumber / 5) - 1]
                                                                        : false;
             isUglyNumber.emplace_back(isCurrentNumberUgly);
-            count += isCurrentNumberUgly ? 1 : 0;
-        }
+            count += isCurrentNumberUgly ? 1 : 0;        }
         result = currentNumber;
     }
-    return result;
-}
+    return result;}
 
 UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() const {
     // Time Complexity: O(n)
@@ -48,13 +46,12 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() c
         while (static_cast<Number>(uglyNumbers.size()) < m_nth) {
             Number nextUglyNumber = min(min(next2Multiple, next3Multiple), next5Multiple);
             uglyNumbers.emplace_back(nextUglyNumber);
-            next2Multiple = (nextUglyNumber == next2Multiple) ? uglyNumbers.at(++indexFor2) * 2 : next2Multiple;
-            next3Multiple = (nextUglyNumber == next3Multiple) ? uglyNumbers.at(++indexFor3) * 3 : next3Multiple;
-            next5Multiple = (nextUglyNumber == next5Multiple) ? uglyNumbers.at(++indexFor5) * 5 : next5Multiple;
+            next2Multiple = (nextUglyNumber == next2Multiple) ? uglyNumbers[++indexFor2] * 2 : next2Multiple;
+            next3Multiple = (nextUglyNumber == next3Multiple) ? uglyNumbers[++indexFor3] * 3 : next3Multiple;
+            next5Multiple = (nextUglyNumber == next5Multiple) ? uglyNumbers[++indexFor5] * 5 : next5Multiple;
         }
         result = uglyNumbers.back();
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace alba
