@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Container/AlbaContainerHelper.hpp>
 
 #include <algorithm>
-
 namespace alba {
 
 namespace algorithm {
-
 template <typename Values>  // this should be a non set container to be efficient because std::lower_bound and
                             // std::upper_bound are used
 class BinarySearchWithCppFunctions {

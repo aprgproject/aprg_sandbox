@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 #include <algorithm>
-#include <numeric>
-#include <vector>
+#include <numeric>#include <vector>
 
 namespace alba {
-
 namespace algorithm {
 
 using Indexes = std::vector<int>;
@@ -56,21 +54,18 @@ int getIndexOfMedianNinther(Values const& values, int const lowIndex, int const 
 }
 
 template <typename Values>
-int getMedianIteratorOfLessThanFive(
+int getMedianIndexOfLessThanFive(
     Values const& values, Indexes& medianIndexes, int const lowIndex, int const highIndex) {
     // Perform insertion sort
     for (int insertIndex = lowIndex + 1; insertIndex <= highIndex; insertIndex++) {
         for (int iLow = insertIndex - 1, iHigh = insertIndex;
-             lowIndex <= iLow && values[medianIndexes[iLow]] > values[medianIndexes[iHigh]];
-             iLow--, iHigh--) {
+             lowIndex <= iLow && values[medianIndexes[iLow]] > values[medianIndexes[iHigh]]; iLow--, iHigh--) {
             std::swap(medianIndexes[iLow], medianIndexes[iHigh]);
         }
-    }
-    return getMidpointOfIndexes(lowIndex, highIndex);
+    }    return getMidpointOfIndexes(lowIndex, highIndex);
 }
 
-template <typename Values>
-int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int const highIndex) {
+template <typename Values>int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int const highIndex) {
     // Based from https://en.wikipedia.org/wiki/Median_of_medians
 
     int result{};
@@ -78,23 +73,21 @@ int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int cons
         Indexes medianIndexes(highIndex - lowIndex);
         std::iota(medianIndexes.begin(), medianIndexes.end(), lowIndex);
 
-        int medianSize = medianIndexes.size();
-        while (medianSize > 1) {
+        int medianIndexesSize = medianIndexes.size();
+        while (medianIndexesSize > 1) {
             int medianIndex = 0;
-            for (int lowOfFive = 0; lowOfFive < medianSize; lowOfFive += 5) {
-                int highOfFive = std::min(lowOfFive + 4, medianSize - 1);
-                int medianIndexOfFive = getMedianIteratorOfLessThanFive(values, medianIndexes, lowOfFive, highOfFive);
+            for (int lowOfFive = 0; lowOfFive < medianIndexesSize; lowOfFive += 5) {
+                int highOfFive = std::min(lowOfFive + 4, medianIndexesSize - 1);
+                int medianIndexOfFive = getMedianIndexOfLessThanFive(values, medianIndexes, lowOfFive, highOfFive);
                 std::swap(medianIndexes[medianIndex++], medianIndexes[medianIndexOfFive]);
             }
-            medianSize = medianIndex;
+            medianIndexesSize = medianIndex;
         }
         result = medianIndexes.front();
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // Quick selection in worst-case linear time

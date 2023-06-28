@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Indexes>
-class GetAccumulatedNextFreeIndexWithSegmentTree {
+template <typename Indexes>class GetAccumulatedNextFreeIndexWithSegmentTree {
 public:
     using Index = typename Indexes::value_type;
     using Utilities = SegmentTreeUtilities<Index>;

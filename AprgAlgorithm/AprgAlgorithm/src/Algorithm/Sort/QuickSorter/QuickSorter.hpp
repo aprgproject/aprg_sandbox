@@ -24,21 +24,13 @@ private:
     void sort(Values& valuesToSort, int const lowIndex, int const highIndex) const {
         if (lowIndex < highIndex) {
             int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
-            if (lowIndex < partitionIndex) {
-                // recursively sort/partition the low part without the partition index
-                sort(valuesToSort, lowIndex, partitionIndex - 1);
-            }
-            if (partitionIndex < highIndex) {
-                // recursively sort/partition the high part without the partition index
-                sort(valuesToSort, partitionIndex + 1, highIndex);
-            }
+            sort(valuesToSort, lowIndex, partitionIndex - 1);
+            sort(valuesToSort, partitionIndex + 1, highIndex);
         }
     }
-
 private:
     PivotType m_pivotType;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

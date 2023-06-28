@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class TernaryNearestValueSearch {
+template <typename Values>class TernaryNearestValueSearch {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -45,42 +43,29 @@ public:
     }
 
 private:
-    Index getIndexOfNearestValueWithoutCheck(
-        Index const lowIndex, Index const highIndex, Value const& value) const {
+    Index getIndexOfNearestValueWithoutCheck(Index const lowIndex, Index const highIndex, Value const& value) const {
         Index result(INVALID_INDEX);
         if (value < m_sortedValues[lowIndex]) {
-            result =
-                (lowIndex == 0) ? 0 : getIndexOfNearestValueInBetweenTwoIndices(lowIndex - 1, lowIndex, value);
+            result = (lowIndex == 0) ? 0 : getIndexOfNearestValueInBetweenTwoIndices(lowIndex - 1, lowIndex, value);
         } else if (m_sortedValues[highIndex] < value) {
-            result = (highIndex == static_cast<Index>(m_sortedValues.size()) - 1)
-                         ? m_sortedValues.size() - 1
+            Index lastIndex = static_cast<Index>(m_sortedValues.size()) - 1;
+            result = (highIndex == lastIndex)
+                         ? lastIndex
                          : getIndexOfNearestValueInBetweenTwoIndices(highIndex, highIndex + 1, value);
         } else {
-            Index oneThirdSize = (highIndex - lowIndex) / 3;
-            Index firstMiddleIndex = lowIndex + oneThirdSize;
-            Index secondMiddleIndex = firstMiddleIndex + oneThirdSize;
-            Value firstMiddleValue(m_sortedValues[firstMiddleIndex]);
-            Value secondMiddleValue(m_sortedValues[secondMiddleIndex]);
-            if (value == firstMiddleValue) {
-                result = firstMiddleIndex;
-            } else if (value == secondMiddleValue) {
-                result = secondMiddleIndex;
-            } else if (firstMiddleValue > value)  // if on the first one-third part
-            {
+            Index firstMiddleIndex = getFirstOneThirdIndex(lowIndex, highIndex);
+            Index secondMiddleIndex = getSecondOneThirdIndex(lowIndex, highIndex);
+            if (value < m_sortedValues[firstMiddleIndex]) {
                 result = getIndexOfNearestValueWithoutCheck(lowIndex, firstMiddleIndex - 1, value);
-            } else if (secondMiddleValue < value)  // if on the third one-third part
-            {
+            } else if (m_sortedValues[secondMiddleIndex] < value) {
                 result = getIndexOfNearestValueWithoutCheck(secondMiddleIndex + 1, highIndex, value);
-            } else  // if on the second one-third part
-            {
+            } else {
                 result = getIndexOfNearestValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);
             }
-        }
-        return result;
+        }        return result;
     }
 
-    Index getIndexOfNearestValueInBetweenTwoIndices(
-        Index const lowIndex, Index const highIndex, Value const& value) const {
+    Index getIndexOfNearestValueInBetweenTwoIndices(        Index const lowIndex, Index const highIndex, Value const& value) const {
         Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues[lowIndex]));
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;

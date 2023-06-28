@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class BinarySearchWithRecursion {
+template <typename Values>class BinarySearchWithRecursion {
 public:
     using Index = int;
     using Value = typename Values::value_type;

@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class TernarySearch {
+template <typename Values>class TernarySearch {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -38,24 +36,19 @@ private:
 
         Index result(INVALID_INDEX);
         if (lowIndex < highIndex) {
-            Index firstMiddleIndex = (2 * lowIndex + highIndex) / 3;   // Note: possible overflow bug
-            Index secondMiddleIndex = (lowIndex + 2 * highIndex) / 3;  // Note: possible overflow bug
+            Index firstMiddleIndex = getFirstOneThirdIndex(lowIndex, highIndex);
+            Index secondMiddleIndex = getSecondOneThirdIndex(lowIndex, highIndex);
             if (value < m_sortedValues[firstMiddleIndex]) {
-                // if on the first one-third part
                 result = getIndexOfValueWithoutCheck(lowIndex, firstMiddleIndex - 1, value);
             } else if (m_sortedValues[secondMiddleIndex] < value) {
-                // if on the third one-third part
                 result = getIndexOfValueWithoutCheck(secondMiddleIndex + 1, highIndex, value);
             } else {
-                // if on the second one-third part
                 result = getIndexOfValueWithoutCheck(firstMiddleIndex, secondMiddleIndex, value);
             }
-        } else if (lowIndex == highIndex && value == m_sortedValues[lowIndex]) {
-            result = lowIndex;
+        } else if (lowIndex == highIndex && value == m_sortedValues[lowIndex]) {            result = lowIndex;
         }
         return result;
-    }
-    Values const& m_sortedValues;
+    }    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm

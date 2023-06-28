@@ -2,14 +2,12 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 #include <Algorithm/Sort/MergeSorter/MergeSorterUtilities.hpp>
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class TopDownMergeSorter : public BaseSorter<Values> {
+template <typename Values>class TopDownMergeSorter : public BaseSorter<Values> {
 public:
     TopDownMergeSorter() = default;
 

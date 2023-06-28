@@ -1,15 +1,13 @@
 #pragma once
 
 #include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate
+template <typename Values>class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate
     : private RangeQueryWithStaticSegmentTree<Values> {
 public:
     // Example for "range query with accumulator" is sum queries

@@ -1,15 +1,13 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class InterpolationSearch {
+template <typename Values>class InterpolationSearch {
 public:
     using Index = int;
     using Value = typename Values::value_type;

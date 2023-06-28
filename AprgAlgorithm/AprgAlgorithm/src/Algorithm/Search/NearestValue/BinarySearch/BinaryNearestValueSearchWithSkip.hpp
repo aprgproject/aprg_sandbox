@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class BinaryNearestValueSearchWithSkip {
+template <typename Values>class BinaryNearestValueSearchWithSkip {
 public:
     using Index = int;
     using Value = typename Values::value_type;

@@ -22,15 +22,13 @@ public:
             int gap = size;
 
             bool didSwapHappened(true);
-            while (didSwapHappened || gap != 1) {
+            while (didSwapHappened || gap > 1) {
                 didSwapHappened = false;
                 gap = getNextGapValue(gap);
-                for (int i = 0; i < size - gap; i++) {
-                    if (valuesToSort[i] > valuesToSort[i + gap]) {
+                for (int i = 0; i < size - gap; i++) {                    if (valuesToSort[i] > valuesToSort[i + gap]) {
                         didSwapHappened = true;
                         std::swap(valuesToSort[i], valuesToSort[i + gap]);
-                    }
-                }
+                    }                }
             }
         }
     }

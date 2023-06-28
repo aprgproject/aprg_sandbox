@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Algorithm/Search/SingleValue/BinarySearch/BinarySearchWithTwoIndices.hpp>
-#include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 #include <algorithm>
-
 namespace alba {
 
 namespace algorithm {
-
 template <typename Values>
 class FibonacciSearch {
 public:

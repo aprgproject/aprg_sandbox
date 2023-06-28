@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Utilities/MidpointOfIndexes.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-
 namespace alba {
 
 namespace algorithm {
-
 template <typename DataType>
 class SuffixArray {
 public:
