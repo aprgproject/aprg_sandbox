@@ -97,10 +97,12 @@ TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWo
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify[0]);
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {    Polynomial polynomialToTest;
+TEST(FactorizationUtilitiesTest, SimplifyThenEmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {
+    Polynomial polynomialToTest;
 
     Polynomials polynomialsToVerify;
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(polynomialsToVerify, polynomialToTest);
+
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
@@ -115,10 +117,12 @@ TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfNotEmpt
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify[0]);
 }
 
-TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {    Polynomial polynomialToTest;
+TEST(FactorizationUtilitiesTest, EmplaceBackIfPolynomialIsNotEmptyWorksIfEmpty) {
+    Polynomial polynomialToTest;
 
     Polynomials polynomialsToVerify;
     emplaceBackIfPolynomialIsNotEmpty(polynomialsToVerify, polynomialToTest);
+
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
@@ -140,7 +144,8 @@ TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksW
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify[2]);
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsEmpty) {    Polynomial singlePolynomial{Monomial(1, {{"a", 1}}), Monomial(23, {})};
+TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksWhenPolynomialsIsEmpty) {
+    Polynomial singlePolynomial{Monomial(1, {{"a", 1}}), Monomial(23, {})};
     Polynomials polynomialsToVerify;
 
     simplifyAndEmplaceBackPolynomialIfListIsEmpty(polynomialsToVerify, singlePolynomial);
@@ -151,6 +156,7 @@ TEST(FactorizationUtilitiesTest, SimplifyAndEmplacePolynomialIfListIsEmptyWorksW
 }
 
 }  // namespace Factorization
+
 }  // namespace algebra
 
 }  // namespace alba

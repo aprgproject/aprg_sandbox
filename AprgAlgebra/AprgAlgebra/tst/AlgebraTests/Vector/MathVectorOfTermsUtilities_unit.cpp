@@ -152,10 +152,12 @@ TEST(MathVectorOfTermsUtilitiesTest, GetPerpendicularLineOnAPointOfASurfaceWorks
     EXPECT_EQ(stringToExpect2, convertToString(equationsToVerify[1]));
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks) {    Term x(createExpressionIfPossible({getEAsATerm(), "^", Monomial(2, {{"x", 1}})}));
+TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks) {
+    Term x(createExpressionIfPossible({getEAsATerm(), "^", Monomial(2, {{"x", 1}})}));
     Term y(Monomial(3, {{"x", 2}, {"y", 1}, {"z", 1}}));
     Term z(Polynomial{Monomial(2, {{"y", 2}, {"z", 1}}), Monomial(1, {{"x", 1}})});
     MathVectorOfThreeTerms vectorField{x, y, z};
+
     MathVectorOfThreeTerms vectorToVerify(getCurl(vectorField, {"x", "y", "z"}));
 
     string stringToExpect("{(-3[x^2][y] + 4[y][z]), -1, 6[x][y][z]}");

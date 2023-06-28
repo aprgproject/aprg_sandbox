@@ -79,10 +79,12 @@ private:
                 newValues.emplace_back(m_function(treeValues1[i1], treeValues2[i2]));
             }
             newValues.shrink_to_fit();
-            return OneDSegmentTree(newValues, m_function);        };
+            return OneDSegmentTree(newValues, m_function);
+        };
     }
 
-    ValueMatrix m_valueMatrix;    OneDFunction m_function;
+    ValueMatrix m_valueMatrix;
+    OneDFunction m_function;
     TwoDSegmentTree m_twoDSegmentTree;
 };
 

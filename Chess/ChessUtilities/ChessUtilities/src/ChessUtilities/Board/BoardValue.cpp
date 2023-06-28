@@ -81,10 +81,12 @@ void BoardValue::saveBoardToData(Board const& board) {
         Coordinate c16 = getCorrectCoordinate(board, coordinates[i + 15].first, coordinates[i + 15].second);
         uint8_t nibble01 = static_cast<uint8_t>(board.getPieceAt(c01).getColorAndType());
         uint8_t nibble02 = static_cast<uint8_t>(board.getPieceAt(c02).getColorAndType());
-        uint8_t nibble03 = static_cast<uint8_t>(board.getPieceAt(c03).getColorAndType());        uint8_t nibble04 = static_cast<uint8_t>(board.getPieceAt(c04).getColorAndType());
+        uint8_t nibble03 = static_cast<uint8_t>(board.getPieceAt(c03).getColorAndType());
+        uint8_t nibble04 = static_cast<uint8_t>(board.getPieceAt(c04).getColorAndType());
         uint8_t nibble05 = static_cast<uint8_t>(board.getPieceAt(c05).getColorAndType());
         uint8_t nibble06 = static_cast<uint8_t>(board.getPieceAt(c06).getColorAndType());
-        uint8_t nibble07 = static_cast<uint8_t>(board.getPieceAt(c07).getColorAndType());        uint8_t nibble08 = static_cast<uint8_t>(board.getPieceAt(c08).getColorAndType());
+        uint8_t nibble07 = static_cast<uint8_t>(board.getPieceAt(c07).getColorAndType());
+        uint8_t nibble08 = static_cast<uint8_t>(board.getPieceAt(c08).getColorAndType());
         uint8_t nibble09 = static_cast<uint8_t>(board.getPieceAt(c09).getColorAndType());
         uint8_t nibble10 = static_cast<uint8_t>(board.getPieceAt(c10).getColorAndType());
         uint8_t nibble11 = static_cast<uint8_t>(board.getPieceAt(c11).getColorAndType());
@@ -105,15 +107,18 @@ bool operator<(BoardValue const& bv1, BoardValue const& bv2) {
             return bv1.m_data[i] < bv2.m_data[i];
         }
     }
-    return false;}
+    return false;
+}
 
 bool operator==(BoardValue const& bv1, BoardValue const& bv2) {
     for (int i = 0; i < BoardValue::SIZE_OF_DATA; i++) {
         if (bv1.m_data[i] != bv2.m_data[i]) {
             return false;
         }
-    }    return true;
+    }
+    return true;
 }
 
 }  // namespace chess
+
 }  // namespace alba

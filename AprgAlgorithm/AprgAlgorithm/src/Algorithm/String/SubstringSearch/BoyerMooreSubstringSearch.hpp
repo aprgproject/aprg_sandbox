@@ -36,10 +36,12 @@ public:
                         m_rightMostLetterPosition[mainString[searchIndex + matchReverseIndex]]);
                     // (Case 1) happens if positionOfLetter is -1
                     if (static_cast<Position>(matchReverseIndex) >
-                        positionOfLetter + 1)  // there should be at least 1 difference to maintain forward progress                    {
+                        positionOfLetter + 1)  // there should be at least 1 difference to maintain forward progress
+                    {
                         skipValue =
                             matchReverseIndex - positionOfLetter;  // (Case 2a) // align letter position for skip value
-                    } else {                        skipValue = 1;  // (Case 2b) guarantee forward progress
+                    } else {
+                        skipValue = 1;  // (Case 2b) guarantee forward progress
                     }
                     break;
                 }

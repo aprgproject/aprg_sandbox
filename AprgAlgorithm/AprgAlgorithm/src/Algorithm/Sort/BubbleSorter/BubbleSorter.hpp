@@ -37,9 +37,11 @@ private:
             } while (itLast != valuesToSort.begin());
         }
     }
+
     void sortWithTwoLoops(Values& valuesToSort) const {
         // Based from https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
-        if (!valuesToSort.empty()) {            auto itBeginPlusOne = std::next(valuesToSort.begin());
+        if (!valuesToSort.empty()) {
+            auto itBeginPlusOne = std::next(valuesToSort.begin());
             for (auto itLast = valuesToSort.end(); itBeginPlusOne != itLast; itLast--) {
                 bool noSwapHappened(true);
                 for (auto itFirst = valuesToSort.begin(), itSecond = std::next(valuesToSort.begin());

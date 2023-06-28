@@ -61,10 +61,12 @@ void substituteEquationForSelectedEquationIndex(
         IsolationOfOneVariableOnEqualityEquation isolation(substitutedEquations[selectedEquationIndex]);
         substitutedEquations.erase(substitutedEquations.begin() + selectedEquationIndex);
         SubstitutionOfVariablesToTerms substitution;
-        substitution.putVariableWithTerm(            selectedVariableName, isolation.getEquivalentTermByIsolatingAVariable(selectedVariableName));
+        substitution.putVariableWithTerm(
+            selectedVariableName, isolation.getEquivalentTermByIsolatingAVariable(selectedVariableName));
         for (Equation& substitutedEquation : substitutedEquations) {
             substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);
-        }    }
+        }
+    }
 }
 
 void removeEquationsWithoutUnknowns(Equations& substitutedEquations) {

@@ -48,10 +48,12 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
             if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
                 entryResult = 1 + lengthMatrix.getEntry(index1 - 1, index2 - 1);
             } else {
-                entryResult =                    1 + min(lengthMatrix.getEntry(index1 - 1, index2), lengthMatrix.getEntry(index1, index2 - 1));
+                entryResult =
+                    1 + min(lengthMatrix.getEntry(index1 - 1, index2), lengthMatrix.getEntry(index1, index2 - 1));
             }
             lengthMatrix.setEntry(index1, index2, entryResult);
-        }    }
+        }
+    }
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
 }
 
@@ -90,6 +92,7 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
     Counts const& lastCurrent(previousAndCurrentCounts[(m_sequence2.size() + 1) % 2]);
     return lastCurrent.back();
 }
+
 ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengthUsingNaiveRecursion(
     Index const index1, Index const index2) const {
     if (index1 == 0) {
@@ -99,9 +102,11 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
     } else if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
         return 1 + getShortestLengthUsingNaiveRecursion(index1 - 1, index2 - 1);
     } else {
-        return 1 + min(getShortestLengthUsingNaiveRecursion(index1, index2 - 1),                       getShortestLengthUsingNaiveRecursion(index1 - 1, index2));
+        return 1 + min(getShortestLengthUsingNaiveRecursion(index1, index2 - 1),
+                       getShortestLengthUsingNaiveRecursion(index1 - 1, index2));
     }
 }
+
 ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengthUsingMemoizationDP(
     CountMatrix& lengthMatrix, Index const index1, Index const index2) const {
     Count result(lengthMatrix.getEntry(index1, index2));
@@ -113,10 +118,12 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
         } else if (m_sequence1[index1 - 1] == m_sequence2[index2 - 1]) {
             result = 1 + getShortestLengthUsingMemoizationDP(lengthMatrix, index1 - 1, index2 - 1);
         } else {
-            result = 1 + min(getShortestLengthUsingMemoizationDP(lengthMatrix, index1, index2 - 1),                             getShortestLengthUsingMemoizationDP(lengthMatrix, index1 - 1, index2));
+            result = 1 + min(getShortestLengthUsingMemoizationDP(lengthMatrix, index1, index2 - 1),
+                             getShortestLengthUsingMemoizationDP(lengthMatrix, index1 - 1, index2));
         }
         lengthMatrix.setEntry(index1, index2, result);
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

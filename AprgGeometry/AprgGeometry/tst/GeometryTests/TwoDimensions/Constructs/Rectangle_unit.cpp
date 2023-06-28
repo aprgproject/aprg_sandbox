@@ -24,4 +24,5 @@ TEST(RectangleTest, GetPointsWorks) {
 }
 
 }  // namespace TwoDimensions
+
 }  // namespace alba

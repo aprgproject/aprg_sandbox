@@ -79,9 +79,11 @@ private:
             } else if (vertexColor == m_vertexToColorMap[adjacentVertex]) {
                 m_isBipartite = false;  // two adjacent vertices can't be in the same color to be bipartite (colors
                                         // needs to be alternating)
-                break;            }
+                break;
+            }
         }
     }
+
     bool getTheOtherColor(bool const color) { return !color; }
 
     BaseUndirectedGraphWithVertex const& m_graph;

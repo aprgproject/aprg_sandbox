@@ -22,7 +22,8 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSine) {
     EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify[0]);
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnCosine) {    Term termToTest(cos("x"));
+TEST(ContinuityTest, GetContinuityDomainWorksOnCosine) {
+    Term termToTest(cos("x"));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 
@@ -32,4 +33,5 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnCosine) {    Term termToTest(cos(
 }
 
 }  // namespace algebra
+
 }  // namespace alba

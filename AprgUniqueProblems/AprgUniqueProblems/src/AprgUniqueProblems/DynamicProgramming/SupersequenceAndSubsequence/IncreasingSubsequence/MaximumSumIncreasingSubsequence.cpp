@@ -24,10 +24,12 @@ MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaxim
             partialSum += m_sequence[index];
         }
         result = *max_element(partialSums.cbegin(), partialSums.cend());
-    }    return result;
+    }
+    return result;
 }
 
-MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubsequenceWithMaximumSum() const {    // Quadratic time because of double loop
+MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubsequenceWithMaximumSum() const {
+    // Quadratic time because of double loop
 
     Values result;
     if (!m_sequence.empty()) {
@@ -58,6 +60,7 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
         result.emplace_back(m_sequence[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

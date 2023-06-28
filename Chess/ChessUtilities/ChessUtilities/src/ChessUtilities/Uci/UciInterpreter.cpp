@@ -45,6 +45,7 @@ void UciInterpreter::processBestMoveTokens(strings const& tokens) {
         }
     }
 }
+
 UciInterpreter::InfoDetails UciInterpreter::createInfoDetailsFromInfoTokens(strings const& tokens) {
     InfoDetails infoDetails{};
     for (int i = 1; i < static_cast<int>(tokens.size()); i++) {
@@ -65,10 +66,12 @@ UciInterpreter::InfoDetails UciInterpreter::createInfoDetailsFromInfoTokens(stri
                 infoDetails.pvHalfMoves.emplace_back(tokens[i]);
             }
         }
-    }    return infoDetails;
+    }
+    return infoDetails;
 }
 
-void UciInterpreter::saveCommonParametersOfBestLine(InfoDetails const& infoDetails) {    for (StringPair const& nameAndValuePair : infoDetails.commonParameterNameAndValue) {
+void UciInterpreter::saveCommonParametersOfBestLine(InfoDetails const& infoDetails) {
+    for (StringPair const& nameAndValuePair : infoDetails.commonParameterNameAndValue) {
         if (nameAndValuePair.first == "depth") {
             m_calculationDetails.depthInPlies = convertStringToNumber<int>(nameAndValuePair.second);
         } else if (nameAndValuePair.first == "seldepth") {

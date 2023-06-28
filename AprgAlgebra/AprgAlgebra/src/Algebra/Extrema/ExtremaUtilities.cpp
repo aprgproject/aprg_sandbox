@@ -519,9 +519,11 @@ void retrieveSubstitutionsFromCriticalNumbers(
         }
     }
 }
+
 void determineExtrema(
     ExtremaWithMultipleVariables& extrema, Terms const& secondDerivatives,
-    SubstitutionsOfVariablesToValues const& substitutions) {    for (SubstitutionOfVariablesToValues const& substitution : substitutions) {
+    SubstitutionsOfVariablesToValues const& substitutions) {
+    for (SubstitutionOfVariablesToValues const& substitution : substitutions) {
         ExtremumWithMultipleVariables extremum;
         ExtremumType extremumType(ExtremumType::Unknown);
         for (Term const& secondDerivative : secondDerivatives) {

@@ -38,10 +38,12 @@ public:
             Value const& copiedValue(copiedValues[i]);
             int indexableValue(m_valueToIndexableValueFunction(copiedValue));
             valuesToSort[--newPosition[indexableValue]] = copiedValue;
-        }    }
+        }
+    }
 
 private:
-    ValueToIndexableValueFunction m_valueToIndexableValueFunction;};
+    ValueToIndexableValueFunction m_valueToIndexableValueFunction;
+};
 
 }  // namespace algorithm
 

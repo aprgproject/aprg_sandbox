@@ -40,10 +40,12 @@ public:
                 if (relativeRoots[i] == rootOfIndex) {
                     relativeRoots[i] = index;
                 }
-            }        }
+            }
+        }
     }
 
-private:    Index m_numberOfIndexes;
+private:
+    Index m_numberOfIndexes;
     UnionFind m_unionFind;
 };
 

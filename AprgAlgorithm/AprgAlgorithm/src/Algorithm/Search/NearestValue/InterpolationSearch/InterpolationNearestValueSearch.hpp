@@ -69,10 +69,12 @@ private:
     inline Value getHigherValueWithoutCheck() const { return m_sortedValues[m_highIndex]; }
 
     Value getNearestValueFromLowerAndHigherIndices(Value const& value) const {
-        Value lowerValue(getLowerValueWithoutCheck());        Value higherValue(getHigherValueWithoutCheck());
+        Value lowerValue(getLowerValueWithoutCheck());
+        Value higherValue(getHigherValueWithoutCheck());
         Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-        return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;    }
+        return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
+    }
 
     Index getIndexNearestValueFromLowerAndHigherIndices(Value const& value) const {
         Value lowerValue(getLowerValueWithoutCheck());
@@ -107,10 +109,12 @@ private:
                 Value valueAtInterpolatedIndex(m_sortedValues[interpolatedIndex]);
                 if (value == valueAtInterpolatedIndex) {
                     m_lowIndex = interpolatedIndex;
-                    m_highIndex = interpolatedIndex;                    break;
+                    m_highIndex = interpolatedIndex;
+                    break;
                 } else if (value > valueAtInterpolatedIndex) {
                     m_lowIndex = interpolatedIndex;
-                } else if (value < valueAtInterpolatedIndex) {                    m_highIndex = interpolatedIndex;
+                } else if (value < valueAtInterpolatedIndex) {
+                    m_highIndex = interpolatedIndex;
                 }
             }
         }

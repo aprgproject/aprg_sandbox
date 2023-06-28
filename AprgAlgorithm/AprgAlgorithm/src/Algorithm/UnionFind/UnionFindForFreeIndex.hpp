@@ -28,9 +28,11 @@ public:
         }
         return currentRoot;
     }
+
     Object getRootWithPathCompression(Object const& object) {
         RootVector relativeRoots;
-        Object mainRoot = getRootAndRelativeRoots(object, relativeRoots);        saveNewRootOnRelativeRoots(mainRoot, relativeRoots);
+        Object mainRoot = getRootAndRelativeRoots(object, relativeRoots);
+        saveNewRootOnRelativeRoots(mainRoot, relativeRoots);
         return mainRoot;
     }
 
@@ -68,9 +70,11 @@ private:
         }
         return currentRoot;
     }
+
     void saveNewRootOnRelativeRoots(Object const& newRoot, RootVector const& relativeRoots) {
         for (Object const& relativeRoot : relativeRoots) {
-            m_relativeRoots[relativeRoot] = newRoot;        }
+            m_relativeRoots[relativeRoot] = newRoot;
+        }
     }
 
     RootVector m_relativeRoots;

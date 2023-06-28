@@ -251,9 +251,11 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForBy
             setInputOutput(quineMcCluskey, input, getStringWithCapitalLetters(entries[1]));
         }
     }
+
     quineMcCluskey.fillComputationalTableWithMintermsWithZeroCommonalityCount();
     cout << "Initial computation table: \n" << quineMcCluskey.getComputationTableString() << "\n";
     quineMcCluskey.findAllCombinations();
+
     ImplicantsForTest finalImplicants(quineMcCluskey.getAllFinalImplicants());
     EXPECT_EQ(
         "Implicants : [{size: 30 | ' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 "
@@ -305,9 +307,11 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte) {
             setInputOutput(qm2, input, getStringWithCapitalLetters(entries[3]));
         }
     }
+
     qm0.fillComputationalTableWithMintermsWithZeroCommonalityCount();
     qm1.fillComputationalTableWithMintermsWithZeroCommonalityCount();
-    qm2.fillComputationalTableWithMintermsWithZeroCommonalityCount();    cout << "Initial computation table: \n" << qm0.getComputationTableString() << "\n";
+    qm2.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    cout << "Initial computation table: \n" << qm0.getComputationTableString() << "\n";
     cout << "Initial computation table: \n" << qm1.getComputationTableString() << "\n";
     cout << "Initial computation table: \n" << qm2.getComputationTableString() << "\n";
     qm0.findAllCombinations();
@@ -343,9 +347,11 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_ZeroesStartingFromMsb) {
             setInputOutput(qm3, input, getStringWithCapitalLetters(entries[4]));
         }
     }
+
     qm0.fillComputationalTableWithMintermsWithZeroCommonalityCount();
     qm1.fillComputationalTableWithMintermsWithZeroCommonalityCount();
-    qm2.fillComputationalTableWithMintermsWithZeroCommonalityCount();    qm3.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    qm2.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    qm3.fillComputationalTableWithMintermsWithZeroCommonalityCount();
     cout << "Initial computation table: \n" << qm0.getComputationTableString() << "\n";
     cout << "Initial computation table: \n" << qm1.getComputationTableString() << "\n";
     cout << "Initial computation table: \n" << qm2.getComputationTableString() << "\n";

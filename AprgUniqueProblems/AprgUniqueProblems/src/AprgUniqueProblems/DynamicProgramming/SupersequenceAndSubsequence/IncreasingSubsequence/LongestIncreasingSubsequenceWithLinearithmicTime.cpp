@@ -53,10 +53,12 @@ LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const 
                 indexToPreviousIndex[i] = lengthMinus1ToEndIndex[longestLength - 1];
                 lengthMinus1ToEndIndex[longestLength] = i;
                 lengthMinus1ToEndValue[longestLength++] = value;  // extend
-            } else {                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
+            } else {
+                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
                 if (currentLength > 0) {
                     indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength - 1];
-                }                lengthMinus1ToEndIndex[currentLength] = i;
+                }
+                lengthMinus1ToEndIndex[currentLength] = i;
                 *lowerBoundItForEndValue = value;  // replace
             }
         }
@@ -70,6 +72,7 @@ LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const 
         result.emplace_back(m_sequence[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

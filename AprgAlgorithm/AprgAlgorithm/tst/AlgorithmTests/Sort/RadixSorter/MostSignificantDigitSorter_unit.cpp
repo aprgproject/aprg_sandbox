@@ -46,9 +46,11 @@ StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& val
         digitValue = value[mostSignificantDigitIndex];
     }
     return digitValue;
-};StringsSorter::IsDigitFunction isDigitInvalidForString = [](string const& value, int const digitIndex) -> bool {
+};
+StringsSorter::IsDigitFunction isDigitInvalidForString = [](string const& value, int const digitIndex) -> bool {
     return digitIndex >= static_cast<int>(value.length());
 };
+
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
     [](StabilityCheckObject const& value, int const mostSignificantDigitIndex) -> int {
     return (value.getVisiblePart() >> ((1 - mostSignificantDigitIndex) * 4)) & 0xF;

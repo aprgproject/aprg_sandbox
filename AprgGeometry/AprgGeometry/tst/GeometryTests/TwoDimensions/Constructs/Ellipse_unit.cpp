@@ -56,10 +56,12 @@ TEST(EllipseTest, EllipseAtOriginWithRadius) {
     EXPECT_EQ(Point(2.5980762113533160118, -1), points[15]);
 }
 
-TEST(EllipseTest, IsInsideWorks) {    Ellipse ellipse(Point(0, 0), 5, 4);
+TEST(EllipseTest, IsInsideWorks) {
+    Ellipse ellipse(Point(0, 0), 5, 4);
 
     EXPECT_TRUE(ellipse.isInside(Point(0, 0)));
-    EXPECT_FALSE(ellipse.isInside(Point(5, 5)));}
+    EXPECT_FALSE(ellipse.isInside(Point(5, 5)));
+}
 
 TEST(EllipseTest, GetFociWorks) {
     Ellipse ellipse1(Point(0, 0), 1, 1);
@@ -80,9 +82,11 @@ TEST(EllipseTest, GetFociWorks) {
     EXPECT_EQ(Point(-3, 0), foci3[1]);
 }
 
-TEST(EllipseTest, GetMajorVerticesWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1);
+TEST(EllipseTest, GetMajorVerticesWorks) {
+    Ellipse ellipse1(Point(0, 0), 1, 1);
     Ellipse ellipse2(Point(0, 0), 4, 5);
     Ellipse ellipse3(Point(0, 0), 5, 4);
+
     Points majorVertices1(ellipse1.getMajorVertices());
     Points majorVertices2(ellipse2.getMajorVertices());
     Points majorVertices3(ellipse3.getMajorVertices());
@@ -96,9 +100,11 @@ TEST(EllipseTest, GetMajorVerticesWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1
     EXPECT_EQ(Point(-5, 0), majorVertices3[1]);
 }
 
-TEST(EllipseTest, GetMinorVerticesWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1);
+TEST(EllipseTest, GetMinorVerticesWorks) {
+    Ellipse ellipse1(Point(0, 0), 1, 1);
     Ellipse ellipse2(Point(0, 0), 4, 5);
     Ellipse ellipse3(Point(0, 0), 5, 4);
+
     Points minorVertices1(ellipse1.getMinorVertices());
     Points minorVertices2(ellipse2.getMinorVertices());
     Points minorVertices3(ellipse3.getMinorVertices());
@@ -112,9 +118,11 @@ TEST(EllipseTest, GetMinorVerticesWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1
     EXPECT_EQ(Point(0, -4), minorVertices3[1]);
 }
 
-TEST(EllipseTest, GetMajorAxisWorks) {    Ellipse ellipse1(Point(0, 0), 1, 1);
+TEST(EllipseTest, GetMajorAxisWorks) {
+    Ellipse ellipse1(Point(0, 0), 1, 1);
     Ellipse ellipse2(Point(0, 0), 4, 5);
     Ellipse ellipse3(Point(0, 0), 5, 4);
+
     Line majorAxis1(ellipse1.getMajorAxis());
     Line majorAxis2(ellipse2.getMajorAxis());
     Line majorAxis3(ellipse3.getMajorAxis());

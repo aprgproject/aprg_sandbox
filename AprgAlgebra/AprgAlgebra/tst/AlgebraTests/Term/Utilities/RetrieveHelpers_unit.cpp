@@ -84,20 +84,24 @@ TEST(RetrieveHelpersTest, RetrieveTermsFromTermsWithDetailsWorks) {
     EXPECT_EQ(Term(11), terms[2]);
 }
 
-TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks) {    Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
+TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks) {
+    Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
     Function functionObject(
         "functionName", expesssionTerm, [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term functionTerm(functionObject);
+
     Terms terms(retrieveSubExpressionsAndSubFunctions(functionTerm));
 
     ASSERT_EQ(1U, terms.size());
     EXPECT_EQ(expesssionTerm, terms[0]);
 }
 
-TEST(RetrieveHelpersTest, RetrieveSubTermsWorks) {    Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
+TEST(RetrieveHelpersTest, RetrieveSubTermsWorks) {
+    Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
     Function functionObject(
         "functionName", expesssionTerm, [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Term functionTerm(functionObject);
+
     Terms terms(retrieveSubTerms(functionTerm));
 
     ASSERT_EQ(3U, terms.size());
@@ -106,10 +110,12 @@ TEST(RetrieveHelpersTest, RetrieveSubTermsWorks) {    Term expesssionTerm(create
     EXPECT_EQ(expesssionTerm, terms[2]);
 }
 
-TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition) {    TermsWithDetails termsWithDetails{
+TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition) {
+    TermsWithDetails termsWithDetails{
         TermWithDetails(Term("x"), TermAssociationType::Positive),
         TermWithDetails(Term("y"), TermAssociationType::Positive),
         TermWithDetails(Term("z"), TermAssociationType::Negative)};
+
     TermsWithDetails termsWithDetailsToVerify = retrieveTermsWithDetailsThatSatisfiesCondition(
         termsWithDetails,
         [](TermWithDetails const& termWithDetails) { return termWithDetails.hasNegativeAssociation(); });
@@ -120,4 +126,5 @@ TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition) {    TermsW
 }
 
 }  // namespace algebra
+
 }  // namespace alba

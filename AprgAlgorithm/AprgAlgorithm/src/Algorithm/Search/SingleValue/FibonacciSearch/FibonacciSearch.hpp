@@ -27,10 +27,12 @@ public:
                m_sortedValues[currentFibonacci] < valueToCheck) {
             Index nextFibonacci = currentFibonacci + previousFibonacci;
             previousFibonacci = currentFibonacci;
-            currentFibonacci = nextFibonacci;        }
+            currentFibonacci = nextFibonacci;
+        }
 
         BinarySearchWithTwoIndices<Values> binarySearch(m_sortedValues);  // perform binary search on that block
-        return binarySearch.getIndexOfValue(            previousFibonacci, std::min(currentFibonacci, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);
+        return binarySearch.getIndexOfValue(
+            previousFibonacci, std::min(currentFibonacci, static_cast<int>(m_sortedValues.size()) - 1), valueToCheck);
     }
 
 private:

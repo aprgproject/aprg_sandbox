@@ -84,10 +84,12 @@ PalindromePartitioning::Count PalindromePartitioning::getMinimumNumberOfCutsUsin
                 if (m_string[left] == m_string[right] && isSubstrAPalindrome.getEntry(left + 1, right - 1)) {
                     isSubstrAPalindrome.setEntry(left, right, true);
                 }
-            }        }
+            }
+        }
 
         for (Index right = 0; right < stringLength; right++) {
-            if (!isSubstrAPalindrome.getEntry(0, right)) {                Count& partialCountAtIndex(partialCounts[right]);
+            if (!isSubstrAPalindrome.getEntry(0, right)) {
+                Count& partialCountAtIndex(partialCounts[right]);
                 partialCountAtIndex = MAX_COUNT;
                 for (Index left = 0; left < right; left++) {
                     if (isSubstrAPalindrome.getEntry(left + 1, right)) {
@@ -101,6 +103,7 @@ PalindromePartitioning::Count PalindromePartitioning::getMinimumNumberOfCutsUsin
     }
     return result;
 }
+
 bool PalindromePartitioning::isPalindrome(Index const left, Index const right) const {
     bool result(false);
     if (!m_string.empty()) {
@@ -110,10 +113,12 @@ bool PalindromePartitioning::isPalindrome(Index const left, Index const right) c
             if (m_string[traverseLeft++] != m_string[traverseRight--]) {
                 result = false;
                 break;
-            }        }
+            }
+        }
     }
     return result;
 }
+
 PalindromePartitioning::Count PalindromePartitioning::getMinimumNumberOfCutsUsingNaiveRecursion(
     Index const left, Index const right) const {
     Count result(0);

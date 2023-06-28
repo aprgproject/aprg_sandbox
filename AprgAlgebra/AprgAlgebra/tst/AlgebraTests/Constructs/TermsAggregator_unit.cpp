@@ -32,7 +32,8 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithUnaryOperation) {
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation) {    TermsAggregator aggregator({"x", "+", "x"});
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation) {
+    TermsAggregator aggregator({"x", "+", "x"});
 
     aggregator.buildExpressionFromTerms();
 
@@ -42,9 +43,11 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation) {    TermsAgg
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithDifferentOperationLevels) {    TermsAggregator aggregator({"a", "+", "b", "*", "c", "^", "d"});
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithDifferentOperationLevels) {
+    TermsAggregator aggregator({"a", "+", "b", "*", "c", "^", "d"});
 
     aggregator.buildExpressionFromTerms();
+
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
     Expression subExpression1(createExpressionIfPossible({"c", "^", "d"}));
@@ -54,7 +57,8 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithDifferentOperationLevels) {   
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis) {    TermsAggregator aggregator({"(", "(", "(", "a", "+", "b", ")", "*", "c", ")", "^", "d", ")"});
+TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis) {
+    TermsAggregator aggregator({"(", "(", "(", "a", "+", "b", ")", "*", "c", ")", "^", "d", ")"});
 
     aggregator.buildExpressionFromTerms();
 
@@ -68,7 +72,8 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis) {    TermsAggrega
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, BuildExpressionFromTermsWorksOnNegativeFractionInParenthesis) {    TermsAggregator aggregator({"(", "-", 1, "/", 3, ")"});
+TEST(TermsAggregatorTest, BuildExpressionFromTermsWorksOnNegativeFractionInParenthesis) {
+    TermsAggregator aggregator({"(", "-", 1, "/", 3, ")"});
 
     aggregator.buildExpressionFromTerms();
 
@@ -80,9 +85,11 @@ TEST(TermsAggregatorTest, BuildExpressionFromTermsWorksOnNegativeFractionInParen
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms) {    TermsAggregator aggregator({});
+TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms) {
+    TermsAggregator aggregator({});
 
     aggregator.simplifyTerms();
+
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_TRUE(termsToVerify.empty());
 }
@@ -97,7 +104,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation) {
     EXPECT_EQ(Term(-14), termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation) {    TermsAggregator aggregator({2, "+", 3});
+TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation) {
+    TermsAggregator aggregator({2, "+", 3});
 
     aggregator.simplifyTerms();
 
@@ -106,7 +114,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation) {    TermsAggregator
     EXPECT_EQ(Term(5), termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels) {    TermsAggregator aggregator({2, "+", 3, "*", 4, "^", 5});
+TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels) {
+    TermsAggregator aggregator({2, "+", 3, "*", 4, "^", 5});
 
     aggregator.simplifyTerms();
 
@@ -115,7 +124,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels) {    TermsA
     EXPECT_EQ(Term(3074), termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis) {    TermsAggregator aggregator({"(", "(", "(", 2, "+", 3, ")", "*", 4, ")", "^", 5, ")"});
+TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis) {
+    TermsAggregator aggregator({"(", "(", "(", 2, "+", 3, ")", "*", 4, ")", "^", 5, ")"});
 
     aggregator.simplifyTerms();
 
@@ -124,7 +134,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis) {    TermsAggregator agg
     EXPECT_EQ(Term(3200000), termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithNegativeValues) {    TermsAggregator aggregator(tokenizeToTerms("x^2*y^-3*z^4"));
+TEST(TermsAggregatorTest, SimplifyWorksWithNegativeValues) {
+    TermsAggregator aggregator(tokenizeToTerms("x^2*y^-3*z^4"));
 
     aggregator.simplifyTerms();
 
@@ -135,7 +146,8 @@ TEST(TermsAggregatorTest, SimplifyWorksWithNegativeValues) {    TermsAggregator 
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(TermsAggregatorTest, SimplifyWorksWithFunction) {    TermsAggregator aggregator(tokenizeToTerms("abs(5)"));
+TEST(TermsAggregatorTest, SimplifyWorksWithFunction) {
+    TermsAggregator aggregator(tokenizeToTerms("abs(5)"));
 
     aggregator.simplifyTerms();
 
@@ -146,4 +158,5 @@ TEST(TermsAggregatorTest, SimplifyWorksWithFunction) {    TermsAggregator aggreg
 }
 
 }  // namespace algebra
+
 }  // namespace alba

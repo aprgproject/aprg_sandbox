@@ -57,9 +57,11 @@ WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringTim
                 maxProfitsAtTime[timeToUpdate] = max(maxProfitsAtTime[timeToUpdate], maxProfitForJob);
             }
         }
-        result = maxProfitsAtTime.back();    }
+        result = maxProfitsAtTime.back();
+    }
     return result;
 }
+
 WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringJobsUsingIterativeDP() const {
     // Time Complexity: O(n*log(n))
     // Auxiliary Space: O(n)
@@ -84,7 +86,9 @@ WeightedJobScheduling::Profit WeightedJobScheduling::getMaxProfitByMonitoringJob
             maxProfitsAtJob[jobIndex] = max(maxProfitsAtJob[jobIndex - 1], currentProfit);
         }
 
-        result = maxProfitsAtJob.back();    }
+        result = maxProfitsAtJob.back();
+    }
     return result;
 }
+
 }  // namespace alba

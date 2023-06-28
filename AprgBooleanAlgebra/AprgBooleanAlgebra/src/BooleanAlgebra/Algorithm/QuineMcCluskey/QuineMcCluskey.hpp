@@ -168,10 +168,12 @@ public:
                 bestFinalImplicant = inputMintermToImplicantMap[mintermWithMinCount];
             } else {
                 auto it = countToImplicantMap.cend();
-                it--;                bestFinalImplicant = it->second;
+                it--;
+                bestFinalImplicant = it->second;
             }
             SetOfMinterms bestFinalImplicantMinterms(bestFinalImplicant.getMinterms());
-            if (!bestFinalImplicantMinterms.empty()) {                for (Minterm const& bestFinalImplicantMinterm : bestFinalImplicantMinterms) {
+            if (!bestFinalImplicantMinterms.empty()) {
+                for (Minterm const& bestFinalImplicantMinterm : bestFinalImplicantMinterms) {
                     inputMintermsWithTrue.erase(bestFinalImplicantMinterm);
                 }
                 result.addImplicant(bestFinalImplicant);

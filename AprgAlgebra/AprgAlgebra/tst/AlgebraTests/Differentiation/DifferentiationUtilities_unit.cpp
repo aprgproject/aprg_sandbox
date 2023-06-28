@@ -289,9 +289,11 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks) {
         intervalToVerify[1]);
 }
 
-TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks) {    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks) {
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
     Term termToTest(createExpressionIfPossible({"x", "*", squareRootOfXPlusOne}));
+
     simplifyDerivativeByDefinition(termToTest);
 
     string stringToExpect("(x*((1[x] + 1)^(1/2)))");

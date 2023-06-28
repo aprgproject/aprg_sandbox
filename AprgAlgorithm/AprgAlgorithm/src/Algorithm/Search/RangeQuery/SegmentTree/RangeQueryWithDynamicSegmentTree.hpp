@@ -108,10 +108,12 @@ protected:
             nodePointer->value = values[baseLeft];
         } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
-            setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);            if (baseMidPoint + 1 < static_cast<Index>(values.size())) {
+            setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
+            if (baseMidPoint + 1 < static_cast<Index>(values.size())) {
                 setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint + 1, baseRight);
             }
-            nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);        }
+            nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
+        }
     }
 
     void changeValueOnIndexFromTopToBottom(

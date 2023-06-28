@@ -37,9 +37,11 @@ public:
         }
         return result;
     }
+
     int getDistanceBetweenVertices(Vertex const& vertex1, Vertex const& vertex2) const {
         int result{};
-        auto it1 = m_vertexToFirstIndexMap.find(vertex1);        auto it2 = m_vertexToFirstIndexMap.find(vertex2);
+        auto it1 = m_vertexToFirstIndexMap.find(vertex1);
+        auto it2 = m_vertexToFirstIndexMap.find(vertex2);
         if (it1 != m_vertexToFirstIndexMap.cend() && it2 != m_vertexToFirstIndexMap.cend()) {
             int vertexIndex1 = it1->second;
             int vertexIndex2 = it2->second;
@@ -48,6 +50,7 @@ public:
         }
         return result;
     }
+
 private:
     int getLowestCommonAncestorIndex(int const vertexIndex1, int const vertexIndex2) const {
         int result = vertexIndex1;
@@ -56,10 +59,12 @@ private:
             int currentDepth(m_depths[i]);
             if (minimumDepth > currentDepth) {
                 minimumDepth = currentDepth;
-                result = i;            }
+                result = i;
+            }
         }
         return result;
     }
+
     void initializeIfNeeded() {
         if (GraphUtilities::isATree(m_graph)) {
             initialize();

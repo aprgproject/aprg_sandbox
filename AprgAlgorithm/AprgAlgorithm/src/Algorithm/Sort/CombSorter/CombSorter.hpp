@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Algorithm/Sort/BaseSorter.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
 
+#include <algorithm>
 #include <utility>
 
 namespace alba {
@@ -14,27 +16,30 @@ public:
     CombSorter() = default;
 
     void sort(Values& valuesToSort) const override {
+        // Based from: https://en.wikipedia.org/wiki/Comb_sort#Python_code
         if (!valuesToSort.empty()) {
             int size = valuesToSort.size();
-            int skip = size;
+            int gap = size;
 
             bool didSwapHappened(true);
-            while (didSwapHappened || skip != 1) {
+            while (didSwapHappened || gap != 1) {
                 didSwapHappened = false;
-                skip = getNextSkipValue(skip);
-                for (int i = 0; i < size - skip; i++) {
-                    if (valuesToSort[i + skip] < valuesToSort[i]) {
+                gap = getNextGapValue(gap);
+                for (int i = 0; i < size - gap; i++) {
+                    if (valuesToSort[i] > valuesToSort[i + gap]) {
                         didSwapHappened = true;
-                        std::swap(valuesToSort[i], valuesToSort[i + skip]);
-                    }                }
+                        std::swap(valuesToSort[i], valuesToSort[i + gap]);
+                    }
+                }
             }
         }
     }
+
 private:
-    int getNextSkipValue(int const skip) const {
-        int result = (skip * 10) / 13;  // shrink factor
-        result = (result < 1) ? 1 : result;
-        return result;
+    int getNextGapValue(int const gap) const {
+        // gap = floor(gap / shrink)
+        int result = (gap * 10) / 13;  // apply shrink factor=1.3
+        return mathHelper::clampLowerBound(result, 1);
     }
 };
 

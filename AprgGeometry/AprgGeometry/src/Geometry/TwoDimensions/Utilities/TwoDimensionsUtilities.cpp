@@ -40,10 +40,12 @@ bool isCongruent(Triangle const& triangle1, Triangle const& triangle2) {
            (anglesInTriangle1[1] == anglesInTriangle2[1]) && (anglesInTriangle1[2] == anglesInTriangle2[2]);
 }
 
-bool areLinesParallel(Line const& line1, Line const& line2) {    return (line1.getType() == LineType::Horizontal && line2.getType() == LineType::Horizontal) ||
+bool areLinesParallel(Line const& line1, Line const& line2) {
+    return (line1.getType() == LineType::Horizontal && line2.getType() == LineType::Horizontal) ||
            (line1.getType() == LineType::Vertical && line2.getType() == LineType::Vertical) ||
            (isAlmostEqual(line1.getSlope(), line2.getSlope()));
 }
+
 bool areLinesPerpendicular(Line const& line1, Line const& line2) {
     return (line1.getType() == LineType::Horizontal && line2.getType() == LineType::Vertical) ||
            (line1.getType() == LineType::Vertical && line2.getType() == LineType::Horizontal) ||
@@ -185,7 +187,8 @@ double getAreaOfTriangleUsingThreePoints(Triangle const& triangle) {
         getSignedCounterClockwiseTriangleAreaOf3Points(vertices[0], vertices[1], vertices[2]));
 }
 
-double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle) {    // The area of a triangle can be calculated, for example, using Heron’s formula:
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle) {
+    // The area of a triangle can be calculated, for example, using Heron’s formula:
     // area = sqrt(s(s-a)(s-b)(s-c)),
     // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
     auto sides(triangle.getLengthOfSides());
@@ -193,10 +196,12 @@ double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle) {    // The
     return sqrt(s * (s - sides[0]) * (s - sides[1]) * (s - sides[2]));
 }
 
-double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral) {    // Namely, there is a general formula:
+double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral) {
+    // Namely, there is a general formula:
     // area = x1y2 - x2y1 + x2y3 - x3y2 + x3y4 - x4y3 + x4y1 - x1y4
     // that calculates the area of a quadrilateral whose vertices are (x1, y1), (x2, y2), (x3, y3) and (x4, y4).
-    // This formula is easy to implement, there are no special cases, and we can even generalize the formula to all    // polygons. Note: This is same with shoelace formula
+    // This formula is easy to implement, there are no special cases, and we can even generalize the formula to all
+    // polygons. Note: This is same with shoelace formula
 
     Points points(quadrilateral.getVertices());
     return getAbsoluteValue(
@@ -206,9 +211,11 @@ double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral) {    // Namely
                points[3].getX() * points[0].getY() - points[0].getX() * points[3].getY()) /
            2;
 }
+
 double getAreaUsingPicksTheorem(int const numberOfPointsInside, int const numberOfPointsOnTheBoundary) {
     return numberOfPointsInside + static_cast<double>(numberOfPointsOnTheBoundary) / 2 - 1;
 }
+
 ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity) {
     ConicSectionType result(ConicSectionType::Unknown);
     if (isAlmostEqual(eccentricity, 0.0)) {

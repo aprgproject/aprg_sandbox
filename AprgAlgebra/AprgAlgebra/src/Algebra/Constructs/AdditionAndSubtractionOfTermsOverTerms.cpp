@@ -110,10 +110,12 @@ void AdditionAndSubtractionOfTermsOverTerms::updateMonomialAndNonMonomialMultipl
     for (Term const& denominatorTerm : m_items[itemIndex].getDenominators()) {
         if (canBeConvertedToMonomial(denominatorTerm)) {
             monomialMultiplier.divideMonomial(createMonomialIfPossible(denominatorTerm));
-        } else {            Terms::iterator multiplierIterator =
+        } else {
+            Terms::iterator multiplierIterator =
                 find(nonMonomialMultiplierTerms.begin(), nonMonomialMultiplierTerms.end(), denominatorTerm);
             if (multiplierIterator != nonMonomialMultiplierTerms.end()) {
-                nonMonomialMultiplierTerms.erase(multiplierIterator);            }
+                nonMonomialMultiplierTerms.erase(multiplierIterator);
+            }
         }
     }
 }
@@ -123,9 +125,11 @@ void AdditionAndSubtractionOfTermsOverTerms::emplaceExistingNumeratorTerms(Terms
         numeratorTerms.emplace_back(numeratorTerm);
     }
 }
+
 void AdditionAndSubtractionOfTermsOverTerms::emplaceMonomialMultiplierIfNeeded(
     Terms& numeratorTerms, Monomial const& monomialMultiplier) const {
-    if (!isTheValue(monomialMultiplier, 1)) {        numeratorTerms.emplace_back(Term(monomialMultiplier));
+    if (!isTheValue(monomialMultiplier, 1)) {
+        numeratorTerms.emplace_back(Term(monomialMultiplier));
     }
 }
 
@@ -148,9 +152,11 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedNumeratorExpressio
     }
     return combinedNumerator;
 }
+
 Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedDenominatorExpression(
     Terms const& lcmDenominatorTerms) const {
-    Expression combinedDenominator;    for (Term const& denominatorTerm : lcmDenominatorTerms) {
+    Expression combinedDenominator;
+    for (Term const& denominatorTerm : lcmDenominatorTerms) {
         combinedDenominator.putTermWithMultiplicationIfNeeded(denominatorTerm);
     }
     return combinedDenominator;

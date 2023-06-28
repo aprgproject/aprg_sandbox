@@ -55,10 +55,12 @@ public:
             result = m_types[index]->clone();
         }
         return result;
-    }    // ...
+    }
+    // ...
 
 private:
-    std::array<std::unique_ptr<Prototype>, NUMBER_OF_TYPES> m_types;};
+    std::array<std::unique_ptr<Prototype>, NUMBER_OF_TYPES> m_types;
+};
 
 }  // namespace Prototype
 

@@ -27,7 +27,8 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForTerm) {
     EXPECT_DOUBLE_EQ(456, actualValues[7].getDouble());
 }
 
-TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation) {    AlbaNumbers actualValues(
+TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation) {
+    AlbaNumbers actualValues(
         getInitialValuesForIteratingMethods(Equation(Monomial(1, {{"x", 123}}), "=", Monomial(1, {{"x", 456}}))));
 
     ASSERT_EQ(11U, actualValues.size());
@@ -45,4 +46,5 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation)
 }
 
 }  // namespace algebra
+
 }  // namespace alba

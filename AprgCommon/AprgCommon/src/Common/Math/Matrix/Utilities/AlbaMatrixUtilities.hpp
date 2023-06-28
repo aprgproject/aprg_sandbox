@@ -174,9 +174,11 @@ DataType multiplyEachItemAndGetSum(AlbaMatrixData<DataType> const& first, AlbaMa
     }
     return result;
 }
+
 template <typename DataType>
 size_t getIndexWithHighestSatisfiedCount(
-    ListOfAlbaMatrixData<DataType> const& rowsOrColumns, BoolUnaryFunction<DataType> const& condition) {    size_t i = 0;
+    ListOfAlbaMatrixData<DataType> const& rowsOrColumns, BoolUnaryFunction<DataType> const& condition) {
+    size_t i = 0;
     size_t bestIndex = 0;
     size_t highestCount = 0;
     for (auto const& rowOrColumn : rowsOrColumns) {

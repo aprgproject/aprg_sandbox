@@ -39,10 +39,12 @@ public:
 
     void resetRandomSeed() { m_randomEngine.seed(m_entropySeedSource()); }
 
-private:    EntropySeedSource m_entropySeedSource;
+private:
+    EntropySeedSource m_entropySeedSource;
     RandomEngine m_randomEngine;
     Distribution m_randomNumberDistribution;
 };
+
 }  // namespace alba
 
 // Notes:

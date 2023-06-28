@@ -32,9 +32,11 @@ public:
         }
         return currentRoot;
     }
+
     void connect(Object const& object1, Object const& object2) override {
         Object root1(getRoot(object1));
-        Object root2(getRoot(object2));        if (root1 != root2) {
+        Object root2(getRoot(object2));
+        if (root1 != root2) {
             m_relativeRoots[root1] = root2;  // the relative root tree might take too tall (check weighted union find
                                              // for implementation that consider sizes)
         }

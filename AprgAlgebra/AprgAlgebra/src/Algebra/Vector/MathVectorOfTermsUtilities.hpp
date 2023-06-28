@@ -128,10 +128,12 @@ Term getTermThatYieldsToThisGradient(
         std::string const& coordinateVariableName(coordinateVariables[i]);
         Term termWithOtherCoordinates, termWithoutOtherCoordinates;
         retrieveWithAndWithoutOtherCoordinates(
-            termWithOtherCoordinates, termWithoutOtherCoordinates, gradient.getValueAt(i), coordinateVariableName,            allCoordinates);
+            termWithOtherCoordinates, termWithoutOtherCoordinates, gradient.getValueAt(i), coordinateVariableName,
+            allCoordinates);
         processedCoordinates.emplace_back(coordinateVariableName);
         Integration integration(coordinateVariableName);
-        if (isFirst) {            partForComparison = integration.integrate(termWithOtherCoordinates);
+        if (isFirst) {
+            partForComparison = integration.integrate(termWithOtherCoordinates);
             isFirst = false;
         } else {
             Term currentPartForComparison(integration.integrate(termWithOtherCoordinates));
@@ -191,10 +193,12 @@ Term getLineIntegral(
         DerivativeVariableName derivativeVariableName(1, "", coordinateVariables[i]);
         substitution.putVariableWithTerm(
             derivativeVariableName.getNameInLeibnizNotation(), differentiation.differentiate(linePath.getValueAt(i)));
-    }    MathVectorOfTerms<SIZE> linePathInVectorField;
+    }
+    MathVectorOfTerms<SIZE> linePathInVectorField;
     for (size_t i = 0; i < SIZE; i++) {
         linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
-    }    MathVectorOfTerms<SIZE> differentiatedLinePath(differentiate(linePath, linePathIntegralDetails.variableName));
+    }
+    MathVectorOfTerms<SIZE> differentiatedLinePath(differentiate(linePath, linePathIntegralDetails.variableName));
     Term termIntegrate(getDotProduct(linePathInVectorField, differentiatedLinePath));
     Integration integration(linePathIntegralDetails.variableName);
     return integration.integrateAtDefiniteTerms(
@@ -217,9 +221,11 @@ Term getLineIntegralIndependentOfPath(
             substitutionForHigherValues.putVariableWithValue(coordinateVariables[i], higherValues.getValueAt(i));
         }
         result = substitutionForHigherValues.performSubstitutionTo(potential) -
-                 substitutionForLowerValues.performSubstitutionTo(potential);    }
+                 substitutionForLowerValues.performSubstitutionTo(potential);
+    }
     return result;
 }
+
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getLimit(
     MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach) {
@@ -304,6 +310,7 @@ MathVectorOfTerms<SIZE> getGradient(Term const& term, ArrayOfStrings<SIZE> const
     }
     return result;
 }
+
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getDel(
     MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables) {
@@ -313,6 +320,7 @@ MathVectorOfTerms<SIZE> getDel(
     }
     return result;
 }
+
 template <size_t SIZE>
 MathVectorOfTerms<SIZE> getDoubleDel(
     MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables) {
@@ -323,9 +331,11 @@ MathVectorOfTerms<SIZE> getDoubleDel(
     }
     return result;
 }
+
 template <size_t SIZE>
 void simplifyForTermVector(MathVectorOfTerms<SIZE>& termVector) {
-    for (Term& term : termVector.getValuesReference()) {        simplifyForTermInVector(term);
+    for (Term& term : termVector.getValuesReference()) {
+        simplifyForTermInVector(term);
     }
 }
 

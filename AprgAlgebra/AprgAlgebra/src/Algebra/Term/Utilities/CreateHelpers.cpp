@@ -81,6 +81,7 @@ Expression createExpressionIfPossible(Terms const& terms) {
     }
     return result;
 }
+
 Expression createSimplifiedExpressionIfPossible(Terms const& terms) {
     Expression result;
     TermsAggregator aggregator(terms);
@@ -91,9 +92,11 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms) {
     }
     return result;
 }
+
 Function createFunctionWithEmptyInputExpression(string const& functionName) {
     Function result;
-    if ("abs" == functionName) {        result = abs(Term());
+    if ("abs" == functionName) {
+        result = abs(Term());
     }
     return result;
 }

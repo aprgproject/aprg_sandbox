@@ -17,5 +17,6 @@ ostream& operator<<(ostream& out, Rectangle const& rectangle) {
         << "][" << rectangle.m_vertices[3] << "]";
     return out;
 }
+
 }  // namespace TwoDimensions
 }  // namespace alba

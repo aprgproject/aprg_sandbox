@@ -151,10 +151,12 @@ void ResultPrinter::setNextMovesOnGrid(
         Move const& nextMove(genericMoves[startIndex + moveIndex].move);
         setMoveOnGrid(grid, engineBoard, nextMove, xOffset, 1, optional<char>());
         xOffset += NEXT_OFFSET_OF_GRID;
-    }}
+    }
+}
 
 void ResultPrinter::printARowOfMovesSequence(MovesSequence const& movesSequence) const {
-    int rowSize = getRowSizeForHalfMoves(movesSequence.halfMoves.size());    int numberOfColumns = getNumberOfColumnsOfGrid(rowSize);
+    int rowSize = getRowSizeForHalfMoves(movesSequence.halfMoves.size());
+    int numberOfColumns = getNumberOfColumnsOfGrid(rowSize);
     DisplayTable grid(numberOfColumns, Board::CHESS_SIDE_SIZE);
     grid.setVerticalBorder("|");
     setSeparatorsOnGrid(grid, NEXT_OFFSET_OF_GRID);
@@ -238,9 +240,11 @@ void ResultPrinter::printHeaders(strings const& prefixHeaders, strings const& su
                 headerString += suffixHeaders[i];
             }
             cout << "|" << formatToHeaderString(headerString) << "|";
-        }        cout << "\n";
+        }
+        cout << "\n";
     }
 }
+
 void ResultPrinter::printHorizontalBorder() const { cout << m_horizontalBorder << "\n"; }
 
 void ResultPrinter::setSeparatorsOnGrid(DisplayTable& grid, int const xOffset) const {
@@ -428,20 +432,24 @@ strings ResultPrinter::getNextMovesString(NextMoves const& nextMoves, int const 
             auto const& nextMove(nextMoves[startIndex + moveIndex]);
             result.emplace_back(formatToHeaderString(getDisplayableString(nextMove)));
         }
-    }    return result;
+    }
+    return result;
 }
 
-strings ResultPrinter::getBookMovesString(BookMoves const& bookMoves) const {    strings result;
+strings ResultPrinter::getBookMovesString(BookMoves const& bookMoves) const {
+    strings result;
     int rowSize = min(MAX_NUMBER_OF_BOARDS_IN_A_ROW, static_cast<int>(bookMoves.size()));
     result.reserve(rowSize);
     for (int moveIndex = 0; moveIndex < rowSize; moveIndex++) {
         auto const& bookMove(bookMoves[moveIndex]);
         result.emplace_back(formatToHeaderString(getDisplayableString(bookMove)));
     }
-    return result;}
+    return result;
+}
 
 string ResultPrinter::getDisplayableString(NextMove const& nextMove) const {
-    return getDisplayableString(nextMove.mateValue, nextMove.engineScore, nextMove.humanScore);}
+    return getDisplayableString(nextMove.mateValue, nextMove.engineScore, nextMove.humanScore);
+}
 
 string ResultPrinter::getDisplayableString(BookMove const& bookMove) const {
     stringstream ss;

@@ -99,9 +99,11 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks) {
     Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify[1].baseTermPointer));
     EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
 }
+
 TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression) {
     Expression expression1(createExpressionIfPossible({88}));
-    Expression expression2(createExpressionInAnExpression(expression1));    Expression expression3(createExpressionInAnExpression(expression2));
+    Expression expression2(createExpressionInAnExpression(expression1));
+    Expression expression3(createExpressionInAnExpression(expression2));
 
     Expression expressionToTest1(createExpressionIfPossible({expression3}));
 
@@ -127,6 +129,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAEx
     ASSERT_TRUE(termToVerify3.isConstant());
     EXPECT_EQ(Constant(88), termToVerify3.getConstantConstReference());
 }
+
 TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify) {
     Expression expressionToTest(createExpressionIfPossible({7.625, "+", 2.375}));
 
@@ -140,8 +143,10 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify) {
     Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify[1].baseTermPointer));
     EXPECT_EQ(Term(2.375), termToVerify2);
 }
+
 TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong) {
     Expression expressionToTest(createExpressionIfPossible({7.625, "+", "/", 2.375}));
+
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify.empty());
@@ -157,8 +162,10 @@ TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks) {
     Term const& termToVerify1(getTermConstReferenceFromUniquePointer(termsToVerify[0].baseTermPointer));
     EXPECT_EQ(Term(10), termToVerify1);
 }
+
 TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong) {
     Expression expressionToTest(createSimplifiedExpressionIfPossible({"+", "+", "+"}));
+
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify.empty());

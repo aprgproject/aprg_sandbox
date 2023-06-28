@@ -26,10 +26,12 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUs
                                        : isDivisible(currentNumber, 5) ? isUglyNumber[(currentNumber / 5) - 1]
                                                                        : false;
             isUglyNumber.emplace_back(isCurrentNumberUgly);
-            count += isCurrentNumberUgly ? 1 : 0;        }
+            count += isCurrentNumberUgly ? 1 : 0;
+        }
         result = currentNumber;
     }
-    return result;}
+    return result;
+}
 
 UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() const {
     // Time Complexity: O(n)
@@ -51,7 +53,8 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() c
             next5Multiple = (nextUglyNumber == next5Multiple) ? uglyNumbers[++indexFor5] * 5 : next5Multiple;
         }
         result = uglyNumbers.back();
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

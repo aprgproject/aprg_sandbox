@@ -73,9 +73,11 @@ private:
     bool isSiteOpen(int const index) const { return m_sites[index]; }
 
     int getIndex(int const x, int const y) const { return y * DIMENSION + x; }
+
     void retrieveCoordinates(int const index, int& x, int& y) const {
         x = index % DIMENSION;
-        y = index / DIMENSION;    }
+        y = index / DIMENSION;
+    }
 
     void connectNeighboringSitesAt(int const index) {
         int x, y;

@@ -121,10 +121,12 @@ private:
             char c(key[index]);
             if (c < currentNodePointer->c) {
                 result = get(currentNodePointer->left, key, index);  // search left
-            } else if (c > currentNodePointer->c) {                result = get(currentNodePointer->right, key, index);  // search right
+            } else if (c > currentNodePointer->c) {
+                result = get(currentNodePointer->right, key, index);  // search right
             } else if (index < static_cast<int>(key.length()) - 1) {
                 result = get(currentNodePointer->mid, key, index + 1);  // only advance index when character is a match
-            } else {                result = currentNodePointer.get();
+            } else {
+                result = currentNodePointer.get();
             }
         }
         return result;
@@ -137,10 +139,12 @@ private:
             char c(keyToCheck[index]);
             if (c < currentNodePointer->c) {
                 currentLongestLength =
-                    getLengthOfLongestPrefix(currentNodePointer->left, keyToCheck, index, currentLongestLength);            } else if (c > currentNodePointer->c) {
+                    getLengthOfLongestPrefix(currentNodePointer->left, keyToCheck, index, currentLongestLength);
+            } else if (c > currentNodePointer->c) {
                 currentLongestLength =
                     getLengthOfLongestPrefix(currentNodePointer->right, keyToCheck, index, currentLongestLength);
-            } else if (index < static_cast<int>(keyToCheck.length())) {                if (currentNodePointer->valueUniquePointer) {
+            } else if (index < static_cast<int>(keyToCheck.length())) {
+                if (currentNodePointer->valueUniquePointer) {
                     currentLongestLength = index + 1;
                 }
                 currentLongestLength =
@@ -174,10 +178,12 @@ private:
             char charToMatch = patternToMatch[previousPrefixLength];
             Key currentPrefix(previousPrefix + currentNodePointer->c);
             if (charToMatch < currentChar) {
-                collectKeysThatMatchAtNode(                    currentNodePointer->left.get(), previousPrefix, patternToMatch, collectedKeys);
+                collectKeysThatMatchAtNode(
+                    currentNodePointer->left.get(), previousPrefix, patternToMatch, collectedKeys);
             } else if (charToMatch == currentChar) {
                 if (previousPrefixLength < lastIndexToMatch) {
-                    collectKeysThatMatchAtNode(                        currentNodePointer->mid.get(), currentPrefix, patternToMatch, collectedKeys);
+                    collectKeysThatMatchAtNode(
+                        currentNodePointer->mid.get(), currentPrefix, patternToMatch, collectedKeys);
                 } else if (previousPrefixLength == lastIndexToMatch && currentNodePointer->valueUniquePointer) {
                     collectedKeys.emplace_back(currentPrefix);
                 }
@@ -200,10 +206,12 @@ private:
         char charAtKey(key[index]);
         if (!currentNodePointer) {
             currentNodePointer = std::make_unique<Node>(Node{charAtKey, nullptr, nullptr, nullptr, nullptr});
-        }        if (charAtKey < currentNodePointer->c) {
+        }
+        if (charAtKey < currentNodePointer->c) {
             put(currentNodePointer->left, key, value, index);
         } else if (charAtKey > currentNodePointer->c) {
-            put(currentNodePointer->right, key, value, index);        } else if (index < static_cast<int>(key.length()) - 1) {
+            put(currentNodePointer->right, key, value, index);
+        } else if (index < static_cast<int>(key.length()) - 1) {
             put(currentNodePointer->mid, key, value, index + 1);
         } else {
             currentNodePointer->valueUniquePointer = std::make_unique<Value>(value);
@@ -218,10 +226,12 @@ private:
                 char charAtKey(key[index]);
                 if (charAtKey < currentNodePointer->c) {
                     deleteBasedOnKey(currentNodePointer->left, key, index);
-                } else if (charAtKey > currentNodePointer->c) {                    deleteBasedOnKey(currentNodePointer->right, key, index);
+                } else if (charAtKey > currentNodePointer->c) {
+                    deleteBasedOnKey(currentNodePointer->right, key, index);
                 } else {
                     deleteBasedOnKey(currentNodePointer->mid, key, index + 1);
-                }            } else if (index == lastIndex) {
+                }
+            } else if (index == lastIndex) {
                 valueUniquePointer.reset();
             }
             if (!currentNodePointer->valueUniquePointer && !currentNodePointer->mid) {

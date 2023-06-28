@@ -44,9 +44,11 @@ Cells const& DisplayTableRow::getCells() const { return m_cells; }
 DisplayTableCell const& DisplayTableRow::getCellAt(size_t const columnIndex) const { return m_cells[columnIndex]; }
 
 Cells& DisplayTableRow::getCellsReference() { return m_cells; }
+
 DisplayTableCell& DisplayTableRow::getCellReferenceAt(size_t const columnIndex) { return m_cells[columnIndex]; }
 
 void DisplayTableRow::addCell(string_view text) { m_cells.emplace_back(text); }
+
 void DisplayTableRow::addCell(string_view text, DisplayTableCellMode const horizontalMode) {
     m_cells.emplace_back(text, horizontalMode);
 }
@@ -77,9 +79,11 @@ DisplayTableCell const& DisplayTable::getCellAt(size_t const columnIndex, size_t
 }
 
 DisplayTableRow& DisplayTable::getLastRow() { return m_rows.back(); }
+
 DisplayTableRow& DisplayTable::getRowReferenceAt(size_t const rowIndex) { return m_rows[rowIndex]; }
 
-DisplayTableCell& DisplayTable::getCellReferenceAt(size_t const columnIndex, size_t const rowIndex) {    return m_rows[rowIndex].getCellReferenceAt(columnIndex);
+DisplayTableCell& DisplayTable::getCellReferenceAt(size_t const columnIndex, size_t const rowIndex) {
+    return m_rows[rowIndex].getCellReferenceAt(columnIndex);
 }
 
 void DisplayTable::addRow() { m_rows.emplace_back(); }

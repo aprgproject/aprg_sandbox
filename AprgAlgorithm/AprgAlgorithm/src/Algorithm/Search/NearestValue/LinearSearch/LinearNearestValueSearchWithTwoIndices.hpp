@@ -32,9 +32,11 @@ public:
         }
         return result;
     }
+
     Index getIndexOfNearestValue(Value const& valueToCheck) {
         Index result(INVALID_INDEX);
-        if (!m_values.empty()) {            Value minimumDeviation(std::numeric_limits<Value>::max());
+        if (!m_values.empty()) {
+            Value minimumDeviation(std::numeric_limits<Value>::max());
             for (auto itLower = m_values.cbegin() + m_startIndex, itHigher = m_values.cbegin() + m_endIndex;
                  itLower <= itHigher; itLower++, itHigher--) {
                 Value valueAtLower = *itLower;

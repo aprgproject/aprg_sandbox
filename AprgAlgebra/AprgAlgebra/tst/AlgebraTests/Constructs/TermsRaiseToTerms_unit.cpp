@@ -69,9 +69,11 @@ TEST(TermsRaiseToTermsTest, GetTermsInMultiplicationOperationWorks) {
     EXPECT_EQ(expectedTerm3, termsToVerify[2]);
 }
 
-TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks) {    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
+TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks) {
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsWithDetails const termsToVerify(termsRaiseToTerms.getTermWithDetailsInMultiplicationAndDivisionOperation());
+
     Term expectedTerm1("x");
     TermWithDetails expectedTermWithDetails1({expectedTerm1, TermAssociationType::Positive});
     Term expectedTerm2(Monomial(1, {{"y", 2}}));
@@ -84,10 +86,12 @@ TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperati
     EXPECT_EQ(expectedTermWithDetails3, termsToVerify[2]);
 }
 
-TEST(TermsRaiseToTermsTest, AddExponentsWorks) {    TermsRaiseToTerms termsRaiseToTermsToAdd({{"x", 1}, {"y", -2}, {"z", 3}});
+TEST(TermsRaiseToTermsTest, AddExponentsWorks) {
+    TermsRaiseToTerms termsRaiseToTermsToAdd({{"x", 1}, {"y", -2}, {"z", 3}});
     TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
 
     termsRaiseToTerms.addExponents(termsRaiseToTermsToAdd);
+
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
     auto itToVerify = mapToVerify.cbegin();

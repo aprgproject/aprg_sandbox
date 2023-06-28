@@ -43,10 +43,12 @@ TEST(LasVegasTest, GraphColoringExample) {
                 if (vertexToColorMap[edge.first] != vertexToColorMap[edge.second]) {
                     numberOfEdgesWithDifferentColors++;
                 }
-            }        } while (numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges() / 2);
+            }
+        } while (numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges() / 2);
     };
 
     performALasVegasAlgorithm(graphColoringAlgorithm);
+
     EXPECT_EQ(5U, vertexToColorMap.size());
 }
 

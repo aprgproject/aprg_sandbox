@@ -42,10 +42,12 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
                 if (m_string[index1] == m_string[index2]) {
                     entryResult = 2 + lengthMatrix.getEntry(index1 + 1, index2 - 1);
                 } else {
-                    entryResult =                        max(lengthMatrix.getEntry(index1, index2 - 1), lengthMatrix.getEntry(index1 + 1, index2));
+                    entryResult =
+                        max(lengthMatrix.getEntry(index1, index2 - 1), lengthMatrix.getEntry(index1 + 1, index2));
                 }
                 lengthMatrix.setEntry(index1, index2, entryResult);
-            }        }
+            }
+        }
         result = lengthMatrix.getEntry(0, stringLength - 1);
     }
     return result;
@@ -84,6 +86,7 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
     Counts const& lastCurrent(previousAndCurrentCounts[stringLength % 2]);
     return lastCurrent.front();
 }
+
 LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingNaiveRecursion(
     Index const index1, Index const index2) const {
     Count result(0);
@@ -93,10 +96,12 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
         if (m_string[index1] == m_string[index2]) {
             result = 2 + getLongestLengthUsingNaiveRecursion(index1 + 1, index2 - 1);
         } else {
-            result =                max(getLongestLengthUsingNaiveRecursion(index1, index2 - 1),
+            result =
+                max(getLongestLengthUsingNaiveRecursion(index1, index2 - 1),
                     getLongestLengthUsingNaiveRecursion(index1 + 1, index2));
         }
-    }    return result;
+    }
+    return result;
 }
 
 LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingMemoizationDP(
@@ -110,10 +115,12 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
             if (m_string[index1] == m_string[index2]) {
                 result = 2 + getLongestLengthUsingNaiveRecursion(index1 + 1, index2 - 1);
             } else {
-                result =                    max(getLongestLengthUsingNaiveRecursion(index1, index2 - 1),
+                result =
+                    max(getLongestLengthUsingNaiveRecursion(index1, index2 - 1),
                         getLongestLengthUsingNaiveRecursion(index1 + 1, index2));
             }
-        }        lengthMatrix.setEntry(index1, index2, result);
+        }
+        lengthMatrix.setEntry(index1, index2, result);
     }
     return result;
 }

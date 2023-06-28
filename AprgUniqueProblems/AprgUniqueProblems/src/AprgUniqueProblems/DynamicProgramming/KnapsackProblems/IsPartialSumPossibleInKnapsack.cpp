@@ -52,10 +52,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingIterativeDP() cons
                 Value previousValue(m_inputValues[valueIndex - 1]);
                 bool isPossible(isPossibleMatrix.getEntry(partialSum, valueIndex - 1));  // get previous entry result
                 if (!isPossible && partialSum >= previousValue) {
-                    isPossible =                        isPossibleMatrix.getEntry(partialSum - previousValue, valueIndex - 1);  // use previous value
+                    isPossible =
+                        isPossibleMatrix.getEntry(partialSum - previousValue, valueIndex - 1);  // use previous value
                 }
                 isPossibleMatrix.setEntry(partialSum, valueIndex, isPossible);
-            }        }
+            }
+        }
         result = isPossibleMatrix.getEntry(
             isPossibleMatrix.getNumberOfColumns() - 1, isPossibleMatrix.getNumberOfRows() - 1);
     }
@@ -84,6 +86,7 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingIterativeDPAndSpac
     }
     return result;
 }
+
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion(
     Value const partialSum, Index const valueIndex) const {
     bool result(false);
@@ -91,10 +94,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion(
         Value currentValue(m_inputValues[valueIndex]);
         if (partialSum == currentValue) {
             result = true;
-        } else if (partialSum > currentValue) {            result = isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex + 1)  // skip value
+        } else if (partialSum > currentValue) {
+            result = isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex + 1)  // skip value
                      || isPartialSumPossibleUsingNaiveRecursion(
                             partialSum - currentValue, valueIndex + 1);  // reserve value to sum
-        } else                                                           // partialSum < currentValue        {
+        } else                                                           // partialSum < currentValue
+        {
             result = isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex + 1);  // skip value
         }
     }
@@ -110,10 +115,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP(
             Value currentValue(m_inputValues[valueIndex]);
             if (partialSum >= currentValue) {
                 result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum, valueIndex + 1)  // skip value
-                         || isPartialSumPossibleUsingMemoizationDP(                                stateMatrix, partialSum - currentValue, valueIndex + 1);  // reserve value to sum
+                         || isPartialSumPossibleUsingMemoizationDP(
+                                stateMatrix, partialSum - currentValue, valueIndex + 1);  // reserve value to sum
             } else {
                 result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum, valueIndex + 1);  // skip value
-            }        }
+            }
+        }
         stateMatrix.setEntry(partialSum, valueIndex, result ? State::True : State::False);
         return result;
     } else {

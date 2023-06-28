@@ -117,10 +117,12 @@ public:
                 if (m_treeValues[nextIndex] < m_treeValues[rightChildIndex]) {
                     nextIndex = rightChildIndex;
                 }
-            }            if (nextIndex == maxSumParent) {
+            }
+            if (nextIndex == maxSumParent) {
                 break;
             }
-            maxSumParent = nextIndex;        }
+            maxSumParent = nextIndex;
+        }
 
         Index maxSumLeftMostChild = maxSumParent;
         while (maxSumLeftMostChild < m_startOfChildren) {
@@ -138,7 +140,8 @@ public:
             Value additionalValue = m_treeValues[maxSumLeftMostChild];
             if (additionalValue >= 0) {
                 maxSum += additionalValue;
-                maxSumLeftMostChild--;            } else {
+                maxSumLeftMostChild--;
+            } else {
                 break;
             }
         }
@@ -148,10 +151,12 @@ public:
             Value additionalValue = m_treeValues[maxSumRightMostChild];
             if (additionalValue >= 0) {
                 maxSum += additionalValue;
-                maxSumRightMostChild++;            } else {
+                maxSumRightMostChild++;
+            } else {
                 break;
             }
-        }        return maxSum;
+        }
+        return maxSum;
     }
 
 protected:
@@ -183,9 +188,11 @@ protected:
                         m_function(m_treeValues[treeIndex], m_treeValues[treeIndex + 1]);
                 }
                 treeBaseLeft = Utilities::getParent(treeBaseLeft);
-                treeBaseRight = Utilities::getParent(treeBaseRight);            }
+                treeBaseRight = Utilities::getParent(treeBaseRight);
+            }
         }
     }
+
     Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const {
         // This has log(N) running time
         Value result{};
@@ -210,10 +217,12 @@ protected:
                 result = m_function(result, m_treeValues[first]);
             }
         }
-        return result;    }
+        return result;
+    }
 
     void changeValueAtIndexFromBottomToTop(Index const index, Value const& newValue) {
-        // This has log(N) running time        Index treeIndex(m_startOfChildren + index);
+        // This has log(N) running time
+        Index treeIndex(m_startOfChildren + index);
         if (treeIndex < static_cast<int>(m_treeValues.size())) {
             m_treeValues[treeIndex] = newValue;
             if (m_treeValues.size() > 2) {
@@ -238,9 +247,11 @@ protected:
             }
         }
     }
+
     Index m_startOfChildren;
     Values m_treeValues;
-    Function m_function;};
+    Function m_function;
+};
 
 int getDeltaByAddingType(int const type) {
     int delta = 0;
@@ -272,10 +283,12 @@ void runTestCase(int const testCaseNumber) {
         int type = typesOfTrinkets[i];
         int delta = getDeltaByAddingType(type);
         if (delta < 0) {
-            typeDetails[type].negativeDeltaIndexOptional = i;        }
+            typeDetails[type].negativeDeltaIndexOptional = i;
+        }
         if (delta == 0) {
             typeDetails[type].zeroDeltaIndices.emplace_back(i);
-        }        deltas.emplace_back(delta);
+        }
+        deltas.emplace_back(delta);
     }
 
     RangeQueryWithStaticSegmentTree<vector<int>> segmentTreeOfDeltas(deltas, std::plus<>());
@@ -286,10 +299,12 @@ void runTestCase(int const testCaseNumber) {
         int type = typesOfTrinkets[i];
         TypeDetail& typeDetail(typeDetails[type]);
         if (typeDetail.negativeDeltaIndexOptional) {
-            segmentTreeOfDeltas.changeValueAtIndex(typeDetail.negativeDeltaIndexOptional.value(), 1);            if (!typeDetail.zeroDeltaIndices.empty()) {
+            segmentTreeOfDeltas.changeValueAtIndex(typeDetail.negativeDeltaIndexOptional.value(), 1);
+            if (!typeDetail.zeroDeltaIndices.empty()) {
                 int firstZeroIndex = typeDetail.zeroDeltaIndices.front();
                 segmentTreeOfDeltas.changeValueAtIndex(firstZeroIndex, -allowableCountForAType);
-                typeDetail.negativeDeltaIndexOptional = firstZeroIndex;                typeDetail.zeroDeltaIndices.pop_front();
+                typeDetail.negativeDeltaIndexOptional = firstZeroIndex;
+                typeDetail.zeroDeltaIndices.pop_front();
             } else {
                 typeDetail.negativeDeltaIndexOptional.reset();
             }
@@ -360,7 +375,8 @@ void runTestCase(int const testCaseNumber)
                 addTypeToAllowableCount(allowableCount, typesOfTrinkets[right]);
                 maxAllowableCount = max(maxAllowableCount, allowableCount);
             }
-        }        else
+        }
+        else
         {
             for(int right=numberOfTrinkets-1; right>left; --right)
             {
@@ -371,10 +387,12 @@ void runTestCase(int const testCaseNumber)
         removeTypeToAllowableCount(allowableCount, typesOfTrinkets[left]);
         maxAllowableCount = max(maxAllowableCount, allowableCount);
     }
-    my_cout << "Case #" << testCaseNumber << ": " << maxAllowableCount << '\n';}*/
+    my_cout << "Case #" << testCaseNumber << ": " << maxAllowableCount << '\n';
+}*/
 
 void runAllTestCases() {
-    int numberOfTestCases;    my_cin >> numberOfTestCases;
+    int numberOfTestCases;
+    my_cin >> numberOfTestCases;
     for (int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++) {
         runTestCase(testCaseNumber);
     }

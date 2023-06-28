@@ -213,10 +213,12 @@ void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpressio
         TermWithDetails const& exponentWithDetails(termsWithDetails[i]);
         Term const& exponent(getTermConstReferenceFromUniquePointer(exponentWithDetails.baseTermPointer));
         if (exponentWithDetails.hasPositiveAssociation() && exponent.isFunction()) {
-            Function const& functionObject(exponent.getFunctionConstReference());            string const& functionName(functionObject.getFunctionName());
+            Function const& functionObject(exponent.getFunctionConstReference());
+            string const& functionName(functionObject.getFunctionName());
             if ((getEAsATerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName)) {
                 base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-                termsWithDetails.erase(termsWithDetails.begin() + i);                break;
+                termsWithDetails.erase(termsWithDetails.begin() + i);
+                break;
             }
         }
     }
@@ -229,9 +231,11 @@ void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(
         m_base = getTermConstReferenceFromUniquePointer(termsInRaiseToPowerExpression[0].baseTermPointer);
         m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin() + 1, termsInRaiseToPowerExpression.cend()));
         copy(
-            termsInRaiseToPowerExpression.cbegin() + 1, termsInRaiseToPowerExpression.cend(),            back_inserter(m_exponents));
+            termsInRaiseToPowerExpression.cbegin() + 1, termsInRaiseToPowerExpression.cend(),
+            back_inserter(m_exponents));
     }
 }
+
 void TermRaiseToTerms::initializeExponentsInTerms(Terms const& exponents) {
     transform(exponents.cbegin(), exponents.cend(), back_inserter(m_exponents), [](Term const& exponent) {
         return TermWithDetails(exponent, TermAssociationType::Positive);

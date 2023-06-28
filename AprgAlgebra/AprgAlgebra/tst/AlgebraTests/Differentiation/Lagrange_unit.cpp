@@ -27,9 +27,11 @@ TEST(LagrangeTest, GetLagrangeMultipliersWorks) {
 
     // using lagrange multipler as -2/z, we can use that to calculate the other values.
 }
+
 TEST(LagrangeTest, GetLagrangeMultipliersWorksUsingExample1) {
     // Find the relative extrema of the f if f(x,y,z) = xz+yz
     // and the point (x,y,z) lies on the intersection of the surfaces x^2+y^2=2 and yz=2
+
     Term termToTest(Polynomial{Monomial(1, {{"x", 1}, {"z", 1}}), Monomial(1, {{"y", 1}, {"z", 1}})});
     Term lagrangeFunction1(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}}), Monomial(-2, {})});
     Term lagrangeFunction2(Polynomial{Monomial(1, {{"y", 1}, {"z", 1}}), Monomial(-2, {})});
@@ -45,4 +47,5 @@ TEST(LagrangeTest, GetLagrangeMultipliersWorksUsingExample1) {
 }
 
 }  // namespace algebra
+
 }  // namespace alba

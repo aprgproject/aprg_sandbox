@@ -36,7 +36,8 @@ TEST(EquationBuilderTest, GetTermStringsWorks) {
     EXPECT_EQ("d", termStrings[3]);
 }
 
-TEST(EquationBuilderTest, GetEquationOperatorStringsWorks) {    EquationBuilder builder("a=a==a!=a<a>a<=a>=a");
+TEST(EquationBuilderTest, GetEquationOperatorStringsWorks) {
+    EquationBuilder builder("a=a==a!=a<a>a<=a>=a");
 
     stringHelper::strings equationOperatorStrings(builder.getEquationOperatorStrings());
 
@@ -51,4 +52,5 @@ TEST(EquationBuilderTest, GetEquationOperatorStringsWorks) {    EquationBuilder 
 }
 
 }  // namespace algebra
+
 }  // namespace alba

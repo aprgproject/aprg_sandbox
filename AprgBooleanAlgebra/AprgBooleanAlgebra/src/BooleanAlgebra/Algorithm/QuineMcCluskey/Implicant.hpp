@@ -54,10 +54,12 @@ public:
                 if (string1[i] == '-' || string2[i] == '-') {
                     result = false;
                     break;
-                } else if (difference > 1) {                    result = false;
+                } else if (difference > 1) {
+                    result = false;
                     break;
                 } else {
-                    difference++;                }
+                    difference++;
+                }
             }
         }
         return result;

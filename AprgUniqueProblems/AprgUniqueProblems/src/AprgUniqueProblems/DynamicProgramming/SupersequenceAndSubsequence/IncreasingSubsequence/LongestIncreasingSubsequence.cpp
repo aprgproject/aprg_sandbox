@@ -23,10 +23,12 @@ LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestLeng
                     subLength = max(subLength, subLengths[lowerIndex] + 1);
                 }
             }
-        }        result = *max_element(subLengths.cbegin(), subLengths.cend());
+        }
+        result = *max_element(subLengths.cbegin(), subLengths.cend());
     }
     return result;
 }
+
 LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSubsequence() const {
     // Time Complexity: O(n^2)
     // Auxilliary space: O(n)
@@ -45,7 +47,8 @@ LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSub
                     subLength = subLengths[lowerIndex] + 1;
                     previousIndex = lowerIndex;
                 }
-            }        }
+            }
+        }
 
         // construct longest sequence
         auto itMax = max_element(subLengths.cbegin(), subLengths.cend());
@@ -58,6 +61,7 @@ LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSub
         result.emplace_back(m_sequence[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

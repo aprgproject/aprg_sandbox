@@ -81,6 +81,7 @@ protected:
             function(vertex);
         }
     }
+
     FlowDataType getBottleNeckFlow() {
         // find minimum residual capacity in augmenting path
         FlowDataType bottleNeckFlow{};
@@ -92,10 +93,12 @@ protected:
                     std::min(bottleNeckFlow, m_vertexToAugmentingPathEdgeMap[vertex].getResidualCapacityTo(vertex));
             });
         }
-        return bottleNeckFlow;    }
+        return bottleNeckFlow;
+    }
 
     SinkSourceFlowNetworkType m_flowNetwork;
-    FlowDataType m_maxFlowValue;    Paths m_augmentingPaths;
+    FlowDataType m_maxFlowValue;
+    Paths m_augmentingPaths;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToFlowEdgeMap m_vertexToAugmentingPathEdgeMap;
 };

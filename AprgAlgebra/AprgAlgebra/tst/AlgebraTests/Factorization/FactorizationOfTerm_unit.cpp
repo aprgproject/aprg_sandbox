@@ -29,7 +29,8 @@ TEST(FactorizationOfTermTest, FactorizeTermWorksOnPolynomialTerm) {
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})}), factorizedTerms[1]);
 }
 
-TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenshouldSimplifyExpressionsToFactorsAsDefault) {    Expression expressionToTest(createExpressionIfPossible({cos("x"), "*", sin("x"), "*", tan("x")}));
+TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenshouldSimplifyExpressionsToFactorsAsDefault) {
+    Expression expressionToTest(createExpressionIfPossible({cos("x"), "*", sin("x"), "*", tan("x")}));
 
     Terms factorizedTerms(factorizeTerm(expressionToTest));
 
@@ -38,10 +39,12 @@ TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenshouldSimpli
     EXPECT_EQ(termToExpect1, factorizedTerms[0]);
 }
 
-TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenShouldSimplifyExpressionsToFactorsIsTrue) {    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
+TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenShouldSimplifyExpressionsToFactorsIsTrue) {
+    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression expressionToTest(createExpressionIfPossible({cos("x"), "*", sin("x"), "*", tan("x")}));
 
     Terms factorizedTerms(factorizeTerm(expressionToTest));
@@ -51,7 +54,8 @@ TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenShouldSimpli
     EXPECT_EQ(Term(tan("x")), factorizedTerms[2]);
 }
 
-TEST(FactorizationOfTermTest, FactorizeTermsWorks) {    Terms terms{5, Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}};
+TEST(FactorizationOfTermTest, FactorizeTermsWorks) {
+    Terms terms{5, Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}};
 
     Terms factorizedTerms(factorizeTerms(terms));
 
@@ -62,6 +66,7 @@ TEST(FactorizationOfTermTest, FactorizeTermsWorks) {    Terms terms{5, Polynomia
 }
 
 }  // namespace Factorization
+
 }  // namespace algebra
 
 }  // namespace alba

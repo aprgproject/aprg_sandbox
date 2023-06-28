@@ -88,6 +88,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3) {
     EXPECT_EQ(createOpenEndpoint(1), interval2.getLowerEndpoint());
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
+
 TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4) {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("x^2+7*x+12 >= 0")));
@@ -101,9 +102,11 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4) {
     EXPECT_EQ(AlbaNumberIntervalEndpoint(createCloseEndpoint(-3)), interval2.getLowerEndpoint());
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
+
 TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks) {
     Differentiation differentiationForXWithY("x", {"y"});
-    Term term1ForEquation(Polynomial{Monomial(3, {{"x", 4}, {"y", 2}}), Monomial(-7, {{"x", 1}, {"y", 3}})});    Term term2ForEquation(Polynomial{Monomial(4, {}), Monomial(-8, {{"y", 1}})});
+    Term term1ForEquation(Polynomial{Monomial(3, {{"x", 4}, {"y", 2}}), Monomial(-7, {{"x", 1}, {"y", 3}})});
+    Term term2ForEquation(Polynomial{Monomial(4, {}), Monomial(-8, {{"y", 1}})});
     Equation equation(term1ForEquation, "=", term2ForEquation);
     Equation differentiatedEquation(differentiationForXWithY.differentiate(equation));
     IsolationOfOneVariableOnEqualityEquation isolation(differentiatedEquation);

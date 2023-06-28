@@ -31,10 +31,12 @@ BoxStackingProblem::Index BoxStackingProblem::getMaximumStackedHeight() const {
             partialHeight += possibleBoxes[index].getZ();
         }
         result = *max_element(partialHeights.cbegin(), partialHeights.cend());
-    }    return result;
+    }
+    return result;
 }
 
-BoxStackingProblem::Boxes BoxStackingProblem::getBoxesWithMaximumStackedHeight() const {    // Time Complexity: O(n^2)
+BoxStackingProblem::Boxes BoxStackingProblem::getBoxesWithMaximumStackedHeight() const {
+    // Time Complexity: O(n^2)
     // Auxiliary Space: O(n)
 
     Boxes result;
@@ -71,10 +73,12 @@ BoxStackingProblem::Boxes BoxStackingProblem::getBoxesWithMaximumStackedHeight()
         result.emplace_back(possibleBoxes[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;}
+    return result;
+}
 
 BoxStackingProblem::Boxes BoxStackingProblem::getAllPossibleBoxes() const {
-    Boxes result;    result.reserve(m_boxes.size() * 3);
+    Boxes result;
+    result.reserve(m_boxes.size() * 3);
     for (Box const& box : m_boxes) {
         result.emplace_back(min(box.getY(), box.getZ()), max(box.getY(), box.getZ()), box.getX());
         result.emplace_back(min(box.getX(), box.getZ()), max(box.getX(), box.getZ()), box.getY());

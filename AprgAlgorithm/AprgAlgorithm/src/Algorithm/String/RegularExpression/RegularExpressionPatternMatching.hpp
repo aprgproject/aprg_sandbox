@@ -33,10 +33,12 @@ public:
                     if (charInRE == stringToCheck[checkIndex] || charInRE == '.')  // if there is a match
                     {
                         nextStatesFromAMatch.emplace_back(
-                            nullTransitionState + 1);  // proceed to next state from nullTransitionState                    }
+                            nullTransitionState + 1);  // proceed to next state from nullTransitionState
+                    }
                 } else if (nullTransitionState == lengthOfRE)  // null transition reached the end
                 {
-                    isEndReached = true;                    break;
+                    isEndReached = true;
+                    break;
                 }
             }
             if (!isEndReached) {
@@ -79,10 +81,12 @@ private:
                 if (m_regularExpression[operatorIndex] == '|')  // if stack has an or operator
                 {
                     startIndexOfExpression = operatorIndexes.top();
-                    operatorIndexes.pop();                    m_nullTransitionsGraph.connect(
+                    operatorIndexes.pop();
+                    m_nullTransitionsGraph.connect(
                         startIndexOfExpression,
                         operatorIndex + 1);  // add edge to skip the first part of the expression
-                    m_nullTransitionsGraph.connect(                        operatorIndex, indexOfRE);  // add edge to skip the second part of the expression
+                    m_nullTransitionsGraph.connect(
+                        operatorIndex, indexOfRE);  // add edge to skip the second part of the expression
                 } else                              // opening parenthesis goes here
                 {
                     startIndexOfExpression = operatorIndex;
@@ -92,7 +96,8 @@ private:
                 m_regularExpression[indexOfRE + 1] == '*')  // do one character look ahead if its a star
             {
                 m_nullTransitionsGraph.connect(
-                    startIndexOfExpression,                    indexOfRE + 1);  // add edge from first part of an expression to current state
+                    startIndexOfExpression,
+                    indexOfRE + 1);  // add edge from first part of an expression to current state
                 m_nullTransitionsGraph.connect(
                     indexOfRE + 1,
                     startIndexOfExpression);  // add edge from current state going back to first part of an expression
@@ -101,10 +106,12 @@ private:
                 m_regularExpression[indexOfRE] == ')') {
                 m_nullTransitionsGraph.connect(
                     indexOfRE, indexOfRE + 1);  // add edge null transition to next state if its any of these operators
-            }        }
+            }
+        }
     }
 
-    std::string m_regularExpression;    DirectedGraphWithListOfEdges<Index> m_nullTransitionsGraph;
+    std::string m_regularExpression;
+    DirectedGraphWithListOfEdges<Index> m_nullTransitionsGraph;
 };
 
 // Pattern matching

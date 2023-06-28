@@ -37,10 +37,12 @@ public:
                 result = m_partialResults[end];
             }
         }
-        return result;    }
+        return result;
+    }
 
 private:
-    void initialize(Values const& valuesToCheck) {        m_partialResults.reserve(valuesToCheck.size());
+    void initialize(Values const& valuesToCheck) {
+        m_partialResults.reserve(valuesToCheck.size());
 
         Value partialResult{};
         if (!valuesToCheck.empty()) {

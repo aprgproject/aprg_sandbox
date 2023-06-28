@@ -43,9 +43,11 @@ public:
         }
         return result;
     }
+
     void setValueAt(int index, double const dataSampleValue) {
         if (isIndexValid(index)) {
-            m_data[index] = dataSampleValue;        }
+            m_data[index] = dataSampleValue;
+        }
     }
 
     bool operator==(Sample const& value) const {

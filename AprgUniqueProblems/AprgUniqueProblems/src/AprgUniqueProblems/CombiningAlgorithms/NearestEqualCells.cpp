@@ -56,9 +56,11 @@ NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairByChecki
                     result = {twoCoordinates[0], twoCoordinates[1]};
                 }
             }
-        }    }
+        }
+    }
     return result;
 }
+
 NearestEqualCells::CoordinatePair NearestEqualCells::getNearestEqualPairUsingBfs(Value const value) const {
     // Algorithm 2: Perform a breadth-first search that simultaneously starts at each cell with letter c.
     // The minimum distance between two cells with letter c will be calculated in O(n) time.

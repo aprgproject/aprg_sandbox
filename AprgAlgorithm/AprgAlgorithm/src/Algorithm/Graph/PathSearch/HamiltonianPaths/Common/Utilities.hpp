@@ -52,10 +52,12 @@ bool hasHamiltonianPathBecauseOfOreTheorem(BaseGraph<Vertex> const& graph) {
                 bool isOreSatisfied = vertexToDegreeMap[vertex1] + vertexToDegreeMap[vertex2] >= numberOfVertices;
                 if (!isOreSatisfied) {
                     return false;
-                }            }
+                }
+            }
         }
     }
-    return true;}
+    return true;
+}
 
 // A common property in these theorems and other results is that they guarantee the existence of a Hamiltonian path if
 // the graph has a large number of edges. This makes sense, because the more edges the graph contains, the more

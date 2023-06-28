@@ -166,9 +166,11 @@ TermsRaiseToNumbers getFactorizedItemsForAdditionAndSubtraction(
     }
     return getFactorizedItemsBasedFromCollectedData(constantGcf, commonNonConstantFactors, outerAddends);
 }
+
 void putRemainingConstantFactorAsAnInnerMultiplier(
     TermsWithDetails& innerMultipliers, AlbaNumber const& constantFactorOfOriginalAddend,
-    AlbaNumber const& constantGcf) {    AlbaNumber remainingConstant(constantFactorOfOriginalAddend / constantGcf);
+    AlbaNumber const& constantGcf) {
+    AlbaNumber remainingConstant(constantFactorOfOriginalAddend / constantGcf);
     if (remainingConstant != 1) {
         innerMultipliers.emplace_back(Term(remainingConstant), TermAssociationType::Positive);
     }

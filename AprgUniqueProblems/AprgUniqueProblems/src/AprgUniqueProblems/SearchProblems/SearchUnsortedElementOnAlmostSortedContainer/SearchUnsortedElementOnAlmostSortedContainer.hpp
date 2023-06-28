@@ -45,10 +45,12 @@ private:
             } else if (middleIndex < higherIndex && value == m_sortedValues[middleIndex + 1]) {
                 result = middleIndex + 1;
             } else if (value < middleValue) {
-                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex - 2, value);            } else if (middleValue < value) {
+                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex - 2, value);
+            } else if (middleValue < value) {
                 result = getIndexOfValueWithoutCheck(middleIndex + 2, higherIndex, value);
             }
-        }        return result;
+        }
+        return result;
     }
 
     Values const& m_sortedValues;

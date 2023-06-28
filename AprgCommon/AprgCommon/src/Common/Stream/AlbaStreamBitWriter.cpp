@@ -62,20 +62,24 @@ void AlbaStreamBitWriter::transferBytesAsMuchAsPossibleToStream() {
             byte.set(7, m_bitBuffer[i]);
             m_stream << static_cast<char>(byte.to_ulong());
         }
-        m_bitBuffer.erase(begin(m_bitBuffer), begin(m_bitBuffer) + i);    }
+        m_bitBuffer.erase(begin(m_bitBuffer), begin(m_bitBuffer) + i);
+    }
 }
 
-void AlbaStreamBitWriter::transferAllToStream() {    bitset<8> byte;
+void AlbaStreamBitWriter::transferAllToStream() {
+    bitset<8> byte;
     size_t i = 0;
     for (; i < m_bitBuffer.size(); i++) {
         size_t remainder(i % 8);
         byte.set(7 - remainder, m_bitBuffer[remainder]);
         if (remainder == 7) {
             m_stream << static_cast<char>(byte.to_ulong());
-            byte.reset();        }
+            byte.reset();
+        }
     }
     if (i % 8 != 0) {
-        m_stream << static_cast<char>(byte.to_ulong());    }
+        m_stream << static_cast<char>(byte.to_ulong());
+    }
     m_bitBuffer.clear();
 }
 

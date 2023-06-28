@@ -33,10 +33,12 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnMultiplicationAn
     EXPECT_EQ(termToExpect4, termsToVerify[3]);
 }
 
-TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnAdditionAndSubtractionExpression) {    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
+TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnAdditionAndSubtractionExpression) {
+    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Term part1(createExpressionIfPossible({Monomial(12, {{"x", 5}}), "*", sin("x")}));
     Term part2(createExpressionIfPossible({Monomial(4, {{"x", 7}}), "*", sin("x"), "*", cos("x")}));
     Term part3(createExpressionIfPossible({Monomial(8, {{"x", 9}}), "*", sin("x"), "*", sin("x")}));
@@ -56,10 +58,12 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnAdditionAndSubtr
     EXPECT_EQ(termToExpect4, termsToVerify[3]);
 }
 
-TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnRaiseToPowerExpression) {    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
+TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnRaiseToPowerExpression) {
+    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Term base(createExpressionIfPossible({sin("x"), "*", cos("x")}));
     Expression expressionToTest(createExpressionIfPossible({base, "^", 17}));
 
@@ -72,10 +76,12 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnRaiseToPowerExpr
     EXPECT_EQ(termToExpect2, termsToVerify[1]);
 }
 
-TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnXToTheX) {    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
+TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnXToTheX) {
+    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression expressionToTest(createExpressionIfPossible({"x", "^", "x"}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
@@ -85,10 +91,12 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnXToTheX) {    Co
     EXPECT_EQ(termToExpect, termsToVerify[0]);
 }
 
-TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksDerivativeDefinition) {    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
+TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksDerivativeDefinition) {
+    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Term deltaX("deltaX");
     Term deltaXPlusX(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(1, {{"x", 1}})});
     Term part1(Monomial(1, {{"deltaX", 1}, {"x", AlbaNumber::createFraction(1, 3)}}));
@@ -106,10 +114,12 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksDerivativeDefiniti
     EXPECT_EQ(stringToExpect2, convertToString(termsToVerify[1]));
 }
 
-TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksWhenSomeAddendsAreSame) {    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
+TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksWhenSomeAddendsAreSame) {
+    ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Term twoX(Monomial(2, {{"x", 1}}));
     Term cos2X(cos(twoX));
     Term addend1(createExpressionIfPossible({3, "*", cos2X, "^", 2}));
@@ -125,6 +135,7 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksWhenSomeAddendsAre
 }
 
 }  // namespace Factorization
+
 }  // namespace algebra
 
 }  // namespace alba

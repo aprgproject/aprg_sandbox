@@ -93,9 +93,11 @@ private:
             newIndexes[i + 1] += newIndexes[i];
         }
     }
+
     void copyBackUsingNewIndexes(
         Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, int const lowContainerIndex,
-        int const highContainerIndex, int const digitIndex) const {        Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
+        int const highContainerIndex, int const digitIndex) const {
+        Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
         int limit(std::min(highContainerIndex + 1, static_cast<int>(copiedValues.size())));
         for (auto it = copiedValues.cbegin() + lowContainerIndex; it != copiedValues.cbegin() + limit;
              it++)  // starts at low container index and ends at high container index
@@ -116,10 +118,12 @@ private:
                 int newHighContainerIndex(lowContainerIndex + newIndexes[i + 1] - 1);
                 sortStartingAtMostSignificantDigitInternal(
                     valuesToSort, newLowContainerIndex, newHighContainerIndex, digitIndex + 1);
-            }        }
+            }
+        }
     }
 
-    GetDigitAtFunction m_getDigitAtFunction;    IsDigitFunction m_isDigitInvalidFunction;
+    GetDigitAtFunction m_getDigitAtFunction;
+    IsDigitFunction m_isDigitInvalidFunction;
 };
 
 }  // namespace algorithm

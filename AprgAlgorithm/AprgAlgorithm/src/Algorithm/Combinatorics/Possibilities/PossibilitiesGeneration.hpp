@@ -62,9 +62,11 @@ private:
                 currentPossibility.emplace_back(objects[index]);
                 collectPossibilitiesUsingRecursion(recursionData);
                 currentPossibility.pop_back();
-            }        }
+            }
+        }
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

@@ -22,10 +22,12 @@ public:
             if (m_sortedValues[possibleIndex] == value) {
                 result = possibleIndex;
             }
-        }        return result;
+        }
+        return result;
     }
 
-private:    Index getIndexUsingForwardSkip(Value const& value) const {
+private:
+    Index getIndexUsingForwardSkip(Value const& value) const {
         Index result(0);
         Index size(m_sortedValues.size());
         for (Index forwardSkip = size / 2; forwardSkip >= 1;
@@ -36,10 +38,12 @@ private:    Index getIndexUsingForwardSkip(Value const& value) const {
                    m_sortedValues[result + forwardSkip] <
                        value)  // less than condition to avoid redundant traversal on equal values
             {
-                result += forwardSkip;            }
+                result += forwardSkip;
+            }
         }
         result += (result + 1 < static_cast<Index>(m_sortedValues.size())) ? 1 : 0;  // move one for equal
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };

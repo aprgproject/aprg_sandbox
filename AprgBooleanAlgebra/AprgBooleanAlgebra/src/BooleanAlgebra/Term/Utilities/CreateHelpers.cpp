@@ -35,6 +35,7 @@ Expression createExpressionIfPossible(Terms const& terms) {
     }
     return result;
 }
+
 Expression createSimplifiedExpressionIfPossible(Terms const& terms) {
     Expression result;
     TermsAggregator aggregator(terms);
@@ -45,9 +46,11 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms) {
     }
     return result;
 }
+
 Term createTermWithAndOperationWrappedTerms(WrappedTerms const& wrappedTerms) {
     Term result(true);
-    if (!wrappedTerms.empty()) {        result = convertExpressionToSimplestTerm(Expression(OperatorLevel::And, wrappedTerms));
+    if (!wrappedTerms.empty()) {
+        result = convertExpressionToSimplestTerm(Expression(OperatorLevel::And, wrappedTerms));
     }
     return result;
 }

@@ -59,10 +59,12 @@ void factorizePolynomialsAndPutToResult(Polynomials& result, Polynomials const& 
         Polynomial const& polynomial(polynomialsToFactorize[i]);
         Polynomial simplifiedPolynomial(polynomial);
         simplifiedPolynomial.simplify();
-        if (doesNotNeedToBeFactorized(simplifiedPolynomial)) {            result.emplace_back(simplifiedPolynomial);
+        if (doesNotNeedToBeFactorized(simplifiedPolynomial)) {
+            result.emplace_back(simplifiedPolynomial);
         } else {
             int const originalSize(polynomialsToFactorize.size());
-            int deltaSize = polynomialsToFactorize.size() - originalSize;            tryToFactorizeCommonMonomial(polynomialsToFactorize, deltaSize, simplifiedPolynomial, originalSize);
+            int deltaSize = polynomialsToFactorize.size() - originalSize;
+            tryToFactorizeCommonMonomial(polynomialsToFactorize, deltaSize, simplifiedPolynomial, originalSize);
             tryToFactorizeUsingPatterns(polynomialsToFactorize, deltaSize, simplifiedPolynomial, originalSize);
             tryToFactorizeIncreasingAndDecreasingExponentsForm(
                 polynomialsToFactorize, deltaSize, simplifiedPolynomial, originalSize);

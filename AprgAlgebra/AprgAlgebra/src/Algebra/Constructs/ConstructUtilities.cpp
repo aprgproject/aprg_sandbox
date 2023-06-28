@@ -291,9 +291,11 @@ void createTermRaiseToTermsFromMultiplicationAndDivisionExpression(
             finalBasesWithDetails.emplace_back(
                 originalBaseToUniqueExponent.getCombinedTerm(), TermAssociationType::Positive);
         }
+
         Term finalBase(convertExpressionToSimplestTerm(
             Expression(OperatorLevel::MultiplicationAndDivision, finalBasesWithDetails)));
-        finalBase.simplify();        commonExponent.simplify();
+        finalBase.simplify();
+        commonExponent.simplify();
         result = TermRaiseToTerms(finalBase, commonExponent);
     } else {
         result = TermRaiseToTerms(Term(expression), 1);

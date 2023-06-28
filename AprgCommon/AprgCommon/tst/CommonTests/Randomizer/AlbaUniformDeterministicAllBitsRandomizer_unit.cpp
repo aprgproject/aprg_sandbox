@@ -37,10 +37,12 @@ TEST(AlbaUniformDeterministicAllBitsRandomizerTest, SetRandomSeedWorks) {
 
 TEST(AlbaUniformDeterministicAllBitsRandomizerTest, GetRandomIntegerWorks_WithinMinimumAndMaximumValues) {
     constexpr long long minimumValue(static_cast<long long>(numeric_limits<int>::min()));
-    constexpr long long maximumValue(static_cast<long long>(numeric_limits<int>::max()));    constexpr int customSeed(5);
+    constexpr long long maximumValue(static_cast<long long>(numeric_limits<int>::max()));
+    constexpr int customSeed(5);
     IntegerRandomizerForTest randomizer(customSeed);
 
-    for (int i = 0; i < 1000; i++) {        long long randomValue(static_cast<long long>(randomizer.getRandomValue()));
+    for (int i = 0; i < 1000; i++) {
+        long long randomValue(static_cast<long long>(randomizer.getRandomValue()));
         ASSERT_GE(randomValue, minimumValue);
         ASSERT_LE(randomValue, maximumValue);
     }

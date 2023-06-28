@@ -23,10 +23,12 @@ public:
             Value currentCycleValue = valuesToSort[incorrectPosition];
             int correctPosition = getCorrectPositionForValue(valuesToSort, currentCycleValue, incorrectPosition);
             if (correctPosition != incorrectPosition)  // check first unsorted
-            {                movePositionForwardUntilValueIsDifferent(valuesToSort, currentCycleValue, correctPosition);
+            {
+                movePositionForwardUntilValueIsDifferent(valuesToSort, currentCycleValue, correctPosition);
                 if (correctPosition != incorrectPosition) {
                     std::swap(currentCycleValue, valuesToSort[correctPosition]);
-                    numberOfWrites++;                }
+                    numberOfWrites++;
+                }
 
                 while (correctPosition != incorrectPosition)  // continue to fix cycles until cycle ends (cycle ends if
                                                               // it returned to original position)
@@ -36,10 +38,12 @@ public:
                     if (currentCycleValue != valuesToSort[correctPosition]) {
                         std::swap(currentCycleValue, valuesToSort[correctPosition]);
                         numberOfWrites++;
-                    }                }
+                    }
+                }
             }
         }
     }
+
 private:
     int getCorrectPositionForValue(
         Values const& valuesToSort, Value const& currentCycleValue, int const incorrectPosition) const {
@@ -59,9 +63,11 @@ private:
         while (currentCycleValue == valuesToSort[correctPosition]) {
             correctPosition++;
         }
-    }};
+    }
+};
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // Cycle sort is an in-place sorting Algorithm, unstable sorting algorithm,

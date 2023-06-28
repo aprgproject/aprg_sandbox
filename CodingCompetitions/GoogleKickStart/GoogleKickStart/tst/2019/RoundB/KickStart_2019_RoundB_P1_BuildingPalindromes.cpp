@@ -37,9 +37,11 @@ int32_t getPalindromeValue(string const& blocksString, Question const& question)
     }
     return result;
 }
+
 bool canPalindrome(string const& blocksString, Question const& question) {
     int length = question.second - question.first + 1;
-    if (length % 2 == 0) {        return __builtin_popcount(getPalindromeValue(blocksString, question)) == 0;
+    if (length % 2 == 0) {
+        return __builtin_popcount(getPalindromeValue(blocksString, question)) == 0;
     } else {
         return __builtin_popcount(getPalindromeValue(blocksString, question)) == 1;
     }

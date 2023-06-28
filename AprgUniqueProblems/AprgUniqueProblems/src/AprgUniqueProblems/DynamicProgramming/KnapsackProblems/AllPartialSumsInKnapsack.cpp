@@ -21,9 +21,11 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
             if (partialSum >= inputValue && isPartialSumPossible[partialSum - inputValue]) {
                 isPartialSumPossible[partialSum] = true;
             }
-        }    }
+        }
+    }
     return getAllPossiblePartialSums(isPartialSumPossible);
 }
+
 AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsBySettingFutureValues() const {
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0));
     Booleans isPartialSumPossible(sum + 1, false);  // zero index is for zero value, sum index is for the sum
@@ -35,10 +37,12 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
             if (isPartialSumPossible[partialSum]) {
                 Value possibleNextValue = static_cast<Value>(partialSum) + inputValue;
                 if (possibleNextValue <= sum) {
-                    isPartialSumPossible[possibleNextValue] = true;                }
+                    isPartialSumPossible[possibleNextValue] = true;
+                }
             }
         }
-    }    return getAllPossiblePartialSums(isPartialSumPossible);
+    }
+    return getAllPossiblePartialSums(isPartialSumPossible);
 }
 
 AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsWithSquareRootAlgorithm() {
@@ -76,10 +80,12 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
             if (isPartialSumPossible[partialSumIndex]) {
                 for (int i = 1; i <= inputValueAndCountPair.second; i++)  // near constant time
                 {
-                    isPartialSumPossible[static_cast<Value>(partialSumIndex) + (i * inputValueAndCountPair.first)] =                        true;
+                    isPartialSumPossible[static_cast<Value>(partialSumIndex) + (i * inputValueAndCountPair.first)] =
+                        true;
                 }
             }
-        }    }
+        }
+    }
     return getAllPossiblePartialSums(isPartialSumPossible);
 }
 
@@ -92,7 +98,8 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
         if (isPartialSumPossible[partialSumIndex]) {
             result.emplace_back(partialSumIndex);
         }
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

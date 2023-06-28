@@ -60,10 +60,12 @@ TEST(ThreeDimensionsUtilitiesTest, GetLineEquationsWorks) {
     EXPECT_EQ(stringToExpect2, convertToString(equationsToVerify[1]));
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWorks) {    Equation equationToVerify(getPlaneEquation());
+TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWorks) {
+    Equation equationToVerify(getPlaneEquation());
 
     string stringToExpect("((a*x)+(b*y)+(c*z)+d) = 0");
-    EXPECT_EQ(stringToExpect, convertToString(equationToVerify));}
+    EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
+}
 
 TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWithPointCoordinatesWorks) {
     Equation equationToVerify(getPlaneEquationWithPointCoordinates());

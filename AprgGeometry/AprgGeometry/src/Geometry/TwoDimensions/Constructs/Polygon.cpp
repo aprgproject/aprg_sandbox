@@ -53,6 +53,7 @@ Lines Polygon<numberOfVertices>::getLines() const {
     lines.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
     return lines;  // RVO
 }
+
 template <int numberOfVertices>
 LineSegments Polygon<numberOfVertices>::getLineSegments() const {
     LineSegments lineSegments;
@@ -63,6 +64,7 @@ LineSegments Polygon<numberOfVertices>::getLineSegments() const {
     lineSegments.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
     return lineSegments;  // RVO
 }
+
 template <int numberOfVertices>
 typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLengthOfSides() const {
     Distances lengthOfSides;
@@ -73,9 +75,11 @@ typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLeng
     lengthOfSides[sizeMinusOne] = getDistance(m_vertices[sizeMinusOne], m_vertices[0]);
     return lengthOfSides;  // RVO
 }
+
 template <int numberOfVertices>
 Points Polygon<numberOfVertices>::getVertices() const {
-    return Points(cbegin(m_vertices), cend(m_vertices));}
+    return Points(cbegin(m_vertices), cend(m_vertices));
+}
 
 template <int numberOfVertices>
 AlbaAngles Polygon<numberOfVertices>::getAnglesAtVertices() const {
@@ -91,9 +95,11 @@ AlbaAngles Polygon<numberOfVertices>::getAnglesAtVertices() const {
         m_vertices[sizeMinusOne], m_vertices[sizeMinusOne - 1], m_vertices[0]));
     return anglesAtVertices;  // RVO
 }
+
 template <int numberOfVertices>
 AlbaAngle Polygon<numberOfVertices>::getSumOfAngles() const {
-    return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);}
+    return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);
+}
 
 template <int numberOfVertices>
 Points Polygon<numberOfVertices>::getPoints(double const interval) const {

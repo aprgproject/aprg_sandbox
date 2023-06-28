@@ -164,9 +164,11 @@ TEST(TermTest, TermsAsExpressionsWorks) {
     Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify2[1].baseTermPointer));
     EXPECT_EQ(Term("interest"), termToVerify2);
 }
+
 TEST(TermTest, TermsAsFunctionsWorks) {
     Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });    Term functionTerm1(function1);
+    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });
+    Term functionTerm1(function1);
     Term functionTerm2(function2);
     Term functionTerm3("abs");
 

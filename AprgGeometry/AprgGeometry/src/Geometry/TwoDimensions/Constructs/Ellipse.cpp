@@ -145,6 +145,7 @@ Line Ellipse::getMajorAxis() const {
     }
     return result;
 }
+
 Line Ellipse::getMinorAxis() const {
     Line result;
     Points vertices(getMinorVertices());
@@ -153,9 +154,11 @@ Line Ellipse::getMinorAxis() const {
     }
     return result;
 }
+
 Points Ellipse::getPointsForCircumference(double const interval) const {
     Points result;
-    if (!isAlmostEqual(m_aValue, 0.0) && !isAlmostEqual(m_bValue, 0.0)) {        Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
+    if (!isAlmostEqual(m_aValue, 0.0) && !isAlmostEqual(m_bValue, 0.0)) {
+        Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
         Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
         Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
         Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));

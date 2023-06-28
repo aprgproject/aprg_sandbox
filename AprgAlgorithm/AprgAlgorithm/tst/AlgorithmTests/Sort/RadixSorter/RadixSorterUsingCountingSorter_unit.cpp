@@ -50,10 +50,12 @@ StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& val
             digitValue = value[mostSignificantDigitIndex] & 0xFF;
         }
     }
-    return digitValue;};
+    return digitValue;
+};
 
 StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject =
-    [](StabilityCheckObjects const&) -> int { return 2; };StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
+    [](StabilityCheckObjects const&) -> int { return 2; };
+StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
     [](StabilityCheckObject const& value, int const digitIndex) -> int {
     return (value.getVisiblePart() >> (digitIndex * 4)) & 0xF;
 };

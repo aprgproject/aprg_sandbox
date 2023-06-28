@@ -60,10 +60,12 @@ private:
             inputMatrix.setEntry(0U, i, current[i]);
         }
         ProbabilityMatrix outputMatrix = m_probabilityMatrix * inputMatrix;
-        ProbabilityDistribution result;        for (int i = 0; i < MAX_STATE_VALUE; i++) {
+        ProbabilityDistribution result;
+        for (int i = 0; i < MAX_STATE_VALUE; i++) {
             result[i] = outputMatrix.getEntry(0U, i);
         }
-        return result;    }
+        return result;
+    }
 
     ProbabilityMatrix m_probabilityMatrix;
     DistributionToDistributionMap m_nextDistributionMap;

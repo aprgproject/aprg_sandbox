@@ -63,7 +63,8 @@ public:
                 result = m_accumulator(result, m_partialTreeSums[indexPlusOne - 1]);
                 indexPlusOne -= getGreatestPowerOf2Factor(indexPlusOne);
             }
-        }        return result;
+        }
+        return result;
     }
 
     void changeValueAtIndex(Index const index, Value const& newValue) {
@@ -77,10 +78,12 @@ public:
                 m_partialTreeSums[indexPlusOne - 1] = m_accumulator(m_partialTreeSums[indexPlusOne - 1], delta);
                 indexPlusOne += getGreatestPowerOf2Factor(indexPlusOne);
             }
-            m_values[index] = newValue;        }
+            m_values[index] = newValue;
+        }
     }
 
-private:    void initializePartialSums() {
+private:
+    void initializePartialSums() {
         // This has N*log(N) running time
         m_partialTreeSums.reserve(m_values.size());
         // Indexes here have plus one (for easier end loop conditions)
@@ -103,9 +106,11 @@ private:    void initializePartialSums() {
         }
         return result;
     }
+
     Index getGreatestPowerOf2Factor(Index const index) const { return mathHelper::getGreatestPowerOf2Factor(index); }
 
-    Values m_values;    Values m_partialTreeSums;
+    Values m_values;
+    Values m_partialTreeSums;
     AccumulatorFunction m_accumulator;
     AccumulatorFunction m_inverseAccumulator;
 };

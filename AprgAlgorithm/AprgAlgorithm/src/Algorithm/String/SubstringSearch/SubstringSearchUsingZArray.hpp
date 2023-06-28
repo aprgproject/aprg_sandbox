@@ -28,9 +28,11 @@ public:
             if (zArray[i] >= subStringLength) {
                 result = i - subStringLength - 1;
                 break;
-            }        }
+            }
+        }
         return result;
     }
+
     Indexes searchForAllSubstrings(std::string const& mainString) {
         Indexes result{};
         std::string stringForZArray = createStringForZArray(mainString);
@@ -41,10 +43,12 @@ public:
             if (zArray[i] >= subStringLength) {
                 result.emplace_back(i - subStringLength - 1);
             }
-        }        return result;
+        }
+        return result;
     }
 
-private:    std::string createStringForZArray(std::string const& mainString) const {
+private:
+    std::string createStringForZArray(std::string const& mainString) const {
         return m_substringToMatch + UNIQUE_DIVIDING_CHARACTER + mainString;
     }
 

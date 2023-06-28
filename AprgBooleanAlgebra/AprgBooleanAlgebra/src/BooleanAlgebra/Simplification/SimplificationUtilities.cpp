@@ -71,10 +71,12 @@ void distributeTermsWithRecursion(
         for (WrappedTerm const& subExpressionTerm : innerExpressions[index].getWrappedTerms()) {
             innerTermsCombinations.emplace_back(
                 getTermConstReferenceFromUniquePointer(subExpressionTerm.baseTermPointer));
-            distributeTermsWithRecursion(                outputTerm, innerTermsCombinations, innerExpressions, outerFactor, outerOperation, innerOperation,
+            distributeTermsWithRecursion(
+                outputTerm, innerTermsCombinations, innerExpressions, outerFactor, outerOperation, innerOperation,
                 index + 1);
             innerTermsCombinations.pop_back();
-        }    } else {
+        }
+    } else {
         Term partialTerm(outerFactor);
         accumulateTerms(partialTerm, innerTermsCombinations, outerOperation);
         accumulateTerms(outputTerm, {partialTerm}, innerOperation);
@@ -150,10 +152,12 @@ void simplifyByQuineMcKluskey(Term& term) {
                     char primeBit(bitString[i]);
                     implicantExpression.putTerm(
                         getTermFromVariableAndPrimeValue(variableName, primeBit),
-                        targetInner);  // if "outer and" "inner or", its the saved as dual                    i--;
+                        targetInner);  // if "outer and" "inner or", its the saved as dual
+                    i--;
                 }
                 newExpression.putTerm(
-                    Term(implicantExpression), targetOuter);  // if "outer and" "inner or", its the saved as dual            }
+                    Term(implicantExpression), targetOuter);  // if "outer and" "inner or", its the saved as dual
+            }
             term = Term(newExpression);
         }
     }
@@ -201,10 +205,12 @@ void combineComplementaryTerms(Terms& termsToCombine, OperatorLevel const operat
             if (termsToCombine[i] == negatedTerms[j]) {
                 termsToCombine.erase(termsToCombine.begin() + j);
                 negatedTerms.erase(negatedTerms.begin() + j);
-                hasComplimentary = true;            }
+                hasComplimentary = true;
+            }
         }
         if (hasComplimentary) {
-            termsToCombine[i] = Term(getShortCircuitValueEffectInOperation(operatorLevel));        }
+            termsToCombine[i] = Term(getShortCircuitValueEffectInOperation(operatorLevel));
+        }
     }
 }
 
@@ -215,10 +221,12 @@ void combineTermsByCheckingCommonFactor(Terms& termsToCombine, OperatorLevel con
                 termsToCombine[i], termsToCombine[j], operatorLevel));
             if (!combinedTerm.isEmpty()) {
                 termsToCombine[i] = combinedTerm;
-                termsToCombine.erase(termsToCombine.begin() + j);                i--;
+                termsToCombine.erase(termsToCombine.begin() + j);
+                i--;
                 break;
             }
-        }    }
+        }
+    }
 }
 
 Term combineTwoTermsByCheckingCommonFactorIfPossible(
@@ -238,10 +246,12 @@ Term combineTwoTermsByCheckingCommonFactorIfPossible(
                     commonFactors.emplace_back(uniqueTerms1[i1]);
                     uniqueTerms1.erase(uniqueTerms1.begin() + i1);
                     uniqueTerms2.erase(uniqueTerms2.begin() + i2);
-                    i1--;                    break;
+                    i1--;
+                    break;
                 }
             }
-        }        if (!commonFactors.empty()) {
+        }
+        if (!commonFactors.empty()) {
             OperatorLevel subOperatorLevel(getSubOperatorLevel(term1, term2));
             Term uniqueTerm1(getNoEffectValueInOperation(subOperatorLevel));
             Term uniqueTerm2(getNoEffectValueInOperation(subOperatorLevel));

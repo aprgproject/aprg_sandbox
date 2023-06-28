@@ -35,10 +35,12 @@ private:
                 result = m_pathCounts[{start, end}];
             }
         }
-        return result;    }
+        return result;
+    }
 
     void traverseUsingDfs(Vertex const& start, Vertex const& current, CheckableVerticesWithVertex& processingVertices) {
-        processingVertices.putVertex(current);        for (Vertex const& adjacentToCurrent : m_graph.getAdjacentVerticesAt(current)) {
+        processingVertices.putVertex(current);
+        for (Vertex const& adjacentToCurrent : m_graph.getAdjacentVerticesAt(current)) {
             if (processingVertices.isNotFound(adjacentToCurrent)) {
                 traverseUsingDfs(start, adjacentToCurrent, processingVertices);
                 VertexPair endPointPair{start, adjacentToCurrent};

@@ -56,10 +56,12 @@ public:
             if (isVertexIncluded[vertex]) {
                 result.emplace_back(vertex);
             }
-        }        return result;
+        }
+        return result;
     }
 
-    Edges getEdges() const override {        Edges result;
+    Edges getEdges() const override {
+        Edges result;
         Vertex numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
         Vertex numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for (Vertex vertex1 = 0; vertex1 < numberOfColumns; vertex1++) {

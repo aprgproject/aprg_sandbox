@@ -39,10 +39,12 @@ private:
                 } else if (pivotValue < valuesToSort[compareIndex]) {
                     // swap so that elements that are greater than are kept to the right of boundaryIndexForGreaterThan
                     std::swap(valuesToSort[compareIndex], valuesToSort[boundaryIndexForGreaterThan--]);
-                } else {                    compareIndex++;  // equal to partition value so just move to the next item
+                } else {
+                    compareIndex++;  // equal to partition value so just move to the next item
                 }
             }
-            // sort items that are less than the pivotValue            sort(valuesToSort, lowIndex, boundaryIndexForLessThan - 1);
+            // sort items that are less than the pivotValue
+            sort(valuesToSort, lowIndex, boundaryIndexForLessThan - 1);
             // sort items that are greater than the pivotValue
             sort(valuesToSort, boundaryIndexForGreaterThan + 1, highIndex);
             // do nothing for items that are equal to the pivotValue

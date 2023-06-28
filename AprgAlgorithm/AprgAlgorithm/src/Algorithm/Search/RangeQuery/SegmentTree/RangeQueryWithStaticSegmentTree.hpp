@@ -96,9 +96,11 @@ protected:
                         m_function(m_treeValues[treeIndex], m_treeValues[treeIndex + 1]);
                 }
                 treeBaseLeft = Utilities::getParent(treeBaseLeft);
-                treeBaseRight = Utilities::getParent(treeBaseRight);            }
+                treeBaseRight = Utilities::getParent(treeBaseRight);
+            }
         }
     }
+
     Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const {
         // This has log(N) running time
         Value result{};
@@ -124,10 +126,12 @@ protected:
                 result = m_function(result, m_treeValues[first]);
             }
         }
-        return result;    }
+        return result;
+    }
 
     Value getValueOnIntervalFromTopToBottom(
-        Index const startInterval, Index const endInterval, Index const currentChild, Index const baseLeft,        Index const baseRight) const {
+        Index const startInterval, Index const endInterval, Index const currentChild, Index const baseLeft,
+        Index const baseRight) const {
         // This has log(N) running time
 
         // The parameter k indicates the current position in tree.
@@ -143,10 +147,12 @@ protected:
             result = m_treeValues[currentChild];
         } else {
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
-            bool doesLeftPartIntersect = !(endInterval < baseLeft || baseMidPoint < startInterval);            bool doesRightPartIntersect = !(endInterval < baseMidPoint + 1 || baseRight < startInterval);
+            bool doesLeftPartIntersect = !(endInterval < baseLeft || baseMidPoint < startInterval);
+            bool doesRightPartIntersect = !(endInterval < baseMidPoint + 1 || baseRight < startInterval);
             if (doesLeftPartIntersect && doesRightPartIntersect) {
                 result = m_function(
-                    getValueOnIntervalFromTopToBottom(                        startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
+                    getValueOnIntervalFromTopToBottom(
+                        startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
                     getValueOnIntervalFromTopToBottom(
                         startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint + 1,
                         baseRight));
@@ -184,9 +190,11 @@ protected:
             }
         }
     }
+
     Index m_startOfChildren;
     Values m_treeValues;
-    Function m_function;};
+    Function m_function;
+};
 
 }  // namespace algorithm
 

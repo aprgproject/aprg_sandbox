@@ -73,10 +73,12 @@ int StringConstruction::getCountSquareRootAlgorithm(int const prefixLength) {
     return m_prefixLengthToCount[prefixLength];
 }
 
-int StringConstruction::count(int const prefixLength) {    // We can solve the problem using dynamic programming:
+int StringConstruction::count(int const prefixLength) {
+    // We can solve the problem using dynamic programming:
     // Let count(k) denote the number of ways to construct the prefix s[0...k] using the strings in D.
     // Now count(n-1) gives the answer to the problem, and we can solve the problem in O(n2) time using a trie
     // structure.
+
     int result(0);
     for (string const& subString : m_subStrings) {
         int subStringLength = subString.length();
@@ -108,10 +110,12 @@ int StringConstruction::countSquareRootAlgorithm(int const prefixLength) {
         HashValue subStringHash = m_subStringHash[i];
 
         // Note that getHashCodeOfSubstring is on constant time.
-        if (subStringLength < prefixLength && subStringHash == mainHashFunction.getHashCodeOfSubstring(                                                                   prefixLength - subStringLength, prefixLength - 1)) {
+        if (subStringLength < prefixLength && subStringHash == mainHashFunction.getHashCodeOfSubstring(
+                                                                   prefixLength - subStringLength, prefixLength - 1)) {
             result += getCountSquareRootAlgorithm(prefixLength - subStringLength);
         } else if (
-            subStringLength == prefixLength &&            subStringHash == mainHashFunction.getHashCodeOfSubstring(0, prefixLength - 1)) {
+            subStringLength == prefixLength &&
+            subStringHash == mainHashFunction.getHashCodeOfSubstring(0, prefixLength - 1)) {
             result++;
         }
     }

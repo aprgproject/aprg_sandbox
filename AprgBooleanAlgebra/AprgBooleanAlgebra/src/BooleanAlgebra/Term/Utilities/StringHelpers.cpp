@@ -103,9 +103,11 @@ Term buildTermIfPossible(string const& termString) {
     }
     return result;
 }
+
 Terms tokenizeToTerms(string const& inputString) {
     Terms tokenizedTerms;
-    string valueString;    for (char const c : inputString) {
+    string valueString;
+    for (char const c : inputString) {
         if (!isWhiteSpace(c)) {
             string characterString(1, c);
             if (isOperator(characterString)) {

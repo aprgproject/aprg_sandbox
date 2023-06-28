@@ -30,7 +30,8 @@ TEST(ExpressionTest, ConstructionWorks) {
     Term const& termToVerify(getTermConstReferenceFromUniquePointer(termsToVerify2[0].baseTermPointer));
     EXPECT_EQ(Term(12), termToVerify);
     EXPECT_EQ(OperatorLevel::Unknown, expression3.getCommonOperatorLevel());
-    TermsWithDetails const& termsToVerify3(expression3.getTermsWithAssociation().getTermsWithDetails());    EXPECT_TRUE(termsToVerify3.empty());
+    TermsWithDetails const& termsToVerify3(expression3.getTermsWithAssociation().getTermsWithDetails());
+    EXPECT_TRUE(termsToVerify3.empty());
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression4.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify4(expression4.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify4.size());
@@ -41,8 +42,10 @@ TEST(ExpressionTest, ConstructionWorks) {
     Term const& termToVerify3(getTermConstReferenceFromUniquePointer(termsToVerify4[1].baseTermPointer));
     EXPECT_EQ(Term(20), termToVerify3);
 }
+
 TEST(ExpressionTest, ExpressionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet) {
     Expression expression;
+
     EXPECT_FALSE(expression.isSimplified());
 }
 
@@ -200,10 +203,12 @@ TEST(ExpressionTest, GetTermsWithAssociationWorks) {
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify[2].association);
 }
 
-TEST(ExpressionTest, GetDebugStringWorks) {    Expression expression1;
+TEST(ExpressionTest, GetDebugStringWorks) {
+    Expression expression1;
     Expression expression2(createExpressionIfPossible({695, "-", "interest", "+", "debt"}));
     Expression expression3;
-    expression3.putTermWithDivisionIfNeeded(Term(96));    Expression expression4(createExpressionIfPossible({expression2, "^", "cash"}));
+    expression3.putTermWithDivisionIfNeeded(Term(96));
+    Expression expression4(createExpressionIfPossible({expression2, "^", "cash"}));
 
     EXPECT_EQ("( {?}|| )", expression1.getDebugString());
     EXPECT_EQ("( {+-}||695{Constant}{POS}-interest{Variable}{NEG}+debt{Variable}{POS} )", expression2.getDebugString());
@@ -1166,10 +1171,12 @@ TEST(ExpressionTest, PutTermWithDetailsWorks) {
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify[2].association);
 }
 
-TEST(ExpressionTest, PutTermsWithDetailsWorks) {    Expression expressionToTest;
+TEST(ExpressionTest, PutTermsWithDetailsWorks) {
+    Expression expressionToTest;
     TermsWithDetails termsWithDetails;
     termsWithDetails.emplace_back(Term(10), TermAssociationType::Negative);
-    termsWithDetails.emplace_back(Term(20), TermAssociationType::Positive);    termsWithDetails.emplace_back(Term(30), TermAssociationType::Positive);
+    termsWithDetails.emplace_back(Term(20), TermAssociationType::Positive);
+    termsWithDetails.emplace_back(Term(30), TermAssociationType::Positive);
 
     expressionToTest.putTermsWithDetails(termsWithDetails);
 
@@ -1183,10 +1190,12 @@ TEST(ExpressionTest, PutTermsWithDetailsWorks) {    Expression expressionToTest;
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify[2].association);
 }
 
-TEST(ExpressionTest, PutTermWorks) {    Expression expressionToTest;
+TEST(ExpressionTest, PutTermWorks) {
+    Expression expressionToTest;
 
     expressionToTest.putTerm(Term(10), TermAssociationType::Negative);
-    expressionToTest.putTerm(Term(20), TermAssociationType::Positive);    expressionToTest.putTerm(Term(30), TermAssociationType::Positive);
+    expressionToTest.putTerm(Term(20), TermAssociationType::Positive);
+    expressionToTest.putTerm(Term(30), TermAssociationType::Positive);
 
     TermsWithDetails termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(3U, termsToVerify.size());
@@ -1198,10 +1207,12 @@ TEST(ExpressionTest, PutTermWorks) {    Expression expressionToTest;
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify[2].association);
 }
 
-TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks) {    Expression expression1;
+TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks) {
+    Expression expression1;
     Expression expression2(createExpressionIfPossible({695}));
 
-    expression1.reverseTheAssociationOfTheTerms();    expression2.reverseTheAssociationOfTheTerms();
+    expression1.reverseTheAssociationOfTheTerms();
+    expression2.reverseTheAssociationOfTheTerms();
 
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
@@ -1213,9 +1224,11 @@ TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks) {    Expression expre
     Term const& termToVerify(getTermConstReferenceFromUniquePointer(termsToVerify2[0].baseTermPointer));
     EXPECT_EQ(Term(695), termToVerify);
 }
+
 TEST(ExpressionTest, SetWorks) {
     Expression expression;
-    TermsWithDetails termsWithDetails{        TermWithDetails(Term(100), TermAssociationType::Positive),
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(Term(100), TermAssociationType::Positive),
         TermWithDetails(Term(2), TermAssociationType::Negative)};
 
     expression.set(OperatorLevel::AdditionAndSubtraction, termsWithDetails);

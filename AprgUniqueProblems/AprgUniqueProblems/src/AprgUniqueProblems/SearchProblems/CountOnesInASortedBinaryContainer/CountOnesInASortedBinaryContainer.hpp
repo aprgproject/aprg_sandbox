@@ -29,10 +29,12 @@ public:
             if (sortedBinaryValues[lowerIndex]) {
                 result = sortedBinaryValues.size() - lowerIndex;
             }
-        }        return result;
+        }
+        return result;
     }
 
-    //    Implementation using FindSmallestValueWithTrue    //    Index getNumberOfOnesInASortedBinaryContainer(Values const& sortedBinaryValues)
+    //    Implementation using FindSmallestValueWithTrue
+    //    Index getNumberOfOnesInASortedBinaryContainer(Values const& sortedBinaryValues)
     //    {
     //        Index result(0);
     //        if(!sortedBinaryValues.empty())
@@ -45,10 +47,12 @@ public:
     //            if(sortedBinaryValues[smallestOneIndex])
     //            {
     //                result = sortedBinaryValues.size() - smallestOneIndex;
-    //            }    //        }
+    //            }
+    //        }
     //        return result;
     //    }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

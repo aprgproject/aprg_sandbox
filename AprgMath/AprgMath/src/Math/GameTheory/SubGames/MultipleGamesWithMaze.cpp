@@ -16,9 +16,11 @@ bool MultipleGamesWithMaze::hasNoMoves() const {
         if (!m_games[gameIndex].hasNoMoves(m_coordinateInGames[gameIndex])) {
             result = false;
             break;
-        }    }
+        }
+    }
     return result;
 }
+
 UnsignedInteger MultipleGamesWithMaze::getOverallGrundyNumber() { return getCombinedGrundyNumber(); }
 
 GameState MultipleGamesWithMaze::getGameState() { return getGameStateFromGrundyNumber(getOverallGrundyNumber()); }
@@ -33,7 +35,8 @@ MultipleGamesWithMaze::GameIndexAndCoordinatePair MultipleGamesWithMaze::getOpti
             Coordinate const& coordinate(m_coordinateInGames[gameIndex]);
             if (!game.hasNoMoves(coordinate)) {
                 result = {gameIndex, game.getOptimalNextCoordinateAt(coordinate)};
-                break;            }
+                break;
+            }
         }
     } else if (GameState::Winning == gameState) {
         for (UnsignedInteger gameIndex = 0; gameIndex < m_games.size(); gameIndex++) {
@@ -41,10 +44,12 @@ MultipleGamesWithMaze::GameIndexAndCoordinatePair MultipleGamesWithMaze::getOpti
             Coordinate const& coordinate(m_coordinateInGames[gameIndex]);
             UnsignedInteger grundyNumberAtGame = game.getGrundyNumberAt(coordinate);
             UnsignedInteger hammingDistance = grundyNumberAtGame ^ overallGrundyNumber;
-            if (hammingDistance < grundyNumberAtGame) {                result = {gameIndex, m_games[gameIndex].getNextCoordinateWithGrundyNumber(coordinate, hammingDistance)};
+            if (hammingDistance < grundyNumberAtGame) {
+                result = {gameIndex, m_games[gameIndex].getNextCoordinateWithGrundyNumber(coordinate, hammingDistance)};
                 break;
             }
-        }    }
+        }
+    }
     return result;
 }
 
@@ -77,6 +82,7 @@ UnsignedInteger MultipleGamesWithMaze::getCombinedGrundyNumber() {
     }
     return result;
 }
+
 }  // namespace math
 
 }  // namespace alba

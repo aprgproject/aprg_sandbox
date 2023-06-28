@@ -30,10 +30,12 @@ void IsolationOfOneVariableOnEqualityEquations::isolateTermWithVariable(
         Equation const& selectedEquation(equationsWithVariable[0]);
         IsolationOfOneVariableOnEqualityEquation isolationForVariable(selectedEquation);
         isolationForVariable.isolateTermWithVariable(variableName, termWithVariable, termWithWithoutVariable);
-    }}
+    }
+}
 
 Term IsolationOfOneVariableOnEqualityEquations::getEquivalentTermByIsolatingAVariable(
-    string const& variableName) const {    Term termWithVariable;
+    string const& variableName) const {
+    Term termWithVariable;
     Term termWithWithoutVariable;
     isolateTermWithVariable(variableName, termWithVariable, termWithWithoutVariable);
     return getEquivalentTermByReducingItToAVariable(variableName, termWithVariable, termWithWithoutVariable);

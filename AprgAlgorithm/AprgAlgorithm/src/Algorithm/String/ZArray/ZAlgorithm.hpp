@@ -36,9 +36,11 @@ public:
                 endOfPrefix = position + result[position];
                 result[position]++;
             }
-        }        return result;
+        }
+        return result;
     }
 };
+
 // Algorithm description
 // Next we describe an algorithm, called the Z-algorithm, that efficiently constructs the Z-array in O(n) time.
 // The algorithm calculates the Z-array values from left to right by both using information already stored in the

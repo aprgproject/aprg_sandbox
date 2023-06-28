@@ -37,10 +37,12 @@ Equations SimplexSolver::getSolutionEquations() const {
                 solutionPolynomial.addMonomial(Monomial(coefficient, {{m_inputVariables[x], 1}}));
             }
         }
-        if (!solutionPolynomial                 .isEmpty())  // only consider solutions with input coefficients (dont consider slack variables)
+        if (!solutionPolynomial
+                 .isEmpty())  // only consider solutions with input coefficients (dont consider slack variables)
         {
             solutionPolynomial.addMonomial(Monomial(m_simplexTable.getEntry(lastX, y) * -1, {}));  // put constant
-            Equation solutionEquation(solutionPolynomial, "=", 0);            solutionEquation.simplify();
+            Equation solutionEquation(solutionPolynomial, "=", 0);
+            solutionEquation.simplify();
             result.emplace_back(solutionEquation);
         }
     }
@@ -127,10 +129,12 @@ void SimplexSolver::initializeSimplexTable(
                     variableNameToIndexMap[variableName], y,
                     monomial.getConstantConstReference());  // put variable coefficient
             }
-        }        if (indicesWithSlackVariables.find(y) != indicesWithSlackVariables.cend()) {
+        }
+        if (indicesWithSlackVariables.find(y) != indicesWithSlackVariables.cend()) {
             m_simplexTable.setEntry(slackColumn++, y, 1);  // put 1 for slack variable
         }
     }
+
     int lastY(m_simplexTable.getNumberOfRows() - 1);
     for (Monomial const& monomial : objectiveFunction.getMonomialsConstReference()) {
         string variableName(getFirstVariableName(monomial));

@@ -23,10 +23,12 @@ CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingIterativeDP() con
             countsPerScore[partialScore] += countsPerScore[partialScore - moveScore];
         }
     }
-    return countsPerScore.back();}
+    return countsPerScore.back();
+}
 
 CountNumberOfWaysToReachAGivenScoreInAGame::Value
-CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingCoinProblemSolutions() const {    // Time Complexity: O(n^2)
+CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingCoinProblemSolutions() const {
+    // Time Complexity: O(n^2)
     // Auxiliary Space: O(1)
 
     CoinProblem::Coins moveScores{3, 5, 10};

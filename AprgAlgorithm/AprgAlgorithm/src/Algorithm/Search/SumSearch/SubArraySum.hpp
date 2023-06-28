@@ -41,10 +41,12 @@ public:
                         currentSum += m_valuesToCheck[end];
                     } else {
                         break;
-                    }                }
+                    }
+                }
             }
         }
-        return result;    }
+        return result;
+    }
 
 private:
     Values const& m_valuesToCheck;

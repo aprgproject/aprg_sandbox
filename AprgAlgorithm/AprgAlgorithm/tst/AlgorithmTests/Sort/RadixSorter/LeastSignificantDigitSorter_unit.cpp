@@ -50,9 +50,11 @@ StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& val
     }
     return digitValue;
 };
+
 StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject =
     [](StabilityCheckObjects const&) -> int { return 2; };
-StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =    [](StabilityCheckObject const& value, int const mostSignificantDigitIndex) -> int {
+StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject =
+    [](StabilityCheckObject const& value, int const mostSignificantDigitIndex) -> int {
     return (value.getVisiblePart() >> ((1 - mostSignificantDigitIndex) * 4)) & 0xF;
 };
 }  // namespace

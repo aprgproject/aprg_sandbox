@@ -21,10 +21,12 @@ uint64_t arrayBasedImplementationForOneByte(uint8_t const value) {
     return savedValues[value];
 }
 
-uint64_t arrayBasedImplementation(uint64_t const value) {    return arrayBasedImplementationForOneByte(static_cast<uint8_t>(value)) +
+uint64_t arrayBasedImplementation(uint64_t const value) {
+    return arrayBasedImplementationForOneByte(static_cast<uint8_t>(value)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 8)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 16)) +
-           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 24)) +           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 32)) +
+           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 24)) +
+           arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 32)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 40)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 48)) +
            arrayBasedImplementationForOneByte(static_cast<uint8_t>(value >> 56));

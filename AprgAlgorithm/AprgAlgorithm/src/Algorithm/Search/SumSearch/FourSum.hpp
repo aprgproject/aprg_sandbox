@@ -37,10 +37,12 @@ public:
                     m_sortedValues[std::get<1>(twoSumValues.second)], m_sortedValues[std::get<2>(twoSumValues.second)]);
             }
         }
-        return result;    }
+        return result;
+    }
 
 private:
-    SumsOfPairOfValues getSumsOfPairOfValuesWithPossibleDuplicates() const {        SumsOfPairOfValues result;
+    SumsOfPairOfValues getSumsOfPairOfValuesWithPossibleDuplicates() const {
+        SumsOfPairOfValues result;
         Index size = m_sortedValues.size();
         result.reserve(size * size);  // reserve this much
         for (Index i = 0; i < size; i++) {
@@ -48,10 +50,12 @@ private:
                 result.emplace_back(m_sortedValues[i] + m_sortedValues[j], i, j);
             }
         }
-        return result;    }
+        return result;
+    }
 
     PairOfSumOfPairOfValues getTwoValuesWithSum(
-        Value const& targetSum, SumsOfPairOfValues const& sumOfPairOfValues, Comparator const& shouldContinue) const {        PairOfSumOfPairOfValues result{};
+        Value const& targetSum, SumsOfPairOfValues const& sumOfPairOfValues, Comparator const& shouldContinue) const {
+        PairOfSumOfPairOfValues result{};
         if (!sumOfPairOfValues.empty()) {
             Index lowIndex = 0, highIndex = sumOfPairOfValues.size() - 1;
             while (shouldContinue(lowIndex, highIndex)) {
@@ -60,10 +64,12 @@ private:
                     result = {sumOfPairOfValues[lowIndex], sumOfPairOfValues[highIndex]};
                     break;
                 } else if (currentSum > targetSum) {
-                    highIndex--;                } else if (currentSum < targetSum) {
+                    highIndex--;
+                } else if (currentSum < targetSum) {
                     lowIndex++;
                 }
-            }        }
+            }
+        }
         return result;
     }
 

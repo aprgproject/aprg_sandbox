@@ -60,9 +60,11 @@ TEST(HyperbolaTest, HyperbolaAtOriginWithRadius) {
     EXPECT_EQ(Point(-6, -3.4641016151377543864), points[21]);
 }
 
-TEST(HyperbolaTest, GetFociWorks) {    Hyperbola hyperbola1(Point(0, 0), 1, 1);
+TEST(HyperbolaTest, GetFociWorks) {
+    Hyperbola hyperbola1(Point(0, 0), 1, 1);
     Hyperbola hyperbola2(Point(0, 0), 3, 4);
     Hyperbola hyperbola3(Point(0, 0), -3, -4);
+
     Points foci1(hyperbola1.getFoci());
     Points foci2(hyperbola2.getFoci());
     Points foci3(hyperbola3.getFoci());
@@ -78,9 +80,11 @@ TEST(HyperbolaTest, GetFociWorks) {    Hyperbola hyperbola1(Point(0, 0), 1, 1);
     EXPECT_EQ(Point(0, -5), foci3[1]);
 }
 
-TEST(HyperbolaTest, GetVerticesWorks) {    Hyperbola hyperbola1(Point(0, 0), 1, 1);
+TEST(HyperbolaTest, GetVerticesWorks) {
+    Hyperbola hyperbola1(Point(0, 0), 1, 1);
     Hyperbola hyperbola2(Point(0, 0), 3, 4);
     Hyperbola hyperbola3(Point(0, 0), -3, -4);
+
     Points vertices1(hyperbola1.getVertices());
     Points vertices2(hyperbola2.getVertices());
     Points vertices3(hyperbola3.getVertices());
@@ -96,9 +100,11 @@ TEST(HyperbolaTest, GetVerticesWorks) {    Hyperbola hyperbola1(Point(0, 0), 1, 
     EXPECT_EQ(Point(0, -4), vertices3[1]);
 }
 
-TEST(HyperbolaTest, GetAsymptotesWorks) {    Hyperbola hyperbola1(Point(0, 0), 1, 1);
+TEST(HyperbolaTest, GetAsymptotesWorks) {
+    Hyperbola hyperbola1(Point(0, 0), 1, 1);
     Hyperbola hyperbola2(Point(0, 0), 3, 4);
     Hyperbola hyperbola3(Point(0, 0), -3, -4);
+
     Lines asymptotes1(hyperbola1.getAsymptotes());
     Lines asymptotes2(hyperbola2.getAsymptotes());
     Lines asymptotes3(hyperbola3.getAsymptotes());
@@ -114,8 +120,10 @@ TEST(HyperbolaTest, GetAsymptotesWorks) {    Hyperbola hyperbola1(Point(0, 0), 1
     EXPECT_EQ(Line(-4, 3, 0), asymptotes3[1]);
 }
 
-TEST(HyperbolaTest, AreaTraversalIsCorrect) {    // traversal
+TEST(HyperbolaTest, AreaTraversalIsCorrect) {
+    // traversal
 }
 
 }  // namespace TwoDimensions
+
 }  // namespace alba

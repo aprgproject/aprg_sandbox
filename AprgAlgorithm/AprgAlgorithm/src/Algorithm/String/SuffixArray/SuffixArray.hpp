@@ -29,7 +29,8 @@ public:
             } else if (key > m_suffixes[mid]) {
                 low = mid + 1;
             } else {
-                low = mid;                break;
+                low = mid;
+                break;
             }
         }
         return low;
@@ -41,10 +42,12 @@ public:
         return stringHelper::getLongestCommonPrefix(m_suffixes[index1], m_suffixes[index2]);
     }
 
-private:    void initialize(std::string const& mainString) {
+private:
+    void initialize(std::string const& mainString) {
         for (DataType i = 0; i < static_cast<DataType>(mainString.length()); i++) {
             m_suffixes.emplace_back(mainString.substr(i));
-        }        std::sort(m_suffixes.begin(), m_suffixes.end());
+        }
+        std::sort(m_suffixes.begin(), m_suffixes.end());
     }
 
     stringHelper::strings m_suffixes;

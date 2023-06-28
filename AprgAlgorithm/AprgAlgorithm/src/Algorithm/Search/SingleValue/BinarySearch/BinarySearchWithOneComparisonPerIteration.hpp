@@ -51,10 +51,12 @@ private:
         } else if (value == m_sortedValues[highIndex]) {
             result = highIndex;
         }
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

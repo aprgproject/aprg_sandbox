@@ -109,7 +109,8 @@ public:
         return m_matrixData[getMatrixIndex(x, y)];
     }
 
-    void setEntry(size_t const x, size_t const y, DataType const& value) {        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+    void setEntry(size_t const x, size_t const y, DataType const& value) {
+        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
         m_matrixData[getMatrixIndex(x, y)] = value;
     }
 
@@ -121,9 +122,11 @@ public:
             }
         }
     }
+
     void clearAndResize(size_t const numberOfColumns, size_t const numberOfRows) {
         m_numberOfColumns = numberOfColumns;
-        m_numberOfRows = numberOfRows;        m_matrixData.clear();
+        m_numberOfRows = numberOfRows;
+        m_matrixData.clear();
     }
 
     void negate() {

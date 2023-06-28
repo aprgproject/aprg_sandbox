@@ -59,10 +59,12 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
                 indexToPreviousIndex[i] = lengthMinus1ToEndIndex[longestLength - 1];
                 lengthMinus1ToEndIndex[longestLength] = i;
                 lengthMinus1ToEndValue[longestLength++] = value;  // extend
-            } else {                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
+            } else {
+                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
                 if (currentLength > 0) {
                     indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength - 1];
-                }                lengthMinus1ToEndIndex[currentLength] = i;
+                }
+                lengthMinus1ToEndIndex[currentLength] = i;
                 *lowerBoundItForEndValue = value;  // replace
             }
         }
@@ -76,6 +78,7 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
         result.emplace_back(sortedBridges[traverseIndex]);
         // reverse(result.begin(), result.end()); // no need for reverse
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

@@ -58,10 +58,12 @@ private:
                 currentCombination.emplace_back(objects[index]);
                 recursionData.currentIndex = index + 1;
                 collectCombinationsUsingRecursion(recursionData);
-                currentCombination.pop_back();            }
+                currentCombination.pop_back();
+            }
         }
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

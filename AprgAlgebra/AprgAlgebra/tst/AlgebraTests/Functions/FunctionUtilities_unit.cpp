@@ -40,6 +40,7 @@ TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks) {
 }
 
 }  // namespace Functions
+
 }  // namespace algebra
 
 }  // namespace alba

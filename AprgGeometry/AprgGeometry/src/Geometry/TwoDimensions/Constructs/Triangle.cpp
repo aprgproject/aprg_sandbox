@@ -22,7 +22,8 @@ bool Triangle::isIsoceles() const {
            isAlmostEqual(lengthOfSides[2], lengthOfSides[0]);
 }
 
-bool Triangle::isRightTriangle() const {    AlbaAngles anglesAtVertices(getAnglesAtVertices());
+bool Triangle::isRightTriangle() const {
+    AlbaAngles anglesAtVertices(getAnglesAtVertices());
     return any_of(anglesAtVertices.cbegin(), anglesAtVertices.cend(), [](AlbaAngle const& angleAtVertex) {
         return isAlmostEqual(angleAtVertex.getDegrees(), static_cast<double>(90));
     });
@@ -33,5 +34,6 @@ ostream& operator<<(ostream& out, Triangle const& triangle) {
         << "]";
     return out;
 }
+
 }  // namespace TwoDimensions
 }  // namespace alba

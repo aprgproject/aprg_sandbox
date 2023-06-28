@@ -123,10 +123,12 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingItera
             result += lastCurrent[numpadValue];
         }
     }
-    return result;}
+    return result;
+}
 
 MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountForValueUsingNaiveRecursion(
-    Count const length, NumpadValue const numpadValue) const {    Count result(0);
+    Count const length, NumpadValue const numpadValue) const {
+    Count result(0);
     if (length > 1) {
         Count lengthMinus1 = length - 1;
         switch (numpadValue) {

@@ -26,10 +26,12 @@ MaximumLengthChainOfPairs::Index MaximumLengthChainOfPairs::getLongestLength() c
                     subLength = max(subLength, subLengths[lowerIndex] + 1);
                 }
             }
-        }        result = *max_element(subLengths.cbegin(), subLengths.cend());
+        }
+        result = *max_element(subLengths.cbegin(), subLengths.cend());
     }
     return result;
 }
+
 MaximumLengthChainOfPairs::Pairs MaximumLengthChainOfPairs::getLongestSubsequence() const {
     // Time Complexity: O(n^2)
     // Auxilliary space: O(n)
@@ -49,7 +51,8 @@ MaximumLengthChainOfPairs::Pairs MaximumLengthChainOfPairs::getLongestSubsequenc
                     subLength = subLengths[lowerIndex] + 1;
                     previousIndex = lowerIndex;
                 }
-            }        }
+            }
+        }
 
         // construct longest sequence
         auto itMax = max_element(subLengths.cbegin(), subLengths.cend());
@@ -62,6 +65,7 @@ MaximumLengthChainOfPairs::Pairs MaximumLengthChainOfPairs::getLongestSubsequenc
         result.emplace_back(m_sequence[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

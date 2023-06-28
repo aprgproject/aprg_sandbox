@@ -53,10 +53,12 @@ public:
                 result = m_hParts[endIndex];
             }
         }
-        return result;    }
+        return result;
+    }
 
     void setNewString(std::string const& newStringToHash) {
-        m_stringToHash = newStringToHash;        clearHPartsAndPParts();
+        m_stringToHash = newStringToHash;
+        clearHPartsAndPParts();
         reinitializeHPartsAndPParts();
     }
 

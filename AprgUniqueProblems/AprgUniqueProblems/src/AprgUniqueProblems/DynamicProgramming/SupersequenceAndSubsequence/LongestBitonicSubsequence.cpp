@@ -26,10 +26,12 @@ LongestBitonicSubsequence::Index LongestBitonicSubsequence::getLongestLength() c
             result = max(result, increasingPartialLengths[index] + decreasingPartialLengths[index] - 1);
         }
     }
-    return result;}
+    return result;
+}
 
 LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequence() const {
-    // Time Complexity: O(n^2)    // Auxiliary Space: O(n)
+    // Time Complexity: O(n^2)
+    // Auxiliary Space: O(n)
 
     Values result;
     if (!m_sequence.empty()) {
@@ -58,7 +60,8 @@ void LongestBitonicSubsequence::computeIncreasingPartialLengths(IndexToIndex& in
                 subIncreasingLength = max(subIncreasingLength, increasingPartialLengths[lowerIndex] + 1);
             }
         }
-    }}
+    }
+}
 
 void LongestBitonicSubsequence::computeDecreasingPartialLengths(IndexToIndex& decreasingPartialLengths) const {
     for (int index = m_sequence.size() - 1; index >= 0; index--) {
@@ -68,10 +71,12 @@ void LongestBitonicSubsequence::computeDecreasingPartialLengths(IndexToIndex& de
                 decreasingPartialLength = max(decreasingPartialLength, decreasingPartialLengths[higherIndex] + 1);
             }
         }
-    }}
+    }
+}
 
 void LongestBitonicSubsequence::computeIncreasingPartialLengths(
-    IndexToIndex& increasingPartialLengths, IndexToIndex& indexToIncreasingPreviousIndex) const {    for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
+    IndexToIndex& increasingPartialLengths, IndexToIndex& indexToIncreasingPreviousIndex) const {
+    for (Index index(0); index < static_cast<Index>(m_sequence.size()); index++) {
         Value& subIncreasingLength(increasingPartialLengths[index]);
         Value& previousIndex(indexToIncreasingPreviousIndex[index]);
         for (Index lowerIndex = 0; lowerIndex < index; lowerIndex++) {
@@ -80,10 +85,12 @@ void LongestBitonicSubsequence::computeIncreasingPartialLengths(
                 subIncreasingLength = increasingPartialLengths[lowerIndex] + 1;
                 previousIndex = lowerIndex;
             }
-        }    }
+        }
+    }
 }
 
-void LongestBitonicSubsequence::computeDecreasingPartialLengths(    IndexToIndex& decreasingPartialLengths, IndexToIndex& indexToDecreasingPreviousIndex) const {
+void LongestBitonicSubsequence::computeDecreasingPartialLengths(
+    IndexToIndex& decreasingPartialLengths, IndexToIndex& indexToDecreasingPreviousIndex) const {
     for (int index = m_sequence.size() - 1; index >= 0; index--) {
         Value& decreasingPartialLength(decreasingPartialLengths[index]);
         Value& previousIndex(indexToDecreasingPreviousIndex[index]);
@@ -93,10 +100,12 @@ void LongestBitonicSubsequence::computeDecreasingPartialLengths(    IndexToIndex
                 decreasingPartialLength = decreasingPartialLengths[higherIndex] + 1;
                 previousIndex = higherIndex;
             }
-        }    }
+        }
+    }
 }
 
-LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequence(    IndexToIndex& increasingPartialLengths, IndexToIndex& decreasingPartialLengths,
+LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequence(
+    IndexToIndex& increasingPartialLengths, IndexToIndex& decreasingPartialLengths,
     IndexToIndex& indexToIncreasingPreviousIndex, IndexToIndex& indexToDecreasingPreviousIndex) const {
     Value maxLength(0);
     Index indexOfLongestLength(0);
@@ -104,7 +113,8 @@ LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequen
         Value lengthAtIndex(increasingPartialLengths[index] + decreasingPartialLengths[index] - 1);
         if (maxLength < lengthAtIndex) {
             maxLength = lengthAtIndex;
-            indexOfLongestLength = index;        }
+            indexOfLongestLength = index;
+        }
     }
 
     list<Value> sequenceInDeque;
@@ -125,4 +135,5 @@ LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequen
 
     return Values(sequenceInDeque.cbegin(), sequenceInDeque.cend());
 }
+
 }  // namespace alba

@@ -108,10 +108,12 @@ TEST(TermsWithAssociationTest, GetTermsWithDetailsWorks) {
     EXPECT_TRUE(termWithDetails2 == termsToVerify[1]);
 }
 
-TEST(TermsWithAssociationTest, ClearWorks) {    TermWithDetails termWithDetails1(Term(30), TermAssociationType::Negative);
+TEST(TermsWithAssociationTest, ClearWorks) {
+    TermWithDetails termWithDetails1(Term(30), TermAssociationType::Negative);
     TermWithDetails termWithDetails2(Term(20), TermAssociationType::Positive);
     TermWithDetails termWithDetails3(Term(10), TermAssociationType::Positive);
     TermsWithAssociation terms{termWithDetails1, termWithDetails2, termWithDetails3};
+
     terms.clear();
 
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
@@ -136,10 +138,12 @@ TEST(TermsWithAssociationTest, SortWorksWhileIncludingFirstItem) {
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify[2].association);
 }
 
-TEST(TermsWithAssociationTest, SortWorksWhileNotIncludingFirstItem) {    TermWithDetails termWithDetails1(Term(30), TermAssociationType::Positive);
+TEST(TermsWithAssociationTest, SortWorksWhileNotIncludingFirstItem) {
+    TermWithDetails termWithDetails1(Term(30), TermAssociationType::Positive);
     TermWithDetails termWithDetails2(Term(20), TermAssociationType::Positive);
     TermWithDetails termWithDetails3(Term(10), TermAssociationType::Positive);
     TermsWithAssociation terms{termWithDetails1, termWithDetails2, termWithDetails3};
+
     terms.sort(true);
 
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
@@ -152,7 +156,8 @@ TEST(TermsWithAssociationTest, SortWorksWhileNotIncludingFirstItem) {    TermWit
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify[2].association);
 }
 
-TEST(TermsWithAssociationTest, PutTermWithDetailsWorks) {    TermsWithAssociation terms;
+TEST(TermsWithAssociationTest, PutTermWithDetailsWorks) {
+    TermsWithAssociation terms;
     TermWithDetails termWithDetails(Term(10), TermAssociationType::Negative);
 
     terms.putTermWithDetails(termWithDetails);
@@ -163,10 +168,12 @@ TEST(TermsWithAssociationTest, PutTermWithDetailsWorks) {    TermsWithAssociatio
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify[0].association);
 }
 
-TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingInitializerList) {    TermsWithAssociation terms;
+TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingInitializerList) {
+    TermsWithAssociation terms;
 
     terms.putTermsWithDetails(
-        {TermWithDetails(Term(100), TermAssociationType::Positive),         TermWithDetails(Term(2), TermAssociationType::Negative)});
+        {TermWithDetails(Term(100), TermAssociationType::Positive),
+         TermWithDetails(Term(2), TermAssociationType::Negative)});
 
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify.size());
@@ -176,10 +183,12 @@ TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingInitializerList) {  
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify[1].association);
 }
 
-TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingConstReference) {    TermsWithAssociation terms;
+TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingConstReference) {
+    TermsWithAssociation terms;
     TermsWithDetails termsWithDetails{
         TermWithDetails(Term(100), TermAssociationType::Positive),
         TermWithDetails(Term(2), TermAssociationType::Negative)};
+
     terms.putTermsWithDetails(termsWithDetails);
 
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
@@ -190,7 +199,8 @@ TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingConstReference) {   
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify[1].association);
 }
 
-TEST(TermsWithAssociationTest, PutTermWithAssociationWorks) {    TermsWithAssociation terms;
+TEST(TermsWithAssociationTest, PutTermWithAssociationWorks) {
+    TermsWithAssociation terms;
 
     terms.putTermWithAssociation(Term(10), TermAssociationType::Negative);
 
@@ -200,7 +210,8 @@ TEST(TermsWithAssociationTest, PutTermWithAssociationWorks) {    TermsWithAssoci
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify[0].association);
 }
 
-TEST(TermsWithAssociationTest, PutTermWithPositiveAssociationWorks) {    TermsWithAssociation terms;
+TEST(TermsWithAssociationTest, PutTermWithPositiveAssociationWorks) {
+    TermsWithAssociation terms;
 
     terms.putTermWithPositiveAssociation(Term(10));
 
@@ -210,7 +221,8 @@ TEST(TermsWithAssociationTest, PutTermWithPositiveAssociationWorks) {    TermsWi
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify[0].association);
 }
 
-TEST(TermsWithAssociationTest, PutTermWithNegativeAssociationWorks) {    TermsWithAssociation terms;
+TEST(TermsWithAssociationTest, PutTermWithNegativeAssociationWorks) {
+    TermsWithAssociation terms;
 
     terms.putTermWithNegativeAssociation(Term(10));
 
@@ -220,7 +232,8 @@ TEST(TermsWithAssociationTest, PutTermWithNegativeAssociationWorks) {    TermsWi
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify[0].association);
 }
 
-TEST(TermsWithAssociationTest, ReverseTheAssociationOfTheTermsWorks) {    TermWithDetails termWithDetails(Term(10), TermAssociationType::Positive);
+TEST(TermsWithAssociationTest, ReverseTheAssociationOfTheTermsWorks) {
+    TermWithDetails termWithDetails(Term(10), TermAssociationType::Positive);
     TermsWithAssociation terms{termWithDetails, termWithDetails};
 
     terms.reverseTheAssociationOfTheTerms();
@@ -234,4 +247,5 @@ TEST(TermsWithAssociationTest, ReverseTheAssociationOfTheTermsWorks) {    TermWi
 }
 
 }  // namespace algebra
+
 }  // namespace alba

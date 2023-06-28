@@ -29,10 +29,12 @@ public:
                     result = {m_sortedValues[lowerIndex], m_sortedValues[higherIndex]};
                     break;
                 } else if (currentPositiveDelta > targetPositiveDelta) {
-                    lowerIndex++;                } else if (currentPositiveDelta < targetPositiveDelta) {
+                    lowerIndex++;
+                } else if (currentPositiveDelta < targetPositiveDelta) {
                     higherIndex++;
                 }
-            }        }
+            }
+        }
         return result;
     }
 

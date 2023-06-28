@@ -36,7 +36,8 @@ MaximumProfitByBuyingAndSellingAShareAtMostTwice::getMaximumProfitUsingIterative
             profit[right] = max(profit[left], profit[right] + m_prices[right] - minPriceAtTheLeft);
         }
         result = profit.back();
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

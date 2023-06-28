@@ -70,10 +70,12 @@ private:
                     weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeightMap[adjacentVertex].weight) {
                     saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                 }
-            }        }
+            }
+        }
     }
 
-    void saveVertexAndEdgeOfLowestWeight(        Vertex const& vertex, Vertex const& adjacentVertex, Weight const& lowestWeight) {
+    void saveVertexAndEdgeOfLowestWeight(
+        Vertex const& vertex, Vertex const& adjacentVertex, Weight const& lowestWeight) {
         m_vertexToEdgeWithMinimumWeightMap[adjacentVertex] =
             createSortedEdgeOrderedByWeight<Vertex, Weight, EdgeOrderedByWeight>(vertex, adjacentVertex, lowestWeight);
         m_nearestVerticesToTree.emplace(adjacentVertex, lowestWeight);

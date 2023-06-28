@@ -25,10 +25,12 @@ void findDistinctNonConsecutiveFibonacciNumbersForSum(
         UnsignedInteger fibonacci(fibonaccis[i]);
         if (sum > fibonacci) {
             fibonaccisForSum.emplace_back(fibonacci);
-            findDistinctNonConsecutiveFibonacciNumbersForSum(                isComplete, fibonaccisForSum, fibonaccis, sum - fibonacci, index + 2);
+            findDistinctNonConsecutiveFibonacciNumbersForSum(
+                isComplete, fibonaccisForSum, fibonaccis, sum - fibonacci, index + 2);
             if (isComplete) {
                 break;
-            }            fibonaccisForSum.pop_back();
+            }
+            fibonaccisForSum.pop_back();
         } else if (sum == fibonacci) {
             fibonaccisForSum.emplace_back(fibonacci);
             isComplete = true;
@@ -159,9 +161,11 @@ UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const n
     }
     return result;
 }
+
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number) {
     UnsignedIntegers result;
-    UnsignedInteger previousFibonacci(0);    UnsignedInteger currentFibonacci(1);
+    UnsignedInteger previousFibonacci(0);
+    UnsignedInteger currentFibonacci(1);
     if (0 < number) {
         result.emplace_back(0);  // zero is included if number is higher than zero
     }

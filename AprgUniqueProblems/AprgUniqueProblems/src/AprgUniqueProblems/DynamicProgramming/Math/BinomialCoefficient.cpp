@@ -94,10 +94,12 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingItera
                 partialValues[k] += partialValues[k - 1];
             }
         }
-        result = partialValues.back();    }
+        result = partialValues.back();
+    }
     return result;
 }
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf() const {    // Time Complexity: O(n*log(n))
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf() const {
+    // Time Complexity: O(n*log(n))
     // Auxiliary Space: O(1)
 
     // Same as with mathHelper

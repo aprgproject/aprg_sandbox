@@ -44,10 +44,12 @@ public:
                 Value const& firstValue(m_sortedValues[firstIndex]);
                 auto twoSumValues(twoSum.getNonDuplicateTwoValuesWithSum(
                     targetSum - firstValue, firstIndex + 1, m_sortedValues.size() - 1));
-                if (firstValue + twoSumValues.first + twoSumValues.second == targetSum) {                    result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
+                if (firstValue + twoSumValues.first + twoSumValues.second == targetSum) {
+                    result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
                     break;
                 }
-            }        }
+            }
+        }
         return result;
     }
 
@@ -59,10 +61,12 @@ public:
                 Value const& firstValue(m_sortedValues[firstIndex]);
                 auto twoSumValues(twoSum.getPossibleDuplicatedTwoValuesWithSum(
                     targetSum - firstValue, firstIndex, m_sortedValues.size() - 1));
-                if (firstValue + twoSumValues.first + twoSumValues.second == targetSum) {                    result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
+                if (firstValue + twoSumValues.first + twoSumValues.second == targetSum) {
+                    result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
                     break;
                 }
-            }        }
+            }
+        }
         return result;
     }
 

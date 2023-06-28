@@ -62,10 +62,12 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDP(Numbe
     return tabulationData[number];
 }
 
-FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number) {    // NOTE: Same implementation in AprgMath
+FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number) {
+    // NOTE: Same implementation in AprgMath
 
     // Time Complexity: O(n)
-    // Extra Space: O(1)    // -> We can optimize the space used in method 2 by storing the previous two numbers only
+    // Extra Space: O(1)
+    // -> We can optimize the space used in method 2 by storing the previous two numbers only
     // because that is all we need to get the next Fibonacci number in series.
 
     if (number == 0) {
@@ -187,9 +189,11 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterat
     }
     return result;
 }
+
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(
     Numbers& memoizationData, Number const number) {
-    Number& resultForNumber(memoizationData[number]);    if (resultForNumber == UNUSED_VALUE) {
+    Number& resultForNumber(memoizationData[number]);
+    if (resultForNumber == UNUSED_VALUE) {
         resultForNumber = getNthFibonacciUsingMemoizationDP(memoizationData, number - 1) +
                           getNthFibonacciUsingMemoizationDP(memoizationData, number - 2);
     }

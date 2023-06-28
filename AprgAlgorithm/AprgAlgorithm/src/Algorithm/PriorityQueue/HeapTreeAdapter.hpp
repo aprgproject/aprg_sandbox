@@ -20,9 +20,11 @@ public:
     }
 
     Object& getObjectReferenceOnTree(int const treeIndex) { return m_objects[getContainerIndex(treeIndex)]; }
+
     void swim(int const startTreeIndex) {
         // Swim is "bottom up reheapify" -> it swims up to the top of the tree
         int treeIndex(startTreeIndex);
+
         // while parent and child are not in heap order
         // Heap order: isComparisonSatisfied(child, parent) is true
         while (treeIndex > 1 && isComparisonSatisfied(

@@ -57,9 +57,11 @@ private:
             currentSubset.emplace_back(objects[currentIndex]);
             subsets.emplace_back(currentSubset);
             collectOrderedSubsetsUsingDfs(
-                subsets, currentSubset, objects, currentIndex + 1);  // increment to next index            currentSubset.pop_back();
+                subsets, currentSubset, objects, currentIndex + 1);  // increment to next index
+            currentSubset.pop_back();
         }
     }
+
     static void collectSubsetsUsingOnlyRecursion(
         Subsets& subsets, Subset& currentSubset, Objects const& objects, int const index) {
         if (index == static_cast<int>(objects.size())) {
@@ -71,10 +73,12 @@ private:
             currentSubset.emplace_back(objects[index]);  // add object in subset
             collectSubsetsUsingOnlyRecursion(
                 subsets, currentSubset, objects,
-                index + 1);            // recursively call with next object (with object in subset)            currentSubset.pop_back();  // remove object in subset, so other instances wont be affected
+                index + 1);            // recursively call with next object (with object in subset)
+            currentSubset.pop_back();  // remove object in subset, so other instances wont be affected
         }
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

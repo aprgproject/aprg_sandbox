@@ -46,10 +46,12 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingIterat
             costMatrix.setEntry(index, index, m_valueAndFrequencyPairs[index].second);
         }
         for (Index length = 2; length <= numberOfPairs; length++)  // length >= 2
-        {            for (Index left = 0; left + length <= static_cast<Index>(costMatrix.getNumberOfColumns()); left++) {
+        {
+            for (Index left = 0; left + length <= static_cast<Index>(costMatrix.getNumberOfColumns()); left++) {
                 Index right = left + length - 1;
                 Cost entryResult(MAX_COUNT);
-                Cost offsetCost(                    frequencyRange.getAccumulatedValueOnInterval(left, right));  // pattern when going down with depth
+                Cost offsetCost(
+                    frequencyRange.getAccumulatedValueOnInterval(left, right));  // pattern when going down with depth
                 for (Index possibleParent = left; possibleParent <= right; possibleParent++) {
                     Cost costOfPossibleParent(offsetCost);
                     if (left < possibleParent) {
@@ -77,10 +79,12 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingNaiveR
             Cost costOfPossibleParent(getCost(depth, m_valueAndFrequencyPairs[possibleParent].second));
             if (left < possibleParent) {
                 costOfPossibleParent +=
-                    getMinimumCostUsingNaiveRecursion(depth + 1, left, possibleParent - 1);  // left child            }
+                    getMinimumCostUsingNaiveRecursion(depth + 1, left, possibleParent - 1);  // left child
+            }
             if (possibleParent < right) {
                 costOfPossibleParent +=
-                    getMinimumCostUsingNaiveRecursion(depth + 1, possibleParent + 1, right);  // right child            }
+                    getMinimumCostUsingNaiveRecursion(depth + 1, possibleParent + 1, right);  // right child
+            }
             result = min(result, costOfPossibleParent);
         }
     }

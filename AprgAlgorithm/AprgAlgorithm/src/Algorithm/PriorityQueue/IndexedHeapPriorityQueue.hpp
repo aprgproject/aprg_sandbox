@@ -32,9 +32,11 @@ public:
         }
         return result;
     }
+
     int getSize() const { return m_size; }
 
     Objects const& getObjects() const { return m_objects; }
+
     Indexes const& getTreeIndexToObjectIndex() const { return m_treeIndexToObjectIndex; }
 
     Indexes const& getObjectIndexToTreeIndex() const { return m_objectIndexToTreeIndex; }
@@ -48,9 +50,11 @@ public:
     Object const& getObjectAt(int const objectIndex) const { return m_objects[objectIndex]; }
 
     void setNumberOfItems(int const numberOfItems) { resizeToHaveThisIndexIfNeeded(numberOfItems); }
+
     void insert(int const objectIndex, Object const& object) {
         m_size++;
-        resizeToHaveThisIndexIfNeeded(std::max(objectIndex, m_size));        m_objectIndexToTreeIndex[objectIndex] = m_size;
+        resizeToHaveThisIndexIfNeeded(std::max(objectIndex, m_size));
+        m_objectIndexToTreeIndex[objectIndex] = m_size;
         m_treeIndexToObjectIndex[m_size] = objectIndex;
         m_objects[objectIndex] = object;
         swim(m_size);
@@ -76,10 +80,12 @@ public:
             int treeIndex(m_objectIndexToTreeIndex[objectIndex]);
             if (treeIndex != IndexedHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX) {
                 swapIndexes(treeIndex, m_size--);
-                swim(treeIndex);                sink(treeIndex);
+                swim(treeIndex);
+                sink(treeIndex);
                 m_objects[objectIndex] = Object{};
                 m_objectIndexToTreeIndex[objectIndex] = IndexedHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX;
-                m_treeIndexToObjectIndex[m_size + 1] = IndexedHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX;            }
+                m_treeIndexToObjectIndex[m_size + 1] = IndexedHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX;
+            }
         }
     }
 
@@ -91,10 +97,12 @@ public:
             int treeIndex(m_objectIndexToTreeIndex[objectIndex]);
             if (treeIndex == IndexedHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX) {
                 m_size++;
-                m_objectIndexToTreeIndex[objectIndex] = m_size;                m_treeIndexToObjectIndex[m_size] = objectIndex;
+                m_objectIndexToTreeIndex[objectIndex] = m_size;
+                m_treeIndexToObjectIndex[m_size] = objectIndex;
                 treeIndex = m_size;
             }
-            swim(treeIndex);            sink(treeIndex);
+            swim(treeIndex);
+            sink(treeIndex);
         }
     }
 
@@ -110,10 +118,12 @@ private:
         return m_objects[m_treeIndexToObjectIndex[treeIndex]];
     }
 
-    void resizeToHaveThisIndexIfNeeded(int const index) {        if (m_maxSize <= index) {
+    void resizeToHaveThisIndexIfNeeded(int const index) {
+        if (m_maxSize <= index) {
             // resize to enlarge, no resize to reduce? // Boo not efficient.
             m_treeIndexToObjectIndex.resize(index + 1);
-            m_objectIndexToTreeIndex.resize(index + 1);            m_objects.resize(index + 1);
+            m_objectIndexToTreeIndex.resize(index + 1);
+            m_objects.resize(index + 1);
             std::fill(
                 m_treeIndexToObjectIndex.begin() + m_maxSize, m_treeIndexToObjectIndex.end(),
                 IndexedHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX);
@@ -163,10 +173,12 @@ private:
         m_objectIndexToTreeIndex[m_treeIndexToObjectIndex[treeIndex2]] = treeIndex2;
     }
 
-    int m_size;    int m_maxSize;
+    int m_size;
+    int m_maxSize;
     Comparator m_comparator;
     Indexes m_treeIndexToObjectIndex;
-    Indexes m_objectIndexToTreeIndex;    Objects m_objects;
+    Indexes m_objectIndexToTreeIndex;
+    Objects m_objects;
 };
 
 }  // namespace algorithm

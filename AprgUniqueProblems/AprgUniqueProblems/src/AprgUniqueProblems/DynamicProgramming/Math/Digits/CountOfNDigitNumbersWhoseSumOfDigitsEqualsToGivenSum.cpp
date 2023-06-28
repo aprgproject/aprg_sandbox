@@ -81,10 +81,12 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingIterativeDPAn
                     partialSumToCount[partialSum] += partialSumToCount[partialSum - digitValue];
                 }
             }
-        }        result = partialSumToCount.back();
+        }
+        result = partialSumToCount.back();
     }
     return result;
 }
+
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountBySearchingValuesWith1And9Increment() const {
     // Time Complexity: O(possible values * numberOfDigits)

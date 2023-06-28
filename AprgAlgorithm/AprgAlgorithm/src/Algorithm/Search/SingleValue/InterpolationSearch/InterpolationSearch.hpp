@@ -43,7 +43,8 @@ private:
             Value higherValue(m_sortedValues[highIndex]);
             if (targetValue < lowerValue || higherValue < targetValue) {  // out of range
                 break;
-            } else if (lowerValue == higherValue) {                result = getMidpointOfIndexes(lowIndex, highIndex);
+            } else if (lowerValue == higherValue) {
+                result = getMidpointOfIndexes(lowIndex, highIndex);
                 break;
             } else {
                 Index interpolatedIndex = lowIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Index>(
@@ -52,10 +53,12 @@ private:
                 Value valueAtInterpolatedIndex(m_sortedValues[interpolatedIndex]);
                 if (targetValue < valueAtInterpolatedIndex) {
                     highIndex = interpolatedIndex - 1;
-                } else if (valueAtInterpolatedIndex < targetValue) {                    lowIndex = interpolatedIndex + 1;
+                } else if (valueAtInterpolatedIndex < targetValue) {
+                    lowIndex = interpolatedIndex + 1;
                 } else {  // valueAtInterpolatedIndex <= targetValue
                     result = interpolatedIndex;
-                    break;                }
+                    break;
+                }
             }
         }
         return result;

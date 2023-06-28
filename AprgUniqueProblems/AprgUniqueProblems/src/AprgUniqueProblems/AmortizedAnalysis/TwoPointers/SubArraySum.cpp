@@ -33,10 +33,12 @@ SubArraySum::Values SubArraySum::getSubArrayWithSum(Value const targetSum) const
                     currentSum += m_valuesToCheck[end];
                 } else {
                     break;
-                }            }
+                }
+            }
         }
         if (isFound)  // empty if not found
-        {            result = Values(m_valuesToCheck.cbegin() + start, m_valuesToCheck.begin() + end + 1);
+        {
+            result = Values(m_valuesToCheck.cbegin() + start, m_valuesToCheck.begin() + end + 1);
         }
     }
     return result;

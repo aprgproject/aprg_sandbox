@@ -78,4 +78,5 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {
 }
 
 }  // namespace booleanAlgebra
+
 }  // namespace alba

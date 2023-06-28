@@ -24,7 +24,8 @@ public:
                 b_keys[i] = b_keys[i - 1];
             }
             b_keys[rank] = key;
-            b_size++;        }
+            b_size++;
+        }
     }
 
     void deleteBasedOnKey(Key const& key) override {
@@ -35,7 +36,8 @@ public:
                     b_keys[i] = b_keys[i + 1];
                 }
             }
-            b_keys.pop_back();            b_size--;
+            b_keys.pop_back();
+            b_size--;
         }
     }
 
@@ -44,10 +46,12 @@ public:
             b_keys[i] = b_keys[i + 1];
         }
         b_keys.pop_back();
-        b_size--;    }
+        b_size--;
+    }
 
     void deleteMaximum() override {
-        b_keys.pop_back();        b_size--;
+        b_keys.pop_back();
+        b_size--;
     }
 
 private:

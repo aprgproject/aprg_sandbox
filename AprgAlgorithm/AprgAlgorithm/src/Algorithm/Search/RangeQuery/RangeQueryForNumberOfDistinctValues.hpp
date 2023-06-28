@@ -92,17 +92,20 @@ private:
         Index& frequency(frequencyArray[m_values[index]]);
         frequency++;
         if (frequency == 1) {
-            numberOfDistinct++;        }
+            numberOfDistinct++;
+        }
     }
 
     void removeValueWithIndex(Index& numberOfDistinct, FrequencyArray& frequencyArray, Index const index) const {
         Index& frequency(frequencyArray[m_values[index]]);
         frequency--;
         if (frequency == 0) {
-            numberOfDistinct--;        }
+            numberOfDistinct--;
+        }
     }
 
-    Ranges getValidRangesAndSortForMoAlgorithm(Ranges const& ranges) const {        Ranges result;
+    Ranges getValidRangesAndSortForMoAlgorithm(Ranges const& ranges) const {
+        Ranges result;
         result.reserve(ranges.size());
         for (Range const& range : ranges) {
             if (isValidRange(range))  // index must be inside the give values

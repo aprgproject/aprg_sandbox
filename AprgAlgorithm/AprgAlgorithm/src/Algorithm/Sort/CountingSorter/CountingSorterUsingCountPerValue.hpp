@@ -37,10 +37,12 @@ public:
             for (int currentCount = 0; currentCount < countPerValue[indexableValue]; currentCount++) {
                 *(it++) = m_indexableValueToValueFunction(
                     indexableValue);  // put the value multiple times depending on the current count
-            }        }
+            }
+        }
     }
 
-private:    ValueToIndexableValueFunction m_valueToIndexableValueFunction;
+private:
+    ValueToIndexableValueFunction m_valueToIndexableValueFunction;
     IndexableValueToValueFunction m_indexableValueToValueFunction;
 };
 

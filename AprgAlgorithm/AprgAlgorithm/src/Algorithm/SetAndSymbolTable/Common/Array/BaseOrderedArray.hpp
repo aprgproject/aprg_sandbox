@@ -28,10 +28,12 @@ public:
             if (rank < m_size && m_keys[rank] == key) {
                 result = true;
             }
-        }        return result;
+        }
+        return result;
     }
 
     int getSize() const override { return m_size; }
+
     int getRank(Key const& key) const override { return getRank(key, m_keys); }
 
     Key getMinimum() const override {
@@ -41,6 +43,7 @@ public:
         }
         return result;
     }
+
     Key getMaximum() const override {
         Key result{};
         if (!isEmpty()) {
@@ -48,9 +51,11 @@ public:
         }
         return result;
     }
+
     Key selectAt(int const index) const override { return selectAt(index, m_keys); }
 
     Key getFloor(Key const& key) const override { return getFloor(key, m_keys); }
+
     Key getCeiling(Key const& key) const override { return getCeiling(key, m_keys); }
 
     Keys getKeys() const override { return m_keys; }
@@ -74,10 +79,12 @@ public:
             Key const& keyAtMiddleIndex(keys[middleIndex]);
             if (key < keyAtMiddleIndex) {
                 highIndex = middleIndex - 1;
-            } else if (key > keyAtMiddleIndex) {                lowIndex = middleIndex + 1;
+            } else if (key > keyAtMiddleIndex) {
+                lowIndex = middleIndex + 1;
             } else {
                 result = middleIndex;
-                break;            }
+                break;
+            }
         }
         if (result == 0) {
             result = lowIndex;
@@ -92,6 +99,7 @@ public:
         }
         return result;
     }
+
     static Key getFloor(Key const& key, Keys const& keys) {
         Key result{};
         int rank(getRank(key, keys));
@@ -102,6 +110,7 @@ public:
         }
         return result;
     }
+
     static Key getCeiling(Key const& key, Keys const& keys) {
         Key result{};
         int rank(getRank(key, keys));
@@ -110,9 +119,11 @@ public:
         }
         return result;
     }
+
 protected:
     int m_size;
-    Keys m_keys;};
+    Keys m_keys;
+};
 
 }  // namespace algorithm
 

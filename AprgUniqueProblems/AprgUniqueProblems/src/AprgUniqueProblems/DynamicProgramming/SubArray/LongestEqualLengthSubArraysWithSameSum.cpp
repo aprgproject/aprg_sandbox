@@ -54,9 +54,11 @@ LongestEqualLengthSubArraysWithSameSum::getLongestTotalLengthOfSubArraysByAccumu
             sum2 += m_values[startOfSubArray2 + subArrayLength];
             ++subArrayLength;
             if (sum1 == sum2) {
-                result = max(result, subArrayLength * 2);            }
+                result = max(result, subArrayLength * 2);
+            }
         }
     }
-    return result;}
+    return result;
+}
 
 }  // namespace alba

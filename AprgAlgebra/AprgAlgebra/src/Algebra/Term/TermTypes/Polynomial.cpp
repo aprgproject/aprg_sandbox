@@ -48,10 +48,12 @@ bool Polynomial::operator<(Polynomial const& second) const {
             Monomial const& monomial2(monomials2[i]);
             if (monomial1 != monomial2) {
                 result = monomial1 < monomial2;
-                break;            }
+                break;
+            }
         }
     } else {
-        result = monomials1.size() < monomials2.size();    }
+        result = monomials1.size() < monomials2.size();
+    }
     return result;
 }
 

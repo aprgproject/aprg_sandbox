@@ -52,10 +52,12 @@ MinimumNumberOfJumpsToReachEnd::Count MinimumNumberOfJumpsToReachEnd::getMinimum
                 min(startOfJumpIndex + m_sequence[startOfJumpIndex], static_cast<Index>(m_sequence.size() - 1));
             for (Index endOfJumpIndex = startOfJumpIndex + 1; endOfJumpIndex <= maxPossibleJumpIndex;
                  endOfJumpIndex++) {
-                Count& countOfJumpsAtIndex(indexToCountOfJumps[endOfJumpIndex]);                countOfJumpsAtIndex = min(countOfJumpsAtIndex, countOfJumps);
+                Count& countOfJumpsAtIndex(indexToCountOfJumps[endOfJumpIndex]);
+                countOfJumpsAtIndex = min(countOfJumpsAtIndex, countOfJumps);
             }
         }
-        result = indexToCountOfJumps.back();    }
+        result = indexToCountOfJumps.back();
+    }
     return result;
 }
 
@@ -76,10 +78,12 @@ MinimumNumberOfJumpsToReachEnd::getMinimumNumberOfJumpsUsingIterativeDPAndTimeEf
                 min(max(maxIndexAtNextJump, index + m_sequence[index]), static_cast<Index>(m_sequence.size() - 1));
             stepsAtCurrentJump--;
             if (stepsAtCurrentJump == 0) {
-                stepsAtCurrentJump = maxIndexAtNextJump - index;                jumpCount++;
+                stepsAtCurrentJump = maxIndexAtNextJump - index;
+                jumpCount++;
             }
         }
-        result = jumpCount;    }
+        result = jumpCount;
+    }
     return result;
 }
 
@@ -101,10 +105,12 @@ MinimumNumberOfJumpsToReachEnd::Indices MinimumNumberOfJumpsToReachEnd::getPathO
             Index nextJumpIndex = min(index + m_sequence[index], static_cast<Index>(m_sequence.size() - 1));
             if (nextJumpIndex > maxIndexAtNextJump) {
                 maxIndexAtNextJump = nextJumpIndex;
-                startOfNextJump = index;            }
+                startOfNextJump = index;
+            }
 
             stepsAtCurrentJump--;
-            if (stepsAtCurrentJump == 0) {                stepsAtCurrentJump = maxIndexAtNextJump - index;
+            if (stepsAtCurrentJump == 0) {
+                stepsAtCurrentJump = maxIndexAtNextJump - index;
                 startOfJump = startOfNextJump;
                 jumpCount++;
             }
@@ -119,17 +125,20 @@ MinimumNumberOfJumpsToReachEnd::Indices MinimumNumberOfJumpsToReachEnd::getPathO
         result.emplace_back(m_sequence[traverseIndex]);
         reverse(result.begin(), result.end());
     }
-    return result;}
+    return result;
+}
 
 MinimumNumberOfJumpsToReachEnd::Count MinimumNumberOfJumpsToReachEnd::getMinimumNumberOfJumpsUsingNaiveRecursion(
-    Index const startOfJumpIndex) const {    Count result(0);
+    Index const startOfJumpIndex) const {
+    Count result(0);
     if (startOfJumpIndex + 1 < static_cast<Index>(m_sequence.size())) {
         result = MAX_COUNT;
         Index maxPossibleJumpIndex =
             min(startOfJumpIndex + m_sequence[startOfJumpIndex], static_cast<Index>(m_sequence.size() - 1));
         for (Index endOfJumpIndex = startOfJumpIndex + 1; endOfJumpIndex <= maxPossibleJumpIndex; endOfJumpIndex++) {
             result = min(result, getMinimumNumberOfJumpsUsingNaiveRecursion(endOfJumpIndex));
-        }        result++;
+        }
+        result++;
     }
     return result;
 }
@@ -144,10 +153,12 @@ MinimumNumberOfJumpsToReachEnd::Count MinimumNumberOfJumpsToReachEnd::getMinimum
                 min(startOfJumpIndex + m_sequence[startOfJumpIndex], static_cast<Index>(m_sequence.size() - 1));
             for (Index endOfJumpIndex = startOfJumpIndex + 1; endOfJumpIndex <= maxPossibleJumpIndex;
                  endOfJumpIndex++) {
-                result = min(result, getMinimumNumberOfJumpsUsingMemoizationDP(indexToCountOfJumps, endOfJumpIndex));            }
+                result = min(result, getMinimumNumberOfJumpsUsingMemoizationDP(indexToCountOfJumps, endOfJumpIndex));
+            }
             result++;
         } else {
-            result = 0;        }
+            result = 0;
+        }
         indexToCountOfJumps[startOfJumpIndex] = result;
     }
     return result;

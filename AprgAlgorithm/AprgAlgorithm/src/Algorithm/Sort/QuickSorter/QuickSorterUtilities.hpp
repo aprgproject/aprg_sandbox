@@ -40,7 +40,8 @@ int partitionAndGetPartitionIndex(Values& values, int const lowIndex, int const 
     auto pivotValue = values[indexWithPivotValue];
     std::swap(values[lowIndex], values[indexWithPivotValue]);
 
-    int indexWithGreaterValue = lowIndex;    int indexWithLesserValue = highIndex + 1;
+    int indexWithGreaterValue = lowIndex;
+    int indexWithLesserValue = highIndex + 1;
     while (true) {
         // Notice that the loop has increment first
         // Important: This loops exits when it finds a value greater than pivotValue
@@ -52,10 +53,12 @@ int partitionAndGetPartitionIndex(Values& values, int const lowIndex, int const 
         while (pivotValue < values[--indexWithLesserValue] && indexWithLesserValue > lowIndex)
             ;
 
-        // stop if the indexWithGreaterValue and indexWithLesserValue meet        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
+        // stop if the indexWithGreaterValue and indexWithLesserValue meet
+        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
         if (indexWithGreaterValue < indexWithLesserValue) {
             std::swap(values[indexWithGreaterValue], values[indexWithLesserValue]);
-        } else {            break;
+        } else {
+            break;
         }
     }
 
@@ -73,10 +76,12 @@ int partitionAndGetPartitionIndexUsingLomuto(
     auto pivotValue = values[indexWithPivotValue];
     std::swap(values[lowIndex], values[indexWithPivotValue]);
 
-    int partitionIndex = lowIndex;    for (int compareIndex = lowIndex + 1; compareIndex <= highIndex; compareIndex++) {
+    int partitionIndex = lowIndex;
+    for (int compareIndex = lowIndex + 1; compareIndex <= highIndex; compareIndex++) {
         if (values[compareIndex] < pivotValue) {
             std::swap(values[++partitionIndex], values[compareIndex]);
-        }    }
+        }
+    }
 
     std::swap(values[partitionIndex], values[lowIndex]);
     return partitionIndex;

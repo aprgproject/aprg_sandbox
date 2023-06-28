@@ -24,9 +24,11 @@ public:
         }
         return result;
     }
+
     Index getIndexOfNearestValue(Value const& value) const {
         Index result(INVALID_INDEX);
-        if (!m_sortedValues.empty()) {            result = getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, value);
+        if (!m_sortedValues.empty()) {
+            result = getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, value);
         }
         return result;
     }
@@ -49,10 +51,12 @@ private:
             Value middleValue(m_sortedValues[middleIndex]);
             if (value <= middleValue) {
                 return getIndexOfNearestValueWithoutCheck(lowIndex, middleIndex, value);
-            } else {                return getIndexOfNearestValueWithoutCheck(middleIndex, highIndex, value);
+            } else {
+                return getIndexOfNearestValueWithoutCheck(middleIndex, highIndex, value);
             }
         } else {
-            return getIndexOfNearestValueInBetweenTwoIndices(lowIndex, highIndex, value);        }
+            return getIndexOfNearestValueInBetweenTwoIndices(lowIndex, highIndex, value);
+        }
     }
 
     Index getIndexOfNearestValueInBetweenTwoIndices(
@@ -61,8 +65,10 @@ private:
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
+
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

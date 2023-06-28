@@ -166,7 +166,8 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial) {
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createPositiveInfinityOpenEndpoint()), intervalToVerify[2]);
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial) {    Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
+TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial) {
+    Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
     Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
@@ -176,10 +177,12 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial) {    Term
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-2), createCloseEndpoint(2)), intervalToVerify[0]);
 }
 
-TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions) {    SolutionSet continuityDomain1(getContinuityDomain(Functions::abs("x")));
+TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions) {
+    SolutionSet continuityDomain1(getContinuityDomain(Functions::abs("x")));
     SolutionSet continuityDomain2(getContinuityDomain(Functions::sin("x")));
     SolutionSet continuityDomain3(getContinuityDomain(Functions::cos("x")));
     SolutionSet continuityDomain4(getContinuityDomain(Functions::tan("x")));
+
     AlbaNumberIntervals const& intervalToVerify1(continuityDomain1.getAcceptedIntervals());
     ASSERT_EQ(1U, intervalToVerify1.size());
     EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify1.front());
