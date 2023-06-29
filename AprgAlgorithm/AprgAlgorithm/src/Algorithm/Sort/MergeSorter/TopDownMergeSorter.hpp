@@ -25,18 +25,13 @@ private:
             int const middle = getMidpointOfIndexes(lowest, highest);
             sort(valuesToSort, auxiliary, lowest, middle);       // sort the first half (recursive call)
             sort(valuesToSort, auxiliary, middle + 1, highest);  // sort the second half (recursive call)
-            bool isAlreadySorted(valuesToSort[middle] < valuesToSort[middle + 1]);
-            if (!isAlreadySorted) {
-                mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);  // merge the two sorted parts
-            }
+            mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);
         }
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Merge sort was invented by J. von Neumann in 1945.
 // Merge sort has a divide and conquer approach
 // When billions items to sort, merge sort is faster than insertion sort even if insertion sort is running on super

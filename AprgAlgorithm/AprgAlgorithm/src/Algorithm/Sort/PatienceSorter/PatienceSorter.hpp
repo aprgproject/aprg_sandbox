@@ -3,59 +3,86 @@
 #include <Algorithm/Sort/BaseSorter.hpp>
 
 #include <algorithm>
-#include <queue>
+#include <forward_list>
+#include <vector>
 
 namespace alba {
-
 namespace algorithm {
 
 template <typename Values>
 class PatienceSorter : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
-    using PileValues = std::vector<Value>;
-    struct Pile {
-        Value valueAtTopOfPile;
-        PileValues pileValues;
 
-        Pile(Value const& value) : valueAtTopOfPile(value), pileValues({value}) {}
-        bool operator<(Value const& valueToCheck) const { return valueAtTopOfPile < valueToCheck; }
+    class Pile {
+    public:
+        using Container = std::forward_list<Value>;
+        explicit Pile(Value const& value) : m_values({value}) {}
+        bool operator<(Value const& valueToCheck) const { return getTop() < valueToCheck; }
+        Value const& getTop() const { return m_values.front(); }
+        Container const& getValues() const { return m_values; }
+        void putOnTop(Value const& value) { m_values.emplace_front(value); }
+        void mergeWith(Pile& pile) { m_values.merge(pile.m_values); }
+
+    private:
+        Container m_values;
     };
+
     using Piles = std::vector<Pile>;
-    using PriorityQueueOfValues = std::priority_queue<Value, std::deque<Value>, std::greater<Value>>;
+    using PilesIterator = typename Piles::iterator;
 
     PatienceSorter() = default;
 
     void sort(Values& valuesToSort) const override {
-        Piles piles;
-        for (Value const& value : valuesToSort)  // put into piles
-        {
-            auto itLowerBound = std::lower_bound(piles.begin(), piles.end(), value);
-            if (itLowerBound == piles.end()) {
+        if (!valuesToSort.empty()) {
+            Piles piles;
+            putValuesToPiles(piles, valuesToSort);
+            mergePilesToOnePile(piles);
+            copyMergedPileToValues(valuesToSort, piles);
+        }
+    }
+
+private:
+    void putValuesToPiles(Piles& piles, Values const& valuesToSort) const {
+        for (Value const& value : valuesToSort) {
+            auto selectedIt = std::lower_bound(piles.begin(), piles.end(), value);
+            if (selectedIt == piles.end()) {
                 piles.emplace_back(value);
             } else {
-                itLowerBound->pileValues.emplace_back(value);
+                selectedIt->putOnTop(value);
             }
         }
-        auto updateIt = valuesToSort.begin();
-        for (Pile const& pile : piles)  // put into piles
-        {
-            PileValues const& pileValues(pile.pileValues);
-            PriorityQueueOfValues priorityQueue(pileValues.cbegin(), pileValues.cend());
-            while (!priorityQueue.empty()) {
-                *(updateIt++) = priorityQueue.top();
-                priorityQueue.pop();
-            }
+    }
+
+    void mergePilesToOnePile(Piles& piles) const { mergePiles(piles.begin(), std::prev(piles.end())); }
+
+    PilesIterator mergePiles(PilesIterator itLow, PilesIterator itHigh) const {
+        // https://en.wikipedia.org/wiki/K-way_merge_algorithm
+        int numberOfPiles = std::distance(itLow, itHigh) + 1;
+        if (numberOfPiles == 2) {
+            itLow->mergeWith(*itHigh);
+            return itLow;
+        } else if (numberOfPiles > 2) {
+            PilesIterator middleIt = std::next(itLow, numberOfPiles / 2);
+            auto itFirstPart = mergePiles(itLow, middleIt);
+            auto itSecondPart = mergePiles(std::next(middleIt), itHigh);
+            itFirstPart->mergeWith(*itSecondPart);
+            return itFirstPart;
+        } else {
+            return itLow;
         }
+    }
+
+    void copyMergedPileToValues(Values& valuesToSort, Piles const& piles) const {
+        auto const& mergedPileValues(piles.front().getValues());
+        std::copy(mergedPileValues.cbegin(), mergedPileValues.cend(), valuesToSort.begin());
     }
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
-// The algorithm's name derives from a simplified variant of the patience card game.
-// The game begins with a shuffled deck of cards.
+// The algorithm's name derives from a simplified variant of the patience card game.// The game begins with a shuffled deck of cards.
 // The cards are dealt one by one into a sequence of piles on the table, according to the following rules.[2]
 // 1) Initially, there are no piles.
 // -> The first card dealt forms a new pile consisting of the single card.

@@ -29,22 +29,18 @@ public:
         for (auto const& value : valuesToSort) {
             countPerValue[m_valueToIndexableValueFunction(value)]++;  // count each value
         }
-
         auto it = valuesToSort.begin();
-        for (int indexableValue = 0; indexableValue < static_cast<int>(countPerValue.size());
-             indexableValue++)  // Linear because i runs on valuesToSort.size()
-        {
-            for (int currentCount = 0; currentCount < countPerValue[indexableValue]; currentCount++) {
-                *(it++) = m_indexableValueToValueFunction(
-                    indexableValue);  // put the value multiple times depending on the current count
+        // Linear because i runs on valuesToSort.size()
+        for (int index = 0; index < static_cast<int>(countPerValue.size()); index++) {
+            for (int currentCount = 0; currentCount < countPerValue[index]; currentCount++) {
+                // put the value multiple times depending on the current count
+                *(it++) = m_indexableValueToValueFunction(index);
             }
         }
     }
-
 private:
     ValueToIndexableValueFunction m_valueToIndexableValueFunction;
-    IndexableValueToValueFunction m_indexableValueToValueFunction;
-};
+    IndexableValueToValueFunction m_indexableValueToValueFunction;};
 
 }  // namespace algorithm
 

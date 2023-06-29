@@ -15,15 +15,13 @@ public:
     ShellSorter() = default;
 
     void sort(Values& valuesToSort) const override {
-        int skipValue(getSkipValue(valuesToSort.size()));
+        int skipValue(getInitialSkipValue(valuesToSort.size()));
         while (skipValue >= 1) {
             sortWithSkipping(valuesToSort, skipValue);
-            skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.
-        }
+            skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.        }
     }
 
-private:
-    void sortWithSkipping(Values& valuesToSort, int const skipValue) const {
+private:    void sortWithSkipping(Values& valuesToSort, int const skipValue) const {
         // This is h-sorting. An h-sorted array is h interleaved sorted subsequences.
         // This is insertion sort but with skipping
         for (int i = skipValue; i < static_cast<int>(valuesToSort.size()); i++) {
@@ -34,22 +32,20 @@ private:
     void continuouslySwapDownIfStillOutOfOrderWithSkipping(
         Values& valuesToSort, int const startingIndex, int const skipValue) const {
         // Works similar to insertion sort (but with skipping)
-        for (int i = startingIndex; i >= skipValue && valuesToSort[i] < valuesToSort[i - skipValue];
-             i -= skipValue) {
+        for (int i = startingIndex; i >= skipValue && valuesToSort[i - skipValue] > valuesToSort[i]; i -= skipValue) {
             std::swap(valuesToSort[i], valuesToSort[i - skipValue]);
         }
     }
 
-    int getSkipValue(int const size) const {
+    int getInitialSkipValue(int const size) const {
         // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
+        // For more info about gap: https://en.wikipedia.org/wiki/Shellsort#Gap_sequences
         int result(1);
         while (result < size / 3) {
-            result = 3 * result + 1;
-        }
+            result = 3 * result + 1;        }
         return result;
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

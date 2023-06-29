@@ -20,31 +20,26 @@ public:
         : m_valueToIndexableValueFunction(valueToIndexableValueFunction) {}
 
     void sort(Values& valuesToSort) const override {
-        ArrayOfCountPerValue newPosition{};  // important to initialize to zero
+        ArrayOfCountPerValue correctPositions{};  // important to initialize to zero
         for (auto const& value : valuesToSort) {
-            newPosition[m_valueToIndexableValueFunction(value)]++;  // count each value
+            correctPositions[m_valueToIndexableValueFunction(value)]++;  // count each value
         }
 
-        for (int c = 1; c < static_cast<int>(newPosition.size());
-             c++)  // Change count[i] so that count[i] now contains actual position of this character in output array
-        {
-            newPosition[c] += newPosition[c - 1];
+        // Change count[i] so that count[i] now contains actual position of this character in output array
+        for (int c = 1; c < static_cast<int>(correctPositions.size()); c++) {
+            correctPositions[c] += correctPositions[c - 1];
         }
 
         Values copiedValues(valuesToSort);
-        for (int i = copiedValues.size() - 1; i >= 0;
-             i--)  // For stable algorithm, reverse the traversal in copied values
-        {
-            Value const& copiedValue(copiedValues[i]);
-            int indexableValue(m_valueToIndexableValueFunction(copiedValue));
-            valuesToSort[--newPosition[indexableValue]] = copiedValue;
+        // For stable algorithm, reverse the traversal in copied values
+        for (int i = copiedValues.size() - 1; i >= 0; i--) {
+            auto indexableValue(m_valueToIndexableValueFunction(copiedValues[i]));
+            valuesToSort[--correctPositions[indexableValue]] = copiedValues[i];
         }
     }
-
 private:
     ValueToIndexableValueFunction m_valueToIndexableValueFunction;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

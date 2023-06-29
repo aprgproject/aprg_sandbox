@@ -18,16 +18,19 @@ public:
     operator int() const;
     StabilityCheckObject operator+(StabilityCheckObject const& second) const;
     StabilityCheckObject operator-(StabilityCheckObject const& second) const;
+    StabilityCheckObject operator*(StabilityCheckObject const& second) const;
+    StabilityCheckObject operator/(StabilityCheckObject const& second) const;
     StabilityCheckObject operator+(int const second) const;
     StabilityCheckObject operator-(int const second) const;
+    StabilityCheckObject operator*(int const second) const;
+    StabilityCheckObject operator/(int const second) const;
+
     double operator*(double const multiplier) const;
 
-    char getVisiblePart() const;
-    int getNotVisiblePart() const;
+    char getVisiblePart() const;    int getNotVisiblePart() const;
 
     friend double operator/(double const dividend, StabilityCheckObject const& divisor);
-    friend bool areObjectsEqualOnVisibleAndNotVisiblePart(
-        StabilityCheckObject const& object1, StabilityCheckObject const& object2);
+    friend bool areObjectsEqualOnVisibleAndNotVisiblePart(        StabilityCheckObject const& object1, StabilityCheckObject const& object2);
     friend std::ostream& operator<<(std::ostream& out, StabilityCheckObject const& object);
 
 private:

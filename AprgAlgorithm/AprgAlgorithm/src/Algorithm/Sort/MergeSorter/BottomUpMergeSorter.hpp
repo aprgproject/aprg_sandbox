@@ -15,18 +15,16 @@ public:
     void sort(Values& valuesToSort) const override {
         Values auxiliary(valuesToSort);
         int const size = valuesToSort.size();
-        for (int sizeToSort = 1; sizeToSort < size; sizeToSort *= 2) {
-            for (int lowest = 0; lowest < size - sizeToSort; lowest += sizeToSort * 2) {
-                int middle = lowest + sizeToSort - 1;
-                int highest = std::min(lowest + (sizeToSort * 2) - 1, size - 1);
+        for (int subHalfSize = 1; subHalfSize < size; subHalfSize *= 2) {
+            for (int lowest = 0; lowest < size - subHalfSize; lowest += subHalfSize * 2) {
+                int middle = lowest + subHalfSize - 1;
+                int highest = std::min(lowest + (subHalfSize * 2) - 1, size - 1);
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);
             }
-        }
-    }
+        }    }
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // No recursion approach

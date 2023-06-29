@@ -34,22 +34,35 @@ StabilityCheckObject StabilityCheckObject::operator-(StabilityCheckObject const&
     return StabilityCheckObject(static_cast<char>(m_visiblePart - second.m_visiblePart), 0);
 }
 
+StabilityCheckObject StabilityCheckObject::operator*(StabilityCheckObject const& second) const {
+    return StabilityCheckObject(static_cast<char>(m_visiblePart * second.m_visiblePart), 0);
+}
+
+StabilityCheckObject StabilityCheckObject::operator/(StabilityCheckObject const& second) const {
+    return StabilityCheckObject(static_cast<char>(m_visiblePart / second.m_visiblePart), 0);
+}
+
 StabilityCheckObject StabilityCheckObject::operator+(int const second) const {
     return StabilityCheckObject(static_cast<char>(m_visiblePart + second), m_notVisiblePart);
 }
-
 StabilityCheckObject StabilityCheckObject::operator-(int const second) const {
     return StabilityCheckObject(static_cast<char>(m_visiblePart - second), m_notVisiblePart);
+}
+
+StabilityCheckObject StabilityCheckObject::operator*(int const second) const {
+    return StabilityCheckObject(static_cast<char>(m_visiblePart * second), m_notVisiblePart);
+}
+
+StabilityCheckObject StabilityCheckObject::operator/(int const second) const {
+    return StabilityCheckObject(static_cast<char>(m_visiblePart / second), m_notVisiblePart);
 }
 
 double StabilityCheckObject::operator*(double const multiplier) const { return m_visiblePart * multiplier; }
 
 char StabilityCheckObject::getVisiblePart() const { return m_visiblePart; }
-
 int StabilityCheckObject::getNotVisiblePart() const { return m_notVisiblePart; }
 
-double operator/(double const dividend, StabilityCheckObject const& divisor) {
-    return dividend / divisor.m_visiblePart;
+double operator/(double const dividend, StabilityCheckObject const& divisor) {    return dividend / divisor.m_visiblePart;
 }
 
 bool areObjectsEqualOnVisibleAndNotVisiblePart(
