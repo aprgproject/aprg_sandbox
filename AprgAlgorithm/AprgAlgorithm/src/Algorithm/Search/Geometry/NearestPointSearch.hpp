@@ -111,72 +111,61 @@ private:
         if (nodePointer) {
             Point const& currentPoint(nodePointer->key);
             if (mathHelper::isOdd(depth)) {
-                if (pointToCheck.first < currentPoint.first)  // point to check is to the left (arrangement * <- N)
-                {
+                if (pointToCheck.first < currentPoint.first) {
+                    // point to check is to the left (arrangement * <- N)
                     if (nodePointer->left) {
-                        if (pointToCheck.first <
-                            nodePointer->left->key
-                                .first)  // point to check is to the left of left child  (arrangement * <- L <- N)
-                        {
+                        if (pointToCheck.first < nodePointer->left->key.first) {
+                            // point to check is to the left of left child  (arrangement * <- L <- N)
                             result = SearchAction::GoToLeftChild;
-                        } else  // point to check is to the right of left child  (arrangement L <- * <- N)
-                        {
+                        } else {
+                            // point to check is to the right of left child  (arrangement L <- * <- N)
                             result = SearchAction::GoToBoth;
                         }
                     } else if (nodePointer->right) {
                         result = SearchAction::GoToRightChild;
                     }
-                } else  // point to check is to the right (arrangement N -> *)
-                {
+                } else {
+                    // point to check is to the right (arrangement N -> *)
                     if (nodePointer->right) {
-                        if (nodePointer->right->key.first <
-                            pointToCheck
-                                .first)  // point to check is to the right of right child  (arrangement N -> R -> *)
-                        {
+                        if (nodePointer->right->key.first < pointToCheck.first) {
+                            // point to check is to the right of right child  (arrangement N -> R -> *)
                             result = SearchAction::GoToRightChild;
-                        } else  // point to check is to the left of right child  (arrangement N -> * -> R)
-                        {
+                        } else {
+                            // point to check is to the left of right child  (arrangement N -> * -> R)
                             result = SearchAction::GoToBoth;
                         }
-                    } else if (nodePointer->left) {
-                        result = SearchAction::GoToLeftChild;
+                    } else if (nodePointer->left) {                        result = SearchAction::GoToLeftChild;
                     }
                 }
             } else {
                 // same logic but top and bottom
-                if (pointToCheck.second < currentPoint.second)  // point to check is to the left (arrangement * <- N)
-                {
+                if (pointToCheck.second < currentPoint.second) {
+                    // point to check is to the left (arrangement * <- N)
                     if (nodePointer->left) {
-                        if (pointToCheck.second <
-                            nodePointer->left->key
-                                .second)  // point to check is to the left of left child  (arrangement * <- L <- N)
-                        {
+                        if (pointToCheck.second < nodePointer->left->key.second) {
+                            // point to check is to the left of left child  (arrangement * <- L <- N)
                             result = SearchAction::GoToLeftChild;
-                        } else  // point to check is to the right of left child  (arrangement L <- * <- N)
-                        {
+                        } else {
+                            // point to check is to the right of left child  (arrangement L <- * <- N)
                             result = SearchAction::GoToBoth;
                         }
                     } else if (nodePointer->right) {
                         result = SearchAction::GoToRightChild;
                     }
-                } else  // point to check is to the right (arrangement N -> *)
-                {
+                } else {
+                    // point to check is to the right (arrangement N -> *)
                     if (nodePointer->right) {
-                        if (nodePointer->right->key.second <
-                            pointToCheck
-                                .second)  // point to check is to the right of right child  (arrangement N -> R -> *)
-                        {
+                        if (nodePointer->right->key.second < pointToCheck.second) {
+                            // point to check is to the right of right child  (arrangement N -> R -> *)
                             result = SearchAction::GoToRightChild;
-                        } else  // point to check is to the left of right child  (arrangement N -> * -> R)
-                        {
+                        } else {
+                            // point to check is to the left of right child  (arrangement N -> * -> R)
                             result = SearchAction::GoToBoth;
                         }
-                    } else if (nodePointer->left) {
-                        result = SearchAction::GoToLeftChild;
+                    } else if (nodePointer->left) {                        result = SearchAction::GoToLeftChild;
                     }
                 }
-            }
-        }
+            }        }
         return result;
     }
 
