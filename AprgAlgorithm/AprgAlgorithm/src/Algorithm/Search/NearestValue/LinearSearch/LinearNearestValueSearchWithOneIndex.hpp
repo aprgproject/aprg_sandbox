@@ -7,6 +7,7 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Values>
 class LinearNearestValueSearchWithOneIndex {
 public:

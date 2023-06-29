@@ -6,6 +6,7 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Values>
 class LinearSearchWithTwoIndices {
 public:

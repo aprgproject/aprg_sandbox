@@ -61,6 +61,7 @@ private:
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Cycle sort is an in-place sorting Algorithm, unstable sorting algorithm,
 // a comparison sort that is theoretically optimal in terms of the total number of writes to the original array.
 
@@ -89,7 +90,8 @@ private:
 // while(i<n)// if (arr[i] < item)
 //    pos++;
 
-// We put 10 at arr[3] and change item to old value of arr[3].// arr[] = {10, 5, 2, 10}
+// We put 10 at arr[3] and change item to old value of arr[3].
+// arr[] = {10, 5, 2, 10}
 // item = 3
 
 // Again rotate rest cycle that start with index '0'
@@ -99,7 +101,8 @@ private:
 // item = 5
 // Again rotate rest cycle that start with index '0' and item = 5
 // we swap item with element at arr[2].
-// arr[] = {10, 3, 5, 10 }// item = 2
+// arr[] = {10, 3, 5, 10 }
+// item = 2
 
 // Again rotate rest cycle that start with index '0' and item = 2
 // arr[] = {2, 3,  5, 10}
@@ -126,4 +129,5 @@ private:
 // Selection sort vs Cycle sort
 // Cycle sort has less writes compared to selection sort because it only writes one value in the container
 // (the previous value is saved on separate variable) per iteration.
-// -> This is less compared to selection sort which swaps the two values per iteration (which have two writes in the// container).
+// -> This is less compared to selection sort which swaps the two values per iteration (which have two writes in the
+// container).

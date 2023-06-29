@@ -5,7 +5,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class TernarySearch {
+template <typename Values>
+class TernarySearch {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -48,7 +49,8 @@ private:
         } else if (lowIndex == highIndex && value == m_sortedValues[lowIndex]) {            result = lowIndex;
         }
         return result;
-    }    Values const& m_sortedValues;
+    }
+    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm

@@ -82,7 +82,8 @@ private:
 }  // namespace algorithm
 }  // namespace alba
 
-// The algorithm's name derives from a simplified variant of the patience card game.// The game begins with a shuffled deck of cards.
+// The algorithm's name derives from a simplified variant of the patience card game.
+// The game begins with a shuffled deck of cards.
 // The cards are dealt one by one into a sequence of piles on the table, according to the following rules.[2]
 // 1) Initially, there are no piles.
 // -> The first card dealt forms a new pile consisting of the single card.

@@ -8,6 +8,7 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Value>
 class RangeQueryWithSparseSegmentTree {
 public:

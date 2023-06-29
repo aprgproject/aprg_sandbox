@@ -6,7 +6,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class RangeQueryWithAccumulatorLazySegmentTree : private RangeQueryWithStaticSegmentTree<Values> {
+template <typename Values>
+class RangeQueryWithAccumulatorLazySegmentTree : private RangeQueryWithStaticSegmentTree<Values> {
 public:
     // Example for "range query with accumulator" is sum queries
 

@@ -7,6 +7,7 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Key, typename BaseDataStructure>
 class BaseOrderedArray : public BaseDataStructure {
 public:

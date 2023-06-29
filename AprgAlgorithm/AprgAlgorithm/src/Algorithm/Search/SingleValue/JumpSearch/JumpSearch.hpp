@@ -7,7 +7,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class JumpSearch {
+template <typename Values>
+class JumpSearch {
 public:
     using Index = int;
     using Value = typename Values::value_type;

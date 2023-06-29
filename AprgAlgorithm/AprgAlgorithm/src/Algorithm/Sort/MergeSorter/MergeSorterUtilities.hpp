@@ -36,7 +36,8 @@ template <typename Values>Values mergeTwoSortedSequences(Values const& sortedVal
     if (i < static_cast<int>(sortedValues1.size())) {        // copy remaining from the other array
         std::copy(sortedValues1.cbegin() + i, sortedValues1.cend(), std::back_inserter(result));
     }
-    if (j < static_cast<int>(sortedValues2.size())) {        // copy remaining from the other array
+    if (j < static_cast<int>(sortedValues2.size())) {
+        // copy remaining from the other array
         std::copy(sortedValues2.cbegin() + j, sortedValues2.cend(), std::back_inserter(result));
     }
     return result;

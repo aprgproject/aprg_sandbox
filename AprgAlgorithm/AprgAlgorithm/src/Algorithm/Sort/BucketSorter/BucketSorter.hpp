@@ -6,6 +6,7 @@
 #include <array>#include <vector>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values, int NUMBER_OF_BUCKETS>
@@ -38,6 +39,7 @@ public:
     Value m_minValue;
     Value m_maxValue;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

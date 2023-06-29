@@ -61,11 +61,10 @@ TEST(InsertionSorterForForwardListTest, SortWorksOnStringsUsingExample1) {
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(InsertionSorterForForwardListTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)  // STABLE
+TEST(InsertionSorterForForwardListTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
     StabilityCheckObjectsSorter sorter;
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
-}
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);}
 
 }  // namespace algorithm
 

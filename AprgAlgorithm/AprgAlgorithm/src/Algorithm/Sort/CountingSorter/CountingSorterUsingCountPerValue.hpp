@@ -40,7 +40,8 @@ public:
     }
 private:
     ValueToIndexableValueFunction m_valueToIndexableValueFunction;
-    IndexableValueToValueFunction m_indexableValueToValueFunction;};
+    IndexableValueToValueFunction m_indexableValueToValueFunction;
+};
 
 }  // namespace algorithm
 

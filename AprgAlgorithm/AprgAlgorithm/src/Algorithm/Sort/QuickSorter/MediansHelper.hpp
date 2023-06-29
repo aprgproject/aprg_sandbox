@@ -6,6 +6,7 @@
 #include <numeric>#include <vector>
 
 namespace alba {
+
 namespace algorithm {
 
 using Indexes = std::vector<int>;
@@ -65,7 +66,8 @@ int getMedianIndexOfLessThanFive(
     }    return getMidpointOfIndexes(lowIndex, highIndex);
 }
 
-template <typename Values>int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int const highIndex) {
+template <typename Values>
+int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int const highIndex) {
     // Based from https://en.wikipedia.org/wiki/Median_of_medians
 
     int result{};
@@ -88,6 +90,7 @@ template <typename Values>int getIndexOfMedianOfMedians(Values const& values, in
 }
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // Quick selection in worst-case linear time

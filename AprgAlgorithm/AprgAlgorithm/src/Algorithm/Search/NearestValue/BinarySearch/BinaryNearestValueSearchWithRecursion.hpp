@@ -7,7 +7,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class BinaryNearestValueSearchWithRecursion {
+template <typename Values>
+class BinaryNearestValueSearchWithRecursion {
 public:
     using Index = int;
     using Value = typename Values::value_type;

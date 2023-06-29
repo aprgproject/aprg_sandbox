@@ -7,7 +7,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class TopDownMergeSorter : public BaseSorter<Values> {
+template <typename Values>
+class TopDownMergeSorter : public BaseSorter<Values> {
 public:
     TopDownMergeSorter() = default;
 
@@ -32,6 +33,7 @@ private:
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Merge sort was invented by J. von Neumann in 1945.
 // Merge sort has a divide and conquer approach
 // When billions items to sort, merge sort is faster than insertion sort even if insertion sort is running on super

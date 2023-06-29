@@ -40,6 +40,7 @@ public:
 private:
     ValueToIndexableValueFunction m_valueToIndexableValueFunction;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

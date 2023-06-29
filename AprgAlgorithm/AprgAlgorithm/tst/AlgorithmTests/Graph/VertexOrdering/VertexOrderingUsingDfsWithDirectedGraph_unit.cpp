@@ -73,12 +73,10 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithDirectedGra
     VerticesForTest expectedReversePostOrderFromAVertex{30, 20, 10};
     VerticesForTest expectedPreOrderFromAllVertices{10, 11, 12, 13, 20, 21, 22, 23, 30, 31, 32, 33, 40};
     VerticesForTest expectedPostOrderFromAllVertices{10, 11, 12, 13, 20, 21, 22, 23, 30, 31, 32, 33, 40};
-    VerticesForTest expectedReversePostOrderFromAllVertices{40, 33, 32, 31, 30, 23, 22,
-                                                            21, 20, 13, 12, 11, 10};
+    VerticesForTest expectedReversePostOrderFromAllVertices{40, 33, 32, 31, 30, 23, 22, 21, 20, 13, 12, 11, 10};
     EXPECT_EQ(expectedPreOrderFromAVertex, preOrderFromAVertex);
     EXPECT_EQ(expectedPostOrderFromAVertex, postOrderFromAVertex);
-    EXPECT_EQ(expectedReversePostOrderFromAVertex, reversePostOrderAVertex);
-    EXPECT_EQ(expectedPreOrderFromAllVertices, preOrderFromAllVertices);
+    EXPECT_EQ(expectedReversePostOrderFromAVertex, reversePostOrderAVertex);    EXPECT_EQ(expectedPreOrderFromAllVertices, preOrderFromAllVertices);
     EXPECT_EQ(expectedPostOrderFromAllVertices, postOrderFromAllVertices);
     EXPECT_EQ(expectedReversePostOrderFromAllVertices, reversePostOrderFromAllVertices);
 }
@@ -129,11 +127,10 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGra
     EXPECT_EQ(expectedReversePostOrderFromAllVertices, reversePostOrderFromAllVertices);
 }
 
-TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePostOrderWithDirectedGraph) {
+TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksWithDirectedGraph) {
     GraphForTest graph;
     graph.connect(0, 1);
-    graph.connect(0, 5);
-    graph.connect(0, 6);
+    graph.connect(0, 5);    graph.connect(0, 6);
     graph.connect(2, 0);
     graph.connect(2, 3);
     graph.connect(3, 5);
@@ -154,6 +151,31 @@ TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePo
     VerticesForTest expectedPathFromAVertex{7, 6, 9, 11, 12, 10, 4};
     VerticesForTest expectedPathFromAllVertices{8, 7, 2, 3, 0, 6, 9, 11, 12, 10, 5, 4, 1};
     EXPECT_EQ(expectedPathFromAVertex, pathFromAVertex);
+    EXPECT_EQ(expectedPathFromAllVertices, pathFromAllVertices);
+}
+
+TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWithDagCheckingWorksWithDirectedGraph) {
+    GraphForTest graph;
+    graph.connect(0, 1);
+    graph.connect(0, 5);
+    graph.connect(0, 6);
+    graph.connect(2, 0);
+    graph.connect(2, 3);
+    graph.connect(3, 5);
+    graph.connect(5, 4);
+    graph.connect(6, 4);
+    graph.connect(6, 9);
+    graph.connect(7, 6);
+    graph.connect(8, 7);
+    graph.connect(9, 10);
+    graph.connect(9, 11);
+    graph.connect(9, 12);
+    graph.connect(11, 12);
+    VertexOrderingForTest vertexOrderingWithDfs(graph);
+
+    VerticesForTest pathFromAllVertices(vertexOrderingWithDfs.getVerticesInTopologicalOrderWithDagChecking());
+
+    VerticesForTest expectedPathFromAllVertices{8, 7, 2, 3, 0, 6, 9, 11, 12, 10, 5, 4, 1};
     EXPECT_EQ(expectedPathFromAllVertices, pathFromAllVertices);
 }
 

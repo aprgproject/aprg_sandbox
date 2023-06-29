@@ -91,14 +91,10 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnStringsUsingE
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(
-    RadixSorterUsingQuickSortWith3WayPartitioningTest,
-    SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // STABLE
-{
+TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) {
     StabilityCheckObjectsSorter sorter(getNibbleAtForStabilityCheckObject, isNibbleDigitValidForStabilityCheckObject);
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
-        sorter);
-}
+        sorter);}
 
 TEST(
     RadixSorterUsingQuickSortWith3WayPartitioningTest,

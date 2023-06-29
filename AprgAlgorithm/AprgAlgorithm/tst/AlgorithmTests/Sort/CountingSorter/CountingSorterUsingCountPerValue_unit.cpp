@@ -86,11 +86,10 @@ TEST(CountingSorterUsingCountPerValueTest, SortWorksOnPositiveAndNegativeInteger
 
 // CANNOT SORT STRINGS
 
-TEST(CountingSorterUsingCountPerValueTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE
+TEST(CountingSorterUsingCountPerValueTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
 {
     StabilityCheckObjectsSorter sorter(
-        stabilityCheckObjectToIndexableValueFunction, indexableValueToStabilityCheckObjectFunction);
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
+        stabilityCheckObjectToIndexableValueFunction, indexableValueToStabilityCheckObjectFunction);    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
         sorter);
 }
 

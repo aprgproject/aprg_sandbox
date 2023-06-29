@@ -31,6 +31,7 @@ private:
 private:
     PivotType m_pivotType;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

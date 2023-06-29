@@ -32,7 +32,8 @@ public:
     }
     void sortAtLeastSignificantDigit(Values& valuesToSort, int const digitIndex) const {
         // This is called: "key indexed counting"
-        // Character index starts in 1 because this array will be used to compute cumulates        // For example (alphabet is a, b, c, d...), position translate to this:
+        // Character index starts in 1 because this array will be used to compute cumulates
+        // For example (alphabet is a, b, c, d...), position translate to this:
         // 1) [0][a count][b count][c count]...
         // 2) [0][cumulate with a][cumulate with b][cumulate with c]...
         // 3) [a starting index][b starting index][c starting index][d starting index]...

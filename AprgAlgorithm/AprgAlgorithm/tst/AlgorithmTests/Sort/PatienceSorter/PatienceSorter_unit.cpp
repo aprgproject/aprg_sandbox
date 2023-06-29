@@ -68,14 +68,11 @@ TEST(PatienceSorterTest, SortWorksOnStringsUsingExample1) {
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(
-    PatienceSorterTest,
-    SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE (because of priority queue underneath)
-{
+TEST(PatienceSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) {
+    // not stable because of priority queue underneath
     StabilityCheckObjectsSorter sorter;
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
-        sorter);
-}
+        sorter);}
 
 }  // namespace algorithm
 

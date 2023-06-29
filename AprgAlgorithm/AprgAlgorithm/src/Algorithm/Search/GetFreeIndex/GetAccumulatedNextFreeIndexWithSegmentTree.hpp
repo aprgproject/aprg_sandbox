@@ -6,7 +6,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Indexes>class GetAccumulatedNextFreeIndexWithSegmentTree {
+template <typename Indexes>
+class GetAccumulatedNextFreeIndexWithSegmentTree {
 public:
     using Index = typename Indexes::value_type;
     using Utilities = SegmentTreeUtilities<Index>;

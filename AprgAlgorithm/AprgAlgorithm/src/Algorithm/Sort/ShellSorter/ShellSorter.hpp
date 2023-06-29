@@ -21,7 +21,8 @@ public:
             skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.        }
     }
 
-private:    void sortWithSkipping(Values& valuesToSort, int const skipValue) const {
+private:
+    void sortWithSkipping(Values& valuesToSort, int const skipValue) const {
         // This is h-sorting. An h-sorted array is h interleaved sorted subsequences.
         // This is insertion sort but with skipping
         for (int i = skipValue; i < static_cast<int>(valuesToSort.size()); i++) {
@@ -46,6 +47,7 @@ private:    void sortWithSkipping(Values& valuesToSort, int const skipValue) con
         return result;
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

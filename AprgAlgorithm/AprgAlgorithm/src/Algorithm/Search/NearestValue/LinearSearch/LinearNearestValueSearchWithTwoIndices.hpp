@@ -6,7 +6,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class LinearNearestValueSearchWithTwoIndices {
+template <typename Values>
+class LinearNearestValueSearchWithTwoIndices {
 public:
     using Index = int;
     using Value = typename Values::value_type;

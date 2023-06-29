@@ -61,11 +61,10 @@ TEST(CycleSorterTest, SortWorksOnStringsUsingExample1) {
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)  // NOT STABLE
+TEST(CycleSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
 {
     StabilityCheckObjectsSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
-        sorter);
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(        sorter);
 }
 
 }  // namespace algorithm

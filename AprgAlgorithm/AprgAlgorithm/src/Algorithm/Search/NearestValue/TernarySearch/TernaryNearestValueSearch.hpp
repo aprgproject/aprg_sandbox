@@ -6,7 +6,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class TernaryNearestValueSearch {
+template <typename Values>
+class TernaryNearestValueSearch {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -65,7 +66,8 @@ private:
         }        return result;
     }
 
-    Index getIndexOfNearestValueInBetweenTwoIndices(        Index const lowIndex, Index const highIndex, Value const& value) const {
+    Index getIndexOfNearestValueInBetweenTwoIndices(
+        Index const lowIndex, Index const highIndex, Value const& value) const {
         Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues[lowIndex]));
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;

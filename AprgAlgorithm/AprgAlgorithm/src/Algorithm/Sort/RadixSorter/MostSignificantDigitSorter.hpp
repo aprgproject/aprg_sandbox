@@ -86,7 +86,8 @@ private:
             areAllDigitsInvalid &= m_isDigitInvalidFunction(value, digitIndex);        }
     }
 
-    void computeCumulatesToGetNewIndexes(ArrayOfCountPerDigitValue& newIndexes) const {        for (int i = 0; i + 1 < static_cast<int>(newIndexes.size()); i++) {
+    void computeCumulatesToGetNewIndexes(ArrayOfCountPerDigitValue& newIndexes) const {
+        for (int i = 0; i + 1 < static_cast<int>(newIndexes.size()); i++) {
             newIndexes[i + 1] += newIndexes[i];
         }
     }
@@ -103,6 +104,7 @@ private:
             int replaceIndex = lowContainerIndex + newIndexes[m_getDigitAtFunction(copiedValue, digitIndex) + 1]++;            valuesToSort[replaceIndex] = copiedValue;
         }
     }
+
     void sortForEachCharacterValue(
         Values& valuesToSort, ArrayOfCountPerDigitValue const& newIndexes, int const lowContainerIndex,
         int const digitIndex) const {

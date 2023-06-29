@@ -67,11 +67,10 @@ TEST(CountingSorterUsingNewPositionsTest, SortWorksOnPositiveAndNegativeIntegers
 
 // CANNOT SORT STRINGS
 
-TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)  // STABLE
+TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
     StabilityCheckObjectsSorter sorter(stabilityCheckObjectToIndexableValueFunction);
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
-}
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);}
 
 }  // namespace algorithm
 

@@ -7,7 +7,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class BinaryNearestValueSearchWithTwoIndices {
+template <typename Values>
+class BinaryNearestValueSearchWithTwoIndices {
 public:
     using Index = int;
     using Value = typename Values::value_type;

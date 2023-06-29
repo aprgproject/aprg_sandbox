@@ -25,6 +25,7 @@ public:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // No recursion approach

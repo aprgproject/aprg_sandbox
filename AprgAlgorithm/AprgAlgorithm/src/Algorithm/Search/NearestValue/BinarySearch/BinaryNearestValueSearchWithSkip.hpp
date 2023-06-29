@@ -6,7 +6,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class BinaryNearestValueSearchWithSkip {
+template <typename Values>
+class BinaryNearestValueSearchWithSkip {
 public:
     using Index = int;
     using Value = typename Values::value_type;

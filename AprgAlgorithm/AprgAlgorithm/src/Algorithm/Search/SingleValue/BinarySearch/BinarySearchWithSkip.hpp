@@ -5,7 +5,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values>class BinarySearchWithSkip {
+template <typename Values>
+class BinarySearchWithSkip {
 public:
     using Index = int;
     using Value = typename Values::value_type;
