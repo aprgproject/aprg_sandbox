@@ -35,8 +35,17 @@ void testSearchUsingExample1() {
     EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(mainString));
 }
 
+template <typename SubstringSearch, typename Index>
+void testSearchUsingExample2() {
+    SubstringSearch substringSearchWithHit("blue");
+    SubstringSearch substringSearchWithoutHit("red");
+    string mainString("Mr. Blue has a blue house");
+
+    EXPECT_EQ(Index(15), substringSearchWithHit.search(mainString));
+    EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(mainString));
+}
+
 }  // namespace CommonTestsWithSubstringSearch
 
 }  // namespace algorithm
-
 }  // namespace alba

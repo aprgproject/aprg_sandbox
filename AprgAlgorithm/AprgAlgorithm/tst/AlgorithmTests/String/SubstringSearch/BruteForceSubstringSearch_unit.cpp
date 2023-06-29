@@ -28,8 +28,16 @@ TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1) {
     testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();
 }
 
+TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample2) {
+    testSearchUsingExample2<BruteForceSubstringSearchWithOneLoop, Index>();
+}
+
 TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1) {
     testSearchUsingExample1<BruteForceSubstringSearchWithTwoLoops, Index>();
+}
+
+TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample2) {
+    testSearchUsingExample2<BruteForceSubstringSearchWithTwoLoops, Index>();
 }
 
 }  // namespace algorithm

@@ -23,6 +23,10 @@ TEST(KnuthMorrisPrattSubstringSearchTest, SearchWorksUsingExample1) {
     testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
+TEST(KnuthMorrisPrattSubstringSearchTest, SearchWorksUsingExample2) {
+    testSearchUsingExample2<SubstringSearchForTest, Index>();
+}
+
 }  // namespace algorithm
 
 }  // namespace alba

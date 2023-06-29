@@ -1,55 +1,50 @@
 #pragma once
 
+#include <Common/Types/AlbaTypeHelper.hpp>
+
 #include <array>
 #include <string>
-
 namespace alba {
 
 namespace algorithm {
-
 template <typename Index>
 class BoyerMooreSubstringSearch {
 public:
+    static_assert(typeHelper::isIntegralType<Index>(), "Index must be signed (to handle -1)");
     using RadixType = int;
-    using Position = int;  // allows negative position
     static constexpr RadixType RADIX = 256;
-    using SkipTable = std::array<Position, RADIX>;
+    static constexpr Index INVALID_POSITION = -1;
+    using SkipTable = std::array<Index, RADIX>;
 
     BoyerMooreSubstringSearch(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch), m_rightMostLetterPosition{} {
+        : m_substringToMatch(substringToMatch), m_rightMostLetterIndex{} {
         initialize();
     }
-
     Index search(std::string const& mainString) {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainLength(mainString.size());
-        Index substringLength(m_substringToMatch.size());
+        Index mainLength(mainString.size());        Index substringLength(m_substringToMatch.size());
         int skipValue(0);
         for (Index searchIndex = 0; searchIndex + substringLength <= mainLength; searchIndex += skipValue) {
             skipValue = 0;
-            for (Index matchIndex = 0; matchIndex < substringLength; matchIndex++) {
-                Index matchReverseIndex(substringLength - matchIndex - 1);
-                if (m_substringToMatch[matchReverseIndex] !=
-                    mainString[searchIndex + matchReverseIndex])  // if mismatch
-                {
-                    Position positionOfLetter(
-                        m_rightMostLetterPosition[mainString[searchIndex + matchReverseIndex]]);
+            for (Index matchStartIndex = 0; matchStartIndex < substringLength; matchStartIndex++) {
+                Index matchEndIndex(substringLength - 1 - matchStartIndex);
+                // if mismatch
+                if (m_substringToMatch[matchEndIndex] != mainString[searchIndex + matchEndIndex]) {
+                    Index letterIndex(m_rightMostLetterIndex[mainString[searchIndex + matchEndIndex]]);
                     // (Case 1) happens if positionOfLetter is -1
-                    if (static_cast<Position>(matchReverseIndex) >
-                        positionOfLetter + 1)  // there should be at least 1 difference to maintain forward progress
-                    {
-                        skipValue =
-                            matchReverseIndex - positionOfLetter;  // (Case 2a) // align letter position for skip value
+                    // there should be at least 1 difference to maintain forward progress
+                    if (letterIndex + 1 < static_cast<Index>(matchEndIndex)) {
+                        // (Case 2a) align letter position for skip value
+                        skipValue = matchEndIndex - letterIndex;
                     } else {
-                        skipValue = 1;  // (Case 2b) guarantee forward progress
+                        // (Case 2b) guarantee forward progress
+                        skipValue = 1;
                     }
                     break;
-                }
-            }
+                }            }
             if (skipValue == 0)  // all letters matched
             {
-                result = searchIndex;
-                break;
+                result = searchIndex;                break;
             }
         }
         return result;
@@ -57,26 +52,24 @@ public:
 
 private:
     void initialize() {
-        char i(0);
         for (RadixType i = 0; i < RADIX; i++) {
-            m_rightMostLetterPosition[i] = -1;  // assign negative one for case 1
+            m_rightMostLetterIndex[i] = INVALID_POSITION;  // assign negative one for case 1
         }
+        Index substringIndex = 0;
         for (char const c : m_substringToMatch) {
-            m_rightMostLetterPosition[c] = i++;
             // if there are multiple instances of letter, it overwrites (right most position is taken)
+            m_rightMostLetterIndex[c] = substringIndex++;
         }
     }
 
     std::string m_substringToMatch;
-    SkipTable m_rightMostLetterPosition;
+    SkipTable m_rightMostLetterIndex;
 };
 
-// Intuition:
-// -> Scan characters in pattern from right to left
+// Intuition:// -> Scan characters in pattern from right to left
 // -> Can skip as many as M text chars when finding one not in the pattern
 
-// How much to skip?
-// Case 1: Mismatch character not in pattern
+// How much to skip?// Case 1: Mismatch character not in pattern
 // -> increment starting index with one character beyond the mismatch
 // ---> Before:
 // .......TLE.......
