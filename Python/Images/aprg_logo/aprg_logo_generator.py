@@ -10,12 +10,45 @@ def get_rgb_on_circle(scale, rgb_start, rgb_end):
     return round(scale*(rgb_end - rgb_start) + rgb_start)
 
 
-def get_scale_on_circle(scale_to_change, noise_scale):
-    return 0.8*scale_to_change*noise_scale + 0.2*random.random()*(1-noise_scale)
-
-
 def get_rgb_on_text(original_rgb, alpha_scale, scale_x):
-    return 127 + 128*0.9*(0.8*scale_x + 0.2*(1-scale_x)*random.random()) + 0.1*alpha_scale*original_rgb
+    return 127 + 0.9*scale_x*128 + 0.1*alpha_scale*original_rgb
+
+
+def are_colors_too_far(pixel1, pixel2):
+    difference_limit = 24
+    return (abs(int(pixel1[0]) - int(pixel2[0])) > difference_limit
+            or abs(int(pixel1[1]) - int(pixel2[1])) > difference_limit
+            or abs(int(pixel1[2]) - int(pixel2[2])) > difference_limit)
+
+def get_darker(color, scale):
+    darkest = 0.3
+    remaining_scale = 1 - darkest    scale = darkest + remaining_scale*scale
+    return [color[0]*scale, color[1]*scale, color[2]*scale, color[3]]
+
+
+def get_lighter(color, scale):
+    lightest = 0.3
+    remaining_scale = 1 - lightest
+    scale = lightest + remaining_scale*scale
+    return [min(255, color[0]/scale), min(255, color[1]/scale), min(255, color[2]/scale), color[3]]
+
+
+def apply_noise(color, noise_scale):
+    return color*(1-noise_scale) + random.randint(0, 255)*(noise_scale)
+
+
+def get_with_noise(color, noise_scale):
+    return [apply_noise(color[0], noise_scale), apply_noise(color[1], noise_scale), apply_noise(color[2], noise_scale), color[3]]
+
+
+def draw_noise(image):
+    y_size, x_size, _ = np.shape(image)
+    x_mid = (x_size+1)//2
+    for x in range(x_size):
+        for y in range(y_size):
+            noise_scale = 0.05*(abs(x-x_mid)/x_mid) + 0.05
+            if image[y, x, 3] != 0:
+                image[y, x] = get_with_noise(image[y, x], noise_scale)
 
 
 def draw_pixel_at_circle(image, x, y, top_left, bottom_right, color_start, color_end):
@@ -24,37 +57,20 @@ def draw_pixel_at_circle(image, x, y, top_left, bottom_right, color_start, color
     scale_hyp = math.dist(top_left, (x, y)) / math.dist(top_left, bottom_right)
 
     image[y, x] = [
-        get_rgb_on_circle(get_scale_on_circle(scale_x, scale_x),
+        get_rgb_on_circle(scale_x,
                           color_start[0], color_end[0]),
-        get_rgb_on_circle(get_scale_on_circle(scale_y, scale_x),
+        get_rgb_on_circle(scale_y,
                           color_start[1], color_end[1]),
-        get_rgb_on_circle(get_scale_on_circle(
-            scale_hyp, scale_x), color_start[2], color_end[2]),
+        get_rgb_on_circle(scale_hyp, color_start[2], color_end[2]),
         255]
-
-
-def are_colors_too_far(pixel1, pixel2):
-    difference_limit = 48
-    return (abs(int(pixel1[0]) - int(pixel2[0])) > difference_limit
-            or abs(int(pixel1[1]) - int(pixel2[1])) > difference_limit
-            or abs(int(pixel1[2]) - int(pixel2[2])) > difference_limit)
-
-
-def get_darker(color, scale):
-    darkest = 0.3
-    remaining_scale = 1 - darkest
-    scale = darkest + remaining_scale*scale
-    return [color[0]*scale, color[1]*scale, color[2]*scale, color[3]]
 
 
 def add_to_edge_point(image, x, y, edge_point_to_color):
     y_size, x_size, _ = np.shape(image)
-    radius = 3
-    for ix in range(-radius, radius+1):
+    radius = 3    for ix in range(-radius, radius+1):
         for iy in range(-radius, radius+1):
             distance = math.dist((0, 0), (ix, iy))
-            if distance <= radius:
-                coordinate = (y+iy, x+ix)
+            if distance <= radius:                coordinate = (y+iy, x+ix)
                 if coordinate[0] >= 0 and coordinate[0] < x_size and coordinate[1] >= 0 and coordinate[1] < y_size:
                     new_color = get_darker(
                         image[coordinate], 0.6+0.4*(distance/radius))
@@ -75,16 +91,16 @@ def draw_pixel_at_A(image, x, y, original_pixel, x_mid, x_size):
 
 def draw_circle(image):
     y_size, x_size, _ = np.shape(image)
+    # color_top_left, color_top_right, color_bottom_left, color_bottom_right = (
+    #    76, 129, 134), (210, 223, 225), (127, 85, 131), (15, 10, 16)
     color_top_left, color_top_right, color_bottom_left, color_bottom_right = (
-        76, 129, 134), (210, 223, 225), (127, 85, 131), (15, 10, 16)
+        14, 178, 210), (255, 255, 255), (179, 1, 196), (0, 0, 0)
     radius = x_size*0.4
     multiplier_sin_function = radius/4
-    multiplier_to_angle = math.pi/radius
-    midpoint = ((x_size+1)//2, (y_size+1)//2)
+    multiplier_to_angle = math.pi/radius    midpoint = ((x_size+1)//2, (y_size+1)//2)
     top_left = (midpoint[0]-radius, midpoint[1]-radius)
     bottom_right = (midpoint[0]+radius, midpoint[1]+radius)
-    for x in range(x_size):
-        for y in range(y_size):
+    for x in range(x_size):        for y in range(y_size):
             distance = math.dist(midpoint, (x, y))
             if distance < radius:
                 wave_y = midpoint[1] - math.sin((x - top_left[0])
@@ -92,17 +108,26 @@ def draw_circle(image):
                 if y < wave_y:
                     draw_pixel_at_circle(
                         image, x, y, top_left, bottom_right, color_top_left, color_top_right)
+                    image[y, x] = get_lighter(
+                        image[y, x], 0.6 + (1-(distance/radius))*0.4)
+                    if radius*0.9 < distance:
+                        reverse_scale = 2.8-(distance/radius)*2  # 1 to 0.8
+                        image[y, x] = get_lighter(image[y, x], reverse_scale)
                 else:
                     draw_pixel_at_circle(
                         image, x, y, top_left, bottom_right, color_bottom_left, color_bottom_right)
+                    image[y, x] = get_darker(
+                        image[y, x], 0.6 + (1-(distance/radius))*0.4)
+                    if radius*0.9 < distance:
+                        reverse_scale = 2.8-(distance/radius)*2  # 1 to 0.8
+                        image[y, x] = get_darker(image[y, x], reverse_scale)
+                    image[y, x] = get_darker(image[y, x], reverse_scale)
 
 
-def draw_A(image):
-    y_size, x_size, _ = np.shape(image)
+def draw_A(image):    y_size, x_size, _ = np.shape(image)
     x_mid = (x_size+1)//2
     y_s_multiplier = y_size/1280
-    edge_point1 = None
-    for x in range(x_size):
+    edge_point1 = None    for x in range(x_size):
         for y in range(y_size):
             # check notes for more info about the polynomials
             x_s = x*1280/x_size
@@ -137,22 +162,20 @@ def darken_edges(image):
                 or are_colors_too_far(image[y, x], image[y-1, x])
                     or are_colors_too_far(image[y, x], image[y+1, x])):
                 add_to_edge_point(image, x, y, edge_point_to_color)
-
-    print(len(edge_point_to_color))
-    for edge_point, color in edge_point_to_color.items():
-        image[edge_point[0], edge_point[1]] = color
+    for edge_point, new_color in edge_point_to_color.items():
+        image[edge_point[0], edge_point[1]] = new_color
 
 
 def generate_aprg_logo():
-    image = skimage.io.imread('sample.png')
+    image = skimage.io.imread('sample_small.png')
 
     draw_circle(image)
     draw_A(image)
     darken_edges(image)
+    draw_noise(image)
 
-    skimage.io.imsave('aprg_logo.png', image)
+    skimage.io.imsave('aprg_logo_small.png', image)
 
 
-if __name__ == '__main__':
-    generate_aprg_logo()
+if __name__ == '__main__':    generate_aprg_logo()
     print('done!')
