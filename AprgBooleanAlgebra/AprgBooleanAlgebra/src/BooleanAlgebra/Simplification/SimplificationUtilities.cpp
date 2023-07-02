@@ -27,15 +27,13 @@ using QuineMcCluskey = QuineMcCluskey<Minterm>;
 
 // utilties functions for this file
 namespace {
-Implicants getBestFinalImplicantsUsingQuineMcCluskey(Term const& term, VariableNamesSet const& variableNames) {
+Implicants getBestPrimeImplicantsUsingQuineMcCluskey(Term const& term, VariableNamesSet const& variableNames) {
     int numberOfBits = variableNames.size();
     QuineMcCluskey qmc;
-    SubstitutionOfVariablesToValues substitution;
-    for (Minterm minterm = 0; minterm < static_cast<Minterm>(1 << numberOfBits); minterm++) {
+    SubstitutionOfVariablesToValues substitution;    for (Minterm minterm = 0; minterm < static_cast<Minterm>(1 << numberOfBits); minterm++) {
         int i = 0;
         for (string const& variableName : variableNames) {
-            bool value = (minterm & (1 << i++)) > 0;
-            substitution.putVariableWithValue(variableName, value);
+            bool value = (minterm & (1 << i++)) > 0;            substitution.putVariableWithValue(variableName, value);
         }
         Term output(substitution.performSubstitutionTo(term));
         if (output.isConstant()) {
@@ -44,17 +42,15 @@ Implicants getBestFinalImplicantsUsingQuineMcCluskey(Term const& term, VariableN
     }
     qmc.fillComputationalTableWithMintermsWithZeroCommonalityCount();
     qmc.findAllCombinations();
-    Implicants finalImplicants(qmc.getAllFinalImplicants());
-    Implicants bestFinalImplicants(qmc.getBestFinalImplicants(finalImplicants));
-    return bestFinalImplicants;
+    Implicants primeImplicants(qmc.getAllPrimeImplicants());
+    Implicants bestPrimeImplicants(qmc.getBestPrimeImplicants(primeImplicants));
+    return bestPrimeImplicants;
 }
 
-void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
-    WrappedTerms& newWrappedTerms, OperatorLevel& mainOperatorLevel, Expression const& subExpression) {
+void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(    WrappedTerms& newWrappedTerms, OperatorLevel& mainOperatorLevel, Expression const& subExpression) {
     OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
     if (subExpression.containsOnlyOneTerm() || OperatorLevel::Unknown == mainOperatorLevel ||
-        subExpressionOperatorLevel == mainOperatorLevel) {
-        if (OperatorLevel::Unknown == mainOperatorLevel) {
+        subExpressionOperatorLevel == mainOperatorLevel) {        if (OperatorLevel::Unknown == mainOperatorLevel) {
             mainOperatorLevel = subExpressionOperatorLevel;
         }
         simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
@@ -141,20 +137,18 @@ void simplifyByQuineMcKluskey(Term& term) {
             DualOperationMutator mutator;
             mutator.mutateTerm(term);  // get dual if target is "outer and" "inner or"
         }
-        Implicants bestFinalImplicants(getBestFinalImplicantsUsingQuineMcCluskey(term, variableNames));
-        if (bestFinalImplicants.getSize() > 0) {
+        Implicants bestPrimeImplicants(getBestPrimeImplicantsUsingQuineMcCluskey(term, variableNames));
+        if (bestPrimeImplicants.getSize() > 0) {
             Expression newExpression;
-            for (Implicant const& bestFinalImplicant : bestFinalImplicants.getImplicantsData()) {
+            for (Implicant const& bestPrimeImplicant : bestPrimeImplicants.getImplicantsData()) {
                 Expression implicantExpression;
-                string bitString(bestFinalImplicant.getEquivalentString(variableNames.size()));
+                string bitString(bestPrimeImplicant.getEquivalentString(variableNames.size()));
                 int i = variableNames.size() - 1;
                 for (string const& variableName : variableNames) {
-                    char primeBit(bitString[i]);
-                    implicantExpression.putTerm(
+                    char primeBit(bitString[i]);                    implicantExpression.putTerm(
                         getTermFromVariableAndPrimeValue(variableName, primeBit),
                         targetInner);  // if "outer and" "inner or", its the saved as dual
-                    i--;
-                }
+                    i--;                }
                 newExpression.putTerm(
                     Term(implicantExpression), targetOuter);  // if "outer and" "inner or", its the saved as dual
             }

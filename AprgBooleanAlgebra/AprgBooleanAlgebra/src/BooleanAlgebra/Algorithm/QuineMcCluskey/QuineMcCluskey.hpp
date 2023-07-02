@@ -57,22 +57,20 @@ public:
         return result;
     }
 
-    ImplicantsWithMinterm getAllFinalImplicants() const {
+    ImplicantsWithMinterm getAllPrimeImplicants() const {
         ImplicantsWithMinterm result;
         for (auto it = m_computationalTable.begin(); it != m_computationalTable.end(); it++) {
             ImplicantsMap const& implicantsMap(it->second);
             for (auto reverseIt = implicantsMap.rbegin(); reverseIt != implicantsMap.rend(); reverseIt++) {
                 ImplicantsWithMinterm const& currentImplicants(reverseIt->second);
                 for (ImplicantWithMinterm const& implicant : currentImplicants.getImplicantsData()) {
-                    result.addFinalImplicant(implicant);
+                    result.addPrimeImplicant(implicant);
                 }
             }
-        }
-        return result;
+        }        return result;
     }
 
-    bool doImplicantsExistAt(int numberOfOnes, int commonalityCount) const {
-        bool result(false);
+    bool doImplicantsExistAt(int numberOfOnes, int commonalityCount) const {        bool result(false);
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
         if (numberOfOnesIt != m_computationalTable.end()) {
             ImplicantsMap const& implicantsMap(numberOfOnesIt->second);
@@ -135,75 +133,73 @@ public:
         return ss.str();
     }
 
-    ImplicantsWithMinterm getBestFinalImplicants(ImplicantsWithMinterm const& finalImplicants) const {
+    ImplicantsWithMinterm getBestPrimeImplicants(ImplicantsWithMinterm const& primeImplicants) const {
+        // This way should be better: https://en.wikipedia.org/wiki/Petrick%27s_method
         // Specialized selection
         ImplicantsWithMinterm result;
         SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
-
         while (!inputMintermsWithTrue.empty()) {
             std::map<Minterm, int> inputMintermToCountMap;
             std::map<Minterm, ImplicantWithMinterm> inputMintermToImplicantMap;
-            std::map<int, ImplicantWithMinterm> countToImplicantMap;
-            for (ImplicantWithMinterm const& implicant : finalImplicants.getImplicantsData()) {
-                int implicantCount(0U);
+            std::map<int, ImplicantWithMinterm> mintermCountToImplicantMap;
+            for (ImplicantWithMinterm const& implicant : primeImplicants.getImplicantsData()) {
+                int mintermCountForImplicant(0U);
                 for (auto const& inputMinterm : inputMintermsWithTrue) {
                     if (implicant.isSuperset(inputMinterm)) {
                         inputMintermToCountMap[inputMinterm]++;
                         inputMintermToImplicantMap.emplace(inputMinterm, implicant);
-                        implicantCount++;
+                        mintermCountForImplicant++;
                     }
                 }
-                countToImplicantMap.emplace(implicantCount, implicant);
+                mintermCountToImplicantMap.emplace(mintermCountForImplicant, implicant);
             }
             int minCount = std::numeric_limits<int>::max();
-            Minterm mintermWithMinCount;
-            for (auto const& inputMintermAndCountPair : inputMintermToCountMap) {
+            Minterm mintermWithMinCount;            for (auto const& inputMintermAndCountPair : inputMintermToCountMap) {
                 if (minCount > inputMintermAndCountPair.second) {
                     mintermWithMinCount = inputMintermAndCountPair.first;
                     minCount = inputMintermAndCountPair.second;
                 }
             }
-            ImplicantWithMinterm bestFinalImplicant;
+            ImplicantWithMinterm bestPrimeImplicant;
             if (minCount == 1U) {
-                bestFinalImplicant = inputMintermToImplicantMap[mintermWithMinCount];
+                bestPrimeImplicant = inputMintermToImplicantMap[mintermWithMinCount];
             } else {
-                auto it = countToImplicantMap.cend();
-                it--;
-                bestFinalImplicant = it->second;
+                bestPrimeImplicant = std::prev(mintermCountToImplicantMap.cend())->second;
             }
-            SetOfMinterms bestFinalImplicantMinterms(bestFinalImplicant.getMinterms());
-            if (!bestFinalImplicantMinterms.empty()) {
-                for (Minterm const& bestFinalImplicantMinterm : bestFinalImplicantMinterms) {
-                    inputMintermsWithTrue.erase(bestFinalImplicantMinterm);
+            SetOfMinterms bestPrimeImplicantMinterms(bestPrimeImplicant.getMinterms());
+            if (!bestPrimeImplicantMinterms.empty()) {
+                for (Minterm const& bestPrimeImplicantMinterm : bestPrimeImplicantMinterms) {
+                    inputMintermsWithTrue.erase(bestPrimeImplicantMinterm);
                 }
-                result.addImplicant(bestFinalImplicant);
+                result.addImplicant(bestPrimeImplicant);
             }
         }
         return result;
     }
 
-    std::string getOutputTable(ImplicantsWithMinterm const& finalImplicants) const {
+    std::string getOutputTable(ImplicantsWithMinterm const& primeImplicants) const {
         Minterms inputsWithTrue(getInputMintermsWithTrue());
         DisplayTable displayTable;
-        displayTable.setBorders("", "|");
-        displayTable.addRow();
+        displayTable.setBorders("", "|");        displayTable.addRow();
         displayTable.getLastRow().addCell(" ");
         for (auto const& input : inputsWithTrue) {
             std::stringstream ss;
             ss << input;
             displayTable.getLastRow().addCell(ss.str());
         }
-        for (ImplicantWithMinterm const& implicant : finalImplicants.getImplicantsData()) {
+        int maxLength = 0;
+        for (ImplicantWithMinterm const& implicant : primeImplicants.getImplicantsData()) {
+            maxLength = std::max(maxLength, implicant.getMaxLengthOfEquivalentString());
+        }
+        for (ImplicantWithMinterm const& implicant : primeImplicants.getImplicantsData()) {
             displayTable.addRow();
-            displayTable.getLastRow().addCell(implicant.getEquivalentString(8));
+            displayTable.getLastRow().addCell(implicant.getEquivalentString(maxLength));
             for (auto const& input : inputsWithTrue) {
                 std::string cell = implicant.isSuperset(input) ? "X" : " ";
-                displayTable.getLastRow().addCell(cell);
-            }
+                displayTable.getLastRow().addCell(cell);            }
         }
         return stringHelper::convertToString(displayTable);
     }
-
 private:
     Minterms getInputMintermsWithTrue() const {
         Minterms result;

@@ -34,15 +34,13 @@ public:
 
     void addImplicant(ImplicantWithMinterm const& implicant) { m_implicantsData.emplace(implicant); }
 
-    void addFinalImplicant(ImplicantWithMinterm const& implicant) {
+    void addPrimeImplicant(ImplicantWithMinterm const& implicant) {
         bool isAlreadyRepresented(false);
         for (ImplicantWithMinterm const& iteratorImplicant : m_implicantsData) {
-            if (implicant.isSubset(iteratorImplicant)) {
-                isAlreadyRepresented = true;
+            if (implicant.isSubset(iteratorImplicant)) {                isAlreadyRepresented = true;
                 break;
             }
-        }
-        if (!isAlreadyRepresented) {
+        }        if (!isAlreadyRepresented) {
             m_implicantsData.emplace(implicant);
         }
     }
