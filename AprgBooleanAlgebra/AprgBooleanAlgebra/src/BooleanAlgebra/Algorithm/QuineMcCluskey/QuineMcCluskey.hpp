@@ -1,10 +1,10 @@
 #pragma once
 
-#include <BooleanAlgebra/Algorithm/QuineMcCluskey/Implicant.hpp>
-#include <BooleanAlgebra/Algorithm/QuineMcCluskey/Implicants.hpp>
+#include <BooleanAlgebra/Algorithm/QuineMcCluskey/ImplicantTemplate.hpp>
 #include <BooleanAlgebra/Algorithm/QuineMcCluskey/LogicalValue.hpp>
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
+#include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
 
@@ -22,11 +22,11 @@ class QuineMcCluskey {
 public:
     using Minterms = std::vector<Minterm>;
     using SetOfMinterms = std::set<Minterm>;
-    using ImplicantWithMinterm = Implicant<Minterm>;
-    using ImplicantsWithMinterm = Implicants<Minterm>;
-    using ImplicantsMap = std::map<Minterm, ImplicantsWithMinterm>;
+    using Implicant = ImplicantTemplate<Minterm>;
+    using Implicants = std::set<Implicant>;
+    using MintermToImplicantsMap = std::map<Minterm, Implicants>;
     using InputToOutputMap = std::map<Minterm, LogicalValue>;
-    using ComputationalTable = std::map<Minterm, ImplicantsMap>;
+    using ComputationalTable = std::map<Minterm, MintermToImplicantsMap>;
 
     QuineMcCluskey() : m_maxCommonalityCount(0) {}
 
@@ -41,39 +41,50 @@ public:
 
     int getNumberOfOnes(Minterm const value) const { return AlbaBitValueUtilities<Minterm>::getNumberOfOnes(value); }
 
-    ImplicantsWithMinterm getImplicants(int numberOfOnes, int commonalityCount) const {
-        ImplicantsWithMinterm result;
+    Implicants getImplicants(int numberOfOnes, int commonalityCount) const {
+        Implicants result;
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
         if (numberOfOnesIt != m_computationalTable.end()) {
-            ImplicantsMap const& implicantsMap(numberOfOnesIt->second);
+            MintermToImplicantsMap const& implicantsMap(numberOfOnesIt->second);
             auto commonalityCountIt = implicantsMap.find(commonalityCount);
             if (commonalityCountIt != implicantsMap.end()) {
-                ImplicantsWithMinterm const& implicants(commonalityCountIt->second);
-                for (ImplicantWithMinterm const& implicant : implicants.getImplicantsData()) {
-                    result.addImplicant(implicant);
+                Implicants const& implicants(commonalityCountIt->second);
+                for (Implicant const& implicant : implicants) {
+                    result.emplace(implicant);
                 }
             }
         }
         return result;
     }
 
-    ImplicantsWithMinterm getAllPrimeImplicants() const {
-        ImplicantsWithMinterm result;
+    Implicants getAllPrimeImplicants() const {
+        Implicants result;
         for (auto it = m_computationalTable.begin(); it != m_computationalTable.end(); it++) {
-            ImplicantsMap const& implicantsMap(it->second);
+            MintermToImplicantsMap const& implicantsMap(it->second);
             for (auto reverseIt = implicantsMap.rbegin(); reverseIt != implicantsMap.rend(); reverseIt++) {
-                ImplicantsWithMinterm const& currentImplicants(reverseIt->second);
-                for (ImplicantWithMinterm const& implicant : currentImplicants.getImplicantsData()) {
-                    result.addPrimeImplicant(implicant);
+                Implicants const& implicantsFromTable(reverseIt->second);
+                for (Implicant const& implicantFromTable : implicantsFromTable) {
+                    bool isAlreadyCovered(false);
+                    for (Implicant const& existingImplicant : result) {
+                        if (implicantFromTable.isASubsetOf(existingImplicant)) {
+                            isAlreadyCovered = true;
+                            break;
+                        }
+                    }
+                    if (!isAlreadyCovered) {
+                        result.emplace(implicantFromTable);
+                    }
                 }
             }
-        }        return result;
+        }
+        return result;
     }
 
-    bool doImplicantsExistAt(int numberOfOnes, int commonalityCount) const {        bool result(false);
+    bool doImplicantsExistAt(int numberOfOnes, int commonalityCount) const {
+        bool result(false);
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
         if (numberOfOnesIt != m_computationalTable.end()) {
-            ImplicantsMap const& implicantsMap(numberOfOnesIt->second);
+            MintermToImplicantsMap const& implicantsMap(numberOfOnesIt->second);
             result = implicantsMap.find(commonalityCount) != implicantsMap.end();
         }
         return result;
@@ -109,12 +120,12 @@ public:
 
     void findCombinationOfImplicants(int numberOfOnes, int commonalityCount) {
         if (numberOfOnes + 1 < static_cast<int>(m_computationalTable.size())) {
-            ImplicantsWithMinterm const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);
-            ImplicantsWithMinterm const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
-            for (ImplicantWithMinterm const& implicant1 : implicants1.getImplicantsData()) {
-                for (ImplicantWithMinterm const& implicant2 : implicants2.getImplicantsData()) {
+            Implicants const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);
+            Implicants const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
+            for (Implicant const& implicant1 : implicants1) {
+                for (Implicant const& implicant2 : implicants2) {
                     if (implicant1.isCompatible(implicant2)) {
-                        m_computationalTable[numberOfOnes][commonalityCount + 1].addImplicant(implicant1 + implicant2);
+                        m_computationalTable[numberOfOnes][commonalityCount + 1].emplace(implicant1 + implicant2);
                     }
                 }
             }
@@ -126,61 +137,202 @@ public:
         for (auto const& numberOfOnesAndCommonalityCountImplicantsPair : m_computationalTable) {
             ss << "Number of ones = " << numberOfOnesAndCommonalityCountImplicantsPair.first << "\n";
             for (auto const& commonalityCountAndImplicantsPair : numberOfOnesAndCommonalityCountImplicantsPair.second) {
-                ss << "Commonality count = " << commonalityCountAndImplicantsPair.first << " with "
-                   << commonalityCountAndImplicantsPair.second << "\n";
+                ss << "Commonality count = " << commonalityCountAndImplicantsPair.first << " with ";
+                printParameterWithName(ss, "Implicants", commonalityCountAndImplicantsPair.second);
+                ss << "\n";
             }
         }
         return ss.str();
     }
 
-    ImplicantsWithMinterm getBestPrimeImplicants(ImplicantsWithMinterm const& primeImplicants) const {
-        // This way should be better: https://en.wikipedia.org/wiki/Petrick%27s_method
-        // Specialized selection
-        ImplicantsWithMinterm result;
-        SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
-        while (!inputMintermsWithTrue.empty()) {
-            std::map<Minterm, int> inputMintermToCountMap;
-            std::map<Minterm, ImplicantWithMinterm> inputMintermToImplicantMap;
-            std::map<int, ImplicantWithMinterm> mintermCountToImplicantMap;
-            for (ImplicantWithMinterm const& implicant : primeImplicants.getImplicantsData()) {
-                int mintermCountForImplicant(0U);
-                for (auto const& inputMinterm : inputMintermsWithTrue) {
-                    if (implicant.isSuperset(inputMinterm)) {
-                        inputMintermToCountMap[inputMinterm]++;
-                        inputMintermToImplicantMap.emplace(inputMinterm, implicant);
-                        mintermCountForImplicant++;
-                    }
+    Implicants getBestPrimeImplicants(Implicants const& primeImplicants) const {
+        return getBestPrimeImplicantsPetricksMethod(primeImplicants);
+    }
+
+    bool isASubset(std::set<int> const& smaller, std::set<int> const& larger) const {
+        bool result(false);
+        if (smaller.size() <= larger.size()) {
+            result = true;
+            for (Minterm const& elementOfSmaller : smaller) {
+                auto it = larger.find(elementOfSmaller);
+                if (it == larger.cend()) {
+                    result = false;
+                    break;
                 }
-                mintermCountToImplicantMap.emplace(mintermCountForImplicant, implicant);
-            }
-            int minCount = std::numeric_limits<int>::max();
-            Minterm mintermWithMinCount;            for (auto const& inputMintermAndCountPair : inputMintermToCountMap) {
-                if (minCount > inputMintermAndCountPair.second) {
-                    mintermWithMinCount = inputMintermAndCountPair.first;
-                    minCount = inputMintermAndCountPair.second;
-                }
-            }
-            ImplicantWithMinterm bestPrimeImplicant;
-            if (minCount == 1U) {
-                bestPrimeImplicant = inputMintermToImplicantMap[mintermWithMinCount];
-            } else {
-                bestPrimeImplicant = std::prev(mintermCountToImplicantMap.cend())->second;
-            }
-            SetOfMinterms bestPrimeImplicantMinterms(bestPrimeImplicant.getMinterms());
-            if (!bestPrimeImplicantMinterms.empty()) {
-                for (Minterm const& bestPrimeImplicantMinterm : bestPrimeImplicantMinterms) {
-                    inputMintermsWithTrue.erase(bestPrimeImplicantMinterm);
-                }
-                result.addImplicant(bestPrimeImplicant);
             }
         }
         return result;
     }
 
-    std::string getOutputTable(ImplicantsWithMinterm const& primeImplicants) const {
+    Implicants getBestPrimeImplicantsPetricksMethod(Implicants const& primeImplicants) const {
+        // Based from this: https://en.wikipedia.org/wiki/Petrick%27s_method
+        // Remember this simplifications:  X + XY = X and XX = X and X+X=X
+
+        using Ids = std::set<int>;
+        using InnerTerms = std::vector<Ids>;
+        using OuterTerms = std::deque<InnerTerms>;
+
+        Implicants result;
+        SetOfMinterms mintermsToCover(getSetOfInputMintermsWithTrue());
+
+        // construct equation
+        OuterTerms outerTerms;  // outer terms have "AND" logic between them
+        for (auto const& mintermToCover : mintermsToCover) {
+            InnerTerms innerTerms;  // inner terms have "OR" logic between them
+            int id = 0;
+            for (auto it = primeImplicants.cbegin(); it != primeImplicants.cend(); ++it, ++id) {
+                Implicant const& primeImplicant(*it);
+                if (primeImplicant.hasMinterm(mintermToCover)) {
+                    // assign ids
+                    innerTerms.emplace_back(Ids{id});
+                }
+            }
+            outerTerms.emplace_back(innerTerms);
+        }
+
+        // distribute first two terms until theres one outer term left (top operation is OR)
+        while (outerTerms.size() > 1) {
+            InnerTerms innerTerms1 = outerTerms.front();
+            InnerTerms innerTerms2 = *std::next(outerTerms.begin());
+
+            outerTerms.erase(outerTerms.begin(), outerTerms.begin() + 2);
+
+            InnerTerms combinedInnerTerms;
+            for (Ids const& ids1 : innerTerms1) {
+                for (Ids const& ids2 : innerTerms2) {
+                    Ids idsOut(ids1);
+                    for (auto const& idIn2 : ids2) {
+                        // Uses set for XX = X simplification
+                        idsOut.emplace(idIn2);
+                    }
+                    combinedInnerTerms.emplace_back(idsOut);
+                }
+            }
+
+            // Simplify X + XY = X  to lessen terms
+            for (int i = 0; i < static_cast<int>(combinedInnerTerms.size()); i++) {
+                for (int j = 0; j < static_cast<int>(combinedInnerTerms.size()); j++) {
+                    if (i != j && isASubset(combinedInnerTerms[i], combinedInnerTerms[j])) {
+                        combinedInnerTerms.erase(combinedInnerTerms.begin() + j);
+                        continue;
+                    }
+                }
+            }
+
+            // Put the new combined term on the front
+            outerTerms.emplace_front(combinedInnerTerms);
+        }
+
+        if (!outerTerms.empty()) {
+            // Final simplification of X + XY = X.
+            InnerTerms& onlyInnerTerms(outerTerms.front());
+            for (int i = 0; i < static_cast<int>(onlyInnerTerms.size()); i++) {
+                for (int j = 0; j < static_cast<int>(onlyInnerTerms.size()); j++) {
+                    if (i != j && isASubset(onlyInnerTerms[i], onlyInnerTerms[j])) {
+                        onlyInnerTerms.erase(onlyInnerTerms.begin() + j);
+                        continue;
+                    }
+                }
+            }
+
+            // locate the item with least number of ids
+            int minSize = std::numeric_limits<int>::max();
+            int minSizeIndex = 0;
+            for (int i = 0; i < static_cast<int>(onlyInnerTerms.size()); i++) {
+                int idsSize = onlyInnerTerms[i].size();
+                if (minSize > idsSize) {
+                    minSizeIndex = i;
+                    minSize = idsSize;
+                }
+            }
+            Ids const& bestIds(onlyInnerTerms[minSizeIndex]);
+
+            // Based from the best ids, get the corresponding implicant and add it to result
+            auto itBestIds = bestIds.cbegin();
+            int idFromImplicants = 0;
+            for (auto itImplicants = primeImplicants.cbegin();
+                 itImplicants != primeImplicants.cend() && itBestIds != bestIds.cend();
+                 ++itImplicants, ++idFromImplicants) {
+                if (*itBestIds == idFromImplicants) {
+                    result.emplace(*itImplicants);
+                    ++itBestIds;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    Implicants getBestPrimeImplicantsMyMethod(Implicants const& primeImplicants) const {
+        // This is an algorithm I developed on how I would solve it.
+        Implicants result;
+        SetOfMinterms mintermsToCover(getSetOfInputMintermsWithTrue());
+        std::set<Implicant> remainingImplicants(primeImplicants);
+
+        while (!mintermsToCover.empty()) {
+            // Process implicants that cover lone minterms first
+            while (true) {
+                std::vector<Implicant> implicantsWithLoneMinterm;
+                for (auto const& mintermToCover : mintermsToCover) {
+                    int numberOfImplicantsThatCover = 0;
+                    Implicant lastImplicantThatCovers;
+                    for (Implicant const& remainingImplicant : remainingImplicants) {
+                        if (remainingImplicant.hasMinterm(mintermToCover)) {
+                            numberOfImplicantsThatCover++;
+                            if (numberOfImplicantsThatCover > 1) {
+                                break;
+                            }
+                            lastImplicantThatCovers = remainingImplicant;
+                        }
+                    }
+                    if (numberOfImplicantsThatCover == 1) {
+                        implicantsWithLoneMinterm.emplace_back(lastImplicantThatCovers);
+                    }
+                }
+                if (implicantsWithLoneMinterm.empty()) {
+                    break;
+                } else {
+                    for (auto const& implicant : implicantsWithLoneMinterm) {
+                        result.emplace(implicant);
+                        remainingImplicants.erase(implicant);
+                        for (Minterm const& coveredMinterm : implicant.getMinterms()) {
+                            mintermsToCover.erase(coveredMinterm);
+                        }
+                    }
+                }
+            }
+
+            // Process an implicant that covers the maximum number of minterms
+            if (!mintermsToCover.empty()) {
+                std::pair<int, Implicant> mintermCountAndImplicantPair;
+                for (Implicant const& remainingImplicant : remainingImplicants) {
+                    int mintermCount(0U);
+                    for (auto const& mintermToCover : mintermsToCover) {
+                        if (remainingImplicant.hasMinterm(mintermToCover)) {
+                            mintermCount++;
+                        }
+                    }
+                    if (mintermCountAndImplicantPair.first < mintermCount) {
+                        mintermCountAndImplicantPair = std::make_pair(mintermCount, remainingImplicant);
+                    }
+                }
+                Implicant const& implicantWithMaxCount(mintermCountAndImplicantPair.second);
+                result.emplace(implicantWithMaxCount);
+                remainingImplicants.erase(implicantWithMaxCount);
+                for (Minterm const& coveredMinterm : implicantWithMaxCount.getMinterms()) {
+                    mintermsToCover.erase(coveredMinterm);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    std::string getOutputTable(Implicants const& primeImplicants) const {
         Minterms inputsWithTrue(getInputMintermsWithTrue());
         DisplayTable displayTable;
-        displayTable.setBorders("", "|");        displayTable.addRow();
+        displayTable.setBorders("", "|");
+        displayTable.addRow();
         displayTable.getLastRow().addCell(" ");
         for (auto const& input : inputsWithTrue) {
             std::stringstream ss;
@@ -188,18 +340,20 @@ public:
             displayTable.getLastRow().addCell(ss.str());
         }
         int maxLength = 0;
-        for (ImplicantWithMinterm const& implicant : primeImplicants.getImplicantsData()) {
+        for (Implicant const& implicant : primeImplicants) {
             maxLength = std::max(maxLength, implicant.getMaxLengthOfEquivalentString());
         }
-        for (ImplicantWithMinterm const& implicant : primeImplicants.getImplicantsData()) {
+        for (Implicant const& implicant : primeImplicants) {
             displayTable.addRow();
             displayTable.getLastRow().addCell(implicant.getEquivalentString(maxLength));
             for (auto const& input : inputsWithTrue) {
-                std::string cell = implicant.isSuperset(input) ? "X" : " ";
-                displayTable.getLastRow().addCell(cell);            }
+                std::string cell = implicant.hasMinterm(input) ? "X" : " ";
+                displayTable.getLastRow().addCell(cell);
+            }
         }
         return stringHelper::convertToString(displayTable);
     }
+
 private:
     Minterms getInputMintermsWithTrue() const {
         Minterms result;
@@ -223,9 +377,9 @@ private:
 
     void addMintermForZeroCommonalityCount(Minterm const& minterm) {
         int numberOfOnes(getNumberOfOnes(minterm));
-        ImplicantWithMinterm implicant;
+        Implicant implicant;
         implicant.addMinterm(minterm);
-        m_computationalTable[numberOfOnes][0].addImplicant(implicant);
+        m_computationalTable[numberOfOnes][0].emplace(implicant);
     }
 
     int m_maxCommonalityCount;

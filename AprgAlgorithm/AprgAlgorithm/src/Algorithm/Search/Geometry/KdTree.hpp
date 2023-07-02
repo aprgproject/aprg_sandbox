@@ -133,9 +133,11 @@ protected:
                 this->updateTreeNodeDetails(*nodePointer);
             }
         } else {
-            nodePointer.reset(new Node{key, nullptr, nullptr, 1});        }
+            nodePointer.reset(new Node{key, nullptr, nullptr, 1});
+        }
         depth--;
     }
+
     void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) override {
         static int depth = 0;
         depth++;
@@ -148,10 +150,12 @@ protected:
                 // search for the node in the right in greater than
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
             } else  // if found
-            {                // get the minimum on the right
+            {
+                // get the minimum on the right
                 // place the keys of the minimum on this node and then delete it
                 // why are we using deletion of minimum on the right instead of deletion of maximum in the left? No real
-                // reason.                NodeUniquePointer& minimumOnTheRight(
+                // reason.
+                NodeUniquePointer& minimumOnTheRight(
                     this->getMinimumNodePointerReferenceStartingOnThisNode(nodePointer->right));
                 if (!minimumOnTheRight) {
                     nodePointer.reset(nullptr);
@@ -161,10 +165,12 @@ protected:
                     this->deleteMinimumStartingOnThisNode(minimumOnTheRight);
                 }
             }
-            if (nodePointer) {                this->updateTreeNodeDetails(*nodePointer);
+            if (nodePointer) {
+                this->updateTreeNodeDetails(*nodePointer);
             }
         }
-        depth--;    }
+        depth--;
+    }
 
     void retrieveKeysInRangeInclusiveStartingOnThisNode(
         Keys& keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const override {

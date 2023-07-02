@@ -33,7 +33,8 @@ public:
                         std::swap(cycleValue, valuesToSort[correctIndex]);
                         numberOfWrites++;
                     }
-                }            }
+                }
+            }
         }
     }
 
@@ -58,6 +59,7 @@ private:
         }
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
@@ -79,7 +81,8 @@ private:
 // we keep doing this till all elements of current cycle are placed at correct index, i.e., we don’t come back to
 // cycle starting point.
 
-// Explanation :// arr[] = {10, 5, 2, 3}
+// Explanation :
+// arr[] = {10, 5, 2, 3}
 // index =  0   1   2   3
 // cycle_start = 0
 // item = 10 = arr[0]
@@ -87,7 +90,8 @@ private:
 // Find index where we put the item
 // pos = cycle_start
 // i=pos+1
-// while(i<n)// if (arr[i] < item)
+// while(i<n)
+// if (arr[i] < item)
 //    pos++;
 
 // We put 10 at arr[3] and change item to old value of arr[3].
@@ -99,6 +103,7 @@ private:
 // we swap item with element at arr[1] now
 // arr[] = {10, 3, 2, 10}
 // item = 5
+
 // Again rotate rest cycle that start with index '0' and item = 5
 // we swap item with element at arr[2].
 // arr[] = {10, 3, 5, 10 }
@@ -127,6 +132,7 @@ private:
 // to its correct index. This matches the minimal number of overwrites required for a completed in-place sort.
 
 // Selection sort vs Cycle sort
+
 // Cycle sort has less writes compared to selection sort because it only writes one value in the container
 // (the previous value is saved on separate variable) per iteration.
 // -> This is less compared to selection sort which swaps the two values per iteration (which have two writes in the

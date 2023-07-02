@@ -21,7 +21,8 @@ public:
                 int highest = std::min(lowest + (subHalfSize * 2) - 1, size - 1);
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);
             }
-        }    }
+        }
+    }
 };
 
 }  // namespace algorithm

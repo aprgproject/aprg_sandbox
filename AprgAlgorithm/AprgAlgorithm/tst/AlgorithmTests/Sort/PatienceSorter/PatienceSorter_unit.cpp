@@ -72,7 +72,8 @@ TEST(PatienceSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample
     // not stable because of priority queue underneath
     StabilityCheckObjectsSorter sorter;
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(
-        sorter);}
+        sorter);
+}
 
 }  // namespace algorithm
 

@@ -81,10 +81,12 @@ int BruteForceSubstringSearch<2>::searchWithLoops(
     return searchUsingTwoLoops(mainString, substringToMatch);
 }
 
-// Brute-force substring search: worst case// -> Brute force algorithm can be slow if test and pattern are repetitive.
+// Brute-force substring search: worst case
+// -> Brute force algorithm can be slow if test and pattern are repetitive.
 // -> Worst case: ~MN char compares
 
-// Backup:// -> In many applications we want to avoid backup in text stream
+// Backup:
+// -> In many applications we want to avoid backup in text stream
 // ---> Treat input as stream of data
 // ---> Abstract model: standard input
 // -> Brute-force algorithm beeds to backup for every mismatch

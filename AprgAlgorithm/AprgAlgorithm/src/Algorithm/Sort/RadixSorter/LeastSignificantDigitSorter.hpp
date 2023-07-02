@@ -30,6 +30,7 @@ public:
             sortAtLeastSignificantDigit(valuesToSort, digitIndex);
         }
     }
+
     void sortAtLeastSignificantDigit(Values& valuesToSort, int const digitIndex) const {
         // This is called: "key indexed counting"
         // Character index starts in 1 because this array will be used to compute cumulates

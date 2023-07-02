@@ -3,6 +3,7 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values>
@@ -46,7 +47,8 @@ private:
             } else {
                 result = getIndexOfValueWithoutCheck(firstMiddleIndex, secondMiddleIndex, value);
             }
-        } else if (lowIndex == highIndex && value == m_sortedValues[lowIndex]) {            result = lowIndex;
+        } else if (lowIndex == highIndex && value == m_sortedValues[lowIndex]) {
+            result = lowIndex;
         }
         return result;
     }

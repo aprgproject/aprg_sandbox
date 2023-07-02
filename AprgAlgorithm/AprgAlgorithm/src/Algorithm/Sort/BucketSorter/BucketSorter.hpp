@@ -3,7 +3,8 @@
 #include <Algorithm/Sort/BaseSorter.hpp>
 
 #include <algorithm>
-#include <array>#include <vector>
+#include <array>
+#include <vector>
 
 namespace alba {
 
@@ -27,7 +28,8 @@ public:
             int bucketIndex = (value - m_minValue) * NUMBER_OF_BUCKETS / deltaValue;
             if (bucketIndex < NUMBER_OF_BUCKETS) {
                 buckets[bucketIndex].emplace_back(value);
-            }        }
+            }
+        }
 
         auto itCopy = valuesToSort.begin();
         for (Bucket& bucket : buckets) {
@@ -36,6 +38,7 @@ public:
             itCopy = std::copy(bucket.cbegin(), bucket.cend(), itCopy);  // copy back to original container
         }
     }
+
     Value m_minValue;
     Value m_maxValue;
 };

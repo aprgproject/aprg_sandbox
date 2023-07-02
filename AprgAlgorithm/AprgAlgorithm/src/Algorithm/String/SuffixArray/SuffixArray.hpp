@@ -4,6 +4,7 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+
 namespace alba {
 
 namespace algorithm {

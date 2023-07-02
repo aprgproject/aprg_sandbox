@@ -22,7 +22,8 @@ void mergeTheTwoSortedParts(
     std::copy(auxiliary.cbegin() + highPartIndex, auxiliary.cbegin() + highest + 1, valuesToSort.begin() + mainIndex);
 }
 
-template <typename Values>Values mergeTwoSortedSequences(Values const& sortedValues1, Values const& sortedValues2) {
+template <typename Values>
+Values mergeTwoSortedSequences(Values const& sortedValues1, Values const& sortedValues2) {
     Values result;
     result.reserve(sortedValues1.size() + sortedValues2.size());
     int i = 0, j = 0;
@@ -33,7 +34,8 @@ template <typename Values>Values mergeTwoSortedSequences(Values const& sortedVal
             result.emplace_back(sortedValues1[i++]);  // copy and move first index
         }
     }
-    if (i < static_cast<int>(sortedValues1.size())) {        // copy remaining from the other array
+    if (i < static_cast<int>(sortedValues1.size())) {
+        // copy remaining from the other array
         std::copy(sortedValues1.cbegin() + i, sortedValues1.cend(), std::back_inserter(result));
     }
     if (j < static_cast<int>(sortedValues2.size())) {

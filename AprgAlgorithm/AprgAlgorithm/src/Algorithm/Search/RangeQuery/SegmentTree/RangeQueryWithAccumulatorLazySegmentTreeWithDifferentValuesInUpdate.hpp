@@ -5,6 +5,7 @@
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values>

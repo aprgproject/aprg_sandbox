@@ -53,7 +53,8 @@ int partitionAndGetPartitionIndex(Values& values, int const lowIndex, int const 
         while (pivotValue < values[--indexWithLesserValue])
             ;
 
-        // stop if the indexWithGreaterValue and indexWithLesserValue meet        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
+        // stop if the indexWithGreaterValue and indexWithLesserValue meet
+        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
         if (indexWithGreaterValue < indexWithLesserValue) {
             std::swap(values[indexWithGreaterValue], values[indexWithLesserValue]);
         } else {

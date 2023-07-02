@@ -22,17 +22,20 @@ public:
           m_substringHash(
               HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(substringToMatch)) {}
 
-    Index search(std::string const& mainString) {        Index result(static_cast<Index>(std::string::npos));
+    Index search(std::string const& mainString) {
+        Index result(static_cast<Index>(std::string::npos));
         if (m_substringLength > 0 && m_substringLength <= static_cast<Index>(mainString.length())) {
             HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, mainString);
             for (Index offset = 0; offset + m_substringLength <= static_cast<Index>(mainString.length()); offset++) {
                 if (m_substringHash ==
                     hashFunction.getHashCodeOfSubstring(offset, offset + m_substringLength - 1)) {
                     result = offset;  // Monte carlo approach (no double check)
-                    break;                }
+                    break;
+                }
             }
         }
-        return result;    }
+        return result;
+    }
 
     std::string const m_substringToMatch;
     Index const m_substringLength;
@@ -40,4 +43,5 @@ public:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba

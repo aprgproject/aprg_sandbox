@@ -37,6 +37,7 @@ public:
             valuesToSort[--correctPositions[indexableValue]] = copiedValues[i];
         }
     }
+
 private:
     ValueToIndexableValueFunction m_valueToIndexableValueFunction;
 };

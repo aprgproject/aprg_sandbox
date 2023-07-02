@@ -4,6 +4,7 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <limits>
+
 namespace alba {
 
 namespace algorithm {

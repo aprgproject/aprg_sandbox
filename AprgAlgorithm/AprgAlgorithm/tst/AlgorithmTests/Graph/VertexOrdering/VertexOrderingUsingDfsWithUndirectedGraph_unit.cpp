@@ -67,7 +67,8 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithUndirectedG
     VerticesForTest expectedReversePostOrderFromAllVertices{10, 20, 30, 40, 33, 23, 13, 32, 22, 12, 31, 21, 11};
     EXPECT_EQ(expectedPreOrderFromAVertex, preOrderFromAVertex);
     EXPECT_EQ(expectedPostOrderFromAVertex, postOrderFromAVertex);
-    EXPECT_EQ(expectedReversePostOrderFromAVertex, reversePostOrderAVertex);    EXPECT_EQ(expectedPreOrderFromAllVertices, preOrderFromAllVertices);
+    EXPECT_EQ(expectedReversePostOrderFromAVertex, reversePostOrderAVertex);
+    EXPECT_EQ(expectedPreOrderFromAllVertices, preOrderFromAllVertices);
     EXPECT_EQ(expectedPostOrderFromAllVertices, postOrderFromAllVertices);
     EXPECT_EQ(expectedReversePostOrderFromAllVertices, reversePostOrderFromAllVertices);
 }
@@ -119,7 +120,8 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithUndirectedG
 TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksWithUndirectedGraph) {
     GraphForTest graph;
     graph.connect(0, 5);
-    graph.connect(4, 3);    graph.connect(0, 1);
+    graph.connect(4, 3);
+    graph.connect(0, 1);
     graph.connect(9, 12);
     graph.connect(6, 4);
     graph.connect(5, 4);

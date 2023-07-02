@@ -4,9 +4,11 @@
 
 #include <array>
 #include <string>
+
 namespace alba {
 
 namespace algorithm {
+
 template <typename Index>
 class BoyerMooreSubstringSearch {
 public:
@@ -20,9 +22,11 @@ public:
         : m_substringToMatch(substringToMatch), m_rightMostLetterIndex{} {
         initialize();
     }
+
     Index search(std::string const& mainString) {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainLength(mainString.size());        Index substringLength(m_substringToMatch.size());
+        Index mainLength(mainString.size());
+        Index substringLength(m_substringToMatch.size());
         int skipValue(0);
         for (Index searchIndex = 0; searchIndex + substringLength <= mainLength; searchIndex += skipValue) {
             skipValue = 0;
@@ -41,10 +45,12 @@ public:
                         skipValue = 1;
                     }
                     break;
-                }            }
+                }
+            }
             if (skipValue == 0)  // all letters matched
             {
-                result = searchIndex;                break;
+                result = searchIndex;
+                break;
             }
         }
         return result;
@@ -66,10 +72,12 @@ private:
     SkipTable m_rightMostLetterIndex;
 };
 
-// Intuition:// -> Scan characters in pattern from right to left
+// Intuition:
+// -> Scan characters in pattern from right to left
 // -> Can skip as many as M text chars when finding one not in the pattern
 
-// How much to skip?// Case 1: Mismatch character not in pattern
+// How much to skip?
+// Case 1: Mismatch character not in pattern
 // -> increment starting index with one character beyond the mismatch
 // ---> Before:
 // .......TLE.......

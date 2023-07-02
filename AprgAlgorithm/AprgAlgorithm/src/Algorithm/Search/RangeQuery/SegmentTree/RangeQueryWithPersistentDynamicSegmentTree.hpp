@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <list>
+
 namespace alba {
 
 namespace algorithm {

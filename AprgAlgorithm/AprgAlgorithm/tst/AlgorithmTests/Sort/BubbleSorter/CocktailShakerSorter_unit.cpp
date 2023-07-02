@@ -52,7 +52,8 @@ TEST(CocktailShakerSorterTest, SortWorksOnCharactersUsingExample2) {
 // The implementation uses indexes so list is not compatible, but this can be changed.
 
 TEST(CocktailShakerSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
-    IntegersSorter sorter;    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(CocktailShakerSorterTest, SortWorksOnDoublesUsingExample1) {
@@ -69,6 +70,7 @@ TEST(CocktailShakerSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExam
     StabilityCheckObjectsSorter sorter;
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

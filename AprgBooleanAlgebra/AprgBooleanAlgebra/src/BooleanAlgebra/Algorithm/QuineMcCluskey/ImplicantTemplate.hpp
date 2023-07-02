@@ -15,26 +15,26 @@ namespace alba {
 namespace booleanAlgebra {
 
 template <typename Minterm>
-class Implicant {
+class ImplicantTemplate {
 public:
     using MintermsInitializerList = std::initializer_list<Minterm>;
     using Minterms = std::set<Minterm>;
 
-    Implicant() = default;
+    ImplicantTemplate() = default;
 
-    Implicant(MintermsInitializerList const& minterms) : m_minterms(minterms) {}
+    ImplicantTemplate(MintermsInitializerList const& minterms) : m_minterms(minterms) {}
 
-    bool operator==(Implicant const& second) const { return m_minterms == second.m_minterms; }
+    bool operator==(ImplicantTemplate const& second) const { return m_minterms == second.m_minterms; }
 
-    bool operator!=(Implicant const& second) const {
-        Implicant const& first(*this);
+    bool operator!=(ImplicantTemplate const& second) const {
+        ImplicantTemplate const& first(*this);
         return !(first == second);
     }
 
-    bool operator<(Implicant const& second) const { return m_minterms < second.m_minterms; }
+    bool operator<(ImplicantTemplate const& second) const { return m_minterms < second.m_minterms; }
 
-    Implicant operator+(Implicant const& implicant) const {
-        Implicant result;
+    ImplicantTemplate operator+(ImplicantTemplate const& implicant) const {
+        ImplicantTemplate result;
         result.m_minterms = m_minterms;
         std::copy(
             implicant.m_minterms.cbegin(), implicant.m_minterms.cend(),
@@ -42,14 +42,16 @@ public:
         return result;
     }
 
-    bool isCompatible(Implicant const& implicant) const {
+    bool isCompatible(ImplicantTemplate const& implicant) const {
         int commonLength(std::max(getMaxLengthOfEquivalentString(), implicant.getMaxLengthOfEquivalentString()));
         std::string string1(getEquivalentString(commonLength));
         std::string string2(implicant.getEquivalentString(commonLength));
-        bool result(true);        int difference = 0;
+        bool result(true);
+        int difference = 0;
         for (int i = 0; i < commonLength; i++) {
             if (string1[i] != string2[i]) {
-                if (string1[i] == '-' || string2[i] == '-') {                    result = false;
+                if (string1[i] == '-' || string2[i] == '-') {
+                    result = false;
                     break;
                 } else if (difference > 1) {
                     result = false;
@@ -62,13 +64,13 @@ public:
         return result;
     }
 
-    bool isSubset(Implicant const& implicant) const {
+    bool isASubsetOf(ImplicantTemplate const& larger) const {
         bool result(false);
-        if (m_minterms.size() <= implicant.m_minterms.size()) {
+        if (m_minterms.size() <= larger.m_minterms.size()) {
             result = true;
-            for (Minterm const& minterm : m_minterms) {
-                auto it = implicant.m_minterms.find(minterm);
-                if (it == implicant.m_minterms.cend()) {
+            for (Minterm const& elementOfThis : m_minterms) {
+                auto it = larger.m_minterms.find(elementOfThis);
+                if (it == larger.m_minterms.cend()) {
                     result = false;
                     break;
                 }
@@ -77,7 +79,22 @@ public:
         return result;
     }
 
-    bool isSuperset(Minterm const& minterm) const {
+    bool isASupersetOf(ImplicantTemplate const& smaller) const {
+        bool result(false);
+        if (m_minterms.size() >= smaller.m_minterms.size()) {
+            result = true;
+            for (Minterm const& elementOfSmaller : smaller) {
+                auto it = smaller.m_minterms.find(elementOfSmaller);
+                if (it == smaller.m_minterms.cend()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    bool hasMinterm(Minterm const& minterm) const {
         bool result(false);
         if (!m_minterms.empty()) {
             auto it = m_minterms.find(minterm);
@@ -129,10 +146,12 @@ public:
 private:
     Minterm getFirstMinterm() const {
         Minterm result(0);
-        if (!m_minterms.empty()) {            result = *(m_minterms.begin());
+        if (!m_minterms.empty()) {
+            result = *(m_minterms.begin());
         }
         return result;
     }
+
     Minterm performAndOperationOfAllMinterms() const {
         constexpr Minterm INITIAL_VALUE(AlbaBitValueUtilities<Minterm>::getAllOnes());
         return std::accumulate(
@@ -147,7 +166,7 @@ private:
             [](Minterm const& minterm1, Minterm const& minterm2) { return minterm1 | minterm2; });
     }
 
-    friend std::ostream& operator<<(std::ostream& out, Implicant<Minterm> const& implicant) {
+    friend std::ostream& operator<<(std::ostream& out, ImplicantTemplate<Minterm> const& implicant) {
         Minterms const& minterms(implicant.m_minterms);
         out << "'" << implicant.getEquivalentString() << " (";
         if (minterms.size() == 1) {

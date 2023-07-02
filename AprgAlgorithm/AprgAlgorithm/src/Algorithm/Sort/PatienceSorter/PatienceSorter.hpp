@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values>
@@ -80,6 +81,7 @@ private:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // The algorithm's name derives from a simplified variant of the patience card game.

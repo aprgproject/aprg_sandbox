@@ -5,6 +5,7 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 #include <utility>
+
 namespace alba {
 
 namespace algorithm {

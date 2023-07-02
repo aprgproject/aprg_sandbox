@@ -28,6 +28,7 @@ private:
             sort(valuesToSort, partitionIndex + 1, highIndex);
         }
     }
+
 private:
     PivotType m_pivotType;
 };

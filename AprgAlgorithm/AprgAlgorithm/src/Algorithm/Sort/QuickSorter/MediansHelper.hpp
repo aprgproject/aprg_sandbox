@@ -3,7 +3,8 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 #include <algorithm>
-#include <numeric>#include <vector>
+#include <numeric>
+#include <vector>
 
 namespace alba {
 
@@ -63,7 +64,8 @@ int getMedianIndexOfLessThanFive(
              lowIndex <= iLow && values[medianIndexes[iLow]] > values[medianIndexes[iHigh]]; iLow--, iHigh--) {
             std::swap(medianIndexes[iLow], medianIndexes[iHigh]);
         }
-    }    return getMidpointOfIndexes(lowIndex, highIndex);
+    }
+    return getMidpointOfIndexes(lowIndex, highIndex);
 }
 
 template <typename Values>
@@ -86,7 +88,8 @@ int getIndexOfMedianOfMedians(Values const& values, int const lowIndex, int cons
             medianIndexesSize = medianIndex;
         }
         result = medianIndexes.front();
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace algorithm

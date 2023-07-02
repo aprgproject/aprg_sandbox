@@ -134,7 +134,8 @@ private:
                             // point to check is to the left of right child  (arrangement N -> * -> R)
                             result = SearchAction::GoToBoth;
                         }
-                    } else if (nodePointer->left) {                        result = SearchAction::GoToLeftChild;
+                    } else if (nodePointer->left) {
+                        result = SearchAction::GoToLeftChild;
                     }
                 }
             } else {
@@ -162,10 +163,12 @@ private:
                             // point to check is to the left of right child  (arrangement N -> * -> R)
                             result = SearchAction::GoToBoth;
                         }
-                    } else if (nodePointer->left) {                        result = SearchAction::GoToLeftChild;
+                    } else if (nodePointer->left) {
+                        result = SearchAction::GoToLeftChild;
                     }
                 }
-            }        }
+            }
+        }
         return result;
     }
 

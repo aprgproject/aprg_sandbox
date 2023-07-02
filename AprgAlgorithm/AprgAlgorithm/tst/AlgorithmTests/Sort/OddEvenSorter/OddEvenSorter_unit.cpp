@@ -52,7 +52,8 @@ TEST(OddEvenSorterTest, SortWorksOnCharactersUsingExample2) {
 // The implementation uses indexes so list is not compatible, but this can be changed.
 
 TEST(OddEvenSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1) {
-    IntegersSorter sorter;    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(OddEvenSorterTest, SortWorksOnDoublesUsingExample1) {
@@ -69,6 +70,7 @@ TEST(OddEvenSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) {
     StabilityCheckObjectsSorter sorter;
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
+
 }  // namespace algorithm
 
 }  // namespace alba

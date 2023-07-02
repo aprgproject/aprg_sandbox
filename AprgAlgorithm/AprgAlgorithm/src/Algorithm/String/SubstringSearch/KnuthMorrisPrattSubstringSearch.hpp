@@ -34,7 +34,8 @@ public:
             matchIndex = m_nextIndexDfa.getNextState(matchIndex, mainString[searchIndex]);
         }
         if (matchIndex == substringLength) {
-            result = searchIndex - substringLength;        }
+            result = searchIndex - substringLength;
+        }
         return result;
     }
 
@@ -46,7 +47,8 @@ private:
             Index substringLength(m_substringToMatch.size());
             Index stateWithDelayedInput(0);  // this state tracks if input is one tempo delayed
             // stateWithDelayedInput is useful because if there is a mismatch, we could track where that state would go
-            // (as it already have previous matches)            // -> Mismatch transition is tricky:
+            // (as it already have previous matches)
+            // -> Mismatch transition is tricky:
             // ---> If in state j and next char c != pattern.charAt(j), then the last j-1 of input are pattern[1 ...
             // j-1], followed by c
             // ---> Reason for this is salvaging previous matches from mismatches only occurs on indexes [1 ... j-1]
@@ -54,10 +56,12 @@ private:
             for (Index i = 1; i < substringLength; i++) {
                 for (RadixType c = 0; c < RADIX; c++) {
                     Index mismatchState(m_nextIndexDfa.getNextState(
-                        stateWithDelayedInput,                        c));  // assign mismatch state as the "stateWithDelayedInput with inputed c"
+                        stateWithDelayedInput,
+                        c));  // assign mismatch state as the "stateWithDelayedInput with inputed c"
                     m_nextIndexDfa.setStateTransition(
                         i, mismatchState, c);  // put transition: if there is a mismatch go back to
-                                               // "stateWithDelayedInput with inputed c" (mismatch state)                }
+                                               // "stateWithDelayedInput with inputed c" (mismatch state)
+                }
                 m_nextIndexDfa.setStateTransition(
                     i, i + 1, m_substringToMatch[i]);  // put transition (overwrite): if match go to the next state
                 stateWithDelayedInput = m_nextIndexDfa.getNextState(

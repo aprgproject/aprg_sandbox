@@ -70,7 +70,8 @@ TEST(CountingSorterUsingNewPositionsTest, SortWorksOnPositiveAndNegativeIntegers
 TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
     StabilityCheckObjectsSorter sorter(stabilityCheckObjectToIndexableValueFunction);
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);}
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+}
 
 }  // namespace algorithm
 

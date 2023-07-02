@@ -30,7 +30,8 @@ private:
         auto rItHigh = std::prev(rItLow);                    // move it back to original place (same as insert It)
         // so final the stiuation here is rItLow < rItHigh and insertIt
         for (; rItLow != valuesToSort.rend() && *rItLow > *rItHigh; rItLow++, rItHigh++) {
-            std::swap(*rItLow, *rItHigh);        }
+            std::swap(*rItLow, *rItHigh);
+        }
     }
 
     void continuouslyCopyBackIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const {
@@ -45,6 +46,7 @@ private:
         *std::prev(rItLow) = insertItem;
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

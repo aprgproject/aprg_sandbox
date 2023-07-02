@@ -4,6 +4,7 @@
 #include <Common/Container/AlbaContainerHelper.hpp>
 
 #include <algorithm>
+
 namespace alba {
 
 namespace algorithm {

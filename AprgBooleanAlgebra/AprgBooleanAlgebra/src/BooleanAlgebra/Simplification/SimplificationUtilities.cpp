@@ -21,19 +21,21 @@ namespace booleanAlgebra {
 namespace Simplification {
 
 using Minterm = uint64_t;
-using Implicant = Implicant<Minterm>;
-using Implicants = Implicants<Minterm>;
 using QuineMcCluskey = QuineMcCluskey<Minterm>;
+using Implicant = QuineMcCluskey::Implicant;
+using Implicants = QuineMcCluskey::Implicants;
 
 // utilties functions for this file
 namespace {
 Implicants getBestPrimeImplicantsUsingQuineMcCluskey(Term const& term, VariableNamesSet const& variableNames) {
     int numberOfBits = variableNames.size();
     QuineMcCluskey qmc;
-    SubstitutionOfVariablesToValues substitution;    for (Minterm minterm = 0; minterm < static_cast<Minterm>(1 << numberOfBits); minterm++) {
+    SubstitutionOfVariablesToValues substitution;
+    for (Minterm minterm = 0; minterm < static_cast<Minterm>(1 << numberOfBits); minterm++) {
         int i = 0;
         for (string const& variableName : variableNames) {
-            bool value = (minterm & (1 << i++)) > 0;            substitution.putVariableWithValue(variableName, value);
+            bool value = (minterm & (1 << i++)) > 0;
+            substitution.putVariableWithValue(variableName, value);
         }
         Term output(substitution.performSubstitutionTo(term));
         if (output.isConstant()) {
@@ -47,10 +49,12 @@ Implicants getBestPrimeImplicantsUsingQuineMcCluskey(Term const& term, VariableN
     return bestPrimeImplicants;
 }
 
-void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(    WrappedTerms& newWrappedTerms, OperatorLevel& mainOperatorLevel, Expression const& subExpression) {
+void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
+    WrappedTerms& newWrappedTerms, OperatorLevel& mainOperatorLevel, Expression const& subExpression) {
     OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
     if (subExpression.containsOnlyOneTerm() || OperatorLevel::Unknown == mainOperatorLevel ||
-        subExpressionOperatorLevel == mainOperatorLevel) {        if (OperatorLevel::Unknown == mainOperatorLevel) {
+        subExpressionOperatorLevel == mainOperatorLevel) {
+        if (OperatorLevel::Unknown == mainOperatorLevel) {
             mainOperatorLevel = subExpressionOperatorLevel;
         }
         simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
@@ -138,17 +142,19 @@ void simplifyByQuineMcKluskey(Term& term) {
             mutator.mutateTerm(term);  // get dual if target is "outer and" "inner or"
         }
         Implicants bestPrimeImplicants(getBestPrimeImplicantsUsingQuineMcCluskey(term, variableNames));
-        if (bestPrimeImplicants.getSize() > 0) {
+        if (!bestPrimeImplicants.empty()) {
             Expression newExpression;
-            for (Implicant const& bestPrimeImplicant : bestPrimeImplicants.getImplicantsData()) {
+            for (Implicant const& bestPrimeImplicant : bestPrimeImplicants) {
                 Expression implicantExpression;
                 string bitString(bestPrimeImplicant.getEquivalentString(variableNames.size()));
                 int i = variableNames.size() - 1;
                 for (string const& variableName : variableNames) {
-                    char primeBit(bitString[i]);                    implicantExpression.putTerm(
+                    char primeBit(bitString[i]);
+                    implicantExpression.putTerm(
                         getTermFromVariableAndPrimeValue(variableName, primeBit),
                         targetInner);  // if "outer and" "inner or", its the saved as dual
-                    i--;                }
+                    i--;
+                }
                 newExpression.putTerm(
                     Term(implicantExpression), targetOuter);  // if "outer and" "inner or", its the saved as dual
             }
@@ -211,8 +217,8 @@ void combineComplementaryTerms(Terms& termsToCombine, OperatorLevel const operat
 void combineTermsByCheckingCommonFactor(Terms& termsToCombine, OperatorLevel const operatorLevel) {
     for (int i = 0; i < static_cast<int>(termsToCombine.size()); i++) {
         for (int j = i + 1; j < static_cast<int>(termsToCombine.size()); j++) {
-            Term combinedTerm(combineTwoTermsByCheckingCommonFactorIfPossible(
-                termsToCombine[i], termsToCombine[j], operatorLevel));
+            Term combinedTerm(
+                combineTwoTermsByCheckingCommonFactorIfPossible(termsToCombine[i], termsToCombine[j], operatorLevel));
             if (!combinedTerm.isEmpty()) {
                 termsToCombine[i] = combinedTerm;
                 termsToCombine.erase(termsToCombine.begin() + j);

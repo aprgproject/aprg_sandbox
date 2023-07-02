@@ -18,7 +18,8 @@ public:
         int skipValue(getInitialSkipValue(valuesToSort.size()));
         while (skipValue >= 1) {
             sortWithSkipping(valuesToSort, skipValue);
-            skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.        }
+            skipValue /= 3;  // Knuth approach. Integer divide by 3 results to the next value.
+        }
     }
 
 private:
@@ -43,7 +44,8 @@ private:
         // For more info about gap: https://en.wikipedia.org/wiki/Shellsort#Gap_sequences
         int result(1);
         while (result < size / 3) {
-            result = 3 * result + 1;        }
+            result = 3 * result + 1;
+        }
         return result;
     }
 };

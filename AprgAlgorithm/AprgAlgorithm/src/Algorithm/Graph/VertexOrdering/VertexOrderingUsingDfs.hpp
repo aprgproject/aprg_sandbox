@@ -67,6 +67,7 @@ private:
             reverseVertices(traversedVertices);
         }
     }
+
     void clear() { m_processedVertices.clear(); }
 
     void traverseStartingFromAVertex(
@@ -98,7 +99,8 @@ private:
 
     void traverseAt(Vertices& traversedVertices, VertexTraversalOrder const traversalOrder, Vertex const& startVertex) {
         switch (traversalOrder) {
-            case VertexTraversalOrder::PreOrder: {                traversePreOrderAt(traversedVertices, startVertex);
+            case VertexTraversalOrder::PreOrder: {
+                traversePreOrderAt(traversedVertices, startVertex);
                 break;
             }
             case VertexTraversalOrder::PostOrder: {
@@ -154,6 +156,7 @@ private:
     BaseGraphWithVertex const& m_graph;
     CheckableVerticesWithVertex m_processedVertices;
 };
+
 // Proposition: Reverse DFS postorder of a DAG is a topological order.
 // Consider any edge v->w. When dfs(v) is called:
 // -> Case 1: dfs(w) has already been called and returned

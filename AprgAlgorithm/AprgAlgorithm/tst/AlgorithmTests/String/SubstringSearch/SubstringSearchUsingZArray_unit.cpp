@@ -41,8 +41,10 @@ TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingExample2) {
 TEST(SubstringSearchUsingZArrayTest, SearchForFirstSubstringWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");
+
     EXPECT_EQ(Index(1), substringSearch.searchForFirstSubstring(mainString));
 }
+
 TEST(SubstringSearchUsingZArrayTest, SearchForAllSubstringsWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");

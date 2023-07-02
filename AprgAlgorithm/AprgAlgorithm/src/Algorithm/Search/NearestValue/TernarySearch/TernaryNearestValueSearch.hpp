@@ -4,6 +4,7 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values>
@@ -63,7 +64,8 @@ private:
             } else {
                 result = getIndexOfNearestValueWithoutCheck(firstMiddleIndex + 1, secondMiddleIndex - 1, value);
             }
-        }        return result;
+        }
+        return result;
     }
 
     Index getIndexOfNearestValueInBetweenTwoIndices(

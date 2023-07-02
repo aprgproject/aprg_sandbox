@@ -45,6 +45,7 @@ StabilityCheckObject StabilityCheckObject::operator/(StabilityCheckObject const&
 StabilityCheckObject StabilityCheckObject::operator+(int const second) const {
     return StabilityCheckObject(static_cast<char>(m_visiblePart + second), m_notVisiblePart);
 }
+
 StabilityCheckObject StabilityCheckObject::operator-(int const second) const {
     return StabilityCheckObject(static_cast<char>(m_visiblePart - second), m_notVisiblePart);
 }
@@ -60,6 +61,7 @@ StabilityCheckObject StabilityCheckObject::operator/(int const second) const {
 double StabilityCheckObject::operator*(double const multiplier) const { return m_visiblePart * multiplier; }
 
 char StabilityCheckObject::getVisiblePart() const { return m_visiblePart; }
+
 int StabilityCheckObject::getNotVisiblePart() const { return m_notVisiblePart; }
 
 double operator/(double const dividend, StabilityCheckObject const& divisor) {
@@ -77,7 +79,8 @@ bool areObjectsEqualOnVisibleOnly(StabilityCheckObject const& object1, Stability
 
 ostream& operator<<(ostream& out, StabilityCheckObject const& object) {
     out << "(" << object.m_visiblePart << object.m_notVisiblePart << ")";
-    return out;}
+    return out;
+}
 
 }  // namespace algorithm
 

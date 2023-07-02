@@ -36,6 +36,7 @@ public:
             treeIndex = parentTreeIndex;  // move to the next parent
         }
     }
+
     void sink(int const startTreeIndex) { sink(startTreeIndex, m_objects.size()); }
 
     void sink(int const startTreeIndex, int const treeSize) {
@@ -52,6 +53,7 @@ public:
             treeIndex = significantChildIndex;
         }
     }
+
     inline int getSize() const { return m_objects.size(); }
 
     inline int getTopTreeIndex() const { return 1; }
@@ -82,7 +84,8 @@ private:
                 significantChildIndex = childIndex;
             }
         }
-        return significantChildIndex;    }
+        return significantChildIndex;
+    }
 
     bool isComparisonSatisfied(Object const& object1, Object const& object2) const {
         return m_comparator(object1, object2);
