@@ -94,14 +94,40 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorUsingEuclidAlgorithmW
     EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(3, -1234567891));
 }
 
+TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorUsingBinaryGcdAlgorithmWorks) {
+    // UnsignedInteger
+    EXPECT_EQ(0, getGreatestCommonFactorUsingBinaryGcdAlgorithm(0, 0));
+    EXPECT_EQ(8, getGreatestCommonFactorUsingBinaryGcdAlgorithm(0, 8));
+    EXPECT_EQ(8, getGreatestCommonFactorUsingBinaryGcdAlgorithm(8, 0));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(1, 8));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(8, 1));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(1, 1));
+    EXPECT_EQ(16, getGreatestCommonFactorUsingBinaryGcdAlgorithm(16, 32));
+    EXPECT_EQ(14, getGreatestCommonFactorUsingBinaryGcdAlgorithm(98, 56));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(1234567891, 3));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(3, 1234567891));
+
+    // SignedInteger
+    EXPECT_EQ(0, getGreatestCommonFactorUsingBinaryGcdAlgorithm<int>(0, 0));
+    EXPECT_EQ(8, getGreatestCommonFactorUsingBinaryGcdAlgorithm(0, -8));
+    EXPECT_EQ(8, getGreatestCommonFactorUsingBinaryGcdAlgorithm(-8, 0));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(1, -8));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(-8, 1));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm<int>(1, 1));
+    EXPECT_EQ(16, getGreatestCommonFactorUsingBinaryGcdAlgorithm(16, -32));
+    EXPECT_EQ(16, getGreatestCommonFactorUsingBinaryGcdAlgorithm(-16, 32));
+    EXPECT_EQ(14, getGreatestCommonFactorUsingBinaryGcdAlgorithm(98, -56));
+    EXPECT_EQ(14, getGreatestCommonFactorUsingBinaryGcdAlgorithm(-98, 56));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(-1234567891, 3));
+    EXPECT_EQ(1, getGreatestCommonFactorUsingBinaryGcdAlgorithm(3, -1234567891));
+}
+
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksForUnsignedInteger) {
     using LastValues = pair<int, int>;
-    LastValues lastValues{};
-    EXPECT_EQ(0, getGreatestCommonFactorWithLastValues(0, 0, lastValues.first, lastValues.second));
+    LastValues lastValues{};    EXPECT_EQ(0, getGreatestCommonFactorWithLastValues(0, 0, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 0}), lastValues);
     EXPECT_EQ(1, getGreatestCommonFactorWithLastValues(1, 1, lastValues.first, lastValues.second));
-    EXPECT_EQ((LastValues{0, 1}), lastValues);
-    EXPECT_EQ(16, getGreatestCommonFactorWithLastValues(16, 32, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{0, 1}), lastValues);    EXPECT_EQ(16, getGreatestCommonFactorWithLastValues(16, 32, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 0}), lastValues);
     EXPECT_EQ(14, getGreatestCommonFactorWithLastValues(98, 56, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{4294967295, 2}), lastValues);

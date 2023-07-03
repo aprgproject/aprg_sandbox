@@ -66,30 +66,70 @@ NumberType getGreatestCommonFactorUsingEuclidAlgorithm(NumberType const firstNum
     // -> if b!=0: gcd(b, a%b)
 
     NumberType result(0);
-    NumberType temporaryFirst(getAbsoluteValue(firstNumber));    // only consider positive GCF
-    NumberType temporarySecond(getAbsoluteValue(secondNumber));  // only consider positive GCF
+    NumberType first(getAbsoluteValue(firstNumber)), second(getAbsoluteValue(secondNumber));  // only consider positive
     while (true) {
-        if (temporarySecond == 0) {
-            result = temporaryFirst;
+        if (second == 0) {
+            result = first;
             break;
         } else {
-            NumberType copyOfFirst(temporaryFirst);
-            temporaryFirst = temporarySecond;
-            temporarySecond = copyOfFirst % temporarySecond;
+            NumberType copyOfFirst(first);
+            first = second;
+            second = copyOfFirst % second;
         }
     }
     return result;
 }
 
 template <typename NumberType>
-NumberType getGreatestCommonFactorWithLastValues(
-    NumberType const number1, NumberType const number2, NumberType& lastValue1, NumberType& lastValue2) {
+NumberType getGreatestCommonFactorUsingBinaryGcdAlgorithm(NumberType const firstNumber, NumberType const secondNumber) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
+    // Based from https://en.wikipedia.org/wiki/Binary_GCD_algorithm#Implementation
+    // -> Binary GCD algorithm
+    // ---> The algorithm reduces the problem of finding the GCD of two nonnegative numbers v and u by repeatedly
+    // applying these identities:
+    // -----> gcd(0, v) = v, because everything divides zero, and v is the largest number that divides v. Similarly,
+    // gcd(u, 0) = u.
+    // -----> gcd(2u, 2v) = 2·gcd(u, v)
+    // -----> gcd(2u, v) = gcd(u, v), if v is odd (2 is not a common divisor). Similarly, gcd(u, 2v) = gcd(u, v) if u is
+    // odd.
+    // -----> gcd(u, v) = gcd(|u − v|, min(u, v)), if u and v are both odd.
+
+    NumberType first(getAbsoluteValue(firstNumber)), second(getAbsoluteValue(secondNumber));  // only consider positive
+    if (first == 0) {
+        return second;
+
+    } else if (second == 0) {
+        return first;
+    }
+
+    NumberType trailingFirst =
+        static_cast<NumberType>(AlbaBitValueUtilities<NumberType>::getNumberOfConsecutiveZerosFromLsb(first));
+    NumberType trailingSecond =
+        static_cast<NumberType>(AlbaBitValueUtilities<NumberType>::getNumberOfConsecutiveZerosFromLsb(second));
+    NumberType trailingMinimum = std::min(trailingFirst, trailingSecond);
+
+    first >>= trailingFirst;
+    second >>= trailingSecond;
+    while (true) {
+        if (first > second) {
+            std::swap(first, second);
+        }
+        second -= first;
+        if (second == 0) {
+            return first << trailingMinimum;
+        }
+        second >>= AlbaBitValueUtilities<NumberType>::getNumberOfConsecutiveZerosFromLsb(second);
+    }
+}
+
+template <typename NumberType>
+NumberType getGreatestCommonFactorWithLastValues(
+    NumberType const number1, NumberType const number2, NumberType& lastValue1, NumberType& lastValue2) {    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     NumberType result{};
     if (number2 == 0)  // Base Case
-    {
-        lastValue1 = 1;
+    {        lastValue1 = 1;
         lastValue2 = 0;
         result = number1;
     } else {

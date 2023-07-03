@@ -60,26 +60,58 @@ TEST(PowerHelpersTest, GetRaiseToPowerForIntegersWorks) {
     EXPECT_EQ(25, getRaiseToPowerForIntegers(5, 2));
     EXPECT_EQ(243, getRaiseToPowerForIntegers(3, 5));
     EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7));
-    EXPECT_EQ(1, getRaiseToPowerForIntegers(-2, -1));  // returns 1 if exponent is negative
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(-2, -1));  // this is wrong, but its easier on impl
 }
 
-TEST(PowerHelpersTest, GetRaiseToPowerForIntegersUsingPowWorks) {
-    EXPECT_EQ(1, getRaiseToPowerForIntegersUsingPow(0, 0));
+TEST(PowerHelpersTest, GetRaiseToPowerForIntegersUsingPowWorks) {    EXPECT_EQ(1, getRaiseToPowerForIntegersUsingPow(0, 0));
     EXPECT_EQ(1, getRaiseToPowerForIntegersUsingPow(1, 0));
     EXPECT_EQ(0, getRaiseToPowerForIntegersUsingPow(0, 1));
-    EXPECT_EQ(243, getRaiseToPowerForIntegersUsingPow(3, 5));
-    EXPECT_EQ(-128, getRaiseToPowerForIntegersUsingPow(-2, 7));
+    EXPECT_EQ(243, getRaiseToPowerForIntegersUsingPow(3, 5));    EXPECT_EQ(-128, getRaiseToPowerForIntegersUsingPow(-2, 7));
     EXPECT_EQ(0, getRaiseToPowerForIntegersUsingPow(-2, -1));
+}
+
+TEST(PowerHelpersTest, GetRaiseToPowerBasedOnTypeWorks) {
+    // Integer
+    EXPECT_EQ(1, getRaiseToPowerBasedOnType(0, 0));
+    EXPECT_EQ(1, getRaiseToPowerBasedOnType(1, 0));
+    EXPECT_EQ(0, getRaiseToPowerBasedOnType(0, 1));
+    EXPECT_EQ(243, getRaiseToPowerBasedOnType(3, 5));
+    EXPECT_EQ(-128, getRaiseToPowerBasedOnType(-2, 7));
+    EXPECT_EQ(1, getRaiseToPowerBasedOnType(-2, -1));  // this is wrong, but its easier on impl
+
+    // Floating point
+    EXPECT_DOUBLE_EQ(1.0, getRaiseToPowerBasedOnType(0.0, 0.0));
+    EXPECT_DOUBLE_EQ(1.009576582776887, getRaiseToPowerBasedOnType(1.1, 0.1));
+    EXPECT_DOUBLE_EQ(0.079432823472428138, getRaiseToPowerBasedOnType(0.1, 1.1));
+    EXPECT_DOUBLE_EQ(320.58606331731562, getRaiseToPowerBasedOnType(3.1, 5.1));
+    EXPECT_TRUE(isnan(getRaiseToPowerBasedOnType(-2.1, 7.1)));
+    EXPECT_TRUE(isnan(getRaiseToPowerBasedOnType(-2.1, -1.1)));
+}
+
+TEST(PowerHelpersTest, GetNthRootWorks) {
+    EXPECT_EQ(1, getNthRoot(0, 1, 1, 0));
+    EXPECT_EQ(0, getNthRoot(0, 1, 1, 1));
+    EXPECT_EQ(1, getNthRoot(36, 2, 1, 0));
+    EXPECT_EQ(18, getNthRoot(36, 2, 1, 1));
+    EXPECT_EQ(10, getNthRoot(36, 2, 1, 2));
+    EXPECT_EQ(6, getNthRoot(36, 2, 1, 3));
+    EXPECT_EQ(6, getNthRoot(36, 2, 1, 4));
+
+    EXPECT_DOUBLE_EQ(1.0, getNthRoot(0.0, 1.0, 1.0, 0));
+    EXPECT_DOUBLE_EQ(0.0, getNthRoot(0.0, 1.0, 1.0, 1));
+    EXPECT_DOUBLE_EQ(18.5, getNthRoot(36.0, 2.0, 1.0, 1));
+    EXPECT_DOUBLE_EQ(10.222972972972974, getNthRoot(36.0, 2.0, 1.0, 2));
+    EXPECT_DOUBLE_EQ(6.8722267376431292, getNthRoot(36.0, 2.0, 1.0, 3));
+    EXPECT_DOUBLE_EQ(6.0553517448494789, getNthRoot(36.0, 2.0, 1.0, 4));
+    EXPECT_DOUBLE_EQ(6.0002529841194185, getNthRoot(36.0, 2.0, 1.0, 5));
 }
 
 TEST(PowerHelpersTest, IsPerfectSquareForAlbaNumberWorks) {
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
-    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(4)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));
-    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));    EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
     EXPECT_FALSE(isPerfectSquare(AlbaNumber::createFraction(100, 37)));
 }
 

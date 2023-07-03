@@ -75,8 +75,35 @@ inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, Numb
     return static_cast<int>(ceil(pow(base, exponent)));
 }
 
+template <typename NumberType>
+std::enable_if_t<typeHelper::isIntegralType<NumberType>(), NumberType> getRaiseToPowerBasedOnType(
+    NumberType const base, NumberType const exponent) {
+    return getRaiseToPowerForIntegers(base, exponent);
+}
+
+template <typename NumberType>
+std::enable_if_t<typeHelper::isFloatingPointType<NumberType>(), NumberType> getRaiseToPowerBasedOnType(
+    NumberType const base, NumberType const exponent) {
+    return pow(base, exponent);
+}
+
+template <typename NumberType>
+NumberType getNthRoot(
+    NumberType const radicand, NumberType const rootDegree, NumberType const initialGuess,
+    int const numberOfIterations) {
+    // https://en.wikipedia.org/wiki/Nth_root#Computing_principal_roots
+    // This uses Newton method
+
+    NumberType result(initialGuess);
+    for (int i = 0; i < numberOfIterations; i++) {
+        // xk+1 = (n-1)*xk/n + (A/n) * (1/(xk^(n−1)))
+        result = (rootDegree - 1) * result / rootDegree +
+                 radicand / rootDegree / getRaiseToPowerBasedOnType(result, rootDegree - 1);
+    }
+    return result;
+}
+
 bool isPerfectSquare(AlbaNumber const& value);                            // pass as const reference
 bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
-
 }  // namespace alba::mathHelper
