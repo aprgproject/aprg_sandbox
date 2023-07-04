@@ -279,46 +279,12 @@ TEST(OperatorTest, SettingANewOperatingStringWorks) {
     EXPECT_EQ("multiply", operatorForTest2.getOperatorString());
 }
 
-TEST(OperatorTest, ReverseOperationWorks) {
-    Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
-    Operator multiplyOperator("*");
-    Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
-    Operator closingGroupOperator(")");
-    Operator invalidOperator("invalid");
-
-    nullOperator.reverseOperation();
-    addOperator.reverseOperation();
-    subtractOperator.reverseOperation();
-    multiplyOperator.reverseOperation();
-    divideOperator.reverseOperation();
-    raiseToPowerOperator.reverseOperation();
-    openingGroupOperator.reverseOperation();
-    closingGroupOperator.reverseOperation();
-    invalidOperator.reverseOperation();
-
-    EXPECT_TRUE(nullOperator.getOperatorString().empty());
-    EXPECT_EQ("-", addOperator.getOperatorString());
-    EXPECT_EQ("+", subtractOperator.getOperatorString());
-    EXPECT_EQ("/", multiplyOperator.getOperatorString());
-    EXPECT_EQ("*", divideOperator.getOperatorString());
-    EXPECT_EQ("^", raiseToPowerOperator.getOperatorString());
-    EXPECT_EQ("(", openingGroupOperator.getOperatorString());
-    EXPECT_EQ(")", closingGroupOperator.getOperatorString());
-    EXPECT_EQ("invalid", invalidOperator.getOperatorString());
-}
-
 TEST(OperatorTest, OutputStreamOperatorWorks) {
     stringstream ss;
-    Operator nullOperator;
-    Operator addOperator("+");
+    Operator nullOperator;    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
-    Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
+    Operator divideOperator("/");    Operator raiseToPowerOperator("^");
     Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");

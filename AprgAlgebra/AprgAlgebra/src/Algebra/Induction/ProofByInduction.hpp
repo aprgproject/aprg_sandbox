@@ -1,31 +1,27 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Common/Math/Number/AlbaNumber.hpp>
-
-#include <string>
 
 namespace alba {
-
 namespace algebra {
 
 class ProofByInduction {
 public:
-    using FunctionToCheck = std::function<AlbaNumber(AlbaNumber const&)>;
+    using ManualCalculationFunction = std::function<AlbaNumber(AlbaNumber const&)>;
 
     ProofByInduction(
-        std::string const& variableNameInExpression, Term const& algebraicExpressionToCheck,
-        FunctionToCheck const& functionToCheck);
+        std::string const& variableName, Term const& expressionForEachStep, Operator const& accumulateOperator,
+        Term const& guessExpression, ManualCalculationFunction const& manualCalculation);
 
-    bool isVerificationOnASpecificValueSuccessful(AlbaNumber const& value) const;
-    bool isVerificationOnInductionStepSuccessful(
-        Term const& firstTerm, Term const& secondTerm, Term const& expectedDifferenceOfSecondAndFirstTerm) const;
+    bool isCorrectOnASpecificValue(AlbaNumber const& value) const;
+    bool isCorrectOnInductionStep() const;
 
-    std::string m_variableNameInExpression;
-    Term m_algebraicExpressionToCheck;
-    FunctionToCheck m_functionToCheck;
+    std::string m_variableName;
+    Term m_expressionForEachStep;
+    Operator m_accumulateOperator;
+    Term m_guessExpression;
+    ManualCalculationFunction m_manualCalculation;
 };
 
 }  // namespace algebra
-
 }  // namespace alba

@@ -1,13 +1,12 @@
 #include "TrigonometricEquations.hpp"
 
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
-using namespace alba::algebra::Functions;
-using namespace std;
+using namespace alba::algebra::Functions;using namespace std;
 
 namespace alba {
-
 namespace algebra {
 
 Equation getTrigonometricPythagoreanIdentity(Term const& term) {
@@ -155,31 +154,24 @@ Term getCosineOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& ope
     if (operatorObject.isAddition() || operatorObject.isSubtraction()) {
         Term firstPart(createExpressionIfPossible({cos(term1), "*", cos(term2)}));
         Term secondPart(createExpressionIfPossible({sin(term1), "*", sin(term2)}));
-        Operator reverseOperator(operatorObject);
-        reverseOperator.reverseOperation();
-        result = Term(createExpressionIfPossible({firstPart, reverseOperator, secondPart}));
+        result = Term(createExpressionIfPossible({firstPart, reverse(operatorObject), secondPart}));
     }
     return result;
 }
-
 Term getTangentOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& operatorObject, Term const& term2) {
     // tan(x +- y) =  (tan(x) +- tan(y)) / (1 -+ tan(x)*tan(y))
 
     Term result;
     if (operatorObject.isAddition() || operatorObject.isSubtraction()) {
-        Operator reverseOperator(operatorObject);
-        reverseOperator.reverseOperation();
         Term numerator(createExpressionIfPossible({tan(term1), operatorObject, tan(term2)}));
         Term denominator(createExpressionIfPossible(
-            {1, reverseOperator, createExpressionIfPossible({tan(term1), "*", tan(term2)})}));
+            {1, reverse(operatorObject), createExpressionIfPossible({tan(term1), "*", tan(term2)})}));
         result = Term(createExpressionIfPossible({numerator, "/", denominator}));
     }
-    return result;
-}
+    return result;}
 
 Term getSineOfDoubledValue(Term const& term) {
     // sin(2*x) =  2*sin(x)*cos(x)
-
     return Term(createExpressionIfPossible({2, "*", sin(term), "*", cos(term)}));
 }
 

@@ -35,14 +35,11 @@ public:
     std::string getOperatorString() const;
 
     void setOperatorString(std::string const& operatingString);
-    void reverseOperation();
 
 private:
     friend std::ostream& operator<<(std::ostream& out, Operator const& operatorObject);
-
     std::string m_operatingString;
 };
-
 }  // namespace algebra
 
 }  // namespace alba

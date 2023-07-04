@@ -62,23 +62,9 @@ string Operator::getOperatorString() const { return m_operatingString; }
 
 void Operator::setOperatorString(string const& operatingString) { m_operatingString = operatingString; }
 
-void Operator::reverseOperation() {
-    if (isAddition()) {
-        m_operatingString = "-";
-    } else if (isSubtraction()) {
-        m_operatingString = "+";
-    } else if (isMultiplication()) {
-        m_operatingString = "/";
-    } else if (isDivision()) {
-        m_operatingString = "*";
-    }
-}
-
 ostream& operator<<(ostream& out, Operator const& operatorObject) {
     out << operatorObject.m_operatingString;
-    return out;
-}
+    return out;}
 
 }  // namespace algebra
-
 }  // namespace alba
