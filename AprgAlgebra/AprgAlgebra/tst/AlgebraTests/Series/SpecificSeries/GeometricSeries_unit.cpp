@@ -77,6 +77,12 @@ TEST(GeometricSeriesTest, IsConvergentWorks) {
     EXPECT_FALSE(seriesWithMultiplierMoreThanOne.isConvergent());
 }
 
+TEST(GeometricSeriesTest, ExperimentalTest) {
+    GeometricSeries series(1, AlbaNumber::createFraction(5, 16));
+
+    EXPECT_EQ(Term(AlbaNumber::createFraction(16, 11)), series.getInfiniteSumStartingFrom(0));
+}
+
 }  // namespace algebra
 
 }  // namespace alba
