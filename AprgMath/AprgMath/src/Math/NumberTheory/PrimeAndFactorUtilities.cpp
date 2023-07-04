@@ -139,19 +139,30 @@ UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {
     // In fact, the algorithm is more efficient, because the inner loop will be executed only if the number x is prime.
     // It can be shown that the running time of the  algorithm is only O(n*log(log(n))), a complexity very near to O(n).
 
+    // -> To find all the prime numbers less than or equal to a given integer n by Eratosthenes' method:
+    // ---> (1) Create a list of consecutive integers from 2 through n: (2, 3, 4, ..., n).
+    // ---> (2) Initially, let p equal 2, the smallest prime number.
+    // ---> (3) Enumerate the multiples of p by counting in increments of p from 2p to n, and mark them in the list
+    // (these will be 2p, 3p, 4p, ...; the p itself should not be marked).
+    // ---> (4) Find the smallest number in the list greater than p that is not marked.
+    // -----> If there was no such number, stop.
+    // -----> Otherwise, let p now equal this new number (which is the next prime), and repeat from step 3.
+    // ---> (5) When the algorithm terminates, the numbers remaining not marked in the list are all the primes below n.
+
     vector<bool> sieveOfEratosthenes(number, true);
-    for (UnsignedInteger possiblePrime = 2; possiblePrime < number; possiblePrime++) {
-        for (UnsignedInteger multiple = 2 * possiblePrime; multiple < number; multiple += possiblePrime) {
+    for (UnsignedInteger candidatePrime = 2; candidatePrime < number;) {
+        for (UnsignedInteger multiple = 2 * candidatePrime; multiple < number; multiple += candidatePrime) {
             sieveOfEratosthenes[multiple] = false;
         }
+        auto itLowestCandidate =
+            find(sieveOfEratosthenes.cbegin() + candidatePrime + 1, sieveOfEratosthenes.cend(), true);
+        candidatePrime = distance(sieveOfEratosthenes.cbegin(), itLowestCandidate);
     }
     UnsignedIntegers result;
-    for (UnsignedInteger prime = 2; prime < number; prime++) {
-        if (sieveOfEratosthenes[prime]) {
+    for (UnsignedInteger prime = 2; prime < number; prime++) {        if (sieveOfEratosthenes[prime]) {
             result.emplace_back(prime);
         }
-    }
-    return result;
+    }    return result;
 }
 
 UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number) {
