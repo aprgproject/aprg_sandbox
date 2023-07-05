@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Algorithm/Sort/BaseSorter.hpp>
+#include <Common/Debug/AlbaDebug.hpp>
 
 #include <algorithm>
-#include <array>
-#include <functional>
+#include <array>#include <functional>
 
 namespace alba {
-
 namespace algorithm {
 
 template <typename Values, int MAX_NUMBER_OF_DIGIT_VALUES>
@@ -64,21 +63,26 @@ private:
         // 3) [0][a count for copying back][cumulate with a]
         // 4) [a low index][b low index (a high index+1)][c low index (b high index+1)][d low index (c high index+1)]...
 
+        ALBA_PRINT1(valuesToSort);
+        Values forDebug(valuesToSort.cbegin() + lowContainerIndex, valuesToSort.cbegin() + highContainerIndex + 1);
+        ALBA_PRINT1(forDebug);
         ArrayOfCountPerDigitValue newIndexes{};
         bool areAllDigitsInvalid(true);
         saveFrequencyForEachCharacterAt(
             newIndexes, areAllDigitsInvalid, valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
+        ALBA_PRINT1(newIndexes);
         if (!areAllDigitsInvalid) {
             computeCumulatesToGetNewIndexes(newIndexes);
+            ALBA_PRINT1(newIndexes);
             copyBackUsingNewIndexes(valuesToSort, newIndexes, lowContainerIndex, highContainerIndex, digitIndex);
+            ALBA_PRINT1(newIndexes);
             sortForEachCharacterValue(valuesToSort, newIndexes, lowContainerIndex, digitIndex);
+            ALBA_PRINT1(newIndexes);
         }
     }
-
     void saveFrequencyForEachCharacterAt(
         ArrayOfCountPerDigitValue& countPerDigitValue, bool& areAllDigitsInvalid, Values const& valuesToSort,
-        int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
-        int limit(std::min(highContainerIndex + 1, static_cast<int>(valuesToSort.size())));
+        int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {        int limit(std::min(highContainerIndex + 1, static_cast<int>(valuesToSort.size())));
         // starts at low container index and ends at high container index
         for (auto it = valuesToSort.cbegin() + lowContainerIndex; it != valuesToSort.cbegin() + limit; it++) {
             Value const& value(*it);
@@ -155,3 +159,14 @@ private:
 // ---> Linearithmic number of string compares (not linear)
 // ---> Has to rescan many characters in keys with long prefix matches
 // Goal combine advantages of MSD and quick sort
+
+// Is radix sort preferable to a comparison-based sorting algorithm, such as quick-sort?
+// If b = O(lg n) as is often the case and we choose ~ lg n, then radix sort's running time is Θ(n),
+// which appears to be better than quicksorts expected running time of O(n lg n).
+// The constant factor hidden in the notation differ however.
+// Although radix sort may make fewer passes than quicksort over the n keys, each pass of radix sort may take
+// significantly longer. Which sorting algorithm we prefer depends on the characteristics of the implementations, of the
+// underlying machine (quicksort often uses hardware caches more effectively than radix sort) and of the input data.
+// Moreover, the version of radix sort that uses counting sort as intermediate stable sort does not sort in place,
+// which many of the n lg n time comparison sorts do.
+// Thus, when primary memory sotrage is at a premium, we might prefer an in-place algorithm such as quicksort.
