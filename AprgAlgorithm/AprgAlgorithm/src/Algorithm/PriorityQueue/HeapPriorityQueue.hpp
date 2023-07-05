@@ -22,28 +22,28 @@ public:
 
     Objects const& getObjects() const { return m_objects; }
 
-    Object const& getTop() const { return m_heapTreeAdapter.getObjectConstReferenceOnTree(INDEX_OF_TOP_TREE); }
+    Object const& getTop() const { return m_heapTreeAdapter.getObjectOnTree(INDEX_OF_TOP_TREE); }
 
     void insert(Object const& object) {
-        m_objects.emplace_back(object);                         // put the object at the bottom of the tree
-        m_heapTreeAdapter.swim(getIndexOfLastItemOfTheTree());  // starting from the bottom (where the object is
-                                                                // placed), swim up to maintain heap order
+        // put the object at the bottom of the tree
+        m_objects.emplace_back(object);
+        // starting from the bottom (where the object is placed), swim up to maintain heap order
+        m_heapTreeAdapter.swim(getIndexOfLastItemOfTheTree());
     }
 
     Object deleteAndGetTopObject() {
-        Object top(m_heapTreeAdapter.getObjectConstReferenceOnTree(INDEX_OF_TOP_TREE));  // get return value
-        std::swap(
-            m_heapTreeAdapter.getObjectReferenceOnTree(INDEX_OF_TOP_TREE),
-            m_objects.back());                      // swap last and top (because top will be deleted)
-        m_objects.pop_back();                       // delete previous top
-        m_heapTreeAdapter.sink(INDEX_OF_TOP_TREE);  // starting from the top (where the object is swapped), sink down to
-                                                    // maintain heap order
+        // get return value
+        Object top(m_heapTreeAdapter.getObjectOnTree(INDEX_OF_TOP_TREE));
+        // swap last and top (because top will be deleted)
+        std::swap(m_heapTreeAdapter.getObjectReferenceOnTree(INDEX_OF_TOP_TREE), m_objects.back());
+        // delete previous top
+        m_objects.pop_back();
+        // starting from the top (where the object is swapped), sink down to maintain heap order
+        m_heapTreeAdapter.sink(INDEX_OF_TOP_TREE);
         return top;
     }
-
 private:
     int getIndexOfLastItemOfTheTree() const { return getSize(); }
-
     static constexpr int INDEX_OF_TOP_TREE = 1;
     Objects m_objects;
     HeapTreeAdapter<Objects, 2, ComparatorTemplateType> m_heapTreeAdapter;

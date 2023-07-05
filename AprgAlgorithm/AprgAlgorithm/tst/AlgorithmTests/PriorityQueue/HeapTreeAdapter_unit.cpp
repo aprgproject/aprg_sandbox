@@ -17,19 +17,17 @@ TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks) {
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
-    EXPECT_EQ('H', adapter.getObjectConstReferenceOnTree(1));
-    EXPECT_EQ('E', adapter.getObjectConstReferenceOnTree(2));
-    EXPECT_EQ('A', adapter.getObjectConstReferenceOnTree(3));
-    EXPECT_EQ('P', adapter.getObjectConstReferenceOnTree(4));
-    EXPECT_EQ('S', adapter.getObjectConstReferenceOnTree(objects.size()));
+    EXPECT_EQ('H', adapter.getObjectOnTree(1));
+    EXPECT_EQ('E', adapter.getObjectOnTree(2));
+    EXPECT_EQ('A', adapter.getObjectOnTree(3));
+    EXPECT_EQ('P', adapter.getObjectOnTree(4));
+    EXPECT_EQ('S', adapter.getObjectOnTree(objects.size()));
 }
 
-TEST(HeapTreeAdapterTest, GetObjectReferenceOnTreeWorks) {
-    ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
+TEST(HeapTreeAdapterTest, GetObjectReferenceOnTreeWorks) {    ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
     char& characterAtTopOfTree(adapter.getObjectReferenceOnTree(1));
-
     characterAtTopOfTree = 'Z';
 
     ContainerForTest objectsToExpect{'Z', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};

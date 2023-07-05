@@ -30,22 +30,21 @@ private:
     void putItemsInHeapOrder(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
         int size(maxHeapTreeAdapter.getSize());
         // Traverse all parents (starting from bottom to top), and sink down to put items in heap order
+        // Note: According to CLS this runs on O(n) / linear time.
         for (int parentIndex = getLastParentAtTheBottom(maxHeapTreeAdapter);
              parentIndex >= maxHeapTreeAdapter.getTopTreeIndex(); parentIndex--) {
-            maxHeapTreeAdapter.sink(parentIndex, size);
-        }
+            maxHeapTreeAdapter.sink(parentIndex, size);        }
     }
 
     void swapTopItemsToLastPlaces(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
-        int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());  // traverse from bottom to top
+        // traverse from bottom to top
+        int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());
         while (treeIndex > maxHeapTreeAdapter.getTopTreeIndex()) {
             // swap current max to current last place
-            std::swap(
-                maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
+            std::swap(                maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
                 maxHeapTreeAdapter.getObjectReferenceOnTree(treeIndex));
             treeIndex--;  // move the next last place
-            // starting from the top (where the object is swapped), sink down to maintain heap order
-            maxHeapTreeAdapter.sink(maxHeapTreeAdapter.getTopTreeIndex(), treeIndex);
+            // starting from the top (where the object is swapped), sink down to maintain heap order            maxHeapTreeAdapter.sink(maxHeapTreeAdapter.getTopTreeIndex(), treeIndex);
         }
     }
 
