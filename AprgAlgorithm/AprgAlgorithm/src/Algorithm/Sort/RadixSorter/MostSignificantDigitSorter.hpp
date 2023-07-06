@@ -158,17 +158,3 @@ private:
 // ---> Linearithmic number of string compares (not linear)
 // ---> Has to rescan many characters in keys with long prefix matches
 // Goal combine advantages of MSD and quick sort
-
-// Is radix sort preferable to a comparison-based sorting algorithm, such as quick-sort?
-// If number of bits = O(lg n) as is often the case and we choose radix ~ lg n, then radix sort's running time is Θ(n),
-// which appears to be better than quicksorts expected running time of Θ(n lg n).
-// The constant factor hidden in the Θ notation differ however.
-// Although radix sort may make fewer passes than quicksort over the n keys,
-// each pass of radix sort may take significantly longer.
-// Which sorting algorithm we prefer depends on the characteristics of the implementations, of the
-// underlying machine (quicksort often uses hardware caches more effectively than radix sort) and of the input data.
-// Moreover, the version of radix sort that uses counting sort as intermediate stable sort does not sort in place,
-// which many of the n lg n time comparison sorts do.
-// Thus, when primary memory storage is at a premium, we might prefer an in-place algorithm such as quicksort.
-
-// Check also RadixSorterUsingCountingSorter.hpp as well for more discussion

@@ -24,7 +24,8 @@ public:
         Buckets buckets;  // Create n empty buckets
         int deltaValue = m_maxValue - m_minValue;
 
-        for (Value const& value : valuesToSort) {  // Put array elements in different buckets
+        // Put array elements in different buckets
+        for (Value const& value : valuesToSort) {
             int bucketIndex = (value - m_minValue) * NUMBER_OF_BUCKETS / deltaValue;
             if (bucketIndex < NUMBER_OF_BUCKETS) {
                 buckets[bucketIndex].emplace_back(value);
@@ -33,9 +34,12 @@ public:
 
         auto itCopy = valuesToSort.begin();
         for (Bucket& bucket : buckets) {
-            std::sort(bucket.begin(), bucket.end());  // change to stable sort if its need to be stable
             // Conventionally, insertion sort(if small) is used, but selection sort or merge sort can be used as well
-            itCopy = std::copy(bucket.cbegin(), bucket.cend(), itCopy);  // copy back to original container
+            // change to stable sort if its need to be stable
+            std::sort(bucket.begin(), bucket.end());
+
+            // copy back to original container
+            itCopy = std::copy(bucket.cbegin(), bucket.cend(), itCopy);
         }
     }
 

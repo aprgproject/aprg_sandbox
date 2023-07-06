@@ -75,8 +75,8 @@ TEST(DoublingSizeStackTest, PopWorksWithHalvingContainerSize) {
     EXPECT_EQ(1, stack.getContainerSize());
 }
 
-TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) {
     testPopAssertionWhenEmptyWithInt<StackForTest>();
 }
 

@@ -26,8 +26,8 @@ TEST(LinkedListQueueTest, EnqueueWorks) { testEnqueueWithInt<QueueForTest>(); }
 
 TEST(LinkedListQueueTest, DequeueWorks) { testDequeueWithInt<QueueForTest>(); }
 
-TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) {
     testDequeueAssertionWhenEmptyWithInt<QueueForTest>();
 }
 

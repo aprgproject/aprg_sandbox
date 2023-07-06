@@ -167,7 +167,7 @@ protected:
 
     void initialize(int const initialSize) {
         if (m_entryPointers == nullptr) {
-            m_entryPointers = new EntryUniquePointer[initialSize]{};
+            m_entryPointers = new EntryUniquePointer[initialSize];
             m_hashTableSize = initialSize;
         }
     }

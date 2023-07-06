@@ -19,20 +19,15 @@ public:
         NodeUniquePointer next;
     };
 
-    LinkedListQueue() : m_size(0), m_first(nullptr), m_last(nullptr) {}
+    LinkedListQueue() : m_size(0), m_first(nullptr), m_nextOfLastDoublePointer(&m_first) {}
 
     bool isEmpty() const override { return m_first == nullptr; }
 
     int getSize() const override { return m_size; }
 
     void enqueue(Object const& object) override {
-        if (isEmpty()) {
-            m_first.reset(new Node{object, nullptr});
-            m_last = m_first.get();
-        } else {
-            m_last->next.reset(new Node{object, nullptr});
-            m_last = m_last->next.get();
-        }
+        m_nextOfLastDoublePointer->reset(new Node{object, nullptr});
+        m_nextOfLastDoublePointer = &((*m_nextOfLastDoublePointer)->next);
         m_size++;
     }
 
@@ -43,9 +38,9 @@ public:
             result = m_first->object;
             m_first = std::move(m_first->next);
             m_size--;
-        }
-        if (isEmpty()) {
-            m_last = nullptr;
+            if (isEmpty()) {
+                m_nextOfLastDoublePointer = &m_first;
+            }
         }
         return result;
     }
@@ -53,7 +48,7 @@ public:
 private:
     int m_size;
     NodeUniquePointer m_first;
-    Node* m_last;
+    NodeUniquePointer* m_nextOfLastDoublePointer;
 };
 
 }  // namespace algorithm

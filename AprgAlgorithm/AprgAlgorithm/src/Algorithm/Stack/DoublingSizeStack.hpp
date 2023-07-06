@@ -46,14 +46,14 @@ private:
 
     void initialize(int const initialSize) {
         if (m_objects == nullptr) {
-            m_objects = new Object[initialSize]{};
+            m_objects = new Object[initialSize];
             m_containerSize = initialSize;
         }
     }
 
     void resize(int const newSize)  // array is between 25% and 100% full
     {
-        Object* newObjects = new Object[newSize]{};
+        Object* newObjects = new Object[newSize];
         if (m_objects != nullptr) {
             std::copy(m_objects, m_objects + std::min(m_stackSize, newSize), newObjects);
             delete[](m_objects);
@@ -63,9 +63,8 @@ private:
     }
 
     void resizeOnPushIfNeeded() {
-        if (m_stackSize == m_containerSize)  // only resize to double when stack is full, on average the cost is 3N -> N
-                                             // + (2+4+8+...+N) = 3N
-        {
+        // only resize to double when stack is full, on average the cost is 3N -> N + (2+4+8+...+N) = 3N
+        if (m_stackSize == m_containerSize) {
             resize(m_containerSize * 2);
         }
     }

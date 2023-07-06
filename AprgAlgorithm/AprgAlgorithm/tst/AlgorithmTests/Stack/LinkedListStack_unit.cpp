@@ -26,8 +26,8 @@ TEST(LinkedListStackTest, PushWorks) { testPushWithInt<StackForTest>(); }
 
 TEST(LinkedListStackTest, PopWorks) { testPopWithInt<StackForTest>(); }
 
-TEST(LinkedListStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(LinkedListStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) {
     testPopAssertionWhenEmptyWithInt<StackForTest>();
 }
 

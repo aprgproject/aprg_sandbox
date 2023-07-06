@@ -143,10 +143,8 @@ TEST(RWayTrieUsingMatrixTest, GetUnusedNodeIdsWorks) {
     EXPECT_EQ(6, trie.get("sea"));
 }
 
-TEST(
-    RWayTrieUsingMatrixTest,
-    DISABLED_AssertionWorksWhenNodeIdsReachesMaximumSize)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(RWayTrieUsingMatrixTest, DISABLED_AssertionWorksWhenNodeIdsReachesMaximumSize) {
     RWayTrieUsingMatrix<int, 1> trie;
 
     EXPECT_DEATH(trie.put("se", 100), "Assertion failed!");

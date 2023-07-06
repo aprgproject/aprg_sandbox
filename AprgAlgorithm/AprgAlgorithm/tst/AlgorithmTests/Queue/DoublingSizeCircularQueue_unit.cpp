@@ -1,4 +1,4 @@
-#include <Algorithm/Queue/DoublingSizeQueue.hpp>
+#include <Algorithm/Queue/DoublingSizeCircularQueue.hpp>
 #include <AlgorithmTests/Queue/Utilities/CommonTestsWithQueue.hpp>
 
 #include <gtest/gtest.h>
@@ -11,22 +11,22 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using QueueForTest = DoublingSizeQueue<int>;
+using QueueForTest = DoublingSizeCircularQueue<int>;
 }
 
-TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithInt<QueueForTest>(); }
+TEST(DoublingSizeCircularQueueTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithInt<QueueForTest>(); }
+TEST(DoublingSizeCircularQueueTest, IsEmptyWorksWhenNotEmpty) { testIsEmptyWhenNotEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithInt<QueueForTest>(); }
+TEST(DoublingSizeCircularQueueTest, GetSizeWorksWhenEmpty) { testGetSizeWhenEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithInt<QueueForTest>(); }
+TEST(DoublingSizeCircularQueueTest, GetSizeWorksWhenNotEmpty) { testGetSizeWhenNotEmptyWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, EnqueueWorks) { testEnqueueWithInt<QueueForTest>(); }
+TEST(DoublingSizeCircularQueueTest, EnqueueWorks) { testEnqueueWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, DequeueWorks) { testDequeueWithInt<QueueForTest>(); }
+TEST(DoublingSizeCircularQueueTest, DequeueWorks) { testDequeueWithInt<QueueForTest>(); }
 
-TEST(DoublingSizeQueueTest, GetContainerSizeWorks) {
+TEST(DoublingSizeCircularQueueTest, GetContainerSizeWorks) {
     QueueForTest queue1;
     QueueForTest queue2;
     queue2.enqueue(10);
@@ -37,7 +37,7 @@ TEST(DoublingSizeQueueTest, GetContainerSizeWorks) {
     EXPECT_EQ(4, queue2.getContainerSize());
 }
 
-TEST(DoublingSizeQueueTest, PushWorksWithDoublingContainerSize) {
+TEST(DoublingSizeCircularQueueTest, PushWorksWithDoublingContainerSize) {
     QueueForTest queue;
     EXPECT_EQ(1, queue.getContainerSize());
 
@@ -53,7 +53,7 @@ TEST(DoublingSizeQueueTest, PushWorksWithDoublingContainerSize) {
     EXPECT_EQ(8, queue.getContainerSize());
 }
 
-TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize) {
+TEST(DoublingSizeCircularQueueTest, PopWorksWithHalvingContainerSize) {
     QueueForTest queue;
 
     queue.enqueue(1);
@@ -75,8 +75,8 @@ TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize) {
     EXPECT_EQ(1, queue.getContainerSize());
 }
 
-TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(DoublingSizeCircularQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) {
     testDequeueAssertionWhenEmptyWithInt<QueueForTest>();
 }
 

@@ -26,13 +26,13 @@ TEST(FixedSizeStackTest, PushWorks) { testPushWithInt<StackForTest>(); }
 
 TEST(FixedSizeStackTest, PopWorks) { testPopWithInt<StackForTest>(); }
 
-TEST(FixedSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(FixedSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) {
     testPopAssertionWhenEmptyWithInt<StackForTest>();
 }
 
-TEST(FixedSizeStackTest, DISABLED_PushWorksWithAssertionWhenItReachesMaximumSize)  // disabled because it takes too long
-{
+// disabled because it takes too long
+TEST(FixedSizeStackTest, DISABLED_PushWorksWithAssertionWhenItReachesMaximumSize) {
     StackForTest stack;
 
     for (int i = 0; i < 10; i++) {
