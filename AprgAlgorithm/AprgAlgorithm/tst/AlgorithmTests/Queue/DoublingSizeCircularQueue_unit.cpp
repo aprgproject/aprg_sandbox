@@ -37,14 +37,20 @@ TEST(DoublingSizeCircularQueueTest, GetContainerSizeWorks) {
     EXPECT_EQ(4, queue2.getContainerSize());
 }
 
+TEST(DoublingSizeCircularQueueTest, MinimumContainerSizeIsContained) {
+    QueueForTest queue;
+    queue.enqueue(10);
+    queue.dequeue();
+
+    EXPECT_EQ(QueueForTest::MINUMUM_CONTAINER_SIZE, queue.getContainerSize());
+}
+
 TEST(DoublingSizeCircularQueueTest, PushWorksWithDoublingContainerSize) {
     QueueForTest queue;
     EXPECT_EQ(1, queue.getContainerSize());
-
     queue.enqueue(1);
     queue.enqueue(2);
     EXPECT_EQ(2, queue.getContainerSize());
-
     queue.enqueue(3);
     EXPECT_EQ(4, queue.getContainerSize());
 
