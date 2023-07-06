@@ -125,11 +125,13 @@ NumberType getGreatestCommonFactorUsingBinaryGcdAlgorithm(NumberType const first
 
 template <typename NumberType>
 NumberType getGreatestCommonFactorWithLastValues(
-    NumberType const number1, NumberType const number2, NumberType& lastValue1, NumberType& lastValue2) {    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+    NumberType const number1, NumberType const number2, NumberType& lastValue1, NumberType& lastValue2) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     NumberType result{};
     if (number2 == 0)  // Base Case
-    {        lastValue1 = 1;
+    {
+        lastValue1 = 1;
         lastValue2 = 0;
         result = number1;
     } else {

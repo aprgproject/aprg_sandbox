@@ -33,6 +33,12 @@ int getPivotIndex(Values& values, int const lowIndex, int const highIndex, Pivot
 
 template <typename Values>
 int partitionAndGetPartitionIndex(Values& values, int const lowIndex, int const highIndex, PivotType const pivotType) {
+    return partitionAndGetPartitionIndexUsingHoare(values, lowIndex, highIndex, pivotType);
+}
+
+template <typename Values>
+int partitionAndGetPartitionIndexUsingHoare(
+    Values& values, int const lowIndex, int const highIndex, PivotType const pivotType) {
     // This is Hoare partition scheme
     // https://en.wikipedia.org/wiki/Quicksort#Hoare_partition_scheme
 
@@ -74,16 +80,17 @@ int partitionAndGetPartitionIndexUsingLomuto(
 
     int indexWithPivotValue = getPivotIndex(values, lowIndex, highIndex, pivotType);
     auto pivotValue = values[indexWithPivotValue];
-    std::swap(values[lowIndex], values[indexWithPivotValue]);
+    std::swap(values[highIndex], values[indexWithPivotValue]);
 
-    int partitionIndex = lowIndex;
-    for (int compareIndex = lowIndex + 1; compareIndex <= highIndex; compareIndex++) {
-        if (values[compareIndex] < pivotValue) {
+    // Notice this has preincrement inside the loop to offset the  -1 start it to lowIndex
+    int partitionIndex = lowIndex - 1;
+    for (int compareIndex = lowIndex; compareIndex < highIndex; compareIndex++) {
+        if (values[compareIndex] <= pivotValue) {
             std::swap(values[++partitionIndex], values[compareIndex]);
         }
     }
 
-    std::swap(values[partitionIndex], values[lowIndex]);
+    std::swap(values[++partitionIndex], values[highIndex]);
     return partitionIndex;
 }
 

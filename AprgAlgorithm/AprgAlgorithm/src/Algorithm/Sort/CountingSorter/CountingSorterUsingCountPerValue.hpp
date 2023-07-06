@@ -30,7 +30,7 @@ public:
             countPerValue[m_valueToIndexableValueFunction(value)]++;  // count each value
         }
         auto it = valuesToSort.begin();
-        // Linear because i runs on valuesToSort.size()
+        // Linear because it runs on valuesToSort.size()
         for (int index = 0; index < static_cast<int>(countPerValue.size()); index++) {
             for (int currentCount = 0; currentCount < countPerValue[index]; currentCount++) {
                 // put the value multiple times depending on the current count

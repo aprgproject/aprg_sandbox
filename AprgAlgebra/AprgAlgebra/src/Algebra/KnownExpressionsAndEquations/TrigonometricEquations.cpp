@@ -4,9 +4,11 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
-using namespace alba::algebra::Functions;using namespace std;
+using namespace alba::algebra::Functions;
+using namespace std;
 
 namespace alba {
+
 namespace algebra {
 
 Equation getTrigonometricPythagoreanIdentity(Term const& term) {
@@ -158,6 +160,7 @@ Term getCosineOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& ope
     }
     return result;
 }
+
 Term getTangentOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& operatorObject, Term const& term2) {
     // tan(x +- y) =  (tan(x) +- tan(y)) / (1 -+ tan(x)*tan(y))
 
@@ -168,10 +171,12 @@ Term getTangentOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& op
             {1, reverse(operatorObject), createExpressionIfPossible({tan(term1), "*", tan(term2)})}));
         result = Term(createExpressionIfPossible({numerator, "/", denominator}));
     }
-    return result;}
+    return result;
+}
 
 Term getSineOfDoubledValue(Term const& term) {
     // sin(2*x) =  2*sin(x)*cos(x)
+
     return Term(createExpressionIfPossible({2, "*", sin(term), "*", cos(term)}));
 }
 

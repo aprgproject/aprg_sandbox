@@ -20,9 +20,11 @@ def are_colors_too_far(pixel1, pixel2):
             or abs(int(pixel1[1]) - int(pixel2[1])) > difference_limit
             or abs(int(pixel1[2]) - int(pixel2[2])) > difference_limit)
 
+
 def get_darker(color, scale):
     darkest = 0.3
-    remaining_scale = 1 - darkest    scale = darkest + remaining_scale*scale
+    remaining_scale = 1 - darkest
+    scale = darkest + remaining_scale*scale
     return [color[0]*scale, color[1]*scale, color[2]*scale, color[3]]
 
 
@@ -67,10 +69,12 @@ def draw_pixel_at_circle(image, x, y, top_left, bottom_right, color_start, color
 
 def add_to_edge_point(image, x, y, edge_point_to_color):
     y_size, x_size, _ = np.shape(image)
-    radius = 3    for ix in range(-radius, radius+1):
+    radius = 3
+    for ix in range(-radius, radius+1):
         for iy in range(-radius, radius+1):
             distance = math.dist((0, 0), (ix, iy))
-            if distance <= radius:                coordinate = (y+iy, x+ix)
+            if distance <= radius:
+                coordinate = (y+iy, x+ix)
                 if coordinate[0] >= 0 and coordinate[0] < x_size and coordinate[1] >= 0 and coordinate[1] < y_size:
                     new_color = get_darker(
                         image[coordinate], 0.6+0.4*(distance/radius))
@@ -97,10 +101,12 @@ def draw_circle(image):
         14, 178, 210), (255, 255, 255), (179, 1, 196), (0, 0, 0)
     radius = x_size*0.4
     multiplier_sin_function = radius/4
-    multiplier_to_angle = math.pi/radius    midpoint = ((x_size+1)//2, (y_size+1)//2)
+    multiplier_to_angle = math.pi/radius
+    midpoint = ((x_size+1)//2, (y_size+1)//2)
     top_left = (midpoint[0]-radius, midpoint[1]-radius)
     bottom_right = (midpoint[0]+radius, midpoint[1]+radius)
-    for x in range(x_size):        for y in range(y_size):
+    for x in range(x_size):
+        for y in range(y_size):
             distance = math.dist(midpoint, (x, y))
             if distance < radius:
                 wave_y = midpoint[1] - math.sin((x - top_left[0])
@@ -124,10 +130,12 @@ def draw_circle(image):
                     image[y, x] = get_darker(image[y, x], reverse_scale)
 
 
-def draw_A(image):    y_size, x_size, _ = np.shape(image)
+def draw_A(image):
+    y_size, x_size, _ = np.shape(image)
     x_mid = (x_size+1)//2
     y_s_multiplier = y_size/1280
-    edge_point1 = None    for x in range(x_size):
+    edge_point1 = None
+    for x in range(x_size):
         for y in range(y_size):
             # check notes for more info about the polynomials
             x_s = x*1280/x_size
@@ -177,5 +185,6 @@ def generate_aprg_logo():
     skimage.io.imsave('aprg_logo_small.png', image)
 
 
-if __name__ == '__main__':    generate_aprg_logo()
+if __name__ == '__main__':
+    generate_aprg_logo()
     print('done!')

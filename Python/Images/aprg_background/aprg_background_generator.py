@@ -31,6 +31,7 @@ def get_color_for_normal_background(image, x, y, top_left_color, top_right_color
                      + 0.1*y_scale*bottom_left_color[i] + 0.1*(1-hyp_scale)*top_right_color[i]))
     return result
 
+
 def get_rgb_on_circle(scale, rgb_start, rgb_end):
     return round(scale*(rgb_end - rgb_start) + rgb_start)
 
@@ -53,7 +54,8 @@ def draw_noise(image):
                 image[y, x] = get_with_noise(image[y, x], noise_scale)
 
 
-def draw_pixel_for_title(image, x, y, top_left, bottom_right, color_start, color_end):    x_scale = (x-top_left[0])/(bottom_right[0]-top_left[0])
+def draw_pixel_for_title(image, x, y, top_left, bottom_right, color_start, color_end):
+    x_scale = (x-top_left[0])/(bottom_right[0]-top_left[0])
     y_scale = (y-top_left[1])/(bottom_right[1]-top_left[1])
     scale_hyp = math.dist(top_left, (x, y)) / math.dist(top_left, bottom_right)
 
@@ -88,10 +90,12 @@ def fill_title_background(image):
         14, 178, 210), (255, 255, 255), (179, 1, 196), (0, 0, 0)
     wave_radius = x_size/100
     multiplier_sin_function = wave_radius/4
-    multiplier_to_angle = math.pi/wave_radius    top_left = (0, 0)
+    multiplier_to_angle = math.pi/wave_radius
+    top_left = (0, 0)
     bottom_right = (x_size, y_size)
     for x in range(x_size):
-        y_wave_position = (0.8 + 0.1 * (x/x_size)) * y_size        for y in range(y_size):
+        y_wave_position = (0.8 + 0.1 * (x/x_size)) * y_size
+        for y in range(y_size):
             sin_wave = math.sin(x * multiplier_to_angle) * \
                 multiplier_sin_function
             wave_y = y_wave_position - sin_wave
@@ -117,6 +121,8 @@ def generate_title_background():
     draw_noise(image)
     skimage.io.imsave('title_background.png', image)
 
+
 if __name__ == '__main__':
     generate_normal_background()
-    # generate_title_background()    print('done!')
+    # generate_title_background()
+    print('done!')

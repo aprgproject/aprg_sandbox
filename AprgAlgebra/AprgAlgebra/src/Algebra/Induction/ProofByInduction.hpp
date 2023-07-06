@@ -3,6 +3,7 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 
 namespace alba {
+
 namespace algebra {
 
 class ProofByInduction {
@@ -24,4 +25,5 @@ public:
 };
 
 }  // namespace algebra
+
 }  // namespace alba

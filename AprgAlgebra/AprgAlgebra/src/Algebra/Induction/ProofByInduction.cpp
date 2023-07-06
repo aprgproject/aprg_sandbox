@@ -6,6 +6,7 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace std;
+
 namespace alba {
 
 namespace algebra {
@@ -49,4 +50,5 @@ bool ProofByInduction::isCorrectOnInductionStep() const {
 }
 
 }  // namespace algebra
+
 }  // namespace alba

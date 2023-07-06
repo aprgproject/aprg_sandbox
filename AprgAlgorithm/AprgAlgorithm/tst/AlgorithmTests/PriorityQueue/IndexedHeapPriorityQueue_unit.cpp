@@ -20,7 +20,8 @@ TEST(IndexedHeapPriorityQueueTest, IsEmptyWorks) {
     IndexedPqForTest indexedPQ2;
     indexedPQ2.insert(0, 'A');
 
-    EXPECT_TRUE(indexedPQ1.isEmpty());    EXPECT_FALSE(indexedPQ2.isEmpty());
+    EXPECT_TRUE(indexedPQ1.isEmpty());
+    EXPECT_FALSE(indexedPQ2.isEmpty());
 }
 
 TEST(IndexedHeapPriorityQueueTest, ContainsWorks) {
@@ -275,4 +276,5 @@ TEST(IndexedHeapPriorityQueueTest, ChangeWorksWhenObjectDoesNotExist) {
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

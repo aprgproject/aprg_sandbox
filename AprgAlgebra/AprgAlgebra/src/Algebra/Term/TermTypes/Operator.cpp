@@ -64,7 +64,9 @@ void Operator::setOperatorString(string const& operatingString) { m_operatingStr
 
 ostream& operator<<(ostream& out, Operator const& operatorObject) {
     out << operatorObject.m_operatingString;
-    return out;}
+    return out;
+}
 
 }  // namespace algebra
+
 }  // namespace alba

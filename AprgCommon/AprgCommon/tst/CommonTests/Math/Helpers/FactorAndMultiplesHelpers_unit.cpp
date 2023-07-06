@@ -124,10 +124,12 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorUsingBinaryGcdAlgorit
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksForUnsignedInteger) {
     using LastValues = pair<int, int>;
-    LastValues lastValues{};    EXPECT_EQ(0, getGreatestCommonFactorWithLastValues(0, 0, lastValues.first, lastValues.second));
+    LastValues lastValues{};
+    EXPECT_EQ(0, getGreatestCommonFactorWithLastValues(0, 0, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 0}), lastValues);
     EXPECT_EQ(1, getGreatestCommonFactorWithLastValues(1, 1, lastValues.first, lastValues.second));
-    EXPECT_EQ((LastValues{0, 1}), lastValues);    EXPECT_EQ(16, getGreatestCommonFactorWithLastValues(16, 32, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{0, 1}), lastValues);
+    EXPECT_EQ(16, getGreatestCommonFactorWithLastValues(16, 32, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{1, 0}), lastValues);
     EXPECT_EQ(14, getGreatestCommonFactorWithLastValues(98, 56, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{4294967295, 2}), lastValues);

@@ -64,10 +64,12 @@ TEST(ConvertHelpersTest, ReverseWorks) {
 
 TEST(ConvertHelpersTest, SimplifyAndConvertMonomialToSimplestTermWorks) {
     Term termToVerify1(simplifyAndConvertMonomialToSimplestTerm(Monomial()));
-    Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));    Term termToVerify3(simplifyAndConvertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
+    Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));
+    Term termToVerify3(simplifyAndConvertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
     Term termToVerify4(simplifyAndConvertMonomialToSimplestTerm(Monomial(10, {{"x", 0}})));
 
-    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());    EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantValueConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
+    EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantValueConstReference().getDouble());
     ASSERT_EQ(TermType::Constant, termToVerify2.getTermType());
     EXPECT_DOUBLE_EQ(6, termToVerify2.getConstantValueConstReference().getDouble());
     ASSERT_EQ(TermType::Variable, termToVerify3.getTermType());

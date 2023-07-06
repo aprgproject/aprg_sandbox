@@ -281,10 +281,12 @@ TEST(OperatorTest, SettingANewOperatingStringWorks) {
 
 TEST(OperatorTest, OutputStreamOperatorWorks) {
     stringstream ss;
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
-    Operator divideOperator("/");    Operator raiseToPowerOperator("^");
+    Operator divideOperator("/");
+    Operator raiseToPowerOperator("^");
     Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");

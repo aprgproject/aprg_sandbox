@@ -48,10 +48,12 @@ Operator reverse(Operator const& operatorToReverse) {
 
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial) {
     Monomial newMonomial(monomial);
-    newMonomial.simplify();    return convertMonomialToSimplestTerm(newMonomial);
+    newMonomial.simplify();
+    return convertMonomialToSimplestTerm(newMonomial);
 }
 
-Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial) {    Polynomial newPolynomial(polynomial);
+Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial) {
+    Polynomial newPolynomial(polynomial);
     newPolynomial.simplify();
     return convertPolynomialToSimplestTerm(newPolynomial);
 }

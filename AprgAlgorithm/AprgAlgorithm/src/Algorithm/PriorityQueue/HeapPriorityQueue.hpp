@@ -42,8 +42,10 @@ public:
         m_heapTreeAdapter.sink(INDEX_OF_TOP_TREE);
         return top;
     }
+
 private:
     int getIndexOfLastItemOfTheTree() const { return getSize(); }
+
     static constexpr int INDEX_OF_TOP_TREE = 1;
     Objects m_objects;
     HeapTreeAdapter<Objects, 2, ComparatorTemplateType> m_heapTreeAdapter;

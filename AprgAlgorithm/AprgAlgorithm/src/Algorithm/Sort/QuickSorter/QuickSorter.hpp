@@ -16,7 +16,8 @@ public:
         if (!valuesToSort.empty()) {
             // You can randomize inputs here to remove dependence on input
             // (quick sort works best if input is not sorted) std::shuffle should help
-            sort(valuesToSort, 0, valuesToSort.size() - 1);
+            // sort(valuesToSort, 0, valuesToSort.size() - 1);
+            sortInTailRecursive(valuesToSort, 0, valuesToSort.size() - 1);
         }
     }
 
@@ -26,6 +27,15 @@ private:
             int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
             sort(valuesToSort, lowIndex, partitionIndex - 1);
             sort(valuesToSort, partitionIndex + 1, highIndex);
+        }
+    }
+
+    void sortInTailRecursive(Values& valuesToSort, int const lowIndex, int const highIndex) const {
+        int iLow(lowIndex), iHigh(highIndex);
+        while (iLow < iHigh) {
+            int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, iLow, iHigh, m_pivotType);
+            sort(valuesToSort, iLow, iHigh - 1);  // only one recursive call
+            iLow = partitionIndex + 1;
         }
     }
 

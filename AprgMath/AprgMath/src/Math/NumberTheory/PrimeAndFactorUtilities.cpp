@@ -159,10 +159,12 @@ UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {
         candidatePrime = distance(sieveOfEratosthenes.cbegin(), itLowestCandidate);
     }
     UnsignedIntegers result;
-    for (UnsignedInteger prime = 2; prime < number; prime++) {        if (sieveOfEratosthenes[prime]) {
+    for (UnsignedInteger prime = 2; prime < number; prime++) {
+        if (sieveOfEratosthenes[prime]) {
             result.emplace_back(prime);
         }
-    }    return result;
+    }
+    return result;
 }
 
 UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number) {

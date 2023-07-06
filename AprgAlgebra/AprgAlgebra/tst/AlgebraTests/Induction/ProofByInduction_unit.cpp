@@ -51,4 +51,5 @@ TEST(ProofByInductionTest, ProveTheSumOfSquareOfOddIntegers) {
 }
 
 }  // namespace algebra
+
 }  // namespace alba

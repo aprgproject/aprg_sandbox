@@ -1,12 +1,13 @@
 #pragma once
 
 #include <Algorithm/Sort/BaseSorter.hpp>
-#include <Common/Debug/AlbaDebug.hpp>
 
 #include <algorithm>
-#include <array>#include <functional>
+#include <array>
+#include <functional>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values, int MAX_NUMBER_OF_DIGIT_VALUES>
@@ -60,29 +61,25 @@ private:
         // For example (alphabet is a, b, c, d...), position translate to this:
         // 1) [0][0][a count][b count][c count]...
         // 2) [0][0][cumulate with a][cumulate with b][cumulate with c]...
-        // 3) [0][a count for copying back][cumulate with a]
+        // 3) [0][a count used as increment][b count used as increment][c count used as increment]
         // 4) [a low index][b low index (a high index+1)][c low index (b high index+1)][d low index (c high index+1)]...
 
-        ALBA_PRINT1(valuesToSort);
-        Values forDebug(valuesToSort.cbegin() + lowContainerIndex, valuesToSort.cbegin() + highContainerIndex + 1);
-        ALBA_PRINT1(forDebug);
         ArrayOfCountPerDigitValue newIndexes{};
         bool areAllDigitsInvalid(true);
         saveFrequencyForEachCharacterAt(
             newIndexes, areAllDigitsInvalid, valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
-        ALBA_PRINT1(newIndexes);
         if (!areAllDigitsInvalid) {
             computeCumulatesToGetNewIndexes(newIndexes);
-            ALBA_PRINT1(newIndexes);
-            copyBackUsingNewIndexes(valuesToSort, newIndexes, lowContainerIndex, highContainerIndex, digitIndex);
-            ALBA_PRINT1(newIndexes);
+            copyUsingNewIndexesAndIncrement(
+                valuesToSort, newIndexes, lowContainerIndex, highContainerIndex, digitIndex);
             sortForEachCharacterValue(valuesToSort, newIndexes, lowContainerIndex, digitIndex);
-            ALBA_PRINT1(newIndexes);
         }
     }
+
     void saveFrequencyForEachCharacterAt(
         ArrayOfCountPerDigitValue& countPerDigitValue, bool& areAllDigitsInvalid, Values const& valuesToSort,
-        int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {        int limit(std::min(highContainerIndex + 1, static_cast<int>(valuesToSort.size())));
+        int const lowContainerIndex, int const highContainerIndex, int const digitIndex) const {
+        int limit(std::min(highContainerIndex + 1, static_cast<int>(valuesToSort.size())));
         // starts at low container index and ends at high container index
         for (auto it = valuesToSort.cbegin() + lowContainerIndex; it != valuesToSort.cbegin() + limit; it++) {
             Value const& value(*it);
@@ -97,13 +94,15 @@ private:
         }
     }
 
-    void copyBackUsingNewIndexes(
+    void copyUsingNewIndexesAndIncrement(
         Values& valuesToSort, ArrayOfCountPerDigitValue& newIndexes, int const lowContainerIndex,
         int const highContainerIndex, int const digitIndex) const {
-        Values copiedValues(valuesToSort);  // copy first and then copy back to output in the new indexes;
-        int limit(std::min(highContainerIndex + 1, static_cast<int>(copiedValues.size())));
-        // starts at low container index and ends at high container index
-        for (auto it = copiedValues.cbegin() + lowContainerIndex; it != copiedValues.cbegin() + limit; it++) {
+        int limit(std::min(highContainerIndex + 1, static_cast<int>(valuesToSort.size())));
+
+        // copy first and then copy back to output in the new indexes;
+        Values copiedValues(valuesToSort.cbegin() + lowContainerIndex, valuesToSort.cbegin() + limit);
+
+        for (auto it = copiedValues.cbegin(); it != copiedValues.cend(); it++) {
             // replace index uses the character index before it
             Value const& copiedValue(*it);
             int replaceIndex = lowContainerIndex + newIndexes[m_getDigitAtFunction(copiedValue, digitIndex) + 1]++;
@@ -115,9 +114,9 @@ private:
         Values& valuesToSort, ArrayOfCountPerDigitValue const& newIndexes, int const lowContainerIndex,
         int const digitIndex) const {
         for (int i = 0; i < MAX_NUMBER_OF_DIGIT_VALUES; i++) {
-            if (newIndexes[i] + 1 < newIndexes[i + 1]) {
-                int newLowContainerIndex(lowContainerIndex + newIndexes[i]);
-                int newHighContainerIndex(lowContainerIndex + newIndexes[i + 1] - 1);
+            int newLowContainerIndex(lowContainerIndex + newIndexes[i]);
+            int newHighContainerIndex(lowContainerIndex + newIndexes[i + 1] - 1);
+            if (newLowContainerIndex < newHighContainerIndex) {
                 sortStartingAtMostSignificantDigitInternal(
                     valuesToSort, newLowContainerIndex, newHighContainerIndex, digitIndex + 1);
             }
@@ -161,12 +160,15 @@ private:
 // Goal combine advantages of MSD and quick sort
 
 // Is radix sort preferable to a comparison-based sorting algorithm, such as quick-sort?
-// If b = O(lg n) as is often the case and we choose ~ lg n, then radix sort's running time is Θ(n),
-// which appears to be better than quicksorts expected running time of O(n lg n).
-// The constant factor hidden in the notation differ however.
-// Although radix sort may make fewer passes than quicksort over the n keys, each pass of radix sort may take
-// significantly longer. Which sorting algorithm we prefer depends on the characteristics of the implementations, of the
+// If number of bits = O(lg n) as is often the case and we choose radix ~ lg n, then radix sort's running time is Θ(n),
+// which appears to be better than quicksorts expected running time of Θ(n lg n).
+// The constant factor hidden in the Θ notation differ however.
+// Although radix sort may make fewer passes than quicksort over the n keys,
+// each pass of radix sort may take significantly longer.
+// Which sorting algorithm we prefer depends on the characteristics of the implementations, of the
 // underlying machine (quicksort often uses hardware caches more effectively than radix sort) and of the input data.
 // Moreover, the version of radix sort that uses counting sort as intermediate stable sort does not sort in place,
 // which many of the n lg n time comparison sorts do.
-// Thus, when primary memory sotrage is at a premium, we might prefer an in-place algorithm such as quicksort.
+// Thus, when primary memory storage is at a premium, we might prefer an in-place algorithm such as quicksort.
+
+// Check also RadixSorterUsingCountingSorter.hpp as well for more discussion

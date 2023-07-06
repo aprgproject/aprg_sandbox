@@ -18,6 +18,7 @@ public:
     Object const& getObjectOnTree(int const treeIndex) const { return m_objects[getContainerIndex(treeIndex)]; }
 
     Object& getObjectReferenceOnTree(int const treeIndex) { return m_objects[getContainerIndex(treeIndex)]; }
+
     void swim(int const startTreeIndex) {
         // Swim is "bottom up reheapify" -> it swims up to the top of the tree
         int treeIndex(startTreeIndex);
@@ -28,9 +29,11 @@ public:
                !isInHeapOrder(getObjectOnTree(treeIndex), getObjectOnTree(getParentIndex(treeIndex)))) {
             int parentTreeIndex(getParentIndex(treeIndex));
             // swap parent and child
-            std::swap(getObjectReferenceOnTree(parentTreeIndex), getObjectReferenceOnTree(treeIndex));            treeIndex = parentTreeIndex;  // move to the next parent
+            std::swap(getObjectReferenceOnTree(parentTreeIndex), getObjectReferenceOnTree(treeIndex));
+            treeIndex = parentTreeIndex;  // move to the next parent
         }
     }
+
     void sink(int const startTreeIndex) { sink(startTreeIndex, m_objects.size()); }
 
     void sink(int const startTreeIndex, int const treeSize) {
@@ -41,10 +44,12 @@ public:
             if (isInHeapOrder(getObjectOnTree(significantChildIndex), getObjectOnTree(treeIndex))) {
                 break;  // heap order is found so stop
             }
-            // swap if heap order is not maintained (swap to have heap order)            std::swap(getObjectReferenceOnTree(treeIndex), getObjectReferenceOnTree(significantChildIndex));
+            // swap if heap order is not maintained (swap to have heap order)
+            std::swap(getObjectReferenceOnTree(treeIndex), getObjectReferenceOnTree(significantChildIndex));
             treeIndex = significantChildIndex;
         }
     }
+
     inline int getSize() const { return m_objects.size(); }
 
     inline int getTopTreeIndex() const { return 1; }
@@ -83,9 +88,11 @@ private:
                               // so std::less -> MaxPriority and std::greater -> MinPriority
     Objects& m_objects;
 };
+
 // Objects are kept in heap order, parents value is no smaller than children's value (in max priority queue)
 // Tree index starts at one (top of the tree)
-// Advantage no links needed for the tree.// Notes:
+// Advantage no links needed for the tree.
+// Notes:
 // -> Parent of node k is at k/2 (integer division)
 // -> Children of node k are at 2k and 2k+1 (in the implementation above the number of children per parent can be
 // changed)
@@ -104,4 +111,5 @@ private:
 // -> and the subtree rooted at a node contains values no smaller than that contained at the node itself
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -57,15 +57,16 @@ private:
         }
 
         if (lowContainerIndex + 1 < lowIndexWithEqualValue) {
-            sortInternal(valuesToSort, lowContainerIndex, lowIndexWithEqualValue - 1, digitIndex);  // sort lower part
+            // sort lower part
+            sortInternal(valuesToSort, lowContainerIndex, lowIndexWithEqualValue - 1, digitIndex);
         }
         if (shouldEqualPartProceed && lowIndexWithEqualValue < highIndexWithEqualValue) {
-            sortInternal(
-                valuesToSort, lowIndexWithEqualValue, highIndexWithEqualValue, digitIndex + 1);  // sort equal part
+            // sort equal part
+            sortInternal(valuesToSort, lowIndexWithEqualValue, highIndexWithEqualValue, digitIndex + 1);
         }
         if (highIndexWithEqualValue + 1 < highContainerIndex) {
-            sortInternal(
-                valuesToSort, highIndexWithEqualValue + 1, highContainerIndex, digitIndex);  // sort higher part
+            // sort higher part
+            sortInternal(valuesToSort, highIndexWithEqualValue + 1, highContainerIndex, digitIndex);
         }
     }
 

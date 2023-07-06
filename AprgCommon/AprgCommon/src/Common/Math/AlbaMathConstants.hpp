@@ -19,8 +19,10 @@ constexpr double DOUBLE_EPSILON = std::numeric_limits<double>::epsilon();
 
 constexpr double PI_DOUBLE_VALUE = 3.14159265358979323846;
 constexpr double E_DOUBLE_VALUE = 2.7182818284590452354;
+
 // Please consider using "variable templates" instead, to define the type of the variable.
 // Example:
-// -> template <typename ConstType>// -> constexpr ConstType PI_DOUBLE_VALUE(3.14159265358979323846);
+// -> template <typename ConstType>
+// -> constexpr ConstType PI_DOUBLE_VALUE(3.14159265358979323846);
 
 }  // namespace alba::AlbaMathConstants

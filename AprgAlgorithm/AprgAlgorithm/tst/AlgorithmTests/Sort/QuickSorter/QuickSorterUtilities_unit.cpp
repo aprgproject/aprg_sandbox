@@ -84,7 +84,7 @@ TEST(QuickSorterUtilitiesTest, PartitionAndGetPartitionIndexUsingLomutoWorks) {
     auto partitionIndex =
         partitionAndGetPartitionIndexUsingLomuto(valuesToSort, 0, valuesToSort.size() - 1, PivotType::MedianOfMedians);
 
-    Characters valuesToExpect{'E', 'E', 'A', 'L', 'M', 'X', 'R', 'S', 'P', 'T', 'O'};
+    Characters valuesToExpect{'E', 'A', 'E', 'L', 'M', 'X', 'O', 'R', 'P', 'T', 'S'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
     EXPECT_EQ(4, partitionIndex);
 }

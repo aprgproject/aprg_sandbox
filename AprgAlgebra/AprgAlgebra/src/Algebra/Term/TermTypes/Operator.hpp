@@ -38,8 +38,10 @@ public:
 
 private:
     friend std::ostream& operator<<(std::ostream& out, Operator const& operatorObject);
+
     std::string m_operatingString;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

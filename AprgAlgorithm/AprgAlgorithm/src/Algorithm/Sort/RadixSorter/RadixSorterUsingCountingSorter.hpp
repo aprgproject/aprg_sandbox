@@ -87,7 +87,7 @@ private:
 
 // The time complexity for a large k ("maximum possible value"), would be similar to comparison-based sorting
 // algorithms. Let us first limit k. Let k <= nc where c is a constant. In that case, the complexity becomes
-// O(nLogb(n)). So its still doesn’t beat comparison-based sorting algorithms.
+// O(n logb(n)). So its still doesn’t beat comparison-based sorting algorithms.
 
 // What if we make the value of b ("number of digit values") larger?
 // What should be the value of b to make the time complexity linear?

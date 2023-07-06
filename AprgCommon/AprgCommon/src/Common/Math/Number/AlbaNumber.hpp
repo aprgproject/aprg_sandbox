@@ -26,7 +26,8 @@ public:
         DenominatorDataType denominator;
     };
     struct ComplexNumberData  // alignas(8) has no effect on performance (tested in benchmark)
-    {        float realPart;
+    {
+        float realPart;
         float imaginaryPart;
     };
     union NumberUnionData  // alignas(8) has no effect on performance (tested in benchmark)
@@ -39,10 +40,12 @@ public:
         IntDataType intData;
         double doubleData;
         FractionData fractionData;
-        ComplexNumberData complexNumberData;    };
+        ComplexNumberData complexNumberData;
+    };
 
     struct ConfigurationDetails {
-        double comparisonTolerance;        double floatAdjustmentTolerance;
+        double comparisonTolerance;
+        double floatAdjustmentTolerance;
     };
     class Configuration : public AlbaConfigurationHolder<ConfigurationDetails> {
     public:
@@ -66,9 +69,11 @@ public:
     template <typename NumberType>
     static AlbaNumber createComplexNumber(NumberType const realPart, NumberType const imaginaryPart);
     static AlbaNumber createComplexNumber(ComplexFloat const& complexNumber);
+
     // constexpr functions
 
-    template <typename ArithmeticType>    void constexpr checkArithmeticType() {
+    template <typename ArithmeticType>
+    void constexpr checkArithmeticType() {
         static_assert(sizeof(ArithmeticType) <= 8, "Maximum size is 8 bytes/64 bits.");
         static_assert(
             !(sizeof(ArithmeticType) == 8 && typeHelper::isUnsignedType<ArithmeticType>()),
@@ -95,9 +100,11 @@ public:
               value)) {
         checkArithmeticType<ArithmeticType>();
     }
+
     constexpr AlbaNumber(FractionData const& fractionData) : m_type(Type::Fraction), m_data(fractionData) {}
 
-    constexpr AlbaNumber(ComplexNumberData const& complexNumberData)        : m_type(Type::ComplexNumber), m_data(complexNumberData) {}
+    constexpr AlbaNumber(ComplexNumberData const& complexNumberData)
+        : m_type(Type::ComplexNumber), m_data(complexNumberData) {}
 
     // rule of zero
 
@@ -105,10 +112,12 @@ public:
     AlbaNumber(char const character) = delete;
 
     // This should be constexpr as well but a lot of coding is needed
-    bool operator==(AlbaNumber const& second) const;    bool operator!=(AlbaNumber const& second) const;
+    bool operator==(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;
     bool operator<=(AlbaNumber const& second) const;
     bool operator>=(AlbaNumber const& second) const;
-    bool operator<(AlbaNumber const& second) const;    bool operator>(AlbaNumber const& second) const;
+    bool operator<(AlbaNumber const& second) const;
+    bool operator>(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
@@ -138,8 +147,10 @@ public:
     double getDouble() const;
     FractionData getFractionData() const;
     ComplexNumberData getComplexNumberData() const;
+
     void convertToInteger();
     void convertToFraction();
+
 private:
     // static functions
     static double getComparisonTolerance();
@@ -180,9 +191,11 @@ private:
         FractionData const& baseFractionData, IntDataType const exponent) const;
 
     friend std::ostream& operator<<(std::ostream& out, AlbaNumber const& number);
+
     Type m_type;  // Hotness: Type is much hotter.
     // use std variant instead? Nah, I dont wanna deal with getting the "index" to know the "type".
     NumberUnionData m_data;
+
     static_assert(sizeof(m_type) == 4, "The size of AlbaNumber type should be 4 bytes/32 bits.");
     static_assert(sizeof(m_data) == 8, "The size of AlbaNumber data should be 8 bytes/64 bits.");
 };
@@ -195,9 +208,11 @@ constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(unsigned long long int const val
     return AlbaNumber(static_cast<AlbaNumber::IntDataType>(value));
 }
 constexpr AlbaNumber operator"" _AS_ALBA_NUMBER(long double const value) {
-    return AlbaNumber(static_cast<double>(value));}
+    return AlbaNumber(static_cast<double>(value));
+}
 // AlbaNumber operator "" _AS_ALBA_NUMBER(char const value) = delete;
 // not needed to delete because there is no implicit conversion
+
 template <>
 AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
 

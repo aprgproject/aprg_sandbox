@@ -33,7 +33,8 @@ private:
         // Note: According to CLS this runs on O(n) / linear time.
         for (int parentIndex = getLastParentAtTheBottom(maxHeapTreeAdapter);
              parentIndex >= maxHeapTreeAdapter.getTopTreeIndex(); parentIndex--) {
-            maxHeapTreeAdapter.sink(parentIndex, size);        }
+            maxHeapTreeAdapter.sink(parentIndex, size);
+        }
     }
 
     void swapTopItemsToLastPlaces(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
@@ -41,10 +42,12 @@ private:
         int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());
         while (treeIndex > maxHeapTreeAdapter.getTopTreeIndex()) {
             // swap current max to current last place
-            std::swap(                maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
+            std::swap(
+                maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
                 maxHeapTreeAdapter.getObjectReferenceOnTree(treeIndex));
             treeIndex--;  // move the next last place
-            // starting from the top (where the object is swapped), sink down to maintain heap order            maxHeapTreeAdapter.sink(maxHeapTreeAdapter.getTopTreeIndex(), treeIndex);
+            // starting from the top (where the object is swapped), sink down to maintain heap order
+            maxHeapTreeAdapter.sink(maxHeapTreeAdapter.getTopTreeIndex(), treeIndex);
         }
     }
 
