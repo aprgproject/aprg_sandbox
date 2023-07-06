@@ -1,4 +1,4 @@
-#include <Algorithm/HashFunctions/ForPrimitiveTypes/UnsignedIntegerBasedHashFunction.hpp>
+#include <Algorithm/HashFunctions/PrimitiveTypes/IntegerHashFunction.hpp>
 #include <Algorithm/SetAndSymbolTable/Set/HashTable/SeparateChainingHashSet.hpp>
 #include <AlgorithmTests/SetAndSymbolTable/Set/Utilities/CommonTestsWithSet.hpp>
 
@@ -12,8 +12,10 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
-using SetForTest = SeparateChainingHashSet<int, HashFunctionForTest, 2>;
+using HashValue = uint32_t;
+constexpr HashValue HASH_TABLE_SIZE = 2;
+using HashFunctionForTest = IntegerHashFunction<int, HashValue, HASH_TABLE_SIZE>;
+using SetForTest = SeparateChainingHashSet<int, HashFunctionForTest, HASH_TABLE_SIZE>;
 }  // namespace
 
 TEST(SeparateChainingHashSetTest, IsEmptyWorksWhenEmpty) { testIsEmptyWhenEmptyWithUnsignedIntAndChar<SetForTest>(); }

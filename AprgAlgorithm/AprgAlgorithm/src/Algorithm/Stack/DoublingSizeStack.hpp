@@ -17,6 +17,7 @@ public:
     DoublingSizeStack() : m_stackSize(0), m_containerSize(0), m_objects(nullptr) { initialize(MINUMUM_CONTAINER_SIZE); }
 
     ~DoublingSizeStack() { deleteAllObjects(); }
+
     bool isEmpty() const override { return m_stackSize == 0; }
 
     int getSize() const override { return m_stackSize; }
@@ -31,10 +32,12 @@ public:
     Object pop() override {
         assert(m_stackSize > 0);
         Object result(m_objects[--m_stackSize]);
-        resizeOnPopIfNeeded();        return result;
+        resizeOnPopIfNeeded();
+        return result;
     }
 
     int getContainerSize() const { return m_containerSize; }
+
 private:
     void deleteAllObjects() {
         if (m_objects != nullptr) {
@@ -76,7 +79,9 @@ private:
 
     int m_stackSize;
     int m_containerSize;
-    Object* m_objects;};
+    Object* m_objects;
+};
 
 }  // namespace algorithm
+
 }  // namespace alba

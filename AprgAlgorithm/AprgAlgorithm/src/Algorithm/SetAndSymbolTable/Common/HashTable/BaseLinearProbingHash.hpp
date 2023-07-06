@@ -201,7 +201,7 @@ protected:
         }
     }
 
-    int getHash(Key const& key) const { return HashFunction::getHash(key, m_hashTableSize); }
+    int getHash(Key const& key) const { return HashFunction::getHash(key); }
 
     void incrementHashTableIndexWithWrapAround(int& index) const { index = (index + 1) % m_hashTableSize; }
 
@@ -210,6 +210,10 @@ protected:
     int m_hashTableSize;
     EntryPointers m_entryPointers;
 };
+
+}  // namespace algorithm
+
+}  // namespace alba
 
 // General hashing notes:
 // Basic plan: Save items in a key-indexed table (index is a function of the key)
@@ -224,8 +228,19 @@ protected:
 // -> No time limitation: trivial collision resolution with sequential search
 // -> Space and time limitations: tune hashing in the real world
 
+// Load Factor
+// -> The load factor is denoted by the name "alpha".
+// -> Its equal to n/m = number of items / number of slots.
+
 // Formulated by Amdahl-Boehme-Rocherster-Samuel IBM 1953
-// Open addressing: when a new key collides find the next empty slot and put it there.
+// -> Open addressing: when a new key collides find the next empty slot and put it there.
+// -> Open addressing means all elements occupy the hash table itself.
+// ---> That is each table, entry contains either an element of the dynamic set or NIL.
+// ---> When searching for an element, we systematically examine table slots until either we find the desired element,
+// -----> or we have ascertained that the element is not in the table.
+// ---> No lists and no elements are stored outside the table unlike in chaining.
+// ---> Thus in open addressing, the hash table, can "fillup :so that no further insertions can be made;
+// -----> one consequence is that the load factor alpha can never exceed 1.
 
 // Important: Array size M must be greater than number key value pairs N.
 
@@ -238,8 +253,9 @@ protected:
 // Full: With M cars, mean displacement is ~sqrt(pi*M/8)
 
 // Proposition. Under the uniform hashing assumption, the average # of probes in a linear probing hash table of size M
-// that contains N = alpha*M keys is For search hit: ~(1/2)(1+(1/(1-alpha))) For search miss/insert:
-// ~(1/2)(1+(1/(1-alpha)^2))
+// that contains N = alpha*M keys is
+// For search hit: ~(1/2)(1+(1/(1-alpha)))
+// For search miss/insert: ~(1/2)(1+(1/(1-alpha)^2))
 
 // In summary:
 // -> M too large -> too many empty array entries
@@ -265,10 +281,6 @@ protected:
 // -> More difficult to implement delete.
 
 // Improved version: Cuckoo hashing (linear probing variant)
-// -> Hash key to two positions; insert key into either position; if occupied, reinsert displaced key into its
-// alternative position (and recur)
+// -> Hash key to two positions; insert key into either position;
+// if occupied, reinsert displaced key into its alternative position (and recur)
 // -> Constant worst case time for search
-
-}  // namespace algorithm
-
-}  // namespace alba

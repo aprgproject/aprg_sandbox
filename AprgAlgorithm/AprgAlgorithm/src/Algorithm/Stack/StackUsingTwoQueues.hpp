@@ -21,17 +21,18 @@ public:
 
     void push(Object const& object) override {
         m_queueAtTheTop.enqueue(object);
-        transferAtPushIfNeeded();
+        balanceSizesAtPushIfNeeded();
     }
 
     Object pop() override {
-        transferAtPopIfNeeded();
         rotateFirstToLast(m_queueAtTheTop);
-        return m_queueAtTheTop.dequeue();
+        auto result(m_queueAtTheTop.dequeue());
+        balanceSizesAtPopIfNeeded();
+        return result;
     }
 
 private:
-    void transferAtPushIfNeeded() {
+    void balanceSizesAtPushIfNeeded() {
         // remove items to make the size logarithmic
         int targetSizeAtTop = getTargetSizeAtTop(getSize());
         int limitSizeAtTop = targetSizeAtTop * 2;
@@ -40,25 +41,16 @@ private:
             while (!m_queueAtTheTop.isEmpty()) {
                 m_queueAtTheBottom.enqueue(m_queueAtTheTop.dequeue());
             }
-
-            // position so that end as the top
-            rotate(m_queueAtTheBottom, m_queueAtTheBottom.getSize() - targetSizeAtTop);
-
-            // put a logarithmic size at the top
-            for (int i = 0; i < targetSizeAtTop; i++) {
-                m_queueAtTheTop.enqueue(m_queueAtTheBottom.dequeue());
-            }
+            // move some items from top to bottom
+            moveFromBottomToTop(targetSizeAtTop);
         }
     }
 
-    void transferAtPopIfNeeded() {
+    void balanceSizesAtPopIfNeeded() {
         // add items to make size logarithmic
         if (m_queueAtTheTop.isEmpty()) {
             int targetSizeAtTop = getTargetSizeAtTop(m_queueAtTheBottom.getSize());
-            rotate(m_queueAtTheBottom, m_queueAtTheBottom.getSize() - targetSizeAtTop);
-            for (int i = 0; i < targetSizeAtTop; i++) {
-                m_queueAtTheTop.enqueue(m_queueAtTheBottom.dequeue());
-            }
+            moveFromBottomToTop(targetSizeAtTop);
         }
     }
 
@@ -67,6 +59,16 @@ private:
         return std::max(
             1, static_cast<int>(
                    AlbaBitValueUtilities<uint64_t>::getLogarithmWithBase2Of(static_cast<uint64_t>(totalSize))));
+    }
+
+    void moveFromBottomToTop(int const numberOfItems) {
+        // position so that end as the top
+        rotate(m_queueAtTheBottom, m_queueAtTheBottom.getSize() - numberOfItems);
+
+        // put a logarithmic size at the top
+        for (int i = 0; !m_queueAtTheBottom.isEmpty() && i < numberOfItems; i++) {
+            m_queueAtTheTop.enqueue(m_queueAtTheBottom.dequeue());
+        }
     }
 
     void rotateFirstToLast(QueueWithObject& queue) {

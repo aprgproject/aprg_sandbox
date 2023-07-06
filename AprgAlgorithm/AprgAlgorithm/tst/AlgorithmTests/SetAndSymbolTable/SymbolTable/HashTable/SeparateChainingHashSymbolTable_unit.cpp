@@ -1,4 +1,4 @@
-#include <Algorithm/HashFunctions/ForPrimitiveTypes/UnsignedIntegerBasedHashFunction.hpp>
+#include <Algorithm/HashFunctions/PrimitiveTypes/IntegerHashFunction.hpp>
 #include <Algorithm/SetAndSymbolTable/SymbolTable/HashTable/SeparateChainingHashSymbolTable.hpp>
 #include <AlgorithmTests/SetAndSymbolTable/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
 
@@ -12,8 +12,10 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
-using SymbolTableForTest = SeparateChainingHashSymbolTable<int, char, HashFunctionForTest, 2>;
+using HashValue = uint32_t;
+constexpr HashValue HASH_TABLE_SIZE = 2;
+using HashFunctionForTest = IntegerHashFunction<int, HashValue, HASH_TABLE_SIZE>;
+using SymbolTableForTest = SeparateChainingHashSymbolTable<int, char, HashFunctionForTest, HASH_TABLE_SIZE>;
 }  // namespace
 
 TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty) {

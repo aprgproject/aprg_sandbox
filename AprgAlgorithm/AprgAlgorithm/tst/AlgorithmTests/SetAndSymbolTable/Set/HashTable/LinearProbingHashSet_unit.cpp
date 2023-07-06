@@ -1,4 +1,4 @@
-#include <Algorithm/HashFunctions/ForPrimitiveTypes/UnsignedIntegerBasedHashFunction.hpp>
+#include <Algorithm/HashFunctions/PrimitiveTypes/IntegerHashFunction.hpp>
 #include <Algorithm/SetAndSymbolTable/Set/HashTable/LinearProbingHashSet.hpp>
 #include <AlgorithmTests/SetAndSymbolTable/Set/Utilities/CommonTestsWithSet.hpp>
 
@@ -12,7 +12,9 @@ namespace alba {
 namespace algorithm {
 
 namespace {
-using HashFunctionForTest = UnsignedIntegerBasedHashFunction<int, int>;
+using HashValue = uint32_t;
+constexpr HashValue HASH_TABLE_SIZE = 2;
+using HashFunctionForTest = IntegerHashFunction<int, HashValue, HASH_TABLE_SIZE>;
 using SetForTest = LinearProbingHashSet<int, HashFunctionForTest>;
 }  // namespace
 

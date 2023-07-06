@@ -114,7 +114,7 @@ public:
     }
 
 protected:
-    int getHash(Key const& key) const { return HashFunction::getHash(key, HASH_TABLE_SIZE); }
+    int getHash(Key const& key) const { return HashFunction::getHash(key); }
 
     int m_size;
     HashTable m_smallerSymbolTables;

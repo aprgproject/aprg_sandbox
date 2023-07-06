@@ -138,7 +138,8 @@ protected:
         Node const* result(nullptr);
         if (nodePointer) {
             if (nodePointer->left) {
-                result = getMinimumNodeStartingOnThisNode(nodePointer->left);  // find the left most node until null
+                // find the left most node until null
+                result = getMinimumNodeStartingOnThisNode(nodePointer->left);
             } else {
                 result = nodePointer.get();
             }
@@ -150,7 +151,8 @@ protected:
         Node const* result(nullptr);
         if (nodePointer) {
             if (nodePointer->right) {
-                result = getMaximumNodeStartingOnThisNode(nodePointer->right);  // find the right most node until null
+                // find the right most node until null
+                result = getMaximumNodeStartingOnThisNode(nodePointer->right);
             } else {
                 result = nodePointer.get();
             }
@@ -252,14 +254,14 @@ protected:
     virtual void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) {
         // this is called hibbard deletion
         if (nodePointer) {
-            if (key < nodePointer->key)  // search for the node in the left in less than
-            {
+            if (key < nodePointer->key) {
+                // search for the node in the left in less than
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
-            } else if (key > nodePointer->key)  // search for the node in the right in greater than
-            {
+            } else if (key > nodePointer->key) {
+                // search for the node in the right in greater than
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
-            } else  // if found
-            {
+            } else {
+                // if found
                 // get the minimum on the right
                 // place the keys of the minimum on this node and then delete it
                 // why are we using deletion of minimum on the right instead of deletion of maximum in the left? No real
@@ -270,7 +272,8 @@ protected:
                     nodePointer.reset(nullptr);
                 } else {
                     copyContents(*nodePointer, *minimumOnTheRight);
-                    deleteMinimumStartingOnThisNode(minimumOnTheRight);  // starting from the minimum so less checks
+                    // starting from the minimum so less checks
+                    deleteMinimumStartingOnThisNode(minimumOnTheRight);
                 }
             }
             if (nodePointer) {

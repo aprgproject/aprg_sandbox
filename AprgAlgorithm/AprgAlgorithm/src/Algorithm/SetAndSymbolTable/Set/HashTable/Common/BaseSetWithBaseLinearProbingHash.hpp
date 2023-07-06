@@ -37,10 +37,8 @@ public:
     }
 
 protected:
-    void putEntry(Entry const& entry) override  // overrides in BaseLinearProbingHash
-    {
-        put(entry.key);
-    }
+    // overrides in BaseLinearProbingHash
+    void putEntry(Entry const& entry) override { put(entry.key); }
 
 private:
     int& b_size;

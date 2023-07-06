@@ -26,6 +26,17 @@ TEST(DoublingSizeCircularQueueTest, EnqueueWorks) { testEnqueueWithInt<QueueForT
 
 TEST(DoublingSizeCircularQueueTest, DequeueWorks) { testDequeueWithInt<QueueForTest>(); }
 
+TEST(DoublingSizeCircularQueueTest, Example1Works) {
+    QueueForTest queue1;
+    QueueForTest queue2;
+    queue2.enqueue(10);
+    queue2.enqueue(5);
+    queue2.enqueue(4);
+
+    EXPECT_EQ(1, queue1.getContainerSize());
+    EXPECT_EQ(4, queue2.getContainerSize());
+}
+
 TEST(DoublingSizeCircularQueueTest, GetContainerSizeWorks) {
     QueueForTest queue1;
     QueueForTest queue2;

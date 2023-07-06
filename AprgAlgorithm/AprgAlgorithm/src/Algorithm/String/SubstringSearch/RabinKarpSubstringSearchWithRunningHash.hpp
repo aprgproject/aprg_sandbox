@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/HashFunctions/ForString/HornerHashFunctionForWholeString.hpp>
+#include <Algorithm/HashFunctions/String/HornerHashFunctionForWholeString.hpp>
 
 #include <string>
 

@@ -1,4 +1,4 @@
-#include <Algorithm/HashFunctions/ForString/HornerHashFunctionForSubstrings.hpp>
+#include <Algorithm/HashFunctions/String/HornerHashFunctionForSubstrings.hpp>
 
 #include <gtest/gtest.h>
 
