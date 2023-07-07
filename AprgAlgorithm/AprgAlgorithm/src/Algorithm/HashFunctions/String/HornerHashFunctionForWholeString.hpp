@@ -21,16 +21,14 @@ private:
         // Based from formula (check substrings file notes): h[k] = (h[k-1]*A + s[k]) mod B
 
         HashValue finalHPart(0);
-        for (char const c : stringToHash)  // linear time
-        {
+        // linear time
+        for (char const c : stringToHash) {
             finalHPart = (finalHPart * m_radix + c) % m_largeRandomPrime;
         }
-        return finalHPart;
-    }
+        return finalHPart;    }
 
     HashValue m_radix;
-    HashValue m_largeRandomPrime;
-};
+    HashValue m_largeRandomPrime;};
 }  // namespace algorithm
 
 }  // namespace alba

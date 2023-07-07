@@ -264,23 +264,21 @@ protected:
                 // if found
                 // get the minimum on the right
                 // place the keys of the minimum on this node and then delete it
-                // why are we using deletion of minimum on the right instead of deletion of maximum in the left? No real
-                // reason.
+                // why are we using deletion of minimum on the right instead of deletion of maximum in the left?
+                // -> No real reason.
                 NodeUniquePointer& minimumOnTheRight(
                     getMinimumNodePointerReferenceStartingOnThisNode(nodePointer->right));
                 if (!minimumOnTheRight) {
                     nodePointer.reset(nullptr);
                 } else {
                     copyContents(*nodePointer, *minimumOnTheRight);
-                    // starting from the minimum so less checks
+                    // delete minimum on right
                     deleteMinimumStartingOnThisNode(minimumOnTheRight);
                 }
-            }
-            if (nodePointer) {
+            }            if (nodePointer) {
                 updateTreeNodeDetails(*nodePointer);
             }
-        }
-    }
+        }    }
 
     void deleteMinimumStartingOnThisNode(NodeUniquePointer& nodePointer) {
         if (nodePointer) {
