@@ -472,22 +472,28 @@ AlbaNumber AlbaNumber::addBothDoubleAndReturnNumber(double const doubleValue1, d
 
 AlbaNumber AlbaNumber::addBothFractionsAndReturnNumber(
     AlbaNumber::FractionData const& fractionData1, AlbaNumber::FractionData const& fractionData2) const {
-    IntDataType lcd = getLeastCommonMultiple<IntDataType>(fractionData1.denominator, fractionData2.denominator);
-    IntDataType newNumerator = static_cast<IntDataType>(lcd / fractionData1.denominator) * fractionData1.numerator +
-                               static_cast<IntDataType>(lcd / fractionData2.denominator) * fractionData2.numerator;
-    if (isValueWithinLimits<NumeratorDataType>(static_cast<double>(newNumerator)) &&
-        isValueWithinLimits<DenominatorDataType>(static_cast<double>(lcd))) {
-        return AlbaNumber::createFraction(
-            static_cast<NumeratorDataType>(newNumerator), static_cast<DenominatorDataType>(lcd));
+    DenominatorDataType lcd =
+        getLeastCommonMultiple<DenominatorDataType>(fractionData1.denominator, fractionData2.denominator);
+    double doubleLcd = static_cast<double>(lcd);
+    double doubleNumeratorPart1 = doubleLcd * fractionData1.numerator / fractionData1.denominator;
+    double doubleNumeratorPart2 = doubleLcd * fractionData2.numerator / fractionData2.denominator;
+    double doubleNumerator = doubleNumeratorPart1 + doubleNumeratorPart2;
+    if (lcd != 0 && lcd >= fractionData1.denominator && lcd >= fractionData2.denominator &&
+        isValueWithinLimits<DenominatorDataType>(doubleLcd) &&
+        isValueWithinLimits<NumeratorDataType>(doubleNumerator) &&
+        isValueWithinLimits<NumeratorDataType>(doubleNumeratorPart1) &&
+        isValueWithinLimits<NumeratorDataType>(doubleNumeratorPart2)) {
+        NumeratorDataType integerNumerator =
+            fractionData1.numerator * static_cast<NumeratorDataType>(lcd / fractionData1.denominator) +
+            fractionData2.numerator * static_cast<NumeratorDataType>(lcd / fractionData2.denominator);
+        return AlbaNumber::createFraction(integerNumerator, lcd);
     } else {
-        return createNumberFromDoubleAndRoundIfNeeded(static_cast<double>(newNumerator) / static_cast<double>(lcd));
+        return createNumberFromDoubleAndRoundIfNeeded(doubleNumerator / doubleLcd);
     }
 }
-
 AlbaNumber AlbaNumber::addIntegerAndDoubleAndReturnNumber(
     IntDataType const integerValue, double const doubleValue) const {
-    return createNumberFromDoubleAndRoundIfNeeded(static_cast<double>(integerValue) + doubleValue);
-}
+    return createNumberFromDoubleAndRoundIfNeeded(static_cast<double>(integerValue) + doubleValue);}
 
 AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
     IntDataType const integerValue, FractionData const& fractionData) const {
@@ -523,22 +529,19 @@ AlbaNumber AlbaNumber::multiplyBothDoubleAndReturnNumber(double const doubleValu
 
 AlbaNumber AlbaNumber::multiplyBothFractionsAndReturnNumber(
     AlbaNumber::FractionData const& fractionData1, AlbaNumber::FractionData const& fractionData2) const {
-    IntDataType newNumerator = static_cast<IntDataType>(fractionData1.numerator) * fractionData2.numerator;
-    IntDataType newDenominator = static_cast<IntDataType>(fractionData1.denominator) * fractionData2.denominator;
-    if (isValueWithinLimits<NumeratorDataType>(static_cast<double>(newNumerator)) &&
-        isValueWithinLimits<DenominatorDataType>(static_cast<double>(newDenominator))) {
+    double doubleNumerator = static_cast<double>(fractionData1.numerator) * fractionData2.numerator;
+    double doubleDenominator = static_cast<double>(fractionData1.denominator) * fractionData2.denominator;
+    if (isValueWithinLimits<NumeratorDataType>(doubleNumerator) &&
+        isValueWithinLimits<DenominatorDataType>(doubleDenominator)) {
         return AlbaNumber::createFraction(
-            static_cast<NumeratorDataType>(newNumerator), static_cast<DenominatorDataType>(newDenominator));
+            fractionData1.numerator * fractionData2.numerator, fractionData1.denominator * fractionData2.denominator);
     } else {
-        return createNumberFromDoubleAndRoundIfNeeded(
-            static_cast<double>(newNumerator) / static_cast<double>(newDenominator));
+        return createNumberFromDoubleAndRoundIfNeeded(doubleNumerator / doubleDenominator);
     }
 }
-
 AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(
     IntDataType const integerValue, double const doubleValue) const {
-    return createNumberFromDoubleAndRoundIfNeeded(static_cast<double>(integerValue) * doubleValue);
-}
+    return createNumberFromDoubleAndRoundIfNeeded(static_cast<double>(integerValue) * doubleValue);}
 
 AlbaNumber AlbaNumber::multiplyIntegerAndFractionAndReturnNumber(
     IntDataType const integerValue, FractionData const& fractionData) const {
