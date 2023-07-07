@@ -37,22 +37,21 @@ public:
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
         if (root1 != root2) {
-            m_relativeRoots[root1] = root2;  // the relative root tree might take too tall (check weighted union find
-                                             // for implementation that consider sizes)
+            m_relativeRoots[root1] = root2;
+            // the relative root tree might take too tall
+            //(check weighted union find for implementation that consider sizes)
         }
     }
 
     RootArray const& getRelativeRootArray() const { return m_relativeRoots; }
 
 private:
-    void initialize()  // runs in linear time
-    {
+    void initialize() {
+        // runs in linear time
         std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
     }
-
     RootArray m_relativeRoots;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

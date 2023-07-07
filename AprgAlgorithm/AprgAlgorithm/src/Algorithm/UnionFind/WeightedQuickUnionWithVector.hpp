@@ -22,60 +22,53 @@ public:
         return getRoot(object1) == getRoot(object2);
     }
 
-    Object getRoot(
-        Object const& object) const override  // worst case runs in logarithmic time (base 2 log) -> acceptable
-    {
+    Object getRoot(Object const& object) const override {
+        // worst case runs in logarithmic time (base 2 log) -> acceptable
         // Continuously find relative root until its equal to the previous root
         Object currentRoot(object);
-        Object nextRoot(m_relativeRoots[object]);
-        while (currentRoot != nextRoot) {
+        Object nextRoot(m_relativeRoots[object]);        while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
             nextRoot = m_relativeRoots[currentRoot];
         }
         return currentRoot;
     }
 
-    Object getRootWithPathCompressionOnePass(Object const& object)  // no longer const
-    {
+    Object getRootWithPathCompressionOnePass(Object const& object) {
+        // no longer const
         Object result(object);
         while (result != m_relativeRoots[object]) {
-            m_relativeRoots[object] =
-                m_relativeRoots[m_relativeRoots[object]];  // make every relative root point to its grandparent
+            // make every relative root point to its grandparent
+            m_relativeRoots[object] = m_relativeRoots[m_relativeRoots[object]];
             result = m_relativeRoots[object];
         }
         return result;
     }
 
-    Object getRootWithPathCompressionTwoPass(Object const& object)  // no longer const
-    {
+    Object getRootWithPathCompressionTwoPass(Object const& object) {
+        // no longer const
         RootVector relativeRoots;
         Object currentRoot(object);
         Object nextRoot(m_relativeRoots[object]);
-
         while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
             relativeRoots.emplace_back(nextRoot);
             nextRoot = m_relativeRoots[currentRoot];
         }
-        for (Object const& relativeRoot :
-             relativeRoots)  // set found root to all examined relative roots -> makes the tree really flat (Hopcroft
-                             // Ulman Tarjan proof -> almost linear)
-        {
+        for (Object const& relativeRoot : relativeRoots) {
+            // set found root to all examined relative roots -> makes the tree really flat
+            // (Hopcroft Ulman Tarjan proof -> almost linear)
             m_relativeRoots[relativeRoot] = currentRoot;
         }
         return currentRoot;
     }
 
-    void connect(Object const& object1, Object const& object2)
-        override  // worst case runs in logarithmic time because of getRoot() -> acceptable
-    {
+    void connect(Object const& object1, Object const& object2) override {
+        // worst case runs in logarithmic time because of getRoot() -> acceptable
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
-        if (root1 != root2) {
-            connectRootsBasedOnSize(root2, root1);
+        if (root1 != root2) {            connectRootsBasedOnSize(root2, root1);
         }
     }
-
     RootVector const& getRelativeRootVector() const { return m_relativeRoots; }
 
     SizeVector const& getSizesOfRootsVector() const { return m_sizesOfRoots; }
@@ -85,16 +78,14 @@ public:
     SizeVector& getSizesOfRootsVectorReference() { return m_sizesOfRoots; }
 
 private:
-    void initialize(int const maximumSize)  // runs in linear time
-    {
+    void initialize(int const maximumSize) {
+        // runs in linear time
         m_relativeRoots.reserve(maximumSize);
         for (int i = 0; i < maximumSize; i++) {
-            m_relativeRoots.emplace_back(i);
-        }
+            m_relativeRoots.emplace_back(i);        }
         m_relativeRoots.shrink_to_fit();
 
-        m_sizesOfRoots.resize(maximumSize, Object{1});
-        m_sizesOfRoots.shrink_to_fit();
+        m_sizesOfRoots.resize(maximumSize, Object{1});        m_sizesOfRoots.shrink_to_fit();
     }
 
     void connectRootsBasedOnSize(Object const root2, Object const root1) {

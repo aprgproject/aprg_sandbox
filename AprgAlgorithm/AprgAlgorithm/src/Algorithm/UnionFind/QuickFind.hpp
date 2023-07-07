@@ -35,15 +35,13 @@ public:
     RootArray const& getRootArray() const { return m_roots; }
 
 private:
-    void initialize()  // runs in linear time
-    {
+    void initialize() {
+        // runs in linear time
         std::iota(m_roots.begin(), m_roots.end(), 0);
     }
-
     void replaceAllOldRootsWithNewRoot(Object const& oldRoot, Object const& newRoot) {
         for (int i = 0; i < SIZE; i++) {
-            if (m_roots[i] == oldRoot) {
-                m_roots[i] = newRoot;
+            if (m_roots[i] == oldRoot) {                m_roots[i] = newRoot;
             }
         }
     }

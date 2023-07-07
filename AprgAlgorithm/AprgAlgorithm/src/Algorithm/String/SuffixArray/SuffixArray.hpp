@@ -24,17 +24,16 @@ public:
         DataType low = 0, high = getSize() - 1;
         while (low <= high) {
             DataType mid = getMidpointOfIndexes(low, high);
-            if (key < m_suffixes[mid]) {
+            auto compareValue = key.compare(m_suffixes[mid]);
+            if (compareValue < 0) {
                 high = mid - 1;
-            } else if (key > m_suffixes[mid]) {
+            } else if (compareValue > 0) {
                 low = mid + 1;
             } else {
-                low = mid;
-                break;
+                low = mid;                break;
             }
         }
-        return low;
-    }
+        return low;    }
 
     std::string const& getSuffixAt(DataType const index) const { return m_suffixes[index]; }
 
