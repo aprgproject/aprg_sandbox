@@ -1,13 +1,13 @@
 #include "ProbabilityUtilities.hpp"
 
 #include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Math/Types.hpp>
 
-using namespace alba::mathHelper;
-using namespace std;
+using namespace alba::mathHelper;using namespace std;
 
 namespace alba {
-
 namespace math {
 
 bool doesExpectedValuesHaveLinearity(
@@ -57,41 +57,37 @@ AlbaNumber getProbability(UnsignedInteger const numberOfDesiredOutcome, Unsigned
 }
 
 AlbaNumber getProbabilityOnBinomialDistribution(
-    AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const xTargetTries, UnsignedInteger const nTries) {
+    AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const xTarget, UnsignedInteger const nTries) {
     // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
 
-    // The random variable X counts the number of successful attempts, and the probability of a value x is
-    // P(X=x) = p^x * (1-p)^(n-x) * combinations of (n, x)
+    // The random variable X counts the number of successful attempts, and the probability of a value x is    // P(X=x) = p^x * (1-p)^(n-x) * combinations of (n, x)
     // where p^x and (1-p)^(n-x) correspond to successful and unsuccessful attempts, and nx
     // combinations of (n, x)is the number of ways we can choose the order of the attempts.
 
-    AlbaNumber probabilityOfSuccessfulAttempts = probabilityOfASingleAttempt ^ static_cast<int>(xTargetTries);
+    AlbaNumber probabilityOfSuccessfulAttempts = probabilityOfASingleAttempt ^ static_cast<int>(xTarget);
     AlbaNumber probabilityOfUnsuccessfulAttempts =
-        (AlbaNumber(1) - probabilityOfASingleAttempt) ^ static_cast<int>(nTries - xTargetTries);
-    int numberOfCombinations = static_cast<int>(getNumberOfCombinations(nTries, xTargetTries));
+        (AlbaNumber(1) - probabilityOfASingleAttempt) ^ static_cast<int>(nTries - xTarget);
+    int numberOfCombinations = static_cast<int>(getNumberOfCombinations(nTries, xTarget));
     return getCorrectProbability(
         probabilityOfSuccessfulAttempts * probabilityOfUnsuccessfulAttempts * numberOfCombinations);
 }
 
 AlbaNumber getProbabilityOnGeometricDistribution(
-    AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const xTargetTries) {
+    AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const xTarget) {
     // In a geometric distribution, the probability that an attempt succeeds is p, and we continue until the first
     // success happens.
-
     // The random variable X counts the number of attempts needed, and the probability of a value x is
     // P(X=x) = (1-p)^(x-1) * p
     // where (1-p)^(x-1) corresponds to the unsuccessful attempts and p corresponds to the first successful attempt.
 
     AlbaNumber probabilityOfUnsuccessfulAttempts =
-        (AlbaNumber(1) - probabilityOfASingleAttempt) ^ static_cast<int>(xTargetTries - 1);
+        (AlbaNumber(1) - probabilityOfASingleAttempt) ^ static_cast<int>(xTarget - 1);
     AlbaNumber probabilityOfFirstSuccessfulAttempt = probabilityOfASingleAttempt;
     return getCorrectProbability(probabilityOfUnsuccessfulAttempts * probabilityOfFirstSuccessfulAttempt);
 }
-
 AlbaNumber getComplementOfProbability(AlbaNumber const& probability) {
     // The complement of A means the probability that "Event A does not happen".
     // Equation: P(A') = 1-P(A)
-
     return getCorrectProbability(AlbaNumber(1) - probability);
 }
 
@@ -183,6 +179,54 @@ AlbaNumber getExpectedValueInGeometricDistribution(AlbaNumber const& probability
     // Equation: E[X] = 1/p
 
     return AlbaNumber(1) / probability;
+}
+
+AlbaNumber getNumberOfPeopleForTheBirthdayParadox(AlbaNumber const& propbabilityThatMustBeMet) {
+    // How many people must here be in a room before there is a 50% chance that two of them were born on the same day of
+    // the year?
+
+    // -> Let n be the number of days for a year.
+    // -> Let k be the number of people in the room.
+    // -> The probability that one person has a birthday on a day is 1/n.
+    // -> We can look at this problem as a complementary of the probability that all birthdays are distinct.
+    // ---> The probability that all birthdays are distinct with k people is:
+    // -----> P(Bk) = P(Bk-1) * P(Ak | Bk-1)
+    // ---> Bk is the probability of all distinct birthdays with k people.
+    // ---> Ak is the probability of a birthday from kth person is different from all the previous people (so less than
+    // k)
+    // -> This expands to:
+    // ---> P(Bk) = P(Bk-1) * P(Ak | Bk-1)
+    // --->       = P(Bk-2) * P(Ak-1 | Bk-2)  * P(Ak | Bk-1)
+    // --->       ...
+    // --->       = P(B1) * P(A2|B1) * P(A3|B2) * P(A4|B3) ... P(Ak | Bk-1)
+    // --->       = 1 * (n-1)/n * (n-2)/n * (n-3)/n ... (n-k+1/n)
+    // --->       = 1 * (1-(1/n)) * 1-(2/n)) * 1-(3/n)) ... (1-((k-1)/n))
+    // ---> This is a geometric sum and its becomes harder here to calculate it.
+    //
+    // -> Let Xij be a random indicator variable for(1<=i<j<=k) suchs that its 1 when its both the birthdays of person i
+    // and person j, 0 otherwise.
+    // ---> Then the expectation is: E[Xij] = probability of a birthday = 1/n
+    // -> Let X be a random variable that counts the number of pairs of individuals having the same birthday, we have:
+    // ---> X = summation of from 1 to k-1 for i (summation of from i+1 to k for j ( Xij ) )
+    // ---> Then the expectation of X and since X is linear
+    // -----> E[X] = summation of from 1 to k-1 for i (summation of from i+1 to k for j ( E[Xij] ) )
+    // -----> E[X] = combinations of k taken 2 * E[Xij]
+    // -----> E[X] = k*(k-1)/2 * 1/n = k(k-1)/2n
+    // -----> Probability = (k^2 - k)/2n
+    // -----> 0 = k^2 - k - Probability*2n
+
+    AlbaNumber result(AlbaMathConstants::POSITIVE_INFINITY_DOUBLE_VALUE);
+
+    constexpr auto DAYS_IN_YEAR = 365;
+    AlbaNumbers roots =
+        getQuadraticRoots(RootType::RealRootsOnly, 1, -1, propbabilityThatMustBeMet * -2 * DAYS_IN_YEAR);
+    for (AlbaNumber const& root : roots) {
+        if (root > 0 && result > root) {
+            result = getIntegerAfterCeilingOfDoubleValue<AlbaNumber::IntDataType>(root.getDouble());
+        }
+    }
+
+    return result;
 }
 
 }  // namespace math

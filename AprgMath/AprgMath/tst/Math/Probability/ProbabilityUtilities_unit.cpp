@@ -102,12 +102,18 @@ TEST(ProbabilityUtilitiesTest, GetExpectedValueInUniformDistributionWorks) {
 }
 
 TEST(ProbabilityUtilitiesTest, GetExpectedValueInBinomialDistributionWorks) {
-    EXPECT_EQ(AlbaNumber(75U), getExpectedValueInBinomialDistribution(AlbaNumber::createFraction(3, 4), 100U));
+    EXPECT_EQ(AlbaNumber(75), getExpectedValueInBinomialDistribution(AlbaNumber::createFraction(3, 4), 100U));
 }
 
-TEST(ProbabilityUtilitiesTest, GetExpectedValueInGeometricDistributionWorks) {
-    EXPECT_EQ(
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInGeometricDistributionWorks) {    EXPECT_EQ(
         AlbaNumber::createFraction(4, 3), getExpectedValueInGeometricDistribution(AlbaNumber::createFraction(3, 4)));
+}
+
+TEST(ProbabilityUtilitiesTest, GetNumberOfPeopleForTheBirthdayParadoxWorks) {
+    EXPECT_EQ(AlbaNumber(1), getNumberOfPeopleForTheBirthdayParadox(0));
+    EXPECT_EQ(AlbaNumber(20), getNumberOfPeopleForTheBirthdayParadox(AlbaNumber::createFraction(1, 2)));
+    EXPECT_EQ(AlbaNumber(26), getNumberOfPeopleForTheBirthdayParadox(0.85));
+    EXPECT_EQ(AlbaNumber(28), getNumberOfPeopleForTheBirthdayParadox(1));
 }
 
 }  // namespace math

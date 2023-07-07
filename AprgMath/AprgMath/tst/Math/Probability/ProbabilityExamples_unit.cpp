@@ -1,15 +1,16 @@
+#include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
+#include <Common/Math/Helpers/LogarithmHelpers.hpp>
 #include <Math/Probability/ProbabilityUtilities.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba {
-
 namespace math {
 
-TEST(ProbabilityExampleTest, DiceExampleWorks) {
-    // For example, when throwing a dice, the outcome is an integer between 1 and 6, and the probability of each outcome
+TEST(ProbabilityExampleTest, DiceExampleWorks) {    // For example, when throwing a dice, the outcome is an integer between 1 and 6, and the probability of each outcome
     // is 1/6. For example, we can calculate the following probabilities:
 
     // -> P("the outcome is 4") = 1/6
@@ -30,15 +31,13 @@ TEST(ProbabilityExampleTest, DrawCardExampleWorks) {
     // We require that each step of the process is successful.
 
     // -> Probability of the first card is 1 because theres nothing to compare yet.
-    EXPECT_EQ(AlbaNumber(1U), getProbability(1U, 1U));
+    EXPECT_EQ(AlbaNumber(1), getProbability(1U, 1U));
 
     // -> Probability of the second card is 3/51, because there are 51 cards left and 3 of them have the same value as
-    // the first card.
-    EXPECT_EQ(AlbaNumber::createFraction(3, 51U), getProbability(3U, 51U));
+    // the first card.    EXPECT_EQ(AlbaNumber::createFraction(3, 51U), getProbability(3U, 51U));
 
     // -> Probability of the third card 2/50, because there are 51 cards left and 2 of them have the same value as the
-    // first and second cards.
-    EXPECT_EQ(AlbaNumber::createFraction(2, 50U), getProbability(2U, 50U));
+    // first and second cards.    EXPECT_EQ(AlbaNumber::createFraction(2, 50U), getProbability(2U, 50U));
 
     // Probability of all three steps
     EXPECT_EQ(
@@ -46,15 +45,38 @@ TEST(ProbabilityExampleTest, DrawCardExampleWorks) {
         getProbability(1U, 1U) * getProbability(3U, 51U) * getProbability(2U, 50U));
 }
 
-TEST(ProbabilityExampleTest, BallsAndBoxesExampleWorks) {
+TEST(ProbabilityExampleTest, BallsAndBoxesExample_ExpectedNumberOfBallsInABox) {
+    // How many balls fall in a given box?
+    // The number of balls that fall in given bin follows the binomial distribution.
+    // The expected number of balls that fall in a box is numberOfBalls/numberOfBoxes
+
+    auto numberOfBalls = 2;
+    auto numberOfBoxes = 10;
+    EXPECT_EQ(AlbaNumber::createFraction(1, 5), AlbaNumber::createFraction(numberOfBalls, numberOfBoxes));
+}
+
+TEST(ProbabilityExampleTest, BallsAndBoxesExample_ProbabilityOfOneBall) {
+    // How many balls must we toss on the average until a given box contains a ball?
+
+    auto numberOfBoxes = 2;
+    AlbaNumber probabilityOfASingleEvent(AlbaNumber::createFraction(1, numberOfBoxes));
+    EXPECT_EQ(AlbaNumber::createFraction(1, 2), getProbabilityOnGeometricDistribution(probabilityOfASingleEvent, 1));
+}
+
+TEST(ProbabilityExampleTest, BallsAndBoxesExample_ProbabilityOfEveryBinHasOneBall) {
+    // How many balls must we toss until every bin contains at least one ball?
+
+    // E[n] = E[ summation from 1 to b of i (ni0 ]
+    // E[n] = b(ln b + O(1))
+}
+
+TEST(ProbabilityExampleTest, BallsAndBoxesExample_ProbabilityOfSingleEmptyBoxes) {
     // Let us now consider a problem where n balls are randomly placed in n boxes, and our task is to calculate the
     // probability of single empty boxes. Assume that each ball has an uniform probability to be placed in any of the
     // boxes.
-
     // Total number of combinations:
     // -> Using balls and boxes scenario 2 : Combination(n+n-1, n) = Combination(2n-1, n)
-    // Number of single empty boxes (for n=2):
-    // |oo|  |    Positions: {1, 1}    Representation: o o > >
+    // Number of single empty boxes (for n=2):    // |oo|  |    Positions: {1, 1}    Representation: o o > >
     // |o |o |    Positions: {1, 2}    Representation: o > o >
     // |  |oo|    Positions: {2, 2}    Representation: > > o o
     // -> Form should have single "o o" and "> >" the rest "o >"
@@ -62,15 +84,30 @@ TEST(ProbabilityExampleTest, BallsAndBoxesExampleWorks) {
     // ---> All forms "o >" = Number of permutations (n-2, n-2)
     // -> Number of permutations (n, n) / Number of permutations (n-2, n-2)
 
-    // Probability = Combination(2n-1, n) /  (Number of permutations (n, n) / Number of permutations (n-2, n-2))
+    // Probability = (Number of permutations (n, n) / Number of permutations (n-2, n-2)) / Combination(2n-1, n)
+
+    auto numberOfBoxes = 2;
+    auto calculatedProbability = AlbaNumber::createFraction(
+        (getNumberOfPermutations(numberOfBoxes, numberOfBoxes) /
+         getNumberOfPermutations(numberOfBoxes - 2, numberOfBoxes - 2)),
+        getNumberOfCombinations(numberOfBoxes * 2 - 1, numberOfBoxes));
+    EXPECT_EQ(AlbaNumber::createFraction(2, 3), calculatedProbability);
 }
 
-TEST(ProbabilityExampleTest, BinomialDistributionProbabilityExampleWorks) {
-    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
+TEST(ProbabilityExampleTest, StreaksExample_LongestStreak) {
+    // Suppose you flip a fair coin n times.
+    // What is the longest streak of consecutive heads that you expect to see?
+    // Probability that all k flips are head is P(AllHeads) = 1/(2^k).
+    // Answer for this lg(n)
+
+    auto numberOfTries = 16;
+    EXPECT_EQ(4, getLogarithmWithBase2Of(numberOfTries));
+}
+
+TEST(ProbabilityExampleTest, BinomialDistributionProbabilityExampleWorks) {    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
 
     // For example, when throwing a dice ten times, the probability of throwing a six exactly three times is (1/6)^3 *
     // (5/6)^7 * Combinations(10, 3)
-
     EXPECT_EQ(
         AlbaNumber::createFraction(390625, 2519424U),
         getProbabilityOnBinomialDistribution(getProbability(1U, 6U), 3U, 10U));
