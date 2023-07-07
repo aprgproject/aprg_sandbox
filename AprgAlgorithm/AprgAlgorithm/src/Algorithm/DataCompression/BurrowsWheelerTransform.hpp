@@ -25,50 +25,47 @@ public:
         std::string stringOutput;
         SuffixArray<Index> suffixArray(wholeInputString);
         for (Index i = 0; i < static_cast<Index>(suffixArray.getSize()); i++) {
-            Index deltaLength(wholeInputString.length() - suffixArray.getSuffixAt(i).length());
-            if (deltaLength > 0)  // if its a suffix, take the character based from the delta
-            {
+            Index deltaLength(wholeInputString.length() - suffixArray.getSuffixViewAt(i).length());
+            if (deltaLength > 0) {
+                // if its a suffix, take the character based from the delta
                 stringOutput += wholeInputString[deltaLength - 1];
-            } else  // if its the whole input string, just take the last item
-            {
+            } else {
+                // if its the whole input string, just take the last item
                 stringOutput += wholeInputString[wholeInputString.length() - 1];
             }
-        }
-        writer.writeStringData(stringOutput);
+        }        writer.writeStringData(stringOutput);
     }
 
-    void decode(std::istream& input, std::ostream& output) {
-        AlbaStreamBitReader reader(input);
+    void decode(std::istream& input, std::ostream& output) {        AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
         std::string wholeInputString(reader.readWholeStreamAsStringData());
         if (!wholeInputString.empty()) {
             alba::stringHelper::strings prefix;
             for (char const c : wholeInputString) {
-                prefix.emplace_back(1, c);  // create string with one character
+                // create string with one character
+                prefix.emplace_back(1, c);
             }
             alba::stringHelper::strings possibleOutputs(prefix.size());
             for (Index iteration = 0; iteration < static_cast<Index>(wholeInputString.length()); iteration++) {
                 for (Index index = 0; index < static_cast<Index>(wholeInputString.length()); index++) {
                     possibleOutputs[index] = prefix[index] + possibleOutputs[index];  // add prefixes
                 }
-                std::sort(
-                    possibleOutputs.begin(),
-                    possibleOutputs.end());  // sort outputs, possible optimization to use radix sort here
+                // sort outputs, possible optimization to use radix sort here
+                std::sort(possibleOutputs.begin(), possibleOutputs.end());
             }
             auto it = std::find_if(
                 possibleOutputs.cbegin(), possibleOutputs.cend(),
                 [](std::string const& possibleOutput) { return END_CHARACTER == possibleOutput.back(); });
             if (it != possibleOutputs.cend()) {
-                writer.writeStringData(it->substr(0, it->length() - 1));  // remove last character
+                // remove last character
+                writer.writeStringData(it->substr(0, it->length() - 1));
             }
         }
-    }
-};
+    }};
 
 // The Burrows–Wheeler transform is an algorithm used to prepare data for use with data compression techniques such as
-// bzip2. It was invented by Michael Burrows and David Wheeler in 1994 while Burrows was working at DEC Systems Research
-// Center in Palo Alto, California. It is based on a previously unpublished transformation discovered by Wheeler in
+// bzip2. It was invented by Michael Burrows and David Wheeler in 1994 while Burrows was working at DEC Systems Research// Center in Palo Alto, California. It is based on a previously unpublished transformation discovered by Wheeler in
 // 1983. The algorithm can be implemented efficiently using a suffix array thus reaching linear time complexity.
 
 // When a character string is transformed by the BWT, the transformation permutes the order of the characters.
