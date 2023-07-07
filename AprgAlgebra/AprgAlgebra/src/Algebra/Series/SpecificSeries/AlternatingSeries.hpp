@@ -17,6 +17,7 @@ protected:
     Term getFormula(Term const& formulaForEachTermWithoutSign, std::string const& variableName) const;
     Term m_formulaForEachTermWithoutSign;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

@@ -8,9 +8,11 @@ using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba {
+
 namespace math {
 
-TEST(ProbabilityExampleTest, DiceExampleWorks) {    // For example, when throwing a dice, the outcome is an integer between 1 and 6, and the probability of each outcome
+TEST(ProbabilityExampleTest, DiceExampleWorks) {
+    // For example, when throwing a dice, the outcome is an integer between 1 and 6, and the probability of each outcome
     // is 1/6. For example, we can calculate the following probabilities:
 
     // -> P("the outcome is 4") = 1/6
@@ -34,10 +36,12 @@ TEST(ProbabilityExampleTest, DrawCardExampleWorks) {
     EXPECT_EQ(AlbaNumber(1), getProbability(1U, 1U));
 
     // -> Probability of the second card is 3/51, because there are 51 cards left and 3 of them have the same value as
-    // the first card.    EXPECT_EQ(AlbaNumber::createFraction(3, 51U), getProbability(3U, 51U));
+    // the first card.
+    EXPECT_EQ(AlbaNumber::createFraction(3, 51U), getProbability(3U, 51U));
 
     // -> Probability of the third card 2/50, because there are 51 cards left and 2 of them have the same value as the
-    // first and second cards.    EXPECT_EQ(AlbaNumber::createFraction(2, 50U), getProbability(2U, 50U));
+    // first and second cards.
+    EXPECT_EQ(AlbaNumber::createFraction(2, 50U), getProbability(2U, 50U));
 
     // Probability of all three steps
     EXPECT_EQ(
@@ -74,9 +78,11 @@ TEST(ProbabilityExampleTest, BallsAndBoxesExample_ProbabilityOfSingleEmptyBoxes)
     // Let us now consider a problem where n balls are randomly placed in n boxes, and our task is to calculate the
     // probability of single empty boxes. Assume that each ball has an uniform probability to be placed in any of the
     // boxes.
+
     // Total number of combinations:
     // -> Using balls and boxes scenario 2 : Combination(n+n-1, n) = Combination(2n-1, n)
-    // Number of single empty boxes (for n=2):    // |oo|  |    Positions: {1, 1}    Representation: o o > >
+    // Number of single empty boxes (for n=2):
+    // |oo|  |    Positions: {1, 1}    Representation: o o > >
     // |o |o |    Positions: {1, 2}    Representation: o > o >
     // |  |oo|    Positions: {2, 2}    Representation: > > o o
     // -> Form should have single "o o" and "> >" the rest "o >"
@@ -104,10 +110,12 @@ TEST(ProbabilityExampleTest, StreaksExample_LongestStreak) {
     EXPECT_EQ(4, getLogarithmWithBase2Of(numberOfTries));
 }
 
-TEST(ProbabilityExampleTest, BinomialDistributionProbabilityExampleWorks) {    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
+TEST(ProbabilityExampleTest, BinomialDistributionProbabilityExampleWorks) {
+    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
 
     // For example, when throwing a dice ten times, the probability of throwing a six exactly three times is (1/6)^3 *
     // (5/6)^7 * Combinations(10, 3)
+
     EXPECT_EQ(
         AlbaNumber::createFraction(390625, 2519424U),
         getProbabilityOnBinomialDistribution(getProbability(1U, 6U), 3U, 10U));

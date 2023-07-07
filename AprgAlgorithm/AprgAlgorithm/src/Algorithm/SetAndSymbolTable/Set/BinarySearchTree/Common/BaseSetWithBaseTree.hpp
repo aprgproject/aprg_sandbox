@@ -24,9 +24,11 @@ protected:
     void copyContents(Node& destinationNode, Node const& sourceNode) const override {
         destinationNode.key = sourceNode.key;
     }
+
     virtual void putStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) = 0;
 
-private:    NodeUniquePointer& b_root;
+private:
+    NodeUniquePointer& b_root;
 };
 
 }  // namespace algorithm

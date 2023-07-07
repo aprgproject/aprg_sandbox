@@ -715,10 +715,12 @@ TEST(AlbaNumberTest, SubtractionWorksOnTypesStartingFromFraction) {
     EXPECT_DOUBLE_EQ(1.6199998819472964e-009, number8.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Fraction, number9.getType());
     AlbaNumber::FractionData fractionData9(number9.getFractionData());
-    EXPECT_EQ(675, fractionData9.numerator);    EXPECT_EQ(262144U, fractionData9.denominator);
+    EXPECT_EQ(675, fractionData9.numerator);
+    EXPECT_EQ(262144U, fractionData9.denominator);
     EXPECT_EQ(AlbaNumber::Type::ComplexNumber, number10.getType());
     AlbaNumber::ComplexNumberData complexNumberData(number10.getComplexNumberData());
-    EXPECT_FLOAT_EQ(10.25, complexNumberData.realPart);    EXPECT_FLOAT_EQ(3.5, complexNumberData.imaginaryPart);
+    EXPECT_FLOAT_EQ(10.25, complexNumberData.realPart);
+    EXPECT_FLOAT_EQ(3.5, complexNumberData.imaginaryPart);
 }
 
 TEST(AlbaNumberTest, SubtractionWorksOnTypesStartingFromComplexNumber) {
@@ -1775,10 +1777,12 @@ TEST(AlbaNumberTest, ProductPrecisionTestWorks) {
 
 TEST(AlbaNumberTest, OutputStreamOperatorWorks) {
     stringstream ss;
-    AlbaNumber number1;    AlbaNumber number2(3484);
+    AlbaNumber number1;
+    AlbaNumber number2(3484);
     AlbaNumber number3(-1561);
     AlbaNumber number4(-85.45631);
-    AlbaNumber number5(ALBA_NUMBER_PI);    AlbaNumber number6(ALBA_NUMBER_E);
+    AlbaNumber number5(ALBA_NUMBER_PI);
+    AlbaNumber number6(ALBA_NUMBER_E);
     AlbaNumber number7(AlbaNumber::createFraction(-415, 41745));
     AlbaNumber number8(AlbaNumber::createComplexNumber(8.9, 7.8));
 

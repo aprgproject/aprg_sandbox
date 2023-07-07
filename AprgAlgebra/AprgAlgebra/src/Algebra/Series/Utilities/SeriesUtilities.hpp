@@ -31,8 +31,10 @@ bool hasLinearity(
 void performLimitComparisonTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series1, SeriesBasedOnSummation const& series2,
     std::string const& variableName);
+
 void performIntegralTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, std::string const& variableName);
+
 void performRatioTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, std::string const& variableName);
 

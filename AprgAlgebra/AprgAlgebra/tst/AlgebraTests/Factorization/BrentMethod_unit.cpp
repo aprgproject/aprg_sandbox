@@ -362,6 +362,7 @@ TEST(BrentMethodTest, RunWorksOnPrecisionExample) {
     EXPECT_DOUBLE_EQ(-0.51087295492907314, solution->getDouble());
     EXPECT_EQ(49, brentMethod.getNumberOfIterationsExecuted());
 }
+
 }  // namespace algebra
 
 }  // namespace alba

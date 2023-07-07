@@ -14,10 +14,12 @@ public:
     SeriesBasedOnFormula(Term const& formulaForSeries, std::string const& variableName);
     virtual bool isConvergent() const;
     virtual bool isIncreasing() const;
-    virtual bool isDecreasing() const;    virtual bool isMonotonic() const;
+    virtual bool isDecreasing() const;
+    virtual bool isMonotonic() const;
     virtual bool isBounded() const;
 
-    virtual Term getFormulaForSeries() const;    virtual Term getValueAtIndex(int const index) const;
+    virtual Term getFormulaForSeries() const;
+    virtual Term getValueAtIndex(int const index) const;
     virtual Term getSum(int const startingIndex, int const endingIndex) const;
     virtual Term getSumStartingAtIndexAndToInfinity(int const startingIndex) const;
     virtual Term getValueAtInfinity() const;
@@ -36,4 +38,5 @@ protected:
 };
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -65,10 +65,12 @@ private:
             if (m_processedVertices.isNotFound(adjacentVertex)) {
                 Weight weightForAdjacentVertex(m_graph.getWeight(vertex, adjacentVertex));
                 // check for vertex is not yet included or edge weight is smaller
-                if (hasNoWeightSaved(adjacentVertex) ||                    weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeightMap[adjacentVertex].weight) {
+                if (hasNoWeightSaved(adjacentVertex) ||
+                    weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeightMap[adjacentVertex].weight) {
                     saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                 }
-            }        }
+            }
+        }
     }
 
     void saveVertexAndEdgeOfLowestWeight(

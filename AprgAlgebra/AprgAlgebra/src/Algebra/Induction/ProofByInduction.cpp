@@ -15,9 +15,11 @@ ProofByInduction::ProofByInduction(
     string const& variableName, Term const& expressionForEachStep, Operator const& accumulateOperator,
     Term const& guessExpression, ManualCalculationFunction const& manualCalculation)
     : m_variableName(variableName),
-      m_expressionForEachStep(expressionForEachStep),      m_accumulateOperator(accumulateOperator),
+      m_expressionForEachStep(expressionForEachStep),
+      m_accumulateOperator(accumulateOperator),
       m_guessExpression(guessExpression),
       m_manualCalculation(manualCalculation) {}
+
 bool ProofByInduction::isCorrectOnASpecificValue(AlbaNumber const& value) const {
     AlbaNumber valueFromManual(m_manualCalculation(value));
     AlbaNumber valueFromGuess;

@@ -15,4 +15,5 @@ TEST(IntegerHashFunctionTest, GetHashWorks) {
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

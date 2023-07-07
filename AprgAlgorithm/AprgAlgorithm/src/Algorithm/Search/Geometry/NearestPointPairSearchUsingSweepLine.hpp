@@ -35,10 +35,12 @@ public:
             for (auto const& xAndSetOfYPair : xToSetOfYs) {
                 Unit const x(xAndSetOfYPair.first);
                 SetOfUnits const& ys(xAndSetOfYPair.second);
-                auto itYStart = ys.lower_bound(point.second - smallestDistance);                auto itYEnd = ys.upper_bound(point.second + smallestDistance);
+                auto itYStart = ys.lower_bound(point.second - smallestDistance);
+                auto itYEnd = ys.upper_bound(point.second + smallestDistance);
 
                 for (auto itY = itYStart; itY != itYEnd; itY++) {
-                    Point possibleNearPoint(x, *itY);                    if (point != possibleNearPoint) {
+                    Point possibleNearPoint(x, *itY);
+                    if (point != possibleNearPoint) {
                         Unit distance = getDistance(point, possibleNearPoint);
                         if (smallestDistance > distance) {
                             smallestDistance = distance;

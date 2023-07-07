@@ -22,10 +22,12 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoi
     return getLevenshteinDistanceUsingMemoizationDP(distanceGrid, m_string1.length(), m_string2.length());
 }
 
-LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDP() const {    // Time Complexity: O(m x n)
+LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDP() const {
+    // Time Complexity: O(m x n)
     // Auxiliary Space: O(m x n)
 
-    // The allowed editing operations are as follows:    // -> insert a character (e.g. ABC ! ABCA)
+    // The allowed editing operations are as follows:
+    // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
     // -> modify a character (e.g. ABC ! ADC)
     // We can calculate values of distance as follows:
@@ -63,10 +65,12 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingItera
     return distanceGrid.getEntry(distanceGrid.getNumberOfColumns() - 1, distanceGrid.getNumberOfRows() - 1);
 }
 
-LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient() const {    // Note this is same implementation in AlbaStringHelper
+LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient() const {
+    // Note this is same implementation in AlbaStringHelper
 
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m)
+
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
     // we only really need 2 rows (not a matrix) to keep track partial values.
@@ -138,4 +142,5 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoi
     }
     return result;
 }
+
 }  // namespace alba

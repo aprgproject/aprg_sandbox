@@ -33,10 +33,12 @@ Term getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(
     return sum * incrementInX / 2;
 }
 
-Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(    Term const& term, DetailsForDefiniteIntegralWithValues const& integralDetails, int const numberOfSamples) {
+Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(
+    Term const& term, DetailsForDefiniteIntegralWithValues const& integralDetails, int const numberOfSamples) {
     // The Simpson Rule
     AlbaNumber lengthOfInterval(integralDetails.higherEnd - integralDetails.lowerEnd);
-    AlbaNumber incrementInX(lengthOfInterval / numberOfSamples);    SubstitutionOfVariablesToValues substitution;
+    AlbaNumber incrementInX(lengthOfInterval / numberOfSamples);
+    SubstitutionOfVariablesToValues substitution;
     Term sum(0);
     for (int i = 0; i <= numberOfSamples; i++) {
         AlbaNumber currentX(integralDetails.lowerEnd + incrementInX * i);
@@ -92,10 +94,12 @@ Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(
 AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(AlbaNumber const& input, int const numberOfSamples) {
     AlbaNumber result;
     if (input > 0) {
-        Term oneOverX(Monomial(1, {{"x", -1}}));        Term approximateValue(getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(
+        Term oneOverX(Monomial(1, {{"x", -1}}));
+        Term approximateValue(getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(
             oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));
         if (approximateValue.isConstant()) {
-            result = approximateValue.getConstantValueConstReference();        }
+            result = approximateValue.getConstantValueConstReference();
+        }
     }
     return result;
 }
@@ -103,10 +107,12 @@ AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(AlbaNumber const
 AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(AlbaNumber const& input, int const numberOfSamples) {
     AlbaNumber result;
     if (input > 0) {
-        Term oneOverX(Monomial(1, {{"x", -1}}));        Term approximateValue(
+        Term oneOverX(Monomial(1, {{"x", -1}}));
+        Term approximateValue(
             getAnApproximateOfDefiniteIntegralUsingSimpsonRule(oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));
         if (approximateValue.isConstant()) {
-            result = approximateValue.getConstantValueConstReference();        }
+            result = approximateValue.getConstantValueConstReference();
+        }
     }
     return result;
 }

@@ -27,9 +27,11 @@ public:
 
     // Segment trees can support all range queries where it is possible to divide a range into two parts,
     // Calculate the answer separately for both parts and then efficiently combine the answers.
+
     // Examples of such queries are minimum and maximum, greatest common divisor, and bit operations and, or and xor.
 
-    using Index = int;    using Value = typename Values::value_type;
+    using Index = int;
+    using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
 
@@ -61,6 +63,7 @@ public:
         }
         return result;
     }
+
     void changeValueAtIndex(Index const index, Value const& newValue) {
         // This has log(N) running time
         changeValueAtIndexFromBottomToTop(index, newValue);
@@ -80,7 +83,8 @@ public:
 
 protected:
     void initialize(Values const& valuesToCheck) {
-        if (!valuesToCheck.empty()) {            m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
+        if (!valuesToCheck.empty()) {
+            m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
             Index totalSize = m_startOfChildren + valuesToCheck.size();
 
             m_treeValues.resize(totalSize);
@@ -104,10 +108,12 @@ protected:
                     // complete pairs
                     m_treeValues[Utilities::getParent(treeIndex)] =
                         m_function(m_treeValues[treeIndex], m_treeValues[treeIndex + 1]);
-                }                treeBaseLeft = Utilities::getParent(treeBaseLeft);
+                }
+                treeBaseLeft = Utilities::getParent(treeBaseLeft);
                 treeBaseRight = Utilities::getParent(treeBaseRight);
             }
-        }    }
+        }
+    }
 
     Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const {
         // This has log(N) running time
@@ -194,7 +200,8 @@ protected:
                         m_treeValues[parentIndex] = m_function(m_treeValues[treeIndex - 1], m_treeValues[treeIndex]);
                     }
                     treeIndex = parentIndex;
-                }                m_treeValues[0] = m_function(m_treeValues[1], m_treeValues[2]);
+                }
+                m_treeValues[0] = m_function(m_treeValues[1], m_treeValues[2]);
             } else if (m_treeValues.size() > 1) {
                 m_treeValues[0] = m_treeValues[1];
             }
@@ -240,7 +247,9 @@ protected:
 
     Index m_startOfChildren;
     Values m_treeValues;
-    Function m_function;};
+    Function m_function;
+};
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -207,10 +207,12 @@ private:
                 std::make_unique<TrieNode>('\0', std::move(firstNode), std::move(secondNode));
         }
         CharacterFrequency last(frequenciesInMinimumOrder.top());
-        return std::move(characterNode[last.character]);    }
+        return std::move(characterNode[last.character]);
+    }
 
     HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root) {
-        HuffmanCodeTable result{};        buildHuffmanCodeTableFromTrie(result, root, {});
+        HuffmanCodeTable result{};
+        buildHuffmanCodeTableFromTrie(result, root, {});
         return result;
     }
 

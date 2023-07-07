@@ -32,9 +32,11 @@ public:
         }
         return result;
     }
+
     int getSize() const { return m_size; }
 
     Objects const& getObjects() const { return m_objects; }
+
     Indexes const& getTreeIndexToObjectIndex() const { return m_treeIndexToObjectIndex; }
 
     Indexes const& getObjectIndexToTreeIndex() const { return m_objectIndexToTreeIndex; }
@@ -44,9 +46,11 @@ public:
     }
 
     Object const& getTopObject() const { return m_objects[getIndexOfTopObject()]; }
+
     Object const& getObjectAt(int const objectIndex) const { return m_objects[objectIndex]; }
 
     void setNumberOfItems(int const numberOfItems) { resizeToHaveThisIndexIfNeeded(numberOfItems); }
+
     void insert(int const objectIndex, Object const& object) {
         m_size++;
         resizeToHaveThisIndexIfNeeded(std::max(objectIndex, m_size));
@@ -70,6 +74,7 @@ public:
         }
         return topObject;
     }
+
     void deleteObjectAt(int const objectIndex) {
         if (objectIndex < static_cast<int>(m_objects.size())) {
             int treeIndex(m_objectIndexToTreeIndex[objectIndex]);
@@ -83,6 +88,7 @@ public:
             }
         }
     }
+
     void change(int const objectIndex, Object const& object) {
         if (objectIndex >= static_cast<int>(m_objects.size())) {
             insert(objectIndex, object);
@@ -92,10 +98,12 @@ public:
             if (treeIndex == IndexedBinaryHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX) {
                 m_size++;
                 m_objectIndexToTreeIndex[objectIndex] = m_size;
-                m_treeIndexToObjectIndex[m_size] = objectIndex;                treeIndex = m_size;
+                m_treeIndexToObjectIndex[m_size] = objectIndex;
+                treeIndex = m_size;
             }
             // Note: Swin and sink stops when its already on heap order
-            // so there is no need if the value increased or decreased            swim(treeIndex);
+            // so there is no need if the value increased or decreased
+            swim(treeIndex);
             sink(treeIndex);
         }
     }
@@ -124,10 +132,12 @@ private:
                 IndexedBinaryHeapPriorityQueueConstants::VALUE_FOR_UNUSED_INDEX);
             std::fill(m_objects.begin() + m_maxSize, m_objects.end(), Object{});
             m_maxSize = index + 1;
-        }    }
+        }
+    }
 
     void swim(int const startTreeIndex) {
-        // Swim is "bottom up reheapify"        int treeIndex(startTreeIndex);
+        // Swim is "bottom up reheapify"
+        int treeIndex(startTreeIndex);
         while (treeIndex > 1 &&
                !isInHeapOrder(getObjectOnTree(treeIndex), getObjectOnTree(treeIndex / NUMBER_OF_CHILDREN))) {
             swapIndexes(treeIndex / NUMBER_OF_CHILDREN, treeIndex);

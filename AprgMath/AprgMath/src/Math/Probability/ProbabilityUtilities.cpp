@@ -5,9 +5,11 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Math/Types.hpp>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba {
+
 namespace math {
 
 bool doesExpectedValuesHaveLinearity(
@@ -60,7 +62,8 @@ AlbaNumber getProbabilityOnBinomialDistribution(
     AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const xTarget, UnsignedInteger const nTries) {
     // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
 
-    // The random variable X counts the number of successful attempts, and the probability of a value x is    // P(X=x) = p^x * (1-p)^(n-x) * combinations of (n, x)
+    // The random variable X counts the number of successful attempts, and the probability of a value x is
+    // P(X=x) = p^x * (1-p)^(n-x) * combinations of (n, x)
     // where p^x and (1-p)^(n-x) correspond to successful and unsuccessful attempts, and nx
     // combinations of (n, x)is the number of ways we can choose the order of the attempts.
 
@@ -76,6 +79,7 @@ AlbaNumber getProbabilityOnGeometricDistribution(
     AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const xTarget) {
     // In a geometric distribution, the probability that an attempt succeeds is p, and we continue until the first
     // success happens.
+
     // The random variable X counts the number of attempts needed, and the probability of a value x is
     // P(X=x) = (1-p)^(x-1) * p
     // where (1-p)^(x-1) corresponds to the unsuccessful attempts and p corresponds to the first successful attempt.
@@ -85,9 +89,11 @@ AlbaNumber getProbabilityOnGeometricDistribution(
     AlbaNumber probabilityOfFirstSuccessfulAttempt = probabilityOfASingleAttempt;
     return getCorrectProbability(probabilityOfUnsuccessfulAttempts * probabilityOfFirstSuccessfulAttempt);
 }
+
 AlbaNumber getComplementOfProbability(AlbaNumber const& probability) {
     // The complement of A means the probability that "Event A does not happen".
     // Equation: P(A') = 1-P(A)
+
     return getCorrectProbability(AlbaNumber(1) - probability);
 }
 

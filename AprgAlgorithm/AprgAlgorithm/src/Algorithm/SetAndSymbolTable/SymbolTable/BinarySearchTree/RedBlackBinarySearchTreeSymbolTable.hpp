@@ -4,9 +4,11 @@
 #include <Algorithm/SetAndSymbolTable/SymbolTable/BinarySearchTree/Common/BaseRedBlackBinarySearchTreeSymbolTable.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Key, typename Value>class RedBlackBinarySearchTreeSymbolTable
+template <typename Key, typename Value>
+class RedBlackBinarySearchTreeSymbolTable
     : public BaseRedBlackBinarySearchTreeSymbolTable<Key, Value, RedBlackTreeNodeWithValue<Key, Value>> {
 public:
     using BaseClass = BaseRedBlackBinarySearchTreeSymbolTable<Key, Value, RedBlackTreeNodeWithValue<Key, Value>>;

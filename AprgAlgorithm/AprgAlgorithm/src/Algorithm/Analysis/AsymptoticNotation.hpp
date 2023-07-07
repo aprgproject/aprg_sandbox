@@ -13,10 +13,12 @@ namespace algorithm {}
 // ---> NOTE: The CLRS book restricts the definitions of functions to be asymptotically non negative, other books just
 // use limits on their definitions.
 //
-// ---> (1) Θ Notation (BIG THETA Notation):// -----> This is for an ASYMPTOTIC TIGHT BOUND.
+// ---> (1) Θ Notation (BIG THETA Notation):
+// -----> This is for an ASYMPTOTIC TIGHT BOUND.
 // -----> Theta notation encloses the function from above and below ("sandwiched").
 // -----> This is used for analyzing the GENERAL-CASE (not neccessarily average) complexity of an algorithm.
-// -----> Formal definition:// -------> Let g and f be the function from the set of natural numbers to itself.
+// -----> Formal definition:
+// -------> Let g and f be the function from the set of natural numbers to itself.
 // -------> The function f is said to be Θ(g), if THERE ARE constants c1,c2>0 and n0>0 such that c1*g(n) ≤ f(n) ≤
 // c2*g(n) for all n ≥ n0
 // -----> Mathematical Representation:

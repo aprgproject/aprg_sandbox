@@ -4,9 +4,11 @@
 #include <Algorithm/SetAndSymbolTable/Set/BinarySearchTree/Common/BaseRedBlackBinarySearchTreeSet.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Key>class RedBlackBinarySearchTreeSet : public BaseRedBlackBinarySearchTreeSet<Key, RedBlackTreeNode<Key>> {
+template <typename Key>
+class RedBlackBinarySearchTreeSet : public BaseRedBlackBinarySearchTreeSet<Key, RedBlackTreeNode<Key>> {
 public:
     using BaseClass = BaseRedBlackBinarySearchTreeSet<Key, RedBlackTreeNode<Key>>;
     using Node = typename BaseClass::Node;

@@ -4,9 +4,11 @@
 
 #include <algorithm>
 #include <utility>
+
 namespace alba {
 
 namespace algorithm {
+
 template <typename Values>
 class MaximumUnsortedRange {
 public:

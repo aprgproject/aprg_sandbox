@@ -4,9 +4,11 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Values>class FindKClosestElements {
+template <typename Values>
+class FindKClosestElements {
 public:
     using Index = int;
     using Value = typename Values::value_type;

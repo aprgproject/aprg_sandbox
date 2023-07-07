@@ -236,10 +236,12 @@ protected:
                 result = getSizeOnThisNode(nodePointer->left);
             }
         }
-        return result;    }
+        return result;
+    }
 
     NodeUniquePointer& getMinimumNodePointerReferenceStartingOnThisNode(NodeUniquePointer& nodePointer) {
-        // specialized function to be able to get the minimum and change(delete) it        // used in deletion (hibbard approach)
+        // specialized function to be able to get the minimum and change(delete) it
+        // used in deletion (hibbard approach)
         if (nodePointer) {
             if (nodePointer->left) {
                 return getMinimumNodePointerReferenceStartingOnThisNode(
@@ -275,10 +277,12 @@ protected:
                     // delete minimum on right
                     deleteMinimumStartingOnThisNode(minimumOnTheRight);
                 }
-            }            if (nodePointer) {
+            }
+            if (nodePointer) {
                 updateTreeNodeDetails(*nodePointer);
             }
-        }    }
+        }
+    }
 
     void deleteMinimumStartingOnThisNode(NodeUniquePointer& nodePointer) {
         if (nodePointer) {

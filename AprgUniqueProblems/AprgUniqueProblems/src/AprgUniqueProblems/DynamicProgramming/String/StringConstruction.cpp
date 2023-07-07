@@ -4,8 +4,10 @@
 #include <Algorithm/HashFunctions/String/HornerHashFunctionForWholeString.hpp>
 
 #include <algorithm>
+
 using namespace alba::algorithm;
 using namespace std;
+
 namespace alba {
 
 StringConstruction::StringConstruction(string const& stringToConstruct, stringHelper::strings const& subStrings)

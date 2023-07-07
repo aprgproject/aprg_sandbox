@@ -3,9 +3,11 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Values>class BinarySearchProblems {
+template <typename Values>
+class BinarySearchProblems {
 public:
     using Count = int;
     using Index = int;

@@ -17,9 +17,11 @@ AlternatingSeries::AlternatingSeries(Term const& formulaForEachTermWithoutSign, 
           getFormula(formulaForEachTermWithoutSign, variableName), variableName),
       m_formulaForEachTermWithoutSign(formulaForEachTermWithoutSign) {}
 
-bool AlternatingSeries::isConvergent() const {    Term limit(getLimit(m_formulaForEachTermWithoutSign, getNameForVariableInFormula(), ALBA_NUMBER_POSITIVE_INFINITY));
+bool AlternatingSeries::isConvergent() const {
+    Term limit(getLimit(m_formulaForEachTermWithoutSign, getNameForVariableInFormula(), ALBA_NUMBER_POSITIVE_INFINITY));
     return isTheValue(limit, 0);
 }
+
 Term AlternatingSeries::getRemainderAtIndex(int const index) const {
     Term result;
     if (isConvergent()) {
@@ -35,6 +37,7 @@ Term AlternatingSeries::getFormula(
     Term sign(createExpressionIfPossible({-1, "^", variableName}));
     return createExpressionIfPossible({sign, "*", formulaForEachTermWithoutSign});
 }
+
 }  // namespace algebra
 
 }  // namespace alba

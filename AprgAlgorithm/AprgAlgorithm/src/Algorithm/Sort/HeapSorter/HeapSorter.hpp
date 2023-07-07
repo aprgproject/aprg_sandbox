@@ -3,9 +3,11 @@
 #include <Algorithm/PriorityQueue/BinaryHeap/BinaryHeapAdapter.hpp>
 #include <Algorithm/Sort/BaseSorter.hpp>
 
-#include <functional>#include <utility>
+#include <functional>
+#include <utility>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values>
@@ -31,10 +33,12 @@ private:
         // Note: According to CLRS this runs on O(n) / linear time.
         for (int parentIndex = getLastParentAtTheBottom(maxBinaryHeapAdapter);
              parentIndex >= maxBinaryHeapAdapter.getTopTreeIndex(); parentIndex--) {
-            maxBinaryHeapAdapter.sink(parentIndex, size);        }
+            maxBinaryHeapAdapter.sink(parentIndex, size);
+        }
     }
 
-    void swapTopItemsToLastPlaces(MaxBinaryHeapAdapter& maxBinaryHeapAdapter) const {        // traverse from bottom to top
+    void swapTopItemsToLastPlaces(MaxBinaryHeapAdapter& maxBinaryHeapAdapter) const {
+        // traverse from bottom to top
         int treeIndex(maxBinaryHeapAdapter.getBottomTreeIndex());
         while (treeIndex > maxBinaryHeapAdapter.getTopTreeIndex()) {
             // swap current max to current last place
@@ -51,9 +55,11 @@ private:
         return maxBinaryHeapAdapter.getParentIndex(maxBinaryHeapAdapter.getBottomTreeIndex());
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Proposition: Heap construction uses <= 2N compares and exchanges
 // Proposition: Heap sort uses <= 2N*log2(N) lo compares and exchanges
 // Proof in heap sort: first loop with N has swap operation and sink (log2(N)) -> so its 2N*log2(N).

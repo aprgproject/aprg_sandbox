@@ -39,10 +39,12 @@ private:
         // this is another implementation (from CLRS book)
         auto insertItem = *insertIt;
         auto rItLow = std::make_reverse_iterator(insertIt);  // make_reverse_iterator moves it by one
-        // so final the stiuation here is rItLow < insertIt        for (; rItLow != valuesToSort.rend() && *rItLow > insertItem; rItLow++) {
+        // so final the stiuation here is rItLow < insertIt
+        for (; rItLow != valuesToSort.rend() && *rItLow > insertItem; rItLow++) {
             *std::prev(rItLow) = *rItLow;  // move
         }
-        *std::prev(rItLow) = insertItem;    }
+        *std::prev(rItLow) = insertItem;
+    }
 };
 
 }  // namespace algorithm

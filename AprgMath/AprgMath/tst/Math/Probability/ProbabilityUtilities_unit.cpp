@@ -105,7 +105,8 @@ TEST(ProbabilityUtilitiesTest, GetExpectedValueInBinomialDistributionWorks) {
     EXPECT_EQ(AlbaNumber(75), getExpectedValueInBinomialDistribution(AlbaNumber::createFraction(3, 4), 100U));
 }
 
-TEST(ProbabilityUtilitiesTest, GetExpectedValueInGeometricDistributionWorks) {    EXPECT_EQ(
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInGeometricDistributionWorks) {
+    EXPECT_EQ(
         AlbaNumber::createFraction(4, 3), getExpectedValueInGeometricDistribution(AlbaNumber::createFraction(3, 4)));
 }
 

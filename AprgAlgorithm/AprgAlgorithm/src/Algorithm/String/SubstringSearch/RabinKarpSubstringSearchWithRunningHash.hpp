@@ -38,9 +38,11 @@ public:
                     result = searchIndex - m_substringLength + 1;
                     break;
                 }
-            }        }
+            }
+        }
         return result;
     }
+
 private:
     HashValue getHash(std::string const& key) {
         return m_hornerHashFunction.getHashCode(key.substr(0, m_substringLength));
