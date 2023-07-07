@@ -80,7 +80,7 @@ TEST(BinarySearchTreeSymbolTableTest, GetRootWorks) {
     EXPECT_EQ(node.value, expectedRoot->value);
     EXPECT_EQ(node.left, expectedRoot->left);
     EXPECT_EQ(node.right, expectedRoot->right);
-    EXPECT_EQ(node.numberOfNodesOnThisSubTree, expectedRoot->numberOfNodesOnThisSubTree);
+    EXPECT_EQ(node.sizeOfThisSubTree, expectedRoot->sizeOfThisSubTree);
 }
 
 TEST(BinarySearchTreeSymbolTableTest, TraverseByPreOrderWorks) {
@@ -111,7 +111,7 @@ TEST(BinarySearchTreeSymbolTableTest, TraverseByInOrderWorks) {
     KeysForTest keysToVerify;
     symbolTable.traverseByInOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3, 4, 5, 7, 8, 9};
+    KeysForTest expectedKeys{3, 4, 5, 7, 8, 9};  // not balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 

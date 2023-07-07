@@ -46,7 +46,7 @@ public:
 
 protected:
     void updateTreeNodeDetails(Node& node) const override {
-        node.numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(node);
+        node.sizeOfThisSubTree = this->calculateSizeOfThisSubTree(node);
         node.maxIntervalValueInSubtree = getMaxValueBasedFromLeftAndRight(node);
     }
 

@@ -23,7 +23,7 @@ public:
 
     bool doesContain(Key const& key) const override { return doesContainStartingOnThisNode(m_root, key); }
 
-    int getSize() const override { return getSizeOnThisNode(m_root); }
+    int getSize() const override { return getSizeOfThisSubTree(m_root); }
 
     int getRank(Key const& key) const override { return getRankStartingOnThisNode(m_root, key); }
 
@@ -101,23 +101,21 @@ public:
     }
 
 protected:
-    virtual void copyContents(Node& destinationNode, Node const& sourceNode) const = 0;
+    virtual void copyNodeContents(Node& destinationNode, Node const& sourceNode) const = 0;
 
-    int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const {
+    int getSizeOfThisSubTree(NodeUniquePointer const& nodePointer) const {
         int size(0);
         if (nodePointer) {
-            size = nodePointer->numberOfNodesOnThisSubTree;
+            size = nodePointer->sizeOfThisSubTree;
         }
         return size;
     }
 
-    int calculateSizeOfNodeBasedFromLeftAndRight(Node& node) const {
-        return getSizeOnThisNode(node.left) + getSizeOnThisNode(node.right) + 1;
+    int calculateSizeOfThisSubTree(Node& node) const {
+        return getSizeOfThisSubTree(node.left) + getSizeOfThisSubTree(node.right) + 1;
     }
 
-    virtual void updateTreeNodeDetails(Node& node) const {
-        node.numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(node);
-    }
+    virtual void updateTreeNodeDetails(Node& node) const { node.sizeOfThisSubTree = calculateSizeOfThisSubTree(node); }
 
     virtual bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const {
         bool result(false);
@@ -163,12 +161,11 @@ protected:
     Node const* selectNodeWithIndexStartingOnThisNode(NodeUniquePointer const& nodePointer, int const index) const {
         Node const* result(nullptr);
         if (nodePointer) {
-            int numberOfNodesOnThisSubTree = getSizeOnThisNode(nodePointer->left);
-            if (numberOfNodesOnThisSubTree > index) {
+            int sizeOfThisSubTree = getSizeOfThisSubTree(nodePointer->left);
+            if (sizeOfThisSubTree > index) {
                 result = selectNodeWithIndexStartingOnThisNode(nodePointer->left, index);
-            } else if (numberOfNodesOnThisSubTree < index) {
-                result =
-                    selectNodeWithIndexStartingOnThisNode(nodePointer->right, index - numberOfNodesOnThisSubTree - 1);
+            } else if (sizeOfThisSubTree < index) {
+                result = selectNodeWithIndexStartingOnThisNode(nodePointer->right, index - sizeOfThisSubTree - 1);
             } else {
                 result = nodePointer.get();
             }
@@ -230,10 +227,11 @@ protected:
                 result = getRankStartingOnThisNode(nodePointer->left, key);
             } else if (key > currentKey) {
                 // get size of left, add one node for this node, and add the rank on the right side
-                result = 1 + getSizeOnThisNode(nodePointer->left) + getRankStartingOnThisNode(nodePointer->right, key);
+                result =
+                    1 + getSizeOfThisSubTree(nodePointer->left) + getRankStartingOnThisNode(nodePointer->right, key);
             } else {
                 // if equal, just get size of the subtree
-                result = getSizeOnThisNode(nodePointer->left);
+                result = getSizeOfThisSubTree(nodePointer->left);
             }
         }
         return result;
@@ -273,7 +271,7 @@ protected:
                 if (!minimumOnTheRight) {
                     nodePointer.reset(nullptr);
                 } else {
-                    copyContents(*nodePointer, *minimumOnTheRight);
+                    copyNodeContents(*nodePointer, *minimumOnTheRight);
                     // delete minimum on right
                     deleteMinimumStartingOnThisNode(minimumOnTheRight);
                 }
@@ -284,7 +282,7 @@ protected:
         }
     }
 
-    void deleteMinimumStartingOnThisNode(NodeUniquePointer& nodePointer) {
+    virtual void deleteMinimumStartingOnThisNode(NodeUniquePointer& nodePointer) {
         if (nodePointer) {
             if (nodePointer->left)  // go to the left until null
             {
@@ -298,7 +296,7 @@ protected:
         }
     }
 
-    void deleteMaximumStartingOnThisNode(NodeUniquePointer& nodePointer) {
+    virtual void deleteMaximumStartingOnThisNode(NodeUniquePointer& nodePointer) {
         if (nodePointer) {
             if (nodePointer->right) {
                 deleteMaximumStartingOnThisNode(nodePointer->right);
@@ -360,6 +358,10 @@ protected:
     NodeUniquePointer m_root;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // BST maintains symmetric order. It means that each node has a key and every node's key is:
 // -> Larger than all keys in its left subtree
 // -> Smaller than all keys in its right subtree
@@ -384,7 +386,3 @@ protected:
 // Researchers discovered that after a long sequence of insertion and deletion the height becomes sqrt(N).
 // If you randomly change the side of deletion, it does not work either. It still yields to sqrt(N).
 // Long standing open problem: Simple and efficient delete for BSTs.
-
-}  // namespace algorithm
-
-}  // namespace alba

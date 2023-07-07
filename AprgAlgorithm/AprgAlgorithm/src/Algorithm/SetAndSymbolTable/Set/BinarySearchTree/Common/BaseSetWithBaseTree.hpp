@@ -21,7 +21,7 @@ public:
 
 protected:
     // overrides in BaseTree
-    void copyContents(Node& destinationNode, Node const& sourceNode) const override {
+    void copyNodeContents(Node& destinationNode, Node const& sourceNode) const override {
         destinationNode.key = sourceNode.key;
     }
 

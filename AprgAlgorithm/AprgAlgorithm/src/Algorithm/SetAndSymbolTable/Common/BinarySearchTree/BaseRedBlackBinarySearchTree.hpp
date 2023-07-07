@@ -56,7 +56,7 @@ protected:
                 // update other things:
                 NodeUniquePointer& previousNodePointer(nodePointer->left);
                 nodePointer->parentLinkColor = previousNodePointer->parentLinkColor;
-                nodePointer->numberOfNodesOnThisSubTree = previousNodePointer->numberOfNodesOnThisSubTree;
+                nodePointer->sizeOfThisSubTree = previousNodePointer->sizeOfThisSubTree;
                 previousNodePointer->parentLinkColor = RedBlackColor::Red;
                 this->updateTreeNodeDetails(*previousNodePointer);
             }
@@ -78,14 +78,14 @@ protected:
                 // update other things:
                 NodeUniquePointer& previousNodePointer(nodePointer->right);
                 nodePointer->parentLinkColor = previousNodePointer->parentLinkColor;
-                nodePointer->numberOfNodesOnThisSubTree = previousNodePointer->numberOfNodesOnThisSubTree;
+                nodePointer->sizeOfThisSubTree = previousNodePointer->sizeOfThisSubTree;
                 previousNodePointer->parentLinkColor = RedBlackColor::Red;
                 this->updateTreeNodeDetails(*previousNodePointer);
             }
         }
     }
 
-    void setParentAsRedAndChildrenAsBlack(NodeUniquePointer& nodePointer) {
+    void setParentAsRedAndChildrenAsBlack(NodeUniquePointer const& nodePointer) {
         // used to flip colors (split a 4 node in 2-3 trees)
         if (nodePointer) {
             nodePointer->parentLinkColor = RedBlackColor::Red;
@@ -98,6 +98,10 @@ protected:
         }
     }
 };
+
+}  // namespace algorithm
+
+}  // namespace alba
 
 // Motivation: Represent a 2-3 tree as a BST.
 // Use internal left leaning link as glue for the 3-nodes (color this link red -> so that we can know which link
@@ -131,7 +135,3 @@ protected:
 // -> Property. Height of tree is ~ 1.00 log2(N) in typical applications.
 
 // Why red black? On Xerox PARC, laser printing -> red color looks best
-
-}  // namespace algorithm
-
-}  // namespace alba

@@ -107,9 +107,9 @@ protected:
             } else if (isGreaterThanWithDepth(key, currentKey, depth)) {
                 // get size of left, add one node for this node, and add the rank on the right side
                 result =
-                    1 + this->getSizeOnThisNode(nodePointer->left) + getRankStartingOnThisNode(nodePointer->right, key);
+                    1 + this->getSizeOfThisSubTree(nodePointer->left) + getRankStartingOnThisNode(nodePointer->right, key);
             } else {
-                result = this->getSizeOnThisNode(nodePointer->left);  // if equal, just get size of the subtree
+                result = this->getSizeOfThisSubTree(nodePointer->left);  // if equal, just get size of the subtree
             }
         }
         depth--;
@@ -160,7 +160,7 @@ protected:
                 if (!minimumOnTheRight) {
                     nodePointer.reset(nullptr);
                 } else {
-                    this->copyContents(*nodePointer, *minimumOnTheRight);
+                    this->copyNodeContents(*nodePointer, *minimumOnTheRight);
                     // starting from the minimum so less checks
                     this->deleteMinimumStartingOnThisNode(minimumOnTheRight);
                 }

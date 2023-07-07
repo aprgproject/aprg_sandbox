@@ -63,7 +63,7 @@ TEST(BinarySearchTreeSetTest, GetRootWorks) {
     EXPECT_EQ(node.key, expectedRoot->key);
     EXPECT_EQ(node.left, expectedRoot->left);
     EXPECT_EQ(node.right, expectedRoot->right);
-    EXPECT_EQ(node.numberOfNodesOnThisSubTree, expectedRoot->numberOfNodesOnThisSubTree);
+    EXPECT_EQ(node.sizeOfThisSubTree, expectedRoot->sizeOfThisSubTree);
 }
 
 TEST(BinarySearchTreeSetTest, TraverseByPreOrderWorks) {

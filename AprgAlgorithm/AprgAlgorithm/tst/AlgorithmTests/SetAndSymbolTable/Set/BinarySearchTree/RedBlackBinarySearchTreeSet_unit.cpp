@@ -76,7 +76,7 @@ TEST(RedBlackBinarySearchTreeSetTest, TraverseByPreOrderWorks) {
     KeysForTest keysToVerify;
     setObject.traverseByPreOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{8, 4, 3, 7, 5, 9};  // balanced search tree
+    KeysForTest expectedKeys{8, 4, 3, 7, 5, 9};  // balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
@@ -92,7 +92,7 @@ TEST(RedBlackBinarySearchTreeSetTest, TraverseByInOrderWorks) {
     KeysForTest keysToVerify;
     setObject.traverseByInOrder([&keysToVerify](NodeForTest const& node) { keysToVerify.emplace_back(node.key); });
 
-    KeysForTest expectedKeys{3, 4, 5, 7, 8, 9};
+    KeysForTest expectedKeys{3, 4, 5, 7, 8, 9};  // balanced
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
