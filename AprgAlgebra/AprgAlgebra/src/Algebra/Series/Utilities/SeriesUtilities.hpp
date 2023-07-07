@@ -24,13 +24,15 @@ bool isDivergentUsingComparisonTest(
     SeriesBasedOnSummation const& seriesToCheck, SeriesBasedOnSummation const& divergentSeries,
     int const numberOfIndexesToTest);
 
+bool hasLinearity(
+    Term const& termToSum, std::string const& variableName, AlbaNumber const& multiplier,
+    AlbaNumber const& startNumber);
+
 void performLimitComparisonTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series1, SeriesBasedOnSummation const& series2,
     std::string const& variableName);
-
 void performIntegralTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, std::string const& variableName);
-
 void performRatioTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, std::string const& variableName);
 

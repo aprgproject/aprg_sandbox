@@ -21,15 +21,13 @@ namespace alba {
 
 namespace algebra {
 
-SeriesBasedOnFormula::SeriesBasedOnFormula(Term const& formulaForSeries, string const& nameForVariableInFormula)
-    : m_formulaForSeries(formulaForSeries), m_nameForVariableInFormula(nameForVariableInFormula) {}
+SeriesBasedOnFormula::SeriesBasedOnFormula(Term const& formulaForSeries, string const& variableName)
+    : m_formulaForSeries(formulaForSeries), m_variableName(variableName) {}
 
 bool SeriesBasedOnFormula::isConvergent() const { return isARealFiniteConstant(getValueAtInfinity()); }
-
 bool SeriesBasedOnFormula::isIncreasing() const {
     Term sign(getSignDerivativeForFiniteCalculus());
-    return isTheValue(sign, 1);
-}
+    return isTheValue(sign, 1);}
 
 bool SeriesBasedOnFormula::isDecreasing() const {
     Term sign(getSignDerivativeForFiniteCalculus());
@@ -50,30 +48,28 @@ bool SeriesBasedOnFormula::isBounded() const {
 Term SeriesBasedOnFormula::getFormulaForSeries() const { return m_formulaForSeries; }
 
 Term SeriesBasedOnFormula::getValueAtIndex(int const index) const {
-    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};
+    SubstitutionOfVariablesToValues substitution{{m_variableName, index}};
     return substitution.performSubstitutionTo(m_formulaForSeries);
 }
 
 Term SeriesBasedOnFormula::getSum(int const startingIndex, int const endingIndex) const {
-    Summation summation(m_formulaForSeries, m_nameForVariableInFormula);
+    Summation summation(m_formulaForSeries, m_variableName);
     return summation.getSum(startingIndex, endingIndex);
 }
 
 Term SeriesBasedOnFormula::getSumStartingAtIndexAndToInfinity(int const startingIndex) const {
-    Summation summation(m_formulaForSeries, m_nameForVariableInFormula);
+    Summation summation(m_formulaForSeries, m_variableName);
     return summation.getSum(startingIndex, ALBA_NUMBER_POSITIVE_INFINITY);
 }
 
 Term SeriesBasedOnFormula::getValueAtInfinity() const {
-    return getLimit(m_formulaForSeries, m_nameForVariableInFormula, ALBA_NUMBER_POSITIVE_INFINITY);
+    return getLimit(m_formulaForSeries, m_variableName, ALBA_NUMBER_POSITIVE_INFINITY);
 }
 
-Term SeriesBasedOnFormula::getRemainderAtIndex(int const index) const {
-    return getValueAtInfinity() - getValueAtIndex(index);
+Term SeriesBasedOnFormula::getRemainderAtIndex(int const index) const {    return getValueAtInfinity() - getValueAtIndex(index);
 }
 
-AlbaNumberOptional SeriesBasedOnFormula::getGreatestLowerBound() const {
-    AlbaNumberOptional result;
+AlbaNumberOptional SeriesBasedOnFormula::getGreatestLowerBound() const {    AlbaNumberOptional result;
     AlbaNumbers boundValues(getBoundValues());
 
     if (boundValues.size() >= 2) {
@@ -106,46 +102,42 @@ AlbaNumberOptional SeriesBasedOnFormula::getLeastUpperBound() const {
 }
 
 AlbaNumbers SeriesBasedOnFormula::getBoundValues() const {
-    DifferentiationForFiniteCalculus differentiation(m_nameForVariableInFormula);
+    DifferentiationForFiniteCalculus differentiation(m_variableName);
     Term secondDerivative(differentiation.differentiateMultipleTimes(m_formulaForSeries, 2));
 
     AlbaNumbers boundValues;
     AlbaNumbers extremaIndexes(getExtremaIndexes());
     extremaIndexes.emplace_back(AlbaNumber(0));
     for (AlbaNumber const& extremumIndex : extremaIndexes) {
-        SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, extremumIndex}};
+        SubstitutionOfVariablesToValues substitution{{m_variableName, extremumIndex}};
         Term secondDerivativeAtExtrema(substitution.performSubstitutionTo(secondDerivative));
         if (secondDerivativeAtExtrema.isConstant()) {
-            boundValues.emplace_back(secondDerivativeAtExtrema.getConstantValueConstReference());
-        }
+            boundValues.emplace_back(secondDerivativeAtExtrema.getConstantValueConstReference());        }
     }
     Term valueTermAtInfinity(getValueAtInfinity());
-    if (isARealFiniteConstant(valueTermAtInfinity)) {
-        boundValues.emplace_back(valueTermAtInfinity.getConstantValueConstReference());
+    if (isARealFiniteConstant(valueTermAtInfinity)) {        boundValues.emplace_back(valueTermAtInfinity.getConstantValueConstReference());
     }
     return boundValues;
 }
 
 AlbaNumbers SeriesBasedOnFormula::getExtremaIndexes() const {
-    DifferentiationForFiniteCalculus differentiation(m_nameForVariableInFormula);
+    DifferentiationForFiniteCalculus differentiation(m_variableName);
     Term firstDerivative(differentiation.differentiate(m_formulaForSeries));
     OneEquationOneVariableEqualitySolver solver;
-    simplifyTermToACommonDenominator(firstDerivative);
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(firstDerivative, "=", 0)));
+    simplifyTermToACommonDenominator(firstDerivative);    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(firstDerivative, "=", 0)));
     return solutionSet.getAcceptedValues();
 }
 
 Term SeriesBasedOnFormula::getSignDerivativeForFiniteCalculus() const {
-    DifferentiationForFiniteCalculus differentiation(m_nameForVariableInFormula);
+    DifferentiationForFiniteCalculus differentiation(m_variableName);
     Term derivative(differentiation.differentiate(m_formulaForSeries));
     SignMutator signMutator;
-    signMutator.putVariableWithSign(m_nameForVariableInFormula, TermAssociationType::Positive);
+    signMutator.putVariableWithSign(m_variableName, TermAssociationType::Positive);
     signMutator.mutateTerm(derivative);
     return derivative;
 }
 
-string SeriesBasedOnFormula::getNameForVariableInFormula() const { return m_nameForVariableInFormula; }
+string SeriesBasedOnFormula::getNameForVariableInFormula() const { return m_variableName; }
 
 }  // namespace algebra
-
 }  // namespace alba

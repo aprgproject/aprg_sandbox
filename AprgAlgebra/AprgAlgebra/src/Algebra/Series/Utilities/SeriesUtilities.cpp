@@ -83,14 +83,23 @@ bool isDivergentUsingComparisonTest(
     return result;
 }
 
+bool hasLinearity(
+    Term const& termToSum, string const& variableName, AlbaNumber const& multiplier, AlbaNumber const& startNumber) {
+    Summation summation(termToSum, variableName);
+    Summation summationInTimesConstant(termToSum * multiplier, variableName);
+    Term termWithOuterMultiplier(summation.getSummationModelWithKnownConstant(startNumber) * multiplier);
+    Term termWithInnerMultiplier(summationInTimesConstant.getSummationModelWithKnownConstant(startNumber));
+    termWithInnerMultiplier.simplify();
+    termWithOuterMultiplier.simplify();
+    return termWithInnerMultiplier == termWithOuterMultiplier;
+}
+
 void performLimitComparisonTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series1, SeriesBasedOnSummation const& series2,
-    string const& variableName) {
-    Term formula1(series1.getFormulaForEachTermInSummation());
+    string const& variableName) {    Term formula1(series1.getFormulaForEachTermInSummation());
     Term formula2(series2.getFormulaForEachTermInSummation());
     Term termForLimitChecking(formula1 / formula2);
-    Term limit(getLimit(termForLimitChecking, variableName, ALBA_NUMBER_POSITIVE_INFINITY));
-    if (isTheValue(limit, 0)) {
+    Term limit(getLimit(termForLimitChecking, variableName, ALBA_NUMBER_POSITIVE_INFINITY));    if (isTheValue(limit, 0)) {
         if (series2.isConvergent()) {
             isConvergent = true;
         }

@@ -64,14 +64,17 @@ TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks) {
     EXPECT_TRUE(isDivergentUsingComparisonTest(seriesToTest, divergentSeries, 10));
 }
 
+TEST(SeriesUtilitiesTest, HasLinearityWorks) {
+    EXPECT_TRUE(hasLinearity("n", "n", 5, 10));
+    EXPECT_TRUE(hasLinearity(Monomial(1, {{"n", 2}}), "n", 6, 12));
+}
+
 TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks) {
     Term numerator1(1);
-    Term denominator1(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
-    Term formula1(createExpressionIfPossible({numerator1, "/", denominator1}));
+    Term denominator1(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));    Term formula1(createExpressionIfPossible({numerator1, "/", denominator1}));
     SeriesBasedOnSummation series1(formula1, "n");
     Term numerator2(1);
-    Term denominator2("n");
-    Term formula2(createExpressionIfPossible({numerator2, "/", denominator2}));
+    Term denominator2("n");    Term formula2(createExpressionIfPossible({numerator2, "/", denominator2}));
     SeriesBasedOnSummation series2(formula2, "n");
 
     bool isConvergent(false);
