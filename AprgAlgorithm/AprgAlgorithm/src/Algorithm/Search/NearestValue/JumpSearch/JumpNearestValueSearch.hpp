@@ -35,16 +35,19 @@ public:
             previousSearchIndex = searchIndex;
             searchIndex += m_blockSize;
         }
+
         // perform linear search on that block
         LinearNearestValueSearchWithOneIndex<Values> linearSearch(
             previousSearchIndex, std::min(searchIndex, static_cast<int>(m_sortedValues.size()) - 1), m_sortedValues);
         return linearSearch.getIndexOfNearestValue(target);
     }
 
-private:    Index getOptimalSize(Values const& values) const {
+private:
+    Index getOptimalSize(Values const& values) const {
         // optimal size is squareroot size
         return std::max(1, mathHelper::getIntegerAfterFloorOfDoubleValue<Index>(sqrt(values.size())));
     }
+
     Index m_blockSize;
     Values const& m_sortedValues;
 };

@@ -93,10 +93,12 @@ TEST(PowerHelpersTest, GetRaiseToPowerBasedOnTypeWorks) {
 TEST(PowerHelpersTest, GetNthRootWithGuessAndNumberOfIterationsWorks) {
     EXPECT_EQ(1, getNthRoot(0, 1, 1, 0));
     EXPECT_EQ(0, getNthRoot(0, 1, 1, 1));
-    EXPECT_EQ(1, getNthRoot(36, 2, 1, 0));    EXPECT_EQ(18, getNthRoot(36, 2, 1, 1));
+    EXPECT_EQ(1, getNthRoot(36, 2, 1, 0));
+    EXPECT_EQ(18, getNthRoot(36, 2, 1, 1));
     EXPECT_EQ(10, getNthRoot(36, 2, 1, 2));
     EXPECT_EQ(6, getNthRoot(36, 2, 1, 3));
     EXPECT_EQ(6, getNthRoot(36, 2, 1, 4));
+
     EXPECT_DOUBLE_EQ(1.0, getNthRoot(0.0, 1.0, 1.0, 0));
     EXPECT_DOUBLE_EQ(0.0, getNthRoot(0.0, 1.0, 1.0, 1));
     EXPECT_DOUBLE_EQ(18.5, getNthRoot(36.0, 2.0, 1.0, 1));
@@ -152,10 +154,12 @@ TEST(PowerHelpersTest, GetSquareRootUsingBinarySearchWorks) {
 
 TEST(PowerHelpersTest, IsPerfectSquareForAlbaNumberWorks) {
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(4)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));
-    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));    EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
     EXPECT_FALSE(isPerfectSquare(AlbaNumber::createFraction(100, 37)));
 }
 

@@ -59,9 +59,11 @@ private:
         Value deviationFromHigher(mathHelper::getPositiveDelta(target, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
+
     Index getHigherIndex(Index const lowIndex) const {
         return std::min(lowIndex + 1, static_cast<Index>(m_sortedValues.size()) - 1);
     }
+
     Values const& m_sortedValues;
 };
 

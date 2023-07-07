@@ -48,9 +48,11 @@ private:
             } else if (valueAtHigher == target) {
                 result = std::distance(m_values.cbegin(), itHigher);
                 break;
-            }        }
+            }
+        }
         return result;
     }
+
     Values const& m_values;
 };
 

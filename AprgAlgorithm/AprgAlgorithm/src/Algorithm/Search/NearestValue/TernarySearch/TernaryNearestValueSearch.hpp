@@ -22,7 +22,8 @@ public:
             Index selectedIndex(getIndexOfNearestValueWithoutCheck(0, m_sortedValues.size() - 1, target));
             if (selectedIndex != INVALID_INDEX) {
                 result = m_sortedValues[selectedIndex];
-            }        }
+            }
+        }
         return result;
     }
 
@@ -73,8 +74,10 @@ private:
         Value deviationFromHigher(mathHelper::getPositiveDelta(target, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
+
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

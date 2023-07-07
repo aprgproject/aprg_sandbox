@@ -27,17 +27,20 @@ public:
                m_sortedValues[currentFibonacci] < target) {
             Index nextFibonacci = currentFibonacci + previousFibonacci;
             previousFibonacci = currentFibonacci;
-            currentFibonacci = nextFibonacci;        }
+            currentFibonacci = nextFibonacci;
+        }
 
         BinarySearchWithTwoIndices<Values> binarySearch(m_sortedValues);  // perform binary search on that block
         return binarySearch.getIndexOfValue(
             previousFibonacci, std::min(currentFibonacci, static_cast<int>(m_sortedValues.size()) - 1), target);
     }
 
-private:    Values const& m_sortedValues;
+private:
+    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // -> Fibonacci search technique:

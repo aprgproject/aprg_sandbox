@@ -2,9 +2,11 @@
 
 #include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
+
 namespace alba {
 
 namespace algorithm {
+
 template <typename Values>
 class BinaryNearestValueSearchWithTwoIndices {
 public:
@@ -39,9 +41,11 @@ public:
         }
         return result;
     }
+
     inline Index getLowerIndex() const { return m_lowIndex; }
 
     inline Index getHigherIndex() const { return m_highIndex; }
+
     Value getLowerValue() const {
         Value result{};
         if (!m_sortedValues.empty()) {
@@ -64,9 +68,11 @@ private:
         Value deviationFromHigher(mathHelper::getPositiveDelta(target, m_sortedValues[m_highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? m_lowIndex : m_highIndex;
     }
+
     void setInitialIndexes() {
         if (!m_sortedValues.empty()) {
-            m_lowIndex = 0;            m_highIndex = m_sortedValues.size() - 1;  // fully closed interval
+            m_lowIndex = 0;
+            m_highIndex = m_sortedValues.size() - 1;  // fully closed interval
         }
     }
 
@@ -98,9 +104,11 @@ private:
             }
         }
     }
+
     Index m_lowIndex;
     Index m_highIndex;
-    Values const& m_sortedValues;};
+    Values const& m_sortedValues;
+};
 
 }  // namespace algorithm
 

@@ -26,7 +26,8 @@ public:
         // worst case runs in logarithmic time (base 2 log) -> acceptable
         // Continuously find relative root until its equal to the previous root
         Object currentRoot(object);
-        Object nextRoot(m_relativeRoots[object]);        while (currentRoot != nextRoot) {
+        Object nextRoot(m_relativeRoots[object]);
+        while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
             nextRoot = m_relativeRoots[currentRoot];
         }
@@ -49,6 +50,7 @@ public:
         RootVector relativeRoots;
         Object currentRoot(object);
         Object nextRoot(m_relativeRoots[object]);
+
         while (currentRoot != nextRoot) {
             currentRoot = nextRoot;
             relativeRoots.emplace_back(nextRoot);
@@ -66,9 +68,11 @@ public:
         // worst case runs in logarithmic time because of getRoot() -> acceptable
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
-        if (root1 != root2) {            connectRootsBasedOnSize(root2, root1);
+        if (root1 != root2) {
+            connectRootsBasedOnSize(root2, root1);
         }
     }
+
     RootVector const& getRelativeRootVector() const { return m_relativeRoots; }
 
     SizeVector const& getSizesOfRootsVector() const { return m_sizesOfRoots; }
@@ -82,10 +86,12 @@ private:
         // runs in linear time
         m_relativeRoots.reserve(maximumSize);
         for (int i = 0; i < maximumSize; i++) {
-            m_relativeRoots.emplace_back(i);        }
+            m_relativeRoots.emplace_back(i);
+        }
         m_relativeRoots.shrink_to_fit();
 
-        m_sizesOfRoots.resize(maximumSize, Object{1});        m_sizesOfRoots.shrink_to_fit();
+        m_sizesOfRoots.resize(maximumSize, Object{1});
+        m_sizesOfRoots.shrink_to_fit();
     }
 
     void connectRootsBasedOnSize(Object const root2, Object const root1) {

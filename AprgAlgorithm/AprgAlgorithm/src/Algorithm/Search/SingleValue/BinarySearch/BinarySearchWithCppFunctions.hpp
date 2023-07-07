@@ -27,10 +27,12 @@ public:
             if (*lowerBoundIt == target) {
                 result = std::distance(m_sortedValues.cbegin(), lowerBoundIt);
             }
-        }        return result;
+        }
+        return result;
     }
 
-private:    Values const& m_sortedValues;
+private:
+    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm

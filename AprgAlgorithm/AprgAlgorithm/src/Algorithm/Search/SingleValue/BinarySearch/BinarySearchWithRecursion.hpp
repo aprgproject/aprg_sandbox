@@ -3,9 +3,11 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Values>class BinarySearchWithRecursion {
+template <typename Values>
+class BinarySearchWithRecursion {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -43,10 +45,12 @@ private:
             } else {  // middleValue == target
                 result = middleIndex;
             }
-        }        return result;
+        }
+        return result;
     }
 
-    Values const& m_sortedValues;};
+    Values const& m_sortedValues;
+};
 
 }  // namespace algorithm
 
@@ -58,9 +62,11 @@ private:
 // half. Otherwise, narrow it to the upper half. Repeatedly check until the target is found or the interval is empty.
 
 // We basically ignore half of the elements just after one comparison.
-// Compare x with the middle element.// If x matches with the middle element, we return the mid index.
+// Compare x with the middle element.
+// If x matches with the middle element, we return the mid index.
 // Else If x is greater than the mid element, then x can only lie in the right half subarray after the mid element. So
 // we recur for the right half. Else (x is smaller) recur for the left half.
+
 // Time Complexity:
 // The time complexity of Binary Search can be written as
 // T(n) = T(n/2) + c

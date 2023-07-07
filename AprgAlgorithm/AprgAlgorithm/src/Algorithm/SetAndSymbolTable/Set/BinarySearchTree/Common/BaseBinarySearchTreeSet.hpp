@@ -19,4 +19,5 @@ public:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba

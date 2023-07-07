@@ -2,9 +2,11 @@
 
 #include <Algorithm/Utilities/IndexHelper.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
+
 namespace alba {
 
 namespace algorithm {
+
 template <typename Values>
 class BinaryNearestValueSearchWithRecursion {
 public:
@@ -60,8 +62,10 @@ private:
         Value deviationFromHigher(mathHelper::getPositiveDelta(target, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
+
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

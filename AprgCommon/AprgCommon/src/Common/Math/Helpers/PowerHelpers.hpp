@@ -63,10 +63,12 @@ NumberType getRaiseToPowerForIntegers(NumberType const base, NumberType const ex
             remainingExponent--;
         }
     }
-    return result;}
+    return result;
+}
 
 template <typename NumberType>
-inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent) {    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     // this is slower (by not too much, check performance test)
 
@@ -139,16 +141,17 @@ NumberType getSquareRootUsingBinarySearch(NumberType const radicand) {
     return (low * low > radicand) ? low - 1 : low;
 
     // Some end cases analysis:
-    // -> If range is one element[a], loop ends, we get check value
-    // -> If range is two elements[a,b]:
+    // -> If interval is one element[a], loop ends, we get check value
+    // -> If interval is two elements[a,b]:
     // ---> middleSquared < target -> low moves to right, only b retains (target might be to the left)
     // ---> middleSquared == target -> low moves to right, only b retains (target might be to the left)
     // ---> target < middleSquared -> high moves to left, only a retains
-    // -> If range is three elements, this reduces to one element
-    // -> If range is four elements, this reduces to one element or two elements
+    // -> If interval is three elements, this reduces to one element
+    // -> If interval is four elements, this reduces to one element or two elements
 }
 
-bool isPerfectSquare(AlbaNumber const& value);                            // pass as const referencebool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
+bool isPerfectSquare(AlbaNumber const& value);                            // pass as const reference
+bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
 
 }  // namespace alba::mathHelper

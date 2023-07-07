@@ -22,7 +22,8 @@ public:
             if (m_sortedValues[possibleIndex] == target) {
                 result = possibleIndex;
             }
-        }        return result;
+        }
+        return result;
     }
 
 private:
@@ -38,10 +39,12 @@ private:
             result -= forwardSkip;  // return to valid position
         }
         result += (result + 1 < static_cast<Index>(m_sortedValues.size())) ? 1 : 0;  // move one for equal
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

@@ -86,9 +86,11 @@ private:
         std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
         std::fill(m_sizesOfRoots.begin(), m_sizesOfRoots.end(), 1);
     }
+
     void connectRootsBasedOnSize(Object const root2, Object const root1) {
         // assign the root of the smaller root to the larger root (to make it flatter)
-        if (m_sizesOfRoots[root1] < m_sizesOfRoots[root2]) {            m_relativeRoots[root1] = root2;
+        if (m_sizesOfRoots[root1] < m_sizesOfRoots[root2]) {
+            m_relativeRoots[root1] = root2;
             m_sizesOfRoots[root2] += m_sizesOfRoots[root1];
         } else {
             m_relativeRoots[root2] = root1;
@@ -106,7 +108,8 @@ private:
 
 // Proof
 // Depth of any node x is at most log2 (SIZE)
-// When does the depth of x increase? Increase by 1 when tree T1 containing x is merged into another tree T2.// -> The size of the tree containing x [at least doubles] since size of T2 >= size of T1
+// When does the depth of x increase? Increase by 1 when tree T1 containing x is merged into another tree T2.
+// -> The size of the tree containing x [at least doubles] since size of T2 >= size of T1
 // -> Size of the tree containing x [can double] at most log2 times.
 
 // Other discussions:

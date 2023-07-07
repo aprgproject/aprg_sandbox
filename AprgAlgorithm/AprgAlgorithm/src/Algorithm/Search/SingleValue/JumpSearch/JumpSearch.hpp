@@ -32,10 +32,12 @@ public:
             blockStartIndex, std::min(blockEndIndex, static_cast<int>(m_sortedValues.size()) - 1), target);
     }
 
-private:    Index getOptimalSize(Values const& values) const {
+private:
+    Index getOptimalSize(Values const& values) const {
         // optimal size is squareroot size
         return std::max(1, mathHelper::getIntegerAfterFloorOfDoubleValue<Index>(sqrt(values.size())));
     }
+
     Index m_blockSize;
     Values const& m_sortedValues;
 };
@@ -57,7 +59,8 @@ private:    Index getOptimalSize(Values const& values) const {
 // Jump search will find the target of 55 with the following steps assuming that the block size to be jumped is 4.
 // STEP 1: Jump from index 0 to index 4;
 // STEP 2: Jump from index 4 to index 8;
-// STEP 3: Jump from index 8 to index 12;// STEP 4: Since the element at index 12 is greater than 55 we will jump back a step to come to index 8.
+// STEP 3: Jump from index 8 to index 12;
+// STEP 4: Since the element at index 12 is greater than 55 we will jump back a step to come to index 8.
 // STEP 5: Perform linear search from index 8 to get the element 55.
 
 // What is the optimal block size to be skipped?
@@ -66,6 +69,7 @@ private:    Index getOptimalSize(Values const& values) const {
 // will be ((n/m) + m-1). The target of the function ((n/m) + m-1) will be minimum when m = √n. Therefore, the best step
 // size is m = √n.
 
-// This is better than a linear search, but worse than a binary search.// The advantage over the latter is that a jump search only needs to jump backwards once,
+// This is better than a linear search, but worse than a binary search.
+// The advantage over the latter is that a jump search only needs to jump backwards once,
 // while a binary can jump backwards up to log n times.
 // This can be important if a jumping backwards takes significantly more time than jumping forward.

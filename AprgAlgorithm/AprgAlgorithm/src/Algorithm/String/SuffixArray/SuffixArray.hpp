@@ -30,10 +30,12 @@ public:
             } else if (compareValue > 0) {
                 low = mid + 1;
             } else {
-                low = mid;                break;
+                low = mid;
+                break;
             }
         }
-        return low;    }
+        return low;
+    }
 
     std::string const& getSuffixAt(DataType const index) const { return m_suffixes[index]; }
 

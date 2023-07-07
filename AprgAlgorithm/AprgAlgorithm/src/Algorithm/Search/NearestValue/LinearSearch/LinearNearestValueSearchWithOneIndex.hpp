@@ -48,10 +48,12 @@ public:
                     Value currentDeviation(mathHelper::getPositiveDelta(value, target));
                     if (minimumDeviation > currentDeviation) {
                         minimumDeviation = currentDeviation;
-                        result = std::distance(m_values.cbegin(), it);                    }
+                        result = std::distance(m_values.cbegin(), it);
+                    }
                 }
             }
-        }        return result;
+        }
+        return result;
     }
 
 private:

@@ -19,10 +19,12 @@ inline double getLogarithm(double const base, double const inputForLogarithm) {
     return log(inputForLogarithm) / log(base);
 }
 
-template <typename NumberType>inline NumberType getLogarithmWithBase2Of(NumberType const value) {
+template <typename NumberType>
+inline NumberType getLogarithmWithBase2Of(NumberType const value) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
-    return AlbaBitValueUtilities<NumberType>::getLogarithmWithBase2Of(value);}
+    return AlbaBitValueUtilities<NumberType>::getLogarithmWithBase2Of(value);
+}
 
 template <typename NumberType>
 NumberType getLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm) {

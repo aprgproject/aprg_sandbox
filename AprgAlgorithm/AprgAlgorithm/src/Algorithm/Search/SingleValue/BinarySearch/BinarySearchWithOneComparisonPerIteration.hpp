@@ -3,9 +3,11 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Values>class BinarySearchWithOneComparisonPerIteration {
+template <typename Values>
+class BinarySearchWithOneComparisonPerIteration {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -84,10 +86,12 @@ private:
         } else if (target == m_sortedValues[highIndex]) {
             result = highIndex;
         }
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

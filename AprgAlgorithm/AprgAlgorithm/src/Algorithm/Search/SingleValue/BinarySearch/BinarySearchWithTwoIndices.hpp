@@ -3,9 +3,11 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename Values>class BinarySearchWithTwoIndices {
+template <typename Values>
+class BinarySearchWithTwoIndices {
 public:
     using Index = int;
     using Value = typename Values::value_type;
@@ -46,10 +48,12 @@ private:
                 break;
             }
         }
-        return result;    }
+        return result;
+    }
 
     Values const& m_sortedValues;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
@@ -63,4 +67,5 @@ private:
 // Otherwise, the search recursively continues to the left or right half of the region, depending on the target of the
 // middle element.
 
-// In this implementation, the active region is a...b, and initially the region is 0...n-1.// The algorithm halves the size of the region at each step, so the time complexity is O(logn).
+// In this implementation, the active region is a...b, and initially the region is 0...n-1.
+// The algorithm halves the size of the region at each step, so the time complexity is O(logn).

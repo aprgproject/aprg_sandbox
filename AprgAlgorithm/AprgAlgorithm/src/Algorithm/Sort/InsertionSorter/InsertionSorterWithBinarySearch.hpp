@@ -4,9 +4,11 @@
 #include <Algorithm/Utilities/IndexHelper.hpp>
 
 #include <utility>
+
 namespace alba {
 
 namespace algorithm {
+
 template <typename Values>
 class InsertionSorterWithBinarySearch : public BaseSorter<Values> {
 public:
@@ -45,9 +47,11 @@ private:
             } else {  // (middleValue <= value)
                 iLow = middleIndex + 1;
             }
-        }        return result;
+        }
+        return result;
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

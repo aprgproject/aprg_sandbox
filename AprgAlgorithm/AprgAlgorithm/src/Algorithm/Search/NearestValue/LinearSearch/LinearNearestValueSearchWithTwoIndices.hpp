@@ -36,7 +36,8 @@ public:
     Index getIndexOfNearestValue(Value const& target) {
         Index result(INVALID_INDEX);
         if (!m_values.empty()) {
-            Value minimumDeviation(std::numeric_limits<Value>::max());            for (auto itLower = m_values.cbegin() + m_startIndex, itHigher = m_values.cbegin() + m_endIndex;
+            Value minimumDeviation(std::numeric_limits<Value>::max());
+            for (auto itLower = m_values.cbegin() + m_startIndex, itHigher = m_values.cbegin() + m_endIndex;
                  itLower <= itHigher; itLower++, itHigher--) {
                 Value valueAtLower = *itLower;
                 Value valueAtHigher = *itHigher;
@@ -51,10 +52,12 @@ public:
                     Value deviationAtHigher(mathHelper::getPositiveDelta(valueAtHigher, target));
                     if (deviationAtLower <= deviationAtHigher && minimumDeviation > deviationAtLower) {
                         minimumDeviation = deviationAtLower;
-                        result = std::distance(m_values.cbegin(), itLower);                    } else if (deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher) {
+                        result = std::distance(m_values.cbegin(), itLower);
+                    } else if (deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher) {
                         minimumDeviation = deviationAtHigher;
                         result = std::distance(m_values.cbegin(), itHigher);
-                    }                }
+                    }
+                }
             }
         }
         return result;

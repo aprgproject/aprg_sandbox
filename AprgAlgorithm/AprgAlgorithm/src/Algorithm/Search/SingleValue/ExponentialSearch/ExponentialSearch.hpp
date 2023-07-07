@@ -33,10 +33,12 @@ public:
             lowIndex, std::min(exponentIndex, static_cast<int>(m_sortedValues.size()) - 1), target);
     }
 
-private:    Values const& m_sortedValues;
+private:
+    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // The name of this searching algorithm may be misleading as it works in O(Log n) time.
@@ -51,8 +53,10 @@ private:    Values const& m_sortedValues;
 // element must be present between i/2 and i (Why i/2? because we could not find a greater target in previous iteration)
 
 // Time Complexity : O(Log n)
-// Auxiliary Space : The above implementation of Binary Search is recursive and requires O(Log n) space.// With iterative Binary Search, we need only O(1) space.
+// Auxiliary Space : The above implementation of Binary Search is recursive and requires O(Log n) space.
+// With iterative Binary Search, we need only O(1) space.
 // Applications of Exponential Search:
 // -> Exponential Binary Search is particularly useful for unbounded searches, where size of array is infinite.
-// Please refer Unbounded Binary Search for an example.// -> It works better than Binary Search for bounded arrays, and also when the element to be searched is closer to the
+// Please refer Unbounded Binary Search for an example.
+// -> It works better than Binary Search for bounded arrays, and also when the element to be searched is closer to the
 // first element.

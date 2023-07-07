@@ -67,9 +67,11 @@ public:
             traverseUsingDfs(startVertex);
         }
     }
+
 private:
     using BaseClass::clear;
     using BaseClass::initializeWithStartVertices;
+
     void traverseUsingDfs(Vertex const& vertex) {
         b_processedVertices.putVertex(vertex);
         for (Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex)) {
