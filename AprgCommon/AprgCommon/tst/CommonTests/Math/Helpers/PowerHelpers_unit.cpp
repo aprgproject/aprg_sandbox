@@ -90,15 +90,13 @@ TEST(PowerHelpersTest, GetRaiseToPowerBasedOnTypeWorks) {
     EXPECT_TRUE(isnan(getRaiseToPowerBasedOnType(-2.1, -1.1)));
 }
 
-TEST(PowerHelpersTest, GetNthRootWorks) {
+TEST(PowerHelpersTest, GetNthRootWithGuessAndNumberOfIterationsWorks) {
     EXPECT_EQ(1, getNthRoot(0, 1, 1, 0));
     EXPECT_EQ(0, getNthRoot(0, 1, 1, 1));
-    EXPECT_EQ(1, getNthRoot(36, 2, 1, 0));
-    EXPECT_EQ(18, getNthRoot(36, 2, 1, 1));
+    EXPECT_EQ(1, getNthRoot(36, 2, 1, 0));    EXPECT_EQ(18, getNthRoot(36, 2, 1, 1));
     EXPECT_EQ(10, getNthRoot(36, 2, 1, 2));
     EXPECT_EQ(6, getNthRoot(36, 2, 1, 3));
     EXPECT_EQ(6, getNthRoot(36, 2, 1, 4));
-
     EXPECT_DOUBLE_EQ(1.0, getNthRoot(0.0, 1.0, 1.0, 0));
     EXPECT_DOUBLE_EQ(0.0, getNthRoot(0.0, 1.0, 1.0, 1));
     EXPECT_DOUBLE_EQ(18.5, getNthRoot(36.0, 2.0, 1.0, 1));
@@ -108,14 +106,56 @@ TEST(PowerHelpersTest, GetNthRootWorks) {
     EXPECT_DOUBLE_EQ(6.0002529841194185, getNthRoot(36.0, 2.0, 1.0, 5));
 }
 
+TEST(PowerHelpersTest, GetNthRootWorks) {
+    EXPECT_EQ(6, getNthRoot(6, 1));
+    EXPECT_EQ(6, getNthRoot(36, 2));
+    EXPECT_EQ(6, getNthRoot(216, 3));
+    EXPECT_EQ(6, getNthRoot(40, 2));
+    EXPECT_EQ(6, getNthRoot(220, 3));
+
+    EXPECT_DOUBLE_EQ(0.0, getNthRoot(0.0, 1.0));
+    EXPECT_DOUBLE_EQ(1.0, getNthRoot(1.0, 1.0));
+    EXPECT_DOUBLE_EQ(6, getNthRoot(36.0, 2.0));
+}
+
+TEST(PowerHelpersTest, GetSquareRootUsingNewtonMethodWorks) {
+    EXPECT_EQ(1, getSquareRootUsingNewtonMethod(0, 1, 0));
+    EXPECT_EQ(0, getSquareRootUsingNewtonMethod(0, 1, 1));
+    EXPECT_EQ(1, getSquareRootUsingNewtonMethod(36, 1, 0));
+    EXPECT_EQ(18, getSquareRootUsingNewtonMethod(36, 1, 1));
+    EXPECT_EQ(10, getSquareRootUsingNewtonMethod(36, 1, 2));
+    EXPECT_EQ(6, getSquareRootUsingNewtonMethod(36, 1, 3));
+    EXPECT_EQ(6, getSquareRootUsingNewtonMethod(36, 1, 4));
+
+    EXPECT_DOUBLE_EQ(1.0, getSquareRootUsingNewtonMethod(0.0, 1.0, 0));
+    EXPECT_DOUBLE_EQ(0.5, getSquareRootUsingNewtonMethod(0.0, 1.0, 1));
+    EXPECT_DOUBLE_EQ(18.5, getSquareRootUsingNewtonMethod(36.0, 1.0, 1));
+    EXPECT_DOUBLE_EQ(10.222972972972974, getSquareRootUsingNewtonMethod(36.0, 1.0, 2));
+    EXPECT_DOUBLE_EQ(6.8722267376431292, getSquareRootUsingNewtonMethod(36.0, 1.0, 3));
+    EXPECT_DOUBLE_EQ(6.0553517448494789, getSquareRootUsingNewtonMethod(36.0, 1.0, 4));
+    EXPECT_DOUBLE_EQ(6.0002529841194185, getSquareRootUsingNewtonMethod(36.0, 1.0, 5));
+}
+
+TEST(PowerHelpersTest, GetSquareRootUsingBinarySearchWorks) {
+    EXPECT_EQ(0, getSquareRootUsingBinarySearch(0));
+    EXPECT_EQ(1, getSquareRootUsingBinarySearch(1));
+    EXPECT_EQ(1, getSquareRootUsingBinarySearch(2));
+    EXPECT_EQ(1, getSquareRootUsingBinarySearch(3));
+    EXPECT_EQ(6, getSquareRootUsingBinarySearch(36));
+    EXPECT_EQ(5, getSquareRootUsingBinarySearch(34));
+    EXPECT_EQ(5, getSquareRootUsingBinarySearch(35));
+    EXPECT_EQ(6, getSquareRootUsingBinarySearch(37));
+    EXPECT_EQ(6, getSquareRootUsingBinarySearch(38));
+
+    // EXPECT_DOUBLE_EQ(0, getSquareRootUsingBinarySearch(0.0));  // static assert should happen
+}
+
 TEST(PowerHelpersTest, IsPerfectSquareForAlbaNumberWorks) {
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
-    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(4)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));
-    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));    EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
     EXPECT_FALSE(isPerfectSquare(AlbaNumber::createFraction(100, 37)));
 }
 

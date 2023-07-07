@@ -53,22 +53,20 @@ NumberType getRaiseToPowerForIntegers(NumberType const base, NumberType const ex
 
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
-    NumberType result(1), newBase(base), newExponent(exponent);
-    while (newExponent > 0) {
-        if (isEven(newExponent)) {
-            newBase *= newBase;
-            newExponent /= 2;
+    NumberType result(1), currentBase(base), remainingExponent(exponent);
+    while (remainingExponent > 0) {
+        if (isEven(remainingExponent)) {
+            currentBase *= currentBase;
+            remainingExponent /= 2;
         } else {
-            result *= newBase;
-            newExponent--;
+            result *= currentBase;
+            remainingExponent--;
         }
     }
-    return result;
-}
+    return result;}
 
 template <typename NumberType>
-inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent) {
-    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent) {    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     // this is slower (by not too much, check performance test)
 
@@ -94,17 +92,63 @@ NumberType getNthRoot(
     // https://en.wikipedia.org/wiki/Nth_root#Computing_principal_roots
     // This uses Newton method
 
-    NumberType result(initialGuess);
-    for (int i = 0; i < numberOfIterations; i++) {
+    NumberType current(initialGuess);
+    // set previous to an arbitiary value that is not equal to result
+    NumberType previous = current - 1;
+    for (int i = 0; i < numberOfIterations && !isAlmostEqual(previous, current); i++) {
         // xk+1 = (n-1)*xk/n + (A/n) * (1/(xk^(n−1)))
-        result = (rootDegree - 1) * result / rootDegree +
-                 radicand / rootDegree / getRaiseToPowerBasedOnType(result, rootDegree - 1);
+        previous = current;
+        current = (rootDegree - 1) * current / rootDegree +
+                  radicand / rootDegree / getRaiseToPowerBasedOnType(current, rootDegree - 1);
     }
-    return result;
+    return current;
 }
 
-bool isPerfectSquare(AlbaNumber const& value);                            // pass as const reference
-bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
+template <typename NumberType>
+NumberType getNthRoot(NumberType const radicand, NumberType const rootDegree) {
+    return getNthRoot(radicand, rootDegree, static_cast<NumberType>(1), std::numeric_limits<int>::max());
+}
+
+template <typename NumberType>
+NumberType getSquareRootUsingNewtonMethod(
+    NumberType const radicand, NumberType const initialGuess, int const numberOfIterations) {
+    NumberType current(initialGuess);
+    // set previous to an arbitiary value that is not equal to result
+    NumberType previous = current - 1;
+    for (int i = 0; i < numberOfIterations && !isAlmostEqual(previous, current); i++) {
+        // xk+1 = (xk + radicand/xk)/2
+        previous = current;
+        current = (current + radicand / current) / 2;
+    }
+    return current;
+}
+
+template <typename NumberType>
+NumberType getSquareRootUsingBinarySearch(NumberType const radicand) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
+    NumberType low(0), high(radicand);
+    while (low < high) {
+        NumberType mid = low + (high - low) / 2;
+        if (mid * mid <= radicand) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return (low * low > radicand) ? low - 1 : low;
+
+    // Some end cases analysis:
+    // -> If range is one element[a], loop ends, we get check value
+    // -> If range is two elements[a,b]:
+    // ---> middleSquared < target -> low moves to right, only b retains (target might be to the left)
+    // ---> middleSquared == target -> low moves to right, only b retains (target might be to the left)
+    // ---> target < middleSquared -> high moves to left, only a retains
+    // -> If range is three elements, this reduces to one element
+    // -> If range is four elements, this reduces to one element or two elements
+}
+
+bool isPerfectSquare(AlbaNumber const& value);                            // pass as const referencebool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
 
 }  // namespace alba::mathHelper
