@@ -35,8 +35,8 @@ private:
     SuffixArray<DataType> m_suffixArray;
 };
 
-// Applications: Linguistics, databases, web search, word processing
-
 }  // namespace algorithm
 
 }  // namespace alba
+
+// Applications: Linguistics, databases, web search, word processing

@@ -70,16 +70,18 @@ private:
 };
 
 template <>
-int BruteForceSubstringSearch<1>::searchWithLoops(
-    std::string const& mainString, std::string const& substringToMatch) {
+int BruteForceSubstringSearch<1>::searchWithLoops(std::string const& mainString, std::string const& substringToMatch) {
     return searchUsingOneLoop(mainString, substringToMatch);
 }
 
 template <>
-int BruteForceSubstringSearch<2>::searchWithLoops(
-    std::string const& mainString, std::string const& substringToMatch) {
+int BruteForceSubstringSearch<2>::searchWithLoops(std::string const& mainString, std::string const& substringToMatch) {
     return searchUsingTwoLoops(mainString, substringToMatch);
 }
+
+}  // namespace algorithm
+
+}  // namespace alba
 
 // Brute-force substring search: worst case
 // -> Brute force algorithm can be slow if test and pattern are repetitive.
@@ -94,7 +96,3 @@ int BruteForceSubstringSearch<2>::searchWithLoops(
 // Brute force is not always good enough:
 // -> Theoretical challenge: Linear time guarantee.
 // -> Avoid backup in the text stream.
-
-}  // namespace algorithm
-
-}  // namespace alba

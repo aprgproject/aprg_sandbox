@@ -27,8 +27,7 @@ public:
         if (m_substringLength > 0 && m_substringLength <= static_cast<Index>(mainString.length())) {
             HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, mainString);
             for (Index offset = 0; offset + m_substringLength <= static_cast<Index>(mainString.length()); offset++) {
-                if (m_substringHash ==
-                    hashFunction.getHashCodeOfSubstring(offset, offset + m_substringLength - 1)) {
+                if (m_substringHash == hashFunction.getHashCodeOfSubstring(offset, offset + m_substringLength - 1)) {
                     result = offset;  // Monte carlo approach (no double check)
                     break;
                 }

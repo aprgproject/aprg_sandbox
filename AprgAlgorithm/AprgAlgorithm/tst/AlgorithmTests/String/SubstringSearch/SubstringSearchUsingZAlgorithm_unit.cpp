@@ -1,4 +1,4 @@
-#include <Algorithm/String/SubstringSearch/SubstringSearchUsingZArray.hpp>
+#include <Algorithm/String/SubstringSearch/SubstringSearchUsingZAlgorithm.hpp>
 #include <AlgorithmTests/String/SubstringSearch/Utilities/CommonTestsWithSubstringSearch.hpp>
 
 #include <gtest/gtest.h>
@@ -12,12 +12,12 @@ namespace algorithm {
 
 namespace {
 using Index = int;
-using SubstringSearchForTest = SubstringSearchUsingZArray<Index, '#'>;
+using SubstringSearchForTest = SubstringSearchUsingZAlgorithm<Index, '#'>;
 using Indexes = SubstringSearchForTest::Indexes;
 }  // namespace
 
-TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
-    // SubstringSearchUsingZArray has unique results of handling empty strings
+TEST(SubstringSearchUsingZAlgorithmTest, SearchWorksUsingEmptyStringsAndDoesNotCrash) {
+    // SubstringSearchUsingZAlgorithm has unique results of handling empty strings
 
     string emptyString;
     string nonEmptyString("NonEmptyString");
@@ -30,22 +30,22 @@ TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingEmptyStringsAndDoesNotCrash
     EXPECT_EQ(Index(0), nonEmptyStringSearch.search(nonEmptyString));
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingExample1) {
+TEST(SubstringSearchUsingZAlgorithmTest, SearchWorksUsingExample1) {
     testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchWorksUsingExample2) {
+TEST(SubstringSearchUsingZAlgorithmTest, SearchWorksUsingExample2) {
     testSearchUsingExample2<SubstringSearchForTest, Index>();
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchForFirstSubstringWorksUsingExample1) {
+TEST(SubstringSearchUsingZAlgorithmTest, SearchForFirstSubstringWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");
 
     EXPECT_EQ(Index(1), substringSearch.searchForFirstSubstring(mainString));
 }
 
-TEST(SubstringSearchUsingZArrayTest, SearchForAllSubstringsWorksUsingExample1) {
+TEST(SubstringSearchUsingZAlgorithmTest, SearchForAllSubstringsWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
     string mainString("HATTIVATTI");
 

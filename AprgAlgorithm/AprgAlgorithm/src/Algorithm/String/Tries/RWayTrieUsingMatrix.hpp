@@ -343,6 +343,10 @@ private:
     NodePointerMatrix m_nodePointerMatrix;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // A trie is a rooted tree that maintains a set of strings.
 // Each string in the set is stored as a chain of characters that starts at the root.
 // If two strings have a common prefix, they also have a common chain in the tree.
@@ -358,7 +362,3 @@ private:
 // The nodes of a trie are numbered 0,1,2,... so that the number of the root is 0,
 // and trie[s][c] is the next node in the chain when we move from node s using character c.
 // Note in the implementation above coordinates are reversed.
-
-}  // namespace algorithm
-
-}  // namespace alba

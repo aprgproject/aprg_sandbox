@@ -74,6 +74,10 @@ private:
     HashValue m_substringHash;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Invented by two Turing award winners Michael Rabin (Turing Award '76) and Dick Karp (Turing Award '85).
 // Explained to Sedgewick in 15 seconds -> realized needs to be on the book.
 
@@ -123,7 +127,3 @@ private:
 // -> Poor worst case guarantee
 
 // How would you extend Rabin-Karp to efficiently search for any one of P possible patterns in text of length N?
-
-}  // namespace algorithm
-
-}  // namespace alba

@@ -54,8 +54,8 @@ private:
     stringHelper::strings m_suffixes;
 };
 
-// Check Manber-Myers MSD is really efficient
-
 }  // namespace algorithm
 
 }  // namespace alba
+
+// Check Manber-Myers MSD is really efficient

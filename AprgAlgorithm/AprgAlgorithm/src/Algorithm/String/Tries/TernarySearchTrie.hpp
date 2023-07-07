@@ -251,6 +251,10 @@ private:
     NodeUniquePointer m_root;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Ternary search tries
 // -> Store characters and values in nodes (not keys)
 // -> Each node has 3 children: smaller (left), equal (middle), larger (right)
@@ -267,7 +271,3 @@ private:
 // ---> If equal, take the middle link and move to the next key character.
 // -> Search hit. Node where search ends has a non-null value.
 // -> Search miss. Reach a null link or node where search ends has null value.
-
-}  // namespace algorithm
-
-}  // namespace alba

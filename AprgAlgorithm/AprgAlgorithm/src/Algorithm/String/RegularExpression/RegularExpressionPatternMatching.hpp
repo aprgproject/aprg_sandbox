@@ -114,6 +114,10 @@ private:
     DirectedGraphWithListOfEdges<Index> m_nullTransitionsGraph;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Pattern matching
 // -> Substring search. Find a single string in text.
 // -> Pattern matching. Find one of a specified set of string in text.
@@ -349,7 +353,3 @@ private:
 // ---> Build interrmediate abstractions
 // ---> Pick the right ones!
 // ---> Solve important practical problems
-
-}  // namespace algorithm
-
-}  // namespace alba

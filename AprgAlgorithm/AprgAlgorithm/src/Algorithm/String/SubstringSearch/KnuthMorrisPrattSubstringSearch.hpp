@@ -16,11 +16,8 @@ public:
     static constexpr RadixType RADIX = 256;
 
     KnuthMorrisPrattSubstringSearch(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch),
-          m_nextIndexDfa(
-              substringToMatch.length(),
-              RADIX)  // x coordinate is character and y coordinate is the next state (which is index)
-    {
+        : m_substringToMatch(substringToMatch), m_nextIndexDfa(substringToMatch.length(), RADIX) {
+        // In m_nextIndexDfa, x coordinate is character and y coordinate is the next state (which is index)
         initialize();
     }
 
@@ -45,8 +42,8 @@ private:
             // put initial transition of: from first index go to second index (if character is encountered)
             m_nextIndexDfa.setStateTransition(0, 1, m_substringToMatch[0]);
             Index substringLength(m_substringToMatch.size());
-            Index stateWithDelayedInput(0);  // this state tracks if input is one tempo delayed
-            // stateWithDelayedInput is useful because if there is a mismatch, we could track where that state would go
+            Index delayedState(0);  // this state tracks if input is one tempo delayed
+            // The delayedState is useful because if there is a mismatch, we could track where that state would go
             // (as it already have previous matches)
             // -> Mismatch transition is tricky:
             // ---> If in state j and next char c != pattern.charAt(j), then the last j-1 of input are pattern[1 ...
@@ -55,17 +52,16 @@ private:
 
             for (Index i = 1; i < substringLength; i++) {
                 for (RadixType c = 0; c < RADIX; c++) {
-                    Index mismatchState(m_nextIndexDfa.getNextState(
-                        stateWithDelayedInput,
-                        c));  // assign mismatch state as the "stateWithDelayedInput with inputed c"
-                    m_nextIndexDfa.setStateTransition(
-                        i, mismatchState, c);  // put transition: if there is a mismatch go back to
-                                               // "stateWithDelayedInput with inputed c" (mismatch state)
+                    // assign mismatch state as the "delayedState with inputed c"
+                    Index mismatchState(m_nextIndexDfa.getNextState(delayedState, c));
+                    // put transition: if there is a mismatch go back to
+                    // "delayedState with inputed c" (mismatch state)
+                    m_nextIndexDfa.setStateTransition(i, mismatchState, c);
                 }
-                m_nextIndexDfa.setStateTransition(
-                    i, i + 1, m_substringToMatch[i]);  // put transition (overwrite): if match go to the next state
-                stateWithDelayedInput = m_nextIndexDfa.getNextState(
-                    stateWithDelayedInput, m_substringToMatch[i]);  // update state (one tempo delayed)
+                // put transition (overwrite): if match go to the next state
+                m_nextIndexDfa.setStateTransition(i, i + 1, m_substringToMatch[i]);
+                // update delayed state (one tempo delayed)
+                delayedState = m_nextIndexDfa.getNextState(delayedState, m_substringToMatch[i]);
             }
         }
     }
@@ -73,6 +69,10 @@ private:
     std::string m_substringToMatch;
     Dfa m_nextIndexDfa;
 };
+
+}  // namespace algorithm
+
+}  // namespace alba
 
 // Sedgewick: This is one of the coolest algorithm.
 
@@ -104,12 +104,11 @@ private:
 // by c
 // ---> To compute dfa[c][j]: Simulate pattern[1 ... j-1] on DFA and take transition c.
 // -> Running time: Construction of DFA: seems to require j steps. No! It would only take constant time if we maintain
-// state X (stateWithDelayedInput).
+// state X (delayedState).
 // -> Final running time: M character access (but space/time proportional to R M)
 
 // Proposition:
-// -> KMP substring search accesses no more than M+N characters to search for a pattern of length M in a test of length
-// N.
+// -> KMP search accesses no more than M+N characters to search for a pattern of length M in a test of length N.
 // -> Proof: Each pattern char accessed once when constructin the DFA each text char accessed once (in the worst case),
 // when simulating the DFA.
 
@@ -124,6 +123,9 @@ private:
 // ---> Pratt: made running time independent of alphabet size
 // ---> Morris: built a text editor for the CDC 6400 computer (typewriters were used stil)
 
-}  // namespace algorithm
-
-}  // namespace alba
+// Other Discussions:
+// The KMP matching algorithm uses degenerating property (pattern having same sub-patterns appearing more than once in
+// the pattern) of the pattern and improves the worst case complexity to O(n).
+// The basic idea behind KMP’s algorithm is: whenever we detect a mismatch (after some matches),
+// we already know some of the characters in the text of the next window.
+// We take advantage of this information to avoid matching the characters that we know will anyway match

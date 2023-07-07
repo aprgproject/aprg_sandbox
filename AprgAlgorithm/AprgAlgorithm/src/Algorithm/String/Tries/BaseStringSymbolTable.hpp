@@ -31,6 +31,10 @@ public:
     virtual Keys getAllKeysThatMatch(Key const& patternToMatch) const = 0;  // all the keys having s as a prefix
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Can we do better than generic symbol tables?
 // Yes, if we can avoid examining the entrie key, as with string sorting.
 // So create a specialized string symbol table
@@ -40,7 +44,3 @@ public:
 // -> Prefix match
 // -> Wildcard match
 // -> Longest prefix
-
-}  // namespace algorithm
-
-}  // namespace alba

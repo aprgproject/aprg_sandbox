@@ -30,18 +30,20 @@ public:
         int skipValue(0);
         for (Index searchIndex = 0; searchIndex + substringLength <= mainLength; searchIndex += skipValue) {
             skipValue = 0;
-            for (Index matchStartIndex = 0; matchStartIndex < substringLength; matchStartIndex++) {
-                Index matchEndIndex(substringLength - 1 - matchStartIndex);
+            for (Index rightMostMismatch = substringLength - 1; rightMostMismatch >= 0; --rightMostMismatch) {
                 // if mismatch
-                if (m_substringToMatch[matchEndIndex] != mainString[searchIndex + matchEndIndex]) {
-                    Index letterIndex(m_rightMostLetterIndex[mainString[searchIndex + matchEndIndex]]);
-                    // (Case 1) happens if positionOfLetter is -1
-                    // there should be at least 1 difference to maintain forward progress
-                    if (letterIndex + 1 < static_cast<Index>(matchEndIndex)) {
-                        // (Case 2a) align letter position for skip value
-                        skipValue = matchEndIndex - letterIndex;
+                if (m_substringToMatch[rightMostMismatch] != mainString[searchIndex + rightMostMismatch]) {
+                    Index letterIndex(m_rightMostLetterIndex[mainString[searchIndex + rightMostMismatch]]);
+                    if (letterIndex + 1 < static_cast<Index>(rightMostMismatch)) {
+                        // (Case 1: "Mismatch character is not in pattern")
+                        // This happens if letterIndex is -1.
+                        // -> In this case, use the skip value to move past the mismatch character
+                        // (Case 2a: "Mismatch character is in the pattern")
+                        // -> In this case, use the skip value to align what was previously mismatched
+                        skipValue = rightMostMismatch - letterIndex;
                     } else {
-                        // (Case 2b) guarantee forward progress
+                        // (Case 2b: "Mismatch character is in the pattern (but heuristic no help)")
+                        // ->  In this case, The skip value should just be one to maintain forward progress
                         skipValue = 1;
                     }
                     break;
@@ -58,7 +60,7 @@ public:
 
 private:
     void initialize() {
-        for (RadixType i = 0; i < RADIX; i++) {
+        for (RadixType i = 0; i < RADIX; ++i) {
             m_rightMostLetterIndex[i] = INVALID_POSITION;  // assign negative one for case 1
         }
         Index substringIndex = 0;
@@ -72,33 +74,37 @@ private:
     SkipTable m_rightMostLetterIndex;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Intuition:
 // -> Scan characters in pattern from right to left
 // -> Can skip as many as M text chars when finding one not in the pattern
 
 // How much to skip?
-// Case 1: Mismatch character not in pattern
-// -> increment starting index with one character beyond the mismatch
+// Case 1: Mismatch character not in the pattern
+// -> increment starting index with one character beyond the mismatch (move past the mismatch)
 // ---> Before:
 // .......TLE.......
 // ....NEEDLE.......
-// ---> After:
+// ---> After (move past the T in the mainstring):
 // .......TLE.......
 // ........NEEDLE...
-// Case 2a: Mismatch character in pattern
+// Case 2a: Mismatch character is in the pattern
 // -> align text character with right most pattern character
 // ---> Before:
 // .......NLE.......
 // ....NEEDLE.......
-// ---> After:
+// ---> After (N is aligned in the substring and mainstring):
 // .......NLE.......
 // .......NEEDLE....
-// Case 2b: Mismatch character in pattern (but heuristic no help)
+// Case 2b: Mismatch character is in the pattern (but heuristic no help)
 // -> increment staring index by 1 (to guarantee forward progress)
 // ---> Before:
 // .......ELE.......
 // ....NEEDLE.......
-// ---> After:
+// ---> After (just add one to guarantee forward progress):
 // .......ELE.......
 // .....NEEDLE......
 
@@ -114,6 +120,11 @@ private:
 // Improvement:
 // -> Boyer-Moore variant: Can improve worst case to ~3N by adding a KMP-like rule to guard against repetitive patterns.
 
-}  // namespace algorithm
-
-}  // namespace alba
+// Other Discussions:
+// Bad Character Heuristic
+// -> The idea of bad character heuristic is simple (like the algorithm above).
+// -> The character of the text which doesn’t match with the current character of the pattern is called the Bad
+// Character.
+// -> Upon mismatch, we shift the pattern until:
+// ---> The mismatch becomes a match
+// ---> Pattern P moves past the mismatched character.

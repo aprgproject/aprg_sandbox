@@ -203,6 +203,10 @@ private:
     NodeUniquePointer m_root;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Tries
 // -> From the word re[trie]val, but pronounced "try"
 // ---> For now, store character in nodes, (not keys)
@@ -252,7 +256,3 @@ private:
 // -> Find longest key in symbol table that is a prefix of query string.
 // ---> Search for query string
 // ---> Keep track of longest key encountered
-
-}  // namespace algorithm
-
-}  // namespace alba
