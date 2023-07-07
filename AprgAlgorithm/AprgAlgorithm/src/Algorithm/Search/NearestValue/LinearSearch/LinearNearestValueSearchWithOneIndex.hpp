@@ -26,34 +26,32 @@ public:
         setInitialIndexes(startIndex, endIndex);
     }
 
-    Value getNearestValue(Value const& valueToCheck) {
+    Value getNearestValue(Value const& target) {
         Value result{};
-        Index selectedIndex(getIndexOfNearestValue(valueToCheck));
+        Index selectedIndex(getIndexOfNearestValue(target));
         if (selectedIndex != INVALID_INDEX) {
             result = m_values[selectedIndex];
         }
         return result;
     }
 
-    Index getIndexOfNearestValue(Value const& valueToCheck) {
+    Index getIndexOfNearestValue(Value const& target) {
         Index result(INVALID_INDEX);
         if (!m_values.empty()) {
             Value minimumDeviation(std::numeric_limits<Value>::max());
             for (auto it = m_values.cbegin() + m_startIndex; it != m_values.cbegin() + m_endIndex; it++) {
                 Value value(*it);
-                if (value == valueToCheck) {
+                if (value == target) {
                     result = std::distance(m_values.cbegin(), it);
                     break;
                 } else {
-                    Value currentDeviation(mathHelper::getPositiveDelta(value, valueToCheck));
+                    Value currentDeviation(mathHelper::getPositiveDelta(value, target));
                     if (minimumDeviation > currentDeviation) {
                         minimumDeviation = currentDeviation;
-                        result = std::distance(m_values.cbegin(), it);
-                    }
+                        result = std::distance(m_values.cbegin(), it);                    }
                 }
             }
-        }
-        return result;
+        }        return result;
     }
 
 private:

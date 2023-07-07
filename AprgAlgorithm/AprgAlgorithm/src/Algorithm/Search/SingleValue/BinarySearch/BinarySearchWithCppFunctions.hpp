@@ -19,20 +19,18 @@ public:
 
     BinarySearchWithCppFunctions(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    Index getIndexOfValue(Value const& value) const {
+    Index getIndexOfValue(Value const& target) const {
         Index result(INVALID_INDEX);
         auto lowerBoundIt =
-            std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), value);  // assumption is non set
+            std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), target);  // assumption is non set
         if (lowerBoundIt != m_sortedValues.cend()) {
-            if (*lowerBoundIt == value) {
+            if (*lowerBoundIt == target) {
                 result = std::distance(m_sortedValues.cbegin(), lowerBoundIt);
             }
-        }
-        return result;
+        }        return result;
     }
 
-private:
-    Values const& m_sortedValues;
+private:    Values const& m_sortedValues;
 };
 
 }  // namespace algorithm
@@ -40,8 +38,8 @@ private:
 }  // namespace alba
 
 // The C++ standard library contains the following functions that are based on binary search and work in logarithmic
-// time: • lower_bound returns a pointer to the first array element whose value is at least x. • upper_bound returns a
-// pointer to the first array element whose value is larger than x. • equal_range returns both above pointers.
+// time: • lower_bound returns a pointer to the first array element whose target is at least x. • upper_bound returns a
+// pointer to the first array element whose target is larger than x. • equal_range returns both above pointers.
 
 // The functions assume that the array is sorted.
 // If there is no such element, the pointer points to the element after the last array element.

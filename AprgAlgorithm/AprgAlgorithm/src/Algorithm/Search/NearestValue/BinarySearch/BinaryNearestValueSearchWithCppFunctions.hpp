@@ -20,66 +20,64 @@ public:
 
     BinaryNearestValueSearchWithCppFunctions(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    Value getNearestValue(Value const& value) const {
+    Value getNearestValue(Value const& target) const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            result = getNearestValueUsingEqualRange(value);
+            result = getNearestValueUsingEqualRange(target);
         }
         return result;
     }
 
-    Index getIndexOfNearestValue(Value const& value) const {
+    Index getIndexOfNearestValue(Value const& target) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            result = getIndexOfNearestValueUsingEqualRange(value);
+            result = getIndexOfNearestValueUsingEqualRange(target);
         }
         return result;
     }
 
-    Value getLowerBound(Value const& value) const {
+    Value getLowerBound(Value const& target) const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            auto lowerBoundIt = std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), value);
+            auto lowerBoundIt = std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), target);
             result = *lowerBoundIt;
         }
         return result;
     }
 
-    Value getHigherBound(Value const& value) const {
+    Value getHigherBound(Value const& target) const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            auto upperBoundIt = std::upper_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), value);
+            auto upperBoundIt = std::upper_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), target);
             result = *upperBoundIt;
         }
         return result;
     }
 
 private:
-    Value getNearestValueUsingEqualRange(Value const& value) const {
+    Value getNearestValueUsingEqualRange(Value const& target) const {
         auto lowerAndUpperBoundItPair =
-            containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value);  // assumption is non set
+            containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, target);  // assumption is non set
         Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
         Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
+        Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(target, higherBoundValue));
         return (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
     }
 
-    Index getIndexOfNearestValueUsingEqualRange(Value const& value) const {
+    Index getIndexOfNearestValueUsingEqualRange(Value const& target) const {
         auto lowerAndUpperBoundItPair =
-            containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value);  // assumption is non set
+            containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, target);  // assumption is non set
         Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
         Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
+        Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(target, higherBoundValue));
         return (deviationFromLower <= deviationFromHigher)
                    ? std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.first)
-                   : std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.second);
-    }
+                   : std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.second);    }
 
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

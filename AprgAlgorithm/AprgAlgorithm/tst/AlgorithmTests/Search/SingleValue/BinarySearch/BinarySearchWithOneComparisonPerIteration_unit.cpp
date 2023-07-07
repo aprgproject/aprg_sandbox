@@ -35,15 +35,16 @@ TEST(
 
 TEST(
     BinarySearchWithOneComparisonPerIterationTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreDuplicateValues) {
-    testGetIndexOfValueWhenValueIsFoundWithDuplicatesWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    ValuesForTest sortedValues{13, 13, 14, 33, 33, 33, 53, 53, 53, 72, 72, 72, 72, 96, 96};
+    SearchForTest search(sortedValues);
+
+    EXPECT_EQ(5, search.getIndexOfValue(33));
 }
 
-TEST(
-    BinarySearchWithOneComparisonPerIterationTest,
+TEST(    BinarySearchWithOneComparisonPerIterationTest,
     GetIndexOfValueWorksWhenValueIsNotFoundAndWhenThereAreMultipleValues) {
     testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
-
 TEST(
     BinarySearchWithOneComparisonPerIterationTest,
     GetIndexOfValueWorksWhenValueIsLessThanTheLowestValueAndWhenThereAreMultipleValues) {

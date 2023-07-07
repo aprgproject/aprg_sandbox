@@ -15,39 +15,33 @@ public:
 
     BinarySearchWithSkip(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    Index getIndexOfValue(Value const& value) const {
+    Index getIndexOfValue(Value const& target) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            Index possibleIndex(getIndexUsingForwardSkip(value));
-            if (m_sortedValues[possibleIndex] == value) {
+            Index possibleIndex(getIndexUsingForwardSkip(target));
+            if (m_sortedValues[possibleIndex] == target) {
                 result = possibleIndex;
             }
-        }
-        return result;
+        }        return result;
     }
 
 private:
-    Index getIndexUsingForwardSkip(Value const& value) const {
+    Index getIndexUsingForwardSkip(Value const& target) const {
         Index result(0);
         Index size(m_sortedValues.size());
-        for (Index forwardSkip = size / 2; forwardSkip >= 1;
-             forwardSkip /=
-             2)  // forward skip start from half of size, then quarter of size, then eighth of size and so on
-        {
-            while (result + forwardSkip < size &&
-                   m_sortedValues[result + forwardSkip] <
-                       value)  // less than condition to avoid redundant traversal on equal values
-            {
+        // forward skip start from half of size, then quarter of size, then eighth of size and so on
+        for (Index forwardSkip = size / 2; forwardSkip >= 1; forwardSkip /= 2) {
+            result += forwardSkip;  // move to next position
+            while (result < size && m_sortedValues[result] < target) {
                 result += forwardSkip;
             }
+            result -= forwardSkip;  // return to valid position
         }
         result += (result + 1 < static_cast<Index>(m_sortedValues.size())) ? 1 : 0;  // move one for equal
-        return result;
-    }
+        return result;    }
 
     Values const& m_sortedValues;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

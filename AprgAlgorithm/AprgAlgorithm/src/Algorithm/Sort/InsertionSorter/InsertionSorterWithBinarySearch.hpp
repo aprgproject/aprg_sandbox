@@ -2,14 +2,11 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 #include <Algorithm/Utilities/IndexHelper.hpp>
-#include <Algorithm/Utilities/IndexHelper.hpp>
 
 #include <utility>
-
 namespace alba {
 
 namespace algorithm {
-
 template <typename Values>
 class InsertionSorterWithBinarySearch : public BaseSorter<Values> {
 public:
@@ -45,15 +42,12 @@ private:
             if (value < middleValue) {
                 result = middleIndex;
                 iHigh = middleIndex - 1;
-            } else  // (middleValue < value)
-            {
+            } else {  // (middleValue <= value)
                 iLow = middleIndex + 1;
             }
-        }
-        return result;
+        }        return result;
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

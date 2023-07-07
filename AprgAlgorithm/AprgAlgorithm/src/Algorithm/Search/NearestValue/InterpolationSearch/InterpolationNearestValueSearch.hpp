@@ -26,68 +26,63 @@ public:
         setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& value) {
+    Value getNearestValue(Value const& target) {
         Value result{};
         if (!m_sortedValues.empty()) {
-            moveIndexesUntilCloseToValue(value);
-            result = getNearestValueFromLowerAndHigherIndices(value);
+            moveIndexesUntilCloseToValue(target);
+            result = getNearestValueFromLowerAndHigherIndices(target);
         }
         return result;
     }
 
-    Index getIndexOfNearestValue(Value const& value) {
+    Index getIndexOfNearestValue(Value const& target) {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            moveIndexesUntilCloseToValue(value);
-            result = getIndexNearestValueFromLowerAndHigherIndices(value);
+            moveIndexesUntilCloseToValue(target);
+            result = getIndexNearestValueFromLowerAndHigherIndices(target);
         }
         return result;
     }
 
 private:
-    Index getInterpolatedIndexInBetween(Value const& value) const {
+    Index getInterpolatedIndexInBetween(Value const& target) const {
         Index result(INVALID_INDEX);
         if (m_lowIndex + 2 == m_highIndex) {
-            result = m_lowIndex + 1;
-        } else if (m_lowIndex + 2 < m_highIndex) {
+            result = m_lowIndex + 1;        } else if (m_lowIndex + 2 < m_highIndex) {
             Value lowerValue = getLowerValueWithoutCheck();
             Value higherValue = getHigherValueWithoutCheck();
             if (lowerValue == higherValue) {
                 result = getMidpointOfIndexes(m_lowIndex, m_highIndex);
             } else {
                 result = m_lowIndex + mathHelper::getIntegerAfterRoundingADoubleValue<Value>(
-                                            static_cast<double>(m_highIndex - m_lowIndex) * (value - lowerValue) /
+                                            static_cast<double>(m_highIndex - m_lowIndex) * (target - lowerValue) /
                                             (higherValue - lowerValue));
             }
-            result += (m_lowIndex == result) ? 1 : (m_highIndex == result) ? -1 : 0;
-        }
+            result += (m_lowIndex == result) ? 1 : (m_highIndex == result) ? -1 : 0;        }
         return result;
     }
-
     inline Value getLowerValueWithoutCheck() const { return m_sortedValues[m_lowIndex]; }
 
     inline Value getHigherValueWithoutCheck() const { return m_sortedValues[m_highIndex]; }
 
-    Value getNearestValueFromLowerAndHigherIndices(Value const& value) const {
+    Value getNearestValueFromLowerAndHigherIndices(Value const& target) const {
         Value lowerValue(getLowerValueWithoutCheck());
         Value higherValue(getHigherValueWithoutCheck());
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+        Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(target, higherValue));
         return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
     }
 
-    Index getIndexNearestValueFromLowerAndHigherIndices(Value const& value) const {
+    Index getIndexNearestValueFromLowerAndHigherIndices(Value const& target) const {
         Value lowerValue(getLowerValueWithoutCheck());
         Value higherValue(getHigherValueWithoutCheck());
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+        Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(target, higherValue));
         return (deviationFromLower <= deviationFromHigher) ? m_lowIndex : m_highIndex;
     }
-
     void setInitialIndexes() {
         if (!m_sortedValues.empty()) {
-            m_lowIndex = 0;
-            m_highIndex = m_sortedValues.size() - 1;  // fully closed interval
+            m_lowIndex = 0;            m_highIndex = m_sortedValues.size() - 1;  // fully closed interval
         }
     }
 
@@ -102,26 +97,24 @@ private:
         }
     }
 
-    void moveIndexesUntilCloseToValue(Value const& value) {
+    void moveIndexesUntilCloseToValue(Value const& target) {
         if (!m_sortedValues.empty()) {
             while (m_lowIndex + 1 < m_highIndex) {
-                Index interpolatedIndex(getInterpolatedIndexInBetween(value));
+                Index interpolatedIndex(getInterpolatedIndexInBetween(target));
                 Value valueAtInterpolatedIndex(m_sortedValues[interpolatedIndex]);
-                if (value == valueAtInterpolatedIndex) {
+                if (target == valueAtInterpolatedIndex) {
                     m_lowIndex = interpolatedIndex;
                     m_highIndex = interpolatedIndex;
                     break;
-                } else if (value > valueAtInterpolatedIndex) {
+                } else if (target > valueAtInterpolatedIndex) {
                     m_lowIndex = interpolatedIndex;
-                } else if (value < valueAtInterpolatedIndex) {
+                } else if (target < valueAtInterpolatedIndex) {
                     m_highIndex = interpolatedIndex;
                 }
-            }
-        }
+            }        }
     }
 
-    Index m_lowIndex;
-    Index m_highIndex;
+    Index m_lowIndex;    Index m_highIndex;
     Values const& m_sortedValues;
 };
 

@@ -16,54 +16,52 @@ public:
 
     BinaryNearestValueSearchWithSkip(Values const& sortedValues) : m_sortedValues(sortedValues) {}
 
-    Value getNearestValue(Value const& value) const {
+    Value getNearestValue(Value const& target) const {
         Value result{};
         if (!m_sortedValues.empty()) {
-            result = m_sortedValues[getIndexOfNearestValueWithoutCheck(value)];
+            result = m_sortedValues[getIndexOfNearestValueWithoutCheck(target)];
         }
         return result;
     }
 
-    Index getIndexOfNearestValue(Value const& value) const {
+    Index getIndexOfNearestValue(Value const& target) const {
         Index result(INVALID_INDEX);
         if (!m_sortedValues.empty()) {
-            result = getIndexOfNearestValueWithoutCheck(value);
+            result = getIndexOfNearestValueWithoutCheck(target);
         }
         return result;
     }
 
 private:
-    Index getIndexOfNearestValueWithoutCheck(Value const& value) const {
-        Index lowIndex(getNearestLowerBoundIndex(value));
-        return getIndexOfNearestValueFromLowerIndex(value, lowIndex);
+    Index getIndexOfNearestValueWithoutCheck(Value const& target) const {
+        Index lowIndex(getNearestLowerBoundIndex(target));
+        return getIndexOfNearestValueFromLowerIndex(target, lowIndex);
     }
 
-    Index getNearestLowerBoundIndex(Value const& value) const {
+    Index getNearestLowerBoundIndex(Value const& target) const {
         Index result(0);
         Index size(m_sortedValues.size());
-        for (Index forwardSkip = size / 2; forwardSkip >= 1;
-             forwardSkip /=
-             2)  // forward skip start from half of size, then quarter of size, then eighth of size and so on
-        {
-            while (result + forwardSkip < size && m_sortedValues[result + forwardSkip] <= value) {
+        // forward skip start from half of size, then quarter of size, then eighth of size and so on
+        for (Index forwardSkip = size / 2; forwardSkip >= 1; forwardSkip /= 2) {
+            result += forwardSkip;  // move to next position
+            while (result < size && m_sortedValues[result] <= target) {
                 result += forwardSkip;
             }
+            result -= forwardSkip;  // return to valid position
         }
         return result;
     }
 
-    Index getIndexOfNearestValueFromLowerIndex(Value const& value, Index const lowIndex) const {
+    Index getIndexOfNearestValueFromLowerIndex(Value const& target, Index const lowIndex) const {
         Value lowerBoundValue(m_sortedValues[lowIndex]);
         Value highIndex(getHigherIndex(lowIndex));
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues[highIndex]));
+        Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(target, m_sortedValues[highIndex]));
         return (deviationFromLower <= deviationFromHigher) ? lowIndex : highIndex;
     }
-
     Index getHigherIndex(Index const lowIndex) const {
         return std::min(lowIndex + 1, static_cast<Index>(m_sortedValues.size()) - 1);
     }
-
     Values const& m_sortedValues;
 };
 

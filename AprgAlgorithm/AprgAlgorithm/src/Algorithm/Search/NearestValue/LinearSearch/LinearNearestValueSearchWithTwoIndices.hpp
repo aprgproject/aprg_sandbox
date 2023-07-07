@@ -24,40 +24,37 @@ public:
         setInitialIndexes(lowIndex, highIndex);
     }
 
-    Value getNearestValue(Value const& valueToCheck) {
+    Value getNearestValue(Value const& target) {
         Value result{};
-        Index selectedIndex(getIndexOfNearestValue(valueToCheck));
+        Index selectedIndex(getIndexOfNearestValue(target));
         if (selectedIndex != INVALID_INDEX) {
             result = m_values[selectedIndex];
         }
         return result;
     }
 
-    Index getIndexOfNearestValue(Value const& valueToCheck) {
+    Index getIndexOfNearestValue(Value const& target) {
         Index result(INVALID_INDEX);
         if (!m_values.empty()) {
-            Value minimumDeviation(std::numeric_limits<Value>::max());
-            for (auto itLower = m_values.cbegin() + m_startIndex, itHigher = m_values.cbegin() + m_endIndex;
+            Value minimumDeviation(std::numeric_limits<Value>::max());            for (auto itLower = m_values.cbegin() + m_startIndex, itHigher = m_values.cbegin() + m_endIndex;
                  itLower <= itHigher; itLower++, itHigher--) {
                 Value valueAtLower = *itLower;
                 Value valueAtHigher = *itHigher;
-                if (valueAtLower == valueToCheck) {
+                if (valueAtLower == target) {
                     result = std::distance(m_values.cbegin(), itLower);
                     break;
-                } else if (valueAtHigher == valueToCheck) {
+                } else if (valueAtHigher == target) {
                     result = std::distance(m_values.cbegin(), itHigher);
                     break;
                 } else {
-                    Value deviationAtLower(mathHelper::getPositiveDelta(valueAtLower, valueToCheck));
-                    Value deviationAtHigher(mathHelper::getPositiveDelta(valueAtHigher, valueToCheck));
+                    Value deviationAtLower(mathHelper::getPositiveDelta(valueAtLower, target));
+                    Value deviationAtHigher(mathHelper::getPositiveDelta(valueAtHigher, target));
                     if (deviationAtLower <= deviationAtHigher && minimumDeviation > deviationAtLower) {
                         minimumDeviation = deviationAtLower;
-                        result = std::distance(m_values.cbegin(), itLower);
-                    } else if (deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher) {
+                        result = std::distance(m_values.cbegin(), itLower);                    } else if (deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher) {
                         minimumDeviation = deviationAtHigher;
                         result = std::distance(m_values.cbegin(), itHigher);
-                    }
-                }
+                    }                }
             }
         }
         return result;

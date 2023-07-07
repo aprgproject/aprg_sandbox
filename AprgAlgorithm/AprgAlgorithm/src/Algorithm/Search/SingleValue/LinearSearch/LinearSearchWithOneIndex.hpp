@@ -18,35 +18,33 @@ public:
     LinearSearchWithOneIndex(Values const& values)  // values can be unsorted
         : m_values(values) {}
 
-    Index getIndexOfValue(Value const& value) const {
+    Index getIndexOfValue(Value const& target) const {
         Index result(INVALID_INDEX);
         if (!m_values.empty()) {
-            result = getIndexOfValueWithoutCheck(0, m_values.size() - 1, value);
+            result = getIndexOfValueWithoutCheck(0, m_values.size() - 1, target);
         }
         return result;
     }
 
-    Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const {
+    Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& target) const {
         Index result(INVALID_INDEX);
         if (startIndex < static_cast<Index>(m_values.size()) && endIndex < static_cast<Index>(m_values.size()) &&
             startIndex <= endIndex) {
-            result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
+            result = getIndexOfValueWithoutCheck(startIndex, endIndex, target);
         }
         return result;
     }
 
 private:
-    Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& valueToCheck) const {
+    Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& target) const {
         Index result(INVALID_INDEX);
-        auto it = std::find(m_values.cbegin() + startIndex, m_values.cbegin() + endIndex + 1, valueToCheck);
+        auto it = std::find(m_values.cbegin() + startIndex, m_values.cbegin() + endIndex + 1, target);
         if (it != m_values.cbegin() + endIndex + 1) {
             result = std::distance(m_values.cbegin(), it);
-        }
-        return result;
+        }        return result;
     }
 
-    Values const& m_values;
-};
+    Values const& m_values;};
 
 }  // namespace algorithm
 

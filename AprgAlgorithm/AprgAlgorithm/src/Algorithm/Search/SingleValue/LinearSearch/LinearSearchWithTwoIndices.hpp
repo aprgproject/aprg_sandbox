@@ -18,41 +18,39 @@ public:
     LinearSearchWithTwoIndices(Values const& values)  // values can be unsorted
         : m_values(values) {}
 
-    Index getIndexOfValue(Value const& value) const {
+    Index getIndexOfValue(Value const& target) const {
         Index result(INVALID_INDEX);
         if (!m_values.empty()) {
-            result = getIndexOfValueWithoutCheck(0, m_values.size() - 1, value);
+            result = getIndexOfValueWithoutCheck(0, m_values.size() - 1, target);
         }
         return result;
     }
 
-    Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const {
+    Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& target) const {
         Index result(INVALID_INDEX);
         if (startIndex < static_cast<Index>(m_values.size()) && endIndex < static_cast<Index>(m_values.size()) &&
             startIndex <= endIndex) {
-            result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
+            result = getIndexOfValueWithoutCheck(startIndex, endIndex, target);
         }
         return result;
     }
 
 private:
-    Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& valueToCheck) const {
+    Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& target) const {
         Index result(INVALID_INDEX);
         for (auto itLower = m_values.cbegin() + startIndex, itHigher = m_values.cbegin() + endIndex;
              itLower <= itHigher; itLower++, itHigher--) {
             Value valueAtLower = *itLower;
             Value valueAtHigher = *itHigher;
-            if (valueAtLower == valueToCheck) {
+            if (valueAtLower == target) {
                 result = std::distance(m_values.cbegin(), itLower);
                 break;
-            } else if (valueAtHigher == valueToCheck) {
+            } else if (valueAtHigher == target) {
                 result = std::distance(m_values.cbegin(), itHigher);
                 break;
-            }
-        }
+            }        }
         return result;
     }
-
     Values const& m_values;
 };
 
