@@ -73,15 +73,13 @@ public:
             // Indexes here have plus one (for easier end loop conditions)
             Value delta = m_inverseAccumulator(newValue, m_values[index]);
             Index indexPlusOne(index + 1);
-            while (indexPlusOne <= static_cast<Index>(m_partialTreeSums.size()))  // update partial sums
-            {
+            while (indexPlusOne <= static_cast<Index>(m_partialTreeSums.size())) {
+                // update partial sums
                 m_partialTreeSums[indexPlusOne - 1] = m_accumulator(m_partialTreeSums[indexPlusOne - 1], delta);
                 indexPlusOne += getGreatestPowerOf2Factor(indexPlusOne);
-            }
-            m_values[index] = newValue;
+            }            m_values[index] = newValue;
         }
     }
-
 private:
     void initializePartialSums() {
         // This has N*log(N) running time

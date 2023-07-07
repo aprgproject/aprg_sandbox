@@ -23,24 +23,22 @@ public:
     PointPair getNearestPointPair() const {
         // sweep line algorithm
         PointPair result{};
-        UnitToSetOfUnitsMap xToSetOfYMap;
+        UnitToSetOfUnitsMap xToSetOfYs;
         Unit smallestDistance(std::numeric_limits<Unit>::max());
         for (Point const& point : m_setOfPoints) {
-            xToSetOfYMap[point.first].emplace(point.second);
+            xToSetOfYs[point.first].emplace(point.second);
 
-            // This delete is unnecessary i think(?).
-            auto itXToDelete = xToSetOfYMap.lower_bound(point.first - smallestDistance);
-            xToSetOfYMap.erase(xToSetOfYMap.begin(), itXToDelete);
+            // delete all points that are further than the current smallest distance
+            auto itXToDelete = xToSetOfYs.lower_bound(point.first - smallestDistance);
+            xToSetOfYs.erase(xToSetOfYs.begin(), itXToDelete);
 
-            for (auto const& xAndSetOfYPair : xToSetOfYMap) {
+            for (auto const& xAndSetOfYPair : xToSetOfYs) {
                 Unit const x(xAndSetOfYPair.first);
                 SetOfUnits const& ys(xAndSetOfYPair.second);
-                auto itYStart = ys.lower_bound(point.second - smallestDistance);
-                auto itYEnd = ys.upper_bound(point.second + smallestDistance);
+                auto itYStart = ys.lower_bound(point.second - smallestDistance);                auto itYEnd = ys.upper_bound(point.second + smallestDistance);
 
                 for (auto itY = itYStart; itY != itYEnd; itY++) {
-                    Point possibleNearPoint(x, *itY);
-                    if (point != possibleNearPoint) {
+                    Point possibleNearPoint(x, *itY);                    if (point != possibleNearPoint) {
                         Unit distance = getDistance(point, possibleNearPoint);
                         if (smallestDistance > distance) {
                             smallestDistance = distance;

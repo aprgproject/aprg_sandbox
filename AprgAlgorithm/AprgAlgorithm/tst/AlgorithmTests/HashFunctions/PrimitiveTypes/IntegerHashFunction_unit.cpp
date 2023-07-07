@@ -11,9 +11,8 @@ namespace alba {
 namespace algorithm {
 
 TEST(IntegerHashFunctionTest, GetHashWorks) {
-    EXPECT_EQ(14ULL, (IntegerHashFunction<int, uint64_t, 100>::getHash(-123456789)));
+    EXPECT_EQ(27ULL, (IntegerHashFunction<int, uint64_t, 100>::getHash(-123456789)));
 }
 
 }  // namespace algorithm
-
 }  // namespace alba

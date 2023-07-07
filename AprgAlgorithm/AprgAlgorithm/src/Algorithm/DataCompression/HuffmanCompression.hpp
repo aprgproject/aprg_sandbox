@@ -180,40 +180,37 @@ private:
         // This is quite different from the original huffman algorithm
         // Here, frequency is not placed on the trie because its not really needed after building the trie.
         std::priority_queue<CharacterFrequency, std::deque<CharacterFrequency>, std::greater<CharacterFrequency>>
-            frequenciesInMinimumOrder;  // min priority queue
+            frequenciesInMinimumOrder;
         std::array<TrieNodeUniquePointer, RADIX> characterNode{};
         for (Count c = 0; c < RADIX; c++) {
             if (frequency[c] > 0) {
-                frequenciesInMinimumOrder.emplace(
-                    static_cast<char>(c), frequency[c],
-                    false);  // This PQ is used to prioritize low frequency characters first
-                characterNode[c] = std::make_unique<TrieNode>(
-                    static_cast<char>(c), nullptr, nullptr);  // These character nodes are used to build trie later on
+                // This PQ is used to prioritize low frequency characters first
+                frequenciesInMinimumOrder.emplace(static_cast<char>(c), frequency[c], false);
+                // These character nodes are used to build trie later on
+                characterNode[c] = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr);
             }
         }
 
-        while (frequenciesInMinimumOrder.size() >
-               1)  // Needs to be 2 or higher because we are popping 2 items per iteration
-        {
+        // Needs to be 2 or higher because we are popping 2 items per iteration
+        while (frequenciesInMinimumOrder.size() > 1) {
             // process the frequencies (minimum first) and build the trie by combining two nodes with lowest frequencies
             CharacterFrequency first(frequenciesInMinimumOrder.top());
             frequenciesInMinimumOrder.pop();
             CharacterFrequency second(frequenciesInMinimumOrder.top());
             frequenciesInMinimumOrder.pop();
-            frequenciesInMinimumOrder.emplace(
-                first.character, first.frequency + second.frequency, true);  // use first character to keep track
+            // use first character to keep track
+            frequenciesInMinimumOrder.emplace(first.character, first.frequency + second.frequency, true);
             TrieNodeUniquePointer firstNode(std::move(characterNode[first.character]));
             TrieNodeUniquePointer secondNode(std::move(characterNode[second.character]));
-            characterNode[first.character] = std::make_unique<TrieNode>(
-                '\0', std::move(firstNode), std::move(secondNode));  // only leafs have characters
+            // only leafs have characters
+            characterNode[first.character] =
+                std::make_unique<TrieNode>('\0', std::move(firstNode), std::move(secondNode));
         }
         CharacterFrequency last(frequenciesInMinimumOrder.top());
-        return std::move(characterNode[last.character]);
-    }
+        return std::move(characterNode[last.character]);    }
 
     HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root) {
-        HuffmanCodeTable result{};
-        buildHuffmanCodeTableFromTrie(result, root, {});
+        HuffmanCodeTable result{};        buildHuffmanCodeTableFromTrie(result, root, {});
         return result;
     }
 

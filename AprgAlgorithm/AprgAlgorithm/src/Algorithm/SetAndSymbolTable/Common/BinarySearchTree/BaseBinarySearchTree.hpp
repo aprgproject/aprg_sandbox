@@ -226,20 +226,20 @@ protected:
         if (nodePointer) {
             Key const& currentKey(nodePointer->key);
             if (key < currentKey) {
-                result = getRankStartingOnThisNode(nodePointer->left, key);  // recursively check rank on the right side
+                // recursively check rank on the right side
+                result = getRankStartingOnThisNode(nodePointer->left, key);
             } else if (key > currentKey) {
                 // get size of left, add one node for this node, and add the rank on the right side
                 result = 1 + getSizeOnThisNode(nodePointer->left) + getRankStartingOnThisNode(nodePointer->right, key);
             } else {
-                result = getSizeOnThisNode(nodePointer->left);  // if equal, just get size of the subtree
+                // if equal, just get size of the subtree
+                result = getSizeOnThisNode(nodePointer->left);
             }
         }
-        return result;
-    }
+        return result;    }
 
     NodeUniquePointer& getMinimumNodePointerReferenceStartingOnThisNode(NodeUniquePointer& nodePointer) {
-        // specialized function to be able to get the minimum and change(delete) it
-        // used in deletion (hibbard approach)
+        // specialized function to be able to get the minimum and change(delete) it        // used in deletion (hibbard approach)
         if (nodePointer) {
             if (nodePointer->left) {
                 return getMinimumNodePointerReferenceStartingOnThisNode(

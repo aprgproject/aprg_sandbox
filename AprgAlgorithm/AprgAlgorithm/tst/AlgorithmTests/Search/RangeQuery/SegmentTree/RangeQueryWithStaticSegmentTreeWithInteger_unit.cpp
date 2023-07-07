@@ -22,14 +22,13 @@ RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, Val
 };
 
 RangeQueryForTest::Function plusFunction = plus<>();
+RangeQueryForTest::Function minusFunction = minus<>();
 }  // namespace
 
-TEST(RangeQueryWithStaticSegmentTreeTest, GetStartOfChildrenWithMinimumWorksOnExample1) {
-    ValuesForTest values{5, 9, 4, 8, 6, 1, 4, 2, 0};
+TEST(RangeQueryWithStaticSegmentTreeTest, GetStartOfChildrenWithMinimumWorksOnExample1) {    ValuesForTest values{5, 9, 4, 8, 6, 1, 4, 2, 0};
     RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
-    EXPECT_EQ(15, minimumRangeQuery.getStartOfChildren());
-}
+    EXPECT_EQ(15, minimumRangeQuery.getStartOfChildren());}
 
 TEST(RangeQueryWithStaticSegmentTreeTest, GetTreeValuesWithMinimumWorksOnExample1) {
     ValuesForTest values{5, 9, 4, 8, 6, 1, 4, 2, 0};
@@ -196,6 +195,49 @@ TEST(RangeQueryWithStaticSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExampl
     EXPECT_EQ(14, sumRangeQuery.getValueOnInterval(2, 5));
     EXPECT_EQ(9, sumRangeQuery.getValueOnInterval(3, 4));
     EXPECT_EQ(6, sumRangeQuery.getValueOnInterval(4, 4));
+}
+
+TEST(RangeQueryWithStaticSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample2) {
+    ValuesForTest values{1, 0, 0, 1, 1, 0, 1};
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
+
+    sumRangeQuery.changeValueAtIndex(6, 0);
+
+    EXPECT_EQ(1, sumRangeQuery.getValueOnInterval(0, 0));
+    EXPECT_EQ(1, sumRangeQuery.getValueOnInterval(0, 1));
+    EXPECT_EQ(1, sumRangeQuery.getValueOnInterval(0, 2));
+    EXPECT_EQ(2, sumRangeQuery.getValueOnInterval(0, 3));
+    EXPECT_EQ(3, sumRangeQuery.getValueOnInterval(0, 4));
+    EXPECT_EQ(3, sumRangeQuery.getValueOnInterval(0, 5));
+    EXPECT_EQ(3, sumRangeQuery.getValueOnInterval(0, 6));
+    EXPECT_EQ((ValuesForTest{3, 2, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0}), sumRangeQuery.getTreeValues());
+    EXPECT_EQ(4, sumRangeQuery.getIndexWithTargetValue(0, 3, minusFunction));
+}
+
+TEST(RangeQueryWithStaticSegmentTreeTest, GetIndexWithTargetValueWorksOnExample1) {
+    ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
+
+    EXPECT_EQ(-1, sumRangeQuery.getIndexWithTargetValue(0, 0, minusFunction));
+    EXPECT_EQ(0, sumRangeQuery.getIndexWithTargetValue(0, 1, minusFunction));
+    EXPECT_EQ(1, sumRangeQuery.getIndexWithTargetValue(0, 4, minusFunction));
+    EXPECT_EQ(2, sumRangeQuery.getIndexWithTargetValue(0, 8, minusFunction));
+    EXPECT_EQ(3, sumRangeQuery.getIndexWithTargetValue(0, 16, minusFunction));
+    EXPECT_EQ(8, sumRangeQuery.getIndexWithTargetValue(4, 22, minusFunction));
+}
+
+TEST(RangeQueryWithStaticSegmentTreeTest, GetIndexWithTargetValueWorksOnExample2) {
+    ValuesForTest values{1, 0, 1, 0, 1, 1, 0, 0, 1};
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
+
+    EXPECT_EQ(8, sumRangeQuery.getIndexWithTargetValue(2, 4, minusFunction));
+}
+
+TEST(RangeQueryWithStaticSegmentTreeTest, GetIndexWithTargetValueWorksOnExample3) {
+    ValuesForTest values{1, 0, 0, 1, 1, 0, 0};
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
+
+    EXPECT_EQ(4, sumRangeQuery.getIndexWithTargetValue(0, 3, minusFunction));
 }
 
 }  // namespace algorithm

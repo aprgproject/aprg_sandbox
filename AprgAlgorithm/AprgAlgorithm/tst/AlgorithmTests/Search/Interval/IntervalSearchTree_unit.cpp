@@ -1,11 +1,9 @@
-#include <Algorithm/Search/Geometry/IntervalSearchTree.hpp>
+#include <Algorithm/Search/Interval/IntervalSearchTree.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba {
-
 namespace algorithm {
 
 namespace {
@@ -80,6 +78,26 @@ TEST(IntervalSearchTreeTest, GetSupersetIntervalsOfWorksOnExample3) {
 
     SearchTreeForTest::Keys const& intervalsToExpect{{15, 18}, {5, 8}, {4, 8}, {7, 10}, {17, 19}, {16, 22}, {21, 24}};
     EXPECT_EQ(intervalsToExpect, intervalsToVerify);
+}
+
+TEST(IntervalSearchTreeTest, MergeIntervalsWorksOnExample2) {
+    SearchTreeForTest search;
+    SearchTreeForTest::BooleanBinaryFunction mergeCondition = [](SearchTreeForTest::Key const& interval1,
+                                                                 SearchTreeForTest::Key const& interval2) {
+        return interval1.end + 1 >= interval2.start;
+    };
+    search.put({5, 8});
+    search.put({8, 9});
+
+    auto const& intervalsToVerify1(search.getIntersectingIntervalsOf({8, 8}));
+    SearchTreeForTest::Keys const& intervalsToExpect1{{8, 9}, {5, 8}};
+    EXPECT_EQ(intervalsToExpect1, intervalsToVerify1);
+
+    search.mergeIntervals(mergeCondition);
+
+    auto const& intervalsToVerify2(search.getIntersectingIntervalsOf({8, 8}));
+    SearchTreeForTest::Keys const& intervalsToExpect2{{5, 9}};
+    EXPECT_EQ(intervalsToExpect2, intervalsToVerify2);
 }
 
 }  // namespace algorithm

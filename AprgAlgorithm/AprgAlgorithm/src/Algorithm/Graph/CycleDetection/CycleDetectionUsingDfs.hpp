@@ -110,17 +110,14 @@ private:
             } else if (VertexState::NotProcessed == adjacentVertexState) {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 searchUsingDfsWithDirectedGraph(adjacentVertex);
-            } else if (VertexState::Processing == adjacentVertexState)  // there is a cycle if adjacent vertex is in
-                                                                        // processing as well
-            {
+            } else if (VertexState::Processing == adjacentVertexState) {
+                // there is a cycle if adjacent vertex is in processing as well
                 m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));
             }
-        }
-        m_vertexStatesMap[startVertex] = VertexState::Processed;
+        }        m_vertexStatesMap[startVertex] = VertexState::Processed;
     }
 
-    void searchUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex) {
-        m_vertexStatesMap[startVertex] = VertexState::Processing;
+    void searchUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex) {        m_vertexStatesMap[startVertex] = VertexState::Processing;
         for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex)) {
             VertexState adjacentVertexState = m_vertexStatesMap[adjacentVertex];
             if (SearchType::OneCycle == m_searchType &&
@@ -130,18 +127,13 @@ private:
             } else if (VertexState::NotProcessed == adjacentVertexState) {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 searchUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
-            } else if (
-                previousVertex != adjacentVertex &&
-                VertexState::Processing ==
-                    adjacentVertexState)  // there is a cycle if adjacent vertex is in processing as well
-            {
+            } else if (previousVertex != adjacentVertex && VertexState::Processing == adjacentVertexState) {
+                // there is a cycle if adjacent vertex is in processing as well
                 // if previous and adjacent are equal then its the same edge (and not technically a cycle)
                 m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));
-            }
-        }
+            }        }
         m_vertexStatesMap[startVertex] = VertexState::Processed;
     }
-
     BaseGraphWithVertex const& m_graph;
     SearchType m_searchType;
     VertexToVertexStateMap m_vertexStatesMap;

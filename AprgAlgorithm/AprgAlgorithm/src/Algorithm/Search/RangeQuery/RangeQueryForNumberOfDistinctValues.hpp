@@ -12,19 +12,19 @@ namespace algorithm {
 template <typename Values, typename Values::value_type MAX_VALUE>
 class RangeQueryForNumberOfDistinctValues {
 public:
-    // As an example, consider a problem where we are given a set of queries, each of them corresponding to a range in
-    // an array, and our task is to calculate for each query the number of distinct elements in the range. In Mo’s
-    // algorithm, the queries are always sorted in the same way, but it depends on the problem how the answer to the
-    // query is maintained. In this problem, we can maintain an array count where count[x] indicates the number of times
-    // an element x occurs in the active range.
+    // As an example, consider a problem where we are given a set of queries,
+    // each of them corresponding to a range in an array,
+    // and our task is to calculate for each query the number of distinct elements in the range.
+    // In Mo’s algorithm, the queries are always sorted in the same way,
+    // but it depends on the problem how the answer to the query is maintained.
+    // In this problem, we can maintain an array count
+    // where count[x] indicates the number of times an element x occurs in the active range.
 
     using Index = int;
-    using Value = typename Values::value_type;
-    using Range = std::pair<Index, Index>;
+    using Value = typename Values::value_type;    using Range = std::pair<Index, Index>;
     using Ranges = std::vector<Range>;
     using InputAndOutputPair = std::pair<Range, Value>;
-    using InputAndOutputPairs = std::vector<InputAndOutputPair>;
-    using FrequencyArray = std::array<Index, MAX_VALUE>;
+    using InputAndOutputPairs = std::vector<InputAndOutputPair>;    using FrequencyArray = std::array<Index, MAX_VALUE>;
 
     RangeQueryForNumberOfDistinctValues(Values const& valuesToCheck) : m_values(valuesToCheck) {}
 
@@ -49,15 +49,13 @@ public:
             Index start = validRequestsRanges.front().first;
             Range previousRange{start, start};
             addValueWithIndex(numberOfDistinct, frequencyArray, start);
-            for (Range const currentRange : validRequestsRanges) {
+            for (Range const& currentRange : validRequestsRanges) {
                 moveToTargetRange(numberOfDistinct, frequencyArray, previousRange, currentRange);
                 result.emplace_back(currentRange, numberOfDistinct);
-                previousRange = currentRange;
-            }
+                previousRange = currentRange;            }
         }
         return result;
     }
-
 private:
     bool isValidRange(Range const& range) const {
         return range.first < static_cast<Index>(m_values.size()) && range.second < static_cast<Index>(m_values.size());
