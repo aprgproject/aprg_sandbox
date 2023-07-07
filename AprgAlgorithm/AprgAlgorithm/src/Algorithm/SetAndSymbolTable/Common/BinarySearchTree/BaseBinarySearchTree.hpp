@@ -246,41 +246,41 @@ protected:
                 return getMinimumNodePointerReferenceStartingOnThisNode(nodePointer->left);
             } else {
                 return nodePointer;
-            }        }
+            }
+        }
         return nodePointer;
     }
+
     virtual void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer& nodePointer, Key const& key) {
         // this is called hibbard deletion
         if (nodePointer) {
             if (key < nodePointer->key) {
-                // search for the node in the left in less than
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
             } else if (key > nodePointer->key) {
-                // search for the node in the right in greater than
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
             } else {
-                // if found
-                // get the minimum on the right
-                // place the keys of the minimum on this node and then delete it
-                // why are we using deletion of minimum on the right instead of deletion of maximum in the left?
-                // -> No real reason.
-                if (nodePointer->right) {
+                if (!(nodePointer->left)) {
+                    nodePointer = std::move(nodePointer->right);
+                } else if (!(nodePointer->right)) {
+                    nodePointer = std::move(nodePointer->left);
+                } else {
                     NodeUniquePointer& minimumOnTheRight(
                         getMinimumNodePointerReferenceStartingOnThisNode(nodePointer->right));
                     copyNodeContents(*nodePointer, *minimumOnTheRight);
                     deleteMinimumStartingOnThisNode(minimumOnTheRight);
-                } else {
-                    nodePointer = std::move(nodePointer->left);
+                    // why are we using deletion of minimum on the right instead of deletion of maximum in the left?
+                    // -> No real reason.
                 }
             }
-            if (nodePointer) {                updateTreeNodeDetails(*nodePointer);
+            if (nodePointer) {
+                updateTreeNodeDetails(*nodePointer);
             }
         }
     }
+
     virtual void deleteMinimumStartingOnThisNode(NodeUniquePointer& nodePointer) {
         if (nodePointer) {
-            if (nodePointer->left)  // go to the left until null
-            {
+            if (nodePointer->left) {
                 deleteMinimumStartingOnThisNode(nodePointer->left);
                 updateTreeNodeDetails(*nodePointer);
             } else {

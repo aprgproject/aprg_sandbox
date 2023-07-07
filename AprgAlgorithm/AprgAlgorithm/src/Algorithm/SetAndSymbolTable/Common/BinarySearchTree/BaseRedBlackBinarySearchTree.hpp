@@ -41,6 +41,28 @@ protected:
         return isRed(nodePointer->left) && isRed(nodePointer->right);
     }
 
+    void maintainRedBlackTreePropertyOnPut(NodeUniquePointer& nodePointer) {
+        if (this->hasARightLeaningRedLinkOnOneChild(nodePointer)) {
+            // need to maintain: Red links lean left.
+            // to do: rotate a right leaning red link to the left
+            // there is a case that rotating a right leaning red link cause 2 consecutive red links and this is
+            // caught in the next condition
+            this->rotateLeft(nodePointer);
+        }
+        if (this->hasTwoLeftLeaningRedLinksInARow(nodePointer)) {
+            // need to maintain: No node has two red links connected to it.
+            // to do: rotate one left leaning red link to the right temporarily and then flip colors
+            // since there are 2 red link in a row, rotate one to the right
+            // this causes all children to have red links which satisfy the next condition and then flip colors
+            this->rotateRight(nodePointer);
+        }
+        if (this->hasTwoRedLinksOnItsChildren(nodePointer)) {
+            // need to maintain: No node has two red links connected to it.
+            // flip colors -> this corresponds in 2-3 trees of splitting a 4 node
+            this->setParentAsRedAndChildrenAsBlack(nodePointer);
+        }
+    }
+
     void rotateLeft(NodeUniquePointer& nodePointer) {
         // This switches right child as the parent, switching the old parent as the left child (thus rotate left)
         // It also switches the right leaning link to left leaning link (useful to maintain red links lean left)
