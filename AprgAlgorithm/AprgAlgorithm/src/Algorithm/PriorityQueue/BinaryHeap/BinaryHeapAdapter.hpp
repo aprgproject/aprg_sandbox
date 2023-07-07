@@ -8,19 +8,17 @@ namespace alba {
 namespace algorithm {
 
 template <typename Objects, int NUMBER_OF_CHILDREN, template <class> class ComparatorTemplateType>
-class HeapTreeAdapter {
+class BinaryHeapAdapter {
 public:
     using Object = typename Objects::value_type;
     using Comparator = ComparatorTemplateType<Object>;
 
-    HeapTreeAdapter(Objects& objects) : m_comparator(), m_objects(objects) {}
+    BinaryHeapAdapter(Objects& objects) : m_comparator(), m_objects(objects) {}
 
     Object const& getObjectOnTree(int const treeIndex) const { return m_objects[getContainerIndex(treeIndex)]; }
-
     Object& getObjectReferenceOnTree(int const treeIndex) { return m_objects[getContainerIndex(treeIndex)]; }
 
-    void swim(int const startTreeIndex) {
-        // Swim is "bottom up reheapify" -> it swims up to the top of the tree
+    void swim(int const startTreeIndex) {        // Swim is "bottom up reheapify" -> it swims up to the top of the tree
         int treeIndex(startTreeIndex);
 
         // while parent and child are not in heap order

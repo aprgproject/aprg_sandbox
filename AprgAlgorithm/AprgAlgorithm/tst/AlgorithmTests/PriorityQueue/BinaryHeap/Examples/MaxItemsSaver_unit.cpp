@@ -1,11 +1,9 @@
-#include <Algorithm/PriorityQueue/HeapPriorityQueue.hpp>
+#include <Algorithm/PriorityQueue/BinaryHeap/BinaryHeapPriorityQueue.hpp>
 
 #include <gtest/gtest.h>
-
 #include <vector>
 
 using namespace std;
-
 namespace alba {
 
 namespace algorithm {
@@ -14,15 +12,13 @@ namespace {
 template <typename Object>
 class MaxItemsSaver {
 public:
-    using MinPriorityQueue = HeapPriorityQueue<Object, greater>;
+    using MinPriorityQueue = BinaryHeapPriorityQueue<Object, greater>;
     using Objects = vector<Object>;
 
     MaxItemsSaver(int const numberOfItemsToSave) : m_numberOfItemsToSave(numberOfItemsToSave) {}
-
     void save(Object const& object) {
         m_minimumPriorityQueue.insert(object);
-        while (m_minimumPriorityQueue.getSize() > m_numberOfItemsToSave) {
-            m_minimumPriorityQueue.deleteAndGetTopObject();
+        while (m_minimumPriorityQueue.getSize() > m_numberOfItemsToSave) {            m_minimumPriorityQueue.deleteAndGetTopObject();
         }
     }
 

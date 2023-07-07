@@ -1,65 +1,61 @@
 #pragma once
 
-#include <Algorithm/PriorityQueue/HeapTreeAdapter.hpp>
+#include <Algorithm/PriorityQueue/BinaryHeap/BinaryHeapAdapter.hpp>
 #include <Algorithm/Sort/BaseSorter.hpp>
 
-#include <functional>
-#include <utility>
+#include <functional>#include <utility>
 
 namespace alba {
-
 namespace algorithm {
 
 template <typename Values>
 class HeapSorter : public BaseSorter<Values> {
 public:
     static constexpr int NUMBER_OF_CHILDREN_IN_HEAP_TREE = 2;
-    using MaxHeapTreeAdapter = HeapTreeAdapter<Values, NUMBER_OF_CHILDREN_IN_HEAP_TREE, std::less>;
+    using MaxBinaryHeapAdapter = BinaryHeapAdapter<Values, NUMBER_OF_CHILDREN_IN_HEAP_TREE, std::less>;
 
     HeapSorter() = default;
 
     void sort(Values& valuesToSort) const override {
-        MaxHeapTreeAdapter maxHeapTreeAdapter(valuesToSort);
+        MaxBinaryHeapAdapter maxBinaryHeapAdapter(valuesToSort);
 
         // two passes, first put in heap order, second use the top values to sort
-        putItemsInHeapOrder(maxHeapTreeAdapter);
-        swapTopItemsToLastPlaces(maxHeapTreeAdapter);
+        putItemsInHeapOrder(maxBinaryHeapAdapter);
+        swapTopItemsToLastPlaces(maxBinaryHeapAdapter);
     }
 
 private:
-    void putItemsInHeapOrder(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
-        int size(maxHeapTreeAdapter.getSize());
+    void putItemsInHeapOrder(MaxBinaryHeapAdapter& maxBinaryHeapAdapter) const {
+        int size(maxBinaryHeapAdapter.getSize());
         // Traverse all parents (starting from bottom to top), and sink down to put items in heap order
         // Note: According to CLS this runs on O(n) / linear time.
-        for (int parentIndex = getLastParentAtTheBottom(maxHeapTreeAdapter);
-             parentIndex >= maxHeapTreeAdapter.getTopTreeIndex(); parentIndex--) {
-            maxHeapTreeAdapter.sink(parentIndex, size);
+        for (int parentIndex = getLastParentAtTheBottom(maxBinaryHeapAdapter);
+             parentIndex >= maxBinaryHeapAdapter.getTopTreeIndex(); parentIndex--) {
+            maxBinaryHeapAdapter.sink(parentIndex, size);
         }
     }
 
-    void swapTopItemsToLastPlaces(MaxHeapTreeAdapter& maxHeapTreeAdapter) const {
+    void swapTopItemsToLastPlaces(MaxBinaryHeapAdapter& maxBinaryHeapAdapter) const {
         // traverse from bottom to top
-        int treeIndex(maxHeapTreeAdapter.getBottomTreeIndex());
-        while (treeIndex > maxHeapTreeAdapter.getTopTreeIndex()) {
+        int treeIndex(maxBinaryHeapAdapter.getBottomTreeIndex());
+        while (treeIndex > maxBinaryHeapAdapter.getTopTreeIndex()) {
             // swap current max to current last place
             std::swap(
-                maxHeapTreeAdapter.getObjectReferenceOnTree(maxHeapTreeAdapter.getTopTreeIndex()),
-                maxHeapTreeAdapter.getObjectReferenceOnTree(treeIndex));
+                maxBinaryHeapAdapter.getObjectReferenceOnTree(maxBinaryHeapAdapter.getTopTreeIndex()),
+                maxBinaryHeapAdapter.getObjectReferenceOnTree(treeIndex));
             treeIndex--;  // move the next last place
             // starting from the top (where the object is swapped), sink down to maintain heap order
-            maxHeapTreeAdapter.sink(maxHeapTreeAdapter.getTopTreeIndex(), treeIndex);
+            maxBinaryHeapAdapter.sink(maxBinaryHeapAdapter.getTopTreeIndex(), treeIndex);
         }
     }
 
-    int getLastParentAtTheBottom(MaxHeapTreeAdapter const& maxHeapTreeAdapter) const {
-        return maxHeapTreeAdapter.getParentIndex(maxHeapTreeAdapter.getBottomTreeIndex());
+    int getLastParentAtTheBottom(MaxBinaryHeapAdapter const& maxBinaryHeapAdapter) const {
+        return maxBinaryHeapAdapter.getParentIndex(maxBinaryHeapAdapter.getBottomTreeIndex());
     }
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Proposition: Heap construction uses <= 2N compares and exchanges
 // Proposition: Heap sort uses <= 2N*log2(N) lo compares and exchanges
 // Proof in heap sort: first loop with N has swap operation and sink (log2(N)) -> so its 2N*log2(N).
