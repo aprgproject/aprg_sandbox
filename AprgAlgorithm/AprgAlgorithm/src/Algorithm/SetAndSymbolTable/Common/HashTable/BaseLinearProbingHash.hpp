@@ -284,3 +284,35 @@ protected:
 // -> Hash key to two positions; insert key into either position;
 // if occupied, reinsert displaced key into its alternative position (and recur)
 // -> Constant worst case time for search
+
+// -> Hash Table Collision Resolution
+// ---> Essentially any hash table can have collisions.
+// ---> There are a number of ways of handling this.
+// -> (1) Chaining with Linked Lists
+// ---> With this approach (which is the most common), the hash table's array maps to a linked list of items.
+// ---> We just add items to this linked list.
+// ---> As long as the number of collisions is fairly small, this will be quite efficient.
+// ---> In the worst case, lookup is O(n), where n is the number of elements in the hash table.
+// ---> This would only happen with either some very strange data or a very poor hash function (or both).
+// -> (2) Chaining with Binary Search Trees
+// ---> Rather than storing collisions in a linked list, we could store collisions in a binary search tree.
+// ---> This will bring the worst-case runtime to O(log n).
+// ---> In practice, we would rarely take this approach unless we expected an extremely nonuniform distribution.
+// -> (3) Open Addressing with Linear Probing
+// ---> In this approach, when a collision occurs (there is already an item stored at the designated index),
+// ---> we just move on to the next index in the array until we find an open spot.
+// ---> (Or, sometimes, some other fixed distance, like the index + 5.)
+// ---> If the number of collisions is low, this is a very fast and space-efficient solution.
+// ---> One obvious drawback of this is that
+// -----> the total number of entries in the hash table is limited by the size of the array.
+// ---> This is not the case with chaining.
+// ---> There's another issue here.
+// ---> Consider a hash table with an underlying array of size 100
+// -----> where indexes 20 through 29 are filled (and nothing else).
+// ---> What are the odds of the next insertion going to index 30?
+// ---> The odds are 10% because an item mapped to any index between 20 and 30 will wind up at index 30.
+// ---> This causes an issue called clustering.
+// -> (4) Quadratic Probing and Double Hashing
+// ---> The distance between probes does not need to be linear.
+// ---> You could, for example, increase the probe distance quadratically.
+// ---> Or, you could use a second hash function to determine the probe distance.
