@@ -14,57 +14,55 @@ class SubstringSearchUsingZAlgorithm {
 public:
     using Indexes = std::vector<Index>;
 
-    SubstringSearchUsingZAlgorithm(std::string const& substringToMatch) : m_substringToMatch(substringToMatch) {}
+    SubstringSearchUsingZAlgorithm(std::string const& query) : m_query(query) {}
 
-    Index search(std::string const& mainString) { return searchForFirstSubstring(mainString); }
+    Index search(std::string const& searchSpace) { return searchForFirstSubstring(searchSpace); }
 
-    Index searchForFirstSubstring(std::string const& mainString) {
+    Index searchForFirstSubstring(std::string const& searchSpace) {
         Index result = static_cast<Index>(std::string::npos);
-        std::string stringForZAlgorithm = createStringForZAlgorithm(mainString);
+        std::string stringForZAlgorithm = createStringForZAlgorithm(searchSpace);
         Indexes prefixLengths = calculatePrefixLengths(stringForZAlgorithm);
-        Index substringLength = m_substringToMatch.length();
-        Index i = substringLength;
+        Index queryLength = m_query.length();
+        Index i = queryLength;
         for (; i < static_cast<Index>(prefixLengths.size()); i++) {
-            if (prefixLengths[i] >= substringLength) {
-                result = i - substringLength - 1;
+            if (prefixLengths[i] >= queryLength) {
+                result = i - queryLength - 1;
                 break;
             }
         }
         return result;
     }
 
-    Indexes searchForAllSubstrings(std::string const& mainString) {
+    Indexes searchForAllSubstrings(std::string const& searchSpace) {
         Indexes result{};
-        std::string stringForZAlgorithm = createStringForZAlgorithm(mainString);
+        std::string stringForZAlgorithm = createStringForZAlgorithm(searchSpace);
         Indexes prefixLengths = calculatePrefixLengths(stringForZAlgorithm);
-        Index substringLength = m_substringToMatch.length();
-        Index i = substringLength;
+        Index queryLength = m_query.length();
+        Index i = queryLength;
         for (; i < static_cast<int>(prefixLengths.size()); i++) {
-            if (prefixLengths[i] >= substringLength) {
-                result.emplace_back(i - substringLength - 1);
+            if (prefixLengths[i] >= queryLength) {
+                result.emplace_back(i - queryLength - 1);
             }
         }
         return result;
     }
 
 private:
-    std::string createStringForZAlgorithm(std::string const& mainString) const {
-        return m_substringToMatch + UNIQUE_DIVIDING_CHARACTER + mainString;
+    std::string createStringForZAlgorithm(std::string const& searchSpace) const {
+        return m_query + UNIQUE_DIVIDING_CHARACTER + searchSpace;
     }
 
     Indexes calculatePrefixLengths(std::string const& stringForZAlgorithm) const {
         return ZAlgorithm<Index>::getPrefixLengthsUsingTheZAlgorithm(stringForZAlgorithm);
     }
 
-    std::string m_substringToMatch;
+    std::string m_query;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
-// Using the Z-array
-// It is often a matter of taste whether to use string hashing or the Z-algorithm.
+// Using the Z-array// It is often a matter of taste whether to use string hashing or the Z-algorithm.
 // Unlike hashing, the Z-algorithm always works and there is no risk for collisions.
 // On the other hand, the Z-algorithm is more difficult to implement and some problems can only be solved using hashing.
 // As an example, consider again the pattern matching problem, where our task is to find the occurrences of a pattern p

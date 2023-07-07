@@ -8,83 +8,79 @@ namespace algorithm {
 template <int numberOfLoops>
 class BruteForceSubstringSearch {
 public:
-    BruteForceSubstringSearch(std::string const& substringToMatch) : m_substringToMatch(substringToMatch) {}
+    BruteForceSubstringSearch(std::string const& query) : m_query(query) {}
 
-    int search(std::string const& mainString) { return searchWithLoops(mainString, m_substringToMatch); }
+    int search(std::string const& searchSpace) { return searchWithLoops(searchSpace, m_query); }
 
 private:
-    int searchWithLoops(std::string const&, std::string const&) {
-        static_assert(
+    int searchWithLoops(std::string const&, std::string const&) {        static_assert(
             sizeof(BruteForceSubstringSearch) != sizeof(BruteForceSubstringSearch),
             "The number of loops should be one or two. Other numbers have no implementation");
         return 0;
     }
 
     int searchUsingOneLoop(
-        std::string const& mainString,
-        std::string const& substringToMatch)  // implementation with one loop
+        std::string const& searchSpace,
+        std::string const& query)  // implementation with one loop
     {
         int result(static_cast<int>(std::string::npos));
-        int mainLength(mainString.length());
-        int substringLength(substringToMatch.length());
+        int searchSpaceLength(searchSpace.length());
+        int queryLength(query.length());
         int searchIndex = 0, matchIndex = 0;
-        for (; searchIndex < mainLength && matchIndex < substringLength; searchIndex++) {
-            if (mainString[searchIndex] == substringToMatch[matchIndex]) {
+        for (; searchIndex < searchSpaceLength && matchIndex < queryLength; searchIndex++) {
+            if (searchSpace[searchIndex] == query[matchIndex]) {
                 matchIndex++;  // matchIndex represents the index of matches as well
             } else {
                 searchIndex -= matchIndex;  // if there is a mismatch, go back
                 matchIndex = 0;             // reset because matchIndex represents the index of matches as well
             }
         }
-        if (matchIndex == substringLength)  // if matchIndex reached length
+        if (matchIndex == queryLength)  // if matchIndex reached length
         {
-            result = searchIndex - substringLength;
+            result = searchIndex - queryLength;
         }
         return result;
     }
 
     int searchUsingTwoLoops(
-        std::string const& mainString,
-        std::string const& substringToMatch)  // implementation with two loops
+        std::string const& searchSpace,
+        std::string const& query)  // implementation with two loops
     {
         int result(static_cast<int>(std::string::npos));
-        int mainLength(mainString.length());
-        int substringLength(substringToMatch.length());
-        for (int offset = 0; offset + substringLength <= mainLength; offset++) {
+        int searchSpaceLength(searchSpace.length());
+        int queryLength(query.length());
+        for (int offset = 0; offset + queryLength <= searchSpaceLength; offset++) {
             int matchIndex = 0;
-            for (; matchIndex < substringLength; matchIndex++) {
-                if (mainString[offset + matchIndex] != substringToMatch[matchIndex]) {
+            for (; matchIndex < queryLength; matchIndex++) {
+                if (searchSpace[offset + matchIndex] != query[matchIndex]) {
                     // matchIndex represents the index of matches as well
                     break;
                 }
             }
-            if (matchIndex == substringLength)  // if matchIndex reached length
+            if (matchIndex == queryLength)  // if matchIndex reached length
             {
                 result = offset;
-                break;
-            }
+                break;            }
         }
         return result;
     }
-    std::string m_substringToMatch;
+    std::string m_query;
 };
 
 template <>
-int BruteForceSubstringSearch<1>::searchWithLoops(std::string const& mainString, std::string const& substringToMatch) {
-    return searchUsingOneLoop(mainString, substringToMatch);
+int BruteForceSubstringSearch<1>::searchWithLoops(std::string const& searchSpace, std::string const& query) {
+    return searchUsingOneLoop(searchSpace, query);
 }
 
 template <>
-int BruteForceSubstringSearch<2>::searchWithLoops(std::string const& mainString, std::string const& substringToMatch) {
-    return searchUsingTwoLoops(mainString, substringToMatch);
+int BruteForceSubstringSearch<2>::searchWithLoops(std::string const& searchSpace, std::string const& query) {
+    return searchUsingTwoLoops(searchSpace, query);
 }
 
 }  // namespace algorithm
-
 }  // namespace alba
 
-// Brute-force substring search: worst case
-// -> Brute force algorithm can be slow if test and pattern are repetitive.
+// Brute-force substring search: worst case// -> Brute force algorithm can be slow if test and pattern are repetitive.
 // -> Worst case: ~MN char compares
 
 // Backup:

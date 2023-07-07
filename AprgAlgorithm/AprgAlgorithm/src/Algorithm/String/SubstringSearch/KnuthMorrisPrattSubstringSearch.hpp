@@ -15,65 +15,60 @@ public:
     using Dfa = AlbaDfaUsingMatrix<Index, RadixType>;
     static constexpr RadixType RADIX = 256;
 
-    KnuthMorrisPrattSubstringSearch(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch), m_nextIndexDfa(substringToMatch.length(), RADIX) {
+    KnuthMorrisPrattSubstringSearch(std::string const& query) : m_query(query), m_nextIndexDfa(query.length(), RADIX) {
         // In m_nextIndexDfa, x coordinate is character and y coordinate is the next state (which is index)
         initialize();
     }
 
-    Index search(std::string const& mainString) {
+    Index search(std::string const& searchSpace) {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainLength(mainString.size());
-        Index substringLength(m_substringToMatch.size());
+        Index searchSpaceLength(searchSpace.length());
+        Index queryLength(m_query.length());
         Index searchIndex = 0, matchIndex = 0;
-        for (; searchIndex < mainLength && matchIndex < substringLength; searchIndex++) {
+        for (; searchIndex < searchSpaceLength && matchIndex < queryLength; searchIndex++) {
             // use DFA to determine next state
-            matchIndex = m_nextIndexDfa.getNextState(matchIndex, mainString[searchIndex]);
+            matchIndex = m_nextIndexDfa.getNextState(matchIndex, searchSpace[searchIndex]);
         }
-        if (matchIndex == substringLength) {
-            result = searchIndex - substringLength;
+        if (matchIndex == queryLength) {
+            result = searchIndex - queryLength;
         }
         return result;
     }
 
 private:
     void initialize() {
-        if (!m_substringToMatch.empty()) {
+        if (!m_query.empty()) {
             // put initial transition of: from first index go to second index (if character is encountered)
-            m_nextIndexDfa.setStateTransition(0, 1, m_substringToMatch[0]);
-            Index substringLength(m_substringToMatch.size());
+            m_nextIndexDfa.setStateTransition(0, 1, m_query[0]);
+            Index queryLength(m_query.length());
             Index delayedState(0);  // this state tracks if input is one tempo delayed
             // The delayedState is useful because if there is a mismatch, we could track where that state would go
-            // (as it already have previous matches)
-            // -> Mismatch transition is tricky:
+            // (as it already have previous matches)            // -> Mismatch transition is tricky:
             // ---> If in state j and next char c != pattern.charAt(j), then the last j-1 of input are pattern[1 ...
             // j-1], followed by c
             // ---> Reason for this is salvaging previous matches from mismatches only occurs on indexes [1 ... j-1]
 
-            for (Index i = 1; i < substringLength; i++) {
+            for (Index i = 1; i < queryLength; i++) {
                 for (RadixType c = 0; c < RADIX; c++) {
                     // assign mismatch state as the "delayedState with inputed c"
-                    Index mismatchState(m_nextIndexDfa.getNextState(delayedState, c));
-                    // put transition: if there is a mismatch go back to
+                    Index mismatchState(m_nextIndexDfa.getNextState(delayedState, c));                    // put transition: if there is a mismatch go back to
                     // "delayedState with inputed c" (mismatch state)
                     m_nextIndexDfa.setStateTransition(i, mismatchState, c);
                 }
                 // put transition (overwrite): if match go to the next state
-                m_nextIndexDfa.setStateTransition(i, i + 1, m_substringToMatch[i]);
+                m_nextIndexDfa.setStateTransition(i, i + 1, m_query[i]);
                 // update delayed state (one tempo delayed)
-                delayedState = m_nextIndexDfa.getNextState(delayedState, m_substringToMatch[i]);
+                delayedState = m_nextIndexDfa.getNextState(delayedState, m_query[i]);
             }
         }
     }
 
-    std::string m_substringToMatch;
+    std::string m_query;
     Dfa m_nextIndexDfa;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Sedgewick: This is one of the coolest algorithm.
 
 // Intuition: Suppose we are searching in text for pattern: "BAAAAAAAAA"

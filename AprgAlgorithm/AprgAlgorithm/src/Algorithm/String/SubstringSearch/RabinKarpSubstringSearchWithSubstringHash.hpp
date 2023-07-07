@@ -16,31 +16,29 @@ public:
     static constexpr RadixType RADIX = 256;
     static constexpr HashValue A_LARGE_PRIME = 1229952067;  // hard coded for now (think of an implementation later)
 
-    RabinKarpSubstringSearchWithSubstringHash(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch),
-          m_substringLength(substringToMatch.length()),
-          m_substringHash(
-              HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(substringToMatch)) {}
+    RabinKarpSubstringSearchWithSubstringHash(std::string const& query)
+        : m_query(query),
+          m_queryLength(query.length()),
+          m_queryHash(
+              HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(query)) {}
 
-    Index search(std::string const& mainString) {
+    Index search(std::string const& searchSpace) {
         Index result(static_cast<Index>(std::string::npos));
-        if (m_substringLength > 0 && m_substringLength <= static_cast<Index>(mainString.length())) {
-            HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, mainString);
-            for (Index offset = 0; offset + m_substringLength <= static_cast<Index>(mainString.length()); offset++) {
-                if (m_substringHash == hashFunction.getHashCodeOfSubstring(offset, offset + m_substringLength - 1)) {
+        if (m_queryLength > 0 && m_queryLength <= static_cast<Index>(searchSpace.length())) {
+            HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, searchSpace);
+            for (Index offset = 0; offset + m_queryLength <= static_cast<Index>(searchSpace.length()); offset++) {
+                if (m_queryHash == hashFunction.getHashCodeOfSubstring(offset, offset + m_queryLength - 1)) {
                     result = offset;  // Monte carlo approach (no double check)
                     break;
-                }
-            }
+                }            }
         }
         return result;
     }
 
-    std::string const m_substringToMatch;
-    Index const m_substringLength;
-    HashValue m_substringHash;
+    std::string const m_query;
+    Index const m_queryLength;
+    HashValue m_queryHash;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba

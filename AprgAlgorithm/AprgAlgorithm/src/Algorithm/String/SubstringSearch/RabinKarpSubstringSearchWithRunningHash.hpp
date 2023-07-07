@@ -15,71 +15,64 @@ public:
     static constexpr RadixType RADIX = 256;
     static constexpr HashValue A_LARGE_PRIME = 1229952067;  // hard coded for now (think of an implementation later)
 
-    RabinKarpSubstringSearchWithRunningHash(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch),
-          m_substringLength(substringToMatch.length()),
+    RabinKarpSubstringSearchWithRunningHash(std::string const& query)
+        : m_query(query),
+          m_queryLength(query.length()),
           m_hornerHashFunction(RADIX, A_LARGE_PRIME),
           m_largeRandomPrime(A_LARGE_PRIME),
           m_radixRaiseToMatchLengthHash(getRadixRaiseToMatchLengthHash()),
-          m_substringHash(getHash(m_substringToMatch)) {}
+          m_queryHash(getHash(m_query)) {}
 
-    Index search(std::string const& mainString) {
+    Index search(std::string const& searchSpace) {
         Index result(static_cast<Index>(std::string::npos));
-        Index searchLength(mainString.size());
-        HashValue currentHash(getHash(mainString));
-        if (m_substringHash == currentHash) {
+        Index searchLength(searchSpace.length());
+        HashValue currentHash(getHash(searchSpace));
+        if (m_queryHash == currentHash) {
             result = 0;
         } else {
-            for (Index searchIndex = m_substringLength; searchIndex < searchLength; searchIndex++) {
+            for (Index searchIndex = m_queryLength; searchIndex < searchLength; searchIndex++) {
                 currentHash =
-                    getNextHash(currentHash, mainString[searchIndex - m_substringLength], mainString[searchIndex]);
-                if (m_substringHash == currentHash) {
+                    getNextHash(currentHash, searchSpace[searchIndex - m_queryLength], searchSpace[searchIndex]);
+                if (m_queryHash == currentHash) {
                     // Monte carlo approach (no double check)
-                    result = searchIndex - m_substringLength + 1;
+                    result = searchIndex - m_queryLength + 1;
                     break;
                 }
-            }
-        }
+            }        }
         return result;
     }
 
 private:
-    HashValue getHash(std::string const& key) {
-        return m_hornerHashFunction.getHashCode(key.substr(0, m_substringLength));
-    }
+    HashValue getHash(std::string const& key) { return m_hornerHashFunction.getHashCode(key.substr(0, m_queryLength)); }
 
     HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd) {
-        // First, subtract value for charToRemove
-        HashValue result =
+        // First, subtract value for charToRemove        HashValue result =
             (currentHash + m_largeRandomPrime - (m_radixRaiseToMatchLengthHash * charToRemove % m_largeRandomPrime)) %
             m_largeRandomPrime;
-        // Then, add value for charToAdd
-        result = (result * RADIX + charToAdd) % m_largeRandomPrime;
+        // Then, add value for charToAdd        result = (result * RADIX + charToAdd) % m_largeRandomPrime;
         return result;
     }
 
     HashValue getRadixRaiseToMatchLengthHash() {
         HashValue result(1);
-        for (int i = 1; i < m_substringLength; i++) {
+        for (int i = 1; i < m_queryLength; i++) {
             result = (result * RADIX) % m_largeRandomPrime;
         }
         return result;
     }
 
-    std::string const m_substringToMatch;
-    Index const m_substringLength;
+    std::string const m_query;
+    Index const m_queryLength;
     HornerHashFunctionForWholeString<HashValue> m_hornerHashFunction;
     HashValue m_largeRandomPrime;
     HashValue m_radixRaiseToMatchLengthHash;
-    HashValue m_substringHash;
+    HashValue m_queryHash;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
-// Invented by two Turing award winners Michael Rabin (Turing Award '76) and Dick Karp (Turing Award '85).
-// Explained to Sedgewick in 15 seconds -> realized needs to be on the book.
+// Invented by two Turing award winners Michael Rabin (Turing Award '76) and Dick Karp (Turing Award '85).// Explained to Sedgewick in 15 seconds -> realized needs to be on the book.
 
 // Basic idea = modular hashing
 // -> Compute a hash of patterns character 0 to M-1.

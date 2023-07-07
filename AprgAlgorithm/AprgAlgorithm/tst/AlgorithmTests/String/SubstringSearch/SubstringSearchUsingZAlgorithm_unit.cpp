@@ -40,18 +40,17 @@ TEST(SubstringSearchUsingZAlgorithmTest, SearchWorksUsingExample2) {
 
 TEST(SubstringSearchUsingZAlgorithmTest, SearchForFirstSubstringWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
-    string mainString("HATTIVATTI");
+    string searchSpace("HATTIVATTI");
 
-    EXPECT_EQ(Index(1), substringSearch.searchForFirstSubstring(mainString));
+    EXPECT_EQ(Index(1), substringSearch.searchForFirstSubstring(searchSpace));
 }
 
 TEST(SubstringSearchUsingZAlgorithmTest, SearchForAllSubstringsWorksUsingExample1) {
     SubstringSearchForTest substringSearch("ATT");
-    string mainString("HATTIVATTI");
+    string searchSpace("HATTIVATTI");
 
-    EXPECT_EQ((Indexes{1, 6}), substringSearch.searchForAllSubstrings(mainString));
+    EXPECT_EQ((Indexes{1, 6}), substringSearch.searchForAllSubstrings(searchSpace));
 }
 
 }  // namespace algorithm
-
 }  // namespace alba

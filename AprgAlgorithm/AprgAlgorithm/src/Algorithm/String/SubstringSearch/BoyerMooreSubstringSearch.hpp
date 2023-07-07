@@ -18,30 +18,25 @@ public:
     static constexpr Index INVALID_POSITION = -1;
     using SkipTable = std::array<Index, RADIX>;
 
-    BoyerMooreSubstringSearch(std::string const& substringToMatch)
-        : m_substringToMatch(substringToMatch), m_rightMostLetterIndex{} {
-        initialize();
-    }
+    BoyerMooreSubstringSearch(std::string const& query) : m_query(query), m_rightMostLetterIndex{} { initialize(); }
 
-    Index search(std::string const& mainString) {
+    Index search(std::string const& searchSpace) {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainLength(mainString.size());
-        Index substringLength(m_substringToMatch.size());
+        Index searchSpaceLength(searchSpace.length());
+        Index queryLength(m_query.length());
         int skipValue(0);
-        for (Index searchIndex = 0; searchIndex + substringLength <= mainLength; searchIndex += skipValue) {
+        for (Index searchIndex = 0; searchIndex + queryLength <= searchSpaceLength; searchIndex += skipValue) {
             skipValue = 0;
-            for (Index rightMostMismatch = substringLength - 1; rightMostMismatch >= 0; --rightMostMismatch) {
+            for (Index rightMostMismatch = queryLength - 1; rightMostMismatch >= 0; --rightMostMismatch) {
                 // if mismatch
-                if (m_substringToMatch[rightMostMismatch] != mainString[searchIndex + rightMostMismatch]) {
-                    Index letterIndex(m_rightMostLetterIndex[mainString[searchIndex + rightMostMismatch]]);
+                if (m_query[rightMostMismatch] != searchSpace[searchIndex + rightMostMismatch]) {
+                    Index letterIndex(m_rightMostLetterIndex[searchSpace[searchIndex + rightMostMismatch]]);
                     if (letterIndex + 1 < static_cast<Index>(rightMostMismatch)) {
                         // (Case 1: "Mismatch character is not in pattern")
-                        // This happens if letterIndex is -1.
-                        // -> In this case, use the skip value to move past the mismatch character
+                        // This happens if letterIndex is -1.                        // -> In this case, use the skip value to move past the mismatch character
                         // (Case 2a: "Mismatch character is in the pattern")
                         // -> In this case, use the skip value to align what was previously mismatched
-                        skipValue = rightMostMismatch - letterIndex;
-                    } else {
+                        skipValue = rightMostMismatch - letterIndex;                    } else {
                         // (Case 2b: "Mismatch character is in the pattern (but heuristic no help)")
                         // ->  In this case, The skip value should just be one to maintain forward progress
                         skipValue = 1;
@@ -64,20 +59,18 @@ private:
             m_rightMostLetterIndex[i] = INVALID_POSITION;  // assign negative one for case 1
         }
         Index substringIndex = 0;
-        for (char const c : m_substringToMatch) {
+        for (char const c : m_query) {
             // if there are multiple instances of letter, it overwrites (right most position is taken)
             m_rightMostLetterIndex[c] = substringIndex++;
         }
     }
 
-    std::string m_substringToMatch;
+    std::string m_query;
     SkipTable m_rightMostLetterIndex;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba
-
 // Intuition:
 // -> Scan characters in pattern from right to left
 // -> Can skip as many as M text chars when finding one not in the pattern

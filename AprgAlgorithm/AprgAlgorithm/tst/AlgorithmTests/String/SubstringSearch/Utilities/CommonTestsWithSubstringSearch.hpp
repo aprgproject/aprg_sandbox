@@ -29,24 +29,23 @@ template <typename SubstringSearch, typename Index>
 void testSearchUsingExample1() {
     SubstringSearch substringSearchWithHit("AACAA");
     SubstringSearch substringSearchWithoutHit("BBB");
-    string mainString("AABRAACADABRAACAADABRA");
+    string searchSpace("AABRAACADABRAACAADABRA");
 
-    EXPECT_EQ(Index(12), substringSearchWithHit.search(mainString));
-    EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(mainString));
+    EXPECT_EQ(Index(12), substringSearchWithHit.search(searchSpace));
+    EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(searchSpace));
 }
 
 template <typename SubstringSearch, typename Index>
 void testSearchUsingExample2() {
     SubstringSearch substringSearchWithHit("blue");
     SubstringSearch substringSearchWithoutHit("red");
-    string mainString("Mr. Blue has a blue house");
+    string searchSpace("Mr. Blue has a blue house");
 
-    EXPECT_EQ(Index(15), substringSearchWithHit.search(mainString));
-    EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(mainString));
+    EXPECT_EQ(Index(15), substringSearchWithHit.search(searchSpace));
+    EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(searchSpace));
 }
 
 }  // namespace CommonTestsWithSubstringSearch
-
 }  // namespace algorithm
 
 }  // namespace alba
