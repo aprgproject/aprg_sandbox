@@ -14,24 +14,47 @@ TwoSum::ValuesPair TwoSum::getTwoValuesWithSum(Value const targetSum) const {
     ValuesPair result{};
     if (!m_sortedValues.empty()) {
         bool isFound(false);
-        Index lower = 0, higher = m_sortedValues.size() - 1;
-        while (lower < higher) {
-            Value currentSum(m_sortedValues[lower] + m_sortedValues[higher]);
-            if (currentSum == targetSum) {
+        Index lowIndex = 0, highIndex = m_sortedValues.size() - 1;
+        while (lowIndex < highIndex) {
+            Value currentSum(m_sortedValues[lowIndex] + m_sortedValues[highIndex]);
+            if (currentSum > targetSum) {
+                highIndex--;
+            } else if (currentSum < targetSum) {
+                lowIndex++;
+            } else {  // (currentSum == targetSum)
                 isFound = true;
                 break;
-            } else if (currentSum > targetSum) {
-                higher--;
-            } else if (currentSum < targetSum) {
-                lower++;
             }
         }
         if (isFound)  // empty if not found
         {
-            result = {m_sortedValues[lower], m_sortedValues[higher]};
+            result = {m_sortedValues[lowIndex], m_sortedValues[highIndex]};
         }
     }
     return result;
 }
 
 }  // namespace alba
+
+/*
+// two sum with indices
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        std::unordered_map<int, int> valueToIndexMap;
+        for(int i=0; i<nums.size(); i++)
+        {
+            auto it = valueToIndexMap.find(target-nums[i]);
+            if(it == valueToIndexMap.cend())
+            {
+                valueToIndexMap.emplace(nums[i], i);
+            }
+            else
+            {
+                return {i, it->second};
+            }
+        }
+        return {};
+    }
+};
+*/

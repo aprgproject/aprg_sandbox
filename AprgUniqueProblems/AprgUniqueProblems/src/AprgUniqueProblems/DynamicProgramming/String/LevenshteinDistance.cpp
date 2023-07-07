@@ -18,16 +18,14 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaive
 }
 
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP() const {
-    CountGrid indexGrid(m_string1.length() + 1, m_string2.length() + 1, UNUSED_INDEX);
-    return getLevenshteinDistanceUsingMemoizationDP(indexGrid, m_string1.length(), m_string2.length());
+    CountGrid distanceGrid(m_string1.length() + 1, m_string2.length() + 1, UNUSED_INDEX);
+    return getLevenshteinDistanceUsingMemoizationDP(distanceGrid, m_string1.length(), m_string2.length());
 }
 
-LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDP() const {
-    // Time Complexity: O(m x n)
+LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDP() const {    // Time Complexity: O(m x n)
     // Auxiliary Space: O(m x n)
 
-    // The allowed editing operations are as follows:
-    // -> insert a character (e.g. ABC ! ABCA)
+    // The allowed editing operations are as follows:    // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
     // -> modify a character (e.g. ABC ! ADC)
     // We can calculate values of distance as follows:
@@ -44,33 +42,31 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingItera
     // Note that first column is for null string and first row is for null string (thats why there is a plus one in
     // column/row size)
 
-    CountGrid indexGrid(m_string1.length() + 1, m_string2.length() + 1);
-    indexGrid.iterateAllThroughYAndThenX([&](Index const x, Index const y) {
+    CountGrid distanceGrid(m_string1.length() + 1, m_string2.length() + 1);
+    distanceGrid.iterateAllThroughYAndThenX([&](Index const x, Index const y) {
         Count entryResult(0);
         if (x == 0) {
             entryResult = y;
         } else if (y == 0) {
             entryResult = x;
         } else if (m_string1[x - 1] == m_string2[y - 1]) {
-            entryResult = indexGrid.getEntry(x - 1, y - 1);
+            entryResult = distanceGrid.getEntry(x - 1, y - 1);
         } else {
-            Index replaceDistance = indexGrid.getEntry(x - 1, y - 1);
-            Index deleteDistance = indexGrid.getEntry(x - 1, y);
-            Index insertDistance = indexGrid.getEntry(x, y - 1);
+            Index replaceDistance = distanceGrid.getEntry(x - 1, y - 1);
+            Index deleteDistance = distanceGrid.getEntry(x - 1, y);
+            Index insertDistance = distanceGrid.getEntry(x, y - 1);
             entryResult = min(min(replaceDistance, deleteDistance), insertDistance) + 1;
         }
-        indexGrid.setEntry(x, y, entryResult);
+        distanceGrid.setEntry(x, y, entryResult);
     });
 
-    return indexGrid.getEntry(indexGrid.getNumberOfColumns() - 1, indexGrid.getNumberOfRows() - 1);
+    return distanceGrid.getEntry(distanceGrid.getNumberOfColumns() - 1, distanceGrid.getNumberOfRows() - 1);
 }
 
-LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient() const {
-    // Note this is same implementation in AlbaStringHelper
+LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient() const {    // Note this is same implementation in AlbaStringHelper
 
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m)
-
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
     // we only really need 2 rows (not a matrix) to keep track partial values.
@@ -120,27 +116,26 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaive
 }
 
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP(
-    CountGrid& indexGrid, Index const index1, Index const index2) const {
+    CountGrid& distanceGrid, Index const index1, Index const index2) const {
     // Time Complexity: O(m x n) because of memoization
     // Auxiliary Space: O(m x n)
 
-    Index result = indexGrid.getEntry(index1, index2);
+    Index result = distanceGrid.getEntry(index1, index2);
     if (UNUSED_INDEX == result) {
         if (index1 == 0) {
             result = index2;
         } else if (index2 == 0) {
             result = index1;
         } else if (m_string1[index1 - 1] == m_string2[index2 - 1]) {
-            result = getLevenshteinDistanceUsingMemoizationDP(indexGrid, index1 - 1, index2 - 1);
+            result = getLevenshteinDistanceUsingMemoizationDP(distanceGrid, index1 - 1, index2 - 1);
         } else {
-            Index replaceDistance = getLevenshteinDistanceUsingMemoizationDP(indexGrid, index1 - 1, index2 - 1);
-            Index deleteDistance = getLevenshteinDistanceUsingMemoizationDP(indexGrid, index1 - 1, index2);
-            Index insertDistance = getLevenshteinDistanceUsingMemoizationDP(indexGrid, index1, index2 - 1);
+            Index replaceDistance = getLevenshteinDistanceUsingMemoizationDP(distanceGrid, index1 - 1, index2 - 1);
+            Index deleteDistance = getLevenshteinDistanceUsingMemoizationDP(distanceGrid, index1 - 1, index2);
+            Index insertDistance = getLevenshteinDistanceUsingMemoizationDP(distanceGrid, index1, index2 - 1);
             result = min(min(replaceDistance, deleteDistance), insertDistance) + 1;
         }
-        indexGrid.setEntry(index1, index2, result);
+        distanceGrid.setEntry(index1, index2, result);
     }
     return result;
 }
-
 }  // namespace alba

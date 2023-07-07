@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
+#include <Algorithm/Utilities/IndexHelper.hpp>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Values>
-class SearchUnsortedElementOnAlmostSortedContainer {
+template <typename Values>class SearchUnsortedElementOnAlmostSortedContainer {
 public:
     using Index = int;
     using Value = typename Values::value_type;
