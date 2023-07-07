@@ -128,6 +128,31 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPostOrderWorks) {
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
+TEST(RedBlackBinarySearchTreeSymbolTableTest, HibbardDeletionWorks) {
+    SymbolTableForTest symbolTable;
+    symbolTable.put(3, 'C');
+    symbolTable.put(4, 'D');
+    symbolTable.put(5, 'E');
+    symbolTable.put(9, 'I');
+    symbolTable.put(8, 'H');
+    symbolTable.put(7, 'G');
+
+    KeysForTest actualBeforeDelete;
+    KeysForTest actualAfterDelete;
+    symbolTable.traverseByPreOrder(
+        [&actualBeforeDelete](NodeForTest const& node) { actualBeforeDelete.emplace_back(node.key); });
+    symbolTable.deleteBasedOnKey(7);
+    symbolTable.deleteBasedOnKey(4);
+    symbolTable.deleteBasedOnKey(3);
+    symbolTable.traverseByPreOrder(
+        [&actualAfterDelete](NodeForTest const& node) { actualAfterDelete.emplace_back(node.key); });
+
+    KeysForTest expectedBeforeDelete{8, 4, 3, 7, 5, 9};
+    KeysForTest expectedAfterDelete{8, 5, 9};
+    EXPECT_EQ(expectedBeforeDelete, actualBeforeDelete);
+    EXPECT_EQ(expectedAfterDelete, actualAfterDelete);
+}
+
 }  // namespace algorithm
 
 }  // namespace alba
