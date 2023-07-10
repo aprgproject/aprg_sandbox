@@ -17,15 +17,13 @@ public:
     static constexpr int INVALID_NODE_ID = MAX_NUMBER_IDS;
     using BaseClass = BaseStringSymbolTable<Value>;
     using Key = typename BaseClass::Key;
-    using Keys = typename BaseClass::Keys;
+    using Strings = typename BaseClass::Strings;
     using NodeId = int;
     using SetOfNodeIds = std::set<NodeId>;
-    using ValueUniquePointer = std::unique_ptr<Value>;
-    struct Node {
+    using ValueUniquePointer = std::unique_ptr<Value>;    struct Node {
         NodeId nextNodeId;
         ValueUniquePointer valueUniquePointer;
-    };
-    using NodePointer = std::unique_ptr<Node>;
+    };    using NodePointer = std::unique_ptr<Node>;
     using NodePointerMatrix = matrix::AlbaMatrix<NodePointer>;
     using Coordinate = std::pair<int, NodeId>;
     using Coordinates = std::vector<Coordinate>;
@@ -56,37 +54,34 @@ public:
 
     void deleteBasedOnKey(Key const& key) override { deleteBasedOnKeyAndReturnIfDeleted(0, key, 0); }
 
-    Keys getKeys() const override {
-        Keys result;
+    Strings getKeys() const override {
+        Strings result;
         collectAllKeysAtNode(0, std::string(), result);
         return result;
     }
 
-    Keys getAllKeysWithPrefix(Key const& prefix) const override {
-        Keys result;
+    Strings getAllKeysWithPrefix(Key const& prefix) const override {
+        Strings result;
         Coordinate coordinateOfPrefix(getCoordinate(0, prefix, 0));
         NodePointer const& nodePointerOfPrefix(
-            m_nodePointerMatrix.getEntryConstReference(coordinateOfPrefix.first, coordinateOfPrefix.second));
-        if (nodePointerOfPrefix) {
+            m_nodePointerMatrix.getEntryConstReference(coordinateOfPrefix.first, coordinateOfPrefix.second));        if (nodePointerOfPrefix) {
             ValueUniquePointer const& valueUniquePointer(nodePointerOfPrefix->valueUniquePointer);
             if (valueUniquePointer) {
                 result.emplace_back(prefix);
             }
-            collectAllKeysAtNode(nodePointerOfPrefix->nextNodeId, prefix, result);
+            collectAllKeysAtNode(nodePointerOfPrefix->nextNodeId, std::string(prefix), result);
         }
         return result;
     }
 
-    Keys getAllKeysThatMatch(Key const& patternToMatch) const override {
-        Keys result;
+    Strings getAllKeysThatMatch(Key const& patternToMatch) const override {
+        Strings result;
         collectKeysThatMatchAtNode(0, std::string(), patternToMatch, result);
         return result;
     }
-
     SetOfNodeIds const& getUnusedNodeIds() const { return m_unusedNodeIds; }
 
-    std::string getMatrixString() const {
-        DisplayTable table;
+    std::string getMatrixString() const {        DisplayTable table;
         table.setBorders("-", "|");
         table.addRow();
         table.getLastRow().addCell(" ");
@@ -212,32 +207,31 @@ private:
         return currentLongestLength;
     }
 
-    void collectAllKeysAtNode(NodeId const nodeId, Key const& previousPrefix, Keys& collectedKeys) const {
+    void collectAllKeysAtNode(NodeId const nodeId, std::string const& previousPrefix, Strings& collectedKeys) const {
         if (isValidNodeId(nodeId)) {
             for (int c = 0; c < RADIX; c++) {
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, nodeId));
                 if (nodePointer) {
-                    Key newPrefix = previousPrefix + static_cast<char>(c);
+                    std::string newPrefix(previousPrefix + static_cast<char>(c));
                     ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
                     if (valueUniquePointer) {
                         collectedKeys.emplace_back(newPrefix);
                     }
-                    collectAllKeysAtNode(nodePointer->nextNodeId, newPrefix, collectedKeys);
+                    collectAllKeysAtNode(nodePointer->nextNodeId, std::string(newPrefix), collectedKeys);
                 }
             }
         }
     }
 
     void collectKeysThatMatchAtNode(
-        NodeId const nodeId, Key const& previousPrefix, Key const& patternToMatch, Keys& collectedKeys) const {
+        NodeId const nodeId, std::string const& previousPrefix, Key const& patternToMatch,
+        Strings& collectedKeys) const {
         if (isValidNodeId(nodeId)) {
             int prefixLength = previousPrefix.length();
-            if (prefixLength < static_cast<NodeId>(patternToMatch.length())) {
-                char charToMatch = patternToMatch[prefixLength];
+            if (prefixLength < static_cast<NodeId>(patternToMatch.length())) {                char charToMatch = patternToMatch[prefixLength];
                 for (int c = 0; c < RADIX; c++) {
                     if ('.' == charToMatch || charToMatch == static_cast<char>(c)) {
-                        NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, nodeId));
-                        if (nodePointer) {
+                        NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, nodeId));                        if (nodePointer) {
                             Key newPrefix = previousPrefix + static_cast<char>(c);
                             if (newPrefix.length() == patternToMatch.length()) {
                                 ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
@@ -246,15 +240,13 @@ private:
                                 }
                             } else {
                                 collectKeysThatMatchAtNode(
-                                    nodePointer->nextNodeId, newPrefix, patternToMatch, collectedKeys);
+                                    nodePointer->nextNodeId, std::string(newPrefix), patternToMatch, collectedKeys);
                             }
                         }
-                    }
-                }
+                    }                }
             }
         }
     }
-
     void put(NodeId const nodeId, Key const& key, Value const& value, int const startingIndex) {
         NodeId currentNodeId(nodeId);
         for (int keyIndex = startingIndex; keyIndex < static_cast<NodeId>(key.length()); keyIndex++) {

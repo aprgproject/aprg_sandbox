@@ -17,15 +17,13 @@ public:
     static constexpr int RADIX = 256;
     using BaseClass = BaseStringSymbolTable<Value>;
     using Key = typename BaseClass::Key;
-    using Keys = typename BaseClass::Keys;
+    using Strings = typename BaseClass::Strings;
     using ValueUniquePointer = std::unique_ptr<Value>;
     struct Node;
-    using NodeUniquePointer = std::unique_ptr<Node>;
-    struct Node {
+    using NodeUniquePointer = std::unique_ptr<Node>;    struct Node {
         ValueUniquePointer valueUniquePointer;
         std::array<NodeUniquePointer, RADIX> next;  // costly
     };
-
     RWayTrieUsingLinkedArrays() : m_root(nullptr) {}
 
     bool isEmpty() const override { return getSize() == 0; }
@@ -60,24 +58,22 @@ public:
 
     void deleteBasedOnKey(Key const& key) override { deleteBasedOnKeyAndReturnIfDeleted(m_root, key, 0); }
 
-    Keys getKeys() const override { return getAllKeysWithPrefix(std::string()); }
+    Strings getKeys() const override { return getAllKeysWithPrefix(std::string()); }
 
-    Keys getAllKeysWithPrefix(Key const& prefix) const override {
-        Keys result;
-        collectAllKeysAtNode(get(m_root, prefix, 0), prefix, result);
+    Strings getAllKeysWithPrefix(Key const& prefix) const override {
+        Strings result;
+        collectAllKeysAtNode(get(m_root, prefix, 0), std::string(prefix), result);
         return result;
     }
 
-    Keys getAllKeysThatMatch(Key const& patternToMatch) const override {
-        Keys result;
+    Strings getAllKeysThatMatch(Key const& patternToMatch) const override {
+        Strings result;
         collectKeysThatMatchAtNode(m_root.get(), std::string(), patternToMatch, result);
         return result;
     }
-
 private:
     bool isEmptyNode(NodeUniquePointer const& currentNodePointer) {
-        return !currentNodePointer->valueUniquePointer &&
-               std::all_of(
+        return !currentNodePointer->valueUniquePointer &&               std::all_of(
                    currentNodePointer->next.cbegin(), currentNodePointer->next.cend(),
                    [](NodeUniquePointer const& nodePointer) { return !nodePointer; });
     }
@@ -136,30 +132,26 @@ private:
     }
 
     void collectAllKeysAtNode(
-        Node const* const currentNodePointer, Key const& previousPrefix, Keys& collectedKeys) const {
+        Node const* const currentNodePointer, std::string const& previousPrefix, Strings& collectedKeys) const {
         if (currentNodePointer != nullptr) {
             ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
-            if (valueUniquePointer) {
-                collectedKeys.emplace_back(previousPrefix);
+            if (valueUniquePointer) {                collectedKeys.emplace_back(previousPrefix);
             }
             for (int c = 0; c < RADIX; c++) {
-                collectAllKeysAtNode(
-                    currentNodePointer->next[c].get(), previousPrefix + static_cast<char>(c), collectedKeys);
+                collectAllKeysAtNode(                    currentNodePointer->next[c].get(), previousPrefix + static_cast<char>(c), collectedKeys);
             }
         }
     }
 
     void collectKeysThatMatchAtNode(
-        Node const* const currentNodePointer, Key const& previousPrefix, Key const& patternToMatch,
-        Keys& collectedKeys) const {
+        Node const* const currentNodePointer, std::string const& previousPrefix, Key const& patternToMatch,
+        Strings& collectedKeys) const {
         if (currentNodePointer != nullptr) {
             int prefixLength = previousPrefix.length();
-            if (prefixLength == static_cast<int>(patternToMatch.length()) && currentNodePointer->valueUniquePointer) {
-                collectedKeys.emplace_back(previousPrefix);
+            if (prefixLength == static_cast<int>(patternToMatch.length()) && currentNodePointer->valueUniquePointer) {                collectedKeys.emplace_back(previousPrefix);
             } else if (prefixLength < static_cast<int>(patternToMatch.length())) {
                 char charToMatch = patternToMatch[prefixLength];
-                for (int c = 0; c < RADIX; c++) {
-                    if ('.' == charToMatch || charToMatch == static_cast<char>(c)) {
+                for (int c = 0; c < RADIX; c++) {                    if ('.' == charToMatch || charToMatch == static_cast<char>(c)) {
                         collectKeysThatMatchAtNode(
                             currentNodePointer->next[c].get(), previousPrefix + static_cast<char>(c), patternToMatch,
                             collectedKeys);
