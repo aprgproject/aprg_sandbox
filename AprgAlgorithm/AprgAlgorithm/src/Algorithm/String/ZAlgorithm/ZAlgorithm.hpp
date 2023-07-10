@@ -44,9 +44,11 @@ public:
             }
         }
         return prefixLengths;
-    }};
+    }
+};
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // -> Z Algorithm
@@ -66,10 +68,12 @@ public:
 // -----> | Z values | X   1   0   0   3   1   0   0   2   2   1   0
 // ->  More Examples:
 // --->  str  = "aaaaaa", Z[]  = {x, 5, 4, 3, 2, 1}
-// --->  str = "aabaacd", Z[] = {x, 1, 0, 2, 1, 0, 0}// --->  str = "abababab", Z[] = {x, 0, 6, 0, 4, 0, 2, 0}
+// --->  str = "aabaacd", Z[] = {x, 1, 0, 2, 1, 0, 0}
+// --->  str = "abababab", Z[] = {x, 0, 6, 0, 4, 0, 2, 0}
 // ->  How is Z array helpful in Searching Pattern in Linear time?
 // --->  The idea is to concatenate pattern and text, and create a string “P$T” where P is pattern,
-// --->  $ is a special character should not be present in pattern and text, and T is text.// --->  Build the Z array for concatenated string.
+// --->  $ is a special character should not be present in pattern and text, and T is text.
+// --->  Build the Z array for concatenated string.
 // --->  In Z array, if Z value at any point is equal to pattern length, then pattern is present at that point.
 // --->  Example:
 // ----->  Pattern P = "aab",  Text T = "baabaa"

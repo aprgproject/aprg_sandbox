@@ -43,7 +43,8 @@ private:
             Index queryLength(m_query.length());
             Index delayedState(0);  // this state tracks if input is one tempo delayed
             // The delayedState is useful because if there is a mismatch, we could track where that state would go
-            // (as it already have previous matches)            // -> Mismatch transition is tricky:
+            // (as it already have previous matches)
+            // -> Mismatch transition is tricky:
             // ---> If in state j and next char c != pattern.charAt(j), then the last j-1 of input are pattern[1 ...
             // j-1], followed by c
             // ---> Reason for this is salvaging previous matches from mismatches only occurs on indexes [1 ... j-1]
@@ -51,7 +52,8 @@ private:
             for (Index i = 1; i < queryLength; i++) {
                 for (RadixType c = 0; c < RADIX; c++) {
                     // assign mismatch state as the "delayedState with inputed c"
-                    Index mismatchState(m_nextIndexDfa.getNextState(delayedState, c));                    // put transition: if there is a mismatch go back to
+                    Index mismatchState(m_nextIndexDfa.getNextState(delayedState, c));
+                    // put transition: if there is a mismatch go back to
                     // "delayedState with inputed c" (mismatch state)
                     m_nextIndexDfa.setStateTransition(i, mismatchState, c);
                 }
@@ -66,9 +68,11 @@ private:
     std::string m_query;
     Dfa m_nextIndexDfa;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
+
 // Sedgewick: This is one of the coolest algorithm.
 
 // Intuition: Suppose we are searching in text for pattern: "BAAAAAAAAA"

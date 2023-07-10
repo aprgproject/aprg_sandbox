@@ -9,7 +9,8 @@ namespace algorithm {
 template <typename Index>
 class LongestRepeatedSubstring {
 public:
-    LongestRepeatedSubstring() = delete;    ~LongestRepeatedSubstring() = delete;
+    LongestRepeatedSubstring() = delete;
+    ~LongestRepeatedSubstring() = delete;
     LongestRepeatedSubstring(LongestRepeatedSubstring const &) = delete;
     LongestRepeatedSubstring &operator=(LongestRepeatedSubstring const &) = delete;
     LongestRepeatedSubstring(LongestRepeatedSubstring &&) = delete;
@@ -22,10 +23,12 @@ public:
         for (Index i = 1; i < length; i++) {
             std::string commonPrefix(suffixArray.getLongestCommonPrefixOfTwoSuffixes(i - 1, i));
             if (result.size() < commonPrefix.size()) {
-                result = commonPrefix;            }
+                result = commonPrefix;
+            }
         }
         return result;
-    }};
+    }
+};
 
 }  // namespace algorithm
 

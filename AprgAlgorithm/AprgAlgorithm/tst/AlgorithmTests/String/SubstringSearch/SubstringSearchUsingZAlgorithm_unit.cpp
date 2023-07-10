@@ -53,4 +53,5 @@ TEST(SubstringSearchUsingZAlgorithmTest, SearchForAllSubstringsWorksUsingExample
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

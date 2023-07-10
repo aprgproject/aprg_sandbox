@@ -47,10 +47,12 @@ TEST(SuffixArrayTest, GetSuffixViewAtWorks) {
     EXPECT_EQ("g", suffixArray.getSuffixViewAt(9));
 }
 
-TEST(SuffixArrayTest, GetLongestCommonPrefixOfTwoSuffixesWorks) {    SuffixArrayForTest suffixArray("LetsDanceToThisSong");
+TEST(SuffixArrayTest, GetLongestCommonPrefixOfTwoSuffixesWorks) {
+    SuffixArrayForTest suffixArray("LetsDanceToThisSong");
 
     EXPECT_EQ("T", suffixArray.getLongestCommonPrefixOfTwoSuffixes(3, 4));
-    EXPECT_TRUE(suffixArray.getLongestCommonPrefixOfTwoSuffixes(5, 6).empty());    EXPECT_EQ("e", suffixArray.getLongestCommonPrefixOfTwoSuffixes(7, 8));
+    EXPECT_TRUE(suffixArray.getLongestCommonPrefixOfTwoSuffixes(5, 6).empty());
+    EXPECT_EQ("e", suffixArray.getLongestCommonPrefixOfTwoSuffixes(7, 8));
 }
 
 }  // namespace algorithm

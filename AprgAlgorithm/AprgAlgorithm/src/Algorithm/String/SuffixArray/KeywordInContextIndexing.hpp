@@ -33,6 +33,9 @@ private:
     std::string m_searchSpace;
     SuffixArray<Index> m_suffixArray;
 };
+
 }  // namespace algorithm
+
 }  // namespace alba
+
 // Applications: Linguistics, databases, web search, word processing

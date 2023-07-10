@@ -13,16 +13,14 @@ public:
     int search(std::string const& searchSpace) { return searchWithLoops(searchSpace, m_query); }
 
 private:
-    int searchWithLoops(std::string const&, std::string const&) {        static_assert(
+    int searchWithLoops(std::string const&, std::string const&) {
+        static_assert(
             sizeof(BruteForceSubstringSearch) != sizeof(BruteForceSubstringSearch),
             "The number of loops should be one or two. Other numbers have no implementation");
         return 0;
     }
 
-    int searchUsingOneLoop(
-        std::string const& searchSpace,
-        std::string const& query)  // implementation with one loop
-    {
+    int searchUsingOneLoop(std::string const& searchSpace, std::string const& query) {
         int result(static_cast<int>(std::string::npos));
         int searchSpaceLength(searchSpace.length());
         int queryLength(query.length());
@@ -42,10 +40,7 @@ private:
         return result;
     }
 
-    int searchUsingTwoLoops(
-        std::string const& searchSpace,
-        std::string const& query)  // implementation with two loops
-    {
+    int searchUsingTwoLoops(std::string const& searchSpace, std::string const& query) {
         int result(static_cast<int>(std::string::npos));
         int searchSpaceLength(searchSpace.length());
         int queryLength(query.length());
@@ -60,7 +55,8 @@ private:
             if (matchIndex == queryLength)  // if matchIndex reached length
             {
                 result = offset;
-                break;            }
+                break;
+            }
         }
         return result;
     }
@@ -78,9 +74,11 @@ int BruteForceSubstringSearch<2>::searchWithLoops(std::string const& searchSpace
 }
 
 }  // namespace algorithm
+
 }  // namespace alba
 
-// Brute-force substring search: worst case// -> Brute force algorithm can be slow if test and pattern are repetitive.
+// Brute-force substring search: worst case
+// -> Brute force algorithm can be slow if test and pattern are repetitive.
 // -> Worst case: ~MN char compares
 
 // Backup:

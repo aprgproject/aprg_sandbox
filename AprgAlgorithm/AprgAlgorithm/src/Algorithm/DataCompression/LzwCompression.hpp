@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/String/Tries/TernarySearchTrie.hpp>
+#include <Algorithm/String/Tries/TernarySearchTrieSymbolTable.hpp>
 #include <Common/Stream/AlbaStreamBitReader.hpp>
 #include <Common/Stream/AlbaStreamBitWriter.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
@@ -18,7 +18,7 @@ public:
     static constexpr int CODE_WORD_WIDTH = 12;
     static constexpr Code MAX_NUMBER_CODE_WORDS = 1 << CODE_WORD_WIDTH;
 
-    using SymbolTableUsingTrie = TernarySearchTrie<Code>;
+    using SymbolTableUsingTrie = TernarySearchTrieSymbolTable<Code>;
 
     LzwCompression() = default;
 

@@ -4,18 +4,20 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
 #include <set>
+#include <vector>
 
 namespace alba {
 
 namespace algorithm {
 
-template <typename Value, int MAX_NUMBER_NODES>
+template <typename Value, int MAX_NUMBER_IDS>
 class RWayTrieUsingMatrix : public BaseStringSymbolTable<Value> {
 public:
     static constexpr int RADIX = 256;
-    static constexpr int INVALID_NODE_ID = MAX_NUMBER_NODES;
-    using Key = std::string;
-    using Keys = stringHelper::strings;
+    static constexpr int INVALID_NODE_ID = MAX_NUMBER_IDS;
+    using BaseClass = BaseStringSymbolTable<Value>;
+    using Key = typename BaseClass::Key;
+    using Keys = typename BaseClass::Keys;
     using NodeId = int;
     using SetOfNodeIds = std::set<NodeId>;
     using ValueUniquePointer = std::unique_ptr<Value>;
@@ -28,8 +30,7 @@ public:
     using Coordinate = std::pair<int, NodeId>;
     using Coordinates = std::vector<Coordinate>;
 
-    RWayTrieUsingMatrix()
-        : m_size(0), m_nextNodeId(0), m_unusedNodeIds(), m_nodePointerMatrix(RADIX, MAX_NUMBER_NODES) {}
+    RWayTrieUsingMatrix() : m_size(0), m_nextNodeId(0), m_unusedNodeIds(), m_nodePointerMatrix(RADIX, MAX_NUMBER_IDS) {}
 
     bool isEmpty() const override { return m_size == 0; }
 
@@ -136,7 +137,7 @@ private:
         } else {
             result = ++m_nextNodeId;
         }
-        assert(result < MAX_NUMBER_NODES);
+        assert(result < MAX_NUMBER_IDS);
         return result;
     }
 
@@ -144,9 +145,9 @@ private:
         Coordinate result{INVALID_NODE_ID, 0};
         NodeId currentNodeId(nodeId);
         for (int keyIndex = startingIndex; keyIndex < static_cast<NodeId>(key.length()); keyIndex++) {
-            char c(key[keyIndex]);
             bool isNextNodeFound(false);
             if (isValidNodeId(currentNodeId)) {
+                char c(key[keyIndex]);
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, currentNodeId));
                 if (nodePointer) {
                     isNextNodeFound = true;
@@ -167,9 +168,9 @@ private:
         ValueUniquePointer result;
         NodeId currentNodeId(nodeId);
         for (int keyIndex = startingIndex; keyIndex < static_cast<NodeId>(key.length()); keyIndex++) {
-            char c(key[keyIndex]);
             bool isNextNodeFound(false);
             if (isValidNodeId(currentNodeId)) {
+                char c(key[keyIndex]);
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, currentNodeId));
                 if (nodePointer) {
                     isNextNodeFound = true;
@@ -191,9 +192,9 @@ private:
         int currentLongestLength(0);
         NodeId currentNodeId(nodeId);
         for (int keyIndex = startingIndex; keyIndex < static_cast<NodeId>(keyToCheck.length()); keyIndex++) {
-            char c(keyToCheck[keyIndex]);
             bool isNextNodeFound(false);
             if (isValidNodeId(currentNodeId)) {
+                char c(keyToCheck[keyIndex]);
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, currentNodeId));
                 if (nodePointer) {
                     isNextNodeFound = true;
@@ -284,9 +285,9 @@ private:
         NodeId currentNodeId(nodeId);
         Coordinates traversedCoordinates;
         for (int keyIndex = startingIndex; keyIndex < static_cast<NodeId>(key.length()); keyIndex++) {
-            char c(key[keyIndex]);
             bool isNextNodeFound(false);
             if (isValidNodeId(currentNodeId)) {
+                char c(key[keyIndex]);
                 NodePointer& nodePointer(m_nodePointerMatrix.getEntryReference(c, currentNodeId));
                 traversedCoordinates.emplace_back(Coordinate{c, currentNodeId});
                 if (nodePointer) {

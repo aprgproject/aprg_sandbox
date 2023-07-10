@@ -29,10 +29,12 @@ public:
             auto compareValue = key.compare(getSuffixViewAt(mid));
             if (compareValue < 0) {
                 high = mid - 1;
-            } else if (compareValue > 0) {                low = mid + 1;
+            } else if (compareValue > 0) {
+                low = mid + 1;
             } else {
                 low = mid;
-                break;            }
+                break;
+            }
         }
         return low;
     }
@@ -67,6 +69,7 @@ private:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // Check Manber-Myers MSD is really efficient

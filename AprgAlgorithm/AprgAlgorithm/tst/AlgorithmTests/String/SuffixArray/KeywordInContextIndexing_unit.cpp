@@ -23,7 +23,9 @@ TEST(KeywordInContextIndexingTest, GetKeywordInContextIndexingWorks) {
     KeywordInContextIndexingForTest keywordInContextIndexing(searchSpace);
 
     strings stringsToExpect{"om it was the age of foolis", "es it was the age of wisdom"};
-    EXPECT_EQ(stringsToExpect, keywordInContextIndexing.getKeywordInContextIndexing("the age", 10));}
+    EXPECT_EQ(stringsToExpect, keywordInContextIndexing.getKeywordInContextIndexing("the age", 10));
+}
 
 }  // namespace algorithm
+
 }  // namespace alba

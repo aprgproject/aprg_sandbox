@@ -30,7 +30,8 @@ public:
                 if (m_queryHash == hashFunction.getHashCodeOfSubstring(offset, offset + m_queryLength - 1)) {
                     result = offset;  // Monte carlo approach (no double check)
                     break;
-                }            }
+                }
+            }
         }
         return result;
     }
@@ -41,4 +42,5 @@ public:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba

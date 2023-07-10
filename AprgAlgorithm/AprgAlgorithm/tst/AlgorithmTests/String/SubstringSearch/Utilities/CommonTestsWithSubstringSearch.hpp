@@ -46,6 +46,7 @@ void testSearchUsingExample2() {
 }
 
 }  // namespace CommonTestsWithSubstringSearch
+
 }  // namespace algorithm
 
 }  // namespace alba

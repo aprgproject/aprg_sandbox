@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <vector>
 
 namespace alba {
 
@@ -14,8 +15,9 @@ template <typename Value>
 class RWayTrieUsingLinkedArrays : public BaseStringSymbolTable<Value> {
 public:
     static constexpr int RADIX = 256;
-    using Key = std::string;
-    using Keys = stringHelper::strings;
+    using BaseClass = BaseStringSymbolTable<Value>;
+    using Key = typename BaseClass::Key;
+    using Keys = typename BaseClass::Keys;
     using ValueUniquePointer = std::unique_ptr<Value>;
     struct Node;
     using NodeUniquePointer = std::unique_ptr<Node>;

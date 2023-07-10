@@ -60,9 +60,11 @@ private:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
-// Using the Z-array// It is often a matter of taste whether to use string hashing or the Z-algorithm.
+// Using the Z-array
+// It is often a matter of taste whether to use string hashing or the Z-algorithm.
 // Unlike hashing, the Z-algorithm always works and there is no risk for collisions.
 // On the other hand, the Z-algorithm is more difficult to implement and some problems can only be solved using hashing.
 // As an example, consider again the pattern matching problem, where our task is to find the occurrences of a pattern p
