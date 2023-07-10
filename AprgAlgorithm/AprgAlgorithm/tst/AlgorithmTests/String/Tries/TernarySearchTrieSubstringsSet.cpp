@@ -101,10 +101,12 @@ TEST(TernarySearchTrieSubstringsSetTest, GetKeysWorks) {
     using Strings = typename TrieForTest::Strings;
     TrieForTest trie;
     trie.put("she");
-    trie.put("sells");    trie.put("sea");
+    trie.put("sells");
+    trie.put("sea");
     trie.put("shells");
     trie.put("by");
-    trie.put("the");    trie.put("sea");
+    trie.put("the");
+    trie.put("sea");
     trie.put("shore");
     trie.put("s");
 
@@ -119,10 +121,12 @@ TEST(TernarySearchTrieSubstringsSetTest, GetAllKeysWithPrefixWorks) {
     using Strings = typename TrieForTest::Strings;
     TrieForTest trie;
     trie.put("she");
-    trie.put("sells");    trie.put("sea");
+    trie.put("sells");
+    trie.put("sea");
     trie.put("shells");
     trie.put("by");
-    trie.put("the");    trie.put("sea");
+    trie.put("the");
+    trie.put("sea");
     trie.put("shore");
     trie.put("s");
 
@@ -137,10 +141,12 @@ TEST(TernarySearchTrieSubstringsSetTest, GetAllKeysThatMatchWorks) {
     using Strings = typename TrieForTest::Strings;
     TrieForTest trie;
     trie.put("she");
-    trie.put("sells");    trie.put("sea");
+    trie.put("sells");
+    trie.put("sea");
     trie.put("shells");
     trie.put("by");
-    trie.put("the");    trie.put("sea");
+    trie.put("the");
+    trie.put("sea");
     trie.put("shore");
     trie.put("s");
 
@@ -149,9 +155,11 @@ TEST(TernarySearchTrieSubstringsSetTest, GetAllKeysThatMatchWorks) {
     Strings expectedKeys{"sea", "sel", "she"};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
+
 TEST(TernarySearchTrieSubstringsSetTest, Example1Works) {
     TrieForTest trie;
-    trie.put("CANAL");    trie.put("CANDY");
+    trie.put("CANAL");
+    trie.put("CANDY");
     trie.put("THE");
     trie.put("THERE");
 

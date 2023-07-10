@@ -19,9 +19,11 @@ public:
     using Strings = typename BaseClass::Strings;
     using Node = typename BaseClass::Node;
     using Value = ValueTemplateType;
-    using NodeUniquePointer = std::unique_ptr<Node>;    using ValueUniquePointer = std::unique_ptr<Value>;
+    using NodeUniquePointer = std::unique_ptr<Node>;
+    using ValueUniquePointer = std::unique_ptr<Value>;
 
     TernarySearchTrieSymbolTable() : b_root(BaseClass::m_root) {}
+
     Value get(Key const& key) const override {
         Value result{};
         Node const* const nodePointer(this->getStartingOnThisNode(b_root, key, 0));
@@ -32,12 +34,6 @@ public:
             }
         }
         return result;
-    }
-
-    void put(Key const& key, Value const& value) override {
-        if (!key.empty()) {
-            putStartingOnThisNode(b_root, key, value, 0);
-        }
     }
 
     Strings getAllKeysWithPrefix(Key const& prefix) const override {
@@ -52,9 +48,17 @@ public:
         }
         return result;
     }
+
+    void put(Key const& key, Value const& value) override {
+        if (!key.empty()) {
+            putStartingOnThisNode(b_root, key, value, 0);
+        }
+    }
+
 protected:
     virtual void putStartingOnThisNode(
-        NodeUniquePointer& currentNodePointer, Key const& key, Value const& value, int const index) {        char charAtKey(key[index]);
+        NodeUniquePointer& currentNodePointer, Key const& key, Value const& value, int const index) {
+        char charAtKey(key[index]);
         if (!currentNodePointer) {
             currentNodePointer = std::make_unique<Node>(Node{charAtKey, nullptr, nullptr, nullptr, nullptr});
         }
@@ -115,7 +119,8 @@ protected:
             std::string currentPrefix(previousPrefix + currentNodePointer->c);
             if (valueUniquePointer) {
                 collectedKeys.emplace_back(currentPrefix);
-            }            collectAllKeysAtNode(currentNodePointer->mid.get(), currentPrefix, collectedKeys);
+            }
+            collectAllKeysAtNode(currentNodePointer->mid.get(), currentPrefix, collectedKeys);
             collectAllKeysAtNode(currentNodePointer->right.get(), previousPrefix, collectedKeys);
         }
     }
@@ -131,10 +136,12 @@ protected:
             std::string currentPrefix(previousPrefix + currentNodePointer->c);
             if (charToMatch < currentChar) {
                 collectKeysThatMatchAtNode(
-                    currentNodePointer->left.get(), previousPrefix, patternToMatch, collectedKeys);            } else if (charToMatch > currentChar) {
+                    currentNodePointer->left.get(), previousPrefix, patternToMatch, collectedKeys);
+            } else if (charToMatch > currentChar) {
                 collectKeysThatMatchAtNode(
                     currentNodePointer->right.get(), previousPrefix, patternToMatch, collectedKeys);
-            } else {  // if (charToMatch == currentChar)                if (previousPrefixLength < lastIndexToMatch) {
+            } else {  // if (charToMatch == currentChar)
+                if (previousPrefixLength < lastIndexToMatch) {
                     collectKeysThatMatchAtNode(
                         currentNodePointer->mid.get(), currentPrefix, patternToMatch, collectedKeys);
                 } else if (previousPrefixLength == lastIndexToMatch && currentNodePointer->valueUniquePointer) {

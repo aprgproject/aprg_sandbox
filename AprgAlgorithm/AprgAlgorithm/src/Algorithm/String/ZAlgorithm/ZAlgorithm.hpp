@@ -30,14 +30,16 @@ public:
         Index startOfPrefix = 0, endOfPrefix = 0;
         for (Index index = 1; index < mainStringLength; index++) {
             // compute prefix length from previous prefix lengths
-            Index previousPrefixLength = prefixLengths[index - startOfPrefix];
-            Index maxPreviousPrefixSubLength = endOfPrefix - index + 1;
             Index &prefixLength(prefixLengths[index]);
-            prefixLength = std::max(0, std::min(previousPrefixLength, maxPreviousPrefixSubLength));
+            if (startOfPrefix <= index && index <= endOfPrefix) {
+                Index previousPrefixLength = prefixLengths[index - startOfPrefix];
+                Index maxPreviousPrefixSubLength = endOfPrefix - index + 1;
+                prefixLength = std::min(previousPrefixLength, maxPreviousPrefixSubLength);
+            }
             // set new a prefix range, or extend the prefix length if possible
-            for (int newEndIndex = index + prefixLength; mainString[prefixLength] == mainString[newEndIndex];
-                 ++prefixLength, ++newEndIndex) {
-                endOfPrefix = newEndIndex;
+            for (int newEndOfPrefix = index + prefixLength; mainString[prefixLength] == mainString[newEndOfPrefix];
+                 ++prefixLength, ++newEndOfPrefix) {
+                endOfPrefix = newEndOfPrefix;
             }
             if (prefixLength > 0) {
                 startOfPrefix = endOfPrefix - prefixLength + 1;

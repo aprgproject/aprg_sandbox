@@ -15,12 +15,8 @@ public:
     using Strings = typename BaseClass::Strings;
     using Node = typename BaseClass::Node;
     using NodeUniquePointer = std::unique_ptr<Node>;
-    TernarySearchTrieSubstringsSet() : b_root(BaseClass::m_root) {}
 
-    void put(Key const& key) override {        if (!key.empty()) {
-            putStartingOnThisNode(b_root, key, 0);
-        }
-    }
+    TernarySearchTrieSubstringsSet() : b_root(BaseClass::m_root) {}
 
     Strings getAllKeysWithPrefix(Key const& prefix) const override {
         Strings result;
@@ -31,9 +27,17 @@ public:
         }
         return result;
     }
+
+    void put(Key const& key) override {
+        if (!key.empty()) {
+            putStartingOnThisNode(b_root, key, 0);
+        }
+    }
+
 protected:
     int getSizeStartingOnThisNode(NodeUniquePointer const& currentNodePointer) const override {
-        int result(0);        if (currentNodePointer) {
+        int result(0);
+        if (currentNodePointer) {
             result++;
             result += getSizeStartingOnThisNode(currentNodePointer->left);
             result += getSizeStartingOnThisNode(currentNodePointer->right);
@@ -65,7 +69,8 @@ protected:
             std::string currentPrefix(previousPrefix + currentNodePointer->c);
             collectedKeys.emplace_back(currentPrefix);
             collectAllKeysAtNode(currentNodePointer->mid.get(), currentPrefix, collectedKeys);
-            collectAllKeysAtNode(currentNodePointer->right.get(), previousPrefix, collectedKeys);        }
+            collectAllKeysAtNode(currentNodePointer->right.get(), previousPrefix, collectedKeys);
+        }
     }
 
     void collectKeysThatMatchAtNode(
@@ -79,10 +84,12 @@ protected:
             std::string currentPrefix(previousPrefix + currentNodePointer->c);
             if (charToMatch < currentChar) {
                 collectKeysThatMatchAtNode(
-                    currentNodePointer->left.get(), previousPrefix, patternToMatch, collectedKeys);            } else if (charToMatch > currentChar) {
+                    currentNodePointer->left.get(), previousPrefix, patternToMatch, collectedKeys);
+            } else if (charToMatch > currentChar) {
                 collectKeysThatMatchAtNode(
                     currentNodePointer->right.get(), previousPrefix, patternToMatch, collectedKeys);
-            } else {  // if (charToMatch == currentChar)                if (previousPrefixLength < lastIndexToMatch) {
+            } else {  // if (charToMatch == currentChar)
+                if (previousPrefixLength < lastIndexToMatch) {
                     collectKeysThatMatchAtNode(
                         currentNodePointer->mid.get(), currentPrefix, patternToMatch, collectedKeys);
                 } else if (previousPrefixLength == lastIndexToMatch) {

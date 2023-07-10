@@ -29,7 +29,7 @@ TEST(QuickSorterUtilitiesTest, PartitionAndGetPartitionIndexWorksWithLowestIndex
     auto partitionIndex =
         partitionAndGetPartitionIndex(valuesToSort, 0, valuesToSort.size() - 1, PivotType::LowestIndex);
 
-    Characters valuesToExpect{'P', 'O', 'R', 'E', 'E', 'L', 'A', 'M', 'S', 'X', 'T'};
+    Characters valuesToExpect{'E', 'O', 'R', 'L', 'E', 'P', 'A', 'M', 'S', 'T', 'X'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
     EXPECT_EQ(8, partitionIndex);
 }
@@ -40,7 +40,7 @@ TEST(QuickSorterUtilitiesTest, PartitionAndGetPartitionIndexWorksWithHighestInde
     auto partitionIndex =
         partitionAndGetPartitionIndex(valuesToSort, 0, valuesToSort.size() - 1, PivotType::HighestIndex);
 
-    Characters valuesToExpect{'E', 'A', 'E', 'T', 'R', 'X', 'O', 'M', 'P', 'L', 'S'};
+    Characters valuesToExpect{'A', 'E', 'E', 'T', 'O', 'X', 'R', 'M', 'P', 'L', 'S'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
     EXPECT_EQ(2, partitionIndex);
 }
@@ -51,7 +51,7 @@ TEST(QuickSorterUtilitiesTest, PartitionAndGetPartitionIndexWorksWithMedianOfLow
     auto partitionIndex =
         partitionAndGetPartitionIndex(valuesToSort, 0, valuesToSort.size() - 1, PivotType::MedianOfLowMidHighIndexes);
 
-    Characters valuesToExpect{'P', 'O', 'R', 'E', 'E', 'L', 'A', 'M', 'S', 'X', 'T'};
+    Characters valuesToExpect{'E', 'O', 'R', 'L', 'E', 'P', 'A', 'M', 'S', 'T', 'X'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
     EXPECT_EQ(8, partitionIndex);
 }
@@ -62,7 +62,7 @@ TEST(QuickSorterUtilitiesTest, PartitionAndGetPartitionIndexWorksWithMedianNinth
     auto partitionIndex =
         partitionAndGetPartitionIndex(valuesToSort, 0, valuesToSort.size() - 1, PivotType::MedianNinther);
 
-    Characters valuesToExpect{'M', 'O', 'E', 'L', 'E', 'P', 'A', 'R', 'X', 'T', 'S'};
+    Characters valuesToExpect{'E', 'O', 'L', 'P', 'E', 'M', 'A', 'R', 'T', 'S', 'X'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
     EXPECT_EQ(7, partitionIndex);
 }
@@ -73,7 +73,7 @@ TEST(QuickSorterUtilitiesTest, PartitionAndGetPartitionIndexWorksWithMedianOfMed
     auto partitionIndex =
         partitionAndGetPartitionIndex(valuesToSort, 0, valuesToSort.size() - 1, PivotType::MedianOfMedians);
 
-    Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'X', 'T', 'S', 'P', 'R', 'O'};
+    Characters valuesToExpect{'E', 'L', 'A', 'E', 'M', 'X', 'R', 'S', 'P', 'O', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
     EXPECT_EQ(4, partitionIndex);
 }

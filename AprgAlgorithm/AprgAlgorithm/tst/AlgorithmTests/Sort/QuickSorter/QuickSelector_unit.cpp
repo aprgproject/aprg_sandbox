@@ -43,7 +43,7 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
 
     selector.doNthElement(valuesToSort, 5);
 
-    Characters valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
+    Characters valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'R', 'P', 'S', 'T', 'X'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
 }
 
@@ -53,7 +53,7 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
 
     selector.doNthElement(valuesToSort, 5);
 
-    Characters valuesToExpect{'E', 'A', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
+    Characters valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'R', 'P', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
 }
 
@@ -72,7 +72,7 @@ TEST(QuickSelectorTest, DoNthElementWorksOnCharactersUsingExample1WithPivotWithV
 
     selector.doNthElement(valuesToSort, 5);
 
-    Characters valuesToExpect{'E', 'E', 'L', 'A', 'M', 'O', 'P', 'R', 'S', 'X', 'T'};
+    Characters valuesToExpect{'E', 'L', 'A', 'E', 'M', 'O', 'P', 'R', 'X', 'S', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToSort);
 }
 

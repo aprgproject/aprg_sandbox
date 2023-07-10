@@ -19,10 +19,9 @@ public:
     RabinKarpSubstringSearchWithSubstringHash(std::string const& query)
         : m_query(query),
           m_queryLength(query.length()),
-          m_queryHash(
-              HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(query)) {}
+          m_queryHash(HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(query)) {}
 
-    Index search(std::string const& searchSpace) {
+    Index search(std::string const& searchSpace) const {
         Index result(static_cast<Index>(std::string::npos));
         if (m_queryLength > 0 && m_queryLength <= static_cast<Index>(searchSpace.length())) {
             HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, searchSpace);
@@ -36,6 +35,7 @@ public:
         return result;
     }
 
+private:
     std::string const m_query;
     Index const m_queryLength;
     HashValue m_queryHash;

@@ -44,32 +44,40 @@ int partitionAndGetPartitionIndexUsingHoare(
 
     int indexWithPivotValue = getPivotIndex(values, lowIndex, highIndex, pivotType);
     auto pivotValue = values[indexWithPivotValue];
+    // Put the pivot on low because so it will be first swapped.
     std::swap(values[lowIndex], values[indexWithPivotValue]);
 
-    int indexWithGreaterValue = lowIndex;  // no need for minus one because pivot is in lowIndex
-    int indexWithLesserValue = highIndex + 1;
+    bool isPivotNotYetSwapped(true);
+    int indexWithGreaterValue = lowIndex - 1;  // increment first in the loop below corrects the first index
+    int indexWithLesserValue = highIndex + 1;  // decrement first in the loop below corrects the first index
     while (true) {
-        // Notice that the loop has increment first
         // Important: This loops exits when it finds a value greater than pivotValue
         while (values[++indexWithGreaterValue] < pivotValue)
             ;
-
-        // Notice that the loop has decrement first
         // Important: This loops exits when it finds a value less than pivotValue
         while (pivotValue < values[--indexWithLesserValue])
             ;
 
-        // stop if the indexWithGreaterValue and indexWithLesserValue meet
-        // the loop breaks when indexWithLesserValue == indexWithGreaterValue, they both have the partitionIndex
+        // Stop if the indexWithGreaterValue and indexWithLesserValue meet
         if (indexWithGreaterValue < indexWithLesserValue) {
             std::swap(values[indexWithGreaterValue], values[indexWithLesserValue]);
+            // The portion below is different from the Hoare's implementation.
+            // This is added because we need the partitionIndex.
+            if (isPivotNotYetSwapped) {
+                indexWithPivotValue = indexWithLesserValue;  // keep track of pivot
+                isPivotNotYetSwapped = false;
+            }
         } else {
             break;
         }
     }
-
-    std::swap(values[lowIndex], values[indexWithLesserValue]);
-    return indexWithLesserValue;  // return partition index
+    if (isPivotNotYetSwapped) {
+        return lowIndex;  // return original position
+    } else {
+        // Swap at pivot at the border of the right partition.
+        std::swap(values[indexWithPivotValue], values[indexWithGreaterValue]);
+        return indexWithGreaterValue;  // return swapped position
+    }
 }
 
 template <typename Values>
@@ -119,7 +127,7 @@ typename Values::iterator partitionAndGetPartitionIteratorInTwoDirections(
     }
 
     std::swap(*itLow, *itWithLesserValue);  // put pivotValue at partition iterator
-    return itWithLesserValue;               // return partition iterator
+    return itWithLesserValue;
 }
 
 template <typename Values>

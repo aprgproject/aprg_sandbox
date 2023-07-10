@@ -20,7 +20,7 @@ public:
         initialize();
     }
 
-    Index search(std::string const& searchSpace) {
+    Index search(std::string const& searchSpace) const {
         Index result(static_cast<Index>(std::string::npos));
         Index searchSpaceLength(searchSpace.length());
         Index queryLength(m_query.length());
@@ -49,8 +49,8 @@ private:
             // j-1], followed by c
             // ---> Reason for this is salvaging previous matches from mismatches only occurs on indexes [1 ... j-1]
 
-            for (Index i = 1; i < queryLength; i++) {
-                for (RadixType c = 0; c < RADIX; c++) {
+            for (Index i = 1; i < queryLength; ++i) {
+                for (RadixType c = 0; c < RADIX; ++c) {
                     // assign mismatch state as the "delayedState with inputed c"
                     Index mismatchState(m_nextIndexDfa.getNextState(delayedState, c));
                     // put transition: if there is a mismatch go back to

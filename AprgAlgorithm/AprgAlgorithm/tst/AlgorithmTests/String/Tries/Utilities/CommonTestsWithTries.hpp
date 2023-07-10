@@ -121,10 +121,12 @@ void testGetKeysWithInt() {
     using Strings = typename Trie::Strings;
     Trie trie;
     trie.put("she", 0);
-    trie.put("sells", 1);    trie.put("sea", 2);
+    trie.put("sells", 1);
+    trie.put("sea", 2);
     trie.put("shells", 3);
     trie.put("by", 4);
-    trie.put("the", 5);    trie.put("sea", 6);
+    trie.put("the", 5);
+    trie.put("sea", 6);
     trie.put("shore", 7);
     trie.put("s", 8);
 
@@ -139,10 +141,12 @@ void testGetAllKeysWithPrefixWithInt() {
     using Strings = typename Trie::Strings;
     Trie trie;
     trie.put("she", 0);
-    trie.put("sells", 1);    trie.put("sea", 2);
+    trie.put("sells", 1);
+    trie.put("sea", 2);
     trie.put("shells", 3);
     trie.put("by", 4);
-    trie.put("the", 5);    trie.put("sea", 6);
+    trie.put("the", 5);
+    trie.put("sea", 6);
     trie.put("shore", 7);
     trie.put("s", 8);
 
@@ -157,10 +161,12 @@ void testGetAllKeysThatMatchWithInt() {
     using Strings = typename Trie::Strings;
     Trie trie;
     trie.put("she", 0);
-    trie.put("sells", 1);    trie.put("sea", 2);
+    trie.put("sells", 1);
+    trie.put("sea", 2);
     trie.put("shells", 3);
     trie.put("by", 4);
-    trie.put("the", 5);    trie.put("sea", 6);
+    trie.put("the", 5);
+    trie.put("sea", 6);
     trie.put("shore", 7);
     trie.put("s", 8);
 
@@ -169,9 +175,11 @@ void testGetAllKeysThatMatchWithInt() {
     Strings expectedKeys{"sea", "she"};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
+
 template <typename Trie>
 void testExample1WithInt() {
-    Trie trie;    trie.put("CANAL", 2251);
+    Trie trie;
+    trie.put("CANAL", 2251);
     trie.put("CANDY", 48430);
     trie.put("THE", 625);
     trie.put("THERE", 354468);

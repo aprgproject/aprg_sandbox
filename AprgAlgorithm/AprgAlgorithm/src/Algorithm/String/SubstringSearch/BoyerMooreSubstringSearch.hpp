@@ -20,7 +20,7 @@ public:
 
     BoyerMooreSubstringSearch(std::string const& query) : m_query(query), m_rightMostLetterIndex{} { initialize(); }
 
-    Index search(std::string const& searchSpace) {
+    Index search(std::string const& searchSpace) const {
         Index result(static_cast<Index>(std::string::npos));
         Index searchSpaceLength(searchSpace.length());
         Index queryLength(m_query.length());

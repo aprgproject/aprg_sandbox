@@ -50,12 +50,12 @@ HashValue getHashForDoubleHash(
 
 }  // namespace alba
 
-// Check other discussion in other files as well, they are understandable insights (BaseLinearProbingHash).
+// Check other discussion in other files as well, they are understandable insights (like BaseLinearProbingHash.hpp).
 
 // We will examine three commonly used techniques to compute the probe sequences required to open addressing:
 // -> Linear probing, quadratic probing and double hashing.
 // These techniques all guarantee that the hashes geenerated fits the number of slots for each key.
 // None of There techniques fulfills the assumption of uniform hashing,
 // -> however, since none of them is capable of generating more than m^2 different probe sequences* (instead of the m!
-// that uniform hashing requires). Double hashing has the greatest number of probe sequences and as one might expect,
-// seems to give the best results.
+// that uniform hashing requires).
+// Double hashing has the greatest number of probe sequences and as one might expect, seems to give the best results.

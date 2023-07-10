@@ -22,7 +22,7 @@ public:
         reinitializeHPartsAndPParts();
     }
 
-    HashValue getHashCodeOfWholeString() {
+    HashValue getHashCodeOfWholeString() const {
         // The hash value of any substring s[a...b] can be calculated in O(1) time using the formula:
         // (h[b] - (h[a-1] * p[b-a+1])) mod B
         // assuming that a>0.
@@ -35,7 +35,7 @@ public:
         return result;
     }
 
-    HashValue getHashCodeOfSubstring(int const startIndex, int const endIndex) {
+    HashValue getHashCodeOfSubstring(int const startIndex, int const endIndex) const {
         // The hash value of any substring s[a...b] can be calculated in O(1) time using the formula:
         // (h[b] - (h[a-1] * p[b-a+1])) mod B
         // assuming that a>0.
@@ -45,10 +45,9 @@ public:
         if (startIndex < static_cast<int>(m_stringToHash.length()) &&
             endIndex < static_cast<int>(m_stringToHash.length()) && startIndex <= endIndex) {
             if (startIndex > 0) {
-                result =
-                    (m_largeRandomPrime + m_hParts[endIndex] -
-                     ((m_hParts[startIndex - 1] * m_pParts[endIndex - startIndex + 1]) % m_largeRandomPrime)) %
-                    m_largeRandomPrime;
+                result = (m_largeRandomPrime + m_hParts[endIndex] -
+                          ((m_hParts[startIndex - 1] * m_pParts[endIndex - startIndex + 1]) % m_largeRandomPrime)) %
+                         m_largeRandomPrime;
             } else {
                 result = m_hParts[endIndex];
             }

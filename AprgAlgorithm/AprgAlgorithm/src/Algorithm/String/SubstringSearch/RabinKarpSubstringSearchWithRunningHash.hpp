@@ -23,7 +23,7 @@ public:
           m_radixRaiseToMatchLengthHash(getRadixRaiseToMatchLengthHash()),
           m_queryHash(getHash(m_query)) {}
 
-    Index search(std::string const& searchSpace) {
+    Index search(std::string const& searchSpace) const {
         Index result(static_cast<Index>(std::string::npos));
         Index searchLength(searchSpace.length());
         HashValue currentHash(getHash(searchSpace));
@@ -44,9 +44,11 @@ public:
     }
 
 private:
-    HashValue getHash(std::string const& key) { return m_hornerHashFunction.getHashCode(key.substr(0, m_queryLength)); }
+    HashValue getHash(std::string const& key) const {
+        return m_hornerHashFunction.getHashCode(key.substr(0, m_queryLength));
+    }
 
-    HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd) {
+    HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd) const {
         // First, subtract value for charToRemove
         HashValue result =
             (currentHash + m_largeRandomPrime - (m_radixRaiseToMatchLengthHash * charToRemove % m_largeRandomPrime)) %
@@ -56,7 +58,7 @@ private:
         return result;
     }
 
-    HashValue getRadixRaiseToMatchLengthHash() {
+    HashValue getRadixRaiseToMatchLengthHash() const {
         HashValue result(1);
         for (int i = 1; i < m_queryLength; i++) {
             result = (result * RADIX) % m_largeRandomPrime;

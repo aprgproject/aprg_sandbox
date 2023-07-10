@@ -16,7 +16,7 @@ void testDoNthElementUsingExample1WithCharacters(Selector const& selector) {
 
     selector.doNthElement(valuesToSelect, 5);
 
-    Values valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
+    Values valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'R', 'P', 'S', 'T', 'X'};
     EXPECT_EQ(valuesToExpect, valuesToSelect);
 }
 

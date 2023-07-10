@@ -15,9 +15,11 @@ public:
     using Strings = typename BaseClass::Strings;
     using Node = NodeTemplateType;
     using NodeUniquePointer = std::unique_ptr<Node>;
+
     BaseTernarySearchTrie() : m_root(nullptr) {}
 
-    // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)    ~BaseTernarySearchTrie() override = default;
+    // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+    ~BaseTernarySearchTrie() override = default;
 
     bool isEmpty() const override { return getSize() == 0; }
 
@@ -50,6 +52,7 @@ public:
         collectKeysThatMatchAtNode(m_root.get(), std::string(), patternToMatch, result);
         return result;
     }
+
 protected:
     virtual int getSizeStartingOnThisNode(NodeUniquePointer const& currentNodePointer) const = 0;
     virtual int getLengthOfLongestPrefixStartingOnThisNode(
@@ -61,9 +64,11 @@ protected:
         Strings& collectedKeys) const = 0;
     virtual void deleteBasedOnKeyStartingOnThisNode(
         NodeUniquePointer& currentNodePointer, Key const& key, int const index) = 0;
+
     int getNumberOfNodes(NodeUniquePointer const& currentNodePointer) const {
         int result(0);
-        if (currentNodePointer) {            result++;
+        if (currentNodePointer) {
+            result++;
             result += getNumberOfNodes(currentNodePointer->left);
             result += getNumberOfNodes(currentNodePointer->right);
             result += getNumberOfNodes(currentNodePointer->mid);

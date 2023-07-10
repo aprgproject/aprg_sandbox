@@ -16,9 +16,9 @@ public:
 
     SubstringSearchUsingZAlgorithm(std::string const& query) : m_query(query) {}
 
-    Index search(std::string const& searchSpace) { return searchForFirstSubstring(searchSpace); }
+    Index search(std::string const& searchSpace) const { return searchForFirstSubstring(searchSpace); }
 
-    Index searchForFirstSubstring(std::string const& searchSpace) {
+    Index searchForFirstSubstring(std::string const& searchSpace) const {
         Index result = static_cast<Index>(std::string::npos);
         std::string stringForZAlgorithm = createStringForZAlgorithm(searchSpace);
         Indexes prefixLengths = calculatePrefixLengths(stringForZAlgorithm);
@@ -33,7 +33,7 @@ public:
         return result;
     }
 
-    Indexes searchForAllSubstrings(std::string const& searchSpace) {
+    Indexes searchForAllSubstrings(std::string const& searchSpace) const {
         Indexes result{};
         std::string stringForZAlgorithm = createStringForZAlgorithm(searchSpace);
         Indexes prefixLengths = calculatePrefixLengths(stringForZAlgorithm);

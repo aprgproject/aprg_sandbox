@@ -13,7 +13,7 @@ class SuffixTrieSubStringSearch {
 public:
     SuffixTrieSubStringSearch(std::string const& query) : m_query(query) {}
 
-    Index search(std::string const& searchSpace) {
+    Index search(std::string const& searchSpace) const {
         if (!m_query.empty()) {
             return searchUsingTrie(searchSpace, m_query);
         }
@@ -21,7 +21,7 @@ public:
     }
 
 private:
-    int searchUsingTrie(std::string const& searchSpace, std::string const& query) {
+    int searchUsingTrie(std::string const& searchSpace, std::string const& query) const {
         TernarySearchSuffixTrie trie(searchSpace);
         return trie.getIndexOfFirstOccurrence(query);
     }

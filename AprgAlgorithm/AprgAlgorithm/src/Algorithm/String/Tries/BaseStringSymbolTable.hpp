@@ -4,6 +4,7 @@
 #include <vector>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Value>
@@ -13,8 +14,10 @@ public:
     using Strings = std::vector<std::string>;
 
     virtual ~BaseStringSymbolTable() = default;  // virtual destructor because of virtual functions (vtable exists)
+
     virtual bool isEmpty() const = 0;                    // is the symbol table empty
     virtual bool doesContain(Key const& key) const = 0;  // is key exists on symbol table
+
     virtual int getSize() const = 0;                                  // get number of key-value pairs
     virtual Value get(Key const& key) const = 0;                      // get value paired with key
     virtual Key getLongestPrefixOf(Key const& keyToCheck) const = 0;  // get the longest key that has a prefix
@@ -28,9 +31,11 @@ public:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
-// Can we do better than generic symbol tables?// Yes, if we can avoid examining the entrie key, as with string sorting.
+// Can we do better than generic symbol tables?
+// Yes, if we can avoid examining the entrie key, as with string sorting.
 // So create a specialized string symbol table
 
 // Applications:
