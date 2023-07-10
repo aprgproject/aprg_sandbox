@@ -17,23 +17,35 @@ using Permutations = GenerationForTest::Permutations;
 TEST(PermutationsGenerationTest, GeneratePermutationsUsingCppFunctionsWorks) {
     Permutations actualPermutations(GenerationForTest::generatePermutationsUsingCppFunctions({1, 3, 5}));
 
-    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5},
-                                      {3, 5, 1}, {5, 1, 3}, {5, 3, 1}};
+    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5}, {3, 5, 1}, {5, 1, 3}, {5, 3, 1}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
-TEST(PermutationsGenerationTest, GeneratePermutationsUsingRecursionWorks) {
-    Permutations actualPermutations(GenerationForTest::generatePermutationsUsingRecursion({1, 3, 5}));
+TEST(PermutationsGenerationTest, GeneratePermutationsByBuildingWorks) {
+    Permutations actualPermutations(GenerationForTest::generatePermutationsByBuilding({1, 3, 5}));
 
-    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5},
-                                      {3, 5, 1}, {5, 1, 3}, {5, 3, 1}};
+    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5}, {3, 5, 1}, {5, 1, 3}, {5, 3, 1}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
-TEST(PermutationsGenerationTest, GeneratePermutationsWithLengthWorks) {
-    Permutations actualPermutations(GenerationForTest::generatePermutationsWithLength({1, 3, 5}, 2));
+TEST(PermutationsGenerationTest, GeneratePermutationsByBuildingWithLengthWorks) {
+    Permutations actualPermutations(GenerationForTest::generatePermutationsByBuildingWithLength({1, 3, 5}, 2));
 
     Permutations expectedPermutations{{1, 3}, {1, 5}, {3, 1}, {3, 5}, {5, 1}, {5, 3}};
+    EXPECT_EQ(expectedPermutations, actualPermutations);
+}
+
+TEST(PermutationsGenerationTest, GeneratePermutationsBySwappingWorks) {
+    Permutations actualPermutations(GenerationForTest::generatePermutationsBySwapping({1, 3, 5}));
+
+    Permutations expectedPermutations{{1, 3, 5}, {1, 5, 3}, {3, 1, 5}, {3, 5, 1}, {5, 3, 1}, {5, 1, 3}};
+    EXPECT_EQ(expectedPermutations, actualPermutations);
+}
+
+TEST(PermutationsGenerationTest, GeneratePermutationsBySwappingInRangeWorks) {
+    Permutations actualPermutations(GenerationForTest::generatePermutationsBySwappingInRange({1, 3, 5, 7}, 1, 2));
+
+    Permutations expectedPermutations{{{1, 3, 5, 7}, {1, 5, 3, 7}}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
