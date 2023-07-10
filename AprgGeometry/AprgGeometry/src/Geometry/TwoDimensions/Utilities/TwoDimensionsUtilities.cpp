@@ -2,31 +2,35 @@
 
 #include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
-#include <Common/Math/Number/Interval/AlbaNumberInterval.hpp>
-#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <Geometry/TwoDimensions/Constructs/Rectangle.hpp>
-
 #include <stack>
 
 using namespace alba::containerHelper;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba {
 
 namespace TwoDimensions {
 
 namespace twoDimensionsUtilities {
 
+namespace {
+bool isCollinearPointInLineSegment(LineSegment const& segment1, Point const& point) {
+    return min(segment1.first.getX(), segment1.second.getX()) <= point.getX() &&
+           point.getX() <= max(segment1.first.getX(), segment1.second.getX()) &&
+           min(segment1.first.getY(), segment1.second.getY()) <= point.getY() &&
+           point.getY() <= max(segment1.first.getY(), segment1.second.getY());
+}
+}  // namespace
+
 bool isOrigin(Point const& point) { return point.getX() == 0 && point.getY() == 0; }
 
-bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY) {
-    return (
+bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY) {    return (
         point.getX() >= minimumXAndY.getX() && point.getY() >= minimumXAndY.getY() &&
         point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
 }
-
 bool isPointInLine(Point const& point, Line const& line) {
     return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
@@ -52,14 +56,55 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2) {
            (isAlmostEqual(line1.getSlope(), line2.getPerpendicularSlope()));
 }
 
+bool doesTheTwoLineSegmentsIntersect(LineSegment const& segment1, LineSegment const& segment2) {
+    RotationDirection direction1 =
+        getRotationDirectionTraversing3Points(segment1.first, segment1.second, segment2.first);
+    RotationDirection direction2 =
+        getRotationDirectionTraversing3Points(segment1.first, segment1.second, segment2.second);
+    RotationDirection direction3 =
+        getRotationDirectionTraversing3Points(segment2.first, segment2.second, segment1.first);
+    RotationDirection direction4 =
+        getRotationDirectionTraversing3Points(segment2.first, segment2.second, segment1.second);
+
+    bool result(false);
+    if (direction1 != direction2 && direction3 != direction4) {
+        result = true;
+    } else if (RotationDirection::Collinear == direction1 && isCollinearPointInLineSegment(segment1, segment2.first)) {
+        result = true;
+    } else if (RotationDirection::Collinear == direction2 && isCollinearPointInLineSegment(segment1, segment2.second)) {
+        result = true;
+    } else if (RotationDirection::Collinear == direction3 && isCollinearPointInLineSegment(segment2, segment1.first)) {
+        result = true;
+    } else if (RotationDirection::Collinear == direction4 && isCollinearPointInLineSegment(segment2, segment1.second)) {
+        result = true;
+    }
+    return result;
+}
+
+bool isPointInsideTriangle(Triangle const& triangle, Point const& point) {
+    // Let the coordinates of three corners be (x1, y1), (x2, y2) and (x3, y3).
+    // And coordinates of the given point P be (x, y)
+    // ---> Calculate area of the given triangle, i.e., area of the triangle ABC in the above diagram.
+    // ---> Area A = [ x1(y2 – y3) + x2(y3 – y1) + x3(y1-y2)]/2
+    // ---> Calculate area of the triangle PAB. We can use the same formula for this. Let this area be A1.
+    // ---> Calculate area of the triangle PBC. Let this area be A2.
+    // ---> Calculate area of the triangle PAC. Let this area be A3.
+    // ---> If P lies inside the triangle, then A1 + A2 + A3 must be equal to A.
+    Points vertices(triangle.getVertices());
+    double areaOfTriangleOnly = getAreaOfTriangleUsingThreePoints(triangle);
+    double areaWithPoint =
+        getAbsoluteValue(getSignedCounterClockwiseTriangleAreaOf3Points(point, vertices[0], vertices[1])) +
+        getAbsoluteValue(getSignedCounterClockwiseTriangleAreaOf3Points(point, vertices[1], vertices[2])) +
+        getAbsoluteValue(getSignedCounterClockwiseTriangleAreaOf3Points(point, vertices[0], vertices[2]));
+    return areaOfTriangleOnly == areaWithPoint;
+}
+
 double getDistance(Point const& point1, Point const& point2) { return getEuclideanDistance(point1, point2); }
 
-double getDistance(Line const& line, Point const& point) {
-    Point pointInLine1(line.getAPoint());
+double getDistance(Line const& line, Point const& point) {    Point pointInLine1(line.getAPoint());
     Point pointInLine2(pointInLine1 + Point(line.getAUnitIncreaseInX(), line.getAUnitIncreaseInY()));
 
-    return getDistance(LineSegment{pointInLine1, pointInLine2}, point);
-}
+    return getDistance(LineSegment{pointInLine1, pointInLine2}, point);}
 
 double getDistance(LineSegment const& lineSegment, Point const& point) {
     // Point distance from a line
@@ -176,14 +221,15 @@ double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point cons
     Point deltaCA(c - a);
 
     return getCrossProduct(constructVector(deltaBA), constructVector(deltaCA)) / 2;
+    // This is the same:
+    // return (a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX() * (a.getY() - b.getY())) /
+    //        2.0;
 }
 
-double getAreaOfTriangleUsingThreePoints(Triangle const& triangle) {
-    // The area of a triangle can be calculated, for example, using Heron’s formula:
+double getAreaOfTriangleUsingThreePoints(Triangle const& triangle) {    // The area of a triangle can be calculated, for example, using Heron’s formula:
     // area = sqrt(s(s-a)(s-b)(s-c)),
     // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
-    auto vertices(triangle.getVertices());
-    return mathHelper::getAbsoluteValue(
+    auto vertices(triangle.getVertices());    return mathHelper::getAbsoluteValue(
         getSignedCounterClockwiseTriangleAreaOf3Points(vertices[0], vertices[1], vertices[2]));
 }
 
@@ -299,14 +345,12 @@ RotationDirection getRotationDirectionTraversing3Points(Point const a, Point con
     // The cross product tells us whether b turns left (positive value),
     // does not turn (zero) or turns right (negative value) when it is placed directly after a.
 
-    RotationDirection result(RotationDirection::None);
+    RotationDirection result(RotationDirection::Collinear);
     Point deltaBA(b - a);
     Point deltaCA(c - a);
-
     double crossProduct = getCrossProduct(constructVector(deltaBA), constructVector(deltaCA));
     if (crossProduct > 0) {
-        result = RotationDirection::CounterClockWise;
-    } else if (crossProduct < 0) {
+        result = RotationDirection::CounterClockWise;    } else if (crossProduct < 0) {
         result = RotationDirection::ClockWise;
     }
     return result;
@@ -374,57 +418,41 @@ Point getIntersectionOfTwoLines(Line const& line1, Line const& line2) {
 
 Point getIntersectionOfTwoLineSegment(LineSegment const& segment1, LineSegment const& segment2) {
     // Next we consider the problem of testing whether two line segments ab and cd intersect.
-    // The possible cases are:
-    // ---> Case 1: The line segments are on the same line and they overlap each other.
-    // In this case, there is an infinite number of intersection points.
-    // In this case, we can use cross products to check if all points are on the same line.
-    // After this, we can sort the points and check whether the line segments overlap each other.
-    // ---> Case 2: The line segments have a common vertex that is the only intersection point.
-    // This case is easy to check, because there are only four possibilities for the intersection point: a=c, a=d, b=c
-    // and b=d.
-    // ---> Case 3: There is exactly one intersection point that is not a vertex of any line segment.
-    // In the following picture, the point p is the intersection point:
-    // In this case, the line segments intersect exactly when both points c and d are on different sides of a line
-    // through a and b, and points a and b are on different sides of a line through c and d. We can use cross products
-    // to check this.
+    // 1. General Case:
+    // –--> (ab, c) and (ab, d) have different orientations and
+    // –--> (cd, a) and (cd, b) have different orientations.
+    // 2. Special Case
+    // –--> (ab, c), (ab, d), (cd, a)), and (cd, b) are collinear and
+    // –--> the x-projections of (ab) and (cd) intersect
+    // –--> the y-projections of (ab) and (cd) intersect
 
-    Point result(NAN, NAN);
     RotationDirection direction1 =
         getRotationDirectionTraversing3Points(segment1.first, segment1.second, segment2.first);
     RotationDirection direction2 =
         getRotationDirectionTraversing3Points(segment1.first, segment1.second, segment2.second);
-    Point pointOfIntersection;
-    if (RotationDirection::None == direction1 && RotationDirection::None != direction2) {
-        pointOfIntersection = Point(segment2.first);
-    } else if (RotationDirection::None != direction1 && RotationDirection::None == direction2) {
-        pointOfIntersection = Point(segment2.second);
-    } else if (RotationDirection::None != direction1 && RotationDirection::None != direction2) {
-        pointOfIntersection =
-            getIntersectionOfTwoLines(Line(segment1.first, segment1.second), Line(segment2.first, segment2.second));
-    }
+    RotationDirection direction3 =
+        getRotationDirectionTraversing3Points(segment2.first, segment2.second, segment1.first);
+    RotationDirection direction4 =
+        getRotationDirectionTraversing3Points(segment2.first, segment2.second, segment1.second);
 
-    AlbaNumberInterval interval1ForX(
-        createCloseEndpoint(segment1.first.getX()), createCloseEndpoint(segment1.second.getX()));
-    AlbaNumberInterval interval2ForX(
-        createCloseEndpoint(segment2.first.getX()), createCloseEndpoint(segment2.second.getX()));
-    AlbaNumberInterval interval1ForY(
-        createCloseEndpoint(segment1.first.getY()), createCloseEndpoint(segment1.second.getY()));
-    AlbaNumberInterval interval2ForY(
-        createCloseEndpoint(segment2.first.getY()), createCloseEndpoint(segment2.second.getY()));
-    bool isIntersectionInside = interval1ForX.isValueInsideTheInterval(pointOfIntersection.getX()) &&
-                                interval2ForX.isValueInsideTheInterval(pointOfIntersection.getX()) &&
-                                interval1ForY.isValueInsideTheInterval(pointOfIntersection.getY()) &&
-                                interval2ForY.isValueInsideTheInterval(pointOfIntersection.getY());
-    if (isIntersectionInside) {
-        result = pointOfIntersection;
+    Point result(NAN, NAN);
+    if (direction1 != direction2 && direction3 != direction4) {
+        result =
+            getIntersectionOfTwoLines(Line(segment1.first, segment1.second), Line(segment2.first, segment2.second));
+    } else if (RotationDirection::Collinear == direction1 && isCollinearPointInLineSegment(segment1, segment2.first)) {
+        result = segment2.first;
+    } else if (RotationDirection::Collinear == direction2 && isCollinearPointInLineSegment(segment1, segment2.second)) {
+        result = segment2.second;
+    } else if (RotationDirection::Collinear == direction3 && isCollinearPointInLineSegment(segment2, segment1.first)) {
+        result = segment1.first;
+    } else if (RotationDirection::Collinear == direction4 && isCollinearPointInLineSegment(segment2, segment1.second)) {
+        result = segment1.second;
     }
     return result;
 }
-
 Point getMidpoint(Point const& point1, Point const& point2) {
     return Point((point1.getX() + point2.getX()) / 2, (point1.getY() + point2.getY()) / 2);
 }
-
 Point getPointAlongALineWithDistanceFromAPoint(
     Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX) {
     double commonRatioWithDistance =
@@ -602,89 +630,123 @@ Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted) {
     return result;
 }
 
+Points getConvexHullPointsUsingJarvisAlgorithm(Points const& points) {
+    // Algorithm:
+    // Step 1) Initialize p as leftmost point.
+    // Step 2) Do following while we don’t come back to the first (or leftmost) point.
+    // ---> 2.1) The next point q is the point, such that the triplet (p, q, r)
+    // ---> is counter clockwise for any other point r.
+    // ---> To find this, we simply initialize q as next point, then we traverse through all points.
+    // ---> For any point i, if i is more counter clockwise,
+    // ---> i.e., orientation(p, i, q) is counter clockwise, then we update q as i.
+    // ---> Our final value of q is going to be the most counter clockwise point.
+    // ---> 2.2) next[p] = q (Store q as next of p in the output convex hull).
+    // ---> 2.3) p = q (Set p as q for next iteration).
+    // Time Complexity:  O(m * n), where n is number of input points and m is number of output or hull points (m <= n).
+    // For every point on the hull we examine all the other points to determine the next point.
+    // Worst case, Time complexity: O(n2).  The worst case occurs when all the points are on the hull (m = n).
+    // Auxiliary Space: O(n), since n extra space has been taken.
+
+    assert(points.size() >= 3);
+
+    int indexOfLeftMostPoint = 0;
+    for (int index = 1; index < static_cast<int>(points.size()); index++) {
+        if (points[index].getX() < points[indexOfLeftMostPoint].getX()) {
+            indexOfLeftMostPoint = index;
+        }
+    }
+
+    Points result;
+    int startIndex = indexOfLeftMostPoint;
+    do {
+        result.push_back(points[startIndex]);
+        int endIndex = (startIndex + 1) % points.size();
+        for (int indexInBetween = 0; indexInBetween < static_cast<int>(points.size()); indexInBetween++) {
+            if (RotationDirection::CounterClockWise ==
+                getRotationDirectionTraversing3Points(points[startIndex], points[indexInBetween], points[endIndex])) {
+                endIndex = indexInBetween;
+            }
+        }
+        startIndex = endIndex;
+
+    } while (startIndex != indexOfLeftMostPoint);
+    return result;
+}
+
 Points getConvexHullPointsUsingGrahamScan(Points const& points) {
     // Applications:
     // Motion planning (go from one point to another point when there is polygon obstacle)
     // Farthest point pair problem
 
-    // Andrew’s algorithm provides an easy way to construct the convex hull  for a set of points in O(nlogn) time.
-    // The algorithm first locates the leftmost and rightmost points, and then constructs the convex hull in two parts:
-    // first the upper hull and then the lower hull.
-    // Both parts are similar, so we can focus on constructing the upper hull.
-    // First, we sort the points primarily according to x coordinates and secondarily according to y coordinates.
-    // After this, we go through the points and add each point to the hull.
-    // Always after adding a point to the hull, we make sure that the last line segment in the hull does not turn left.
-    // As long as it turns left, we repeatedly remove the second last point from the hull.
-    // Note that implementation below are working on y coordinates (looks for the bottom point)
-
     assert(points.size() >= 3);
+    Points auxiliary = points;
+    int auxiliarySize = auxiliary.size();
 
-    auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2) {
-        return point1.getY() < point2.getY();
-    });
-    Point pointWithMinimumY(*(minmaxResult.first));  // find the bottom point
-
-    struct CompareData {
-        AlbaAngle angle;
-        double distance;
-        CompareData(AlbaAngle const& angleAsParameter, double const distanceAsParameter)
-            : angle(angleAsParameter), distance(distanceAsParameter) {}
-        bool operator<(CompareData const& second) const {
-            bool result(false);
-            if (angle != second.angle) {
-                result = angle < second.angle;
-            } else {
-                result = distance < second.distance;
+    // Find bottom most left point
+    auto minmaxResult =
+        minmax_element(auxiliary.begin(), auxiliary.end(), [](Point const& point1, Point const& point2) {
+            if (point1.getY() == point2.getY()) {
+                return point1.getX() < point2.getX();
             }
-            return result;
+            return point1.getY() < point2.getY();
+        });
+    swap(*(minmaxResult.first), auxiliary.front());
+    Point const& firstPoint(auxiliary.front());
+
+    // sort such that the points are in counter clockwise order
+    sort(next(auxiliary.begin()), auxiliary.end(), [firstPoint](Point const& point1, Point const& point2) {
+        RotationDirection direction = getRotationDirectionTraversing3Points(firstPoint, point1, point2);
+        if (RotationDirection::Collinear == direction) {
+            return getDistance(firstPoint, point1) <= getDistance(firstPoint, point2) ? true : false;
         }
-    };
+        return RotationDirection::CounterClockWise == direction ? true : false;
+    });
 
-    multimap<CompareData, Point> compareDataToPointMap;
-    for (Point const& point : points) {
-        compareDataToPointMap.emplace(
-            CompareData(
-                getAngleOfPointWithRespectToOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
-            point);
-        // sort points by polar angle
+    // remove collinear points
+    int newIndex = 1;
+    for (int index = 1; index < auxiliarySize; index++) {
+        for (; index < auxiliarySize - 1 &&
+               RotationDirection::Collinear ==
+                   getRotationDirectionTraversing3Points(firstPoint, auxiliary[index], auxiliary[index + 1]);
+             ++index)
+            ;
+        auxiliary[newIndex++] = auxiliary[index];
     }
+    auxiliary.resize(newIndex);
 
-    stack<Point> convertHullPoints;
-    int i = 0;
-    for (auto const& compareDataAndPointPair : compareDataToPointMap) {
-        Point const& currentPoint(compareDataAndPointPair.second);
-        if (i < 2) {
-            convertHullPoints.push(currentPoint);  // push the first 2 points
-        } else {
+    if (auxiliary.size() >= 3) {
+        // Process each point so that counter clock wise is maintained
+        stack<Point> convertHullPoints;
+        convertHullPoints.push(auxiliary[0]);
+        convertHullPoints.push(auxiliary[1]);
+        for (auto it = auxiliary.begin() + 2; it != auxiliary.end(); it++) {
+            Point const& currentPoint(*it);
             Point previousTop = convertHullPoints.top();
             convertHullPoints.pop();
             // Counter clock wise must be maintained
             while (!convertHullPoints.empty() &&
-                   RotationDirection::ClockWise !=
+                   RotationDirection::CounterClockWise ==
                        getRotationDirectionTraversing3Points(previousTop, convertHullPoints.top(), currentPoint)) {
                 // Remove point when non counter clock wise
-                previousTop = convertHullPoints.top();
-                convertHullPoints.pop();
+                previousTop = convertHullPoints.top();                convertHullPoints.pop();
             }
             convertHullPoints.push(previousTop);
             convertHullPoints.push(currentPoint);
-        }
-        i++;
-    };
+        };
 
-    Points results;
-    results.reserve(convertHullPoints.size());
-    auto const& underlyingContainer(getUnderlyingContainer(convertHullPoints));
-    reverse_copy(underlyingContainer.cbegin(), underlyingContainer.cend(), back_inserter(results));
-    return results;
+        // copy back from the stack to the results
+        auxiliary.clear();
+        auxiliary.reserve(convertHullPoints.size());
+        auto const& underlyingContainer(getUnderlyingContainer(convertHullPoints));
+        reverse_copy(underlyingContainer.cbegin(), underlyingContainer.cend(), back_inserter(auxiliary));
+    }
+    return auxiliary;
 }
 
-Line getLineWithSameSlope(Line const& line, Point const& point) {
-    return Line(
+Line getLineWithSameSlope(Line const& line, Point const& point) {    return Line(
         line.getACoefficient(), line.getBCoefficient(),
         -1 * ((line.getACoefficient() * point.getX()) + (line.getBCoefficient() * point.getY())));
 }
-
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point) {
     return Line(
         line.getBCoefficient(), -line.getACoefficient(),
