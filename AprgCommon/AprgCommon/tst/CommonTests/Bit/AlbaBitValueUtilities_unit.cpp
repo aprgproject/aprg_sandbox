@@ -7,14 +7,13 @@ using namespace std;
 namespace alba {
 
 TEST(AlbaBitValueUtilitiesTest, IsPowerOfTwoWorks) {
+    // NOTE: Zero is not really a power of two
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(0U));
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(1U));
-    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(2U));
-    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(3U));
+    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(2U));    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(3U));
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(4U));
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(5U));
-    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(6U));
-    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(7U));
+    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(6U));    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(7U));
 }
 
 TEST(AlbaBitValueUtilitiesTest, IsEvenParityWorks) {
@@ -108,13 +107,25 @@ TEST(AlbaBitValueUtilitiesTest, GetAllOnesWorks) {
     EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitValueUtilities<uint64_t>::getAllOnes());
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetAbsoluteValueWorks) {
-    // EXPECT_EQ(10, AlbaBitValueUtilities<uint8_t>::getAbsoluteValue(10)); // static assert should happen
-    EXPECT_EQ(10, AlbaBitValueUtilities<int8_t>::getAbsoluteValue(10));
-    EXPECT_EQ(0, AlbaBitValueUtilities<int8_t>::getAbsoluteValue(0));
-    EXPECT_EQ(10, AlbaBitValueUtilities<int8_t>::getAbsoluteValue(-10));
+TEST(AlbaBitValueUtilitiesTest, GetAlternatingZerosAndOnesFromLsbWorks) {
+    EXPECT_EQ(0xAAU, AlbaBitValueUtilities<uint8_t>::getAlternatingZerosAndOnesFromLsb());
+    EXPECT_EQ(0xAAAAU, AlbaBitValueUtilities<uint16_t>::getAlternatingZerosAndOnesFromLsb());
+    EXPECT_EQ(0xAAAAAAAAU, AlbaBitValueUtilities<uint32_t>::getAlternatingZerosAndOnesFromLsb());
+    EXPECT_EQ(0xAAAAAAAAAAAAAAAAU, AlbaBitValueUtilities<uint64_t>::getAlternatingZerosAndOnesFromLsb());
 }
 
+TEST(AlbaBitValueUtilitiesTest, GetAlternatingOnesAndZerosFromLsbWorks) {
+    EXPECT_EQ(0x55U, AlbaBitValueUtilities<uint8_t>::getAlternatingOnesAndZerosFromLsb());
+    EXPECT_EQ(0x5555U, AlbaBitValueUtilities<uint16_t>::getAlternatingOnesAndZerosFromLsb());
+    EXPECT_EQ(0x55555555U, AlbaBitValueUtilities<uint32_t>::getAlternatingOnesAndZerosFromLsb());
+    EXPECT_EQ(0x5555555555555555U, AlbaBitValueUtilities<uint64_t>::getAlternatingOnesAndZerosFromLsb());
+}
+
+TEST(AlbaBitValueUtilitiesTest, GetAbsoluteValueWorks) {
+    // EXPECT_EQ(10, AlbaBitValueUtilities<uint8_t>::getAbsoluteValue(10)); // static assert should happen
+    EXPECT_EQ(10, AlbaBitValueUtilities<int8_t>::getAbsoluteValue(10));    EXPECT_EQ(0, AlbaBitValueUtilities<int8_t>::getAbsoluteValue(0));
+    EXPECT_EQ(10, AlbaBitValueUtilities<int8_t>::getAbsoluteValue(-10));
+}
 TEST(AlbaBitValueUtilitiesTest, GetSignWorks) {
     // EXPECT_EQ(1, AlbaBitValueUtilities<uint8_t>::getSign(10)); // static assert should happen
     EXPECT_EQ(1, AlbaBitValueUtilities<int8_t>::getSign(10));
@@ -162,13 +173,18 @@ TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks) {
     EXPECT_EQ(0x5E455E455E455E46U, AlbaBitValueUtilities<uint64_t>::getTwosComplement(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetGreatestPowerOf2FactorWorks) {
-    EXPECT_EQ(4U, AlbaBitValueUtilities<uint8_t>::getGreatestPowerOf2Factor(12U));
-    EXPECT_EQ(2U, AlbaBitValueUtilities<uint16_t>::getGreatestPowerOf2Factor(1234U));
-    EXPECT_EQ(64U, AlbaBitValueUtilities<uint32_t>::getGreatestPowerOf2Factor(123456U));
-    EXPECT_EQ(2U, AlbaBitValueUtilities<uint64_t>::getGreatestPowerOf2Factor(12345678901234U));
+TEST(AlbaBitValueUtilitiesTest, MultiplyBySevenWorks) {
+    EXPECT_EQ(84U, AlbaBitValueUtilities<uint8_t>::multiplyBySeven(12U));
+    EXPECT_EQ(8638U, AlbaBitValueUtilities<uint16_t>::multiplyBySeven(1234U));
+    EXPECT_EQ(864192U, AlbaBitValueUtilities<uint32_t>::multiplyBySeven(123456U));
+    EXPECT_EQ(86419752308638U, AlbaBitValueUtilities<uint64_t>::multiplyBySeven(12345678901234U));
 }
 
+TEST(AlbaBitValueUtilitiesTest, GetGreatestPowerOf2FactorWorks) {
+    EXPECT_EQ(4U, AlbaBitValueUtilities<uint8_t>::getGreatestPowerOf2Factor(12U));
+    EXPECT_EQ(2U, AlbaBitValueUtilities<uint16_t>::getGreatestPowerOf2Factor(1234U));    EXPECT_EQ(64U, AlbaBitValueUtilities<uint32_t>::getGreatestPowerOf2Factor(123456U));
+    EXPECT_EQ(2U, AlbaBitValueUtilities<uint64_t>::getGreatestPowerOf2Factor(12345678901234U));
+}
 TEST(AlbaBitValueUtilitiesTest, GetValueWithLastBitOneAsZeroWorks) {
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getValueWithLastBitOneAsZero(0U));
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getValueWithLastBitOneAsZero(1U));
@@ -337,19 +353,60 @@ TEST(AlbaBitValueUtilitiesTest, RoundUpToAPowerOf2Works) {
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::roundUpToAPowerOf2(0xAAU));
 }
 
+TEST(AlbaBitValueUtilitiesTest, GetMinOfTwoValuesWorks) {
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getMinOfTwoValues(0U, 0U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getMinOfTwoValues(5U, 0U));
+    EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getMinOfTwoValues(15U, 2U));
+    EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getMinOfTwoValues(2U, 15U));
+    EXPECT_EQ(15U, AlbaBitValueUtilities<uint8_t>::getMinOfTwoValues(15U, 15U));
+}
+
+TEST(AlbaBitValueUtilitiesTest, GetMaxOfTwoValuesWorks) {
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getMaxOfTwoValues(0U, 0U));
+    EXPECT_EQ(5U, AlbaBitValueUtilities<uint8_t>::getMaxOfTwoValues(5U, 0U));
+    EXPECT_EQ(15U, AlbaBitValueUtilities<uint8_t>::getMaxOfTwoValues(15U, 2U));
+    EXPECT_EQ(15U, AlbaBitValueUtilities<uint8_t>::getMaxOfTwoValues(2U, 15U));
+    EXPECT_EQ(15U, AlbaBitValueUtilities<uint8_t>::getMaxOfTwoValues(15U, 15U));
+}
+
+TEST(AlbaBitValueUtilitiesTest, GetModuloOfPowerOfTwoWorks) {
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getModuloOfPowerOfTwo(0U, 0U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getModuloOfPowerOfTwo(5U, 0U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getModuloOfPowerOfTwo(15U, 2U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getModuloOfPowerOfTwo(16U, 2U));
+    EXPECT_EQ(1U, AlbaBitValueUtilities<uint8_t>::getModuloOfPowerOfTwo(17U, 2U));
+}
+
 TEST(AlbaBitValueUtilitiesTest, GetTwoValuesInACycleWorks) {
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getTwoValuesInACycle(0U, 0U, 0U));
     EXPECT_EQ(30U, AlbaBitValueUtilities<uint8_t>::getTwoValuesInACycle(5U, 5U, 30U));
     EXPECT_EQ(5U, AlbaBitValueUtilities<uint8_t>::getTwoValuesInACycle(30U, 5U, 30U));
 }
-
 TEST(AlbaBitValueUtilitiesTest, SwapWorks) {
     uint8_t value1 = 0xA1U;
     uint8_t value2 = 0xBAU;
-
     AlbaBitValueUtilities<uint8_t>::swap(value1, value2);
 
     EXPECT_EQ(0xBAU, value1);
     EXPECT_EQ(0xA1U, value2);
+}
+
+TEST(AlbaBitValueUtilitiesTest, IsMultipleOfThreeWorks) {
+    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isMultipleOfThree(0U));
+    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isMultipleOfThree(1U));
+    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isMultipleOfThree(157U));
+    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isMultipleOfThree(156U));
+    EXPECT_FALSE(AlbaBitValueUtilities<int>::isMultipleOfThree(-157));
+    EXPECT_TRUE(AlbaBitValueUtilities<int>::isMultipleOfThree(-156));
+}
+
+TEST(AlbaBitValueUtilitiesTest, IsMultipleOfNineWorks) {
+    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isMultipleOfNine(0U));
+    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isMultipleOfNine(1U));
+    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isMultipleOfNine(154U));
+    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isMultipleOfNine(153U));
+    EXPECT_FALSE(AlbaBitValueUtilities<int>::isMultipleOfNine(-154));
+    EXPECT_TRUE(AlbaBitValueUtilities<int>::isMultipleOfNine(-153));
 }
 
 }  // namespace alba

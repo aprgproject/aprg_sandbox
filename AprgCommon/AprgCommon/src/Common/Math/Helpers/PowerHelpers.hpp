@@ -150,8 +150,26 @@ NumberType getSquareRootUsingBinarySearch(NumberType const radicand) {
     // -> If interval is four elements, this reduces to one element or two elements
 }
 
+template <typename NumberType>
+NumberType getEToTheX(NumberType const exponent, NumberType const iterations) {
+    static_assert(typeHelper::isFloatingPointType<NumberType>(), "Number type must be a floating point type.");
+    // The value of Exponential Function e^x can be expressed using following Taylor Series.
+    // -> e^x = 1 + x/1! + x^2/2! + x^3/3! + ......
+    // How to efficiently calculate the sum of above series?
+    // The series can be re-written as
+    // -> e^x = 1 + (x/1) (1 + (x/2) (1 + (x/3) (........) ) )
+    // Let the sum needs to be calculated for n terms, we can calculate sum using following loop.
+    // -> for (i = n - 1, sum = 1; i > 0; --i )
+    // ->     sum = 1 + x * sum / i;
+
+    NumberType result = 1;
+    for (int term = iterations - 1; term > 0; --term) {
+        result = 1 + exponent * result / term;
+    };
+    return result;
+}
+
 bool isPerfectSquare(AlbaNumber const& value);                            // pass as const reference
 bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
-
 }  // namespace alba::mathHelper

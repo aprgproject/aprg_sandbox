@@ -38,20 +38,15 @@ inline typename std::make_signed<NumberType>::type convertToSignedThenSubtract(
     return static_cast<SignedType>(number1) - static_cast<SignedType>(number2);
 }
 
-inline AlbaNumber getAbsoluteValue(AlbaNumber const& value)  // pass as const reference
-{
-    return (value < 0) ? value * -1 : value;
-}
+// pass as const reference
+inline AlbaNumber getAbsoluteValue(AlbaNumber const& value) { return (value < 0) ? value * -1 : value; }
 
-inline AlbaNumber getSign(AlbaNumber const& value)  // pass as const reference
-{
-    return (value < 0) ? -1 : 1;
-}
+// pass as const reference
+inline AlbaNumber getSign(AlbaNumber const& value) { return (value < 0) ? -1 : 1; }
 
-inline AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& value2)  // pass as const reference
-{
+// pass as const reference
+inline AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& value2) {
     auto&& [minimum, maximum] = std::minmax(value1, value2);
     return maximum - minimum;
 }
-
 }  // namespace alba::mathHelper

@@ -37,14 +37,30 @@ TEST(CombinatoricsHelpersTest, GetNumberOfCombinationsWorks) {
     EXPECT_EQ(2333606220U, getNumberOfCombinations(34U, 17U));
 }
 
+TEST(CombinatoricsHelpersTest, GetNumberOfCombinationsFasterButPossibleOfRangeWorks) {
+    EXPECT_EQ(10U, getNumberOfCombinationsFasterButPossibleOfRange(5U, 2U));
+    EXPECT_EQ(1U, getNumberOfCombinationsFasterButPossibleOfRange(4U, 4U));
+    EXPECT_EQ(1U, getNumberOfCombinationsFasterButPossibleOfRange(4U, 0U));
+    EXPECT_EQ(4U, getNumberOfCombinationsFasterButPossibleOfRange(4U, 1U));
+    EXPECT_EQ(0U, getNumberOfCombinationsFasterButPossibleOfRange(4U, 5U));
+    // EXPECT_EQ(2333606220U, getNumberOfCombinationsFasterButPossibleOfRange(34U, 17U)); // wrong because out of range
+}
+
+TEST(CombinatoricsHelpersTest, GetBinomialCoefficientWorks) {
+    EXPECT_EQ(1U, getBinomialCoefficient(0U, 0U));
+    EXPECT_EQ(1U, getBinomialCoefficient(4U, 4U));
+    EXPECT_EQ(1U, getBinomialCoefficient(4U, 0U));
+    EXPECT_EQ(4U, getBinomialCoefficient(4U, 1U));
+    EXPECT_EQ(6U, getBinomialCoefficient(4U, 2U));
+    EXPECT_EQ(0U, getBinomialCoefficient(4U, 5U));
+}
+
 TEST(CombinatoricsHelpersTest, GetValueAtPascalTriangleWorks) {
     EXPECT_EQ(1U, getValueAtPascalTriangle(0U, 0U));
-    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 4U));
-    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 4U));    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));
     EXPECT_EQ(4U, getValueAtPascalTriangle(4U, 1U));
     EXPECT_EQ(6U, getValueAtPascalTriangle(4U, 2U));
-    EXPECT_EQ(0U, getValueAtPascalTriangle(4U, 5U));
-}
+    EXPECT_EQ(0U, getValueAtPascalTriangle(4U, 5U));}
 
 TEST(CombinatoricsHelpersTest, GetStirlingNumberOfTheSecondKindWorks) {
     EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(0U, 0U));

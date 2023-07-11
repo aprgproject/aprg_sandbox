@@ -20,15 +20,13 @@ INLINE_WITHOUT_BUILT_IN namespace BitUtilitiesWithoutBuiltIn {
     constexpr inline std::size_t getNumberOfOnes(DataType const value) {
         std::size_t result(0);
         for (auto temporary(value); temporary != 0; temporary >>= 1) {
-            if ((temporary & 1) != 0) {
+            if (temporary & 1) {
                 ++result;
             }
-        }
-        return result;
+        }        return result;
     }
     template <typename DataType>
-    constexpr inline bool isEvenParity(DataType const value) {
-        return (getNumberOfOnes(value) & 1) == 0;  // AND implementation because we sure that its Unsigned
+    constexpr inline bool isEvenParity(DataType const value) {        return (getNumberOfOnes(value) & 1) == 0;  // AND implementation because we sure that its Unsigned
     }
     template <typename DataType>
     constexpr inline std::size_t getNumberOfConsecutiveZerosFromMsb(DataType const value) {

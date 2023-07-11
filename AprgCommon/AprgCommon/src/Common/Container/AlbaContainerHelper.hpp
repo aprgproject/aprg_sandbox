@@ -44,24 +44,22 @@ void adjustLowerAndUpperIterators(
 template <typename ValueType, typename ContainerType>
 std::pair<typename ContainerType::const_iterator, typename ContainerType::const_iterator>
 getLowerAndUpperConstIteratorsForNonSet(ContainerType const& sortedContainer, ValueType const& value) {
-    auto lowerAndUpperItPair(std::equal_range(sortedContainer.cbegin(), sortedContainer.cend(), value));
-    adjustLowerAndUpperIterators(sortedContainer, value, lowerAndUpperItPair.first, lowerAndUpperItPair.second);
-    return lowerAndUpperItPair;
+    auto&& [lowerIt, upperIt] = std::equal_range(sortedContainer.cbegin(), sortedContainer.cend(), value);
+    adjustLowerAndUpperIterators(sortedContainer, value, lowerIt, upperIt);
+    return std::make_pair(lowerIt, upperIt);
 }
 
 template <typename ValueType, typename ContainerType>
 std::pair<ValueType, ValueType> getLowerAndUpperValuesForNonSet(
     ContainerType const& sortedContainer, ValueType const& value) {
-    auto lowerAndUpperIteratorPair(getLowerAndUpperConstIteratorsForNonSet(sortedContainer, value));
-    return std::pair<ValueType, ValueType>{*(lowerAndUpperIteratorPair.first), *(lowerAndUpperIteratorPair.second)};
+    auto&& [lowerIt, upperIt] = getLowerAndUpperConstIteratorsForNonSet(sortedContainer, value);
+    return std::make_pair(*lowerIt, *upperIt);
 }
 
-template <typename ValueType, typename ContainerType>
-size_t countItemsInBetweenForNonSet(
+template <typename ValueType, typename ContainerType>size_t countItemsInBetweenForNonSet(
     ContainerType const& sortedContainer, ValueType const& value1, ValueType const& value2) {
     // 1D range count
-    using ConstIterator = typename ContainerType::const_iterator;
-    ConstIterator itLower(std::lower_bound(sortedContainer.cbegin(), sortedContainer.cend(), value1));
+    using ConstIterator = typename ContainerType::const_iterator;    ConstIterator itLower(std::lower_bound(sortedContainer.cbegin(), sortedContainer.cend(), value1));
     ConstIterator itUpper(std::upper_bound(sortedContainer.cbegin(), sortedContainer.cend(), value2));
     return static_cast<size_t>(std::distance(itLower, itUpper));
 }
@@ -86,24 +84,22 @@ ContainerType getItemsInBetweenForNonSet(
 template <typename ValueType, typename ContainerType>
 std::pair<typename ContainerType::const_iterator, typename ContainerType::const_iterator>
 getLowerAndUpperConstIteratorsForSet(ContainerType const& setContainer, ValueType const& value) {
-    auto lowerAndUpperItPair(setContainer.equal_range(value));
-    adjustLowerAndUpperIterators(setContainer, value, lowerAndUpperItPair.first, lowerAndUpperItPair.second);
-    return lowerAndUpperItPair;
+    auto&& [lowerIt, upperIt] = setContainer.equal_range(value);
+    adjustLowerAndUpperIterators(setContainer, value, lowerIt, upperIt);
+    return std::make_pair(lowerIt, upperIt);
 }
 
 template <typename ValueType, typename ContainerType>
 std::pair<ValueType, ValueType> getLowerAndUpperValuesForSet(
     ContainerType const& setContainer, ValueType const& value) {
-    auto lowerAndUpperIteratorPair(getLowerAndUpperConstIteratorsForSet(setContainer, value));
-    return std::pair<ValueType, ValueType>{*(lowerAndUpperIteratorPair.first), *(lowerAndUpperIteratorPair.second)};
+    auto&& [lowerIt, upperIt] = getLowerAndUpperConstIteratorsForSet(setContainer, value);
+    return std::make_pair(*lowerIt, *upperIt);
 }
 
-template <typename ValueType, typename ContainerType>
-size_t countItemsInBetweenForSet(ContainerType const& setContainer, ValueType const& value1, ValueType const& value2) {
+template <typename ValueType, typename ContainerType>size_t countItemsInBetweenForSet(ContainerType const& setContainer, ValueType const& value1, ValueType const& value2) {
     // 1D range count
     using ConstIterator = typename ContainerType::const_iterator;
-    ConstIterator itLower(setContainer.lower_bound(value1));
-    ConstIterator itUpper(setContainer.upper_bound(value2));
+    ConstIterator itLower(setContainer.lower_bound(value1));    ConstIterator itUpper(setContainer.upper_bound(value2));
     return static_cast<size_t>(std::distance(itLower, itUpper));
 }
 

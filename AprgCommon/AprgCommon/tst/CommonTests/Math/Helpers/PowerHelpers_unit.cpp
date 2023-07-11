@@ -138,14 +138,20 @@ TEST(PowerHelpersTest, GetSquareRootUsingNewtonMethodWorks) {
     EXPECT_DOUBLE_EQ(6.0002529841194185, getSquareRootUsingNewtonMethod(36.0, 1.0, 5));
 }
 
+TEST(PowerHelpersTest, GetEToTheXWorks) {
+    EXPECT_DOUBLE_EQ(1, getEToTheX(0.0, 0.0));
+    EXPECT_DOUBLE_EQ(1, getEToTheX(0.0, 1.0));
+    EXPECT_DOUBLE_EQ(1, getEToTheX(1.0, 0.0));
+    EXPECT_DOUBLE_EQ(2.7182815255731922, getEToTheX(1.0, 10.0));
+    EXPECT_DOUBLE_EQ(7.3887125220458554, getEToTheX(2.0, 10.0));
+}
+
 TEST(PowerHelpersTest, GetSquareRootUsingBinarySearchWorks) {
     EXPECT_EQ(0, getSquareRootUsingBinarySearch(0));
-    EXPECT_EQ(1, getSquareRootUsingBinarySearch(1));
-    EXPECT_EQ(1, getSquareRootUsingBinarySearch(2));
+    EXPECT_EQ(1, getSquareRootUsingBinarySearch(1));    EXPECT_EQ(1, getSquareRootUsingBinarySearch(2));
     EXPECT_EQ(1, getSquareRootUsingBinarySearch(3));
     EXPECT_EQ(6, getSquareRootUsingBinarySearch(36));
-    EXPECT_EQ(5, getSquareRootUsingBinarySearch(34));
-    EXPECT_EQ(5, getSquareRootUsingBinarySearch(35));
+    EXPECT_EQ(5, getSquareRootUsingBinarySearch(34));    EXPECT_EQ(5, getSquareRootUsingBinarySearch(35));
     EXPECT_EQ(6, getSquareRootUsingBinarySearch(37));
     EXPECT_EQ(6, getSquareRootUsingBinarySearch(38));
 

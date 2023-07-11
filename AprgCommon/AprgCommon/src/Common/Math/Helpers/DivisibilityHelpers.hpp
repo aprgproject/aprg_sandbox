@@ -1,13 +1,13 @@
 #pragma once
 
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
 namespace alba::mathHelper {
-
 template <typename NumberType>
 inline bool isDivisible(NumberType const dividend, NumberType const divisor) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
-
     return (divisor == 0) ? false : (dividend % divisor) == 0;
 }
 
@@ -25,14 +25,26 @@ inline bool isOdd(NumberType const number) {
     return static_cast<bool>(number % 2);
 }
 
+template <typename NumberType>
+inline bool isDivisibleByThree(NumberType const number) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
+    return AlbaBitValueUtilities<NumberType>::isMultipleOfThree(number);
+}
+
+template <typename NumberType>
+inline bool isDivisibleByNine(NumberType const number) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
+    return AlbaBitValueUtilities<NumberType>::isMultipleOfNine(number);
+}
+
 }  // namespace alba::mathHelper
 
-// Even or odd discussion:
-// -> Bitwise operators might be better because almost all processors supports bitwise operations to take one
+// Even or odd discussion:// -> Bitwise operators might be better because almost all processors supports bitwise operations to take one
 // instruction.
 // -> But it will not work for negative numbers:
-// -> The C standard stipulates that negative numbers can be represented in 3 ways:
-// ---> 2's complement
+// -> The C standard stipulates that negative numbers can be represented in 3 ways:// ---> 2's complement
 // ---> 1's complement
 // ---> sign and magnitude
 // -> Checking like this:

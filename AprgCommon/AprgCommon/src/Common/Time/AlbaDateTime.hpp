@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Common/Bit/AlbaBitManipulation.hpp>
+#include <Common/Time/AlbaDateTimeConstants.hpp>
 
 #include <cstdint>
 #include <ostream>
-
 namespace alba {
 
 using UInt32BitHelper = AlbaBitManipulation<uint32_t>;
-
 class AlbaYearMonthDay {
 public:
     constexpr AlbaYearMonthDay() : m_yearMonthDay{} {}
@@ -29,14 +28,13 @@ public:
     uint32_t getMonths() const;
     uint32_t getDays() const;
     uint32_t getTotalDays() const;
+    AlbaDateTimeConstants::DayOfTheWeek getDayOfTheWeek() const;
 
     void clear();
-    void setTime(uint32_t const totalDays);
-    void setTime(uint16_t const years, uint8_t const month, uint8_t const days);
+    void setTime(uint32_t const totalDays);    void setTime(uint16_t const years, uint8_t const month, uint8_t const days);
 
 private:
-    constexpr uint32_t convertToYearMonthDayFormat(
-        uint16_t const years, uint8_t const month, uint8_t const days) const {
+    constexpr uint32_t convertToYearMonthDayFormat(        uint16_t const years, uint8_t const month, uint8_t const days) const {
         return UInt32BitHelper::shiftBytesToTheLeft<2>(years) | UInt32BitHelper::shiftBytesToTheLeft<1>(month) | days;
     }
     uint32_t m_yearMonthDay;

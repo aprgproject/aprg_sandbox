@@ -53,55 +53,79 @@ NumberType getNumberOfCombinations(NumberType const n, NumberType const r) {
     // Formula 2(factorial formula): (n, k) = n! / (k! * (n-k)!)
     // Idea: There are n! permutations of n elements.
     // We go through all permutations and always include the first k elements of the permutation in the subset.
-    // Since the order of the elements in the subset and outside the subset does not matter, the result is divided by k!
-    // and (n-k)!
+    // Since the order of the elements in the subset and outside the subset does not matter,
+    // the result is divided by k! and (n-k)!
 
     // Formula 2 is the one implemented below:
 
-    NumberType result(0);
     if (n >= r) {
-        NumberType numerator = n;
-        NumberType denominator = r;
+        NumberType smallerR = (n < 2 * r) ? n - r : r;
         NumberType accumulatedNumerator = 1;
         NumberType accumulatedDenominator = 1;
-        bool shouldContinue = true;
-        while (shouldContinue) {
-            shouldContinue = false;
-            if (numerator > n - r) {
-                accumulatedNumerator *= numerator--;
-                shouldContinue = true;
-            }
-            if (denominator > 1) {
-                accumulatedDenominator *= denominator--;
-                shouldContinue = true;
-            }
-            if (shouldContinue && accumulatedDenominator > 1 &&
-                isValueBeyondLimits<NumberType>(static_cast<double>(accumulatedNumerator) * numerator)) {
+        NumberType numeratorMultiplier = n;
+        NumberType denominatorMultiplier = smallerR;
+        for (NumberType iterations = 0; iterations < smallerR; iterations++) {
+            accumulatedNumerator *= numeratorMultiplier--;
+            accumulatedDenominator *= denominatorMultiplier--;
+            if (accumulatedDenominator > 1 &&
+                isValueBeyondLimits<NumberType>(static_cast<double>(accumulatedNumerator) * numeratorMultiplier)) {
                 NumberType gcf = getGreatestCommonFactor(accumulatedNumerator, accumulatedDenominator);
                 accumulatedNumerator /= gcf;
                 accumulatedDenominator /= gcf;
             }
         }
-        result = accumulatedNumerator / accumulatedDenominator;
+        return accumulatedNumerator / accumulatedDenominator;
     }
-    return result;
+    return 0;
+}
+
+template <typename NumberType>
+NumberType getNumberOfCombinationsFasterButPossibleOfRange(NumberType const n, NumberType const r) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+    // C(n, k)
+    // -> = n! / (n-k)! * k!
+    // -> = [n * (n-1) *....* 1]  / [ ( (n-k) * (n-k-1) * .... * 1) *
+    //                             ( k * (k-1) * .... * 1 ) ]
+    // After simplifying, we get
+    // -> C(n, k)
+    // -> = [n * (n-1) * .... * (n-k+1)] / [k * (k-1) * .... * 1]
+    //
+    // Also, C(n, k) = C(n, n-k)
+    // -> So r can be changed to n-r if (n-r < r) or (n < 2*r)
+
+    if (n >= r) {
+        NumberType smallerR = (n < 2 * r) ? n - r : r;
+        NumberType result(1);
+        for (NumberType offset = 0; offset < smallerR; offset++) {
+            result *= (n - offset);
+            result /= (offset + 1);
+        }
+        return result;
+    }
+    return 0;
+}
+
+template <typename NumberType>
+NumberType getBinomialCoefficient(NumberType const rowIndex, NumberType const columnIndex) {
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
+    // The binomial coefficient equals the number of ways we can choose a subset of k elements from a set of n elements.
+    // The binomial coefficient = the number of combinations
+
+    return getNumberOfCombinations(rowIndex, columnIndex);
 }
 
 template <typename NumberType>
 NumberType getValueAtPascalTriangle(NumberType const rowIndex, NumberType const columnIndex) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
-    // This is also called the binomial coefficient.
-    // The binomial coefficient equals the number of ways we can choose a subset of k elements from a set of n elements.
-    // The binomial coefficient = number of combinations
+    // This is same with the number of combinations and binomial coefficient.
 
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
-
 template <typename NumberType>
 typename std::make_signed<NumberType>::type getStirlingNumberOfTheSecondKind(NumberType const n, NumberType const k) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
-
     // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition
     // number) is the number of ways to partition a set of n objects into k non-empty subsets
 

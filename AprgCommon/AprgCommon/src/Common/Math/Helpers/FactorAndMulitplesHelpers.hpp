@@ -222,9 +222,13 @@ inline NumberType getDifferenceFromGreaterMultiple(NumberType const multiple, Nu
     return result;
 }
 
+template <typename NumberType>
+inline NumberType multiplyBySeven(NumberType const number) {
+    return AlbaBitValueUtilities<NumberType>::multiplyBySeven(number);
+}
+
 AlbaNumber getGreatestCommonFactor(
     AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
-AlbaNumber getLeastCommonMultiple(
-    AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
+AlbaNumber getLeastCommonMultiple(    AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
 
 }  // namespace alba::mathHelper
