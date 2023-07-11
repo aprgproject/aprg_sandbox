@@ -18,15 +18,13 @@ public:
 
     struct RecursionData {
         Combinations& combinations;
-        Combination& currentCombination;
+        Combination currentCombination;
         int currentIndex;
         Objects const& objects;
-        int const targetCombinationLength;
-    };
+        int const targetCombinationLength;    };
 
     // rule of five or six
-    CombinationsGeneration() = delete;
-    ~CombinationsGeneration() = delete;
+    CombinationsGeneration() = delete;    ~CombinationsGeneration() = delete;
     CombinationsGeneration(CombinationsGeneration const&) = delete;
     CombinationsGeneration& operator=(CombinationsGeneration const&) = delete;
     CombinationsGeneration(CombinationsGeneration&&) = delete;
@@ -34,25 +32,21 @@ public:
 
     static Combinations generateCombinationsWithLength(Objects const& objects, int const targetCombinationLength) {
         Combinations result;
-        Combination currentCombination;
-        RecursionData recursionData(createRecursionData(
-            result, currentCombination, objects, std::min(targetCombinationLength, static_cast<int>(objects.size()))));
+        RecursionData recursionData(
+            createRecursionData(result, objects, std::min(targetCombinationLength, static_cast<int>(objects.size()))));
         collectCombinationsUsingRecursion(recursionData);
         return result;
     }
 
 private:
-    static RecursionData createRecursionData(
-        Combinations& combinations, Combination& currentCombination, Objects const& objects, int const length) {
-        return RecursionData{combinations, currentCombination, 0, objects, length};
+    static RecursionData createRecursionData(Combinations& combinations, Objects const& objects, int const length) {
+        return RecursionData{combinations, Combination(), 0, objects, length};
     }
 
-    static void collectCombinationsUsingRecursion(RecursionData& recursionData) {
-        if (static_cast<int>(recursionData.currentCombination.size()) == recursionData.targetCombinationLength) {
+    static void collectCombinationsUsingRecursion(RecursionData& recursionData) {        if (static_cast<int>(recursionData.currentCombination.size()) == recursionData.targetCombinationLength) {
             recursionData.combinations.emplace_back(recursionData.currentCombination);
         } else {
-            Objects const& objects(recursionData.objects);
-            Combination& currentCombination(recursionData.currentCombination);
+            Objects const& objects(recursionData.objects);            Combination& currentCombination(recursionData.currentCombination);
 
             for (int index = recursionData.currentIndex; index < static_cast<int>(objects.size()); index++) {
                 currentCombination.emplace_back(objects[index]);

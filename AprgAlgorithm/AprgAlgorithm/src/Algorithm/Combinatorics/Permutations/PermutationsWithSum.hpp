@@ -22,30 +22,25 @@ public:
         // using loops
         if (total >= static_cast<Value>(m_permutations.size())) {
             Value initialValue = m_permutations.size();
-            Value newSize =
-                std::max(total + 1, *(std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend()).second));
+            auto&& [minIt, maxIt] = std::minmax_element(m_inputValues.cbegin(), m_inputValues.cend());
+            Value newSize = std::max(total + 1, *maxIt);
             m_permutations.resize(newSize);
 
-            for (Value const inputValue : m_inputValues) {
-                if (m_permutations[inputValue].empty()) {
+            for (Value const inputValue : m_inputValues) {                if (m_permutations[inputValue].empty()) {
                     m_permutations[inputValue].emplace(Permutation{inputValue});
                 }
             }
-
             for (Value partialValue = initialValue; partialValue < newSize; partialValue++) {
                 Permutations& permutations(m_permutations[partialValue]);
                 for (Value const inputValue : m_inputValues) {
                     if (partialValue > inputValue) {
-                        for (Permutation const& permutationWithoutValue :
-                             m_permutations[partialValue - inputValue]) {
+                        for (Permutation const& permutationWithoutValue : m_permutations[partialValue - inputValue]) {
                             Permutation permutationWithValue(permutationWithoutValue);
                             permutationWithValue.emplace_back(inputValue);
-                            permutations.emplace(permutationWithValue);
-                        }
+                            permutations.emplace(permutationWithValue);                        }
                     }
                 }
-            }
-        }
+            }        }
         return m_permutations[total];
     }
 

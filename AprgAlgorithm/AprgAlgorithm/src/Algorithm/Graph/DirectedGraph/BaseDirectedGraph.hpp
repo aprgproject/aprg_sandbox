@@ -19,14 +19,12 @@ public:
     void reverseDirections() {
         Edges originalEdges(this->getEdges());
         this->clear();
-        for (auto const& originalEdge : originalEdges) {
-            this->connect(originalEdge.second, originalEdge.first);
+        for (auto const& [startVertexOfEdge, endVertexOfEdge] : originalEdges) {
+            this->connect(endVertexOfEdge, startVertexOfEdge);
         }
     }
-
     static constexpr GraphDirectionType DIRECTION_TYPE = GraphDirectionType::Directed;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

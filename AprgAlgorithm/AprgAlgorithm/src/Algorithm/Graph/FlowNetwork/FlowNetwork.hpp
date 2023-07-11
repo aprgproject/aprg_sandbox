@@ -86,20 +86,18 @@ public:
     FlowDataType getDeltaFlowAt(Vertex const& vertex) const {
         // this is linear (not optimized)
         FlowDataType result{};
-        for (auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap) {
-            if (edgeAndDetailsPair.first.first == vertex) {
-                result -= edgeAndDetailsPair.second.flow;
+        for (auto const& [edge, details] : m_edgeToFlowEdgeDetailsMap) {
+            if (edge.first == vertex) {
+                result -= details.flow;
             }
-            if (edgeAndDetailsPair.first.second == vertex) {
-                result += edgeAndDetailsPair.second.flow;
+            if (edge.second == vertex) {
+                result += details.flow;
             }
         }
-        return result;
-    }
+        return result;    }
 
     FlowDataTypes getSortedCapacities() const {
-        FlowDataTypes capacities(getAllCapacities());
-        std::sort(capacities.begin(), capacities.end());
+        FlowDataTypes capacities(getAllCapacities());        std::sort(capacities.begin(), capacities.end());
         return capacities;
     }
 
@@ -129,19 +127,15 @@ public:
     FlowEdges getFlowEdgesWithVertex(Vertex const& vertex) const {
         // this is linear (not optimized)
         FlowEdges result;
-        for (auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap) {
-            if (edgeAndDetailsPair.first.first == vertex || edgeAndDetailsPair.first.second == vertex) {
-                result.emplace_back(FlowEdge{
-                    edgeAndDetailsPair.first.first, edgeAndDetailsPair.first.second, edgeAndDetailsPair.second.capacity,
-                    edgeAndDetailsPair.second.flow});
+        for (auto const& [edge, details] : m_edgeToFlowEdgeDetailsMap) {
+            if (edge.first == vertex || edge.second == vertex) {
+                result.emplace_back(FlowEdge{edge.first, edge.second, details.capacity, details.flow});
             }
         }
-        return result;
-    }
+        return result;    }
 
     void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow) {
-        connect(vertex1, vertex2);
-        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
+        connect(vertex1, vertex2);        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
     }
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override {
@@ -182,17 +176,14 @@ private:
 
     friend std::ostream& operator<<(std::ostream& out, FlowNetwork const& graph) {
         out << static_cast<BaseClass const&>(graph) << "Flow edges: {";
-        for (auto const& edgeAndDetailsPair : graph.m_edgeToFlowEdgeDetailsMap) {
-            out << edgeAndDetailsPair.first.first << "->" << edgeAndDetailsPair.first.second
-                << "(capacity: " << edgeAndDetailsPair.second.capacity << " flow: " << edgeAndDetailsPair.second.flow
+        for (auto const& [edge, details] : graph.m_edgeToFlowEdgeDetailsMap) {
+            out << edge.first << "->" << edge.second << "(capacity: " << details.capacity << " flow: " << details.flow
                 << "), ";
         }
-        out << "}";
-        return out;
+        out << "}";        return out;
     }
 
-    EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;
-};
+    EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;};
 
 }  // namespace algorithm
 

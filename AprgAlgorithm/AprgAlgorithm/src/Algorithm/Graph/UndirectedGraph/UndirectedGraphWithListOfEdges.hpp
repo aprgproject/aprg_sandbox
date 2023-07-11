@@ -48,20 +48,17 @@ public:
 
     Vertices getVertices() const override {
         Vertices result;
-        for (auto const& edge : m_edges) {
-            Vertex const& vertex(edge.first);
+        for (auto const& [startVertexOfEdge, endVertexOfEdge] : m_edges) {
             if (result.empty()) {
-                result.emplace_back(vertex);
-            } else if (result.back() != vertex) {
-                result.emplace_back(vertex);
+                result.emplace_back(startVertexOfEdge);
+            } else if (result.back() != startVertexOfEdge) {
+                result.emplace_back(startVertexOfEdge);
             }
         }
-        return result;
-    }
+        return result;    }
 
     Edges getEdges() const override {
-        Edges result;
-        for (auto const& edge : m_edges) {
+        Edges result;        for (auto const& edge : m_edges) {
             if (edge.first <= edge.second) {
                 result.emplace_back(edge);
             }

@@ -21,18 +21,15 @@ public:
 
     void sort(Values& valuesToSort) const override {
         if (!valuesToSort.empty()) {
-            auto minmaxItPair = std::minmax_element(valuesToSort.cbegin(), valuesToSort.cend());
-            Value minimumValue = *(minmaxItPair.first);
-            Value maximumValue = *(minmaxItPair.second);
-            Value range = maximumValue - minimumValue + 1;  // Find range
+            auto&& [minIt, maxIt] = std::minmax_element(valuesToSort.cbegin(), valuesToSort.cend());
+            Value minimumValue = *minIt, maximumValue = *maxIt;
+            Value range = maximumValue - minimumValue + 1;
 
             // Create an array of vectors.
-            // Size of array range.
-            // Each vector represents a hole that is going to contain matching elements.
+            // Size of array range.            // Each vector represents a hole that is going to contain matching elements.
             Holes holes(range);
 
-            // Traverse through input array and put every element in its respective hole
-            for (Value const& value : valuesToSort) {
+            // Traverse through input array and put every element in its respective hole            for (Value const& value : valuesToSort) {
                 holes[value - minimumValue].emplace_back(value);
             }
 

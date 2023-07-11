@@ -49,19 +49,16 @@ private:
     }
 
     void addEdgeToMstIfVerticesAreNotConnected(UnionFindUsingMap<Vertex>& unionFind, EdgeOrderedByWeight const& edge) {
-        Vertex const& vertex1(edge.first);
-        Vertex const& vertex2(edge.second);
-        if (!unionFind.isConnected(vertex1, vertex2))  // if its not connected yet, then it does not create a cycle
-        {
-            unionFind.connect(vertex1, vertex2);
-            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
+        auto const& [startVertexOfEdge, endVertexOfEdge] = dynamic_cast<Edge const&>(edge);
+        // if its not connected yet, then it does not create a cycle
+        if (!unionFind.isConnected(startVertexOfEdge, endVertexOfEdge)) {
+            unionFind.connect(startVertexOfEdge, endVertexOfEdge);
+            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(startVertexOfEdge, endVertexOfEdge));
         }
     }
-
     Graph const& m_graph;
     Vertex m_startVertex;
-    Edges m_minimumSpanningTreeEdges;
-    EdgeOrderedByWeightsPriorityQueue m_edgesInOrder;
+    Edges m_minimumSpanningTreeEdges;    EdgeOrderedByWeightsPriorityQueue m_edgesInOrder;
 };
 
 // Algorithm in short terms: Add shortest edges (if does not create a cycle) in the tree

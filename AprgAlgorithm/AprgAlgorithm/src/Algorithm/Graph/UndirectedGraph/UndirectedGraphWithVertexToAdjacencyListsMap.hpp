@@ -45,15 +45,12 @@ public:
 
     int getNumberOfVertices() const override {
         int result(0);
-        for (auto const& vertexAndAdjacencyListPair : m_adjacencyLists) {
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [vertex, adjacencyList] : m_adjacencyLists) {
             if (!adjacencyList.empty()) {
                 result++;
-            }
-        }
+            }        }
         return result;
     }
-
     int getNumberOfEdges() const override { return m_numberOfEdges; }
 
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override {
@@ -69,29 +66,22 @@ public:
 
     Vertices getVertices() const override {
         Vertices result;
-        for (auto const& vertexAndAdjacencyListPair : m_adjacencyLists) {
-            Vertex const& vertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [vertex, adjacencyList] : m_adjacencyLists) {
             if (!adjacencyList.empty()) {
                 result.emplace_back(vertex);
-            }
-        }
+            }        }
         return result;
     }
 
     Edges getEdges() const override {
         Edges result;
-        for (auto const& vertexAndAdjacencyListPair : m_adjacencyLists) {
-            Vertex const& vertex1(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [vertex1, adjacencyList] : m_adjacencyLists) {
             if (!adjacencyList.empty()) {
                 std::for_each(adjacencyList.lower_bound(vertex1), adjacencyList.cend(), [&](Vertex const& vertex2) {
-                    result.emplace_back(vertex1, vertex2);
-                });
+                    result.emplace_back(vertex1, vertex2);                });
             }
         }
-        return result;
-    }
+        return result;    }
 
     void connect(Vertex const& vertex1, Vertex const& vertex2) override {
         if (!isDirectlyConnected(vertex1, vertex2)) {
@@ -117,17 +107,13 @@ public:
 protected:
     friend std::ostream& operator<<(std::ostream& out, UndirectedGraphWithVertexToAdjacencyListsMap const& graph) {
         out << "Adjacency Lists: \n";
-        for (auto const& vertexAndAdjacencyListPair : graph.m_adjacencyLists) {
-            Vertex const& vertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [vertex, adjacencyList] : graph.m_adjacencyLists) {
             if (!adjacencyList.empty()) {
                 out << "Adjacent with vertex " << vertex << ": {";
-                containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);
-                out << "} \n";
+                containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);                out << "} \n";
             }
         }
-        return out;
-    }
+        return out;    }
 
     int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;

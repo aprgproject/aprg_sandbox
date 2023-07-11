@@ -12,15 +12,40 @@ namespace algorithm {
 template <typename Values>
 class KnuthShuffle {
 public:
+    // This is also called Fisher–Yates shuffle algorithm.
     KnuthShuffle() = default;
 
-    void shuffle(Values& valuesToShuffle) const {
+    void shuffleWhileMovingForward(Values& valuesToShuffle) const {
+        // From wikipedia:
+        // -- To shuffle an array a of n elements (indices 0..n-1):
+        // for i from 0 to n−2 do
+        //      j ← random integer such that i ≤ j < n
+        //      exchange a[i] and a[j]
+
         if (!valuesToShuffle.empty()) {
             AlbaUniformNonDeterministicRandomizer<int> randomizer;
-            auto itLast = std::prev(valuesToShuffle.end());
-            for (auto it = valuesToShuffle.begin(); it != itLast; ++it) {
+            auto lastItemIt = std::prev(valuesToShuffle.end());
+            for (auto it = valuesToShuffle.begin(); it != lastItemIt; ++it) {
                 randomizer.setMinimumAndMaximum(std::distance(valuesToShuffle.begin(), it), valuesToShuffle.size() - 1);
                 std::swap(*it, valuesToShuffle[randomizer.getRandomValue()]);
+            }
+        }
+    }
+
+    void shuffleWhileMovingBackward(Values& valuesToShuffle) const {
+        // From wikipedia:
+        // -- To shuffle an array a of n elements (indices 0..n-1):
+        // for i from n−1 downto 1 do
+        //      j ← random integer such that 0 ≤ j ≤ i
+        //      exchange a[j] and a[i]
+
+        if (!valuesToShuffle.empty()) {
+            AlbaUniformNonDeterministicRandomizer<int> randomizer;
+            auto firstItemIt = std::prev(valuesToShuffle.rend());
+            for (auto rit = valuesToShuffle.rbegin(); rit != firstItemIt; ++rit) {
+                randomizer.setMinimumAndMaximum(
+                    0, valuesToShuffle.size() - 1 - std::distance(valuesToShuffle.rbegin(), rit));
+                std::swap(*rit, valuesToShuffle[randomizer.getRandomValue()]);
             }
         }
     }
@@ -30,14 +55,30 @@ public:
 
 }  // namespace alba
 
+// How does this work?
+// -> NOTE: The backward version is what is referenced here.
+// -> The probability that ith element (including the last one) goes to the last position is 1/n,
+// ---> because we randomly pick an element in the first iteration.
+// -> The probability that ith element goes to the second last position
+// ---> can be proved to be 1/n by dividing it into two cases.
+// -> Case 1: i = n-1 (index of last element):
+// ---> The probability of last element going to second last position is
+// ---> = (probability that last element doesn’t stay at its original position)
+// --->  x (probability that the index picked in previous step is picked again so that the last element is swapped)
+// ---> So the probability = ((n-1)/n) x (1/(n-1)) = 1/n
+// -> Case 2: 0 < i < n-1 (index of non-last):
+// ---> The probability of ith element going to second position
+// --->  = (probability that ith element is not picked in previous iteration)
+// --->  x (probability that ith element is picked in this iteration)
+// ---> So the probability = ((n-1)/n) x (1/(n-1)) = 1/n
+// We can easily generalize above proof for any other position.
+
 // -> Fisher–Yates shuffle
 // ---> This is (also known as the Knuth shuffle): randomly shuffle a finite set
-// ---> The Fisher–Yates shuffle is an algorithm for generating a random permutation of a finite sequence—in plain
-// terms, the algorithm shuffles the sequence.
+// ---> The Fisher–Yates shuffle is an algorithm for generating a random permutation of a finite sequence—in plain// terms, the algorithm shuffles the sequence.
 // -----> The algorithm effectively puts all the elements into a hat; it continually determines the next element by
 // randomly drawing an element from the hat until no elements remain.
-// -----> The algorithm produces an unbiased permutation: every permutation is equally likely.
-// -----> The modern version of the algorithm is efficient: it takes time proportional to the number of items being
+// -----> The algorithm produces an unbiased permutation: every permutation is equally likely.// -----> The modern version of the algorithm is efficient: it takes time proportional to the number of items being
 // shuffled and shuffles them in place.
 // ---> The Fisher–Yates shuffle is named after Ronald Fisher and Frank Yates, who first described it, and is also known
 // as the Knuth shuffle after Donald Knuth.

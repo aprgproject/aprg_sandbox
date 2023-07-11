@@ -71,57 +71,54 @@ private:
         Edges allEdges(m_graph.getEdges());
         DequeOfEdges detectedEdges;
         SetOfEdges unprocessedEdges(allEdges.cbegin(), allEdges.cend());
-        for (VertexPair const& vertexPair : vertexPairs)  // get detected edges and unprocessed edges
+        for (auto const& [firstVertex, secondVertex] : vertexPairs)  // get detected edges and unprocessed edges
         {
-            if (m_graph.isDirectlyConnected(vertexPair.first, vertexPair.second)) {
-                detectedEdges.emplace_back(vertexPair.first, vertexPair.second);
-                unprocessedEdges.erase(Edge(vertexPair.first, vertexPair.second));
+            if (m_graph.isDirectlyConnected(firstVertex, secondVertex)) {
+                detectedEdges.emplace_back(firstVertex, secondVertex);
+                unprocessedEdges.erase(Edge(firstVertex, secondVertex));
             }
         }
         VectorOfDequeOfVertices paths;
-        while (!detectedEdges.empty())  // construct paths from detected edges
-        {
+        // construct paths from detected edges
+        while (!detectedEdges.empty()) {
             Edge firstEdge(detectedEdges.front());
             detectedEdges.pop_front();
             DequeOfVertices pathInDeque{firstEdge.first, firstEdge.second};
             for (int i = 0; i < static_cast<int>(detectedEdges.size());) {
-                Edge const& edge(detectedEdges[i]);
-                if (pathInDeque.front() == edge.second) {
-                    pathInDeque.emplace_front(edge.first);
+                auto const& [startVertexOfEdge, endVertexOfEdge] = detectedEdges[i];
+                if (pathInDeque.front() == endVertexOfEdge) {
+                    pathInDeque.emplace_front(startVertexOfEdge);
                     detectedEdges.erase(detectedEdges.begin() + i);
                     i = 0;
-                } else if (pathInDeque.back() == edge.first) {
-                    pathInDeque.emplace_back(edge.second);
+                } else if (pathInDeque.back() == startVertexOfEdge) {
+                    pathInDeque.emplace_back(endVertexOfEdge);
                     detectedEdges.erase(detectedEdges.begin() + i);
                     i = 0;
-                } else {
-                    i++;
+                } else {                    i++;
                 }
             }
             paths.emplace_back(pathInDeque);
         }
         for (DequeOfVertices& pathInDeque : paths)  // add unprocessed edges to existing paths
         {
-            for (auto it = unprocessedEdges.begin(); it != unprocessedEdges.end();) {
-                Edge const& unprocessedEdge(*it);
-                if (pathInDeque.front() == unprocessedEdge.second) {
-                    pathInDeque.emplace_front(unprocessedEdge.first);
-                    unprocessedEdges.erase(it);
-                    it = unprocessedEdges.begin();
-                } else if (pathInDeque.back() == unprocessedEdge.first) {
-                    pathInDeque.emplace_back(unprocessedEdge.second);
-                    unprocessedEdges.erase(it);
-                    it = unprocessedEdges.begin();
+            for (auto unprocessEdgeIt = unprocessedEdges.begin(); unprocessEdgeIt != unprocessedEdges.end();) {
+                auto const& [startVertexOfEdge, endVertexOfEdge] = *unprocessEdgeIt;
+                if (pathInDeque.front() == endVertexOfEdge) {
+                    pathInDeque.emplace_front(startVertexOfEdge);
+                    unprocessedEdges.erase(unprocessEdgeIt);
+                    unprocessEdgeIt = unprocessedEdges.begin();
+                } else if (pathInDeque.back() == startVertexOfEdge) {
+                    pathInDeque.emplace_back(endVertexOfEdge);
+                    unprocessedEdges.erase(unprocessEdgeIt);
+                    unprocessEdgeIt = unprocessedEdges.begin();
                 } else {
-                    it++;
+                    unprocessEdgeIt++;
                 }
             }
-        }
-        Vertices allVertices(m_graph.getVertices());
+        }        Vertices allVertices(m_graph.getVertices());
         SetOfVertices unprocessedVertices(allVertices.cbegin(), allVertices.cend());
         for (DequeOfVertices const& pathInDeque : paths)  // remove vertices from path to get unprocessed vertices
-        {
-            for (Vertex const& vertex : pathInDeque) {
+        {            for (Vertex const& vertex : pathInDeque) {
                 unprocessedVertices.erase(vertex);
             }
         }

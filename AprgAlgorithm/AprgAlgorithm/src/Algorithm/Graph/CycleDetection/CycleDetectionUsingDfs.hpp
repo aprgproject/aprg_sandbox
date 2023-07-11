@@ -103,17 +103,14 @@ private:
         m_vertexStatesMap[startVertex] = VertexState::Processing;
         for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex)) {
             VertexState adjacentVertexState = m_vertexStatesMap[adjacentVertex];
-            if (SearchType::OneCycle == m_searchType &&
-                hasACycle())  // this check is needed to prune all recursion instances once cycle has been detected
-            {
+            if (SearchType::OneCycle == m_searchType && hasACycle()) {
+                // this check is needed to prune all recursion instances once cycle has been detected
                 break;
             } else if (VertexState::NotProcessed == adjacentVertexState) {
-                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
-                searchUsingDfsWithDirectedGraph(adjacentVertex);
+                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;                searchUsingDfsWithDirectedGraph(adjacentVertex);
             } else if (VertexState::Processing == adjacentVertexState) {
                 // there is a cycle if adjacent vertex is in processing as well
-                m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));
-            }
+                m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));            }
         }
         m_vertexStatesMap[startVertex] = VertexState::Processed;
     }
@@ -122,17 +119,14 @@ private:
         m_vertexStatesMap[startVertex] = VertexState::Processing;
         for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex)) {
             VertexState adjacentVertexState = m_vertexStatesMap[adjacentVertex];
-            if (SearchType::OneCycle == m_searchType &&
-                hasACycle())  // this check is needed to end all recursion instances once cycle has been detected
-            {
+            if (SearchType::OneCycle == m_searchType && hasACycle()) {
+                // this check is needed to end all recursion instances once cycle has been detected
                 break;
             } else if (VertexState::NotProcessed == adjacentVertexState) {
-                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
-                searchUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
+                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;                searchUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
             } else if (previousVertex != adjacentVertex && VertexState::Processing == adjacentVertexState) {
                 // there is a cycle if adjacent vertex is in processing as well
-                // if previous and adjacent are equal then its the same edge (and not technically a cycle)
-                m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));
+                // if previous and adjacent are equal then its the same edge (and not technically a cycle)                m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));
             }
         }
         m_vertexStatesMap[startVertex] = VertexState::Processed;

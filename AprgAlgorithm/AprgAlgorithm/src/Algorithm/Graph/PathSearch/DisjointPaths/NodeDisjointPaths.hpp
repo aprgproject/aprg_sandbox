@@ -43,15 +43,14 @@ public:
             if (!pathWithDuplicate.empty()) {
                 Vertex previousVertex(pathWithDuplicate.front().first);
                 Path path{previousVertex};
-                path.reserve(pathWithDuplicate.size());  // reserve this much even though duplicates exists
+                // reserve this much even though duplicates exists
+                path.reserve(pathWithDuplicate.size());
                 for (auto it = pathWithDuplicate.cbegin() + 1; it != pathWithDuplicate.cend(); it++) {
                     Vertex const& vertex(it->first);
-                    if (previousVertex != vertex) {
-                        path.emplace_back(vertex);
+                    if (previousVertex != vertex) {                        path.emplace_back(vertex);
                         previousVertex = vertex;
                     }
-                }
-                result.emplace_back(path);
+                }                result.emplace_back(path);
             }
         }
         return result;

@@ -55,16 +55,12 @@ public:
 
     Edges getEdges() const override {
         Edges result;
-        for (auto const& vertexAndAdjacencyListPair : m_adjacencyLists) {
-            Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [sourceVertex, adjacencyList] : m_adjacencyLists) {
             for (Vertex const& destinationVertex : adjacencyList) {
                 result.emplace_back(sourceVertex, destinationVertex);
-            }
-        }
+            }        }
         return result;
     }
-
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override {
         if (!isDirectlyConnected(sourceVertex, destinationVertex)) {
             m_numberOfEdges++;
@@ -87,30 +83,23 @@ public:
 protected:
     SetOfVertices getUniqueVertices() const {
         SetOfVertices uniqueVertices;
-        for (auto const& vertexAndAdjacencyListPair : m_adjacencyLists) {
-            Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [sourceVertex, adjacencyList] : m_adjacencyLists) {
             uniqueVertices.emplace(sourceVertex);
             std::copy(
-                adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
-        }
+                adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));        }
         return uniqueVertices;
     }
 
     friend std::ostream& operator<<(std::ostream& out, DirectedGraphWithVertexToAdjacencyListsMap const& graph) {
         out << "Adjacency Lists: \n";
-        for (auto const& vertexAndAdjacencyListPair : graph.m_adjacencyLists) {
-            Vertex const& vertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+        for (auto const& [sourceVertex, adjacencyList] : graph.m_adjacencyLists) {
             if (!adjacencyList.empty()) {
-                out << "Adjacent with vertex " << vertex << ": {";
+                out << "Adjacent with vertex " << sourceVertex << ": {";
                 containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);
                 out << "} \n";
-            }
-        }
+            }        }
         return out;
     }
-
     int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };

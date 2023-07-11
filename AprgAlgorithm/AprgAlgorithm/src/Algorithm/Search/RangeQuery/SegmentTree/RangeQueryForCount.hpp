@@ -67,20 +67,18 @@ private:
     Function getFunctionForSegmentTree() const {
         return [](ValueToCountMap const& map1, ValueToCountMap const& map2) {
             ValueToCountMap result(map1);
-            for (auto const& pair : map2) {
-                auto it = result.find(pair.first);
-                if (it != result.end()) {
-                    it->second += pair.second;
+            for (auto const& [value, count] : map2) {
+                auto valueIt = result.find(value);
+                if (valueIt != result.end()) {
+                    valueIt->second += count;
                 } else {
-                    result.emplace(pair);
+                    result.emplace(value, count);
                 }
             }
-            return result;
-        };
+            return result;        };
     }
 
-    SegmentTree m_valueToCountMapSegmentTree;
-};
+    SegmentTree m_valueToCountMapSegmentTree;};
 
 }  // namespace algorithm
 

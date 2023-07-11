@@ -396,14 +396,12 @@ typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(Bas
         }
     }
     ListOfEdges result;
-    for (auto const& rootAndEdgesPair : rootToEdgeMap) {
-        result.emplace_back(rootAndEdgesPair.second);
+    for (auto const& [root, edge] : rootToEdgeMap) {
+        result.emplace_back(edge);
     }
     return result;
 }
-
 }  // namespace GraphUtilities
 
 }  // namespace algorithm
-
 }  // namespace alba

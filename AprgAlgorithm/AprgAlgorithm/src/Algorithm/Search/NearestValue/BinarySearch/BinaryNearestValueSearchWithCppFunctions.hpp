@@ -56,30 +56,26 @@ public:
 
 private:
     Value getNearestValueUsingEqualRange(Value const& target) const {
-        auto lowerAndUpperBoundItPair =
-            containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, target);  // assumption is non set
-        Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
-        Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
+        // assumption is non set
+        auto&& [lowerBoundValue, higherBoundValue] =
+            containerHelper::getLowerAndUpperValuesForNonSet(m_sortedValues, target);
         Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerBoundValue));
         Value deviationFromHigher(mathHelper::getPositiveDelta(target, higherBoundValue));
         return (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
     }
 
     Index getIndexOfNearestValueUsingEqualRange(Value const& target) const {
-        auto lowerAndUpperBoundItPair =
-            containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, target);  // assumption is non set
-        Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
-        Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
+        // assumption is non set
+        auto&& [lowerIt, upperIt] = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, target);
+        Value lowerBoundValue(*lowerIt);
+        Value higherBoundValue(*upperIt);
         Value deviationFromLower(mathHelper::getPositiveDelta(target, lowerBoundValue));
         Value deviationFromHigher(mathHelper::getPositiveDelta(target, higherBoundValue));
-        return (deviationFromLower <= deviationFromHigher)
-                   ? std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.first)
-                   : std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.second);
+        return (deviationFromLower <= deviationFromHigher) ? std::distance(m_sortedValues.cbegin(), lowerIt)
+                                                           : std::distance(m_sortedValues.cbegin(), upperIt);
     }
 
-    Values const& m_sortedValues;
-};
+    Values const& m_sortedValues;};
 
 }  // namespace algorithm
-
 }  // namespace alba

@@ -99,21 +99,19 @@ private:
                 flowNetwork.connect(vertex, newSinkVertex, 1, 0);
             }
         }
-        for (Edge const& edge : graph.getEdges()) {
-            bool firstVertexColor = m_bipartiteChecker.hasFirstColor(edge.first);
-            bool secondVertexColor = m_bipartiteChecker.hasFirstColor(edge.second);
-            if (firstVertexColor && !secondVertexColor) {
-                flowNetwork.connect(edge.first, edge.second, 1, 0);
-            } else if (!firstVertexColor && secondVertexColor) {
-                flowNetwork.connect(edge.second, edge.first, 1, 0);
+        for (auto const& [startVertexOfEdge, endVertexOfEdge] : graph.getEdges()) {
+            bool startVertexColor = m_bipartiteChecker.hasFirstColor(startVertexOfEdge);
+            bool endVertexColor = m_bipartiteChecker.hasFirstColor(endVertexOfEdge);
+            if (startVertexColor && !endVertexColor) {
+                flowNetwork.connect(startVertexOfEdge, endVertexOfEdge, 1, 0);
+            } else if (!startVertexColor && endVertexColor) {
+                flowNetwork.connect(startVertexOfEdge, endVertexOfEdge, 1, 0);
             }
         }
-        return flowNetwork;
-    }
+        return flowNetwork;    }
 
     BaseUndirectedGraphWithVertex const& m_graph;
-    BipartiteChecker m_bipartiteChecker;
-};
+    BipartiteChecker m_bipartiteChecker;};
 
 // There are polynomial algorithms for finding maximum matchings in general graphs, but such algorithms are complex and
 // rarely seen in programming contests. However, in bipartite graphs, the maximum matching problem is much easier to

@@ -22,30 +22,28 @@ public:
 
     PointPair getNearestPointPair() const {
         // sweep line algorithm
+        // Mark: The running time of this algorithm is O(n*(log n[for X] *(log n)[for Y])
         PointPair result{};
         UnitToSetOfUnitsMap xToSetOfYs;
         Unit smallestDistance(std::numeric_limits<Unit>::max());
         for (Point const& point : m_setOfPoints) {
             xToSetOfYs[point.first].emplace(point.second);
 
-            // delete all points that are further than the current smallest distance
+            // delete all points that are further than the current smallest distance (in terms of X)
             auto itXToDelete = xToSetOfYs.lower_bound(point.first - smallestDistance);
             xToSetOfYs.erase(xToSetOfYs.begin(), itXToDelete);
 
-            for (auto const& xAndSetOfYPair : xToSetOfYs) {
-                Unit const x(xAndSetOfYPair.first);
-                SetOfUnits const& ys(xAndSetOfYPair.second);
-                auto itYStart = ys.lower_bound(point.second - smallestDistance);
-                auto itYEnd = ys.upper_bound(point.second + smallestDistance);
-
+            // process all the points with x that fits the smallest distance
+            for (auto const& [x, setOfYs] : xToSetOfYs) {
+                // process all the points with y that fits the smallest distance
+                auto itYStart = setOfYs.lower_bound(point.second - smallestDistance);
+                auto itYEnd = setOfYs.upper_bound(point.second + smallestDistance);
                 for (auto itY = itYStart; itY != itYEnd; itY++) {
                     Point possibleNearPoint(x, *itY);
-                    if (point != possibleNearPoint) {
-                        Unit distance = getDistance(point, possibleNearPoint);
+                    if (point != possibleNearPoint) {                        Unit distance = getDistance(point, possibleNearPoint);
                         if (smallestDistance > distance) {
                             smallestDistance = distance;
-                            result = {point, possibleNearPoint};
-                        }
+                            result = {point, possibleNearPoint};                        }
                     }
                 }
             }

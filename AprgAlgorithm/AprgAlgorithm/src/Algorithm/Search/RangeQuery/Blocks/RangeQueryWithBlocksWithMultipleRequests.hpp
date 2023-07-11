@@ -60,30 +60,28 @@ public:
             for (auto it = validRanges.cbegin() + 1; it != validRanges.cend(); it++) {
                 Range const& currentRange(*it);
                 if (previousRange.first < currentRange.first) {
+                    // remove elements
                     savedOutput = m_inverseAccumulateFunction(
-                        savedOutput,
-                        this->getResultOnInterval(previousRange.first, currentRange.first - 1));  // remove elements
+                        savedOutput, this->getResultOnInterval(previousRange.first, currentRange.first - 1));
                 } else if (currentRange.first < previousRange.first) {
+                    // add elements
                     savedOutput = m_accumulateFunction(
-                        savedOutput,
-                        this->getResultOnInterval(currentRange.first, previousRange.first - 1));  // add elements
+                        savedOutput, this->getResultOnInterval(currentRange.first, previousRange.first - 1));
                 }
                 if (previousRange.second < currentRange.second) {
+                    // add elements
                     savedOutput = m_accumulateFunction(
-                        savedOutput,
-                        this->getResultOnInterval(previousRange.second + 1, currentRange.second));  // add elements
+                        savedOutput, this->getResultOnInterval(previousRange.second + 1, currentRange.second));
                 } else if (currentRange.second < previousRange.second) {
+                    // remove elements
                     savedOutput = m_inverseAccumulateFunction(
-                        savedOutput,
-                        this->getResultOnInterval(currentRange.second + 1, previousRange.second));  // remove elements
+                        savedOutput, this->getResultOnInterval(currentRange.second + 1, previousRange.second));
                 }
                 result.emplace_back(currentRange, savedOutput);
-                previousRange = currentRange;
-            }
+                previousRange = currentRange;            }
         }
         return result;
     }
-
 private:
     Index getSquareRootSize(Index const numberOfValues) const { return static_cast<Index>(sqrt(numberOfValues)); }
 

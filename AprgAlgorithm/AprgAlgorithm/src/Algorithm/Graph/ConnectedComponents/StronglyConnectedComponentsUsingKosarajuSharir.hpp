@@ -48,35 +48,32 @@ private:
         VertexOrderingUsingDfs<Vertex> vertexOrdering(graphWithReversedDirections);
         for (Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder()) {
             if (m_processedVertices.isNotFound(vertex)) {
+                ++b_numberOfComponentIds;
                 traverseUsingDfs(vertex);
-                b_numberOfComponentIds++;
             }
         }
     }
 
     void traverseUsingDfs(Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
-        b_vertexToComponentIdMap[vertex] = b_numberOfComponentIds + 1;
+        b_vertexToComponentIdMap[vertex] = b_numberOfComponentIds;
         for (Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex)) {
             if (m_processedVertices.isNotFound(adjacentVertex)) {
-                traverseUsingDfs(adjacentVertex);
-            }
+                traverseUsingDfs(adjacentVertex);            }
         }
     }
 
     DirectedGraphWithListOfEdgesWithVertex getGraphWithReversedDirections(
         BaseDirectedGraphWithVertex const& graph) const {
         DirectedGraphWithListOfEdgesWithVertex result;
-        for (Edge const& edge : graph.getEdges()) {
-            result.connect(edge.second, edge.first);
+        for (auto const& [startVertexOfEdge, endVertexOfEdge] : graph.getEdges()) {
+            result.connect(endVertexOfEdge, startVertexOfEdge);
         }
         return result;
     }
-
     BaseDirectedGraphWithVertex const& b_graph;
     int& b_numberOfComponentIds;
-    VertexToIntMap& b_vertexToComponentIdMap;
-    CheckableVerticesWithVertex m_processedVertices;
+    VertexToIntMap& b_vertexToComponentIdMap;    CheckableVerticesWithVertex m_processedVertices;
 };
 
 // Algorithm in short terms:

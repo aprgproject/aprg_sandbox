@@ -82,16 +82,14 @@ protected:
 
     SetOfVertices getUniqueVertices() const {
         SetOfVertices uniqueVertices;
-        for (auto const& edge : m_edges) {
-            uniqueVertices.emplace(edge.first);
-            uniqueVertices.emplace(edge.second);
+        for (auto const& [startVertexOfEdge, endVertexOfEdge] : m_edges) {
+            uniqueVertices.emplace(startVertexOfEdge);
+            uniqueVertices.emplace(endVertexOfEdge);
         }
         return uniqueVertices;
-    }
-    int m_numberOfEdges;
+    }    int m_numberOfEdges;
     SetOfEdges m_edges;
 };
-
 }  // namespace algorithm
 
 }  // namespace alba

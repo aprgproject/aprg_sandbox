@@ -102,18 +102,50 @@ private:
     UpdateDataFunction m_updateDataFunction;
 };
 
+}  // namespace algorithm
+
+}  // namespace alba
+
 // Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees
 // Proof:
-// -> If w is marked, then w is connected to s
-// -> If w is connected to s, then w is marked.
+// -> If w is marked, then w is connected to s// -> If w is connected to s, then w is marked.
 // --> If w is unmarked, then consider last edge on a path from s to w that goes from a marked vertex to an unmarked
 // one. Proof (running time):
 // -> Each vertex connected to s is visited once
-
 // Other analysis:
 // The time complexity of depth-first search is O(n+m) where n is the number of nodes and m is the number of edges,
 // because the algorithm processes each node and edge once.
 
-}  // namespace algorithm
-
-}  // namespace alba
+// -> Applications:
+// ---> Depth-first search (DFS) is an algorithm (or technique) for traversing a graph.
+// ---> DFS uses a stack data structure for the traversal.
+// ---> A graph can have more than one DFS traversal.
+// ---> Following are the problems that use DFS as a building block.
+// ---> 1) Detecting cycle in a graph
+// -----> A graph has cycle if and only if we see a back edge during DFS.
+// -----> So we can run DFS for the graph and check for back edges. (See this for details)
+// ---> 2) Path Finding
+// -----> We can specialize the DFS algorithm to find a path between two given vertices u and z.
+// -----> i) Call DFS(G, u) with u as the start vertex.
+// -----> ii) Use a stack S to keep track of the path between the start vertex and the current vertex.
+// -----> iii) As soon as destination vertex z is encountered, return the path as the
+// -----> contents of the stack
+// ---> 3) Topological Sorting
+// -----> Topological Sorting is mainly used for scheduling jobs from the given dependencies among jobs.
+// -----> In computer science, applications of this type arise in instruction scheduling,
+// -----> ordering of formula cell evaluation when recomputing formula values in spreadsheets,
+// -----> logic synthesis, determining the order of compilation tasks to perform in makefiles,
+// -----> data serialization, and resolving symbol dependencies in linkers.
+// ---> 4) To test if a graph is bipartite
+// -----> We can augment either BFS or DFS when we first discover a new vertex,
+// -----> color it opposite its parents, and for each other edge,
+// -----> check it doesn’t link two vertices of the same color.
+// -----> The first vertex in any connected component can be red or black!
+// -----> See this for details.
+// ---> 5) Finding Strongly Connected Components of a graph
+// -----> A directed graph is called strongly connected
+// -----> if there is a path from each vertex in the graph to every other vertex.
+// -----> (See this for DFS-based algo for finding Strongly Connected Components)
+// ---> 6) Solving puzzles with only one solution, such as mazes.
+// -----> (DFS can be adapted to find all solutions
+// -----> to a maze by only including nodes on the current path in the visited set.)
