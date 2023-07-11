@@ -51,18 +51,16 @@ TEST(SummationTest, ExperimentalTest2) {
     int s = 500;
     int minOfRSMinus1(min(r, s) - 1);
     Term summationFormula(summation.getSum(1, "minOfRSMinus1"));
-    Polynomials polynomials(factorizeAPolynomial(summationFormula.getPolynomialConstReference()));
+    Polynomials polynomials(factorizeAPolynomial(summationFormula.getAsPolynomial()));
     SubstitutionOfVariablesToValues substitution{{"R", r}, {"C", s}, {"minOfRSMinus1", minOfRSMinus1}};
     long long result =
-        substitution.performSubstitutionTo(summationFormula).getConstantValueConstReference().getInteger();
+        substitution.performSubstitutionTo(summationFormula).getAsNumber().getInteger();
     long long display = result % 1000000007;
 
-    for (Polynomial const& polynomial : polynomials) {
-        cout << "Factor: " << polynomial << "\n";
+    for (Polynomial const& polynomial : polynomials) {        cout << "Factor: " << polynomial << "\n";
     }
     EXPECT_EQ(
-        "((1/2)[C][R][minOfRSMinus1^2] + (-1/3)[C][minOfRSMinus1^3] + (-1/3)[R][minOfRSMinus1^3] + "
-        "(1/4)[minOfRSMinus1^4] + (1/2)[C][R][minOfRSMinus1] + (-1/2)[C][minOfRSMinus1^2] + (-1/2)[R][minOfRSMinus1^2] "
+        "((1/2)[C][R][minOfRSMinus1^2] + (-1/3)[C][minOfRSMinus1^3] + (-1/3)[R][minOfRSMinus1^3] + "        "(1/4)[minOfRSMinus1^4] + (1/2)[C][R][minOfRSMinus1] + (-1/2)[C][minOfRSMinus1^2] + (-1/2)[R][minOfRSMinus1^2] "
         "+ (1/2)[minOfRSMinus1^3] + (-1/6)[C][minOfRSMinus1] + (-1/6)[R][minOfRSMinus1] + (1/4)[minOfRSMinus1^2])",
         convertToString(summationFormula));
     EXPECT_EQ(624937395U, display);

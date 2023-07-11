@@ -56,6 +56,14 @@ Term getSummationOfHarmonicSeries(string const& countVariable) {
     return createExpressionIfPossible({ln(countVariable), "+", 1});
 }
 
+Term getSummationOfPowersOfTwo(string const& countVariable) {
+    // form: Summation of n from 2^0 to 2^n
+    Term result(
+        createExpressionIfPossible({2, "^", Polynomial{Monomial(1, {{countVariable, 1}}), Monomial(1, {})}, "-", 1}));
+    result.simplify();
+    return result;
+}
+
 }  // namespace algebra
 
 }  // namespace alba

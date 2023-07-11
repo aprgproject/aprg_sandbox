@@ -284,15 +284,13 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms
                 numeratorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
             }
         } else {
-            AlbaNumber const& exponentValue(exponent.getConstantValueConstReference());
+            AlbaNumber const& exponentValue(exponent.getAsNumber());
             if (isANegativeTerm(exponent)) {
                 populateTermsWithBase(denominatorTerms, base, exponentValue);
-            } else if (!isTheValue(exponent, 0)) {
-                populateTermsWithBase(numeratorTerms, base, exponentValue);
+            } else if (!isTheValue(exponent, 0)) {                populateTermsWithBase(numeratorTerms, base, exponentValue);
             }
         }
-    }
-}
+    }}
 
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
     Terms& numeratorTerms, Terms& denominatorTerms, TermsRaiseToNumbers const& termsRaiseToNumbers) {
@@ -355,15 +353,13 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
         bool isNeededToPutOnTheOtherSide(false);
         Term transformedTermOnTheOtherSide;
         if (termToCheck.isExpression()) {
-            Expression const& expression(termToCheck.getExpressionConstReference());
+            Expression const& expression(termToCheck.getAsExpression());
             TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
             if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel() && termsWithDetails.size() == 2) {
-                Term const& base(getTermConstReferenceFromUniquePointer(termsWithDetails[0].baseTermPointer));
-                Term const& exponent(getTermConstReferenceFromUniquePointer(termsWithDetails[1].baseTermPointer));
+                Term const& base(getTermConstReferenceFromUniquePointer(termsWithDetails[0].baseTermPointer));                Term const& exponent(getTermConstReferenceFromUniquePointer(termsWithDetails[1].baseTermPointer));
                 isNeededToPutOnTheOtherSide = isANegativeTerm(exponent);
                 transformedTermOnTheOtherSide = createExpressionIfPossible({base, "^", negateTerm(exponent)});
-            }
-        }
+            }        }
         if (isNeededToPutOnTheOtherSide) {
             transformedTermOnTheOtherSide.simplify();
             termsToPutOnTheOtherSide.emplace_back(transformedTermOnTheOtherSide);

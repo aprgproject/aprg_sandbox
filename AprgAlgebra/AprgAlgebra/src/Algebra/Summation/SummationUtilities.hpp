@@ -12,7 +12,7 @@ Term getSummationOfArithmeticSeriesForCubes(std::string const& countVariable);
 Term getSummationOfFiniteGeometricSeries(std::string const& base, std::string const& exponent);
 Term getSummationOfInfiniteGeometricSeries(std::string const& base);
 Term getSummationOfHarmonicSeries(std::string const& countVariable);
+Term getSummationOfPowersOfTwo(std::string const& countVariable);
 
 }  // namespace algebra
-
 }  // namespace alba

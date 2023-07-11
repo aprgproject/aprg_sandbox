@@ -49,16 +49,14 @@ void IsolationOfOneVariableOnEqualityEquations::sortEquationsWithVariable(Equati
             VariableNamesRetriever namesRetriever2;
             namesRetriever1.retrieveFromEquation(equation1);
             namesRetriever2.retrieveFromEquation(equation2);
-            int size1 = namesRetriever1.getSavedData().size();
-            int size2 = namesRetriever2.getSavedData().size();
+            int size1 = namesRetriever1.getVariableNames().size();
+            int size2 = namesRetriever2.getVariableNames().size();
             bool result(false);
             if (size1 == size2) {
-                AlbaNumber degree1(getDegree(equation1));
-                AlbaNumber degree2(getDegree(equation2));
+                AlbaNumber degree1(getDegree(equation1));                AlbaNumber degree2(getDegree(equation2));
                 result = degree1 < degree2;
             } else {
-                result = size1 < size2;
-            }
+                result = size1 < size2;            }
             return result;
         });
 }

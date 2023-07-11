@@ -116,20 +116,18 @@ AlbaNumbers SeriesBasedOnFormula::getBoundValues() const {
         SubstitutionOfVariablesToValues substitution{{m_variableName, extremumIndex}};
         Term secondDerivativeAtExtrema(substitution.performSubstitutionTo(secondDerivative));
         if (secondDerivativeAtExtrema.isConstant()) {
-            boundValues.emplace_back(secondDerivativeAtExtrema.getConstantValueConstReference());
+            boundValues.emplace_back(secondDerivativeAtExtrema.getAsNumber());
         }
     }
     Term valueTermAtInfinity(getValueAtInfinity());
     if (isARealFiniteConstant(valueTermAtInfinity)) {
-        boundValues.emplace_back(valueTermAtInfinity.getConstantValueConstReference());
+        boundValues.emplace_back(valueTermAtInfinity.getAsNumber());
     }
     return boundValues;
 }
-
 AlbaNumbers SeriesBasedOnFormula::getExtremaIndexes() const {
     DifferentiationForFiniteCalculus differentiation(m_variableName);
-    Term firstDerivative(differentiation.differentiate(m_formulaForSeries));
-    OneEquationOneVariableEqualitySolver solver;
+    Term firstDerivative(differentiation.differentiate(m_formulaForSeries));    OneEquationOneVariableEqualitySolver solver;
     simplifyTermToACommonDenominator(firstDerivative);
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(firstDerivative, "=", 0)));
     return solutionSet.getAcceptedValues();

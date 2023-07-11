@@ -4,19 +4,18 @@ namespace alba {
 
 namespace algebra {
 
-void NumbersRetriever::retrieveFromConstant(Constant const& constant) {
-    m_savedData.emplace(constant.getNumberConstReference());
-}
+AlbaNumbersSet const& NumbersRetriever::getNumbers() const { return m_numbers; }
 
-void NumbersRetriever::retrieveFromVariable(Variable const&) { m_savedData.emplace(1); }
+void NumbersRetriever::retrieveFromConstant(Constant const& constant) { m_numbers.emplace(constant.getNumber()); }
+
+void NumbersRetriever::retrieveFromVariable(Variable const&) { m_numbers.emplace(1); }
 
 void NumbersRetriever::retrieveFromMonomial(Monomial const& monomial) {
-    m_savedData.emplace(monomial.getConstantConstReference());
-    for (auto const& variableExponentsPair : monomial.getVariablesToExponentsMapConstReference()) {
-        m_savedData.emplace(variableExponentsPair.second);
+    m_numbers.emplace(monomial.getCoefficient());
+    for (auto const& variableExponentsPair : monomial.getVariablesToExponentsMap()) {
+        m_numbers.emplace(variableExponentsPair.second);
     }
 }
-
 }  // namespace algebra
 
 }  // namespace alba

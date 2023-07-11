@@ -37,16 +37,14 @@ public:
     bool operator<(Monomial const& second) const;
     bool isSimplified() const;
 
-    AlbaNumber const& getConstantConstReference() const;
-    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    AlbaNumber const& getCoefficient() const;
+    VariablesToExponentsMap const& getVariablesToExponentsMap() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
 
-    void clear();
-    void simplify();
+    void clear();    void simplify();
     void setConstant(AlbaNumber const& constant);
     void multiplyNumber(AlbaNumber const& number);
-    void divideNumber(AlbaNumber const& number);
-    void raiseToPowerNumber(AlbaNumber const& number);
+    void divideNumber(AlbaNumber const& number);    void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
     void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);

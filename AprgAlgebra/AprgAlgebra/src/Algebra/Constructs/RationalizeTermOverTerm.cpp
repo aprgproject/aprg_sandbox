@@ -60,22 +60,20 @@ void RationalizeTermOverTerm::simplifyForRationalize(Term& term) {
 void RationalizeTermOverTerm::retrieveTermsForRationalization(
     Term& rationalizedTerm, Term& multiplier, Term const& term) const {
     if (term.isPolynomial()) {
-        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, term.getPolynomialConstReference());
+        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, term.getAsPolynomial());
     } else if (term.isExpression()) {
-        retrieveTermsForRationalizationForExpression(rationalizedTerm, multiplier, term.getExpressionConstReference());
+        retrieveTermsForRationalizationForExpression(rationalizedTerm, multiplier, term.getAsExpression());
     }
 }
 
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     Term& rationalizedTerm, Term& multiplier, Polynomial const& polynomial) const {
-    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    Monomials const& monomials(polynomial.getMonomials());
     if (monomials.size() == 2) {
         Monomial const& firstMonomial(monomials[0]);
-        Monomial const& secondMonomial(monomials[1]);
-        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
+        Monomial const& secondMonomial(monomials[1]);        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
     }
 }
-
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     Term& rationalizedTerm, Term& multiplier, Monomial const& firstMonomial, Monomial const& secondMonomial) const {
     AlbaNumber gcfOfExponents = getGreatestCommonFactor(

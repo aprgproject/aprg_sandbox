@@ -71,54 +71,48 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Function const& func
 Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) const {
     Term newTerm(term);
     if (term.isVariable()) {
-        newTerm = performSubstitutionTo(term.getVariableConstReference());
+        newTerm = performSubstitutionTo(term.getAsVariable());
     } else if (term.isMonomial()) {
-        newTerm = performSubstitutionTo(term.getMonomialConstReference());
+        newTerm = performSubstitutionTo(term.getAsMonomial());
     } else if (term.isPolynomial()) {
-        newTerm = performSubstitutionTo(term.getPolynomialConstReference());
+        newTerm = performSubstitutionTo(term.getAsPolynomial());
     } else if (term.isExpression()) {
-        newTerm = performSubstitutionTo(term.getExpressionConstReference());
+        newTerm = performSubstitutionTo(term.getAsExpression());
     } else if (term.isFunction()) {
-        newTerm = performSubstitutionTo(term.getFunctionConstReference());
+        newTerm = performSubstitutionTo(term.getAsFunction());
     }
     return newTerm;
 }
-
 Equation SubstitutionOfVariablesToValues::performSubstitutionTo(Equation const& equation) const {
     Equation simplifiedEquation(
-        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),
-        performSubstitutionTo(equation.getRightHandTerm()));
+        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),        performSubstitutionTo(equation.getRightHandTerm()));
     simplifiedEquation.simplify();
     return simplifiedEquation;
 }
 
 Monomial SubstitutionOfVariablesToValues::performSubstitutionForMonomial(Monomial const& monomial) const {
-    Monomial newMonomial(createMonomialFromNumber(monomial.getConstantConstReference()));
-    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
+    Monomial newMonomial(createMonomialFromNumber(monomial.getCoefficient()));
+    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMap());
     for (auto const& variableExponentPair : previousVariableExponentMap) {
         if (isVariableFound(variableExponentPair.first)) {
             newMonomial.setConstant(
-                newMonomial.getConstantConstReference() *
+                newMonomial.getCoefficient() *
                 (getValueForVariable(variableExponentPair.first) ^ variableExponentPair.second));
         } else {
-            newMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);
-        }
+            newMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);        }
     }
     newMonomial.simplify();
-    return newMonomial;
-}
+    return newMonomial;}
 
 Polynomial SubstitutionOfVariablesToValues::performSubstitutionForPolynomial(Polynomial const& polynomial) const {
     Polynomial newPolynomial;
-    for (Monomial const& monomial : polynomial.getMonomialsConstReference()) {
+    for (Monomial const& monomial : polynomial.getMonomials()) {
         newPolynomial.addMonomial(performSubstitutionForMonomial(monomial));
     }
-    newPolynomial.simplify();
-    return newPolynomial;
+    newPolynomial.simplify();    return newPolynomial;
 }
 
-Expression SubstitutionOfVariablesToValues::performSubstitutionForExpression(Expression const& expression) const {
-    Expression newExpression(expression);
+Expression SubstitutionOfVariablesToValues::performSubstitutionForExpression(Expression const& expression) const {    Expression newExpression(expression);
     performSubstitutionForTermsWithAssociation(newExpression.getTermsWithAssociationReference());
     newExpression.simplify();
     return newExpression;
@@ -127,15 +121,13 @@ Expression SubstitutionOfVariablesToValues::performSubstitutionForExpression(Exp
 Function SubstitutionOfVariablesToValues::performSubstitutionForFunction(Function const& functionObject) const {
     Function newFunction(functionObject);
     getTermReferenceFromBaseTerm(newFunction.getInputTermReference()) =
-        performSubstitutionTo(functionObject.getInputTermConstReference());
+        performSubstitutionTo(functionObject.getInputTerm());
     newFunction.simplify();
     return newFunction;
 }
-
 void SubstitutionOfVariablesToValues::putVariablesWithValues(
     initializer_list<VariableValuePair> const& variablesWithValues) {
-    for (VariableValuePair const& variableValuesPair : variablesWithValues) {
-        putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
+    for (VariableValuePair const& variableValuesPair : variablesWithValues) {        putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
     }
 }
 

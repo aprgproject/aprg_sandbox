@@ -54,23 +54,20 @@ bool isNotEqual(Term const& leftTerm, Term const& rightTerm) { return leftTerm !
 bool isLessThan(Term const& leftTerm, Term const& rightTerm) {
     bool result(false);
     if (leftTerm.isConstant() && rightTerm.isConstant()) {
-        result = leftTerm.getConstantValueConstReference() < rightTerm.getConstantValueConstReference();
+        result = leftTerm.getAsNumber() < rightTerm.getAsNumber();
     }
     return result;
 }
-
 bool isGreaterThan(Term const& leftTerm, Term const& rightTerm) {
     bool result(false);
     if (leftTerm.isConstant() && rightTerm.isConstant()) {
-        result = leftTerm.getConstantValueConstReference() > rightTerm.getConstantValueConstReference();
+        result = leftTerm.getAsNumber() > rightTerm.getAsNumber();
     }
     return result;
 }
-
 bool isLessThanOrEqual(Term const& leftTerm, Term const& rightTerm) {
     return isEqual(leftTerm, rightTerm) || isLessThan(leftTerm, rightTerm);
 }
-
 bool isGreaterThanOrEqual(Term const& leftTerm, Term const& rightTerm) {
     return isEqual(leftTerm, rightTerm) || isGreaterThan(leftTerm, rightTerm);
 }
@@ -125,14 +122,12 @@ Term getEquivalentTermByReducingItToAVariable(
     if (termWithVariable.isVariable()) {
         result = termWithWithoutVariable;
     } else if (termWithVariable.isMonomial()) {
-        Monomial const& monomialWithVariable(termWithVariable.getMonomialConstReference());
+        Monomial const& monomialWithVariable(termWithVariable.getAsMonomial());
         AlbaNumber exponent(monomialWithVariable.getExponentForVariable(variableName));
         exponent = exponent ^ (-1);
-        result = termWithWithoutVariable ^ exponent;
-    }
+        result = termWithWithoutVariable ^ exponent;    }
     return result;
 }
-
 Equation buildEquationIfPossible(string const& equationString) {
     EquationBuilder builder(equationString);
     return builder.getEquation();
@@ -144,15 +139,13 @@ void segregateEquationsWithAndWithoutVariable(
     for (Equation const& equationToSegregate : equationsToSegregate) {
         VariableNamesRetriever namesRetriever;
         namesRetriever.retrieveFromEquation(equationToSegregate);
-        VariableNamesSet const& names(namesRetriever.getSavedData());
+        VariableNamesSet const& names(namesRetriever.getVariableNames());
         if (names.find(variableName) != names.cend()) {
             equationsWithVariable.emplace_back(equationToSegregate);
-        } else {
-            equationsWithoutVariable.emplace_back(equationToSegregate);
+        } else {            equationsWithoutVariable.emplace_back(equationToSegregate);
         }
     }
 }
-
 }  // namespace algebra
 
 }  // namespace alba

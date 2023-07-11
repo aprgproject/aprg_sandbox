@@ -49,15 +49,13 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1) {
 
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Term term(buildTermIfPossible("(((3*x)/(x-3))-((3*x+2)/(x^2-6*x+9)))*(((x+2)/(x+3))-((x)/(x^2+6*x+9)))"));
-    Expression simplifiedTerm(term.getExpressionConstReference());
+    Expression simplifiedTerm(term.getAsExpression());
     simplifiedTerm.simplify();
 
-    EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));
-}
+    EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));}
 
 TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1) {
-    OneEquationOneVariableNonEqualitySolver solver;
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
+    OneEquationOneVariableNonEqualitySolver solver;    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
 
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());

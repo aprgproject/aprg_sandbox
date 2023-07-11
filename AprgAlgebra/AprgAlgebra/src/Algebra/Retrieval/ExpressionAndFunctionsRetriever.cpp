@@ -4,20 +4,19 @@ namespace alba {
 
 namespace algebra {
 
-ExpressionAndFunctionsRetriever::ExpressionAndFunctionsRetriever() {}
+TermSet const& ExpressionAndFunctionsRetriever::getExpressionsAndFunctions() const { return m_expressionsAndFunctions; }
 
 void ExpressionAndFunctionsRetriever::retrieveFromPolynomial(Polynomial const&) {}
 
 void ExpressionAndFunctionsRetriever::retrieveFromExpression(Expression const& expression) {
-    m_savedData.emplace(Term(expression));
-    BaseExpressionAndFunctionsRetriever::retrieveFromExpression(expression);
+    m_expressionsAndFunctions.emplace(Term(expression));
+    BaseRetriever::retrieveFromExpression(expression);
 }
 
 void ExpressionAndFunctionsRetriever::retrieveFromFunction(Function const& functionObject) {
-    m_savedData.emplace(Term(functionObject));
-    BaseExpressionAndFunctionsRetriever::retrieveFromFunction(functionObject);
+    m_expressionsAndFunctions.emplace(Term(functionObject));
+    BaseRetriever::retrieveFromFunction(functionObject);
 }
 
 }  // namespace algebra
-
 }  // namespace alba

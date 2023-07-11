@@ -33,21 +33,19 @@ Term Summation::getSummationModelWithUnknownConstant() const { return m_summatio
 
 Term Summation::getSum(Term const& start, Term const& end) const {
     Term result;
-    bool isStartAFiniteConstant = start.isConstant() && start.getConstantValueConstReference().isAFiniteValue();
-    bool isEndAFiniteConstant = end.isConstant() && end.getConstantValueConstReference().isAFiniteValue();
+    bool isStartAFiniteConstant = start.isConstant() && start.getAsNumber().isAFiniteValue();
+    bool isEndAFiniteConstant = end.isConstant() && end.getAsNumber().isAFiniteValue();
     if (isStartAFiniteConstant && isEndAFiniteConstant) {
         calculateSumFromANumberToANumber(
-            result, start.getConstantValueConstReference(), end.getConstantValueConstReference());
+            result, start.getAsNumber(), end.getAsNumber());
     } else if (isStartAFiniteConstant) {
-        calculateSumStartingFromANumber(result, start.getConstantValueConstReference(), end);
+        calculateSumStartingFromANumber(result, start.getAsNumber(), end);
     } else {
         result = ALBA_NUMBER_NOT_A_NUMBER;
-    }
-    return result;
+    }    return result;
 }
 
-void Summation::calculateSumFromANumberToANumber(
-    Term& result, AlbaNumber const& startNumber, AlbaNumber const& endNumber) const {
+void Summation::calculateSumFromANumberToANumber(    Term& result, AlbaNumber const& startNumber, AlbaNumber const& endNumber) const {
     if (startNumber.isIntegerType() && endNumber.isIntegerType() && startNumber <= endNumber) {
         if (isNan(m_summationModel)) {
             calculateSumUsingEachTerm(result, startNumber, endNumber);
@@ -63,15 +61,13 @@ void Summation::calculateSumStartingFromANumber(Term& result, AlbaNumber const& 
     if (startNumber.isIntegerType()) {
         Term summationModelWithConstant(getSummationModelWithKnownConstant(startNumber));
 
-        if (end.isConstant() && end.getConstantValueConstReference().isPositiveInfinity()) {
+        if (end.isConstant() && end.getAsNumber().isPositiveInfinity()) {
             result = getLimit(summationModelWithConstant, m_variableName, ALBA_NUMBER_POSITIVE_INFINITY);
         } else {
-            SubstitutionOfVariablesToTerms substitution({{m_variableName, end}});
-            result = substitution.performSubstitutionTo(summationModelWithConstant);
+            SubstitutionOfVariablesToTerms substitution({{m_variableName, end}});            result = substitution.performSubstitutionTo(summationModelWithConstant);
         }
     } else {
-        result = ALBA_NUMBER_NOT_A_NUMBER;
-    }
+        result = ALBA_NUMBER_NOT_A_NUMBER;    }
 }
 
 void Summation::calculateSumUsingEachTerm(

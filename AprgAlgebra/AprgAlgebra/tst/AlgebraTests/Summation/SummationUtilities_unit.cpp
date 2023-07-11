@@ -45,6 +45,12 @@ TEST(SummationUtilitiesTest, GetSummationOfHarmonicSeriesWorks) {
     EXPECT_EQ("(ln(n)+1)", convertToString(term));
 }
 
+TEST(SummationUtilitiesTest, GetSummationOfPowersOfTwoWorks) {
+    Term term(getSummationOfPowersOfTwo("n"));
+
+    EXPECT_EQ("(-1+(2^(1[n] + 1)))", convertToString(term));
+}
+
 }  // namespace algebra
 
 }  // namespace alba

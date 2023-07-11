@@ -40,50 +40,43 @@ Function& Function::operator=(Function const& functionObject) {
 }
 
 bool Function::operator==(Function const& second) const {
-    return m_functionName == second.m_functionName &&
-           getTermConstReferenceFromBaseTerm(getInputTermConstReference()) ==
-               getTermConstReferenceFromBaseTerm(second.getInputTermConstReference());
+    return m_functionName == second.m_functionName && getTermConstReferenceFromBaseTerm(getInputTerm()) ==
+                                                          getTermConstReferenceFromBaseTerm(second.getInputTerm());
 }
 
 bool Function::operator!=(Function const& second) const { return !(operator==(second)); }
-
 bool Function::operator<(Function const& second) const {
     bool result(false);
     if (m_functionName == second.m_functionName) {
-        return getTermConstReferenceFromBaseTerm(getInputTermConstReference()) <
-               getTermConstReferenceFromBaseTerm(second.getInputTermConstReference());
+        return getTermConstReferenceFromBaseTerm(getInputTerm()) <
+               getTermConstReferenceFromBaseTerm(second.getInputTerm());
     } else {
         result = m_functionName < second.m_functionName;
-    }
-    return result;
+    }    return result;
 }
 
 bool Function::isSimplified() const { return m_isSimplified; }
-
 string Function::getFunctionName() const { return m_functionName; }
 
 string Function::getDebugString() const {
-    return m_functionName + "(" + getTermConstReferenceFromBaseTerm(getInputTermConstReference()).getDebugString() +
-           ")";
+    return m_functionName + "(" + getTermConstReferenceFromBaseTerm(getInputTerm()).getDebugString() + ")";
 }
 
 AlbaNumber Function::performFunctionAndReturnResultIfPossible() const {
     AlbaNumber result;
-    Term const& term(getTermConstReferenceFromBaseTerm(getInputTermConstReference()));
+    Term const& term(getTermConstReferenceFromBaseTerm(getInputTerm()));
     if (term.isConstant()) {
-        result = m_evaluationFunction(term.getConstantValueConstReference());
+        result = m_evaluationFunction(term.getAsNumber());
     }
     return result;
 }
 
-BaseTerm const& Function::getInputTermConstReference() const {
+BaseTerm const& Function::getInputTerm() const {
     return getBaseTermConstReferenceFromUniquePointer(m_inputTermPointer);
 }
-
 Function::EvaluationFunction const& Function::getEvaluationFunction() const { return m_evaluationFunction; }
 
-BaseTerm& Function::getInputTermReference() {
-    clearSimplifiedFlag();
+BaseTerm& Function::getInputTermReference() {    clearSimplifiedFlag();
     return getBaseTermReferenceFromUniquePointer(m_inputTermPointer);
 }
 

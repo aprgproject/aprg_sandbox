@@ -322,10 +322,9 @@ void sortIntegralsDetailsToEvaluate(DetailsForDefiniteIntegralsWithTerms& integr
             retriever2.retrieveFromTerm(integral2.lowerEnd);
             retriever2.retrieveFromTerm(integral2.higherEnd);
 
-            return retriever1.getSavedData().size() > retriever2.getSavedData().size();
+            return retriever1.getVariableNames().size() > retriever2.getVariableNames().size();
         });
 }
-
 }  // namespace algebra
 
 }  // namespace alba

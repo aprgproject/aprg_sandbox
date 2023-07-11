@@ -13,24 +13,22 @@ void BaseMutator::mutateEquation(Equation &equation) {
 
 void BaseMutator::mutateTerm(Term &term) {
     if (term.isConstant()) {
-        mutateConstant(term.getConstantReference());
+        mutateConstant(term.getAsConstantReference());
     } else if (term.isVariable()) {
-        mutateVariable(term.getVariableReference());
+        mutateVariable(term.getAsVariableReference());
     } else if (term.isMonomial()) {
-        mutateMonomial(term.getMonomialReference());
+        mutateMonomial(term.getAsMonomialReference());
     } else if (term.isPolynomial()) {
-        mutatePolynomial(term.getPolynomialReference());
+        mutatePolynomial(term.getAsPolynomialReference());
     } else if (term.isExpression()) {
-        mutateExpression(term.getExpressionReference());
+        mutateExpression(term.getAsExpressionReference());
     } else if (term.isFunction()) {
-        mutateFunction(term.getFunctionReference());
+        mutateFunction(term.getAsFunctionReference());
     }
 }
-
 void BaseMutator::mutateConstant(Constant &) {}
 
 void BaseMutator::mutateVariable(Variable &) {}
-
 void BaseMutator::mutateMonomial(Monomial &) {}
 
 void BaseMutator::mutatePolynomial(Polynomial &polynomial) {

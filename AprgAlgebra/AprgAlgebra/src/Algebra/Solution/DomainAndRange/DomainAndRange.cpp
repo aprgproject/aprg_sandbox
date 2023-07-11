@@ -1,13 +1,12 @@
 #include "DomainAndRange.hpp"
 
+#include <Algebra/Retrieval/SingleVariableNameRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/SolutionUtilities.hpp>
-#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Number/AlbaNumberConstants.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-
 using namespace alba::AlbaNumberConstants;
 using namespace alba::mathHelper;
 using namespace std;
@@ -38,27 +37,24 @@ SolutionSet calculateDomainUsingTransitionValues(
 
 SolutionSet calculateDomainForTermWithOneVariable(AlbaNumbers const& valuesToCheck, Term const& term) {
     SolutionSet domain;
-    VariableNamesRetriever variableNamesRetriever;
-    variableNamesRetriever.retrieveFromTerm(term);
-    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
-    if (variableNames.empty()) {
+    SingleVariableNameRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    if (retriever.hasNoVariables()) {
         domain.addAcceptedInterval(createAllRealValuesInterval());
-    } else if (variableNames.size() == 1) {
-        string variableName = *variableNames.cbegin();
+    } else if (retriever.hasOnlyASingleVariable()) {
+        string variableName(retriever.getSingleVariableNameIfItExistsAsTheOnlyOneOtherwiseItsEmpty());
         SubstitutionOfVariablesToValues substitution;
         domain = calculateDomainUsingTransitionValues(valuesToCheck, [&](AlbaNumber const& value) {
             substitution.putVariableWithValue(variableName, value);
             Term computedTerm(substitution.performSubstitutionTo(term));
             AlbaNumber computedValue;
             if (computedTerm.isConstant()) {
-                computedValue = computedTerm.getConstantValueConstReference();
+                computedValue = computedTerm.getAsNumber();
             }
             return computedValue;
-        });
-    }
+        });    }
     return domain;
 }
-
 SolutionSet calculateDomainForTermWithOneVariable(Term const& term) {
     return calculateDomainForTermWithOneVariable(getInitialValuesForIteratingMethods(term), term);
 }
@@ -68,15 +64,13 @@ SolutionSet calculateDomainForEquation(
     SolutionSet domain;
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromEquation(equation);
-    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
+    VariableNamesSet const& variableNames(variableNamesRetriever.getVariableNames());
     string inputName, outputName;
     retrieveTwoVariableNames(inputName, outputName, variableNames, variableNameToCheck);
-    if (!inputName.empty() && !outputName.empty()) {
-        domain = calculateDomainForEquationWithVariableToSubstitute(inputName, valuesToCheck, equation);
+    if (!inputName.empty() && !outputName.empty()) {        domain = calculateDomainForEquationWithVariableToSubstitute(inputName, valuesToCheck, equation);
     }
     return domain;
 }
-
 SolutionSet calculateDomainForEquation(string const& variableNameToCheck, Equation const& equation) {
     return calculateDomainForEquation(variableNameToCheck, getInitialValuesForIteratingMethods(equation), equation);
 }
@@ -86,15 +80,13 @@ SolutionSet calculateRangeForEquation(
     SolutionSet domain;
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromEquation(equation);
-    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
+    VariableNamesSet const& variableNames(variableNamesRetriever.getVariableNames());
     string inputName, outputName;
     retrieveTwoVariableNames(inputName, outputName, variableNames, variableNameToCheck);
-    if (!inputName.empty() && !outputName.empty()) {
-        domain = calculateDomainForEquationWithVariableToSubstitute(outputName, valuesToCheck, equation);
+    if (!inputName.empty() && !outputName.empty()) {        domain = calculateDomainForEquationWithVariableToSubstitute(outputName, valuesToCheck, equation);
     }
     return domain;
 }
-
 SolutionSet calculateRangeForEquation(string const& variableNameToCheck, Equation const& equation) {
     return calculateRangeForEquation(variableNameToCheck, getInitialValuesForIteratingMethods(equation), equation);
 }

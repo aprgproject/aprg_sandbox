@@ -26,15 +26,13 @@ bool ProofByInduction::isCorrectOnASpecificValue(AlbaNumber const& value) const 
     SubstitutionOfVariablesToValues substitution{{m_variableName, value}};
     Term guessTerm(substitution.performSubstitutionTo(m_guessExpression));
     if (guessTerm.isConstant()) {
-        valueFromGuess = guessTerm.getConstantValueConstReference();
+        valueFromGuess = guessTerm.getAsNumber();
     }
     return valueFromManual == valueFromGuess;
 }
-
 bool ProofByInduction::isCorrectOnInductionStep() const {
     SubstitutionOfVariablesToTerms substitutionForNextStep{
-        {m_variableName, Polynomial{Monomial(1, {{m_variableName, 1}}), Monomial(1, {})}}};
-    Term expectedDelta = substitutionForNextStep.performSubstitutionTo(m_expressionForEachStep);
+        {m_variableName, Polynomial{Monomial(1, {{m_variableName, 1}}), Monomial(1, {})}}};    Term expectedDelta = substitutionForNextStep.performSubstitutionTo(m_expressionForEachStep);
     expectedDelta.simplify();
 
     Term initialValue(Monomial(1, {{m_variableName, 1}}));

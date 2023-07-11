@@ -131,15 +131,13 @@ void AdditionAndSubtractionOfExpressions::prepareCommonParts(Terms& commonParts)
     for (Term& commonPart : commonParts) {
         commonPart.simplify();
         if (commonPart.isExpression()) {
-            commonPart.getExpressionReference().sort();
+            commonPart.getAsExpressionReference().sort();
         }
     }
 }
-
 void AdditionAndSubtractionOfExpressions::retrieveMergeParts(Terms& mergeParts) {
     for (Expression const& expression : m_expressions) {
-        mergeParts.emplace_back();
-        retrieveMergePart(mergeParts.back(), expression);
+        mergeParts.emplace_back();        retrieveMergePart(mergeParts.back(), expression);
     }
 }
 

@@ -38,20 +38,15 @@ public:
     Term(Expression const& expression);
     Term(Function const& function);
 
-    template <
-        typename ArithmeticType,
-        typename = std::enable_if_t<typeHelper::isArithmeticType<ArithmeticType>()>>  // enabled via a type template
-                                                                                      // parameter
-                                                                                      Term(ArithmeticType const value)
-        : Term(AlbaNumber(value)) {}
+    // enabled via a type template parameter
+    template <typename ArithmeticType, typename = std::enable_if_t<typeHelper::isArithmeticType<ArithmeticType>()>>
+    Term(ArithmeticType const value) : Term(AlbaNumber(value)) {}
 
     // rule of five or six
-    ~Term() = default;
-    Term(Term const& term);
+    ~Term() = default;    Term(Term const& term);
     Term& operator=(Term const& term);
     Term(Term&& term) = default;
     Term& operator=(Term&& term) = default;
-
     bool operator==(Term const& second) const;
     bool operator!=(Term const& second) const;
     bool operator<(Term const& second) const;
@@ -66,30 +61,28 @@ public:
     bool isSimplified() const;
 
     TermType getTermType() const;
-    Constant const& getConstantConstReference() const;
-    Variable const& getVariableConstReference() const;
-    Operator const& getOperatorConstReference() const;
-    Monomial const& getMonomialConstReference() const;
-    Polynomial const& getPolynomialConstReference() const;
-    Expression const& getExpressionConstReference() const;
-    Function const& getFunctionConstReference() const;
-    AlbaNumber const& getConstantValueConstReference() const;
+    Constant const& getAsConstant() const;
+    Variable const& getAsVariable() const;
+    Operator const& getAsOperator() const;
+    Monomial const& getAsMonomial() const;
+    Polynomial const& getAsPolynomial() const;
+    Expression const& getAsExpression() const;
+    Function const& getAsFunction() const;
+    AlbaNumber const& getAsNumber() const;
     std::string getDebugString() const;
 
-    Constant& getConstantReference();
-    Variable& getVariableReference();
-    Operator& getOperatorReference();
-    Monomial& getMonomialReference();
-    Polynomial& getPolynomialReference();
-    Expression& getExpressionReference();
-    Function& getFunctionReference();
+    Constant& getAsConstantReference();
+    Variable& getAsVariableReference();
+    Operator& getAsOperatorReference();
+    Monomial& getAsMonomialReference();
+    Polynomial& getAsPolynomialReference();
+    Expression& getAsExpressionReference();
+    Function& getAsFunctionReference();
 
     BaseTermUniquePointer createBasePointerByMove();
-
     void clear();
     void simplify();
     void sort();
-
     void setAsSimplified();
     void clearSimplifiedFlag();
     void clearAllInnerSimplifiedFlags();

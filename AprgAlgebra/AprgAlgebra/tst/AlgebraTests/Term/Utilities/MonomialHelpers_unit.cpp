@@ -280,32 +280,28 @@ TEST(MonomialHelpersTest, CompareMonomialsAndSaveMinimumExponentsForEachVariable
 
     Monomial monomialToVerify(compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial1, monomial2));
 
-    EXPECT_DOUBLE_EQ(1, monomialToVerify.getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(1, monomialToVerify.getCoefficient().getDouble());
     Monomial::VariablesToExponentsMap const& variableMapToVerify(
-        monomialToVerify.getVariablesToExponentsMapConstReference());
+        monomialToVerify.getVariablesToExponentsMap());
     ASSERT_EQ(4U, variableMapToVerify.size());
     EXPECT_DOUBLE_EQ(-5, variableMapToVerify.at("a").getDouble());
-    EXPECT_DOUBLE_EQ(-5, variableMapToVerify.at("b").getDouble());
-    EXPECT_DOUBLE_EQ(3, variableMapToVerify.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(-5, variableMapToVerify.at("b").getDouble());    EXPECT_DOUBLE_EQ(3, variableMapToVerify.at("x").getDouble());
     EXPECT_DOUBLE_EQ(2, variableMapToVerify.at("y").getDouble());
 }
-
 TEST(MonomialHelpersTest, CompareMonomialsAndSaveMaximumExponentsForEachVariableWorks) {
     Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
     Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
 
     Monomial monomialToVerify(compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial1, monomial2));
 
-    EXPECT_DOUBLE_EQ(1, monomialToVerify.getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(1, monomialToVerify.getCoefficient().getDouble());
     Monomial::VariablesToExponentsMap const& variableMapToVerify(
-        monomialToVerify.getVariablesToExponentsMapConstReference());
+        monomialToVerify.getVariablesToExponentsMap());
     ASSERT_EQ(4U, variableMapToVerify.size());
     EXPECT_DOUBLE_EQ(10, variableMapToVerify.at("a").getDouble());
-    EXPECT_DOUBLE_EQ(10, variableMapToVerify.at("b").getDouble());
-    EXPECT_DOUBLE_EQ(5, variableMapToVerify.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(10, variableMapToVerify.at("b").getDouble());    EXPECT_DOUBLE_EQ(5, variableMapToVerify.at("x").getDouble());
     EXPECT_DOUBLE_EQ(4, variableMapToVerify.at("y").getDouble());
 }
-
 TEST(MonomialHelpersTest, GetMonomialWithMinimumExponentsInMonomialsWorks) {
     Monomial monomialToVerify1(
         getMonomialWithMinimumExponentsInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));

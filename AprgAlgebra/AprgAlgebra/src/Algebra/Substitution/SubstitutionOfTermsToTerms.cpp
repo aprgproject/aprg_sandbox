@@ -62,17 +62,15 @@ Term SubstitutionOfTermsToTerms::performSubstitutionTo(Term const& term) const {
     if (isTermFound(term)) {
         newTerm = getTermForTerm(term);
     } else if (term.isExpression()) {
-        newTerm = performSubstitutionTo(term.getExpressionConstReference());
+        newTerm = performSubstitutionTo(term.getAsExpression());
     } else if (term.isFunction()) {
-        newTerm = performSubstitutionTo(term.getFunctionConstReference());
+        newTerm = performSubstitutionTo(term.getAsFunction());
     }
     return newTerm;
 }
-
 Equation SubstitutionOfTermsToTerms::performSubstitutionTo(Equation const& equation) const {
     Equation simplifiedEquation(
-        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),
-        performSubstitutionTo(equation.getRightHandTerm()));
+        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),        performSubstitutionTo(equation.getRightHandTerm()));
     simplifiedEquation.simplify();
     return simplifiedEquation;
 }
@@ -87,15 +85,13 @@ Expression SubstitutionOfTermsToTerms::performSubstitutionForExpression(Expressi
 Function SubstitutionOfTermsToTerms::performSubstitutionForFunction(Function const& functionObject) const {
     Function newFunction(functionObject);
     getTermReferenceFromBaseTerm(newFunction.getInputTermReference()) =
-        performSubstitutionTo(functionObject.getInputTermConstReference());
+        performSubstitutionTo(functionObject.getInputTerm());
     newFunction.simplify();
     return newFunction;
 }
-
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(initializer_list<TermTermPair> const& variablesWithValues) {
     for (TermTermPair const& variableValuesPair : variablesWithValues) {
-        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
-    }
+        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);    }
 }
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& variablesWithValues) {

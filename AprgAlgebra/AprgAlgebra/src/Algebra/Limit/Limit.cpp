@@ -3,15 +3,13 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
-#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
+#include <Algebra/Retrieval/SingleVariableNameRetriever.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Common/Math/Helpers/ComputationHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>#include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Number/AlbaNumberConstants.hpp>
 
@@ -51,16 +49,14 @@ bool hasHorizontalAsymptoteAtValue(Term const& term, string const& variableName,
     Term limitAtPositiveInfinity(getLimitAtInfinity(term, variableName, ALBA_NUMBER_POSITIVE_INFINITY));
     Term limitAtNegativeInfinity(getLimitAtInfinity(term, variableName, ALBA_NUMBER_NEGATIVE_INFINITY));
     if (limitAtPositiveInfinity.isConstant() && limitAtNegativeInfinity.isConstant()) {
-        result = limitAtPositiveInfinity.getConstantValueConstReference() == valueToApproach ||
-                 limitAtNegativeInfinity.getConstantValueConstReference() == valueToApproach;
+        result = limitAtPositiveInfinity.getAsNumber() == valueToApproach ||
+                 limitAtNegativeInfinity.getAsNumber() == valueToApproach;
     }
     return result;
 }
-
 bool isSqueezeTheoremSatisfied(
     Term const& alwaysLowerTermAtInterval, Term const& termInBetweenAtInterval, Term const& alwaysHigherTermAtInterval,
-    string const& variableName, AlbaNumber const& valueToApproach) {
-    // Theorem: Suppose that the functions f, g, and h are defined on some open interval I containing A except
+    string const& variableName, AlbaNumber const& valueToApproach) {    // Theorem: Suppose that the functions f, g, and h are defined on some open interval I containing A except
     // possibly A itself, and that f(x) <= g(x) <= h(x) for all x in I for which x != A. Also that the limit for
     // f(x) as it approaches A and limit for h(x) as it approaches A, both exists and are both equal to L
     // Then, the limit of g(x) exists and equal to L as well.
@@ -138,15 +134,13 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         substitution.putVariableWithValue(variableName, currentInput);
         Term currentOutputTerm = substitution.performSubstitutionTo(term);
         if (currentOutputTerm.isConstant()) {
-            AlbaNumber currentOutputNumber(currentOutputTerm.getConstantValueConstReference());
+            AlbaNumber currentOutputNumber(currentOutputTerm.getAsNumber());
             if (!currentOutputNumber.isARealFiniteValue()) {
                 previousRejectedInput = currentInput;
-            } else {
-                previousOfPreviousAcceptedInput = previousAcceptedInput;
+            } else {                previousOfPreviousAcceptedInput = previousAcceptedInput;
                 previousAcceptedInput = currentInput;
             }
-            AlbaNumber newInput(getAverage(previousAcceptedInput, previousRejectedInput));
-            // to investigate, print currentInput, currentOutputNumber and newInput to check how it approaches the limit
+            AlbaNumber newInput(getAverage(previousAcceptedInput, previousRejectedInput));            // to investigate, print currentInput, currentOutputNumber and newInput to check how it approaches the limit
             // value this are checks to prevent inaccurate values when the values get to close
             if (isAlmostEqualForLimitIteration(newInput, valueToApproach) ||
                 isAlmostEqualForLimitIteration(newInput, previousAcceptedInput)) {
@@ -178,18 +172,15 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
 
     if (outputTermAtValueToApproach.isConstant() && previousAcceptedOutputTerm.isConstant() &&
         previousOfPreviousAcceptedOutputTerm.isConstant()) {
-        AlbaNumber outputAtValueToApproach(outputTermAtValueToApproach.getConstantValueConstReference());
-        AlbaNumber previousAcceptedOutput(previousAcceptedOutputTerm.getConstantValueConstReference());
-        AlbaNumber previousOfPreviousAcceptedOutput(
-            previousOfPreviousAcceptedOutputTerm.getConstantValueConstReference());
+        AlbaNumber outputAtValueToApproach(outputTermAtValueToApproach.getAsNumber());
+        AlbaNumber previousAcceptedOutput(previousAcceptedOutputTerm.getAsNumber());
+        AlbaNumber previousOfPreviousAcceptedOutput(previousOfPreviousAcceptedOutputTerm.getAsNumber());
         if (outputAtValueToApproach.isPositiveOrNegativeInfinity()) {
             result = (previousAcceptedOutput < 0) ? ALBA_NUMBER_NEGATIVE_INFINITY : ALBA_NUMBER_POSITIVE_INFINITY;
-        } else {
-            result = getValueUsingLinearInterpolation(
+        } else {            result = getValueUsingLinearInterpolation(
                 previousOfPreviousAcceptedInput, previousAcceptedInput, valueToApproach,
                 previousOfPreviousAcceptedOutput, previousAcceptedOutput);
-        }
-    }
+        }    }
     return result;
 }
 
@@ -292,14 +283,12 @@ Term getLimitAtAValue(
     SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
     Term limitResult(substitution.performSubstitutionTo(term));
     if (limitResult.isConstant()) {
-        AlbaNumber limitResultNumber(limitResult.getConstantValueConstReference());
+        AlbaNumber limitResultNumber(limitResult.getAsNumber());
         if (!limitResultNumber.isARealFiniteValue() || hasAnyFunctions(term)) {
             limitResult = Term(getLimitAtAValueByApproachType(term, variableName, valueToApproach, limitApproachType));
-        }
-    }
+        }    }
     return limitResult;
 }
-
 Term simplifyAndGetLimitAtAValue(
     Term const& term, string const& variableName, AlbaNumber const& valueToApproach,
     LimitAtAValueApproachType const limitApproachType) {
@@ -327,17 +316,12 @@ Term getObliqueAsymptote(Term const& term) {
         if (getMaxDegree(popOptional->getDenominator()) > 0) {
             PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(popOptional->simplifyAndDivide());
             Polynomial const& quotient(quotientAndRemainder.quotient);
-            VariableNamesRetriever retriever;
-            retriever.retrieveFromPolynomial(quotient);
-            VariableNamesSet const& variableNames(retriever.getSavedData());
-            if (1 == variableNames.size() && AlbaNumber(1) == getMaxDegree(quotient)) {
+            if (hasOnlyASingleVariable(quotient) && AlbaNumber(1) == getMaxDegree(quotient)) {
                 result = Term(quotient);
             }
-        }
-    }
+        }    }
     return result;
 }
-
 bool continueToDifferentiateForLhopitalsRule(
     Term const& numerator, Term const& denominator, Term const& numeratorValue, Term const& denominatorValue) {
     AlbaNumber numeratorDegree(getDegree(numerator));

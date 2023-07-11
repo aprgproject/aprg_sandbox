@@ -50,15 +50,13 @@ bool isConvergentUsingComparisonTest(
             Term convergentTerm(convergentSeries.getTermValueAtIndex(i));
             if (termToCheck.isConstant() && convergentTerm.isConstant()) {
                 areAllValuesSatisfied =
-                    (termToCheck.getConstantValueConstReference() <= convergentTerm.getConstantValueConstReference());
+                    (termToCheck.getAsNumber() <= convergentTerm.getAsNumber());
                 if (!areAllValuesSatisfied) {
                     break;
-                }
-            }
+                }            }
         }
         result = areAllValuesSatisfied;
-    }
-    return result;
+    }    return result;
 }
 
 bool isDivergentUsingComparisonTest(
@@ -72,15 +70,13 @@ bool isDivergentUsingComparisonTest(
             Term divergentTerm(divergentSeries.getTermValueAtIndex(i));
             if (termToCheck.isConstant() && divergentTerm.isConstant()) {
                 areAllValuesSatisfied =
-                    (termToCheck.getConstantValueConstReference() >= divergentTerm.getConstantValueConstReference());
+                    (termToCheck.getAsNumber() >= divergentTerm.getAsNumber());
                 if (!areAllValuesSatisfied) {
                     break;
-                }
-            }
+                }            }
         }
         result = areAllValuesSatisfied;
-    }
-    return result;
+    }    return result;
 }
 
 bool hasLinearity(
@@ -128,15 +124,13 @@ void performRatioTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, string const& variableName) {
     Term limitTerm(getLimitForRatioTest(series, variableName));
     if (limitTerm.isConstant()) {
-        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+        AlbaNumber limitValue(limitTerm.getAsNumber());
         if (limitValue < 1) {
             isConvergent = true;
-        } else if (limitValue > 1) {
-            isDivergent = true;
+        } else if (limitValue > 1) {            isDivergent = true;
         }
     }
 }
-
 void performRootTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, string const& variableName) {
     Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
@@ -146,15 +140,13 @@ void performRootTest(
     Term termForLimit(termsRaiseToTerms.getCombinedTerm());
     Term limitTerm(getLimit(termForLimit, variableName, ALBA_NUMBER_POSITIVE_INFINITY));
     if (limitTerm.isConstant()) {
-        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+        AlbaNumber limitValue(limitTerm.getAsNumber());
         if (limitValue < 1) {
             isConvergent = true;
-        } else if (limitValue > 1) {
-            isDivergent = true;
+        } else if (limitValue > 1) {            isDivergent = true;
         }
     }
 }
-
 Term getLimitForRatioTest(SeriesBasedOnSummation const& series, string const& variableName) {
     SubstitutionOfVariablesToTerms substitution{
         {variableName, Polynomial{Monomial(1, {{variableName, 1}}), Monomial(1, {})}}};

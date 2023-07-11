@@ -139,50 +139,47 @@ void TermRaiseToTerms::simplifyBaseAndExponents() {
 
     m_exponents.clear();
 
-    if (m_base.isConstant() && m_base.getConstantValueConstReference() == 0) {
-    } else if (m_base.isConstant() && m_base.getConstantValueConstReference() == 1) {
+    if (m_base.isConstant() && m_base.getAsNumber() == 0) {
+    } else if (m_base.isConstant() && m_base.getAsNumber() == 1) {
     } else if (exponentCombinedTerm.isEmpty()) {
-    } else if (exponentCombinedTerm.isConstant() && exponentCombinedTerm.getConstantValueConstReference() == 0) {
+    } else if (exponentCombinedTerm.isConstant() && exponentCombinedTerm.getAsNumber() == 0) {
         m_base = 1;
-    } else if (exponentCombinedTerm.isConstant() && exponentCombinedTerm.getConstantValueConstReference() == 1) {
+    } else if (exponentCombinedTerm.isConstant() && exponentCombinedTerm.getAsNumber() == 1) {
     } else if (m_base.isConstant() && exponentCombinedTerm.isFunction()) {
         simplifyConstantRaiseToFunction(m_base, m_exponents, exponentCombinedTerm);
     } else if (canBeConvertedToMonomial(m_base) && exponentCombinedTerm.isConstant()) {
         simplifyMonomialRaiseToConstant(
-            m_base, createMonomialIfPossible(m_base), exponentCombinedTerm.getConstantValueConstReference());
+            m_base, createMonomialIfPossible(m_base), exponentCombinedTerm.getAsNumber());
     } else if (m_base.isPolynomial() && !m_shouldSimplifyToFactors && isPositiveIntegerConstant(exponentCombinedTerm)) {
-        int exponent = static_cast<int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
+        int exponent = static_cast<int>(exponentCombinedTerm.getAsNumber().getInteger());
         simplifyPolynomialRaiseToPositiveInteger(m_base, createPolynomialIfPossible(m_base), exponent);
     } else if (
         !m_shouldSimplifyToFactors && isPositiveIntegerConstant(exponentCombinedTerm) && m_base.isExpression() &&
-        OperatorLevel::AdditionAndSubtraction == m_base.getExpressionConstReference().getCommonOperatorLevel()) {
-        int exponent = static_cast<int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
+        OperatorLevel::AdditionAndSubtraction == m_base.getAsExpression().getCommonOperatorLevel()) {
+        int exponent = static_cast<int>(exponentCombinedTerm.getAsNumber().getInteger());
         simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(
-            m_base, m_base.getExpressionConstReference(), exponent);
+            m_base, m_base.getAsExpression(), exponent);
     } else if (
         m_base.isConstant() && exponentCombinedTerm.isExpression() &&
         OperatorLevel::MultiplicationAndDivision ==
-            exponentCombinedTerm.getExpressionConstReference().getCommonOperatorLevel()) {
+            exponentCombinedTerm.getAsExpression().getCommonOperatorLevel()) {
         simplifyConstantRaiseToMultiplicationAndDivisionExpression(m_base, m_exponents, exponentCombinedTerm);
     } else {
-        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
-    }
+        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);    }
 }
 
 void TermRaiseToTerms::simplifyConstantRaiseToFunction(
     Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm) {
-    Function const& functionObject(exponentCombinedTerm.getFunctionConstReference());
+    Function const& functionObject(exponentCombinedTerm.getAsFunction());
     string const& functionName(functionObject.getFunctionName());
     if ((getEAsATerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName)) {
-        base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+        base = getTermConstReferenceFromBaseTerm(functionObject.getInputTerm());
     } else {
         exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
-    }
-}
+    }}
 
 void TermRaiseToTerms::simplifyMonomialRaiseToConstant(
-    Term& base, Monomial const& monomialBase, AlbaNumber const& exponent) {
-    Monomial result(monomialBase);
+    Term& base, Monomial const& monomialBase, AlbaNumber const& exponent) {    Monomial result(monomialBase);
     result.raiseToPowerNumber(exponent);
     base = simplifyAndConvertMonomialToSimplestTerm(result);
 }
@@ -208,23 +205,21 @@ void TermRaiseToTerms::simplifyAdditionAndSubtractionExpressionRaiseToPositiveIn
 void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpression(
     Term& base, TermsWithDetails& exponents, Term const& exponentCombinedTerm) {
     TermsWithDetails termsWithDetails(
-        exponentCombinedTerm.getExpressionConstReference().getTermsWithAssociation().getTermsWithDetails());
+        exponentCombinedTerm.getAsExpression().getTermsWithAssociation().getTermsWithDetails());
     for (int i = 0; i < static_cast<int>(termsWithDetails.size()); i++) {
         TermWithDetails const& exponentWithDetails(termsWithDetails[i]);
         Term const& exponent(getTermConstReferenceFromUniquePointer(exponentWithDetails.baseTermPointer));
         if (exponentWithDetails.hasPositiveAssociation() && exponent.isFunction()) {
-            Function const& functionObject(exponent.getFunctionConstReference());
+            Function const& functionObject(exponent.getAsFunction());
             string const& functionName(functionObject.getFunctionName());
             if ((getEAsATerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName)) {
-                base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+                base = getTermConstReferenceFromBaseTerm(functionObject.getInputTerm());
                 termsWithDetails.erase(termsWithDetails.begin() + i);
                 break;
-            }
-        }
+            }        }
     }
     exponents = termsWithDetails;
 }
-
 void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(
     TermsWithDetails const& termsInRaiseToPowerExpression) {
     if (!termsInRaiseToPowerExpression.empty()) {

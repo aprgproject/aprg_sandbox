@@ -13,21 +13,12 @@ TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneConstantWorks) {
     EXPECT_TRUE(doesThePolynomialHaveOnlyOneConstant(Polynomial{Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneVariableWorks) {
-    EXPECT_FALSE(doesThePolynomialHaveOnlyOneVariable(
-        Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));
-    EXPECT_TRUE(doesThePolynomialHaveOnlyOneVariable(
-        Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
-}
-
 TEST(PolynomialHelpersTest, DoesThePolynomialHaveDoubleValueWorks) {
     EXPECT_FALSE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
-    EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})}));
-    EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 0.75}}), Monomial(-16, {})}));
+    EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})}));    EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 0.75}}), Monomial(-16, {})}));
 }
 
-TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks) {
-    Polynomial polynomialWithoutDouble{Monomial(1, {{"x", 3}}), Monomial(-16, {})};
+TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks) {    Polynomial polynomialWithoutDouble{Monomial(1, {{"x", 3}}), Monomial(-16, {})};
     Polynomial polynomialWithDouble{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})};
 
     Polynomials polynomials1{polynomialWithoutDouble, polynomialWithoutDouble};
@@ -95,23 +86,21 @@ TEST(PolynomialHelpersTest, GetFirstMonomialWorks) {
     Monomial monomial2(getFirstMonomial(polynomial2));
     Monomial monomial3(getFirstMonomial(polynomial3));
 
-    EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(0, monomial1.getCoefficient().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMap());
     ASSERT_TRUE(variableMap1.empty());
 
-    EXPECT_DOUBLE_EQ(6, monomial2.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(6, monomial2.getCoefficient().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMap());
     ASSERT_TRUE(variableMap2.empty());
 
-    EXPECT_DOUBLE_EQ(6, monomial3.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(6, monomial3.getCoefficient().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getVariablesToExponentsMap());
     ASSERT_TRUE(variableMap3.empty());
 }
-
 TEST(PolynomialHelpersTest, GetMaxDegreeWorks) {
     Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(6, {})};
-    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+    Polynomial polynomial2{Monomial(6, {})};    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_DOUBLE_EQ(0, getMaxDegree(polynomial1).getDouble());
     EXPECT_DOUBLE_EQ(0, getMaxDegree(polynomial2).getDouble());
@@ -143,17 +132,19 @@ TEST(PolynomialHelpersTest, GetCoefficientOfVariableExponentWorks) {
 TEST(PolynomialHelpersTest, GetRemainderForOneVariablePolynomialDividedByVariableMinusConstantValueWorks) {
     Polynomial polynomial{Monomial(5, {{"x", 3}}), Monomial(-8, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(4, {})};
 
-    AlbaNumber expectedRemainder(24);
-    EXPECT_EQ(
-        expectedRemainder, getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(polynomial, 2));
+    EXPECT_EQ(AlbaNumber(24), getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(polynomial, 2));
 }
 
-TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenConstantIsGiven) {
-    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(-16, {})}));
+TEST(PolynomialHelpersTest, GetEvaluatedValueUsingHornersSubstitutionOfOneVariablePolynomialWorks) {
+    Polynomial polynomial{Monomial(5, {{"x", 5}}), Monomial(-8, {{"x", 9}}), Monomial(6, {{"x", 2}}), Monomial(4, {})};
+
+    EXPECT_EQ(AlbaNumber(-3908), getEvaluatedValueUsingHornersSubstitutionOfOneVariablePolynomial(polynomial, 2));
+}
+
+TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenConstantIsGiven) {    AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(-16, {})}));
 
     EXPECT_TRUE(roots.empty());
 }
-
 TEST(PolynomialHelpersTest, GetRootsWorksAndRootsIsEmptyWhenMultipleVariablesAreGiven) {
     AlbaNumbers roots(getRoots(
         RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));

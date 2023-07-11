@@ -9,31 +9,28 @@ namespace algebra {
 
 void NegationMutator::mutateTerm(Term &term) {
     if (term.isConstant()) {
-        mutateConstant(term.getConstantReference());
+        mutateConstant(term.getAsConstantReference());
     } else if (term.isVariable()) {
-        term = Term(Monomial(-1, {{term.getVariableReference().getVariableName(), 1}}));
+        term = Term(Monomial(-1, {{term.getAsVariableReference().getVariableName(), 1}}));
     } else if (term.isMonomial()) {
-        mutateMonomial(term.getMonomialReference());
+        mutateMonomial(term.getAsMonomialReference());
     } else if (term.isPolynomial()) {
-        mutatePolynomial(term.getPolynomialReference());
+        mutatePolynomial(term.getAsPolynomialReference());
     } else if (term.isExpression()) {
-        mutateExpression(term.getExpressionReference());
+        mutateExpression(term.getAsExpressionReference());
     } else if (term.isFunction()) {
         term = -1 * term;
-    }
-    term.simplify();
+    }    term.simplify();
 }
 
 void NegationMutator::mutateConstant(Constant &constant) {
-    constant.setNumber(constant.getNumberConstReference() * -1);
+    constant.setNumber(constant.getNumber() * -1);
 }
 
 void NegationMutator::mutateVariable(Variable &) {}
-
 void NegationMutator::mutateMonomial(Monomial &monomial) { monomial.multiplyNumber(AlbaNumber(-1)); }
 
-void NegationMutator::mutateExpression(Expression &expression) {
-    if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
+void NegationMutator::mutateExpression(Expression &expression) {    if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
         TermsWithDetails &termsWithDetails(
             expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
         for (TermWithDetails &termWithDetails : termsWithDetails) {

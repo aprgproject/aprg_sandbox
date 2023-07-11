@@ -47,14 +47,12 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         substitution.putVariableWithValue(variableName, number);
         Term substituteTerm(substitution.performSubstitutionTo(functionObject));
         if (substituteTerm.isConstant()) {
-            result.emplace_back(number, substituteTerm.getConstantValueConstReference());
+            result.emplace_back(number, substituteTerm.getAsNumber());
         }
     }
-    return result;
-}
+    return result;}
 
 Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term const& term) { return ln(abs(term)); }
-
 }  // namespace Functions
 
 }  // namespace algebra

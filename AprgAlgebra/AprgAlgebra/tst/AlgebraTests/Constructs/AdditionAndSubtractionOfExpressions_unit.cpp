@@ -90,18 +90,16 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks) {
     ASSERT_EQ(2U, termsWithDetails.size());
     Term const& term1(getTermConstReferenceFromUniquePointer(termsWithDetails[0].baseTermPointer));
     ASSERT_EQ(TermType::Variable, term1.getTermType());
-    EXPECT_EQ("x", term1.getVariableConstReference().getVariableName());
+    EXPECT_EQ("x", term1.getAsVariable().getVariableName());
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetails[0].association);
     Term const& term2(getTermConstReferenceFromUniquePointer(termsWithDetails[1].baseTermPointer));
     ASSERT_EQ(TermType::Variable, term2.getTermType());
-    EXPECT_EQ("y", term2.getVariableConstReference().getVariableName());
+    EXPECT_EQ("y", term2.getAsVariable().getVariableName());
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetails[1].association);
 }
-
 TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAdditionWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression(createExpressionIfPossible({"x"}));
-
     additionAndSubtraction.putAsAddition(expression);
 
     Expressions const& expressions(additionAndSubtraction.getExpressions());

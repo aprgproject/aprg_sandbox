@@ -52,16 +52,14 @@ void LinearEquationsEqualitySolver::calculateSolution(
     VariableNamesRetriever variablesRetriever;
     exponentsRetriever.retrieveFromPolynomials(polynomials);
     variablesRetriever.retrieveFromPolynomials(polynomials);
-    AlbaNumbersSet const& exponents(exponentsRetriever.getSavedData());
-    VariableNamesSet const& variables(variablesRetriever.getSavedData());
+    AlbaNumbersSet const& exponents(exponentsRetriever.getExponents());
+    VariableNamesSet const& variables(variablesRetriever.getVariableNames());
     if (areExponentsEqualToOneAndZero(exponents) && variables.size() == polynomials.size()) {
         NumberMatrix coefficientsMatrix(variables.size() + 1, polynomials.size());
-        setMatrixCoefficients(coefficientsMatrix, variables, polynomials);
-        transformToReducedEchelonFormUsingGaussJordanReduction(coefficientsMatrix);
+        setMatrixCoefficients(coefficientsMatrix, variables, polynomials);        transformToReducedEchelonFormUsingGaussJordanReduction(coefficientsMatrix);
         if (isReducedRowEchelonForm(coefficientsMatrix)) {
             saveSolutionSetsFromTheCoefficientMatrix(solutionSet, coefficientsMatrix, variables);
-            setAsCompleteSolution();
-        }
+            setAsCompleteSolution();        }
     }
 }
 

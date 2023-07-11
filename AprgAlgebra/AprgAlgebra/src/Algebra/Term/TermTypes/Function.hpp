@@ -35,15 +35,13 @@ public:
     std::string getFunctionName() const;
     std::string getDebugString() const;
     AlbaNumber performFunctionAndReturnResultIfPossible() const;
-    BaseTerm const& getInputTermConstReference() const;
+    BaseTerm const& getInputTerm() const;
     EvaluationFunction const& getEvaluationFunction() const;
 
-    BaseTerm& getInputTermReference();
-    void simplify();
+    BaseTerm& getInputTermReference();    void simplify();
 
     void setAsSimplified();
-    void clearSimplifiedFlag();
-    void clearAllInnerSimplifiedFlags();
+    void clearSimplifiedFlag();    void clearAllInnerSimplifiedFlags();
 
 private:
     friend std::ostream& operator<<(std::ostream& out, Function const& functionObject);

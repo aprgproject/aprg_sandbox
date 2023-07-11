@@ -42,15 +42,13 @@ Polynomials factorizeCommonMonomial(Polynomial const& polynomial) {
 
 void factorizeCommonMonomialIfPossible(Polynomials& result, Polynomial const& polynomial) {
     if (!isOneMonomial(polynomial)) {
-        Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomialsConstReference()));
+        Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomials()));
         if (!isTheValue(gcfMonomial, 1)) {
             Polynomial reducedPolynomial(polynomial);
-            reducedPolynomial.divideMonomial(gcfMonomial);
-            reducedPolynomial.simplify();
+            reducedPolynomial.divideMonomial(gcfMonomial);            reducedPolynomial.simplify();
             simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromMonomial(gcfMonomial));
             simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, reducedPolynomial);
-        }
-    }
+        }    }
 }
 
 void factorizePolynomialsAndPutToResult(Polynomials& result, Polynomials const& polynomials) {
@@ -149,20 +147,18 @@ int getDeltaSize(Polynomials const& polynomials, int const originalSize) {
 }
 
 bool isFactorizeUsingPatternsNeeded(Polynomial const& polynomial) {
-    return polynomial.getMonomialsConstReference().size() == 2 &&
+    return polynomial.getMonomials().size() == 2 &&
            hasAMonomialWithDegreeMoreThanOneOrFractional(polynomial);
 }
-
 bool isFactorizeIncreasingAndDecreasingExponentsFormNeeded(Polynomial const& polynomial) {
     return hasAMonomialWithDegreeMoreThanOneOrFractional(polynomial);
 }
 
 bool isFactorizeBySplittingToSmallerPolynomialsNeeded(Polynomial const& polynomial) {
-    return polynomial.getMonomialsConstReference().size() >= 4 && hasAMonomialWithMultipleVariables(polynomial);
+    return polynomial.getMonomials().size() >= 4 && hasAMonomialWithMultipleVariables(polynomial);
 }
 
 }  // namespace Factorization
-
 }  // namespace algebra
 
 }  // namespace alba

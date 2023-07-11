@@ -102,15 +102,13 @@ void retrieveConstantAndNonConstantFactors(
         TermsRaiseToNumbers nonConstantRaiseToExponent;
         for (Term const& factor : factors) {
             if (factor.isConstant()) {
-                constantFactor *= factor.getConstantValueConstReference();
+                constantFactor *= factor.getAsNumber();
             } else {
                 nonConstantRaiseToExponent.putTerm(factor, TermAssociationType::Positive);
-            }
-        }
+            }        }
         constantFactors.emplace_back(constantFactor);
         nonConstantFactorsPerAddends.emplace_back(nonConstantRaiseToExponent);
-    }
-}
+    }}
 
 AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends) {
     AlbaNumber constantGcf;
@@ -215,15 +213,13 @@ TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
 bool dontFactorizeBaseBecauseBaseIsARaiseToPowerExpression(Term const& base) {
     bool result(false);
     if (base.isExpression()) {
-        result = OperatorLevel::RaiseToPower == base.getExpressionConstReference().getCommonOperatorLevel();
+        result = OperatorLevel::RaiseToPower == base.getAsExpression().getCommonOperatorLevel();
     }
     return result;
 }
-
 bool dontFactorizeBecauseThereIsSquareRootOfNegativeNumber(Term const& base, AlbaNumber const& exponent) {
     bool hasEvenDenominatorExponents(false);
-    if (exponent.isFractionType()) {
-        hasEvenDenominatorExponents = isEven(exponent.getFractionData().denominator);
+    if (exponent.isFractionType()) {        hasEvenDenominatorExponents = isEven(exponent.getFractionData().denominator);
     }
     return hasEvenDenominatorExponents && isANegativeTerm(base);
 }

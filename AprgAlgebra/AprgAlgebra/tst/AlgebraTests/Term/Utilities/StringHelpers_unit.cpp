@@ -83,31 +83,29 @@ TEST(StringHelpersTest, TokenizeToTermsWorks) {
 
     ASSERT_EQ(7U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1[0].getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1[0].getConstantValueConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1[0].getAsNumber().getDouble());
     ASSERT_EQ(TermType::Operator, termsToVerify1[1].getTermType());
-    EXPECT_EQ("+", termsToVerify1[1].getOperatorConstReference().getOperatorString());
+    EXPECT_EQ("+", termsToVerify1[1].getAsOperator().getOperatorString());
     ASSERT_EQ(TermType::Variable, termsToVerify1[2].getTermType());
-    EXPECT_EQ("x1", termsToVerify1[2].getVariableConstReference().getVariableName());
+    EXPECT_EQ("x1", termsToVerify1[2].getAsVariable().getVariableName());
     ASSERT_EQ(TermType::Operator, termsToVerify1[3].getTermType());
-    EXPECT_EQ("*", termsToVerify1[3].getOperatorConstReference().getOperatorString());
+    EXPECT_EQ("*", termsToVerify1[3].getAsOperator().getOperatorString());
     ASSERT_EQ(TermType::Variable, termsToVerify1[4].getTermType());
-    EXPECT_EQ("y1", termsToVerify1[4].getVariableConstReference().getVariableName());
+    EXPECT_EQ("y1", termsToVerify1[4].getAsVariable().getVariableName());
     ASSERT_EQ(TermType::Operator, termsToVerify1[5].getTermType());
-    EXPECT_EQ("^", termsToVerify1[5].getOperatorConstReference().getOperatorString());
+    EXPECT_EQ("^", termsToVerify1[5].getAsOperator().getOperatorString());
     ASSERT_EQ(TermType::Constant, termsToVerify1[6].getTermType());
-    EXPECT_DOUBLE_EQ(20.15, termsToVerify1[6].getConstantValueConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(20.15, termsToVerify1[6].getAsNumber().getDouble());
 }
 
-TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {
-    Terms termsToVerify1;
+TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {    Terms termsToVerify1;
 
     addValueTermIfNotEmpty(termsToVerify1, "5");
 
     ASSERT_EQ(1U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1[0].getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1[0].getConstantValueConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1[0].getAsNumber().getDouble());
 }
 
 }  // namespace algebra
-
 }  // namespace alba

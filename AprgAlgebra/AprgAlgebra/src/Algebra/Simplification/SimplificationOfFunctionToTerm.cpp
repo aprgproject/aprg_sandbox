@@ -29,15 +29,13 @@ bool SimplificationOfFunctionToTerm::shouldNotSimplifyLogarithmicFunctionsByRedu
 
 Term SimplificationOfFunctionToTerm::simplifyToTerm(Function const& functionObject) {
     Term result;
-    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
     if (inputTerm.isConstant()) {
         result = Term(functionObject.performFunctionAndReturnResultIfPossible());
-    } else if (isTrigonometricFunction(functionObject)) {
-        result = simplifyTrigometricFunctionToExpression(functionObject);
+    } else if (isTrigonometricFunction(functionObject)) {        result = simplifyTrigometricFunctionToExpression(functionObject);
         result.simplify();
     } else if (isLogarithmicFunction(functionObject)) {
-        result = simplifyLogarithmicFunctionToExpression(functionObject);
-        result.simplify();
+        result = simplifyLogarithmicFunctionToExpression(functionObject);        result.simplify();
     }
 
     if (result.isEmpty()) {
@@ -50,15 +48,13 @@ Term SimplificationOfFunctionToTerm::simplifyTrigometricFunctionToExpression(Fun
     Term result;
     string functionName(functionObject.getFunctionName());
     if (shouldSimplifyTrigonometricFunctionsToSinAndCos()) {
-        Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+        Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
         if ("tan" == functionName) {
             result = Term(createExpressionIfPossible({sin(inputTerm), "/", cos(inputTerm)}));
-        } else if ("csc" == functionName) {
-            result = Term(createExpressionIfPossible({1, "/", sin(inputTerm)}));
+        } else if ("csc" == functionName) {            result = Term(createExpressionIfPossible({1, "/", sin(inputTerm)}));
         } else if ("sec" == functionName) {
             result = Term(createExpressionIfPossible({1, "/", cos(inputTerm)}));
-        } else if ("cot" == functionName) {
-            result = Term(createExpressionIfPossible({cos(inputTerm), "/", sin(inputTerm)}));
+        } else if ("cot" == functionName) {            result = Term(createExpressionIfPossible({cos(inputTerm), "/", sin(inputTerm)}));
         }
     }
     return result;
@@ -67,18 +63,16 @@ Term SimplificationOfFunctionToTerm::simplifyTrigometricFunctionToExpression(Fun
 Term SimplificationOfFunctionToTerm::simplifyLogarithmicFunctionToExpression(Function const& functionObject) {
     Term result;
     if (!shouldNotSimplifyLogarithmicFunctionsByReducingTheOperatorLevel()) {
-        Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+        Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
         if (inputTerm.isExpression()) {
             Expression resultExpression;
-            Expression const& inputExpression(inputTerm.getExpressionConstReference());
+            Expression const& inputExpression(inputTerm.getAsExpression());
             if (OperatorLevel::MultiplicationAndDivision == inputExpression.getCommonOperatorLevel()) {
                 TermsWithDetails newTermsWithDetails(inputExpression.getTermsWithAssociation().getTermsWithDetails());
-                for (TermWithDetails& newTermWithDetails : newTermsWithDetails) {
-                    Term& newTerm(getTermReferenceFromUniquePointer(newTermWithDetails.baseTermPointer));
+                for (TermWithDetails& newTermWithDetails : newTermsWithDetails) {                    Term& newTerm(getTermReferenceFromUniquePointer(newTermWithDetails.baseTermPointer));
                     newTerm = getLogarithmicOfTermBasedFromName(newTerm, functionObject.getFunctionName());
                 }
-                resultExpression.set(OperatorLevel::AdditionAndSubtraction, newTermsWithDetails);
-            } else if (OperatorLevel::RaiseToPower == inputExpression.getCommonOperatorLevel()) {
+                resultExpression.set(OperatorLevel::AdditionAndSubtraction, newTermsWithDetails);            } else if (OperatorLevel::RaiseToPower == inputExpression.getCommonOperatorLevel()) {
                 TermRaiseToTerms termRaiseToTerms(inputExpression.getTermsWithAssociation().getTermsWithDetails());
                 TermsWithDetails newTermsWithDetails(termRaiseToTerms.getExponents());
                 Term logarithmicBase(

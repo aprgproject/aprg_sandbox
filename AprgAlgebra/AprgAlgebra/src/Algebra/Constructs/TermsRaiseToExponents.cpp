@@ -129,29 +129,25 @@ void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTerm(
     int sign = (association == TermAssociationType::Positive) ? 1 : -1;
     if (canBeConvertedToMonomial(term)) {
         Monomial monomial(createMonomialIfPossible(term));
-        AlbaNumber const& constant(monomial.getConstantConstReference());
+        AlbaNumber const& constant(monomial.getCoefficient());
         if (constant != 1) {
             if (constant.isFractionType()) {
-                AlbaNumber::FractionData fractionData(constant.getFractionData());
-                if (fractionData.numerator != 1) {
+                AlbaNumber::FractionData fractionData(constant.getFractionData());                if (fractionData.numerator != 1) {
                     m_baseToExponentMap[Term(fractionData.numerator)] += ExponentType(sign);
                 }
-                if (fractionData.denominator != 1) {
-                    m_baseToExponentMap[Term(fractionData.denominator)] += ExponentType(sign * -1);
+                if (fractionData.denominator != 1) {                    m_baseToExponentMap[Term(fractionData.denominator)] += ExponentType(sign * -1);
                 }
             } else {
                 m_baseToExponentMap[Term(constant)] += ExponentType(sign);
             }
         }
-        for (auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference()) {
+        for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
             m_baseToExponentMap[Term(variableExponentPair.first)] += ExponentType(variableExponentPair.second * sign);
         }
-    } else {
-        putTermUsingBaseToExponentType(term, sign);
+    } else {        putTermUsingBaseToExponentType(term, sign);
     }
 }
-template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::putTerm(
-    Term const& term, TermAssociationType const association);
+template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::putTerm(    Term const& term, TermAssociationType const association);
 template void TermsRaiseToExponents<Term, TermRaiseToTerms>::putTerm(
     Term const& term, TermAssociationType const association);
 
