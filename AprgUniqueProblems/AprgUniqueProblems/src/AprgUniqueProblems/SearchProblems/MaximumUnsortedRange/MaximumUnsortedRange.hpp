@@ -24,18 +24,16 @@ public:
             Index startIndex(getStartIndex(valuesToSort));
             if (startIndex + 1 < static_cast<Index>(valuesToSort.size())) {
                 Index endIndex(getEndIndex(valuesToSort));
-                ValuePair minMaxPair(getMinMaxPairInUnsorted(valuesToSort, startIndex, endIndex));
+                auto [minValue, maxValue] = getMinMaxPairInUnsorted(valuesToSort, startIndex, endIndex);
                 result = {
-                    getAdjustedStartIndex(valuesToSort, startIndex, minMaxPair.first),
-                    getAdjustedEndIndex(valuesToSort, endIndex, minMaxPair.second)};
+                    getAdjustedStartIndex(valuesToSort, startIndex, minValue),
+                    getAdjustedEndIndex(valuesToSort, endIndex, maxValue)};
             }
         }
-        return result;
-    }
+        return result;    }
 
 private:
-    Index getStartIndex(Values const& valuesToSort) const {
-        Index startIndex(0);
+    Index getStartIndex(Values const& valuesToSort) const {        Index startIndex(0);
         for (; startIndex + 1 < static_cast<Index>(valuesToSort.size()); startIndex++) {
             if (valuesToSort[startIndex] > valuesToSort[startIndex + 1]) {
                 break;
@@ -55,29 +53,25 @@ private:
     }
 
     ValuePair getMinMaxPairInUnsorted(Values const& valuesToSort, Index const startIndex, Index const endIndex) const {
-        auto const& [minIt, maxIt] =
+        auto&& [minIt, maxIt] =
             std::minmax_element(valuesToSort.cbegin() + startIndex, valuesToSort.cbegin() + endIndex + 1);
         return ValuePair(*minIt, *maxIt);
     }
-
     Index getAdjustedStartIndex(Values const& valuesToSort, Index const startIndex, Value const& minimum) const {        int adjustedStartIndex = static_cast<int>(startIndex);
         while (adjustedStartIndex - 1 > 0 && minimum < valuesToSort[adjustedStartIndex - 1]) {
-            adjustedStartIndex--;
-        }        return static_cast<Index>(adjustedStartIndex);
+            adjustedStartIndex--;        }        return static_cast<Index>(adjustedStartIndex);
     }
 
     Index getAdjustedEndIndex(Values const& valuesToSort, Index const endIndex, Value const& maximum) const {
         Index adjustedEndIndex(endIndex);
         while (adjustedEndIndex + 1 < static_cast<Index>(valuesToSort.size()) &&
                valuesToSort[adjustedEndIndex + 1] < maximum) {
-            adjustedEndIndex++;
+            ++adjustedEndIndex;
         }
         return adjustedEndIndex;
-    }
-};
+    }};
 
 }  // namespace algorithm
-
 }  // namespace alba
 
 // Find the Minimum length Unsorted Subarray, sorting which makes the complete array sorted
