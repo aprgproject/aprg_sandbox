@@ -93,21 +93,19 @@ Function SubstitutionOfTermsToTerms::performSubstitutionForFunction(Function con
 }
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(initializer_list<TermTermPair> const& variablesWithValues) {
-    for (TermTermPair const& variableValuesPair : variablesWithValues) {
-        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
+    for (auto const& [variable, value] : variablesWithValues) {
+        putTermToTermMapping(variable, value);
     }
 }
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& variablesWithValues) {
-    for (auto const& variableValuesPair : variablesWithValues) {
-        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
+    for (auto const& [variable, value] : variablesWithValues) {
+        putTermToTermMapping(variable, value);
     }
 }
-
 void SubstitutionOfTermsToTerms::putTermToTermMapping(Term const& term1, Term const& term2) {
     m_termsToTermsMap[term1] = term2;
 }
-
 void SubstitutionOfTermsToTerms::performSubstitutionForTermsWithAssociation(
     TermsWithAssociation& termsWithAssociation) const {
     for (TermWithDetails& termWithDetails : termsWithAssociation.getTermsWithDetailsReference()) {

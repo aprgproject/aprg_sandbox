@@ -22,16 +22,14 @@ namespace Factorization {
 
 bool areExponentsDivisible(Monomial const& monomial, int const divisor) {
     bool result(true);
-    for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
-        if (!variableExponentPair.second.isIntegerType() ||
-            !isDivisible<long long int>(getAbsoluteValue(variableExponentPair.second.getInteger()), divisor)) {
+    for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
+        if (!exponent.isIntegerType() ||
+            !isDivisible<long long int>(getAbsoluteValue(exponent.getInteger()), divisor)) {
             result = false;
             break;
-        }
-    }
+        }    }
     return result;
 }
-
 bool isPerfectSquare(Monomial const& monomial) { return isPerfectNthPower(monomial, 2); }
 
 bool isPerfectCube(Monomial const& monomial) { return isPerfectNthPower(monomial, 3); }

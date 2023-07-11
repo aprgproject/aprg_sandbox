@@ -12,11 +12,10 @@ void NumbersRetriever::retrieveFromVariable(Variable const&) { m_numbers.emplace
 
 void NumbersRetriever::retrieveFromMonomial(Monomial const& monomial) {
     m_numbers.emplace(monomial.getCoefficient());
-    for (auto const& variableExponentsPair : monomial.getVariablesToExponentsMap()) {
-        m_numbers.emplace(variableExponentsPair.second);
+    for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
+        m_numbers.emplace(exponent);
     }
 }
-
 }  // namespace algebra
 
 }  // namespace alba

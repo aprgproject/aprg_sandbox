@@ -11,14 +11,44 @@ using namespace std;
 namespace alba {
 
 namespace algebra {
+template Term TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::convertToTerm(
+    Term const& base, AlbaNumber const& exponent) const;
+template Term TermsRaiseToExponents<Term, TermRaiseToTerms>::convertToTerm(
+    Term const& base, Term const& exponent) const;
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
-TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::TermsRaiseToExponents() {}
-template TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::TermsRaiseToExponents();
+void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTermUsingBaseToExponentType(
+    Term const&, int const) {}
+template <>
+void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::putTermUsingBaseToExponentType(
+    Term const& term, int const sign) {
+    TermRaiseToANumber termRaiseToExponent(createTermRaiseToANumberFromTerm(term));
+    m_baseToExponentMap[termRaiseToExponent.getBase()] += termRaiseToExponent.getExponent() * sign;
+}
+template <>
+void TermsRaiseToExponents<Term, TermRaiseToTerms>::putTermUsingBaseToExponentType(Term const& term, int const sign) {
+    TermRaiseToTerms termRaiseToExponent(createTermRaiseToTermsFromTerm(term));
+    m_baseToExponentMap[termRaiseToExponent.getBase()] += Term(termRaiseToExponent.getCombinedExponents() * sign);
+}
+
+template <typename ExponentType, typename BaseRaiseToExponentType>
+bool TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::isNegative(ExponentType const&) const {
+    return false;
+}
+template <>
+bool TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::isNegative(AlbaNumber const& exponent) const {
+    return exponent < 0;
+}
+template <>
+bool TermsRaiseToExponents<Term, TermRaiseToTerms>::isNegative(Term const& exponent) const {
+    return isANegativeTerm(exponent);
+}
+
+template <typename ExponentType, typename BaseRaiseToExponentType>
+TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::TermsRaiseToExponents() {}template TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::TermsRaiseToExponents();
 template TermsRaiseToExponents<Term, TermRaiseToTerms>::TermsRaiseToExponents();
 
-template <typename ExponentType, typename BaseRaiseToExponentType>
-TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::TermsRaiseToExponents(
+template <typename ExponentType, typename BaseRaiseToExponentType>TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::TermsRaiseToExponents(
     BaseToExponentMap const& baseToExponentMap)
     : m_baseToExponentMap(baseToExponentMap) {}
 template TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::TermsRaiseToExponents(
@@ -51,29 +81,24 @@ template Term TermsRaiseToExponents<Term, TermRaiseToTerms>::getExponentOfBase(T
 template <typename ExponentType, typename BaseRaiseToExponentType>
 Terms TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::getTermsInMultiplicationOperation() const {
     Terms result;
-    for (auto const& baseExponentPair : m_baseToExponentMap) {
-        result.emplace_back(convertToTerm(baseExponentPair.first, baseExponentPair.second));
+    for (auto const& [base, exponent] : m_baseToExponentMap) {
+        result.emplace_back(convertToTerm(base, exponent));
     }
     return result;
-}
-template Terms TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::getTermsInMultiplicationOperation() const;
+}template Terms TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::getTermsInMultiplicationOperation() const;
 template Terms TermsRaiseToExponents<Term, TermRaiseToTerms>::getTermsInMultiplicationOperation() const;
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
 TermsWithDetails TermsRaiseToExponents<
     ExponentType, BaseRaiseToExponentType>::getTermWithDetailsInMultiplicationAndDivisionOperation() const {
     TermsWithDetails result;
-    for (auto const& baseExponentPair : m_baseToExponentMap) {
-        Term const& base(baseExponentPair.first);
-        ExponentType const& exponent(baseExponentPair.second);
+    for (auto const& [base, exponent] : m_baseToExponentMap) {
         if (isNegative(exponent)) {
             result.emplace_back(convertToTerm(base, exponent * -1), TermAssociationType::Negative);
-        } else {
-            result.emplace_back(convertToTerm(base, exponent), TermAssociationType::Positive);
+        } else {            result.emplace_back(convertToTerm(base, exponent), TermAssociationType::Positive);
         }
     }
-    return result;
-}
+    return result;}
 template TermsWithDetails
 TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::getTermWithDetailsInMultiplicationAndDivisionOperation() const;
 template TermsWithDetails
@@ -93,39 +118,35 @@ template Term TermsRaiseToExponents<Term, TermRaiseToTerms>::getCombinedTerm() c
 template <typename ExponentType, typename BaseRaiseToExponentType>
 void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::addExponents(
     TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType> const& termsRaiseToNumbers) {
-    for (auto const& baseExponentPair : termsRaiseToNumbers.m_baseToExponentMap) {
-        m_baseToExponentMap[baseExponentPair.first] += baseExponentPair.second;
+    for (auto const& [base, exponent] : termsRaiseToNumbers.m_baseToExponentMap) {
+        m_baseToExponentMap[base] += exponent;
     }
 }
-template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::addExponents(
-    TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber> const& termsRaiseToNumbers);
+template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::addExponents(    TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber> const& termsRaiseToNumbers);
 template void TermsRaiseToExponents<Term, TermRaiseToTerms>::addExponents(
     TermsRaiseToExponents<Term, TermRaiseToTerms> const& termsRaiseToNumbers);
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
 void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::subtractExponents(
     TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType> const& termsRaiseToNumbers) {
-    for (auto const& baseExponentPair : termsRaiseToNumbers.m_baseToExponentMap) {
-        m_baseToExponentMap[baseExponentPair.first] -= baseExponentPair.second;
+    for (auto const& [base, exponent] : termsRaiseToNumbers.m_baseToExponentMap) {
+        m_baseToExponentMap[base] -= exponent;
     }
 }
-template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::subtractExponents(
-    TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber> const& termsRaiseToNumbers);
+template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::subtractExponents(    TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber> const& termsRaiseToNumbers);
 template void TermsRaiseToExponents<Term, TermRaiseToTerms>::subtractExponents(
     TermsRaiseToExponents<Term, TermRaiseToTerms> const& termsRaiseToNumbers);
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
 void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::multiplyToExponents(ExponentType const& exponent) {
-    for (auto& baseExponentPair : m_baseToExponentMap) {
-        baseExponentPair.second *= exponent;
+    for (auto& [base, exponentFromMap] : m_baseToExponentMap) {
+        exponentFromMap *= exponent;
     }
 }
-template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::multiplyToExponents(AlbaNumber const& exponent);
-template void TermsRaiseToExponents<Term, TermRaiseToTerms>::multiplyToExponents(Term const& exponent);
+template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::multiplyToExponents(AlbaNumber const& exponent);template void TermsRaiseToExponents<Term, TermRaiseToTerms>::multiplyToExponents(Term const& exponent);
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
-void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTerm(
-    Term const& term, TermAssociationType const association) {
+void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTerm(    Term const& term, TermAssociationType const association) {
     int sign = (association == TermAssociationType::Positive) ? 1 : -1;
     if (canBeConvertedToMonomial(term)) {
         Monomial monomial(createMonomialIfPossible(term));
@@ -143,16 +164,14 @@ void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTerm(
                 m_baseToExponentMap[Term(constant)] += ExponentType(sign);
             }
         }
-        for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
-            m_baseToExponentMap[Term(variableExponentPair.first)] += ExponentType(variableExponentPair.second * sign);
+        for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
+            m_baseToExponentMap[Term(variableName)] += ExponentType(exponent * sign);
         }
     } else {
-        putTermUsingBaseToExponentType(term, sign);
-    }
+        putTermUsingBaseToExponentType(term, sign);    }
 }
 template void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::putTerm(
-    Term const& term, TermAssociationType const association);
-template void TermsRaiseToExponents<Term, TermRaiseToTerms>::putTerm(
+    Term const& term, TermAssociationType const association);template void TermsRaiseToExponents<Term, TermRaiseToTerms>::putTerm(
     Term const& term, TermAssociationType const association);
 
 template <typename ExponentType, typename BaseRaiseToExponentType>
@@ -222,39 +241,6 @@ Term TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::convertToTerm
     }
     return result;
 }
-template Term TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::convertToTerm(
-    Term const& base, AlbaNumber const& exponent) const;
-template Term TermsRaiseToExponents<Term, TermRaiseToTerms>::convertToTerm(
-    Term const& base, Term const& exponent) const;
-
-template <typename ExponentType, typename BaseRaiseToExponentType>
-void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTermUsingBaseToExponentType(
-    Term const& term, int const sign) {}
-template <>
-void TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::putTermUsingBaseToExponentType(
-    Term const& term, int const sign) {
-    TermRaiseToANumber termRaiseToExponent(createTermRaiseToANumberFromTerm(term));
-    m_baseToExponentMap[termRaiseToExponent.getBase()] += termRaiseToExponent.getExponent() * sign;
-}
-template <>
-void TermsRaiseToExponents<Term, TermRaiseToTerms>::putTermUsingBaseToExponentType(Term const& term, int const sign) {
-    TermRaiseToTerms termRaiseToExponent(createTermRaiseToTermsFromTerm(term));
-    m_baseToExponentMap[termRaiseToExponent.getBase()] += Term(termRaiseToExponent.getCombinedExponents() * sign);
-}
-
-template <typename ExponentType, typename BaseRaiseToExponentType>
-bool TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::isNegative(ExponentType const&) const {
-    return false;
-}
-template <>
-bool TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::isNegative(AlbaNumber const& exponent) const {
-    return exponent < 0;
-}
-template <>
-bool TermsRaiseToExponents<Term, TermRaiseToTerms>::isNegative(Term const& exponent) const {
-    return isANegativeTerm(exponent);
-}
 
 }  // namespace algebra
-
 }  // namespace alba

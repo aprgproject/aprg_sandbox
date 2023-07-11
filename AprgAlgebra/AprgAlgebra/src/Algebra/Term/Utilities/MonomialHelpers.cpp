@@ -63,15 +63,13 @@ bool doesCoefficientsHaveSameSign(Monomial const& monomial1, Monomial const& mon
 
 bool hasNegativeExponents(Monomial const& monomial) {
     bool result(false);
-    for (auto const& variableExponentsPair : monomial.getVariablesToExponentsMap()) {
-        if (variableExponentsPair.second < 0) {
+    for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
+        if (exponent < 0) {
             result = true;
             break;
-        }
-    }
+        }    }
     return result;
 }
-
 bool isConstantOnly(Monomial const& monomial) {
     Monomial::VariablesToExponentsMap const& variableToExponentMap(monomial.getVariablesToExponentsMap());
     return variableToExponentMap.empty();
@@ -99,16 +97,14 @@ string getFirstVariableName(Monomial const& monomial) {
 
 AlbaNumber getDegree(Monomial const& monomial) {
     AlbaNumber degree;
-    for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
-        degree = degree + variableExponentPair.second;
+    for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
+        degree = degree + exponent;
     }
     return degree;
 }
-
 AlbaNumber getMaxExponent(Monomial const& monomial) {
     AlbaNumber maxExponent;
-    auto const& variablesToExponentsMap(monomial.getVariablesToExponentsMap());
-    if (!variablesToExponentsMap.empty()) {
+    auto const& variablesToExponentsMap(monomial.getVariablesToExponentsMap());    if (!variablesToExponentsMap.empty()) {
         auto it = variablesToExponentsMap.cbegin();
         maxExponent = it->second;
         it++;
@@ -122,16 +118,13 @@ AlbaNumber getMaxExponent(Monomial const& monomial) {
 AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial) {
     AlbaNumber commonExponent(1);
     bool isFirst(true);
-    for (auto const& variablePair : monomial.getVariablesToExponentsMap()) {
-        AlbaNumber const& exponent(variablePair.second);
+    for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
         if (exponent.isIntegerOrFractionType()) {
             if (isFirst) {
-                commonExponent = exponent;
-                isFirst = false;
+                commonExponent = exponent;                isFirst = false;
             } else {
                 commonExponent = getGreatestCommonFactor(commonExponent, exponent);
-            }
-        }
+            }        }
     }
     return commonExponent;
 }

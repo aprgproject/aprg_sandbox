@@ -157,25 +157,22 @@ int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const&
 Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvertItToPositive(
     Polynomial const& polynomial) {
     Monomial resultMonomial(1, {});
-    Monomial::VariablesToExponentsMap const& resultVariableMap(
-        resultMonomial.getVariablesToExponentsMap());
+    Monomial::VariablesToExponentsMap const& resultVariableMap(resultMonomial.getVariablesToExponentsMap());
     for (Monomial const& monomial : polynomial.getMonomials()) {
-        for (auto const& variablePair : monomial.getVariablesToExponentsMap()) {
-            if (variablePair.second < 0) {
+        for (auto const& [variable, exponent] : monomial.getVariablesToExponentsMap()) {
+            if (exponent < 0) {
                 AlbaNumber existingExponent;
-                if (resultVariableMap.find(variablePair.first) != resultVariableMap.end()) {
-                    existingExponent = resultVariableMap.at(variablePair.first);
+                if (resultVariableMap.find(variable) != resultVariableMap.end()) {
+                    existingExponent = resultVariableMap.at(variable);
                 }
-                AlbaNumber newPositiveExponent(variablePair.second * -1);
+                AlbaNumber newPositiveExponent(exponent * -1);
                 if (newPositiveExponent > existingExponent) {
-                    resultMonomial.putVariableWithExponent(variablePair.first, newPositiveExponent);
+                    resultMonomial.putVariableWithExponent(variable, newPositiveExponent);
                 }
             }
-        }
-    }
+        }    }
     return resultMonomial;
 }
-
 bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(
     Polynomials& numeratorFactors, Polynomials& denominatorFactors) const {
     bool areSomeFactorsRemoved(false);

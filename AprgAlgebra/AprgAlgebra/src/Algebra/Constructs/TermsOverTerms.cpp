@@ -272,17 +272,13 @@ void TermsOverTerms::calculateBasesAndExponentsAndPutThatToNumeratorsAndDenomina
 
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms(
     Terms& numeratorTerms, Terms& denominatorTerms, TermsRaiseToTerms const& termsRaiseToTerms) {
-    for (auto const& baseExponentPair : termsRaiseToTerms.getBaseToExponentMap()) {
-        Term const& base(baseExponentPair.first);
-        Term const& exponent(baseExponentPair.second);
+    for (auto const& [base, exponent] : termsRaiseToTerms.getBaseToExponentMap()) {
         if (!isIntegerConstant(exponent) || m_shouldSimplifyToFactors) {
             if (isANegativeTerm(exponent)) {
-                TermRaiseToTerms termRaiseToTerms(base, exponent * -1);
-                denominatorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
+                TermRaiseToTerms termRaiseToTerms(base, exponent * -1);                denominatorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
             } else if (!isTheValue(exponent, 0)) {
                 TermRaiseToTerms termRaiseToTerms(base, exponent);
-                numeratorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
-            }
+                numeratorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());            }
         } else {
             AlbaNumber const& exponentValue(exponent.getAsNumber());
             if (isANegativeTerm(exponent)) {
@@ -296,17 +292,13 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms
 
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
     Terms& numeratorTerms, Terms& denominatorTerms, TermsRaiseToNumbers const& termsRaiseToNumbers) {
-    for (auto const& baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap()) {
-        Term const& base(baseExponentPair.first);
-        AlbaNumber const& exponent(baseExponentPair.second);
+    for (auto const& [base, exponent] : termsRaiseToNumbers.getBaseToExponentMap()) {
         if (!exponent.isIntegerType() || m_shouldSimplifyToFactors) {
             if (exponent > 0) {
-                TermRaiseToANumber termRaiseToANumber(base, exponent);
-                numeratorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
+                TermRaiseToANumber termRaiseToANumber(base, exponent);                numeratorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
             } else if (exponent < 0) {
                 TermRaiseToANumber termRaiseToANumber(base, exponent * -1);
-                denominatorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
-            }
+                denominatorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());            }
         } else {
             if (exponent > 0) {
                 populateTermsWithBase(numeratorTerms, base, exponent);

@@ -31,16 +31,13 @@ Polynomial const& PolynomialRaiseToAnUnsignedInt::getBase() const { return m_bas
 
 int PolynomialRaiseToAnUnsignedInt::getExponent() const { return m_exponent; }
 
-bool PolynomialRaiseToAnUnsignedInt::canBeSimplified(
-    int const gcfOfExponents, Monomial const& commonMonomialInBase) {
+bool PolynomialRaiseToAnUnsignedInt::canBeSimplified(int const gcfOfExponents, Monomial const& commonMonomialInBase) {
     return gcfOfExponents != 1 &&
            (!isEven(gcfOfExponents) || (isEven(gcfOfExponents) && !isANegativeMonomial(commonMonomialInBase)));
 }
-
 void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsToExponent(
     Polynomial const& polynomial, PolynomialToNumberMap& factorsToExponent, Monomial& commonMonomialInBase) {
-    Polynomials factors(factorizeAPolynomial(polynomial));
-    for (Polynomial const& factor : factors) {
+    Polynomials factors(factorizeAPolynomial(polynomial));    for (Polynomial const& factor : factors) {
         if (isOneMonomial(factor)) {
             commonMonomialInBase.multiplyMonomial(getFirstMonomial(factor));
         } else {
@@ -68,20 +65,17 @@ int PolynomialRaiseToAnUnsignedInt::getGcfOfExponents(PolynomialToNumberMap cons
 }
 
 Polynomial PolynomialRaiseToAnUnsignedInt::getRemainingBase(
-    PolynomialToNumberMap const& factorsToExponent, Monomial const& commonMonomialInBase,
-    int const gcfOfExponents) {
+    PolynomialToNumberMap const& factorsToExponent, Monomial const& commonMonomialInBase, int const gcfOfExponents) {
     Monomial remainingCommonMonomial(commonMonomialInBase);
     remainingCommonMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, gcfOfExponents));
     Polynomial result{remainingCommonMonomial};
-    for (auto const& factorsAndExponentPair : factorsToExponent) {
-        int remainingExponent(factorsAndExponentPair.second / gcfOfExponents);
-        Polynomial remainingFactor(factorsAndExponentPair.first);
+    for (auto const& [factor, exponent] : factorsToExponent) {
+        int remainingExponent(exponent / gcfOfExponents);
+        Polynomial remainingFactor(factor);
         remainingFactor.raiseToUnsignedInteger(remainingExponent);
         result.multiplyPolynomial(remainingFactor);
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace algebra
-
 }  // namespace alba

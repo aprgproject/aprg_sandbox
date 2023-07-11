@@ -37,29 +37,26 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFro
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromVariable(Variable const& variable) {
     int numberOfTimesFound(0);
     string lastVariableNameFound;
-    for (auto& variableNameAndTermPair : m_variableNameToTermMap) {
-        if (variableNameAndTermPair.first == variable.getVariableName()) {
-            lastVariableNameFound = variableNameAndTermPair.first;
+    for (auto const& [variableName, term] : m_variableNameToTermMap) {
+        if (variableName == variable.getVariableName()) {
+            lastVariableNameFound = variableName;
             numberOfTimesFound++;
         }
-    }
-    saveTerm(Term(variable), numberOfTimesFound, lastVariableNameFound);
+    }    saveTerm(Term(variable), numberOfTimesFound, lastVariableNameFound);
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromMonomial(Monomial const& monomial) {
     int numberOfTimesFound(0);
     string lastVariableNameFound;
-    for (auto& variableNameAndTermPair : m_variableNameToTermMap) {
-        if (monomial.getExponentForVariable(variableNameAndTermPair.first) != 0) {
-            lastVariableNameFound = variableNameAndTermPair.first;
+    for (auto const& [variableName, term] : m_variableNameToTermMap) {
+        if (monomial.getExponentForVariable(variableName) != 0) {
+            lastVariableNameFound = variableName;
             numberOfTimesFound++;
         }
-    }
-    saveTerm(Term(monomial), numberOfTimesFound, lastVariableNameFound);
+    }    saveTerm(Term(monomial), numberOfTimesFound, lastVariableNameFound);
 }
 
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromExpression(
-    Expression const& expression) {
+void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromExpression(    Expression const& expression) {
     if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
         for (TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails()) {
             if (termWithDetails.hasPositiveAssociation()) {
@@ -74,16 +71,14 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFro
         VariableNamesRetriever variableNamesRetriever;
         variableNamesRetriever.retrieveFromExpression(expression);
         VariableNamesSet const& namesInExpression(variableNamesRetriever.getVariableNames());
-        for (auto& variableNameAndTermPair : m_variableNameToTermMap) {
-            if (namesInExpression.find(variableNameAndTermPair.first) != namesInExpression.cend()) {
-                lastVariableNameFound = variableNameAndTermPair.first;
+        for (auto const& [variableName, term] : m_variableNameToTermMap) {
+            if (namesInExpression.find(variableName) != namesInExpression.cend()) {
+                lastVariableNameFound = variableName;
                 numberOfTimesFound++;
             }
-        }
-        saveTerm(Term(expression), numberOfTimesFound, lastVariableNameFound);
+        }        saveTerm(Term(expression), numberOfTimesFound, lastVariableNameFound);
     }
 }
-
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromFunction(
     Function const& functionObject) {
     int numberOfTimesFound(0);
@@ -91,17 +86,15 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFro
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromFunction(functionObject);
     VariableNamesSet const& namesInFunction(variableNamesRetriever.getVariableNames());
-    for (auto& variableNameAndTermPair : m_variableNameToTermMap) {
-        if (namesInFunction.find(variableNameAndTermPair.first) != namesInFunction.cend()) {
-            lastVariableNameFound = variableNameAndTermPair.first;
+    for (auto const& [variableName, term] : m_variableNameToTermMap) {
+        if (namesInFunction.find(variableName) != namesInFunction.cend()) {
+            lastVariableNameFound = variableName;
             numberOfTimesFound++;
         }
-    }
-    saveTerm(Term(functionObject), numberOfTimesFound, lastVariableNameFound);
+    }    saveTerm(Term(functionObject), numberOfTimesFound, lastVariableNameFound);
 }
 
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::initializeWithVariableNames(
-    strings const& namesInOrder) {
+void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::initializeWithVariableNames(    strings const& namesInOrder) {
     for (string const& name : namesInOrder) {
         m_variableNameToTermMap.emplace(name, Term());
     }

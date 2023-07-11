@@ -147,16 +147,14 @@ TermsAggregator::Indexes TermsAggregator::getNextOperatorIndexes(OperatorInputTy
             }
         }
     }
-    for (auto const& operatorLevelToIndexPair : operatorLevelToIndexMap) {
-        operatorIndexes.emplace_back(operatorLevelToIndexPair.second);
+    for (auto const& [operatorLevel, index] : operatorLevelToIndexMap) {
+        operatorIndexes.emplace_back(index);
     }
     return operatorIndexes;
 }
-
 bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(int const index) {
     bool isBuilt(false);
-    if (index > 0 && index + 1 < static_cast<int>(m_terms.size())) {
-        Term const& term1(m_terms[index - 1]);
+    if (index > 0 && index + 1 < static_cast<int>(m_terms.size())) {        Term const& term1(m_terms[index - 1]);
         Term const& term2(m_terms[index]);
         Term const& term3(m_terms[index + 1]);
         if (isNonEmptyOrNonOperatorType(term1) && term2.isOperator() && isNonEmptyOrNonOperatorType(term3)) {

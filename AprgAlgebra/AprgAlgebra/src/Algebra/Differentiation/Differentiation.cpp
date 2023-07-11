@@ -181,32 +181,24 @@ void Differentiation::separateNonChangingAndChangingVariables(
     Monomial& nonChangingVariablesAndConstant, Monomial& changingVariables, Monomial const& monomial) const {
     nonChangingVariablesAndConstant = Monomial(monomial.getCoefficient(), {});
     changingVariables = Monomial(1, {});
-    for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
-        string const& variableName(variableExponentPair.first);
-        AlbaNumber const& exponent(variableExponentPair.second);
+    for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
         if (exponent != 0) {
             if (isChangingVariableName(variableName)) {
-                changingVariables.putVariableWithExponent(variableName, exponent);
-            } else {
+                changingVariables.putVariableWithExponent(variableName, exponent);            } else {
                 nonChangingVariablesAndConstant.putVariableWithExponent(variableName, exponent);
             }
-        }
-    }
+        }    }
 }
 
 Polynomial Differentiation::differentiateMonomialWithChangingVariables(Monomial const& changingVariables) const {
     Polynomial result;
-    for (auto const& variableExponentPair : changingVariables.getVariablesToExponentsMap()) {
-        string const& variableName(variableExponentPair.first);
-        AlbaNumber const& exponent(variableExponentPair.second);
+    for (auto const& [variableName, exponent] : changingVariables.getVariablesToExponentsMap()) {
         Monomial monomialToAdd(changingVariables);
         DerivativeVariableName derivativeVariableName(variableName);
-        if (isVariableToDifferentiate(variableName)) {
-            monomialToAdd.putVariableWithExponent(variableName, exponent - 1);
+        if (isVariableToDifferentiate(variableName)) {            monomialToAdd.putVariableWithExponent(variableName, exponent - 1);
             monomialToAdd.multiplyNumber(exponent);
         } else if (isDependentVariable(variableName)) {
-            monomialToAdd.putVariableWithExponent(variableName, exponent - 1);
-            monomialToAdd.multiplyNumber(exponent);
+            monomialToAdd.putVariableWithExponent(variableName, exponent - 1);            monomialToAdd.multiplyNumber(exponent);
             DerivativeVariableName derivativeOfDependentVariableName(1, m_nameOfVariableToDifferentiate, variableName);
             monomialToAdd.putVariableWithExponent(derivativeOfDependentVariableName.getNameInLeibnizNotation(), 1);
         } else if (isDerivativeVariableNameAndAffectedByThisDifferentiation(derivativeVariableName)) {
