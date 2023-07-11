@@ -68,66 +68,60 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
 
 LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingIterativeDPAndSpaceEfficient()
     const {
-    // Time complexity: O(n).
-    // Auxiliary Space: O(n).
+    // Time complexity: O(n^2).
+    // Auxiliary Space: O(1).
 
     Index result(0);
     if (!m_string.empty()) {
         Index const stringLength = m_string.length();
-        Indices palidromeLengths(stringLength, 1);
-        for (Index right = 1; right < stringLength; right++) {
-            Index previousLength = palidromeLengths[right - 1];
-            if (previousLength == 1 && m_string[right - 1] == m_string[right])  // length = 2
-            {
-                palidromeLengths[right] = 2;
+        Index maxLength = 1;
+        for (Index centerIndex = 0; centerIndex < stringLength; centerIndex++) {
+            Index lowIndex = centerIndex - 1;
+            Index highIndex = centerIndex + 1;
+            while (highIndex < stringLength && m_string[highIndex] == m_string[centerIndex]) highIndex++;
+            while (lowIndex >= 0 && m_string[lowIndex] == m_string[centerIndex]) lowIndex--;
+            while (lowIndex >= 0 && highIndex < stringLength && m_string[lowIndex] == m_string[highIndex]) {
+                lowIndex--;
+                highIndex++;
             }
-            int possibleLeft = static_cast<int>(right) - 1 - static_cast<int>(previousLength);
-            if (possibleLeft >= 0 && m_string[possibleLeft] == m_string[right])  // length >= 3
-            {
-                palidromeLengths[right] = previousLength + 2;
-            }
+            maxLength = std::max(maxLength, highIndex - lowIndex - 1);
         }
-        result = *max_element(palidromeLengths.cbegin(), palidromeLengths.cend());
+        result = maxLength;
     }
     return result;
 }
 
 string LongestPalindromicSubstring::getLongestStringUsingIterativeDPAndSpaceEfficient() const {
-    // Time complexity: O(n).
-    // Auxiliary Space: O(n).
+    // Time complexity: O(n^2).
+    // Auxiliary Space: O(1).
 
-    string result;
     if (!m_string.empty()) {
         Index const stringLength = m_string.length();
-        Indices palidromeLengths(stringLength, 1);
-        for (Index right = 1; right < stringLength; right++) {
-            Index previousLength = palidromeLengths[right - 1];
-            if (previousLength == 1 && m_string[right - 1] == m_string[right])  // length = 2
-            {
-                palidromeLengths[right] = 2;
+        Index maxLength = 1;
+        Index startIndex = 0;
+        for (Index centerIndex = 0; centerIndex < stringLength; centerIndex++) {
+            Index lowIndex = centerIndex - 1;
+            Index highIndex = centerIndex + 1;
+            while (highIndex < stringLength && m_string[highIndex] == m_string[centerIndex]) highIndex++;
+            while (lowIndex >= 0 && m_string[lowIndex] == m_string[centerIndex]) lowIndex--;
+            while (lowIndex >= 0 && highIndex < stringLength && m_string[lowIndex] == m_string[highIndex]) {
+                lowIndex--;
+                highIndex++;
             }
-            int possibleLeft = static_cast<int>(right) - 1 - static_cast<int>(previousLength);
-            if (possibleLeft >= 0 && m_string[possibleLeft] == m_string[right])  // length >= 3
-            {
-                palidromeLengths[right] = previousLength + 2;
+            if (maxLength < highIndex - lowIndex - 1) {
+                maxLength = highIndex - lowIndex - 1;
+                startIndex = lowIndex + 1;
             }
         }
-        auto itMax = max_element(palidromeLengths.cbegin(), palidromeLengths.cend());
-        Index indexOfLongestLength = distance(palidromeLengths.cbegin(), itMax);
-        Index startIndex = indexOfLongestLength + 1 - palidromeLengths[indexOfLongestLength];
-        for (; startIndex <= indexOfLongestLength; startIndex++) {
-            result.push_back(m_string[startIndex]);
-        }
+        return m_string.substr(startIndex, maxLength);
     }
-    return result;
+    return m_string;
 }
 
-LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingNaiveRecursion(
-    Index const left, Index const right) const {
+LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingNaiveRecursion(    Index const left, Index const right) const {
     Index result(0);
     Index length = right - left + 1;
-    if (length == 1) {
-        result = 1;
+    if (length == 1) {        result = 1;
     } else if (length == 2) {
         result = m_string[left] == m_string[right] ? 2 : 1;
     } else {

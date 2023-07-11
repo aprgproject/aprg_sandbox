@@ -37,49 +37,37 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
         for (Length remainingLength = smallestItemLength; remainingLength < static_cast<Length>(partialProfits.size());
              remainingLength++) {
             Profit entryResult(0);
-            for (Rod const& rod : m_rods) {
-                Length rodLength(rod.first);
-                Profit rodProfit(rod.second);
+            for (auto const& [rodLength, rodProfit] : m_rods) {
                 if (remainingLength >= rodLength) {
                     entryResult = max(entryResult, rodProfit + partialProfits[remainingLength - rodLength]);
-                }
-            }
+                }            }
             partialProfits[remainingLength] = entryResult;
         }
-        result = partialProfits.back();
-    }
+        result = partialProfits.back();    }
     return result;
 }
 
 MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUsingNaiveRecursion(
     Length const remainingLength) const {
     Profit result(0);
-    for (Rod const& rod : m_rods) {
-        Length rodLength(rod.first);
-        Profit rodProfit(rod.second);
+    for (auto const& [rodLength, rodProfit] : m_rods) {
         if (remainingLength >= rodLength) {
             result = max(result, rodProfit + getBestProfitUsingNaiveRecursion(remainingLength - rodLength));
-        }
-    }
+        }    }
     return result;
 }
-
 MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUsingMemoizationDP(
     Profits& partialProfits, Length const remainingLength) const {
     Profit result = partialProfits[remainingLength];
     if (UNUSED_PROFIT == result) {
         result = 0;
-        for (Rod const& rod : m_rods) {
-            Length rodLength(rod.first);
-            Profit rodProfit(rod.second);
+        for (auto const& [rodLength, rodProfit] : m_rods) {
             if (remainingLength >= rodLength) {
                 result = max(
-                    result, rodProfit + getBestProfitUsingMemoizationDP(partialProfits, remainingLength - rodLength));
-            }
+                    result, rodProfit + getBestProfitUsingMemoizationDP(partialProfits, remainingLength - rodLength));            }
         }
         partialProfits[remainingLength] = result;
-    }
-    return result;
+    }    return result;
 }
 
 MaximizeProfitInCuttingARod::Length MaximizeProfitInCuttingARod::getSmallestItemLength() const {

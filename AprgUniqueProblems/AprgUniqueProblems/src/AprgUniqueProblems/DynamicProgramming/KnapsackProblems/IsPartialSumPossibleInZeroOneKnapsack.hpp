@@ -6,25 +6,22 @@
 
 namespace alba {
 
-class IsPartialSumPossibleInKnapsack {
+class IsPartialSumPossibleInZeroOneKnapsack {
 public:
     using Index = int;
-    using Value = int;
-    enum class State { Unused, False, True };
+    using Value = int;    enum class State { Unused, False, True };
     using Values = std::vector<Value>;
     using Booleans = std::vector<bool>;
     using BooleanMatrix = matrix::AlbaMatrix<bool>;
     using StateMatrix = matrix::AlbaMatrix<State>;
 
-    IsPartialSumPossibleInKnapsack(Value const targetSum, Values const& values);
+    IsPartialSumPossibleInZeroOneKnapsack(Value const targetSum, Values const& values);
 
     bool isPartialSumPossibleUsingNaiveRecursion() const;
-    bool isPartialSumPossibleUsingMemoizationDP() const;
-    bool isPartialSumPossibleUsingIterativeDP() const;
+    bool isPartialSumPossibleUsingMemoizationDP() const;    bool isPartialSumPossibleUsingIterativeDP() const;
     bool isPartialSumPossibleUsingIterativeDPAndSpaceEfficient() const;
 
-private:
-    bool isPartialSumPossibleUsingNaiveRecursion(Value const partialSum, Index const valueIndex) const;
+private:    bool isPartialSumPossibleUsingNaiveRecursion(Value const partialSum, Index const valueIndex) const;
     bool isPartialSumPossibleUsingMemoizationDP(
         StateMatrix& stateMatrix, Value const partialSum, Index const valueIndex) const;
 
@@ -34,14 +31,14 @@ private:
 
 }  // namespace alba
 
+// This is a variant of 0-1 Knapsack Problem
+
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
-// -> Each "partialSum" and "value index" has a boolean "isPartialSum" possible
-// -> Start recursion at the "targetSum" and value index as 0.
+// -> Each "partialSum" and "value index" has a boolean "isPartialSum" possible// -> Start recursion at the "targetSum" and value index as 0.
 // -> Each "isPartialSum" (with inputs "partialSum" and "value index") can be computed by:
 // ---> If "partialSum" == value at "value index":
-// -----> Return true
-// ---> Else if "partialSum" > value at "value index":
+// -----> Return true// ---> Else if "partialSum" > value at "value index":
 // -----> Get "isPossible" if value is USED:
 // -------> Recursively call "partialSum" - value at "value index" and increment to next "value index"
 // -----> Get "isPossible" if value is SKIPPED:

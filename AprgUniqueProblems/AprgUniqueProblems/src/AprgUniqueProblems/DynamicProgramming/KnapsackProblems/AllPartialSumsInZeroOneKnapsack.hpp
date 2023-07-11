@@ -4,34 +4,32 @@
 
 namespace alba {
 
-class AllPartialSumsInKnapsack {
+class AllPartialSumsInZeroOneKnapsack {
 public:
     using Value = int;
     using Values = std::vector<Value>;
     using Booleans = std::vector<bool>;
 
-    AllPartialSumsInKnapsack(Values const& values);
+    AllPartialSumsInZeroOneKnapsack(Values const& values);
 
     Values getAllPossiblePartialSums() const;
-    Values getAllPossiblePartialSumsBySettingFutureValues() const;
-    Values getAllPossiblePartialSumsWithSquareRootAlgorithm();
+    Values getAllPossiblePartialSumsBySettingFutureValues() const;    Values getAllPossiblePartialSumsWithSquareRootAlgorithm();
 
 private:
     Values getAllPossiblePartialSums(Booleans const& isPartialSumPossible) const;
-
     Values m_inputValues;
 };
 
 }  // namespace alba
 
+// This is a variant of 0-1 Knapsack Problem
+
 // APPROACH:
 // 1) Dynamic Programming by Iterative method:
-// -> Get the maximum possible partial sum and create an array of booleans ("isPartialSumPossible") with that size
-// -> Thus each "partial sum" has a boolean if its possible.
+// -> Get the maximum possible partial sum and create an array of booleans ("isPartialSumPossible") with that size// -> Thus each "partial sum" has a boolean if its possible.
 // -> Set "partial sum" = 0 as true (0 is possible partial sum)
 // -> Reverse traversal (from right to left)
-// ---> Reverse traversal so that the changed values wont be changed again in one iteration
-// -> Traversal uses previous values (because it was for a previous item) to compute for a new value
+// ---> Reverse traversal so that the changed values wont be changed again in one iteration// -> Traversal uses previous values (because it was for a previous item) to compute for a new value
 // -> Traverse all input values (this ensures that input values are only used once):
 // ---> Traverse all the partial sums (from maximum sum to zero):
 // -----> This "partial sum" is possible if "partial sum" >= "input value" and if "partial sum"-"input value" is
