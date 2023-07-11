@@ -171,9 +171,11 @@ Term performOperation(Operator const& operatorTerm, Term const& term1, Term cons
     return newTerm;
 
 Term performUnaryPlus(Term const& term){TERM_UNARY_OPERATION_MACRO(+)}
+
 Term performUnaryMinus(Term const& term){TERM_UNARY_OPERATION_MACRO(-)}
 
 Term performAddition(Term const& term1, Term const& term2){TERM_BINARY_OPERATION_MACRO(+)}
+
 Term performSubtraction(Term const& term1, Term const& term2){TERM_BINARY_OPERATION_MACRO(-)}
 
 Term performMultiplication(Term const& term1, Term const& term2){TERM_BINARY_OPERATION_MACRO(*)}

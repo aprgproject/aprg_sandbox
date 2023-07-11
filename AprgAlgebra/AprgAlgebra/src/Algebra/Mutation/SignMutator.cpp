@@ -40,6 +40,7 @@ void SignMutator::mutateConstant(Constant& constant) {
 }
 
 void SignMutator::mutateVariable(Variable&) {}
+
 void SignMutator::mutateMonomial(Monomial& monomial) {
     monomial = m_substitution.performSubstitutionForMonomial(monomial);
     monomial.simplify();
@@ -52,10 +53,12 @@ void SignMutator::mutatePolynomial(Polynomial& polynomial) {
     Monomials mutatedMonomials(polynomial.getMonomials());
     for (Monomial& mutatedMonomial : mutatedMonomials) {
         mutateMonomial(mutatedMonomial);
-        areAllTheValuesOne = areAllTheValuesOne && isTheValue(mutatedMonomial, 1);        areAllTheValuesNegativeOne = areAllTheValuesNegativeOne && isTheValue(mutatedMonomial, -1);
+        areAllTheValuesOne = areAllTheValuesOne && isTheValue(mutatedMonomial, 1);
+        areAllTheValuesNegativeOne = areAllTheValuesNegativeOne && isTheValue(mutatedMonomial, -1);
         if (!areAllTheValuesOne && !areAllTheValuesNegativeOne) {
             break;
-        }    }
+        }
+    }
     if (areAllTheValuesOne) {
         polynomial = createPolynomialFromNumber(1);
     } else if (areAllTheValuesNegativeOne) {
@@ -72,10 +75,12 @@ void SignMutator::mutateExpression(Expression& expression) {
         expression = simplifiedTerm.getAsExpression();
         if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
             mutateExpressionWithAdditionAndSubtraction(expression);
-        } else if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {            mutateExpressionWithMultiplicationAndDivision(expression);
+        } else if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {
+            mutateExpressionWithMultiplicationAndDivision(expression);
         } else if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()) {
             mutateExpressionWithRaiseToPower(expression);
-        }    } else {
+        }
+    } else {
         mutateTerm(simplifiedTerm);
         expression = Expression(createOrCopyExpressionFromATerm(simplifiedTerm));
     }
@@ -107,10 +112,12 @@ Term SignMutator::getTermForMutationOfFunction(Function const& functionObject) {
         Function const& simplifiedFunction(result.getAsFunction());
         string const& simplifiedFunctionName(simplifiedFunction.getFunctionName());
         if ("abs" == simplifiedFunctionName || "cosh" == simplifiedFunctionName || "sech" == simplifiedFunctionName ||
-            "arccosh" == simplifiedFunctionName || "arcsech" == simplifiedFunctionName) {            result = 1;
+            "arccosh" == simplifiedFunctionName || "arcsech" == simplifiedFunctionName) {
+            result = 1;
         } else {
             result = ALBA_NUMBER_NOT_A_NUMBER;
-        }    } else if (!result.isConstant()) {
+        }
+    } else if (!result.isConstant()) {
         result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
@@ -165,10 +172,12 @@ void SignMutator::mutateExpressionWithRaiseToPower(Expression& expression) {
             AlbaNumber const& exponentValue(mutatedExponent.getAsNumber());
             expression = createOrCopyExpressionFromATerm(AlbaNumber(-1) ^ exponentValue);
         }
-    }    if (!isExpressionSignKnown) {
+    }
+    if (!isExpressionSignKnown) {
         expression = createOrCopyExpressionFromATerm(ALBA_NUMBER_NOT_A_NUMBER);
     }
 }
+
 }  // namespace algebra
 
 }  // namespace alba

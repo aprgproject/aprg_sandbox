@@ -18,7 +18,8 @@ TEST(DivisibilityHelpersTest, IsDivisibleWorks) {
     EXPECT_FALSE(isDivisible(-256, -17));
 }
 
-TEST(DivisibilityHelpersTest, IsEvenWorks) {    EXPECT_TRUE(isEven(0U));
+TEST(DivisibilityHelpersTest, IsEvenWorks) {
+    EXPECT_TRUE(isEven(0U));
     EXPECT_FALSE(isEven(1U));
     EXPECT_TRUE(isEven(256U));
     EXPECT_FALSE(isEven(255U));
@@ -26,7 +27,8 @@ TEST(DivisibilityHelpersTest, IsEvenWorks) {    EXPECT_TRUE(isEven(0U));
     EXPECT_FALSE(isEven(-255));
 }
 
-TEST(DivisibilityHelpersTest, IsOddWorks) {    EXPECT_FALSE(isOdd(0U));
+TEST(DivisibilityHelpersTest, IsOddWorks) {
+    EXPECT_FALSE(isOdd(0U));
     EXPECT_TRUE(isOdd(1U));
     EXPECT_FALSE(isOdd(256U));
     EXPECT_TRUE(isOdd(255U));

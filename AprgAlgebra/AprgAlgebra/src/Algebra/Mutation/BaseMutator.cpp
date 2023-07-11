@@ -26,9 +26,11 @@ void BaseMutator::mutateTerm(Term &term) {
         mutateFunction(term.getAsFunctionReference());
     }
 }
+
 void BaseMutator::mutateConstant(Constant &) {}
 
 void BaseMutator::mutateVariable(Variable &) {}
+
 void BaseMutator::mutateMonomial(Monomial &) {}
 
 void BaseMutator::mutatePolynomial(Polynomial &polynomial) {

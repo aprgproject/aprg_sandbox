@@ -178,9 +178,11 @@ TEST(ExpressionTest, GetFirstTermWorks) {
     EXPECT_EQ(Term(16), getTermConstReferenceFromBaseTerm(expression3.getFirstTerm()));
 }
 
-TEST(ExpressionTest, GetFirstAssociationTypeWorks) {    Expression expression1(createExpressionIfPossible({5412}));
+TEST(ExpressionTest, GetFirstAssociationTypeWorks) {
+    Expression expression1(createExpressionIfPossible({5412}));
     Expression expression2(createExpressionIfPossible({695, "+", "interest"}));
     Expression expression3(createExpressionIfPossible({"-", 16}));
+
     EXPECT_EQ(TermAssociationType::Positive, expression1.getFirstAssociationType());
     EXPECT_EQ(TermAssociationType::Positive, expression2.getFirstAssociationType());
     EXPECT_EQ(TermAssociationType::Negative, expression3.getFirstAssociationType());
@@ -1465,10 +1467,12 @@ TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks) {
     EXPECT_FALSE(getTermConstReferenceFromBaseTerm(expression.getFirstTerm()).isSimplified());
 }
 
-TEST(ExpressionTest, OutputStreamOperatorWorks) {    stringstream ss;
+TEST(ExpressionTest, OutputStreamOperatorWorks) {
+    stringstream ss;
     Expression expression1;
     Expression expression2(createExpressionIfPossible({695, "-", "interest", "+", "debt"}));
-    Expression expression3;    expression3.putTermWithDivisionIfNeeded(Term(96));
+    Expression expression3;
+    expression3.putTermWithDivisionIfNeeded(Term(96));
     Expression expression4(createExpressionIfPossible({expression2, "^", "cash"}));
 
     ss << expression1 << "," << expression2 << "," << expression3 << "," << expression4;

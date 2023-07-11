@@ -97,9 +97,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks) {
     EXPECT_EQ("y", term2.getAsVariable().getVariableName());
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetails[1].association);
 }
+
 TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAdditionWorks) {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression(createExpressionIfPossible({"x"}));
+
     additionAndSubtraction.putAsAddition(expression);
 
     Expressions const& expressions(additionAndSubtraction.getExpressions());

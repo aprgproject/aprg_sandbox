@@ -325,6 +325,7 @@ void sortIntegralsDetailsToEvaluate(DetailsForDefiniteIntegralsWithTerms& integr
             return retriever1.getVariableNames().size() > retriever2.getVariableNames().size();
         });
 }
+
 }  // namespace algebra
 
 }  // namespace alba

@@ -23,10 +23,12 @@ INLINE_WITHOUT_BUILT_IN namespace BitUtilitiesWithoutBuiltIn {
             if (temporary & 1) {
                 ++result;
             }
-        }        return result;
+        }
+        return result;
     }
     template <typename DataType>
-    constexpr inline bool isEvenParity(DataType const value) {        return (getNumberOfOnes(value) & 1) == 0;  // AND implementation because we sure that its Unsigned
+    constexpr inline bool isEvenParity(DataType const value) {
+        return (getNumberOfOnes(value) & 1) == 0;  // AND implementation because we sure that its Unsigned
     }
     template <typename DataType>
     constexpr inline std::size_t getNumberOfConsecutiveZerosFromMsb(DataType const value) {

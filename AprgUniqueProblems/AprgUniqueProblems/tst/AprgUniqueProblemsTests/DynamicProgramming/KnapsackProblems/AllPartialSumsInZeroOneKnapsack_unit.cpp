@@ -1,6 +1,7 @@
 #include <AprgUniqueProblems/DynamicProgramming/KnapsackProblems/AllPartialSumsInZeroOneKnapsack.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
@@ -21,6 +22,7 @@ TEST(AllPartialSumsInZeroOneKnapsackTest, GetAllPossiblePartialSumsWithSquareRoo
     AllPartialSumsInZeroOneKnapsack queryForTest({1, 3, 3, 5});
 
     Values expectedValues{0, 1, 3, 4, 5, 6, 7, 8, 9, 11, 12};
-    EXPECT_EQ(expectedValues, queryForTest.getAllPossiblePartialSumsWithSquareRootAlgorithm());}
+    EXPECT_EQ(expectedValues, queryForTest.getAllPossiblePartialSumsWithSquareRootAlgorithm());
+}
 
 }  // namespace alba

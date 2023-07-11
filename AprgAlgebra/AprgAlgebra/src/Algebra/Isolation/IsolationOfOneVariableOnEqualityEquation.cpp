@@ -71,9 +71,11 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
         isolateTermWithVariable(variableName, expression, termWithVariable, termWithWithoutVariable);
     }
 }
+
 void IsolationOfOneVariableOnEqualityEquation::setEquation(Equation const& equation) {
     if (equation.getEquationOperator().isEqual()) {
-        Equation simplifiedEquation(equation);        simplifiedEquation.simplify();
+        Equation simplifiedEquation(equation);
+        simplifiedEquation.simplify();
         m_simplifiedLeftSideTerm = simplifiedEquation.getLeftHandTerm();
     }
 }
@@ -89,10 +91,12 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
             polynomial.getMonomials(), variableName, monomialsWithVariable, monomialsWithoutVariable);
         Polynomial numerator(monomialsWithoutVariable);
         Polynomial denominator(monomialsWithVariable);
-        numerator.multiplyNumber(-1);        Monomial monomialWithIsolatedVariable(1, {{variableName, identicalExponentForVariable}});
+        numerator.multiplyNumber(-1);
+        Monomial monomialWithIsolatedVariable(1, {{variableName, identicalExponentForVariable}});
         denominator.divideMonomial(monomialWithIsolatedVariable);
         termWithVariable = monomialWithIsolatedVariable;
-        termWithWithoutVariable = Term(numerator) / Term(denominator);        termWithVariable.simplify();
+        termWithWithoutVariable = Term(numerator) / Term(denominator);
+        termWithVariable.simplify();
         termWithWithoutVariable.simplify();
     }
 }
@@ -141,10 +145,12 @@ AlbaNumber IsolationOfOneVariableOnEqualityEquation::getIdenticalExponentForVari
     for (Monomial const& monomial : polynomial.getMonomials()) {
         AlbaNumber currentExponent = monomial.getExponentForVariable(variableName);
         if (currentExponent != 0) {
-            if (exponent == 0) {                exponent = currentExponent;
+            if (exponent == 0) {
+                exponent = currentExponent;
             } else if (exponent != currentExponent) {
                 exponent = 0;
-                break;            }
+                break;
+            }
         }
     }
     return exponent;

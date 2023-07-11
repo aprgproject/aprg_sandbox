@@ -70,4 +70,5 @@ void FirstCoefficientRetriever::retrieveFromPolynomials(Polynomials const& polyn
 }
 
 }  // namespace algebra
+
 }  // namespace alba

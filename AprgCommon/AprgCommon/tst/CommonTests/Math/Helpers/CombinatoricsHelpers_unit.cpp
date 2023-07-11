@@ -57,10 +57,12 @@ TEST(CombinatoricsHelpersTest, GetBinomialCoefficientWorks) {
 
 TEST(CombinatoricsHelpersTest, GetValueAtPascalTriangleWorks) {
     EXPECT_EQ(1U, getValueAtPascalTriangle(0U, 0U));
-    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 4U));    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 4U));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));
     EXPECT_EQ(4U, getValueAtPascalTriangle(4U, 1U));
     EXPECT_EQ(6U, getValueAtPascalTriangle(4U, 2U));
-    EXPECT_EQ(0U, getValueAtPascalTriangle(4U, 5U));}
+    EXPECT_EQ(0U, getValueAtPascalTriangle(4U, 5U));
+}
 
 TEST(CombinatoricsHelpersTest, GetStirlingNumberOfTheSecondKindWorks) {
     EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(0U, 0U));

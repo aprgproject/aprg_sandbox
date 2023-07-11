@@ -71,9 +71,11 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     Monomials const& monomials(polynomial.getMonomials());
     if (monomials.size() == 2) {
         Monomial const& firstMonomial(monomials[0]);
-        Monomial const& secondMonomial(monomials[1]);        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
+        Monomial const& secondMonomial(monomials[1]);
+        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
     }
 }
+
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     Term& rationalizedTerm, Term& multiplier, Monomial const& firstMonomial, Monomial const& secondMonomial) const {
     AlbaNumber gcfOfExponents = getGreatestCommonFactor(

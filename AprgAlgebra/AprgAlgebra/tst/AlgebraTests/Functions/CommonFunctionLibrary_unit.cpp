@@ -24,6 +24,7 @@ TEST(CommonFunctionLibraryTest, AbsoluteValueFunctionWorks) {
     EXPECT_EQ(Term(-5), getTermConstReferenceFromBaseTerm(absoluteValueFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(5), absoluteValueFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, GreatestIntegerFunctionWorks) {
     Function greatestIntegerFunctionObject(greatestIntegerFunction(-5.1));
 
@@ -32,6 +33,7 @@ TEST(CommonFunctionLibraryTest, GreatestIntegerFunctionWorks) {
         Term(-5.1), getTermConstReferenceFromBaseTerm(greatestIntegerFunctionObject.getInputTerm()));
     EXPECT_EQ(AlbaNumber(-5), greatestIntegerFunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, SignumFunctionWorks) {
     Function signumFunctionObject(sgn(-5.1));
 
@@ -39,6 +41,7 @@ TEST(CommonFunctionLibraryTest, SignumFunctionWorks) {
     EXPECT_EQ(Term(-5.1), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTerm()));
     EXPECT_EQ(AlbaNumber(-1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, FactorialFunctionWorks) {
     Function signumFunctionObject(factorial(5));
 
@@ -46,6 +49,7 @@ TEST(CommonFunctionLibraryTest, FactorialFunctionWorks) {
     EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTerm()));
     EXPECT_EQ(AlbaNumber(120), signumFunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, FactorialFunctionWorksWhenInputIsZero) {
     Function signumFunctionObject(factorial(0));
 
@@ -53,6 +57,7 @@ TEST(CommonFunctionLibraryTest, FactorialFunctionWorksWhenInputIsZero) {
     EXPECT_EQ(Term(0), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTerm()));
     EXPECT_EQ(AlbaNumber(1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, NaturalLogarithmFunctionWorks) {
     Function naturalLogarithmFunctionObject(ln(5));
 
@@ -60,9 +65,11 @@ TEST(CommonFunctionLibraryTest, NaturalLogarithmFunctionWorks) {
     EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(naturalLogarithmFunctionObject.getInputTerm()));
     EXPECT_EQ(AlbaNumber(1.6094379124341), naturalLogarithmFunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, LogarithmsCanSimplifiedToLoweringOperatorValue) {
     Term productLogarithm(ln(5 * 7));
-    Term quotientLogarithm(ln(AlbaNumber(5) / 7));    Term exponentLogarithm(ln(AlbaNumber(5) ^ 7));
+    Term quotientLogarithm(ln(AlbaNumber(5) / 7));
+    Term exponentLogarithm(ln(AlbaNumber(5) ^ 7));
 
     Term sumOfLogarithms(ln(5) + ln(7));
     Term differenceOfLogarithms(ln(5) - ln(7));
@@ -87,6 +94,7 @@ TEST(CommonFunctionLibraryTest, LogarithmBase10FunctionWorks) {
     EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(logarithmBase10FunctionObject.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0.6989700043360189), logarithmBase10FunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionWorks) {
     Function harmonicNumberFunctionObject(harmonicNumber(5));
 
@@ -95,9 +103,11 @@ TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionWorks) {
     EXPECT_EQ(
         AlbaNumber::createFraction(137, 60), harmonicNumberFunctionObject.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionHasAnUpperBoundOfLog2NPlusOne) {
     AlbaNumber sampleValue(100);
-    Term actualHarmonicNumber(harmonicNumber(sampleValue));    Term upperBoundValue(getLogarithm(2, sampleValue.getDouble()) + 1);  // upper bound: lg(N)+1
+    Term actualHarmonicNumber(harmonicNumber(sampleValue));
+    Term upperBoundValue(getLogarithm(2, sampleValue.getDouble()) + 1);  // upper bound: lg(N)+1
     actualHarmonicNumber.simplify();
     upperBoundValue.simplify();
 
@@ -111,6 +121,7 @@ TEST(CommonFunctionLibraryTest, SineFunctionWorks) {
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, CosineFunctionWorks) {
     Function cosineFunction(cos(getPiAsATerm()));
 
@@ -118,6 +129,7 @@ TEST(CommonFunctionLibraryTest, CosineFunctionWorks) {
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(cosineFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(-1), cosineFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, TangentFunctionWorks) {
     Function tangentFunction(tan(getPiAsATerm()));
 
@@ -125,6 +137,7 @@ TEST(CommonFunctionLibraryTest, TangentFunctionWorks) {
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(tangentFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0), tangentFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, CosecantFunctionWorks) {
     Function cosecantFunction(csc(getPi() / 2));
 
@@ -132,6 +145,7 @@ TEST(CommonFunctionLibraryTest, CosecantFunctionWorks) {
     EXPECT_EQ(Term(getPi() / 2), getTermConstReferenceFromBaseTerm(cosecantFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(1), cosecantFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, SecantFunctionWorks) {
     Function secantFunction(sec(getPiAsATerm()));
 
@@ -139,6 +153,7 @@ TEST(CommonFunctionLibraryTest, SecantFunctionWorks) {
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(secantFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(-1), secantFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, CotangentFunctionWorks) {
     Function cotangentFunction(cot(getPi() / 2));
 
@@ -146,6 +161,7 @@ TEST(CommonFunctionLibraryTest, CotangentFunctionWorks) {
     EXPECT_EQ(Term(getPi() / 2), getTermConstReferenceFromBaseTerm(cotangentFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0), cotangentFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, ArcSineFunctionWorks) {
     Function arcSineFunction(arcsin(1));
 
@@ -153,6 +169,7 @@ TEST(CommonFunctionLibraryTest, ArcSineFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(arcSineFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(getPi() / 2), arcSineFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, ArcCosineFunctionWorks) {
     Function arcCosineFunction(arccos(1));
 
@@ -160,6 +177,7 @@ TEST(CommonFunctionLibraryTest, ArcCosineFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(arcCosineFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0), arcCosineFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, ArcTangentFunctionWorks) {
     Function arcTangentFunction(arctan(0));
 
@@ -167,6 +185,7 @@ TEST(CommonFunctionLibraryTest, ArcTangentFunctionWorks) {
     EXPECT_EQ(Term(0), getTermConstReferenceFromBaseTerm(arcTangentFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0), arcTangentFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, ArcCosecantFunctionWorks) {
     Function arcCosecantFunction(arccsc(1));
 
@@ -174,6 +193,7 @@ TEST(CommonFunctionLibraryTest, ArcCosecantFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(arcCosecantFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(getPi() / 2), arcCosecantFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, ArcSecantFunctionWorks) {
     Function arcSecantFunction(arcsec(-1));
 
@@ -181,6 +201,7 @@ TEST(CommonFunctionLibraryTest, ArcSecantFunctionWorks) {
     EXPECT_EQ(Term(-1), getTermConstReferenceFromBaseTerm(arcSecantFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(getPi()), arcSecantFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, ArcCotangentFunctionWorks) {
     Function arcCotangentFunction(arccot(0));
 
@@ -188,6 +209,7 @@ TEST(CommonFunctionLibraryTest, ArcCotangentFunctionWorks) {
     EXPECT_EQ(Term(0), getTermConstReferenceFromBaseTerm(arcCotangentFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(getPi() / 2), arcCotangentFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HyperbolicSineFunctionWorks) {
     Function sinhFunction(sinh(1));
 
@@ -195,6 +217,7 @@ TEST(CommonFunctionLibraryTest, HyperbolicSineFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(sinhFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(1.175201193643801), sinhFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HyperbolicCosineFunctionWorks) {
     Function coshFunction(cosh(1));
 
@@ -202,6 +225,7 @@ TEST(CommonFunctionLibraryTest, HyperbolicCosineFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(coshFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(1.543080634815244), coshFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HyperbolicTangentFunctionWorks) {
     Function tanhFunction(tanh(1));
 
@@ -209,6 +233,7 @@ TEST(CommonFunctionLibraryTest, HyperbolicTangentFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(tanhFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0.7615941559557649), tanhFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HyperbolicCosecantFunctionWorks) {
     Function cschFunction(csch(1));
 
@@ -216,6 +241,7 @@ TEST(CommonFunctionLibraryTest, HyperbolicCosecantFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(cschFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0.8509181282393216), cschFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HyperbolicSecantFunctionWorks) {
     Function sechFunction(sech(1));
 
@@ -223,6 +249,7 @@ TEST(CommonFunctionLibraryTest, HyperbolicSecantFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(sechFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(0.6480542736638853), sechFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, HyperbolicCotangentFunctionWorks) {
     Function cothFunction(coth(1));
 
@@ -230,6 +257,7 @@ TEST(CommonFunctionLibraryTest, HyperbolicCotangentFunctionWorks) {
     EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(cothFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(1.313035285499331), cothFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, SineHarmonicFunctionWorks) {
     Function sineFunction(sinHarmonic(getPiAsATerm(), 4, 2, AlbaNumber(getPi() / 2)));
 
@@ -237,7 +265,9 @@ TEST(CommonFunctionLibraryTest, SineHarmonicFunctionWorks) {
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTerm()));
     EXPECT_EQ(AlbaNumber(4), sineFunction.performFunctionAndReturnResultIfPossible());
 }
+
 }  // namespace Functions
 
 }  // namespace algebra
+
 }  // namespace alba

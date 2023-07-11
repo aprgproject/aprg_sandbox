@@ -58,9 +58,11 @@ void SimplexSolver::intialize(Equations const& constraints, Polynomial const& ob
         VariableNamesSet const& inputVariableNames(inputVariablesRetriever.getVariableNames());
 
         saveInputVariables(inputVariableNames);
+
         initializeSimplexTable(
             objectiveFunction, constraintsInStandardForm, inputVariableNames, indicesWithSlackVariables);
-    }}
+    }
+}
 
 void SimplexSolver::solve() { solveSimplexTable(m_simplexTable); }
 
@@ -128,7 +130,8 @@ void SimplexSolver::initializeSimplexTable(
                     monomial.getCoefficient());  // put variable coefficient
             }
         }
-        if (indicesWithSlackVariables.find(y) != indicesWithSlackVariables.cend()) {            m_simplexTable.setEntry(slackColumn++, y, 1);  // put 1 for slack variable
+        if (indicesWithSlackVariables.find(y) != indicesWithSlackVariables.cend()) {
+            m_simplexTable.setEntry(slackColumn++, y, 1);  // put 1 for slack variable
         }
     }
 
@@ -145,7 +148,9 @@ void SimplexSolver::initializeSimplexTable(
                     monomial.getCoefficient());  // put objective function variable coefficient
             }
         }
-    }}
+    }
+}
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -53,10 +53,12 @@ bool isConvergentUsingComparisonTest(
                     (termToCheck.getAsNumber() <= convergentTerm.getAsNumber());
                 if (!areAllValuesSatisfied) {
                     break;
-                }            }
+                }
+            }
         }
         result = areAllValuesSatisfied;
-    }    return result;
+    }
+    return result;
 }
 
 bool isDivergentUsingComparisonTest(
@@ -73,10 +75,12 @@ bool isDivergentUsingComparisonTest(
                     (termToCheck.getAsNumber() >= divergentTerm.getAsNumber());
                 if (!areAllValuesSatisfied) {
                     break;
-                }            }
+                }
+            }
         }
         result = areAllValuesSatisfied;
-    }    return result;
+    }
+    return result;
 }
 
 bool hasLinearity(
@@ -127,10 +131,12 @@ void performRatioTest(
         AlbaNumber limitValue(limitTerm.getAsNumber());
         if (limitValue < 1) {
             isConvergent = true;
-        } else if (limitValue > 1) {            isDivergent = true;
+        } else if (limitValue > 1) {
+            isDivergent = true;
         }
     }
 }
+
 void performRootTest(
     bool& isConvergent, bool& isDivergent, SeriesBasedOnSummation const& series, string const& variableName) {
     Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
@@ -143,10 +149,12 @@ void performRootTest(
         AlbaNumber limitValue(limitTerm.getAsNumber());
         if (limitValue < 1) {
             isConvergent = true;
-        } else if (limitValue > 1) {            isDivergent = true;
+        } else if (limitValue > 1) {
+            isDivergent = true;
         }
     }
 }
+
 Term getLimitForRatioTest(SeriesBasedOnSummation const& series, string const& variableName) {
     SubstitutionOfVariablesToTerms substitution{
         {variableName, Polynomial{Monomial(1, {{variableName, 1}}), Monomial(1, {})}}};

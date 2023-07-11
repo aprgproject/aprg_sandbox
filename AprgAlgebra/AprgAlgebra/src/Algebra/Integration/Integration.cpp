@@ -11,10 +11,12 @@
 #include <Algebra/Retrieval/SingleVariableNameRetriever.hpp>
 #include <Algebra/Retrieval/SubTermsRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
@@ -90,10 +92,12 @@ Monomial Integration::integrateConstant(Constant const& constant) {
     return Monomial(constant.getNumber(), {{getCurrentVariableToIntegrate(), 1}});
 }
 
-Monomial Integration::integrateVariable(Variable const& variable) {    Monomial result;
+Monomial Integration::integrateVariable(Variable const& variable) {
+    Monomial result;
     string const& nameOfVariable(variable.getVariableName());
     if (isVariableToIntegrate(nameOfVariable)) {
-        result = Monomial(AlbaNumber::createFraction(1, 2), {{variable.getVariableName(), 2}});    } else {
+        result = Monomial(AlbaNumber::createFraction(1, 2), {{variable.getVariableName(), 2}});
+    } else {
         result = Monomial(1, {{variable.getVariableName(), 1}, {getCurrentVariableToIntegrate(), 1}});
     }
     return result;
@@ -116,10 +120,12 @@ Term Integration::integratePolynomial(Polynomial const& polynomial) {
     for (Monomial const& monomial : polynomial.getMonomials()) {
         result = result + integrateMonomial(monomial);
     }
-    result.simplify();    return result;
+    result.simplify();
+    return result;
 }
 
-Term Integration::integrateExpression(Expression const& expression) {    Term result(integrateAsTermOrExpressionIfNeeded(expression));
+Term Integration::integrateExpression(Expression const& expression) {
+    Term result(integrateAsTermOrExpressionIfNeeded(expression));
     finalizeTermForIntegration(result);
     return result;
 }
@@ -147,9 +153,11 @@ Term Integration::integrateIntenally(Term const& term) {
     }
     return result;
 }
+
 Term Integration::integrateInternallyWithPurpose(Term const& term, IntegrationPurpose const purpose) {
     m_history.performStepsBeforeIntegration(term, purpose);
-    Term integratedTerm(integrateIntenally(term));    m_history.performStepsAfterIntegration(term, purpose, integratedTerm);
+    Term integratedTerm(integrateIntenally(term));
+    m_history.performStepsAfterIntegration(term, purpose, integratedTerm);
     return integratedTerm;
 }
 
@@ -174,10 +182,12 @@ Monomial Integration::integrateMonomialWhenExponentIsNotNegativeOne(Monomial con
     for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
         string const& variableName(variableExponentPair.first);
         AlbaNumber const& exponent(variableExponentPair.second);
-        if (isVariableToIntegrate(variableName)) {            result.putVariableWithExponent(variableName, exponent + 1);
+        if (isVariableToIntegrate(variableName)) {
+            result.putVariableWithExponent(variableName, exponent + 1);
             result.divideNumber(exponent + 1);
             hasVariabletoIntegrate = true;
-        }    }
+        }
+    }
     if (!hasVariabletoIntegrate) {
         result.putVariableWithExponent(getCurrentVariableToIntegrate(), 1);
     }
@@ -195,10 +205,12 @@ Term Integration::integrateAsTermOrExpressionIfNeeded(Expression const& expressi
             integrateSimplifiedExpressionOnly(result, simplifiedTerm.getAsExpression(), configuration);
         } else {
             result = integrateInternallyWithPurpose(simplifiedTerm, IntegrationPurpose::NoChange);
-        }        if (!result.isEmpty()) {
+        }
+        if (!result.isEmpty()) {
             break;
         }
-    }    if (result.isEmpty()) {
+    }
+    if (result.isEmpty()) {
         result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
@@ -286,10 +298,12 @@ void Integration::integrateFunctionOnly(Term& result, Function const& functionOb
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
     if (wouldDifferentiationYieldToAConstant(inputTerm)) {
         string const& functionName(functionObject.getFunctionName());
-        if ("abs" == functionName) {            result = ALBA_NUMBER_NOT_A_NUMBER;
+        if ("abs" == functionName) {
+            result = ALBA_NUMBER_NOT_A_NUMBER;
         } else if ("sin" == functionName) {
             result = divideFirstTermAndDerivativeOfSecondTerm(
-                createExpressionIfPossible({-1, "*", cos(inputTerm)}), inputTerm);        } else if ("cos" == functionName) {
+                createExpressionIfPossible({-1, "*", cos(inputTerm)}), inputTerm);
+        } else if ("cos" == functionName) {
             result = divideFirstTermAndDerivativeOfSecondTerm(sin(inputTerm), inputTerm);
         } else if ("tan" == functionName) {
             result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(sec(inputTerm));
@@ -312,10 +326,12 @@ void Integration::integrateRecognizedFunctionsSquared(Term& result, Term const& 
     Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
     if (wouldDifferentiationYieldToAConstant(inputOfFunctionTerm)) {
         string const& functionName(functionObject.getFunctionName());
-        if (functionName == "sec") {            result = divideFirstTermAndDerivativeOfSecondTerm(tan(inputOfFunctionTerm), inputOfFunctionTerm);
+        if (functionName == "sec") {
+            result = divideFirstTermAndDerivativeOfSecondTerm(tan(inputOfFunctionTerm), inputOfFunctionTerm);
         } else if (functionName == "csc") {
             result = divideFirstTermAndDerivativeOfSecondTerm(
-                createExpressionIfPossible({-1, "*", cot(inputOfFunctionTerm)}), inputOfFunctionTerm);        } else if (functionName == "sech") {
+                createExpressionIfPossible({-1, "*", cot(inputOfFunctionTerm)}), inputOfFunctionTerm);
+        } else if (functionName == "sech") {
             result = divideFirstTermAndDerivativeOfSecondTerm(tanh(inputOfFunctionTerm), inputOfFunctionTerm);
         } else if (functionName == "csch") {
             result = divideFirstTermAndDerivativeOfSecondTerm(
@@ -381,10 +397,12 @@ void Integration::integrateChangingTermRaiseToNonChangingTerm(Term& result, Term
             AlbaNumber const& exponentValue(exponent.getAsNumber());
             string const& functionName(functionObject.getFunctionName());
             bool isExponentGreaterThan1 = exponentValue.isIntegerType() && exponentValue > 1;
-            if (functionName == "sin" && isExponentGreaterThan1) {                integrateSinRaiseToAnIntegerGreaterThanOne(
+            if (functionName == "sin" && isExponentGreaterThan1) {
+                integrateSinRaiseToAnIntegerGreaterThanOne(
                     result, functionInputTerm, static_cast<int>(exponentValue.getInteger()));
             } else if (functionName == "cos" && isExponentGreaterThan1) {
-                integrateCosRaiseToAnIntegerGreaterThanOne(                    result, functionInputTerm, static_cast<int>(exponentValue.getInteger()));
+                integrateCosRaiseToAnIntegerGreaterThanOne(
+                    result, functionInputTerm, static_cast<int>(exponentValue.getInteger()));
             } else if (functionName == "tan" && isExponentGreaterThan1) {
                 integrateTanRaiseToAnIntegerGreaterThanOne(
                     result, functionInputTerm, static_cast<int>(exponentValue.getInteger()));
@@ -531,10 +549,12 @@ void Integration::integrateUsingTrigonometricSubstitutionByFindingTwoTerms(
             termToSubstitute.getAsPolynomial());
     }
     if (shouldProceedToTrigSub) {
-        shouldProceedToTrigSub = false;        if (!isChangingTerm(firstTerm) && isChangingTerm(secondTerm)) {
+        shouldProceedToTrigSub = false;
+        if (!isChangingTerm(firstTerm) && isChangingTerm(secondTerm)) {
             shouldProceedToTrigSub = true;
         } else if (isChangingTerm(firstTerm) && !isChangingTerm(secondTerm)) {
-            swap(firstTerm, secondTerm);            shouldProceedToTrigSub = true;
+            swap(firstTerm, secondTerm);
+            shouldProceedToTrigSub = true;
         }
     }
     if (shouldProceedToTrigSub) {
@@ -603,7 +623,8 @@ void Integration::retrieveImportantTermsForTrigonometricSubstitutionInPolynomial
         Monomials const& onlyMonomials(factorizedPolynomials[0].getMonomials());
         if (2 == onlyMonomials.size()) {
             commonFactor = 1;
-            firstAndSecondTerm = onlyPolynomial;            firstTerm = onlyMonomials[0];
+            firstAndSecondTerm = onlyPolynomial;
+            firstTerm = onlyMonomials[0];
             secondTerm = onlyMonomials[1];
             shouldProceedToTrigSub = true;
         }
@@ -614,10 +635,12 @@ void Integration::retrieveImportantTermsForTrigonometricSubstitutionInPolynomial
         Monomials const& secondMonomials(secondPolynomial.getMonomials());
         if (1 == firstMonomials.size() || 2 == secondMonomials.size()) {
             commonFactor = firstMonomials[0];
-            firstAndSecondTerm = secondPolynomial;            firstTerm = secondMonomials[0];
+            firstAndSecondTerm = secondPolynomial;
+            firstTerm = secondMonomials[0];
             secondTerm = secondMonomials[1];
             if (isANegativeTerm(commonFactor)) {
-                commonFactor = negateTerm(commonFactor);                firstAndSecondTerm = negateTerm(firstAndSecondTerm);
+                commonFactor = negateTerm(commonFactor);
+                firstAndSecondTerm = negateTerm(firstAndSecondTerm);
                 firstTerm = negateTerm(firstTerm);
                 secondTerm = negateTerm(secondTerm);
             }
@@ -727,10 +750,12 @@ void Integration::integrateInMultiplicationOrDivisionByTryingReverseChainRule(
             createTermWithMultiplicationAndDivisionTermsWithDetails({termsWithDetailsInMultiplicationOrDivision[i]}));
         Term innerTermInFirstTerm;
         firstTerm.simplify();
-        secondTerm.simplify();        findInnerAndOuterTermForChainRule(innerTermInFirstTerm, firstTerm);
+        secondTerm.simplify();
+        findInnerAndOuterTermForChainRule(innerTermInFirstTerm, firstTerm);
         if (!innerTermInFirstTerm.isEmpty()) {
             integrateUsingReverseChainRule(result, firstTerm, innerTermInFirstTerm, secondTerm);
-        }    }
+        }
+    }
 }
 
 void Integration::integrateUsingReverseChainRule(
@@ -757,10 +782,12 @@ void Integration::findInnerAndOuterTermForChainRule(Term& innerTerm, Term& outer
         Expression const& expression(outerTerm.getAsExpression());
         if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()) {
             TermRaiseToTerms termRaiseToTerms(expression.getTermsWithAssociation().getTermsWithDetails());
-            Term const& base(termRaiseToTerms.getBase());            Term exponent(termRaiseToTerms.getCombinedExponents());
+            Term const& base(termRaiseToTerms.getBase());
+            Term exponent(termRaiseToTerms.getCombinedExponents());
             Term combinedBaseAndExponent(termRaiseToTerms.getCombinedTerm());
             if (!isChangingTerm(exponent)) {
-                outerTerm = combinedBaseAndExponent;                innerTerm = base;
+                outerTerm = combinedBaseAndExponent;
+                innerTerm = base;
             } else if (!isChangingTerm(base)) {
                 outerTerm = combinedBaseAndExponent;
                 innerTerm = exponent;
@@ -794,9 +821,11 @@ void Integration::integrateAsPolynomialOverPolynomialIfPossible(
         }
     }
 }
+
 void Integration::integrateAsPolynomialOverPolynomial(
     Term& result, PolynomialOverPolynomial const& polynomialOverPolynomial, string const& variableName,
-    bool const canProceedToPartialPolynomialFractions) {    PolynomialOverPolynomial pop(polynomialOverPolynomial);
+    bool const canProceedToPartialPolynomialFractions) {
+    PolynomialOverPolynomial pop(polynomialOverPolynomial);
     pop.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
     Term wholePartResult;
     Polynomial remainingNumerator(pop.getNumerator());
@@ -909,7 +938,8 @@ VariableNamesSet Integration::getNamesOfNewVariablesForPartialFraction(
     VariableNamesSet newVariableNames(namesRetriever.getVariableNames());
     VariableNamesSet::iterator itToRemove = newVariableNames.find(originalVariableName);
     if (itToRemove != newVariableNames.end()) {
-        newVariableNames.erase(itToRemove);    }
+        newVariableNames.erase(itToRemove);
+    }
     return newVariableNames;
 }
 
@@ -919,10 +949,12 @@ AlbaNumbersSet Integration::getExponentsForPartialFraction(
     for (Monomial const& monomialWithNewVariable : numeratorWithNewVariables.getMonomials()) {
         exponents.emplace(monomialWithNewVariable.getExponentForVariable(originalVariableName));
     }
-    return exponents;}
+    return exponents;
+}
 
 void Integration::fillInMatrixForPartialFractions(
-    NumberMatrix& matrixWithNewVariables, string const& originalVariableName, VariableNamesSet const& newVariableNames,    AlbaNumbersSet const& exponents, Polynomial const& originalNumerator,
+    NumberMatrix& matrixWithNewVariables, string const& originalVariableName, VariableNamesSet const& newVariableNames,
+    AlbaNumbersSet const& exponents, Polynomial const& originalNumerator,
     Polynomial const& numeratorWithNewVariables) const {
     fillInMatrixForPartialFractionsWithVariableValues(
         matrixWithNewVariables, originalVariableName, newVariableNames, exponents, numeratorWithNewVariables);
@@ -940,10 +972,12 @@ void Integration::fillInMatrixForPartialFractionsWithVariableValues(
         for (auto const& variableExponentPair : monomialWithNewVariable.getVariablesToExponentsMap()) {
             string const& variableName(variableExponentPair.first);
             AlbaNumber const& exponent(variableExponentPair.second);
-            if (variableName == originalVariableName) {                AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
+            if (variableName == originalVariableName) {
+                AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
                 if (itPosition != exponents.cend()) {
                     exponentPosition = distance(exponents.cbegin(), itPosition);
-                }            } else {
+                }
+            } else {
                 VariableNamesSet::const_iterator itPosition = newVariableNames.find(variableName);
                 if (itPosition != newVariableNames.cend()) {
                     variablePosition = distance(newVariableNames.cbegin(), itPosition);
@@ -957,6 +991,7 @@ void Integration::fillInMatrixForPartialFractionsWithVariableValues(
         }
     }
 }
+
 void Integration::fillInMatrixForPartialFractionsWithOutputValues(
     NumberMatrix& matrixWithNewVariables, string const& originalVariableName, VariableNamesSet const& newVariableNames,
     AlbaNumbersSet const& exponents, Polynomial const& originalNumerator) const {
@@ -965,7 +1000,8 @@ void Integration::fillInMatrixForPartialFractionsWithOutputValues(
         for (auto const& variableExponentPair : numeratorMonomial.getVariablesToExponentsMap()) {
             string const& variableName(variableExponentPair.first);
             AlbaNumber const& exponent(variableExponentPair.second);
-            if (variableName == originalVariableName) {                AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
+            if (variableName == originalVariableName) {
+                AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
                 if (itPosition != exponents.cend()) {
                     exponentPosition = distance(exponents.cbegin(), itPosition);
                 }
@@ -974,9 +1010,11 @@ void Integration::fillInMatrixForPartialFractionsWithOutputValues(
         matrixWithNewVariables.setEntry(newVariableNames.size(), exponentPosition, numeratorMonomial.getCoefficient());
     }
 }
+
 void Integration::integratePartialFractionsBasedOnSolvedMatrix(
     Term& result, NumberMatrix const& solvedMatrix, VariableNamesSet const& newVariableNames,
-    Polynomials const& partialNumerators, Polynomials const& partialDenominators) {    SubstitutionOfVariablesToTerms substitution;
+    Polynomials const& partialNumerators, Polynomials const& partialDenominators) {
+    SubstitutionOfVariablesToTerms substitution;
     VariableNamesSet::const_iterator it = newVariableNames.cbegin();
     for (int i = 0; i < static_cast<int>(solvedMatrix.getNumberOfRows()) && it != newVariableNames.cend(); i++) {
         substitution.putVariableWithTerm(*it, solvedMatrix.getEntry(newVariableNames.size(), i));
@@ -1027,17 +1065,20 @@ void Integration::integrateUsingIntegrationByPartsByOneTermAndOne(Term& result, 
     bool isAnInverseTrigonometricFunction = term.isFunction() && isInverseTrigonometricFunction(term.getAsFunction());
     if (isAnInverseTrigonometricFunction) {
         integrateUsingIntegrationByPartsAndCheckingPreviousValues(result, term, term, 1);
-    }}
+    }
+}
 
 void Integration::integrateUsingIntegrationByPartsByTryingTwoTerms(Term& result, Term const& term) {
     if (term.isExpression()) {
         Expression const& expression(term.getAsExpression());
         if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {
             TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision(
-                expression.getTermsWithAssociation().getTermsWithDetails());            int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
+                expression.getTermsWithAssociation().getTermsWithDetails());
+            int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
             for (int i = 0; result.isEmpty() && i < numberOfTerms; i++) {
                 TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);
-                termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);                Term firstTerm(createTermWithMultiplicationAndDivisionTermsWithDetails(termsInFirstTerms));
+                termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
+                Term firstTerm(createTermWithMultiplicationAndDivisionTermsWithDetails(termsInFirstTerms));
                 Term secondTerm(createTermWithMultiplicationAndDivisionTermsWithDetails(
                     {termsWithDetailsInMultiplicationAndDivision[i]}));
                 firstTerm.simplify();
@@ -1109,10 +1150,12 @@ void Integration::integrateUsingPreviousIntegrationByPartsTerms(
                     accumulatedCoefficient = AlbaNumber(-1) * quotient.getAsNumber() * accumulatedCoefficient;
                 }
                 isChanged = true;
-                didAccumulationUpdated = true;                termsToAnalyze.erase(termsToAnalyze.begin() + i);
+                didAccumulationUpdated = true;
+                termsToAnalyze.erase(termsToAnalyze.begin() + i);
                 break;
             }
-        }    }
+        }
+    }
     Term ratio(termToIntegrate / currentTermToIntegrate);
     ratio.simplify();
     if (didAccumulationUpdated && ratio.isConstant()) {
@@ -1156,10 +1199,12 @@ void Integration::retrieveInputTermsAndTrigonometricExponents(
             Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
             string const& functionName(functionObject.getFunctionName());
             if ("sin" == functionName) {
-                trigFunctionsInputTermToExponents[inputTerm].sinExponent += exponent;            } else if ("cos" == functionName) {
+                trigFunctionsInputTermToExponents[inputTerm].sinExponent += exponent;
+            } else if ("cos" == functionName) {
                 trigFunctionsInputTermToExponents[inputTerm].cosExponent += exponent;
             } else if ("tan" == functionName) {
-                trigFunctionsInputTermToExponents[inputTerm].tanExponent += exponent;            } else if ("csc" == functionName) {
+                trigFunctionsInputTermToExponents[inputTerm].tanExponent += exponent;
+            } else if ("csc" == functionName) {
                 trigFunctionsInputTermToExponents[inputTerm].cscExponent += exponent;
             } else if ("sec" == functionName) {
                 trigFunctionsInputTermToExponents[inputTerm].secExponent += exponent;
@@ -1575,7 +1620,8 @@ bool Integration::isChangingTerm(Term const& term) const {
     VariableNamesSet const& variableNames(retriever.getVariableNames());
     return any_of(variableNames.cbegin(), variableNames.cend(), [&](string const& variableName) {
         return isVariableToIntegrate(variableName);
-    });}
+    });
+}
 
 bool Integration::hasNonChangingTermRaiseToChangingTerm(Term const& term) const {
     SubTermsRetriever retriever;
@@ -1586,10 +1632,12 @@ bool Integration::hasNonChangingTermRaiseToChangingTerm(Term const& term) const 
             Expression const& expression(retrievedTerm.getAsExpression());
             if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()) {
                 TermRaiseToTerms termRaiseToTerms(expression.getTermsWithAssociation().getTermsWithDetails());
-                result = !isChangingTerm(termRaiseToTerms.getBase()) &&                         isChangingTerm(termRaiseToTerms.getCombinedExponents());
+                result = !isChangingTerm(termRaiseToTerms.getBase()) &&
+                         isChangingTerm(termRaiseToTerms.getCombinedExponents());
                 break;
             }
-        }    }
+        }
+    }
     return result;
 }
 
@@ -1604,9 +1652,11 @@ bool Integration::wouldDifferentiationYieldToAConstant(Term const& term) const {
     }
     return result;
 }
+
 bool Integration::areExponentsSame(
     TrigonometryFunctionExponents const& exponents1, TrigonometryFunctionExponents const& exponents2) const {
-    return exponents1.sinExponent == exponents2.sinExponent && exponents1.cosExponent == exponents2.cosExponent &&           exponents1.tanExponent == exponents2.tanExponent && exponents1.cscExponent == exponents2.cscExponent &&
+    return exponents1.sinExponent == exponents2.sinExponent && exponents1.cosExponent == exponents2.cosExponent &&
+           exponents1.tanExponent == exponents2.tanExponent && exponents1.cscExponent == exponents2.cscExponent &&
            exponents1.secExponent == exponents2.secExponent && exponents1.cotExponent == exponents2.cotExponent;
 }
 

@@ -49,10 +49,12 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingIterat
         for (Index length = 2; length <= numberOfPairs; length++) {
             for (Index left = 0; left + length <= static_cast<Index>(costMatrix.getNumberOfColumns()); left++) {
                 Index right = left + length - 1;
-                Cost entryResult(MAX_COUNT);                Cost offsetCost(
+                Cost entryResult(MAX_COUNT);
+                Cost offsetCost(
                     frequencyRange.getAccumulatedValueOnInterval(left, right));  // pattern when going down with depth
                 for (Index possibleParent = left; possibleParent <= right; possibleParent++) {
-                    Cost costOfPossibleParent(offsetCost);                    if (left < possibleParent) {
+                    Cost costOfPossibleParent(offsetCost);
+                    if (left < possibleParent) {
                         costOfPossibleParent += costMatrix.getEntry(left, possibleParent - 1);  // left child
                     }
                     if (possibleParent < right) {
@@ -84,9 +86,11 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingNaiveR
                 costOfPossibleParent += getMinimumCostUsingNaiveRecursion(depth + 1, possibleParent + 1, right);
             }
             result = min(result, costOfPossibleParent);
-        }    }
+        }
+    }
     return result;
 }
+
 // inline optimization can work here because the usage belongs to same translation unit
 inline OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getCost(Cost const depth, Cost const frequency) const {
     return depth * frequency;

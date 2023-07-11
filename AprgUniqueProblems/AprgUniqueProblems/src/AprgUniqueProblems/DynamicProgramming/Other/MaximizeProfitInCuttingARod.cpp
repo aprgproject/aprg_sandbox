@@ -40,10 +40,12 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
             for (auto const& [rodLength, rodProfit] : m_rods) {
                 if (remainingLength >= rodLength) {
                     entryResult = max(entryResult, rodProfit + partialProfits[remainingLength - rodLength]);
-                }            }
+                }
+            }
             partialProfits[remainingLength] = entryResult;
         }
-        result = partialProfits.back();    }
+        result = partialProfits.back();
+    }
     return result;
 }
 
@@ -53,9 +55,11 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
     for (auto const& [rodLength, rodProfit] : m_rods) {
         if (remainingLength >= rodLength) {
             result = max(result, rodProfit + getBestProfitUsingNaiveRecursion(remainingLength - rodLength));
-        }    }
+        }
+    }
     return result;
 }
+
 MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUsingMemoizationDP(
     Profits& partialProfits, Length const remainingLength) const {
     Profit result = partialProfits[remainingLength];
@@ -64,10 +68,12 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
         for (auto const& [rodLength, rodProfit] : m_rods) {
             if (remainingLength >= rodLength) {
                 result = max(
-                    result, rodProfit + getBestProfitUsingMemoizationDP(partialProfits, remainingLength - rodLength));            }
+                    result, rodProfit + getBestProfitUsingMemoizationDP(partialProfits, remainingLength - rodLength));
+            }
         }
         partialProfits[remainingLength] = result;
-    }    return result;
+    }
+    return result;
 }
 
 MaximizeProfitInCuttingARod::Length MaximizeProfitInCuttingARod::getSmallestItemLength() const {

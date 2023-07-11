@@ -118,10 +118,12 @@ string LongestPalindromicSubstring::getLongestStringUsingIterativeDPAndSpaceEffi
     return m_string;
 }
 
-LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingNaiveRecursion(    Index const left, Index const right) const {
+LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingNaiveRecursion(
+    Index const left, Index const right) const {
     Index result(0);
     Index length = right - left + 1;
-    if (length == 1) {        result = 1;
+    if (length == 1) {
+        result = 1;
     } else if (length == 2) {
         result = m_string[left] == m_string[right] ? 2 : 1;
     } else {

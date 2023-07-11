@@ -44,10 +44,12 @@ FindLengthOfTheLongestConsecutivePath::getLongestLengthStartingAtUsingNaiveRecur
         Index neighborX = x + xOffset, neighborY = y + yOffset;
         if (m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY) == nextValue) {
             result = max(result, getLongestLengthStartingAtUsingNaiveRecursion(neighborX, neighborY));
-        }    }
+        }
+    }
     result++;  // count this node
     return result;
 }
+
 FindLengthOfTheLongestConsecutivePath::Count
 FindLengthOfTheLongestConsecutivePath::getLongestLengthStartingAtUsingMemoizationDP(
     Index const x, Index const y) const {

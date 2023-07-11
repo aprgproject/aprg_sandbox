@@ -68,9 +68,11 @@ Term SubstitutionOfTermsToTerms::performSubstitutionTo(Term const& term) const {
     }
     return newTerm;
 }
+
 Equation SubstitutionOfTermsToTerms::performSubstitutionTo(Equation const& equation) const {
     Equation simplifiedEquation(
-        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),        performSubstitutionTo(equation.getRightHandTerm()));
+        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),
+        performSubstitutionTo(equation.getRightHandTerm()));
     simplifiedEquation.simplify();
     return simplifiedEquation;
 }
@@ -89,9 +91,11 @@ Function SubstitutionOfTermsToTerms::performSubstitutionForFunction(Function con
     newFunction.simplify();
     return newFunction;
 }
+
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(initializer_list<TermTermPair> const& variablesWithValues) {
     for (TermTermPair const& variableValuesPair : variablesWithValues) {
-        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);    }
+        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
+    }
 }
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& variablesWithValues) {

@@ -60,9 +60,11 @@ bool isDifferentiableAt(Term const& term, string const& variableName, AlbaNumber
     }
     return result;
 }
+
 bool isDifferentiableAtUsingDerivativeDefinition(
     Term const& term, string const& variableName, AlbaNumber const& value) {
-    bool result(false);    Term derivative(getDerivativeAtUsingLimit(term, variableName, "x", LimitAtAValueApproachType::BothSides));
+    bool result(false);
+    Term derivative(getDerivativeAtUsingLimit(term, variableName, "x", LimitAtAValueApproachType::BothSides));
     SubstitutionOfVariablesToValues substitution{{"x", value}};
     Term derivativeValue(substitution.performSubstitutionTo(derivative));
     if (derivativeValue.isConstant()) {
@@ -70,9 +72,11 @@ bool isDifferentiableAtUsingDerivativeDefinition(
     }
     return result;
 }
+
 bool isFirstOrderDifferentialEquation(
     Term const& dyOverDx, Term const& p, Term const& q, string const& xVariableName, string const& yVariableName) {
-    // First order differential equation should follow this:    // dy/dx = P(x)*y + Q(x)
+    // First order differential equation should follow this:
+    // dy/dx = P(x)*y + Q(x)
 
     bool result(false);
     DerivativeVariableName derivativeVariableName(1, xVariableName, yVariableName);
@@ -88,10 +92,12 @@ bool isFirstOrderDifferentialEquation(
             VariableNamesSet const& namesFromQ(retriever.getVariableNames());
             if (namesFromQ.find(xVariableName) != namesFromQ.cend()) {
                 result = true;
-            }        }
+            }
+        }
     }
     return result;
 }
+
 Term evaluateAtDefiniteValue(Term const& term, string const& variableName, AlbaNumber const& value) {
     SubstitutionOfVariablesToValues substitution{{variableName, value}};
     return substitution.performSubstitutionTo(term);

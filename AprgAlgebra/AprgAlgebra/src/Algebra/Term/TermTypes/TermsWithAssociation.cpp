@@ -63,9 +63,11 @@ int TermsWithAssociation::getSize() const { return m_termsWithDetails.size(); }
 BaseTerm const& TermsWithAssociation::getFirstTerm() const {
     return getBaseTermConstReferenceFromUniquePointer(m_termsWithDetails.front().baseTermPointer);
 }
+
 TermAssociationType TermsWithAssociation::getFirstAssociationType() const {
     return m_termsWithDetails.front().association;
 }
+
 TermsWithDetails const& TermsWithAssociation::getTermsWithDetails() const { return m_termsWithDetails; }
 
 TermsWithDetails& TermsWithAssociation::getTermsWithDetailsReference() { return m_termsWithDetails; }

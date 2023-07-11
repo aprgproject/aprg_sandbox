@@ -172,4 +172,5 @@ NumberType getEToTheX(NumberType const exponent, NumberType const iterations) {
 bool isPerfectSquare(AlbaNumber const& value);                            // pass as const reference
 bool isPerfectCube(AlbaNumber const& value);                              // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, size_t const nthPower);  // different implementation
+
 }  // namespace alba::mathHelper

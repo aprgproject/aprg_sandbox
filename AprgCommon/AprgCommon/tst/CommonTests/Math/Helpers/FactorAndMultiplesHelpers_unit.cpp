@@ -215,10 +215,12 @@ TEST(FactorAndMulitplesHelpersTest, MultiplyBySevenWorks) {
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorForAlbaNumberWorks) {
     EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));
-    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));    EXPECT_EQ(
+    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));
+    EXPECT_EQ(
         AlbaNumber::createFraction(1, 12),
         getGreatestCommonFactor(AlbaNumber::createFraction(1, 6), AlbaNumber::createFraction(1, 4)));
-    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber::createFraction(1, 4)));    EXPECT_EQ(
+    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber::createFraction(1, 4)));
+    EXPECT_EQ(
         AlbaNumber::createFraction(1, 4), getGreatestCommonFactor(AlbaNumber(5), AlbaNumber::createFraction(1, 4)));
     EXPECT_EQ(AlbaNumber(3), getGreatestCommonFactor(AlbaNumber(6), AlbaNumber(9)));
     EXPECT_EQ(AlbaNumber(9), getGreatestCommonFactor(AlbaNumber(-36), AlbaNumber(27)));

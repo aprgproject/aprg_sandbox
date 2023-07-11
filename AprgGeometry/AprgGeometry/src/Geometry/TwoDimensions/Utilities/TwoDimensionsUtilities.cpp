@@ -5,6 +5,7 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <Geometry/TwoDimensions/Constructs/Rectangle.hpp>
+
 #include <stack>
 
 using namespace alba::containerHelper;
@@ -27,10 +28,12 @@ bool isCollinearPointInLineSegment(LineSegment const& segment1, Point const& poi
 
 bool isOrigin(Point const& point) { return point.getX() == 0 && point.getY() == 0; }
 
-bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY) {    return (
+bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY) {
+    return (
         point.getX() >= minimumXAndY.getX() && point.getY() >= minimumXAndY.getY() &&
         point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
 }
+
 bool isPointInLine(Point const& point, Line const& line) {
     return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
@@ -101,10 +104,12 @@ bool isPointInsideTriangle(Triangle const& triangle, Point const& point) {
 
 double getDistance(Point const& point1, Point const& point2) { return getEuclideanDistance(point1, point2); }
 
-double getDistance(Line const& line, Point const& point) {    Point pointInLine1(line.getAPoint());
+double getDistance(Line const& line, Point const& point) {
+    Point pointInLine1(line.getAPoint());
     Point pointInLine2(pointInLine1 + Point(line.getAUnitIncreaseInX(), line.getAUnitIncreaseInY()));
 
-    return getDistance(LineSegment{pointInLine1, pointInLine2}, point);}
+    return getDistance(LineSegment{pointInLine1, pointInLine2}, point);
+}
 
 double getDistance(LineSegment const& lineSegment, Point const& point) {
     // Point distance from a line
@@ -226,10 +231,12 @@ double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point cons
     //        2.0;
 }
 
-double getAreaOfTriangleUsingThreePoints(Triangle const& triangle) {    // The area of a triangle can be calculated, for example, using Heron’s formula:
+double getAreaOfTriangleUsingThreePoints(Triangle const& triangle) {
+    // The area of a triangle can be calculated, for example, using Heron’s formula:
     // area = sqrt(s(s-a)(s-b)(s-c)),
     // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
-    auto vertices(triangle.getVertices());    return mathHelper::getAbsoluteValue(
+    auto vertices(triangle.getVertices());
+    return mathHelper::getAbsoluteValue(
         getSignedCounterClockwiseTriangleAreaOf3Points(vertices[0], vertices[1], vertices[2]));
 }
 
@@ -348,9 +355,11 @@ RotationDirection getRotationDirectionTraversing3Points(Point const a, Point con
     RotationDirection result(RotationDirection::Collinear);
     Point deltaBA(b - a);
     Point deltaCA(c - a);
+
     double crossProduct = getCrossProduct(constructVector(deltaBA), constructVector(deltaCA));
     if (crossProduct > 0) {
-        result = RotationDirection::CounterClockWise;    } else if (crossProduct < 0) {
+        result = RotationDirection::CounterClockWise;
+    } else if (crossProduct < 0) {
         result = RotationDirection::ClockWise;
     }
     return result;
@@ -450,9 +459,11 @@ Point getIntersectionOfTwoLineSegment(LineSegment const& segment1, LineSegment c
     }
     return result;
 }
+
 Point getMidpoint(Point const& point1, Point const& point2) {
     return Point((point1.getX() + point2.getX()) / 2, (point1.getY() + point2.getY()) / 2);
 }
+
 Point getPointAlongALineWithDistanceFromAPoint(
     Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX) {
     double commonRatioWithDistance =
@@ -728,7 +739,8 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points) {
                    RotationDirection::CounterClockWise ==
                        getRotationDirectionTraversing3Points(previousTop, convertHullPoints.top(), currentPoint)) {
                 // Remove point when non counter clock wise
-                previousTop = convertHullPoints.top();                convertHullPoints.pop();
+                previousTop = convertHullPoints.top();
+                convertHullPoints.pop();
             }
             convertHullPoints.push(previousTop);
             convertHullPoints.push(currentPoint);
@@ -743,10 +755,12 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points) {
     return auxiliary;
 }
 
-Line getLineWithSameSlope(Line const& line, Point const& point) {    return Line(
+Line getLineWithSameSlope(Line const& line, Point const& point) {
+    return Line(
         line.getACoefficient(), line.getBCoefficient(),
         -1 * ((line.getACoefficient() * point.getX()) + (line.getBCoefficient() * point.getY())));
 }
+
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point) {
     return Line(
         line.getBCoefficient(), -line.getACoefficient(),

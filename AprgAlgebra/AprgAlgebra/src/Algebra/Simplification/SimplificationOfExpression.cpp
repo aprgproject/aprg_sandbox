@@ -268,10 +268,12 @@ Term SimplificationOfExpression::getEachBasesRaisedToConstantIfPossible(TermRais
                 termsRaiseToNumbers.multiplyToExponents(exponent.getAsNumber());
                 Term combinedTerm(termsRaiseToNumbers.getCombinedTerm());
                 if (!hasDoubleValues(combinedTerm) && !hasNonRealFiniteNumbers(combinedTerm)) {
-                    result = combinedTerm;                }
+                    result = combinedTerm;
+                }
             }
         }
-    }    return result;
+    }
+    return result;
 }
 
 bool SimplificationOfExpression::shouldDistributeExponentConstantToEachBase() const {
@@ -340,9 +342,11 @@ void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(Ter
             getTermReferenceFromBaseTerm(term.getAsFunctionReference().getInputTermReference()));
     }
 }
+
 void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(Expression& expression) {
     TermsWithDetails& termsWithDetails(expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
-    for (TermWithDetails& termWithDetails : termsWithDetails) {        Term& term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
+    for (TermWithDetails& termWithDetails : termsWithDetails) {
+        Term& term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         convertPolynomialToPolynomialOverPolynomial(term);
     }
 }

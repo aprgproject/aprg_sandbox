@@ -130,10 +130,12 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAEx
     EXPECT_EQ(Constant(88), termToVerify3.getAsConstant());
 }
 
-TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify) {    Expression expressionToTest(createExpressionIfPossible({7.625, "+", 2.375}));
+TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify) {
+    Expression expressionToTest(createExpressionIfPossible({7.625, "+", 2.375}));
 
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
-    TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());    ASSERT_EQ(2U, termsToVerify.size());
+    TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
+    ASSERT_EQ(2U, termsToVerify.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify[0].association);
     Term const& termToVerify1(getTermConstReferenceFromUniquePointer(termsToVerify[0].baseTermPointer));
     EXPECT_EQ(Term(7.625), termToVerify1);
@@ -176,9 +178,11 @@ TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks) {
     EXPECT_TRUE(getTermConstReferenceFromBaseTerm(absoluteValueFunction.getInputTerm()).isEmpty());
 }
 
-TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks) {    Function absFunction(Functions::abs(-5));
+TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks) {
+    Function absFunction(Functions::abs(-5));
     Function absInAbsFunction(Functions::abs(absFunction));
     Function absInAbsInAbsFunction(Functions::abs(absInAbsFunction));
+
     Function functionToVerify1(createFunctionInAnFunction(absFunction));
     Function functionToVerify2(createFunctionInAnFunction(absInAbsFunction));
 

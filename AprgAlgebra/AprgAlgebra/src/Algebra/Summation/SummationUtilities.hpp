@@ -15,4 +15,5 @@ Term getSummationOfHarmonicSeries(std::string const& countVariable);
 Term getSummationOfPowersOfTwo(std::string const& countVariable);
 
 }  // namespace algebra
+
 }  // namespace alba

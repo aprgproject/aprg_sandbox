@@ -49,4 +49,5 @@ inline AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& v
     auto&& [minimum, maximum] = std::minmax(value1, value2);
     return maximum - minimum;
 }
+
 }  // namespace alba::mathHelper

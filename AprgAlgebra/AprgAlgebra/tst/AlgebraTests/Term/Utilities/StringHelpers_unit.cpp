@@ -98,7 +98,8 @@ TEST(StringHelpersTest, TokenizeToTermsWorks) {
     EXPECT_DOUBLE_EQ(20.15, termsToVerify1[6].getAsNumber().getDouble());
 }
 
-TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {    Terms termsToVerify1;
+TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {
+    Terms termsToVerify1;
 
     addValueTermIfNotEmpty(termsToVerify1, "5");
 
@@ -108,4 +109,5 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks) {    Terms termsToVerify1;
 }
 
 }  // namespace algebra
+
 }  // namespace alba

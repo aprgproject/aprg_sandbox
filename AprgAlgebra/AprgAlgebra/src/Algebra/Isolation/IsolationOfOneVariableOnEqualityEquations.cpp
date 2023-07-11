@@ -53,10 +53,12 @@ void IsolationOfOneVariableOnEqualityEquations::sortEquationsWithVariable(Equati
             int size2 = namesRetriever2.getVariableNames().size();
             bool result(false);
             if (size1 == size2) {
-                AlbaNumber degree1(getDegree(equation1));                AlbaNumber degree2(getDegree(equation2));
+                AlbaNumber degree1(getDegree(equation1));
+                AlbaNumber degree2(getDegree(equation2));
                 result = degree1 < degree2;
             } else {
-                result = size1 < size2;            }
+                result = size1 < size2;
+            }
             return result;
         });
 }

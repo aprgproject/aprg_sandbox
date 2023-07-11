@@ -55,10 +55,12 @@ void addFactorsOfDifferenceOfSquares(Polynomials& result, Polynomial const& poly
     } else if (firstMonomial.getCoefficient() < 0 && secondMonomial.getCoefficient() > 0) {
         firstMonomial.multiplyNumber(-1);
         simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));
-    }    firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 2));
+    }
+    firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 2));
     secondMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 2));
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
-    secondMonomial.multiplyNumber(-1);    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    secondMonomial.multiplyNumber(-1);
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
 }
 
 void addFactorsOfDifferenceOfCubes(Polynomials& result, Polynomial const& polynomial) {
@@ -70,10 +72,12 @@ void addFactorsOfDifferenceOfCubes(Polynomials& result, Polynomial const& polyno
     } else if (firstMonomial.getCoefficient() < 0 && secondMonomial.getCoefficient() > 0) {
         firstMonomial.multiplyNumber(-1);
         simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));
-    }    firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
+    }
+    firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
     secondMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
     Monomial firstMonomialSquared(firstMonomial);
-    Monomial secondMonomialSquared(secondMonomial);    Monomial productOfFirstAndSecond(firstMonomial);
+    Monomial secondMonomialSquared(secondMonomial);
+    Monomial productOfFirstAndSecond(firstMonomial);
     firstMonomialSquared.raiseToPowerNumber(2);
     secondMonomialSquared.raiseToPowerNumber(2);
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
@@ -90,10 +94,12 @@ void addFactorsOfSumOfCubes(Polynomials& result, Polynomial const& polynomial) {
     if (firstMonomial.getCoefficient() < 0 && secondMonomial.getCoefficient() < 0) {
         firstMonomial.multiplyNumber(-1);
         secondMonomial.multiplyNumber(-1);
-        simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));    }
+        simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromNumber(-1));
+    }
     firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
     secondMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
-    Monomial firstMonomialSquared(firstMonomial);    Monomial secondMonomialSquared(secondMonomial);
+    Monomial firstMonomialSquared(firstMonomial);
+    Monomial secondMonomialSquared(secondMonomial);
     Monomial productOfFirstAndSecond(firstMonomial);
     firstMonomialSquared.raiseToPowerNumber(2);
     secondMonomialSquared.raiseToPowerNumber(2);
@@ -116,7 +122,8 @@ bool isDifferenceOfSquares(Polynomial const& polynomial) {
         } else if (firstMonomial.getCoefficient() < 0 && secondMonomial.getCoefficient() > 0) {
             firstMonomial.multiplyNumber(-1);
             result = isPerfectSquare(firstMonomial) && isPerfectSquare(secondMonomial);
-        }    }
+        }
+    }
     return result;
 }
 
@@ -132,7 +139,8 @@ bool isDifferenceOfCubes(Polynomial const& polynomial) {
         } else if (firstMonomial.getCoefficient() < 0 && secondMonomial.getCoefficient() > 0) {
             firstMonomial.multiplyNumber(-1);
             result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
-        }    }
+        }
+    }
     return result;
 }
 
@@ -147,10 +155,12 @@ bool isSumOfCubes(Polynomial const& polynomial) {
         } else if (firstMonomial.getCoefficient() < 0 && secondMonomial.getCoefficient() < 0) {
             firstMonomial.multiplyNumber(-1);
             secondMonomial.multiplyNumber(-1);
-            result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);        }
+            result = isPerfectCube(firstMonomial) && isPerfectCube(secondMonomial);
+        }
     }
     return result;
 }
+
 }  // namespace Factorization
 
 }  // namespace algebra

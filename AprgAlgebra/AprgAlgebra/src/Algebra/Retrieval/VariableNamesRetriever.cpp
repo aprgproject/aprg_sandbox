@@ -17,6 +17,7 @@ void VariableNamesRetriever::retrieveFromMonomial(Monomial const& monomial) {
         m_variableNames.emplace(variableExponentsPair.first);
     }
 }
+
 }  // namespace algebra
 
 }  // namespace alba

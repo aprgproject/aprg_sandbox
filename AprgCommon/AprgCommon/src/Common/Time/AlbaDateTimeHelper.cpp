@@ -4,9 +4,11 @@
 
 #include <array>
 #include <cmath>
+
 using namespace alba::AlbaDateTimeConstants;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba::dateTimeHelper {
 
 bool isLeapYear(uint32_t const year) {
@@ -31,10 +33,12 @@ uint32_t getNumberOfDaysInAMonth(uint32_t const month, uint32_t const year) {
     } else if (month == FEBRUARY) {
         if (isLeapYear(year)) {
             numberOfDays = 29;
-        } else {            numberOfDays = 28;
+        } else {
+            numberOfDays = 28;
         }
     } else if (month > 0) {
-        numberOfDays = 31;    }
+        numberOfDays = 31;
+    }
     return numberOfDays;
 }
 
@@ -93,7 +97,8 @@ uint32_t getNumberOfDaysInTheYearBeforeThisMonth(uint32_t const month, uint32_t 
     if (month > FEBRUARY && year > 0 && isLeapYear(year)) {
         numberOfDays++;
     }
-    return numberOfDays;}
+    return numberOfDays;
+}
 
 uint32_t getMonthFromNumberOfDaysInANonLeapYear(uint32_t const numberOfDays) {
     constexpr array<uint32_t, 11> accumulatedDaysForEachMonth{31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
@@ -107,10 +112,12 @@ uint32_t getMonthFromNumberOfDaysInALeapYear(uint32_t const numberOfDays) {
     return static_cast<uint32_t>(JANUARY) + distance(accumulatedDaysForEachMonth.cbegin(), itMonth);
 }
 
-uint32_t getMonthFromNumberOfDays(uint32_t const numberOfDays, uint32_t const year) {    uint32_t result(0);
+uint32_t getMonthFromNumberOfDays(uint32_t const numberOfDays, uint32_t const year) {
+    uint32_t result(0);
     if (numberOfDays > 0) {
         result = isLeapYear(year) ? getMonthFromNumberOfDaysInALeapYear(numberOfDays)
-                                  : getMonthFromNumberOfDaysInANonLeapYear(numberOfDays);    }
+                                  : getMonthFromNumberOfDaysInANonLeapYear(numberOfDays);
+    }
     return result;
 }
 
@@ -140,10 +147,12 @@ DayOfTheWeek getDayOfTheWeek(uint32_t const years, uint32_t const month, uint32_
 
 uint32_t getAndRemoveYearsFromNumberOfDays(uint32_t& remainingDays) {
     uint32_t years(remainingDays / NUMBER_OF_DAYS_IN_NON_LEAP_YEAR);
-    int32_t remainingDaysTemp =        static_cast<int32_t>(remainingDays) - static_cast<int32_t>(getNumberOfDaysBeforeThisYear(years));
+    int32_t remainingDaysTemp =
+        static_cast<int32_t>(remainingDays) - static_cast<int32_t>(getNumberOfDaysBeforeThisYear(years));
     while (remainingDaysTemp <= 0 && years > 0) {
         years--;
-        remainingDaysTemp += static_cast<int32_t>(getNumberOfDaysInAYear(years));    }
+        remainingDaysTemp += static_cast<int32_t>(getNumberOfDaysInAYear(years));
+    }
     remainingDays = static_cast<uint32_t>(remainingDaysTemp);
     return years;
 }

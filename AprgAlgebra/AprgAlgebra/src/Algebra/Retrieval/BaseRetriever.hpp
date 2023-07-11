@@ -14,10 +14,12 @@ public:
 
     virtual void retrieveFromEquations(Equations const& equations) {
         for (Equation const& equation : equations) {
-            retrieveFromEquation(equation);        }
+            retrieveFromEquation(equation);
+        }
     }
 
-    virtual void retrieveFromEquation(Equation const& equation) {        retrieveFromTerm(equation.getLeftHandTerm());
+    virtual void retrieveFromEquation(Equation const& equation) {
+        retrieveFromTerm(equation.getLeftHandTerm());
         retrieveFromTerm(equation.getRightHandTerm());
     }
 
@@ -36,9 +38,11 @@ public:
             retrieveFromFunction(term.getAsFunction());
         }
     }
+
     virtual void retrieveFromConstant(Constant const&) {}
 
     virtual void retrieveFromVariable(Variable const&) {}
+
     virtual void retrieveFromMonomial(Monomial const&) {}
 
     virtual void retrieveFromPolynomial(Polynomial const& polynomial) {
@@ -46,16 +50,19 @@ public:
             retrieveFromMonomial(monomial);
         }
     }
+
     virtual void retrieveFromExpression(Expression const& expression) {
         for (TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails()) {
-            retrieveFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));        }
+            retrieveFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
+        }
     }
 
     virtual void retrieveFromFunction(Function const& functionObject) {
         retrieveFromTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
     }
 
-    virtual void retrieveFromPolynomials(Polynomials const& polynomials) {        for (Polynomial const& polynomial : polynomials) {
+    virtual void retrieveFromPolynomials(Polynomials const& polynomials) {
+        for (Polynomial const& polynomial : polynomials) {
             retrieveFromPolynomial(polynomial);
         }
     }
@@ -74,4 +81,5 @@ public:
 };
 
 }  // namespace algebra
+
 }  // namespace alba

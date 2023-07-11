@@ -52,10 +52,12 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1) {
     Expression simplifiedTerm(term.getAsExpression());
     simplifiedTerm.simplify();
 
-    EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));}
+    EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));
+}
 
 TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1) {
-    OneEquationOneVariableNonEqualitySolver solver;    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
+    OneEquationOneVariableNonEqualitySolver solver;
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
 
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());

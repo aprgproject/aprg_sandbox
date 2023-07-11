@@ -16,6 +16,7 @@ void FunctionsRetriever::retrieveFromFunction(Function const& functionObject) {
         m_functions.emplace(functionObject);
     }
 }
+
 }  // namespace algebra
 
 }  // namespace alba

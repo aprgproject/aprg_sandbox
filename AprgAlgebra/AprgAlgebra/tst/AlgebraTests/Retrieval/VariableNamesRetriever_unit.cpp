@@ -18,10 +18,12 @@ TEST(VariableNamesRetrieverTest, RetrieveFromEquationsWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(6U, variableNamesSet.size());
     auto it = variableNamesSet.cbegin();
-    EXPECT_EQ("a", *(it++));    EXPECT_EQ("b", *(it++));
+    EXPECT_EQ("a", *(it++));
+    EXPECT_EQ("b", *(it++));
     EXPECT_EQ("p", *(it++));
     EXPECT_EQ("r", *(it++));
-    EXPECT_EQ("x", *(it++));    EXPECT_EQ("y", *(it++));
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
 }
 
 TEST(VariableNamesRetrieverTest, RetrieveFromEquationWorks) {
@@ -35,10 +37,12 @@ TEST(VariableNamesRetrieverTest, RetrieveFromEquationWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(2U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("x", *(it++));    EXPECT_EQ("y", *(it++));
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks) {    VariableNamesRetriever retriever;
+TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks) {
+    VariableNamesRetriever retriever;
     Function functionObject(
         "functionName", Term(createExpressionIfPossible({"a", "^", 2})),
         [](AlbaNumber const& number) -> AlbaNumber { return number; });
@@ -53,10 +57,12 @@ TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks) {    VariableNamesRetrie
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(7U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("a", *(it++));    EXPECT_EQ("b", *(it++));
+    EXPECT_EQ("a", *(it++));
+    EXPECT_EQ("b", *(it++));
     EXPECT_EQ("c", *(it++));
     EXPECT_EQ("d", *(it++));
-    EXPECT_EQ("e", *(it++));    EXPECT_EQ("f", *(it++));
+    EXPECT_EQ("e", *(it++));
+    EXPECT_EQ("f", *(it++));
     EXPECT_EQ("g", *(it++));
 }
 
@@ -68,6 +74,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromConstantWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     EXPECT_TRUE(variableNamesSet.empty());
 }
+
 TEST(VariableNamesRetrieverTest, RetrieveFromVariableWorks) {
     VariableNamesRetriever retriever;
 
@@ -76,7 +83,8 @@ TEST(VariableNamesRetrieverTest, RetrieveFromVariableWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(1U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("x", *(it++));}
+    EXPECT_EQ("x", *(it++));
+}
 
 TEST(VariableNamesRetrieverTest, RetrieveFromMonomialWorks) {
     VariableNamesRetriever retriever;
@@ -86,30 +94,36 @@ TEST(VariableNamesRetrieverTest, RetrieveFromMonomialWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(2U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("x", *(it++));    EXPECT_EQ("y", *(it++));
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromPolynomialWorks) {    VariableNamesRetriever retriever;
+TEST(VariableNamesRetrieverTest, RetrieveFromPolynomialWorks) {
+    VariableNamesRetriever retriever;
 
     retriever.retrieveFromPolynomial(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
 
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(2U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("x", *(it++));    EXPECT_EQ("y", *(it++));
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromExpressionWorks) {    VariableNamesRetriever retriever;
+TEST(VariableNamesRetrieverTest, RetrieveFromExpressionWorks) {
+    VariableNamesRetriever retriever;
 
     retriever.retrieveFromExpression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(1U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("x", *(it++));}
+    EXPECT_EQ("x", *(it++));
+}
 
 TEST(VariableNamesRetrieverTest, RetrieveFromFunctionWorks) {
-    VariableNamesRetriever retriever;    Function functionObject(
+    VariableNamesRetriever retriever;
+    Function functionObject(
         "functionName", Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
         [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
@@ -118,10 +132,12 @@ TEST(VariableNamesRetrieverTest, RetrieveFromFunctionWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(1U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("x", *(it++));}
+    EXPECT_EQ("x", *(it++));
+}
 
 TEST(VariableNamesRetrieverTest, RetrieveFromPolynomialsWorks) {
-    VariableNamesRetriever retriever;    Polynomials polynomials;
+    VariableNamesRetriever retriever;
+    Polynomials polynomials;
     polynomials.emplace_back(Polynomial{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})});
     polynomials.emplace_back(Polynomial{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})});
 
@@ -130,10 +146,12 @@ TEST(VariableNamesRetrieverTest, RetrieveFromPolynomialsWorks) {
     VariableNamesSet const& variableNamesSet(retriever.getVariableNames());
     ASSERT_EQ(4U, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
-    EXPECT_EQ("a", *(it++));    EXPECT_EQ("b", *(it++));
+    EXPECT_EQ("a", *(it++));
+    EXPECT_EQ("b", *(it++));
     EXPECT_EQ("x", *(it++));
     EXPECT_EQ("y", *(it++));
 }
+
 }  // namespace algebra
 
 }  // namespace alba

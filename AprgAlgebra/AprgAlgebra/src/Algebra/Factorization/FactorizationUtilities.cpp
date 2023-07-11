@@ -25,10 +25,12 @@ bool areExponentsDivisible(Monomial const& monomial, int const divisor) {
     for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
         if (!variableExponentPair.second.isIntegerType() ||
             !isDivisible<long long int>(getAbsoluteValue(variableExponentPair.second.getInteger()), divisor)) {
-            result = false;            break;
+            result = false;
+            break;
         }
     }
-    return result;}
+    return result;
+}
 
 bool isPerfectSquare(Monomial const& monomial) { return isPerfectNthPower(monomial, 2); }
 
@@ -38,7 +40,8 @@ bool isPerfectNthPower(Monomial const& monomial, int const nthPower) {
     AlbaNumber constant(monomial.getCoefficient());
     bool result(false);
     if (constant.isIntegerType() && mathHelper::isPerfectNthPower(constant, nthPower)) {
-        result = areExponentsDivisible(monomial, nthPower);    }
+        result = areExponentsDivisible(monomial, nthPower);
+    }
     return result;
 }
 
@@ -46,7 +49,8 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial) {
     Monomials const& monomials(polynomial.getMonomials());
     bool result(false);
     if (hasNonRealFiniteNumbers(polynomial)) {
-        result = true;    } else if (monomials.size() <= 1) {
+        result = true;
+    } else if (monomials.size() <= 1) {
         result = true;
     } else if (monomials.size() == 2) {
         Monomial const& first(monomials[0]);
@@ -59,10 +63,12 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial) {
         AlbaNumbersSet const& exponents(retriever.getExponents());
         bool areAllExponentsOneOrZero = all_of(exponents.cbegin(), exponents.cend(), [](AlbaNumber const& exponent) {
             return exponent == 0 || exponent == 1;
-        });        bool areBothDegreeLessThanOne = getDegree(first) <= 1 && getDegree(second) <= 1;
+        });
+        bool areBothDegreeLessThanOne = getDegree(first) <= 1 && getDegree(second) <= 1;
         result =
             areBothConstantIntegers && areEitherConstantOne && areAllExponentsOneOrZero && areBothDegreeLessThanOne;
-    }    return result;
+    }
+    return result;
 }
 
 bool doesContainOnlyConstants(Polynomials const& polynomials) {

@@ -41,9 +41,11 @@ private:
 // Let us first define the cost of a BST.
 // The cost of a BST node is the level of that node multiplied by its frequency.
 // The level of the root is 1.
+
 // Examples:
 // -> Input:  keys[] = {10, 12}, freq[] = {34, 50}
-// ---> There can be following two possible BSTs// --->         10                       12
+// ---> There can be following two possible BSTs
+// --->         10                       12
 // --->           |                     |
 // --->            12                 10
 // --->           I                     II

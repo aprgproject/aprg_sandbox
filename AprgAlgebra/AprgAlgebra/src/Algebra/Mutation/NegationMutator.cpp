@@ -20,7 +20,8 @@ void NegationMutator::mutateTerm(Term &term) {
         mutateExpression(term.getAsExpressionReference());
     } else if (term.isFunction()) {
         term = -1 * term;
-    }    term.simplify();
+    }
+    term.simplify();
 }
 
 void NegationMutator::mutateConstant(Constant &constant) {
@@ -28,9 +29,11 @@ void NegationMutator::mutateConstant(Constant &constant) {
 }
 
 void NegationMutator::mutateVariable(Variable &) {}
+
 void NegationMutator::mutateMonomial(Monomial &monomial) { monomial.multiplyNumber(AlbaNumber(-1)); }
 
-void NegationMutator::mutateExpression(Expression &expression) {    if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
+void NegationMutator::mutateExpression(Expression &expression) {
+    if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
         TermsWithDetails &termsWithDetails(
             expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
         for (TermWithDetails &termWithDetails : termsWithDetails) {

@@ -255,10 +255,12 @@ TEST(AlbaDateTimeHelperTest, GetDayOfTheWeekWorks) {
 
 TEST(AlbaDateTimeHelperTest, GetAndRemoveYearsFromNumberOfDaysWorks) {
     uint32_t totalDays = 0;
-    EXPECT_EQ(0U, getAndRemoveYearsFromNumberOfDays(totalDays));    EXPECT_EQ(0U, totalDays);
+    EXPECT_EQ(0U, getAndRemoveYearsFromNumberOfDays(totalDays));
+    EXPECT_EQ(0U, totalDays);
 
     totalDays = 398;
-    EXPECT_EQ(1U, getAndRemoveYearsFromNumberOfDays(totalDays));    EXPECT_EQ(32U, totalDays);
+    EXPECT_EQ(1U, getAndRemoveYearsFromNumberOfDays(totalDays));
+    EXPECT_EQ(32U, totalDays);
 
     totalDays = 736695;
     EXPECT_EQ(2016U, getAndRemoveYearsFromNumberOfDays(totalDays));

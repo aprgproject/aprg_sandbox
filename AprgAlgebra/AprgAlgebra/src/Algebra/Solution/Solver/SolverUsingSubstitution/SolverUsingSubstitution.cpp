@@ -4,9 +4,11 @@
 #include <Algebra/Retrieval/SingleVariableNameRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
-#include <Algebra/Solution/Solver/SolverUsingSubstitution/ReduceEquationsBySubstitution.hpp>#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Solution/Solver/SolverUsingSubstitution/ReduceEquationsBySubstitution.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
+
 namespace alba {
 
 namespace algebra {
@@ -22,10 +24,12 @@ MultipleVariableSolutionSets SolverUsingSubstitution::calculateSolutionAndReturn
         m_variablesNames = variableNamesRetriever.getVariableNames();
         calculateSolutions(equations);
     }
-    return m_solutionsWithAllVariables;}
+    return m_solutionsWithAllVariables;
+}
 
 bool SolverUsingSubstitution::isTheValueAlreadyExisting(string const& variableName, AlbaNumber const& value) const {
-    bool result(false);    for (MultipleVariableSolutionSet const& solutionSet : m_solutionsWithAllVariables) {
+    bool result(false);
+    for (MultipleVariableSolutionSet const& solutionSet : m_solutionsWithAllVariables) {
         result = result || solutionSet.isValueAcceptedForVariable(variableName, value);
         if (result) {
             break;
@@ -139,9 +143,11 @@ void SolverUsingSubstitution::solveForTheFirstOneVariableEquationAndUpdate(
         }
     }
 }
+
 void SolverUsingSubstitution::solveAndUpdate(
     MultipleVariableSolutionSet& solutionSet, Equation const& equationToSolve, string const& variableNameToSolve) {
-    OneEquationOneVariableEqualitySolver solver;    SolutionSet solutionSetForOneVariable(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
+    OneEquationOneVariableEqualitySolver solver;
+    SolutionSet solutionSetForOneVariable(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
     AlbaNumbers const& acceptedValues(solutionSetForOneVariable.getAcceptedValues());
     if (!acceptedValues.empty()) {
         SolutionSet firstPotentialSolution;

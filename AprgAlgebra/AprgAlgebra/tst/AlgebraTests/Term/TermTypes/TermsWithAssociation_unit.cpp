@@ -86,10 +86,12 @@ TEST(TermsWithAssociationTest, GetFirstTermWorks) {
     EXPECT_EQ(Term(20), getTermConstReferenceFromBaseTerm(terms2.getFirstTerm()));
 }
 
-TEST(TermsWithAssociationTest, GetFirstAssociationTypeWorks) {    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
+TEST(TermsWithAssociationTest, GetFirstAssociationTypeWorks) {
+    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
     TermWithDetails termWithDetails2(Term(20), TermAssociationType::Positive);
     TermsWithAssociation terms1{termWithDetails1};
     TermsWithAssociation terms2{termWithDetails2};
+
     EXPECT_EQ(TermAssociationType::Negative, terms1.getFirstAssociationType());
     EXPECT_EQ(TermAssociationType::Positive, terms2.getFirstAssociationType());
 }

@@ -28,9 +28,11 @@ Monomial createMonomialIfPossible(Term const& term) {
         Polynomial const& polynomial(term.getAsPolynomial());
         if (isOneMonomial(polynomial)) {
             result = getFirstMonomial(polynomial);
-        }    }
+        }
+    }
     return result;
 }
+
 Polynomial createPolynomialFromNumber(AlbaNumber const& number) { return Polynomial{createMonomialFromNumber(number)}; }
 
 Polynomial createPolynomialFromVariable(Variable const& variable) {
@@ -52,9 +54,11 @@ Polynomial createPolynomialIfPossible(Term const& term) {
     }
     return result;
 }
+
 Expression createExpressionInAnExpression(Expression const& expression) { return Expression(Term(expression)); }
 
 Expression createAndWrapExpressionFromATerm(Term const& term) { return Expression(term); }
+
 Expression createOrCopyExpressionFromATerm(Term const& term) {
     Expression result;
     if (!term.isEmpty()) {
@@ -62,9 +66,11 @@ Expression createOrCopyExpressionFromATerm(Term const& term) {
             result = term.getAsExpression();
         } else {
             result = Expression(term);
-        }    }
+        }
+    }
     return result;
 }
+
 Expression createExpressionIfPossible(Terms const& terms) {
     Expression result;
     TermsAggregator aggregator(terms);

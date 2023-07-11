@@ -125,9 +125,11 @@ AlbaNumbers SeriesBasedOnFormula::getBoundValues() const {
     }
     return boundValues;
 }
+
 AlbaNumbers SeriesBasedOnFormula::getExtremaIndexes() const {
     DifferentiationForFiniteCalculus differentiation(m_variableName);
-    Term firstDerivative(differentiation.differentiate(m_formulaForSeries));    OneEquationOneVariableEqualitySolver solver;
+    Term firstDerivative(differentiation.differentiate(m_formulaForSeries));
+    OneEquationOneVariableEqualitySolver solver;
     simplifyTermToACommonDenominator(firstDerivative);
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(firstDerivative, "=", 0)));
     return solutionSet.getAcceptedValues();

@@ -110,16 +110,19 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     Monomials const& denominatorMonomials(m_denominator.getMonomials());
     numeratorAndDenominatorMonomials.reserve(numeratorMonomials.size() + denominatorMonomials.size());
     copy(numeratorMonomials.cbegin(), numeratorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
-    copy(denominatorMonomials.cbegin(), denominatorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));    Monomial gcfMonomial(getGcfMonomialInMonomials(numeratorAndDenominatorMonomials));
+    copy(denominatorMonomials.cbegin(), denominatorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
+    Monomial gcfMonomial(getGcfMonomialInMonomials(numeratorAndDenominatorMonomials));
     if (!isTheValue(gcfMonomial, 0)) {
         m_numerator.divideMonomial(gcfMonomial);
         m_denominator.divideMonomial(gcfMonomial);
         bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomials()) == -1;
         if (isDenominatorHasNegativeSign) {
             m_numerator.divideMonomial(createMonomialFromNumber(-1));
-            m_denominator.divideMonomial(createMonomialFromNumber(-1));        }
+            m_denominator.divideMonomial(createMonomialFromNumber(-1));
+        }
     }
 }
+
 void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors() {
     ConfigurationDetails configurationDetails(Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue =
@@ -145,10 +148,12 @@ int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const&
         AlbaNumber const& coefficient(monomial.getCoefficient());
         if (coefficient.isFractionType()) {
             AlbaNumber::FractionData fractionData(coefficient.getFractionData());
-            lcm = getLeastCommonMultiple(lcm, static_cast<int>(fractionData.denominator));        }
+            lcm = getLeastCommonMultiple(lcm, static_cast<int>(fractionData.denominator));
+        }
     }
     return lcm;
 }
+
 Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvertItToPositive(
     Polynomial const& polynomial) {
     Monomial resultMonomial(1, {});
@@ -158,10 +163,12 @@ Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvert
         for (auto const& variablePair : monomial.getVariablesToExponentsMap()) {
             if (variablePair.second < 0) {
                 AlbaNumber existingExponent;
-                if (resultVariableMap.find(variablePair.first) != resultVariableMap.end()) {                    existingExponent = resultVariableMap.at(variablePair.first);
+                if (resultVariableMap.find(variablePair.first) != resultVariableMap.end()) {
+                    existingExponent = resultVariableMap.at(variablePair.first);
                 }
                 AlbaNumber newPositiveExponent(variablePair.second * -1);
-                if (newPositiveExponent > existingExponent) {                    resultMonomial.putVariableWithExponent(variablePair.first, newPositiveExponent);
+                if (newPositiveExponent > existingExponent) {
+                    resultMonomial.putVariableWithExponent(variablePair.first, newPositiveExponent);
                 }
             }
         }

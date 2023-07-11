@@ -83,9 +83,11 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) co
     }
     return newTerm;
 }
+
 Equation SubstitutionOfVariablesToValues::performSubstitutionTo(Equation const& equation) const {
     Equation simplifiedEquation(
-        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),        performSubstitutionTo(equation.getRightHandTerm()));
+        performSubstitutionTo(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),
+        performSubstitutionTo(equation.getRightHandTerm()));
     simplifiedEquation.simplify();
     return simplifiedEquation;
 }
@@ -99,20 +101,24 @@ Monomial SubstitutionOfVariablesToValues::performSubstitutionForMonomial(Monomia
                 newMonomial.getCoefficient() *
                 (getValueForVariable(variableExponentPair.first) ^ variableExponentPair.second));
         } else {
-            newMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);        }
+            newMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);
+        }
     }
     newMonomial.simplify();
-    return newMonomial;}
+    return newMonomial;
+}
 
 Polynomial SubstitutionOfVariablesToValues::performSubstitutionForPolynomial(Polynomial const& polynomial) const {
     Polynomial newPolynomial;
     for (Monomial const& monomial : polynomial.getMonomials()) {
         newPolynomial.addMonomial(performSubstitutionForMonomial(monomial));
     }
-    newPolynomial.simplify();    return newPolynomial;
+    newPolynomial.simplify();
+    return newPolynomial;
 }
 
-Expression SubstitutionOfVariablesToValues::performSubstitutionForExpression(Expression const& expression) const {    Expression newExpression(expression);
+Expression SubstitutionOfVariablesToValues::performSubstitutionForExpression(Expression const& expression) const {
+    Expression newExpression(expression);
     performSubstitutionForTermsWithAssociation(newExpression.getTermsWithAssociationReference());
     newExpression.simplify();
     return newExpression;
@@ -125,9 +131,11 @@ Function SubstitutionOfVariablesToValues::performSubstitutionForFunction(Functio
     newFunction.simplify();
     return newFunction;
 }
+
 void SubstitutionOfVariablesToValues::putVariablesWithValues(
     initializer_list<VariableValuePair> const& variablesWithValues) {
-    for (VariableValuePair const& variableValuesPair : variablesWithValues) {        putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
+    for (VariableValuePair const& variableValuesPair : variablesWithValues) {
+        putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
     }
 }
 

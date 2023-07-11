@@ -88,7 +88,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForExpression) {
     EXPECT_TRUE(termToVerify.getAsNumber().isNotANumber());
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForFunction) {    IntegrationForFiniteCalculus integrationForX("x");
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForFunction) {
+    IntegrationForFiniteCalculus integrationForX("x");
 
     Term termToVerify(integrationForX.integrate(sin("x")));
 
@@ -96,9 +97,11 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForFunction) {    Integrati
     EXPECT_TRUE(termToVerify.getAsNumber().isNotANumber());
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWithPlusCWorks) {    IntegrationForFiniteCalculus integrationForX("x");
+TEST(IntegrationForFiniteCalculusTest, IntegrateWithPlusCWorks) {
+    IntegrationForFiniteCalculus integrationForX("x");
 
     Term termToVerify(integrationForX.integrateWithPlusC(Constant(5)));
+
     Term termToExpect(Polynomial{Monomial(1, {{C, 1}}), Monomial(5, {{"x", 1}})});
     EXPECT_EQ(termToExpect, termToVerify);
 }
@@ -140,10 +143,12 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateTermWorks) {
     EXPECT_TRUE(termToVerify6.getAsNumber().isNotANumber());
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateConstantWorks) {    IntegrationForFiniteCalculus integrationForX("x");
+TEST(IntegrationForFiniteCalculusTest, IntegrateConstantWorks) {
+    IntegrationForFiniteCalculus integrationForX("x");
 
     EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
 }
+
 TEST(IntegrationForFiniteCalculusTest, IntegrateVariableWorks) {
     IntegrationForFiniteCalculus integrationForX("x");
 
@@ -182,9 +187,11 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateMonomialWorks) {
     EXPECT_TRUE(termToVerify4.getAsNumber().isNotANumber());
     EXPECT_EQ(termToExpect5, termToVerify5);
 }
+
 TEST(IntegrationForFiniteCalculusTest, IntegratePolynomialWorks) {
     IntegrationForFiniteCalculus integrationForX("x");
     Polynomial polynomial1{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
+
     Term termToVerify(integrationForX.integratePolynomial(polynomial1));
 
     Polynomial expectedPolynomial{
@@ -213,10 +220,12 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateExpressionWorks) {
     EXPECT_TRUE(termToVerify3.getAsNumber().isNotANumber());
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksWithTermRaiseToTerm) {    IntegrationForFiniteCalculus integrationForX("x");
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksWithTermRaiseToTerm) {
+    IntegrationForFiniteCalculus integrationForX("x");
     Term termToTest1(createExpressionIfPossible({"n", "^", "n"}));
     Term termToTest2(createExpressionIfPossible({"n", "^", "x"}));
-    Term termToTest3(createExpressionIfPossible({"x", "^", "n"}));    Term termToTest4(createExpressionIfPossible({"x", "^", "x"}));
+    Term termToTest3(createExpressionIfPossible({"x", "^", "n"}));
+    Term termToTest4(createExpressionIfPossible({"x", "^", "x"}));
 
     Term termToVerify1(integrationForX.integrate(termToTest1));
     Term termToVerify2(integrationForX.integrate(termToTest2));
@@ -241,4 +250,5 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateFunctionWorks) {
 }
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -43,7 +43,8 @@ AlbaNumber getCoefficientOfMonomialWithNoVariables(Polynomial const& polynomial)
             coefficientValue = monomial.getCoefficient();
             break;
         }
-    }    return coefficientValue;
+    }
+    return coefficientValue;
 }
 
 AlbaNumber getCoefficientOfMonomialWithVariableOnly(Polynomial const& polynomial, string const& variableName) {
@@ -56,7 +57,8 @@ AlbaNumber getCoefficientOfMonomialWithVariableOnly(Polynomial const& polynomial
                 coefficientValue = monomial.getCoefficient();
                 break;
             }
-        }    }
+        }
+    }
     return coefficientValue;
 }
 
@@ -69,10 +71,12 @@ VariableToValueMap getCoefficientsForVariablesOnly(Polynomial const& polynomial)
             result.emplace(variableExponentPair.first, monomial.getCoefficient());
         }
     }
-    return result;}
+    return result;
+}
 
 void retrieveTermsFromTermsWithDetails(Terms& terms, TermsWithDetails const& termsWithDetails) {
-    terms.reserve(terms.size() + termsWithDetails.size());    transform(
+    terms.reserve(terms.size() + termsWithDetails.size());
+    transform(
         termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms),
         [](TermWithDetails const& termWithDetails) {
             return getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer);
@@ -86,9 +90,11 @@ Terms retrieveSubExpressionsAndSubFunctions(Term const& term) {
     for (Term const& retrievedTerm : retriever.getExpressionsAndFunctions()) {
         if ((retrievedTerm.isFunction() || retrievedTerm.isExpression()) && term != retrievedTerm) {
             result.emplace_back(retrievedTerm);
-        }    }
+        }
+    }
     return result;
 }
+
 Terms retrieveSubTerms(Term const& term) {
     SubTermsRetriever retriever;
     retriever.retrieveFromTerm(term);
@@ -96,9 +102,11 @@ Terms retrieveSubTerms(Term const& term) {
     for (Term const& retrievedTerm : retriever.getSubTerms()) {
         if (term != retrievedTerm) {
             result.emplace_back(retrievedTerm);
-        }    }
+        }
+    }
     return result;
 }
+
 TermsWithDetails retrieveTermsWithDetailsThatSatisfiesCondition(
     TermsWithDetails const& termsWithDetails, ConditionFunctionForTermsWithDetails const& conditionFunction) {
     TermsWithDetails result;

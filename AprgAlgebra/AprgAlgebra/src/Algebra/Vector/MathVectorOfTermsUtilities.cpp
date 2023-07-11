@@ -210,10 +210,12 @@ SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForCompar
         VariableNamesSet const& names(retriever.getVariableNames());
         bool isCurrentCoordinateFound = names.find(coordinateVariableName) != names.cend();
         bool isOneOfTheOtherPreviousCoordinatesFound(false);
-        for (string const& processedCoordinate : processedCoordinates) {            if (processedCoordinate != coordinateVariableName && names.find(processedCoordinate) != names.cend()) {
+        for (string const& processedCoordinate : processedCoordinates) {
+            if (processedCoordinate != coordinateVariableName && names.find(processedCoordinate) != names.cend()) {
                 isOneOfTheOtherPreviousCoordinatesFound = true;
                 break;
-            }        }
+            }
+        }
         return isCurrentCoordinateFound && isOneOfTheOtherPreviousCoordinatesFound;
     };
     SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever(condition);

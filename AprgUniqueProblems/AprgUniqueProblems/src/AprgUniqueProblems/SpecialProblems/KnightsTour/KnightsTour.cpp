@@ -20,6 +20,7 @@ KnightsTour::ChessBoardIndexes KnightsTour::getAnOpenKnightsTour() const {
     }
     return result;
 }
+
 KnightsTour::ChessBoardIndexes KnightsTour::getAClosedKnightsTour() const {
     ChessBoardIndexes result;
     HamiltonianPathSearchWithDfs<VertexOfKnightsTour> hamiltonianPathSearch(m_graph);
@@ -28,9 +29,11 @@ KnightsTour::ChessBoardIndexes KnightsTour::getAClosedKnightsTour() const {
     }
     return result;
 }
+
 void KnightsTour::initialize() {
     initializeNeighborMatrix();
-    initializeGraph();}
+    initializeGraph();
+}
 
 void KnightsTour::initializeNeighborMatrix() {
     for (int y = 0; y < static_cast<int>(m_chessBoardY); y++) {

@@ -22,10 +22,12 @@ TEST(ConstantTest, ConstantsAreConstructedCorrectly) {
     EXPECT_DOUBLE_EQ(-85.45631, constant5.getNumber().getDouble());
 }
 
-TEST(ConstantTest, EqualityOperatorWorks) {    Constant constant1;
+TEST(ConstantTest, EqualityOperatorWorks) {
+    Constant constant1;
     Constant constant2(3484);
     Constant constant3(-1561);
     Constant constant4(3484);
+
     EXPECT_TRUE(constant1 == constant1);
     EXPECT_FALSE(constant1 == constant2);
     EXPECT_TRUE(constant2 == constant2);
@@ -61,10 +63,12 @@ TEST(ConstantTest, SettingANewNumberWorks) {
     EXPECT_DOUBLE_EQ(4521, constant.getNumber().getDouble());
 }
 
-TEST(ConstantTest, OutputStreamOperatorWorks) {    stringstream ss;
+TEST(ConstantTest, OutputStreamOperatorWorks) {
+    stringstream ss;
     Constant constant1;
     Constant constant2(3484);
-    Constant constant3(-1561);    Constant constant4(AlbaNumber::createFraction(-415, 41745));
+    Constant constant3(-1561);
+    Constant constant4(AlbaNumber::createFraction(-415, 41745));
     Constant constant5(-85.45631);
 
     ss << constant1 << "," << constant2 << "," << constant3 << "," << constant4 << "," << constant5;

@@ -3,6 +3,7 @@
 #include <Algebra/Retrieval/BaseRetriever.hpp>
 
 #include <functional>
+
 namespace alba {
 
 namespace algebra {
@@ -10,6 +11,7 @@ namespace algebra {
 class SegregateTermsByConditionInAdditionAndSubtractionRetriever : public BaseRetriever {
 public:
     using ConditionFunction = std::function<bool(Term const&)>;
+
     SegregateTermsByConditionInAdditionAndSubtractionRetriever(ConditionFunction const& condition);
 
     Term const& getTermWithCondition() const;
@@ -22,10 +24,12 @@ public:
     void retrieveFromFunction(Function const& functionObject) override;
 
 private:
-    void saveTerm(Term const& term);    ConditionFunction m_condition;
+    void saveTerm(Term const& term);
+    ConditionFunction m_condition;
     Term m_termWithCondition;
     Term m_termWithoutCondition;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

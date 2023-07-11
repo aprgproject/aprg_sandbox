@@ -56,10 +56,12 @@ std::pair<ValueType, ValueType> getLowerAndUpperValuesForNonSet(
     return std::make_pair(*lowerIt, *upperIt);
 }
 
-template <typename ValueType, typename ContainerType>size_t countItemsInBetweenForNonSet(
+template <typename ValueType, typename ContainerType>
+size_t countItemsInBetweenForNonSet(
     ContainerType const& sortedContainer, ValueType const& value1, ValueType const& value2) {
     // 1D range count
-    using ConstIterator = typename ContainerType::const_iterator;    ConstIterator itLower(std::lower_bound(sortedContainer.cbegin(), sortedContainer.cend(), value1));
+    using ConstIterator = typename ContainerType::const_iterator;
+    ConstIterator itLower(std::lower_bound(sortedContainer.cbegin(), sortedContainer.cend(), value1));
     ConstIterator itUpper(std::upper_bound(sortedContainer.cbegin(), sortedContainer.cend(), value2));
     return static_cast<size_t>(std::distance(itLower, itUpper));
 }
@@ -96,10 +98,12 @@ std::pair<ValueType, ValueType> getLowerAndUpperValuesForSet(
     return std::make_pair(*lowerIt, *upperIt);
 }
 
-template <typename ValueType, typename ContainerType>size_t countItemsInBetweenForSet(ContainerType const& setContainer, ValueType const& value1, ValueType const& value2) {
+template <typename ValueType, typename ContainerType>
+size_t countItemsInBetweenForSet(ContainerType const& setContainer, ValueType const& value1, ValueType const& value2) {
     // 1D range count
     using ConstIterator = typename ContainerType::const_iterator;
-    ConstIterator itLower(setContainer.lower_bound(value1));    ConstIterator itUpper(setContainer.upper_bound(value2));
+    ConstIterator itLower(setContainer.lower_bound(value1));
+    ConstIterator itUpper(setContainer.upper_bound(value2));
     return static_cast<size_t>(std::distance(itLower, itUpper));
 }
 

@@ -34,9 +34,11 @@ public:
     TermAssociationType getFirstAssociationType() const;
     TermsWithAssociation const& getTermsWithAssociation() const;
     std::string getDebugString() const;
+
     TermsWithAssociation& getTermsWithAssociationReference();
 
-    void clear();    void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
+    void clear();
+    void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
 
     void putTermWithAdditionIfNeeded(BaseTerm const& baseTerm);
     void putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm);

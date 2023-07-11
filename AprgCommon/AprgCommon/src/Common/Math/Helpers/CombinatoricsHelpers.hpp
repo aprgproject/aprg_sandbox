@@ -123,9 +123,11 @@ NumberType getValueAtPascalTriangle(NumberType const rowIndex, NumberType const 
 
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
+
 template <typename NumberType>
 typename std::make_signed<NumberType>::type getStirlingNumberOfTheSecondKind(NumberType const n, NumberType const k) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
     // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition
     // number) is the number of ways to partition a set of n objects into k non-empty subsets
 

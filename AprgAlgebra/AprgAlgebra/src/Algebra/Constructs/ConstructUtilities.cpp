@@ -28,10 +28,12 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
         Expression const& expression(term.getAsExpression());
         if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {
             bool canBeConvertedToPolynomialOverPolynomial(true);
-            Polynomial numerator(createPolynomialFromNumber(1));            Polynomial denominator(createPolynomialFromNumber(1));
+            Polynomial numerator(createPolynomialFromNumber(1));
+            Polynomial denominator(createPolynomialFromNumber(1));
             for (TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails()) {
                 Term const& termInExpression(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
-                if (canBeConvertedToPolynomial(termInExpression)) {                    if (termWithDetails.hasPositiveAssociation()) {
+                if (canBeConvertedToPolynomial(termInExpression)) {
+                    if (termWithDetails.hasPositiveAssociation()) {
                         numerator.multiplyPolynomial(createPolynomialIfPossible(termInExpression));
                     } else {
                         denominator.multiplyPolynomial(createPolynomialIfPossible(termInExpression));
@@ -59,10 +61,12 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term) {
         Expression const& expression(term.getAsExpression());
         if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {
             result = TermsOverTerms(expression.getTermsWithAssociation().getTermsWithDetails());
-            isResultUpdatedWithContent = true;        }
+            isResultUpdatedWithContent = true;
+        }
     }
     if (!isResultUpdatedWithContent) {
-        result = TermsOverTerms({term}, {1});    }
+        result = TermsOverTerms({term}, {1});
+    }
     result.simplify();
     return result;
 }
@@ -77,20 +81,24 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term) {
         result = createTermRaiseToANumberFromExpression(term.getAsExpression());
     }
     if (result.isEmpty()) {
-        result = TermRaiseToANumber(term, 1);    }
+        result = TermRaiseToANumber(term, 1);
+    }
     result.getBaseReference().simplify();
     return result;
 }
+
 TermRaiseToANumber createTermRaiseToANumberFromMonomial(Monomial const& monomial) {
     Monomial newMonomial(monomial);
     Monomial::VariablesToExponentsMap const& variablesToExponentsMap(
         newMonomial.getVariablesToExponentsMap());
     AlbaNumber exponent = (variablesToExponentsMap.size() == 1) ? (variablesToExponentsMap.cbegin())->second
                                                                 : getGcfOfExponentsInMonomial(newMonomial);
-    newMonomial.raiseToPowerNumber(AlbaNumber(1) / exponent);    return TermRaiseToANumber(Term(newMonomial), exponent);
+    newMonomial.raiseToPowerNumber(AlbaNumber(1) / exponent);
+    return TermRaiseToANumber(Term(newMonomial), exponent);
 }
 
-TermRaiseToANumber createTermRaiseToANumberFromPolynomial(Polynomial const& polynomial) {    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
+TermRaiseToANumber createTermRaiseToANumberFromPolynomial(Polynomial const& polynomial) {
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
     return TermRaiseToANumber(
         Term(polynomialRaiseToAnUnsignedInt.getBase()), polynomialRaiseToAnUnsignedInt.getExponent());
 }
@@ -126,10 +134,12 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(TermRaiseToANumber& resu
                 exponentTerm.getAsMonomialReference().setConstant(1);
             }
         }
-        raiseToPowerTerms.erase(            remove_if(
+        raiseToPowerTerms.erase(
+            remove_if(
                 raiseToPowerTerms.begin() + 1, raiseToPowerTerms.end(),
                 [&](TermWithDetails const& raiseToPowerTerm) {
-                    Term const& exponentTerm(getTermConstReferenceFromUniquePointer(raiseToPowerTerm.baseTermPointer));                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(exponentTerm);
+                    Term const& exponentTerm(getTermConstReferenceFromUniquePointer(raiseToPowerTerm.baseTermPointer));
+                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(exponentTerm);
                 }),
             raiseToPowerTerms.end());
 
@@ -191,10 +201,12 @@ TermRaiseToTerms createTermRaiseToTermsFromTerm(Term const& term) {
         result = createTermRaiseToTermsFromExpression(term.getAsExpression());
     }
     if (result.isEmpty()) {
-        result = TermRaiseToTerms(term, 1);    }
+        result = TermRaiseToTerms(term, 1);
+    }
     result.getBaseReference().simplify();
     return result;
 }
+
 TermRaiseToTerms createTermRaiseToTermsFromExpression(Expression const& expression) {
     TermRaiseToTerms result;
     if (OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()) {
@@ -234,10 +246,12 @@ void createTermRaiseToTermsFromMultiplicationAndDivisionExpression(
                 base.getAsNumber() ^ exponent.getAsNumber());
         } else {
             originalBases.emplace_back(base);
-            originalExponentsWithDetails.emplace_back(exponent, TermAssociationType::Positive);        }
+            originalExponentsWithDetails.emplace_back(exponent, TermAssociationType::Positive);
+        }
     }
     retrieveConstantAndNonConstantFactors(
-        nonConstantFactorsOfExponents, constantFactorsOfExponents, originalExponentsWithDetails);    bool areAllConstantFactorsNegative(all_of(
+        nonConstantFactorsOfExponents, constantFactorsOfExponents, originalExponentsWithDetails);
+    bool areAllConstantFactorsNegative(all_of(
         constantFactorsOfExponents.cbegin(), constantFactorsOfExponents.cend(),
         [](AlbaNumber const& constantFactor) { return constantFactor < 0; }));
     AlbaNumber constantGcf(getGcfOfConstants(constantFactorsOfExponents));

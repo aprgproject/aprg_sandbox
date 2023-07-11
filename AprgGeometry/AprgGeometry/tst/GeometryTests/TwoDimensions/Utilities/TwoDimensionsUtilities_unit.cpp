@@ -101,9 +101,11 @@ TEST(TwoDimensionsUtilitiesTest, IsPointInsideTriangleWorks) {
 
 TEST(TwoDimensionsUtilitiesTest, IsPointInsidePolygonWorks) {
     Triangle triangle(Point(0, 0), Point(0, 4), Point(4, 0));
+
     EXPECT_TRUE(isPointInsidePolygon(triangle, Point(1, 1), Point(-1, 1)));
     EXPECT_FALSE(isPointInsidePolygon(triangle, Point(2, 2), Point(-1, 1)));  // on the border
-    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(3, 3), Point(-1, 1)));    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(4, 4), Point(-1, 1)));
+    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(3, 3), Point(-1, 1)));
+    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(4, 4), Point(-1, 1)));
 }
 
 TEST(TwoDimensionsUtilitiesTest, DistanceBetween2PointsCanBeCalculated) {
@@ -235,9 +237,11 @@ TEST(TwoDimensionsUtilitiesTest, GetIntersectionOfTwoLineSegmentWorks) {
     LineSegment parallelSegment(Point(3, 3), Point(4, 4));
     LineSegment segmentWithPointInLine1(Point(2, 2), Point(3, 4));
     LineSegment segmentWithPointInLine2(Point(3, 4), Point(2, 2));
+
     EXPECT_EQ(Point(1, 1), getIntersectionOfTwoLineSegment(commonSegment, crossSegment));
     Point verifyIfNan(getIntersectionOfTwoLineSegment(commonSegment, parallelSegment));
-    EXPECT_TRUE(isnan(verifyIfNan.getX()));    EXPECT_TRUE(isnan(verifyIfNan.getY()));
+    EXPECT_TRUE(isnan(verifyIfNan.getX()));
+    EXPECT_TRUE(isnan(verifyIfNan.getY()));
     EXPECT_EQ(Point(2, 2), getIntersectionOfTwoLineSegment(commonSegment, segmentWithPointInLine1));
     EXPECT_EQ(Point(2, 2), getIntersectionOfTwoLineSegment(commonSegment, segmentWithPointInLine2));
 }
@@ -382,9 +386,11 @@ TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorks) {
         RotationDirection::Collinear, getRotationDirectionTraversing3Points(Point(0, 0), Point(2, 2), Point(3, 3)));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorksOnDeterminingPointLocation) {    // Point location
+TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorksOnDeterminingPointLocation) {
+    // Point location
     // Cross products can be used to test whether a point is located on the left or right side of a line.
     // Assume that the line goes through points s1 and s2, we are looking from s1 to s2 and the point is p.
+
     // The cross product (p-s1)x(p-s2) tells us the location of the point p.
     // If the cross product is positive, p is located on the left side,
     // and if the cross product is negative, p is located on the right side.
@@ -396,10 +402,12 @@ TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorksOnDet
     EXPECT_EQ(RotationDirection::Collinear, getRotationDirectionTraversing3Points(s1, s2, Point(3, 3)));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks) {    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0, 0)).getDegrees());
+TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks) {
+    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0, 0)).getDegrees());
     EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1, 1)).getDegrees());
     EXPECT_DOUBLE_EQ(135, getAngleOfPointWithRespectToOrigin(Point(-1, 1)).getDegrees());
-    EXPECT_DOUBLE_EQ(225, getAngleOfPointWithRespectToOrigin(Point(-1, -1)).getDegrees());    EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1, -1)).getDegrees());
+    EXPECT_DOUBLE_EQ(225, getAngleOfPointWithRespectToOrigin(Point(-1, -1)).getDegrees());
+    EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1, -1)).getDegrees());
     EXPECT_DOUBLE_EQ(90, getAngleOfPointWithRespectToOrigin(Point(0, 1)).getDegrees());
     EXPECT_DOUBLE_EQ(270, getAngleOfPointWithRespectToOrigin(Point(0, -1)).getDegrees());
     EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(1, 0)).getDegrees());
@@ -471,10 +479,12 @@ TEST(TwoDimensionsUtilitiesTest, GetConvexHullPointsUsingJarvisAlgorithmWorks) {
 
 TEST(TwoDimensionsUtilitiesTest, GetConvexHullPointsUsingGrahamScanWorks) {
     Points inputPoints{{-7, 8}, {-4, 6},  {2, 6},  {6, 4},   {8, 6},   {7, -2}, {4, -6},  {8, -7}, {0, 0},
-                       {3, -2}, {6, -10}, {0, -6}, {-9, -5}, {-8, -2}, {-8, 0}, {-10, 3}, {-2, 2}, {-10, 4}};    Points actualPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
+                       {3, -2}, {6, -10}, {0, -6}, {-9, -5}, {-8, -2}, {-8, 0}, {-10, 3}, {-2, 2}, {-10, 4}};
+    Points actualPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
 
     Points expectedPoints{Point(-9, -5), Point(-10, 3), Point(-10, 4), Point(-7, 8),
-                          Point(8, 6),   Point(8, -7),  Point(6, -10)};    ASSERT_EQ(expectedPoints, actualPoints);
+                          Point(8, 6),   Point(8, -7),  Point(6, -10)};
+    ASSERT_EQ(expectedPoints, actualPoints);
 }
 
 TEST(TwoDimensionsUtilitiesTest, GetLineWithSameSlopeAndPoint) {

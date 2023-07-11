@@ -87,9 +87,11 @@ bool Term::operator==(Term const& second) const {
             result = getAsFunction() == second.getAsFunction();
         }
     }
-    return result;}
+    return result;
+}
 
 bool Term::operator!=(Term const& second) const { return !(operator==(second)); }
+
 bool Term::operator<(Term const& second) const {
     bool result(false);
     if (m_type == second.m_type) {
@@ -111,9 +113,11 @@ bool Term::operator<(Term const& second) const {
             result = getAsFunction() < second.getAsFunction();
         }
     } else {
-        result = getTermTypePriorityValue(m_type) < getTermTypePriorityValue(second.m_type);    }
+        result = getTermTypePriorityValue(m_type) < getTermTypePriorityValue(second.m_type);
+    }
     return result;
 }
+
 bool Term::isEmpty() const {
     bool result(false);
     if (m_type == TermType::Empty) {
@@ -125,9 +129,11 @@ bool Term::isEmpty() const {
     }
     return result;
 }
+
 bool Term::isConstant() const { return TermType::Constant == m_type; }
 
 bool Term::isVariable() const { return TermType::Variable == m_type; }
+
 bool Term::isOperator() const { return TermType::Operator == m_type; }
 
 bool Term::isMonomial() const { return TermType::Monomial == m_type; }
@@ -181,7 +187,8 @@ AlbaNumber const& Term::getAsNumber() const {
     return getAsConstant().getNumber();
 }
 
-string Term::getDebugString() const {    stringstream ss;
+string Term::getDebugString() const {
+    stringstream ss;
     ss.precision(16);
     switch (m_type) {
         case TermType::Empty:
@@ -209,7 +216,8 @@ string Term::getDebugString() const {    stringstream ss;
             ss << getAsFunction().getDebugString();
             break;
         default:
-            break;    }
+            break;
+    }
     ss << "{" << getEnumShortString(m_type) << "}";
     return ss.str();
 }
@@ -253,10 +261,12 @@ Expression& Term::getAsExpressionReference() {
 Function& Term::getAsFunctionReference() {
     clearSimplifiedFlag();
     assert((m_type == TermType::Function));
-    return *static_cast<Function*>(m_baseTermDataPointer.get());}
+    return *static_cast<Function*>(m_baseTermDataPointer.get());
+}
 
 BaseTermUniquePointer Term::createBasePointerByMove() {
-    return static_cast<BaseTermUniquePointer>(make_unique<Term>(m_type, m_isSimplified, move(m_baseTermDataPointer)));}
+    return static_cast<BaseTermUniquePointer>(make_unique<Term>(m_type, m_isSimplified, move(m_baseTermDataPointer)));
+}
 
 void Term::clear() {
     m_type = TermType::Empty;
@@ -276,7 +286,8 @@ void Term::simplify() {
             *this = simplifyAndConvertFunctionToSimplestTerm(getAsFunction());
         }
         setAsSimplified();
-    }}
+    }
+}
 
 void Term::sort() {
     if (isPolynomial()) {
@@ -286,6 +297,7 @@ void Term::sort() {
     }
     clearAllInnerSimplifiedFlags();
 }
+
 void Term::setAsSimplified() { m_isSimplified = true; }
 
 void Term::clearSimplifiedFlag() { m_isSimplified = false; }
@@ -302,6 +314,7 @@ void Term::clearAllInnerSimplifiedFlags() {
     }
     clearSimplifiedFlag();
 }
+
 Term::BaseTermDataPointer Term::createANewDataPointerFrom(Term const& term) {
     BaseTermDataPointer result;
     switch (term.getTermType()) {
@@ -329,10 +342,12 @@ Term::BaseTermDataPointer Term::createANewDataPointerFrom(Term const& term) {
             result = make_unique<Function>(term.getAsFunction());
             break;
     }
-    return result;}
+    return result;
+}
 
 void Term::initializeBasedOnString(string const& stringAsParameter) {
-    if (stringAsParameter.empty()) {        // do nothing
+    if (stringAsParameter.empty()) {
+        // do nothing
     } else if (isNumber(stringAsParameter.front())) {
         m_type = TermType::Constant;
         m_baseTermDataPointer = make_unique<Constant>(convertStringToAlbaNumber(stringAsParameter));
@@ -375,9 +390,11 @@ ostream& operator<<(ostream& out, Term const& term) {
             out << term.getAsFunction();
             break;
         default:
-            break;    }
+            break;
+    }
     return out;
 }
+
 }  // namespace algebra
 
 }  // namespace alba

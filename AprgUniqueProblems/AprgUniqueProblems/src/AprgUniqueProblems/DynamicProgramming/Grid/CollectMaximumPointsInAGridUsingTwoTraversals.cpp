@@ -67,10 +67,12 @@ CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingIterativeDP(
                         Index previousColumnRight = columnRight + rightOffset;
                         if (m_inputGrid.isInside(previousColumnLeft, previousRow) &&
                             m_inputGrid.isInside(previousColumnRight, previousRow)) {
-                            Value previousValue =                                valueGrids[previousRow].getEntry(previousColumnLeft, previousColumnRight);
+                            Value previousValue =
+                                valueGrids[previousRow].getEntry(previousColumnLeft, previousColumnRight);
                             if (INVALID_COUNT != previousValue) {
                                 entryResult =
-                                    (entryResult == INVALID_COUNT) ? previousValue : max(entryResult, previousValue);                            }
+                                    (entryResult == INVALID_COUNT) ? previousValue : max(entryResult, previousValue);
+                            }
                         }
                     }
                     if (INVALID_COUNT != entryResult) {
@@ -102,10 +104,12 @@ CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingNaiveRecursi
             Index nextColumnRight = columnRight + rightOffset;
             if (m_inputGrid.isInside(nextColumnLeft, nextRow) && m_inputGrid.isInside(nextColumnRight, nextRow)) {
                 Value nextValue = getMaximumPointsUsingNaiveRecursion(nextRow, nextColumnLeft, nextColumnRight);
-                if (INVALID_COUNT != nextValue) {                    result = max(result, nextValue);
+                if (INVALID_COUNT != nextValue) {
+                    result = max(result, nextValue);
                 }
             }
-        }        result += (columnLeft == columnRight)
+        }
+        result += (columnLeft == columnRight)
                       ? m_inputGrid.getEntry(columnLeft, row)
                       : m_inputGrid.getEntry(columnLeft, row) + m_inputGrid.getEntry(columnRight, row);
     }
@@ -129,10 +133,12 @@ CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingMemoizationD
                 Index nextColumnRight = columnRight + rightOffset;
                 if (m_inputGrid.isInside(nextColumnLeft, nextRow) && m_inputGrid.isInside(nextColumnRight, nextRow)) {
                     Value nextValue =
-                        getMaximumPointsUsingMemoizationDP(valueGrids, nextRow, nextColumnLeft, nextColumnRight);                    if (INVALID_COUNT != nextValue) {
+                        getMaximumPointsUsingMemoizationDP(valueGrids, nextRow, nextColumnLeft, nextColumnRight);
+                    if (INVALID_COUNT != nextValue) {
                         result = max(result, nextValue);
                     }
-                }            }
+                }
+            }
             result += (columnLeft == columnRight)
                           ? m_inputGrid.getEntry(columnLeft, row)
                           : m_inputGrid.getEntry(columnLeft, row) + m_inputGrid.getEntry(columnRight, row);

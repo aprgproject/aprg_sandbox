@@ -45,6 +45,7 @@ bool Function::operator==(Function const& second) const {
 }
 
 bool Function::operator!=(Function const& second) const { return !(operator==(second)); }
+
 bool Function::operator<(Function const& second) const {
     bool result(false);
     if (m_functionName == second.m_functionName) {
@@ -52,10 +53,12 @@ bool Function::operator<(Function const& second) const {
                getTermConstReferenceFromBaseTerm(second.getInputTerm());
     } else {
         result = m_functionName < second.m_functionName;
-    }    return result;
+    }
+    return result;
 }
 
 bool Function::isSimplified() const { return m_isSimplified; }
+
 string Function::getFunctionName() const { return m_functionName; }
 
 string Function::getDebugString() const {
@@ -74,9 +77,11 @@ AlbaNumber Function::performFunctionAndReturnResultIfPossible() const {
 BaseTerm const& Function::getInputTerm() const {
     return getBaseTermConstReferenceFromUniquePointer(m_inputTermPointer);
 }
+
 Function::EvaluationFunction const& Function::getEvaluationFunction() const { return m_evaluationFunction; }
 
-BaseTerm& Function::getInputTermReference() {    clearSimplifiedFlag();
+BaseTerm& Function::getInputTermReference() {
+    clearSimplifiedFlag();
     return getBaseTermReferenceFromUniquePointer(m_inputTermPointer);
 }
 

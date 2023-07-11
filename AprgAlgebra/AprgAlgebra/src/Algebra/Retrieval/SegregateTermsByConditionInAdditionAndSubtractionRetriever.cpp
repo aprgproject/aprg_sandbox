@@ -4,9 +4,11 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
+
 namespace alba {
 
 namespace algebra {
+
 SegregateTermsByConditionInAdditionAndSubtractionRetriever::SegregateTermsByConditionInAdditionAndSubtractionRetriever(
     ConditionFunction const& condition)
     : m_condition(condition) {}
@@ -33,10 +35,12 @@ void SegregateTermsByConditionInAdditionAndSubtractionRetriever::retrieveFromMon
 
 void SegregateTermsByConditionInAdditionAndSubtractionRetriever::retrieveFromExpression(Expression const& expression) {
     if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
-        for (TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails()) {            if (termWithDetails.hasPositiveAssociation()) {
+        for (TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails()) {
+            if (termWithDetails.hasPositiveAssociation()) {
                 retrieveFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
             } else {
-                retrieveFromTerm(negateTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer)));            }
+                retrieveFromTerm(negateTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer)));
+            }
         }
     } else {
         saveTerm(Term(expression));
@@ -49,10 +53,12 @@ void SegregateTermsByConditionInAdditionAndSubtractionRetriever::retrieveFromFun
 
 void SegregateTermsByConditionInAdditionAndSubtractionRetriever::saveTerm(Term const& term) {
     if (m_condition(term)) {
-        m_termWithCondition += term;    } else {
+        m_termWithCondition += term;
+    } else {
         m_termWithoutCondition += term;
     }
 }
+
 }  // namespace algebra
 
 }  // namespace alba

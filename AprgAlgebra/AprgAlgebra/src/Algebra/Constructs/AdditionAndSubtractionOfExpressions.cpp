@@ -135,9 +135,11 @@ void AdditionAndSubtractionOfExpressions::prepareCommonParts(Terms& commonParts)
         }
     }
 }
+
 void AdditionAndSubtractionOfExpressions::retrieveMergeParts(Terms& mergeParts) {
     for (Expression const& expression : m_expressions) {
-        mergeParts.emplace_back();        retrieveMergePart(mergeParts.back(), expression);
+        mergeParts.emplace_back();
+        retrieveMergePart(mergeParts.back(), expression);
     }
 }
 

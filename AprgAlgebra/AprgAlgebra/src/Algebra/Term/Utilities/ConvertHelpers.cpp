@@ -23,10 +23,12 @@ bool canBeConvertedToMonomial(Term const& term) {
         isPolynomialWithOneMonomial = isOneMonomial(term.getAsPolynomial());
     }
     return TermType::Constant == termType || TermType::Variable == termType || TermType::Monomial == termType ||
-           isPolynomialWithOneMonomial;}
+           isPolynomialWithOneMonomial;
+}
 
 bool canBeConvertedToPolynomial(Term const& term) {
-    TermType termType(term.getTermType());    return TermType::Constant == termType || TermType::Variable == termType || TermType::Monomial == termType ||
+    TermType termType(term.getTermType());
+    return TermType::Constant == termType || TermType::Variable == termType || TermType::Monomial == termType ||
            TermType::Polynomial == termType;
 }
 
@@ -76,10 +78,12 @@ Term convertMonomialToSimplestTerm(Monomial const& monomial) {
         newTerm = monomial.getCoefficient();
     } else if (isVariableOnly(monomial)) {
         newTerm = getFirstVariableName(monomial);
-    }    return newTerm;
+    }
+    return newTerm;
 }
 
-Term convertPolynomialToSimplestTerm(Polynomial const& polynomial) {    Term newTerm(polynomial);
+Term convertPolynomialToSimplestTerm(Polynomial const& polynomial) {
+    Term newTerm(polynomial);
     if (isTheValue(polynomial, 0)) {
         newTerm = Term(0);
     } else if (isOneMonomial(polynomial)) {
@@ -96,10 +100,12 @@ Term convertExpressionToSimplestTerm(Expression const& expression) {
         Term const& term = static_cast<Term const&>(expression.getFirstTerm());
         newTerm = term;
         newTerm.simplify();
-    }    return newTerm;
+    }
+    return newTerm;
 }
 
-Term convertFunctionToSimplestTerm(Function const& functionObject) {    SimplificationOfFunctionToTerm simplification;
+Term convertFunctionToSimplestTerm(Function const& functionObject) {
+    SimplificationOfFunctionToTerm simplification;
     return simplification.simplifyToTerm(functionObject);
 }
 

@@ -19,4 +19,5 @@ void ExpressionAndFunctionsRetriever::retrieveFromFunction(Function const& funct
 }
 
 }  // namespace algebra
+
 }  // namespace alba

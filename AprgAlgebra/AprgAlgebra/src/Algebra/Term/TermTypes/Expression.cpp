@@ -71,9 +71,11 @@ OperatorLevel Expression::getCommonOperatorLevel() const { return m_commonOperat
 BaseTerm const& Expression::getFirstTerm() const { return m_termsWithAssociation.getFirstTerm(); }
 
 TermAssociationType Expression::getFirstAssociationType() const {
-    return m_termsWithAssociation.getFirstAssociationType();}
+    return m_termsWithAssociation.getFirstAssociationType();
+}
 
 TermsWithAssociation const& Expression::getTermsWithAssociation() const { return m_termsWithAssociation; }
+
 string Expression::getDebugString() const {
     stringstream ss;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
@@ -151,10 +153,12 @@ void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm) {
         putExpressionWithMultiplication(term.getAsExpression());
     } else {
         putOnlyTermWithMultiplicationIfNeeded(baseTerm);
-    }    clearSimplifiedFlag();
+    }
+    clearSimplifiedFlag();
 }
 
-void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm) {    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm) {
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if (willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term)) {
         if (isEmpty()) {
             setTerm(Term(1));
@@ -425,10 +429,12 @@ void Expression::putTermForExpressionAndNonExpressions(
         Expression const& expression(term.getAsExpression());
         if (!expression.isEmpty()) {
             if (m_commonOperatorLevel == expression.getCommonOperatorLevel() ||
-                OperatorLevel::Unknown == expression.getCommonOperatorLevel()) {                putTermsWithAssociation(expression.getTermsWithAssociation(), overallAssociation);
+                OperatorLevel::Unknown == expression.getCommonOperatorLevel()) {
+                putTermsWithAssociation(expression.getTermsWithAssociation(), overallAssociation);
             } else {
                 putTerm(baseTerm, overallAssociation);
-            }        }
+            }
+        }
     } else if (isNonEmptyOrNonOperatorOrNonExpressionType(term)) {
         putTerm(baseTerm, overallAssociation);
     }
@@ -445,10 +451,12 @@ void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
             putTerm(termsWithAssociation.getFirstTerm(), overallAssociation);
         } else {
             putTerm(baseTerm, overallAssociation);
-        }    } else if (isNonEmptyOrNonOperatorOrNonExpressionType(term)) {
+        }
+    } else if (isNonEmptyOrNonOperatorOrNonExpressionType(term)) {
         putTerm(baseTerm, overallAssociation);
     }
 }
+
 void Expression::putTermsWithAssociation(
     TermsWithAssociation const& termsWithAssociation, TermAssociationType const overallAssociation) {
     TermsWithAssociation newTermsWithAssociation(termsWithAssociation);
@@ -464,14 +472,16 @@ void Expression::distributeAndMultiply(Polynomial const& polynomial, Expression 
     for (Monomial const& monomial : polynomial.getMonomials()) {
         Expression monomialExpression(createExpressionIfPossible({monomial}));
         monomialExpression.putTermWithMultiplicationIfNeeded(Term(expression));
-        putTermWithAdditionIfNeeded(Term(monomialExpression));    }
+        putTermWithAdditionIfNeeded(Term(monomialExpression));
+    }
 }
 
 void Expression::distributeAndMultiply(Expression const& expression, Polynomial const& polynomial) {
     for (Monomial const& monomial : polynomial.getMonomials()) {
         Expression expressionTerm(expression);
         expressionTerm.putTermWithMultiplicationIfNeeded(Term(monomial));
-        putTermWithAdditionIfNeeded(Term(expressionTerm));    }
+        putTermWithAdditionIfNeeded(Term(expressionTerm));
+    }
 }
 
 void Expression::distributeAndMultiply(Polynomial const& polynomial, TermsWithDetails const& termsWithDetails) {
@@ -485,9 +495,11 @@ void Expression::distributeAndMultiply(TermsWithDetails const& termsWithDetails,
         distributeAndMultiply(termsWithDetails, Term(monomial));
     }
 }
+
 void Expression::distributeAndMultiply(BaseTerm const& baseTerm, TermsWithDetails const& termsWithDetails) {
     for (TermWithDetails const& termWithDetails : termsWithDetails) {
-        distributeAndMultiply(            createOrCopyExpressionFromATerm(getTermConstReferenceFromBaseTerm(baseTerm)),
+        distributeAndMultiply(
+            createOrCopyExpressionFromATerm(getTermConstReferenceFromBaseTerm(baseTerm)),
             getBaseTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer),
             termWithDetails.hasPositiveAssociation());
     }

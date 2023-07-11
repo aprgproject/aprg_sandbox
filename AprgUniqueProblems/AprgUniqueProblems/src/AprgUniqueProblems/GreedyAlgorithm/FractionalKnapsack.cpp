@@ -6,7 +6,7 @@ using namespace std;
 
 namespace alba {
 
-FractionalKnapsack::Profit FractionalKnapsack::getBestProfit(Weight const maximumWeight, Items const items) const {
+FractionalKnapsack::Profit FractionalKnapsack::getBestProfit(Weight const maximumWeight, Items const& items) const {
     // Time Complexity: O(N log N)
     // Auxiliary Space: O(N)
 

@@ -229,6 +229,7 @@ inline NumberType multiplyBySeven(NumberType const number) {
 
 AlbaNumber getGreatestCommonFactor(
     AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
-AlbaNumber getLeastCommonMultiple(    AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
+AlbaNumber getLeastCommonMultiple(
+    AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);  // different implementation
 
 }  // namespace alba::mathHelper

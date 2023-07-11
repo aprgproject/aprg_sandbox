@@ -25,4 +25,5 @@ void NumberOfTermsRetriever::retrieveFromFunction(Function const& functionObject
 }
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -46,9 +46,11 @@ Term Differentiation::differentiate(Term const& term) const {
     }
     return result;
 }
+
 Term Differentiation::differentiate(Constant const& constant) const { return differentiateConstant(constant); }
 
-Term Differentiation::differentiate(Variable const& variable) const {    Term result(differentiateVariable(variable));
+Term Differentiation::differentiate(Variable const& variable) const {
+    Term result(differentiateVariable(variable));
     result.simplify();
     return result;
 }
@@ -130,10 +132,12 @@ Polynomial Differentiation::differentiatePolynomial(Polynomial const& polynomial
     for (Monomial const& monomial : polynomial.getMonomials()) {
         result.addPolynomial(differentiateMonomial(monomial));
     }
-    result.simplify();    return result;
+    result.simplify();
+    return result;
 }
 
-Term Differentiation::differentiateExpression(Expression const& expression) const {    Term result(differentiateAsTermOrExpressionIfNeeded(expression));
+Term Differentiation::differentiateExpression(Expression const& expression) const {
+    Term result(differentiateAsTermOrExpressionIfNeeded(expression));
     simplifyForDifferentiation(result);
     return result;
 }
@@ -143,10 +147,12 @@ Term Differentiation::differentiateFunction(Function const& functionObject) cons
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
     Term derivativeOfInputTermOfFunction(differentiate(inputTerm));
     Term result(createExpressionIfPossible({derivativeOfFunctionOnly, "*", derivativeOfInputTermOfFunction}));
-    simplifyForDifferentiation(result);    return result;
+    simplifyForDifferentiation(result);
+    return result;
 }
 
-Equation Differentiation::differentiateEquation(Equation const& equation) const {    Equation result(
+Equation Differentiation::differentiateEquation(Equation const& equation) const {
+    Equation result(
         differentiate(equation.getLeftHandTerm()), equation.getEquationOperator().getOperatorString(),
         differentiate(equation.getRightHandTerm()));
     result.simplify();
@@ -178,10 +184,12 @@ void Differentiation::separateNonChangingAndChangingVariables(
     for (auto const& variableExponentPair : monomial.getVariablesToExponentsMap()) {
         string const& variableName(variableExponentPair.first);
         AlbaNumber const& exponent(variableExponentPair.second);
-        if (exponent != 0) {            if (isChangingVariableName(variableName)) {
+        if (exponent != 0) {
+            if (isChangingVariableName(variableName)) {
                 changingVariables.putVariableWithExponent(variableName, exponent);
             } else {
-                nonChangingVariablesAndConstant.putVariableWithExponent(variableName, exponent);            }
+                nonChangingVariablesAndConstant.putVariableWithExponent(variableName, exponent);
+            }
         }
     }
 }
@@ -191,10 +199,12 @@ Polynomial Differentiation::differentiateMonomialWithChangingVariables(Monomial 
     for (auto const& variableExponentPair : changingVariables.getVariablesToExponentsMap()) {
         string const& variableName(variableExponentPair.first);
         AlbaNumber const& exponent(variableExponentPair.second);
-        Monomial monomialToAdd(changingVariables);        DerivativeVariableName derivativeVariableName(variableName);
+        Monomial monomialToAdd(changingVariables);
+        DerivativeVariableName derivativeVariableName(variableName);
         if (isVariableToDifferentiate(variableName)) {
             monomialToAdd.putVariableWithExponent(variableName, exponent - 1);
-            monomialToAdd.multiplyNumber(exponent);        } else if (isDependentVariable(variableName)) {
+            monomialToAdd.multiplyNumber(exponent);
+        } else if (isDependentVariable(variableName)) {
             monomialToAdd.putVariableWithExponent(variableName, exponent - 1);
             monomialToAdd.multiplyNumber(exponent);
             DerivativeVariableName derivativeOfDependentVariableName(1, m_nameOfVariableToDifferentiate, variableName);
@@ -218,10 +228,12 @@ Term Differentiation::differentiateAsTermOrExpressionIfNeeded(Expression const& 
         result = differentiateSimplifiedExpressionOnly(simplifiedTerm.getAsExpression());
     } else {
         result = differentiate(simplifiedTerm);
-    }    return result;
+    }
+    return result;
 }
 
-Term Differentiation::differentiateSimplifiedExpressionOnly(Expression const& expression) const {    Term result(ALBA_NUMBER_NOT_A_NUMBER);
+Term Differentiation::differentiateSimplifiedExpressionOnly(Expression const& expression) const {
+    Term result(ALBA_NUMBER_NOT_A_NUMBER);
     if (OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()) {
         result = differentiateTermsInAdditionOrSubtraction(expression);
     } else if (OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel()) {
@@ -335,10 +347,12 @@ Term Differentiation::differentiateFunctionOnly(Function const& functionObject) 
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
     if ("abs" == functionObject.getFunctionName()) {
         derivativeOfFunction = sgn(inputTerm);
-    } else if ("ln" == functionObject.getFunctionName()) {        derivativeOfFunction = createExpressionIfPossible({1, "/", inputTerm});
+    } else if ("ln" == functionObject.getFunctionName()) {
+        derivativeOfFunction = createExpressionIfPossible({1, "/", inputTerm});
     } else if ("log" == functionObject.getFunctionName()) {
         derivativeOfFunction = createExpressionIfPossible({::log(10), "/", inputTerm});
-    } else if ("sin" == functionObject.getFunctionName()) {        derivativeOfFunction = cos(inputTerm);
+    } else if ("sin" == functionObject.getFunctionName()) {
+        derivativeOfFunction = cos(inputTerm);
     } else if ("cos" == functionObject.getFunctionName()) {
         derivativeOfFunction = createExpressionIfPossible({-1, "*", sin(inputTerm)});
     } else if ("tan" == functionObject.getFunctionName()) {
@@ -418,7 +432,9 @@ bool Differentiation::isChangingTerm(Term const& term) const {
     VariableNamesSet const& variableNames(retriever.getVariableNames());
     return any_of(variableNames.cbegin(), variableNames.cend(), [&](string const& variableName) {
         return isChangingVariableName(variableName);
-    });}
+    });
+}
 
 }  // namespace algebra
+
 }  // namespace alba

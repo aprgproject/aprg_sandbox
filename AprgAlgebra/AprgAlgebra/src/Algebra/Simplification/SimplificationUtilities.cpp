@@ -106,10 +106,12 @@ void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression& expres
                 Expression& subExpression(term.getAsExpressionReference());
                 isChanged =
                     isChanged ||
-                    simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(                        subExpression);
+                    simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
+                        subExpression);
             }
         }
-        if (isChanged) {            expression.simplify();
+        if (isChanged) {
+            expression.simplify();
         }
     }
 }
@@ -123,10 +125,12 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
             Expression subExpression(term.getAsExpression());
             subExpression.simplify();
             TermAssociationType subExpressionAssociation(oldTermWithDetails.association);
-            simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(                newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
+            simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
+                newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
         } else if (isNonEmptyOrNonOperatorType(term)) {
             Term newTerm(term);
-            newTerm.simplify();            newTermsWithDetails.emplace_back(newTerm, oldTermWithDetails.association);
+            newTerm.simplify();
+            newTermsWithDetails.emplace_back(newTerm, oldTermWithDetails.association);
         }
     }
 }

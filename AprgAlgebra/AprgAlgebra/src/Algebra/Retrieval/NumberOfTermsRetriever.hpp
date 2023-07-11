@@ -22,4 +22,5 @@ private:
 };
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -21,8 +21,10 @@ TEST(FunctionTest, ConstructionWorks) {
     EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(function2.getInputTerm()));
     EXPECT_EQ(AlbaNumber(5), function2.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(FunctionTest, FunctionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet) {
     Function function;
+
     EXPECT_FALSE(function.isSimplified());
 }
 
@@ -114,10 +116,12 @@ TEST(FunctionTest, GetInputTermWorks) {
     EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(function2.getInputTerm()));
 }
 
-TEST(FunctionTest, GetEvaluationFunctionWorks) {    Function::EvaluationFunction evaluationFunction = [](AlbaNumber const& number) -> AlbaNumber { return number; };
+TEST(FunctionTest, GetEvaluationFunctionWorks) {
+    Function::EvaluationFunction evaluationFunction = [](AlbaNumber const& number) -> AlbaNumber { return number; };
     Function functionObject("functionName", Term(5), evaluationFunction);
 
-    Function::EvaluationFunction const& evaluationFunctionToVerify(functionObject.getEvaluationFunction());    EXPECT_EQ(AlbaNumber(100), evaluationFunctionToVerify(100));
+    Function::EvaluationFunction const& evaluationFunctionToVerify(functionObject.getEvaluationFunction());
+    EXPECT_EQ(AlbaNumber(100), evaluationFunctionToVerify(100));
 }
 
 TEST(FunctionTest, GetInputTermReferenceWorks) {
@@ -129,7 +133,8 @@ TEST(FunctionTest, GetInputTermReferenceWorks) {
     EXPECT_EQ(Term(10), getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
 }
 
-TEST(FunctionTest, SimplifyWorks) {    Function::EvaluationFunction evaluationFunction = [](AlbaNumber const& number) -> AlbaNumber { return number; };
+TEST(FunctionTest, SimplifyWorks) {
+    Function::EvaluationFunction evaluationFunction = [](AlbaNumber const& number) -> AlbaNumber { return number; };
     Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);
 
     functionObject.simplify();
@@ -139,9 +144,11 @@ TEST(FunctionTest, SimplifyWorks) {    Function::EvaluationFunction evaluationFu
     Function::EvaluationFunction const& evaluationFunctionToVerify(functionObject.getEvaluationFunction());
     EXPECT_EQ(AlbaNumber(100), evaluationFunctionToVerify(100));
 }
+
 TEST(FunctionTest, SimplifyWorksWhenIsSimplifiedIsNotSet) {
     Function::EvaluationFunction evaluationFunction = [](AlbaNumber const& number) -> AlbaNumber { return number; };
     Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);
+
     functionObject.simplify();
 
     EXPECT_EQ("functionName", functionObject.getFunctionName());
@@ -149,9 +156,11 @@ TEST(FunctionTest, SimplifyWorksWhenIsSimplifiedIsNotSet) {
     Function::EvaluationFunction const& evaluationFunctionToVerify(functionObject.getEvaluationFunction());
     EXPECT_EQ(AlbaNumber(100), evaluationFunctionToVerify(100));
 }
+
 TEST(FunctionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet) {
     Function::EvaluationFunction evaluationFunction = [](AlbaNumber const& number) -> AlbaNumber { return number; };
-    Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);    functionObject.setAsSimplified();
+    Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);
+    functionObject.setAsSimplified();
 
     functionObject.simplify();
 
@@ -161,8 +170,10 @@ TEST(FunctionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet) {
     Function::EvaluationFunction const& evaluationFunctionToVerify(functionObject.getEvaluationFunction());
     EXPECT_EQ(AlbaNumber(100), evaluationFunctionToVerify(100));
 }
+
 TEST(FunctionTest, SetAsSimplifiedWorks) {
     Function functionObject;
+
     functionObject.setAsSimplified();
 
     EXPECT_TRUE(functionObject.isSimplified());
@@ -191,10 +202,12 @@ TEST(FunctionTest, ClearAllInnerSimplifiedFlagsWorks) {
     EXPECT_FALSE(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()).isSimplified());
 }
 
-TEST(FunctionTest, OutputStreamOperatorWorks) {    stringstream ss;
+TEST(FunctionTest, OutputStreamOperatorWorks) {
+    stringstream ss;
     Function functionObject("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     ss << functionObject;
+
     EXPECT_EQ("functionName(5)", ss.str());
 }
 

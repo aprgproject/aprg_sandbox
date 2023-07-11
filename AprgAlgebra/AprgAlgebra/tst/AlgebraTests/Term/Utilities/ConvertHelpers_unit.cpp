@@ -78,7 +78,8 @@ TEST(ConvertHelpersTest, SimplifyAndConvertMonomialToSimplestTermWorks) {
     EXPECT_DOUBLE_EQ(10, termToVerify4.getAsNumber().getDouble());
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertPolynomialToSimplestTermWorks) {    Term termToVerify1(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{}));
+TEST(ConvertHelpersTest, SimplifyAndConvertPolynomialToSimplestTermWorks) {
+    Term termToVerify1(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{}));
     Term termToVerify2(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {})}));
     Term termToVerify3(
         simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
@@ -91,10 +92,12 @@ TEST(ConvertHelpersTest, SimplifyAndConvertPolynomialToSimplestTermWorks) {    T
     EXPECT_DOUBLE_EQ(0, termToVerify3.getAsNumber().getDouble());
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks) {    Expression expression1(createExpressionIfPossible({88}));
+TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks) {
+    Expression expression1(createExpressionIfPossible({88}));
     Expression expression2(createExpressionInAnExpression(expression1));
     Expression expression3(createExpressionInAnExpression(expression2));
     Expression expression4(createExpressionInAnExpression(expression3));
+
     Term termToVerify1(simplifyAndConvertExpressionToSimplestTerm(createExpressionIfPossible({})));
     Term termToVerify2(simplifyAndConvertExpressionToSimplestTerm(createExpressionIfPossible({expression1})));
     Term termToVerify3(simplifyAndConvertExpressionToSimplestTerm(createExpressionIfPossible({expression2})));
@@ -112,10 +115,12 @@ TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks) {    E
     EXPECT_DOUBLE_EQ(88, termToVerify5.getAsNumber().getDouble());
 }
 
-TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks) {    Function function1;
+TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks) {
+    Function function1;
     Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber { return number; });
     Function function3(
-        "functionName", Term(createExpressionIfPossible({5, "+", 5})),        [](AlbaNumber const& number) -> AlbaNumber { return number; });
+        "functionName", Term(createExpressionIfPossible({5, "+", 5})),
+        [](AlbaNumber const& number) -> AlbaNumber { return number; });
 
     Term termToVerify1(simplifyAndConvertFunctionToSimplestTerm(function1));
     Term termToVerify2(simplifyAndConvertFunctionToSimplestTerm(function2));
@@ -126,9 +131,11 @@ TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks) {    Fun
     EXPECT_EQ(Term(5), termToVerify2);
     EXPECT_EQ(Term(10), termToVerify3);
 }
+
 TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks) {
     Term termToVerify1(convertMonomialToSimplestTerm(Monomial()));
-    Term termToVerify2(convertMonomialToSimplestTerm(Monomial(6, {})));    Term termToVerify3(convertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
+    Term termToVerify2(convertMonomialToSimplestTerm(Monomial(6, {})));
+    Term termToVerify3(convertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
     Term termToVerify4(convertMonomialToSimplestTerm(Monomial(10, {{"x", 0}})));
 
     ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
@@ -142,7 +149,8 @@ TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks) {
     EXPECT_EQ(monomialToExpect, termToVerify4.getAsMonomial());
 }
 
-TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks) {    Term termToVerify1(convertPolynomialToSimplestTerm(Polynomial{}));
+TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks) {
+    Term termToVerify1(convertPolynomialToSimplestTerm(Polynomial{}));
     Term termToVerify2(convertPolynomialToSimplestTerm(Polynomial{Monomial(6, {})}));
     Term termToVerify3(convertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
 
@@ -155,10 +163,12 @@ TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks) {    Term termToV
     EXPECT_EQ(polynomialToExpect, termToVerify3.getAsPolynomial());
 }
 
-TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks) {    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible({})));
+TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks) {
+    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible({})));
     Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible({156})));
     Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible({Monomial(444, {})})));
     Term termToVerify4(convertExpressionToSimplestTerm(createExpressionIfPossible({1, "/", Monomial(444, {})})));
+
     EXPECT_EQ(Term(), termToVerify1);
     EXPECT_EQ(Term(156), termToVerify2);
     EXPECT_EQ(Term(444), termToVerify3);
@@ -185,6 +195,7 @@ TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks) {
     EXPECT_EQ(function3, termToVerify3.getAsFunction());
     EXPECT_EQ(termToExpect, termToVerify4);
 }
+
 }  // namespace algebra
 
 }  // namespace alba
