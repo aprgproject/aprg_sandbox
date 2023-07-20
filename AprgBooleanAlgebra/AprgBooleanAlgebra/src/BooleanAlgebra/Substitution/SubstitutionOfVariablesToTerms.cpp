@@ -76,21 +76,19 @@ Expression SubstitutionOfVariablesToTerms::performSubstitutionForExpression(Expr
 
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
     initializer_list<VariableTermPair> const& variablesWithTerms) {
-    for (VariableTermPair const& variableValuesPair : variablesWithTerms) {
-        putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
+    for (auto const& [variableName, value] : variablesWithTerms) {
+        putVariableWithTerm(variableName, value);
     }
 }
 
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(VariablesToTermsMap const& variablesWithTerms) {
-    for (auto const& variableValuesPair : variablesWithTerms) {
-        putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
+    for (auto const& [variableName, value] : variablesWithTerms) {
+        putVariableWithTerm(variableName, value);
     }
 }
-
 void SubstitutionOfVariablesToTerms::putVariableWithTerm(string const& variable, Term const& term) {
     m_variableToTermsMap[variable] = term;
-    m_variableToTermsMap[variable].simplify();
-}
+    m_variableToTermsMap[variable].simplify();}
 
 void SubstitutionOfVariablesToTerms::performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const {
     for (WrappedTerm& wrappedTerm : wrappedTerms) {

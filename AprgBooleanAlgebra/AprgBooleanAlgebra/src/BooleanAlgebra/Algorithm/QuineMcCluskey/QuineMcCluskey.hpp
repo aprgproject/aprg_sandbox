@@ -113,15 +113,13 @@ public:
     }
 
     void fillComputationalTableWithMintermsWithZeroCommonalityCount() {
-        for (auto const& inputAndOutputPair : m_inputToOutputMap) {
-            addMintermForZeroCommonalityCount(inputAndOutputPair.first);
+        for (auto const& [input, output] : m_inputToOutputMap) {
+            addMintermForZeroCommonalityCount(input);
         }
     }
-
     void findCombinationOfImplicants(int numberOfOnes, int commonalityCount) {
         if (numberOfOnes + 1 < static_cast<int>(m_computationalTable.size())) {
-            Implicants const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);
-            Implicants const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
+            Implicants const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);            Implicants const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
             for (Implicant const& implicant1 : implicants1) {
                 for (Implicant const& implicant2 : implicants2) {
                     if (implicant1.isCompatible(implicant2)) {
@@ -134,19 +132,17 @@ public:
 
     std::string getComputationTableString() const {
         std::stringstream ss;
-        for (auto const& numberOfOnesAndCommonalityCountImplicantsPair : m_computationalTable) {
-            ss << "Number of ones = " << numberOfOnesAndCommonalityCountImplicantsPair.first << "\n";
-            for (auto const& commonalityCountAndImplicantsPair : numberOfOnesAndCommonalityCountImplicantsPair.second) {
-                ss << "Commonality count = " << commonalityCountAndImplicantsPair.first << " with ";
-                printParameterWithName(ss, "Implicants", commonalityCountAndImplicantsPair.second);
+        for (auto const& [numberOfOnes, commonalityCountImplicantsPairs] : m_computationalTable) {
+            ss << "Number of ones = " << numberOfOnes << "\n";
+            for (auto const& [commonalityCount, implicants] : commonalityCountImplicantsPairs) {
+                ss << "Commonality count = " << commonalityCount << " with ";
+                printParameterWithName(ss, "Implicants", implicants);
                 ss << "\n";
             }
-        }
-        return ss.str();
+        }        return ss.str();
     }
 
-    Implicants getBestPrimeImplicants(Implicants const& primeImplicants) const {
-        return getBestPrimeImplicantsPetricksMethod(primeImplicants);
+    Implicants getBestPrimeImplicants(Implicants const& primeImplicants) const {        return getBestPrimeImplicantsPetricksMethod(primeImplicants);
     }
 
     bool isASubset(std::set<int> const& smaller, std::set<int> const& larger) const {
@@ -357,27 +353,24 @@ public:
 private:
     Minterms getInputMintermsWithTrue() const {
         Minterms result;
-        for (auto inputOutputPair : m_inputToOutputMap) {
-            if (inputOutputPair.second == LogicalValue::True) {
-                result.emplace_back(inputOutputPair.first);
+        for (auto [input, output] : m_inputToOutputMap) {
+            if (output == LogicalValue::True) {
+                result.emplace_back(input);
             }
         }
-        return result;
-    }
+        return result;    }
 
     SetOfMinterms getSetOfInputMintermsWithTrue() const {
         SetOfMinterms result;
-        for (auto inputOutputPair : m_inputToOutputMap) {
-            if (inputOutputPair.second == LogicalValue::True) {
-                result.emplace(inputOutputPair.first);
+        for (auto [input, output] : m_inputToOutputMap) {
+            if (output == LogicalValue::True) {
+                result.emplace(input);
             }
         }
-        return result;
-    }
+        return result;    }
 
     void addMintermForZeroCommonalityCount(Minterm const& minterm) {
-        int numberOfOnes(getNumberOfOnes(minterm));
-        Implicant implicant;
+        int numberOfOnes(getNumberOfOnes(minterm));        Implicant implicant;
         implicant.addMinterm(minterm);
         m_computationalTable[numberOfOnes][0].emplace(implicant);
     }

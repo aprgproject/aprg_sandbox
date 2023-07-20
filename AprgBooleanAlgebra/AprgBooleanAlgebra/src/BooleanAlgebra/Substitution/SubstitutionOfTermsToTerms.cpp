@@ -62,21 +62,19 @@ Expression SubstitutionOfTermsToTerms::performSubstitutionForExpression(Expressi
 }
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(initializer_list<TermTermPair> const& variablesWithValues) {
-    for (TermTermPair const& variableValuesPair : variablesWithValues) {
-        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
+    for (auto const& [variableName, value] : variablesWithValues) {
+        putTermToTermMapping(variableName, value);
     }
 }
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& variablesWithValues) {
-    for (auto const& variableValuesPair : variablesWithValues) {
-        putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
+    for (auto const& [variableName, value] : variablesWithValues) {
+        putTermToTermMapping(variableName, value);
     }
 }
-
 void SubstitutionOfTermsToTerms::putTermToTermMapping(Term const& term1, Term const& term2) {
     m_termsToTermsMap[term1] = term2;
 }
-
 void SubstitutionOfTermsToTerms::performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const {
     for (WrappedTerm& wrappedTerm : wrappedTerms) {
         Term& term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
