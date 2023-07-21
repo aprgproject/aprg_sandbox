@@ -96,27 +96,70 @@ TEST(ProbabilityUtilitiesTest, GetExpectedValueWorks) {
     EXPECT_EQ(AlbaNumber(3), getExpectedValue(pairsToTest));
 }
 
-TEST(ProbabilityUtilitiesTest, GetExpectedValueInUniformDistributionWorks) {
-    EXPECT_EQ(
-        AlbaNumber::createFraction(101, 2U), getExpectedValueInUniformDistribution(AlbaNumber(1), AlbaNumber(100)));
+TEST(ProbabilityUtilitiesTest, GetExpectedValueWorks_OnExample1) {
+    // Problem: Given a fair dice with 6 faces,
+    // the dice is thrown n times, find the expected value of the sum of all results.
+    // For example, if n = 2, there are total 36 possible outcomes.
+
+    ValueAndProbabilityPairs pairsToTest{{1U, getProbability(1U, 6U)}, {2U, getProbability(1U, 6U)},
+                                         {3U, getProbability(1U, 6U)}, {4U, getProbability(1U, 6U)},
+                                         {5U, getProbability(1U, 6U)}, {6U, getProbability(1U, 6U)}};
+    auto sumOfTwo = getExpectedValue(pairsToTest) * 2;
+
+    EXPECT_EQ(AlbaNumber(7), sumOfTwo);
 }
 
-TEST(ProbabilityUtilitiesTest, GetExpectedValueInBinomialDistributionWorks) {
-    EXPECT_EQ(AlbaNumber(75), getExpectedValueInBinomialDistribution(AlbaNumber::createFraction(3, 4), 100U));
+TEST(ProbabilityUtilitiesTest, GetExpectedValueWorks_OnHatCheckProblem) {
+    // Hat-Check Problem: Let there be a group of n men where every man has one hat.
+    // The hats are redistributed and every man gets a random hat back.
+    // What is the expected number of men that get their original hat back?
+
+    // So the expected number of men to get the right hat back is
+    // = E[R1] + E[R2]  +  .. + E[Rn]
+    // = P(R1 = 1) + P(R2 = 1) + .... + P(Rn = 1)
+    // [Here P(Ri = 1)  indicates probability that Ri is 1]
+    // = 1/n + 1/n + ... + 1/n
+    // = 1
+
+    ValueAndProbabilityPairs pairsToTest{
+        {1U, getProbability(1U, 5U)},
+        {1U, getProbability(1U, 5U)},
+        {1U, getProbability(1U, 5U)},
+        {1U, getProbability(1U, 5U)},
+        {1U, getProbability(1U, 5U)}};
+
+    EXPECT_EQ(AlbaNumber(1), getExpectedValue(pairsToTest));
 }
+
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInUniformDistributionWorks) {
+    EXPECT_EQ(
+        AlbaNumber::createFraction(101, 2U), getExpectedValueInUniformDistribution(AlbaNumber(1), AlbaNumber(100)));}
+
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInBinomialDistributionWorks) {
+    EXPECT_EQ(AlbaNumber(75), getExpectedValueInBinomialDistribution(AlbaNumber::createFraction(3, 4), 100U));}
 
 TEST(ProbabilityUtilitiesTest, GetExpectedValueInGeometricDistributionWorks) {
     EXPECT_EQ(
         AlbaNumber::createFraction(4, 3), getExpectedValueInGeometricDistribution(AlbaNumber::createFraction(3, 4)));
 }
 
-TEST(ProbabilityUtilitiesTest, GetNumberOfPeopleForTheBirthdayParadoxWorks) {
-    EXPECT_EQ(AlbaNumber(1), getNumberOfPeopleForTheBirthdayParadox(0));
-    EXPECT_EQ(AlbaNumber(20), getNumberOfPeopleForTheBirthdayParadox(AlbaNumber::createFraction(1, 2)));
-    EXPECT_EQ(AlbaNumber(26), getNumberOfPeopleForTheBirthdayParadox(0.85));
-    EXPECT_EQ(AlbaNumber(28), getNumberOfPeopleForTheBirthdayParadox(1));
+TEST(ProbabilityUtilitiesTest, GetNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormulaWorks) {
+    EXPECT_EQ(AlbaNumber(1), getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(0));
+    EXPECT_EQ(
+        AlbaNumber(20), getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(AlbaNumber::createFraction(1, 2)));
+    EXPECT_EQ(AlbaNumber(26), getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(0.85));
+    EXPECT_EQ(AlbaNumber(28), getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(0.99));
+    EXPECT_EQ(AlbaNumber(28), getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(1));
+}
+
+TEST(ProbabilityUtilitiesTest, GetNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormulaWorks) {
+    EXPECT_EQ(AlbaNumber(0), getNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormula(0));
+    EXPECT_EQ(
+        AlbaNumber(23), getNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormula(AlbaNumber::createFraction(1, 2)));
+    EXPECT_EQ(AlbaNumber(38), getNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormula(0.85));
+    EXPECT_EQ(AlbaNumber(28), getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(0.99));
+    EXPECT_EQ(AlbaNumber(ALBA_NUMBER_POSITIVE_INFINITY), getNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormula(1));
 }
 
 }  // namespace math
-
 }  // namespace alba

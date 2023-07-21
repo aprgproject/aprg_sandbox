@@ -233,15 +233,22 @@ TEST(ProbabilityExampleTest, BinomialDistributionExpectedValueExampleWorks) {
     EXPECT_EQ(AlbaNumber::createFraction(5, 3U), getExpectedValueInBinomialDistribution(getProbability(1U, 6U), 10U));
 }
 
-TEST(ProbabilityExampleTest, GeometricDistributionExpectedValueExampleWorks) {
+TEST(ProbabilityExampleTest, GeometricDistributionExpectedValueWorks_OnExample1) {
     // In a geometric distribution, the probability that an attempt succeeds is p, and we continue until the first
     // success happens.
-
     // For example, if we throw a dice, what is approximate number of attempts until we throw a six?
     // The expected value is 6.
     // This is the approximately the number of attempts to be made for the condition to be successful.
-
     EXPECT_EQ(AlbaNumber(6), getExpectedValueInGeometricDistribution(getProbability(1U, 6U)));
+}
+
+TEST(ProbabilityExampleTest, GeometricDistributionExpectedValueWorks_OnBirthExample) {
+    // In a country, all families want a boy.
+    // They keep having babies till a boy is born.
+    // What is the expected ratio of boys and girls in the country?
+
+    EXPECT_EQ(AlbaNumber(2), getExpectedValueInGeometricDistribution(getProbability(1U, 2U)));
+    EXPECT_EQ(AlbaNumber::createFraction(1, 2), getProbability(1U, 2U));
 }
 
 }  // namespace math

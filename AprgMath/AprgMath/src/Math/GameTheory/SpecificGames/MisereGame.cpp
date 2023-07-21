@@ -63,10 +63,9 @@ UnsignedInteger MisereGame::countNonEmptyHeaps(NimState const& nimState) {
 }
 
 NimHeapSize MisereGame::getMaxHeapSize(NimState const& nimState) {
-    auto it = minmax_element(nimState.cbegin(), nimState.cend());
-    return *(it.second);
+    auto&& [minIt, maxIt] = minmax_element(nimState.cbegin(), nimState.cend());
+    return *maxIt;
 }
 
 }  // namespace math
-
 }  // namespace alba

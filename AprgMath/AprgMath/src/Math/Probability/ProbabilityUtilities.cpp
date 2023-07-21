@@ -19,26 +19,28 @@ bool doesExpectedValuesHaveLinearity(
     // It means that the sum  E[X1+X2+...+Xn] always equals the sum E[X1]+E[X2]+...+E[Xn].
     // This formula holds even if random variables depend on each other.
 
+    // -> Some interesting facts about Linearly of Expectation:
+    // ---> Linearity of expectation holds for both dependent and independent events.
+    // -----> On the other hand the rule E[R1R2] = E[R1]*E[R2] is true only for independent events.
+    // ---> Linearity of expectation holds for any number of random variables on some probability space.
+    // -----> Let R1, R2, R3, … Rk be k random variables, then
+    // ---> E[R1 + R2 + R3 + … + Rk] = E[R1] + E[R2] + E[R3] + … + E[Rk]
+
     AlbaNumber expectedValueFromSeparated = getExpectedValue(firstSetOfValueAndProbabilityPairsOfX) +
                                             getExpectedValue(secondSetOfValueAndProbabilityPairsOfX);
-
     ValueAndProbabilityPairs all(firstSetOfValueAndProbabilityPairsOfX);
     all.reserve(all.size() + secondSetOfValueAndProbabilityPairsOfX.size());
-    copy(
-        secondSetOfValueAndProbabilityPairsOfX.cbegin(), secondSetOfValueAndProbabilityPairsOfX.cend(),
+    copy(        secondSetOfValueAndProbabilityPairsOfX.cbegin(), secondSetOfValueAndProbabilityPairsOfX.cend(),
         back_inserter(all));
     AlbaNumber expectedValueFromCombined = getExpectedValue(all);
 
     return expectedValueFromSeparated == expectedValueFromCombined;
 }
-
 AlbaNumber getCorrectProbability(AlbaNumber const& probability) {
     // If an event is certain to happen, its probability is 1, and if an event is impossible, its probability is 0.
-
     AlbaNumber result(0);
     if (probability.isAFiniteValue()) {
-        if (probability < 0) {
-            result = 0;
+        if (probability < 0) {            result = 0;
         }
         if (probability > 1) {
             result = 1;
@@ -154,16 +156,14 @@ AlbaNumber getExpectedValue(ValueAndProbabilityPairs const& allValueAndProbabili
     // X.
 
     AlbaNumber result;
-    for (ValueAndProbabilityPair const& valueAndProbabilityPair : allValueAndProbabilityPairsOfX) {
-        result += valueAndProbabilityPair.first * valueAndProbabilityPair.second;
+    for (auto const& [value, probability] : allValueAndProbabilityPairsOfX) {
+        result += value * probability;
     }
     return result;
 }
-
 AlbaNumber getExpectedValueInUniformDistribution(AlbaNumber const& lowestValue, AlbaNumber const& highestValue) {
     // In a uniform distribution, the random variable X has n possible values a,a+1,...,b and the probability of each
     // value is 1/n. Equation: E[X] = (a+b)/2
-
     return (lowestValue + highestValue) / 2;
 }
 
@@ -187,14 +187,12 @@ AlbaNumber getExpectedValueInGeometricDistribution(AlbaNumber const& probability
     return AlbaNumber(1) / probability;
 }
 
-AlbaNumber getNumberOfPeopleForTheBirthdayParadox(AlbaNumber const& propbabilityThatMustBeMet) {
+AlbaNumber getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(AlbaNumber const& propbabilityThatMustBeMet) {
     // How many people must here be in a room before there is a 50% chance that two of them were born on the same day of
     // the year?
-
     // -> Let n be the number of days for a year.
     // -> Let k be the number of people in the room.
-    // -> The probability that one person has a birthday on a day is 1/n.
-    // -> We can look at this problem as a complementary of the probability that all birthdays are distinct.
+    // -> The probability that one person has a birthday on a day is 1/n.    // -> We can look at this problem as a complementary of the probability that all birthdays are distinct.
     // ---> The probability that all birthdays are distinct with k people is:
     // -----> P(Bk) = P(Bk-1) * P(Ak | Bk-1)
     // ---> Bk is the probability of all distinct birthdays with k people.
@@ -232,6 +230,59 @@ AlbaNumber getNumberOfPeopleForTheBirthdayParadox(AlbaNumber const& propbability
         }
     }
 
+    return result;
+}
+
+AlbaNumber getNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormula(AlbaNumber const& propbabilityThatMustBeMet) {
+    // https://en.wikipedia.org/wiki/Birthday_problem
+    // -> How many people must be there in a room to make the probability 100%
+    // that at-least two people in the room have same birthday?
+    // ---> Answer: 367 (since there are 366 possible birthdays, including February 29).
+    // -> How many people must be there in a room to make the probability 50%
+    // that at-least two people in the room havesame birthday?
+    // ---> Answer: 23
+    // ---> The number is surprisingly very low.
+    // ---> In fact, we need only 70 people to make the probability 99.9%.
+    // -> What is the probability that two persons among n have same birthday?
+    // ---> Let the probability that two people in a room with n have same birthday be P(same).
+    // ---> P(Same) can be easily evaluated in terms of P(different)
+    // where P(different) is the probability that all of them have different birthday.
+    // ---> P(same) = 1 – P(different)
+    // ---> P(different) can be written as 1 x (364/365) x (363/365) x (362/365) x …. x (1 – (n-1)/365)
+    // -> How did we get the above expression?
+    // ---> Persons from first to last can get birthdays in following order for all birthdays to be distinct:
+    // ---> The first person can have any birthday among 365
+    // ---> The second person should have a birthday which is not same as first person
+    // ---> The third person should have a birthday which is not same as first two persons.
+    // ---> ...
+    // ---> The n’th person should have a birthday which is not same as any of the earlier considered (n-1) persons.
+    // -> Approximation of above expression
+    // ---> The above expression can be approximated using Taylor’s Series.
+    // -----> e^x = 1 + x + (x^2)/2 + ...
+    // ---> provides a first-order approximation for ex for x << 1:
+    // -----> e^x ~ 1+x
+    // ---> To apply this approximation to the first expression derived for p(different), set x = -a / 365.
+    // ---> Thus:
+    // -----> e^(-a/365) ~ 1 - a/365
+    // ---> The above expression derived for p(different) can be written as
+    // -----> e^(-a/365) = 1 x (1 – 1/365) * (1 – 2/365) * (1 – 3/365) * ... * (1 – (n-1)/365)
+    // -----> e^(-a/365) = 1 * e^(-1/365) * e^(-2/365) * e^(-3/365) ...
+    // -----> e^(-a/365) = e^(-(1 + 2 + 3 + n-1) / 365) ...
+    // -----> e^(-a/365) = e^(-(n*(n-1))/365) ...
+    // ---> Therefore,
+    // -----> p(same) = 1- p(different)
+    // -----> p(same) = 1-e^(-(n*(n-1))/(2*365))
+    // ---> An even coarser approximation is given by:
+    // -----> p(same)  = 1-e^(-(n^2)/(2*365))
+    // ---> By taking Log on both sides, we get the reverse formula.
+    // -----> n ~ sqrt( 2 * 365 * ln(1 / (1-p(same) )) )
+
+    constexpr auto DAYS_IN_YEAR = 365;
+    AlbaNumber result(AlbaMathConstants::POSITIVE_INFINITY_DOUBLE_VALUE);
+    if (propbabilityThatMustBeMet < 1) {
+        result = getIntegerAfterCeilingOfDoubleValue<AlbaNumber::IntDataType>(
+            sqrt(2 * DAYS_IN_YEAR * log(1 / (1 - propbabilityThatMustBeMet.getDouble()))));
+    }
     return result;
 }
 

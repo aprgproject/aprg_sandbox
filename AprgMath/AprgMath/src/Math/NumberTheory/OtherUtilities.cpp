@@ -1,13 +1,12 @@
 #include "OtherUtilities.hpp"
 
 #include <Algorithm/Search/SumSearch/FourSum.hpp>
+#include <Common/Math/Helpers/PowerHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
-
 #include <numeric>
 
-using namespace alba::algorithm;
-using namespace alba::mathHelper;
+using namespace alba::algorithm;using namespace alba::mathHelper;
 using namespace alba::matrix;
 using namespace std;
 
@@ -41,14 +40,50 @@ void findDistinctNonConsecutiveFibonacciNumbersForSum(
 
 }  // namespace
 
+bool isAFibonacciNumber(UnsignedInteger const number) {
+    // https://en.wikipedia.org/wiki/Fibonacci_number#Identification
+    // Binet's formula provides a proof that a positive integer x is a Fibonacci number if and only if at least one of
+    // 5*x^2 + 4 or 5*x^2 + 4 is a perfect square.
+    return isPerfectSquare(5 * number * number + 4) || isPerfectSquare(5 * number * number - 4);
+}
+
+bool isALuckyNumber(UnsignedInteger const number) {
+    // Lucky numbers are a subset of integers.
+    // Rather than going into much theory, let us see the process of arriving at lucky numbers:
+    // 1) Take the set of integers:
+    // -> 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,......
+    // 2) First, delete every second number, we get following reduced set.
+    // -> 1,3,5,7,9,11,13,15,17,19,............
+    // 3) Now, delete every third number, we get
+    // -> 1, 3, 7, 9, 13, 15, 19,........
+    // 4) Continue this process indefinitely......
+    // Any number that does NOT get deleted due to above process is called “lucky”.
+    // Therefore, set of lucky numbers is 1, 3, 7, 13,.........
+
+    UnsignedInteger remainingValue = number;
+    UnsignedInteger removedNumber = 2;
+    bool result(false);
+    while (true) {
+        if (removedNumber > 2) {
+            result = true;
+            break;
+        } else if (number % removedNumber == 0) {
+            result = false;
+            break;
+        } else {
+            remainingValue = remainingValue - (remainingValue / removedNumber);
+            removedNumber++;
+        }
+    }
+    return result;
+}
+
 bool isLagrangeTheoremTrue(UnsignedInteger const number) {
     // Lagrange’s theorem states that every positive integer can be represented as a sum of four squares, i.e., a^2 +
     // b^2 + c^2 + d^2. For example, the number 123 can be represented as the sum 8^2 + 5^2 + 5^2 + 3^2.
-
     UnsignedInteger maxElement = static_cast<UnsignedInteger>(pow(number, 0.5));  // max element is square root
     UnsignedIntegers squaredElements;
-    squaredElements.reserve(maxElement - 1);
-    for (UnsignedInteger i = 1; i < maxElement; i++) {
+    squaredElements.reserve(maxElement - 1);    for (UnsignedInteger i = 1; i < maxElement; i++) {
         squaredElements.emplace_back(i * i);
     }
 
@@ -106,14 +141,24 @@ UnsignedInteger getNthFibonacciNumberUsingBinetsFormula(UnsignedInteger const nu
     return getIntegerAfterRoundingADoubleValue<UnsignedInteger>(pow(phi, number) / sqrtOf5);
 }
 
+UnsignedInteger getNthFibonacciNumberUsingRecursion(UnsignedInteger const number) {
+    // NOTE: The time complexity is exponential.
+    // The function would be called with fibonacci number of times,
+    // so stricter running time would be: O((phi)^n) (from binets formula)
+    // O((phi)^n) = O((1 + sqrtOf5)^n) = O(1.618^n)
+    if (number <= 1) {
+        return number;
+    } else {
+        return getNthFibonacciNumberUsingRecursion(number - 2) + getNthFibonacciNumberUsingRecursion(number - 1);
+    }
+}
+
 UnsignedInteger getNthFibonacciUsingMatrixPowerWithLogarithmicTime(UnsignedInteger const number) {
     // NOTE: The time complexity is logarithmic.
     // NOTE: This is discussed in linear recurrence section in Matrix as well
-
     if (number == 0) {
         return 0;
-    } else {
-        // Matrix representation:
+    } else {        // Matrix representation:
         // |f(n-1)|f(n)  |
         // |f(n)  |f(n+1)|
 
@@ -145,23 +190,18 @@ UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const n
 
         for (UnsignedInteger const step : logarithmicSteps) {
             UnsignedInteger& resultForStep(tabularData[step]);
+            UnsignedInteger n = (step + 1) / 2;
+            UnsignedInteger fibonacciAtK = tabularData[n];
+            UnsignedInteger fibonacciAtKMinus1 = tabularData[n - 1];
             if (mathHelper::isOdd(step)) {
-                UnsignedInteger n = (step + 1) / 2;
-                UnsignedInteger fibonacciAtK = tabularData[n];
-                UnsignedInteger fibonacciAtKMinus1 = tabularData[n - 1];
                 resultForStep = fibonacciAtK * fibonacciAtK + fibonacciAtKMinus1 * fibonacciAtKMinus1;
             } else {
-                UnsignedInteger n = step / 2;
-                UnsignedInteger fibonacciAtK = tabularData[n];
-                UnsignedInteger fibonacciAtKMinus1 = tabularData[n - 1];
                 resultForStep = (2 * fibonacciAtKMinus1 + fibonacciAtK) * fibonacciAtK;
             }
-        }
-        result = tabularData[number];
+        }        result = tabularData[number];
     }
     return result;
 }
-
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number) {
     UnsignedIntegers result;
     UnsignedInteger previousFibonacci(0);

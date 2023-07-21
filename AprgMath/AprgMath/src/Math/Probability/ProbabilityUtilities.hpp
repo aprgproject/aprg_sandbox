@@ -44,8 +44,8 @@ AlbaNumber getExpectedValueInBinomialDistribution(
     AlbaNumber const& probabilityOfASingleAttempt, UnsignedInteger const nTries);
 AlbaNumber getExpectedValueInGeometricDistribution(AlbaNumber const& probability);
 
-AlbaNumber getNumberOfPeopleForTheBirthdayParadox(AlbaNumber const& propbabilityThatMustBeMet);
+AlbaNumber getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(AlbaNumber const& propbabilityThatMustBeMet);
+AlbaNumber getNumberOfPeopleForTheBirthdayParadoxUsingTaylorFormula(AlbaNumber const& propbabilityThatMustBeMet);
 
 }  // namespace math
-
 }  // namespace alba

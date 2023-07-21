@@ -37,16 +37,14 @@ bool isGoldbachConjectureTrue(UnsignedInteger const evenNumber) {
     if (evenNumber > 2 && isEven(evenNumber)) {
         UnsignedIntegers numbers(getPrimesBelowThisNumber(evenNumber));
         TwoSum<UnsignedIntegers> twoSum(numbers);
-        auto primePair(twoSum.getNonDuplicateTwoValuesWithSum(evenNumber));
-        result = primePair.first != 0 && primePair.second != 0;
+        auto [firstValue, secondValue] = twoSum.getNonDuplicateTwoValuesWithSum(evenNumber);
+        result = firstValue != 0 && secondValue != 0;
     }
     return result;
 }
-
 bool isTwinPrimeConjectureTrue(UnsignedInteger const number) {
     // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are
     // primes.
-
     UnsignedIntegers numbers(getPrimesBelowThisNumber(number));
     UnsignedInteger twinPrimeCount = 0;
     for (UnsignedInteger i = 0; i < numbers.size() - 1; i++) {
@@ -89,27 +87,21 @@ bool isWilsonTheoremTrue(UnsignedInteger const number) {
 UnsignedInteger getNumberOfFactors(UnsignedInteger const number) {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
     UnsignedInteger result(1);
-    for (auto const& primeFactorAndCountPair : primeFactorsToCountMap) {
-        UnsignedInteger count(primeFactorAndCountPair.second);
+    for (auto const& [primeFactor, count] : primeFactorsToCountMap) {
         result *= count + 1;
     }
-    return result;
-}
+    return result;}
 
 UnsignedInteger getSumOfFactors(UnsignedInteger const number) {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
     UnsignedInteger result(1);
-    for (auto const& primeFactorAndCountPair : primeFactorsToCountMap) {
-        UnsignedInteger primeFactor(primeFactorAndCountPair.first);
-        UnsignedInteger count(primeFactorAndCountPair.second);
+    for (auto const& [primeFactor, count] : primeFactorsToCountMap) {
         UnsignedInteger formulaValue = (getRaiseToPowerForIntegers(primeFactor, count + 1) - 1) / (primeFactor - 1);
         result *= formulaValue;
-    }
-    return result;
+    }    return result;
 }
 
-UnsignedInteger getProductOfFactors(UnsignedInteger const number) {
-    UnsignedInteger numberOfFactors(getNumberOfFactors(number));
+UnsignedInteger getProductOfFactors(UnsignedInteger const number) {    UnsignedInteger numberOfFactors(getNumberOfFactors(number));
     return getRaiseToPowerForIntegers(number, numberOfFactors / 2);
 }
 
@@ -123,43 +115,33 @@ UnsignedInteger getNumberOfCoPrimesBelowThisNumber(UnsignedInteger const number)
 
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
     UnsignedInteger result(1);
-    for (auto const& primeFactorAndCountPair : primeFactorsToCountMap) {
-        UnsignedInteger primeFactor(primeFactorAndCountPair.first);
-        UnsignedInteger count(primeFactorAndCountPair.second);
+    for (auto const& [primeFactor, count] : primeFactorsToCountMap) {
         UnsignedInteger formulaValue = getRaiseToPowerForIntegers(primeFactor, count - 1) * (primeFactor - 1);
         result *= formulaValue;
-    }
-    return result;
+    }    return result;
 }
 
-UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {
-    // The inner loop of the algorithm is executed n/x times for each value of x.
+UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {    // The inner loop of the algorithm is executed n/x times for each value of x.
     // Thus, an upper bound for the running time of the algorithm is the harmonic sum
     // -> Summation of n/x = n/2 + n/3 + n/4 + ... + n/n = O(n*log(n))
     // In fact, the algorithm is more efficient, because the inner loop will be executed only if the number x is prime.
     // It can be shown that the running time of the  algorithm is only O(n*log(log(n))), a complexity very near to O(n).
 
-    // -> To find all the prime numbers less than or equal to a given integer n by Eratosthenes' method:
-    // ---> (1) Create a list of consecutive integers from 2 through n: (2, 3, 4, ..., n).
-    // ---> (2) Initially, let p equal 2, the smallest prime number.
-    // ---> (3) Enumerate the multiples of p by counting in increments of p from 2p to n, and mark them in the list
-    // (these will be 2p, 3p, 4p, ...; the p itself should not be marked).
-    // ---> (4) Find the smallest number in the list greater than p that is not marked.
-    // -----> If there was no such number, stop.
-    // -----> Otherwise, let p now equal this new number (which is the next prime), and repeat from step 3.
-    // ---> (5) When the algorithm terminates, the numbers remaining not marked in the list are all the primes below n.
+    // This algorithm produces all primes not greater than n.
+    // It includes a common optimization, which is to start enumerating the multiples of each prime i from i^2.
+    // The time complexity of this algorithm is O(n log log n), provided the array update is an O(1) operation, as is
+    // usually the case.
 
     vector<bool> sieveOfEratosthenes(number, true);
-    for (UnsignedInteger candidatePrime = 2; candidatePrime < number;) {
-        for (UnsignedInteger multiple = 2 * candidatePrime; multiple < number; multiple += candidatePrime) {
+    for (UnsignedInteger candidatePrime = 2; candidatePrime * candidatePrime < number;) {
+        for (UnsignedInteger multiple = candidatePrime * candidatePrime; multiple < number;
+             multiple += candidatePrime) {
             sieveOfEratosthenes[multiple] = false;
         }
-        auto itLowestCandidate =
-            find(sieveOfEratosthenes.cbegin() + candidatePrime + 1, sieveOfEratosthenes.cend(), true);
+        auto itLowestCandidate =            find(sieveOfEratosthenes.cbegin() + candidatePrime + 1, sieveOfEratosthenes.cend(), true);
         candidatePrime = distance(sieveOfEratosthenes.cbegin(), itLowestCandidate);
     }
-    UnsignedIntegers result;
-    for (UnsignedInteger prime = 2; prime < number; prime++) {
+    UnsignedIntegers result;    for (UnsignedInteger prime = 2; prime < number; prime++) {
         if (sieveOfEratosthenes[prime]) {
             result.emplace_back(prime);
         }

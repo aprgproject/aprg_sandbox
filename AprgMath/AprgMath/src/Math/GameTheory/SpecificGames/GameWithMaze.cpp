@@ -49,20 +49,20 @@ GameWithMaze::Coordinate GameWithMaze::getOptimalNextCoordinateAt(Coordinate con
     if (GameState::Losing == gameState) {
         Coordinate oneLeft(coordinate.first - 1, coordinate.second);
         Coordinate oneUp(coordinate.first, coordinate.second - 1);
-        if (m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second)  // move one left if possible to prolong the game
-            && !m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second)) {
+        if (m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second) &&
+            !m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second)) {
+            // move one left if possible to prolong the game
             result = oneLeft;
         } else if (
-            m_isBlockedMatrix.isInside(oneUp.first, oneUp.second)  // move one top if possible to prolong the game
-            && !m_isBlockedMatrix.getEntry(oneUp.first, oneUp.second)) {
+            m_isBlockedMatrix.isInside(oneUp.first, oneUp.second) &&
+            !m_isBlockedMatrix.getEntry(oneUp.first, oneUp.second)) {
+            // move one top if possible to prolong the game
             result = oneUp;
         }
-    } else if (GameState::Winning == gameState) {
-        for (Coordinate const& nextCoordinate : getNextCoordinates(coordinate)) {
+    } else if (GameState::Winning == gameState) {        for (Coordinate const& nextCoordinate : getNextCoordinates(coordinate)) {
             if (0U == getGrundyNumberAt(nextCoordinate))  // force your opponent to losing state
             {
-                result = nextCoordinate;
-                break;
+                result = nextCoordinate;                break;
             }
         }
     }
