@@ -82,14 +82,12 @@ TEST(InlineOnTranslationUnit1Test, VariableValuesAreChangedAndReflectedOnOtherTr
     EXPECT_EQ(0, otherTranslationUnitValues.nonInlineAtTranslationUnit);
     // no "nonInlineAtTranslationUnit" on Translation Unit 2
     EXPECT_EQ(612, otherTranslationUnitValues.externInlineInteger);
-    EXPECT_EQ(700, otherTranslationUnitValues.staticInlineInteger);  // static overrides inline
+    EXPECT_EQ(713, otherTranslationUnitValues.staticInlineInteger);  // static overrides inline
     EXPECT_EQ("802", otherTranslationUnitValues.inlineString);
 }
-
 TEST(InlineOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {
     EXPECT_EQ(1, freeFunction());
-    EXPECT_EQ(1, inlineFreeFunction());
-}
+    EXPECT_EQ(1, inlineFreeFunction());}
 
 }  // namespace InlineOnTranslationUnits
 

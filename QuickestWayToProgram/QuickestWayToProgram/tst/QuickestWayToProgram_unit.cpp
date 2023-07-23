@@ -16,25 +16,203 @@
 #include <iostream>
 #include <iterator>
 #include <map>
+#include <queue>
+#include <stdio.h>
 #include <string>
 
 using namespace std;
-
 namespace alba {
 
-namespace ProgressCounters {
-int numberOfFilesToBeAnalyzedForExtraction;
+namespace ProgressCounters {int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
 }  // namespace ProgressCounters
 
+bool canConstructVer2(string ransomNote, string magazine) {
+    array<int, 26> magazineLetterToCount{};
+    auto itMagazine = magazine.begin();
+
+    for (char const c : ransomNote) {
+        int& count = magazineLetterToCount[c - 'a'];
+        if (count > 0) {
+            count--;
+        } else {
+            for (; itMagazine != magazine.end() && *itMagazine != c; itMagazine++) {
+                magazineLetterToCount[*itMagazine - 'a']++;
+            }
+            if (itMagazine != magazine.end() && *itMagazine == c) {
+                itMagazine++;
+            } else {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool canConstruct(string ransomNote, string magazine) {
+    array<int, 26> magazineLetterToCount{};
+
+    for (char const c : magazine) {
+        magazineLetterToCount[c - 'a']++;
+    }
+    for (char const c : ransomNote) {
+        int& count = magazineLetterToCount[c - 'a'];
+        if (count > 0) {
+            count--;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
+
+vector<string> fizzBuzz(int n) {
+    vector<string> result;
+    result.reserve(n);
+    char numberStr[6];
+    int multipleOf3 = 3, multipleOf5 = 5;
+    for (int i = 1; i <= n; i++) {
+        if (multipleOf3 == i) {
+            multipleOf3 += 3;
+            if (multipleOf5 == i) {
+                multipleOf5 += 5;
+                result.emplace_back("FizzBuzz");
+            } else {
+                result.emplace_back("Fizz");
+            }
+        } else if (multipleOf5 == i) {
+            multipleOf5 += 5;
+            result.emplace_back("Buzz");
+        } else {
+            snprintf(numberStr, 6, "%d", i);
+            result.emplace_back(numberStr);
+        }
+    }
+    return result;
+}
+
+vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+    using DistanceAndIndexPair = pair<int, int>;
+    vector<DistanceAndIndexPair> distancesAndIndexes;
+    distancesAndIndexes.reserve(mat.size());
+    for (auto const& row : mat) {
+        auto it = lower_bound(row.cbegin(), row.cend(), 0, greater<int>());
+        distancesAndIndexes.emplace_back(make_pair(distance(row.cbegin(), it), distancesAndIndexes.size()));
+    }
+    nth_element(distancesAndIndexes.begin(), distancesAndIndexes.begin() + k, distancesAndIndexes.end());
+    sort(distancesAndIndexes.begin(), distancesAndIndexes.begin() + k);
+
+    vector<int> result;
+    result.reserve(k);
+    transform(
+        distancesAndIndexes.cbegin(), distancesAndIndexes.cbegin() + k, back_inserter(result),
+        [](DistanceAndIndexPair const& item) { return item.second; });
+    return result;
+}
+
+int numberOfSteps(int num) {
+    int result{};
+    while (num > 0) {
+        if (num % 2 == 0) {
+            num /= 2;
+        } else {
+            num--;
+        }
+        result++;
+    }
+    return result;
+}
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
+
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    int value = l1->val + l2->val;
+    int carry = value / 10;
+    ListNode* result = new ListNode(value % 10);
+    l1 = l1->next, l2 = l2->next;
+
+    auto resultIt = result;
+    for (; l1 != nullptr && l2 != nullptr; l1 = l1->next, l2 = l2->next, resultIt = resultIt->next) {
+        value = l1->val + l2->val + carry;
+        carry = value / 10;
+        resultIt->next = new ListNode(value % 10);
+    }
+    for (; l1 != nullptr; l1 = l1->next, resultIt = resultIt->next) {
+        value = l1->val + carry;
+        carry = value / 10;
+        resultIt->next = new ListNode(value % 10);
+    }
+    for (; l2 != nullptr; l2 = l2->next, resultIt = resultIt->next) {
+        value = l2->val + carry;
+        carry = value / 10;
+        resultIt->next = new ListNode(value % 10);
+    }
+    if (carry > 0) {
+        resultIt->next = new ListNode(carry);
+    }
+    return result;
+}
+TEST(SampleTest, KWeakestRows) {
+    ListNode* l1 = new ListNode(2);
+    l1->next = new ListNode(4);
+    l1->next->next = new ListNode(9);
+
+    ListNode* l2 = new ListNode(5);
+    l2->next = new ListNode(6);
+    l2->next->next = new ListNode(4);
+    l2->next->next->next = new ListNode(9);
+
+    ListNode* result = addTwoNumbers(l1, l2);
+    EXPECT_EQ(7, result->val);
+    EXPECT_EQ(0, result->next->val);
+    EXPECT_EQ(4, result->next->next->val);
+    EXPECT_EQ(0, result->next->next->next->val);
+    EXPECT_EQ(1, result->next->next->next->next->val);
+    EXPECT_EQ(nullptr, result->next->next->next->next->next);
+}
+
+/*TEST(SampleTest, NumberOfSteps) {
+    EXPECT_EQ(0, numberOfSteps(0));
+    EXPECT_EQ(1, numberOfSteps(1));
+    EXPECT_EQ(2, numberOfSteps(2));
+    EXPECT_EQ(3, numberOfSteps(3));
+    EXPECT_EQ(3, numberOfSteps(4));
+    EXPECT_EQ(4, numberOfSteps(5));
+    EXPECT_EQ(4, numberOfSteps(6));
+    EXPECT_EQ(5, numberOfSteps(7));
+    EXPECT_EQ(4, numberOfSteps(8));
+    EXPECT_EQ(5, numberOfSteps(9));
+    EXPECT_EQ(5, numberOfSteps(10));
+    EXPECT_EQ(6, numberOfSteps(14));
+    EXPECT_EQ(4, numberOfSteps(8));
+    EXPECT_EQ(12, numberOfSteps(123));
+}
+
+TEST(SampleTest, KWeakestRows) {
+    vector<vector<int>> input{{1, 1, 0, 0, 0}, {1, 1, 1, 1, 0}, {1, 0, 0, 0, 0}, {1, 1, 0, 0, 0}, {1, 1, 1, 1, 1}};
+    vector<int> expected{2, 0, 3};
+    EXPECT_EQ(expected, kWeakestRows(input, 3));
+}
+
+TEST(SampleTest, FizzBuzz) {
+    vector<string> expected{"1",    "2",    "Fizz", "4",    "Buzz", "Fizz", "7",       "8",
+                            "Fizz", "Buzz", "11",   "Fizz", "13",   "14",   "FizzBuzz"};
+    EXPECT_EQ(expected, fizzBuzz(15));
+}
+
+TEST(SampleTest, RansomNote) { EXPECT_TRUE(canConstruct("aab", "baa")); }
+
 TEST(SampleTest, CountNumberOfLinesOnFiles) {
     ListOfPaths files;
-    ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(F:\Branches\ControlPlane\wbts1\tcom\C_Application\SC_TCOM)");
+    ListOfPaths directories;    AlbaLocalPathHandler pathHandler(R"(F:\Branches\ControlPlane\wbts1\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
-    size_t lineCount = 0;
-    for (string const& file : files) {
+    size_t lineCount = 0;    for (string const& file : files) {
         AlbaLocalPathHandler filePathHandler(file);
         if ((filePathHandler.getExtension() == "cpp" || filePathHandler.getExtension() == "hpp" ||
              filePathHandler.getExtension() == "c" || filePathHandler.getExtension() == "h") &&
@@ -56,15 +234,13 @@ TEST(SampleTest, CountNumberOfLinesOnFiles) {
     }
 }
 
-/*TEST(SampleTest, CountFromMsbValue) {
+TEST(SampleTest, CountFromMsbValue) {
     vector<pair<int, int>> container{{3, 3}, {5, 5}};
     auto itRight = upper_bound(
-        container.cbegin(), container.cend(), 1,
-        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
+        container.cbegin(), container.cend(), 1,        [](int const value, pair<int, int> const& intPair) { return value < intPair.first; });
     auto itLeft = prev(itRight, 1);
     if (itLeft != container.cend()) {
-        ALBA_PRINT1(*itLeft);
-    } else {
+        ALBA_PRINT1(*itLeft);    } else {
         ALBA_PRINT1("itLeft is end");
     }
     if (itRight != container.cend()) {

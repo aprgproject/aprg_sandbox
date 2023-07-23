@@ -68,14 +68,13 @@ Editors
 ---> if youre in normal mode, you press colon (you can see that cursor jump down to the bottom-left)
 ---> Basic X-commands:
 -----> ':q' means quit
+-----> ':q!' = quit without saving
 -----> ':w' means write (means save the file)
 -------> ':w [FILENAME]' save a new file
--------> ':#,# w [FILENAME]' save the chunk of text between two lines (#,#)
------> ':wq' means write then quit
+-------> ':#,# w [FILENAME]' save the chunk of text between two lines (#,#)-----> ':wq' means write then quit
 -------> ':x' means write then quit as well (save so much time by avoid one character lol)
 -----> ':e' means edit
--------> if you give it a name, you can edit that file (vim can have many buffers open)
------> ':new' means new file
+-------> if you give it a name, you can edit that file (vim can have many buffers open)-----> ':new' means new file
 -----> ':ls' means list the buffers open
 -------> it will show you the files you have open
 -----> ':bn' means go to the next buffer
@@ -156,18 +155,23 @@ Editors
 ---------> Forward Search: '/{regex}'
 ---------> Backward Search: '?{regex}'
 ---------> 'n' and 'N' for navigating matches (this is after performing the regex search)
+-----------> 'N' = go to next instance
+-----------> 'n' = go to previous instance
 -------> See Substitute section for search and replace
 -----> Composability of movement:
 -------> '5' then 'j' means go down 5 times
 -------> '3' then 'w' means move forward by 3 words
+-----> Goto line:
+-------> “G” = Go to end of file
+-------> #“G” = go to line #
+---------> 1G = go to line 1
+---------> 45G = go to line 45
 
 ---> Selection
------> Visual modes:
--------> Visual: 'v'
+-----> Visual modes:-------> Visual: 'v'
 -------> Visual Line: 'V'
 -------> Visual Block: Ctrl+'v'
 -----> Can use movement keys to make selection.
-
 ---> Edits
 -----> Everything that you used to do with the mouse, you now do with the keyboard using editing commands that compose with movement commands. 
 -----> Here’s where Vim’s interface starts to look like a programming language. 
@@ -182,24 +186,24 @@ Editors
 -------> 'R' enter overwrite mode
 -----> Deleting text (goes into insert mode)
 -------> 'd{motion}' delete {motion}
----------> e.g. dw is delete word, 'd$' is delete to end of line, 'd0' is delete to beginning of line
--------> 'x' delete character (equal do 'dl')
+---------> 'dw' is delete word
+---------> 'd$' is delete to end of line
+---------> 'd0' is delete to beginning of line
+---------> 'dd' is delete line
 -------> Can be composed with movement keystrokes:
 ---------> 'd' then 'e' means delete to the end of the word
----------> 'd' then '$' means delete to the end of the line
----------> 'd' then '0' means delete to the start of the line
+---------> 'd' then '$' means delete to the end of the line---------> 'd' then '0' means delete to the start of the line
 ---------> 'd' then '^' means delete until the non white space character at the start of the line
 ---------> 'd' then '3' then 'j' means delete three lines down
 ---------> 'd' then '3' then 'w' means delete the next three words
 ---------> 'd' then 'l' means delete one thing to the right
+-------> 'x' delete character (equal do 'dl')
 ---------> 'x' means delete the character on the cursor
 -------> NOTE: this also can be done in the visual modes
------> Changing text (goes into insert mode)
--------> 'c{motion}' change {motion}
+-----> Changing text (goes into insert mode)-------> 'c{motion}' change {motion}
 ---------> e.g. 'cw' is change word
 ---------> like 'd{motion}' followed by i
--------> Can be composed with movement keystrokes:
----------> 'c' then '3' then 'w' means delete the next three words and then go to insert mode
+-------> Can be composed with movement keystrokes:---------> 'c' then '3' then 'w' means delete the next three words and then go to insert mode
 -----> Substitute:
 -------> 's' means delete the character on the cursor and go to insert mode
 -------> 's' substitute character (equal to 'xi')

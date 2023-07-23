@@ -81,26 +81,27 @@ Shell and scripting
 ---> CTRL+R - backwards search for previous command (just keep hitting CTRL-R till you find the what your looking for)
 
 -> Common commands
----> mkdir
 ---> cd
 ---> ls
 -----> ls -R
 -----> ls -la
----> mv
----> cp
+---> cat – Concatenate files, can be used to display file contents
+---> cp – Copy files
+---> mv – Moves files (can be used to rename files)
+---> file – identify the type of a file
+---> rm – remove or delete file
+---> more - Display a file in screenfuls, pausing between each screenful
+---> less - A more powerful version of more, allows backward scrolling and searching
 ---> date - shows you the date and time
+---> mkdir
 ---> touch - create an empty file
 ---> which - lets you know the location of application
----> chmod - change permissions. 
------> chmod +x hello.sh
 ---> echo - prints the arguments that you give it
 ---> pwd - prints "present working directory"
------> Arguments are separated by white space, you can use quotations to group them together with whitespace
----> find - find strings in your directory
+-----> Arguments are separated by white space, you can use quotations to group them together with whitespace---> find - find strings in your directory
 -----> find . -name src - type d (searches directory with name src) 
 -----> find . -path '**/test/*.py' - type f (searches python scripts in next sub directory test)
------> find . -mtime -1 (searches files that has been modified in the last day)
------> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
+-----> find . -mtime -1 (searches files that has been modified in the last day)-----> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
 ---> grep - lets you find strings inside files
 -----> grep foobar mcd.sh (greps "foobar" string on mcd.sh)
 -----> grep -R foobar (recursive search in the current directory)
@@ -115,14 +116,31 @@ Shell and scripting
 ---> ncdu - figure out whats using all your disk space
 ---> column - format input into columns
 
+---> File modifiers:
+-----> chown – change file ownership
+-------> Only the owner of a file can change its ownership
+-----> chmod – change file mode/permission
+-----> Only the owner of a file can change its permissions
+-----> Usage:
+-------> chmod +x hello.sh
+-------> chmod 764 filename ==> sets permissions to rwxr-xr--
+-------> chmod g+rwx a.exe ==> sets group permission to be rwx
+-------> chmod g=rx a.exe ==> sets group permission to be r-x\
+
+---> Accessing help:
+-----> whatis – provide a brief description of a command and indicate its manual section number
+-----> apropos – search for a keyword from the entries in whatis descriptions
+-----> man – access the online manual.
+-----> info – access the online manual (alternative interface)
+-----> help – description for shell internal commands
+-------> Additional help can be accessed by using the -h or --help parameter for a command.
+
 -> Less common commands
 ---> exa - better than ls
----> bat - similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) 
----> tldr - similar to man but less verbose and straight to the point
+---> bat - similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) ---> tldr - similar to man but less verbose and straight to the point
 ---> tree - similar to ls but graphical output
 ---> broot - similar to ls but graphical output has interactive search as well
----> nnn - similar to windows explorer but in terminal
------> Press q repetitively to quit
+---> nnn - similar to windows explorer but in terminal-----> Press q repetitively to quit
 ---> fd - similar to find but can use regex
 ---> locate - similar to find but builds an index so it can be faster
 -----> use updatedb to update the index
@@ -167,14 +185,19 @@ Shell and scripting
 ---------> echo $PATH (shows all the paths in my machine that the shell will search for programs)
 -----------> $PATH is a list that is colon separated.
 ---------> which echo (shows you the path of echo program)
+---> Displaying the value of an environment variable
+-----> echo $PATH
+-----> /bin:/usr/bin:/usr/X11R6/bin:/usr/local/bin
+---> The name of the system environment variables are in all uppercase. 
+---> You may see them by typing "set"
+---> Regardless of the current working directory, programs will be searched for in the directories listed in the PATH. 
+-----> By default, the current working directory is excluded from the path.
 
 -> Shell programming is useful tool
----> You can write commands in the command line.
----> You can also stick this commands into a file.
+---> You can write commands in the command line.---> You can also stick this commands into a file.
 -----> Create a .sh file
 -----> At the top of the file, add this: "#!/bin/sh" or "#!/bin/bash"
--------> This is known as a hash bang line.
--------> This feeds the entire contents of the file to the program mentioned in the shebang or hash bang line.
+-------> This is known as a hash bang line.-------> This feeds the entire contents of the file to the program mentioned in the shebang or hash bang line.
 -------> Also works in python: "#!/usr/bin/python"
 ----------> You can always add python when calling a script: python script.py argument1 argument2
 ----------> But having the shebang lets the script know where python is located: ./script.py argument1 argument2

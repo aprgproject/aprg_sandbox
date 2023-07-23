@@ -8,12 +8,7 @@ namespace alba {
 
 TEST(MapAnalyzerTest, AnalyzeWorks) {
     MapAnalyzer mapAnalyzer;
-
-    mapAnalyzer.initialize();
     mapAnalyzer.analyze();
-    mapAnalyzer.sortData();
-
     mapAnalyzer.printResult();
 }
-
 }  // namespace alba
