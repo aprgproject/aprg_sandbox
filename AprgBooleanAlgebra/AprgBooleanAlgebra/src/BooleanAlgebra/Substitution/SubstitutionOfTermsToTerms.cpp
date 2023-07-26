@@ -72,9 +72,11 @@ void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& var
         putTermToTermMapping(variableName, value);
     }
 }
+
 void SubstitutionOfTermsToTerms::putTermToTermMapping(Term const& term1, Term const& term2) {
     m_termsToTermsMap[term1] = term2;
 }
+
 void SubstitutionOfTermsToTerms::performSubstitutionForWrappedTerms(WrappedTerms& wrappedTerms) const {
     for (WrappedTerm& wrappedTerm : wrappedTerms) {
         Term& term(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));

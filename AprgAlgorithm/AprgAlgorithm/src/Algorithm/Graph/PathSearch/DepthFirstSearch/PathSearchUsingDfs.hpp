@@ -108,10 +108,12 @@ private:
 
 // Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees
 // Proof:
-// -> If w is marked, then w is connected to s// -> If w is connected to s, then w is marked.
+// -> If w is marked, then w is connected to s
+// -> If w is connected to s, then w is marked.
 // --> If w is unmarked, then consider last edge on a path from s to w that goes from a marked vertex to an unmarked
 // one. Proof (running time):
 // -> Each vertex connected to s is visited once
+
 // Other analysis:
 // The time complexity of depth-first search is O(n+m) where n is the number of nodes and m is the number of edges,
 // because the algorithm processes each node and edge once.

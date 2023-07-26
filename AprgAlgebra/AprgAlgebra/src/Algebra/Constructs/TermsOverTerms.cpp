@@ -275,10 +275,12 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms
     for (auto const& [base, exponent] : termsRaiseToTerms.getBaseToExponentMap()) {
         if (!isIntegerConstant(exponent) || m_shouldSimplifyToFactors) {
             if (isANegativeTerm(exponent)) {
-                TermRaiseToTerms termRaiseToTerms(base, exponent * -1);                denominatorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
+                TermRaiseToTerms termRaiseToTerms(base, exponent * -1);
+                denominatorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
             } else if (!isTheValue(exponent, 0)) {
                 TermRaiseToTerms termRaiseToTerms(base, exponent);
-                numeratorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());            }
+                numeratorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
+            }
         } else {
             AlbaNumber const& exponentValue(exponent.getAsNumber());
             if (isANegativeTerm(exponent)) {
@@ -295,10 +297,12 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbe
     for (auto const& [base, exponent] : termsRaiseToNumbers.getBaseToExponentMap()) {
         if (!exponent.isIntegerType() || m_shouldSimplifyToFactors) {
             if (exponent > 0) {
-                TermRaiseToANumber termRaiseToANumber(base, exponent);                numeratorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
+                TermRaiseToANumber termRaiseToANumber(base, exponent);
+                numeratorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
             } else if (exponent < 0) {
                 TermRaiseToANumber termRaiseToANumber(base, exponent * -1);
-                denominatorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());            }
+                denominatorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
+            }
         } else {
             if (exponent > 0) {
                 populateTermsWithBase(numeratorTerms, base, exponent);

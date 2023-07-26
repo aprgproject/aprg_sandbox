@@ -117,9 +117,11 @@ public:
             addMintermForZeroCommonalityCount(input);
         }
     }
+
     void findCombinationOfImplicants(int numberOfOnes, int commonalityCount) {
         if (numberOfOnes + 1 < static_cast<int>(m_computationalTable.size())) {
-            Implicants const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);            Implicants const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
+            Implicants const& implicants1(m_computationalTable[numberOfOnes][commonalityCount]);
+            Implicants const& implicants2(m_computationalTable[numberOfOnes + 1][commonalityCount]);
             for (Implicant const& implicant1 : implicants1) {
                 for (Implicant const& implicant2 : implicants2) {
                     if (implicant1.isCompatible(implicant2)) {
@@ -139,10 +141,12 @@ public:
                 printParameterWithName(ss, "Implicants", implicants);
                 ss << "\n";
             }
-        }        return ss.str();
+        }
+        return ss.str();
     }
 
-    Implicants getBestPrimeImplicants(Implicants const& primeImplicants) const {        return getBestPrimeImplicantsPetricksMethod(primeImplicants);
+    Implicants getBestPrimeImplicants(Implicants const& primeImplicants) const {
+        return getBestPrimeImplicantsPetricksMethod(primeImplicants);
     }
 
     bool isASubset(std::set<int> const& smaller, std::set<int> const& larger) const {
@@ -358,7 +362,8 @@ private:
                 result.emplace_back(input);
             }
         }
-        return result;    }
+        return result;
+    }
 
     SetOfMinterms getSetOfInputMintermsWithTrue() const {
         SetOfMinterms result;
@@ -367,10 +372,12 @@ private:
                 result.emplace(input);
             }
         }
-        return result;    }
+        return result;
+    }
 
     void addMintermForZeroCommonalityCount(Minterm const& minterm) {
-        int numberOfOnes(getNumberOfOnes(minterm));        Implicant implicant;
+        int numberOfOnes(getNumberOfOnes(minterm));
+        Implicant implicant;
         implicant.addMinterm(minterm);
         m_computationalTable[numberOfOnes][0].emplace(implicant);
     }

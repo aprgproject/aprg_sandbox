@@ -239,10 +239,12 @@ Term getTotalDerivativeWithInnerTermsUsingChainRule(
                   commonVariableDifferentiation.differentiate(innerTerm);
     }
     simplifyForDifferentiation(result);
-    return result;}
+    return result;
+}
 
 Term getTotalDerivative(Term const& term, strings const& variableNames) {
-    Term result;    for (string const& variableName : variableNames) {
+    Term result;
+    for (string const& variableName : variableNames) {
         DerivativeVariableName derivativeOfVariable(1, "", variableName);
         result += getPartialDerivative(term, variableName) * derivativeOfVariable.getNameInLeibnizNotation();
     }

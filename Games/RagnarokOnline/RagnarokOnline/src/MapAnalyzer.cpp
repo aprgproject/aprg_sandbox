@@ -74,10 +74,12 @@ double MapAnalyzer::getMultiplierForExperience(string const& mapName) {
 void MapAnalyzer::gatherData() {
     m_ragnarokOnline.readItemIdToItemMapFromFile(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\ItemIdToItemMap.txt)");
     m_ragnarokOnline.readMonsterIdToMonsterMapFromFile(
-        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MonsterIdToMonsterMap.txt)");    m_ragnarokOnline.readMapNameToRoMapFromFile(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MapNameToRoMap.txt)");
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MonsterIdToMonsterMap.txt)");
+    m_ragnarokOnline.readMapNameToRoMapFromFile(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MapNameToRoMap.txt)");
     // m_ragnarokOnline.readBuyingShopItems(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\BuyingShopItemsCurrentData.txt)");
     // m_ragnarokOnline.readSellingShopItems(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\SellingShopItemsCurrentData.txt)");
-    m_ragnarokOnline.readBuyingShopItems(        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\BuyingShopItemsCumulativeData.txt)");
+    m_ragnarokOnline.readBuyingShopItems(
+        R"(C:\Users\detec\OneDrive\Desktop\Games\RO\BuyingShopItemsCumulativeData.txt)");
     m_ragnarokOnline.readSellingShopItems(
         R"(C:\Users\detec\OneDrive\Desktop\Games\RO\SellingShopItemsCumulativeData.txt)");
     m_ragnarokOnline.buildItemNameToItemId();
@@ -87,10 +89,12 @@ void MapAnalyzer::gatherData() {
 void MapAnalyzer::selectMaps() {
     for (auto const& mapNameToRoMap : m_ragnarokOnline.getMapNameToRoMap()) {
         MapAnalyzerData mapAnalyzerData{};
-        mapAnalyzerData.mapName = mapNameToRoMap.first;        struct MonsterData {
+        mapAnalyzerData.mapName = mapNameToRoMap.first;
+        struct MonsterData {
             unsigned int spawnCount;
             double potentialZeny;
-            double potentialBaseExperience;            double potentialJobExperience;
+            double potentialBaseExperience;
+            double potentialJobExperience;
             bool isAnnoyance;
         };
         RoMap const& roMap(mapNameToRoMap.second);
@@ -148,10 +152,12 @@ void MapAnalyzer::selectMaps() {
         bool isMapAcceptable = countAcceptable >= 3;
         if (isMapAcceptable && !monstersNameToDataMap.empty()) {
             double totalPotentialZeny = 0;
-            double totalPotentialBaseExperience = 0;            double totalPotentialJobExperience = 0;
+            double totalPotentialBaseExperience = 0;
+            double totalPotentialJobExperience = 0;
             for (auto& monsterNameToDataPair : monstersNameToDataMap) {
                 Monster monster(m_ragnarokOnline.getMonster(monsterNameToDataPair.first));
-                MonsterData& monsterData(monsterNameToDataPair.second);                monsterData.potentialZeny = getPotentialZenyFromMonster(monster) * monsterData.spawnCount;
+                MonsterData& monsterData(monsterNameToDataPair.second);
+                monsterData.potentialZeny = getPotentialZenyFromMonster(monster) * monsterData.spawnCount;
                 monsterData.potentialBaseExperience =
                     getMultiplierForExperience(roMap.name) * monster.baseExperience * monsterData.spawnCount;
                 monsterData.potentialJobExperience =
@@ -196,10 +202,12 @@ void MapAnalyzer::selectMaps() {
                 // monsterData.isAnnoyance = monsterData.potentialZeny / averageZeny < 0.5;
                 if (monsterData.isAnnoyance) {
                     mapAnalyzerData.annoyanceHp += monster.hp;
-                }                // if (!monsterData.isAnnoyance && monster.isAggressive()) {  // annoying mobs
+                }
+                // if (!monsterData.isAnnoyance && monster.isAggressive()) {  // annoying mobs
                 // if (monster.isAggressive()) { // aggressive mobs
                 if (monster.walkSpeed != "Immovable") {  // moving mobs
-                    mapAnalyzerData.mobCount += monsterData.spawnCount;                }
+                    mapAnalyzerData.mobCount += monsterData.spawnCount;
+                }
             }
             m_mapsAnalyzerData.emplace_back(mapAnalyzerData);
         }
@@ -266,16 +274,19 @@ void MapAnalyzer::sortMaps() {
                     return first.baseExperiencePotential > second.baseExperiencePotential;
                 }
             } else {
-                return first.zenyPotential > second.zenyPotential;            }
+                return first.zenyPotential > second.zenyPotential;
+            }
         });
 }
 
 bool MapAnalyzer::isDropRateAcceptable(double const /*dropRate*/) const {
     return true;
-    // return dropRate >= 1; // This removes hard farming}
+    // return dropRate >= 1; // This removes hard farming
+}
 
 double MapAnalyzer::getTalonRoDropRate(double const dropRate) const {
-    double talonRoDropRate(dropRate * 3);    if (talonRoDropRate > 100) {
+    double talonRoDropRate(dropRate * 3);
+    if (talonRoDropRate > 100) {
         talonRoDropRate = 100;
     }
     return talonRoDropRate;

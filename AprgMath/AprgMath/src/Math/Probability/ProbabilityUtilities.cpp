@@ -28,9 +28,11 @@ bool doesExpectedValuesHaveLinearity(
 
     AlbaNumber expectedValueFromSeparated = getExpectedValue(firstSetOfValueAndProbabilityPairsOfX) +
                                             getExpectedValue(secondSetOfValueAndProbabilityPairsOfX);
+
     ValueAndProbabilityPairs all(firstSetOfValueAndProbabilityPairsOfX);
     all.reserve(all.size() + secondSetOfValueAndProbabilityPairsOfX.size());
-    copy(        secondSetOfValueAndProbabilityPairsOfX.cbegin(), secondSetOfValueAndProbabilityPairsOfX.cend(),
+    copy(
+        secondSetOfValueAndProbabilityPairsOfX.cbegin(), secondSetOfValueAndProbabilityPairsOfX.cend(),
         back_inserter(all));
     AlbaNumber expectedValueFromCombined = getExpectedValue(all);
 
@@ -38,9 +40,11 @@ bool doesExpectedValuesHaveLinearity(
 }
 AlbaNumber getCorrectProbability(AlbaNumber const& probability) {
     // If an event is certain to happen, its probability is 1, and if an event is impossible, its probability is 0.
+
     AlbaNumber result(0);
     if (probability.isAFiniteValue()) {
-        if (probability < 0) {            result = 0;
+        if (probability < 0) {
+            result = 0;
         }
         if (probability > 1) {
             result = 1;
@@ -161,9 +165,11 @@ AlbaNumber getExpectedValue(ValueAndProbabilityPairs const& allValueAndProbabili
     }
     return result;
 }
+
 AlbaNumber getExpectedValueInUniformDistribution(AlbaNumber const& lowestValue, AlbaNumber const& highestValue) {
     // In a uniform distribution, the random variable X has n possible values a,a+1,...,b and the probability of each
     // value is 1/n. Equation: E[X] = (a+b)/2
+
     return (lowestValue + highestValue) / 2;
 }
 
@@ -190,9 +196,11 @@ AlbaNumber getExpectedValueInGeometricDistribution(AlbaNumber const& probability
 AlbaNumber getNumberOfPeopleForTheBirthdayParadoxUsingQuadraticFormula(AlbaNumber const& propbabilityThatMustBeMet) {
     // How many people must here be in a room before there is a 50% chance that two of them were born on the same day of
     // the year?
+
     // -> Let n be the number of days for a year.
     // -> Let k be the number of people in the room.
-    // -> The probability that one person has a birthday on a day is 1/n.    // -> We can look at this problem as a complementary of the probability that all birthdays are distinct.
+    // -> The probability that one person has a birthday on a day is 1/n.
+    // -> We can look at this problem as a complementary of the probability that all birthdays are distinct.
     // ---> The probability that all birthdays are distinct with k people is:
     // -----> P(Bk) = P(Bk-1) * P(Ak | Bk-1)
     // ---> Bk is the probability of all distinct birthdays with k people.

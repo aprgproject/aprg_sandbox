@@ -401,7 +401,9 @@ typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(Bas
     }
     return result;
 }
+
 }  // namespace GraphUtilities
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -4,9 +4,11 @@
 #include <Common/Math/Helpers/PowerHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
+
 #include <numeric>
 
-using namespace alba::algorithm;using namespace alba::mathHelper;
+using namespace alba::algorithm;
+using namespace alba::mathHelper;
 using namespace alba::matrix;
 using namespace std;
 
@@ -81,9 +83,11 @@ bool isALuckyNumber(UnsignedInteger const number) {
 bool isLagrangeTheoremTrue(UnsignedInteger const number) {
     // Lagrange’s theorem states that every positive integer can be represented as a sum of four squares, i.e., a^2 +
     // b^2 + c^2 + d^2. For example, the number 123 can be represented as the sum 8^2 + 5^2 + 5^2 + 3^2.
+
     UnsignedInteger maxElement = static_cast<UnsignedInteger>(pow(number, 0.5));  // max element is square root
     UnsignedIntegers squaredElements;
-    squaredElements.reserve(maxElement - 1);    for (UnsignedInteger i = 1; i < maxElement; i++) {
+    squaredElements.reserve(maxElement - 1);
+    for (UnsignedInteger i = 1; i < maxElement; i++) {
         squaredElements.emplace_back(i * i);
     }
 
@@ -156,9 +160,11 @@ UnsignedInteger getNthFibonacciNumberUsingRecursion(UnsignedInteger const number
 UnsignedInteger getNthFibonacciUsingMatrixPowerWithLogarithmicTime(UnsignedInteger const number) {
     // NOTE: The time complexity is logarithmic.
     // NOTE: This is discussed in linear recurrence section in Matrix as well
+
     if (number == 0) {
         return 0;
-    } else {        // Matrix representation:
+    } else {
+        // Matrix representation:
         // |f(n-1)|f(n)  |
         // |f(n)  |f(n+1)|
 
@@ -198,10 +204,12 @@ UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const n
             } else {
                 resultForStep = (2 * fibonacciAtKMinus1 + fibonacciAtK) * fibonacciAtK;
             }
-        }        result = tabularData[number];
+        }
+        result = tabularData[number];
     }
     return result;
 }
+
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number) {
     UnsignedIntegers result;
     UnsignedInteger previousFibonacci(0);

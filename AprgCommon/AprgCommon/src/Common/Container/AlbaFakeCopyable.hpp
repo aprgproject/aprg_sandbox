@@ -21,9 +21,11 @@ public:
 
     AlbaFakeCopyable(AlbaFakeCopyable&&) = default;
     AlbaFakeCopyable& operator=(AlbaFakeCopyable&&) = default;
+
     ObjectType const& getObject() const { return m_object; }
 
     ObjectType& getObjectReference() { return m_object; }
+
 private:
     friend std::ostream& operator<<(std::ostream& out, AlbaFakeCopyable<ObjectType> const& object) {
         out << object.m_object;

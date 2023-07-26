@@ -3,6 +3,7 @@
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Types/AlbaTypeHelper.hpp>
 
+#include <cctype>
 #include <iomanip>
 #include <optional>
 #include <sstream>
@@ -18,7 +19,8 @@ using StringPairs = std::vector<StringPair>;
 
 constexpr auto WHITESPACE_STRING = " \t\n\r";
 
-inline bool isWhiteSpace(char const c) { return (' ' == c || '\t' == c || '\n' == c || '\r' == c); }
+inline bool isWhiteSpace(char const c) { return isspace(c); }
+// inline bool isWhiteSpace(char const c) { return (' ' == c || '\t' == c || '\n' == c || '\r' == c); }
 
 inline bool isNewline(char const c) { return ('\n' == c || '\r' == c); }
 
@@ -30,23 +32,35 @@ inline bool isValidIndex(int const index, int const stringLength) {
     return isNotNpos(index) && 0 <= index && stringLength >= index;
 }
 
-inline bool isCapitalLetter(char const c) { return ('A' <= c && 'Z' >= c); }
+inline bool isCapitalLetter(char const c) { return isupper(c); }
+// inline bool isCapitalLetter(char const c) { return ('A' <= c && 'Z' >= c); }
 
-inline bool isLetter(char const c) { return ('a' <= c && 'z' >= c) || ('A' <= c && 'Z' >= c); }
+inline bool isLowerCaseLetter(char const c) { return islower(c); }
+// inline bool isLowerCaseLetter(char const c) { return ('a' <= c && 'z' >= c); }
 
-inline bool isNumber(char const c) { return ('0' <= c && '9' >= c); }
+inline bool isLetter(char const c) { return isalpha(c); }
+// inline bool isLetter(char const c) { return ('a' <= c && 'z' >= c) || ('A' <= c && 'Z' >= c); }
+
+inline bool isNumber(char const c) { return isdigit(c); }
+// inline bool isNumber(char const c) { return ('0' <= c && '9' >= c); }
+
+inline bool isHexDigit(char const c) { return isxdigit(c); }
+// inline bool isHexDigit(char const c) { return isNumber(c) || ('a' <= c && 'f' >= c) || ('A' <= c && 'F' >= c); }
+
+inline bool isLetterOrNumber(char const c) { return isalnum(c); }
+// inline bool isLetterOrNumber(char const c) { return isLetter(c) || isNumber(c); }
+
+inline bool isPunctuation(char const c) { return ispunct(c); }
 
 inline bool isUnderscore(char const c) { return '_' == c; }
 
-inline bool isHexDigit(char const c) { return isNumber(c) || ('a' <= c && 'f' >= c) || ('A' <= c && 'F' >= c); }
-
-inline bool isLetterOrNumber(char const c) { return isLetter(c) || isNumber(c); }
-
-inline bool isLetterOrNumberOrUnderscore(char const c) { return isLetter(c) || isNumber(c) || isUnderscore(c); }
+inline bool isLetterOrNumberOrUnderscore(char const c) { return isLetterOrNumber(c) || isUnderscore(c); }
 
 inline bool isSlashCharacter(char const c) { return ('\\' == c || '/' == c); }
 
-inline bool isDisplayableCharacter(char const c) { return (' ' <= c && '~' >= c); }
+inline bool isDisplayableCharacter(char const c) { return isprint(c); }
+// true if c is a printable character (i.e., a space or a character that has a visible representation)
+// inline bool isDisplayableCharacter(char const c) { return (' ' <= c && '~' >= c); }
 
 inline bool isNotEmptyLine(std::string_view mainString) {
     return isNotNpos(static_cast<int>(mainString.find_first_not_of(WHITESPACE_STRING)));

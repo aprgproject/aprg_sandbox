@@ -59,7 +59,8 @@ private:
         b_vertexToComponentIdMap[vertex] = b_numberOfComponentIds;
         for (Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex)) {
             if (m_processedVertices.isNotFound(adjacentVertex)) {
-                traverseUsingDfs(adjacentVertex);            }
+                traverseUsingDfs(adjacentVertex);
+            }
         }
     }
 
@@ -71,9 +72,11 @@ private:
         }
         return result;
     }
+
     BaseDirectedGraphWithVertex const& b_graph;
     int& b_numberOfComponentIds;
-    VertexToIntMap& b_vertexToComponentIdMap;    CheckableVerticesWithVertex m_processedVertices;
+    VertexToIntMap& b_vertexToComponentIdMap;
+    CheckableVerticesWithVertex m_processedVertices;
 };
 
 // Algorithm in short terms:

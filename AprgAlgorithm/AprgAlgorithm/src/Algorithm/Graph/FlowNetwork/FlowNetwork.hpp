@@ -94,10 +94,12 @@ public:
                 result += details.flow;
             }
         }
-        return result;    }
+        return result;
+    }
 
     FlowDataTypes getSortedCapacities() const {
-        FlowDataTypes capacities(getAllCapacities());        std::sort(capacities.begin(), capacities.end());
+        FlowDataTypes capacities(getAllCapacities());
+        std::sort(capacities.begin(), capacities.end());
         return capacities;
     }
 
@@ -132,10 +134,12 @@ public:
                 result.emplace_back(FlowEdge{edge.first, edge.second, details.capacity, details.flow});
             }
         }
-        return result;    }
+        return result;
+    }
 
     void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow) {
-        connect(vertex1, vertex2);        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
+        connect(vertex1, vertex2);
+        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
     }
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override {
@@ -180,10 +184,12 @@ private:
             out << edge.first << "->" << edge.second << "(capacity: " << details.capacity << " flow: " << details.flow
                 << "), ";
         }
-        out << "}";        return out;
+        out << "}";
+        return out;
     }
 
-    EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;};
+    EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;
+};
 
 }  // namespace algorithm
 

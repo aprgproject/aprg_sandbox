@@ -23,8 +23,10 @@ public:
             this->connect(endVertexOfEdge, startVertexOfEdge);
         }
     }
+
     static constexpr GraphDirectionType DIRECTION_TYPE = GraphDirectionType::Directed;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

@@ -26,10 +26,12 @@ public:
             Value range = maximumValue - minimumValue + 1;
 
             // Create an array of vectors.
-            // Size of array range.            // Each vector represents a hole that is going to contain matching elements.
+            // Size of array range.
+            // Each vector represents a hole that is going to contain matching elements.
             Holes holes(range);
 
-            // Traverse through input array and put every element in its respective hole            for (Value const& value : valuesToSort) {
+            // Traverse through input array and put every element in its respective hole
+            for (Value const& value : valuesToSort) {
                 holes[value - minimumValue].emplace_back(value);
             }
 

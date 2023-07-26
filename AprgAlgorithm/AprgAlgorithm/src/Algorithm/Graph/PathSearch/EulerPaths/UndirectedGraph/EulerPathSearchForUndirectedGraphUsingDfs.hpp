@@ -107,8 +107,10 @@ private:
             result = startVertexOfEdge;
         }
         return result;
-    }    BaseUndirectedGraphWithVertex const& b_graph;
+    }
+    BaseUndirectedGraphWithVertex const& b_graph;
 };
 
 }  // namespace algorithm
+
 }  // namespace alba

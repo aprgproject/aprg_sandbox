@@ -16,6 +16,7 @@ void NumbersRetriever::retrieveFromMonomial(Monomial const& monomial) {
         m_numbers.emplace(exponent);
     }
 }
+
 }  // namespace algebra
 
 }  // namespace alba

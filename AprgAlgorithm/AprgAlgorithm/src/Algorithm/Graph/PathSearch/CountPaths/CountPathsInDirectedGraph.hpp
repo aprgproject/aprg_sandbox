@@ -35,9 +35,11 @@ private:
             m_vertexToDependentVertices[endVertexOfEdge].emplace(startVertexOfEdge);
         }
     }
+
     int getCountInternal(Vertex const& start, Vertex const& end) {
         int result(1);  // if start and end are equal, then return one count
-        if (start != end) {            auto it = m_pathCounts.find({start, end});
+        if (start != end) {
+            auto it = m_pathCounts.find({start, end});
             if (it != m_pathCounts.cend()) {
                 result = it->second;
             } else {

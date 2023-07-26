@@ -25,10 +25,12 @@ public:
             int newSize = std::max(total + 1, *maxIt);
             m_combinations.resize(newSize);
         }
-        if (m_combinations[total].empty()) {            for (Value const inputValue : m_inputValues) {
+        if (m_combinations[total].empty()) {
+            for (Value const inputValue : m_inputValues) {
                 if (total > inputValue) {
                     Combinations subCombinations(getCombinationsWithSumUsingRecursion(total - inputValue));
-                    for (Combination const& subcombination : subCombinations) {                        Combination combination(subcombination);
+                    for (Combination const& subcombination : subCombinations) {
+                        Combination combination(subcombination);
                         combination.emplace(inputValue);
                         m_combinations[total].emplace(combination);
                     }

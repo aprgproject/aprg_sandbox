@@ -74,7 +74,8 @@ TEST(KnuthShuffleTest, ShuffleWhileMovingBackwardWorksOnCharactersUsingExample1)
     shuffler.shuffleWhileMovingBackward(valuesToShuffle);
 
     CharactersSet valuesSetToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'T', 'X'};
-    EXPECT_NE(givenValues, valuesToShuffle);    EXPECT_EQ(valuesSetToExpect, CharactersSet(valuesToShuffle.cbegin(), valuesToShuffle.cend()));
+    EXPECT_NE(givenValues, valuesToShuffle);
+    EXPECT_EQ(valuesSetToExpect, CharactersSet(valuesToShuffle.cbegin(), valuesToShuffle.cend()));
 }
 
 }  // namespace algorithm

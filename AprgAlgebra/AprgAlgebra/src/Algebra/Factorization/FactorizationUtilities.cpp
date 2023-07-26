@@ -27,9 +27,11 @@ bool areExponentsDivisible(Monomial const& monomial, int const divisor) {
             !isDivisible<long long int>(getAbsoluteValue(exponent.getInteger()), divisor)) {
             result = false;
             break;
-        }    }
+        }
+    }
     return result;
 }
+
 bool isPerfectSquare(Monomial const& monomial) { return isPerfectNthPower(monomial, 2); }
 
 bool isPerfectCube(Monomial const& monomial) { return isPerfectNthPower(monomial, 3); }

@@ -56,9 +56,11 @@ private:
             m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(startVertexOfEdge, endVertexOfEdge));
         }
     }
+
     Graph const& m_graph;
     Vertex m_startVertex;
-    Edges m_minimumSpanningTreeEdges;    EdgeOrderedByWeightsPriorityQueue m_edgesInOrder;
+    Edges m_minimumSpanningTreeEdges;
+    EdgeOrderedByWeightsPriorityQueue m_edgesInOrder;
 };
 
 // Algorithm in short terms: Add shortest edges (if does not create a cycle) in the tree

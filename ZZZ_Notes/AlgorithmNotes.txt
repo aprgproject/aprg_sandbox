@@ -149,10 +149,12 @@
 
 -> Algorithmic analysis
 
----> It is frequently important to know how much of a particular resource (such as time or storage) is theoretically required for a given algorithm. -----> Methods have been developed for the analysis of algorithms to obtain such quantitative answers (estimates); 
+---> It is frequently important to know how much of a particular resource (such as time or storage) is theoretically required for a given algorithm. 
+-----> Methods have been developed for the analysis of algorithms to obtain such quantitative answers (estimates); 
 -----> for example, an algorithm which adds up the elements of a list of n numbers would have a time requirement of O(n), using big O notation. 
 -----> At all times the algorithm only needs to remember two values: the sum of all the elements so far, and its current position in the input list. 
 -----> Therefore, it is said to have a space requirement of O(1), if the space required to store the input numbers is not counted, or O(n) if it is counted.
+
 ---> Different algorithms may complete the same task with a different set of instructions in less or more time, space, or 'effort' than others. 
 -----> For example, a binary search algorithm (with cost O(log n)) outperforms a sequential search (cost O(n)) when used for table lookups on sorted lists or arrays.
 
@@ -476,6 +478,7 @@
 
 
 -> Classification
+
 ---> There are various ways to classify algorithms, each with its own merits.
 
 
@@ -489,10 +492,12 @@
 -------> For example, towers of Hanoi is well understood using recursive implementation. 
 -------> Every recursive version has an equivalent (but possibly more or less complex) iterative version, and vice versa.
 
------> (2) Logical-------> An algorithm may be viewed as controlled logical deduction. 
+-----> (2) Logical
+-------> An algorithm may be viewed as controlled logical deduction. 
 -------> This notion may be expressed as: Algorithm = logic + control.[74] 
 -------> The logic component expresses the axioms that may be used in the computation and the control component determines the way in which deduction is applied to the axioms. 
--------> This is the basis for the logic programming paradigm. -------> In pure logic programming languages, the control component is fixed and algorithms are specified by supplying only the logic component. 
+-------> This is the basis for the logic programming paradigm. 
+-------> In pure logic programming languages, the control component is fixed and algorithms are specified by supplying only the logic component. 
 -------> The appeal of this approach is the elegant semantics: a change in the axioms produces a well-defined change in the algorithm.
  
 -----> (3) Serial, parallel or distributed
@@ -552,10 +557,12 @@
 -----------> Combine
 
 -----> (3) Search and enumeration
--------> Many problems (such as playing chess) can be modeled as problems on graphs. -------> A graph exploration algorithm specifies rules for moving around a graph and is useful for such problems. 
+-------> Many problems (such as playing chess) can be modeled as problems on graphs. 
+-------> A graph exploration algorithm specifies rules for moving around a graph and is useful for such problems. 
 -------> This category also includes search algorithms, branch and bound enumeration and backtracking.
 
------> (4) Randomized algorithm-------> Such algorithms make some choices randomly (or pseudo-randomly). 
+-----> (4) Randomized algorithm
+-------> Such algorithms make some choices randomly (or pseudo-randomly). 
 -------> They can be very useful in finding approximate solutions for problems where finding exact solutions can be impractical (see heuristic method below). 
 -------> For some of these problems, it is known that the fastest approximations must involve some randomness. 
 -------> Whether randomized algorithms with polynomial time complexity can be the fastest algorithms for some problems is an open question known as the P versus NP problem. 
@@ -587,8 +594,10 @@
 
 
 ---> Optimization problems
+
 -----> For optimization problems there is a more specific classification of algorithms; 
 -----> an algorithm for such problems may fall into one or more of the general categories described above as well as into one of the following:
+
 -----> (1) Linear programming
 -------> When searching for optimal solutions to a linear function bound to linear equality and inequality constraints, 
 -------> the constraints of the problem can be used directly in producing the optimal solutions. 
@@ -603,9 +612,11 @@
 ---------> meaning the same subproblems are used to solve many different problem instances, a quicker approach called dynamic programming avoids recomputing solutions that have already been computed. 
 -------> For example, Floyd–Warshall algorithm, the shortest path to a goal from a vertex in a weighted graph can be found by using the shortest path to the goal from all adjacent vertices. 
 -------> Dynamic programming and memoization go together. 
--------> The main difference between dynamic programming and divide and conquer is that subproblems are more or less independent in divide and conquer, whereas subproblems overlap in dynamic programming. -------> The difference between dynamic programming and straightforward recursion is in caching or memoization of recursive calls. 
+-------> The main difference between dynamic programming and divide and conquer is that subproblems are more or less independent in divide and conquer, whereas subproblems overlap in dynamic programming. 
+-------> The difference between dynamic programming and straightforward recursion is in caching or memoization of recursive calls. 
 -------> When subproblems are independent and there is no repetition, memoization does not help; hence dynamic programming is not a solution for all complex problems. 
 -------> By using memoization or maintaining a table of subproblems already solved, dynamic programming reduces the exponential nature of many problems to polynomial complexity.
+
 -----> (3) The greedy method
 -------> A greedy algorithm is similar to a dynamic programming algorithm in that it works by examining substructures, in this case not of the problem but of a given solution. 
 -------> Such algorithms start with some solution, which may be given or have been constructed in some way, and improve it by making small modifications. 
@@ -630,9 +641,11 @@
 
 
 ---> By field of study
+
 -----> Every field of science has its own problems and needs efficient algorithms. 
 -------> Related problems in one field are often studied together. 
--------> Some example classes are search algorithms, sorting algorithms, merge algorithms, numerical algorithms, graph algorithms, string algorithms, -------> computational geometric algorithms, combinatorial algorithms, medical algorithms, machine learning, cryptography, data compression algorithms and parsing techniques.
+-------> Some example classes are search algorithms, sorting algorithms, merge algorithms, numerical algorithms, graph algorithms, string algorithms, 
+-------> computational geometric algorithms, combinatorial algorithms, medical algorithms, machine learning, cryptography, data compression algorithms and parsing techniques.
 
 -----> Fields tend to overlap with each other, and algorithm advances in one field may improve those of other, sometimes completely unrelated, fields. 
 -------> For example, dynamic programming was invented for optimization of resource consumption in industry but is now used in solving a broad range of problems in many fields.
@@ -675,9 +688,11 @@
 
 
 ---> By complexity
+
 -----> Algorithms can be classified by the amount of time they need to complete compared to their input size:
 -------> Constant time: if the time needed by the algorithm is the same, regardless of the input size. E.g. an access to an array element.
--------> Logarithmic time: if the time is a logarithmic function of the input size. E.g. binary search algorithm.-------> Linear time: if the time is proportional to the input size. E.g. the traverse of a list.
+-------> Logarithmic time: if the time is a logarithmic function of the input size. E.g. binary search algorithm.
+-------> Linear time: if the time is proportional to the input size. E.g. the traverse of a list.
 -------> Polynomial time: if the time is a power of the input size. E.g. the bubble sort algorithm has quadratic time complexity.
 -------> Exponential time: if the time is an exponential function of the input size. E.g. Brute-force search.
 
@@ -1287,9 +1302,11 @@
 -> List of Algorithms (including my notes)
 
 
+
 -> Combinatorial algorithms
 
 ---> General combinatorial algorithms
+
 -----> Brent's algorithm: 
 -------> This finds a cycle in function value iterations using only two iterators.
 -------> This is an alternative cycle detection algorithm that, like the tortoise and hare algorithm, requires only two pointers into the sequence.
@@ -3773,10 +3790,12 @@
 -------------> The constant can be improved to 3/2 by a more complicated pivot strategy, yielding the Floyd–Rivest algorithm, which has average complexity of 1.5n + Θ(n^(1/2)) for median, with other k being faster. 
 
 -------> Introselect
----------> Introselect (short for "introspective selection") is a selection algorithm that is a hybrid of quickselect -----------> and median of medians which has fast average performance and optimal worst-case performance. 
+---------> Introselect (short for "introspective selection") is a selection algorithm that is a hybrid of quickselect 
+-----------> and median of medians which has fast average performance and optimal worst-case performance. 
 -----------> Introselect is related to the introsort sorting algorithm: these are analogous refinements of the basic quickselect and quicksort algorithms, 
 -----------> in that they both start with the quick algorithm, which has good average performance and low overhead, 
------------> but fall back to an optimal worst-case algorithm (with higher overhead) if the quick algorithm does not progress rapidly enough. -----------> Both algorithms were introduced by David Musser in (Musser 1997), with the purpose of providing generic algorithms 
+-----------> but fall back to an optimal worst-case algorithm (with higher overhead) if the quick algorithm does not progress rapidly enough. 
+-----------> Both algorithms were introduced by David Musser in (Musser 1997), with the purpose of providing generic algorithms 
 -----------> for the C++ Standard Library that have both fast average performance and optimal worst-case performance, thus allowing the performance requirements to be tightened. 
 -----------> However, in most C++ Standard Library implementations that use introselect, another "introselect" algorithm is used, 
 -----------> which combines quickselect and heapselect, and has a worst-case running time of O(n log n).
@@ -3796,9 +3815,11 @@
 -----------------> This sum is easy to track in a single scalar variable.
 -----------> Both approaches limit the recursion depth to k(log n) = O(log n) and the total running time to O(n).
 -----------> Note: The paper suggested that more research on introselect was forthcoming, but the author retired in 2007 without having published any such further research. 
+
 -----> Sequence search
 
--------> Linear search:---------> This locates an item in an unsorted sequence.
+-------> Linear search:
+---------> This locates an item in an unsorted sequence.
 ---------> A linear search or sequential search is a method for finding an element within a list. 
 -----------> It sequentially checks each element of the list until a match is found or the whole list has been searched.
 ---------> A linear search runs in at worst linear time and makes at most n comparisons, where n is the length of the list. 
@@ -3819,10 +3840,12 @@
 -----------> With a sentinel (Me: Who would do this?)
 -------------> The basic algorithm above makes two comparisons per iteration: one to check if Li equals T,
 ---------------> and the other to check if i still points to a valid index of the list. 
----------------> By adding an extra record Ln to the list (a sentinel value) that equals the target, ---------------> the second comparison can be eliminated until the end of the search, making the algorithm faster. 
+---------------> By adding an extra record Ln to the list (a sentinel value) that equals the target, 
+---------------> the second comparison can be eliminated until the end of the search, making the algorithm faster. 
 ---------------> The search will reach the sentinel if the target is not contained within the list.[4]
 -----------------> Set i to 0.
------------------> If Li = T, go to step 4.-----------------> Increase i by 1 and go to step 2.
+-----------------> If Li = T, go to step 4.
+-----------------> Increase i by 1 and go to step 2.
 -----------------> If i < n, the search terminates successfully; return i. Else, the search terminates unsuccessfully.
 -----------> In an ordered table
 -------------> If the list is ordered such that L0 ≤ L1 ... ≤ Ln−1, the search can establish 
@@ -3848,7 +3871,8 @@
 ---------> The best-known selection algorithm is Quickselect, which is related to Quicksort; like Quicksort, 
 -----------> it has (asymptotically) optimal average performance, but poor worst-case performance, though it can be modified to give optimal worst-case performance as well. 
 
--------> Ternary search: ---------> This a technique for finding the minimum or maximum of a function that is either strictly increasing and then strictly decreasing or vice versa.
+-------> Ternary search: 
+---------> This a technique for finding the minimum or maximum of a function that is either strictly increasing and then strictly decreasing or vice versa.
 -----------> A ternary search algorithm is a technique in computer science for finding the minimum or maximum of a unimodal function. 
 -----------> A ternary search determines either that the minimum or maximum cannot be in the first third of the domain 
 -----------> or that it cannot be in the last third of the domain, then repeats on the remaining two thirds. 
@@ -3858,10 +3882,12 @@
 -------------> For the algorithm to be applicable, there must be some value X such that
 ---------------> for all a,b with A ≤ a < b ≤ x, we have f(a)<f(b), and
 ---------------> for all a,b with x ≤ a < b ≤ B, we have f(a)>f(b).
------------> Algorithm-----------> Let f(x) be a unimodal function on some interval [l;r]. Take any two points m1 and m2 in this segment: l < m1 < m2 < r. 
+-----------> Algorithm
+-----------> Let f(x) be a unimodal function on some interval [l;r]. Take any two points m1 and m2 in this segment: l < m1 < m2 < r. 
 -----------> Then there are three possibilities:
 -------------> if f(m1) < f(m2), then the required maximum can not be located on the left side – [l;m1]. 
----------------> It means that the maximum further makes sense to look only in the interval [m1;r]-------------> if f(m1) > f(m2), that the situation is similar to the previous, up to symmetry. 
+---------------> It means that the maximum further makes sense to look only in the interval [m1;r]
+-------------> if f(m1) > f(m2), that the situation is similar to the previous, up to symmetry. 
 ---------------> Now, the required maximum can not be in the right side – [m2;r], so go to the segment [l;m2]
 -------------> if f(m1) = f(m2), then the search should be conducted in [m1;m2], 
 ---------------> but this case can be attributed to any of the previous two (in order to simplify the code). 

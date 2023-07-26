@@ -108,10 +108,12 @@ private:
                 flowNetwork.connect(startVertexOfEdge, endVertexOfEdge, 1, 0);
             }
         }
-        return flowNetwork;    }
+        return flowNetwork;
+    }
 
     BaseUndirectedGraphWithVertex const& m_graph;
-    BipartiteChecker m_bipartiteChecker;};
+    BipartiteChecker m_bipartiteChecker;
+};
 
 // There are polynomial algorithms for finding maximum matchings in general graphs, but such algorithms are complex and
 // rarely seen in programming contests. However, in bipartite graphs, the maximum matching problem is much easier to

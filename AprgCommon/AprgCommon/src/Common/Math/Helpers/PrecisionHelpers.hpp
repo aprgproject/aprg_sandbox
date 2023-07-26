@@ -91,12 +91,3 @@ inline double getFractionalPartInDouble(double const doubleValue) {
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value);
 
 }  // namespace alba::mathHelper
-
-// Floating point formats:
-//              |           Number of Bits           |                    Other Details                    |
-//              | Sign | Exponent | Mantissa | Total | Exponent bias | Bits precision | Significant Digits |
-// Half         |  1   |    5     |    10    |   16  |        15     |       11       |         3-4        |
-// Single       |  1   |    8     |    23    |   32  |       127     |       24       |         6-9        |
-// Double       |  1   |    11    |    52    |   64  |      1023     |       53       |       15-17        |
-// x86 extended |  1   |    15    |    64    |   80  |     16383     |       64       |       18-21        |
-// Quad         |  1   |    15    |   112    |  128  |     16383     |      113       |       33-36        |

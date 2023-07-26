@@ -170,9 +170,11 @@ Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvert
                     resultMonomial.putVariableWithExponent(variable, newPositiveExponent);
                 }
             }
-        }    }
+        }
+    }
     return resultMonomial;
 }
+
 bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(
     Polynomials& numeratorFactors, Polynomials& denominatorFactors) const {
     bool areSomeFactorsRemoved(false);

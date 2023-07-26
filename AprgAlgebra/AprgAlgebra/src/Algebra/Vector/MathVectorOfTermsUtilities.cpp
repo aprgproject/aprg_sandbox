@@ -238,7 +238,9 @@ void retrieveWithAndWithoutOtherCoordinates(
         }
     }
 }
+
 }  // namespace VectorUtilities
 
 }  // namespace algebra
+
 }  // namespace alba

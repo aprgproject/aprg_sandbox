@@ -75,10 +75,12 @@ private:
                     result.emplace(value, count);
                 }
             }
-            return result;        };
+            return result;
+        };
     }
 
-    SegmentTree m_valueToCountMapSegmentTree;};
+    SegmentTree m_valueToCountMapSegmentTree;
+};
 
 }  // namespace algorithm
 

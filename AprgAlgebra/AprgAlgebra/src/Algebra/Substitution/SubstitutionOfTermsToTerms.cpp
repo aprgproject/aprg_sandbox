@@ -103,9 +103,11 @@ void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& var
         putTermToTermMapping(variable, value);
     }
 }
+
 void SubstitutionOfTermsToTerms::putTermToTermMapping(Term const& term1, Term const& term2) {
     m_termsToTermsMap[term1] = term2;
 }
+
 void SubstitutionOfTermsToTerms::performSubstitutionForTermsWithAssociation(
     TermsWithAssociation& termsWithAssociation) const {
     for (TermWithDetails& termWithDetails : termsWithAssociation.getTermsWithDetailsReference()) {

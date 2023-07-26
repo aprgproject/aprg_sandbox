@@ -78,10 +78,12 @@ public:
                         savedOutput, this->getResultOnInterval(currentRange.second + 1, previousRange.second));
                 }
                 result.emplace_back(currentRange, savedOutput);
-                previousRange = currentRange;            }
+                previousRange = currentRange;
+            }
         }
         return result;
     }
+
 private:
     Index getSquareRootSize(Index const numberOfValues) const { return static_cast<Index>(sqrt(numberOfValues)); }
 

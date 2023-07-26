@@ -76,9 +76,11 @@ private:
             result.emplace_back(endVertexOfEdge);
         }
     }
+
     void searchForEulerPath(Path& result, Vertex const& startVertex, Edges const& originalEdges) const {
         GraphToManipulate graphToManipulate(createGraphToManipulate(originalEdges));
-        SetOfEdges& edgesReference(graphToManipulate.getSetOfEdgesReference());        bool isComplete(true);
+        SetOfEdges& edgesReference(graphToManipulate.getSetOfEdgesReference());
+        bool isComplete(true);
         Edges edgesInEulerCycle;
         Edge deletedEdge(startVertex, startVertex);
         while (!edgesReference.empty()) {

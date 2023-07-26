@@ -55,10 +55,12 @@ public:
                 result.emplace_back(startVertexOfEdge);
             }
         }
-        return result;    }
+        return result;
+    }
 
     Edges getEdges() const override {
-        Edges result;        for (auto const& edge : m_edges) {
+        Edges result;
+        for (auto const& edge : m_edges) {
             if (edge.first <= edge.second) {
                 result.emplace_back(edge);
             }

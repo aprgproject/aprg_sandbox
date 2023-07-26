@@ -33,9 +33,11 @@ TEST(OtherUtilitiesTest, IsALuckyNumberWorks) {
 
 TEST(OtherUtilitiesTest, IsLagrangeTheoremTrueWorks) {
     EXPECT_TRUE(isLagrangeTheoremTrue(13U));
-    EXPECT_TRUE(isLagrangeTheoremTrue(64U));    EXPECT_TRUE(isLagrangeTheoremTrue(65U));
+    EXPECT_TRUE(isLagrangeTheoremTrue(64U));
+    EXPECT_TRUE(isLagrangeTheoremTrue(65U));
     EXPECT_TRUE(isLagrangeTheoremTrue(84U));
 }
+
 TEST(OtherUtilitiesTest, IsZeckendorfTheoremTrueWorks) {
     EXPECT_TRUE(isZeckendorfTheoremTrue(13U));
     EXPECT_TRUE(isZeckendorfTheoremTrue(64U));
@@ -72,10 +74,12 @@ TEST(OtherUtilitiesTest, GetNthFibonacciNumberUsingRecursionWorks) {
 
 TEST(OtherUtilitiesTest, GetNthFibonacciUsingMatrixPowerWithLogarithmicTimeWorks) {
     EXPECT_EQ(0U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(0U));
-    EXPECT_EQ(1U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(1U));    EXPECT_EQ(1U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(2U));
+    EXPECT_EQ(1U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(1U));
+    EXPECT_EQ(1U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(2U));
     EXPECT_EQ(2U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(3U));
     EXPECT_EQ(21U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(8U));
-    EXPECT_EQ(34U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(9U));}
+    EXPECT_EQ(34U, getNthFibonacciUsingMatrixPowerWithLogarithmicTime(9U));
+}
 
 TEST(OtherUtilitiesTest, GetNthFibonacciUsingLogarithmicTabularDPTimeWorks) {
     EXPECT_EQ(0U, getNthFibonacciUsingLogarithmicTabularDP(0U));

@@ -105,10 +105,12 @@ Expression SubstitutionOfVariablesToTerms::performSubstitutionForMonomial(Monomi
             remainingMonomial.putVariableWithExponent(variableName, exponent);
         }
     }
-    Expression finalExpression(getBaseTermConstReferenceFromTerm(remainingMonomial));    finalExpression.putTermWithMultiplicationIfNeeded(Term(substitutedExpressions));
+    Expression finalExpression(getBaseTermConstReferenceFromTerm(remainingMonomial));
+    finalExpression.putTermWithMultiplicationIfNeeded(Term(substitutedExpressions));
     finalExpression.simplify();
     return finalExpression;
 }
+
 Expression SubstitutionOfVariablesToTerms::performSubstitutionForPolynomial(Polynomial const& polynomial) const {
     Expression newExpression;
     for (Monomial const& monomial : polynomial.getMonomials()) {
@@ -145,9 +147,11 @@ void SubstitutionOfVariablesToTerms::putVariablesWithTerms(VariablesToTermsMap c
         putVariableWithTerm(variable, term);
     }
 }
+
 void SubstitutionOfVariablesToTerms::putVariableWithTerm(string const& variable, Term const& term) {
     m_variableToTermsMap[variable] = term;
-    m_variableToTermsMap[variable].simplify();}
+    m_variableToTermsMap[variable].simplify();
+}
 
 void SubstitutionOfVariablesToTerms::performSubstitutionForTermsWithAssociation(
     TermsWithAssociation& termsWithAssociation) const {

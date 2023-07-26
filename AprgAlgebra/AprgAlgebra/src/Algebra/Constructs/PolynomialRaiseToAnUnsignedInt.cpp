@@ -35,9 +35,11 @@ bool PolynomialRaiseToAnUnsignedInt::canBeSimplified(int const gcfOfExponents, M
     return gcfOfExponents != 1 &&
            (!isEven(gcfOfExponents) || (isEven(gcfOfExponents) && !isANegativeMonomial(commonMonomialInBase)));
 }
+
 void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsToExponent(
     Polynomial const& polynomial, PolynomialToNumberMap& factorsToExponent, Monomial& commonMonomialInBase) {
-    Polynomials factors(factorizeAPolynomial(polynomial));    for (Polynomial const& factor : factors) {
+    Polynomials factors(factorizeAPolynomial(polynomial));
+    for (Polynomial const& factor : factors) {
         if (isOneMonomial(factor)) {
             commonMonomialInBase.multiplyMonomial(getFirstMonomial(factor));
         } else {
@@ -74,8 +76,10 @@ Polynomial PolynomialRaiseToAnUnsignedInt::getRemainingBase(
         Polynomial remainingFactor(factor);
         remainingFactor.raiseToUnsignedInteger(remainingExponent);
         result.multiplyPolynomial(remainingFactor);
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace algebra
+
 }  // namespace alba

@@ -58,9 +58,11 @@ public:
         for (auto const& [sourceVertex, adjacencyList] : m_adjacencyLists) {
             for (Vertex const& destinationVertex : adjacencyList) {
                 result.emplace_back(sourceVertex, destinationVertex);
-            }        }
+            }
+        }
         return result;
     }
+
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override {
         if (!isDirectlyConnected(sourceVertex, destinationVertex)) {
             m_numberOfEdges++;
@@ -86,7 +88,8 @@ protected:
         for (auto const& [sourceVertex, adjacencyList] : m_adjacencyLists) {
             uniqueVertices.emplace(sourceVertex);
             std::copy(
-                adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));        }
+                adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
+        }
         return uniqueVertices;
     }
 
@@ -97,9 +100,11 @@ protected:
                 out << "Adjacent with vertex " << sourceVertex << ": {";
                 containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);
                 out << "} \n";
-            }        }
+            }
+        }
         return out;
     }
+
     int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };

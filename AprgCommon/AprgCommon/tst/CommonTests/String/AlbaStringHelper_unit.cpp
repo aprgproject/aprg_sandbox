@@ -9,13 +9,232 @@ using namespace alba::stringHelper;
 
 namespace alba {
 
-TEST(BoolCharacterTest, IsDisplayableCharacterWorks) {
+TEST(BoolCharacterStringTest, IsWhiteSpaceWorks) {
+    EXPECT_FALSE(isWhiteSpace('\0'));
+    EXPECT_TRUE(isWhiteSpace('\xA'));
+    EXPECT_TRUE(isWhiteSpace('\r'));
+    EXPECT_TRUE(isWhiteSpace('\n'));
+    EXPECT_TRUE(isWhiteSpace('\t'));
+    EXPECT_TRUE(isWhiteSpace(' '));
+    EXPECT_FALSE(isWhiteSpace('!'));
+    EXPECT_FALSE(isWhiteSpace('~'));
+    EXPECT_FALSE(isWhiteSpace('A'));
+    EXPECT_FALSE(isWhiteSpace('J'));
+    EXPECT_FALSE(isWhiteSpace('Z'));
+    EXPECT_FALSE(isWhiteSpace('a'));
+    EXPECT_FALSE(isWhiteSpace('j'));
+    EXPECT_FALSE(isWhiteSpace('z'));
+    EXPECT_FALSE(isWhiteSpace('1'));
+    EXPECT_FALSE(isWhiteSpace('9'));
+    EXPECT_FALSE(isWhiteSpace('0'));
+}
+
+TEST(BoolCharacterStringTest, IsNewlineWorks) {
+    EXPECT_FALSE(isNewline('\0'));
+    EXPECT_TRUE(isNewline('\xA'));
+    EXPECT_TRUE(isNewline('\r'));
+    EXPECT_TRUE(isNewline('\n'));
+    EXPECT_FALSE(isNewline('\t'));
+    EXPECT_FALSE(isNewline(' '));
+    EXPECT_FALSE(isNewline('!'));
+    EXPECT_FALSE(isNewline('~'));
+    EXPECT_FALSE(isNewline('A'));
+    EXPECT_FALSE(isNewline('J'));
+    EXPECT_FALSE(isNewline('Z'));
+    EXPECT_FALSE(isNewline('a'));
+    EXPECT_FALSE(isNewline('j'));
+    EXPECT_FALSE(isNewline('z'));
+    EXPECT_FALSE(isNewline('1'));
+    EXPECT_FALSE(isNewline('9'));
+    EXPECT_FALSE(isNewline('0'));
+}
+
+TEST(BoolCharacterStringTest, IsCapitalLetterWorks) {
+    EXPECT_FALSE(isCapitalLetter('\0'));
+    EXPECT_FALSE(isCapitalLetter('\xA'));
+    EXPECT_FALSE(isCapitalLetter('\r'));
+    EXPECT_FALSE(isCapitalLetter('\n'));
+    EXPECT_FALSE(isCapitalLetter('\t'));
+    EXPECT_FALSE(isCapitalLetter(' '));
+    EXPECT_FALSE(isCapitalLetter('!'));
+    EXPECT_FALSE(isCapitalLetter('~'));
+    EXPECT_FALSE(isCapitalLetter('_'));
+    EXPECT_TRUE(isCapitalLetter('A'));
+    EXPECT_TRUE(isCapitalLetter('J'));
+    EXPECT_TRUE(isCapitalLetter('Z'));
+    EXPECT_FALSE(isCapitalLetter('a'));
+    EXPECT_FALSE(isCapitalLetter('j'));
+    EXPECT_FALSE(isCapitalLetter('z'));
+    EXPECT_FALSE(isCapitalLetter('1'));
+    EXPECT_FALSE(isCapitalLetter('9'));
+    EXPECT_FALSE(isCapitalLetter('0'));
+}
+
+TEST(BoolCharacterStringTest, IsLowerCaseLetterWorks) {
+    EXPECT_FALSE(isLowerCaseLetter('\0'));
+    EXPECT_FALSE(isLowerCaseLetter('\xA'));
+    EXPECT_FALSE(isLowerCaseLetter('\r'));
+    EXPECT_FALSE(isLowerCaseLetter('\n'));
+    EXPECT_FALSE(isLowerCaseLetter('\t'));
+    EXPECT_FALSE(isLowerCaseLetter(' '));
+    EXPECT_FALSE(isLowerCaseLetter('!'));
+    EXPECT_FALSE(isLowerCaseLetter('~'));
+    EXPECT_FALSE(isLowerCaseLetter('_'));
+    EXPECT_FALSE(isLowerCaseLetter('A'));
+    EXPECT_FALSE(isLowerCaseLetter('J'));
+    EXPECT_FALSE(isLowerCaseLetter('Z'));
+    EXPECT_TRUE(isLowerCaseLetter('a'));
+    EXPECT_TRUE(isLowerCaseLetter('j'));
+    EXPECT_TRUE(isLowerCaseLetter('z'));
+    EXPECT_FALSE(isLowerCaseLetter('1'));
+    EXPECT_FALSE(isLowerCaseLetter('9'));
+    EXPECT_FALSE(isLowerCaseLetter('0'));
+}
+
+TEST(BoolCharacterStringTest, IsNumberWorks) {
+    EXPECT_FALSE(isNumber('\0'));
+    EXPECT_FALSE(isNumber('\xA'));
+    EXPECT_FALSE(isNumber('\r'));
+    EXPECT_FALSE(isNumber('\n'));
+    EXPECT_FALSE(isNumber('\t'));
+    EXPECT_FALSE(isNumber(' '));
+    EXPECT_FALSE(isNumber('!'));
+    EXPECT_FALSE(isNumber('~'));
+    EXPECT_FALSE(isNumber('_'));
+    EXPECT_FALSE(isNumber('A'));
+    EXPECT_FALSE(isNumber('J'));
+    EXPECT_FALSE(isNumber('Z'));
+    EXPECT_FALSE(isNumber('a'));
+    EXPECT_FALSE(isNumber('j'));
+    EXPECT_FALSE(isNumber('z'));
+    EXPECT_TRUE(isNumber('1'));
+    EXPECT_TRUE(isNumber('9'));
+    EXPECT_TRUE(isNumber('0'));
+}
+
+TEST(BoolCharacterStringTest, IsHexDigitWorks) {
+    EXPECT_FALSE(isHexDigit('\0'));
+    EXPECT_FALSE(isHexDigit('\xA'));
+    EXPECT_FALSE(isHexDigit('\r'));
+    EXPECT_FALSE(isHexDigit('\n'));
+    EXPECT_FALSE(isHexDigit('\t'));
+    EXPECT_FALSE(isHexDigit(' '));
+    EXPECT_FALSE(isHexDigit('!'));
+    EXPECT_FALSE(isHexDigit('~'));
+    EXPECT_FALSE(isHexDigit('_'));
+    EXPECT_TRUE(isHexDigit('A'));
+    EXPECT_FALSE(isHexDigit('J'));
+    EXPECT_FALSE(isHexDigit('Z'));
+    EXPECT_TRUE(isHexDigit('a'));
+    EXPECT_FALSE(isHexDigit('j'));
+    EXPECT_FALSE(isHexDigit('z'));
+    EXPECT_TRUE(isHexDigit('1'));
+    EXPECT_TRUE(isHexDigit('9'));
+    EXPECT_TRUE(isHexDigit('0'));
+}
+
+TEST(BoolCharacterStringTest, IsLetterOrNumberWorks) {
+    EXPECT_FALSE(isLetterOrNumber('\0'));
+    EXPECT_FALSE(isLetterOrNumber('\xA'));
+    EXPECT_FALSE(isLetterOrNumber('\r'));
+    EXPECT_FALSE(isLetterOrNumber('\n'));
+    EXPECT_FALSE(isLetterOrNumber('\t'));
+    EXPECT_FALSE(isLetterOrNumber(' '));
+    EXPECT_FALSE(isLetterOrNumber('!'));
+    EXPECT_FALSE(isLetterOrNumber('~'));
+    EXPECT_FALSE(isLetterOrNumber('_'));
+    EXPECT_TRUE(isLetterOrNumber('A'));
+    EXPECT_TRUE(isLetterOrNumber('J'));
+    EXPECT_TRUE(isLetterOrNumber('Z'));
+    EXPECT_TRUE(isLetterOrNumber('a'));
+    EXPECT_TRUE(isLetterOrNumber('j'));
+    EXPECT_TRUE(isLetterOrNumber('z'));
+    EXPECT_TRUE(isLetterOrNumber('1'));
+    EXPECT_TRUE(isLetterOrNumber('9'));
+    EXPECT_TRUE(isLetterOrNumber('0'));
+}
+
+TEST(BoolCharacterStringTest, IsPunctuationrWorks) {
+    EXPECT_FALSE(isPunctuation('\0'));
+    EXPECT_FALSE(isPunctuation('\xA'));
+    EXPECT_FALSE(isPunctuation('\r'));
+    EXPECT_FALSE(isPunctuation('\n'));
+    EXPECT_FALSE(isPunctuation('\t'));
+    EXPECT_FALSE(isPunctuation(' '));
+    EXPECT_TRUE(isPunctuation('!'));
+    EXPECT_TRUE(isPunctuation('~'));
+    EXPECT_TRUE(isPunctuation('_'));
+    EXPECT_FALSE(isPunctuation('A'));
+    EXPECT_FALSE(isPunctuation('J'));
+    EXPECT_FALSE(isPunctuation('Z'));
+    EXPECT_FALSE(isPunctuation('a'));
+    EXPECT_FALSE(isPunctuation('j'));
+    EXPECT_FALSE(isPunctuation('z'));
+    EXPECT_FALSE(isPunctuation('1'));
+    EXPECT_FALSE(isPunctuation('9'));
+    EXPECT_FALSE(isPunctuation('0'));
+}
+
+TEST(BoolCharacterStringTest, IsUnderscoreWorks) {
+    EXPECT_FALSE(isUnderscore('\0'));
+    EXPECT_FALSE(isUnderscore('\xA'));
+    EXPECT_FALSE(isUnderscore('\r'));
+    EXPECT_FALSE(isUnderscore('\n'));
+    EXPECT_FALSE(isUnderscore('\t'));
+    EXPECT_FALSE(isUnderscore(' '));
+    EXPECT_FALSE(isUnderscore('!'));
+    EXPECT_FALSE(isUnderscore('~'));
+    EXPECT_TRUE(isUnderscore('_'));
+    EXPECT_FALSE(isUnderscore('A'));
+    EXPECT_FALSE(isUnderscore('J'));
+    EXPECT_FALSE(isUnderscore('Z'));
+    EXPECT_FALSE(isUnderscore('a'));
+    EXPECT_FALSE(isUnderscore('j'));
+    EXPECT_FALSE(isUnderscore('z'));
+    EXPECT_FALSE(isUnderscore('1'));
+    EXPECT_FALSE(isUnderscore('9'));
+    EXPECT_FALSE(isUnderscore('0'));
+}
+
+TEST(BoolCharacterStringTest, IsLetterOrNumberOrUnderscoreWorks) {
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('\0'));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('\xA'));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('\r'));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('\n'));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('\t'));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore(' '));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('!'));
+    EXPECT_FALSE(isLetterOrNumberOrUnderscore('~'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('_'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('A'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('J'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('Z'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('a'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('j'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('z'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('1'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('9'));
+    EXPECT_TRUE(isLetterOrNumberOrUnderscore('0'));
+}
+
+TEST(BoolCharacterStringTest, IsDisplayableCharacterWorks) {
     EXPECT_FALSE(isDisplayableCharacter('\0'));
     EXPECT_FALSE(isDisplayableCharacter('\xA'));
+    EXPECT_FALSE(isDisplayableCharacter('\r'));
     EXPECT_FALSE(isDisplayableCharacter('\n'));
+    EXPECT_FALSE(isDisplayableCharacter('\t'));
     EXPECT_TRUE(isDisplayableCharacter(' '));
     EXPECT_TRUE(isDisplayableCharacter('!'));
     EXPECT_TRUE(isDisplayableCharacter('~'));
+    EXPECT_TRUE(isDisplayableCharacter('A'));
+    EXPECT_TRUE(isDisplayableCharacter('J'));
+    EXPECT_TRUE(isDisplayableCharacter('Z'));
+    EXPECT_TRUE(isDisplayableCharacter('a'));
+    EXPECT_TRUE(isDisplayableCharacter('j'));
+    EXPECT_TRUE(isDisplayableCharacter('z'));
+    EXPECT_TRUE(isDisplayableCharacter('1'));
+    EXPECT_TRUE(isDisplayableCharacter('9'));
+    EXPECT_TRUE(isDisplayableCharacter('0'));
 }
 
 TEST(IntegerStringTest, GenerateUniqueIdWorks) {

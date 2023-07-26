@@ -94,7 +94,8 @@ private:
                     pathInDeque.emplace_back(endVertexOfEdge);
                     detectedEdges.erase(detectedEdges.begin() + i);
                     i = 0;
-                } else {                    i++;
+                } else {
+                    i++;
                 }
             }
             paths.emplace_back(pathInDeque);
@@ -115,10 +116,12 @@ private:
                     unprocessEdgeIt++;
                 }
             }
-        }        Vertices allVertices(m_graph.getVertices());
+        }
+        Vertices allVertices(m_graph.getVertices());
         SetOfVertices unprocessedVertices(allVertices.cbegin(), allVertices.cend());
         for (DequeOfVertices const& pathInDeque : paths)  // remove vertices from path to get unprocessed vertices
-        {            for (Vertex const& vertex : pathInDeque) {
+        {
+            for (Vertex const& vertex : pathInDeque) {
                 unprocessedVertices.erase(vertex);
             }
         }

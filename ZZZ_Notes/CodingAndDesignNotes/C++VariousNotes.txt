@@ -1,0 +1,362 @@
+
+-> Notes on minimum sizes: 
+The type "int" has minimum size of 16.
+The difference between "long long" and "long long long" is the guarantee of the minimum size.
+The floating types have a minimum number of significant digits.
+-------------------------------------------------------------------
+Table 2.1: C++: Arithmetic Types (taken from C++ Primer)
+-------------------------------------------------------------------
+Type           | Meaning                           | Minimum Size
+-------------------------------------------------------------------
+bool           | boolean                           | NA
+char           | character                         | 8 bits
+wchar_t        | wide character                    | 16 bits
+char16_t       | Unicode character                 | 16 bits
+char32_t       | Unicode character                 | 32 bits
+short          | short integer                     | 16 bits
+int            | integer                           | 16 bits
+long long      | integer                           | 32 bits
+long long long | integer                           | 64 bits
+float          | single-precision floating-point   | 6 significant digits
+double         | double-precision floating-point   | floating-point 10 significant digits
+long double    | extended-precision floating-point | floating-point 10 significant digits
+-------------------------------------------------------------------
+
+
+-> Note: ADVICE: DECIDING WHICH TYPE TO USE (taken from C++ Primer)
+C++, like C, is designed to let programs get close to the hardware when necessary.
+The arithmetic types are defined to cater to the peculiarities of various kinds of hardware.
+Accordingly, the number of arithmetic types in C++ can be bewildering. 
+Most programmers can (and should) ignore these complexities by restricting the types they use. 
+A few rules of thumb can be useful in deciding which type to use:
+
+• Use an unsigned type when you know that the values cannot be negative.
+• Use int for integer arithmetic. short is usually too small and, in practice, long often has the same size as int. 
+If your data values are larger than the minimum guaranteed size of an int, then use long long.
+• Do not use plain char or bool in arithmetic expressions.
+Use them only to hold characters or truth values. 
+Computations using char are especially problematic because char is signed on some machines and unsigned on others. 
+If you need a tiny integer, explicitly specify either signed char or unsigned char.
+• Use double for floating-point computations; float usually does not have enough precision, 
+and the cost of double-precision calculations versus single precision is negligible. 
+In fact, on some machines, double-precision operations are faster than single. 
+The precision offered by long double usually is unnecessary and often entails considerable run-time cost.
+
+
+-> Note: CAUTION: DON’T MIX SIGNED AND UNSIGNED TYPES (taken from C++ Primer)
+Expressions that mix signed and unsigned values can yield surprising results when the signed value is negative. 
+It is essential to remember that signed values are automatically converted to unsigned. 
+For example, in an expression like a * b, if a is -1 and b is 1, then if both a and b are ints, the value is, as expected -1. 
+However, if a is int and b is an unsigned, then the value of this expression depends on how many bits an int has on the particular machine. 
+On our machine, this expression yields 4294967295.
+
+
+-> Note on Type Conversions:
+Type Conversions
+The type of an object defines the data that an object might contain and what operations that object can perform. 
+Among the operations that many types support is the ability to convert objects of the given type to other, related types.
+Type conversions happen automatically when we use an object of one type where an object of another type is expected. 
+We’ll have more to say about conversions in § 4.11 (p. 159), but for now it is useful to understand what happens when we assign a value of one type to an object of another type.
+When we assign one arithmetic type to another:
+bool b = 42; // b is true
+int i = b; // i has value 1
+i = 3.14; // i has value 3
+double pi = i; // pi has value 3.0
+unsigned char c = -1; // assuming 8-bit chars, c has value 255
+signed char c2 = 256; // assuming 8-bit chars, the value of c2 is undefined
+what happens depends on the range of the values that the types permit:
+• When we assign one of the nonbool arithmetic types to a bool object, the result is false if the value is 0 and true otherwise.
+• When we assign a bool to one of the other arithmetic types, the resulting value is 1 if the bool is true and 0 if the bool is false.
+• When we assign a floating-point value to an object of integral type, the value is truncated. 
+The value that is stored is the part before the decimal point.
+• When we assign an integral value to an object of floating-point type, the fractional part is zero. 
+Precision may be lost if the integer has more bits than the floating-point object can accommodate.
+• If we assign an out-of-range value to an object of unsigned type, 
+the result is the remainder of the value modulo the number of values the target type can hold. 
+For example, an 8-bit unsigned char can hold values from 0 through 255, inclusive. 
+If we assign a value outside this range, the compiler assigns the remainder of that value modulo 256. 
+Therefore, assigning –1 to an 8-bit unsigned char gives that object the value 255.
+• If we assign an out-of-range value to an object of signed type, the result is undefined. 
+The program might appear to work, it might crash, or it might produce garbage values.
+
+
+-> Note: CAUTION: DON’T MIX SIGNED AND UNSIGNED TYPES
+Expressions that mix signed and unsigned values can yield surprising results when the signed value is negative. 
+It is essential to remember that signed values are automatically converted to unsigned. 
+For example, in an expression like a * b, if a is -1 and b is 1, then if both a and b are ints, the value is, as expected -1. 
+However, if a is int and b is an unsigned, then the value of this expression depends on how many bits an int has on the particular machine.
+On our machine, this expression yields 4294967295.
+
+
+-> Escape sequences:
+Some characters, such as backspace or control characters, have no visible image.
+Such characters are nonprintable. 
+Other characters (single and double quotation marks, question mark, and backslash) have special meaning in the language. 
+Our programs cannot use any of these characters directly. 
+Instead, we use an escape sequence to represent such characters. 
+An escape sequence begins with a backslash.
+The language defines several escape sequences:
+newline \n 
+horizontal tab \t 
+alert (bell) \a
+vertical tab \v 
+backspace \b 
+double quote \"
+backslash \\ 
+question mark \? 
+single quote \’
+carriage return \r 
+formfeed \f
+We use an escape sequence as if it were a single character:
+std::cout << ’\n’; // prints a newline
+std::cout << "\tHi!\n"; // prints a tab followd by "Hi!" and a newline
+We can also write a generalized escape sequence, which is \x followed by one or more hexadecimal digits or a \ followed by one, two, or three octal digits. 
+The value represents the numerical value of the character. Some examples (assuming the Latin-1 character set):
+\7 (bell) 
+\12 (newline) 
+\40(blank)
+\0 (null) 
+\115 (’M’) 
+\x4d (’M’)
+
+-> Specifying the Type of a Literal
+We can override the default type of an integer, floating- point, or character literal by supplying a suffix or prefix as listed in Table 2.2.
+
+
+-------------------------------------------------------------------
+Character and Character String Literals
+-------------------------------------------------------------------
+Prefix | Meaning | Type
+-------------------------------------------------------------------
+u      | Unicode 16 character         | char16_t
+U      | Unicode 32 character         | char32_t
+L      | wide character               | wchar_t
+u8     | utf-8 (string literals only) | char
+-------------------------------------------------------------------
+Integer Literals
+-------------------------------------------------------------------
+Suffix   | Minimum Type 
+-------------------------------------------------------------------
+u or U   | unsigned 
+l or L   | long 
+ll or LL | long long
+-------------------------------------------------------------------
+Floating-Point Literals
+-------------------------------------------------------------------
+Suffix   | Type 
+-------------------------------------------------------------------
+f or F   | float
+l or L   | long double
+
+Examples:
+L’a’ // wide character literal, type is wchar_t
+u8"hi!" // utf-8 string literal (utf-8 encodes a Unicode character in 8 bits)
+42ULL // unsigned integer literal, type is unsigned long long
+1E-3F // single-precision floating-point literal, type is float
+3.14159L // extended-precision floating-point literal, type is long double
+
+
+-> Note: References to Pointers
+A reference is not an object. 
+Hence, we may not have a pointer to a reference.
+However, because a pointer is an object, we can define a reference to a pointer:
+int i = 42;
+int *p; // p is a pointer to int
+int *&r = p; // r is a reference to the pointer p
+r = &i; // r refers to a pointer; assigning &i to r makes p point to i
+*r = 0; // dereferencing r yields i, the object to which p points; changes i to 0
+
+
+-> NOTE: To share a const object among multiple files, you must define the variable as extern.
+To define a single instance of a const variable, we use the keyword extern on both its definition and declaration(s):
+// file_1.cc defines and initializes a const that is accessible to other files
+extern const int bufSize = fcn();
+// file_1.h
+extern const int bufSize; // same bufSize as defined in file_1.cc
+In this program, file_1.cc defines and initializes bufSize. 
+Because this declaration includes an initializer, it is (as usual) a definition.
+However, because bufSize is const, we must specify extern in order for bufSize to be used in other files.
+The declaration in file_1.h is also extern. 
+In this case, the extern signifies that bufSize is not local to this file and that its definition will occur elsewhere.
+
+
+-> Note: void* Pointers
+The type void* is a special pointer type that can hold the address of any object.
+Like any other pointer, a void* pointer holds an address, but the type of the object at that address is unknown
+
+
+-> NOTE: Because we can’t change the value of a const object after we create it, 
+it must be initialized. As usual, the initializer may be an arbitrarily complicated expression:
+const int i = get_size(); // ok: initialized at run time
+const int j = 42; // ok: initialized at compile time
+const int k; // error
+pointer examples:
+int i, *const cp;       // error: cp is uninitialized const
+int *p1, *const p2;     // error: p2 is uninitialized const
+const int ic, &r = ic;  // error: ic is uninitialized const
+const int *const p3;    // error: p3 is uninitialized const
+const int *p;           // no error
+
+
+-> NOTE: Objects of built-in type defined at global scope are initialized to 0;
+those defined at local scope are uninitialized and have undefined values.
+
+
+-> TERMINOLOGY: CONST REFERENCE IS A REFERENCE TO CONST (THIS IS IMPORTANT)
+C++ programmers tend to abbreviate the phrase “reference to const” as “const reference.”
+This abbreviation makes sense—if you remember that it is an abbreviation.
+Technically speaking, there are no const references. 
+A reference is not an object, so we cannot make a reference itself const. 
+Indeed, because there is no way to make a reference refer to a different object, in some sense all references are const. 
+Whether a reference refers to a const or nonconst type affects what we can do with that reference, 
+not whether we can alter the binding of the reference itself.
+
+
+-> NOTE: Initialization and References to const
+In § 2.3.1 (p. 51) we noted that there are two exceptions to the rule that the type of a reference must match the type of the object to which it refers. 
+The first exception is that we can initialize a reference to const from any expression that can be converted (§ 2.1.2, p. 35) to the type of the reference. 
+In particular, we can bind a reference to const to a nonconst object, a literal, or a more general expression:
+int i = 42;
+const int &r1 = i; // we can bind a const int& to a plain int object
+const int &r2 = 42; // ok: r1 is a reference to const
+const int &r3 = r1 * 2; // ok: r3 is a reference to const
+int &r4 = r * 2; // error: r4 is a plain, nonconst reference
+The easiest way to understand this difference in initialization rules is to consider what happens when we bind a reference to an object of a different type:
+double dval = 3.14;
+const int &ri = dval;
+Here ri refers to an int. 
+Operations on ri will be integer operations, but dval is a floating-point number, not an integer. 
+To ensure that the object to which ri is bound is an int, the compiler transforms this code into something like
+const int temp = dval; // create a temporary const int from the double
+const int &ri = temp; // bind ri to that temporary
+In this case, ri is bound to a temporary object. 
+A temporary object is an unnamed object created by the compiler when it needs a place to store a result from evaluating an expression. 
+C++ programmers often use the word temporary as an abbreviation for temporary object. 
+
+
+-> NOTE: ME: There is a lot of difference of "reference to const" to "pointer to const".
+---> Mainly because "reference to const" can create a temporary so it can convert more types (Check entries before this).
+
+-> NOTE: ME: A good rule of thumb is to check whats going on underneath and check if its possible, if its not its an error.
+
+
+-> NOTE: A Reference to const May Refer to an Object That Is Not const
+It is important to realize that a reference to const restricts only what we can do through that reference. 
+Binding a reference to const to an object says nothing about whether the underlying object itself is const. 
+Because the underlying object might be nonconst, it might be changed by other means:
+int i = 42;
+int &r1 = i; // r1 bound to i
+const int &r2 = i; // r2 also bound to i; but cannot be used to change i
+r1 = 0; // r1 is not const; i is now 0
+r2 = 0; // error: r2 is a reference to const
+Binding r2 to the (nonconst) int i is legal. 
+However, we cannot use r2 to change i. 
+Even so, the value in i still might change. 
+We can change i by assigning to it directly, or by assigning to another reference bound to i, such as r1.
+
+
+-> NOTE: Pointers and constexpr
+It is important to understand that when we define a pointer in a constexpr declaration,
+the constexpr specifier applies to the pointer, not the type to which the
+pointer points:
+const int *p = nullptr; // p is a pointer to a const int
+constexpr int *q = nullptr; // q is a const pointer to int
+Despite appearances, the types of p and q are quite different; p is a pointer to
+const, whereas q is a constant pointer. The difference is a consequence of the fact
+that constexpr imposes a top-level const (§ 2.4.3, p. 63) on the objects it defines.
+Like any other constant pointer, a constexpr pointer may point to a const
+or a nonconst type:
+constexpr int *np = nullptr; // np is a constant pointer to int that is null
+int j = 0;
+constexpr int i = 42; // type of i is const int
+// i and j must be defined outside any function
+constexpr const int *p = &i; // p is a constant pointer to the const int i
+constexpr int *p1 = &j; // p1 is a constant pointer to the int j
+
+
+-> NOTE: Pointers, const, and Type Aliases
+Declarations that use type aliases that represent compound types and const can yield surprising results. 
+For example, the following declarations use the type pstring, which is an alias for the the type char*:
+typedef char *pstring;
+const pstring cstr = 0; // cstr is a constant pointer to char
+const pstring *ps; // ps is a pointer to a constant pointer to char
+The base type in these declarations is const pstring. 
+As usual, a const that appears in the base type modifies the given type. 
+The type of pstring is “pointer to char.” 
+So, const pstring is a constant pointer to char—not a pointer to const char.
+It can be tempting, albeit incorrect, to interpret a declaration that uses a type alias by conceptually replacing the alias with its corresponding type:
+const char *cstr = 0; // wrong interpretation of const pstring cstr
+However, this interpretation is wrong. 
+When we use pstring in a declaration, the base type of the declaration is a pointer type. 
+When we rewrite the declaration using char*, the base type is char and the * is part of the declarator.
+In this case, const char is the base type. 
+This rewrite declares cstr as a pointer to const char rather than as a const pointer to char.
+
+
+-> NOTE: As with any other type specifier, we can define multiple variables using auto.
+Because a declaration can involve only a single base type, 
+the initializers for all the variables in the declaration must have types that are consistent with each other:
+auto i = 0, *p = &i; // ok: i is int and p is a pointer to int
+auto sz = 0, pi = 3.14; // error: inconsistent types for sz and pi
+
+
+-> NOTE: The compiler uses that object’s type for auto’s type deduction:
+int i = 0, &r = i;
+auto a = r; // a is an int (r is an alias for i, which has type int)
+
+
+-> NOTE: Auto ordinarily ignores top-level consts (§ 2.4.3, p. 63). As usual in initializations,
+low-level consts, such as when an initializer is a pointer to const,
+are kept:
+const int ci = i, &cr = ci;
+auto b = ci; // b is an int (top-level const in ci is dropped)
+auto c = cr; // c is an int (cr is an alias for ci whose const is top-level)
+auto d = &i; // d is an int* (& of an int object is int*)
+auto e = &ci; // e is const int* (& of a const object is low-level const)
+If we want the deduced type to have a top-level const, we must say so explicitly:
+const auto f = ci; // deduced type of ci is int; f has type const int
+We can also specify that we want a reference to the auto-deduced type. Normal
+initialization rules still apply:
+auto &g = ci; // g is a const int& that is bound to ci
+auto &h = 42; // error: we can’t bind a plain reference to a literal
+const auto &j = 42; // ok: we can bind a const reference to a literal
+
+
+-> NOTE: As usual, the initializers in auto must provide consistent auto-deduced types:
+auto k = ci, &l = i; // k is int; l is int&
+auto &m = ci, *p = &ci; // m is a const int&; p is a pointer to const int
+// error: type deduced fromi is int; type deduced from &ci is const int
+auto &n = i, *p2 = &ci;
+
+
+-> NOTE: The way decltype handles top-level const and references differs subtly from the way auto does. 
+When the expression to which we apply decltype is a variable, decltype returns the type of that variable, including top-level const and references
+const int ci = 0, &cj = ci;
+decltype(ci) x = 0; // x has type const int
+decltype(cj) y = x; // y has type const int& and is bound to x
+decltype(cj) z; // error: z is a reference and must be initialized
+Because cj is a reference, decltype(cj) is a reference type. 
+Like any other reference, z must be initialized.
+It is worth noting that decltype is the only context in which a variable defined as a reference is not treated as a synonym for the object to which it refers.
+
+
+-> NOTE: decltype and References
+When we apply decltype to an expression that is not a variable, we get the type that that expression yields. 
+As we’ll see in § 4.1.1 (p. 135), some expressions will cause decltype to yield a reference type. 
+Generally speaking, decltype returns a reference type for expressions that yield objects that can stand on the left-hand side of the assignment:
+// decltype of an expression can be a reference type
+int i = 42, *p = &i, &r = i;
+decltype(r + 0) b; // ok: addition yields an int; b is an (uninitialized) int
+decltype(*p) c; // error: c is int& and must be initialized
+Another important difference between decltype and auto is that the deduction done by decltype depends on the form of its given expression. 
+What can be confusing is that enclosing the name of a variable in parentheses affects the type returned by decltype. 
+When we apply decltype to a variable without any parentheses, we get the type of that variable. 
+If we wrap the variable’s name in one or more sets of parentheses, the compiler will evaluate the operand as an expression.
+A variable is an expression that can be the left-hand side of an assignment.
+As a result, decltype on such an expression yields a reference:
+// decltype of a parenthesized variable is always a reference
+decltype((i)) d; // error: d is int& and must be initialized
+decltype(i) e; // ok: e is an (uninitialized) int
+
+-> NOTE: Remember that decltype((variable)) (note, double parentheses) is always a reference type, 
+but decltype(variable) is a reference type only if variable is a reference.

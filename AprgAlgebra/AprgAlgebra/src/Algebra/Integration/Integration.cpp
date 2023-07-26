@@ -182,10 +182,12 @@ Monomial Integration::integrateMonomialWhenExponentIsNotNegativeOne(Monomial con
     for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
         if (isVariableToIntegrate(variableName)) {
             result.putVariableWithExponent(variableName, exponent + 1);
-            result.divideNumber(exponent + 1);            hasVariabletoIntegrate = true;
+            result.divideNumber(exponent + 1);
+            hasVariabletoIntegrate = true;
         }
     }
-    if (!hasVariabletoIntegrate) {        result.putVariableWithExponent(getCurrentVariableToIntegrate(), 1);
+    if (!hasVariabletoIntegrate) {
+        result.putVariableWithExponent(getCurrentVariableToIntegrate(), 1);
     }
     return result;
 }
@@ -897,10 +899,12 @@ void Integration::retrievePartialFractions(
         AlbaNumber const& negatedExponent(exponent * -1 * termRaiseToANumber.getExponent());
         Term const& factorsToProcess(termRaiseToANumber.getBase());
         if (negatedExponent.isIntegerType() && negatedExponent > 0 && canBeConvertedToPolynomial(factorsToProcess)) {
-            Polynomial polynomialFactor(createPolynomialIfPossible(factorsToProcess));            int maxDegreeOfFactor = static_cast<int>(getMaxDegree(polynomialFactor).getInteger());
+            Polynomial polynomialFactor(createPolynomialIfPossible(factorsToProcess));
+            int maxDegreeOfFactor = static_cast<int>(getMaxDegree(polynomialFactor).getInteger());
             int denominatorExponent = static_cast<int>(negatedExponent.getInteger());
             for (int i = 1; i <= denominatorExponent; i++) {
-                Polynomial partialDenominator(polynomialFactor);                partialDenominator.raiseToUnsignedInteger(i);
+                Polynomial partialDenominator(polynomialFactor);
+                partialDenominator.raiseToUnsignedInteger(i);
                 partialDenominators.emplace_back(partialDenominator);
                 partialNumerators.emplace_back(
                     getPartialNumeratorForPartialFractions(maxDegreeOfFactor, originalVariableName));
@@ -965,10 +969,12 @@ void Integration::fillInMatrixForPartialFractionsWithVariableValues(
         for (auto const& [variableName, exponent] : monomialWithNewVariable.getVariablesToExponentsMap()) {
             if (variableName == originalVariableName) {
                 AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
-                if (itPosition != exponents.cend()) {                    exponentPosition = distance(exponents.cbegin(), itPosition);
+                if (itPosition != exponents.cend()) {
+                    exponentPosition = distance(exponents.cbegin(), itPosition);
                 }
             } else {
-                VariableNamesSet::const_iterator itPosition = newVariableNames.find(variableName);                if (itPosition != newVariableNames.cend()) {
+                VariableNamesSet::const_iterator itPosition = newVariableNames.find(variableName);
+                if (itPosition != newVariableNames.cend()) {
                     variablePosition = distance(newVariableNames.cbegin(), itPosition);
                     isVariablePositionFound = true;
                 }
@@ -989,10 +995,12 @@ void Integration::fillInMatrixForPartialFractionsWithOutputValues(
         for (auto const& [variableName, exponent] : numeratorMonomial.getVariablesToExponentsMap()) {
             if (variableName == originalVariableName) {
                 AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
-                if (itPosition != exponents.cend()) {                    exponentPosition = distance(exponents.cbegin(), itPosition);
+                if (itPosition != exponents.cend()) {
+                    exponentPosition = distance(exponents.cbegin(), itPosition);
                 }
             }
-        }        matrixWithNewVariables.setEntry(newVariableNames.size(), exponentPosition, numeratorMonomial.getCoefficient());
+        }
+        matrixWithNewVariables.setEntry(newVariableNames.size(), exponentPosition, numeratorMonomial.getCoefficient());
     }
 }
 
@@ -1179,10 +1187,12 @@ void Integration::retrieveInputTermsAndTrigonometricExponents(
     for (auto const& [base, exponent] : termsWithExponentsToCheck.getBaseToExponentMap()) {
         if (base.isFunction() && isTrigonometricFunction(base.getAsFunction())) {
             Function const& functionObject(base.getAsFunction());
-            Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));            string const& functionName(functionObject.getFunctionName());
+            Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTerm()));
+            string const& functionName(functionObject.getFunctionName());
             if ("sin" == functionName) {
                 trigFunctionsInputTermToExponents[inputTerm].sinExponent += exponent;
-            } else if ("cos" == functionName) {                trigFunctionsInputTermToExponents[inputTerm].cosExponent += exponent;
+            } else if ("cos" == functionName) {
+                trigFunctionsInputTermToExponents[inputTerm].cosExponent += exponent;
             } else if ("tan" == functionName) {
                 trigFunctionsInputTermToExponents[inputTerm].tanExponent += exponent;
             } else if ("csc" == functionName) {
@@ -1556,10 +1566,12 @@ void Integration::fixTrigonometricFunctionsBasedFromExponents(
             for (auto const& [inputTerm, exponents] : newTrigFunctionsInputTermToExponents) {
                 putTrigonometricFunctionsWithExponents(newTerms, inputTerm, exponents);
             }
-            TermsOverTerms termsOverTerms(newTerms.getTermWithDetailsInMultiplicationAndDivisionOperation());            term = termsOverTerms.getCombinedTerm();
+            TermsOverTerms termsOverTerms(newTerms.getTermWithDetailsInMultiplicationAndDivisionOperation());
+            term = termsOverTerms.getCombinedTerm();
         }
     }
 }
+
 void Integration::putTrigonometricFunctionsWithExponents(
     TermsRaiseToNumbers& newTerms, Term const& inputTerm, TrigonometryFunctionExponents const& exponents) const {
     if (exponents.sinExponent != 0) {

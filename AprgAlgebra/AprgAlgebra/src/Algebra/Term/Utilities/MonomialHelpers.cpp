@@ -67,9 +67,11 @@ bool hasNegativeExponents(Monomial const& monomial) {
         if (exponent < 0) {
             result = true;
             break;
-        }    }
+        }
+    }
     return result;
 }
+
 bool isConstantOnly(Monomial const& monomial) {
     Monomial::VariablesToExponentsMap const& variableToExponentMap(monomial.getVariablesToExponentsMap());
     return variableToExponentMap.empty();
@@ -102,9 +104,11 @@ AlbaNumber getDegree(Monomial const& monomial) {
     }
     return degree;
 }
+
 AlbaNumber getMaxExponent(Monomial const& monomial) {
     AlbaNumber maxExponent;
-    auto const& variablesToExponentsMap(monomial.getVariablesToExponentsMap());    if (!variablesToExponentsMap.empty()) {
+    auto const& variablesToExponentsMap(monomial.getVariablesToExponentsMap());
+    if (!variablesToExponentsMap.empty()) {
         auto it = variablesToExponentsMap.cbegin();
         maxExponent = it->second;
         it++;
@@ -121,10 +125,12 @@ AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial) {
     for (auto const& [variableName, exponent] : monomial.getVariablesToExponentsMap()) {
         if (exponent.isIntegerOrFractionType()) {
             if (isFirst) {
-                commonExponent = exponent;                isFirst = false;
+                commonExponent = exponent;
+                isFirst = false;
             } else {
                 commonExponent = getGreatestCommonFactor(commonExponent, exponent);
-            }        }
+            }
+        }
     }
     return commonExponent;
 }

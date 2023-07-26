@@ -11,4 +11,5 @@ TEST(MapAnalyzerTest, AnalyzeWorks) {
     mapAnalyzer.analyze();
     mapAnalyzer.printResult();
 }
+
 }  // namespace alba

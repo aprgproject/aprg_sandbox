@@ -56,9 +56,11 @@ private:
             }
         }
     }
+
     void checkAdjacentEdgesOfVertex(Vertex const& vertex) {
         m_processedVertices.putVertex(vertex);
-        for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {            if (m_processedVertices.isNotFound(adjacentVertex)) {
+        for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
+            if (m_processedVertices.isNotFound(adjacentVertex)) {
                 m_adjacentEdgesInOrder.emplace(vertex, adjacentVertex, m_graph.getWeight(vertex, adjacentVertex));
             }
         }

@@ -42,9 +42,11 @@ bool isGoldbachConjectureTrue(UnsignedInteger const evenNumber) {
     }
     return result;
 }
+
 bool isTwinPrimeConjectureTrue(UnsignedInteger const number) {
     // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are
     // primes.
+
     UnsignedIntegers numbers(getPrimesBelowThisNumber(number));
     UnsignedInteger twinPrimeCount = 0;
     for (UnsignedInteger i = 0; i < numbers.size() - 1; i++) {
@@ -90,7 +92,8 @@ UnsignedInteger getNumberOfFactors(UnsignedInteger const number) {
     for (auto const& [primeFactor, count] : primeFactorsToCountMap) {
         result *= count + 1;
     }
-    return result;}
+    return result;
+}
 
 UnsignedInteger getSumOfFactors(UnsignedInteger const number) {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
@@ -98,10 +101,12 @@ UnsignedInteger getSumOfFactors(UnsignedInteger const number) {
     for (auto const& [primeFactor, count] : primeFactorsToCountMap) {
         UnsignedInteger formulaValue = (getRaiseToPowerForIntegers(primeFactor, count + 1) - 1) / (primeFactor - 1);
         result *= formulaValue;
-    }    return result;
+    }
+    return result;
 }
 
-UnsignedInteger getProductOfFactors(UnsignedInteger const number) {    UnsignedInteger numberOfFactors(getNumberOfFactors(number));
+UnsignedInteger getProductOfFactors(UnsignedInteger const number) {
+    UnsignedInteger numberOfFactors(getNumberOfFactors(number));
     return getRaiseToPowerForIntegers(number, numberOfFactors / 2);
 }
 
@@ -118,10 +123,12 @@ UnsignedInteger getNumberOfCoPrimesBelowThisNumber(UnsignedInteger const number)
     for (auto const& [primeFactor, count] : primeFactorsToCountMap) {
         UnsignedInteger formulaValue = getRaiseToPowerForIntegers(primeFactor, count - 1) * (primeFactor - 1);
         result *= formulaValue;
-    }    return result;
+    }
+    return result;
 }
 
-UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {    // The inner loop of the algorithm is executed n/x times for each value of x.
+UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {
+    // The inner loop of the algorithm is executed n/x times for each value of x.
     // Thus, an upper bound for the running time of the algorithm is the harmonic sum
     // -> Summation of n/x = n/2 + n/3 + n/4 + ... + n/n = O(n*log(n))
     // In fact, the algorithm is more efficient, because the inner loop will be executed only if the number x is prime.
@@ -138,10 +145,12 @@ UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number) {    // 
              multiple += candidatePrime) {
             sieveOfEratosthenes[multiple] = false;
         }
-        auto itLowestCandidate =            find(sieveOfEratosthenes.cbegin() + candidatePrime + 1, sieveOfEratosthenes.cend(), true);
+        auto itLowestCandidate =
+            find(sieveOfEratosthenes.cbegin() + candidatePrime + 1, sieveOfEratosthenes.cend(), true);
         candidatePrime = distance(sieveOfEratosthenes.cbegin(), itLowestCandidate);
     }
-    UnsignedIntegers result;    for (UnsignedInteger prime = 2; prime < number; prime++) {
+    UnsignedIntegers result;
+    for (UnsignedInteger prime = 2; prime < number; prime++) {
         if (sieveOfEratosthenes[prime]) {
             result.emplace_back(prime);
         }

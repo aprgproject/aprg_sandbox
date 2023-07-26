@@ -40,9 +40,11 @@ public:
             }
         }
     }
+
 private:
     bool areColorsEqualOnVertices(Vertex const& vertex1, Vertex const& vertex2) const {
-        bool result(false);        auto it1 = m_vertexToColorMap.find(vertex1);
+        bool result(false);
+        auto it1 = m_vertexToColorMap.find(vertex1);
         auto it2 = m_vertexToColorMap.find(vertex2);
         if (it1 != m_vertexToColorMap.cend() && it2 != m_vertexToColorMap.cend()) {
             result = it1->second == it2->second;
@@ -62,10 +64,12 @@ private:
                     // if not bipartite, stop (no use continuing on it)
                     break;
                 }
-            }        }
+            }
+        }
     }
 
-    void checkUsingDfs(Vertex const& vertex) {        m_processedVertices.putVertex(vertex);
+    void checkUsingDfs(Vertex const& vertex) {
+        m_processedVertices.putVertex(vertex);
         bool vertexColor(m_vertexToColorMap[vertex]);
         for (Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex)) {
             if (m_processedVertices.isNotFound(adjacentVertex)) {
@@ -78,9 +82,11 @@ private:
                 m_isBipartite = false;
                 break;
             }
-        }    }
+        }
+    }
 
     bool getTheOtherColor(bool const color) { return !color; }
+
     BaseUndirectedGraphWithVertex const& m_graph;
     bool m_isBipartite;
     CheckableVerticesWithVertex m_processedVertices;

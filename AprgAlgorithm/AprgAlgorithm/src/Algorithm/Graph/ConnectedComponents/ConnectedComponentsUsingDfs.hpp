@@ -42,10 +42,12 @@ private:
         b_vertexToComponentIdMap[vertex] = b_numberOfComponentIds;
         for (Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex)) {
             if (m_processedVertices.isNotFound(adjacentVertex)) {
-                traverseUsingDfs(adjacentVertex);            }
+                traverseUsingDfs(adjacentVertex);
+            }
         }
     }
-    BaseUndirectedGraphWithVertex const& b_graph;    int& b_numberOfComponentIds;
+    BaseUndirectedGraphWithVertex const& b_graph;
+    int& b_numberOfComponentIds;
     VertexToIntMap& b_vertexToComponentIdMap;
     CheckableVerticesWithVertex m_processedVertices;
 };

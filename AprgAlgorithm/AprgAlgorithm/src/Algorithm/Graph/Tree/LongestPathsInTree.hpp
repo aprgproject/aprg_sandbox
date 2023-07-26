@@ -28,10 +28,12 @@ public:
             auto [start, end] = m_endPointPairsOfLongestPaths.front();
             result = getDfs(start).getDistanceTo(end);
         }
-        return result;    }
+        return result;
+    }
 
     void searchForAtLeastOneEndPointPair() {
-        if (!m_startVerticesOfLongestPath.empty() && m_endPointPairsOfLongestPaths.empty()) {            Vertex const& startVertexForLongestPath(m_startVerticesOfLongestPath.front());
+        if (!m_startVerticesOfLongestPath.empty() && m_endPointPairsOfLongestPaths.empty()) {
+            Vertex const& startVertexForLongestPath(m_startVerticesOfLongestPath.front());
             searchForEndPointPairsAt(startVertexForLongestPath);
         }
     }

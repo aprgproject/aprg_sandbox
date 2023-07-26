@@ -17,6 +17,7 @@ UnsignedInteger getNthFibonacciNumberUsingRecursion(UnsignedInteger const number
 UnsignedInteger getNthFibonacciUsingMatrixPowerWithLogarithmicTime(UnsignedInteger const number);
 UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const number);
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number);
+
 }  // namespace math
 
 }  // namespace alba

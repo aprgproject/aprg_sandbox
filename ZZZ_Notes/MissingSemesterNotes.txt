@@ -98,10 +98,12 @@ Shell and scripting
 ---> which - lets you know the location of application
 ---> echo - prints the arguments that you give it
 ---> pwd - prints "present working directory"
------> Arguments are separated by white space, you can use quotations to group them together with whitespace---> find - find strings in your directory
+-----> Arguments are separated by white space, you can use quotations to group them together with whitespace
+---> find - find strings in your directory
 -----> find . -name src - type d (searches directory with name src) 
 -----> find . -path '**/test/*.py' - type f (searches python scripts in next sub directory test)
------> find . -mtime -1 (searches files that has been modified in the last day)-----> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
+-----> find . -mtime -1 (searches files that has been modified in the last day)
+-----> find . -name "*.tmp" -exec rm {} \; (deletes all tmp files)
 ---> grep - lets you find strings inside files
 -----> grep foobar mcd.sh (greps "foobar" string on mcd.sh)
 -----> grep -R foobar (recursive search in the current directory)
@@ -137,10 +139,12 @@ Shell and scripting
 
 -> Less common commands
 ---> exa - better than ls
----> bat - similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) ---> tldr - similar to man but less verbose and straight to the point
+---> bat - similar to cat but more beautiful (has syntax highlighting, git integration and line numbers) 
+---> tldr - similar to man but less verbose and straight to the point
 ---> tree - similar to ls but graphical output
 ---> broot - similar to ls but graphical output has interactive search as well
----> nnn - similar to windows explorer but in terminal-----> Press q repetitively to quit
+---> nnn - similar to windows explorer but in terminal
+-----> Press q repetitively to quit
 ---> fd - similar to find but can use regex
 ---> locate - similar to find but builds an index so it can be faster
 -----> use updatedb to update the index
@@ -194,10 +198,12 @@ Shell and scripting
 -----> By default, the current working directory is excluded from the path.
 
 -> Shell programming is useful tool
----> You can write commands in the command line.---> You can also stick this commands into a file.
+---> You can write commands in the command line.
+---> You can also stick this commands into a file.
 -----> Create a .sh file
 -----> At the top of the file, add this: "#!/bin/sh" or "#!/bin/bash"
--------> This is known as a hash bang line.-------> This feeds the entire contents of the file to the program mentioned in the shebang or hash bang line.
+-------> This is known as a hash bang line.
+-------> This feeds the entire contents of the file to the program mentioned in the shebang or hash bang line.
 -------> Also works in python: "#!/usr/bin/python"
 ----------> You can always add python when calling a script: python script.py argument1 argument2
 ----------> But having the shebang lets the script know where python is located: ./script.py argument1 argument2

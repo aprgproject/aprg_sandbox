@@ -56,10 +56,12 @@ AlbaNumber getCoefficientOfMonomialWithVariableOnly(Polynomial const& polynomial
             if (variableNameFromMap == variableName) {
                 coefficientValue = monomial.getCoefficient();
                 break;
-            }        }
+            }
+        }
     }
     return coefficientValue;
 }
+
 VariableToValueMap getCoefficientsForVariablesOnly(Polynomial const& polynomial) {
     VariableToValueMap result;
     for (Monomial const& monomial : polynomial.getMonomials()) {
@@ -69,10 +71,12 @@ VariableToValueMap getCoefficientsForVariablesOnly(Polynomial const& polynomial)
             result.emplace(variableNameFromMap, monomial.getCoefficient());
         }
     }
-    return result;}
+    return result;
+}
 
 void retrieveTermsFromTermsWithDetails(Terms& terms, TermsWithDetails const& termsWithDetails) {
-    terms.reserve(terms.size() + termsWithDetails.size());    transform(
+    terms.reserve(terms.size() + termsWithDetails.size());
+    transform(
         termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms),
         [](TermWithDetails const& termWithDetails) {
             return getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer);
