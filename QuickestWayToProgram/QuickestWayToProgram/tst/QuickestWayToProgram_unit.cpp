@@ -29,14 +29,21 @@ int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
 }  // namespace ProgressCounters
 
-bool canConstructVer2(string ransomNote, string magazine) {
+TEST(SampleTest, PrimerTest) {
+    int i;
+    double d;
+    d = i = 3.5;
+    ALBA_PRINT2(i, d);  // 3,3
+    i = d = 3.5;
+    ALBA_PRINT2(i, d);  // 3, 3.5
+}
+
+/*bool canConstructVer2(string ransomNote, string magazine) {
     array<int, 26> magazineLetterToCount{};
     auto itMagazine = magazine.begin();
-
     for (char const c : ransomNote) {
         int& count = magazineLetterToCount[c - 'a'];
-        if (count > 0) {
-            count--;
+        if (count > 0) {            count--;
         } else {
             for (; itMagazine != magazine.end() && *itMagazine != c; itMagazine++) {
                 magazineLetterToCount[*itMagazine - 'a']++;
@@ -178,15 +185,13 @@ TEST(SampleTest, KWeakestRows) {
     EXPECT_EQ(nullptr, result->next->next->next->next->next);
 }
 
-/*TEST(SampleTest, NumberOfSteps) {
+TEST(SampleTest, NumberOfSteps) {
     EXPECT_EQ(0, numberOfSteps(0));
     EXPECT_EQ(1, numberOfSteps(1));
-    EXPECT_EQ(2, numberOfSteps(2));
-    EXPECT_EQ(3, numberOfSteps(3));
+    EXPECT_EQ(2, numberOfSteps(2));    EXPECT_EQ(3, numberOfSteps(3));
     EXPECT_EQ(3, numberOfSteps(4));
     EXPECT_EQ(4, numberOfSteps(5));
-    EXPECT_EQ(4, numberOfSteps(6));
-    EXPECT_EQ(5, numberOfSteps(7));
+    EXPECT_EQ(4, numberOfSteps(6));    EXPECT_EQ(5, numberOfSteps(7));
     EXPECT_EQ(4, numberOfSteps(8));
     EXPECT_EQ(5, numberOfSteps(9));
     EXPECT_EQ(5, numberOfSteps(10));
