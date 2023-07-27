@@ -55,7 +55,7 @@ public:
         swap(copy, *this);  // The copy-and-swap idiom (to be safe for "self assignment").
         return *this;
     }
-    NaiveIntVector& operator=(NaiveIntVector&& rightHandSide) {
+    NaiveIntVector& operator=(NaiveIntVector&& rightHandSide) noexcept {
         cout << "Move assignment\n";
         NaiveIntVector copy(move(rightHandSide));  // calls the move constructor
         // std::move is needed (because rvalue has a name)
@@ -63,6 +63,7 @@ public:
         return *this;
     }
 
+    // Here, assignment operator is both the move and copy assignment operator
     //    NaiveIntVector& operator=(NaiveIntVector copy) noexcept {
     //        cout << "Copy by value assignment\n";
     //        // This can be noexcept because the copying occurs outside of this function.

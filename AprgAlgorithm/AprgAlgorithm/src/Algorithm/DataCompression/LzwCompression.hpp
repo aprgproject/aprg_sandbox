@@ -47,10 +47,12 @@ public:
             // this is inefficient but trie only supports strings (not deque of chars)
         }
         Code stopCodeWord(RADIX);
-        writeCode(writer, stopCodeWord);  // write stop code word    }
+        writeCode(writer, stopCodeWord);  // write stop code word
+    }
 
     void expand(std::istream& input, std::ostream& output) {
-        AlbaStreamBitReader reader(input);        AlbaStreamBitWriter writer(output);
+        AlbaStreamBitReader reader(input);
+        AlbaStreamBitWriter writer(output);
 
         stringHelper::strings lookupTable;
         initializeLookupTablewithAllSingleCharacters(lookupTable);

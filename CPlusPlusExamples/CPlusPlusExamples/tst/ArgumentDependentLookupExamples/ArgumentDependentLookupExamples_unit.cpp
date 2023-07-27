@@ -37,5 +37,3 @@ TEST(ArgumentDependentLookupExamplesTest, FunctionNotOnTheCurrentNamespaceStillW
 }  // namespace FunctionNotOnTheCurrentNamespaceStillWorks
 
 }  // namespace alba
-
-// Notes:

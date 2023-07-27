@@ -80,9 +80,11 @@ public:
             "Unsigned integers with 8 bytes/64 bits are not supported.");
     }
 
-    template <typename ArithmeticType>    Type constexpr getTypeBasedFromArithmeticType() {
+    template <typename ArithmeticType>
+    Type constexpr getTypeBasedFromArithmeticType() {
         return typeHelper::isIntegralType<ArithmeticType>() ? Type::Integer : Type::Double;
     }
+
     // no need to be explicit in the constructors (allow implicit conversions)
 
     constexpr AlbaNumber() : m_type(Type::Integer), m_data() {}

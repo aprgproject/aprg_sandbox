@@ -7,6 +7,7 @@ using namespace std;
 namespace alba {
 
 TEST(IncrementDecrementExamplesTest, PostIncrementIsAppliedOneAfterAnother) {
+    // Take notice of precedence and order of evaluation
     int a = 1;
     cout << (a++) * (++a) << endl;  // 1*3 = 3
 
