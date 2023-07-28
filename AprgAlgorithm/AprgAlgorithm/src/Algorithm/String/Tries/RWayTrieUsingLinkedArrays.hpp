@@ -5,14 +5,13 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace alba {
-
 namespace algorithm {
 
-template <typename Value>
-class RWayTrieUsingLinkedArrays : public BaseStringSymbolTable<Value> {
+template <typename Value>class RWayTrieUsingLinkedArrays : public BaseStringSymbolTable<Value> {
 public:
     static constexpr int RADIX = 256;
     using BaseClass = BaseStringSymbolTable<Value>;
