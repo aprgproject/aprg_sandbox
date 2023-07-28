@@ -12,16 +12,14 @@ public:
 
     // rule of five or six
     AlbaBitManipulation() = delete;
-    ~AlbaBitManipulation() =
-        delete;  // disallow allocation on stack, only on heap(but no constructor so not possible as well)
+    ~AlbaBitManipulation() = delete;
+    // disallow allocation on stack, only on heap(but no constructor so not possible as well)
     AlbaBitManipulation(AlbaBitManipulation const &) = delete;
     AlbaBitManipulation &operator=(AlbaBitManipulation const &) = delete;
-    AlbaBitManipulation(AlbaBitManipulation &&) = delete;
-    AlbaBitManipulation &operator=(AlbaBitManipulation &&) = delete;
+    AlbaBitManipulation(AlbaBitManipulation &&) = delete;    AlbaBitManipulation &operator=(AlbaBitManipulation &&) = delete;
 
     template <typename ArgumentType, typename... Arguments>
-    static constexpr inline DataType concatenateBytes(ArgumentType const currentByte, Arguments const... arguments) {
-        static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
+    static constexpr inline DataType concatenateBytes(ArgumentType const currentByte, Arguments const... arguments) {        static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         static_assert(
             sizeof(DataType) > sizeof...(Arguments),

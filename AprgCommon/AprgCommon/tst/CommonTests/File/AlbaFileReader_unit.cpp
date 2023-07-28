@@ -487,14 +487,13 @@ TEST(AlbaFileReaderTest, FileContentsCanBeSavedInMemoryBuffer) {
 
     AlbaMemoryBuffer buffer;
     fileReader.saveDataToMemoryBuffer(buffer, 8);
-    uint8_t* reader = reinterpret_cast<uint8_t*>(buffer.getBufferPointer());
-    EXPECT_EQ(0x01U, reader[0]);
-    EXPECT_EQ(0x23U, reader[1]);
-    EXPECT_EQ(0x45U, reader[2]);
-    EXPECT_EQ(0x67U, reader[3]);
-    EXPECT_EQ(0xA1U, reader[4]);
-    EXPECT_EQ(0xBAU, reader[5]);
+    EXPECT_EQ(8U, buffer.getSize());
+    EXPECT_EQ(0x01U, buffer[0]);
+    EXPECT_EQ(0x23U, buffer[1]);
+    EXPECT_EQ(0x45U, buffer[2]);
+    EXPECT_EQ(0x67U, buffer[3]);
+    EXPECT_EQ(0xA1U, buffer[4]);
+    EXPECT_EQ(0xBAU, buffer[5]);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-
 }  // namespace alba

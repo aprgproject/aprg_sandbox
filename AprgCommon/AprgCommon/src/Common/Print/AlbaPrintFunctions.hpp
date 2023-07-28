@@ -79,17 +79,14 @@ void printParametersByForEachTraversal(std::ostream& outputStream, ContainerType
 }
 
 template <typename Adapter>
-typename Adapter::container_type const& getUnderlyingContainerForPrinting(
-    Adapter const& adapter)  // copied from parameter to lessen dependencies
-{
+typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapter const& adapter) {
+    // copied from parameter to lessen dependencies
     struct AdapterParent : Adapter {
         static typename Adapter::container_type const& get(Adapter const& adapterAsParameter) {
-            return adapterAsParameter.*&AdapterParent::c;
-        }
+            return adapterAsParameter.*&AdapterParent::c;        }
     };
     return AdapterParent::get(adapter);
 }
-
 // printParameter
 
 template <typename ParameterType>

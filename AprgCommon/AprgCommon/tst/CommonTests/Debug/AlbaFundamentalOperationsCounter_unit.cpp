@@ -19,17 +19,15 @@ public:
         m_dataPointer = make_unique<int>(*parameter.m_dataPointer);
         return *this;
     }
-    SampleClass(SampleClass&& parameter) : m_dataPointer(move(parameter.m_dataPointer)) {}
+    SampleClass(SampleClass&& parameter) : m_dataPointer(std::move(parameter.m_dataPointer)) {}
     SampleClass& operator=(SampleClass&& parameter) {
-        m_dataPointer = move(parameter.m_dataPointer);
+        m_dataPointer = std::move(parameter.m_dataPointer);
         return *this;
     }
-    unique_ptr<int> m_dataPointer;
-};
+    unique_ptr<int> m_dataPointer;};
 }  // namespace original
 
-inline namespace WithCounter  // inline this namespace to hoist it up and replace the [SampleClass] with the
-                              // [SampleClass with counter]
+inline namespace WithCounter  // inline this namespace to hoist it up and replace the [SampleClass] with the                              // [SampleClass with counter]
 {
 using SampleClass = AlbaFundamentalOperationsCounter<original::SampleClass>;
 using CountsForSampleClass = AlbaFundamentalOperationsCounts<original::SampleClass>;

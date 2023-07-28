@@ -9,40 +9,42 @@ namespace alba {
 // Resource Aquisition Is In A Function
 // anti RAII :(
 
+template <typename ContentType>
 class AlbaRaiiafPointer {
 public:
-    AlbaRaiiafPointer() : m_hasContent(0), m_voidPointer(nullptr) {}
+    // rule of five or six
+    AlbaRaiiafPointer() : m_voidPointer(nullptr) {}
 
-    ~AlbaRaiiafPointer() { assert(!m_hasContent); }
-
-    template <typename Type>
-    Type get() {
-        return *(static_cast<Type*>(m_voidPointer));
+    ~AlbaRaiiafPointer() {
+        assert(!hasContent());
+        // deAllocate(); // this is Raiiaf so we dont delete here
     }
 
-    template <typename Type>
-    Type& getReference() {
-        return *(static_cast<Type*>(m_voidPointer));
-    }
+    AlbaRaiiafPointer(AlbaRaiiafPointer const &) = delete;
+    AlbaRaiiafPointer &operator=(AlbaRaiiafPointer const &) = delete;
+    AlbaRaiiafPointer(AlbaRaiiafPointer &&) = delete;
+    AlbaRaiiafPointer &operator=(AlbaRaiiafPointer &&) = delete;
 
-    template <typename Type>
+    ContentType get() { return *(static_cast<ContentType *>(m_voidPointer)); }
+
+    ContentType &getReference() { return *(static_cast<ContentType *>(m_voidPointer)); }
+
     void deAllocate() {
-        if (m_hasContent) {
-            delete (static_cast<Type*>(m_voidPointer));
-            m_hasContent = false;
+        // Even if it is safe to delete a pointer with nullptr, lets not just do it to remove potential overhead.
+        if (hasContent()) {
+            delete (static_cast<ContentType *>(m_voidPointer));
+            m_voidPointer = nullptr;
         }
     }
 
-    template <typename Type>
-    void setAndAllocateNewContent(Type const& reference) {
-        assert(!m_hasContent);
-        m_hasContent = true;
-        m_voidPointer = new Type(reference);
+    void setAndAllocateNewContent(ContentType const &reference) {
+        assert(!hasContent());
+        m_voidPointer = new ContentType(reference);
     }
 
 private:
-    bool m_hasContent;
-    void* m_voidPointer;
+    bool hasContent() const { return m_voidPointer != nullptr; }
+    void *m_voidPointer;
 };
 
 }  // namespace alba

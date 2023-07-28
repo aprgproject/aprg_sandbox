@@ -526,16 +526,20 @@ string getHexEquivalentOfCharacters(string_view stringToCheck) {
     return ss.str();
 }
 
+string getQuotedString(string_view stringToCheck) {
+    stringstream ss;
+    ss << std::quoted(string(stringToCheck));  // remove temporary string object when quoted has string view
+    return ss.str();
+}
+
 string constructFileLocator(string_view file, int const lineNumber) {
     stringstream ss;
-    ss << file.substr(file.find_last_of('\\') + 1) << "[" << lineNumber << "]";
-    return ss.str();
+    ss << file.substr(file.find_last_of('\\') + 1) << "[" << lineNumber << "]";    return ss.str();
 }
 
 string getRandomAlphaNumericString(size_t const length) {
     constexpr auto ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP)) - 1;
-    AlbaUniformNonDeterministicRandomizer randomizer(0, alphaNumericCharMapIndexMax);
+    int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP)) - 1;    AlbaUniformNonDeterministicRandomizer randomizer(0, alphaNumericCharMapIndexMax);
     string result;
     result.reserve(length);
     generate_n(back_inserter(result), length, [&]() {
@@ -678,14 +682,13 @@ void splitToStringsUsingASeriesOfDelimeters(
 
 string getStringWithJustifyAlignment(string_view mainString, size_t const targetLength) {
     string result;
+    result.reserve(targetLength);
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
-    if (mainString.empty()) {
-        string gap(targetLength, ' ');
+    if (mainString.empty()) {        string gap(targetLength, ' ');
         result = gap;
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
-        result = noRedundantWhiteSpace;
-    } else if (isOneWord(mainString)) {
+        result = noRedundantWhiteSpace;    } else if (isOneWord(mainString)) {
         size_t noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
         size_t gapLength = (targetLength - noWhiteSpace.length()) / (noRedundantWhiteSpaceLength + 1);
         string gap(gapLength, ' ');

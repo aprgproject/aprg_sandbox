@@ -25,15 +25,13 @@ public:
 
     // rule of zero
 
-    operator bool() const  // not explicit
+    explicit operator bool() const  // not explicit
     {
         return hasContent();
     }
-
     bool hasContent() const { return m_savedMemory.hasContent(); }
 
-    template <typename ContentType>
-    ContentType getContentAs() const {
+    template <typename ContentType>    ContentType getContentAs() const {
         assert(m_typeId == GetTypeId<ContentType>());  // not allowing any mistakes
         return m_savedMemory.retrieveObjectAsConstReference<ContentType>();
     }

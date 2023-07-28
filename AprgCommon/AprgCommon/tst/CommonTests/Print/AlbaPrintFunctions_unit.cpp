@@ -24,14 +24,22 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint) {
     EXPECT_EQ("name : [500]", ssToVerify.str());
 }
 
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStrings) {
+    stringstream ssToVerify;
+    string stringToTest = "std::string to test";
+
+    printParameterWithName(ssToVerify, "name1", stringToTest);
+    printParameterWithName(ssToVerify, "no name", "string literal to test");
+
+    EXPECT_EQ(R"(name1 : ["std::string to test"]["string literal to test"])", ssToVerify.str());
+}
+
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPointer) {
     stringstream ssToVerify;
     int integerToTest = 500;
-
     printParameterWithName(ssToVerify, "name", &integerToTest);
 
-    EXPECT_EQ("*name : [500]", ssToVerify.str());
-}
+    EXPECT_EQ("*name : [500]", ssToVerify.str());}
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithCharacterLiteral) {
     stringstream ssToVerify;
@@ -96,15 +104,13 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithTuple) {
 
     printParameterWithName(ssToVerify, "name", pairToTest);
 
-    EXPECT_EQ("name : [(300, hello, A)]", ssToVerify.str());
+    EXPECT_EQ(R"(name : [(300, "hello", A)])", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray) {
-    stringstream ssToVerify;
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray) {    stringstream ssToVerify;
     array<int, 5> vectorToTest{500, 501, 502, 503, 504};
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
-
     EXPECT_EQ("name : [{Constant size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
