@@ -963,15 +963,13 @@ void Integration::fillInMatrixForPartialFractionsWithVariableValues(
     NumberMatrix& matrixWithNewVariables, string const& originalVariableName, VariableNamesSet const& newVariableNames,
     AlbaNumbersSet const& exponents, Polynomial const& numeratorWithNewVariables) const {
     for (Monomial const& monomialWithNewVariable : numeratorWithNewVariables.getMonomials()) {
-        bool isVariablePositionFound;
+        bool isVariablePositionFound(false);
         int exponentPosition(0);
         int variablePosition(0);
-        for (auto const& [variableName, exponent] : monomialWithNewVariable.getVariablesToExponentsMap()) {
-            if (variableName == originalVariableName) {
+        for (auto const& [variableName, exponent] : monomialWithNewVariable.getVariablesToExponentsMap()) {            if (variableName == originalVariableName) {
                 AlbaNumbersSet::const_iterator itPosition = exponents.find(exponent);
                 if (itPosition != exponents.cend()) {
-                    exponentPosition = distance(exponents.cbegin(), itPosition);
-                }
+                    exponentPosition = distance(exponents.cbegin(), itPosition);                }
             } else {
                 VariableNamesSet::const_iterator itPosition = newVariableNames.find(variableName);
                 if (itPosition != newVariableNames.cend()) {

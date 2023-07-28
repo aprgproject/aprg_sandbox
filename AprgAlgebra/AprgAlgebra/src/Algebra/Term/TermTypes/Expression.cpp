@@ -27,24 +27,21 @@ Expression::Expression(BaseTerm const& baseTerm)
 
 Expression::Expression(BaseTerm&& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown),
-      m_termsWithAssociation(TermsWithDetails{{move(baseTerm), TermAssociationType::Positive}}),
+      m_termsWithAssociation(TermsWithDetails{{std::move(baseTerm), TermAssociationType::Positive}}),
       m_isSimplified(false) {}
 
-Expression::Expression(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails)
-    : m_commonOperatorLevel(termsWithDetails.empty() ? OperatorLevel::Unknown : operatorLevel),
+Expression::Expression(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails)    : m_commonOperatorLevel(termsWithDetails.empty() ? OperatorLevel::Unknown : operatorLevel),
       m_termsWithAssociation(termsWithDetails),
       m_isSimplified(false) {}
 
 Expression::Expression(OperatorLevel const operatorLevel, TermsWithDetails&& termsWithDetails)
     : m_commonOperatorLevel(termsWithDetails.empty() ? OperatorLevel::Unknown : operatorLevel),
-      m_termsWithAssociation(move(termsWithDetails)),
+      m_termsWithAssociation(std::move(termsWithDetails)),
       m_isSimplified(false) {}
 
-bool Expression::operator==(Expression const& second) const {
-    return m_commonOperatorLevel == second.m_commonOperatorLevel &&
+bool Expression::operator==(Expression const& second) const {    return m_commonOperatorLevel == second.m_commonOperatorLevel &&
            m_termsWithAssociation == second.m_termsWithAssociation;
 }
-
 bool Expression::operator!=(Expression const& second) const { return !(operator==(second)); }
 
 bool Expression::operator<(Expression const& second) const {
