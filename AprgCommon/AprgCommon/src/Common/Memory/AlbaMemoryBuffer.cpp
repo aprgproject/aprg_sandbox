@@ -22,6 +22,7 @@ size_t AlbaMemoryBuffer::getSize() const { return m_buffer.size(); }
 void const* AlbaMemoryBuffer::getConstantBufferPointer() const { return static_cast<void const*>(m_buffer.data()); }
 
 void* AlbaMemoryBuffer::getBufferPointer() { return static_cast<void*>(m_buffer.data()); }
+
 void AlbaMemoryBuffer::clear() { m_buffer.clear(); }
 
 void AlbaMemoryBuffer::clearAndSetNewData(void* sourcePointer, size_t const size) {

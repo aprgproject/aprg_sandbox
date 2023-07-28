@@ -240,6 +240,7 @@ TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveAssignmentOperator) {
     EXPECT_FALSE(static_cast<bool>(integerOptional1));    EXPECT_TRUE(static_cast<bool>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveContructor) {
     // Given
     AlbaOptional<int> integerOptional1(1111);
@@ -252,6 +253,7 @@ TEST(AlbaOptionalTest, OptionalCanBeMovedByMoveContructor) {
     EXPECT_FALSE(static_cast<bool>(integerOptional1));    EXPECT_TRUE(static_cast<bool>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 TEST(AlbaOptionalTest, OutputStreamOperatorWorks) {
     stringstream ss;
     AlbaOptional<int> integerOptional(1111);

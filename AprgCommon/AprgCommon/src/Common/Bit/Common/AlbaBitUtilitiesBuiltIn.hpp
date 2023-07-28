@@ -59,46 +59,70 @@ INLINE_WITHOUT_BUILT_IN namespace BitUtilitiesWithoutBuiltIn {
 
 INLINE_WITH_BUILT_IN namespace BitUtilitiesWithBuiltIn {
 #ifdef __has_builtin
+
+    // check this documentation: https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html
+
     template <typename DataType>
     constexpr inline bool isEvenParity(DataType const value) {
-        if constexpr (sizeof(DataType) <= 4) {
+        if constexpr (sizeof(DataType) <= sizeof(unsigned int)) {
             return __builtin_parity(value) == 0;
-        } else {
+        } else if constexpr (sizeof(DataType) <= sizeof(unsigned long)) {
+            return __builtin_parityl(value) == 0;
+        } else if constexpr (sizeof(DataType) <= sizeof(unsigned long long)) {
             return __builtin_parityll(value) == 0;
+        } else {
+            return false;  // just return something if size is too large
         }
     }
     template <typename DataType>
     constexpr inline std::size_t getNumberOfOnes(DataType const value) {
-        if constexpr (sizeof(DataType) <= 4) {
+        if constexpr (sizeof(DataType) <= sizeof(unsigned int)) {
             return __builtin_popcount(value);
-        } else {
+        } else if constexpr (sizeof(DataType) <= sizeof(unsigned long)) {
+            return __builtin_popcountl(value);
+        } else if constexpr (sizeof(DataType) <= sizeof(unsigned long long)) {
             return __builtin_popcountll(value);
+        } else {
+            return 0;  // just return something if size is too large
         }
     }
     template <typename DataType>
     constexpr inline std::size_t getNumberOfConsecutiveZerosFromMsb(DataType const value) {
-        if constexpr (sizeof(DataType) < 4) {
-            static_assert(
-                typeHelper::isUnsignedType<DataType>(),
-                "There might a problem when DataType is signed because of conversion.");
-            return __builtin_clz(value) - ((4 - sizeof(DataType)) * AlbaBitConstants::BYTE_SIZE_IN_BITS);
-        } else if constexpr (4 < sizeof(DataType)) {
-            return __builtin_clzll(value);
-        } else  // if constexpr(sizeof(DataType) == 4)
-        {
-            return __builtin_clz(value);
+        if (value == 0) {
+            return sizeof(DataType) * AlbaBitConstants::BYTE_SIZE_IN_BITS;  // covers undefined behavior
+        } else {
+            if constexpr (sizeof(DataType) < sizeof(unsigned int)) {
+                return __builtin_clz(value) -
+                       ((sizeof(unsigned int) - sizeof(DataType)) * AlbaBitConstants::BYTE_SIZE_IN_BITS);
+                ;
+            } else if constexpr (sizeof(DataType) == sizeof(unsigned int)) {
+                return __builtin_clz(value);
+            } else if constexpr (sizeof(DataType) <= sizeof(unsigned long)) {
+                return __builtin_clzl(value);
+            } else if constexpr (sizeof(DataType) <= sizeof(unsigned long long)) {
+                return __builtin_clzll(value);
+            } else {
+                return BitUtilitiesWithoutBuiltIn::getNumberOfConsecutiveZerosFromMsb(value);
+            }
         }
     }
     template <typename DataType>
     constexpr inline std::size_t getNumberOfConsecutiveZerosFromLsb(DataType const value) {
-        if constexpr (sizeof(DataType) <= 4) {
-            return __builtin_ctz(value);
+        if (value == 0) {
+            return 0;  // covers undefined behavior
         } else {
-            return __builtin_ctzll(value);
+            if constexpr (sizeof(DataType) <= sizeof(unsigned int)) {
+                return __builtin_ctz(value);
+            } else if constexpr (sizeof(DataType) <= sizeof(unsigned long)) {
+                return __builtin_ctzl(value);
+            } else if constexpr (sizeof(DataType) <= sizeof(unsigned long long)) {
+                return __builtin_ctzll(value);
+            } else {
+                return BitUtilitiesWithoutBuiltIn::getNumberOfConsecutiveZerosFromLsb(value);
+            }
         }
     }
-#endif
-}
+#endif}
 
 }  // namespace BitUtilitiesBuiltIn
 

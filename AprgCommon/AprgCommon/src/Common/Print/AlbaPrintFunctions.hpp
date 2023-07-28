@@ -87,6 +87,7 @@ typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapte
     };
     return AdapterParent::get(adapter);
 }
+
 // printParameter
 
 template <typename ParameterType>

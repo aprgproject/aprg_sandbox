@@ -537,6 +537,7 @@ TEST(UtilitiesStringTest, ConstructFileLocator) { EXPECT_FALSE(constructFileLoca
 TEST(UtilitiesStringTest, RandomString100Characters) {    size_t length(100);
     EXPECT_EQ(length, getRandomAlphaNumericString(length).length());
 }
+
 TEST(UtilitiesStringTest, GetArgumentsToStringInMainWorks) {
     constexpr size_t argc = 3U;
     char const* const argv[argc] = {"parameter0", "parameter1", "parameter2"};

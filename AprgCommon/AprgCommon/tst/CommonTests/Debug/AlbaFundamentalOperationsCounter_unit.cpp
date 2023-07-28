@@ -27,7 +27,8 @@ public:
     unique_ptr<int> m_dataPointer;};
 }  // namespace original
 
-inline namespace WithCounter  // inline this namespace to hoist it up and replace the [SampleClass] with the                              // [SampleClass with counter]
+inline namespace WithCounter  // inline this namespace to hoist it up and replace the [SampleClass] with the
+                              // [SampleClass with counter]
 {
 using SampleClass = AlbaFundamentalOperationsCounter<original::SampleClass>;
 using CountsForSampleClass = AlbaFundamentalOperationsCounts<original::SampleClass>;

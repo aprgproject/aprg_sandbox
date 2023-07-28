@@ -39,7 +39,8 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPointer) {
     int integerToTest = 500;
     printParameterWithName(ssToVerify, "name", &integerToTest);
 
-    EXPECT_EQ("*name : [500]", ssToVerify.str());}
+    EXPECT_EQ("*name : [500]", ssToVerify.str());
+}
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithCharacterLiteral) {
     stringstream ssToVerify;
@@ -111,6 +112,7 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray) {    stringst
     array<int, 5> vectorToTest{500, 501, 502, 503, 504};
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
+
     EXPECT_EQ("name : [{Constant size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 

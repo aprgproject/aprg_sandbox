@@ -29,7 +29,8 @@ public:
     void const* getConstantBufferPointer() const;
     void* getBufferPointer();
     void clear();
-    void clearAndSetNewData(void* sourcePointer, size_t const size);    void resize(size_t const size);
+    void clearAndSetNewData(void* sourcePointer, size_t const size);
+    void resize(size_t const size);
     void resize(size_t const size, uint8_t const initialValue);
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(size_t const size);
     void addData(void const* sourcePointer, size_t const size);

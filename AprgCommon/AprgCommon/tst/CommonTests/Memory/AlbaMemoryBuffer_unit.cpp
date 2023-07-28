@@ -14,6 +14,7 @@ TEST(AlbaMemoryBufferTest, DefaultConstructorWorks) {
 }
 TEST(AlbaMemoryBufferTest, ConstructorWithPointerAndSizeWorks) {
     int input = 11111111;
+
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
 
     int output = *reinterpret_cast<int*>(buffer.getBufferPointer());
@@ -24,6 +25,7 @@ TEST(AlbaMemoryBufferTest, ConstructorWithPointerAndSizeWorks) {
 TEST(AlbaMemoryBufferTest, CopyConstructorWorks) {
     int input = 11111111;
     AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));
+
     AlbaMemoryBuffer buffer2(buffer1);
 
     int output = *reinterpret_cast<int*>(buffer2.getBufferPointer());
@@ -33,7 +35,8 @@ TEST(AlbaMemoryBufferTest, CopyConstructorWorks) {
 }
 TEST(AlbaMemoryBufferTest, CopyAssignmentWorks) {
     int input = 11111111;
-    AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));    AlbaMemoryBuffer buffer2;
+    AlbaMemoryBuffer buffer1(static_cast<void*>(&input), sizeof(input));
+    AlbaMemoryBuffer buffer2;
 
     buffer2 = buffer1;
 
@@ -127,7 +130,8 @@ TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferSmaller) {
 TEST(AlbaMemoryBufferTest, ClearAndSetNewDataWorks) {    int input = 11111111, input2 = 22222222;
     AlbaMemoryBuffer buffer;
 
-    buffer.clearAndSetNewData(static_cast<void*>(&input), sizeof(input));    buffer.clearAndSetNewData(static_cast<void*>(&input2), sizeof(input2));
+    buffer.clearAndSetNewData(static_cast<void*>(&input), sizeof(input));
+    buffer.clearAndSetNewData(static_cast<void*>(&input2), sizeof(input2));
 
     int output = *reinterpret_cast<int*>(buffer.getBufferPointer());
     EXPECT_TRUE(buffer);
@@ -136,7 +140,8 @@ TEST(AlbaMemoryBufferTest, ClearAndSetNewDataWorks) {    int input = 11111111, i
 }
 TEST(AlbaMemoryBufferTest, ResizeWithAdditionalSizeAndReturnBeginOfAdditionalDataWorks) {
     AlbaMemoryBuffer buffer;
-    uint8_t inputBuffer1[] = {0x12, 0x34, 0x56, 0x78};    uint8_t inputBuffer2[] = {0x87, 0x65, 0x43, 0x21};
+    uint8_t inputBuffer1[] = {0x12, 0x34, 0x56, 0x78};
+    uint8_t inputBuffer2[] = {0x87, 0x65, 0x43, 0x21};
 
     memcpy(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(4), inputBuffer1, 4);
     memcpy(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(4), inputBuffer2, 4);
@@ -165,7 +170,8 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPrimitiveTypes) {    int input = 111111
 }
 TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure) {
     AlbaMemoryBuffer buffer;
-    struct Sample {        bool param1;
+    struct Sample {
+        bool param1;
         int param2;
         double param3;
     };
@@ -183,7 +189,8 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure) {
     EXPECT_EQ(input.param2, output.param2);    EXPECT_EQ(input.param3, output.param3);
 }
 
-TEST(AlbaMemoryBufferTest, SaveObjectWorksOnPrimitiveTypes) {    AlbaMemoryBuffer buffer;
+TEST(AlbaMemoryBufferTest, SaveObjectWorksOnPrimitiveTypes) {
+    AlbaMemoryBuffer buffer;
     int input = 0x12345678;
 
     buffer.saveObject<int>(input);
@@ -211,6 +218,7 @@ TEST(AlbaMemoryBufferTest, SaveObjectWorksOnDynamicTypes) {
 TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks) {    int input = 0x12345678;
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
     stringstream ss;
+
     ss << buffer;
 
     EXPECT_EQ("Decimal values: {120, 86, 52, 18, }\nHexadecimal values: {78, 56, 34, 12, }\n", ss.str());

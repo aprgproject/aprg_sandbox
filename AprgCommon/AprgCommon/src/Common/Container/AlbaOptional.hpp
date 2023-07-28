@@ -44,7 +44,8 @@ public:
     operator ContentType() const { return get(); }
     void createObjectUsingDefaultConstructor() { m_contentPointer = std::make_unique<ContentType>(); }
 
-    void setValue(ContentType content) {        if (m_contentPointer) {
+    void setValue(ContentType content) {
+        if (m_contentPointer) {
             *m_contentPointer = content;
         } else {
             m_contentPointer = std::make_unique<ContentType>(content);
@@ -149,6 +150,7 @@ public:
         }
         return m_empty;
     }
+
 private:
     inline bool isContentPointerValid() const { return m_contentPointer != nullptr; }
 

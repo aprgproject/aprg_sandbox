@@ -19,7 +19,8 @@ public:
     AlbaBitManipulation(AlbaBitManipulation &&) = delete;    AlbaBitManipulation &operator=(AlbaBitManipulation &&) = delete;
 
     template <typename ArgumentType, typename... Arguments>
-    static constexpr inline DataType concatenateBytes(ArgumentType const currentByte, Arguments const... arguments) {        static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
+    static constexpr inline DataType concatenateBytes(ArgumentType const currentByte, Arguments const... arguments) {
+        static_assert(typeHelper::isIntegralType<ArgumentType>(), "ArgumentType must be an integer");
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         static_assert(
             sizeof(DataType) > sizeof...(Arguments),

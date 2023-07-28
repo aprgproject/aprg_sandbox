@@ -43,7 +43,8 @@ TEST(SampleTest, PrimerTest) {
     auto itMagazine = magazine.begin();
     for (char const c : ransomNote) {
         int& count = magazineLetterToCount[c - 'a'];
-        if (count > 0) {            count--;
+        if (count > 0) {
+            count--;
         } else {
             for (; itMagazine != magazine.end() && *itMagazine != c; itMagazine++) {
                 magazineLetterToCount[*itMagazine - 'a']++;
@@ -191,7 +192,8 @@ TEST(SampleTest, NumberOfSteps) {
     EXPECT_EQ(2, numberOfSteps(2));    EXPECT_EQ(3, numberOfSteps(3));
     EXPECT_EQ(3, numberOfSteps(4));
     EXPECT_EQ(4, numberOfSteps(5));
-    EXPECT_EQ(4, numberOfSteps(6));    EXPECT_EQ(5, numberOfSteps(7));
+    EXPECT_EQ(4, numberOfSteps(6));
+    EXPECT_EQ(5, numberOfSteps(7));
     EXPECT_EQ(4, numberOfSteps(8));
     EXPECT_EQ(5, numberOfSteps(9));
     EXPECT_EQ(5, numberOfSteps(10));

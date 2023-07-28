@@ -142,6 +142,7 @@ std::string getQuotedString(std::string_view stringToCheck);
 std::string constructFileLocator(std::string_view file, int const lineNumber);
 std::string getRandomAlphaNumericString(size_t const length);
 strings getArgumentsToStringInMain(int const argc, char const* const argv[]);
+
 // Find and replace
 
 bool transformReplaceStringIfFound(std::string& mainString, std::string_view toReplace, std::string_view replaceWith);

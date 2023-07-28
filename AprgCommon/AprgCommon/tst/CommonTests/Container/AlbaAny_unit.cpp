@@ -47,7 +47,8 @@ TEST(AlbaAnyTest, MoveAssignmentWorks) {
     EXPECT_EQ(1234, assignedAny.getContentAs<int>());}
 
 TEST(AlbaAnyTest, BoolOperatorWorks) {
-    AlbaAny emptyAny;    AlbaAny nonEmptyAny(1234);
+    AlbaAny emptyAny;
+    AlbaAny nonEmptyAny(1234);
 
     EXPECT_FALSE(static_cast<bool>(emptyAny));
     EXPECT_TRUE(static_cast<bool>(nonEmptyAny));

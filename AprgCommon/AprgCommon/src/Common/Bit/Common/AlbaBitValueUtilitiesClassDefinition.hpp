@@ -313,11 +313,10 @@ public:
     }
 
     static constexpr inline DataType roundDownToAPowerOf2(DataType const value) {
-        return 1 << (getNumberOfBits() - 1 - getNumberOfConsecutiveZerosFromMsb(value));
+        return value == 0 ? 0 : 1 << (getNumberOfBits() - 1 - getNumberOfConsecutiveZerosFromMsb(value));
         // This formulas works as well:
         // return 1 << ((getNumberOfBits() - 1) ^ getNumberOfConsecutiveZerosFromMsb(value));
-        // return (1 << (getNumberOfBits() - 1)) >> getNumberOfConsecutiveZerosFromMsb(value);
-    }
+        // return (1 << (getNumberOfBits() - 1)) >> getNumberOfConsecutiveZerosFromMsb(value);    }
 
     static constexpr inline DataType roundUpToAPowerOf2(DataType const value) {
         return 1 << (getNumberOfBits() - getNumberOfConsecutiveZerosFromMsb(value - 1));

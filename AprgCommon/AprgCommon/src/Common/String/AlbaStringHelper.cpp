@@ -539,7 +539,8 @@ string constructFileLocator(string_view file, int const lineNumber) {
 
 string getRandomAlphaNumericString(size_t const length) {
     constexpr auto ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP)) - 1;    AlbaUniformNonDeterministicRandomizer randomizer(0, alphaNumericCharMapIndexMax);
+    int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP)) - 1;
+    AlbaUniformNonDeterministicRandomizer randomizer(0, alphaNumericCharMapIndexMax);
     string result;
     result.reserve(length);
     generate_n(back_inserter(result), length, [&]() {
@@ -688,7 +689,8 @@ string getStringWithJustifyAlignment(string_view mainString, size_t const target
     if (mainString.empty()) {        string gap(targetLength, ' ');
         result = gap;
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
-        result = noRedundantWhiteSpace;    } else if (isOneWord(mainString)) {
+        result = noRedundantWhiteSpace;
+    } else if (isOneWord(mainString)) {
         size_t noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
         size_t gapLength = (targetLength - noWhiteSpace.length()) / (noRedundantWhiteSpaceLength + 1);
         string gap(gapLength, ' ');

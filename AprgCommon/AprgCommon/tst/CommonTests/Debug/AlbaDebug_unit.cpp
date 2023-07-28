@@ -75,7 +75,8 @@ TEST(AlbaDebugTest, PrintingContainersWorks) {
 }
 TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {
     s_debugStringStream.str(string());
-    s_debugStringStream.clear();    int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
+    s_debugStringStream.clear();
+    int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
 
     ALBA_PRINT_MANIPULATE_OUTPUT(uppercase);
     ALBA_PRINT_MANIPULATE_OUTPUT(hex);
@@ -89,7 +90,8 @@ TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {
 }
 namespace {
 class SampleClass {
-public:    SampleClass(int parameter1, int parameter2) : m_parameter1(parameter1), m_parameter2(parameter2) {}
+public:
+    SampleClass(int parameter1, int parameter2) : m_parameter1(parameter1), m_parameter2(parameter2) {}
 
     int getSum() const { return m_parameter1 + m_parameter2; }
 
