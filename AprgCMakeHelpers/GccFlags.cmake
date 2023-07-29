@@ -5,7 +5,7 @@
 set(APRG_COMPILER_COMMON_FLAGS "-Wall -Wextra -pedantic")
 set(APRG_COMPILER_COMMON_C_FLAGS "-std=c17")
 set(APRG_COMPILER_COMMON_CPP_FLAGS "-std=c++17")
-set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage -fno-rtti")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG "") #set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage -fno-rtti")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_RTTI "-g --coverage")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_FAST_COMPILATION "-g --coverage -O0") #-O0 is actually the default so this is useless
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")
