@@ -19,14 +19,11 @@ namespace algebra {
 LimitsAtInfinity::LimitsAtInfinity(Term const& term, string const& variableName)
     : m_simplifiedTermAtInfinity(term),
       m_variableName(variableName),
-      m_isSimplifiedDenominatorZero(false),
       m_degreeOnlyMutator(variableName),
       m_removeMonomialsWithNegativeExponentMutator(variableName) {
-    simplify();
-}
+    simplify();}
 
 Term LimitsAtInfinity::getSimplifiedTermAtInfinity() const { return m_simplifiedTermAtInfinity; }
-
 Term LimitsAtInfinity::getValueAtInfinity(AlbaNumber const infinityValue) const {
     SubstitutionOfVariablesToValues substitution{{m_variableName, infinityValue}};
     return substitution.performSubstitutionTo(m_simplifiedTermAtInfinity);
