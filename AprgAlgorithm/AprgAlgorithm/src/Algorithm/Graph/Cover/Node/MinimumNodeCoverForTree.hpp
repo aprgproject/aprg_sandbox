@@ -9,9 +9,11 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Vertex>
 class MinimumNodeCoverForTree {
-public:    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+public:
+    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using SetOfVerticesWithVertex = typename GraphTypes<Vertex>::SetOfVertices;
     using ChildrenInTreeWithVertex = ChildrenInTree<Vertex>;
     using Count = int;

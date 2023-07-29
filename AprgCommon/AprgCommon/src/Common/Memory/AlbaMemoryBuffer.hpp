@@ -14,7 +14,8 @@ public:
     using ByteType = uint8_t;
     using BufferContainer = std::vector<uint8_t>;
 
-    AlbaMemoryBuffer() = default;    AlbaMemoryBuffer(void const* sourcePointer, size_t const size);
+    AlbaMemoryBuffer() = default;
+    AlbaMemoryBuffer(void const* sourcePointer, size_t const size);
 
     // rule of zero
 
@@ -27,6 +28,7 @@ public:
     bool hasContent() const;
     size_t getSize() const;
     void const* getConstantBufferPointer() const;
+
     void* getBufferPointer();
     void clear();
     void clearAndSetNewData(void* sourcePointer, size_t const size);

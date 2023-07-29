@@ -41,6 +41,7 @@ TEST(SampleTest, PrimerTest) {
 /*bool canConstructVer2(string ransomNote, string magazine) {
     array<int, 26> magazineLetterToCount{};
     auto itMagazine = magazine.begin();
+
     for (char const c : ransomNote) {
         int& count = magazineLetterToCount[c - 'a'];
         if (count > 0) {
@@ -189,7 +190,8 @@ TEST(SampleTest, KWeakestRows) {
 TEST(SampleTest, NumberOfSteps) {
     EXPECT_EQ(0, numberOfSteps(0));
     EXPECT_EQ(1, numberOfSteps(1));
-    EXPECT_EQ(2, numberOfSteps(2));    EXPECT_EQ(3, numberOfSteps(3));
+    EXPECT_EQ(2, numberOfSteps(2));
+    EXPECT_EQ(3, numberOfSteps(3));
     EXPECT_EQ(3, numberOfSteps(4));
     EXPECT_EQ(4, numberOfSteps(5));
     EXPECT_EQ(4, numberOfSteps(6));

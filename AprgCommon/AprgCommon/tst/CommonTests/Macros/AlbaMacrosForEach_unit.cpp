@@ -5,6 +5,9 @@
 using namespace std;
 
 namespace alba {
+
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
+
 TEST(AlbaMacrosForEachTest, AlbaMacrosForEachWorks) {
 #define CREATE_CONST_CHAR_ARRAY(parameter) char const *parameter##_string = #parameter;
 
@@ -26,5 +29,7 @@ TEST(AlbaMacrosForEachTest, AlbaMacrosForEachListWorks) {
     EXPECT_EQ(3, sampleSumFunction(1, 1, 1));
     EXPECT_EQ(6, sampleSumFunction(1, 2, 3));
 }
+
+#endif
 
 }  // namespace alba

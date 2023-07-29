@@ -23,9 +23,9 @@ template <typename LibraryTime>
 AlbaDateTime convertSinceEpochTimeToAlbaDateTime(LibraryTime const& inputTime) {
     auto microsecondsSinceEpoch =
         std::chrono::time_point_cast<std::chrono::microseconds>(inputTime).time_since_epoch().count();
-    uint32_t remainingMicroSeconds = microsecondsSinceEpoch % AlbaDateTimeConstants::NUMBER_OF_MICROSECONDS_IN_A_SECOND;
-    uint32_t remainingSeconds = microsecondsSinceEpoch / AlbaDateTimeConstants::NUMBER_OF_MICROSECONDS_IN_A_SECOND;
-    uint32_t remainingDays = remainingSeconds / AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_A_DAY;
+    uint32_t remainingMicroSeconds = static_cast<uint32_t>(microsecondsSinceEpoch % AlbaDateTimeConstants::NUMBER_OF_MICROSECONDS_IN_A_SECOND);
+    uint32_t remainingSeconds = static_cast<uint32_t>(microsecondsSinceEpoch / AlbaDateTimeConstants::NUMBER_OF_MICROSECONDS_IN_A_SECOND);
+    uint32_t remainingDays = static_cast<uint32_t>(remainingSeconds / AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_A_DAY);
     remainingSeconds = remainingSeconds % AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_A_DAY;
 
     return AlbaDateTime::createFromTotalDaysAndSecondsAndMicroSeconds(

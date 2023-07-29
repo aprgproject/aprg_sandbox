@@ -22,9 +22,11 @@ Term::Term(TermType const type, bool const isSimplified, BaseTermDataPointer&& b
 
 Term::Term(AlbaNumber const& number)
     : m_type(TermType::Constant), m_isSimplified(false), m_baseTermDataPointer(make_unique<Constant>(number)) {}
+
 Term::Term(char const* const characterString)
     : m_type(TermType::Empty), m_isSimplified(false), m_baseTermDataPointer(nullptr) {
-    initializeBasedOnString(string(characterString));}
+    initializeBasedOnString(string(characterString));
+}
 
 Term::Term(string const& stringAsParameter)
     : m_type(TermType::Empty), m_isSimplified(false), m_baseTermDataPointer(nullptr) {
@@ -266,10 +268,12 @@ BaseTermUniquePointer Term::createBasePointerByMove() {
     return static_cast<BaseTermUniquePointer>(make_unique<Term>(m_type, m_isSimplified, std::move(m_baseTermDataPointer)));
 }
 
-void Term::clear() {    m_type = TermType::Empty;
+void Term::clear() {
+    m_type = TermType::Empty;
     m_baseTermDataPointer.reset();
     clearSimplifiedFlag();
 }
+
 void Term::simplify() {
     if (!m_isSimplified) {
         if (m_type == TermType::Monomial) {

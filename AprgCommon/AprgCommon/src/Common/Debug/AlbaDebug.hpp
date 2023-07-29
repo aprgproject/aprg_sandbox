@@ -8,8 +8,11 @@
 
 namespace alba {
 
-//#pragma warning("The class AlbaDebug is used. Please remove after your done debugging.") // Unknown pragma
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
 #warning("The class AlbaDebug is used. Please remove after your done debugging.") // GCC extension
+#elif defined(_MSC_VER)
+#pragma message("The class AlbaDebug is used. Please remove after your done debugging.")  // MSVC extension
+#endif
 
 #if defined(ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_FILE_PATH)
 #include <ofstream>

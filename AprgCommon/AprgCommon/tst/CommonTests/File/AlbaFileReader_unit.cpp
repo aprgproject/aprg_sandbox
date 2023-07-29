@@ -496,4 +496,5 @@ TEST(AlbaFileReaderTest, FileContentsCanBeSavedInMemoryBuffer) {
     EXPECT_EQ(0xBAU, buffer[5]);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 }  // namespace alba

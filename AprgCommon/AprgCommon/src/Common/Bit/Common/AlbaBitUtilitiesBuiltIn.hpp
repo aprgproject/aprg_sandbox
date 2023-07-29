@@ -122,7 +122,8 @@ INLINE_WITH_BUILT_IN namespace BitUtilitiesWithBuiltIn {
             }
         }
     }
-#endif}
+#endif
+}
 
 }  // namespace BitUtilitiesBuiltIn
 

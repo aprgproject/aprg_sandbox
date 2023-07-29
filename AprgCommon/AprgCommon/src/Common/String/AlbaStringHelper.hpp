@@ -139,6 +139,7 @@ std::string getHexEquivalentOfCharacters(std::string_view stringToCheck);
 std::string getQuotedString(std::string_view stringToCheck);
 
 // Utilities
+
 std::string constructFileLocator(std::string_view file, int const lineNumber);
 std::string getRandomAlphaNumericString(size_t const length);
 strings getArgumentsToStringInMain(int const argc, char const* const argv[]);

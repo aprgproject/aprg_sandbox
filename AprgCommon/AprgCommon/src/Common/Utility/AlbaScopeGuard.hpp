@@ -17,4 +17,5 @@ public:
 private:
     OnExitFunction m_onExitFunction;
 };
+
 }  // namespace alba

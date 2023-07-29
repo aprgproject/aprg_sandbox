@@ -5,9 +5,11 @@
 using namespace std;
 
 namespace alba {
+
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
 TEST(AlbaMacrosTest, StandardPredefinedMacrosWorks) {
     EXPECT_FALSE(string(ALBA_MACROS_GET_FILE).empty());
-    EXPECT_EQ(10, ALBA_MACROS_GET_LINE);
+    EXPECT_EQ(12, ALBA_MACROS_GET_LINE);
     EXPECT_FALSE(string(ALBA_MACROS_GET_COMPILATION_DATE).empty());
     EXPECT_FALSE(string(ALBA_MACROS_GET_TIME_OF_TRANSLATION).empty());
     EXPECT_LT(201100, ALBA_MACROS_GET_COMPILER_VERSION);  // it should be above 2011 compiler
@@ -85,7 +87,7 @@ TEST(AlbaMacrosTest, ConcatenateWorks) {
     EXPECT_EQ(12345678, ALBA_MACROS_CONCATENATE(1234, 5678));
     // compiler error: results to 1234__LINE__ (needs another layer of indirection)
     // EXPECT_EQ(12345678U, ALBA_MACROS_CONCATENATE_EXPANSION(1234, __LINE__));
-    EXPECT_EQ(123488, ALBA_MACROS_CONCATENATE(1234, __LINE__));
+    EXPECT_EQ(123490, ALBA_MACROS_CONCATENATE(1234, __LINE__));
 }
 
 TEST(AlbaMacrosTest, GetNameWithCountWorks) {
@@ -104,5 +106,6 @@ TEST(AlbaMacrosTest, StringTest) {
     EXPECT_EQ(2, ALBA_MACROS_COUNT_ARGUMENTS("one", "two"));
     EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGUMENTS("one", "two", "three"));
 }
+#endif
 
 }  // namespace alba

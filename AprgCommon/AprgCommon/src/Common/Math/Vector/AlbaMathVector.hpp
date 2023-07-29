@@ -30,7 +30,9 @@ public:
     AlbaMathVector(std::initializer_list<DataType> const& values) : m_values{} {
         size_t limit = std::min(SIZE, static_cast<size_t>(values.size()));
         std::copy(begin(values), begin(values) + limit, begin(m_values));
-    }    // rule of zero
+    }
+
+    // rule of zero
 
     bool operator==(AlbaMathVectorType const& second) const {
         return std::equal(
@@ -49,7 +51,8 @@ public:
         auto [firstMismatchIt, secondMismatchIt] =
             std::mismatch(m_values.cbegin(), m_values.cend(), second.m_values.cbegin());
         if (firstMismatchIt != m_values.cend()) {
-            result = *firstMismatchIt < *secondMismatchIt;        }
+            result = *firstMismatchIt < *secondMismatchIt;
+        }
         return result;
     }
 

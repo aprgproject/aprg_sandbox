@@ -38,7 +38,6 @@ NumberType getNumberOfPermutations(NumberType const n, NumberType const r) {
     }
     return result;
 }
-
 template <typename NumberType>
 NumberType getNumberOfCombinations(NumberType const n, NumberType const r) {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");

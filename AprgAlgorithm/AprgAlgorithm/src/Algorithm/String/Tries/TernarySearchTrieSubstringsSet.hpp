@@ -9,9 +9,11 @@
 namespace alba {
 
 namespace algorithm {
+
 class TernarySearchTrieSubstringsSet : public BaseTernarySearchTrie<TernarySearchTrieSetNode, BaseStringSet> {
 public:
-    using BaseClass = BaseTernarySearchTrie<TernarySearchTrieSetNode, BaseStringSet>;    using Key = typename BaseClass::Key;
+    using BaseClass = BaseTernarySearchTrie<TernarySearchTrieSetNode, BaseStringSet>;
+    using Key = typename BaseClass::Key;
     using Strings = typename BaseClass::Strings;
     using Node = typename BaseClass::Node;
     using NodeUniquePointer = std::unique_ptr<Node>;

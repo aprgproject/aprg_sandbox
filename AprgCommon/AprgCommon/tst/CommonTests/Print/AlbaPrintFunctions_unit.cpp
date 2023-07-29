@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <array>
 #include <deque>
 #include <forward_list>
 #include <optional>
@@ -37,6 +38,7 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStrings) {
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPointer) {
     stringstream ssToVerify;
     int integerToTest = 500;
+
     printParameterWithName(ssToVerify, "name", &integerToTest);
 
     EXPECT_EQ("*name : [500]", ssToVerify.str());
@@ -108,10 +110,11 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithTuple) {
     EXPECT_EQ(R"(name : [(300, "hello", A)])", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray) {    stringstream ssToVerify;
-    array<int, 5> vectorToTest{500, 501, 502, 503, 504};
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray) {
+    stringstream ssToVerify;
+    array<int, 5> arrayToTest{500, 501, 502, 503, 504};
 
-    printParameterWithName(ssToVerify, "name", vectorToTest);
+    printParameterWithName(ssToVerify, "name", arrayToTest);
 
     EXPECT_EQ("name : [{Constant size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
@@ -158,7 +161,11 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedSet) {
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
     EXPECT_EQ("name : [{size: 5 | 504, 503, 502, 501, 500, }]", ssToVerify.str());
+#elif defined(_MSC_VER)
+    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
+#endif
 }
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {
@@ -167,7 +174,11 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
     EXPECT_EQ("name : [{size: 5 | (504, E), (503, D), (502, C), (501, B), (500, A), }]", ssToVerify.str());
+#elif defined(_MSC_VER)
+    EXPECT_EQ("name : [{size: 5 | (500, A), (501, B), (502, C), (503, D), (504, E), }]", ssToVerify.str());
+#endif
 }
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack) {

@@ -83,7 +83,8 @@ typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapte
     // copied from parameter to lessen dependencies
     struct AdapterParent : Adapter {
         static typename Adapter::container_type const& get(Adapter const& adapterAsParameter) {
-            return adapterAsParameter.*&AdapterParent::c;        }
+            return adapterAsParameter.*&AdapterParent::c;
+        }
     };
     return AdapterParent::get(adapter);
 }

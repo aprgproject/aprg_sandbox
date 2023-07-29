@@ -9,7 +9,8 @@ namespace alba {
 TEST(AlbaScopeGuardTest, FunctionIsExecutedWhenItGoesOutOfScope) {
     int valueToTest = 1;
     {
-        AlbaScopeGuard scopeGuard([&valueToTest]() { valueToTest = 2; });        valueToTest = 3;
+        AlbaScopeGuard scopeGuard([&valueToTest]() { valueToTest = 2; });
+        valueToTest = 3;
     }
 
     EXPECT_EQ(2, valueToTest);

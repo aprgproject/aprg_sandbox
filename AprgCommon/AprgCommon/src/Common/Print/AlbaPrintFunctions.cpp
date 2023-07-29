@@ -21,4 +21,5 @@ void printParameterWithName(ostream& outputStream, string_view, char const* cons
     // the name is not printing to avoid printing the same string literal twice
     outputStream << R"([")" << parameter << R"("])";
 }
+
 }  // namespace alba

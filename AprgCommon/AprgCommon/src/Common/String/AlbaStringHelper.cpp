@@ -498,7 +498,9 @@ string getNumberAfterThisString(string_view mainString, string_view stringToSear
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
         size_t lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         size_t lastIndexOfNumber;
-        for (lastIndexOfNumber = lastIndexOfFirstString; isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber)
+        for (lastIndexOfNumber = lastIndexOfFirstString;
+             lastIndexOfNumber < mainString.length() && isNumber(mainString[lastIndexOfNumber]);
+             ++lastIndexOfNumber)
             ;
         result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber - lastIndexOfFirstString);
     }
@@ -511,7 +513,8 @@ string getHexNumberAfterThisString(string_view mainString, string_view stringToS
     if (isNotNpos(static_cast<int>(firstIndexOfFirstString))) {
         size_t lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         size_t lastIndexOfNumber(lastIndexOfFirstString);
-        for (; isHexDigit(mainString[lastIndexOfNumber]); ++lastIndexOfNumber)
+        for (; lastIndexOfNumber < mainString.length() && isHexDigit(mainString[lastIndexOfNumber]);
+             ++lastIndexOfNumber)
             ;
         result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber - lastIndexOfFirstString);
     }
@@ -534,7 +537,8 @@ string getQuotedString(string_view stringToCheck) {
 
 string constructFileLocator(string_view file, int const lineNumber) {
     stringstream ss;
-    ss << file.substr(file.find_last_of('\\') + 1) << "[" << lineNumber << "]";    return ss.str();
+    ss << file.substr(file.find_last_of('\\') + 1) << "[" << lineNumber << "]";
+    return ss.str();
 }
 
 string getRandomAlphaNumericString(size_t const length) {
@@ -686,7 +690,8 @@ string getStringWithJustifyAlignment(string_view mainString, size_t const target
     result.reserve(targetLength);
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
-    if (mainString.empty()) {        string gap(targetLength, ' ');
+    if (mainString.empty()) {
+        string gap(targetLength, ' ');
         result = gap;
     } else if (noRedundantWhiteSpace.length() >= targetLength) {
         result = noRedundantWhiteSpace;

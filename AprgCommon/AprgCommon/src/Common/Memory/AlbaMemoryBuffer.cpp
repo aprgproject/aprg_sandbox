@@ -19,6 +19,7 @@ AlbaMemoryBuffer::ByteType& AlbaMemoryBuffer::operator[](size_t const index) { r
 bool AlbaMemoryBuffer::hasContent() const { return !m_buffer.empty(); }
 
 size_t AlbaMemoryBuffer::getSize() const { return m_buffer.size(); }
+
 void const* AlbaMemoryBuffer::getConstantBufferPointer() const { return static_cast<void const*>(m_buffer.data()); }
 
 void* AlbaMemoryBuffer::getBufferPointer() { return static_cast<void*>(m_buffer.data()); }
@@ -37,7 +38,7 @@ void AlbaMemoryBuffer::resize(size_t size, uint8_t const initialValue) { m_buffe
 void* AlbaMemoryBuffer::resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(size_t const additionalSize) {
     size_t oldSize = m_buffer.size();
     m_buffer.resize(oldSize + additionalSize);
-    return begin(m_buffer).base() + oldSize;
+    return static_cast<void*>((m_buffer.begin() + oldSize).operator->());
 }
 
 void AlbaMemoryBuffer::addData(void const* sourcePointer, size_t const additionalSize) {

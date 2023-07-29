@@ -526,15 +526,18 @@ TEST(GetStringNumberFromStringTest, GetHexEquivalentOfCharacters) {
     EXPECT_EQ("FF", getHexEquivalentOfCharacters("\xff"));
 }
 
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
 TEST(GetStringFromStringTest, GetQuotedString) {
     EXPECT_EQ(
         R"("std::quoted() quotes this string and embedded \"quotes\" too")",
         getQuotedString(R"(std::quoted() quotes this string and embedded "quotes" too)"));
 }
+#endif
 
 TEST(UtilitiesStringTest, ConstructFileLocator) { EXPECT_FALSE(constructFileLocator(__FILE__, __LINE__).empty()); }
 
-TEST(UtilitiesStringTest, RandomString100Characters) {    size_t length(100);
+TEST(UtilitiesStringTest, RandomString100Characters) {
+    size_t length(100);
     EXPECT_EQ(length, getRandomAlphaNumericString(length).length());
 }
 

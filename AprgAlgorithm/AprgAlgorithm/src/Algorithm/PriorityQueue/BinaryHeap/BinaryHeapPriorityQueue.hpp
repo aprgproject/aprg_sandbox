@@ -43,10 +43,12 @@ public:
         return topBeforeDeletion;
     }
 
-private:    int getIndexOfLastItemOfTheTree() const { return getSize(); }
+private:
+    int getIndexOfLastItemOfTheTree() const { return getSize(); }
 
     static constexpr int INDEX_OF_TOP_TREE = 1;
-    Objects m_objects;    BinaryHeapAdapter<Objects, 2, ComparatorTemplateType> m_heapTreeAdapter;
+    Objects m_objects;
+    BinaryHeapAdapter<Objects, 2, ComparatorTemplateType> m_heapTreeAdapter;
 };
 
 // Applications:

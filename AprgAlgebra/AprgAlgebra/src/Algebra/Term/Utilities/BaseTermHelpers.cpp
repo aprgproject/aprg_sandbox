@@ -14,10 +14,12 @@ BaseTermUniquePointer createBasePointer(BaseTerm&& baseTerm) {
     return getTermRValueReferenceFromBaseTerm(std::move(baseTerm)).createBasePointerByMove();
 }
 
-BaseTermUniquePointer duplicateUniquePointer(BaseTermUniquePointer const& uniquePointer) {    return static_cast<BaseTermUniquePointer>(make_unique<Term>(getTermConstReferenceFromUniquePointer(uniquePointer)));
+BaseTermUniquePointer duplicateUniquePointer(BaseTermUniquePointer const& uniquePointer) {
+    return static_cast<BaseTermUniquePointer>(make_unique<Term>(getTermConstReferenceFromUniquePointer(uniquePointer)));
 }
 
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm) { return static_cast<Term const&>(baseTerm); }
+
 Term const& getTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer) {
     return static_cast<Term const&>(*uniquePointer.get());
 }
