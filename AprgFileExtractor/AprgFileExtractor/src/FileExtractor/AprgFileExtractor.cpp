@@ -146,15 +146,13 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
     set<string> filePaths;
     copyRelativeFilePathsFromCompressedFile(filePathOfCompressedFile, filePaths);
     ProgressCounters::numberOfFilesToBeAnalyzedForExtraction += filePaths.size();
-    for (string const filePath : filePaths) {
+    for (string const& filePath : filePaths) {
         AlbaLocalPathHandler filePathHandler(filePath);
         if (m_grepEvaluator.evaluate(filePathHandler.getFile())) {
-            AlbaLocalPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));
-            if (isRecognizedCompressedFile(extractedPathHandler.getExtension())) {
+            AlbaLocalPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));            if (isRecognizedCompressedFile(extractedPathHandler.getExtension())) {
                 extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
                 extractedPathHandler.deleteFile();
-            }
-        }
+            }        }
         ProgressCounters::numberOfFilesAnalyzedForExtraction++;
     }
 }

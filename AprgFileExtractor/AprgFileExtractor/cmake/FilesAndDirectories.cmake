@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_FILE_EXTRACTOR_SOURCE_DIRECTORY
     ${APRG_FILE_EXTRACTOR_DIR}/src
 )
-
 set(APRG_FILE_EXTRACTOR_TEST_DIRECTORY
     ${APRG_FILE_EXTRACTOR_DIR}/tst
 )
-
 set(APRG_FILE_EXTRACTOR_MAIN_DIRECTORY
     ${APRG_FILE_EXTRACTOR_DIR}/main
 )
