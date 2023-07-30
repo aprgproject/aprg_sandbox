@@ -29,23 +29,33 @@ int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
 }  // namespace ProgressCounters
 
-TEST(SampleTest, PrimerTest) {
+TEST(SampleTest, uninintializedcopyTest) {
+    std::vector<int> v1 = {1, 2, 3, 4, 5};
+    std::vector<int> v2(3);
+
+    std::uninitialized_copy(v1.begin(), v1.end(), v2.begin());
+
+    for (int i = 0; i < static_cast<int>(v1.size()); i++) {
+        std::cout << v2[i] << std::endl;
+    }
+
+    std::cout << "v1:" << v1.size() << " v2:" << v2.size() << std::endl;
+}
+
+/*TEST(SampleTest, PrimerTest) {
     int i;
     double d;
-    d = i = 3.5;
-    ALBA_PRINT2(i, d);  // 3,3
+    d = i = 3.5;    ALBA_PRINT2(i, d);  // 3,3
     i = d = 3.5;
     ALBA_PRINT2(i, d);  // 3, 3.5
 }
 
-/*bool canConstructVer2(string ransomNote, string magazine) {
+bool canConstructVer2(string ransomNote, string magazine) {
     array<int, 26> magazineLetterToCount{};
     auto itMagazine = magazine.begin();
-
     for (char const c : ransomNote) {
         int& count = magazineLetterToCount[c - 'a'];
-        if (count > 0) {
-            count--;
+        if (count > 0) {            count--;
         } else {
             for (; itMagazine != magazine.end() && *itMagazine != c; itMagazine++) {
                 magazineLetterToCount[*itMagazine - 'a']++;
