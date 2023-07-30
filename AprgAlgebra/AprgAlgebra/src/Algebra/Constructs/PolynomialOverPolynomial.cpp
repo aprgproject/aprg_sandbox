@@ -9,14 +9,14 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
+#include <iterator>
+
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba {
 
 namespace algebra {
-
 PolynomialOverPolynomial::PolynomialOverPolynomial()
     : m_numerator(), m_denominator(), m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false) {}
 
@@ -179,31 +179,31 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
     Polynomials& numeratorFactors, Polynomials& denominatorFactors) const {
     bool areSomeFactorsRemoved(false);
     for (Polynomials::iterator numeratorIterator = numeratorFactors.begin();
-         !numeratorFactors.empty() && numeratorIterator != numeratorFactors.end(); numeratorIterator++) {
+         numeratorIterator != numeratorFactors.end(); ++numeratorIterator) {
         for (Polynomials::iterator denominatorIterator = denominatorFactors.begin();
-             !numeratorFactors.empty() && !denominatorFactors.empty() &&
              denominatorIterator != denominatorFactors.end();
-             denominatorIterator++) {
+             ++denominatorIterator) {
             Polynomial const& numerator(*numeratorIterator);
             Polynomial const& denominator(*denominatorIterator);
             if (!(isOneMonomial(numerator) && isOneMonomial(denominator))) {
                 if (numerator == denominator) {
+                    auto nextOffsetInNumerator = distance(numeratorFactors.begin(), numeratorIterator);
+                    auto nextOffsetInDenominator = distance(denominatorFactors.begin(), denominatorIterator);
+                    nextOffsetInNumerator -= nextOffsetInNumerator > 0 ? 1 : 0;
+                    nextOffsetInDenominator -= nextOffsetInDenominator > 0 ? 1 : 0;
                     numeratorFactors.erase(numeratorIterator);
                     denominatorFactors.erase(denominatorIterator);
-                    if (numeratorFactors.begin() != numeratorIterator) {
-                        numeratorIterator--;
-                    }
-                    if (denominatorFactors.begin() != denominatorIterator) {
-                        denominatorIterator--;
-                    }
+                    numeratorIterator = next(numeratorFactors.begin(), nextOffsetInNumerator);
+                    denominatorIterator = next(denominatorFactors.begin(), nextOffsetInDenominator);
                     areSomeFactorsRemoved = true;
+                    if (numeratorFactors.empty() || denominatorFactors.empty()) {
+                        return areSomeFactorsRemoved;
+                    }
                 }
             }
-        }
-    }
+        }    }
     return areSomeFactorsRemoved;
 }
-
 Polynomial PolynomialOverPolynomial::multiplyAndSimplifyFactors(Polynomials const& factors) const {
     Polynomial product{Monomial(1, {})};
     for (Polynomial const& factor : factors) {
