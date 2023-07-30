@@ -25,47 +25,41 @@ inline std::ofstream debugStream(ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_FILE_PATH);
 #endif
 
 // Internal macros
-#define Z_ALBA_PRIVATE_PRINT_PARAMETER(parameter) \
-    printParameterWithName(ALBA_PRINT_OUTPUT_STREAM, ALBA_MACROS_GET_STRING_LITERAL(parameter), parameter);
-#define Z_ALBA_PRIVATE_PRINT_SEPARATOR ALBA_PRINT_OUTPUT_STREAM << " ";
-#define Z_ALBA_PRIVATE_PRINT_EXPANSION(printCommands1, printCommands2) \
-    printCommands1 Z_ALBA_PRIVATE_PRINT_SEPARATOR printCommands2
-#define Z_ALBA_PRIVATE_PRINT1(parameter1) Z_ALBA_PRIVATE_PRINT_PARAMETER(parameter1)
-#define Z_ALBA_PRIVATE_PRINT2(parameter1, parameter2) \
-    Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter1), Z_ALBA_PRIVATE_PRINT1(parameter2))
-#define Z_ALBA_PRIVATE_PRINT3(parameter, ...) \
-    Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT2(__VA_ARGS__))
-#define Z_ALBA_PRIVATE_PRINT4(parameter, ...) \
-    Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT3(__VA_ARGS__))
-#define Z_ALBA_PRIVATE_PRINT5(parameter, ...) \
-    Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT4(__VA_ARGS__))
-#define Z_ALBA_PRIVATE_PRINT6(parameter, ...) \
-    Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT5(__VA_ARGS__))
-#define Z_ALBA_PRIVATE_PRINT7(parameter, ...) \
-    Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT6(__VA_ARGS__))
-#define Z_ALBA_PRINT_DETAILS                                                                            \
+// This is a revised approach in printing because of MSVC limitation on macros.
+#define Z_ALBA_PRINT_START                                                                              \
     ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT in line:" << std::setw(4) << ALBA_MACROS_GET_LINE << " in " \
                              << ALBA_MACROS_GET_FUNCTION << "(...): ";
-// For PRETTY_FUNCTIONS
-//#define Z_ALBA_PRINT_DETAILS ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT in line:" << std::setw(4) << ALBA_MACROS_GET_LINE
-//<< " in " << ALBA_MACROS_GET_PRETTY_FUNCTION << ": ";
+#define Z_ALBA_PRINT_END ALBA_PRINT_OUTPUT_STREAM << std::endl
+#define Z_ALBA_PRINT_PARAMETER_ONLY(parameter) \
+    printParameterWithName(ALBA_PRINT_OUTPUT_STREAM, ALBA_MACROS_GET_STRING_LITERAL(parameter), parameter);
+#define Z_ALBA_PRINT_SEPARATOR ALBA_PRINT_OUTPUT_STREAM << " ";
+#define Z_ALBA_PRINT_PARAMETER(parameter) Z_ALBA_PRINT_PARAMETER_ONLY(parameter) Z_ALBA_PRINT_SEPARATOR
+#define Z_ALBA_PRINT_7(p1, p2, p3, p4, p5, p6, p7) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_6(p2, p3, p4, p5, p6, p7)
+#define Z_ALBA_PRINT_6(p1, p2, p3, p4, p5, p6) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_5(p2, p3, p4, p5, p6)
+#define Z_ALBA_PRINT_5(p1, p2, p3, p4, p5) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_4(p2, p3, p4, p5)
+#define Z_ALBA_PRINT_4(p1, p2, p3, p4) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_3(p2, p3, p4)
+#define Z_ALBA_PRINT_3(p1, p2, p3) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_2(p2, p3)
+#define Z_ALBA_PRINT_2(p1, p2) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_PARAMETER(p2)
 
 // Print macros to use
-#define ALBA_PRINT1(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT1(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
-#define ALBA_PRINT2(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT2(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
-#define ALBA_PRINT3(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT3(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
-#define ALBA_PRINT4(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT4(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
-#define ALBA_PRINT5(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT5(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
-#define ALBA_PRINT6(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT6(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
-#define ALBA_PRINT7(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT7(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
+#define ALBA_PRINT1(p1) Z_ALBA_PRINT_START Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_END
+#define ALBA_PRINT2(p1, p2) Z_ALBA_PRINT_START Z_ALBA_PRINT_2(p1, p2) Z_ALBA_PRINT_END
+#define ALBA_PRINT3(p1, p2, p3) Z_ALBA_PRINT_START Z_ALBA_PRINT_3(p1, p2, p3) Z_ALBA_PRINT_END
+#define ALBA_PRINT4(p1, p2, p3, p4) Z_ALBA_PRINT_START Z_ALBA_PRINT_4(p1, p2, p3, p4) Z_ALBA_PRINT_END
+#define ALBA_PRINT5(p1, p2, p3, p4, p5) Z_ALBA_PRINT_START Z_ALBA_PRINT_5(p1, p2, p3, p4, p5) Z_ALBA_PRINT_END
+#define ALBA_PRINT6(p1, p2, p3, p4, p5, p6) Z_ALBA_PRINT_START Z_ALBA_PRINT_6(p1, p2, p3, p4, p5, p6) Z_ALBA_PRINT_END
+#define ALBA_PRINT7(p1, p2, p3, p4, p5, p6, p7) \
+    Z_ALBA_PRINT_START Z_ALBA_PRINT_7(p1, p2, p3, p4, p5, p6, p7) Z_ALBA_PRINT_END
+
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
+#define ALBA_PRINT_ALL(...) ALBA_MACROS_CONCATENATE(ALBA_PRINT, ALBA_MACROS_COUNT_ARGUMENTS(__VA_ARGS__))(__VA_ARGS__)
+#endif
 
 #define ALBA_PRINT_PRECISION(parameter) ALBA_PRINT_OUTPUT_STREAM.precision(parameter)
 #define ALBA_PRINT_MANIPULATE_OUTPUT(ioParameter) ALBA_PRINT_OUTPUT_STREAM << ioParameter
-
 // Macros for debug scope
 #define ALBA_DEBUG_SCOPE_START {
 #define ALBA_DEBUG_SCOPE_END }
-
 // Macros for output operator
 // Note: Dont include "friend" keyword in macro just include in the class.
 #define ALBA_DEBUG_CLASS_OUTPUT_OPERATOR_DECLARATION(ParameterSignature) \
@@ -77,6 +71,6 @@ inline std::ofstream debugStream(ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_FILE_PATH);
         return out;                                                                      \
     }
 
-//#define ALBA_DEBUG_COMMENTED_LINE #warning("Uncomment this line after your done debugging.");
+// #define ALBA_DEBUG_COMMENTED_LINE #warning("Uncomment this line after your done debugging.");
 
 }  // namespace alba

@@ -945,47 +945,58 @@ TEST(BooleanStringTest, StringCompareWithLowestCommonLength) {
     EXPECT_TRUE(isEqualWithLowestCommonLength(testString2, testString1));
 }
 
-TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitiveWithLettersOnly) {
+TEST(BooleanStringTest, isStringFoundCaseSensitiveWithLettersOnly) {
     string longString("Mark is the no#1 guy in the world");
 
-    EXPECT_FALSE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "mark"));
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "Mark"));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "mark"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(longString, "Mark"));
 }
 
-TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitiveWithLettersAndNumbersAndSpecialCharacters) {
+TEST(BooleanStringTest, isStringFoundCaseSensitiveWithLettersAndNumbersAndSpecialCharacters) {
     string longString("Mark is the no#1 guy in the world");
 
-    EXPECT_FALSE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "nO#1"));
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "no#1"));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "nO#1"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(longString, "no#1"));
 }
 
-TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitiveWithSameLength) {
+TEST(BooleanStringTest, isStringFoundCaseSensitiveWithSameLength) {
     string longString("Attribute = ");
 
-    EXPECT_FALSE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "aTTRIBUTE = "));
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "Attribute = "));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "aTTRIBUTE = "));
+    EXPECT_TRUE(isStringFoundCaseSensitive(longString, "Attribute = "));
 }
 
-TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitiveWithLettersOnly) {
+TEST(BooleanStringTest, isStringFoundCaseSensitiveWithRunningIndex) {
     string longString("Mark is the no#1 guy in the world");
 
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "mark"));
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "Mark"));
+    int runningIndex = 0;
+    EXPECT_TRUE(isStringFoundCaseSensitive(longString, "Mark", runningIndex));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "Mark", runningIndex));
+    EXPECT_TRUE(isStringFoundCaseSensitive(longString, "no#1", runningIndex));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "no#1", runningIndex));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "Mark", runningIndex));
+    EXPECT_TRUE(isStringFoundCaseSensitive(longString, "world", runningIndex));
+    EXPECT_FALSE(isStringFoundCaseSensitive(longString, "world", runningIndex));
 }
 
-TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitiveWithLettersAndNumbersAndSpecialCharacters) {
+TEST(BooleanStringTest, isStringFoundNotCaseSensitiveWithLettersOnly) {
     string longString("Mark is the no#1 guy in the world");
 
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "nO#1"));
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "no#1"));
+    EXPECT_TRUE(isStringFoundNotCaseSensitive(longString, "mark"));
+    EXPECT_TRUE(isStringFoundNotCaseSensitive(longString, "Mark"));
 }
 
-TEST(BooleanStringTest, IsWildcardMatchTest) {
-    EXPECT_TRUE(isWildcardMatch("alba", "a*ba"));
+TEST(BooleanStringTest, isStringFoundNotCaseSensitiveWithLettersAndNumbersAndSpecialCharacters) {
+    string longString("Mark is the no#1 guy in the world");
+
+    EXPECT_TRUE(isStringFoundNotCaseSensitive(longString, "nO#1"));
+    EXPECT_TRUE(isStringFoundNotCaseSensitive(longString, "no#1"));
+}
+
+TEST(BooleanStringTest, IsWildcardMatchTest) {    EXPECT_TRUE(isWildcardMatch("alba", "a*ba"));
     EXPECT_TRUE(isWildcardMatch("albaisthebest", "al?ba*"));
     EXPECT_FALSE(isWildcardMatch("alba", "a*m"));
-    EXPECT_FALSE(isWildcardMatch("markalba", "*mark"));
-    EXPECT_TRUE(isWildcardMatch("markisthebest", "mark*best"));
+    EXPECT_FALSE(isWildcardMatch("markalba", "*mark"));    EXPECT_TRUE(isWildcardMatch("markisthebest", "mark*best"));
     EXPECT_FALSE(isWildcardMatch("alba", "alb*b?a"));
     EXPECT_TRUE(isWildcardMatch("alba", "*l*a"));
     EXPECT_TRUE(isWildcardMatch("alba", "*?l*a"));

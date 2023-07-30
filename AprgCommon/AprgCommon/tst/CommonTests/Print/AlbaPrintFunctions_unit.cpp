@@ -1,25 +1,23 @@
 #include <Common/Print/AlbaPrintFunctions.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
-
 #include <array>
 #include <deque>
-#include <forward_list>
-#include <optional>
+#include <forward_list>#include <optional>
 #include <queue>
 #include <sstream>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba {
-
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint) {
     stringstream ssToVerify;
     int integerToTest = 500;
-
     printParameterWithName(ssToVerify, "name", integerToTest);
 
     EXPECT_EQ("name : [500]", ssToVerify.str());
@@ -161,32 +159,33 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedSet) {
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
-#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
-    EXPECT_EQ("name : [{size: 5 | 504, 503, 502, 501, 500, }]", ssToVerify.str());
-#elif defined(_MSC_VER)
-    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
-#endif
+    string actualPrintString(ssToVerify.str());
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "size: 5 "));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "500"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "501"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "502"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "503"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "504"));
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {
-    stringstream ssToVerify;
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {    stringstream ssToVerify;
     unordered_map<int, char> vectorToTest{{500, 'A'}, {501, 'B'}, {502, 'C'}, {503, 'D'}, {504, 'E'}};
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
-#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
-    EXPECT_EQ("name : [{size: 5 | (504, E), (503, D), (502, C), (501, B), (500, A), }]", ssToVerify.str());
-#elif defined(_MSC_VER)
-    EXPECT_EQ("name : [{size: 5 | (500, A), (501, B), (502, C), (503, D), (504, E), }]", ssToVerify.str());
-#endif
+    string actualPrintString(ssToVerify.str());
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "size: 5 "));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(500, A)"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(501, B)"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(502, C)"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(503, D)"));
+    EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(504, E)"));
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack) {
-    stringstream ssToVerify;
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack) {    stringstream ssToVerify;
     stack<int> adapter({1, 2, 3});
 
     printParameterWithName(ssToVerify, "name", adapter);
-
     EXPECT_EQ("name : [{adapter: {size: 3 | 1, 2, 3, }}]", ssToVerify.str());
 }
 

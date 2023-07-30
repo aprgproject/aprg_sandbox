@@ -62,106 +62,103 @@ inline bool isDisplayableCharacter(char const c) { return isprint(c); }
 // true if c is a printable character (i.e., a space or a character that has a visible representation)
 // inline bool isDisplayableCharacter(char const c) { return (' ' <= c && '~' >= c); }
 
-inline bool isNotEmptyLine(std::string_view mainString) {
-    return isNotNpos(static_cast<int>(mainString.find_first_not_of(WHITESPACE_STRING)));
+inline bool isNotEmptyLine(std::string_view str) {
+    return isNotNpos(static_cast<int>(str.find_first_not_of(WHITESPACE_STRING)));
 }
 
-inline bool isPeriodOrDoublePeriod(std::string_view mainString) { return ("." == mainString) || (".." == mainString); }
+inline bool isPeriodOrDoublePeriod(std::string_view str) { return ("." == str) || (".." == str); }
 
-inline bool isLessThanStringLength(std::string_view mainString, int const index) {
-    return (index < static_cast<int>(mainString.length()));
+inline bool isLessThanStringLength(std::string_view str, int const index) {
+    return (index < static_cast<int>(str.length()));
 }
 
-size_t generateUniqueId(std::string_view mainString);
+size_t generateUniqueId(std::string_view str);
 size_t getLevenshteinDistance(std::string_view otherString, std::string_view basisString);
 size_t getHammingDistance(std::string_view string1, std::string_view string2);
-size_t getNumberOfSubStrings(std::string_view mainString);
-size_t getNumberOfSubsequences(std::string_view mainString);
-int getRotationValue(std::string_view mainString, std::string_view rotation);
-int getPeriodValue(std::string_view mainString, std::string_view period);
+size_t getNumberOfSubStrings(std::string_view str);
+size_t getNumberOfSubsequences(std::string_view str);
+int getRotationValue(std::string_view str, std::string_view rotation);
+int getPeriodValue(std::string_view str, std::string_view period);
 
-bool isNumber(std::string_view mainString);
-bool isWhiteSpace(std::string_view mainString);
-bool isNewline(std::string_view mainString);
-bool isIdentifier(std::string_view mainString);
-bool isOneWord(std::string_view mainString);
-bool isPalindrome(std::string_view mainString);
-bool isSubstring(std::string_view mainString, std::string_view subString);
-bool isSubsequence(std::string_view mainString, std::string_view subsequence);
-bool isPrefix(std::string_view mainString, std::string_view prefix);
-bool isSuffix(std::string_view mainString, std::string_view suffix);
-bool isRotation(std::string_view mainString, std::string_view rotation);
-bool isPeriod(std::string_view mainString, std::string_view period);
-bool isBorder(std::string_view mainString, std::string_view border);
-bool isEqualNotCaseSensitive(std::string_view mainString, std::string_view string2);
-bool isEqualWithLowestCommonLength(std::string_view string1, std::string_view string2);
-bool isStringFoundInsideTheOtherStringCaseSensitive(std::string_view mainString, std::string_view string2);
-bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string_view mainString, std::string_view string2);
+bool isNumber(std::string_view str);
+bool isWhiteSpace(std::string_view str);
+bool isNewline(std::string_view str);
+bool isIdentifier(std::string_view str);
+bool isOneWord(std::string_view str);
+bool isPalindrome(std::string_view str);
+bool isSubstring(std::string_view mainText, std::string_view subString);
+bool isSubsequence(std::string_view mainText, std::string_view subsequence);
+bool isPrefix(std::string_view mainText, std::string_view prefix);
+bool isSuffix(std::string_view mainText, std::string_view suffix);
+bool isRotation(std::string_view mainText, std::string_view rotation);
+bool isPeriod(std::string_view mainText, std::string_view period);
+bool isBorder(std::string_view mainText, std::string_view border);
+bool isEqualNotCaseSensitive(std::string_view str1, std::string_view str2);
+bool isEqualWithLowestCommonLength(std::string_view str1, std::string_view str2);
+bool isStringFoundCaseSensitive(std::string_view mainText, std::string_view stringToSearch);
+bool isStringFoundCaseSensitive(std::string_view mainText, std::string_view stringToSearch, int& runningOffset);
+bool isStringFoundNotCaseSensitive(std::string_view mainText, std::string_view stringToSearch);
 bool isWildcardMatch(
-    std::string_view mainString, std::string_view wildcard, size_t const mainStringIndex = 0,
+    std::string_view mainText, std::string_view wildcard, size_t const mainTextIndex = 0,
     size_t const wildcardIndex = 0);
 
 // String processing
 
-std::string getStringWithCapitalLetters(std::string_view mainString);
-std::string getStringWithFirstNonWhiteSpaceCharacterToCapital(std::string_view mainString);
-std::string getStringWithLowerCaseLetters(std::string_view mainString);
-std::string getStringWithUrlDecodedString(std::string_view mainString);
-std::string getStringThatContainsWhiteSpaceIndention(std::string_view mainString);
-std::string getStringWithoutStartingAndTrailingCharacters(std::string_view mainString, std::string_view characters);
-std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string_view mainString);
-std::string getStringWithoutWhiteSpace(std::string_view mainString);
-std::string getStringWithoutRedundantWhiteSpace(std::string_view mainString);
-std::string getStringWithoutQuotations(std::string_view mainString);
-std::string getStringWithoutCharAtTheStartAndEnd(std::string_view mainString, char const char1);
-std::string getStringWithoutCharAtTheStart(std::string_view mainString, char const char1);
-std::string getStringWithoutCharAtTheEnd(std::string_view mainString, char const char1);
+std::string getStringWithCapitalLetters(std::string_view str);
+std::string getStringWithFirstNonWhiteSpaceCharacterToCapital(std::string_view str);
+std::string getStringWithLowerCaseLetters(std::string_view str);
+std::string getStringWithUrlDecodedString(std::string_view str);
+std::string getStringThatContainsWhiteSpaceIndention(std::string_view str);
+std::string getStringWithoutStartingAndTrailingCharacters(std::string_view str, std::string_view characters);
+std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string_view str);
+std::string getStringWithoutWhiteSpace(std::string_view str);
+std::string getStringWithoutRedundantWhiteSpace(std::string_view str);
+std::string getStringWithoutQuotations(std::string_view str);
+std::string getStringWithoutCharAtTheStartAndEnd(std::string_view str, char const char1);
+std::string getStringWithoutCharAtTheStart(std::string_view str, char const char1);
+std::string getStringWithoutCharAtTheEnd(std::string_view str, char const char1);
 std::string getStringWithoutOpeningClosingOperators(
-    std::string_view mainString, char const openingOperator, char const closingOperator);
+    std::string_view str, char const openingOperator, char const closingOperator);
 std::string getLongestCommonPrefix(std::string_view first, std::string_view second);
 void copyBeforeStringAndAfterString(
-    std::string_view mainString, std::string_view stringToSearch, std::string& beforeString, std::string& afterString,
+    std::string_view mainText, std::string_view stringToSearch, std::string& beforeString, std::string& afterString,
     size_t const indexToStartTheSearch = 0);
 std::string getStringBeforeThisString(
-    std::string_view mainString, std::string_view stringToSearch, size_t const indexToStart = 0);
+    std::string_view mainText, std::string_view stringToSearch, size_t const indexToStart = 0);
 std::string getStringAfterThisString(
-    std::string_view mainString, std::string_view stringToSearch, size_t const indexToStart = 0);
+    std::string_view mainText, std::string_view stringToSearch, size_t const indexToStart = 0);
 std::string getStringInBetweenTwoStrings(
-    std::string_view mainString, std::string_view firstString, std::string_view secondString,
+    std::string_view mainText, std::string_view firstString, std::string_view secondString,
     size_t const indexToStart = 0);
 std::string getStringBeforeThisCharacters(
-    std::string_view mainString, std::string_view characters, size_t const indexToStart = 0);
+    std::string_view mainText, std::string_view characters, size_t const indexToStart = 0);
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string_view path);
 std::string getStringByRepeatingUntilDesiredLength(std::string_view stringToRepeat, size_t desiredLength);
-std::string getNumberAfterThisString(std::string_view mainString, std::string_view stringToSearch);
-std::string getHexNumberAfterThisString(std::string_view mainString, std::string_view stringToSearch);
+std::string getNumberAfterThisString(std::string_view mainText, std::string_view stringToSearch);
+std::string getHexNumberAfterThisString(std::string_view mainText, std::string_view stringToSearch);
 std::string getHexEquivalentOfCharacters(std::string_view stringToCheck);
 std::string getQuotedString(std::string_view stringToCheck);
-
 // Utilities
 
-std::string constructFileLocator(std::string_view file, int const lineNumber);
-std::string getRandomAlphaNumericString(size_t const length);
+std::string constructFileLocator(std::string_view file, int const lineNumber);std::string getRandomAlphaNumericString(size_t const length);
 strings getArgumentsToStringInMain(int const argc, char const* const argv[]);
 
 // Find and replace
 
-bool transformReplaceStringIfFound(std::string& mainString, std::string_view toReplace, std::string_view replaceWith);
+bool transformReplaceStringIfFound(std::string& mainText, std::string_view toReplace, std::string_view replaceWith);
 
 // Split and combine
 
 enum class SplitStringType { WithDelimeters, WithoutDelimeters };
 template <SplitStringType splitStringType>
-void splitToStrings(strings& listOfStrings, std::string_view mainString, std::string_view delimiters);
+void splitToStrings(strings& listOfStrings, std::string_view mainText, std::string_view delimiters);
 std::string combineStrings(strings const& strings, std::string_view delimiters);
-void splitLinesToAchieveTargetLength(strings& listOfStrings, std::string_view mainString, size_t const targetLength);
+void splitLinesToAchieveTargetLength(strings& listOfStrings, std::string_view mainText, size_t const targetLength);
 void splitToStringsUsingASeriesOfDelimeters(
     strings& listOfStrings, std::string_view mainString, strings const& seriesOfDelimiters);
-
 // basic_string variants
 template <typename StringType>
-constexpr bool isBasicStringVariant() {
-    return typeHelper::areSameTypes<StringType, std::string_view>() ||
+constexpr bool isBasicStringVariant() {    return typeHelper::areSameTypes<StringType, std::string_view>() ||
            typeHelper::areSameTypes<StringType, std::string>() ||
            typeHelper::areSameTypes<StringType, std::wstring>() ||
            typeHelper::areSameTypes<StringType, std::u16string>() ||
@@ -180,27 +177,25 @@ OutputStringType convertToAnotherBasicStringVariant(InputStringType const& input
 
 // Alignments
 
-std::string getStringWithJustifyAlignment(std::string_view mainString, size_t const targetLength);
-std::string getStringWithCenterAlignment(std::string_view mainString, size_t const targetLength);
-std::string getStringWithRightAlignment(std::string_view mainString, size_t const targetLength);
-std::string getStringWithLeftAlignment(std::string_view mainString, size_t const targetLength);
+std::string getStringWithJustifyAlignment(std::string_view mainText, size_t const targetLength);
+std::string getStringWithCenterAlignment(std::string_view mainText, size_t const targetLength);
+std::string getStringWithRightAlignment(std::string_view mainText, size_t const targetLength);
+std::string getStringWithLeftAlignment(std::string_view mainText, size_t const targetLength);
 
 // PathHelpers
 
 std::string getCorrectPathWithoutUrlParameters(std::string_view path);
 std::string getUrlParameters(std::string_view path);
 std::string getCorrectPathWithReplacedSlashCharacters(std::string_view path, std::string_view slashCharacterString);
-std::string getCorrectPathWithoutDoublePeriod(std::string_view mainString, std::string_view slashCharacterString);
-std::string getStringBeforeDoublePeriod(std::string_view mainString, std::string_view slashCharacterString);
-std::string getImmediateDirectoryName(std::string_view mainString, std::string_view slashCharacterString);
+std::string getCorrectPathWithoutDoublePeriod(std::string_view path, std::string_view slashCharacterString);
+std::string getStringBeforeDoublePeriod(std::string_view path, std::string_view slashCharacterString);
+std::string getImmediateDirectoryName(std::string_view path, std::string_view slashCharacterString);
 template <char slashCharacterString>
 std::string getCorrectPathWithReplacedSlashCharacters(std::string_view path);
-template <char slashCharacterString>
-std::string getCorrectPathWithoutDoublePeriod(std::string_view path);
+template <char slashCharacterString>std::string getCorrectPathWithoutDoublePeriod(std::string_view path);
 template <char slashCharacterString>
 std::string getStringBeforeDoublePeriod(std::string_view path);
-template <char slashCharacterString>
-std::string getImmediateDirectoryName(std::string_view path);
+template <char slashCharacterString>std::string getImmediateDirectoryName(std::string_view path);
 
 // string to type converters
 // NOTE: Consider stoul, stoull, stoi, stol, stoll, stof, stod, stold for this conversions
