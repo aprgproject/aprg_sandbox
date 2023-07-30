@@ -9,7 +9,8 @@ The type "int" has minimum size of 16.
 The difference between "long long" and "long long long" is the guarantee of the minimum size.The floating types have a minimum number of significant digits.
 -------------------------------------------------------------------
 Table 2.1: C++: Arithmetic Types (taken from C++ Primer)
--------------------------------------------------------------------Type           | Meaning                           | Minimum Size
+-------------------------------------------------------------------
+Type           | Meaning                           | Minimum Size
 -------------------------------------------------------------------
 bool           | boolean                           | NA
 char           | character                         | 8 bits
@@ -38,7 +39,8 @@ A few rules of thumb can be useful in deciding which type to use:
 If your data values are larger than the minimum guaranteed size of an int, then use long long.• Do not use plain char or bool in arithmetic expressions.
 Use them only to hold characters or truth values. 
 Computations using char are especially problematic because char is signed on some machines and unsigned on others. 
-If you need a tiny integer, explicitly specify either signed char or unsigned char.• Use double for floating-point computations; float usually does not have enough precision, 
+If you need a tiny integer, explicitly specify either signed char or unsigned char.
+• Use double for floating-point computations; float usually does not have enough precision, 
 and the cost of double-precision calculations versus single precision is negligible. 
 In fact, on some machines, double-precision operations are faster than single. 
 The precision offered by long double usually is unnecessary and often entails considerable run-time cost.
@@ -49,7 +51,8 @@ The precision offered by long double usually is unnecessary and often entails co
 Type ConversionsThe type of an object defines the data that an object might contain and what operations that object can perform. 
 Among the operations that many types support is the ability to convert objects of the given type to other, related types.
 Type conversions happen automatically when we use an object of one type where an object of another type is expected. 
-We’ll have more to say about conversions in § 4.11 (p. 159), but for now it is useful to understand what happens when we assign a value of one type to an object of another type.When we assign one arithmetic type to another:
+We’ll have more to say about conversions in § 4.11 (p. 159), but for now it is useful to understand what happens when we assign a value of one type to an object of another type.
+When we assign one arithmetic type to another:
 bool b = 42; // b is true
 int i = b; // i has value 1
 i = 3.14; // i has value 3
@@ -86,7 +89,8 @@ Some characters, such as backspace or control characters, have no visible image.
 Such characters are nonprintable. Other characters (single and double quotation marks, question mark, and backslash) have special meaning in the language. 
 Our programs cannot use any of these characters directly. 
 Instead, we use an escape sequence to represent such characters. 
-An escape sequence begins with a backslash.The language defines several escape sequences:
+An escape sequence begins with a backslash.
+The language defines several escape sequences:
 newline \n 
 horizontal tab \t 
 alert (bell) \a
@@ -116,7 +120,8 @@ The value represents the numerical value of the character. Some examples (assumi
 We can override the default type of an integer, floating- point, or character literal by supplying a suffix or prefix as listed in Table 2.2.
 -------------------------------------------------------------------
 Character and Character String Literals
--------------------------------------------------------------------Prefix | Meaning | Type
+-------------------------------------------------------------------
+Prefix | Meaning | Type
 -------------------------------------------------------------------
 u      | Unicode 16 character         | char16_t
 U      | Unicode 32 character         | char32_t
@@ -157,6 +162,7 @@ The values used to initialize a variable can be arbitrarily complicated expressi
 Thus, it is possible to initialize a variable to the value of one defined earlier in the same definition.
 double price = 109.99, discount = price * 0.16; // ok: price is defined and initialized before it is used to initialize discount
 double salePrice = applyDiscount(price, discount); // ok: call applyDiscount and use the return value to initialize salePrice
+
 Initialization in C++ is a surprisingly complicated topic and one we will return to again and again. 
 Many programmers are confused by the use of the = symbol to initialize a variable. 
 It is tempting to think of initialization as a form of assignment, but initialization and assignment are different operations in C++. 
@@ -178,6 +184,7 @@ For example, we can use any of the following four different ways to define an in
 int units_sold = {0};
 int units_sold{0};
 int units_sold(0);
+
 When used with variables of built-in type, this form of initialization has one important property: 
 The compiler will not let us list initialize variables of built-in type if the initializer might lead to the loss of information:
 long double ld = 3.1415926536;
@@ -215,7 +222,8 @@ In § 2.2.1 (p. 43) we saw that C++ has several different forms of initializatio
 Using strings, we can start to understand how these forms differ from one another.When we initialize a variable using =,
 we are asking the compiler to copy initialize the object by copying the initializer on the right-hand side into the object being created. 
 Otherwise, when we omit the =, we use direct initialization.
-When we have a single initializer, we can use either the direct or copy form of initialization. When we initialize a variable from more than one value, such as in the initialization of s4 above, 
+When we have a single initializer, we can use either the direct or copy form of initialization. 
+When we initialize a variable from more than one value, such as in the initialization of s4 above, 
 we must use the direct form of initialization:
 string s5 = "hiya"; // copy initialization
 string s6("hiya"); // direct initialization
@@ -236,7 +244,8 @@ We can usually omit the value and supply only a size.
 In this case the library creates a value-initialized element initializer for us. This library-generated value is used to initialize each element in the container. 
 The value of the element initializer depends on the type of the elements stored in the vector.
 If the vector holds elements of a BUILT-IN TYPE, such as int, then the element initializer has a value of 0. 
-If the elements are of a CLASS TYPE, such as string, then the element initializer is itself default initialized:vector<int> ivec(10); // ten elements, each initialized to 0
+If the elements are of a CLASS TYPE, such as string, then the element initializer is itself default initialized:
+vector<int> ivec(10); // ten elements, each initialized to 0
 vector<string> svec(10); // ten elements, each an empty string
 There are two restrictions on this form of initialization: 
 The first restriction is that some classes require that we always supply an explicit initializer (§ 2.2.1, p. 44). 
@@ -252,7 +261,8 @@ An uninitialized variable has an indeterminate value.
 Trying to use the value of an uninitialized variable is an error that is often hard to debug. Moreover, the compiler is not required to detect such errors, although most will warn about at least some uses of uninitialized variables.
 What happens when we use an uninitialized variable is undefined. 
 Sometimes, we’re lucky and our program crashes as soon as we access the object. 
-Once we track down the location of the crash, it is usually easy to see that the variable was not properly initialized. Other times, the program completes but produces erroneous results.
+Once we track down the location of the crash, it is usually easy to see that the variable was not properly initialized. 
+Other times, the program completes but produces erroneous results.
 Even worse, the results may appear correct on one run of our program but fail on a subsequent run. 
 Moreover, adding code to the program in an unrelated location can cause what we thought was a correct program to start producing incorrect results.
 
@@ -272,7 +282,8 @@ C++ is a statically typed language, which means that types are checked at compil
 The process by which types are checked is referred to as type checking.As we’ve seen, the type of an object constrains the operations that the object can perform. 
 In C++, the compiler checks whether the operations we write are supported by the types we use. 
 If we try to do things that the type does not support, the compiler generates an error message and does not produce an executable file.
-As our programs get more complicated, we’ll see that static type checking can help find bugs. However, a consequence of static checking is that the type of every entity we use must be known to the compiler. 
+As our programs get more complicated, we’ll see that static type checking can help find bugs. 
+However, a consequence of static checking is that the type of every entity we use must be known to the compiler. 
 As one example, we must declare the type of a variable before we can use that variable.
 
 
@@ -340,7 +351,8 @@ Debugging problems due to pointer errors bedevil even experienced programmers.
 -> NOTE: Taking the Address of an ObjectA pointer holds the address of another object. 
 We get the address of an object by using the address-of operator (the & operator):
 int ival = 42;
-int *p = &ival; // p holds the address of ival; p is a pointer to ivalWith two exceptions, which we cover in § 2.4.2 (p. 62) and § 15.2.3 (p. 601), 
+int *p = &ival; // p holds the address of ival; p is a pointer to ival
+With two exceptions, which we cover in § 2.4.2 (p. 62) and § 15.2.3 (p. 601), 
 the types of the pointer and the object to which it points must match:
 double dval;
 double *pd = &dval; // ok: initializer is the address of a double
@@ -363,7 +375,8 @@ When a pointer points to an object, we can use the dereference operator (the * o
 int ival = 42;int *p = &ival; // p holds the address of ival; p is a pointer to ival
 cout << *p; // * yields the object to which p points; prints 42
 Dereferencing a pointer yields the object to which the pointer points. 
-We can assign to that object by assigning to the result of the dereference:*p = 0; // * yields the object; we assign a new value to ival through p
+We can assign to that object by assigning to the result of the dereference:
+*p = 0; // * yields the object; we assign a new value to ival through p
 cout << *p; // prints 0
 When we assign to *p, we are assigning to the object to which p points.
 
@@ -378,7 +391,8 @@ Some symbols, such as & and *, are used as both an operator in an expression and
 The context in which a symbol is used determines what the symbol means:int i = 42;
 int &r = i; // & follows a type and is part of a declaration; r is a reference
 int *p; // * follows a type and is part of a declaration; p is a pointer
-p = &i; // & is used in an expression as the address-of operator*p = i; // * is used in an expression as the dereference operator
+p = &i; // & is used in an expression as the address-of operator
+*p = i; // * is used in an expression as the dereference operator
 int &r2 = *p; // & is part of the declaration; * is the dereference operator
 In declarations, & and * are used to form compound types. 
 In expressions, these same symbols are used to denote an operator. 
@@ -406,7 +420,8 @@ A reference is not an object.
 Hence, we may not have a pointer to a reference.However, because a pointer is an object, we can define a reference to a pointer:
 int i = 42;
 int *p; // p is a pointer to int
-int *&r = p; // r is a reference to the pointer pr = &i; // r refers to a pointer; assigning &i to r makes p point to i
+int *&r = p; // r is a reference to the pointer p
+r = &i; // r refers to a pointer; assigning &i to r makes p point to i
 *r = 0; // dereferencing r yields i, the object to which p points; changes i to 0
 
 
@@ -416,7 +431,8 @@ To define a single instance of a const variable, we use the keyword extern on bo
 // file_1.cc defines and initializes a const that is accessible to other filesextern const int bufSize = fcn();
 // file_1.h
 extern const int bufSize; // same bufSize as defined in file_1.cc
-In this program, file_1.cc defines and initializes bufSize. Because this declaration includes an initializer, it is (as usual) a definition.
+In this program, file_1.cc defines and initializes bufSize. 
+Because this declaration includes an initializer, it is (as usual) a definition.
 However, because bufSize is const, we must specify extern in order for bufSize to be used in other files.
 The declaration in file_1.h is also extern. 
 In this case, the extern signifies that bufSize is not local to this file and that its definition will occur elsewhere.
@@ -434,7 +450,8 @@ As usual, the initializer may be an arbitrarily complicated expression:
 const int i = get_size(); // ok: initialized at run timeconst int j = 42; // ok: initialized at compile time
 const int k; // error
 pointer examples:
-int i, *const cp;       // error: cp is uninitialized constint *p1, *const p2;     // error: p2 is uninitialized const
+int i, *const cp;       // error: cp is uninitialized const
+int *p1, *const p2;     // error: p2 is uninitialized const
 const int ic, &r = ic;  // error: ic is uninitialized const
 const int *const p3;    // error: p3 is uninitialized const
 const int *p;           // no error
@@ -461,7 +478,8 @@ In § 2.3.1 (p. 51) we noted that there are two exceptions to the rule that the 
 The first exception is that we can initialize a reference to const from any expression that can be converted (§ 2.1.2, p. 35) to the type of the reference. In particular, we can bind a reference to const to a nonconst object, a literal, or a more general expression:
 int i = 42;
 const int &r1 = i; // we can bind a const int& to a plain int object
-const int &r2 = 42; // ok: r1 is a reference to constconst int &r3 = r1 * 2; // ok: r3 is a reference to const
+const int &r2 = 42; // ok: r1 is a reference to const
+const int &r3 = r1 * 2; // ok: r3 is a reference to const
 int &r4 = r * 2; // error: r4 is a plain, nonconst reference
 The easiest way to understand this difference in initialization rules is to consider what happens when we bind a reference to an object of a different type:
 double dval = 3.14;
@@ -490,7 +508,8 @@ It is important to realize that a reference to const restricts only what we can 
 Binding a reference to const to an object says nothing about whether the underlying object itself is const. Because the underlying object might be nonconst, it might be changed by other means:
 int i = 42;
 int &r1 = i; // r1 bound to i
-const int &r2 = i; // r2 also bound to i; but cannot be used to change ir1 = 0; // r1 is not const; i is now 0
+const int &r2 = i; // r2 also bound to i; but cannot be used to change i
+r1 = 0; // r1 is not const; i is now 0
 r2 = 0; // error: r2 is a reference to const
 Binding r2 to the (nonconst) int i is legal. 
 However, we cannot use r2 to change i. 
@@ -505,7 +524,8 @@ It is important to understand that when we define a pointer in a constexpr decla
 the constexpr specifier applies to the pointer, not the type to which the pointer points:const int *p = nullptr; // p is a pointer to a const int
 constexpr int *q = nullptr; // q is a const pointer to int
 Despite appearances, the types of p and q are quite different; p is a pointer to const, whereas q is a constant pointer. 
-The difference is a consequence of the fact that constexpr imposes a top-level const (§ 2.4.3, p. 63) on the objects it defines.Like any other constant pointer, a constexpr pointer may point to a const or a nonconst type:
+The difference is a consequence of the fact that constexpr imposes a top-level const (§ 2.4.3, p. 63) on the objects it defines.
+Like any other constant pointer, a constexpr pointer may point to a const or a nonconst type:
 constexpr int *np = nullptr; // np is a constant pointer to int that is null
 int j = 0;
 constexpr int i = 42; // type of i is const int
@@ -520,7 +540,8 @@ Declarations that use type aliases that represent compound types and const can y
 For example, the following declarations use the type pstring, which is an alias for the the type char*:typedef char *pstring;
 const pstring cstr = 0; // cstr is a constant pointer to char
 const pstring *ps; // ps is a pointer to a constant pointer to char
-The base type in these declarations is const pstring. As usual, a const that appears in the base type modifies the given type. 
+The base type in these declarations is const pstring. 
+As usual, a const that appears in the base type modifies the given type. 
 The type of pstring is “pointer to char.” 
 So, const pstring is a constant pointer to char — not a pointer to const char.
 It can be tempting, albeit incorrect, to interpret a declaration that uses a type alias by conceptually replacing the alias with its corresponding type:
@@ -554,7 +575,8 @@ As usual in initializations, low-level consts, such as when an initializer is a 
 int i;const int ci = i, &cr = ci;
 auto b = ci; // b is an int (top-level const in ci is dropped)
 auto c = cr; // c is an int (cr is an alias for ci whose const is top-level)
-auto d = &i; // d is an int* (& of an int object is int*)auto e = &ci; // e is const int* (& of a const object is low-level const)
+auto d = &i; // d is an int* (& of an int object is int*)
+auto e = &ci; // e is const int* (& of a const object is low-level const)
 If we want the deduced type to have a top-level const, we must say so explicitly:
 const auto f = ci; // deduced type of ci is int; f has type const int
 We can also specify that we want a reference to the auto-deduced type. 
@@ -591,7 +613,8 @@ Like any other reference, z must be initialized.
 -> NOTE: decltype and ReferencesWhen we apply decltype to an expression that is not a variable, we get the type that that expression yields. 
 As we’ll see in § 4.1.1 (p. 135), some expressions will cause decltype to yield a reference type. 
 Generally speaking, decltype returns a reference type for expressions that yield objects that can stand on the left-hand side of the assignment:
-// decltype of an expression can be a reference typeint i = 42, *p = &i, &r = i;
+// decltype of an expression can be a reference type
+int i = 42, *p = &i, &r = i;
 decltype(r + 0) b; // ok: addition yields an int; b is an (uninitialized) int
 decltype(*p) c; // error: c is int& and must be initialized
 Another important difference between decltype and auto is that the deduction done by decltype depends on the form of its given expression. 
@@ -617,7 +640,8 @@ We can usually omit the value and supply only a size.
 In this case the library creates a value-initialized element initializer for us. This library-generated value is used to initialize each element in the container. 
 The value of the element initializer depends on the type of the elements stored in the vector.
 If the vector holds elements of a built-in type, such as int, then the element initializer has a value of 0. 
-If the elements are of a class type, such as string, then the element initializer is itself default initialized:vector<int> ivec(10); // ten elements, each initialized to 0
+If the elements are of a class type, such as string, then the element initializer is itself default initialized:
+vector<int> ivec(10); // ten elements, each initialized to 0
 vector<string> svec(10); // ten elements, each an empty string
 
 
@@ -641,7 +665,8 @@ That null character is copied into the array along with the characters in the li
 char a1[] = {’C’, ’+’, ’+’}; // list initialization, no nullchar a2[] = {’C’, ’+’, ’+’, ’\0’}; // list initialization, explicit null
 char a3[] = "C++"; // null terminator added automatically
 const char a4[6] = "Daniel"; // error: no space for the null!
-The dimension of a1 is 3; the dimensions of a2 and a3 are both 4. The definition of a4 is in error. 
+The dimension of a1 is 3; the dimensions of a2 and a3 are both 4. 
+The definition of a4 is in error. 
 Although the literal contains only six explicit characters, the array size must be at least seven—six to hold the literal and one for the null.
 
 
@@ -660,7 +685,8 @@ Programs that use such features, will not work with a different compiler.
 -> NOTE: Lvalues and RvaluesEvery expression in C++ is either an rvalue (pronounced “are-value”) or an lvalue (pronounced “ell-value”). 
 These names are inherited from C and originally had a simple mnemonic purpose: 
 lvalues could stand on the left-hand side of an assignment whereas rvalues could not.
-In C++, the distinction is less simple. In C++, an lvalue expression yields an object or a function. 
+In C++, the distinction is less simple. 
+In C++, an lvalue expression yields an object or a function. 
 However, some lvalues, such as const objects, may not be the left-hand operand of an assignment. 
 Moreover, some expressions yield objects but return them as rvalues, not lvalues. 
 Roughly speaking, when we use an object as an rvalue, we use the object’s value (ITS CONTENTS). 
@@ -684,7 +710,8 @@ Precedence specifies how the operands are grouped.
 It says nothing about the order in which the operands are evaluated. In most cases, the order is largely unspecified. 
 In the following expression
 int i = f1() * f2();
-we know that f1 and f2 must be called before the multiplication can be done. After all, it is their results that are multiplied. 
+we know that f1 and f2 must be called before the multiplication can be done. 
+After all, it is their results that are multiplied. 
 However, we have no way of knowing whether f1 will be called before f2 or vice versa.
 For operators that do not specify evaluation order, it is an error for an expression to refer to and change the same object. 
 Expressions that do so have undefined behavior (§ 2.1.2, p. 36). 
@@ -710,7 +737,8 @@ Order of operand evaluation is independent of precedence and associativity.
 In an expression such as f() + g() * h() + j():• Precedence guarantees that the results of g() and h() are multiplied.
 • Associativity guarantees that the result of f() is added to the product of g() and h() and that the result of that addition is added to the value of j().
 • There are no guarantees as to the order in which these functions are called.
-If f, g, h, and j are independent functions that do not affect the state of the same objects or perform IO, then the order in which the functions are called is irrelevant.
+If f, g, h, and j are independent functions that do not affect the state of the same objects or perform IO, 
+then the order in which the functions are called is irrelevant.
 If any of these functions do affect the same object, then the expression is in error and has undefined behavior.
 
 
@@ -728,7 +756,8 @@ Unlike the other binary operators, assignment is right associative:
 int ival, jval;ival = jval = 0; // ok: each assigned 0
 Because assignment is right associative, the right-most assignment, jval = 0, is the right-hand operand of the left-most assignment operator. 
 Because assignment returns its left-hand operand, the result of the right-most assignment (i.e., jval) is assigned to ival.
-int i;double d;
+int i;
+double d;
 d = i = 3.5; // i : [3] d : [3]
 i = d = 3.5; // i : [3] d : [3.5]
 
@@ -739,7 +768,8 @@ Readers from a C background might be surprised that we use the prefix increment 
 The reason is simple: The prefix version avoids unnecessary work. It increments the value and returns the incremented version. 
 The postfix operator must store the original value so that it can return the unincremented value as its result. 
 If we don’t need the unincremented value, there’s no need for the extra work done by the postfix operator.
-For ints and pointers, the compiler can optimize away this extra work. For more complicated iterator types, this extra work potentially might be more costly. 
+For ints and pointers, the compiler can optimize away this extra work. 
+For more complicated iterator types, this extra work potentially might be more costly. 
 By habitually using the prefix versions, we do not have to worry about whether the performance difference matters. 
 Moreover—and perhaps more importantly—we can express the intent of our programs more directly.
 
@@ -750,7 +780,8 @@ Expressions such as *pbeg++ can be bewildering—at first.
 However, it is a useful and widely used idiom. Once the notation is familiar, writing
 cout << *iter++ << endl;
 is easier and less error-prone than the more verbose equivalent
-cout << *iter << endl;++iter;
+cout << *iter << endl;
+++iter;
 It is worthwhile to study examples of such code until their meanings are immediately clear. 
 Most C++ programs use succinct expressions rather than more verbose equivalents.
 Therefore, C++ programmers must be comfortable with such usages. 
@@ -770,7 +801,8 @@ Although many programmers never use the bitwise operators directly,
 most programmers do use overloaded versions of these operators for IO. An overloaded operator has the same precedence and associativity as the built-in version of that operator. 
 Therefore, programmers need to understand the precedence and associativity of the shift operators even if they never use them with their built-in meaning.
 Because the shift operators are left associative, the expression
-cout << "hi" << " there" << endl;executes as
+cout << "hi" << " there" << endl;
+executes as
 ( (cout << "hi") << " there" ) << endl;
 In this statement, the operand "hi" is grouped with the first << symbol. 
 Its result is grouped with the second, and then that result is grouped with the third.
@@ -794,7 +826,8 @@ The left-hand expression is evaluated and its result is discarded.
 The result of a comma expression is the value of its right-hand expression. The result is an lvalue if the right-hand operand is an lvalue.
 One common use for the comma operator is in a for loop:
 vector<int>::size_type cnt = ivec.size();
-// assign values from size . . . 1 to the elements in ivecfor(vector<int>::size_type ix = 0;
+// assign values from size . . . 1 to the elements in ivec
+for(vector<int>::size_type ix = 0;
 ix != ivec.size(); ++ix, --cnt)
 ivec[ix] = cnt;
 
@@ -812,7 +845,8 @@ in assignments, the right-hand operand is converted to the type of the left-hand
 Examples are:-> Integral Promotions
 -> Operands of Unsigned Type
 -> Array to Pointer Conversions
--> Conversions to bool-> Conversion to const
+-> Conversions to bool
+-> Conversion to const
 -> Conversions Defined by Class Types
 
 
@@ -822,7 +856,8 @@ Casts interfere with normal type checking (§ 2.2.2, p. 46).
 As a result, we strongly recommend that programmers avoid casts. This advice is particularly applicable to reinterpret_casts. 
 Such casts are always hazardous. 
 A const_cast can be useful in the context of overloaded functions, which we’ll cover in § 6.4 (p. 232). 
-Other uses of const_cast often indicate a design flaw. The other casts, static_cast and dynamic_cast, should be needed infrequently. 
+Other uses of const_cast often indicate a design flaw. 
+The other casts, static_cast and dynamic_cast, should be needed infrequently. 
 Every time you write a cast, you should think hard about whether you can achieve the same result in a different way.
 If the cast is unavoidable, errors can be mitigated by limiting the scope in which the cast value is used and by documenting all assumptions about the types involved.
 
@@ -833,7 +868,8 @@ It is important to realize that exceptions interrupt the normal flow of a progra
 At the point where the exception occurs, some of the computations that the caller requested may have been done, while others remain undone. In general, bypassing part of the program might mean that an object is left in an invalid or incomplete state, or that a resource is not freed, and so on. 
 Programs that properly “clean up” during exception handling are said to be exception safe. 
 Writing exception safe code is surprisingly hard, and (largely) beyond the scope of this language Primer.
-Some programs use exceptions simply to terminate the program when an exceptional condition occurs. Such programs generally don’t worry about exception safety.
+Some programs use exceptions simply to terminate the program when an exceptional condition occurs. 
+Such programs generally don’t worry about exception safety.
 Programs that do handle exceptions and continue processing generally must be constantly aware of whether an exception might occur 
 and what the program must do to ensure that objects are valid, that resources don’t leak, and that the program is restored to an appropriate state.
 We will occasionally point out particularly common techniques used to promote exception safety. 
@@ -901,7 +937,8 @@ Otherwise, the value of the return depends on the function’s return type.
 using ArrayOfInts int(*)[10];ArrayOfInts func(int i);
 ---> Using a Trailing Return Type
 auto func(int i) -> int(*)[10];
----> Using decltypeint odd[] = {1,3,5,7,9};
+---> Using decltype
+int odd[] = {1,3,5,7,9};
 int even[] = {0,2,4,6,8};
 // returns a pointer to an array of five int elements
 decltype(odd) *arrPtr(int i)
@@ -954,7 +991,8 @@ Once we have defined a set of overloaded functions, we need to be able to call t
 Function matching (also known as overload resolution) is the process by which a particular function call is associated with a specific function from a set of overloaded functions. 
 The compiler determines which function to call by comparing the arguments in the call with the parameters offered by each function in the overload set.
 In many—probably most—cases, it is straightforward for a programmer to determine whether a particular call is legal and, if so, which function will be called.
-Often the functions in the overload set differ in terms of the number of arguments, or the types of the arguments are unrelated. In such cases, it is easy to determine which function is called. 
+Often the functions in the overload set differ in terms of the number of arguments, or the types of the arguments are unrelated. 
+In such cases, it is easy to determine which function is called. 
 Determining which function is called when the overloaded functions have the same number of parameters 
 and those parameters are related by conversions (§ 4.11, p. 159) can be less obvious. 
 We’ll look at how the compiler resolves calls involving conversions in § 6.6 (p. 242).
@@ -1095,6 +1133,7 @@ Example:
 cursor = width * ::height;// which height? the global one
 }
 
+
 -> NOTE: We must use the constructor initializer list to provide values for members 
 that are const, reference, or of a class type that does not have a default constructor.
 class ConstRef {
@@ -1210,7 +1249,8 @@ constexpr int Account::period;
 
 -> NOTE: A static data member can have incomplete type (§ 7.3.3, p. 278).
 ---> ME: One of the many advantages of being static.
-In particular, a static data member can have the same type as the class type of which it is a member. A nonstatic data member is restricted to being declared as a pointer or a reference to an object of its class:
+In particular, a static data member can have the same type as the class type of which it is a member. 
+A nonstatic data member is restricted to being declared as a pointer or a reference to an object of its class:
 class Bar {
 public:
 // . . .
@@ -1363,6 +1403,7 @@ There are a few rules of thumb that apply to selecting which container to use:
 
 -> NOTE: If you’re not sure which container to use, write your code so that it uses only operations common to both vectors and lists: Use iterators, not subscripts, and avoid random access to elements. 
 That way it will be easy to use either a vector or a list as necessary.
+
 
 -> NOTE: Iterator Ranges
 The concept of an iterator range is fundamental to the standard library.
@@ -1686,7 +1727,8 @@ This is because the elements before the removal point are not moved when the vec
 -> NOTE: It is a serious run-time error to use an iterator, pointer, or reference that has been invalidated.
 
 -> NOTE: ADVICE: MANAGING ITERATORS
-When you use an iterator (or a reference or pointer to a container element), it is a good idea to minimize the part of the program during which an iterator must stay valid.
+When you use an iterator (or a reference or pointer to a container element), 
+it is a good idea to minimize the part of the program during which an iterator must stay valid.
 Because code that adds or removes elements to a container can invalidate iterators, 
 you need to ensure that the iterator is repositioned, as appropriate, 
 after each operation that changes the container. 
@@ -1722,7 +1764,8 @@ There is no guarantee that a call to shrink_to_fit will return memory.
 -> NOTE: Container Size Managementshrink_to_fit valid only for vector, string, and deque.
 capacity and reserve valid only for vector and string.
 1) shrink_to_fit()
-c.shrink_to_fit() Request to reduce capacity() to equal size().
+c.shrink_to_fit() 
+Request to reduce capacity() to equal size().
 2) capacity()
 c.capacity() 
 Number of elements c can have before reallocation is necessary.
@@ -1915,7 +1958,8 @@ Returns, but does not remove, the top element on the stack.
 
 -> NOTE: queue, priority_queue Operations in Addition to Table 9.17
 By default queue uses deque and priority_queue uses vector;
-queue can use a list or vector as well, priority_queue can use a deque.1) q.pop() 
+queue can use a list or vector as well, priority_queue can use a deque.
+1) q.pop() 
 Removes, but does not return, the front element or highest-priority element from the queue or priority_queue, respectively.
 2) q.front() and q.back()
 Returns, but does not remove, the front or back element of q. Valid only for queue
@@ -1939,6 +1983,7 @@ The algorithm itself, however, never does so.
 
 -> NOTE: The type of the third argument to accumulate determines which addition operator is used and is the type that accumulate returns.
 int sum = accumulate(vec.cbegin(), vec.cend(), 0); // sum the elements in vec starting the summation with the value 0
+
 
 -> NOTE: Ordinarily it is best to use cbegin() and cend() (§ 9.2.3, p. 334) with algorithms that read, but do not write, the elements. 
 However, if you plan to use the iterator returned by the algorithm to change an element’s value, then you need to pass begin() and end().
@@ -2027,7 +2072,8 @@ Capturing an ordinary variable—an int, a string, or other nonpointer type— b
 In this case, we only need to care whether the variable has the value we need when we capture it.If we capture a pointer or iterator, or capture a variable by reference, 
 we must ensure that the object bound to that iterator, pointer, or reference still exists, 
 whenever the lambda executes. 
-Moreover, we need to ensure that the object has the intended value. Code that executes between when the lambda is created and when it executes might change 
+Moreover, we need to ensure that the object has the intended value. 
+Code that executes between when the lambda is created and when it executes might change 
 the value of the object to which the lambda capture points (or refers).
 The value of the object at the time the pointer (or reference) was captured might have been what we wanted. 
 The value of that object when the lambda executes might be quite different.
@@ -2197,7 +2243,8 @@ Elements are inserted ahead of the element denoted by the given iterator.
 -> NOTE: We can use front_inserter only if the container has push_front.Similarly, we can use back_inserter only if it has push_back.
 
 
--> NOTE: Insert Iterator Operations1) it = t 
+-> NOTE: Insert Iterator Operations
+1) it = t 
 Inserts the value t at the current position denoted by it. 
 Depending on the kind of insert iterator, and assuming c is the container to which it is bound, 
 calls c.push_back(t), c.push_front(t), or c.insert(t, p), where p is the iterator position given to inserter.
@@ -2246,7 +2293,8 @@ Returns the value read from the stream.
 5) in->mem Synonym for (*in).mem.
 6) ++in, in++ 
 Reads the next value from the input stream using the >> operator for the element type. 
-As usual, the prefix version returns a reference to the incremented iterator. The postfix version returns the old value.
+As usual, the prefix version returns a reference to the incremented iterator. 
+The postfix version returns the old value.
 
 
 -> NOTE: istream_iterators Are Permitted to Use Lazy Evaluation
@@ -2459,7 +2507,8 @@ Using inserter, we can use the associative container as a destination for anothe
 -> NOTE: Associative Container insert Operations1) c.insert(v) or c.emplace(args)
 v value_type object; args are used to construct an element.
 For map and set, the element is inserted (or constructed) only if an element with the given key is not already in c. 
-Returns a pair containing an iterator referring to the element with the given key and a bool indicating whether the element was inserted.For multimap and multiset, inserts (or constructs) the given element and returns an iterator to the new element.
+Returns a pair containing an iterator referring to the element with the given key and a bool indicating whether the element was inserted.
+For multimap and multiset, inserts (or constructs) the given element and returns an iterator to the new element.
 2) c.insert(b, e) c.insert(il) (ME: YOU CAN HAVE INITIALIZER LIST IN INSERT)
 b and e are iterators that denote a range of c::value_type values;
 il is a braced list of such values. 
@@ -2557,6 +2606,7 @@ Returns an iterator to the first element with key NOT less than k.
 Returns a pair of iterators denoting the elements with key k. 
 If k is not present, both members are c.end().
 
+
 -> NOTE: We are guaranteed that iterating across a multimap or multiset returns all the elements with a given key in sequence.
 
 
@@ -2615,6 +2665,7 @@ Rather than using a comparison operation to organize their elements, these conta
 An unordered container is most usefulwhenwe have a key type forwhich there is no obvious ordering relationship among the elements. 
 These containers are also useful for applications in which the cost of maintaining the elements in order is prohibitive.
 
+
 -> NOTE: Although hashing gives better average case performance in principle, 
 achieving good results in practice often requires a fair bit of performance testing and tweaking. 
 As a result, it is usually easier (and often yields better performance) to use an ordered container.
@@ -2636,6 +2687,7 @@ These containers use a hash function to map elements to buckets.
 To access an element, the container first computes the element’s hash code, which tells which bucket to search. 
 The container puts all of its elements with a given hash value into the same bucket. If the container allows multiple elements with a given key, all the elements with the same key will be in the same bucket. 
 As a result, the performance of an unordered container depends on the quality of its hash function and on the number and size of its buckets.
+
 
 -> NOTE: Unordered Container Management Operations
 -------------------------------------------------------------------------------------
@@ -2692,7 +2744,8 @@ Our programs have used only static or stack memory.
 Static memory is used for local static objects (§ 6.1.1, p. 205), for class static data members (§ 7.6, p. 300), and for variables defined outside any function. 
 Stack memory is used for nonstatic objects defined inside functions. 
 Objects allocated in static or stack memory are automatically created and destroyed by the compiler. 
-Stack objects exist only while the block in which they are defined is executing; static objects are allocated before they are used, and they are destroyed when the program ends.
+Stack objects exist only while the block in which they are defined is executing; 
+static objects are allocated before they are used, and they are destroyed when the program ends.
 In addition to static or stack memory, every programalso has a pool of memory that it can use. 
 This memory is referred to as the free store or heap. 
 Programs use the heap for objects that they dynamically allocate—that is, 
@@ -2705,6 +2758,7 @@ our code must explicitly destroy such objects when they are no longer needed.
 
 -> NOTE: To make using dynamic memory easier (and safer), the new library provides two smart pointer types that manage dynamic objects. 
 A smart pointer acts like a regular pointer with the important exception that it automatically deletes the object to which it points.
+
 
 -> NOTE: The shared_ptr Class
 Like vectors, smart pointers are templates (§ 3.3, p. 96). 
@@ -2877,7 +2931,8 @@ auto p2 = new auto{a,b,c}; // error: must use parentheses for the initializer
 
 -> NOTE: Dynamically Allocated const Objects
 It is legal to use new to allocate const objects:
-// allocate and initialize a const intconst int *pci = new const int(1024);
+// allocate and initialize a const int
+const int *pci = new const int(1024);
 // allocate a default-initialized const empty string
 const string *pcs = new const string;
 Like any other const, a dynamically allocated const object must be initialized.
@@ -2892,7 +2947,8 @@ Although modern machines tend to have huge memory capacity, it is always possibl
 Once a program has used all of its available memory, new expressions will fail. By default, if new is unable to allocate the requested storage, it throws an exception of type bad_alloc (§ 5.6, p. 193). 
 We can prevent new from throwing an exception by using a different form of new:
 // if allocation fails, new returns a null pointer
-int *p1 = new int; // if allocation fails, new throws std::bad_allocint *p2 = new (nothrow) int; // if allocation fails, new returns a null pointer
+int *p1 = new int; // if allocation fails, new throws std::bad_alloc
+int *p2 = new (nothrow) int; // if allocation fails, new returns a null pointer
 
 For reasons we’ll explain in § 19.1.2 (p. 824) this form of new is referred to as placement new. 
 A placement new expression lets us pass additional arguments to new.
@@ -2903,7 +2959,8 @@ Both bad_alloc and nothrow are defined in the new header.
 
 -> NOTE: Freeing Dynamic Memory
 In order to prevent memory exhaustion, we must return dynamically allocated memory to the system once we are finished using it. 
-We return memory through a delete expression. A delete expression takes a pointer to the object we want to free:
+We return memory through a delete expression. 
+A delete expression takes a pointer to the object we want to free:
 delete p; // p must point to a dynamically allocated object or be null
 Like new, a delete expression performs two actions: 
 It destroys the object to which its given pointer points, and it frees the corresponding memory.
@@ -3181,6 +3238,7 @@ Unlike shared_ptr, only one unique_ptr at a time can point to a given object. Th
 Table 12.4 lists the operations specific to unique_ptrs. 
 The operations common to both were covered in Table 12.1 (p. 452).
 
+
 -> NOTE: Unlike shared_ptr, there is no library function comparable to make_shared that returns a unique_ptr. (ME: THERES MAKE_UNIQUE)
 Instead, when we define a unique_ptr, we bind it to a pointer returned by new. 
 As with shared_ptrs, we must use the direct form of initialization:
@@ -3210,7 +3268,8 @@ Thus, p2 is initialized from the pointer value that had been stored in p1 and p1
 Null unique_ptrs that can point to objects of type T. u1 will use delete to free its pointer; 
 u2 will use a callable object of type D to free its pointer.
 2) unique_ptr<T, D> u(d) 
-Null unique_ptr that point to objects of type T that uses d,which must be an object of type D in place of delete.
+Null unique_ptr that point to objects of type T that uses d,
+which must be an object of type D in place of delete.
 u = nullptr Deletes the object to which u points; makes u null.
 3) u.release() 
 Relinquishes control of the pointer u had held; returns the pointer u had held and makes u null.
@@ -3327,7 +3386,8 @@ The new and delete operators allocate objects one at a time.
 Some applications, need the ability to allocate storage for many objects at once. For example, vectors and strings store their elements in contiguous memory 
 and must allocate several elements at once whenever the container has to be reallocated (§ 9.4, p. 355).
 
-To support such usage, the language and library provide two ways to allocate an array of objects at once. The language defines a second kind of new expression that allocates and initializes an array of objects. 
+To support such usage, the language and library provide two ways to allocate an array of objects at once. 
+The language defines a second kind of new expression that allocates and initializes an array of objects. 
 The library includes a template class named allocator that lets us separate allocation from initialization. 
 For reasons we’ll explain in § 12.2.2 (p. 481), using an allocator generally provides better performance and more flexible memory management.
 
@@ -3494,7 +3554,8 @@ alloc.construct(q++); // *q is the empty string
 alloc.construct(q++, 10, ’c’); // *q is ccccccccccalloc.construct(q++, "hi"); // *q is hi!
 In earlier versions of the library, construct took only two arguments: 
 the pointer at which to construct an object and a value of the element type. 
-As a result, we could only copy an element into unconstructed space, we could not use any other constructor for the element type.It is an error to use raw memory in which an object has not been constructed:
+As a result, we could only copy an element into unconstructed space, we could not use any other constructor for the element type.
+It is an error to use raw memory in which an object has not been constructed:
 cout << *p << endl; // ok: uses the string output operator
 cout << *q << endl; // disaster: q points to unconstructed memory!
 
@@ -3586,7 +3647,8 @@ These functions construct elements in the destination, rather than assigning to 
 ) uninitialized_copy(b, e, b2)Copies elements from the input range denoted by iterators b and e into unconstructed, raw memory denoted by the iterator b2. 
 The memory denoted by b2 must be large enough to hold a copy of the elements in the input range.
 ) uninitialized_copy_n(b, n, b2)
-Copies n elements starting from the one denoted by the iterator b into raw memory starting at b2.) uninitialized_fill(b, e, t)
+Copies n elements starting from the one denoted by the iterator b into raw memory starting at b2.
+) uninitialized_fill(b, e, t)
 Constructs objects in the range of raw memory denoted by iterators b and e as a copy of t.
 ) uninitialized_fill_n(b, n, t)
 Constructs an unsigned number n objects starting at b. b must denote unconstructed, 
@@ -3608,6 +3670,7 @@ A case where std::uninitialized_copy is useful is reusal of raw memory, such as 
 When we define a class, we specify—explicitly or implicitly—what happens 
 when objects of that class type are copied, moved, assigned, and destroyed.A class controls these operations by defining five special member functions: 
 copy constructor, copy-assignment operator, move constructor, move-assignment operator, and destructor.
+
 
 -> NOTE: Copy control is an essential part of defining any C++ class. 
 Programmers new to C++ are often confused by having to define 
@@ -3777,6 +3840,7 @@ The destructor is used automatically whenever an object of its type is destroyed
 
 -> NOTE: The destructor is not run when a reference or a pointer to an object goes out of scope.
 
+
 -> NOTE: The Synthesized Destructor
 The compiler defines a synthesized destructor for any class that does not define its own destructor. 
 As with the copy constructor and the copy-assignment operator, for some classes, 
@@ -3798,7 +3862,8 @@ We can define one or two of them without having to define all of them.
 However, ordinarily these operations should be thought of as a unit. In general, it is unusual to need one without needing to define them all.
 
 
--> NOTE: Classes That Need Destructors Need Copy and AssignmentOne rule of thumb to use when you decide whether a class needs to define its own versions 
+-> NOTE: Classes That Need Destructors Need Copy and Assignment
+One rule of thumb to use when you decide whether a class needs to define its own versions 
 of the copy-control members is to decide first whether the class needs a destructor. 
 Often, the need for a destructor is more obvious than the need for the copy constructor or assignment operator. 
 If the class needs a destructor, it almost surely needs a copy constructor and copy-assignment operator as well.
@@ -3965,6 +4030,7 @@ Once a class needs a destructor, it almost surely needs a copy constructor and c
 In order to define these members, we first have to decide what copying an object of our type will mean. In general, we have two choices: 
 We can define the copy operations to make the class behave like a value or like a pointer.
 
+
 -> NOTE: Classes that behave like values have their own state. 
 When we copy a valuelike object, the copy and the original are independent of each other. 
 Changes made to the copy have no effect on the original, and vice versa.
@@ -3999,7 +4065,8 @@ HasPtr& HasPtr::operator=(const HasPtr &rhs)
 auto newp = new string(*rhs.ps); // copy the underlying stringdelete ps; // free the old memory
 ps = newp; // copy data from rhs into this object
 i = rhs.i;
-return *this; // return this object}
+return *this; // return this object
+}
 In this assignment operator, we quite clearly first do the work of the constructor:
 The initializer of newp is identical to the initializer of ps in HasPtr’s copy constructor.
 As in the destructor, we next delete the string to which ps currently points. 
@@ -4148,7 +4215,8 @@ This technique swaps the lefthand operand with a copy of the right-hand operand:
 HasPtr& HasPtr::operator=(HasPtr rhs){
 // swap the contents of the left-hand operand with the local variable rhs
 swap(*this, rhs); // rhs now points to the memory this object had used
-return *this; // rhs is destroyed, which deletes the pointer in rhs}
+return *this; // rhs is destroyed, which deletes the pointer in rhs
+}
 
 In this version of the assignment operator, the parameter is not a reference. 
 Instead, we pass the right-hand operand by value. 
@@ -4212,6 +4280,7 @@ As we’ll see, rvalue references have the important property that they may be b
 Recall that lvalue and rvalue are properties of an expression (§ 4.1.1, p. 135).
 Some expressions yield or require lvalues; others yield or require rvalues. 
 Generally speaking, an lvalue expression refers to an object’s identity whereas an rvalue expression refers to an object’s value.
+
 
 -> NOTE:  Functions that return lvalue references, along with the assignment, subscript, dereference, 
 and prefix increment/decrement operators, are all examples of expressions that return lvalues. 
@@ -4285,7 +4354,8 @@ Like the copy constructor, the move constructor has an initial parameter that is
 Differently from the copy constructor, the reference parameter in the move constructor is an rvalue reference. As in the copy constructor, any additional parameters must all have default arguments.
 In addition to moving resources, the move constructor must ensure 
 that the moved-from object is left in a state such that destroying that object will be harmless.
-In particular, once its resources are moved, the original object must no longer point to those moved resources—responsibility for those resources has been assumed by the newly created object.
+In particular, once its resources are moved, the original object must no longer point to those 
+moved resources—responsibility for those resources has been assumed by the newly created object.
 
 
 -> NOTE: Unlike the copy constructor, the move constructor does not allocate any new memory
@@ -4385,6 +4455,7 @@ It can also move members of a class type if themember’s class has the correspo
 -> NOTE: The compiler synthesizes the move constructor and move assignment only if a class does not define any of its own copy-control members 
 and only if all the data members can be moved constructed and move assigned, respectively.
 
+
 -> NOTE: Unlike the copy operations, a move operation is never implicitly defined as a deleted function. 
 However, if we explicitly ask the compiler to generate a move operation by using = default (§ 7.1.4, p. 264), 
 and the compiler is unable to move all the members, then the move operation will be defined as deleted. 
@@ -4456,6 +4527,7 @@ Casually used in ordinary user code (as opposed to class implementation code),
 moving an object is more likely to lead to mysterious and hard-to-find bugs than to any improvement in the performance of the application.Outside of class implementation code such as move constructors or move assignment operators, 
 use std::move only when you are certain that you need to do a move and that the move is guaranteed to be safe.
 
+
 -> NOTE: Rvalue References and Member Functions
 Member functions other than constructors and assignment can benefit from providing both copy and move versions. 
 Such move-enabled members typically use the same parameter pattern as the copy/move constructor 
@@ -4508,7 +4580,8 @@ public:
 Foo &operator=(const Foo&) &; // may assign only to modifiable lvalues// other members of Foo
 };
 Foo &Foo::operator=(const Foo &rhs) &
-{// do whatever is needed to assign rhs to this object
+{
+// do whatever is needed to assign rhs to this object
 return *this;
 }
 The reference qualifier can be either & or &&, indicating that this may point to an rvalue or lvalue, respectively. 
@@ -4773,6 +4846,7 @@ An output operator that does minimal formatting lets users control the details o
 Generally, output operators should print the contents of the object, with minimal formatting. 
 They should not print a newline.
 
+
 -> NOTE: IO Operators Must Be Nonmember Functions
 Input and output operators that conform to the conventions of the iostream library must be ordinary nonmember functions. 
 These operators cannot be members of our own class. 
@@ -4798,6 +4872,7 @@ elseitem = Sales_data(); // input failed: give the object the default state
 
 
 -> NOTE: Input operators should decide what, if anything, to do about error recovery.
+
 
 -> NOTE: Indicating Errors
 Some input operators need to do additional data verification. 
@@ -4864,6 +4939,7 @@ Assignment operators, regardless of parameter type, must be defined as member fu
 
 -> NOTE: Assignment operators must, and ordinarily compound-assignment operators should, be defined as members. 
 These operators should return a reference to the left-hand operand.
+
 
 -> NOTE: The subscript operator must be a member function.
 
@@ -5184,7 +5260,8 @@ can be used in any context where an arithmetic type is expected.
 Such conversions can happen in surprising ways. In particular, if istream had a conversion to bool, the following code would compile:
 int i = 42;
 cin << i; // this code would be legal if the conversion to bool were not explicit!
-This program attempts to use the output operator on an input stream. There is no << defined for istream, so the code is almost surely in error. 
+This program attempts to use the output operator on an input stream. 
+There is no << defined for istream, so the code is almost surely in error. 
 However, this code could use the bool conversion operator to convert cin to bool. 
 The resulting bool value would then be promoted to int 
 and used as the left-hand operand to the built-in version of the left-shift operator. 
@@ -5213,6 +5290,7 @@ That is, an explicit conversion will be used implicitly to convert an expression
 • The condition of an if, while, or do statement
 • The condition expression in a for statement header• An operand to the logical NOT (!), OR (||), or AND (&&) operators
 • The condition expression in a conditional (?:) operator
+
 
 -> NOTE: Conversion to bool
 In earlier versions of the library, the IO types defined a conversion to void*. 
@@ -5283,7 +5361,8 @@ The easiest case to illustrate— and one that is particularly problematic—
 is when a class defines constructors from or conversions to more than one arithmetic type.For example, the following class has converting constructors from two different arithmetic types, 
 and conversion operators to two different arithmetic types:
 struct A {
-A(int = 0); // usually a bad idea to have twoA(double); // conversions from arithmetic types
+A(int = 0); // usually a bad idea to have two
+A(double); // conversions from arithmetic types
 operator int() const; // usually a bad idea to have two
 operator double() const; // conversions to arithmetic types
 // other members
@@ -5302,7 +5381,8 @@ Each would require that the argument be converted before using the constructor:
 • Standard long to double conversion followed by A(double)• Standard long to int conversion followed by A(int)
 These conversion sequences are indistinguishable, so the call is ambiguous.
 The call to f2, and the initialization of a2, are ambiguous because 
-the standard conversions that were needed had the same rank (§ 6.6.1, p. 245). When a userdefined conversion is used, the rank of the standard conversion, if any, is used to select the best match:
+the standard conversions that were needed had the same rank (§ 6.6.1, p. 245). 
+When a userdefined conversion is used, the rank of the standard conversion, if any, is used to select the best match:
 short s = 42;
 // promoting short to int is better than converting short to double
 A a3(s); // uses A::A(int)
@@ -5374,7 +5454,8 @@ If different user-defined conversions are needed, then the call is ambiguous.
 
 -> NOTE: Function Matching and Overloaded Operators
 Overloaded operators are overloaded functions. 
-Normal function matching (§ 6.4, p. 233) is used to determine which operator—built-in or overloaded—to apply toa given expression. 
+Normal function matching (§ 6.4, p. 233) is used to determine which operator—built-in or overloaded—to apply to
+a given expression. 
 However, when an operator function is used in an expression,
 the set of candidate functions is broader than when we call a function using the call operator. 
 If a has a class type, the expression a sym b might be
@@ -5427,7 +5508,8 @@ It does so by specifying override after its parameter list.
 
 -> NOTE: Dynamic Binding
 Through dynamic binding, we can use the same code to process objects of either type Quote or Bulk_quote interchangeably.
-Because the decision as to which version to run depends on the type of the argument, that decision can’t be made until run time. Therefore, dynamic binding is sometimes known as run-time binding.
+Because the decision as to which version to run depends on the type of the argument, that decision can’t be made until run time. 
+Therefore, dynamic binding is sometimes known as run-time binding.
 
 
 -> NOTE: In C++, dynamic binding happens when a virtual function is called through a reference (or a pointer) to a base class.
@@ -5619,7 +5701,8 @@ Effectively, the most derived object contains a sub object for its direct base a
 -> NOTE: Preventing InheritanceSometimes we define a class that we don’t want others to inherit from. 
 Or we might define a class for which we don’t want to think about whether it is appropriate as a base class. 
 Under the new standard, we can prevent a class from being used as a base by following the class name with final:
-class NoDerived final { /* */ }; // NoDerived can’t be a base classclass Base { /* */ };
+class NoDerived final { /* */ }; // NoDerived can’t be a base class
+class Base { /* */ };
 // Last is final; we cannot inherit fromLast
 class Last final : Base { /* */ }; // Last can’t be a base class
 class Bad : NoDerived { /* */ }; // error: NoDerived is final
@@ -5647,7 +5730,8 @@ That object can be an object of the base class or it can be an object of a deriv
 
 -> NOTE: Static Type and Dynamic Type
 When we use types related by inheritance, 
-we often need to distinguish between the static type of a variable or other expression and the dynamic type of the object that expression represents. 
+we often need to distinguish between the static type of a variable or other expression 
+and the dynamic type of the object that expression represents. 
 The static type of an expression is always known at compile time
 —it is the type with which a variable is declared or that an expression yields. 
 The dynamic type is the type of the object in memory that the variable or expression represents. 
@@ -5860,7 +5944,8 @@ we want to force the call to use a particular version of that virtual.
 We can use the scope operator to do so. For example, this code:
 double undiscounted = baseP->Quote::net_price(42); // calls the version from the base class regardless of the dynamic type of baseP
 calls the Quote version of net_price regardless of the type of the object to which baseP actually points. 
-This call will be resolved at compile time.Why might we wish to circumvent the virtual mechanism? 
+This call will be resolved at compile time.
+Why might we wish to circumvent the virtual mechanism? 
 The most common reason is when a derived-class virtual function calls the version from the base class.
 In such cases, the base-class version might do work common to all types in the hierarchy.
 The versions defined in the derived classes would do whatever additional work is particular to their own type.
@@ -5972,6 +6057,7 @@ The derived-to-base conversion to a direct base class is always accessible to me
 if D inherits from B using either public or protected.
 Such code may not use the conversion if D inherits privately from B.
 
+
 -> NOTE: For any given point in your code, if a public member of the base class would be accessible, 
 then the derived-to-base conversion is also accessible, and not otherwise.
 
@@ -6037,7 +6123,8 @@ By default, a derived class defined with the class keyword has private inheritan
 a derived class defined with struct has public inheritance:class Base { /* . . . */ };
 struct D1 : Base { /* . . . */ }; // public inheritance by default
 class D2 : Base { /* . . . */ }; // private inheritance by default
-It is a common misconception to think that there are deeper differences between classes defined using the struct keyword and those defined using class.
+It is a common misconception to think that there are deeper differences between classes 
+defined using the struct keyword and those defined using class.
 The only differences are the default access specifier for members and the default derivation access specifier. 
 There are NO other distinctions.
 
@@ -6062,7 +6149,8 @@ The static type (§ 15.2.3, p. 601) of an object, reference, or pointer determin
 Even when the static and dynamic types might differ (as can happen when a reference or pointer to a base class is used), the static type determines what members can be used.
 
 As an example, we might add a member to the Disc_quote class that returns a pair (§ 11.2.3, p. 426) 
-holding the minimum (or maximum) quantity and the discounted price:class Disc_quote : public Quote {
+holding the minimum (or maximum) quantity and the discounted price:
+class Disc_quote : public Quote {
 public:
 std::pair<size_t, double> discount_policy() const
 { return {quantity, discount}; }
@@ -6129,7 +6217,8 @@ has the same name as a base-class member (i.e., a name defined in an outer scope
 then the derived member hides the base-class member within the scope of the derived class.
 The base member is hidden even if the functions have different parameter lists:
 struct Base {
-int memfcn();};
+int memfcn();
+};
 struct Derived : Base {
 int memfcn(int); // hides memfcn in the base
 };
@@ -6155,7 +6244,8 @@ If the base and derived members took arguments that differed from one another,
 there would be no way to call the derived version through a reference or pointer to the base class.
 For example:
 class Base {
-public:virtual int fcn();
+public:
+virtual int fcn();
 };
 class D1 : public Base {
 public:
@@ -6220,7 +6310,8 @@ a derived class can provide a using declaration (§ 15.5, p. 615) for the overlo
 A using declaration specifies only a name; it may not specify a parameter list. Thus, a using declaration for a base-class member function adds all 
 the overloaded instances of that function to the scope of the derived class. 
 Having brought all the names into its scope, 
-the derived class needs to define only those functions that truly depend on its type. It can use the inherited definitions for the others.
+the derived class needs to define only those functions that truly depend on its type. 
+It can use the inherited definitions for the others.
 The normal rules for a using declaration inside a class apply to names of overloaded functions (§ 15.5, p. 615); 
 every overloaded instance of the function in the base class must be accessible to the derived class. 
 The access to the overloaded versions that are not otherwise 
@@ -6233,6 +6324,7 @@ Like any other class, a class in an inheritance hierarchy controls
 what happens when objects of its type are created, copied, moved, assigned, or destroyed. As for any other class, if a class (base or derived) does not itself 
 define one of the copy control operations, the compiler will synthesize that operation. 
 Also, as usual, the synthesized version of any of these members might be a deleted function.
+
 
 -> NOTE: Virtual Destructors
 The primary direct impact that inheritance has on copy control for 
@@ -6340,7 +6432,8 @@ Moreover, by default, classes derived from a base class that doesn’t
 have move operations don’t get synthesized move operations either.Because lack of a move operation in a base class suppresses synthesized move for its derived classes, 
 base classes ordinarily should define the move operations if it is sensible to do so. 
 Our Quote class can use the synthesized versions. 
-However, Quote must define these members explicitly. Once it defines its move operations, it must also explicitly define the copy versions as well (§ 13.6.2, p. 539)
+However, Quote must define these members explicitly. 
+Once it defines its move operations, it must also explicitly define the copy versions as well (§ 13.6.2, p. 539)
 
 
 -> NOTE: Derived-Class Copy-Control Members
@@ -6350,7 +6443,8 @@ As a result, the copy and move constructors for a derived class must copy/move
 the members of its base part as well as the members in the derived.Similarly, a derived-class assignment operator must assign the members in the base part of the derived object.
 Unlike the constructors and assignment operators, 
 the destructor is responsible only for destroying the resources allocated by the derived class. 
-Recall that the members of an object are implicitly destroyed (§ 13.1.3, p. 502). Similarly, the base class part of a derived object is destroyed automatically.
+Recall that the members of an object are implicitly destroyed (§ 13.1.3, p. 502). 
+Similarly, the base class part of a derived object is destroyed automatically.
 
 
 -> NOTE: When a derived class defines a copy or move operation, 
@@ -6401,6 +6495,7 @@ As a result, unlike the constructors and assignment operators,
 a derived destructor is responsible only for destroying the resources allocated by the derived class.Objects are destroyed in the opposite order from which they are constructed:
 The derived destructor is run first, and then the base-class destructors are invoked, back up through the inheritance hierarchy.
 
+
 -> NOTE: Calls to Virtuals in Constructors and Destructors (THIS IS IMPORTANT)
 As we’ve seen, the base-class part of a derived object is constructed first. 
 While the base-class constructor is executing, the derived part of the object is uninitialized.
@@ -6430,7 +6525,8 @@ the version that is run is the one corresponding to the type of the constructor 
 -> NOTE: Inherited Constructors (THIS IS IMPORTANT)Under the new standard, a derived class can reuse the constructors defined by its direct base class. 
 Although, as we’ll see, such constructors are not inherited in the normal sense of that term, 
 it is nonetheless common to refer to such constructors as “inherited.” 
-For the same reasons that a class may initialize only its direct base class, a class may inherit constructors only from its direct base. 
+For the same reasons that a class may initialize only its direct base class, 
+a class may inherit constructors only from its direct base. 
 A class cannot inherit the default, copy, and move constructors. 
 If the derived class does not directly define these constructors, the compiler synthesizes them as usual.
 A derived class inherits its base-class constructors by providing a using declaration that names its (direct) base class. 
@@ -6546,7 +6642,8 @@ Which actual type T represents is determined at compile time based on how compar
 -> NOTE: Instantiating a Function TemplateWhen we call a function template, the compiler (ordinarily) uses the arguments of the call to deduce the template argument(s) for us. 
 That is, when we call compare, the compiler uses the type of the arguments to determine what type to bind to the template parameter T.
 The compiler uses the deduced template parameter(s) to instantiate a specific version of the function for us. 
-When the compiler instantiates a template, it creates a new “instance” of the template using the actual template argument(s) in place of the corresponding template parameter(s).
+When the compiler instantiates a template, 
+it creates a new “instance” of the template using the actual template argument(s) in place of the corresponding template parameter(s).
 
 
 -> NOTE: Template Type Parameters
@@ -6624,6 +6721,7 @@ As a result, unlike nontemplate code, headers for templates typically include de
 -> NOTE: KEY CONCEPT: TEMPLATES AND HEADERSTemplates contain two kinds of names:
 • Those that do not depend on a template parameter
 • Those that do depend on a template parameter
+
 It is up to the provider of a template to ensure that all names 
 that do not depend on a template parameter are visible when the template is used. 
 Moreover, the template provider must ensure that the definition of the template, 
@@ -6733,6 +6831,7 @@ For example, this code:
 Blob<int> squares = {0,1,2,3,4,5,6,7,8,9}; // instantiates Blob<int>::size() const
 for (size_t i = 0; i != squares.size(); ++i)
 squares[i] = i*i; // instantiates Blob<int>::operator[](size_t)
+
 If a member function isn’t used, it is not instantiated. 
 The fact that members are instantiated only if we use them lets us instantiate a class with a type 
 that may not meet the requirements for some of the template’s operations (§ 9.2, p. 329).
@@ -6814,6 +6913,7 @@ typedef Blob<string> StrBlob;
 However, the new standard lets us define a type alias for a class template:
 template<typename T> using twin = pair<T, T>;
 twin<string> authors; // authors is a pair<string, string>
+
 
 -> NOTE: static Members of Class Templates
 Like any other class, a class template can declare static members (§ 7.6, p. 300).
@@ -6917,7 +7017,8 @@ However, in order to process the template, the compiler must know whether a name
 For example, assuming T is the name of a type parameter, when the compiler sees a statement of the following form:T::size_type * p;
 it needs to know whether we’re defining a variable named p or are multiplying a static data member named size_type by a variable named p.
 
-By default, the language assumes that a name accessed through the scope operator is not a type (ME: THIS IS IMPORTANT). As a result, if we want to use a typemember of a template type parameter, 
+By default, the language assumes that a name accessed through the scope operator is not a type (ME: THIS IS IMPORTANT). 
+As a result, if we want to use a typemember of a template type parameter, 
 we must explicitly tell the compiler that the name is a type. 
 We do so by using the keyword typename:
 template <typename T>
@@ -7067,6 +7168,7 @@ Blob<T>::Blob(It b, It e):data(std::make_shared<std::vector<T>>(b, e)) { }
 Here we are defining a member of a class template that has one template type parameter, which we have named T. 
 The member itself is a function template that has a type parameter named It.
 
+
 -> NOTE: Instantiation and Member Templates
 To instantiate a member template of a class template, 
 we must supply arguments for the template parameters for both the class and the function templates. 
@@ -7104,7 +7206,8 @@ When two or more separately compiled source files use the same template with the
 there is an instantiation of that template in each of those files.
 In large systems, the overhead of instantiating the same template in multiple files can become significant. 
 Under the new standard, we can avoid this overhead through an explicit instantiation. 
-An explicit instantiation has the form:extern template declaration; // instantiation declaration
+An explicit instantiation has the form:
+extern template declaration; // instantiation declaration
 template declaration; // instantiation definition
 where declaration is a class or function declaration in which all the template parameters are replaced by the template arguments. 
 For example:
@@ -7120,7 +7223,8 @@ Because the compiler automatically instantiates a template when we use it,
 the extern declaration must appear before any code that uses that instantiation:// Application.cc
 // these template types must be instantiated elsewhere in the program
 extern template class Blob<string>;
-extern template int compare(const int&, const int&);Blob<string> sa1, sa2; // instantiation will appear elsewhere
+extern template int compare(const int&, const int&);
+Blob<string> sa1, sa2; // instantiation will appear elsewhere
 // Blob<int> and its initializer_list constructor instantiated in this file
 Blob<int> a1 = {0,1,2,3,4,5,6,7,8,9};
 Blob<int> a2(a1); // copy constructor instantiated in this file
@@ -7159,6 +7263,7 @@ The unique_ptr has two template parameters, one that represents the pointer
 that the unique_ptr manages and the other that represents the type of the deleter. Because the type of the deleter is part of the type of a unique_ptr, 
 the type of the deleter member is known at compile time. 
 The deleter can be stored directly in each unique_ptr object.
+
 -> NOTE: By binding the deleter at run time, shared_ptr makes it easier for users to override the deleter.
 We can construct a shared_ptr using a deleter of one type, and subsequently 
 use reset to give that same shared_ptr a different type of deleter. 
@@ -7330,7 +7435,8 @@ Using an explicit template argument to represent a template function’s return 
 when we want to let the user determine the return type. In other cases, requiring an explicit template argument imposes a burden on the user with no compensating advantage. 
 For example, we might want to write a function that takes a pair of iterators denoting a sequence 
 and returns a reference to an element in the sequence:
-template <typename It>??? &fcn(It beg, It end)
+template <typename It>
+??? &fcn(It beg, It end)
 {
 // process the range
 return *beg; // return a reference to an element from the range
@@ -7553,7 +7659,8 @@ There are two important consequences from these rules (ME: THIS IS IMPORTANT):
 (2) If the argument is an lvalue, then the deduced template argument type will be an lvalue reference type and the function parameter will be instantiated as an (ordinary) lvalue reference parameter (T&)
 
 
--> NOTE: It is also worth noting that by implication, we can pass any type of argument to a T&& function parameter. A parameter of such a type can (obviously) be used with rvalues, and as we’ve just seen, can be used by lvalues as well.
+-> NOTE: It is also worth noting that by implication, we can pass any type of argument to a T&& function parameter. 
+A parameter of such a type can (obviously) be used with rvalues, and as we’ve just seen, can be used by lvalues as well.
 
 
 -> NOTE: Reference collapsing applies only when a reference to a reference is created indirectly, 
@@ -7921,7 +8028,8 @@ The nontemplate version is viable but requires a user-defined conversion.
 That function is less good than an exact match, leaving the two templates as the possible functions to call. As before, the T* version is more specialized and is the one that will be selected.
 If we want to handle character pointers as strings, we can define two more nontemplate overloads:
 // convert the character pointers to string and call the string version of debug_rep
-string debug_rep(char *p){
+string debug_rep(char *p)
+{
 return debug_rep(string(p));
 }
 string debug_rep(const char *p)
@@ -7936,7 +8044,8 @@ a declaration for debug_rep(const string&) must be in scope when these functions
 If not, the wrong version of debug_rep will be called:template <typename T> string debug_rep(const T &t);
 template <typename T> string debug_rep(T *p);
 // the following declaration must be in scope
-// for the definition of debug_rep(char*) to do the right thingstring debug_rep(const string &);
+// for the definition of debug_rep(char*) to do the right thing
+string debug_rep(const string &);
 string debug_rep(char *p)
 {
 // if the declaration for the version that takes a const string& is not in scope
@@ -8105,7 +8214,8 @@ More complicated patterns are also possible when we expand a function parameter 
 For example, we might write a second variadic function that calls debug_rep (§ 16.3, p. 695) on each of its arguments and then calls print to print the resulting strings:
 // call debug_rep on each argument in the call to print
 template <typename... Args>
-ostream &errorMsg(ostream &os, const Args&... rest){
+ostream &errorMsg(ostream &os, const Args&... rest)
+{
 // print(os, debug_rep(a1), debug_rep(a2), ..., debug_rep(an)
 return print(os, debug_rep(rest)...);
 }
@@ -8284,7 +8394,8 @@ both function templates are viable and provide an equally good (i.e., exact) mat
 However, the version with character array parameters is more specialized (§ 16.3, p. 695) and is chosen for this call.Had we defined the version of compare that takes character pointers as 
 a plain nontemplate function (rather than as a specialization of the template), 
 this call would resolve differently. 
-In this case, there would be three viable functions: the two templates and the nontemplate character-pointer version. 
+In this case, there would be three viable functions: 
+the two templates and the nontemplate character-pointer version. 
 All three are also equally good matches for this call. 
 As we’ve seen, when a nontemplate provides an equally good match as a function template, the nontemplate is selected (§ 16.3, p. 695)
 
@@ -8297,7 +8408,8 @@ As a result, specializations do not affect function matching.
 -> NOTE: KEY CONCEPT: ORDINARY SCOPE RULES APPLY TO SPECIALIZATIONSIn order to specialize a template, a declaration for the original template must be in scope. 
 Moreover, a declaration for a specialization must be in scope before any code uses that instantiation of the template.
 With ordinary classes and functions, missing declarations are (usually) easy to find—the compiler won’t be able to process our code. 
-However, if a specialization declaration is missing, the compiler will usually generate code using the original template. Because the compiler can often instantiate the original template when a specialization is missing, 
+However, if a specialization declaration is missing, the compiler will usually generate code using the original template. 
+Because the compiler can often instantiate the original template when a specialization is missing, 
 errors in declaration order between a template and its specializations are easy to make but hard to find.
 It is an error for a program to use a specialization and an instantiation of 
 the original template with the same set of template arguments. 
@@ -8437,7 +8549,8 @@ For example, if Foo is a template class with a member Bar, we can specialize jus
 template <typename T> struct Foo {Foo(const T &t = T()): mem(t) { }
 void Bar() { /* . . . */ }
 T mem;
-// other members of Foo};
+// other members of Foo
+};
 template<> // we’re specializing a template
 void Foo<int>::Bar() // we’re specializing the Bar member of Foo<int>
 {
@@ -8522,7 +8635,8 @@ No such naming convention is possible for tuple because there is no limit on the
 As a result, the members are unnamed. Instead, we access the members of a tuple through a library function template named get. To use get we must specify an explicit template argument (§ 16.2.2, p. 682), which is the position of the member we want to access. 
 We pass a tuple object to get, which returns a reference to the specified member:
 auto book = get<0>(item); // returns the first member of item
-auto cnt = get<1>(item); // returns the second member of itemauto price = get<2>(item)/cnt; // returns the last member of item
+auto cnt = get<1>(item); // returns the second member of item
+auto price = get<2>(item)/cnt; // returns the last member of item
 get<2>(item) *= 0.8; // apply 20% discount
 
 The value inside the brackets must be an integral constant expression (§ 2.4.4, p. 65). 

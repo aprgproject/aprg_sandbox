@@ -6,11 +6,12 @@ set(APRG_COMPILER_COMMON_FLAGS "-Wall -Wextra -pedantic")
 set(APRG_COMPILER_COMMON_C_FLAGS "-std=c17")
 set(APRG_COMPILER_COMMON_CPP_FLAGS "-std=c++17")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG "") #set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage -fno-rtti")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_SHOW_PREPROCESSING_RESULT "-E")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_RTTI "-g --coverage")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_NO_RTTI "-g --coverage -fno-rtti")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_FAST_COMPILATION "-g --coverage -O0") #-O0 is actually the default so this is useless
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")
-set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED_AND_FAST_MATH "-g --coverage -O3 -ffast-math")
-set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED_AND_FAST_MATH "-g --coverage -O3 -ffast-math")set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_NO_STACK_PROTECTOR "-g --coverage -fno-stack-protector") #let the stack smash (for debugging)
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_ASAN "-g --coverage -fsanitize=address -fno-omit-frame-pointer")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_LSAN_ONLY "-g --coverage -fsanitize=leak -fno-omit-frame-pointer")
@@ -98,6 +99,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -> -fvisibility=hidden: Make library symbols hidden by default, in a similar way to what happens in Windows DLLs
 # where exported symbols must have the prefix __declspec(dllexport) or __declspec(dllimport).
 # When all symbols are exported by default, it may increase the likelyhood of undefined behavior if there a multiple definitions of same symbol during linking.
+# -> -E: Stop after the preprocessing stage; do not run the compiler proper.
+# The output is in the form of preprocessed source code, which is sent to the standard output.
+# Input files that don’t require preprocessing are ignored.
 
 
 

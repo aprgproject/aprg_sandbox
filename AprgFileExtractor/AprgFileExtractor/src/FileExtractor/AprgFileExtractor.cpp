@@ -152,7 +152,8 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
             AlbaLocalPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));            if (isRecognizedCompressedFile(extractedPathHandler.getExtension())) {
                 extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
                 extractedPathHandler.deleteFile();
-            }        }
+            }
+        }
         ProgressCounters::numberOfFilesAnalyzedForExtraction++;
     }
 }

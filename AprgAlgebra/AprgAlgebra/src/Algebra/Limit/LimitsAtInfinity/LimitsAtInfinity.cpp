@@ -24,6 +24,7 @@ LimitsAtInfinity::LimitsAtInfinity(Term const& term, string const& variableName)
     simplify();}
 
 Term LimitsAtInfinity::getSimplifiedTermAtInfinity() const { return m_simplifiedTermAtInfinity; }
+
 Term LimitsAtInfinity::getValueAtInfinity(AlbaNumber const infinityValue) const {
     SubstitutionOfVariablesToValues substitution{{m_variableName, infinityValue}};
     return substitution.performSubstitutionTo(m_simplifiedTermAtInfinity);

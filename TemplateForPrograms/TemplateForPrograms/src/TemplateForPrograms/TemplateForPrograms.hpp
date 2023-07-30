@@ -7,6 +7,7 @@ public:
     TemplateForPrograms();
 
 private:
-    int m_sample;};
+    int m_sample;
+};
 
 }  // namespace alba

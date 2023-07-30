@@ -55,7 +55,8 @@ bool canConstructVer2(string ransomNote, string magazine) {
     auto itMagazine = magazine.begin();
     for (char const c : ransomNote) {
         int& count = magazineLetterToCount[c - 'a'];
-        if (count > 0) {            count--;
+        if (count > 0) {
+            count--;
         } else {
             for (; itMagazine != magazine.end() && *itMagazine != c; itMagazine++) {
                 magazineLetterToCount[*itMagazine - 'a']++;
