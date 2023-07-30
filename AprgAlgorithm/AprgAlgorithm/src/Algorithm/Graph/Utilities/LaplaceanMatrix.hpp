@@ -4,14 +4,14 @@
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
+#include <array>
+
 namespace alba {
 
 namespace algorithm {
-
 using LaplaceanMatrix = matrix::AlbaMatrix<int>;
 
-template <typename Vertex, int MAX_VERTEX_VALUE>
-LaplaceanMatrix createLaplaceanMatrix(BaseGraph<Vertex> const& graph) {
+template <typename Vertex, int MAX_VERTEX_VALUE>LaplaceanMatrix createLaplaceanMatrix(BaseGraph<Vertex> const& graph) {
     // Laplacean matrix L is where L[i,i] is the degree of node i
     // and L[i,j] = -1 if there is an edge between nodes i and j, and otherwise L[i, j] = 0.
 

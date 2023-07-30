@@ -5,14 +5,13 @@
 #include <Algorithm/SetAndSymbolTable/SymbolTable/LinkedList/UnorderedLinkedListSymbolTable.hpp>
 #include <Algorithm/Sort/MergeSorter/MergeSorterUtilities.hpp>
 
+#include <array>
 #include <memory>
 
 namespace alba {
-
 namespace algorithm {
 
-template <
-    typename KeyTemplateType, typename EntryTemplateType, typename HashFunction, int HASH_TABLE_SIZE,
+template <    typename KeyTemplateType, typename EntryTemplateType, typename HashFunction, int HASH_TABLE_SIZE,
     typename OrderedArray, typename UnorderedLinkedList, typename BaseDataStructure>
 class BaseSeparateChainingHash : public BaseDataStructure {
 public:

@@ -2,13 +2,12 @@
 
 #include <Algorithm/Queue/BaseQueue.hpp>
 
+#include <array>
 #include <cassert>
 #include <memory>
-
 namespace alba {
 
 namespace algorithm {
-
 template <typename Object, int SIZE>
 class FixedSizeCircularQueue : public BaseQueue<Object> {
 public:

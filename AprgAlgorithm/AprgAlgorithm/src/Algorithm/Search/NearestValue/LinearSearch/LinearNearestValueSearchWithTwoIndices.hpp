@@ -58,14 +58,15 @@ public:
                         result = std::distance(m_values.cbegin(), itHigher);
                     }
                 }
+                if (itLower == itHigher) {
+                    break;
+                }
             }
         }
-        return result;
-    }
+        return result;    }
 
 private:
-    void setInitialIndexes() {
-        if (!m_values.empty()) {
+    void setInitialIndexes() {        if (!m_values.empty()) {
             m_startIndex = 0;
             m_endIndex = m_values.size() - 1;  // fully closed interval
         }
