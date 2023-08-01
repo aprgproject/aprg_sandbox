@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_AUDIO_MANIPULATOR_SOURCE_DIRECTORY
     ${APRG_AUDIO_MANIPULATOR_DIR}/src
 )
-
 set(APRG_AUDIO_MANIPULATOR_TEST_DIRECTORY
     ${APRG_AUDIO_MANIPULATOR_DIR}/tst
 )
-
 set(APRG_AUDIO_MANIPULATOR_MAIN_DIRECTORY
     ${APRG_AUDIO_MANIPULATOR_DIR}/main
 )
