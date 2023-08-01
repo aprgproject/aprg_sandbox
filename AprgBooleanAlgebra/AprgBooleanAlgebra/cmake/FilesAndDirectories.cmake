@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_BOOLEAN_ALGEBRA_SOURCE_DIRECTORY
     ${APRG_BOOLEAN_ALGEBRA_DIR}/src
 )
-
 set(APRG_BOOLEAN_ALGEBRA_TEST_DIRECTORY
     ${APRG_BOOLEAN_ALGEBRA_DIR}/tst
 )
-
 set(APRG_BOOLEAN_ALGEBRA_MAIN_DIRECTORY
     ${APRG_BOOLEAN_ALGEBRA_DIR}/main
 )

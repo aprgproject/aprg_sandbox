@@ -211,18 +211,20 @@ public:
 
             // Simplify X + XY = X  to lessen terms
             for (int i = 0; i < static_cast<int>(combinedInnerTerms.size()); i++) {
-                for (int j = 0; j < static_cast<int>(combinedInnerTerms.size()); j++) {
+                for (int j = 0;  j < static_cast<int>(combinedInnerTerms.size()); j++) {
                     if (i != j && isASubset(combinedInnerTerms[i], combinedInnerTerms[j])) {
                         combinedInnerTerms.erase(combinedInnerTerms.begin() + j);
-                        continue;
+                        if (i < static_cast<int>(combinedInnerTerms.size())) {
+                            continue;
+                        } else {
+                            break;
+                        }
                     }
                 }
             }
-
             // Put the new combined term on the front
             outerTerms.emplace_front(combinedInnerTerms);
         }
-
         if (!outerTerms.empty()) {
             // Final simplification of X + XY = X.
             InnerTerms& onlyInnerTerms(outerTerms.front());
