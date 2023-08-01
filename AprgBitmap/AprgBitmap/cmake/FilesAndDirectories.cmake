@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_BITMAP_SOURCE_DIRECTORY
     ${APRG_BITMAP_DIR}/src
 )
-
 set(APRG_BITMAP_TEST_DIRECTORY
     ${APRG_BITMAP_DIR}/tst
 )
-
 set(APRG_BITMAP_INCLUDE_DIRECTORIES
     ${APRG_BITMAP_SOURCE_DIRECTORY}
 )
