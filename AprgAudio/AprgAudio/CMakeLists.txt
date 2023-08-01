@@ -11,17 +11,14 @@ set(TEST_MODE "ON")
 #Locate APRG Directory first because its used on other cmakes
 include(${APRG_AUDIO_DIR}/cmake/LocateAprgDirectory.cmake)
 
-#Assign common flags, definitions and macros
-include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
+#Assign macros, common flags, definitions and other common steps
+include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Add Audio Directory as definition
 add_definitions(-DAPRG_AUDIO_DIR="${APRG_AUDIO_DIR}")
-
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
 #Add files and directories
 include(${APRG_AUDIO_DIR}/cmake/FilesAndDirectories.cmake)
 
