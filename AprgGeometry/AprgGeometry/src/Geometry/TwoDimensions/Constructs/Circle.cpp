@@ -62,17 +62,23 @@ Points Circle::getLocus(double const interval) const  // points for circumferenc
     result.reserve(
         pointsInFirstQuarter.size() + pointsInSecondQuarter.size() + pointsInThirdQuarter.size() +
         pointsInFourthQuarter.size());
-    copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend() - 1, back_inserter(result));
-    copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend() - 1, back_inserter(result));
-    copy(pointsInThirdQuarter.cbegin(), pointsInThirdQuarter.cend() - 1, back_inserter(result));
-    copy(pointsInFourthQuarter.cbegin(), pointsInFourthQuarter.cend() - 1, back_inserter(result));
+    if (!pointsInFirstQuarter.empty()) {
+        copy(pointsInFirstQuarter.cbegin(), prev(pointsInFirstQuarter.cend()), back_inserter(result));
+    }
+    if (!pointsInSecondQuarter.empty()) {
+        copy(pointsInSecondQuarter.cbegin(), prev(pointsInSecondQuarter.cend()), back_inserter(result));
+    }
+    if (!pointsInThirdQuarter.empty()) {
+        copy(pointsInThirdQuarter.cbegin(), prev(pointsInThirdQuarter.cend()), back_inserter(result));
+    }
+    if (!pointsInFourthQuarter.empty()) {
+        copy(pointsInFourthQuarter.cbegin(), prev(pointsInFourthQuarter.cend()), back_inserter(result));
+    }
     return result;
 }
-
 void Circle::traverseArea(double const interval, TraverseOperation const& traverseOperation) const {
     for (double y = 0; y <= m_radius; y += interval) {
-        auto xAtTheEdgeOfCircleOptional(calculateXFromYWithoutCenter(y, 1));
-        if (xAtTheEdgeOfCircleOptional) {
+        auto xAtTheEdgeOfCircleOptional(calculateXFromYWithoutCenter(y, 1));        if (xAtTheEdgeOfCircleOptional) {
             for (double x = 0; x <= xAtTheEdgeOfCircleOptional.value(); x += interval) {
                 if (x == 0 && y == 0) {
                     traverseOperation(m_center);
