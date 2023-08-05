@@ -26,9 +26,8 @@ bool AlbaGrepStringEvaluatorTerm::getResult() const {
     if (AlbaGrepStringEvaluatorTermType::BooleanResult == m_type) {
         result = m_savedResult;
     } else if (AlbaGrepStringEvaluatorTermType::StringToFind == m_type) {
-        result = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(s_mainString, m_stringToFind);
+        result = stringHelper::isStringFoundCaseSensitive(s_mainString, m_stringToFind);
     }
     return result;
 }
-
 }  // namespace alba
