@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_GSL_SOURCE_DIRECTORY
     ${APRG_GSL_DIR}/src
 )
-
 set(APRG_GSL_TEST_DIRECTORY
     ${APRG_GSL_DIR}/tst
 )
-
 set(APRG_GSL_INCLUDE_DIRECTORIES
     ${APRG_GSL_SOURCE_DIRECTORY}
 )
