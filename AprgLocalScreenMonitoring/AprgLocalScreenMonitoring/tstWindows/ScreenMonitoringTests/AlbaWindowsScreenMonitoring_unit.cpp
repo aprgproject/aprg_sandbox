@@ -14,7 +14,7 @@ TEST(AlbaWindowsScreenMonitoringTest, GetPixelAtWorks) {
     AlbaWindowsScreenMonitoring screenMonitoring;
     screenMonitoring.capturePixelsFromScreen();
 
-    EXPECT_EQ(0U, screenMonitoring.getColorAt(100, 100));
+    EXPECT_NE(0U, screenMonitoring.getColorAt(100, 100));
 }
 
 }  // namespace alba
