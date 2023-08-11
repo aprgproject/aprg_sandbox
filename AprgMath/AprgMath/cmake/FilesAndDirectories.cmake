@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_MATH_SOURCE_DIRECTORY
     ${APRG_MATH_DIR}/src
 )
-
 set(APRG_MATH_TEST_DIRECTORY
     ${APRG_MATH_DIR}/tst
 )
-
 set(APRG_MATH_INCLUDE_DIRECTORIES
     ${APRG_MATH_SOURCE_DIRECTORY}
 )
