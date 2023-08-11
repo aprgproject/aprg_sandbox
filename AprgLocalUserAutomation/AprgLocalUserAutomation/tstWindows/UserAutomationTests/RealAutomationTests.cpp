@@ -59,15 +59,13 @@ TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)  // DISABLED_
         bool isNextDisabled(false);
         while (fileReader.isNotFinished()) {
             string line(fileReader.getLineAndIgnoreWhiteSpaces());
-            if (isStringFoundInsideTheOtherStringCaseSensitive(
+            if (isStringFoundCaseSensitive(
                     line, R"(class="paginate_button page-item next disabled")")) {
                 isNextDisabled = true;
-                break;
-            }
+                break;            }
         }
         if (isNextDisabled) {
-            break;
-        } else {
+            break;        } else {
             userAutomation.doLeftClickAt(MousePosition(3398, 514));
             userAutomation.doLeftClickAt(MousePosition(2368, 52));
             userAutomation.sleep(2000);
@@ -115,15 +113,13 @@ TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms) {
             bool isNextPageTextFound(false);
             while (fileReader.isNotFinished()) {
                 string line(fileReader.getLineAndIgnoreWhiteSpaces());
-                if (isStringFoundInsideTheOtherStringCaseSensitive(line, R"(title="Next page")")) {
+                if (isStringFoundCaseSensitive(line, R"(title="Next page")")) {
                     isNextPageTextFound = true;
                     break;
-                }
-            }
+                }            }
             if (!isNextPageTextFound) {
                 break;
-            }
-        }
+            }        }
     }
 }
 
