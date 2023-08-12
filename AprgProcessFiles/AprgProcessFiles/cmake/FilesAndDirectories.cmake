@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_PROCESS_FILES_SOURCE_DIRECTORY
     ${APRG_PROCESS_FILES_DIR}/src
 )
-
 set(APRG_PROCESS_FILES_TEST_DIRECTORY
     ${APRG_PROCESS_FILES_DIR}/tst
 )
-
 set(APRG_PROCESS_FILES_INCLUDE_DIRECTORIES
     ${APRG_PROCESS_FILES_SOURCE_DIRECTORY}
 )

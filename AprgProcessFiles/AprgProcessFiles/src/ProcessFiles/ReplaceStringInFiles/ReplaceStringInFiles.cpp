@@ -225,14 +225,14 @@ bool ReplaceStringInFiles::isCOrCPlusPlusFile(string const& extension) {
 }
 
 bool ReplaceStringInFiles::hasPrintInLine(string const& line) {
-    return isStringFoundInsideTheOtherStringCaseSensitive(line, "TLH_DEBUG_PRINT") ||
-           isStringFoundInsideTheOtherStringCaseSensitive(line, "TLH_INFO_PRINT") ||
-           isStringFoundInsideTheOtherStringCaseSensitive(line, "TLH_WARNING_PRINT") ||
-           isStringFoundInsideTheOtherStringCaseSensitive(line, "TLH_ERROR_PRINT");
+    return isStringFoundCaseSensitive(line, "TLH_DEBUG_PRINT") ||
+           isStringFoundCaseSensitive(line, "TLH_INFO_PRINT") ||
+           isStringFoundCaseSensitive(line, "TLH_WARNING_PRINT") ||
+           isStringFoundCaseSensitive(line, "TLH_ERROR_PRINT");
 }
 
 bool ReplaceStringInFiles::hasEndOfPrintInLine(string const& line) {
-    return isStringFoundInsideTheOtherStringCaseSensitive(line, ");");
+    return isStringFoundCaseSensitive(line, ");");
 }
 
 }  // namespace alba
