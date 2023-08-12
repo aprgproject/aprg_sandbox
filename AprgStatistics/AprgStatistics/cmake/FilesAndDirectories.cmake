@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_STATISTICS_SOURCE_DIRECTORY
     ${APRG_STATISTICS_DIR}/src
 )
-
 set(APRG_STATISTICS_TEST_DIRECTORY
     ${APRG_STATISTICS_DIR}/tst
 )
-
 set(APRG_STATISTICS_INCLUDE_DIRECTORIES
     ${APRG_STATISTICS_SOURCE_DIRECTORY}
 )

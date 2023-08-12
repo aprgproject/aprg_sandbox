@@ -10,23 +10,20 @@ namespace alba {
 
 int FrequencyStatistics::calculateNumberOfSamples(FrequencySamples const& samples) {
     return accumulate(
-        samples.begin(), samples.end(), (int)0,
+        samples.cbegin(), samples.cend(), (int)0,
         [](int partialResult, FrequencyPair const& frequencyPair) {
             return partialResult + ((int)frequencyPair.second);
-        });
-}
+        });}
 
 double FrequencyStatistics::calculateSum(FrequencySamples const& samples) {
     return accumulate(
-        samples.begin(), samples.end(), (double)0, [](double partialResult, FrequencyPair const& frequencyPair) {
+        samples.cbegin(), samples.cend(), (double)0, [](double partialResult, FrequencyPair const& frequencyPair) {
             return partialResult + (frequencyPair.first * frequencyPair.second);
         });
 }
-
 double FrequencyStatistics::calculateMean(FrequencySamples const& samples) {
     double result(0);
-    int numberOfSamples = calculateNumberOfSamples(samples);
-    if (numberOfSamples > 0) {
+    int numberOfSamples = calculateNumberOfSamples(samples);    if (numberOfSamples > 0) {
         result = calculateSum(samples) / numberOfSamples;
     }
     return result;
@@ -63,17 +60,18 @@ double FrequencyStatistics::calculateMedian(FrequencySamples const& samples) {
 FrequencyStatistics::MultipleValues FrequencyStatistics::calculateMode(FrequencySamples const& samples) {
     MultipleValues result;
     typename FrequencySamples::const_iterator iteratorForMaxFrequency = max_element(
-        samples.begin(), samples.end(), [](FrequencyPair const& frequencyPair1, FrequencyPair const& frequencyPair2) {
+        samples.cbegin(), samples.cend(), [](FrequencyPair const& frequencyPair1, FrequencyPair const& frequencyPair2) {
             return frequencyPair1.second < frequencyPair2.second;
         });
-    int maxFrequency = iteratorForMaxFrequency->second;
+    if (iteratorForMaxFrequency != samples.cend()) {
+        int maxFrequency = iteratorForMaxFrequency->second;
 
-    for_each(samples.begin(), samples.end(), [&](FrequencyPair const& frequencyPair) {
-        if (maxFrequency == frequencyPair.second) {
-            result.push_back(frequencyPair.first);
-        }
-    });
+        for_each(samples.cbegin(), samples.cend(), [&](FrequencyPair const& frequencyPair) {
+            if (maxFrequency == frequencyPair.second) {
+                result.push_back(frequencyPair.first);
+            }
+        });
+    }
     return result;
 }
-
 }  // namespace alba
