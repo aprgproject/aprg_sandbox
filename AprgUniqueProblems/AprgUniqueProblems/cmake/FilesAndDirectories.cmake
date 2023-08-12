@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_UNIQUE_PROBLEMS_SOURCE_DIRECTORY
     ${APRG_UNIQUE_PROBLEMS_DIR}/src
 )
-
 set(APRG_UNIQUE_PROBLEMS_TEST_DIRECTORY
     ${APRG_UNIQUE_PROBLEMS_DIR}/tst
 )
-
 set(APRG_UNIQUE_PROBLEMS_MAIN_DIRECTORY
     ${APRG_UNIQUE_PROBLEMS_DIR}/main
 )

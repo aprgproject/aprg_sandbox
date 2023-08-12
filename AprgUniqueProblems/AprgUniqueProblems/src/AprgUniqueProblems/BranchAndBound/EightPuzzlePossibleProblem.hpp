@@ -2,13 +2,12 @@
 
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
+#include <array>
 #include <queue>
 #include <vector>
-
 namespace alba {
 
-class EightPuzzlePossibleProblem {
-public:
+class EightPuzzlePossibleProblem {public:
     using NumberMatrix = matrix::AlbaMatrix<int>;
     using Coordinate = std::pair<int, int>;
     using SearchNodeId = int;

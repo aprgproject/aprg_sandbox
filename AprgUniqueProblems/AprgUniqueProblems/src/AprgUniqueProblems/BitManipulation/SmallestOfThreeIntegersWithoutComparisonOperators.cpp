@@ -20,7 +20,12 @@ SmallestOfThreeIntegersWithoutComparisonOperators::Value SmallestOfThreeIntegers
 }
 
 bool SmallestOfThreeIntegersWithoutComparisonOperators::isLessThan(Value const value1, Value const value2) const {
-    return !(value1 / value2);
+    // This comparison works only on unsigned values.
+    // return !(value1 / value2); // this has a problem when value1 and value 2 are both zero
+    if (static_cast<bool>(value2)) {
+        return !(value1 / value2);
+    }
+    return false;
 }
 
 }  // namespace alba

@@ -43,27 +43,25 @@ public:
                 checkValue += forwardSkip;
             }
         }
-        if (checkValue + 1 < endValue && !m_boolFunction(checkValue))  // if last value is false, move one
-        {
+        if (checkValue + 1 < endValue && !m_boolFunction(checkValue)){
+            // if last value is false, move one
             checkValue++;
         }
-        if (m_boolFunction(checkValue))  // if its last value is true, save it to result
-        {
+        if (m_boolFunction(checkValue)) {
+            // if its last value is true, save it to result
             result = checkValue;
         }
         return result;
     }
 
 private:
-    BoolFunction const& m_boolFunction;
+    BoolFunction const m_boolFunction;
 };
 
 }  // namespace algorithm
-
 }  // namespace alba
 
-// An alternative method to implement binary search is based on an efficient way to iterate through the elements of the
-// array. The idea is to make jumps and slow the speed when we get closer to the target element.
+// An alternative method to implement binary search is based on an efficient way to iterate through the elements of the// array. The idea is to make jumps and slow the speed when we get closer to the target element.
 
 // The search goes through the array from left to right, and the initial jump length is n/2.
 // At each step, the jump length will be halved: first n/4, then n/8, n/16, etc., until finally the length is 1.
