@@ -208,21 +208,18 @@ string Board::getNotationPartOfFenString() const {
                              : (BoardOrientation::BlackUpWhiteDown == m_orientation) ? 7
                                                                                      : 0;
 
-    auto loopCondition =
-        startpoint <= end
-            ? [](CoordinateDataType const current,
-                 CoordinateDataType const last) { return less_equal<CoordinateDataType>{}(current, last); }
-            : [](CoordinateDataType const current, CoordinateDataType const last) {
-                  return greater_equal<CoordinateDataType>{}(current, last);
-              };
+    function<bool(CoordinateDataType, CoordinateDataType)> loopCondition;
+    if (startpoint <= end) {
+        loopCondition = less_equal<CoordinateDataType>{};
+    } else {
+        loopCondition = greater_equal<CoordinateDataType>{};
+    }
 
     CoordinateDataType interval = startpoint <= end ? 1 : -1;
-    for (CoordinateDataType y = startpoint; loopCondition(y, end); y += interval) {
-        int emptyCellsInRank = 0;
+    for (CoordinateDataType y = startpoint; loopCondition(y, end); y += interval) {        int emptyCellsInRank = 0;
         for (CoordinateDataType x = startpoint; loopCondition(x, end); x += interval) {
             Coordinate coordinate(x, y);
-            Piece piece(getPieceAt(coordinate));
-            if (piece.isEmpty()) {
+            Piece piece(getPieceAt(coordinate));            if (piece.isEmpty()) {
                 emptyCellsInRank++;
             } else {
                 if (emptyCellsInRank != 0) {

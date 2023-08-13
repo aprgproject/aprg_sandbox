@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(CHESS_UTILITIES_SOURCE_DIRECTORY
     ${CHESS_UTILITIES_DIR}/src
 )
-
 set(CHESS_UTILITIES_TEST_DIRECTORY
     ${CHESS_UTILITIES_DIR}/tst
 )
-
 set(CHESS_UTILITIES_MAIN_DIRECTORY
     ${CHESS_UTILITIES_DIR}/main
 )
