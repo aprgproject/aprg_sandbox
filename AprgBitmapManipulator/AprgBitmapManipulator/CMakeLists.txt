@@ -15,7 +15,8 @@ include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
-include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)include(${APRG_DIR}/AprgStatistics/AprgCmakeInclude/AprgStatistics.cmake)
+include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
+include(${APRG_DIR}/AprgStatistics/AprgCmakeInclude/AprgStatistics.cmake)
 
 #Add files and directories
 include(${APRG_BITMAP_MANIPULATOR_DIR}/cmake/FilesAndDirectories.cmake)

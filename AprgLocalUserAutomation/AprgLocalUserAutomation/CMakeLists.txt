@@ -16,6 +16,7 @@ include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgC
 
 #Add files and directories
 include(${APRG_LOCAL_USER_AUTOMATION_DIR}/cmake/FilesAndDirectories.cmake)
+
 #Do final steps
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")

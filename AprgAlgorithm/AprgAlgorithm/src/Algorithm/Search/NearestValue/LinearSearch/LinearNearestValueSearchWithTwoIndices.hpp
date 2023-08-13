@@ -66,7 +66,8 @@ public:
         return result;    }
 
 private:
-    void setInitialIndexes() {        if (!m_values.empty()) {
+    void setInitialIndexes() {
+        if (!m_values.empty()) {
             m_startIndex = 0;
             m_endIndex = m_values.size() - 1;  // fully closed interval
         }

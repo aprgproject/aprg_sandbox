@@ -19,6 +19,7 @@ include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgC
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
 include(${APRG_DIR}/AprgMath/AprgCmakeInclude/AprgMath.cmake)
+
 #Add Algorithm test files
 include_directories(${APRG_ALGORITHM_TEST_INCLUDE_DIRECTORIES})
 
@@ -37,6 +38,7 @@ else()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
     set(CMAKE_EXE_LINKER_FLAGS ${APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP})
     add_executable(${OUTFILE} ${APRG_UNIQUE_PROBLEMS_SOURCES} ${APRG_UNIQUE_PROBLEMS_MAIN_SOURCES})
-    include_directories(${APRG_UNIQUE_PROBLEMS_INCLUDE_DIRECTORIES})    target_link_libraries(${OUTFILE} APRG_MATH APRG_GEOMETRY APRG_COMMON)
+    include_directories(${APRG_UNIQUE_PROBLEMS_INCLUDE_DIRECTORIES})
+    target_link_libraries(${OUTFILE} APRG_MATH APRG_GEOMETRY APRG_COMMON)
 endif()
 include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)

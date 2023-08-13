@@ -15,6 +15,7 @@ include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 include(${APRG_DIR}/AprgGrepStringEvaluator/AprgCmakeInclude/AprgGrepStringEvaluator.cmake)
+
 #Add files and directories
 include(${APRG_PROCESS_FILES_DIR}/cmake/FilesAndDirectories.cmake)
 

@@ -8,7 +8,8 @@
 namespace alba {
 namespace algorithm {
 
-template <typename Values, int MAX_NUMBER_OF_VALUES>class CountingSorterUsingNewPositions : public BaseSorter<Values> {
+template <typename Values, int MAX_NUMBER_OF_VALUES>
+class CountingSorterUsingNewPositions : public BaseSorter<Values> {
 public:
     using Value = typename Values::value_type;
     using ArrayOfCountPerValue = std::array<int, MAX_NUMBER_OF_VALUES>;

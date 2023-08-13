@@ -10,6 +10,7 @@ using namespace std;
 namespace alba {
 
 BuildingBridges::BuildingBridges(Bridges const& bridges) : m_bridges(bridges) {}
+
 BuildingBridges::Index BuildingBridges::getNumberOfPossibleBridges() const {
     // Time Complexity – O(NlogN)
     // Space Complexity – O(N)

@@ -17,6 +17,7 @@ using namespace std;
 namespace alba {
 
 namespace algebra {
+
 PolynomialOverPolynomial::PolynomialOverPolynomial()
     : m_numerator(), m_denominator(), m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false) {}
 
@@ -204,6 +205,7 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
         }    }
     return areSomeFactorsRemoved;
 }
+
 Polynomial PolynomialOverPolynomial::multiplyAndSimplifyFactors(Polynomials const& factors) const {
     Polynomial product{Monomial(1, {})};
     for (Polynomial const& factor : factors) {

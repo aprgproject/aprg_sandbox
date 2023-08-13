@@ -15,7 +15,8 @@ include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
-#Add files and directoriesinclude(${APRG_MATH_DIR}/cmake/FilesAndDirectories.cmake)
+#Add files and directories
+include(${APRG_MATH_DIR}/cmake/FilesAndDirectories.cmake)
 
 #Do final steps
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")

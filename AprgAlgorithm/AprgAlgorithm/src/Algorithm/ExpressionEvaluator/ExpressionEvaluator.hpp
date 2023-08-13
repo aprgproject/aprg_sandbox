@@ -136,7 +136,8 @@ private:
             }        }
     }
     Terms m_terms;
-    friend class ExpressionEvaluatorConverter<ValueTemplateType, OperatorTemplateType>;};
+    friend class ExpressionEvaluatorConverter<ValueTemplateType, OperatorTemplateType>;
+};
 
 template <typename ValueTemplateType, typename OperatorTemplateType>
 class ExpressionPostfixEvaluator  // prefix is reverse postfix, so no prefix needed

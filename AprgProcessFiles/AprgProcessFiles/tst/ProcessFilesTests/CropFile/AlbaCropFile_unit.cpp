@@ -79,7 +79,8 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument) {
     EXPECT_EQ(R"(4)", fileReader.getLine());    EXPECT_EQ(R"(5)", fileReader.getLine());
     EXPECT_EQ(R"(6)", fileReader.getLine());
 #endif
-    EXPECT_TRUE(fileReader.getLine().empty());    EXPECT_FALSE(fileReader.isNotFinished());
+    EXPECT_TRUE(fileReader.getLine().empty());
+    EXPECT_FALSE(fileReader.isNotFinished());
 }
 
 TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument) {
@@ -159,7 +160,8 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart) 
     EXPECT_EQ(R"(2)", fileReader.getLine());    EXPECT_EQ(R"(3)", fileReader.getLine());
     EXPECT_EQ(R"(4)", fileReader.getLine());
 #endif
-    EXPECT_TRUE(fileReader.getLine().empty());    EXPECT_FALSE(fileReader.isNotFinished());
+    EXPECT_TRUE(fileReader.getLine().empty());
+    EXPECT_FALSE(fileReader.isNotFinished());
 }
 
 TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd) {

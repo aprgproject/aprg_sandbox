@@ -225,6 +225,7 @@ public:
             // Put the new combined term on the front
             outerTerms.emplace_front(combinedInnerTerms);
         }
+
         if (!outerTerms.empty()) {
             // Final simplification of X + XY = X.
             InnerTerms& onlyInnerTerms(outerTerms.front());

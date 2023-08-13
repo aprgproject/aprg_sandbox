@@ -55,7 +55,8 @@ TEST(AlbaDebugTest, PrintingStringsWorks) {    s_debugStringStream.str(string())
 TEST(AlbaDebugTest, PrintingPointersWorks) {    s_debugStringStream.str(string());
     s_debugStringStream.clear();
     unique_ptr<int> uniquePointer(make_unique<int>(695));
-    int const* nullPointer = nullptr;    int const* rawPointer = uniquePointer.get();
+    int const* nullPointer = nullptr;
+    int const* rawPointer = uniquePointer.get();
 
     ALBA_PRINT3(nullPointer, rawPointer, uniquePointer);
 
@@ -88,6 +89,7 @@ TEST(AlbaDebugTest, PrintingContainersWorks) {
 TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {    s_debugStringStream.str(string());
     s_debugStringStream.clear();
     int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
+
     ALBA_PRINT_MANIPULATE_OUTPUT(uppercase);
     ALBA_PRINT_MANIPULATE_OUTPUT(hex);
     ALBA_PRINT3(singleParameter1, singleParameter2, singleParameter3);
@@ -106,6 +108,7 @@ TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {    s_debugStringStream.str(s
 namespace {class SampleClass {
 public:
     SampleClass(int parameter1, int parameter2) : m_parameter1(parameter1), m_parameter2(parameter2) {}
+
     int getSum() const { return m_parameter1 + m_parameter2; }
 
     // Note that "friend" keyword is added here.

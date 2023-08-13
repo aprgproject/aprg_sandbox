@@ -23,7 +23,8 @@ double FrequencyStatistics::calculateSum(FrequencySamples const& samples) {
 }
 double FrequencyStatistics::calculateMean(FrequencySamples const& samples) {
     double result(0);
-    int numberOfSamples = calculateNumberOfSamples(samples);    if (numberOfSamples > 0) {
+    int numberOfSamples = calculateNumberOfSamples(samples);
+    if (numberOfSamples > 0) {
         result = calculateSum(samples) / numberOfSamples;
     }
     return result;

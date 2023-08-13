@@ -275,7 +275,8 @@ void AprgGraph::drawTermWithXSubstitution(Term const& term, uint32_t const color
     drawContinuousPoints(points, color);}
 
 void AprgGraph::drawTermWithYSubstitution(Term const& term, uint32_t const color) {
-    Points points;    RangeWithDoubles yRange(m_realUpLeftPoint.getY(), m_realDownRightPoint.getY(), m_lowestInterval);
+    Points points;
+    RangeWithDoubles yRange(m_realUpLeftPoint.getY(), m_realDownRightPoint.getY(), m_lowestInterval);
     SubstitutionOfVariablesToValues substitution;
     yRange.traverse([&](double const yValue) {
         substitution.putVariableWithValue("y", yValue);
@@ -287,7 +288,8 @@ void AprgGraph::drawTermWithYSubstitution(Term const& term, uint32_t const color
     drawContinuousPoints(points, color);}
 
 void AprgGraph::drawEquationWithXSubstitution(Equation const& equation, uint32_t const color) {
-    Points points;    RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
+    Points points;
+    RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
     SubstitutionOfVariablesToValues substitution;
     xRange.traverse([&](double const xValue) {
         substitution.putVariableWithValue("x", xValue);

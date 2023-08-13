@@ -16,6 +16,7 @@ add_definitions(-DAPRG_WEB_CRAWLER_CONFIGURATION_FILE="${APRG_DIR}AprgWebCrawler
 add_definitions(-DAPRG_CRAWLER_TEST_DIRECTORY="${APRG_DIR}AprgWebCrawler/TestDirectory")
 add_definitions(-DAPRG_CRAWLER_TEST_TEMPORARY_FILE_PATH="${APRG_DIR}AprgWebCrawler/TemporaryFile/temp.txt")
 add_definitions(-DAPRG_WEB_CRAWLER_FIX_BATCH_FILE="${APRG_DIR}AprgWebCrawler/fixDirectoryNames.bat")
+
 #Include other projects
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)

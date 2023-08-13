@@ -65,7 +65,8 @@ TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)  // DISABLED_
                 break;            }
         }
         if (isNextDisabled) {
-            break;        } else {
+            break;
+        } else {
             userAutomation.doLeftClickAt(MousePosition(3398, 514));
             userAutomation.doLeftClickAt(MousePosition(2368, 52));
             userAutomation.sleep(2000);
@@ -119,7 +120,8 @@ TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms) {
                 }            }
             if (!isNextPageTextFound) {
                 break;
-            }        }
+            }
+        }
     }
 }
 

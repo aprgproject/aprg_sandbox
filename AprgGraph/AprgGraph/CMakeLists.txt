@@ -16,6 +16,7 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)include(${APRG_
 include(${APRG_DIR}/AprgAlgebra/AprgCmakeInclude/AprgAlgebra.cmake)
 include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
 include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
+
 #Add files and directories
 include(${APRG_GRAPH_DIR}/cmake/FilesAndDirectories.cmake)
 

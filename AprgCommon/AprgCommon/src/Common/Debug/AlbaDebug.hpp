@@ -60,6 +60,7 @@ inline std::ofstream debugStream(ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_FILE_PATH);
 // Macros for debug scope
 #define ALBA_DEBUG_SCOPE_START {
 #define ALBA_DEBUG_SCOPE_END }
+
 // Macros for output operator
 // Note: Dont include "friend" keyword in macro just include in the class.
 #define ALBA_DEBUG_CLASS_OUTPUT_OPERATOR_DECLARATION(ParameterSignature) \

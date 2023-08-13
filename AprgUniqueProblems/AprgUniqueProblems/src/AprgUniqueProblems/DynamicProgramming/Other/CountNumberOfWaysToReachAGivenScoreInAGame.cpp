@@ -9,6 +9,7 @@ using namespace std;
 namespace alba {
 CountNumberOfWaysToReachAGivenScoreInAGame::CountNumberOfWaysToReachAGivenScoreInAGame(Value const targetScore)
     : m_targetScore(targetScore) {}
+
 CountNumberOfWaysToReachAGivenScoreInAGame::Value
 CountNumberOfWaysToReachAGivenScoreInAGame::getMinimumCostUsingIterativeDP() const {
     // Time Complexity: O(n^2)

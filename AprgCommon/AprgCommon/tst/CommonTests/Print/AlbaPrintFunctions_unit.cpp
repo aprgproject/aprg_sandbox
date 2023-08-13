@@ -4,7 +4,8 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <deque>
-#include <forward_list>#include <optional>
+#include <forward_list>
+#include <optional>
 #include <queue>
 #include <sstream>
 #include <stack>
@@ -18,6 +19,7 @@ namespace alba {
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint) {
     stringstream ssToVerify;
     int integerToTest = 500;
+
     printParameterWithName(ssToVerify, "name", integerToTest);
 
     EXPECT_EQ("name : [500]", ssToVerify.str());
@@ -186,6 +188,7 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack) {    stringst
     stack<int> adapter({1, 2, 3});
 
     printParameterWithName(ssToVerify, "name", adapter);
+
     EXPECT_EQ("name : [{adapter: {size: 3 | 1, 2, 3, }}]", ssToVerify.str());
 }
 

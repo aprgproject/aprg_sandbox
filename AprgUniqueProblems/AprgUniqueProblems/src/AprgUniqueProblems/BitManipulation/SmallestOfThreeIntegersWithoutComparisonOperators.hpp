@@ -13,5 +13,6 @@ public:
 };
 
 }  // namespace alba
+
 // Write a program to find the smallest of three integers, without using any of the comparison operators.
 // Let 3 input numbers be x, y and z.

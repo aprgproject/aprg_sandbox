@@ -74,6 +74,7 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(
             }        }
     }
 }
+
 string AprgFileExtractor::extractOnceForAllFiles(string const& filePathOfCompressedFile) const {
     AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaLocalPathHandler outputPathHandler(

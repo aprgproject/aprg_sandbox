@@ -146,7 +146,8 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path) {
                 m_linesAfterTheHeader.emplace_back(line);                isOnHeaderPart = false;
             }
         } else {
-            m_linesAfterTheHeader.emplace_back(line);        }
+            m_linesAfterTheHeader.emplace_back(line);
+        }
     }
 }
 
@@ -163,7 +164,8 @@ void CPlusPlusFileFixer::readLineWithSharpInclude(string const& line, string con
         } else {            addHeaderFileFromAngleBrackets(headerFromAngleBrackets);
         }
     }
-    if (!headerFromQuotations.empty()) {        addHeaderFileFromQuotations(headerFromQuotations);
+    if (!headerFromQuotations.empty()) {
+        addHeaderFileFromQuotations(headerFromQuotations);
     }
 }
 
@@ -174,7 +176,8 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
 }
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const {
     bool isAlbaDebugHeaderFound =
-        (find(             m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(),
+        (find(
+             m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(),
              string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
     if (isAlbaDebugHeaderFound)  // !isUnitTest)
     {
@@ -194,7 +197,8 @@ void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string cons
         cout << "CHECK THIS: iostream found in:[" << path << "].\n";    }
 }
 
-void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const {    bool isCAssertFound =
+void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const {
+    bool isCAssertFound =
         (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) !=
          m_headerListFromAngleBrackets.end());
     if (isCAssertFound) {
@@ -384,7 +388,8 @@ bool CPlusPlusFileFixer::isPathIgnored(string const& path) const {
     return result;}
 
 bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const {
-    return listOfCPlusPlusHeaders.find(header) != listOfCPlusPlusHeaders.cend();}
+    return listOfCPlusPlusHeaders.find(header) != listOfCPlusPlusHeaders.cend();
+}
 
 bool CPlusPlusFileFixer::isLinuxHeader(string const& header) const {
     return listOfLinuxHeaders.find(header) != listOfLinuxHeaders.cend() ||
@@ -401,7 +406,8 @@ bool CPlusPlusFileFixer::isGtestHeader(string const& header) const {
 bool CPlusPlusFileFixer::isQtHeader(string const& header) const {    bool result(false);
     AlbaLocalPathHandler headerFileHandler(header);
     if (header.length() >= 2) {
-        if ('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) &&            headerFileHandler.getExtension().empty()) {
+        if ('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) &&
+            headerFileHandler.getExtension().empty()) {
             result = true;
         }
     }

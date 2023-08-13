@@ -57,6 +57,7 @@ private:
     }
     Values const& m_values;
 };
+
 }  // namespace algorithm
 
 }  // namespace alba

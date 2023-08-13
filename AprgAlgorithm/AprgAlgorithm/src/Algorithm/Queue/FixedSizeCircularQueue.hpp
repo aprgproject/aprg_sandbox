@@ -8,6 +8,7 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Object, int SIZE>
 class FixedSizeCircularQueue : public BaseQueue<Object> {
 public:

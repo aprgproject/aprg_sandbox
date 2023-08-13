@@ -49,7 +49,8 @@ TEST(AlbaMacrosTest, GetStringLiteralWorks) {
 TEST(AlbaMacrosTest, CaseEnumStringWorks) {    enum class SampleEnumClass { Type1, Type2 };
     struct SampleClass {
         string getString(SampleEnumClass const enumValue) {
-            switch (enumValue) {                ALBA_MACROS_CASE_ENUM_STRING(SampleEnumClass::Type1)
+            switch (enumValue) {
+                ALBA_MACROS_CASE_ENUM_STRING(SampleEnumClass::Type1)
                 ALBA_MACROS_CASE_ENUM_STRING(SampleEnumClass::Type2)
                 default:
                     return "default";

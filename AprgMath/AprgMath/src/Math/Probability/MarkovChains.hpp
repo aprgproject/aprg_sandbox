@@ -9,7 +9,8 @@
 namespace alba {
 template <int MAX_STATE_VALUE>
 class MarkovChains {
-public:    // A Markov chain is a random process that consists of states and transitions between them.
+public:
+    // A Markov chain is a random process that consists of states and transitions between them.
     // For each state, we know the probabilities for moving to other states.
     // A Markov chain can be represented as a graph whose nodes are states and edges are transitions.
 

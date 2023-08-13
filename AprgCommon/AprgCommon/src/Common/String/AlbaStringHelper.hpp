@@ -140,7 +140,8 @@ std::string getHexEquivalentOfCharacters(std::string_view stringToCheck);
 std::string getQuotedString(std::string_view stringToCheck);
 // Utilities
 
-std::string constructFileLocator(std::string_view file, int const lineNumber);std::string getRandomAlphaNumericString(size_t const length);
+std::string constructFileLocator(std::string_view file, int const lineNumber);
+std::string getRandomAlphaNumericString(size_t const length);
 strings getArgumentsToStringInMain(int const argc, char const* const argv[]);
 
 // Find and replace
@@ -158,7 +159,8 @@ void splitToStringsUsingASeriesOfDelimeters(
     strings& listOfStrings, std::string_view mainString, strings const& seriesOfDelimiters);
 // basic_string variants
 template <typename StringType>
-constexpr bool isBasicStringVariant() {    return typeHelper::areSameTypes<StringType, std::string_view>() ||
+constexpr bool isBasicStringVariant() {
+    return typeHelper::areSameTypes<StringType, std::string_view>() ||
            typeHelper::areSameTypes<StringType, std::string>() ||
            typeHelper::areSameTypes<StringType, std::wstring>() ||
            typeHelper::areSameTypes<StringType, std::u16string>() ||
@@ -195,7 +197,8 @@ std::string getCorrectPathWithReplacedSlashCharacters(std::string_view path);
 template <char slashCharacterString>std::string getCorrectPathWithoutDoublePeriod(std::string_view path);
 template <char slashCharacterString>
 std::string getStringBeforeDoublePeriod(std::string_view path);
-template <char slashCharacterString>std::string getImmediateDirectoryName(std::string_view path);
+template <char slashCharacterString>
+std::string getImmediateDirectoryName(std::string_view path);
 
 // string to type converters
 // NOTE: Consider stoul, stoull, stoi, stol, stoll, stof, stod, stold for this conversions

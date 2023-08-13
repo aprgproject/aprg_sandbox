@@ -10,7 +10,8 @@ namespace alba {
 namespace algorithm {
 template <typename Vertex, int MAX_VERTEX_VALUE>
 class DirectedGraphWithAdjacencyMatrix : public BaseDirectedGraph<Vertex> {
-public:    using Vertices = typename GraphTypes<Vertex>::Vertices;
+public:
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
 

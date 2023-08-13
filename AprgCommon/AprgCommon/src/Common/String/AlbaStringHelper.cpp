@@ -23,7 +23,8 @@ size_t generateUniqueId(string_view str) {
 size_t getLevenshteinDistance(string_view otherString, string_view basisString) {    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a
     // string into another string. The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
-    // -> remove a character (e.g. ABC ! AC)    // -> modify a character (e.g. ABC ! ADC)
+    // -> remove a character (e.g. ABC ! AC)
+    // -> modify a character (e.g. ABC ! ADC)
 
     using Counts = vector<size_t>;
 
@@ -327,7 +328,8 @@ string getStringWithoutStartingAndTrailingCharacters(string_view str, string_vie
         result.erase(0, firstIndexOfNotOfCharacters);        size_t lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if (isNotNpos(static_cast<int>(lastIndexOfOfNotOfCharacters))) {
             result.erase(lastIndexOfOfNotOfCharacters + 1);
-        }    } else {
+        }
+    } else {
         result.clear();
     }
     return result;
@@ -400,7 +402,8 @@ string getStringWithoutOpeningClosingOperators(
 string getLongestCommonPrefix(string_view first, string_view second) {    size_t i = 0;
     for (; i < first.length() && i < second.length(); i++) {
         if (first[i] != second[i]) {
-            break;        }
+            break;
+        }
     }
     return string(first.substr(0, i));
 }
@@ -461,7 +464,8 @@ string getStringBeforeThisCharacters(string_view mainText, string_view character
 }
 string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string_view path) {
     bool isPreviousCharacterNonAlphanumeric = false;
-    string correctPath = accumulate(        path.cbegin(), path.cend(), string(),
+    string correctPath = accumulate(
+        path.cbegin(), path.cend(), string(),
         [&isPreviousCharacterNonAlphanumeric](string_view currentString, char const currentCharacter) {
             string partialResult(currentString);
             if (!isLetterOrNumber(currentCharacter)) {
@@ -517,7 +521,8 @@ string getHexNumberAfterThisString(string_view mainText, string_view stringToSea
 }
 string getHexEquivalentOfCharacters(string_view stringToCheck) {
     stringstream ss;
-    for (unsigned char const c : stringToCheck) {        ss << hex << uppercase << setfill('0') << setw(2) << static_cast<unsigned long long>(c);
+    for (unsigned char const c : stringToCheck) {
+        ss << hex << uppercase << setfill('0') << setw(2) << static_cast<unsigned long long>(c);
     }
     return ss.str();
 }
@@ -597,7 +602,8 @@ string combineStrings(strings const& listOfStrings, string_view delimiters) {
     string delimeterString(delimiters);    string result = accumulate(
         listOfStrings.cbegin(), listOfStrings.cend(), string(),
         [&delimeterString](string const& previousResult, string const& currentString) {
-            return previousResult + currentString + delimeterString;        });
+            return previousResult + currentString + delimeterString;
+        });
 
     if (result.size() > delimiters.size()) {
         result = result.substr(0, result.size() - delimiters.size());
@@ -629,6 +635,7 @@ void splitLinesToAchieveTargetLength(strings& strings, string_view mainText, siz
             ++lowerTransitionIndex;
             int lowerDelta = static_cast<int>(splittingIndex - lowerTransitionIndex);
             int upperDelta = static_cast<int>(upperTransitionIndex - splittingIndex);
+
             bool isUpperValid(upperDelta >= 0);
             bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);
             if (isUpperValid && isLowerValid) {
@@ -688,7 +695,8 @@ string getStringWithJustifyAlignment(string_view mainText, size_t const targetLe
         string gap(gapLength, ' ');        result += gap;
         for (size_t i = 0; i < noRedundantWhiteSpaceLength; i++) {
             result += noRedundantWhiteSpace[i];
-            result += gap;        }
+            result += gap;
+        }
         result += string(targetLength - result.length(), ' ');
     } else {
         strings actualStrings;
@@ -716,7 +724,8 @@ string getStringWithCenterAlignment(string_view mainText, size_t const targetLen
     } else if (noRedundantWhiteSpace.length() >= targetLength) {        result = noRedundantWhiteSpace;
     } else {
         size_t gapLength = (targetLength - noRedundantWhiteSpace.length()) / 2;
-        result += string(gapLength, ' ');        result += noRedundantWhiteSpace;
+        result += string(gapLength, ' ');
+        result += noRedundantWhiteSpace;
         result += string(targetLength - result.length(), ' ');
     }
     return result;
@@ -731,7 +740,8 @@ string getStringWithRightAlignment(string_view mainText, size_t const targetLeng
     } else if (noRedundantWhiteSpace.length() >= targetLength) {        result = noRedundantWhiteSpace;
     } else {
         size_t gapLength = (targetLength - noRedundantWhiteSpace.length());
-        result += string(gapLength, ' ');        result += noRedundantWhiteSpace;
+        result += string(gapLength, ' ');
+        result += noRedundantWhiteSpace;
     }
     return result;
 }
@@ -745,7 +755,8 @@ string getStringWithLeftAlignment(string_view mainText, size_t const targetLengt
     } else if (noRedundantWhiteSpace.length() >= targetLength) {        result = noRedundantWhiteSpace;
     } else {
         size_t gapLength = (targetLength - noRedundantWhiteSpace.length());
-        result += noRedundantWhiteSpace;        result += string(gapLength, ' ');
+        result += noRedundantWhiteSpace;
+        result += string(gapLength, ' ');
     }
     return result;
 }
@@ -794,7 +805,8 @@ string getCorrectPathWithoutDoublePeriod(string_view path, string_view slashChar
         isDirectoryChanged = false;        string stringToFind(slashCharacterString);
         stringToFind += ".."s;
         stringToFind += slashCharacterString;
-        size_t indexOfDoublePeriod = correctPath.find(stringToFind);        if (isNotNpos(static_cast<int>(indexOfDoublePeriod))) {
+        size_t indexOfDoublePeriod = correctPath.find(stringToFind);
+        if (isNotNpos(static_cast<int>(indexOfDoublePeriod))) {
             size_t indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod - 1);
             if (isNotNpos(static_cast<int>(indexOfNearestSlash))) {
                 isDirectoryChanged = true;
@@ -827,7 +839,8 @@ string getImmediateDirectoryName(string_view path, string_view slashCharacterStr
     return result;}
 
 template <char slashCharacter>
-string getCorrectPathWithReplacedSlashCharacters(string_view path) {    return getCorrectPathWithReplacedSlashCharacters(path, string(1, slashCharacter));
+string getCorrectPathWithReplacedSlashCharacters(string_view path) {
+    return getCorrectPathWithReplacedSlashCharacters(path, string(1, slashCharacter));
 }
 template string getCorrectPathWithReplacedSlashCharacters<'\\'>(string_view path);
 template string getCorrectPathWithReplacedSlashCharacters<'/'>(string_view path);
@@ -874,6 +887,7 @@ AlbaNumber convertStringToAlbaNumber(string_view stringToConvert) {
         result = AlbaNumber(convertStringToNumber<int>(stringToConvert));    }
     return result;
 }
+
 string convertBoolToString(bool const value) {
     stringstream temporaryStream;
     temporaryStream << boolalpha << value;

@@ -41,6 +41,7 @@ private:
             sort(valuesToSort, partitionItPlusOne, itHigh);        }
     }
 };
+
 }  // namespace algorithm
 
 }  // namespace alba
