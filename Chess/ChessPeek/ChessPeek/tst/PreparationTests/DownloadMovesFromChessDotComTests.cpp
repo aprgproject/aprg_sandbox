@@ -308,25 +308,23 @@ bool readHtmlFileIfValid(WebPageInfo& pageInfo, string const& htmlFile) {
                     string moveList = getStringInBetween(
                         line, R"(<div class="suggested-moves-suggested-moves-list">)", R"(</div></li>)", index);
                     int moveListIndex = 0;
-                    if (isStringFoundInsideTheOtherStringCaseSensitive(
+                    if (isStringFoundCaseSensitive(
                             moveList, R"("suggested-moves-suggested-white")")) {
                         moveInfo.whiteWinPercentage = getStringInBetween(
                             moveList, R"(<span class="suggested-moves-percent-label">)", R"(</span>)", moveListIndex);
                     }
-                    if (isStringFoundInsideTheOtherStringCaseSensitive(
+                    if (isStringFoundCaseSensitive(
                             moveList, R"("suggested-moves-suggested-draw")")) {
                         moveInfo.drawPercentage = getStringInBetween(
                             moveList, R"(<span class="suggested-moves-percent-label">)", R"(</span>)", moveListIndex);
                     }
-                    if (isStringFoundInsideTheOtherStringCaseSensitive(
+                    if (isStringFoundCaseSensitive(
                             moveList, R"("suggested-moves-suggested-black")")) {
                         moveInfo.blackWinPercentage = getStringInBetween(
-                            moveList, R"(<span class="suggested-moves-percent-label">)", R"(</span>)", moveListIndex);
-                    }
+                            moveList, R"(<span class="suggested-moves-percent-label">)", R"(</span>)", moveListIndex);                    }
                 } else {
                     moveInfo.numberOfGames = "1";
-                    string moveList = getStringInBetween(
-                        line, R"(<div class="suggested-moves-suggested-moves-list">)", R"(</div></li>)", index);
+                    string moveList = getStringInBetween(                        line, R"(<div class="suggested-moves-suggested-moves-list">)", R"(</div></li>)", index);
                     string oneMatch = getStringInBetween(
                         moveList, R"(<div class="suggested-moves-result suggested-moves-suggested-)", R"(</div>)");
                     if (oneMatch == R"(white">1-0)") {

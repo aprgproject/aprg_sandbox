@@ -357,19 +357,17 @@ void ResultPrinter::sortForMoreHumanMoves(NextMoves& nextMoves) const {
 }
 
 void ResultPrinter::removeTooManyPawnMoves(NextMoves& nextMoves) const {
-    constexpr int MAX_NUMBER_OF_PAWN_MOVES = 2;
     int numberOfPawnMoves = 0;
     Board const& engineBoard(m_engineBoardWithContext.getBoard());
     auto pastEndIt =
         remove_if(nextMoves.begin(), nextMoves.end(), [&numberOfPawnMoves, &engineBoard](NextMove const& moveDetail) {
+            constexpr int MAX_NUMBER_OF_PAWN_MOVES = 2;
             Move const& move(moveDetail.move);
             if (PieceType::Pawn == engineBoard.getPieceAt(move.first).getType()) {
-                if (numberOfPawnMoves < MAX_NUMBER_OF_PAWN_MOVES) {
-                    numberOfPawnMoves++;
+                if (numberOfPawnMoves < MAX_NUMBER_OF_PAWN_MOVES) {                    numberOfPawnMoves++;
                 } else {
                     return true;
-                }
-            }
+                }            }
             return false;
         });
     nextMoves.erase(pastEndIt, nextMoves.cend());
