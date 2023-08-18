@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(CODING_COMPETITIONS_COMMON_DIRECTORY
     ${APRG_DIR}/CodingCompetitions/Common
 )
-
 set(GOOGLE_KICK_START_TEST_DIRECTORY
     ${GOOGLE_KICK_START_DIR}/tst
-    #for specific rounds only:
-    #${GOOGLE_KICK_START_DIR}/tst/2020/RoundH
+    #for specific rounds only:    #${GOOGLE_KICK_START_DIR}/tst/2020/RoundH
 )
 
 set(GOOGLE_KICK_START_INCLUDE_DIRECTORIES
