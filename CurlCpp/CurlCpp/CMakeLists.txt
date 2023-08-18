@@ -8,17 +8,14 @@ set(APRG_CURL_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 #Locate APRG Directory first because its used on other cmakes
 include(${APRG_CURL_CPP_DIR}/cmake/LocateAprgDirectory.cmake)
 
-#Assign common flags, definitions and macros
-include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
+#Assign macros, common flags, definitions and other common steps
+include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 # Add MacPorts
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")  set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
 endif()
 
-#Include other projects
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+#Include other projectsinclude(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/curl/AprgCmakeInclude/Curl.cmake)
 
 #Add files and directories

@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(APRG_CURL_CPP_SOURCE_DIRECTORY
     ${APRG_CURL_CPP_DIR}/src
 )
-
 set(APRG_CURL_CPP_TEST_DIRECTORY
     ${APRG_CURL_CPP_DIR}/tst
 )
-
 set(APRG_CURL_CPP_INCLUDE_DIRECTORIES
     ${APRG_CURL_CPP_SOURCE_DIRECTORY}
 )
