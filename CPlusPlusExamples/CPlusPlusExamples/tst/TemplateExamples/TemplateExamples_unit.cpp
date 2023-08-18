@@ -611,18 +611,16 @@ void foo1(Us...) {
     cout << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
 }
 
-template <typename T, typename... Us, typename V>
-void foo2() {
-    cout << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
-}
+// template <typename T, typename... Us, typename V>
+// void foo2() {
+//     cout << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
+// }
 
 template <typename... Ts, typename U>
-void foo3(U) {
-    cout << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
+void foo3(U) {    cout << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
 }
 
-template <typename... Ts>
-void foo4(Ts...) {
+template <typename... Ts>void foo4(Ts...) {
     cout << ALBA_MACROS_GET_PRETTY_FUNCTION << "\n";
 }
 

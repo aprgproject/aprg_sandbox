@@ -8,67 +8,90 @@ namespace alba {
 
 namespace StaticOnTranslationUnits {
 
-int integer = 300;         // extern(external linkage) by default
-extern int externInteger;  // explicitly extern(external linkage),
-// only a declaration (incomplete type) and not a definition
-extern const int externConstInteger;  // explicitly extern(external linkage),
-// only a declaration (incomplete type) and not a definition
+// constexpr int constInteger = 110;  // Error: redefinition of 'constInteger'
+// static int staticInteger = 210;    // Error: redefinition of 'staticInteger'
 
-int externInteger = 400;             // definition (complete type)
-const int externConstInteger = 500;  // definition (complete type)
+int integer = 310;  // extern (external linkage) by default
+// explicitly extern (external linkage)
+extern int externInteger;  // only a declaration (incomplete type)
+int externInteger = 410;   // definition (complete type)
+// explicitly extern (external linkage)
+extern const int externConstInteger;  // only a declaration (incomplete type)
+const int externConstInteger = 510;   // definition (complete type)
 
 int freeFunction() { return 1; }
-
 int staticFreeFunction() { return 1; }
 
 // Utilities for tests
+void restoreInitialValuesForTranslationUnit1() {
+    // constInteger = 110; // const so cannot change value
+    staticInteger = 210;
+    integer = 310;
+    externInteger = 410;
+    // externConstInteger = 510;  // const so cannot change value
+}
+
 TranslationUnitValues getValuesInTranslationUnit1() {
     return TranslationUnitValues{constInteger, staticInteger, integer, externInteger, externConstInteger};
 }
 
-TEST(StaticOnTranslationUnit1Test, DISABLED_VariableValuesAreCorrect)  // Flaky test
-{
+TEST(StaticOnTranslationUnit1Test, VariableValuesAreCorrect) {
+    restoreInitialValuesForTranslationUnit1();
     EXPECT_EQ(100, constInteger);
-    EXPECT_EQ(200, staticInteger);
-    EXPECT_EQ(300, integer);
-    EXPECT_EQ(400, externInteger);
-    EXPECT_EQ(500, externConstInteger);
+    EXPECT_EQ(210, staticInteger);
+    EXPECT_EQ(310, integer);
+    EXPECT_EQ(410, externInteger);
+    EXPECT_EQ(510, externConstInteger);
 }
 
 TEST(StaticOnTranslationUnit1Test, VariableValuesCanBeChanged) {
-    // constInteger = 101; // Const cannot change
-    staticInteger = 201;
-    integer = 301;
-    externInteger = 401;
-    // externConstInteger = 501; // Const cannot change
+    restoreInitialValuesForTranslationUnit1();
+    // constInteger = 111; // const so cannot change value
+    staticInteger = 211;
+    integer = 311;
+    externInteger = 411;
+    // externConstInteger = 511; // const so cannot change value
 
     EXPECT_EQ(100, constInteger);
-    EXPECT_EQ(201, staticInteger);
-    EXPECT_EQ(301, integer);
-    EXPECT_EQ(401, externInteger);
-    EXPECT_EQ(500, externConstInteger);
+    EXPECT_EQ(211, staticInteger);
+    EXPECT_EQ(311, integer);
+    EXPECT_EQ(411, externInteger);
+    EXPECT_EQ(510, externConstInteger);
+    restoreInitialValuesForTranslationUnit1();
+}
+
+TEST(StaticOnTranslationUnit1Test, VariableValuesOnOtherTranslationUnit) {
+    restoreInitialValuesForTranslationUnit2();
+    TranslationUnitValues otherTranslationUnitValues(getValuesInTranslationUnit2());
+    EXPECT_EQ(100, otherTranslationUnitValues.constInteger);
+    EXPECT_EQ(220, otherTranslationUnitValues.staticInteger);
+    EXPECT_EQ(0, otherTranslationUnitValues.integer);  // does not exist TranslationUnit2
+    EXPECT_EQ(420, otherTranslationUnitValues.externInteger);
+    EXPECT_EQ(510, otherTranslationUnitValues.externConstInteger);
 }
 
 TEST(StaticOnTranslationUnit1Test, VariableValuesAreChangedAndReflectedOnOtherTranslationUnit) {
-    // constInteger = 102; // Const cannot change
-    staticInteger = 202;
-    integer = 302;
-    externInteger = 402;
-    // externConstInteger = 502; // Const cannot change
+    restoreInitialValuesForTranslationUnit1();
+    restoreInitialValuesForTranslationUnit2();
+    // constInteger = 112; // const so cannot change value
+    staticInteger = 212;
+    integer = 312;
+    externInteger = 412;
+    // externConstInteger = 512; // const so cannot change value
 
     TranslationUnitValues otherTranslationUnitValues(getValuesInTranslationUnit2());
     EXPECT_EQ(100, otherTranslationUnitValues.constInteger);
-    EXPECT_NE(202, otherTranslationUnitValues.staticInteger);  // not equal
-    EXPECT_EQ(0, otherTranslationUnitValues.integer);          // no "integer" on Translation Unit 2
-    EXPECT_EQ(402, otherTranslationUnitValues.externInteger);
-    EXPECT_EQ(500, otherTranslationUnitValues.externConstInteger);
+    EXPECT_EQ(220, otherTranslationUnitValues.staticInteger);
+    EXPECT_EQ(0, otherTranslationUnitValues.integer);  // does not exist TranslationUnit2
+    EXPECT_EQ(412, otherTranslationUnitValues.externInteger);
+    EXPECT_EQ(510, otherTranslationUnitValues.externConstInteger);
+    restoreInitialValuesForTranslationUnit1();
+    restoreInitialValuesForTranslationUnit2();
 }
 
-TEST(StaticOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {
-    EXPECT_EQ(1, freeFunction());
+TEST(StaticOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {    EXPECT_EQ(1, freeFunction());
     EXPECT_EQ(1, staticFreeFunction());
 }
-
 }  // namespace StaticOnTranslationUnits
 
 }  // namespace alba

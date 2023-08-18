@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 
+#include <algorithm>
+#include <array>
 #include <initializer_list>
 #include <iostream>
-#include <memory>
-#include <optional>
+#include <memory>#include <optional>
 #include <variant>
 
 using namespace std;
-
 // Taken from Ben Deane's talk “Everyday Efficiency- In-Place Construction (Back to Basics-)")
 
 namespace alba {
