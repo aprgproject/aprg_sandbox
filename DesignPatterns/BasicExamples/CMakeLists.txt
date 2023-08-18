@@ -9,27 +9,18 @@ set(DESIGN_PATTERNS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(TEST_MODE "ON")
 
 #Locate APRG Directory first because its used on other cmakes
-get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
-get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
-while(NOT ${CURRENT_DIR_NAME} MATCHES "aprg")
-    get_filename_component(ABSOLUTE_CURRENT_DIR "${ABSOLUTE_CURRENT_DIR}/.." ABSOLUTE)
-    get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
-endwhile()
-set(APRG_DIR ${ABSOLUTE_CURRENT_DIR})
+include(${DESIGN_PATTERNS_DIR}/cmake/LocateAprgDirectory.cmake)
 
-#Assign common flags, definitions and macros
-include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
+#Assign macros, common flags, definitions and other common steps
+include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
-include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Add files and directories
 include(${DESIGN_PATTERNS_DIR}/cmake/FilesAndDirectories.cmake)
-
 #Do final steps
 add_executable(${OUTFILE} ${DESIGN_PATTERNS_SOURCES_AND_TESTS})
 include_directories(${DESIGN_PATTERNS_INCLUDE_DIRECTORIES} ${DESIGN_PATTERNS_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${OUTFILE} APRG_COMMON ${APRG_GTEST_DEPENDENCIES})
 add_test(${OUTFILE} ${OUTFILE})

@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(DESIGN_PATTERNS_SOURCE_DIRECTORY
     ${DESIGN_PATTERNS_DIR}/src
 )
-
 set(DESIGN_PATTERNS_TEST_DIRECTORY
     ${DESIGN_PATTERNS_DIR}/tst
 )
-
 set(DESIGN_PATTERNS_INCLUDE_DIRECTORIES
     ${DESIGN_PATTERNS_SOURCE_DIRECTORY}
 )
