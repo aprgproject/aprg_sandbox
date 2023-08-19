@@ -63,17 +63,15 @@ void MapAnalyzer::printPotentialZenyFromMonster(string const& monsterName) const
 
 double MapAnalyzer::getMultiplierForExperience(string const& mapName) {
     double multiplier(1);
-    if (isStringFoundInsideTheOtherStringCaseSensitive(mapName, "xmas_") ||
-        isStringFoundInsideTheOtherStringCaseSensitive(mapName, "man_") ||
-        isStringFoundInsideTheOtherStringCaseSensitive(mapName, "dic_")) {
+    if (isStringFoundCaseSensitive(mapName, "xmas_") ||
+        isStringFoundCaseSensitive(mapName, "man_") ||
+        isStringFoundCaseSensitive(mapName, "dic_")) {
         multiplier = 2;
     }
-    return multiplier;
-}
+    return multiplier;}
 
 void MapAnalyzer::gatherData() {
-    m_ragnarokOnline.readItemIdToItemMapFromFile(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\ItemIdToItemMap.txt)");
-    m_ragnarokOnline.readMonsterIdToMonsterMapFromFile(
+    m_ragnarokOnline.readItemIdToItemMapFromFile(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\ItemIdToItemMap.txt)");    m_ragnarokOnline.readMonsterIdToMonsterMapFromFile(
         R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MonsterIdToMonsterMap.txt)");
     m_ragnarokOnline.readMapNameToRoMapFromFile(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\MapNameToRoMap.txt)");
     // m_ragnarokOnline.readBuyingShopItems(R"(C:\Users\detec\OneDrive\Desktop\Games\RO\BuyingShopItemsCurrentData.txt)");

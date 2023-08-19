@@ -61,45 +61,40 @@ void MonsterRaceAnalyzer::readPreviousRaceDatabase() {
     RacePlaceType racePlaceType{RacePlaceType::Unknown};
     while (fileReader.isNotFinished()) {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if (isStringFoundInsideTheOtherStringCaseSensitive(line, "#HP:")) {
+        if (isStringFoundCaseSensitive(line, "#HP:")) {
             strings hpValuesStrings;
             splitToStrings<SplitStringType::WithoutDelimeters>(
-                hpValuesStrings, getStringAfterThisString(line, "#HP:"), ",");
-            int limit = min(NUMBER_OF_MONSTERS, static_cast<int>(hpValuesStrings.size()));
+                hpValuesStrings, getStringAfterThisString(line, "#HP:"), ",");            int limit = min(NUMBER_OF_MONSTERS, static_cast<int>(hpValuesStrings.size()));
             for (int i = 0; i < limit; i++) {
                 previousRace.raceConfiguration.hp[i] = convertStringToNumber<int>(hpValuesStrings.at(i));
             }
-        } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "#Luck:")) {
+        } else if (isStringFoundCaseSensitive(line, "#Luck:")) {
             strings luckValuesStrings;
             splitToStrings<SplitStringType::WithoutDelimeters>(
-                luckValuesStrings, getStringAfterThisString(line, "#Luck:"), ",");
-            int limit = min(NUMBER_OF_MONSTERS, static_cast<int>(luckValuesStrings.size()));
+                luckValuesStrings, getStringAfterThisString(line, "#Luck:"), ",");            int limit = min(NUMBER_OF_MONSTERS, static_cast<int>(luckValuesStrings.size()));
             for (int i = 0; i < limit; i++) {
                 previousRace.raceConfiguration.luck[i] = convertStringToNumber<int>(luckValuesStrings.at(i));
             }
-        } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "#Winner:")) {
+        } else if (isStringFoundCaseSensitive(line, "#Winner:")) {
             previousRace.winner = convertStringToNumber<int>(getStringAfterThisString(line, "#Winner:"));
             if (RacePlaceType::SingleRace == racePlaceType) {
-                m_singleRace.emplace_back(previousRace);
-            } else if (RacePlaceType::DualRaceFirstPlace == racePlaceType) {
+                m_singleRace.emplace_back(previousRace);            } else if (RacePlaceType::DualRaceFirstPlace == racePlaceType) {
                 m_dualRaceFirstPlace.emplace_back(previousRace);
             } else if (RacePlaceType::DualRaceSecondPlace == racePlaceType) {
                 m_dualRaceSecondPlace.emplace_back(previousRace);
             }
             previousRace = {};
-        } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "#SingleRace")) {
+        } else if (isStringFoundCaseSensitive(line, "#SingleRace")) {
             racePlaceType = RacePlaceType::SingleRace;
-        } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "#DualRaceFirstPlace")) {
+        } else if (isStringFoundCaseSensitive(line, "#DualRaceFirstPlace")) {
             racePlaceType = RacePlaceType::DualRaceFirstPlace;
-        } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "#DualRaceSecondPlace")) {
+        } else if (isStringFoundCaseSensitive(line, "#DualRaceSecondPlace")) {
             racePlaceType = RacePlaceType::DualRaceSecondPlace;
         }
-    }
-}
+    }}
 void MonsterRaceAnalyzer::retrieveBestWinners(
     RaceConfiguration& bestConfiguration, BestWinners& queueOfWinners, PreviousRaces const& previousRaces,
-    RaceConfiguration const& currentConfiguration) const {
-    int lowestDiscrepancy = INT_MAX;
+    RaceConfiguration const& currentConfiguration) const {    int lowestDiscrepancy = INT_MAX;
     for (auto const& race : previousRaces) {
         int discrepancy = getDiscrepancy(race.raceConfiguration, currentConfiguration);
 
