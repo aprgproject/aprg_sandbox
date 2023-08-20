@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(BTS_LOG_ANALYZER_SOURCE_DIRECTORY
     ${BTS_LOG_ANALYZER_DIR}/src
 )
-
 set(BTS_LOG_ANALYZER_TEST_DIRECTORY
     ${BTS_LOG_ANALYZER_DIR}/tst
 )
-
 set(BTS_LOG_ANALYZER_INCLUDE_DIRECTORIES
     ${BTS_LOG_ANALYZER_SOURCE_DIRECTORY}
 )
