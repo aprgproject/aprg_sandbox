@@ -138,6 +138,7 @@ std::string getNumberAfterThisString(std::string_view mainText, std::string_view
 std::string getHexNumberAfterThisString(std::string_view mainText, std::string_view stringToSearch);
 std::string getHexEquivalentOfCharacters(std::string_view stringToCheck);
 std::string getQuotedString(std::string_view stringToCheck);
+
 // Utilities
 
 std::string constructFileLocator(std::string_view file, int const lineNumber);
@@ -157,6 +158,7 @@ std::string combineStrings(strings const& strings, std::string_view delimiters);
 void splitLinesToAchieveTargetLength(strings& listOfStrings, std::string_view mainText, size_t const targetLength);
 void splitToStringsUsingASeriesOfDelimeters(
     strings& listOfStrings, std::string_view mainString, strings const& seriesOfDelimiters);
+
 // basic_string variants
 template <typename StringType>
 constexpr bool isBasicStringVariant() {
@@ -194,7 +196,8 @@ std::string getStringBeforeDoublePeriod(std::string_view path, std::string_view 
 std::string getImmediateDirectoryName(std::string_view path, std::string_view slashCharacterString);
 template <char slashCharacterString>
 std::string getCorrectPathWithReplacedSlashCharacters(std::string_view path);
-template <char slashCharacterString>std::string getCorrectPathWithoutDoublePeriod(std::string_view path);
+template <char slashCharacterString>
+std::string getCorrectPathWithoutDoublePeriod(std::string_view path);
 template <char slashCharacterString>
 std::string getStringBeforeDoublePeriod(std::string_view path);
 template <char slashCharacterString>

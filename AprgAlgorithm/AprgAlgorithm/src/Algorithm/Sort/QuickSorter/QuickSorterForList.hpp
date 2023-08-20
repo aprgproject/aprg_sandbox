@@ -25,6 +25,7 @@ public:
             sort(valuesToSort, valuesToSort.begin(), itLast);
         }
     }
+
 private:
     void sort(Values& valuesToSort, Iterator const itLow, Iterator const itHigh) const {
         Iterator partitionIt = partitionAndGetPartitionIteratorInTwoDirections<Values>(itLow, itHigh);
@@ -38,7 +39,8 @@ private:
         Iterator partitionItPlusOne = next(partitionIt);
         if (partitionIt != itHigh && partitionItPlusOne != itHigh) {  // size must be at least two
             // recursively sort/partition the high part without the partitionIt
-            sort(valuesToSort, partitionItPlusOne, itHigh);        }
+            sort(valuesToSort, partitionItPlusOne, itHigh);
+        }
     }
 };
 

@@ -9,3 +9,4 @@ elseif(APPLE)
 elseif(UNIX)
     set(APRG_GTEST_DEPENDENCIES gtest ${CMAKE_THREAD_LIBS_INIT} pthread)
 endif()
+

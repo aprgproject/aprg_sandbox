@@ -15,10 +15,12 @@ include(${CHESS_COMBI_DIR}/cmake/LocateAprgDirectory.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
-include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Add files and directories
 include(${CHESS_COMBI_DIR}/cmake/FilesAndDirectories.cmake)
+
 #Do final steps
 if (TEST_MODE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")
@@ -28,9 +30,11 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} APRG_COMMON ${APRG_GTEST_DEPENDENCIES})
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
     set(CMAKE_EXE_LINKER_FLAGS ${APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP})
     add_executable(${OUTFILE} ${CHESS_COMBI_SOURCES} ${CHESS_COMBI_MAIN_SOURCES})
-    include_directories(${CHESS_COMBI_INCLUDE_DIRECTORIES})    target_link_libraries(${OUTFILE} APRG_COMMON)
+    include_directories(${CHESS_COMBI_INCLUDE_DIRECTORIES})
+    target_link_libraries(${OUTFILE} APRG_COMMON)
 endif()
 include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)

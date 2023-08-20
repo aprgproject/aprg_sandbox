@@ -2,6 +2,7 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
+
 #include <array>
 #include <deque>
 #include <forward_list>
@@ -16,6 +17,7 @@ using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba {
+
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint) {
     stringstream ssToVerify;
     int integerToTest = 500;
@@ -170,7 +172,8 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedSet) {
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "504"));
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {    stringstream ssToVerify;
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {
+    stringstream ssToVerify;
     unordered_map<int, char> vectorToTest{{500, 'A'}, {501, 'B'}, {502, 'C'}, {503, 'D'}, {504, 'E'}};
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
@@ -184,7 +187,8 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap) {    s
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(504, E)"));
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack) {    stringstream ssToVerify;
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack) {
+    stringstream ssToVerify;
     stack<int> adapter({1, 2, 3});
 
     printParameterWithName(ssToVerify, "name", adapter);

@@ -240,7 +240,7 @@
 //
 // To learn more about using these macros, please search for 'MATCHER'
 // on
-// https://github.com/google/googletest/blob/master/docs/gmock_cook_book.md
+// https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md
 //
 // This file also implements some commonly used argument matchers.  More
 // matchers can be defined by the user implementing the
@@ -249,12 +249,18 @@
 // See googletest/include/gtest/gtest-matchers.h for the definition of class
 // Matcher, class MatcherInterface, and others.
 
+// IWYU pragma: private, include "gmock/gmock.h"
+// IWYU pragma: friend gmock/.*
+
 #ifndef GOOGLEMOCK_INCLUDE_GMOCK_GMOCK_MATCHERS_H_
 #define GOOGLEMOCK_INCLUDE_GMOCK_GMOCK_MATCHERS_H_
 
 #include <algorithm>
 #include <cmath>
+#include <exception>
+#include <functional>
 #include <initializer_list>
+#include <ios>
 #include <iterator>
 #include <limits>
 #include <memory>
@@ -310,7 +316,9 @@ class StringMatchResultListener : public MatchResultListener {
  private:
   ::std::stringstream ss_;
 
-  GTEST_DISALLOW_COPY_AND_ASSIGN_(StringMatchResultListener);
+  StringMatchResultListener(const StringMatchResultListener&) = delete;
+  StringMatchResultListener& operator=(const StringMatchResultListener&) =
+      delete;
 };
 
 // Anything inside the 'internal' namespace IS INTERNAL IMPLEMENTATION
@@ -530,19 +538,18 @@ inline Matcher<T> SafeMatcherCast(const Matcher<U>& matcher) {
                 "T must be implicitly convertible to U");
   // Enforce that we are not converting a non-reference type T to a reference
   // type U.
-  GTEST_COMPILE_ASSERT_(
-      std::is_reference<T>::value || !std::is_reference<U>::value,
-      cannot_convert_non_reference_arg_to_reference);
+  static_assert(std::is_reference<T>::value || !std::is_reference<U>::value,
+                "cannot convert non reference arg to reference");
   // In case both T and U are arithmetic types, enforce that the
   // conversion is not lossy.
   typedef GTEST_REMOVE_REFERENCE_AND_CONST_(T) RawT;
   typedef GTEST_REMOVE_REFERENCE_AND_CONST_(U) RawU;
   constexpr bool kTIsOther = GMOCK_KIND_OF_(RawT) == internal::kOther;
   constexpr bool kUIsOther = GMOCK_KIND_OF_(RawU) == internal::kOther;
-  GTEST_COMPILE_ASSERT_(
+  static_assert(
       kTIsOther || kUIsOther ||
           (internal::LosslessArithmeticConvertible<RawT, RawU>::value),
-      conversion_of_arithmetic_types_must_be_lossless);
+      "conversion of arithmetic types must be lossless");
   return MatcherCast<T>(matcher);
 }
 
@@ -557,7 +564,7 @@ namespace internal {
 // If the explanation is not empty, prints it to the ostream.
 inline void PrintIfNotEmpty(const std::string& explanation,
                             ::std::ostream* os) {
-  if (explanation != "" && os != nullptr) {
+  if (!explanation.empty() && os != nullptr) {
     *os << ", " << explanation;
   }
 }
@@ -675,9 +682,9 @@ bool TupleMatches(const MatcherTuple& matcher_tuple,
                   const ValueTuple& value_tuple) {
   // Makes sure that matcher_tuple and value_tuple have the same
   // number of fields.
-  GTEST_COMPILE_ASSERT_(std::tuple_size<MatcherTuple>::value ==
-                            std::tuple_size<ValueTuple>::value,
-                        matcher_and_value_have_different_numbers_of_fields);
+  static_assert(std::tuple_size<MatcherTuple>::value ==
+                    std::tuple_size<ValueTuple>::value,
+                "matcher and value have different numbers of fields");
   return TuplePrefix<std::tuple_size<ValueTuple>::value>::Matches(matcher_tuple,
                                                                   value_tuple);
 }
@@ -1194,27 +1201,27 @@ class PairMatchBase {
   };
 };
 
-class Eq2Matcher : public PairMatchBase<Eq2Matcher, AnyEq> {
+class Eq2Matcher : public PairMatchBase<Eq2Matcher, std::equal_to<>> {
  public:
   static const char* Desc() { return "an equal pair"; }
 };
-class Ne2Matcher : public PairMatchBase<Ne2Matcher, AnyNe> {
+class Ne2Matcher : public PairMatchBase<Ne2Matcher, std::not_equal_to<>> {
  public:
   static const char* Desc() { return "an unequal pair"; }
 };
-class Lt2Matcher : public PairMatchBase<Lt2Matcher, AnyLt> {
+class Lt2Matcher : public PairMatchBase<Lt2Matcher, std::less<>> {
  public:
   static const char* Desc() { return "a pair where the first < the second"; }
 };
-class Gt2Matcher : public PairMatchBase<Gt2Matcher, AnyGt> {
+class Gt2Matcher : public PairMatchBase<Gt2Matcher, std::greater<>> {
  public:
   static const char* Desc() { return "a pair where the first > the second"; }
 };
-class Le2Matcher : public PairMatchBase<Le2Matcher, AnyLe> {
+class Le2Matcher : public PairMatchBase<Le2Matcher, std::less_equal<>> {
  public:
   static const char* Desc() { return "a pair where the first <= the second"; }
 };
-class Ge2Matcher : public PairMatchBase<Ge2Matcher, AnyGe> {
+class Ge2Matcher : public PairMatchBase<Ge2Matcher, std::greater_equal<>> {
  public:
   static const char* Desc() { return "a pair where the first >= the second"; }
 };
@@ -1453,8 +1460,6 @@ class ConditionalMatcher {
   bool condition_;
   MatcherTrue matcher_true_;
   MatcherFalse matcher_false_;
-
-  GTEST_DISALLOW_ASSIGN_(ConditionalMatcher);
 };
 
 // Wrapper for implementation of Any/AllOfArray().
@@ -1470,6 +1475,7 @@ class SomeOfArrayMatcher {
   operator Matcher<U>() const {  // NOLINT
     using RawU = typename std::decay<U>::type;
     std::vector<Matcher<RawU>> matchers;
+    matchers.reserve(matchers_.size());
     for (const auto& matcher : matchers_) {
       matchers.push_back(MatcherCast<RawU>(matcher));
     }
@@ -2205,13 +2211,21 @@ template <typename Callable, typename InnerMatcher>
 class ResultOfMatcher {
  public:
   ResultOfMatcher(Callable callable, InnerMatcher matcher)
-      : callable_(std::move(callable)), matcher_(std::move(matcher)) {
+      : ResultOfMatcher(/*result_description=*/"", std::move(callable),
+                        std::move(matcher)) {}
+
+  ResultOfMatcher(const std::string& result_description, Callable callable,
+                  InnerMatcher matcher)
+      : result_description_(result_description),
+        callable_(std::move(callable)),
+        matcher_(std::move(matcher)) {
     CallableTraits<Callable>::CheckIsValid(callable_);
   }
 
   template <typename T>
   operator Matcher<T>() const {
-    return Matcher<T>(new Impl<const T&>(callable_, matcher_));
+    return Matcher<T>(
+        new Impl<const T&>(result_description_, callable_, matcher_));
   }
 
  private:
@@ -2224,21 +2238,36 @@ class ResultOfMatcher {
 
    public:
     template <typename M>
-    Impl(const CallableStorageType& callable, const M& matcher)
-        : callable_(callable), matcher_(MatcherCast<ResultType>(matcher)) {}
+    Impl(const std::string& result_description,
+         const CallableStorageType& callable, const M& matcher)
+        : result_description_(result_description),
+          callable_(callable),
+          matcher_(MatcherCast<ResultType>(matcher)) {}
 
     void DescribeTo(::std::ostream* os) const override {
-      *os << "is mapped by the given callable to a value that ";
+      if (result_description_.empty()) {
+        *os << "is mapped by the given callable to a value that ";
+      } else {
+        *os << "whose " << result_description_ << " ";
+      }
       matcher_.DescribeTo(os);
     }
 
     void DescribeNegationTo(::std::ostream* os) const override {
-      *os << "is mapped by the given callable to a value that ";
+      if (result_description_.empty()) {
+        *os << "is mapped by the given callable to a value that ";
+      } else {
+        *os << "whose " << result_description_ << " ";
+      }
       matcher_.DescribeNegationTo(os);
     }
 
     bool MatchAndExplain(T obj, MatchResultListener* listener) const override {
-      *listener << "which is mapped by the given callable to ";
+      if (result_description_.empty()) {
+        *listener << "which is mapped by the given callable to ";
+      } else {
+        *listener << "whose " << result_description_ << " is ";
+      }
       // Cannot pass the return value directly to MatchPrintAndExplain, which
       // takes a non-const reference as argument.
       // Also, specifying template argument explicitly is needed because T could
@@ -2249,6 +2278,7 @@ class ResultOfMatcher {
     }
 
    private:
+    const std::string result_description_;
     // Functors often define operator() as non-const method even though
     // they are actually stateless. But we need to use them even when
     // 'this' is a const pointer. It's the user's responsibility not to
@@ -2258,6 +2288,7 @@ class ResultOfMatcher {
     const Matcher<ResultType> matcher_;
   };  // class Impl
 
+  const std::string result_description_;
   const CallableStorageType callable_;
   const InnerMatcher matcher_;
 };
@@ -2282,11 +2313,11 @@ class SizeIsMatcher {
         : size_matcher_(MatcherCast<SizeType>(size_matcher)) {}
 
     void DescribeTo(::std::ostream* os) const override {
-      *os << "size ";
+      *os << "has a size that ";
       size_matcher_.DescribeTo(os);
     }
     void DescribeNegationTo(::std::ostream* os) const override {
-      *os << "size ";
+      *os << "has a size that ";
       size_matcher_.DescribeNegationTo(os);
     }
 
@@ -2530,7 +2561,8 @@ class WhenSortedByMatcher {
     const Comparator comparator_;
     const Matcher<const ::std::vector<LhsValue>&> matcher_;
 
-    GTEST_DISALLOW_COPY_AND_ASSIGN_(Impl);
+    Impl(const Impl&) = delete;
+    Impl& operator=(const Impl&) = delete;
   };
 
  private:
@@ -2544,9 +2576,9 @@ class WhenSortedByMatcher {
 // container and the RHS container respectively.
 template <typename TupleMatcher, typename RhsContainer>
 class PointwiseMatcher {
-  GTEST_COMPILE_ASSERT_(
+  static_assert(
       !IsHashTable<GTEST_REMOVE_REFERENCE_AND_CONST_(RhsContainer)>::value,
-      use_UnorderedPointwise_with_hash_tables);
+      "use UnorderedPointwise with hash tables");
 
  public:
   typedef internal::StlContainerView<RhsContainer> RhsView;
@@ -2565,9 +2597,9 @@ class PointwiseMatcher {
 
   template <typename LhsContainer>
   operator Matcher<LhsContainer>() const {
-    GTEST_COMPILE_ASSERT_(
+    static_assert(
         !IsHashTable<GTEST_REMOVE_REFERENCE_AND_CONST_(LhsContainer)>::value,
-        use_UnorderedPointwise_with_hash_tables);
+        "use UnorderedPointwise with hash tables");
 
     return Matcher<LhsContainer>(
         new Impl<const LhsContainer&>(tuple_matcher_, rhs_));
@@ -2935,7 +2967,7 @@ class KeyMatcherImpl : public MatcherInterface<PairType> {
     const bool match = inner_matcher_.MatchAndExplain(
         pair_getters::First(key_value, Rank0()), &inner_listener);
     const std::string explanation = inner_listener.str();
-    if (explanation != "") {
+    if (!explanation.empty()) {
       *listener << "whose first field is a value " << explanation;
     }
     return match;
@@ -3082,12 +3114,12 @@ class PairMatcherImpl : public MatcherInterface<PairType> {
                       const std::string& second_explanation,
                       MatchResultListener* listener) const {
     *listener << "whose both fields match";
-    if (first_explanation != "") {
+    if (!first_explanation.empty()) {
       *listener << ", where the first field is a value " << first_explanation;
     }
-    if (second_explanation != "") {
+    if (!second_explanation.empty()) {
       *listener << ", ";
-      if (first_explanation != "") {
+      if (!first_explanation.empty()) {
         *listener << "and ";
       } else {
         *listener << "where ";
@@ -3206,6 +3238,21 @@ template <typename T>
 auto UnpackStructImpl(const T& t, MakeIndexSequence<16>, char) {
   const auto& [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p] = t;
   return std::tie(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p);
+}
+template <typename T>
+auto UnpackStructImpl(const T& t, MakeIndexSequence<17>, char) {
+  const auto& [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q] = t;
+  return std::tie(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q);
+}
+template <typename T>
+auto UnpackStructImpl(const T& t, MakeIndexSequence<18>, char) {
+  const auto& [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r] = t;
+  return std::tie(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r);
+}
+template <typename T>
+auto UnpackStructImpl(const T& t, MakeIndexSequence<19>, char) {
+  const auto& [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s] = t;
+  return std::tie(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s);
 }
 #endif  // defined(__cpp_structured_bindings)
 
@@ -3601,23 +3648,6 @@ class UnorderedElementsAreMatcherImpl
         AnalyzeElements(stl_container.begin(), stl_container.end(),
                         &element_printouts, listener);
 
-    if (matrix.LhsSize() == 0 && matrix.RhsSize() == 0) {
-      return true;
-    }
-
-    if (match_flags() == UnorderedMatcherRequire::ExactMatch) {
-      if (matrix.LhsSize() != matrix.RhsSize()) {
-        // The element count doesn't match.  If the container is empty,
-        // there's no need to explain anything as Google Mock already
-        // prints the empty container. Otherwise we just need to show
-        // how many elements there actually are.
-        if (matrix.LhsSize() != 0 && listener->IsInterested()) {
-          *listener << "which has " << Elements(matrix.LhsSize());
-        }
-        return false;
-      }
-    }
-
     return VerifyMatchMatrix(element_printouts, matrix, listener) &&
            FindPairing(matrix, listener);
   }
@@ -3699,10 +3729,10 @@ class ElementsAreMatcher {
 
   template <typename Container>
   operator Matcher<Container>() const {
-    GTEST_COMPILE_ASSERT_(
+    static_assert(
         !IsHashTable<GTEST_REMOVE_REFERENCE_AND_CONST_(Container)>::value ||
             ::std::tuple_size<MatcherTuple>::value < 2,
-        use_UnorderedElementsAre_with_hash_tables);
+        "use UnorderedElementsAre with hash tables");
 
     typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container) RawContainer;
     typedef typename internal::StlContainerView<RawContainer>::type View;
@@ -3750,9 +3780,9 @@ class ElementsAreArrayMatcher {
 
   template <typename Container>
   operator Matcher<Container>() const {
-    GTEST_COMPILE_ASSERT_(
+    static_assert(
         !IsHashTable<GTEST_REMOVE_REFERENCE_AND_CONST_(Container)>::value,
-        use_UnorderedElementsAreArray_with_hash_tables);
+        "use UnorderedElementsAreArray with hash tables");
 
     return Matcher<Container>(new ElementsAreMatcherImpl<const Container&>(
         matchers_.begin(), matchers_.end()));
@@ -3842,9 +3872,9 @@ BoundSecondMatcher<Tuple2Matcher, Second> MatcherBindSecond(
 // 'negation' is false; otherwise returns the description of the
 // negation of the matcher.  'param_values' contains a list of strings
 // that are the print-out of the matcher's parameters.
-GTEST_API_ std::string FormatMatcherDescription(bool negation,
-                                                const char* matcher_name,
-                                                const Strings& param_values);
+GTEST_API_ std::string FormatMatcherDescription(
+    bool negation, const char* matcher_name,
+    const std::vector<const char*>& param_names, const Strings& param_values);
 
 // Implements a matcher that checks the value of a optional<> type variable.
 template <typename ValueMatcher>
@@ -4072,7 +4102,12 @@ class ArgsMatcherImpl : public MatcherInterface<ArgsTuple> {
     const char* sep = "";
     // Workaround spurious C4189 on MSVC<=15.7 when k is empty.
     (void)sep;
-    const char* dummy[] = {"", (*os << sep << "#" << k, sep = ", ")...};
+    // The static_cast to void is needed to silence Clang's -Wcomma warning.
+    // This pattern looks suspiciously like we may have mismatched parentheses
+    // and may have been trying to use the first operation of the comma operator
+    // as a member of the array, so Clang warns that we may have made a mistake.
+    const char* dummy[] = {
+        "", (static_cast<void>(*os << sep << "#" << k), sep = ", ")...};
     (void)dummy;
     *os << ") ";
   }
@@ -4419,6 +4454,16 @@ internal::ResultOfMatcher<Callable, InnerMatcher> ResultOf(
     Callable callable, InnerMatcher matcher) {
   return internal::ResultOfMatcher<Callable, InnerMatcher>(std::move(callable),
                                                            std::move(matcher));
+}
+
+// Same as ResultOf() above, but also takes a description of the `callable`
+// result to provide better error messages.
+template <typename Callable, typename InnerMatcher>
+internal::ResultOfMatcher<Callable, InnerMatcher> ResultOf(
+    const std::string& result_description, Callable callable,
+    InnerMatcher matcher) {
+  return internal::ResultOfMatcher<Callable, InnerMatcher>(
+      result_description, std::move(callable), std::move(matcher));
 }
 
 // String matchers.
@@ -5030,7 +5075,8 @@ inline bool ExplainMatchResult(M matcher, const T& value,
 //
 // MATCHER_P(XAndYThat, matcher,
 //           "X that " + DescribeMatcher<int>(matcher, negation) +
-//               " and Y that " + DescribeMatcher<double>(matcher, negation)) {
+//               (negation ? " or" : " and") + " Y that " +
+//               DescribeMatcher<double>(matcher, negation)) {
 //   return ExplainMatchResult(matcher, arg.x(), result_listener) &&
 //          ExplainMatchResult(matcher, arg.y(), result_listener);
 // }
@@ -5239,7 +5285,8 @@ class WithWhatMatcherImpl {
 
   template <typename Err>
   bool MatchAndExplain(const Err& err, MatchResultListener* listener) const {
-    *listener << "which contains .what() that ";
+    *listener << "which contains .what() (of value = " << err.what()
+              << ") that ";
     return matcher_.MatchAndExplain(err.what(), listener);
   }
 
@@ -5396,7 +5443,7 @@ PolymorphicMatcher<internal::ExceptionMatcherImpl<Err>> ThrowsMessage(
   EXPECT_PRED_FORMAT1(              \
       ::testing::internal::MakePredicateFormatterFromMatcher(matcher), value)
 
-// MATCHER* macroses itself are listed below.
+// MATCHER* macros itself are listed below.
 #define MATCHER(name, description)                                             \
   class name##Matcher                                                          \
       : public ::testing::internal::MatcherBaseImpl<name##Matcher> {           \
@@ -5423,11 +5470,16 @@ PolymorphicMatcher<internal::ExceptionMatcherImpl<Err>> ThrowsMessage(
           return gmock_description;                                            \
         }                                                                      \
         return ::testing::internal::FormatMatcherDescription(negation, #name,  \
-                                                             {});              \
+                                                             {}, {});          \
       }                                                                        \
     };                                                                         \
   };                                                                           \
-  GTEST_ATTRIBUTE_UNUSED_ inline name##Matcher name() { return {}; }           \
+  inline name##Matcher GMOCK_INTERNAL_WARNING_PUSH()                           \
+      GMOCK_INTERNAL_WARNING_CLANG(ignored, "-Wunused-function")               \
+          GMOCK_INTERNAL_WARNING_CLANG(ignored, "-Wunused-member-function")    \
+              name GMOCK_INTERNAL_WARNING_POP()() {                            \
+    return {};                                                                 \
+  }                                                                            \
   template <typename arg_type>                                                 \
   bool name##Matcher::gmock_Impl<arg_type>::MatchAndExplain(                   \
       const arg_type& arg,                                                     \
@@ -5435,33 +5487,41 @@ PolymorphicMatcher<internal::ExceptionMatcherImpl<Err>> ThrowsMessage(
       const
 
 #define MATCHER_P(name, p0, description) \
-  GMOCK_INTERNAL_MATCHER(name, name##MatcherP, description, (p0))
-#define MATCHER_P2(name, p0, p1, description) \
-  GMOCK_INTERNAL_MATCHER(name, name##MatcherP2, description, (p0, p1))
-#define MATCHER_P3(name, p0, p1, p2, description) \
-  GMOCK_INTERNAL_MATCHER(name, name##MatcherP3, description, (p0, p1, p2))
-#define MATCHER_P4(name, p0, p1, p2, p3, description) \
-  GMOCK_INTERNAL_MATCHER(name, name##MatcherP4, description, (p0, p1, p2, p3))
+  GMOCK_INTERNAL_MATCHER(name, name##MatcherP, description, (#p0), (p0))
+#define MATCHER_P2(name, p0, p1, description)                            \
+  GMOCK_INTERNAL_MATCHER(name, name##MatcherP2, description, (#p0, #p1), \
+                         (p0, p1))
+#define MATCHER_P3(name, p0, p1, p2, description)                             \
+  GMOCK_INTERNAL_MATCHER(name, name##MatcherP3, description, (#p0, #p1, #p2), \
+                         (p0, p1, p2))
+#define MATCHER_P4(name, p0, p1, p2, p3, description)        \
+  GMOCK_INTERNAL_MATCHER(name, name##MatcherP4, description, \
+                         (#p0, #p1, #p2, #p3), (p0, p1, p2, p3))
 #define MATCHER_P5(name, p0, p1, p2, p3, p4, description)    \
   GMOCK_INTERNAL_MATCHER(name, name##MatcherP5, description, \
-                         (p0, p1, p2, p3, p4))
+                         (#p0, #p1, #p2, #p3, #p4), (p0, p1, p2, p3, p4))
 #define MATCHER_P6(name, p0, p1, p2, p3, p4, p5, description) \
   GMOCK_INTERNAL_MATCHER(name, name##MatcherP6, description,  \
+                         (#p0, #p1, #p2, #p3, #p4, #p5),      \
                          (p0, p1, p2, p3, p4, p5))
 #define MATCHER_P7(name, p0, p1, p2, p3, p4, p5, p6, description) \
   GMOCK_INTERNAL_MATCHER(name, name##MatcherP7, description,      \
+                         (#p0, #p1, #p2, #p3, #p4, #p5, #p6),     \
                          (p0, p1, p2, p3, p4, p5, p6))
 #define MATCHER_P8(name, p0, p1, p2, p3, p4, p5, p6, p7, description) \
   GMOCK_INTERNAL_MATCHER(name, name##MatcherP8, description,          \
+                         (#p0, #p1, #p2, #p3, #p4, #p5, #p6, #p7),    \
                          (p0, p1, p2, p3, p4, p5, p6, p7))
 #define MATCHER_P9(name, p0, p1, p2, p3, p4, p5, p6, p7, p8, description) \
   GMOCK_INTERNAL_MATCHER(name, name##MatcherP9, description,              \
+                         (#p0, #p1, #p2, #p3, #p4, #p5, #p6, #p7, #p8),   \
                          (p0, p1, p2, p3, p4, p5, p6, p7, p8))
 #define MATCHER_P10(name, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, description) \
   GMOCK_INTERNAL_MATCHER(name, name##MatcherP10, description,                  \
+                         (#p0, #p1, #p2, #p3, #p4, #p5, #p6, #p7, #p8, #p9),   \
                          (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9))
 
-#define GMOCK_INTERNAL_MATCHER(name, full_name, description, args)             \
+#define GMOCK_INTERNAL_MATCHER(name, full_name, description, arg_names, args)  \
   template <GMOCK_INTERNAL_MATCHER_TEMPLATE_PARAMS(args)>                      \
   class full_name : public ::testing::internal::MatcherBaseImpl<               \
                         full_name<GMOCK_INTERNAL_MATCHER_TYPE_PARAMS(args)>> { \
@@ -5485,12 +5545,13 @@ PolymorphicMatcher<internal::ExceptionMatcherImpl<Err>> ThrowsMessage(
                                                                                \
      private:                                                                  \
       ::std::string FormatDescription(bool negation) const {                   \
-        ::std::string gmock_description = (description);                       \
+        ::std::string gmock_description;                                       \
+        gmock_description = (description);                                     \
         if (!gmock_description.empty()) {                                      \
           return gmock_description;                                            \
         }                                                                      \
         return ::testing::internal::FormatMatcherDescription(                  \
-            negation, #name,                                                   \
+            negation, #name, {GMOCK_PP_REMOVE_PARENS(arg_names)},              \
             ::testing::internal::UniversalTersePrintTupleFieldsToStrings(      \
                 ::std::tuple<GMOCK_INTERNAL_MATCHER_TYPE_PARAMS(args)>(        \
                     GMOCK_INTERNAL_MATCHER_MEMBERS_USAGE(args))));             \

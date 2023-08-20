@@ -30,6 +30,7 @@ private:
     DegreeOnlyMutator m_degreeOnlyMutator;
     RemoveMonomialsWithNegativeExponentMutator m_removeMonomialsWithNegativeExponentMutator;
 };
+
 }  // namespace algebra
 
 }  // namespace alba

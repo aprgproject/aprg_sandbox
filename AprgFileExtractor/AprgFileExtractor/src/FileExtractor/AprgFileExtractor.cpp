@@ -71,7 +71,8 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(
             if (!stringHelper::isStringFoundCaseSensitive(
                     stringHelper::getStringAfterThisString(lineInFile, "Attributes = "), "D")) {
                 files.emplace(path);
-            }        }
+            }
+        }
     }
 }
 
@@ -148,7 +149,8 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
     for (string const& filePath : filePaths) {
         AlbaLocalPathHandler filePathHandler(filePath);
         if (m_grepEvaluator.evaluate(filePathHandler.getFile())) {
-            AlbaLocalPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));            if (isRecognizedCompressedFile(extractedPathHandler.getExtension())) {
+            AlbaLocalPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));
+            if (isRecognizedCompressedFile(extractedPathHandler.getExtension())) {
                 extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
                 extractedPathHandler.deleteFile();
             }

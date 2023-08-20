@@ -35,4 +35,5 @@ TEST(ReservoirSamplingTest, GetReservoirSamplingWorksOnExample3) {
 }
 
 }  // namespace algorithm
+
 }  // namespace alba

@@ -76,7 +76,8 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument) {
     // Covers Linux and MSVC windows
     EXPECT_EQ(R"(2)", fileReader.getLine());
     EXPECT_EQ(R"(3)", fileReader.getLine());
-    EXPECT_EQ(R"(4)", fileReader.getLine());    EXPECT_EQ(R"(5)", fileReader.getLine());
+    EXPECT_EQ(R"(4)", fileReader.getLine());
+    EXPECT_EQ(R"(5)", fileReader.getLine());
     EXPECT_EQ(R"(6)", fileReader.getLine());
 #endif
     EXPECT_TRUE(fileReader.getLine().empty());
@@ -157,7 +158,8 @@ TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart) 
     // Covers Linux and MSVC windows
     EXPECT_EQ(R"(0)", fileReader.getLine());
     EXPECT_EQ(R"(1)", fileReader.getLine());
-    EXPECT_EQ(R"(2)", fileReader.getLine());    EXPECT_EQ(R"(3)", fileReader.getLine());
+    EXPECT_EQ(R"(2)", fileReader.getLine());
+    EXPECT_EQ(R"(3)", fileReader.getLine());
     EXPECT_EQ(R"(4)", fileReader.getLine());
 #endif
     EXPECT_TRUE(fileReader.getLine().empty());

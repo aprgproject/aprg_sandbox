@@ -12,7 +12,8 @@ include(${QUICKEST_WAY_TO_PROGRAM_DIR}/cmake/LocateAprgDirectory.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Add specific definitions
-if(WIN32)    #set for path of 7Zip for windows 32
+if(WIN32)
+    #set for path of 7Zip for windows 32
     add_definitions(-DPATH_OF_7Z_EXECUTABLE="${APRG_DIR}AprgFileExtractor/7z32/7z.exe")
     add_definitions(-DPATH_OF_7Z_TEMP_FILE="${APRG_DIR}AprgFileExtractor/7z32/TempFile.txt")
 endif()

@@ -222,6 +222,7 @@ public:
                     }
                 }
             }
+
             // Put the new combined term on the front
             outerTerms.emplace_front(combinedInnerTerms);
         }

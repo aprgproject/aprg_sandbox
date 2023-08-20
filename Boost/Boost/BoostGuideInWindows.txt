@@ -16,7 +16,8 @@ Installing boost libraries for GCC (MinGW) on Windows APRG
 4) Use the boost folder for installation, e.g. "aprg\Boost\Boost\boost".
 
 ->GCC setup
-1) Open Command Prompt.2) Run gcc --version.
+1) Open Command Prompt.
+2) Run gcc --version.
 3) If the output contains g++ version number then GCC should be set up properly to run from command line and you can continue.
 4) The QT GCC compiler is located in: "C:\Qt\Qt5.9.2\Tools\mingw530_32\bin". Add this in path for gcc to be visible in command line.
 
@@ -35,7 +36,8 @@ NOTE: Remember to replace the xxxxx!!!
 ---> b2 --build-dir="xxxxx\aprg\Boost\Boost\boost\build" --prefix="xxxxx\aprg\Boost\Boost\boost" toolset=gcc install
 2.1) The option “--build-type=complete” causes Boost.Build to build all supported variants of the libraries. 
 2.2) In particular, to limit the amount of time spent building, you may be interested in:
-----> reviewing the list of library names with --show-libraries----> limiting which libraries get built with the --with-library-name or --without-library-name options
+----> reviewing the list of library names with --show-libraries
+----> limiting which libraries get built with the --with-library-name or --without-library-name options
 ----> choosing a specific build variant by adding release or debug to the command line.
 NOTE: Remember to replace the xxxxx!!!
 
@@ -45,7 +47,8 @@ NOTE: Remember to replace the xxxxx!!!
 1) Open Command Prompt and go to "aprg\Boost\Boost\boost".
 2) Header-Only Libraries
 ---> The first thing many people want to know is, “how do I build Boost?” The good news is that often, there's nothing to build.
----> Most Boost libraries are header-only: they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking.3) Libraries that needs to built
+---> Most Boost libraries are header-only: they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking.
+3) Libraries that needs to built
 ---> The "-show-libraries" flag will display a list of libraries that can be built. For example:
 -----> b2 --show-libraries
 4) Create and install
@@ -65,4 +68,5 @@ NOTE: Remember to replace the xxxxx!!!
 ---> "aprg\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
 -----> set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
 3) Run cmake and double check that required libraries are linked properly (no error messages)
+
 

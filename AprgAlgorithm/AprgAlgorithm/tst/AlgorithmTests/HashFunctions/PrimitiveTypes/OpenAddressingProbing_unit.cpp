@@ -15,6 +15,7 @@ TEST(OpenAddressingProbingTest, GetHashForLinearProbingWorks) {
     HashingFunction<uint64_t> originalHashFunction = [numberOfSlots](uint64_t const hashKey) {
         return getHashUsingDivisionMethod<uint64_t>(hashKey, numberOfSlots);
     };
+
     EXPECT_EQ(89ULL, (getHashForLinearProbing<uint64_t>(123456789, numberOfSlots, originalHashFunction, 0)));
     EXPECT_EQ(90ULL, (getHashForLinearProbing<uint64_t>(123456789, numberOfSlots, originalHashFunction, 1)));
     EXPECT_EQ(91ULL, (getHashForLinearProbing<uint64_t>(123456789, numberOfSlots, originalHashFunction, 2)));
@@ -29,6 +30,7 @@ TEST(OpenAddressingProbingTest, GetHashForQuadraticProbingWorks) {
     HashingFunction<uint64_t> originalHashFunction = [numberOfSlots](uint64_t const hashKey) {
         return getHashUsingDivisionMethod<uint64_t>(hashKey, numberOfSlots);
     };
+
     EXPECT_EQ(
         89ULL, (getHashForQuadraticProbing<uint64_t>(
                    123456789, numberOfSlots, originalHashFunction, 0, coefficient1, coefficient2)));

@@ -30,4 +30,5 @@ bool AlbaGrepStringEvaluatorTerm::getResult() const {
     }
     return result;
 }
+
 }  // namespace alba

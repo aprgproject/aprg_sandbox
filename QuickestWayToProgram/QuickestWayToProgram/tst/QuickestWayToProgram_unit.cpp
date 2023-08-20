@@ -45,7 +45,8 @@ TEST(SampleTest, uninintializedcopyTest) {
 /*TEST(SampleTest, PrimerTest) {
     int i;
     double d;
-    d = i = 3.5;    ALBA_PRINT2(i, d);  // 3,3
+    d = i = 3.5;
+    ALBA_PRINT2(i, d);  // 3,3
     i = d = 3.5;
     ALBA_PRINT2(i, d);  // 3, 3.5
 }
@@ -53,6 +54,7 @@ TEST(SampleTest, uninintializedcopyTest) {
 bool canConstructVer2(string ransomNote, string magazine) {
     array<int, 26> magazineLetterToCount{};
     auto itMagazine = magazine.begin();
+
     for (char const c : ransomNote) {
         int& count = magazineLetterToCount[c - 'a'];
         if (count > 0) {

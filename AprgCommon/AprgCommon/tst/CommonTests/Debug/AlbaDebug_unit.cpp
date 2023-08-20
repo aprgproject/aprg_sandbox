@@ -25,7 +25,8 @@ namespace alba {
 
 TEST(AlbaDebugTest, PrintingSingleParametersWorks) {
     s_debugStringStream.str(string());
-    s_debugStringStream.clear();    int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
+    s_debugStringStream.clear();
+    int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
 
     ALBA_PRINT3(singleParameter1, singleParameter2, singleParameter3);
 
@@ -39,7 +40,8 @@ TEST(AlbaDebugTest, PrintingSingleParametersWorks) {
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "6789", runningIndex));
 }
 
-TEST(AlbaDebugTest, PrintingStringsWorks) {    s_debugStringStream.str(string());
+TEST(AlbaDebugTest, PrintingStringsWorks) {
+    s_debugStringStream.str(string());
     s_debugStringStream.clear();
     string stringToTest = "std::string to test";
 
@@ -52,7 +54,8 @@ TEST(AlbaDebugTest, PrintingStringsWorks) {    s_debugStringStream.str(string())
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "string literal to test", runningIndex));
 }
 
-TEST(AlbaDebugTest, PrintingPointersWorks) {    s_debugStringStream.str(string());
+TEST(AlbaDebugTest, PrintingPointersWorks) {
+    s_debugStringStream.str(string());
     s_debugStringStream.clear();
     unique_ptr<int> uniquePointer(make_unique<int>(695));
     int const* nullPointer = nullptr;
@@ -86,7 +89,8 @@ TEST(AlbaDebugTest, PrintingContainersWorks) {
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "(1, A), (5, E), (7, G),", runningIndex));
 }
 
-TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {    s_debugStringStream.str(string());
+TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {
+    s_debugStringStream.str(string());
     s_debugStringStream.clear();
     int singleParameter1 = 12, singleParameter2 = 345, singleParameter3 = 6789;
 
@@ -105,7 +109,8 @@ TEST(AlbaDebugTest, ManipulateOutputStreamsWorks) {    s_debugStringStream.str(s
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrintString, "1A85", runningIndex));
 }
 
-namespace {class SampleClass {
+namespace {
+class SampleClass {
 public:
     SampleClass(int parameter1, int parameter2) : m_parameter1(parameter1), m_parameter2(parameter2) {}
 
@@ -160,4 +165,5 @@ TEST(AlbaDebugTest, PrintingWithoutSpecifyNumberOfParametersWorks) {
 }
 
 #endif
+
 }  // namespace alba

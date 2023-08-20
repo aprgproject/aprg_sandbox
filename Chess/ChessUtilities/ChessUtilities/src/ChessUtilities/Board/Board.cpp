@@ -216,10 +216,12 @@ string Board::getNotationPartOfFenString() const {
     }
 
     CoordinateDataType interval = startpoint <= end ? 1 : -1;
-    for (CoordinateDataType y = startpoint; loopCondition(y, end); y += interval) {        int emptyCellsInRank = 0;
+    for (CoordinateDataType y = startpoint; loopCondition(y, end); y += interval) {
+        int emptyCellsInRank = 0;
         for (CoordinateDataType x = startpoint; loopCondition(x, end); x += interval) {
             Coordinate coordinate(x, y);
-            Piece piece(getPieceAt(coordinate));            if (piece.isEmpty()) {
+            Piece piece(getPieceAt(coordinate));
+            if (piece.isEmpty()) {
                 emptyCellsInRank++;
             } else {
                 if (emptyCellsInRank != 0) {

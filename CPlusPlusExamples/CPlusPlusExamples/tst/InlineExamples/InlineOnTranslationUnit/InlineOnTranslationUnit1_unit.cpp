@@ -124,9 +124,11 @@ TEST(InlineOnTranslationUnit1Test, VariableValuesAreChangedAndReflectedOnOtherTr
     restoreInitialValuesForTranslationUnit2();
 }
 
-TEST(InlineOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {    EXPECT_EQ(1, freeFunction());
+TEST(InlineOnTranslationUnit1Test, FunctionReturnValuesAreCorrect) {
+    EXPECT_EQ(1, freeFunction());
     EXPECT_EQ(1, inlineFreeFunction());
 }
+
 }  // namespace InlineOnTranslationUnits
 
 }  // namespace alba

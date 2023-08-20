@@ -7,6 +7,7 @@
 #include <map>
 
 namespace alba {
+
 template <int MAX_STATE_VALUE>
 class MarkovChains {
 public:

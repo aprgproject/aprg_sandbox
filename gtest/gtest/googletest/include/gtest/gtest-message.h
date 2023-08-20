@@ -27,7 +27,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
 // This header file defines the Message class.
@@ -42,12 +41,18 @@
 // to CHANGE WITHOUT NOTICE.  Therefore DO NOT DEPEND ON IT in a user
 // program!
 
+// IWYU pragma: private, include "gtest/gtest.h"
+// IWYU pragma: friend gtest/.*
+// IWYU pragma: friend gmock/.*
+
 #ifndef GOOGLETEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
 #define GOOGLETEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
 
 #include <limits>
 #include <memory>
+#include <ostream>
 #include <sstream>
+#include <string>
 
 #include "gtest/internal/gtest-port.h"
 
@@ -109,7 +114,7 @@ class GTEST_API_ Message {
   // Streams a non-pointer value to this object.
   template <typename T>
   inline Message& operator<<(const T& val) {
-    // Some libraries overload << for STL containers.  These
+        // Some libraries overload << for STL containers.  These
     // overloads are defined in the global namespace instead of ::std.
     //
     // C++'s symbol lookup rule (i.e. Koenig lookup) says that these

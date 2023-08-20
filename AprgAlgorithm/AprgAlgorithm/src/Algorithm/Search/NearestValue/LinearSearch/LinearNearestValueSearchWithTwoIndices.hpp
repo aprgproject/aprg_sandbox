@@ -63,7 +63,8 @@ public:
                 }
             }
         }
-        return result;    }
+        return result;
+    }
 
 private:
     void setInitialIndexes() {

@@ -38,6 +38,7 @@ TEST(HumanScoreGeneratorTest, GetHumanScoreWorks) {
 }
 
 }  // namespace ChessPeek
+
 }  // namespace chess
 
 }  // namespace alba

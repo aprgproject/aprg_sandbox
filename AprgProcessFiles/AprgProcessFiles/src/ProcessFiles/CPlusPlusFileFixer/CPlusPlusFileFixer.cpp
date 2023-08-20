@@ -143,7 +143,8 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path) {
                 isStringFoundCaseSensitive(line, "once")) {
                 m_isPragmaOnceFound = true;
             } else if (!isWhiteSpace(line)) {
-                m_linesAfterTheHeader.emplace_back(line);                isOnHeaderPart = false;
+                m_linesAfterTheHeader.emplace_back(line);
+                isOnHeaderPart = false;
             }
         } else {
             m_linesAfterTheHeader.emplace_back(line);
@@ -161,7 +162,8 @@ void CPlusPlusFileFixer::readLineWithSharpInclude(string const& line, string con
             isStringFoundCaseSensitive(filePathHandler.getFullPath(), headerFromAngleBrackets)) {
             addHeaderFileFromQuotations(filePathHandler.getFile());
 
-        } else {            addHeaderFileFromAngleBrackets(headerFromAngleBrackets);
+        } else {
+            addHeaderFileFromAngleBrackets(headerFromAngleBrackets);
         }
     }
     if (!headerFromQuotations.empty()) {
@@ -174,6 +176,7 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
         cout << "CHECK THIS: Header comments on:[" << path << "] in line:[" << line << "]\n";
     }
 }
+
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const {
     bool isAlbaDebugHeaderFound =
         (find(
@@ -194,7 +197,8 @@ void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string cons
     bool isUnitTest = isStringFoundCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
     if (isIostreamFound && !isUnitTest)  // && !isCpp) // !isUnitTest)
     {
-        cout << "CHECK THIS: iostream found in:[" << path << "].\n";    }
+        cout << "CHECK THIS: iostream found in:[" << path << "].\n";
+    }
 }
 
 void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const {
@@ -362,7 +366,8 @@ bool CPlusPlusFileFixer::isLineWithALoopStart(string const& line) const {
         isStringFoundCaseSensitive(line, "while(")) {
         result = true;
     }
-    return result;}
+    return result;
+}
 
 bool CPlusPlusFileFixer::isLineWithALoopEnd(string const& line) const {
     bool result(false);
@@ -370,7 +375,8 @@ bool CPlusPlusFileFixer::isLineWithALoopEnd(string const& line) const {
         !isStringFoundCaseSensitive(line, "{")) {
         result = true;
     }
-    return result;}
+    return result;
+}
 
 bool CPlusPlusFileFixer::isPathIgnored(string const& path) const {
     bool result(false);
@@ -385,7 +391,8 @@ bool CPlusPlusFileFixer::isPathIgnored(string const& path) const {
         isStringFoundCaseSensitive(path, "zlib128")) {
         result = true;
     }
-    return result;}
+    return result;
+}
 
 bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const {
     return listOfCPlusPlusHeaders.find(header) != listOfCPlusPlusHeaders.cend();
@@ -396,14 +403,16 @@ bool CPlusPlusFileFixer::isLinuxHeader(string const& header) const {
            isStringFoundCaseSensitive(header, "sys/");
 }
 
-bool CPlusPlusFileFixer::isWindowsHeader(string const& header) const {    return listOfWindowsHeaders.find(header) != listOfWindowsHeaders.cend();
+bool CPlusPlusFileFixer::isWindowsHeader(string const& header) const {
+    return listOfWindowsHeaders.find(header) != listOfWindowsHeaders.cend();
 }
 
 bool CPlusPlusFileFixer::isGtestHeader(string const& header) const {
     return isStringFoundCaseSensitive(header, "gtest");
 }
 
-bool CPlusPlusFileFixer::isQtHeader(string const& header) const {    bool result(false);
+bool CPlusPlusFileFixer::isQtHeader(string const& header) const {
+    bool result(false);
     AlbaLocalPathHandler headerFileHandler(header);
     if (header.length() >= 2) {
         if ('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) &&

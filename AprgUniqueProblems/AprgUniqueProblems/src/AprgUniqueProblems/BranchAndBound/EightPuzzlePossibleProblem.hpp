@@ -5,6 +5,7 @@
 #include <array>
 #include <queue>
 #include <vector>
+
 namespace alba {
 
 class EightPuzzlePossibleProblem {

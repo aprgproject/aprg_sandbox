@@ -14,6 +14,7 @@
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba {
 
 namespace algebra {
@@ -202,7 +203,8 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
                     }
                 }
             }
-        }    }
+        }
+    }
     return areSomeFactorsRemoved;
 }
 

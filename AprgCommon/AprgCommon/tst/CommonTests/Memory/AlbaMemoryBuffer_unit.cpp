@@ -233,7 +233,8 @@ TEST(AlbaMemoryBufferTest, SaveObjectWorksOnStandardLayoutTypes) {
     EXPECT_EQ(0xA1BA, output.field3);
 }
 
-TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks) {    int input = 0x12345678;
+TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks) {
+    int input = 0x12345678;
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
     stringstream ss;
 

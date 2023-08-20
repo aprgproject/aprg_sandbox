@@ -9,6 +9,7 @@
 #include <memory>
 
 namespace alba {
+
 namespace algorithm {
 
 template <

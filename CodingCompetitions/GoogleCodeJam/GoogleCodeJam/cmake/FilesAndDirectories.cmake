@@ -1,9 +1,11 @@
 set(CODING_COMPETITIONS_COMMON_DIRECTORY
     ${APRG_DIR}/CodingCompetitions/Common
 )
+
 set(GOOGLE_CODE_JAM_TEST_DIRECTORY
     ${GOOGLE_CODE_JAM_DIR}/tst
-    #for specific rounds only:    #${GOOGLE_CODE_JAM_DIR}/tst/2020/RoundH
+    #for specific rounds only:
+    #${GOOGLE_CODE_JAM_DIR}/tst/2020/RoundH
 )
 
 set(GOOGLE_CODE_JAM_INCLUDE_DIRECTORIES

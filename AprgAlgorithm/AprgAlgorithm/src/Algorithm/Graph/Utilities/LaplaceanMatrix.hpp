@@ -9,6 +9,7 @@
 namespace alba {
 
 namespace algorithm {
+
 using LaplaceanMatrix = matrix::AlbaMatrix<int>;
 
 template <typename Vertex, int MAX_VERTEX_VALUE>

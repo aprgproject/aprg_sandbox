@@ -5,6 +5,7 @@
 using namespace std;
 
 namespace alba {
+
 namespace algebra {
 
 Variable::Variable() {}

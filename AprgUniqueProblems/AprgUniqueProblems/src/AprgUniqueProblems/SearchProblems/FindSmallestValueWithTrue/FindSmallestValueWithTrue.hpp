@@ -59,6 +59,7 @@ private:
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // An alternative method to implement binary search is based on an efficient way to iterate through the elements of the

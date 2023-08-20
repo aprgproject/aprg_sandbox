@@ -61,6 +61,7 @@
 #include "gmock/gmock-more-matchers.h"
 #include "gmock/gmock-nice-strict.h"
 #include "gmock/internal/gmock-internal-utils.h"
+#include "gmock/internal/gmock-port.h"
 
 // Declares Google Mock flags that we want a user to use programmatically.
 GMOCK_DECLARE_bool_(catch_leaked_mocks);

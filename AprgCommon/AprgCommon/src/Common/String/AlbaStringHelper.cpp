@@ -20,7 +20,8 @@ size_t generateUniqueId(string_view str) {
     return accumulate(begin(str), end(str), 1ULL, [](size_t c1, uint8_t c2) { return (c1 * c2) + 1; });
 }
 
-size_t getLevenshteinDistance(string_view otherString, string_view basisString) {    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a
+size_t getLevenshteinDistance(string_view otherString, string_view basisString) {
+    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a
     // string into another string. The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
@@ -103,7 +104,8 @@ int getPeriodValue(string_view str, string_view period) {
             if (str[i] != period[j]) {
                 periodCount = 0;
                 break;
-            }        }
+            }
+        }
     }
     return (periodCount > 0) ? periodCount : static_cast<int>(string::npos);
 }
@@ -143,7 +145,8 @@ bool isPalindrome(string_view str) {
             if (str[left++] != str[right--]) {
                 result = false;
                 break;
-            }        }
+            }
+        }
     }
     return result;
 }
@@ -255,7 +258,8 @@ bool isWildcardMatch(
     bool isMainStringDone = mainTextIndex >= mainText.size();
     bool isWildcardDone = wildcardIndex >= wildcard.size();
     if (isMainStringDone && isWildcardDone) {
-        result = true;    } else if (isWildcardDone) {
+        result = true;
+    } else if (isWildcardDone) {
         result = false;
     } else if (isMainStringDone) {
         bool isWildcardDoneOnNextIndex = wildcardIndex + 1 >= wildcard.size();
@@ -283,7 +287,8 @@ string getStringWithFirstNonWhiteSpaceCharacterToCapital(string_view str) {
     string result(str);
     size_t resultLength = result.length();
     for (size_t i = 0; i < resultLength; ++i) {
-        if (!isWhiteSpace(result[i])) {            result[i] = static_cast<char>(::toupper(result[i]));
+        if (!isWhiteSpace(result[i])) {
+            result[i] = static_cast<char>(::toupper(result[i]));
             break;
         }
     }
@@ -325,7 +330,8 @@ string getStringWithoutStartingAndTrailingCharacters(string_view str, string_vie
     string result(str);
     size_t firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
     if (isNotNpos(static_cast<int>(firstIndexOfNotOfCharacters))) {
-        result.erase(0, firstIndexOfNotOfCharacters);        size_t lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
+        result.erase(0, firstIndexOfNotOfCharacters);
+        size_t lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if (isNotNpos(static_cast<int>(lastIndexOfOfNotOfCharacters))) {
             result.erase(lastIndexOfOfNotOfCharacters + 1);
         }
@@ -399,7 +405,8 @@ string getStringWithoutOpeningClosingOperators(
     return string(str.substr(start, end - start));
 }
 
-string getLongestCommonPrefix(string_view first, string_view second) {    size_t i = 0;
+string getLongestCommonPrefix(string_view first, string_view second) {
+    size_t i = 0;
     for (; i < first.length() && i < second.length(); i++) {
         if (first[i] != second[i]) {
             break;
@@ -462,6 +469,7 @@ string getStringBeforeThisCharacters(string_view mainText, string_view character
     }
     return result;
 }
+
 string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string_view path) {
     bool isPreviousCharacterNonAlphanumeric = false;
     string correctPath = accumulate(
@@ -519,6 +527,7 @@ string getHexNumberAfterThisString(string_view mainText, string_view stringToSea
     }
     return result;
 }
+
 string getHexEquivalentOfCharacters(string_view stringToCheck) {
     stringstream ss;
     for (unsigned char const c : stringToCheck) {
@@ -599,7 +608,8 @@ template void splitToStrings<SplitStringType::WithDelimeters>(
     strings& listOfStrings, string_view mainText, string_view delimiter);
 
 string combineStrings(strings const& listOfStrings, string_view delimiters) {
-    string delimeterString(delimiters);    string result = accumulate(
+    string delimeterString(delimiters);
+    string result = accumulate(
         listOfStrings.cbegin(), listOfStrings.cend(), string(),
         [&delimeterString](string const& previousResult, string const& currentString) {
             return previousResult + currentString + delimeterString;
@@ -620,7 +630,8 @@ void splitLinesToAchieveTargetLength(strings& strings, string_view mainText, siz
         char currentCharacter = mainText[i];
         if (isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter)) {
             transitionIndexes.emplace(i - 1);
-        } else if (!isPreviousCharacterAWhitespace && isWhiteSpace(currentCharacter)) {            transitionIndexes.emplace(i);
+        } else if (!isPreviousCharacterAWhitespace && isWhiteSpace(currentCharacter)) {
+            transitionIndexes.emplace(i);
         }
         isPreviousCharacterAWhitespace = isWhiteSpace(currentCharacter);
     }
@@ -631,7 +642,8 @@ void splitLinesToAchieveTargetLength(strings& strings, string_view mainText, siz
         char currentCharacter = mainText[splittingIndex];
 
         if (!isWhiteSpace(currentCharacter)) {
-            auto [lowerTransitionIndex, upperTransitionIndex] =                containerHelper::getLowerAndUpperValuesForSet(transitionIndexes, splittingIndex);
+            auto [lowerTransitionIndex, upperTransitionIndex] =
+                containerHelper::getLowerAndUpperValuesForSet(transitionIndexes, splittingIndex);
             ++lowerTransitionIndex;
             int lowerDelta = static_cast<int>(splittingIndex - lowerTransitionIndex);
             int upperDelta = static_cast<int>(upperTransitionIndex - splittingIndex);
@@ -692,7 +704,8 @@ string getStringWithJustifyAlignment(string_view mainText, size_t const targetLe
     } else if (isOneWord(mainText)) {
         size_t noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
         size_t gapLength = (targetLength - noWhiteSpace.length()) / (noRedundantWhiteSpaceLength + 1);
-        string gap(gapLength, ' ');        result += gap;
+        string gap(gapLength, ' ');
+        result += gap;
         for (size_t i = 0; i < noRedundantWhiteSpaceLength; i++) {
             result += noRedundantWhiteSpace[i];
             result += gap;
@@ -721,7 +734,8 @@ string getStringWithCenterAlignment(string_view mainText, size_t const targetLen
     if (mainText.empty()) {
         string gap(targetLength, ' ');
         result = gap;
-    } else if (noRedundantWhiteSpace.length() >= targetLength) {        result = noRedundantWhiteSpace;
+    } else if (noRedundantWhiteSpace.length() >= targetLength) {
+        result = noRedundantWhiteSpace;
     } else {
         size_t gapLength = (targetLength - noRedundantWhiteSpace.length()) / 2;
         result += string(gapLength, ' ');
@@ -737,7 +751,8 @@ string getStringWithRightAlignment(string_view mainText, size_t const targetLeng
     if (mainText.empty()) {
         string gap(targetLength, ' ');
         result = gap;
-    } else if (noRedundantWhiteSpace.length() >= targetLength) {        result = noRedundantWhiteSpace;
+    } else if (noRedundantWhiteSpace.length() >= targetLength) {
+        result = noRedundantWhiteSpace;
     } else {
         size_t gapLength = (targetLength - noRedundantWhiteSpace.length());
         result += string(gapLength, ' ');
@@ -752,7 +767,8 @@ string getStringWithLeftAlignment(string_view mainText, size_t const targetLengt
     if (mainText.empty()) {
         string gap(targetLength, ' ');
         result = gap;
-    } else if (noRedundantWhiteSpace.length() >= targetLength) {        result = noRedundantWhiteSpace;
+    } else if (noRedundantWhiteSpace.length() >= targetLength) {
+        result = noRedundantWhiteSpace;
     } else {
         size_t gapLength = (targetLength - noRedundantWhiteSpace.length());
         result += noRedundantWhiteSpace;
@@ -802,7 +818,8 @@ string getCorrectPathWithoutDoublePeriod(string_view path, string_view slashChar
     string correctPath(path);
     bool isDirectoryChanged = true;
     while (isDirectoryChanged) {
-        isDirectoryChanged = false;        string stringToFind(slashCharacterString);
+        isDirectoryChanged = false;
+        string stringToFind(slashCharacterString);
         stringToFind += ".."s;
         stringToFind += slashCharacterString;
         size_t indexOfDoublePeriod = correctPath.find(stringToFind);
@@ -836,7 +853,8 @@ string getImmediateDirectoryName(string_view path, string_view slashCharacterStr
         result = path.substr(indexOfLastSlashString + 1, indexLastCharacterToSearch - indexOfLastSlashString);
         indexLastCharacterToSearch = indexOfLastSlashString - 1;
     }
-    return result;}
+    return result;
+}
 
 template <char slashCharacter>
 string getCorrectPathWithReplacedSlashCharacters(string_view path) {
@@ -884,7 +902,8 @@ AlbaNumber convertStringToAlbaNumber(string_view stringToConvert) {
     if (isStringFoundCaseSensitive(stringToConvert, ".")) {
         result = AlbaNumber(convertStringToNumber<double>(stringToConvert));
     } else {
-        result = AlbaNumber(convertStringToNumber<int>(stringToConvert));    }
+        result = AlbaNumber(convertStringToNumber<int>(stringToConvert));
+    }
     return result;
 }
 

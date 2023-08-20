@@ -62,7 +62,8 @@ TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)  // DISABLED_
             if (isStringFoundCaseSensitive(
                     line, R"(class="paginate_button page-item next disabled")")) {
                 isNextDisabled = true;
-                break;            }
+                break;
+            }
         }
         if (isNextDisabled) {
             break;
@@ -117,7 +118,8 @@ TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms) {
                 if (isStringFoundCaseSensitive(line, R"(title="Next page")")) {
                     isNextPageTextFound = true;
                     break;
-                }            }
+                }
+            }
             if (!isNextPageTextFound) {
                 break;
             }

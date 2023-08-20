@@ -13,7 +13,8 @@ int FrequencyStatistics::calculateNumberOfSamples(FrequencySamples const& sample
         samples.cbegin(), samples.cend(), (int)0,
         [](int partialResult, FrequencyPair const& frequencyPair) {
             return partialResult + ((int)frequencyPair.second);
-        });}
+        });
+}
 
 double FrequencyStatistics::calculateSum(FrequencySamples const& samples) {
     return accumulate(
@@ -21,6 +22,7 @@ double FrequencyStatistics::calculateSum(FrequencySamples const& samples) {
             return partialResult + (frequencyPair.first * frequencyPair.second);
         });
 }
+
 double FrequencyStatistics::calculateMean(FrequencySamples const& samples) {
     double result(0);
     int numberOfSamples = calculateNumberOfSamples(samples);
@@ -75,4 +77,5 @@ FrequencyStatistics::MultipleValues FrequencyStatistics::calculateMode(Frequency
     }
     return result;
 }
+
 }  // namespace alba

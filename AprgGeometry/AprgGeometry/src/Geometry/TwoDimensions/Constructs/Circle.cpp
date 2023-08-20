@@ -76,6 +76,7 @@ Points Circle::getLocus(double const interval) const  // points for circumferenc
     }
     return result;
 }
+
 void Circle::traverseArea(double const interval, TraverseOperation const& traverseOperation) const {
     for (double y = 0; y <= m_radius; y += interval) {
         auto xAtTheEdgeOfCircleOptional(calculateXFromYWithoutCenter(y, 1));

@@ -28,7 +28,8 @@ TEST(AlbaMacrosTest, CompilerPredefinedMacrosWorks) {
     EXPECT_TRUE(isStringFoundCaseSensitive(actualPrettyFunction, "CompilerPredefinedMacrosWorks", runningIndex));
     EXPECT_EQ(0, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
     EXPECT_EQ(1, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
-    EXPECT_EQ(2, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);    EXPECT_EQ(3, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
+    EXPECT_EQ(2, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
+    EXPECT_EQ(3, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
 }
 
 TEST(AlbaMacrosTest, DisplayMessageTest) {
@@ -36,7 +37,8 @@ TEST(AlbaMacrosTest, DisplayMessageTest) {
     EXPECT_STREQ(
         "ALBA_MACROS_TEST_SAMPLE_MACRO1=10000",
         ALBA_MACROS_PARAMETER_FOR_PRAGMA_MESSAGE(ALBA_MACROS_TEST_SAMPLE_MACRO1));
-#pragma message(ALBA_MACROS_PARAMETER_FOR_PRAGMA_MESSAGE(ALBA_MACROS_TEST_SAMPLE_MACRO1))}
+#pragma message(ALBA_MACROS_PARAMETER_FOR_PRAGMA_MESSAGE(ALBA_MACROS_TEST_SAMPLE_MACRO1))
+}
 
 TEST(AlbaMacrosTest, GetStringLiteralWorks) {
     enum class SampleEnumClass { Type1, Type2 };
@@ -46,7 +48,8 @@ TEST(AlbaMacrosTest, GetStringLiteralWorks) {
     EXPECT_STREQ("SampleEnumClass::Type2", ALBA_MACROS_GET_STRING_LITERAL(SampleEnumClass::Type2));
 }
 
-TEST(AlbaMacrosTest, CaseEnumStringWorks) {    enum class SampleEnumClass { Type1, Type2 };
+TEST(AlbaMacrosTest, CaseEnumStringWorks) {
+    enum class SampleEnumClass { Type1, Type2 };
     struct SampleClass {
         string getString(SampleEnumClass const enumValue) {
             switch (enumValue) {
@@ -93,7 +96,8 @@ TEST(AlbaMacrosTest, ConcatenateWorks) {
     EXPECT_EQ(123496, ALBA_MACROS_CONCATENATE(1234, __LINE__));
 }
 
-TEST(AlbaMacrosTest, GetNameWithCountWorks) {    int ALBA_MACROS_GET_NAME_WITH_COUNT(VariablePrefix) = 0xA1BA;
+TEST(AlbaMacrosTest, GetNameWithCountWorks) {
+    int ALBA_MACROS_GET_NAME_WITH_COUNT(VariablePrefix) = 0xA1BA;
     EXPECT_EQ(0xA1BA, VariablePrefix4);
 }
 
@@ -107,7 +111,8 @@ TEST(AlbaMacrosTest, CountArgumentsForIntegerTest) {
 TEST(AlbaMacrosTest, CountArgumentsForStringTest) {
     EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGUMENTS("one"));
     EXPECT_EQ(2, ALBA_MACROS_COUNT_ARGUMENTS("one", "two"));
-    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGUMENTS("one", "two", "three"));}
+    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGUMENTS("one", "two", "three"));
+}
 #endif
 
 }  // namespace alba

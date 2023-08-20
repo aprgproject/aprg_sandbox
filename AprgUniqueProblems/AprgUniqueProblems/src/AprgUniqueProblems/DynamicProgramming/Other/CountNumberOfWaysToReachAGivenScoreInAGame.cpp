@@ -7,6 +7,7 @@
 using namespace std;
 
 namespace alba {
+
 CountNumberOfWaysToReachAGivenScoreInAGame::CountNumberOfWaysToReachAGivenScoreInAGame(Value const targetScore)
     : m_targetScore(targetScore) {}
 

@@ -133,4 +133,5 @@ TEST(InlineOnTranslationUnit2Test, FunctionReturnValuesAreCorrect) {
 }
 
 }  // namespace InlineOnTranslationUnits
+
 }  // namespace alba

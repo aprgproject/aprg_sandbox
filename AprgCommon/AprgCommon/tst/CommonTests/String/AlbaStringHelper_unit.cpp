@@ -993,7 +993,8 @@ TEST(BooleanStringTest, isStringFoundNotCaseSensitiveWithLettersAndNumbersAndSpe
     EXPECT_TRUE(isStringFoundNotCaseSensitive(longString, "no#1"));
 }
 
-TEST(BooleanStringTest, IsWildcardMatchTest) {    EXPECT_TRUE(isWildcardMatch("alba", "a*ba"));
+TEST(BooleanStringTest, IsWildcardMatchTest) {
+    EXPECT_TRUE(isWildcardMatch("alba", "a*ba"));
     EXPECT_TRUE(isWildcardMatch("albaisthebest", "al?ba*"));
     EXPECT_FALSE(isWildcardMatch("alba", "a*m"));
     EXPECT_FALSE(isWildcardMatch("markalba", "*mark"));

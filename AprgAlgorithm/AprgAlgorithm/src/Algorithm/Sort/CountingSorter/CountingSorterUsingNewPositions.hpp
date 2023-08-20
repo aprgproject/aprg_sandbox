@@ -6,6 +6,7 @@
 #include <functional>
 
 namespace alba {
+
 namespace algorithm {
 
 template <typename Values, int MAX_NUMBER_OF_VALUES>

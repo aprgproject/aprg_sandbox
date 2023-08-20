@@ -90,9 +90,11 @@ TEST(StaticOnTranslationUnit2Test, VariableValuesAreChangedAndReflectedOnOtherTr
     restoreInitialValuesForTranslationUnit2();
 }
 
-TEST(StaticOnTranslationUnit2Test, FunctionReturnValuesAreCorrect) {    EXPECT_EQ(1, freeFunction());
+TEST(StaticOnTranslationUnit2Test, FunctionReturnValuesAreCorrect) {
+    EXPECT_EQ(1, freeFunction());
     EXPECT_EQ(2, staticFreeFunction());
 }
+
 }  // namespace StaticOnTranslationUnits
 
 }  // namespace alba

@@ -26,7 +26,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
 // This header file defines the GTEST_OS_* macro.
@@ -111,6 +111,12 @@
 #define GTEST_OS_ESP32 1
 #elif defined(__XTENSA__)
 #define GTEST_OS_XTENSA 1
+#elif defined(__hexagon__)
+#define GTEST_OS_QURT 1
+#elif defined(CPU_QN9090) || defined(CPU_QN9090HN)
+#define GTEST_OS_NXP_QN9090 1
+#elif defined(NRF52)
+#define GTEST_OS_NRF52 1
 #endif  // __CYGWIN__
 
 #endif  // GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_PORT_ARCH_H_

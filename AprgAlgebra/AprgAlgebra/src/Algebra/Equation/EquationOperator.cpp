@@ -5,6 +5,7 @@
 using namespace std;
 
 namespace alba {
+
 namespace algebra {
 
 EquationOperator::EquationOperator(string const& operatingString) : m_operatingString(operatingString) {}

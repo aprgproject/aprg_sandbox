@@ -8,6 +8,7 @@
 namespace alba {
 
 namespace algorithm {
+
 template <typename Vertex, int MAX_VERTEX_VALUE>
 class DirectedGraphWithAdjacencyMatrix : public BaseDirectedGraph<Vertex> {
 public:

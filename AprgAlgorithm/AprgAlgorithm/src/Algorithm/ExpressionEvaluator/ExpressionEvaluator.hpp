@@ -133,7 +133,8 @@ private:
                 ValueTemplateType const value2(valueStack.top());
                 valueStack.pop();
                 valueStack.push(performBinaryOperation(value1, operatorTerm.getOperator(), value2));
-            }        }
+            }
+        }
     }
     Terms m_terms;
     friend class ExpressionEvaluatorConverter<ValueTemplateType, OperatorTemplateType>;
