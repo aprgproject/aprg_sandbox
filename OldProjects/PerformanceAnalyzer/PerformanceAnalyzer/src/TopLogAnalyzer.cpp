@@ -64,15 +64,13 @@ void TopLogAnalyzer::readTopLogsAndSaveToDatabase(std::string const& pathOfTopLo
             saveDataFromHeaders(lineInLogs);
         } else if (
             m_state == TopLogAnalyzerState::BeforeColumnHeaders &&
-            stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%Cpu0  :")) {
+            stringHelper::isStringFoundNotCaseSensitive(lineInLogs, "%Cpu0  :")) {
             saveOverallCpuData(lineInLogs, currentEntry);
         }
-        if (m_state == TopLogAnalyzerState::AfterColumnHeaders) {
-            saveCpuAndMem(lineInLogs, currentEntry);
+        if (m_state == TopLogAnalyzerState::AfterColumnHeaders) {            saveCpuAndMem(lineInLogs, currentEntry);
         }
     }
 }
-
 void TopLogAnalyzer::generateCpuReport(std::string const& pathOfTopLog) {
     AlbaLocalPathHandler topLogPathHandler(pathOfTopLog);
     AlbaLocalPathHandler cpuReportFilePathHandler(
@@ -98,21 +96,19 @@ stringHelper::strings TopLogAnalyzer::getProcessNamesForCpuReport() {
         [&](string const& firstProcessName, string const& secondProcessName) {
             bool result(false);
             bool isTcomTupcOnFirstProcess(
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "TCOM") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Conman") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Aalman"));
+                stringHelper::isStringFoundNotCaseSensitive(firstProcessName, "TCOM") ||
+                stringHelper::isStringFoundNotCaseSensitive(firstProcessName, "Conman") ||
+                stringHelper::isStringFoundNotCaseSensitive(firstProcessName, "Aalman"));
             bool isTcomTupcOnSecondProcess(
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "TCOM") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Conman") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Aalman"));
+                stringHelper::isStringFoundNotCaseSensitive(secondProcessName, "TCOM") ||
+                stringHelper::isStringFoundNotCaseSensitive(secondProcessName, "Conman") ||
+                stringHelper::isStringFoundNotCaseSensitive(secondProcessName, "Aalman"));
             double firstProcessCpuBasis(0);
             double secondProcessCpuBasis(0);
-            if (m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end()) {
-                firstProcessCpuBasis = m_processToCpuMemCollectionMap.at(firstProcessName).cpu.getAverage();
+            if (m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end()) {                firstProcessCpuBasis = m_processToCpuMemCollectionMap.at(firstProcessName).cpu.getAverage();
             }
             if (m_processToCpuMemCollectionMap.find(secondProcessName) != m_processToCpuMemCollectionMap.end()) {
-                secondProcessCpuBasis = m_processToCpuMemCollectionMap.at(secondProcessName).cpu.getAverage();
-            }
+                secondProcessCpuBasis = m_processToCpuMemCollectionMap.at(secondProcessName).cpu.getAverage();            }
 
             result = (isTcomTupcOnFirstProcess && !isTcomTupcOnSecondProcess) ? true
                      : (!isTcomTupcOnFirstProcess && isTcomTupcOnSecondProcess)
@@ -183,21 +179,19 @@ stringHelper::strings TopLogAnalyzer::getProcessNamesForMemReport() {
         [&](string const& firstProcessName, string const& secondProcessName) {
             bool result(false);
             bool isTcomTupcOnFirstProcess(
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "TCOM") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Conman") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Aalman"));
+                stringHelper::isStringFoundNotCaseSensitive(firstProcessName, "TCOM") ||
+                stringHelper::isStringFoundNotCaseSensitive(firstProcessName, "Conman") ||
+                stringHelper::isStringFoundNotCaseSensitive(firstProcessName, "Aalman"));
             bool isTcomTupcOnSecondProcess(
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "TCOM") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Conman") ||
-                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Aalman"));
+                stringHelper::isStringFoundNotCaseSensitive(secondProcessName, "TCOM") ||
+                stringHelper::isStringFoundNotCaseSensitive(secondProcessName, "Conman") ||
+                stringHelper::isStringFoundNotCaseSensitive(secondProcessName, "Aalman"));
             double firstProcessMemBasis(0);
             double secondProcessMemBasis(0);
-            if (m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end()) {
-                firstProcessMemBasis = m_processToCpuMemCollectionMap.at(firstProcessName).mem.getAverage();
+            if (m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end()) {                firstProcessMemBasis = m_processToCpuMemCollectionMap.at(firstProcessName).mem.getAverage();
             }
             if (m_processToCpuMemCollectionMap.find(secondProcessName) != m_processToCpuMemCollectionMap.end()) {
-                secondProcessMemBasis = m_processToCpuMemCollectionMap.at(secondProcessName).mem.getAverage();
-            }
+                secondProcessMemBasis = m_processToCpuMemCollectionMap.at(secondProcessName).mem.getAverage();            }
 
             result = (isTcomTupcOnFirstProcess && !isTcomTupcOnSecondProcess) ? true
                      : (!isTcomTupcOnFirstProcess && isTcomTupcOnSecondProcess)
@@ -237,22 +231,20 @@ void TopLogAnalyzer::putEntriesInMemReport(
 }
 
 bool TopLogAnalyzer::isTopCommandFirstLine(string const& lineInLogs) const {
-    return stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "top - ");
+    return stringHelper::isStringFoundNotCaseSensitive(lineInLogs, "top - ");
 }
 
 bool TopLogAnalyzer::isTopCommandHeaderLine(string const& lineInLogs) const {
-    return stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "PID") &&
-           stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%CPU") &&
-           stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%MEM") &&
-           stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "COMMAND");
+    return stringHelper::isStringFoundNotCaseSensitive(lineInLogs, "PID") &&
+           stringHelper::isStringFoundNotCaseSensitive(lineInLogs, "%CPU") &&
+           stringHelper::isStringFoundNotCaseSensitive(lineInLogs, "%MEM") &&
+           stringHelper::isStringFoundNotCaseSensitive(lineInLogs, "COMMAND");
 }
 
-void TopLogAnalyzer::saveAndClearCurrentEntry(DataEntry& currentEntry) {
-    if (!currentEntry.isEmpty()) {
+void TopLogAnalyzer::saveAndClearCurrentEntry(DataEntry& currentEntry) {    if (!currentEntry.isEmpty()) {
         m_dataEntries.emplace_back(currentEntry);
         currentEntry.clear();
-    }
-}
+    }}
 
 void TopLogAnalyzer::saveTimeFromTop(string const& lineInLogs, DataEntry& currentEntry) const {
     string timeString(stringHelper::getStringInBetweenTwoStrings(lineInLogs, "top - ", " "));

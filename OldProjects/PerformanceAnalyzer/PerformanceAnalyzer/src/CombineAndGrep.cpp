@@ -31,10 +31,9 @@ void CombineAndGrep::processFile(string const& inputFilePath) {
     AlbaFileReader fileToRead(inputFileStream);
     while (fileToRead.isNotFinished()) {
         string lineFromFile(fileToRead.getLineAndIgnoreWhiteSpaces());
-        if (stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineFromFile, m_grepString)) {
+        if (stringHelper::isStringFoundNotCaseSensitive(lineFromFile, m_grepString)) {
             m_outputFileStream << lineFromFile << "\n";
         }
-    }
-}
+    }}
 
 }  // namespace alba
