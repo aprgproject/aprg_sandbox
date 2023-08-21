@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(CRNCCID_MAPPING_SOURCE_DIRECTORY
     ${CRNCCID_MAPPING_DIR}/src
 )
-
 set(CRNCCID_MAPPING_TEST_DIRECTORY
     ${CRNCCID_MAPPING_DIR}/tst
 )
-
 set(CRNCCID_MAPPING_INCLUDE_DIRECTORIES
     ${CRNCCID_MAPPING_SOURCE_DIRECTORY}
 )
