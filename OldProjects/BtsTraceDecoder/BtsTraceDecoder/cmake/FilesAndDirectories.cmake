@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(BTS_TRACE_DECODER_SOURCE_DIRECTORY
     ${BTS_TRACE_DECODER_DIR}/src
 )
-
 set(BTS_TRACE_DECODER_TEST_DIRECTORY
     ${BTS_TRACE_DECODER_DIR}/tst
 )
-
 set(BTS_TRACE_DECODER_MAIN_DIRECTORY
     ${BTS_TRACE_DECODER_DIR}/main
 )
