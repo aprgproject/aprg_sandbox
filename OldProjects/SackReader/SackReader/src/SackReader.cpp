@@ -69,33 +69,31 @@ void SackReader::loadDescriptionToAdd(string const& path) {
         string line(messageToGenerateReader.getLineAndIgnoreWhiteSpaces());
         if (!line.empty()) {
             if (line.substr(0, 2) != R"(//)") {
-                if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&struct:")) {
+                if (isStringFoundCaseSensitive(line, "&&&struct:")) {
                     name = getStringWithoutStartingAndTrailingWhiteSpace(getStringAfterThisString(line, "&&&struct:"));
                     currentDefinitionType = IfsDefinitionType::Struct;
-                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&union:")) {
+                } else if (isStringFoundCaseSensitive(line, "&&&union:")) {
                     name = getStringWithoutStartingAndTrailingWhiteSpace(getStringAfterThisString(line, "&&union:"));
                     currentDefinitionType = IfsDefinitionType::Union;
-                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&enum:")) {
+                } else if (isStringFoundCaseSensitive(line, "&&&enum:")) {
                     name = getStringWithoutStartingAndTrailingWhiteSpace(getStringAfterThisString(line, "&&enum:"));
                     currentDefinitionType = IfsDefinitionType::Enum;
-                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&typedef:")) {
+                } else if (isStringFoundCaseSensitive(line, "&&&typedef:")) {
                     name = getStringWithoutStartingAndTrailingWhiteSpace(getStringAfterThisString(line, "&&typedef:"));
                     currentDefinitionType = IfsDefinitionType::Typedef;
-                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&constant:")) {
+                } else if (isStringFoundCaseSensitive(line, "&&&constant:")) {
                     name = getStringWithoutStartingAndTrailingWhiteSpace(getStringAfterThisString(line, "&&constant:"));
                     currentDefinitionType = IfsDefinitionType::Constant;
-                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&param:")) {
+                } else if (isStringFoundCaseSensitive(line, "&&&param:")) {
                     parameterName =
                         getStringWithoutStartingAndTrailingWhiteSpace(getStringAfterThisString(line, "&&&param:"));
-                } else if (isStringFoundInsideTheOtherStringCaseSensitive(line, "&&&description:")) {
+                } else if (isStringFoundCaseSensitive(line, "&&&description:")) {
                     string description(getStringWithoutStartingAndTrailingWhiteSpace(
                         getStringAfterThisString(line, "&&&description:")));
-                    updateDescriptionFromUser(currentDefinitionType, name, parameterName, description);
-                }
+                    updateDescriptionFromUser(currentDefinitionType, name, parameterName, description);                }
             }
         }
-    }
-}
+    }}
 
 void SackReader::performHacks() {
     // This should be hacked because syscom defines causes a different definition.

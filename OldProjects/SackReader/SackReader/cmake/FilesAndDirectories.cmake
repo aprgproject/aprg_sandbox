@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(SACK_READER_SOURCE_DIRECTORY
     ${SACK_READER_DIR}/src
 )
-
 set(SACK_READER_TEST_DIRECTORY
     ${SACK_READER_DIR}/tst
 )
-
 set(SACK_READER_INCLUDE_DIRECTORIES
     ${SACK_READER_SOURCE_DIRECTORY}
 )
