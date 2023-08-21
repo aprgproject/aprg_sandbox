@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(DMEAS_TIMER_STACK_SOURCE_DIRECTORY
     ${DMEAS_TIMER_STACK_DIR}/src
 )
-
 set(DMEAS_TIMER_STACK_TEST_DIRECTORY
     ${DMEAS_TIMER_STACK_DIR}/tst
 )
-
 set(DMEAS_TIMER_STACK_MAIN_DIRECTORY
     ${DMEAS_TIMER_STACK_DIR}/main
 )
