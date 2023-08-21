@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(PID_SIMULATOR_SOURCE_DIRECTORY
     ${PID_SIMULATOR_DIR}/src
 )
-
 set(PID_SIMULATOR_TEST_DIRECTORY
     ${PID_SIMULATOR_DIR}/tst
 )
-
 set(PID_SIMULATOR_MAIN_DIRECTORY
     ${PID_SIMULATOR_DIR}/main
 )
