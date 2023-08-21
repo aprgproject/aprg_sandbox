@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(SNAPSHOT_DETAILS_SOURCE_DIRECTORY
     ${SNAPSHOT_DETAILS_DIR}/src
 )
-
 set(SNAPSHOT_DETAILS_TEST_DIRECTORY
     ${SNAPSHOT_DETAILS_DIR}/tst
 )
-
 set(SNAPSHOT_DETAILS_MAIN_DIRECTORY
     ${SNAPSHOT_DETAILS_DIR}/main
 )
