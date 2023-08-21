@@ -1,14 +1,9 @@
-include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
-
 set(RTT_ANALYZER_SOURCE_DIRECTORY
     ${RTT_ANALYZER_DIR}/src
 )
-
 set(RTT_ANALYZER_TEST_DIRECTORY
     ${RTT_ANALYZER_DIR}/tst
 )
-
 set(RTT_ANALYZER_INCLUDE_DIRECTORIES
     ${RTT_ANALYZER_SOURCE_DIRECTORY}
 )
