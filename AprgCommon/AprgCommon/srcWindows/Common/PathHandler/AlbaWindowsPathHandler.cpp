@@ -300,25 +300,27 @@ bool AlbaWindowsPathHandler::canBeLocated(string_view fullPath) const {
 
 bool AlbaWindowsPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, string_view originalPath) const {
     bool result(false);
-    bool isCorrectPathLastCharacterNotASlash(correctedPath[correctedPath.length() - 1] != m_slashCharacterString[0]);
-    if (isCorrectPathLastCharacterNotASlash) {
-        DWORD attributes =
-            GetFileAttributesW(convertToAnotherBasicStringVariant<string_view, wstring>(correctedPath).c_str());
-        bool isFoundInWindows(INVALID_FILE_ATTRIBUTES != attributes);
-        if (isFoundInWindows) {
-            bool isDirectoryInWindows(attributes & FILE_ATTRIBUTE_DIRECTORY);
-            if (isDirectoryInWindows) {
-                result = true;
-            }
-        } else {
-            bool isOriginalPathLastCharacterASlash(
-                originalPath[originalPath.length() - 1] == m_slashCharacterString[0]);
-            if (isOriginalPathLastCharacterASlash) {
-                result = true;
+    if (!correctedPath.empty()) {
+        bool isCorrectPathLastCharacterNotASlash(
+            correctedPath[correctedPath.length() - 1] != m_slashCharacterString[0]);
+        if (isCorrectPathLastCharacterNotASlash) {
+            DWORD attributes =
+                GetFileAttributesW(convertToAnotherBasicStringVariant<string_view, wstring>(correctedPath).c_str());
+            bool isFoundInWindows(INVALID_FILE_ATTRIBUTES != attributes);
+            if (isFoundInWindows) {
+                bool isDirectoryInWindows(attributes & FILE_ATTRIBUTE_DIRECTORY);
+                if (isDirectoryInWindows) {
+                    result = true;
+                }
+            } else {
+                bool isOriginalPathLastCharacterASlash(
+                    originalPath[originalPath.length() - 1] == m_slashCharacterString[0]);
+                if (isOriginalPathLastCharacterASlash) {
+                    result = true;
+                }
             }
         }
-    }
-    return result;
+    }    return result;
 }
 
 }  // namespace alba
