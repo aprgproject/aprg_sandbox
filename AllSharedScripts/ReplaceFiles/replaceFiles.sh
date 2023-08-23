@@ -22,4 +22,5 @@ for targetFilePath in "${targetFilePaths[@]}"; do
         cp -f "$sourceFilePath" "$targetFilePath"
 	fi
 done
+
 echo "File replacements completed."

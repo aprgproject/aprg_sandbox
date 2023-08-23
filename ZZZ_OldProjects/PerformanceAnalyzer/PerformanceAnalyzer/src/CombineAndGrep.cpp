@@ -34,6 +34,7 @@ void CombineAndGrep::processFile(string const& inputFilePath) {
         if (stringHelper::isStringFoundNotCaseSensitive(lineFromFile, m_grepString)) {
             m_outputFileStream << lineFromFile << "\n";
         }
-    }}
+    }
+}
 
 }  // namespace alba

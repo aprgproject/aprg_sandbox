@@ -320,7 +320,8 @@ bool AlbaWindowsPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, st
                 }
             }
         }
-    }    return result;
+    }
+    return result;
 }
 
 }  // namespace alba

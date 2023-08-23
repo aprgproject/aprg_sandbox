@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Math/Digits/ComputeSumOfDigitsInAllNumbersFrom1ToN.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(ComputeSumOfDigitsInAllNumbersFrom1ToNTest, GetCountWorksOnZero) {
     ComputeSumOfDigitsInAllNumbersFrom1ToN queryForTest(0);
 

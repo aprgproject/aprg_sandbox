@@ -90,10 +90,12 @@ void SackReader::loadDescriptionToAdd(string const& path) {
                 } else if (isStringFoundCaseSensitive(line, "&&&description:")) {
                     string description(getStringWithoutStartingAndTrailingWhiteSpace(
                         getStringAfterThisString(line, "&&&description:")));
-                    updateDescriptionFromUser(currentDefinitionType, name, parameterName, description);                }
+                    updateDescriptionFromUser(currentDefinitionType, name, parameterName, description);
+                }
             }
         }
-    }}
+    }
+}
 
 void SackReader::performHacks() {
     // This should be hacked because syscom defines causes a different definition.

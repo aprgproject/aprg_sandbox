@@ -1,9 +1,11 @@
 #include <UniqueProblems/SpecialProblems/TowersOfHanoi.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(TowersOfHanoiTest, DISABLED_TransferDisksFromStartToFinishWorksWithOneDisk) {
     TowersOfHanoi towersOfHanoi;
 

@@ -15,10 +15,12 @@ include(${PID_SIMULATOR_DIR}/cmake/LocateAprgDirectory.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
-include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
 include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
-include(${APRG_DIR}/AprgAlgebra/AprgCmakeInclude/AprgAlgebra.cmake)include(${APRG_DIR}/AprgGraph/AprgCmakeInclude/AprgGraph.cmake)
+include(${APRG_DIR}/AprgAlgebra/AprgCmakeInclude/AprgAlgebra.cmake)
+include(${APRG_DIR}/AprgGraph/AprgCmakeInclude/AprgGraph.cmake)
 
 #Add files and directories
 include(${PID_SIMULATOR_DIR}/cmake/FilesAndDirectories.cmake)
@@ -32,7 +34,8 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} APRG_GRAPH APRG_ALGEBRA APRG_GEOMETRY APRG_BITMAP APRG_COMMON ${APRG_GTEST_DEPENDENCIES})  # add real time library
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
     set(CMAKE_EXE_LINKER_FLAGS ${APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP})
     add_executable(${OUTFILE} ${PID_SIMULATOR_SOURCES} ${PID_SIMULATOR_MAIN_SOURCES})
     include_directories(${PID_SIMULATOR_INCLUDE_DIRECTORIES})

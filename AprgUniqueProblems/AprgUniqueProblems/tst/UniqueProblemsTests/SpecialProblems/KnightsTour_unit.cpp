@@ -1,9 +1,11 @@
 #include <UniqueProblems/SpecialProblems/KnightsTour.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using ChessBoardIndexes = KnightsTour::ChessBoardIndexes;
 }

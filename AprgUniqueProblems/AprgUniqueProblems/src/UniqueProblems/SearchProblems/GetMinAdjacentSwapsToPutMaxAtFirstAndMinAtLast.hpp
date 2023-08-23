@@ -16,10 +16,12 @@ public:
     Count getMinAdjacentSwaps(Values const& values) {
         Count result(0);
         Index size = values.size();
-        if (size > 1) {            Index firstMaxIndex = 0, lastMinIndex = 0;
+        if (size > 1) {
+            Index firstMaxIndex = 0, lastMinIndex = 0;
             Value minimum(values.front()), maximum(values.front());
             int i = 0;
-            for (Value const& value : values) {                if (maximum < value) {
+            for (Value const& value : values) {
+                if (maximum < value) {
                     maximum = value;
                     firstMaxIndex = i;
                 }
@@ -34,10 +36,12 @@ public:
                 --result;  // reduce one because of overlap
             }
         }
-        return result;    }
+        return result;
+    }
 };
 
 }  // namespace algorithm
+
 }  // namespace alba
 
 // Given N number of elements, find the minimum number of swaps required so that the maximum element

@@ -148,7 +148,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
              isStringFoundNotCaseSensitive(lineInLogs, R"(isUnitAvailable: Available)"))) {
             double firstDspToBecomeAvailableTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_firstDspToBecomeAvailableTimeDescriptionString << firstDspToBecomeAvailableTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_firstDspToBecomeAvailableTime.emplace_back(firstDspToBecomeAvailableTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_firstDspToBecomeAvailableTime.emplace_back(firstDspToBecomeAvailableTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -156,7 +157,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(
                 lineInLogs, R"(Entering state: InitialHWConfiguration)")) {
             double allDspsBecomeAvailableTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << m_allDspsBecomeAvailableTimeDescriptionString << allDspsBecomeAvailableTime << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+            cout << m_allDspsBecomeAvailableTimeDescriptionString << allDspsBecomeAvailableTime << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_allDspsBecomeAvailableTime.emplace_back(allDspsBecomeAvailableTime);
             previousNotableTime = logTimeInLogs;
             state = 6;
@@ -166,7 +168,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
                  isStringFoundNotCaseSensitive(lineInLogs, R"(sending API_SET_SRIO_ROUTE_REQ_MSG)"))
          {
              double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-             cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";             cout<<"Log: ["<<lineInLogs<<"]\n\n";
+             cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+             cout<<"Log: ["<<lineInLogs<<"]\n\n";
              m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
              previousNotableTime = logTimeInLogs;
              state++;
@@ -178,7 +181,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
                   || isStringFoundNotCaseSensitive(lineInLogs, R"(API_SET_SRIO_ROUTE_RESP_MSG)")))
          {
              double settingSrioRoutesTime=getTotalSeconds(previousNotableTime, logTimeInLogs);
-             cout<<m_settingSrioRoutesTimeDescriptionString<<settingSrioRoutesTime<<"\n";             cout<<"Log: ["<<lineInLogs<<"]\n\n";
+             cout<<m_settingSrioRoutesTimeDescriptionString<<settingSrioRoutesTime<<"\n";
+             cout<<"Log: ["<<lineInLogs<<"]\n\n";
              m_settingSrioRoutesTime.emplace_back(settingSrioRoutesTime);
              previousNotableTime = logTimeInLogs;
              state++;
@@ -190,7 +194,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_BASEBAND_ALLOCATION_REQ_MSG)")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -200,7 +205,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_BASEBAND_ALLOCATION_RESP_MSG)")) {
             double basebandAllocationRequestResponseTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_basebandAllocationRequestResponseTimeDescriptionString << basebandAllocationRequestResponseTime
-                 << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+                 << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_basebandAllocationRequestResponseTime.emplace_back(basebandAllocationRequestResponseTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -209,7 +215,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(MODE_CHANGE_REQ_MSG)")) {
             double firstDspModeChangeFromFirstDspAvailable = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_firstDspModeChangeFromFirstDspAvailableDescriptionString
-                 << firstDspModeChangeFromFirstDspAvailable << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+                 << firstDspModeChangeFromFirstDspAvailable << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_firstDspModeChangeFromFirstDspAvailable.emplace_back(firstDspModeChangeFromFirstDspAvailable);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -218,7 +225,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(MODE_CHANGE_RESP_MSG)")) {
             double firstModeChangeTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_firstModeChangeTimeDescriptionString << firstModeChangeTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_firstModeChangeTime.emplace_back(firstModeChangeTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_firstModeChangeTime.emplace_back(firstModeChangeTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -226,7 +234,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_STARTUP_ALLOCATION_DONE_IND_MSG)")) {
             double startupAllocationTimeAfterModeChange = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_startupAllocationTimeAfterModeChangeDescriptionString << startupAllocationTimeAfterModeChange
-                 << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+                 << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_startupAllocationTimeAfterModeChange.emplace_back(startupAllocationTimeAfterModeChange);
             previousNotableTime = logTimeInLogs;
             state = 14;
@@ -236,7 +245,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
                 isStringFoundNotCaseSensitive(lineInLogs, R"(TC_GRM_TOAM_LICENCE_READY_IND_MSG)"))
         {
             double remainingLicenseExchangesTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_remainingLicenseExchangesTimeDescriptionString<<remainingLicenseExchangesTime<<"\n";            cout<<"Log: ["<<lineInLogs<<"]\n\n";
+            cout<<m_remainingLicenseExchangesTimeDescriptionString<<remainingLicenseExchangesTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_remainingLicenseExchangesTime.emplace_back(remainingLicenseExchangesTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -246,7 +256,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
                 isStringFoundNotCaseSensitive(lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A,
         SendResetRequest())"))
         {
-            double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
             cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
@@ -257,7 +268,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
                 isStringFoundNotCaseSensitive(lineInLogs, R"(Decoded ResetResponse3G)"))
         {
             double resetRequestResponseWithRncTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_resetRequestResponseWithRncTimeDescriptionString<<resetRequestResponseWithRncTime<<"\n";            cout<<"Log: ["<<lineInLogs<<"]\n\n";
+            cout<<m_resetRequestResponseWithRncTimeDescriptionString<<resetRequestResponseWithRncTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_resetRequestResponseWithRncTime.emplace_back(resetRequestResponseWithRncTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -267,7 +279,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(CAuditHandler, HandleAuditRequest())")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -275,7 +288,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(
                 lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendAuditResponse())")) {
             double auditRequestResponseWithRncTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << m_auditRequestResponseWithRncTimeDescriptionString << auditRequestResponseWithRncTime << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+            cout << m_auditRequestResponseWithRncTimeDescriptionString << auditRequestResponseWithRncTime << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_auditRequestResponseWithRncTime.emplace_back(auditRequestResponseWithRncTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -284,7 +298,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(
                 lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendResourceStatusIndicationNF)")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+            cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -293,7 +308,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(
                 lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendCapabilityIndication())")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+            cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -304,7 +320,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(NBAP Procedure code 5,)")) {
             double auditToFirstCellSetupTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_auditToFirstCellSetupTimeDescriptionString << auditToFirstCellSetupTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_auditToFirstCellSetupTime.emplace_back(auditToFirstCellSetupTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_auditToFirstCellSetupTime.emplace_back(auditToFirstCellSetupTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -312,7 +329,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_DMGR_CELL_SETUP_REQ_MSG)")) {
             double cellAllocationInTelecomTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_cellAllocationInTelecomTimeDescriptionString << cellAllocationInTelecomTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_cellAllocationInTelecomTime.emplace_back(cellAllocationInTelecomTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_cellAllocationInTelecomTime.emplace_back(cellAllocationInTelecomTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -320,7 +338,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_DMGR_CELL_SETUP_RESP_MSG)")) {
             double cellSetupInDspTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_antennaCarrierSetupRequestResponseTimeDescriptionString << cellSetupInDspTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_cellSetupInDspTime.emplace_back(cellSetupInDspTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_cellSetupInDspTime.emplace_back(cellSetupInDspTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -328,7 +347,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_SETUP_REQ)")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -336,7 +356,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_SETUP_REPLY)")) {
             double antennaCarrierSetupRequestResponseTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_antennaCarrierActivateRequestResponseTimeDescriptionString
-                 << antennaCarrierSetupRequestResponseTime << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+                 << antennaCarrierSetupRequestResponseTime << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_antennaCarrierSetupRequestResponseTime.emplace_back(antennaCarrierSetupRequestResponseTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -345,7 +366,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_ACTIVATE_REQ)")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_commonChannelsSetupInDspDescriptionString << processingAndMessagingDelay << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -353,7 +375,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_ACTIVATE_REPLY)")) {
             double antennaCarrierActivateRequestResponseTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_antennaCarrierActivateRequestResponseTimeDescriptionString
-                 << antennaCarrierActivateRequestResponseTime << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+                 << antennaCarrierActivateRequestResponseTime << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_antennaCarrierActivateRequestResponseTime.emplace_back(antennaCarrierActivateRequestResponseTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -362,7 +385,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_SETUP_REQ_MSG)")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -370,7 +394,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_SETUP_RESP_MSG)")) {
             double commonChannelsSetupInDsp = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_commonChannelsSetupInDspDescriptionString << commonChannelsSetupInDsp << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_commonChannelsSetupInDsp.emplace_back(commonChannelsSetupInDsp);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_commonChannelsSetupInDsp.emplace_back(commonChannelsSetupInDsp);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -378,7 +403,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(
                 lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_ACTIVATION_REQ_MSG)")) {
             double processingAndMessagingDelay = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+            cout << "Processing and messaging delay time: " << processingAndMessagingDelay << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -387,7 +413,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(
                 lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_ACTIVATION_RESP_MSG)")) {
             double commonChannelsActivationInDsp = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << m_commonChannelsActivationInDspDescriptionString << commonChannelsActivationInDsp << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+            cout << m_commonChannelsActivationInDspDescriptionString << commonChannelsActivationInDsp << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_commonChannelsActivationInDsp.emplace_back(commonChannelsActivationInDsp);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -396,7 +423,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(SendCellSetupResponse())")) {
             double commonChannelsActivationToCellSetupResponseTime =
                 getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout << m_commonChannelsActivationToCellSetupResponseTimeDescriptionString                 << commonChannelsActivationToCellSetupResponseTime << "\n";
+            cout << m_commonChannelsActivationToCellSetupResponseTimeDescriptionString
+                 << commonChannelsActivationToCellSetupResponseTime << "\n";
             cout << "Log: [" << lineInLogs << "]\n\n";
             m_commonChannelsActivationToCellSetupResponseTime.emplace_back(
                 commonChannelsActivationToCellSetupResponseTime);
@@ -407,7 +435,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_CCHH_CTCH_SETUP_REQ_MSG)")) {
             double firstCtchSetupAfterFirstCellSetupTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_firstCtchSetupAfterFirstCellSetupTimeDescriptionString << firstCtchSetupAfterFirstCellSetupTime
-                 << "\n";            cout << "Log: [" << lineInLogs << "]\n\n";
+                 << "\n";
+            cout << "Log: [" << lineInLogs << "]\n\n";
             m_firstCtchSetupAfterFirstCellSetupTime.emplace_back(firstCtchSetupAfterFirstCellSetupTime);
             previousNotableTime = logTimeInLogs;
             state++;
@@ -416,7 +445,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_CCHH_CTCH_SETUP_RESP_MSG)")) {
             double firstCtchSetupProcedureTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_firstCtchSetupProcedureTimeDescriptionString << firstCtchSetupProcedureTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_firstCtchSetupProcedureTime.emplace_back(firstCtchSetupProcedureTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_firstCtchSetupProcedureTime.emplace_back(firstCtchSetupProcedureTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -424,7 +454,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_CCHH_SYSTEM_INFO_UPDATE_REQ_MSG)")) {
             double firstCtchSetupToSiuTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_firstCtchSetupToSiuTimeDescriptionString << firstCtchSetupToSiuTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_firstCtchSetupToSiuTime.emplace_back(firstCtchSetupToSiuTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_firstCtchSetupToSiuTime.emplace_back(firstCtchSetupToSiuTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -432,7 +463,8 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_CCHH_SYSTEM_INFO_UPDATE_RESP_MSG)")) {
             double siuProcedureTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_siuProcedureTimeDescriptionString << siuProcedureTime << "\n";
-            cout << "Log: [" << lineInLogs << "]\n\n";            m_siuProcedureTime.emplace_back(siuProcedureTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_siuProcedureTime.emplace_back(siuProcedureTime);
             previousNotableTime = logTimeInLogs;
             state++;
         } else if (
@@ -440,9 +472,11 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
             isStringFoundNotCaseSensitive(lineInLogs, R"(TC_CELL_AVAILABILITY_STATE_CHANGE_MSG)")) {
             double siuToCellOnAirTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
             cout << m_siuToCellOnAirTimeDescriptionString << siuToCellOnAirTime << "\n";
-            m_siuToCellOnAirTime.emplace_back(siuToCellOnAirTime);            cout << "Log: [" << lineInLogs << "]\n\n";
+            m_siuToCellOnAirTime.emplace_back(siuToCellOnAirTime);
+            cout << "Log: [" << lineInLogs << "]\n\n";
 
             // print other stuffs:
+
             cout << "Total processing and messaging delay: " << m_processingAndMessagingTotalDelay << "\n";
             m_processingAndMessagingTotalDelays.emplace_back(m_processingAndMessagingTotalDelay);
             cout << "Total time from hardware configuration to cell on air: "

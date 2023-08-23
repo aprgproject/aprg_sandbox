@@ -1,9 +1,11 @@
 #include <UniqueProblems/BitManipulation/UniqueElement.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(UniqueElementTest, GetAUniqueElementOnTwoDuplicatedValuesWorksOnExample1) {
     UniqueElement::Values values{2, 3, 7, 11, 2, 3, 11};
     UniqueElement solution;

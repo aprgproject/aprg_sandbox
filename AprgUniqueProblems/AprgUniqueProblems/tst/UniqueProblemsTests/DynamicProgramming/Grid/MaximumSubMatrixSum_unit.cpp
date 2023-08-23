@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Grid/MaximumSubMatrixSum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using ValueMatrix = MaximumSubMatrixSum::ValueMatrix;
 using SubArrayDetails = MaximumSubMatrixSum::SubArrayDetails;

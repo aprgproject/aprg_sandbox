@@ -3,9 +3,11 @@
 #include <UniqueProblems/DynamicProgramming/Subsequence/Increasing/LongestIncreasingSubsequenceLinearithmic.hpp>
 
 #include <algorithm>
-#include <iterator>#include <numeric>
+#include <iterator>
+#include <numeric>
 
 using namespace std;
+
 namespace alba {
 
 BuildingBridges::BuildingBridges(Bridges const& bridges) : m_bridges(bridges) {}
@@ -26,9 +28,11 @@ BuildingBridges::Index BuildingBridges::getNumberOfPossibleBridges() const {
     LongestIncreasingSubsequenceLinearithmic lis(secondPoints);
     return lis.getLongestLength();
 }
+
 BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
     // Time Complexity – O(NlogN)
     // Space Complexity – O(N)
+
     Bridges result;
     if (!m_bridges.empty()) {
         Bridges sortedBridges(m_bridges);
@@ -37,10 +41,12 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const {
         LongestIncreasingSubsequenceLinearithmic::Values secondPoints;
         secondPoints.reserve(sortedBridges.size());
         transform(sortedBridges.cbegin(), sortedBridges.cend(), back_inserter(secondPoints), [](auto const& bridge) {
-            return bridge.second;        });
+            return bridge.second;
+        });
 
         Index longestLength(1);
-        IndexToValue lengthMinus1ToEndValue(secondPoints.size(), 0);  // length minus one because its index        IndexToIndex lengthMinus1ToEndIndex(secondPoints.size(), 0);
+        IndexToValue lengthMinus1ToEndValue(secondPoints.size(), 0);  // length minus one because its index
+        IndexToIndex lengthMinus1ToEndIndex(secondPoints.size(), 0);
         IndexToIndex indexToPreviousIndex(secondPoints.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
         lengthMinus1ToEndValue[0] = secondPoints.front();

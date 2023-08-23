@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Subsequence/Increasing/MaximumLengthChainOfPairs.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Values = MaximumLengthChainOfPairs::Pairs;
 }

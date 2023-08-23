@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/MaximizeProfitInCuttingARod.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(MaximizeProfitInCuttingARodTest, GetBestProfitWorksOnExample1) {
     MaximizeProfitInCuttingARod queryForTest(
         8, {{1, 1}, {2, 5}, {3, 8}, {4, 9}, {5, 10}, {6, 17}, {7, 17}, {8, 20}});

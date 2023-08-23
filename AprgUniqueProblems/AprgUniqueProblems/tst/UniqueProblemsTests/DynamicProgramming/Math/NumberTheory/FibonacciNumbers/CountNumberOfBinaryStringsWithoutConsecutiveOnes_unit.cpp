@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Math/NumberTheory/FibonacciProblems/CountNumberOfBinaryStringsWithoutConsecutiveOnes.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExample1) {
     CountNumberOfBinaryStringsWithoutConsecutiveOnes queryForTest(1);
 

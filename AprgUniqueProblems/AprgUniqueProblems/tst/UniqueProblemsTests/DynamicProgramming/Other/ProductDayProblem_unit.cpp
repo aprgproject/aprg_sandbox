@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/ProductDayProblem.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using PriceMatrix = ProductDayProblem::PriceMatrix;
 }

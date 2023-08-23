@@ -1,9 +1,11 @@
 #include <UniqueProblems/SpecialProblems/DeBruijnSequences.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(DeBruijnSequencesTest, GetDeBruijnStringWorksWithNullAlphabetWithLength0) {
     DeBruijnSequences deBruijnSequences(0, "");
 

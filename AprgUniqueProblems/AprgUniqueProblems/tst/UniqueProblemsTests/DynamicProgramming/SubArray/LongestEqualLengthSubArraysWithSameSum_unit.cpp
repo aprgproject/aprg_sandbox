@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/SubArray/LongestEqualLengthSubArraysWithSameSum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(LongestEqualLengthSubArraysWithSameSumTest, GetLongestTotalLengthOfSubArraysWorksOnEmpty) {
     LongestEqualLengthSubArraysWithSameSum queryForTest({});
 

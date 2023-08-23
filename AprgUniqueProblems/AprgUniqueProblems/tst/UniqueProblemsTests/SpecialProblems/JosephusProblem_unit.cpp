@@ -1,9 +1,11 @@
 #include <UniqueProblems/SpecialProblems/JosephusProblem.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 using Values = JosephusProblem::Values;
 
 TEST(JosephusProblemTest, GetJosephusPermutationUsingIntervalTreeWorks) {

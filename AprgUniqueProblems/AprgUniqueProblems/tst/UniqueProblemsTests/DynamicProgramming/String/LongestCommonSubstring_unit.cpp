@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/String/LongestCommonSubstring.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Distance = LongestCommonSubstring::Index;
 }

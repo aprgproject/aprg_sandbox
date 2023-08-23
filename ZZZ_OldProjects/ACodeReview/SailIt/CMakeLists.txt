@@ -15,10 +15,12 @@ include(${APRG_CODE_REVIEW_DIR}/cmake/LocateAprgDirectory.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
-include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 set(CODE_SOURCES
-    src/SailIt.cpp    src/SailIt.hpp
+    src/SailIt.cpp
+    src/SailIt.hpp
     src/CPlusPlus/Analyzer/Analyzers/Classes.cpp
     src/CPlusPlus/Analyzer/Analyzers/ControlStructures.cpp
     src/CPlusPlus/Analyzer/Analyzers/Expressions.cpp
@@ -125,10 +127,12 @@ if (TEST_MODE)
     target_link_libraries(${PROJECT_NAME_SCT} APRG_COMMON ${APRG_GTEST_DEPENDENCIES})
     add_test(${PROJECT_NAME_SCT} ${PROJECT_NAME_SCT})
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
     add_executable(${PROJECT_NAME} ${CODE_SOURCES} ${MAIN_SOURCES})
     target_link_libraries(${PROJECT_NAME} APRG_COMMON)
 endif()
+
 include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)
 
 

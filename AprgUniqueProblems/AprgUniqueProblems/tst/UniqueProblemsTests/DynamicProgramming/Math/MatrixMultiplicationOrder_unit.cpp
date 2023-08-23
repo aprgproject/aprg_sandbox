@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Math/MatrixMultiplicationOrder.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(MatrixMultiplicationOrderTest, GetMinimumNumberOfOperationsWorksOnExample1) {
     MatrixMultiplicationOrder queryForTest({40, 20, 30, 10, 30});
 

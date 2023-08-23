@@ -8,7 +8,8 @@ namespace alba {
 class LongestIncreasingSubsequenceLinearithmic {
 public:
     using Index = int;
-    using Value = int;    using Values = std::vector<Value>;
+    using Value = int;
+    using Values = std::vector<Value>;
     using IndexToIndex = std::vector<Index>;
     using IndexToValue = std::vector<Value>;
     static constexpr Value UNUSED_VALUE = std::numeric_limits<Value>::max();
@@ -17,9 +18,11 @@ public:
 
     Index getLongestLength() const;
     Values getLongestSubsequence() const;
+
 private:
     Values m_sequence;
 };
+
 }  // namespace alba
 
 // Given an array of random numbers.

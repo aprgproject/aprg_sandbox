@@ -1,9 +1,11 @@
 #include <UniqueProblems/GreedyAlgorithm/JobWithProfitAndDeadlines.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(JobWithProfitAndDeadlinesTest, GetJobsAsPossibleWorksOnExample1) {
     JobWithProfitAndDeadlines taskAndDeadlines;
     taskAndDeadlines.addJob("A", 20, 4);

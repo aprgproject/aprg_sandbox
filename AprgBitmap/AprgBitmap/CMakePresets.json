@@ -11,10 +11,12 @@
       "displayName": "Visual Studio Windows x64 MSVC Debug",
       "description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../VisualStudioBuild/build/${presetName}",      "architecture": {
+      "binaryDir": "${sourceDir}/../VisualStudioBuild/build/${presetName}",
+      "architecture": {
         "value": "x64",
         "strategy": "external"
-      },      "cacheVariables": {
+      },
+      "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/../VisualStudioBuild/install/${presetName}",
         "CMAKE_C_COMPILER": "cl",
@@ -39,10 +41,12 @@
       "configurePreset": "visualstudio-windows-msvc-debug",
       "output": { "outputOnFailure": true },
       "execution": {
-        "noTestsAction": "error",        "stopOnFailure": true
+        "noTestsAction": "error",
+        "stopOnFailure": true
       }
     }
-  ],  "vendor": {
+  ],
+  "vendor": {
     "example.com/ExampleIDE/1.0": {
       "autoFormat": false
     }

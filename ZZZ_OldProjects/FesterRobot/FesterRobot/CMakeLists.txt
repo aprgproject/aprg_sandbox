@@ -15,10 +15,12 @@ include(${FESTER_ROBOT_DIR}/cmake/LocateAprgDirectory.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
-include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgLocalUserAutomation/AprgCmakeInclude/AprgLocalUserAutomation.cmake)
 
-#Add files and directoriesinclude(${FESTER_ROBOT_DIR}/cmake/FilesAndDirectories.cmake)
+#Add files and directories
+include(${FESTER_ROBOT_DIR}/cmake/FilesAndDirectories.cmake)
 
 #Do final steps
 if (TEST_MODE)
@@ -29,9 +31,11 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} APRG_LOCAL_USER_AUTOMATION APRG_COMMON ${APRG_GTEST_DEPENDENCIES})
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
     set(CMAKE_EXE_LINKER_FLAGS ${APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP})
     add_executable(${OUTFILE} ${FESTER_ROBOT_SOURCES} ${FESTER_ROBOT_MAIN_SOURCES})
-    include_directories(${FESTER_ROBOT_INCLUDE_DIRECTORIES})    target_link_libraries(${OUTFILE} APRG_LOCAL_USER_AUTOMATION APRG_COMMON)
+    include_directories(${FESTER_ROBOT_INCLUDE_DIRECTORIES})
+    target_link_libraries(${OUTFILE} APRG_LOCAL_USER_AUTOMATION APRG_COMMON)
 endif()
 include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)

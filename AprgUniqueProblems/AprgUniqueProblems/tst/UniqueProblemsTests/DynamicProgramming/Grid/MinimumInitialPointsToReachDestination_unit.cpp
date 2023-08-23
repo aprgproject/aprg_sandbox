@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Grid/MinimumInitialPointsToReachDestination.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Grid = MinimumInitialPointsToReachDestination::Grid;
 }

@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Math/Digits/TotalNumberOfNonDecreasingNumbersWithNDigits.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample1) {
     TotalNumberOfNonDecreasingNumbersWithNDigits queryForTest(0);
 

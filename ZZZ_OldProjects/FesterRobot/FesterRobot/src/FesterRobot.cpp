@@ -109,10 +109,12 @@ bool FesterRobot::isRunningInClipboardData(string const& clipboardData) const {
     return stringHelper::isStringFoundCaseSensitive(clipboardData, "running iteration");
 }
 
-bool FesterRobot::isRunningFinishedInClipboardData(string const& clipboardData) const {    string freqBandStringInLog(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(
+bool FesterRobot::isRunningFinishedInClipboardData(string const& clipboardData) const {
+    string freqBandStringInLog(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(
         stringHelper::getStringWithoutRedundantWhiteSpace(stringHelper::getStringAfterThisString(
             stringHelper::getStringInBetweenTwoStrings(clipboardData, "freqBand", "filCoef"), "="))));
-    string frequenciesStringForExcel(getFrequenciesStringForExcel());    cout << "freqBandStringInLog: [" << freqBandStringInLog << "]\n";
+    string frequenciesStringForExcel(getFrequenciesStringForExcel());
+    cout << "freqBandStringInLog: [" << freqBandStringInLog << "]\n";
     cout << "frequenciesStringForExcel: [" << frequenciesStringForExcel << "]\n";
     return freqBandStringInLog == frequenciesStringForExcel;
 }

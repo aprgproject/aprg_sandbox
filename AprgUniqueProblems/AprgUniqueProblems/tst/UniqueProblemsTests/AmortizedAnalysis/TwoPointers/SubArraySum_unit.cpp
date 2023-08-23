@@ -1,9 +1,11 @@
 #include <UniqueProblems/AmortizedAnalysis/TwoPointers/SubArraySum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Value = SubArraySum::Value;
 using Values = SubArraySum::Values;

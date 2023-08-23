@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/KnapsackProblems/IsPartialSumPossibleInZeroOneKnapsack.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(IsPartialSumPossibleInZeroOneKnapsackTest, GetBestProfitWorksOnExample1) {
     IsPartialSumPossibleInZeroOneKnapsack queryForTest(9, {{3, 34, 4, 12, 5, 2}});
 

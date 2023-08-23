@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Palindrome/PalindromePartitioning.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(PalindromePartitioningTest, GetMinimumNumberOfCutsWorksOnExample1) {
     PalindromePartitioning queryForTest("ababbbabbababa");
 

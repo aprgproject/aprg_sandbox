@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Grid/PathSumInGridInRightOrDownTraversal.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Grid = PathSumInGridInRightOrDownTraversal::Grid;
 using Path = PathSumInGridInRightOrDownTraversal::Path;

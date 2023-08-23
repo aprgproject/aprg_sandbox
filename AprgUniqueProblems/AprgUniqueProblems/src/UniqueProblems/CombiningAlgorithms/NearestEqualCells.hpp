@@ -6,9 +6,11 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
 namespace alba {
+
 class NearestEqualCells {
 public:
     // This is an example of combining algorithm using "Case processing".
+
     // Suppose that we are given a two-dimensional grid that contains n cells.
     // Each cell is assigned a letter, and our task is to find two cells with the same letter whose distance is minimum,
     // where the distance between cells (x1, y1) and (x2, y2) is |x1-x2|+|y1-y2|.

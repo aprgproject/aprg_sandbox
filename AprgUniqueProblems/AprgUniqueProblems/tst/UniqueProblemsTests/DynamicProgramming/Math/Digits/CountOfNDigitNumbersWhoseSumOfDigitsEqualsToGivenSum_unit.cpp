@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Math/Digits/CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnZeroWithOneDigit) {
     CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum queryForTest(1, 0);
 

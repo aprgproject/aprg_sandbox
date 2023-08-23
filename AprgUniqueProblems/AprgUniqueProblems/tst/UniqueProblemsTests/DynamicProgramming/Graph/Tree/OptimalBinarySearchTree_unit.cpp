@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Graph/Tree/OptimalBinarySearchTree.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(OptimalBinarySearchTreeTest, GetMinimumCostWorksOnExample1) {
     OptimalBinarySearchTree queryForTest({{10, 34}, {12, 50}});
 

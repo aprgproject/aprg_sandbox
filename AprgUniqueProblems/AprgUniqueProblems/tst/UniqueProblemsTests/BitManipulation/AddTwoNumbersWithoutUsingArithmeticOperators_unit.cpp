@@ -1,9 +1,11 @@
 #include <UniqueProblems/BitManipulation/AddTwoNumbersWithoutUsingArithmeticOperators.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(AddTwoNumbersWithoutUsingArithmeticOperatorsTest, GetSumWorksOnExample1) {
     AddTwoNumbersWithoutUsingArithmeticOperators solution;
 

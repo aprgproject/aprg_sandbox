@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/MobileNumericKeypadProblem.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(MobileNumericKeypadProblemTest, GetMinimumCostWorksOnExample1) {
     MobileNumericKeypadProblem queryForTest(1);
 

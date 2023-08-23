@@ -1,9 +1,11 @@
 #include <UniqueProblems/AmortizedAnalysis/TwoPointers/TwoSum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Value = TwoSum::Value;
 using Values = TwoSum::Values;

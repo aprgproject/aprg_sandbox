@@ -5,9 +5,11 @@
 #include <iterator>
 
 using namespace std;
+
 namespace alba {
 
-SelectionDspResult::SelectionDspResult()    : isSelectionSuccessful(false), isNbicAllocated(false), address(0), dliPool(0) {}
+SelectionDspResult::SelectionDspResult()
+    : isSelectionSuccessful(false), isNbicAllocated(false), address(0), dliPool(0) {}
 
 SelectionDspResultForCcdAndMcd::SelectionDspResultForCcdAndMcd()
     : isSelectionSuccessful(false), isNbicAllocated(false), ccdAddress(0), mcdAddress(0), dliPool(0) {}

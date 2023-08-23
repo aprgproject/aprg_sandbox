@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/ElevatorWeightProblem.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using People = ElevatorWeightProblem::People;
 using ListOfPeople = ElevatorWeightProblem::ListOfPeople;

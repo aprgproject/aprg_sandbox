@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Supersequence/ShortestCommonSupersequence.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(ShortestCommonSupersequenceTest, GetLongestLengthWorksOnExample1) {
     ShortestCommonSupersequence queryForTest({7, 5, 5, 11}, {5, 11, 5});
 

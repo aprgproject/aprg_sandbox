@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/CountNumberOfWaysToReachAGivenScoreInAGame.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountNumberOfWaysToReachAGivenScoreInAGameTest, GetMinimumCostWorksWithZero) {
     CountNumberOfWaysToReachAGivenScoreInAGame queryForTest(0);
 

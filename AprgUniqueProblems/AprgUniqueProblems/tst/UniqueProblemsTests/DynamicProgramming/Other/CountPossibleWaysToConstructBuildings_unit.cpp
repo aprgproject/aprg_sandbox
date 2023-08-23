@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/CountPossibleWaysToConstructBuildings.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountPossibleWaysToConstructBuildingsTest, GetNumberOfWaysWorksOZeroSections) {
     CountPossibleWaysToConstructBuildings queryForTest(0);
 

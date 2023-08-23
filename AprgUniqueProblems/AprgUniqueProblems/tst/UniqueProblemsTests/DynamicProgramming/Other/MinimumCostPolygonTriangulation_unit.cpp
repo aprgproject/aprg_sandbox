@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/MinimumCostPolygonTriangulation.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(MinimumCostPolygonTriangulationTest, GetMinimumNumberOfOperationsWorksOnExample1) {
     MinimumCostPolygonTriangulation queryForTest({{0, 2}, {1, 2}, {2, 1}, {1, 0}, {0, 0}});
 

@@ -1,9 +1,11 @@
 #include <UniqueProblems/CompleteSearch/GridPathSearch.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(GridPathSearchTest, CountPathWorksWhenGridSideIs3) {
     GridPathSearch pathSearch(3);
 

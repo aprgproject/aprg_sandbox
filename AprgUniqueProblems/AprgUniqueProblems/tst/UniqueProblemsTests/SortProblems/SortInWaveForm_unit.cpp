@@ -1,9 +1,11 @@
 #include <UniqueProblems/SortProblems/SortInWaveForm.hpp>
 
 #include <gtest/gtest.h>
+
 #include <forward_list>
 
 using namespace std;
+
 namespace alba {
 
 namespace algorithm {

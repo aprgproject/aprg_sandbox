@@ -1,9 +1,11 @@
 #include <UniqueProblems/BitManipulation/CountingSubGrids.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountingSubGridsTest, CountSubGridsWithAllBlackCornersWorksWithExample1) {
     CountingSubGrids::BitGrid bitGrid(
         5, 5, {false, true,  false, false, true, false, true, true,  false, false, true,  false, false,

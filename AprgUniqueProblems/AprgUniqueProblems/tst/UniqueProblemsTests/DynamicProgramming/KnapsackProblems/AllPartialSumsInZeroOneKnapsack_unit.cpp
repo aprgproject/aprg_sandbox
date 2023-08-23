@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/KnapsackProblems/AllPartialSumsInZeroOneKnapsack.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Value = AllPartialSumsInZeroOneKnapsack::Value;
 using Values = AllPartialSumsInZeroOneKnapsack::Values;

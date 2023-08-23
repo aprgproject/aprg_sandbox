@@ -8,9 +8,11 @@
 #include <string_view>
 
 namespace alba {
+
 #if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
 #warning("The class AlbaDebug is used. Please remove after your done debugging.") // GCC extension
-#elif defined(_MSC_VER)#pragma message("The class AlbaDebug is used. Please remove after your done debugging.")  // MSVC extension
+#elif defined(_MSC_VER)
+#pragma message("The class AlbaDebug is used. Please remove after your done debugging.")  // MSVC extension
 #endif
 
 #if defined(ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_FILE_PATH)
@@ -36,10 +38,12 @@ inline std::string_view getShortenFunctionName(std::string_view longFunctionName
                              << getShortenFunctionName(ALBA_MACROS_GET_FUNCTION) << "(...): ";
 #define Z_ALBA_PRINT_END ALBA_PRINT_OUTPUT_STREAM << std::endl
 #define Z_ALBA_PRINT_PARAMETER_ONLY(parameter) \
-    printParameterWithName(ALBA_PRINT_OUTPUT_STREAM, ALBA_MACROS_GET_STRING_LITERAL(parameter), parameter);#define Z_ALBA_PRINT_SEPARATOR ALBA_PRINT_OUTPUT_STREAM << " ";
+    printParameterWithName(ALBA_PRINT_OUTPUT_STREAM, ALBA_MACROS_GET_STRING_LITERAL(parameter), parameter);
+#define Z_ALBA_PRINT_SEPARATOR ALBA_PRINT_OUTPUT_STREAM << " ";
 #define Z_ALBA_PRINT_PARAMETER(parameter) Z_ALBA_PRINT_PARAMETER_ONLY(parameter) Z_ALBA_PRINT_SEPARATOR
 #define Z_ALBA_PRINT_7(p1, p2, p3, p4, p5, p6, p7) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_6(p2, p3, p4, p5, p6, p7)
-#define Z_ALBA_PRINT_6(p1, p2, p3, p4, p5, p6) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_5(p2, p3, p4, p5, p6)#define Z_ALBA_PRINT_5(p1, p2, p3, p4, p5) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_4(p2, p3, p4, p5)
+#define Z_ALBA_PRINT_6(p1, p2, p3, p4, p5, p6) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_5(p2, p3, p4, p5, p6)
+#define Z_ALBA_PRINT_5(p1, p2, p3, p4, p5) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_4(p2, p3, p4, p5)
 #define Z_ALBA_PRINT_4(p1, p2, p3, p4) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_3(p2, p3, p4)
 #define Z_ALBA_PRINT_3(p1, p2, p3) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_2(p2, p3)
 #define Z_ALBA_PRINT_2(p1, p2) Z_ALBA_PRINT_PARAMETER(p1) Z_ALBA_PRINT_PARAMETER(p2)

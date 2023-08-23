@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/KnapsackProblems/MaximizeProfitInZeroOneKnapsack.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(MaximizeProfitInZeroOneKnapsackTest, GetBestProfitWorksOnExample1) {
     MaximizeProfitInZeroOneKnapsack queryForTest(50, {{10, 60}, {20, 100}, {30, 120}});
 

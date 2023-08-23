@@ -1,9 +1,11 @@
 #include <UniqueProblems/GreedyAlgorithm/SweepLine/MinimumNumberOfPlatformsRequiredForARailwayStation.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(MinimumNumberOfPlatformsRequiredForARailwayStationTest, GetMinimumNumberOfPlatformsWorksForExample1) {
     MinimumNumberOfPlatformsRequiredForARailwayStation maximumEmployeeCount;
 

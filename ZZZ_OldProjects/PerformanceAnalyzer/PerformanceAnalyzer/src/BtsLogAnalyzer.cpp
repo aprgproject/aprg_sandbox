@@ -102,10 +102,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationInGrm(string const& lineInLogs) {
     if (isStringFoundCaseSensitive(lineInLogs, "INF/TCOM/G, 0x")) {
         BtsLogPrint logPrint(lineInLogs);
         strings dspCapacitiesPerDsp;
-        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, "()");        unsigned int boardId(
+        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, "()");
+        unsigned int boardId(
             convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, "0x", ",")));
         for (string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp) {
-            saveDspCapacityInformationInGrmOfOneDsp(dspCapacityOfOneDsp, boardId, logPrint);        }
+            saveDspCapacityInformationInGrmOfOneDsp(dspCapacityOfOneDsp, boardId, logPrint);
+        }
     }
 }
 
@@ -150,10 +152,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationInLrmForR3(string const& lineInLo
     if (isStringFoundCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x")) {
         BtsLogPrint logPrint(lineInLogs);
         strings dspCapacitiesPerDsp;
-        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");        unsigned int boardId(
+        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");
+        unsigned int boardId(
             convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, "0x", " ")));
         for (string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp) {
-            saveDspCapacityInformationInLrmOfOneDspForR3(dspCapacityOfOneDsp, boardId, logPrint);        }
+            saveDspCapacityInformationInLrmOfOneDspForR3(dspCapacityOfOneDsp, boardId, logPrint);
+        }
     }
 }
 
@@ -217,10 +221,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationInLrmForR2(string const& lineInLo
     if (isStringFoundCaseSensitive(lineInLogs, "INF/TCOM/LRM/Rep, |0x")) {
         BtsLogPrint logPrint(lineInLogs);
         strings dspCapacitiesPerDsp;
-        string logsAfterLrmPrint(getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
+        string logsAfterLrmPrint(getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));
+        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
         unsigned int boardId(
             convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, ",0x", "-")));
-        for (string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp) {            saveDspCapacityInformationInLrmOfOneDspForR2(dspCapacityOfOneDsp, boardId, logPrint);
+        for (string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp) {
+            saveDspCapacityInformationInLrmOfOneDspForR2(dspCapacityOfOneDsp, boardId, logPrint);
         }
     }
 }
@@ -424,7 +430,8 @@ void BtsLogAnalyzer::saveQueueingTime(string const& lineInLogs) {
     if (isStringFoundCaseSensitive(lineInLogs, "MSG TIME, start queuing time")) {
         unsigned int messsageQueueingTime(
             convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "msgQueuingTime: ")));
-        m_messageQueueingTime.addData(messsageQueueingTime);        saveMessageQueueingTimeToCsvFile(lineInLogs, messsageQueueingTime);
+        m_messageQueueingTime.addData(messsageQueueingTime);
+        saveMessageQueueingTimeToCsvFile(lineInLogs, messsageQueueingTime);
     }
 }
 
@@ -434,10 +441,12 @@ void BtsLogAnalyzer::saveRlSetupPerSecond(string const& lineInLogs) {
     if (isStringFoundNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)")) {
         BtsLogTime currentLogTime;
         BtsLogPrint logPrint(lineInLogs);
-        currentLogTime = logPrint.getBtsTime();        currentLogTime.clearMicroSeconds();
+        currentLogTime = logPrint.getBtsTime();
+        currentLogTime.clearMicroSeconds();
         if (savedSecond == currentLogTime) {
             numberOfUsersInSecond++;
-        } else {            if (rlSetupPerSecondFileStreamOptional) {
+        } else {
+            if (rlSetupPerSecondFileStreamOptional) {
                 ofstream& rlSetupPerSecondFileStream(rlSetupPerSecondFileStreamOptional.value());
                 rlSetupPerSecondFileStream << savedSecond.getEquivalentStringBtsTimeFormat() << ","
                                            << numberOfUsersInSecond << "\n";
@@ -455,7 +464,8 @@ void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rl
     } else if (isStringFoundNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlSetupResp3G)")) {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
-        computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlSetupLogTimePairs);        m_rlSetupPrintsAvailableMap.erase(userIdentifiers);
+        computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlSetupLogTimePairs);
+        m_rlSetupPrintsAvailableMap.erase(userIdentifiers);
     }
 }
 
@@ -466,10 +476,12 @@ void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs&
     } else if (isStringFoundNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlDeletionResp3G)")) {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlDeletionLogTimePairs);
-        computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlDeletionLogTimePairs);    }
+        computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlDeletionLogTimePairs);
+    }
 }
 
-void BtsLogAnalyzer::saveAdditionalPrintsRlSetup(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs) {    UserIdentifiers userIdentifiers(lineInLogs);
+void BtsLogAnalyzer::saveAdditionalPrintsRlSetup(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs) {
+    UserIdentifiers userIdentifiers(lineInLogs);
     LogTimePair& logTimePairOfTheUser(rlSetupLogTimePairs[userIdentifiers]);
     PrintsAvailable& printsAvailableForTheUser(m_rlSetupPrintsAvailableMap[userIdentifiers]);
     if (logTimePairOfTheUser.first) {
@@ -483,10 +495,12 @@ void BtsLogAnalyzer::saveAdditionalPrintsRlSetup(string const& lineInLogs, LogTi
         } else if (isStringFoundNotCaseSensitive(
                        lineInLogs, R"(TC_TRANSPORT_BEARER_REGISTER_RESP_MSG)")) {
             printsAvailableForTheUser.hasTC_TRANSPORT_BEARER_REGISTER_RESP_MSG = true;
-        }    }
+        }
+    }
 }
 
-void BtsLogAnalyzer::setFirstLogTimeInPair(    string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const {
+void BtsLogAnalyzer::setFirstLogTimeInPair(
+    string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const {
     LogTimePair& logTimePairOfTheUser(logTimePairs[userIdentifiers]);
     setLogTimeIfNeeded(lineInLogs, logTimePairOfTheUser.first);
 }

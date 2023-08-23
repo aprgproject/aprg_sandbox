@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/PrintMaximumNumberOfAs.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(PrintMaximumNumberOfAsTest, GetMaxCountOfAOnScreenOnZero) {
     PrintMaximumNumberOfAs queryForTest(0);
 

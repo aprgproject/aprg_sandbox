@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Math/BinomialCoefficient.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(BinomialCoefficientTest, GetMinimumNumberOfOperationsWorksOnExample1) {
     BinomialCoefficient queryForTest(0, 0);
 

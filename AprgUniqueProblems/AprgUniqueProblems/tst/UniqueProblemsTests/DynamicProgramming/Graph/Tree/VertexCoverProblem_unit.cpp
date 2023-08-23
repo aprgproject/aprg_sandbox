@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Graph/Tree/VertexCoverProblem.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using SetOfVertices = VertexCoverProblem::SetOfVertices;
 }

@@ -1,9 +1,11 @@
 #include <UniqueProblems/GreedyAlgorithm/SchedulingEvents.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample1) {
     SchedulingEvents schedulingEvents;
     schedulingEvents.addEvent("A", 1, 3);

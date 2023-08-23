@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/FindTheMinimumCostToReachDestinationUsingATrain.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Value = FindTheMinimumCostToReachDestinationUsingATrain::Value;
 using ValueMatrix = FindTheMinimumCostToReachDestinationUsingATrain::ValueMatrix;

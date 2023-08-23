@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Subsequence/Increasing/BoxStackingProblem.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Boxes = BoxStackingProblem::Boxes;
 }

@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/String/WordWrapProblemWithLineWidth.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(WordWrapProblemWithLineWidthTest, GetWordWrapProblemWithLineWidthWorksOnExample1) {
     WordWrapProblemWithLineWidth queryForTest(15, {"Geeks", "for", "Geeks", "presents", "word", "wrap", "problem"});
 

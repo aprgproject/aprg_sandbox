@@ -1,9 +1,11 @@
 #include <UniqueProblems/GreedyAlgorithm/TaskAndDeadlines.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(TaskAndDeadlinesTest, GetTasksAsPossibleWorksOnExample1) {
     TaskAndDeadlines taskAndDeadlines;
     taskAndDeadlines.addTask("A", 4, 2);

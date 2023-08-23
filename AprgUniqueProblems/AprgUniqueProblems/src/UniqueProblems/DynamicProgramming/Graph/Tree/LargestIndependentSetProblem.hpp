@@ -7,10 +7,12 @@
 
 namespace alba {
 
-class LargestIndependentSetProblem {public:
+class LargestIndependentSetProblem {
+public:
     using Count = int;
     using Index = int;
-    using Vertex = int;    using SetOfVertices = algorithm::GraphTypes<Vertex>::SetOfVertices;
+    using Vertex = int;
+    using SetOfVertices = algorithm::GraphTypes<Vertex>::SetOfVertices;
     using Graph = algorithm::UndirectedGraphWithListOfEdges<Vertex>;
     using ChildrenInTree = algorithm::ChildrenInTree<Vertex>;
     using VertexToCountMap = std::map<Vertex, Count>;

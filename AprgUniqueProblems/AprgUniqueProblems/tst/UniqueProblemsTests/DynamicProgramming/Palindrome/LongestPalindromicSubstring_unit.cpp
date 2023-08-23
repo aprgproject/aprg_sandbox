@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Palindrome/LongestPalindromicSubstring.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(LongestPalindromicSubstringTest, GetLongestLengthWorksOnExample1) {
     LongestPalindromicSubstring queryForTest("forgeeksskeegfor");
 

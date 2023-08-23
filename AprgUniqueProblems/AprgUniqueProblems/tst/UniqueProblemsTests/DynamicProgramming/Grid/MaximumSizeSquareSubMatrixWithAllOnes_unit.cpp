@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Grid/MaximumSizeSquareSubMatrixWithAllOnes.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using BooleanMatrix = MaximumSizeSquareSubMatrixWithAllOnes::BooleanMatrix;
 }

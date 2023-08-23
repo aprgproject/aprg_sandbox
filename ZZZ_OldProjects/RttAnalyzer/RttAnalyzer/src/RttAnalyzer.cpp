@@ -48,7 +48,8 @@ void RttAnalyzer::processLine(std::string const& line) {
     } else if (!isStringFoundNotCaseSensitive(line, "------")) {
         m_cx8IndexOptional.reset();
         m_pnPosIndexOptional.reset();
-    }}
+    }
+}
 
 /*
 void RttAnalyzer::processLine(std::string const& line)
@@ -74,10 +75,12 @@ isStringFoundNotCaseSensitive(line, "PN Pos"))
     else if(isStringFoundNotCaseSensitive(line, "-"))
     {
         m_posNumber = 0;
-    }    else
+    }
+    else
     {
         m_cx8IndexOptional.clear();
-        m_pnPosIndexOptional.clear();    }
+        m_pnPosIndexOptional.clear();
+    }
 }
 */
 
@@ -87,9 +90,11 @@ void RttAnalyzer::processTitles(strings const& titles) {
         if (isStringFoundNotCaseSensitive(title, "(cx8)") && !m_cx8IndexOptional) {
             m_cx8IndexOptional = index;
             break;
-        }        index++;
+        }
+        index++;
     }
 }
+
 /*
 void RttAnalyzer::processTitles(strings const& titles)
 {
@@ -103,10 +108,12 @@ void RttAnalyzer::processTitles(strings const& titles)
         else if(isStringFoundNotCaseSensitive(title, "PN Pos") && !m_pnPosIndexOptional)
         {
             m_pnPosIndexOptional.setValue(index);
-        }        index++;
+        }
+        index++;
     }
 }
 */
+
 void RttAnalyzer::processValues(string const& dateTime, strings const& values) {
     static RttDetails rttDetails;
     if (m_cx8IndexOptional) {

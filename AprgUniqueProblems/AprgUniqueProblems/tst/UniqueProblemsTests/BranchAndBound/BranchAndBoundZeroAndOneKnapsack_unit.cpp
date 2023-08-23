@@ -1,9 +1,11 @@
 #include <UniqueProblems/BranchAndBound/BranchAndBoundZeroAndOneKnapsack.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(BranchAndBoundZeroAndOneKnapsackTest, GetBestProfitWorksOnExample1) {
     BranchAndBoundZeroAndOneKnapsack queryForTest;
 

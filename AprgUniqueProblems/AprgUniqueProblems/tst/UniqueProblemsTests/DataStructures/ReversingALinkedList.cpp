@@ -1,9 +1,11 @@
 #include <UniqueProblems/DataStructures/ReversingALinkedList.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace ReversingALinkedList {
 
 TEST(ReversingALinkedListTest, ThreeNodes) {

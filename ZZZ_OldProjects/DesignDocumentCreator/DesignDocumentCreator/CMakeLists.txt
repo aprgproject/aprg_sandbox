@@ -13,8 +13,10 @@ include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Assign specific definitions
 add_definitions(-DCCS_BIG_ENDIAN)
+
 #Assign DesignDocumentCreatorDirectory
 set(DesignDocumentCreatorDirectory ${CMAKE_CURRENT_SOURCE_DIR})
+
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
@@ -31,10 +33,12 @@ add_definitions(-DLOG_LOCATION="${DD_CREATOR_DIR}/../DesignDocumentCreatorLogs")
 set(SackDirectory "F:/Branches/ControlPlane/sbts1/tcom")
 
 set(SACKS_DIR_TO_INCLUDE
-    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp    ${SackDirectory}/I_Interface/Global_Env/Definitions
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
+    ${SackDirectory}/I_Interface/Global_Env/Definitions
     ${SackDirectory}/I_Interface/Global_Env/Messages
     ${SackDirectory}/I_Interface/Application_Env
-    ${SackDirectory}/I_Interface/Application_Env/Wn_Env/Bs_Env    ${SackDirectory}/I_Interface/Application_Env/Definitions
+    ${SackDirectory}/I_Interface/Application_Env/Wn_Env/Bs_Env
+    ${SackDirectory}/I_Interface/Application_Env/Definitions
     ${SackDirectory}/I_Interface/Application_Env/Wn_Env/Bs_Env/Definitions
     ${SackDirectory}/I_Interface/Application_Env/Messages
     ${SackDirectory}/I_Interface/Application_Env/Interfaces

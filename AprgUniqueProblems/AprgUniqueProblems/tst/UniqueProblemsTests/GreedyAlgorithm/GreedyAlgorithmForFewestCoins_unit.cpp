@@ -1,9 +1,11 @@
 #include <UniqueProblems/GreedyAlgorithm/GreedyAlgorithmForFewestCoins.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(GreedyAlgorithmForFewestCoinsTest, GetTasksAsPossibleWorksOnExample1) {
     GreedyAlgorithmForFewestCoins fewestCoins({1, 2, 5, 10, 20, 50, 100});
 

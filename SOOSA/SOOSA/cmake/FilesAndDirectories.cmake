@@ -1,9 +1,11 @@
 set(SOOSA_SOURCE_DIRECTORY
     ${SOOSA_DIR}/src
 )
+
 set(SOOSA_TEST_DIRECTORY
     ${SOOSA_DIR}/tst
 )
+
 set(SOOSA_MAIN_DIRECTORY
     ${SOOSA_DIR}/main
 )

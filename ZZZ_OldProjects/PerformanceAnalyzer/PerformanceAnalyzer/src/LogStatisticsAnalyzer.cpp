@@ -91,10 +91,12 @@ void LogStatisticsAnalyzer::analyzeLog(std::string const& lineInLogs) {
             if (!stringHelper::isStringFoundNotCaseSensitive(lineInLogs, logString)) {
                 areLogStringFoundInAllLogDetails = false;
                 break;
-            }        }
+            }
+        }
         areLogStringFound = areLogStringFoundInAllLogDetails;
         if (areLogStringFound) {
-            areLogStringFoundInTheLine = true;            logDetails.count++;
+            areLogStringFoundInTheLine = true;
+            logDetails.count++;
             // break;
         }
     }

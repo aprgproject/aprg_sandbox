@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Subsequence/Increasing/BuildingBridges.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Bridges = BuildingBridges::Bridges;
 }

@@ -12,10 +12,12 @@ include(${LRM_DSS_WCDMA_LTE_LOAD_MONITORING_DIR}/cmake/LocateAprgDirectory.cmake
 include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
-include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Add files and directories
 include(${LRM_DSS_WCDMA_LTE_LOAD_MONITORING_DIR}/cmake/FilesAndDirectories.cmake)
+
 #Do final steps
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")

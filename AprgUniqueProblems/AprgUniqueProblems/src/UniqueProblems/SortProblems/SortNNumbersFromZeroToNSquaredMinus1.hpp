@@ -20,9 +20,11 @@ public:
 
     void sort(Integers& valuesToSort) const {
         static_assert(typeHelper::isIntegralType<Integer>(), "Data type must be an integer");
+
         int size = valuesToSort.size();
         if (size > 1) {
-            // If we set b as n, the value of O(logb(n)) becomes O(1) and overall time complexity becomes O(n).            int numberOfBitsInDigit = AlbaBitValueUtilities<int>::getCeilOfLogarithmWithBase2Of(size);
+            // If we set b as n, the value of O(logb(n)) becomes O(1) and overall time complexity becomes O(n).
+            int numberOfBitsInDigit = AlbaBitValueUtilities<int>::getCeilOfLogarithmWithBase2Of(size);
             int numberOfDigits =
                 (AlbaBitValueUtilities<Integer>::getNumberOfBits() + numberOfBitsInDigit - 1) / numberOfBitsInDigit;
             Integer mask = AlbaBitValueUtilities<Integer>::generateOnesWithNumberOfBits(numberOfBitsInDigit);

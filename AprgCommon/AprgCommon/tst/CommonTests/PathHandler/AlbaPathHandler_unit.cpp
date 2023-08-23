@@ -21,7 +21,8 @@ TEST(AlbaPathHandlerTest, EmptyPathWorks) {
 TEST(AlbaPathHandlerTest, FullPathWithDirectoryAndFileGiven) {
     AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)", pathHandler.getDirectory());
-    EXPECT_EQ("76543.txt", pathHandler.getFile());    EXPECT_EQ("76543", pathHandler.getFilenameOnly());
+    EXPECT_EQ("76543.txt", pathHandler.getFile());
+    EXPECT_EQ("76543", pathHandler.getFilenameOnly());
     EXPECT_EQ("txt", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_EQ("tst", pathHandler.getImmediateDirectoryName());
@@ -30,7 +31,8 @@ TEST(AlbaPathHandlerTest, FullPathWithDirectoryAndFileGiven) {
 TEST(AlbaPathHandlerTest, FileOnly) {
     AlbaPathHandler pathHandler("src", R"(\)");
     EXPECT_TRUE(pathHandler.getDirectory().empty());
-    EXPECT_EQ("src", pathHandler.getFile());    EXPECT_EQ("src", pathHandler.getFilenameOnly());
+    EXPECT_EQ("src", pathHandler.getFile());
+    EXPECT_EQ("src", pathHandler.getFilenameOnly());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
@@ -39,7 +41,8 @@ TEST(AlbaPathHandlerTest, FileOnly) {
 TEST(AlbaPathHandlerTest, ReInputFile) {
     AlbaPathHandler pathHandler("src", R"(\)");
     pathHandler.reInput();
-    EXPECT_TRUE(pathHandler.getDirectory().empty());    EXPECT_EQ("src", pathHandler.getFile());
+    EXPECT_TRUE(pathHandler.getDirectory().empty());
+    EXPECT_EQ("src", pathHandler.getFile());
     EXPECT_EQ("src", pathHandler.getFilenameOnly());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
@@ -50,9 +53,11 @@ TEST(AlbaPathHandlerTest, GoUpUntilLastFolder) {
     AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", pathHandler.getFullPath());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
+
     pathHandler.goUp();
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\)", pathHandler.getFullPath());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
+
     pathHandler.goUp();
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\)", pathHandler.getFullPath());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());

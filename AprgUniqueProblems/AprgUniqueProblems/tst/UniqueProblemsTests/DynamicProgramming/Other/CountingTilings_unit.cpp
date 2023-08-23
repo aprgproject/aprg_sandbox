@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/CountingTilings.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountingTilingsTest, GetNumberOfSolutionsUsingDynamicProgrammingWorksOnExample1) {
     CountingTilings pathSearch(4, 2);
 

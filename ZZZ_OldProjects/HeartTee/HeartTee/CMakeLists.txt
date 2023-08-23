@@ -16,8 +16,10 @@ include(${APRG_DIR}/AprgCMakeHelpers/AllCommonSteps.cmake)
 
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+
 #Add files and directories
 include(${HEART_TEE_DIR}/cmake/FilesAndDirectories.cmake)
+
 set(SPECIAL_INCLUDE_DIRECTORIES
     src/HeartTee
     src/SerialPort
@@ -34,9 +36,11 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} mysqlclient ${APRG_GTEST_DEPENDENCIES})
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED}")
     set(CMAKE_EXE_LINKER_FLAGS ${APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP})
     add_executable(${OUTFILE} ${HEART_TEE_SOURCES} ${HEART_TEE_MAIN_SOURCES})
-    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES})    target_link_libraries(${OUTFILE} mysqlclient)
+    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES})
+    target_link_libraries(${OUTFILE} mysqlclient)
 endif()
 include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)

@@ -1,9 +1,11 @@
 #include <UniqueProblems/CombiningAlgorithms/NearestEqualCells.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using ValueMatrix = NearestEqualCells::ValueMatrix;
 using CoordinatePair = NearestEqualCells::CoordinatePair;

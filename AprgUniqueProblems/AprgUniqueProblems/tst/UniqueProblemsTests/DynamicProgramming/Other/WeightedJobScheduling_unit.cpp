@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Other/WeightedJobScheduling.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(WeightedJobSchedulingTest, GetMaxProfitWorksOnEmpty) {
     WeightedJobScheduling queryForTest({});
 

@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/Grid/CollectMaximumPointsInAGridUsingTwoTraversals.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Grid = CollectMaximumPointsInAGridUsingTwoTraversals::ValueGrid;
 }

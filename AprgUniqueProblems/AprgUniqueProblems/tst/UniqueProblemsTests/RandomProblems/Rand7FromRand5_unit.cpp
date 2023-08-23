@@ -1,9 +1,11 @@
 #include <UniqueProblems/RandomProblems/Rand7FromRand5.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(Rand7FromRand5Test, GetRandomFrom0To6Works_AsUniformlyDistributed) {
     Rand7FromRand5 rand7FromRand5;
     int const iterations(1000);

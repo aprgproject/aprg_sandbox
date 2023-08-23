@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/String/LevenshteinDistance.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using Distance = LevenshteinDistance::Index;
 }

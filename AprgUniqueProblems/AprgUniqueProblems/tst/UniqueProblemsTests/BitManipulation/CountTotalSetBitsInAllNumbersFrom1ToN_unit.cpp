@@ -1,9 +1,11 @@
 #include <UniqueProblems/BitManipulation/CountTotalSetBitsInAllNumbersFrom1ToN.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(CountTotalSetBitsInAllNumbersFrom1ToNTest, GetTotalSetBitsUsingPopcountWorksOnExample1) {
     CountTotalSetBitsInAllNumbersFrom1ToN solution;
 

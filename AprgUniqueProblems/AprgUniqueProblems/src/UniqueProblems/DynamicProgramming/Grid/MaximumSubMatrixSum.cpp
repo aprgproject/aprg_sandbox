@@ -3,9 +3,11 @@
 #include <UniqueProblems/DynamicProgramming/SubArray/MaximumSubArraySum.hpp>
 
 using namespace std;
+
 namespace alba {
 
 MaximumSubMatrixSum::MaximumSubMatrixSum(ValueMatrix const& valueMatrix) : m_valueMatrix(valueMatrix) {}
+
 MaximumSubMatrixSum::Value MaximumSubMatrixSum::getMaximumSubMatrixSum() const {
     // Uses Kadane’s algorithm
 

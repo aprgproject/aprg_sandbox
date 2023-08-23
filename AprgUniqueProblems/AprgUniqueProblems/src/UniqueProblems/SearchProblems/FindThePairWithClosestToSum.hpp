@@ -17,10 +17,12 @@ public:
     FindThePairWithClosestToSum()  // values can be unsorted
     {}
 
-    ValuePair getValuePairThatIsClosestToSum(Values const& values1, Values const& values2, Value const& sumToCheck) {        ValuePair result{};
+    ValuePair getValuePairThatIsClosestToSum(Values const& values1, Values const& values2, Value const& sumToCheck) {
+        ValuePair result{};
         if (!values1.empty() && !values2.empty()) {
             Value minimumDeviation = std::numeric_limits<Value>::max();
-            auto forwardIt1 = values1.cbegin();            auto reverseIt2 = values2.crbegin();
+            auto forwardIt1 = values1.cbegin();
+            auto reverseIt2 = values2.crbegin();
             while (forwardIt1 != values1.cend() && reverseIt2 != values2.crend()) {
                 Value currentSum = *forwardIt1 + *reverseIt2;
                 Value currentDeviation = mathHelper::getPositiveDelta(currentSum, sumToCheck);

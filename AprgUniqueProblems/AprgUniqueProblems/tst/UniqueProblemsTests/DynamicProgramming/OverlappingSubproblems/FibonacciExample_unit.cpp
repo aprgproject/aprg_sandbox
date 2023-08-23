@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/OverlappingSubproblems/FibonacciExample.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample1) {
     FibonacciExample fibonacciExample;
 

@@ -1,9 +1,11 @@
 #include <UniqueProblems/DynamicProgramming/SubArray/MaximumSubArraySum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba {
+
 namespace {
 using SubArrayDetails = MaximumSubArraySum::SubArrayDetails;
 }
