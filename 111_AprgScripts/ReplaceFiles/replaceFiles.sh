@@ -16,11 +16,10 @@ targetFilePaths=($(find "$targetFolderPath" -type f -name "$sourceFilename"))
 for targetFilePath in "${targetFilePaths[@]}"; do
     # Check if its a different path
 	if [ "$sourceFilePath" != "$targetFilePath" ]; then
-		shortenedSourcePath=$(echo "$sourceFilePath" | awk -F'/' '{print "/"$(NF-3)"/"$(NF-2)"/"$(NF-1)}')
-		shortenedTargetPath=$(echo "$targetFilePath" | awk -F'/' '{print "/"$(NF-3)"/"$(NF-2)"/"$(NF-1)}')
+		shortenedSourcePath=$(echo "$sourceFilePath" | awk -F'/' '{print ".../"$(NF-2)"/"$(NF-1)"/"$(NF)}')
+		shortenedTargetPath=$(echo "$targetFilePath" | awk -F'/' '{print ".../"$(NF-2)"/"$(NF-1)"/"$(NF)}')
         echo "Replacing $shortenedSourcePath with $shortenedTargetPath"
-        echo cp -f "$sourceFilePath" "$targetFilePath"
+        cp -f "$sourceFilePath" "$targetFilePath"
 	fi
 done
-
 echo "File replacements completed."
