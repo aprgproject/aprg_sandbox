@@ -329,21 +329,22 @@ bool AlbaLinuxPathHandler::canBeLocated(string_view fullPath) const {
 
 bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, string_view originalPath) const {
     bool result = false;
-    bool isCorrectPathLastCharacterNotASlash(correctedPath[correctedPath.length() - 1] != m_slashCharacterString[0]);
-    if (isCorrectPathLastCharacterNotASlash) {
-        if (canBeLocated(correctedPath)) {
-            if (isPathADirectory(correctedPath)) {
-                result = true;
-            }
-        } else {
-            bool isOriginalPathLastCharacterASlash(
-                originalPath[originalPath.length() - 1] == m_slashCharacterString[0]);
-            if (isOriginalPathLastCharacterASlash) {
-                result = true;
-            }
-        }
-    }
+    if (!correctedPath.empty()) {
+		bool isCorrectPathLastCharacterNotASlash(correctedPath[correctedPath.length() - 1] != m_slashCharacterString[0]);
+		if (isCorrectPathLastCharacterNotASlash) {
+			if (canBeLocated(correctedPath)) {
+				if (isPathADirectory(correctedPath)) {
+					result = true;
+				}
+			} else {
+				bool isOriginalPathLastCharacterASlash(
+					originalPath[originalPath.length() - 1] == m_slashCharacterString[0]);
+				if (isOriginalPathLastCharacterASlash) {
+					result = true;
+				}
+			}
+		}
+	}
     return result;
 }
-
 }  // namespace alba

@@ -1,0 +1,98 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build In WSL Using GCC",
+			"type": "shell",
+			"command": "wsl",
+			"args": [
+				"./.vscode/runWslBuildScript.sh",
+				"${workspaceFolderBasename}",
+				"GCC"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": {
+				"fileLocation": [
+					"relative",
+					"${workspaceRoot}"
+				],
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+			"label": "Build In WSL Using Clang",
+			"type": "shell",
+			"command": "wsl",
+			"args": [
+				"./.vscode/runWslBuildScript.sh",
+				"${workspaceFolderBasename}",
+				"Clang"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": {
+				"fileLocation": [
+					"relative",
+					"${workspaceRoot}"
+				],
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+			"label": "Build In WSL Using Clang With Asan",
+			"type": "shell",
+			"command": "wsl",
+			"args": [
+				"./.vscode/runWslBuildScript.sh",
+				"${workspaceFolderBasename}",
+				"ClangWithAsan"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": {
+				"fileLocation": [
+					"relative",
+					"${workspaceRoot}"
+				],
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
