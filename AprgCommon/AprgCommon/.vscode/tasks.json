@@ -6,93 +6,159 @@
 			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslBuildScript.sh",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
-				"GCC"
+				"buildWithGcc"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
-			},
-			"problemMatcher": {
-				"fileLocation": [
-					"relative",
-					"${workspaceRoot}"
-				],
-				"pattern": {
-					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
 			},
 			"group": {
 				"kind": "build",
 				"isDefault": false
+			},
+			"problemMatcher": {
+				"owner": "cpp",
+				"fileLocation": [
+					"autoDetect",
+					"${workspaceRoot}"
+				],
+				"pattern": {					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,					"severity": 4,
+					"message": 5
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"revealProblems": "onProblem"
 			}
 		},
-		{
-			"label": "Build In WSL Using Clang",
+		{			"label": "Build In WSL Using Clang",
 			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslBuildScript.sh",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
-				"Clang"
+				"buildWithClang"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
-			},
-			"problemMatcher": {
-				"fileLocation": [
-					"relative",
-					"${workspaceRoot}"
-				],
-				"pattern": {
-					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
 			},
 			"group": {
 				"kind": "build",
 				"isDefault": false
+			},
+			"problemMatcher": {
+				"owner": "cpp",
+				"fileLocation": [
+					"autoDetect",
+					"${workspaceRoot}"
+				],
+				"pattern": {					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,					"severity": 4,
+					"message": 5
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"revealProblems": "onProblem"
 			}
 		},
-		{
-			"label": "Build In WSL Using Clang With Asan",
+		{			"label": "Build In WSL Using Clang With Asan",
 			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslBuildScript.sh",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
-				"ClangWithAsan"
+				"buildWithClangWithAsan"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
-			},
-			"problemMatcher": {
-				"fileLocation": [
-					"relative",
-					"${workspaceRoot}"
-				],
-				"pattern": {
-					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
 			},
 			"group": {
 				"kind": "build",
 				"isDefault": true
+			},
+			"problemMatcher": {
+				"owner": "cpp",
+				"fileLocation": [
+					"autoDetect",
+					"${workspaceRoot}"
+				],
+				"pattern": {					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,					"severity": 4,
+					"message": 5
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"revealProblems": "onProblem"
 			}
+		},
+		{
+			"label": "Run In WSL",
+			"type": "shell",
+			"command": "wsl",
+			"args": [
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithHighlighting",
+				"${workspaceFolderBasename}",
+				"runFileWithProjectName",
+				"--gtest_filter=*.*"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "Clean In WSL",
+			"type": "shell",
+			"command": "wsl",
+			"args": [
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
+				"${workspaceFolderBasename}",
+				"clean"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": []
+		},
+		{
+			// does not work Virtual Studio Environment needs to be setup properly
+			"label": "Build locally with MSVC",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/C",
+				"vcvarsall.bat",
+				"x64",
+				"\"&\"",
+				"cmake",
+				"--build",
+				"--preset=default",
+				"-H",
+				"-G\"Visual Studio 17 2022\"",
+				"-A x64"
+			],
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": "$msCompile"
 		}
 	]
 }
