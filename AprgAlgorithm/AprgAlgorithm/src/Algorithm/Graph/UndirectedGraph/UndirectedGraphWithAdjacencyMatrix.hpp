@@ -106,9 +106,11 @@ public:
         m_numberOfEdges = 0;
         m_adjacencyMatrix.clearAndResize(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE);
     }
+
 protected:
     friend std::ostream& operator<<(std::ostream& out, UndirectedGraphWithAdjacencyMatrix const& graph) {
-        matrix::AlbaMatrix<std::string> matrixToDisplay(MAX_VERTEX_VALUE + 1, MAX_VERTEX_VALUE + 1);        matrixToDisplay.setEntry(0, 0, "X");
+        matrix::AlbaMatrix<std::string> matrixToDisplay(MAX_VERTEX_VALUE + 1, MAX_VERTEX_VALUE + 1);
+        matrixToDisplay.setEntry(0, 0, "X");
         for (int i = 0; i < MAX_VERTEX_VALUE; i++) {
             matrixToDisplay.setEntry(i + 1, 0, std::string("[") + stringHelper::convertToString(i) + std::string("]"));
             matrixToDisplay.setEntry(0, i + 1, std::string("[") + stringHelper::convertToString(i) + std::string("]"));

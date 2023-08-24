@@ -68,9 +68,11 @@ private:
     bool hasNoDuplicateWeights(Weights const& sortedWeights) const {
         return std::adjacent_find(sortedWeights.cbegin(), sortedWeights.cend()) == sortedWeights.cend();
     }
+
     Weights getAllWeights() const {
         Weights result;
-        result.reserve(m_edgeToWeightMap.size());        std::transform(
+        result.reserve(m_edgeToWeightMap.size());
+        std::transform(
             m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result),
             [&](auto const& edgeAndWeightPair) { return edgeAndWeightPair.second; });
         return result;
