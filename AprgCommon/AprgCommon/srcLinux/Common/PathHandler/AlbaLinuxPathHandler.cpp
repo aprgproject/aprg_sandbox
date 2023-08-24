@@ -347,4 +347,5 @@ bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string_view correctedPath, stri
 	}
     return result;
 }
+
 }  // namespace alba

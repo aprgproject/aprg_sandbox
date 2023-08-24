@@ -108,9 +108,11 @@ public:
         m_numberOfEdges = 0;
         m_adjacencyLists.clear();
     }
+
 protected:
     friend std::ostream& operator<<(std::ostream& out, UndirectedGraphWithVertexToAdjacencyListsMap const& graph) {
-        out << "Adjacency Lists: \n";        for (auto const& [vertex, adjacencyList] : graph.m_adjacencyLists) {
+        out << "Adjacency Lists: \n";
+        for (auto const& [vertex, adjacencyList] : graph.m_adjacencyLists) {
             if (!adjacencyList.empty()) {
                 out << "Adjacent with vertex " << vertex << ": {";
                 containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);

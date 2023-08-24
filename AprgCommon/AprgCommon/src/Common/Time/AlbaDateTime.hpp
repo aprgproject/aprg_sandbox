@@ -92,10 +92,12 @@ public:
         AlbaDateTime const& savedDateTime;
     };
 
-    constexpr AlbaDateTime() : m_sign(1), m_yearMonthDay{}, m_hourMinuteSecond{}, m_microseconds{} {}    constexpr AlbaDateTime(
+    constexpr AlbaDateTime() : m_sign(1), m_yearMonthDay{}, m_hourMinuteSecond{}, m_microseconds{} {}
+    constexpr AlbaDateTime(
         AlbaYearMonthDay const& yearMonthDay, AlbaHourMinuteSecond const& hourMinuteSecond, uint32_t const microseconds)
         : m_sign(1), m_yearMonthDay(yearMonthDay), m_hourMinuteSecond(hourMinuteSecond), m_microseconds(microseconds) {}
-    constexpr AlbaDateTime(        uint16_t const years, uint8_t const months, uint8_t const days, uint8_t const hours, uint8_t const minutes,
+    constexpr AlbaDateTime(
+        uint16_t const years, uint8_t const months, uint8_t const days, uint8_t const hours, uint8_t const minutes,
         uint8_t const seconds, uint32_t const microseconds)
         : m_sign(1),
           m_yearMonthDay(years, months, days),
@@ -142,10 +144,12 @@ public:
         return PrintObject<printFormat>(*this);
     }
 
-private:    bool isLessThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
+private:
+    bool isLessThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     bool isGreaterThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     bool isEqualInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
-    AlbaDateTime executeAddOrSubtract(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;    AlbaDateTime addDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
+    AlbaDateTime executeAddOrSubtract(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
+    AlbaDateTime addDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     AlbaDateTime subtractDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
 
     template <PrintFormat printFormat>

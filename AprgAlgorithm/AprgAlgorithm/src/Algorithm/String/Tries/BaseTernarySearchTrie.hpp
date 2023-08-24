@@ -5,9 +5,11 @@
 #include <vector>
 
 namespace alba {
+
 namespace algorithm {
 
-template <typename NodeTemplateType, typename BaseDataStructure>class BaseTernarySearchTrie : public BaseDataStructure {
+template <typename NodeTemplateType, typename BaseDataStructure>
+class BaseTernarySearchTrie : public BaseDataStructure {
 public:
     using BaseClass = BaseDataStructure;
     using Key = typename BaseClass::Key;

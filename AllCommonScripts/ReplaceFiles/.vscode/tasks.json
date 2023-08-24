@@ -24,10 +24,12 @@
 					"autoDetect",
 					"${workspaceRoot}"
 				],
-				"pattern": {					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
 					"file": 1,
 					"line": 2,
-					"column": 3,					"severity": 4,
+					"column": 3,
+					"severity": 4,
 					"message": 5
 				}
 			},
@@ -36,7 +38,8 @@
 				"revealProblems": "onProblem"
 			}
 		},
-		{			"label": "Build In WSL Using Clang",
+		{
+			"label": "Build In WSL Using Clang",
 			"type": "shell",
 			"command": "wsl",
 			"args": [
@@ -58,7 +61,8 @@
 					"autoDetect",
 					"${workspaceRoot}"
 				],
-				"pattern": {					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
 					"file": 1,
 					"line": 2,
 					"column": 3,
@@ -71,7 +75,8 @@
 				"revealProblems": "onProblem"
 			}
 		},
-		{			"label": "Build In WSL Using Clang With Asan",
+		{
+			"label": "Build In WSL Using Clang With Asan",
 			"type": "shell",
 			"command": "wsl",
 			"args": [
@@ -93,10 +98,12 @@
 					"autoDetect",
 					"${workspaceRoot}"
 				],
-				"pattern": {					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
 					"file": 1,
 					"line": 2,
-					"column": 3,					"severity": 4,
+					"column": 3,
+					"severity": 4,
 					"message": 5
 				}
 			},
@@ -119,19 +126,23 @@
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
-			"group": "test"
+			"group": "test",
+			"problemMatcher": []
 		},
 		{
-			"label": "Clean In WSL",			"type": "shell",
+			"label": "Clean In WSL",
+			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithAbsolutePaths",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
 				"clean"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			// does not work Virtual Studio Environment needs to be setup properly

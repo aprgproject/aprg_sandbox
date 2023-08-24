@@ -11,10 +11,12 @@ SmallestOfThreeIntegersWithoutComparisonOperators::getSmallest(
     UnsignedValue const value1, UnsignedValue const value2, UnsignedValue const value3) const {
     if (isLessThan(value3, value2)) {
         if (isLessThan(value3, value1)) {
-            return value3;        }
+            return value3;
+        }
         if (isLessThan(value2, value1)) {
             return value2;
-        }    }
+        }
+    }
     return value1;
 }
 
