@@ -90,14 +90,12 @@ public:
         }
     }
 
-    void clear() {
+    void clear() override {
         m_numberOfVertices = 0;
         m_numberOfEdges = 0;
-        for (Vertex vertex = 0; vertex < static_cast<Vertex>(m_adjacencyLists.size()); vertex++) {
-            m_adjacencyLists[vertex].clear();
+        for (Vertex vertex = 0; vertex < static_cast<Vertex>(m_adjacencyLists.size()); vertex++) {            m_adjacencyLists[vertex].clear();
         }
     }
-
 protected:
     friend std::ostream& operator<<(std::ostream& out, UndirectedGraphWithArrayOfAdjacencyLists const& graph) {
         out << "Adjacency Lists: \n";
