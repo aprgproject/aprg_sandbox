@@ -115,16 +115,14 @@ public:
     }
 
     friend std::ostream& operator<<(std::ostream& out, Parabola<parabolaOrientation> const& parabola) {
-        if (ParabolaOrientation::PolynomialX == parabolaOrientation) {
-            out << getA() << "*[x^2] + " << getB() << "*x + " << getC() << " = 0";
-        } else if (ParabolaOrientation::PolynomialY == parabolaOrientation) {
-            out << getA() << "*[y^2] + " << getB() << "*y + " << getC() << " = 0";
+        if (ParabolaOrientation::PolynomialX == parabola.parabolaOrientation) {
+            out << parabola.getA() << "*[x^2] + " << parabola.getB() << "*x + " << parabola.getC() << " = 0";
+        } else if (ParabolaOrientation::PolynomialY == parabola.parabolaOrientation) {
+            out << parabola.getA() << "*[y^2] + " << parabola.getB() << "*y + " << parabola.getC() << " = 0";
         }
         return out;
     }
-
 private:
 };
-
 }  // namespace TwoDimensions
 }  // namespace alba
