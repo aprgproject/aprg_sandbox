@@ -111,43 +111,21 @@
 			"command": "wsl",
 			"args": [
 				"./.vscode/runWslCommonScript.sh",
-				"outputWithAbsolutePaths",
+				"outputWithHighlighting",
 				"${workspaceFolderBasename}",
 				"runFileWithProjectName",
-				"--gtest_filter=CombinationsGenerationTest.GenerateCombinationsWithLengthWorksWhenCombinationLengthIsLessThanSize"
+				"--gtest_filter=*.*"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
-			"group": "test",
-			"problemMatcher": {
-				//problem matcher for gtest
-				"owner": "cpp",
-				"fileLocation": [
-					"autoDetect",
-					"${workspaceRoot}"
-				],
-				"pattern": {
-					"regexp": "^\\s*(.+):(\\d+):\\s+(Failure).*$",
-					"file": 1,
-					"line": 2,
-					"column": 0,
-					"severity": 3,
-					"message": 3
-				}
-			},
-			"presentation": {
-				"reveal": "always",
-				"revealProblems": "onProblem"
-			}
+			"group": "test"
 		},
 		{
-			"label": "Clean In WSL",
-			"type": "shell",
+			"label": "Clean In WSL",			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",
-				"outputWithAbsolutePaths",
+				"./.vscode/runWslCommonScript.sh",				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
 				"clean"
 			],
