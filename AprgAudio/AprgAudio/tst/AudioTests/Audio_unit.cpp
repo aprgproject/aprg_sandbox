@@ -158,10 +158,12 @@ TEST(WavLoadingTests, Stereo_8bit_44100) {
     EXPECT_EQ(audioFile.getNumChannels(), static_cast<int>(wav_stereo_8bit_44100::testBuffer.size()));
 
     for (int i = 0; i < static_cast<int>(wav_stereo_8bit_44100::testBuffer[0].size()); i++) {
-        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_8bit_44100::testBuffer[k][i]));
+        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {
+            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_8bit_44100::testBuffer[k][i]));
         }
     }
 }
+
 TEST(WavLoadingTests, Stereo_16bit_44100) {
     Audio<double> audioFile;
     bool isLoadingSuccessful =
@@ -174,10 +176,12 @@ TEST(WavLoadingTests, Stereo_16bit_44100) {
     EXPECT_EQ(audioFile.getNumChannels(), static_cast<int>(wav_stereo_16bit_44100::testBuffer.size()));
 
     for (int i = 0; i < static_cast<int>(wav_stereo_16bit_44100::testBuffer[0].size()); i++) {
-        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_16bit_44100::testBuffer[k][i]));
+        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {
+            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_16bit_44100::testBuffer[k][i]));
         }
     }
 }
+
 TEST(WavLoadingTests, Stereo_24bit_44100) {
     Audio<double> audioFile;
     bool isLoadingSuccessful =
@@ -190,10 +194,12 @@ TEST(WavLoadingTests, Stereo_24bit_44100) {
     EXPECT_EQ(audioFile.getNumChannels(), static_cast<int>(wav_stereo_24bit_44100::testBuffer.size()));
 
     for (int i = 0; i < static_cast<int>(wav_stereo_24bit_44100::testBuffer[0].size()); i++) {
-        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_24bit_44100::testBuffer[k][i]));
+        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {
+            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_24bit_44100::testBuffer[k][i]));
         }
     }
 }
+
 TEST(WavLoadingTests, Mono_16bit_44100) {
     Audio<double> audioFile;
     bool isLoadingSuccessful =
@@ -224,10 +230,12 @@ TEST(WavLoadingTests, Stereo_8bit_48000) {
     EXPECT_EQ(audioFile.getNumChannels(), static_cast<int>(wav_stereo_8bit_48000::testBuffer.size()));
 
     for (int i = 0; i < static_cast<int>(wav_stereo_8bit_48000::testBuffer[0].size()); i++) {
-        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_8bit_48000::testBuffer[k][i]));
+        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {
+            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_8bit_48000::testBuffer[k][i]));
         }
     }
 }
+
 TEST(WavLoadingTests, Stereo_16bit_48000) {
     Audio<double> audioFile;
     bool isLoadingSuccessful =
@@ -240,10 +248,12 @@ TEST(WavLoadingTests, Stereo_16bit_48000) {
     EXPECT_EQ(audioFile.getNumChannels(), static_cast<int>(wav_stereo_16bit_48000::testBuffer.size()));
 
     for (int i = 0; i < static_cast<int>(wav_stereo_16bit_48000::testBuffer[0].size()); i++) {
-        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_16bit_48000::testBuffer[k][i]));
+        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {
+            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_16bit_48000::testBuffer[k][i]));
         }
     }
 }
+
 TEST(WavLoadingTests, Stereo_24bit_48000) {
     Audio<double> audioFile;
     bool isLoadingSuccessful =
@@ -256,10 +266,12 @@ TEST(WavLoadingTests, Stereo_24bit_48000) {
     EXPECT_EQ(audioFile.getNumChannels(), static_cast<int>(wav_stereo_24bit_48000::testBuffer.size()));
 
     for (int i = 0; i < static_cast<int>(wav_stereo_24bit_48000::testBuffer[0].size()); i++) {
-        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_24bit_48000::testBuffer[k][i]));
+        for (int k = 0; k < static_cast<int>(audioFile.getNumChannels()); k++) {
+            EXPECT_TRUE(isAlmostEqual(audioFile.samples[k][i], wav_stereo_24bit_48000::testBuffer[k][i]));
         }
     }
 }
+
 TEST(WavLoadingTests, Mono_16bit_48000) {
     Audio<double> audioFile;
     bool isLoadingSuccessful =

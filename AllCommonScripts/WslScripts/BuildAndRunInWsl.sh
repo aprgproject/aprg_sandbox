@@ -33,6 +33,8 @@ if [ "$scriptOption" == "clean" ]; then
 	if [ "$WslBuildFolderName" = $(basename "$(pwd)") ]; then
 		echo "[Script: '$scriptName']: Deleting everything in [$(pwd)]."
 		rm -rf *
+		pwd
+		ls
 	fi
 elif [ "$scriptOption" == "buildWithGcc" ]; then
 	cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ "../$projectName/"
