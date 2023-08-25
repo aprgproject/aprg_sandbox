@@ -1,0 +1,10 @@
+11:Starting of Audio Video Media.: 
+createPlaylist.sh:14: itemsDirectory: [/media/aprg/OVAL//ItemsToPlay/]
+createPlaylist.sh:23: [pathToPlay: /media/aprg/OVAL/ItemsToPlay/PhysicsExplained.mp4]
+createPlaylist.sh:23: [pathToPlay: /media/aprg/OVAL/ItemsToPlay/Science.jpg]
+createPlaylist.sh:23: [pathToPlay: /media/aprg/OVAL/ItemsToPlay/VSample.mp4]
+createPlaylist.sh:23: [pathToPlay: /media/aprg/OVAL/ItemsToPlay/wallpaper1.jpg]
+createPlaylist.sh:23: [pathToPlay: /media/aprg/OVAL/ItemsToPlay/wallpaper2.jpg]
+playInVlc.sh:13: playlistFile: [/media/aprg/OVAL//playList.m3u]
+playInVlc.sh:16: vlc --fullscreen --quiet /media/aprg/OVAL//playList.m3u
+QObject::~QObject: Timers cannot be stopped from another thread
