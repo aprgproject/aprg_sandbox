@@ -42,3 +42,4 @@ fi
 
 scriptPrint $scriptName $LINENO "The exit code is: [$exitCode]"
 exit $exitCode
+

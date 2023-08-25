@@ -12,7 +12,8 @@ WslBuildFolderName="WslBuild"
 numberOfCoresInTheSystem=$(nproc)
 exitCode=0
 
-# Source needed scriptssource "$aprgDirectory/AllCommonScripts/PrintScripts/PrintUtilities.sh"
+# Source needed scripts
+source "$aprgDirectory/AllCommonScripts/PrintScripts/PrintUtilities.sh"
 
 # Display variable values
 scriptPrint $scriptName $LINENO "The project name is [$projectName] and the build option is [$scriptOption]"
@@ -25,13 +26,15 @@ if [ "$projectName" != $(basename "$(pwd)") ]; then
 	scriptPrint $scriptName $LINENO "Error: The current path [$(pwd)] does not have the project name [$projectName] as its directory."
 	scriptPrint $scriptName $LINENO "Please run this at the project directory (where the codes are located)."
 	exit 1
-ficd ..
+fi
+cd ..
 mkdir -p $WslBuildFolderName
 cd $WslBuildFolderName
 scriptPrint $scriptName $LINENO "The build path is [$(pwd)]"
 
 # Enable the "exit on error" option to automatically stop if there is a failure
 set -e
+
 # Perform script actions
 if [ "$scriptOption" == "clean" ]; then
 	if [ "$WslBuildFolderName" = $(basename "$(pwd)") ]; then
@@ -53,7 +56,8 @@ elif [ "$scriptOption" == "buildWithClangWithAsan" ]; then
 	make -j$numberOfCoresInTheSystem
 	exitCode=$?
 elif [ "$scriptOption" == "runFileWithProjectName" ]; then
-	scriptPrint $scriptName $LINENO "Running executable: [$(pwd)/$projectName]."	"./$projectName" "$firstArgument"
+	scriptPrint $scriptName $LINENO "Running executable: [$(pwd)/$projectName]."
+	"./$projectName" "$firstArgument"
 	exitCode=$?
 else
 	scriptPrint $scriptName $LINENO "The script option [$scriptOption] is not found."

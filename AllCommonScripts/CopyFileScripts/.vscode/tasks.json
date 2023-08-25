@@ -124,7 +124,8 @@
 				"" //"--gtest_filter=*.*"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}"			},
+				"cwd": "${workspaceFolder}"
+			},
 			"group": "test",
 			"problemMatcher": []
 		},
@@ -182,7 +183,8 @@
 			],
 			"group": "test",
 			"presentation": {
-				"reveal": "always",				"panel": "shared"
+				"reveal": "always",
+				"panel": "shared"
 			},
 			"problemMatcher": [],
 			"dependsOn": "Build locally with MSVC"

@@ -16,7 +16,8 @@
                 "" //"--gtest_filter=*.*"
             ],
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",            "internalConsoleOptions": "neverOpen",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
             "preLaunchTask": "Build In WSL Using Clang With Asan",
             "runtimeExecutable": "wsl",
             "runtimeArgs": [
@@ -44,7 +45,8 @@
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],            "console": "integratedTerminal",
+            "environment": [],
+            "console": "integratedTerminal",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"

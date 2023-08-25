@@ -200,10 +200,12 @@ git fsck
 
 -> stash
 ---> git stash
------> save the changes in git and revert the local files to latest commit---> git stash pop
+-----> save the changes in git and revert the local files to latest commit
+---> git stash pop
 -----> revert back the local files with the changes
 
--> For local branches (for feature branches or hot fix branches):---> To view branches: 
+-> For local branches (for feature branches or hot fix branches):
+---> To view branches: 
 -----> git branch 
 -------> outputs the local branches available currently
 -------> * represents that its currently on that branch

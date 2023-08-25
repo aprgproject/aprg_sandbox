@@ -14,7 +14,8 @@
       "toolset": "host=x64",
       "binaryDir": "${sourceDir}/../VisualStudioBuild/build/${presetName}",
       "architecture": {
-        "value": "x64",        "strategy": "external"
+        "value": "x64",
+        "strategy": "external"
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -29,7 +30,8 @@
           ]
         }
       }
-    }  ],
+    }
+  ],
   "buildPresets": [
     {
       "name": "default",
@@ -45,7 +47,8 @@
       },
       "execution": {
         "noTestsAction": "error",
-        "stopOnFailure": true      }
+        "stopOnFailure": true
+      }
     }
   ],
   "vendor": {
