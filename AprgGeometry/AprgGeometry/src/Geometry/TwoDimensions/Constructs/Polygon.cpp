@@ -95,9 +95,11 @@ AlbaAngles Polygon<numberOfVertices>::getAnglesAtVertices() const {
         getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne - 1], m_vertices[0]));
     return anglesAtVertices;  // RVO
 }
+
 template <int numberOfVertices>
 AlbaAngle Polygon<numberOfVertices>::getSumOfAngles() const {
-    return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);}
+    return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);
+}
 
 template <int numberOfVertices>
 Points Polygon<numberOfVertices>::getPoints(double const interval) const {

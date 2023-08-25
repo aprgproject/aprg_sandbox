@@ -39,10 +39,12 @@
 			},
 		},
 		{
-			"label": "Build In WSL Using Clang",			"type": "shell",
+			"label": "Build In WSL Using Clang",
+			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithAbsolutePaths",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
 				"buildWithClang"
 			],
@@ -74,10 +76,12 @@
 			},
 		},
 		{
-			"label": "Build In WSL Using Clang With Asan",			"type": "shell",
+			"label": "Build In WSL Using Clang With Asan",
+			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithAbsolutePaths",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
 				"buildWithClangWithAsan"
 			],
@@ -109,10 +113,12 @@
 			},
 		},
 		{
-			"label": "Run In WSL",			"type": "shell",
+			"label": "Run In WSL",
+			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithHighlighting",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithHighlighting",
 				"${workspaceFolderBasename}",
 				"runFileWithProjectName",
 				"--gtest_filter=*.*"

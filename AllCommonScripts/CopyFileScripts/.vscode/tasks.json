@@ -35,8 +35,8 @@
 			},
 			"presentation": {
 				"reveal": "always",
-				"revealProblems": "onProblem"
-			}
+				"panel": "shared"
+			},
 		},
 		{
 			"label": "Build In WSL Using Clang",
@@ -72,8 +72,8 @@
 			},
 			"presentation": {
 				"reveal": "always",
-				"revealProblems": "onProblem"
-			}
+				"panel": "shared"
+			},
 		},
 		{
 			"label": "Build In WSL Using Clang With Asan",
@@ -109,8 +109,8 @@
 			},
 			"presentation": {
 				"reveal": "always",
-				"revealProblems": "onProblem"
-			}
+				"panel": "shared"
+			},
 		},
 		{
 			"label": "Run In WSL",
@@ -145,28 +145,47 @@
 			"problemMatcher": []
 		},
 		{
-			// does not work Virtual Studio Environment needs to be setup properly
+			"label": "Configure locally with cmake and MSVC",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--preset=visualstudio-windows-msvc-debug"
+			],
+			"group": "none",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
 			"label": "Build locally with MSVC",
 			"type": "shell",
-			"command": "cmd",
+			"command": "cmake",
 			"args": [
-				"/C",
-				"vcvarsall.bat",
-				"x64",
-				"\"&\"",
-				"cmake",
 				"--build",
-				"--preset=default",
-				"-H",
-				"-G\"Visual Studio 17 2022\"",
-				"-A x64"
+				"--preset=default"
 			],
 			"group": "build",
 			"presentation": {
 				"reveal": "always",
 				"panel": "shared"
 			},
-			"problemMatcher": "$msCompile"
+			"problemMatcher": "$msCompile",
+			"dependsOn": "Configure locally with cmake and MSVC"
+		},
+		{
+			"label": "Run the local MSVC target",
+			"type": "shell",
+			"command": "${workspaceFolder}/../VisualStudioBuild/build/visualstudio-windows-msvc-debug/Debug/${workspaceFolderBasename}.exe",
+			"args": [],
+			"group": "test",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": [],
+			"dependsOn": "Build locally with MSVC"
 		}
 	]
 }

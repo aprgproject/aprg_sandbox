@@ -122,7 +122,9 @@ public:
         }
         return out;
     }
+
 private:
 };
+
 }  // namespace TwoDimensions
 }  // namespace alba
