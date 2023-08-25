@@ -22,15 +22,13 @@ scriptPrint $scriptName $LINENO "The first argument is [$firstArgument]"
 
 # Setup folders for compilation
 if [ "$projectName" != $(basename "$(pwd)") ]; then
-	scriptPrint $scriptName $LINENO "The current path [$(pwd)] does not have the project name [$projectName] as its directory."
+	scriptPrint $scriptName $LINENO "Error: The current path [$(pwd)] does not have the project name [$projectName] as its directory."
 	scriptPrint $scriptName $LINENO "Please run this at the project directory (where the codes are located)."
 	exit 1
-fi
-cd ..
+ficd ..
 mkdir -p $WslBuildFolderName
 cd $WslBuildFolderName
 scriptPrint $scriptName $LINENO "The build path is [$(pwd)]"
-
 # Enable the "exit on error" option to automatically stop if there is a failure
 set -e
 # Perform script actions

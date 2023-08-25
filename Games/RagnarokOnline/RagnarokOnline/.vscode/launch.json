@@ -28,18 +28,26 @@
             "sourceMaps": false,
             "skipFiles": [
                 "<node_internals>/**"
-            ]
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
         },
         {
-            "name": "Debug locally with MSVC",
+            "name": "Run the local MSVC target",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/../VisualStudioBuild/build/visualstudio-windows-msvc-debug/${workspaceFolderBasename}.exe",
+            "program": "${workspaceFolder}/../VisualStudioBuild/build/visualstudio-windows-msvc-debug/Debug/${workspaceFolderBasename}.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
         }
     ]
 }
