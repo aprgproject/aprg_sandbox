@@ -121,11 +121,10 @@
 				"outputWithHighlighting",
 				"${workspaceFolderBasename}",
 				"runFileWithProjectName",
-				"--gtest_filter=*.*"
+				"" //"--gtest_filter=*.*"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}"
-			},
+				"cwd": "${workspaceFolder}"			},
 			"group": "test",
 			"problemMatcher": []
 		},
@@ -178,11 +177,12 @@
 			"label": "Run the local MSVC target",
 			"type": "shell",
 			"command": "${workspaceFolder}/../VisualStudioBuild/build/visualstudio-windows-msvc-debug/Debug/${workspaceFolderBasename}.exe",
-			"args": [],
+			"args": [
+				"" //"--gtest_filter=*.*"
+			],
 			"group": "test",
 			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
+				"reveal": "always",				"panel": "shared"
 			},
 			"problemMatcher": [],
 			"dependsOn": "Build locally with MSVC"

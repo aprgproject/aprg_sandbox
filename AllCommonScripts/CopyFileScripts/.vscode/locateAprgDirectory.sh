@@ -15,11 +15,13 @@ findAprgDirectory() {
 		# Display variable values
 	echo "$localScriptName:$LINENO: The aprg directory name is [$aprgDirectoryName]."
 	echo "$localScriptName:$LINENO: The input directory is [$inputDirectory] for searching [$aprgDirectoryName] directory."
-		# Set variables for search
+	
+	# Set variables for search
 	searchingDirectory="$inputDirectory"	
 	# Loop until we reach the root directory ("/")
 	while [ "$searchingDirectory" != "/" ]; do
-		# Check if the directory exists in the current directory		if [ -d "$searchingDirectory/$aprgDirectoryName" ]; then
+		# Check if the directory exists in the current directory
+		if [ -d "$searchingDirectory/$aprgDirectoryName" ]; then
 			aprgDirectory="$searchingDirectory/$aprgDirectoryName"
 			break
 		else

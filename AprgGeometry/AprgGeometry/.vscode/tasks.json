@@ -42,7 +42,8 @@
 			"label": "Build In WSL Using Clang",			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithAbsolutePaths",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
 				"buildWithClang"
 			],
@@ -77,7 +78,8 @@
 			"label": "Build In WSL Using Clang With Asan",			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithAbsolutePaths",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithAbsolutePaths",
 				"${workspaceFolderBasename}",
 				"buildWithClangWithAsan"
 			],
@@ -112,14 +114,14 @@
 			"label": "Run In WSL",			"type": "shell",
 			"command": "wsl",
 			"args": [
-				"./.vscode/runWslCommonScript.sh",				"outputWithHighlighting",
+				"./.vscode/runWslCommonScript.sh",
+				"outputWithHighlighting",
 				"${workspaceFolderBasename}",
 				"runFileWithProjectName",
-				"--gtest_filter=*.*"
+				"" //"--gtest_filter=*.*"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}"
-			},
+				"cwd": "${workspaceFolder}"			},
 			"group": "test",
 			"problemMatcher": []
 		},
@@ -172,11 +174,12 @@
 			"label": "Run the local MSVC target",
 			"type": "shell",
 			"command": "${workspaceFolder}/../VisualStudioBuild/build/visualstudio-windows-msvc-debug/Debug/${workspaceFolderBasename}.exe",
-			"args": [],
+			"args": [
+				"" //"--gtest_filter=*.*"
+			],
 			"group": "test",
 			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
+				"reveal": "always",				"panel": "shared"
 			},
 			"problemMatcher": [],
 			"dependsOn": "Build locally with MSVC"

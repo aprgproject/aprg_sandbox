@@ -24,7 +24,8 @@ source "$aprgDirectory/AllCommonScripts/PrintScripts/PrintUtilities.sh"
 # Running WSL Build And Run Scriptif [ "$scriptRunningOption" == "outputWithHighlighting" ]; then
 	# This command prints output with highlighting because stdout and stderr are maintained
 	"$aprgDirectory/AllCommonScripts/WslScripts/BuildAndRunInWsl.sh" $2 $3 $4
-	exitCode=$?elif [ "$scriptRunningOption" == "outputWithAbsolutePaths" ]; then
+	exitCode=$?
+elif [ "$scriptRunningOption" == "outputWithAbsolutePaths" ]; then
     # This command prints output without highlighting but with corrected absolute paths
 	"$aprgDirectory/AllCommonScripts/WslScripts/BuildAndRunInWsl.sh" $2 $3 $4 2>&1 | sed -E "s|\/mnt\/(\w+)\/|\U\1:/|g"
 	exitCode=$?
@@ -36,5 +37,6 @@ else
 	scriptPrint $scriptName $LINENO "The script option [$scriptOption] is not found."	echo "$scriptPath:$LINENO:${BASH_LINENO[0]}: error: The script option [$scriptOption] is not supported by the WSL shell script."
 	exitCode=$?
 fi
+
 scriptPrint $scriptName $LINENO "The exit code is: [$exitCode]"
 exit $exitCode

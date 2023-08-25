@@ -12,11 +12,11 @@
             "args": [
                 "outputWithHighlighting",
                 "${workspaceFolderBasename}",
-                "runFileWithProjectName"
+                "runFileWithProjectName",
+                "" //"--gtest_filter=*.*"
             ],
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
+            "console": "integratedTerminal",            "internalConsoleOptions": "neverOpen",
             "preLaunchTask": "Build In WSL Using Clang With Asan",
             "runtimeExecutable": "wsl",
             "runtimeArgs": [
@@ -39,11 +39,12 @@
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/../VisualStudioBuild/build/visualstudio-windows-msvc-debug/Debug/${workspaceFolderBasename}.exe",
-            "args": [],
+            "args": [
+                "" //"--gtest_filter=*.*"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
-            "console": "integratedTerminal",
+            "environment": [],            "console": "integratedTerminal",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"

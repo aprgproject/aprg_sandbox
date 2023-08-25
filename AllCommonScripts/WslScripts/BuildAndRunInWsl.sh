@@ -3,16 +3,16 @@
 # Set variable values
 projectName=$1
 scriptOption=$2
+firstArgument=$3
 scriptPath=$(realpath "$0")
 scriptName=$(basename "$0")
 scriptDirectory=$(dirname "$0")
 aprgDirectory=$(realpath "$scriptDirectory/../../")
 WslBuildFolderName="WslBuild"
-firstArgument=$3
+numberOfCoresInTheSystem=$(nproc)
 exitCode=0
 
-# Source needed scripts
-source "$aprgDirectory/AllCommonScripts/PrintScripts/PrintUtilities.sh"
+# Source needed scriptssource "$aprgDirectory/AllCommonScripts/PrintScripts/PrintUtilities.sh"
 
 # Display variable values
 scriptPrint $scriptName $LINENO "The project name is [$projectName] and the build option is [$scriptOption]"
@@ -29,6 +29,7 @@ ficd ..
 mkdir -p $WslBuildFolderName
 cd $WslBuildFolderName
 scriptPrint $scriptName $LINENO "The build path is [$(pwd)]"
+
 # Enable the "exit on error" option to automatically stop if there is a failure
 set -e
 # Perform script actions
@@ -41,19 +42,18 @@ if [ "$scriptOption" == "clean" ]; then
 	fi
 elif [ "$scriptOption" == "buildWithGcc" ]; then
 	cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ "../$projectName/"
-	make -j8
+	make -j$numberOfCoresInTheSystem
 	exitCode=$?
 elif [ "$scriptOption" == "buildWithClang" ]; then
 	cmake -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ "../$projectName/"
-	make -j8
+	make -j$numberOfCoresInTheSystem
 	exitCode=$?
 elif [ "$scriptOption" == "buildWithClangWithAsan" ]; then
 	cmake -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DCMAKE_C_FLAGS:STRING="${CMAKE_C_FLAGS} -g --coverage -fsanitize=address -fno-omit-frame-pointer" -DCMAKE_CXX_FLAGS:STRING="${CMAKE_C_FLAGS} -g --coverage -fsanitize=address -fno-omit-frame-pointer" "../$projectName/"
-	make -j8
+	make -j$numberOfCoresInTheSystem
 	exitCode=$?
 elif [ "$scriptOption" == "runFileWithProjectName" ]; then
-	scriptPrint $scriptName $LINENO "Running executable: [$(pwd)/$projectName]."
-	"./$projectName" "$firstArgument"
+	scriptPrint $scriptName $LINENO "Running executable: [$(pwd)/$projectName]."	"./$projectName" "$firstArgument"
 	exitCode=$?
 else
 	scriptPrint $scriptName $LINENO "The script option [$scriptOption] is not found."

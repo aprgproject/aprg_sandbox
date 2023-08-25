@@ -17,7 +17,8 @@
         "value": "x64",        "strategy": "external"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",        "CMAKE_INSTALL_PREFIX": "${sourceDir}/../VisualStudioBuild/install/${presetName}",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/../VisualStudioBuild/install/${presetName}",
         "CMAKE_C_COMPILER": "cl",
         "CMAKE_CXX_COMPILER": "cl"
       },
@@ -31,7 +32,8 @@
     }  ],
   "buildPresets": [
     {
-      "name": "default",      "configurePreset": "visualstudio-windows-msvc-debug"
+      "name": "default",
+      "configurePreset": "visualstudio-windows-msvc-debug"
     }
   ],
   "testPresets": [
@@ -46,7 +48,8 @@
         "stopOnFailure": true      }
     }
   ],
-  "vendor": {    "example.com/ExampleIDE/1.0": {
+  "vendor": {
+    "example.com/ExampleIDE/1.0": {
       "autoFormat": false
     }
   }
