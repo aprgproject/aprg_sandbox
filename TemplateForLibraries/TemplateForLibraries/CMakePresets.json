@@ -1,0 +1,56 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "visualstudio-windows-msvc-debug",
+      "displayName": "Visual Studio Windows x64 MSVC Debug",
+      "description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/../VisualStudioBuild/build/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/../VisualStudioBuild/install/${presetName}",
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Windows" ]
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "visualstudio-windows-msvc-debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "visualstudio-windows-msvc-debug",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    }
+  ],
+  "vendor": {
+    "example.com/ExampleIDE/1.0": {
+      "autoFormat": false
+    }
+  }
+}
+
+
