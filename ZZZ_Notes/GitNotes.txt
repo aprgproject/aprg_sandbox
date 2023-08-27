@@ -9,16 +9,17 @@ Common commands:
 -----> Note: git add for deleted files as well
 
 -> Stage or add multiple files to be tracked by git (multiple changed files or modified files):
+---> git add -all // all files
 ---> git add .   // all files
 ---> git add *.html  // all html files
 ---> git add :/   // adds all files under this directory
 
 -> Unstage and remove a file one by one that is tracked by git (remove file from staging area):
 ---> git rm FileName1 FileName2
+---> git rm -r -all // all files
 ---> git rm --cached FileName1 FileName2
 -----> Use this when you dont want to delete the file on disk, just in the staging area.
------> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
--------> From git docs: "--cached" Use this option to unstage and remove paths only from the index. Working tree files, whether modified or not, will be left alone.
+-----> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.-------> From git docs: "--cached" Use this option to unstage and remove paths only from the index. Working tree files, whether modified or not, will be left alone.
 
 -> Track changes:
 ---> git status
@@ -27,27 +28,28 @@ Common commands:
 ---> check changes from current commit
 -----> git diff
 -----> git diff FileName   // for one file
+--->  Display information about an already committed commit (you can still "git apply" this)
+-----> git show
 ---> check changes from staging area
 -----> "git diff --cached" "git diff -- staged"
--------> --staged is a synonym of --cached
----> check the changes from a range of commits
+-------> --staged is a synonym of --cached---> check the changes from a range of commits
 -----> git diff HashStringOfTheOldestCommit..HashStringOfTheNewestCommit
 -----> git diff HashStringOfTheOldestCommit..HashStringOfTheNewestCommit FileName (to just check for a specific file)
 -----> git diff HashStringOfTheOldestCommit.. // (if end of ".." is blank then it means use HEAD as end)
 ---> show changes with colors
 -----> git diff --color-words
 
+
 -> Check all commits:
 ---> git log
------> by default, git log shows you a flatten version of the version history
----> git log --all --graph --decorate   // shows the changes in a graph
+-----> by default, git log shows you a flatten version of the version history---> git log --all --graph --decorate   // shows the changes in a graph
 ---> git log --all --graph --decorate --oneline   // shows the changes in a graph with less 
 ---> git log --oneline // shows a list of commits, each line shows hash string id of the commit and the commit message
 ---> git log --patch // shows the diff of each commit
+---> git log --reverse // shows the git commit in reverse(useful to find out the details in the start of the repository)
 
 -> Commit to local repository:
----> git commit -m "Message title test" -m "Message description text"
------> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
+---> git commit -m "Message title test" -m "Message description text"-----> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
 -----> If multiple -m options are given, their values are concatenated as separate paragraphs.
 -----> NOTE: if there is no message, it will fail the commit
 ---> git commit -am "Message title test" -m "Message description text"
@@ -153,16 +155,39 @@ Common commands:
 
 Less common commands:
 
--> Set name and email 
----> git config --global user.email "detectivemark7@gmail.com"
----> git config --global user.name "detectivemark7"
+-> Name and email
+---> Set name and email 
+-----> globally
+-------> git config --global user.email "markearvinalba@gmail.com"
+-------> git config --global user.name "mevalba"
+-----> a specific repository (you need to go the specific repository folder and run this command)
+-------> git config user.email "detectivemark7@gmail.com"
+-------> git config user.name "detectivemark7"
+---> Display name and email 
+-----> globally
+-------> git config --global user.email
+-------> git config --global user.name
+-----> a specific repository (you need to go the specific repository folder and run this command)
+-------> git config user.email
+-------> git config user.name
+---> Clear git credentials (sometimes useful when there are authentication errors):
+-----> git credential-cache exit
+
+-> Need to add this in .bashrc linux to start the SSH agent for GIT:
+---> eval "$(ssh-agent -s)"
+---> ssh-add ~/.ssh/id_rsa
+
+-> Check ssh connection to github
+---> ssh -vT git@github.com
 
 -> Clone:
 ---> git clone git@github.com:detectivemark7/aprg.git
+---> git clone git@github.com:aprgproject/aprg.git
+---> DONT DO THIS(it will force it clone it from http not from ssh): 
+-----> git clone https://github.com/mevalba/aprg_test.git
 ---> git clone --shallow URL    // --shallow means avoid getting the whole version history and get just the latest snapshot (useful for big repositories)
 
--> Create a git local repository:
----> git init   
+-> Create a git local repository:---> git init   
 -----> NOTE: This repository is not connected to origin (since this not remotely created(github)). 
 -----> When this is pushed and the remote repository is not connected, GIT will say I have no idea where to push this to.
 
@@ -259,29 +284,86 @@ git fsck
 
 
 
+SSH key related:
+-> SSH key guide:
+---> https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+-> (1) Change directory to ssh keys directory
+---> Open in git bash:
+-----> cd ~/.ssh
+---> SSH key location in windows: 
+-----> C:\Users\detectivemark7\.ssh
+-> (2) Generating a new SSH key: 
+---> ed25519 (newer)
+-----> ssh-keygen -t ed25519 -C "markearvinalba@gmail.com"
+---> RSA (older)
+-----> ssh-keygen -t rsa -b 4096 -C "markearvinalba@gmail.com"
+---> IMPORTANT NOTE: Press Enter to accept the default file location and to set a passphrase for your key (recommended for added security).
+-> (3) Copy SSH public key to clipboard:
+---> clip < ~/.ssh/id_ed25519.pub
+---> clip < ~/.ssh/id_rsa.pub
+-> (4) Add the SSH key to your GitHub account:
+---> Go to your GitHub account settings.
+---> Select "SSH and GPG keys" from the left sidebar.
+---> Click on "New SSH key" or "Add SSH key."
+---> Give your key a meaningful title (e.g., "My Windows SSH Key").
+---> Paste the SSH public key that you copied earlier into the "Key" field.
+---> Click "Add SSH key" to save.
+-> Note about the keys:
+---> ~/.ssh/id_ed25519 and ~/.ssh/id_rsa          // This is the private key (don't share this with anyone).
+---> ~/.ssh/id_ed25519.pub and ~/.ssh/id_rsa.pub  // This is the public key
+---> ~/.ssh/puttyKey.ppk                          // This is the putty key that tortoiseGit uses (generated from id_ed25519 using Putty Key Generator)
+
+
+
+core.autocrlf
+-> The core.autocrlf configuration in Git controls how line endings are handled when files are checked out and committed in different environments.
+-> How to see current value:
+---> git config --global core.autocrlf true 
+-> There are three possible values for core.autocrlf, each serving a different purpose:
+---> true
+-----> How to set:
+-------> git config --global core.autocrlf true
+-----> This setting is used on Windows machines. 
+-----> When core.autocrlf is set to true, Git will automatically convert LF line endings (used on Unix-like systems) to CRLF line endings (used on Windows) during checkout. 
+-----> When files are committed, Git will convert CRLF line endings back to LF. 
+-----> This ensures that text files have consistent line endings when moving between Windows and non-Windows systems.
+---> false
+-----> How to set:
+-------> git config --global core.autocrlf true
+-----> This setting is used on Unix-like systems (e.g., Linux and macOS) and is recommended when working in cross-platform environments. 
+-----> With core.autocrlf set to false, Git does not perform any line ending conversions during checkout or commit. 
+-----> Files will retain the line endings as they are in the repository.
+---> input
+-----> How to set:
+-------> git config --global core.autocrlf true
+-----> This setting is also used on Unix-like systems. 
+-----> When core.autocrlf is set to input, Git will convert CRLF line endings to LF during commit, but it will not convert LF to CRLF during checkout. 
+-----> This means that text files will have LF line endings in the repository, ensuring consistency across Unix-like systems, 
+-----> while still allowing users on Windows to work with CRLF line endings if they set core.autocrlf to true.
+-> It's essential to choose the appropriate core.autocrlf setting based on the platforms used by your development team. 
+-> In cross-platform environments, using false or input is generally recommended to avoid unnecessary line ending conversions. 
+-> For Windows-specific projects or projects primarily developed on Windows, true might be more suitable to ensure consistent line endings.
+
+
+
+
 Carat vs Tilde (specifying revisions):
 -> Source: https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git/2222920#2222920
-
 -> Rules of thumb
 ---> Use ~ most of the time — to go back a number of generations, usually what you want
 ---> Use ^ on merge commits — because they have two or more (immediate) parents
-
 -> Mnemonics:
 ---> Tilde ~ is almost linear in appearance and wants to go backward in a straight line
 ---> Caret ^ suggests an interesting segment of a tree or a fork in the road
-
 -> Tilde
 ---> The “Specifying Revisions” section of the git rev-parse documentation defines ~ as
------> <rev>~<n>, e.g. master~3
------> A suffix ~<n> to a revision parameter means the commit object that is the nth generation ancestor of the named commit object, following only the first parents. 
+-----> <rev>~<n>, e.g. master~3-----> A suffix ~<n> to a revision parameter means the commit object that is the nth generation ancestor of the named commit object, following only the first parents. 
 -----> For example, <rev>~3 is equivalent to <rev>^^^ which is equivalent to <rev>^1^1^1 …
 ---> You can get to parents of any commit, not just HEAD. 
 ---> You can also move back through generations: for example, master~2 means the grandparent of the tip of the master branch, favoring the first parent on merge commits.
-
 -> Caret
 ---> Git history is nonlinear: a directed acyclic graph (DAG) or tree. 
------> For a commit with only one parent, rev~ and rev^ mean the same thing. 
------> The caret selector becomes useful with merge commits because each one is the child of two or more parents — and strains language borrowed from biology.
+-----> For a commit with only one parent, rev~ and rev^ mean the same thing. -----> The caret selector becomes useful with merge commits because each one is the child of two or more parents — and strains language borrowed from biology.
 ---> HEAD^ means the first immediate parent of the tip of the current branch. HEAD^ is short for HEAD^1, and you can also address HEAD^2 and so on as appropriate. The same section of the git rev-parse documentation defines it as
 -----> <rev>^, e.g. HEAD^, v1.5.1^0
 -----> A suffix ^ to a revision parameter means the first parent of that commit object. 
@@ -291,25 +373,23 @@ Carat vs Tilde (specifying revisions):
 
 
 
-SSH key related:
-
--> SSH key guide:
----> https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-
--> Generating a new SSH key: 
----> ssh-keygen -t ed25519 -C "detectivemark7@gmail.com"
-
--> SSH key location: 
----> C:\Users\detectivemark7\.ssh
-
--> Note about the keys:
----> ~/.ssh/id_ed25519       // This is the private key (don't share this with anyone).
----> ~/.ssh/id_ed25519.pub   // This is the public key
----> ~/.ssh/puttyKey.ppk     // This is the putty key that tortoiseGit uses (generated from id_ed25519 using Putty Key Generator)
-
--> Copy SSH public key:
----> clip < ~/.ssh/id_ed25519.pub
-
+log vs reflog:
+-> git log:
+---> The git log command is used to view the commit history of a branch or a specific commit range in a repository.
+---> It shows a detailed chronological list of commits, starting from the most recent commit and going backward in time.
+---> By default, git log displays the commit hash, author, date, and commit message for each commit. 
+-----> It can also show the changes introduced in each commit when used with appropriate options.
+---> The git log output is primarily used for inspecting the commit history and understanding the changes made over time.
+-> git reflog:
+---> The git reflog command is used to view the reference log, which maintains a history of movements in Git references, such as branches and HEAD.
+---> The reference log records changes to references, including branch checkouts, commits, resets, merges, and other operations that modify the HEAD or branch pointers.
+---> Unlike git log, which shows the commit history of branches and commits, git reflog shows a more detailed history of movements in the repository, regardless of branches or commits.
+---> The git reflog output includes reference numbers, commit hashes (if applicable), and descriptions of the performed operations. It allows you to see changes made to branches or HEAD, 
+---> even if those changes are no longer part of the current branch history.
+-> In summary, git log is used to view the commit history of a branch or a specific commit range, 
+---> whereas git reflog is used to view a detailed history of reference movements and operations in the repository, 
+---> even if some of those changes are no longer part of the current branch history. 
+---> The git reflog command is particularly helpful for recovering lost commits or branches that might have been accidentally removed or modified.
 
 
 
