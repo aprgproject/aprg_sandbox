@@ -1,0 +1,11 @@
+^---.*\(nonexistent\)$
+--- /dev/null (nonexistent)
+
+^\+\+\+.*\(nonexistent\)$
++++ /dev/null (nonexistent)rm
+
+^ $
+
+
+^\x00$
+
