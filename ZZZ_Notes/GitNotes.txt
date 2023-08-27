@@ -9,11 +9,10 @@ Common commands:
 -----> Note: git add for deleted files as well
 
 -> Stage or add multiple files to be tracked by git (multiple changed files or modified files):
----> git add -all // all files
+---> git add -all // all files and removed files as well
 ---> git add .   // all files
 ---> git add *.html  // all html files
 ---> git add :/   // adds all files under this directory
-
 -> Unstage and remove a file one by one that is tracked by git (remove file from staging area):
 ---> git rm FileName1 FileName2
 ---> git rm -r -all // all files
@@ -181,12 +180,11 @@ Less common commands:
 ---> ssh -vT git@github.com
 
 -> Clone:
----> git clone git@github.com:detectivemark7/aprg.git
 ---> git clone git@github.com:aprgproject/aprg.git
+---> git clone git@github.com:detectivemark7/aprg.git
 ---> DONT DO THIS(it will force it clone it from http not from ssh): 
 -----> git clone https://github.com/mevalba/aprg_test.git
 ---> git clone --shallow URL    // --shallow means avoid getting the whole version history and get just the latest snapshot (useful for big repositories)
-
 -> Create a git local repository:---> git init   
 -----> NOTE: This repository is not connected to origin (since this not remotely created(github)). 
 -----> When this is pushed and the remote repository is not connected, GIT will say I have no idea where to push this to.
