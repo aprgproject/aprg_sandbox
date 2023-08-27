@@ -1,4 +1,4 @@
-<assistants>
+﻿<assistants>
     <assistant name="Class Diagrams">
         <item name="Relations"><![CDATA[
             Class01 <|-- Class02
