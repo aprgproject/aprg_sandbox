@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Set variables
-scriptDirectory=$(realpath "$(dirname "$0")")
+scriptPath=$(realpath "$0")
+scriptDirectory=$(dirname "$scriptPath")
+scriptName=$(basename "$scriptPath")
 
 # Source needed scripts
 source "$scriptDirectory/PrintUtilities.sh"
-
 # Display audio visual media at startup
 cat /dev/null > "$scriptDirectory/AVMediaStartup.log" 2>&1
 scriptPrint $scriptName $LINENO "Starting of Audio Video Media." >> "$scriptDirectory/AVMediaStartup.log" 2>&1

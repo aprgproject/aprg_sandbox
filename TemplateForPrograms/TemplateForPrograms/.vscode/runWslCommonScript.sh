@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Set variable values
-scriptDirectory=$(dirname "$0")
-scriptName=$(basename "$0")
+scriptPath=$(realpath "$0")
+scriptDirectory=$(dirname "$scriptPath")
+scriptName=$(basename "$scriptPath")
 scriptRunningOption=$1
 locateScriptPath=$(realpath "$scriptDirectory/locateAprgDirectory.sh")
 exitCode=0
-
 # Source needed scripts
 if ! [[ -e $locateScriptPath ]]; then
 	echo "$scriptName:$LINENO: Error: The script [$locateScriptPath] does not exist."

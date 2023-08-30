@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Set variable values
-scriptName=$(basename "$0")
-scriptDirectory=$(dirname "$0")
+scriptPath=$(realpath "$0")
+scriptDirectory=$(dirname "$scriptPath")
+scriptName=$(basename "$scriptPath")
 aprgDirectory=$(realpath "$scriptDirectory/../../")
 shortenedPathLengthForDisplay=50
-
 # Source needed scripts
 source "$aprgDirectory/AllCommonScripts/PrintScripts/PrintUtilities.sh"
 

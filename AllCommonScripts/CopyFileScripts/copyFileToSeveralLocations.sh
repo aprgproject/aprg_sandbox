@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Set variable values
-scriptName=$(basename "$0")
-scriptDirectory=$(dirname "$0")
+scriptPath=$(realpath "$0")
+scriptDirectory=$(dirname "$scriptPath")
+scriptName=$(basename "$scriptPath")
 aprgDirectory=$(realpath "$scriptDirectory/../../")
 locatorFile=$(basename "$1")
-if [ -z "$2" ]; then
-	# If there are no second argument use the first argument
+if [ -z "$2" ]; then	# If there are no second argument use the first argument
 	fileToCopy=$(realpath "$(pwd)/$1")
 else
 	fileToCopy=$(realpath "$(pwd)/$2")
